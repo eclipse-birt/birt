@@ -276,7 +276,7 @@ class SmartCacheHelper
 				for ( int i = 1; i <= rsMeta.getFieldCount( ); i++ )
 				{
 					if ( i <= odaObject.getResultClass( ).getFieldCount( ) )
-						obs[i - 1] = odaObject.getFieldValue( rsMeta.getFieldName( i ) );
+						obs[i - 1] = odaObject.getFieldValue( i );
 					else
 						obs[i - 1] = null;
 				}

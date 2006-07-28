@@ -63,9 +63,10 @@ class ExpandableRowResultSet implements IRowResultSet
 		if( ro == null )
 			return null;
 		Object[] objs = new Object[this.resultClass.getFieldCount( )];
+		int roFieldCount = ro.getResultClass( ).getFieldCount( );
 		for( int i = 0; i < objs.length; i++)
 		{
-			if( i+1 <= ro.getResultClass( ).getFieldCount( ) )
+			if( i+1 <= roFieldCount )
 				objs[i] = ro.getFieldValue( i+1 );
 			else
 				objs[i] = null;

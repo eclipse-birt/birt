@@ -31,7 +31,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 public class ResultClass implements IResultClass
 {
-	private List m_projectedColumns;
+	private ResultFieldMetadata[] m_projectedColumns;
 	private HashMap m_nameToIdMapping;
 	private String[] m_fieldNames;
 	private int[] m_fieldDriverPositions;
@@ -48,13 +48,13 @@ public class ResultClass implements IResultClass
 	 */
 	private void initColumnsInfo( List projectedColumns )
 	{
-		m_projectedColumns = new ArrayList( );
-		m_projectedColumns.addAll( projectedColumns );
+		m_projectedColumns = new ResultFieldMetadata[projectedColumns.size( )];
 		m_nameToIdMapping = new HashMap( );
 
 		for ( int i = 0, n = projectedColumns.size( ); i < n; i++ )
 		{
-			ResultFieldMetadata column = (ResultFieldMetadata) projectedColumns.get( i );
+			m_projectedColumns[i] = (ResultFieldMetadata) projectedColumns.get( i );
+			ResultFieldMetadata column = m_projectedColumns[i];
 
 			String upperCaseName = column.getName( );
 			//if ( upperCaseName != null )
@@ -156,13 +156,13 @@ public class ResultClass implements IResultClass
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		
-		int size = m_projectedColumns.size( );
+		int size = m_projectedColumns.length;
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
 			for ( int i = 0; i < size; i++ )
 			{
-				ResultFieldMetadata column = (ResultFieldMetadata) m_projectedColumns.get( i );
+				ResultFieldMetadata column = m_projectedColumns[i];
 
 				IOUtil.writeInt( dos, column.getDriverPosition( ) );
 				IOUtil.writeString( dos, column.getName( ) );
@@ -190,7 +190,7 @@ public class ResultClass implements IResultClass
 	
 	public int getFieldCount()
 	{
-		return m_projectedColumns.size();
+		return m_projectedColumns.length;
 	}
 
 	// returns the field names in the projected order
@@ -204,14 +204,11 @@ public class ResultClass implements IResultClass
 	{
 		if( m_fieldNames == null )
 		{
-			int size = m_projectedColumns.size();
+			int size = m_projectedColumns.length;
 			m_fieldNames = new String[ size ];
 			for( int i = 0; i < size; i++ )
 			{
-				ResultFieldMetadata column = 
-					(ResultFieldMetadata) m_projectedColumns.get( i );
-				String name = column.getName();
-				m_fieldNames[i] = name;
+				m_fieldNames[i] = m_projectedColumns[i].getName();
 			}
 		}
 		
@@ -222,12 +219,11 @@ public class ResultClass implements IResultClass
 	{
 		if( m_fieldDriverPositions == null )
 		{
-			int size = m_projectedColumns.size();
+			int size = m_projectedColumns.length;
 			m_fieldDriverPositions = new int[ size ];
 			for( int i = 0; i < size; i++ )
 			{
-				ResultFieldMetadata column = 
-					(ResultFieldMetadata) m_projectedColumns.get( i );
+				ResultFieldMetadata column = m_projectedColumns[i];
 				m_fieldDriverPositions[i] = column.getDriverPosition();
 			}
 		}
@@ -237,16 +233,12 @@ public class ResultClass implements IResultClass
 	
 	public String getFieldName( int index ) throws DataException
 	{
-		validateFieldIndex( index );
-		ResultFieldMetadata column = 
-			(ResultFieldMetadata) m_projectedColumns.get( index - 1 );
-		return column.getName();
+		return m_projectedColumns[index - 1].getName();
 	}
 
 	public String getFieldAlias( int index ) throws DataException
 	{
-		ResultFieldMetadata column = findColumn( index );
-		return column.getAlias();
+		return m_projectedColumns[index - 1].getAlias();
 	}
 	
 	public int getFieldIndex( String fieldName )
@@ -274,8 +266,7 @@ public class ResultClass implements IResultClass
 
 	public Class getFieldValueClass( int index ) throws DataException
 	{
-		ResultFieldMetadata column = findColumn( index );
-		return column.getDataType();
+		return m_projectedColumns[index - 1].getDataType();
 	}
 
 	public boolean isCustomField( String fieldName ) throws DataException
@@ -286,40 +277,23 @@ public class ResultClass implements IResultClass
 
 	public boolean isCustomField( int index ) throws DataException
 	{
-		ResultFieldMetadata column = findColumn( index );
-		return column.isCustom();
+		return m_projectedColumns[index - 1].isCustom();
 	}
 
 	public String getFieldLabel( int index ) throws DataException
 	{
-		ResultFieldMetadata column = findColumn( index );
-		return column.getLabel();
+		return m_projectedColumns[index - 1].getLabel();
 	}
 	
-	private ResultFieldMetadata findColumn( int index ) throws DataException
-	{
-		validateFieldIndex( index );
-		return (ResultFieldMetadata) m_projectedColumns.get( index - 1 );
-	}
-	
-	// field indices are 1-based
-    private void validateFieldIndex( int index ) throws DataException
-    {
-        if ( index < 1 || index > getFieldCount() )
-            throw new DataException( ResourceConstants.INVALID_FIELD_INDEX, new Integer(index) );
-    }
-
 	public String getFieldNativeTypeName( int index ) throws DataException 
 	{
-		ResultFieldMetadata column = findColumn( index );
-		return column.getNativeTypeName();
+		return m_projectedColumns[index - 1].getNativeTypeName();
 	}
 	
 	public ResultFieldMetadata getFieldMetaData( int index )
 			throws DataException
 	{
-		validateFieldIndex( index );
-		return (ResultFieldMetadata) m_projectedColumns.get( index - 1 );
+		return m_projectedColumns[index - 1];
 	}
 	
 }
