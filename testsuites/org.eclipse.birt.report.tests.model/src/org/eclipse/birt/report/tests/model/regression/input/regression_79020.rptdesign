@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2" />
+    </page-setup>
+    <body>
+        <grid name="grid1" id="4">
+            <property name="width">100%</property>
+            <column id="5"/>
+            <row id="8">
+                <cell id="9">
+                    <label id="12">
+                        <text-property name="text">abc</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
