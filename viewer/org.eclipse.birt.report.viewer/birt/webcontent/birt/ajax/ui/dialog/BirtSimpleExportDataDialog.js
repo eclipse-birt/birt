@@ -110,6 +110,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__updateButtons : function( )
 	{
 		var oSelects = this.__instance.getElementsByTagName( 'select' );
+		var canExport = oSelects[0].options.length > 0;
 		var canAdd = oSelects[1].options.length > 0;
 		var canRemove = oSelects[2].options.length  > 0;
 
@@ -126,6 +127,8 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 		oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
 		oInputs[3].style.cursor = canRemove ? "pointer" : "default";
+		
+		oInputs[4].disabled = canExport ? false : true;
 	},
 	
 	/**
