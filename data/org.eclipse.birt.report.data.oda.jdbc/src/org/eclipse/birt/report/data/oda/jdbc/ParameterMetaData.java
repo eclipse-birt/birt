@@ -84,6 +84,12 @@ public class ParameterMetaData implements IParameterMetaData
 			throw new JDBCException( ResourceConstants.PARAMETER_COUNT_CANNOT_GET,
 					e );
 		}
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's count
+			throw new JDBCException( ResourceConstants.PARAMETER_COUNT_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 
 	}
 
@@ -114,6 +120,12 @@ public class ParameterMetaData implements IParameterMetaData
 			throw new JDBCException( ResourceConstants.PARAMETER_MODE_CANNOT_GET,
 					e );
 		}
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's mode
+			throw new JDBCException( ResourceConstants.PARAMETER_MODE_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 
 	}
 
@@ -138,7 +150,12 @@ public class ParameterMetaData implements IParameterMetaData
 			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_CANNOT_GET,
 					e );
 		}
-
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's type
+			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 	}
 
 	/*
@@ -165,6 +182,12 @@ public class ParameterMetaData implements IParameterMetaData
 			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_NAME_CANNOT_GET,
 					e );
 		}
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's type name
+			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_NAME_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 
 	}
 
@@ -189,6 +212,12 @@ public class ParameterMetaData implements IParameterMetaData
 			throw new JDBCException( ResourceConstants.PARAMETER_PRECISION_CANNOT_GET,
 					e );
 		}
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's precision
+			throw new JDBCException( ResourceConstants.PARAMETER_PRECISION_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 
 	}
 
@@ -212,6 +241,12 @@ public class ParameterMetaData implements IParameterMetaData
 		{
 			throw new JDBCException( ResourceConstants.PARAMETER_SCALE_CANNOT_GET,
 					e );
+		}
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's scale
+			throw new JDBCException( ResourceConstants.PARAMETER_SCALE_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
 		}
 
 	}
@@ -241,6 +276,12 @@ public class ParameterMetaData implements IParameterMetaData
 			throw new JDBCException( ResourceConstants.PARAMETER_NULLABILITY_CANNOT_DETERMINE,
 					e );
 		}
+		catch ( Exception e )
+		{
+			// exception thrown by driver when fetch the parameter's nullability
+			throw new JDBCException( ResourceConstants.PARAMETER_NULLABILITY_CANNOT_DETERMINE,
+					new SQLException( e.getMessage( ) ) );
+		}		
 
 	}
 }
