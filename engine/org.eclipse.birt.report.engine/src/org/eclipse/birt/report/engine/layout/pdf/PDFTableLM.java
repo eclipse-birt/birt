@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSValue;
 
 public class PDFTableLM extends PDFBlockStackingLM
 		implements
@@ -994,9 +995,9 @@ public class PDFTableLM extends PDFBlockStackingLM
 		{
 			return;
 		}
-		String verticalAlign = content.getComputedStyle( ).getVerticalAlign( );
-		if ( CSSConstants.CSS_BOTTOM_VALUE.equals( verticalAlign )
-				|| CSSConstants.CSS_MIDDLE_VALUE.equals( verticalAlign ) )
+		CSSValue verticalAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		if ( IStyle.BOTTOM_VALUE.equals( verticalAlign )
+				|| IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
 		{
 			int totalHeight = 0;
 			Iterator iter = cell.getChildren( );
@@ -1008,7 +1009,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			int offset = cell.getContentHeight( ) - totalHeight;
 			if ( offset > 0 )
 			{
-				if ( CSSConstants.CSS_BOTTOM_VALUE.equals( verticalAlign ) )
+				if ( IStyle.BOTTOM_VALUE.equals( verticalAlign ) )
 				{
 					iter = cell.getChildren( );
 					while ( iter.hasNext( ) )
@@ -1018,7 +1019,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 								child.getAllocatedY( ) + offset );
 					}
 				}
-				else if ( CSSConstants.CSS_MIDDLE_VALUE.equals( verticalAlign ) )
+				else if ( IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
 				{
 					iter = cell.getChildren( );
 					while ( iter.hasNext( ) )
@@ -1030,6 +1031,35 @@ public class PDFTableLM extends PDFBlockStackingLM
 				}
 
 			}
+		}
+		
+		CSSValue align = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
+		// single line
+		if ( ( IStyle.RIGHT_VALUE.equals(  align ) || IStyle.CENTER_VALUE
+				.equals( align ) ) )
+		{
+			
+			Iterator iter = cell.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				int spacing = cell.getContentWidth( ) - area.getAllocatedWidth( ) ;
+				if(spacing>0)
+				{
+					if ( IStyle.RIGHT_VALUE.equals( align ) )
+					{
+						area.setAllocatedPosition( spacing + area.getAllocatedX( ),
+								area.getAllocatedY( ) );
+					}
+					else if ( IStyle.CENTER_VALUE
+							.equals( align ) )
+					{
+						area.setAllocatedPosition( spacing / 2
+								+ area.getAllocatedX( ), area.getAllocatedY( ) );
+					}
+				}
+			}
+
 		}
 	}
 

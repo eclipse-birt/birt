@@ -671,6 +671,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				}
 
 				IImageContent imageObj = reportContent.createImageContent( content );
+				imageObj.setParent( content.getParent( ) );
 				// Set image map
 				imageObj.setImageSource( IImageContent.IMAGE_EXPRESSION );
 				imageObj.setData( imageContent );
