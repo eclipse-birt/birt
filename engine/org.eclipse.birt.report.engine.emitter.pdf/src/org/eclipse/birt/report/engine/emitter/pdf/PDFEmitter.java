@@ -7,6 +7,7 @@ import java.awt.print.Paper;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -883,14 +884,23 @@ public class PDFEmitter implements IContentEmitter
 				switch (imageContent.getImageSource())
 				{
 				case IImageContent.IMAGE_FILE:
-				case IImageContent.IMAGE_URI:
-					if (null == ((IImageContent) image.getContent()).getURI())
+					if (null == imageContent.getURI())
 						return;
 					
 					if(imageContent.getURI().endsWith(".svg")) {
 						isSvg = true;
-						ti = new TranscoderInput(imageContent.getURI());
-						
+						ti = new TranscoderInput(new FileInputStream(imageContent.getURI( )));
+					} else {
+						img = Image.getInstance(imageContent.getURI());
+					}
+					break;
+				case IImageContent.IMAGE_URI:
+					if (null == imageContent.getURI())
+						return;
+					
+					if(imageContent.getURI().endsWith(".svg")) {
+						isSvg = true;
+						ti = new TranscoderInput(imageContent.getURI( ));
 					} else {
 						img = Image.getInstance(imageContent.getURI());
 					}

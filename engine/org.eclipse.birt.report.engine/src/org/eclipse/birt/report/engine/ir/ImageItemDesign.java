@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/17 16:50:43 $
+ * @version $Revision: 1.10 $ $Date: 2006/04/06 12:35:25 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {
@@ -168,7 +168,6 @@ public class ImageItemDesign extends ReportItemDesign
 	 */
 	public String getImageUri( )
 	{
-		assert imageSource == IMAGE_URI;
 		return imageUri;
 	}
 	
