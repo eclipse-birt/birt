@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
@@ -138,7 +139,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			log.log( Level.SEVERE,
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-			throw new EngineException(
+			throw new UnsupportedFormatException(
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
@@ -227,10 +228,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 				executor.close( );
 			}
 		}
+		catch ( EngineException e )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+			throw e;
+		}
 		catch ( Exception ex )
 		{
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+			throw new EngineException(
+					"Error happened while running the report", ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -297,14 +306,19 @@ public class RenderTask extends EngineTask implements IRenderTask
 				closeRender( );
 				executor.close( );
 			}
-			
-			
-			
+		}
+		catch ( EngineException e )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+			throw e;
 		}
 		catch ( Exception ex )
 		{
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+			throw new EngineException(
+					"Error happened while running the report", ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -320,7 +334,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 * @throws EngineException
 	 *             throws exception if there is a rendering error
 	 */
-	protected void doRenderReportlet( long offset ) throws OutOfMemoryError
+	protected void doRenderReportlet( long offset ) throws EngineException
 	{
 		try
 		{
@@ -366,10 +380,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 				}
 			}
 		}
+		catch ( EngineException e )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+			throw e;
+		}
 		catch ( Exception ex )
 		{
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+			throw new EngineException(
+					"Error happened while running the report", ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
