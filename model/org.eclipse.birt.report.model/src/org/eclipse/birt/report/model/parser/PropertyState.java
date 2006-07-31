@@ -165,6 +165,16 @@ class PropertyState extends AbstractPropertyState
 			state.setName( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN );
 			return state;
 		}
+		
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 ) //$NON-NLS-1$
+				&& ( element instanceof ScalarParameter )
+				&& ( ScalarParameter.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
+		{
+			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
+					handler, element );
+			state.setName( ScalarParameter.DEFAULT_VALUE_PROP );
+			return state;
+		}
 
 		IPropertyDefn jmpDefn = null;
 		if ( struct != null )
