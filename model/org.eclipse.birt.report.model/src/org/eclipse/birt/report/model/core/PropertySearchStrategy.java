@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.core;
 
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -394,6 +398,39 @@ public class PropertySearchStrategy
 	{
 		assert prop != null;
 
-		return prop.canInherit( );
+		boolean inherit = prop.canInherit( );
+		if( !inherit )
+			return false;
+		
+		if ( element instanceof ReportItem )
+		{
+			if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals( prop
+					.getName( ) ) )
+			{
+				// If there is data set property, and want to get
+				// bounddatacolumn property,
+				// the bounddatacolumn property can't inherit from parent
+
+				if ( element.getLocalProperty( element.getRoot( ),
+						IReportItemModel.DATA_SET_PROP ) != null )
+					return false;
+			}
+		}	
+		else if( element instanceof ScalarParameter )
+		{
+			if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP.equals( prop
+					.getName( ) ) )
+			{
+				// If there is data set property, and want to get
+				// bounddatacolumn property,
+				// the bounddatacolumn property can't inherit from parent
+
+				if ( element.getLocalProperty( element.getRoot( ),
+						IScalarParameterModel.DATASET_NAME_PROP ) != null )
+					return false;
+			}
+		}
+
+		return inherit;
 	}
 }
