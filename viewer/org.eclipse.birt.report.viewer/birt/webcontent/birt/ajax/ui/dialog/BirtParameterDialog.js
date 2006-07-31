@@ -48,9 +48,23 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			paramDialogTitleBar.style.display = 'none';			
 		}
 			    
-	    this.initializeBase( id );	    
+	    this.initializeBase( id );
+	    this.__local_installEventHandlers_extend( id );
 	},
 
+	/**
+	 *	Install native/birt event handlers.
+	 *
+	 *	@id, toolbar id (optional since there is only one toolbar)
+	 *	@return, void
+	 */
+	__local_installEventHandlers_extend : function( id )
+	{
+		// Observe "keydown" event
+		this.keydown_closure = this.__neh_keydown.bindAsEventListener(this);
+		Event.observe($(id), 'keydown', this.keydown_closure, false);
+	},
+	
 	/**
 	 *	Binding data to the dialog UI. Data includes zoom scaling factor.
 	 *	@data, data DOM tree (schema TBD)
@@ -357,6 +371,28 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		return true;
 	},
 	
+	/**
+	 *	Handle press "Enter" key.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_keydown: function( event )
+	{
+		// If press 'Enter' key
+		if( event.keyCode == 13 )
+		{
+			var target = Event.element( event );
+			
+			// Focus on INPUT(exclude 'button' type) and SELECT controls
+			if( (target.tagName == "INPUT" && target.type != "button") 
+					|| target.tagName == "SELECT")
+			{
+				this.__okPress( );
+			}
+		}
+	},	
+		
 	/**
 	 *	Handle clicking on okRun.
 	 *
