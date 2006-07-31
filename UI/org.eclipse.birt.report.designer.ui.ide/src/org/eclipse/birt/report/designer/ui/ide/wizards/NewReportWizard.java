@@ -171,7 +171,7 @@ public class NewReportWizard extends Wizard implements
 		// {
 		// predefined template
 		Template selTemplate = templateChoicePage.getTemplate( );
-		String fullName = convertFileName2Absolute(selTemplate.isPredefined( ),selTemplate.getReportPath( ) );
+		String fullName = selTemplate.getReportFullName( );
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
 				new Path(fullName ) );
 		if ( url != null )
@@ -821,38 +821,4 @@ public class NewReportWizard extends Wizard implements
 	// }
 	// handle.save( );
 	// }
-	
-	private String convertFileName2Absolute(boolean predefined,String fileName)
-	{
-		String fullPath = fileName;
-		String templateFolderPath = null;
-		if(predefined)
-		{
-			templateFolderPath = UIUtil.getHomeDirectory( );
-		}else
-		{
-			templateFolderPath = ReportPlugin.getDefault( )
-			.getTemplatePreference( );			
-		}		
-
-		if(templateFolderPath.indexOf( "\\" ) < 0 )
-		{
-			if(!templateFolderPath.endsWith( "/" ))
-			{
-				templateFolderPath = templateFolderPath + "/";
-			}
-			
-		}else // > 0
-		{
-			if(!templateFolderPath.endsWith( "\\" ))
-			{
-				templateFolderPath = templateFolderPath + "\\";
-			}
-		}
-		
-		fullPath = templateFolderPath + fileName;
-		fullPath = fullPath.replaceAll( "\\\\", "\\" );
-		fullPath = fullPath.replaceAll( "//", "/" );
-		return fullPath;
-	}
 }

@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -99,6 +100,8 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	private static final String DESCRIPTION_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.message.FirstReport" ); //$NON-NLS-1$
 
+	private static final String PREDEFINED_TEMPLATE_DIRECTORY= UIUtil.getHomeDirectory( );
+	
 	private List templateList;
 
 	private ImageCanvas previewCanvas;
@@ -110,29 +113,25 @@ public class WizardTemplateChoicePage extends WizardPage
 	public class Template
 	{
 
-		private boolean isPredefined;
 		Map files = new HashMap( );
-
-		public boolean isPredefined()
-		{
-			return isPredefined;
-		}
 		
-		public Template( String name, String description, String reportPath,
-				String picturePath, String cheatSheetId )
+		public Template( String name, String description, String root,String reportName,
+				String pictureName, String cheatSheetId )
 		{
 			this.name = name;
 			this.templateDescription = description;
-			this.reportPath = reportPath;
-			this.picturePath = picturePath;
+			this.root = root;			
+			this.reportName = reportName;
+			this.pictureName = pictureName;
 			this.cheatSheetId = cheatSheetId;
-			isPredefined = true;
 		}
 
-		public Template( String reportName ) throws DesignFileException
-		{
-			isPredefined = false;
-			String fullName = convertFileName2Absolute(isPredefined,reportName);
+		public Template( String root,String reportName ) throws DesignFileException
+		{			
+		//	String fullName = convertFileName2Absolute(isPredefined,reportName);
+			this.root = root;
+			this.reportName = reportName;
+			String fullName = getReportFullName( );
 			reportDesign = (ReportDesignHandle) files.get( fullName );			
 			if ( reportDesign == null )
 			{
@@ -151,9 +150,9 @@ public class WizardTemplateChoicePage extends WizardPage
 				templateDescription = "";//$NON-NLS-1$
 			}
 
-			picturePath = reportDesign.getIconFile( ) == null ? "" : reportDesign.getIconFile( );//$NON-NLS-1$
+			pictureName = reportDesign.getIconFile( ) == null ? "" : reportDesign.getIconFile( );//$NON-NLS-1$
 			cheatSheetId = reportDesign.getCheatSheet( ) == null ? "" : reportDesign.getCheatSheet( );//$NON-NLS-1$
-			this.reportPath = reportName;
+			this.reportName = reportName;
 
 		}
 
@@ -161,9 +160,10 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		private String templateDescription;
 
-		private String reportPath;
+		private String root;
+		private String reportName;
 
-		private String picturePath;
+		private String pictureName;
 
 		private String cheatSheetId;
 
@@ -189,24 +189,24 @@ public class WizardTemplateChoicePage extends WizardPage
 			this.name = name;
 		}
 
-		public String getPicturePath( )
+		public String getPictureName( )
 		{
-			return picturePath;
+			return pictureName;
 		}
 
-		public void setPicturePath( String picturePath )
+		public void setPictureName( String pictureName )
 		{
-			this.picturePath = picturePath;
+			this.pictureName = pictureName;
 		}
 
-		public String getReportPath( )
+		public String getReportName( )
 		{
-			return reportPath;
+			return reportName;
 		}
 
-		public void setReportPath( String reportPath )
+		public void setReportName( String reportName )
 		{
-			this.reportPath = reportPath;
+			this.reportName = reportName;
 		}
 
 		public String getTemplateDescription( )
@@ -235,46 +235,90 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 			}
 		}
+		
+		private String getFullPath(String root, String fileName)
+		{
+			Assert.isLegal( root != null );
+			Assert.isLegal( fileName != null);
+			String fullPath = new String(root);
+			if(fullPath.indexOf( "\\" ) < 0 )
+			{
+				if(!fullPath.endsWith( "/" ))
+				{
+					fullPath = fullPath + "/";
+				}
+				
+			}else // > 0
+			{
+				if(!fullPath.endsWith( "\\" ))
+				{
+					fullPath = fullPath + "\\";
+				}
+			}
+			
+			fullPath = fullPath + fileName;
+			fullPath = fullPath.replaceAll( "\\\\", "\\" );
+			fullPath = fullPath.replaceAll( "//", "/" );
+			return fullPath;
+		}
+		
+		public String getReportFullName()
+		{
+			return getFullPath(root, reportName);
+		}
+		
+		public String getPictureFullName()
+		{
+			return getFullPath(root, pictureName);
+		}
 	}
 
 	protected Template[] preDefinedTemplates = new Template[]{
-			new Template( TITLE_BLANK_REPORT,
+			new Template( TITLE_BLANK_REPORT,					
 					DESCRIPTION_BLANK_REPORT,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/blank_report.rptdesign", //$NON-NLS-1$
 					"/templates/blank_report.gif", //$NON-NLS-1$
 					"" ), //$NON-NLS-1$
-			new Template( TITLE_FIRST_REPORT,
+			new Template( TITLE_FIRST_REPORT,					
 					DESCRIPTION_FIRST_REPORT,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/blank_report.rptdesign", //$NON-NLS-1$
 					"/templates/first_report.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ), //$NON-NLS-1$
-			new Template( TITLE_SIMPLE_LISTING,
+			new Template( TITLE_SIMPLE_LISTING,					
 					DESCRIPTION_SIMPLE_LISTING,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/simple_listing.rptdesign", //$NON-NLS-1$
 					"/templates/simple_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting" ), //$NON-NLS-1$
-			new Template( TITLE_GROUPED_LISTING,
+			new Template( TITLE_GROUPED_LISTING,					
 					DESCRIPTION_GROUPED_LISTING,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/grouped_listing.rptdesign", //$NON-NLS-1$
 					"/templates/grouped_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting" ), //$NON-NLS-1$
-			new Template( TITLE_DUAL_COLUMN_LISTING,
+			new Template( TITLE_DUAL_COLUMN_LISTING,					
 					DESCRIPTION_DUAL_COLUMN_LISTING,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/dual_column_listing.rptdesign", //$NON-NLS-1$
 					"/templates/dual_column_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnlisting" ), //$NON-NLS-1$
-			new Template( TITLE_CHART_LISTING,
+			new Template( TITLE_CHART_LISTING,					
 					DESCRIPTION_CHART_LISTING,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting" ), //$NON-NLS-1$
-			new Template( TITLE_DUAL_COLUMN_CHART_LISTING,
+			new Template( TITLE_DUAL_COLUMN_CHART_LISTING,					
 					DESCRIPTION_DUAL_COLUMN_CHART_LISTING,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/dual_column_chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/dual_column_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting" ), //$NON-NLS-1$
-			new Template( TITLE_SIDE_BY_SIDE_CHART_LISTING,
+			new Template( TITLE_SIDE_BY_SIDE_CHART_LISTING,					
 					DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING,
+					PREDEFINED_TEMPLATE_DIRECTORY,
 					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/sidebyside_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting" ), //$NON-NLS-1$
@@ -444,10 +488,10 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	private void createCustomTemplateList( )
 	{
-		String templateFolderPath = ReportPlugin.getDefault( )
+		String root = ReportPlugin.getDefault( )
 				.getTemplatePreference( );
 
-		File templateDirectory = new File( templateFolderPath, File.separator );
+		File templateDirectory = new File( root, File.separator );
 
 		if ( templateDirectory.isDirectory( ) )
 		{
@@ -467,7 +511,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				try
 				{
-					templates.add( new Template( filesArray[i].getName( ) ) );
+					templates.add( new Template( root,filesArray[i].getName( ) ) );
 				}
 				catch ( Exception e )
 				{
@@ -480,7 +524,6 @@ public class WizardTemplateChoicePage extends WizardPage
 	private void hookListeners( )
 	{
 		templateList.addListener( SWT.Selection, templateListener );
-
 	}
 
 	private Listener templateListener = new Listener( ) {
@@ -493,7 +536,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			// we need to relayout if the new text has different number of lines
 			previewPane.layout( );
 			Template selTemplate = (Template) templates.get( selectedIndex );
-			String key = selTemplate.getPicturePath( );			
+			String key = selTemplate.getPictureName( );
 			Object img = null;
 			if ( key == null || "".equals( key.trim( ) ) ) //$NON-NLS-1$
 			{
@@ -513,7 +556,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			}
 			else
 			{
-				key = convertFileName2Absolute(selTemplate.isPredefined(),key);
+				key = selTemplate.getPictureFullName( );
 				img = imageMap.get( key );
 
 				if ( img == null )
@@ -579,37 +622,4 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 	}
 
-	private String convertFileName2Absolute(boolean predefined,String fileName)
-	{
-		String fullPath = fileName;
-		String templateFolderPath = null;
-		if(predefined)
-		{
-			templateFolderPath = UIUtil.getHomeDirectory( );
-		}else
-		{
-			templateFolderPath = ReportPlugin.getDefault( )
-			.getTemplatePreference( );			
-		}		
-
-		if(templateFolderPath.indexOf( "\\" ) < 0 )
-		{
-			if(!templateFolderPath.endsWith( "/" ))
-			{
-				templateFolderPath = templateFolderPath + "/";
-			}
-			
-		}else // > 0
-		{
-			if(!templateFolderPath.endsWith( "\\" ))
-			{
-				templateFolderPath = templateFolderPath + "\\";
-			}
-		}
-		
-		fullPath = templateFolderPath + fileName;
-		fullPath = fullPath.replaceAll( "\\\\", "\\" );
-		fullPath = fullPath.replaceAll( "//", "/" );
-		return fullPath;
-	}
 }

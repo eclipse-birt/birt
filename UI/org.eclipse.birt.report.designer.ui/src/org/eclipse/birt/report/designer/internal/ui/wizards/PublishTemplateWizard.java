@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -275,20 +276,7 @@ public class PublishTemplateWizard extends Wizard
 
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
 		{
-			int beginIndex = page.getPreviewImagePath( )
-					.lastIndexOf( File.separator );
-			String shortName = null;
-			if ( beginIndex + 1 >= page.getPreviewImagePath( ).length( )
-					|| beginIndex == -1 )
-			{
-				shortName = "";
-			}
-			else
-			{
-				shortName = page.getPreviewImagePath( )
-						.substring( beginIndex + 1 );
-
-			}
+			String shortName =  UIUtil.getSimpleFileName(page.getPreviewImagePath( ));
 			handle.setIconFile( shortName );
 		}
 		else
