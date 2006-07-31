@@ -360,6 +360,14 @@ public abstract class AbstractArea implements IArea
 		return baseline;
 	}
 	
+	protected void removeMargin()
+	{
+		style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
+		style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
+		style.setProperty(IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0);
+		style.setProperty(IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0);
+
+	}
 	protected void removeBorder()
 	{
 		style.setProperty(IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.NUMBER_0);

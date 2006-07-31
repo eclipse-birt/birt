@@ -254,7 +254,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				|| IStyle.CSS_RIGHT_VALUE == pageBreak
 				|| IStyle.BIRT_SOFT_VALUE == pageBreak )
 		{
-			style.setPageBreakBefore( IStyle.CSS_AUTO_VALUE );
+			//style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
 			return true;
 		}
 
@@ -273,7 +273,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				|| IStyle.CSS_LEFT_VALUE == pageBreak
 				|| IStyle.CSS_RIGHT_VALUE == pageBreak )
 		{
-			style.setPageBreakAfter( IStyle.CSS_AUTO_VALUE );
+			//style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.AUTO_VALUE );
 			return true;
 		}
 		return false;

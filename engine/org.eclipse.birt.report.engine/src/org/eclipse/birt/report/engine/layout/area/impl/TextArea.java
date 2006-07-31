@@ -11,7 +11,6 @@
 package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -27,21 +26,9 @@ public class TextArea extends AbstractArea implements ITextArea
 		super(textContent);
 		this.text = text;
 		this.fi = fi;
-
-		style.setMarginBottom(CSSConstants.CSS_NONE_VALUE);
-		style.setMarginTop(CSSConstants.CSS_NONE_VALUE);
-		style.setMarginLeft(CSSConstants.CSS_NONE_VALUE);
-		style.setMarginRight(CSSConstants.CSS_NONE_VALUE);
-		
-		style.setBorderBottom(CSSConstants.CSS_NONE_VALUE);
-		style.setBorderTop(CSSConstants.CSS_NONE_VALUE);
-		style.setBorderLeft(CSSConstants.CSS_NONE_VALUE);
-		style.setBorderRight(CSSConstants.CSS_NONE_VALUE);
-		
-		style.setPaddingBottom(CSSConstants.CSS_NONE_VALUE);
-		style.setPaddingTop(CSSConstants.CSS_NONE_VALUE);
-		style.setPaddingLeft(CSSConstants.CSS_NONE_VALUE);
-		style.setPaddingRight(CSSConstants.CSS_NONE_VALUE);
+		removePadding( );
+		removeBorder( );
+		removeMargin();
 	}
 
 	public String getText()

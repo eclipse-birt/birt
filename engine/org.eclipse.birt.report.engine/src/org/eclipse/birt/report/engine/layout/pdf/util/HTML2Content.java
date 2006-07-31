@@ -257,19 +257,20 @@ public class HTML2Content
 				{
 					if("u".equalsIgnoreCase(pNode.getNodeName()) || "ins".equalsIgnoreCase(pNode.getNodeName()))  //$NON-NLS-1$//$NON-NLS-2$
 					{
-						inlineStyle.setTextUnderline("underline"); //$NON-NLS-1$
+						inlineStyle.setProperty( IStyle.STYLE_TEXT_UNDERLINE, IStyle.UNDERLINE_VALUE );
 					}
 					else if("del".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
 					{
-						inlineStyle.setTextLineThrough("line-through"); //$NON-NLS-1$
+						
+						inlineStyle.setProperty( IStyle.STYLE_TEXT_LINETHROUGH, IStyle.LINE_THROUGH_VALUE );
 					}
 					else if("sub".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
 					{
-						inlineStyle.setVerticalAlign( "bottom"); //$NON-NLS-1$
+						inlineStyle.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.BOTTOM_VALUE );
 					}
 					else if("sup".equalsIgnoreCase(pNode.getNodeName())) //$NON-NLS-1$
 					{
-						inlineStyle.setVerticalAlign( "top"); //$NON-NLS-1$
+						inlineStyle.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.TOP_VALUE);
 					}
 				}
 				label.setInlineStyle(inlineStyle);
