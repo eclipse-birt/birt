@@ -98,8 +98,55 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 				}
 			}
 		}
+		
+		// Observe "keydown" event
+		this.keydown_closure = this.__neh_keydown.bindAsEventListener(this);
+		Event.observe($('gotoPage'), 'keydown', this.keydown_closure, false);
 	},
 
+	/**
+	 *	Handle press "Enter" key.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_keydown: function( event )
+	{
+		// If press 'Enter' key
+		if( event.keyCode == 13 )
+		{
+			this.__gotoGage( );
+			Event.stop( event );
+		}
+	},	
+
+	/**
+	 *	Handle clicking 'Goto' event.
+	 *
+	 *	@return, void
+	 */	
+	__gotoGage : function( )
+	{
+		var iPageNo = -1;
+		var totalPage = ( this.__oTotalPage.firstChild.data == '+' )? '+' : parseInt( this.__oTotalPage.firstChild.data );
+		
+		var oGotoPage = $( 'gotoPage' );
+		var pageNo = oGotoPage.value;
+		if ( pageNo != null && birtUtility.trim( pageNo ).length > 0 )
+		{
+			iPageNo = parseInt( pageNo );
+		}
+		if ( iPageNo > 0 && iPageNo <= totalPage )
+		{
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : oGotoPage.value } );
+		}
+		else
+		{
+			oGotoPage.focus( );
+			alert( Constants.error.invalidPageNumber );
+		}
+	},
+	
 	/**
 	 *	Handle native event 'click'.
 	 *
@@ -150,22 +197,7 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
  				}
    				case 'goto':
    				{
-   					var iPageNo = -1;
-   					var oGotoPage = $( 'gotoPage' );
-   					var pageNo = oGotoPage.value;
-   					if ( pageNo != null && birtUtility.trim( pageNo ).length > 0 )
-   					{
-   						iPageNo = parseInt( pageNo );
-   					}
-   					if ( iPageNo > 0 && iPageNo <= totalPage )
-   					{
- 						birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : oGotoPage.value } );
-   					}
- 					else
- 					{
- 						oGotoPage.focus( );
- 						alert( Constants.error.invalidPageNumber );
- 					}
+   					this.__gotoGage( );
    					break;
    				}
 				default:

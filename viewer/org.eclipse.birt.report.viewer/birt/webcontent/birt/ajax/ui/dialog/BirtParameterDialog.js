@@ -61,8 +61,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__local_installEventHandlers_extend : function( id )
 	{
 		// Observe "keydown" event
-		this.keydown_closure = this.__neh_keydown.bindAsEventListener(this);
-		Event.observe($(id), 'keydown', this.keydown_closure, false);
+		this.keydown_closure = this.__neh_keydown.bindAsEventListener( this );
+		Event.observe( $(id), 'keydown', this.keydown_closure, false );
 	},
 	
 	/**
@@ -381,14 +381,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		// If press 'Enter' key
 		if( event.keyCode == 13 )
-		{
+		{			
 			var target = Event.element( event );
 			
 			// Focus on INPUT(exclude 'button' type) and SELECT controls
-			if( (target.tagName == "INPUT" && target.type != "button") 
+			if( (target.tagName == "INPUT" && target.type != "button" ) 
 					|| target.tagName == "SELECT")
 			{
 				this.__okPress( );
+				Event.stop( event );
 			}
 		}
 	},	
