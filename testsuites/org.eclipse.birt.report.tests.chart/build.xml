@@ -31,6 +31,7 @@
 	<property name="testmodule.name" value="org.eclipse.birt.report.tests.chart" />
 
 	<property name="core.dir" location="../org.eclipse.birt.core" />
+	<property name="model.dir" location="../org.eclipse.birt.report.model" />
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine" />
 	<property name="chart.engine.extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
 	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension" />
@@ -53,6 +54,7 @@
 			<include name="org.eclipse.birt.chart.engine.extension/*.jar" />
 			<include name="org.eclipse.birt.chart.engine/*.jar" />
 			<include name="org.eclipse.birt.core/*.jar" />
+			<include name="org.eclipse.birt.report.model/*.jar" />
 		</fileset>
 
 		<fileset dir="${eclipse.home}/plugins">
@@ -110,6 +112,12 @@
 		</ant>
 		<echo message="end call Jar task in ${core.dir}" level="info" />
 
+		<echo message="start call Jar task in ${model.dir}" level="info" />
+		<ant dir="${model.dir}" antfile="BuildModel.xml" target="Jar" inheritall="false">
+			<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${model.dir}" level="info" />
+		
 		<echo message="start call Jar task in ${chart.engine.extension.dir}" level="info" />
 		<ant dir="${chart.engine.extension.dir}" antfile="BuildChartEngineExtension.xml" target="Jar" inheritall="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
@@ -125,7 +133,5 @@
 
 
 	<!-- private task, run unit test -->
-	<target name="utest" depends="compileTest,UnitTest">
-		<!--fail if="test.failed" message="One or more tests failed!  Check the output." /-->
-	</target>
+	<target name="utest" depends="compileTest,UnitTest,Report" />
 </project>
