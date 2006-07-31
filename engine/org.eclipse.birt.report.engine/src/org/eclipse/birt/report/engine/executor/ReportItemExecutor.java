@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.36 $ $Date: 2006/06/17 12:28:57 $
+ * @version $Revision: 1.37 $ $Date: 2006/07/19 10:25:46 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -174,6 +174,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 */
 	void reset( )
 	{
+		tocEntry = null;
 	}
 	
 	void setParent(ReportItemExecutor parent)
@@ -544,8 +545,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				if ( tocLabel != null )
 				{
 					String bookmark = content.getBookmark( );
-					TOCEntry parent = getParentTOCEntry();
-					tocEntry = tocBuilder.startEntry( parent, tocLabel, bookmark );
+					TOCEntry parentTOCEntry = getParentTOCEntry();
+					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocLabel, bookmark );
 					String tocId = tocEntry.getNode().getNodeID( );
 					if ( bookmark == null )
 					{
