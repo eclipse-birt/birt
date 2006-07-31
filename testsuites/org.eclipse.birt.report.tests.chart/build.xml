@@ -62,6 +62,9 @@
 			<include name="org.eclipse.emf*.jar" />
 			<include name="org.eclipse.swt*.jar" />
 			<include name="org.eclipse.core.runtime*.jar" />
+			<include name="org.eclipse.osgi_*/*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>
+
 		</fileset>
 	</path>
 
