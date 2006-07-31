@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
@@ -150,6 +149,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	public void endGroup( IGroupContent groupContent )
 	{
+	    // if there is no group footer, we still need to do with the drop.
+		int groupLevel = groupContent.getGroupLevel( );
+		updateUnresolvedCell( groupLevel, false );
+		updateUnresolvedCell( groupLevel, true );
 		assert ( !groupStack.isEmpty( ) );
 		groupStack.pop( );
 	}

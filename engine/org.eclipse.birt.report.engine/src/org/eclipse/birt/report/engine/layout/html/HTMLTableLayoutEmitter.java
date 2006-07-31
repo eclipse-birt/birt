@@ -135,6 +135,10 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
+			// if there is no group footer, we still need to do with the drop.
+			int groupLevel = getGroupLevel();
+			resolveCellsOfDrop( groupLevel, false );
+			resolveCellsOfDrop( groupLevel, true );
 			assert !groupStack.isEmpty( );
 			groupStack.pop( );
 			// ContentEmitterUtil.endContent( group, emitter );
