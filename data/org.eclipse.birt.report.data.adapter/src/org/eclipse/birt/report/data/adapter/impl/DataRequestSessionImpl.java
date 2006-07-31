@@ -178,6 +178,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 				this.modelAdaptor,
 				this.sessionContext ).refreshMetaData( dataSetHandle );
 	}
+	
+	/*
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#refreshMetaData(org.eclipse.birt.report.model.api.DataSetHandle,
+	 *      boolean)
+	 */
+	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle,
+			boolean holdEvent ) throws BirtException
+	{
+		return new DataSetMetaDataHelper( this.dataEngine,
+				this.modelAdaptor,
+				this.sessionContext ).refreshMetaData( dataSetHandle, holdEvent );
+	}
 
 	/*
 	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#executeQuery(org.eclipse.birt.data.engine.api.IQueryDefinition,

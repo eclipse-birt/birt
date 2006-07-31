@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.CompaibilityUtil;
 
 /**
  * One note is the relationship between resultSet, columnHints and
@@ -280,8 +281,8 @@ public class DataSetMetaDataHelper
 			}
 		}
 	}
-
-	/**
+    
+    /**
 	 * 
 	 * @param dataSetHandle
 	 * @return
@@ -289,6 +290,18 @@ public class DataSetMetaDataHelper
 	 */
 	IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
+	{
+		return refreshMetaData( dataSetHandle, false );
+	}
+
+	/**
+	 * 
+	 * @param dataSetHandle
+	 * @return
+	 * @throws BirtException
+	 */
+	IResultMetaData refreshMetaData( DataSetHandle dataSetHandle,
+			boolean holdEvent ) throws BirtException
 	{
 		IResultMetaData rsMeta = null;
 		BirtException e = null;
@@ -304,7 +317,7 @@ public class DataSetMetaDataHelper
 
 		if ( needsSetCachedMetaData( dataSetHandle, rsMeta ) )
 		{
-			dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+			List columnList = new ArrayList( );
 			if ( rsMeta != null && rsMeta.getColumnCount( ) != 0 )
 			{
 				for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
@@ -314,9 +327,24 @@ public class DataSetMetaDataHelper
 					rsc.setDataType( toModelDataType( rsMeta.getColumnType( i ) ) );
 					rsc.setPosition( new Integer( i ) );
 
+					columnList.add( rsc );
+				}
+			}
+
+			if ( holdEvent )
+			{
+				CompaibilityUtil.updateResultSetinCachedMetaData( dataSetHandle,
+						columnList );
+			}
+			else
+			{
+				dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+
+				for ( int i = 0; i < columnList.size( ); i++ )
+				{
 					dataSetHandle.getCachedMetaDataHandle( )
 							.getResultSet( )
-							.addItem( rsc );
+							.addItem( (ResultSetColumn) columnList.get( i ) );
 				}
 			}
 		}

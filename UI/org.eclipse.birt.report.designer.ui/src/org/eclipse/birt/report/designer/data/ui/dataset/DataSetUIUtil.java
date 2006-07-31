@@ -32,13 +32,26 @@ public final class DataSetUIUtil
 	private static Logger logger = Logger.getLogger( DataSetUIUtil.class.getName( ) );
 	
 	/**
+	 * Update column cache without holding events
+	 * 
+	 * @param dataSetHandle
+	 * @throws SemanticException
+	 */
+	public static void updateColumnCache( DataSetHandle dataSetHandle )
+			throws SemanticException
+	{
+		updateColumnCache( dataSetHandle, false );
+	}
+	
+	/**
 	 * Save the column meta data to data set handle.
 	 * 
 	 * @param dataSetHandle
 	 * @param items
 	 * @throws SemanticException
 	 */
-	public static void updateColumnCache( DataSetHandle dataSetHandle )
+	public static void updateColumnCache( DataSetHandle dataSetHandle,
+			boolean holdEvent )
 			throws SemanticException
 	{
 		DataSessionContext context = null;
@@ -48,7 +61,7 @@ public final class DataSetUIUtil
 					dataSetHandle.getRoot( ),
 					null );
 			DataRequestSession drSession = DataRequestSession.newSession( context );
-			drSession.refreshMetaData( dataSetHandle );
+			drSession.refreshMetaData( dataSetHandle, holdEvent );
 		}
 		catch ( BirtException e )
 		{
@@ -71,7 +84,7 @@ public final class DataSetUIUtil
 	{
 		if( dataSetHandle.getCachedMetaDataHandle( ) == null )
 		{
-			updateColumnCache( dataSetHandle );
+			updateColumnCache( dataSetHandle, true );
 		}
 		
 		return dataSetHandle.getCachedMetaDataHandle( );

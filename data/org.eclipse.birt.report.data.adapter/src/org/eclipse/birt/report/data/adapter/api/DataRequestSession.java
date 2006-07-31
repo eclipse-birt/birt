@@ -146,6 +146,23 @@ public abstract class DataRequestSession
 			throws BirtException;
 	
 	/**
+	 * This method basically shares the same function as
+	 * <code> refreshMetaData( DataSetHandle dataSetHandle )</code>, the only
+	 * difference is the caller of this method will have the control over
+	 * whether to hold the event or not. It is added largely for the backward
+	 * compatibility
+	 * 
+	 * @param dataSetHandle
+	 * @param holdEvent
+	 *            true if holdEvent, false otherwise
+	 * @return
+	 * @throws BirtException
+	 */
+	public abstract IResultMetaData refreshMetaData(
+			DataSetHandle dataSetHandle, boolean holdEvent )
+			throws BirtException;
+	
+	/**
 	 * Retrieves all distinct values of a data set column and return them in a
 	 * Collection.
 	 * 
