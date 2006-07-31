@@ -47,7 +47,10 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM
 	protected void createRoot( )
 	{
 		super.createRoot( );
+		IStyle style = root.getStyle( );
 		removeBoxProperty( root.getStyle( ) );
+		style.setProperty( StyleConstants.STYLE_BACKGROUND_IMAGE, IStyle.NONE_VALUE );
+		style.setProperty( StyleConstants.STYLE_BACKGROUND_COLOR, IStyle.AUTO_VALUE );
 	}
 
 	protected void closeExecutor( )
