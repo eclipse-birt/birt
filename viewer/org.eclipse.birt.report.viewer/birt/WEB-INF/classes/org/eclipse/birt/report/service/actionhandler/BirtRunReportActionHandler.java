@@ -56,6 +56,7 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		assert attrBean != null;
 
 		Map parameterMap = new HashMap( );
+		Map displayTexts = new HashMap( );
 
 		String docName = attrBean.getReportDocumentName( );
 		IViewerReportDesignHandle designHandle = attrBean
@@ -64,14 +65,15 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_RTL, new Boolean( attrBean
-				.isRtl( ) ) );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
-				attrBean.isDesigner( ) ) );
+		options.setOption( InputOptions.OPT_RTL,
+				new Boolean( attrBean.isRtl( ) ) );
+		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
+				.isDesigner( ) ) );
 
 		// convert parameter
 		if ( operation != null )
 		{
+			String displayTextParam = null;
 			Oprand[] oprands = operation.getOprand( );
 			for ( int i = 0; i < oprands.length; i++ )
 			{
@@ -94,6 +96,12 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 						continue;
 					}
 				}
+				else if ( ( displayTextParam = ParameterAccessor
+						.isDisplayText( paramName ) ) != null )
+				{
+					displayTexts.put( displayTextParam, paramValue );
+					continue;
+				}
 
 				// find the parameter
 				ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
@@ -104,11 +112,10 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 					try
 					{
 						// use current locale to parse parameter
-						paramValue = ParameterValidationUtil
-								.validate( parameter.getDataType( ),
-										parameter.getPattern( ), paramValue
-												.toString( ), attrBean
-												.getLocale( ) );
+						paramValue = ParameterValidationUtil.validate(
+								parameter.getDataType( ), parameter
+										.getPattern( ), paramValue.toString( ),
+								attrBean.getLocale( ) );
 					}
 					catch ( ValidationValueException e )
 					{
@@ -130,7 +137,7 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		}
 
 		getReportService( ).runReport( designHandle, docName, options,
-				parameterMap );
+				parameterMap, displayTexts );
 	}
 
 	protected IViewerReportService getReportService( )

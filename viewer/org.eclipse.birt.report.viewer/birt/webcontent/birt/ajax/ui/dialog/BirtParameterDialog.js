@@ -27,6 +27,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Identify the parameter is null.
 	 */
 	__isnull : '__isnull',
+
+	/**
+	 *	Prefix that identify the parameter is to set Display Text for "select" parameter
+	 */
+	__isdisplay : '__isdisplay__',
  	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
@@ -171,8 +176,17 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				else
 				{
 					this.__parameter[k].name = oSEC[0].name;
+				}				
+				this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].value;				
+				k++;
+				
+				// set display text for the "select" parameter
+				if( !this.__parameter[k] )
+				{
+					this.__parameter[k] = { };
 				}
-				this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].value;
+				this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
+				this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].text;
 				k++;
 				
 				continue;
@@ -292,6 +306,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								this.__parameter[k].name = oIEC[j].value;							
 								this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].value;
 								k++;
+								
+								// set display text for the "select" parameter
+								if( !this.__parameter[k] )
+								{
+									this.__parameter[k] = { };
+								}
+								this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
+								this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].text;
+								k++;
 							}
 							else
 							{
@@ -312,6 +335,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							//deal with common radio
 							this.__parameter[k].name = oIEC[j].name;
 							this.__parameter[k].value = oIEC[j].value;
+							k++;
+						
+							// set display text for the "radio" parameter
+							var displayLabel = document.getElementById( oIEC[j].id + "_label" );
+							if( !displayLabel )
+								continue;
+								
+							if( !this.__parameter[k] )
+							{
+								this.__parameter[k] = { };
+							}
+							this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
+							this.__parameter[k].value = displayLabel.innerHTML;
 							k++;
 						}
 					}

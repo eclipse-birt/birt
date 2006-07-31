@@ -348,6 +348,12 @@ public class ParameterAccessor
 	protected static boolean isInitContext = false;
 
 	/**
+	 * Indentify the display text of select parameter
+	 */
+
+	protected static final String PREFIX_DISPLAY_TEXT = "__isdisplay__";
+
+	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
 	 * @param request
@@ -1596,7 +1602,26 @@ public class ParameterAccessor
 		return isWorkingFolderAccessOnly;
 	}
 
-	/*
+	/**
+	 * if display text of select parameter
+	 * 
+	 * @param paramName
+	 * @return
+	 */
+	public static String isDisplayText( String paramName )
+	{
+		if ( paramName == null )
+			return null;
+
+		if ( paramName.startsWith( PREFIX_DISPLAY_TEXT ) )
+		{
+			return paramName.replaceFirst( PREFIX_DISPLAY_TEXT, "" ); //$NON-NLS-1$
+		}
+		
+		return null;
+	}
+
+	/**
 	 * Reset isInitContext flag
 	 */
 	public static void reset( )

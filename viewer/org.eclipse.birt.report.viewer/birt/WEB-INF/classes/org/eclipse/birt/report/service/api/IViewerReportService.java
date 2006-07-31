@@ -50,6 +50,23 @@ public interface IViewerReportService
 			throws ReportServiceException;
 
 	/**
+	 * Run a report
+	 * 
+	 * @param design
+	 * @param outputDocName
+	 * @param runOptions
+	 * @param parameters,
+	 *            a map of unparsed parameters (i.e. name (String) -> value
+	 *            (String))
+	 * @param displayTexts
+	 * @return
+	 * @throws ReportServiceException
+	 */
+	String runReport( IViewerReportDesignHandle design, String outputDocName,
+			InputOptions runOptions, Map parameters, Map displayTexts )
+			throws ReportServiceException;
+
+	/**
 	 * Get the report design handle from the document
 	 * 
 	 * @param docName
@@ -149,6 +166,25 @@ public interface IViewerReportService
 			OutputStream out, List activeIds ) throws ReportServiceException;
 
 	/**
+	 * Run a report, then render it to the OutputStream
+	 * 
+	 * @param design
+	 * @param outputDocName
+	 * @param options
+	 * @param parameters,
+	 *            a map of unparsed parameters (i.e. name (String) -> value
+	 *            (String))
+	 * @param out
+	 * @param activeIds
+	 * @param displayTexts
+	 * @throws ReportServiceException
+	 */
+	void runAndRenderReport( IViewerReportDesignHandle design,
+			String outputDocName, InputOptions options, Map parameters,
+			OutputStream out, List activeIds, Map displayTexts )
+			throws ReportServiceException;
+
+	/**
 	 * Extract a result set
 	 * 
 	 * @param docName
@@ -219,8 +255,8 @@ public interface IViewerReportService
 	 * @return
 	 * @throws ReportServiceException
 	 */
-	long getPageCount( String docName, InputOptions options, OutputOptions outputOptions )
-			throws ReportServiceException;
+	long getPageCount( String docName, InputOptions options,
+			OutputOptions outputOptions ) throws ReportServiceException;
 
 	/**
 	 * Get the parameter definitions

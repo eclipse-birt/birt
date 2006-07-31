@@ -82,6 +82,7 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -539,7 +540,34 @@ public class ReportEngineService
 			boolean svgFlag ) throws RemoteException
 	{
 		runAndRenderReport( request, runnable, outputStream, format, locale,
-				rtl, parameters, masterPage, svgFlag, null, null, null );
+				rtl, parameters, masterPage, svgFlag, null, null, null, null );
+	}
+
+	/**
+	 * Run and render a report,
+	 * 
+	 * @param request
+	 * 
+	 * @param runnable
+	 * @param outputStream
+	 * @param format
+	 * @param locale
+	 * @param rtl
+	 * @param parameters
+	 * @param masterPage
+	 * @param svgFlag
+	 * @param displayTexts
+	 * @throws RemoteException
+	 * @throws IOException
+	 */
+	public void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, OutputStream outputStream, String format,
+			Locale locale, boolean rtl, Map parameters, boolean masterPage,
+			boolean svgFlag, Map displayTexts ) throws RemoteException
+	{
+		runAndRenderReport( request, runnable, outputStream, format, locale,
+				rtl, parameters, masterPage, svgFlag, null, null, null,
+				displayTexts );
 	}
 
 	/**
@@ -567,14 +595,65 @@ public class ReportEngineService
 	{
 		runAndRenderReport( request, runnable, outputStream,
 				ParameterAccessor.PARAM_FORMAT_HTML, locale, rtl, parameters,
-				masterPage, svgFlag, Boolean.TRUE, activeIds, htmlRenderContext );
+				masterPage, svgFlag, Boolean.TRUE, activeIds,
+				htmlRenderContext, null );
 	}
 
+	/**
+	 * Run and render a report,
+	 * 
+	 * @param request
+	 * 
+	 * @param runnable
+	 * @param outputStream
+	 * @param locale
+	 * @param rtl
+	 * @param parameters
+	 * @param masterPage
+	 * @param svgFlag
+	 * @param activeIds
+	 * @param htmlRenderContext
+	 * @param displayTexts
+	 * @throws RemoteException
+	 * @throws IOException
+	 */
+	public void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, ByteArrayOutputStream outputStream,
+			Locale locale, boolean rtl, Map parameters, boolean masterPage,
+			boolean svgFlag, List activeIds,
+			HTMLRenderContext htmlRenderContext, Map displayTexts )
+			throws RemoteException
+	{
+		runAndRenderReport( request, runnable, outputStream,
+				ParameterAccessor.PARAM_FORMAT_HTML, locale, rtl, parameters,
+				masterPage, svgFlag, Boolean.TRUE, activeIds,
+				htmlRenderContext, displayTexts );
+	}
+
+	/**
+	 * Run and render a report,
+	 * 
+	 * @param request
+	 * 
+	 * @param runnable
+	 * @param outputStream
+	 * @param locale
+	 * @param rtl
+	 * @param parameters
+	 * @param masterPage
+	 * @param svgFlag
+	 * @param activeIds
+	 * @param htmlRenderContext
+	 * @param displayTexts
+	 * @throws RemoteException
+	 * @throws IOException
+	 */
 	private void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, OutputStream outputStream, String format,
 			Locale locale, boolean rtl, Map parameters, boolean masterPage,
 			boolean svgFlag, Boolean embeddable, List activeIds,
-			HTMLRenderContext htmlRenderContext ) throws RemoteException
+			HTMLRenderContext htmlRenderContext, Map displayTexts )
+			throws RemoteException
 	{
 		assert runnable != null;
 
@@ -609,6 +688,21 @@ public class ReportEngineService
 		{
 			runAndRenderTask.setParameterValues( parameters );
 		}
+
+		// Set display Text for select parameters
+		if ( displayTexts != null )
+		{
+			Iterator keys = displayTexts.keySet( ).iterator( );
+			while ( keys.hasNext( ) )
+			{
+				String paramName = DataUtil.getString( keys.next( ) );
+				String displayText = DataUtil.getString( displayTexts
+						.get( paramName ) );
+				runAndRenderTask.setParameterDisplayText( paramName,
+						displayText );
+			}
+		}
+
 		runAndRenderTask.setRenderOption( option );
 
 		HashMap context = new HashMap( );
@@ -676,7 +770,27 @@ public class ReportEngineService
 	 */
 	public void runReport( HttpServletRequest request,
 			IReportRunnable runnable, String documentName, Locale locale,
-			HashMap parameters ) throws RemoteException
+			Map parameters ) throws RemoteException
+	{
+		runReport( request, runnable, documentName, locale, parameters, null );
+	}
+
+	/**
+	 * Run report.
+	 * 
+	 * @param request
+	 * 
+	 * @param runnable
+	 * @param archive
+	 * @param documentName
+	 * @param locale
+	 * @param parameters
+	 * @param displayTexts
+	 * @throws RemoteException
+	 */
+	public void runReport( HttpServletRequest request,
+			IReportRunnable runnable, String documentName, Locale locale,
+			Map parameters, Map displayTexts ) throws RemoteException
 	{
 		assert runnable != null;
 
@@ -685,6 +799,19 @@ public class ReportEngineService
 		runTask = engine.createRunTask( runnable );
 		runTask.setLocale( locale );
 		runTask.setParameterValues( parameters );
+
+		// Set display Text for select parameters
+		if ( displayTexts != null )
+		{
+			Iterator keys = displayTexts.keySet( ).iterator( );
+			while ( keys.hasNext( ) )
+			{
+				String paramName = DataUtil.getString( keys.next( ) );
+				String displayText = DataUtil.getString( displayTexts
+						.get( paramName ) );
+				runTask.setParameterDisplayText( paramName, displayText );
+			}
+		}
 
 		HashMap context = new HashMap( );
 		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
@@ -996,8 +1123,9 @@ public class ReportEngineService
 
 		ResultSet[] resultSetArray = null;
 
-		IDataExtractionTask dataTask = engine.createDataExtractionTask( document );
-		
+		IDataExtractionTask dataTask = engine
+				.createDataExtractionTask( document );
+
 		try
 		{
 			List resultSets = dataTask.getResultSetList( );
@@ -1523,7 +1651,7 @@ public class ReportEngineService
 		return engine.getMIMEType( format );
 	}
 
-	/*
+	/**
 	 * Shutdown ReportEngineService, set instance as null
 	 */
 	public static void shutdown( )

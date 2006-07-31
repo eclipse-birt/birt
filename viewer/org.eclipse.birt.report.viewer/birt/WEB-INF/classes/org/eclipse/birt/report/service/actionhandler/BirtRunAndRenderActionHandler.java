@@ -33,6 +33,7 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 		Locale locale = attrBean.getLocale( );
 		boolean master = attrBean.isMasterPageContent( );
 		Map params = attrBean.getParameters( );
+		Map displayTexts = attrBean.getDisplayTexts( );
 		IViewerReportDesignHandle reportDesignHandle = attrBean
 				.getReportDesignHandle( context.getRequest( ) );
 		boolean svgFlag = ParameterAccessor.getSVGFlag( context.getRequest( ) );
@@ -52,7 +53,8 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 
 		ServletOutputStream out = context.getResponse( ).getOutputStream( );
 		getReportService( ).runAndRenderReport( reportDesignHandle,
-				outputDocName, options, params, out, new ArrayList( ) );
+				outputDocName, options, params, out, new ArrayList( ),
+				displayTexts );
 	}
 
 	protected IViewerReportService getReportService( )

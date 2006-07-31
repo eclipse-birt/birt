@@ -14,6 +14,7 @@ package org.eclipse.birt.report.context;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 import com.ibm.icu.util.ULocale;
@@ -81,6 +83,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 
 	private Collection parameterDefList = null;
+
+	/**
+	 * Display Text of Select Parameters
+	 */
+
+	private Map displayTexts = null;
 
 	/**
 	 * Constructor.
@@ -191,6 +199,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.parameters = (HashMap) getParsedParameters(
 				this.reportDesignHandle, parameterList, request, options );
 
+		// Get display text of select parameters
+		this.displayTexts = getDisplayTexts( this.displayTexts, request );
 	}
 
 	/**
@@ -224,6 +234,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			// initial config map
 			if ( handle != null )
 			{
+				String displayTextParam = null;
 				Iterator configVars = handle.configVariablesIterator( );
 				while ( configVars != null && configVars.hasNext( ) )
 				{
@@ -242,6 +253,21 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							String nullParamName = getParameterName( paramValue );
 							if ( nullParamName != null )
 								this.configMap.put( nullParamName, null );
+
+							continue;
+						}
+						// check if display text of select parameter
+						else if ( ( displayTextParam = ParameterAccessor
+								.isDisplayText( paramName ) ) != null )
+						{
+							paramName = getParameterName( displayTextParam );
+							if ( paramName != null )
+							{
+								if ( this.displayTexts == null )
+									this.displayTexts = new HashMap( );
+
+								this.displayTexts.put( paramName, paramValue );
+							}
 
 							continue;
 						}
@@ -833,6 +859,32 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	}
 
 	/**
+	 * Get Display Text of select parameters
+	 * 
+	 * @param request
+	 * @return Map
+	 */
+	protected Map getDisplayTexts( Map displayTexts, HttpServletRequest request )
+	{
+		if ( displayTexts == null )
+			displayTexts = new HashMap( );
+
+		Enumeration params = request.getParameterNames( );
+		while ( params != null && params.hasMoreElements( ) )
+		{
+			String param = DataUtil.getString( params.nextElement( ) );
+			String paramName = ParameterAccessor.isDisplayText( param );
+			if ( paramName != null )
+			{
+				displayTexts.put( paramName, ParameterAccessor.getParameter(
+						request, param ) );
+			}
+		}
+
+		return displayTexts;
+	}
+
+	/**
 	 * @return the parametersAsString
 	 */
 	public Map getParametersAsString( )
@@ -846,5 +898,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	public Collection getParameterDefList( )
 	{
 		return parameterDefList;
+	}
+
+	/**
+	 * @return the displayTexts
+	 */
+	public Map getDisplayTexts( )
+	{
+		return displayTexts;
 	}
 }

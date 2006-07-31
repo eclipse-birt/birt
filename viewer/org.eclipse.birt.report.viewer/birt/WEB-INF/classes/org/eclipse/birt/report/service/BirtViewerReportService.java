@@ -78,6 +78,13 @@ public class BirtViewerReportService implements IViewerReportService
 			String outputDocName, InputOptions runOptions, Map parameters )
 			throws ReportServiceException
 	{
+		return runReport( design, outputDocName, runOptions, parameters, null );
+	}
+
+	public String runReport( IViewerReportDesignHandle design,
+			String outputDocName, InputOptions runOptions, Map parameters,
+			Map displayTexts ) throws ReportServiceException
+	{
 		IReportRunnable runnable;
 		HttpServletRequest request = (HttpServletRequest) runOptions
 				.getOption( InputOptions.OPT_REQUEST );
@@ -85,10 +92,18 @@ public class BirtViewerReportService implements IViewerReportService
 
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		// Set parameters
 		Map parsedParams = attrBean.getParameters( );
 		if ( parameters != null )
 		{
 			parsedParams.putAll( parameters );
+		}
+
+		// Set display Text of select parameters
+		Map displayTextMap = attrBean.getDisplayTexts( );
+		if ( displayTexts != null )
+		{
+			displayTextMap.putAll( displayTexts );
 		}
 
 		runnable = (IReportRunnable) design.getDesignObject( );
@@ -96,7 +111,7 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, (HashMap) parsedParams );
+					outputDocName, locale, parsedParams, displayTextMap );
 		}
 		catch ( RemoteException e )
 		{
@@ -481,6 +496,15 @@ public class BirtViewerReportService implements IViewerReportService
 			String outputDocName, InputOptions options, Map parameters,
 			OutputStream out, List activeIds ) throws ReportServiceException
 	{
+		runAndRenderReport( design, outputDocName, options, parameters, out,
+				activeIds, null );
+	}
+
+	public void runAndRenderReport( IViewerReportDesignHandle design,
+			String outputDocName, InputOptions options, Map parameters,
+			OutputStream out, List activeIds, Map displayTexts )
+			throws ReportServiceException
+	{
 		// TODO: outputDocName is not used...
 		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
@@ -500,7 +524,7 @@ public class BirtViewerReportService implements IViewerReportService
 			ReportEngineService.getInstance( ).runAndRenderReport( request,
 					runnable, out, format, locale, isRtl.booleanValue( ),
 					parameters, isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ) );
+					svgFlag.booleanValue( ), displayTexts );
 		}
 		catch ( RemoteException e )
 		{

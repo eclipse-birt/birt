@@ -81,6 +81,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		ReportDesignHandle handle = sessionHandle.createDesign( );
 
 		// get parameters from operation
+		String displayTextParam = null;
 		Oprand[] op = this.operation.getOprand( );
 		if ( op != null )
 		{
@@ -106,6 +107,22 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						configVar.setName( ParameterAccessor.PARAM_ISNULL );
 						configVar.setValue( paramValue
 								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+						handle.addConfigVariable( configVar );
+					}
+
+					continue;
+				}
+				else if ( ( displayTextParam = ParameterAccessor
+						.isDisplayText( paramName ) ) != null )
+				{
+					parameter = (ScalarParameterHandle) attrBean
+							.findParameter( displayTextParam );
+					if ( parameter != null )
+					{
+						// add display text of select parameter to config file
+						configVar
+								.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+						configVar.setValue( paramValue );
 						handle.addConfigVariable( configVar );
 					}
 
