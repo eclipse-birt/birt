@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -157,7 +157,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( name == null )
 			return null;
 
-		IModuleNameSpace elementResolver = module
+		IModuleNameScope elementResolver = module
 				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
 
 		ElementRefValue refValue = null;
@@ -206,7 +206,7 @@ public class ElementRefPropertyType extends PropertyType
 			ElementDefn targetDefn, PropertyDefn propDefn, DesignElement target )
 			throws PropertyValueException
 	{
-		IModuleNameSpace elementResolver = module
+		IModuleNameScope elementResolver = module
 				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
 		ElementRefValue refValue = elementResolver.resolve( target, propDefn );
 
@@ -273,7 +273,7 @@ public class ElementRefPropertyType extends PropertyType
 		// only in the current root namespace, but also in the included
 		// libraries namespace.
 
-		IModuleNameSpace elementResolver = module
+		IModuleNameScope elementResolver = module
 				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
 
 		String name = ReferenceValueUtil.needTheNamespacePrefix( ref, module );

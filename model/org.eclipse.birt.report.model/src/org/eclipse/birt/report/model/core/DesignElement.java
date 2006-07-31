@@ -886,12 +886,13 @@ public abstract class DesignElement
 
 		DesignElement parent = null;
 		DesignElement cur = this;
-		while ( cur.getContainer( ) != null )
+
+		while ( cur != null )
 		{
-			DesignElement container = cur.getContainer( );
-			if ( container.getExtendsElement( ) != null )
+			DesignElement extendsElement = cur.getExtendsElement( );
+			if ( extendsElement != null )
 			{
-				parent = container.getExtendsElement( );
+				parent = extendsElement;
 				break;
 			}
 
@@ -1084,24 +1085,15 @@ public abstract class DesignElement
 			return getIntrinsicProperty( prop.getName( ) );
 		}
 
-		// Cache an element reference property if necessary.
-
-		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		switch ( prop.getTypeCode( ) )
 		{
-			return resolveElementReference( module, prop );
-		}
-
-		// Cache a structure reference property if necessary.
-
-		if ( prop.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
-		{
-			return resolveStructReference( module, prop );
-		}
-
-		if ( prop.getTypeCode( ) == PropertyType.LIST_TYPE
-				&& prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
-		{
-			return resolveElementReferenceList( module, prop );
+			case PropertyType.ELEMENT_REF_TYPE :
+				return resolveElementReference( module, prop );
+			case PropertyType.STRUCT_REF_TYPE :
+				return resolveStructReference( module, prop );
+			case PropertyType.LIST_TYPE :
+				if ( prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+					return resolveElementReferenceList( module, prop );
 		}
 
 		// Get the value of a non-intrinsic property.

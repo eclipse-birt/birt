@@ -11,9 +11,15 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 
 /**
@@ -274,5 +280,29 @@ public class ResultSetColumn extends Structure
 	public void setNativeDataType( Integer dataType )
 	{
 		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
+	}
+	
+	/**
+	 * Validates this structure. The following are the rules:
+	 * <ul>
+	 * <li>The column name is required.
+	 * </ul>
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 */
+
+	public List validate( Module module, DesignElement element )
+	{
+		List list = super.validate( module, element );
+
+		if ( StringUtil.isBlank( columnName ) )
+		{
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), columnName,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		}
+
+		return list;
 	}
 }

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-
-
 /**
  * Represents the extension element definition based on Model extension point.
  * This class only used for those extension definition from third-party, not the
@@ -28,10 +26,11 @@ package org.eclipse.birt.report.model.metadata;
 
 public abstract class ExtensionElementDefn extends ElementDefn
 {
+
 	/**
 	 * The extension point that this extension definition extended from.
 	 */
-	
+
 	protected String extensionPoint = null;
 
 	/*
@@ -39,7 +38,7 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
 	 */
-	
+
 	protected void build( ) throws MetaDataException
 	{
 		if ( isBuilt )
@@ -51,8 +50,6 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		// we don't repeat the work for any style properties copied below.
 
 		buildProperties( );
-
-		buildStyleProperties( );
 
 		isBuilt = true;
 	}
@@ -73,12 +70,13 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		return false;
 	}
-	
+
 	/**
 	 * Gets the extension point of this extension element.
+	 * 
 	 * @return the extension point of this extension element
 	 */
-	
+
 	public String getExtensionPoint( )
 	{
 		return this.extensionPoint;

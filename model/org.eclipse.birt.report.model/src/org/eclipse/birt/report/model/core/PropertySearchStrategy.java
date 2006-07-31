@@ -68,10 +68,7 @@ public class PropertySearchStrategy
 		{
 			// This is an intrinsic system-defined property.
 
-			Object value = element.getIntrinsicProperty( prop.getName( ) );
-			if ( value != null )
-				return value;
-			return null;
+			return element.getIntrinsicProperty( prop.getName( ) );
 		}
 
 		// Repeat the search up the inheritance or style
@@ -81,20 +78,21 @@ public class PropertySearchStrategy
 		Object value = null;
 		while ( e != null )
 		{
+			PropertySearchStrategy tmpStrategy = e.getStrategy( );
+
 			// Check if this element or parent provides the value
 
-			value = e.getStrategy( ).getPropertyFromElement( module, e, prop );
+			value = tmpStrategy.getPropertyFromElement( module, e, prop );
 			if ( value != null )
 				return value;
 
-			if ( !e.getStrategy( ).isInheritableProperty( e, prop )
-					|| !prop.isStyleProperty( ) || e.isStyle( ) )
+			if ( !prop.isStyleProperty( ) || e.isStyle( )
+					|| !tmpStrategy.isInheritableProperty( e, prop ) )
 				break;
 
 			// for the special case that may relates to the container.
 
-			value = e.getStrategy( ).getPropertyRelatedToContainer( module, e,
-					prop );
+			value = tmpStrategy.getPropertyRelatedToContainer( module, e, prop );
 			if ( value != null )
 				return value;
 

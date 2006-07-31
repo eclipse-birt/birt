@@ -1084,16 +1084,22 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( ref.refType == MemberRef.PROPERTY )
 		{
 			propDefn = ref.getPropDefn( );
+			if ( item.getDefn( ) != propDefn.getStructDefn( ) )
+			{
+				throw new PropertyValueException( element, propDefn, item,
+						PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
+			}
 		}
 		else
 		{
 			propDefn = ref.getMemberDefn( );
-		}
+			if ( item.getDefn( ) != propDefn.getStructDefn( ) )
+			{
+				throw new PropertyValueException( element, ref.getPropDefn( ),
+						propDefn, item,
+						PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
+			}
 
-		if ( item.getDefn( ) != propDefn.getStructDefn( ) )
-		{
-			throw new PropertyValueException( element, propDefn, item,
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 		}
 
 		for ( Iterator iter = item.getDefn( ).propertiesIterator( ); iter

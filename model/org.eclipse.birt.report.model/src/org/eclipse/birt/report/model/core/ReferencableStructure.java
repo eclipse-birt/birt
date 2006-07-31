@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
@@ -198,7 +198,7 @@ public abstract class ReferencableStructure extends Structure
 				// .getLibraryNamespace( ) );
 
 				Library lib = module.getLibraryWithNamespace( libReference
-						.getLibraryNamespace( ), IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
+						.getLibraryNamespace( ), IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
 
 				Module root = lib == null ? module : lib;
 				value = refStruct.getProperty( root, propDefn );

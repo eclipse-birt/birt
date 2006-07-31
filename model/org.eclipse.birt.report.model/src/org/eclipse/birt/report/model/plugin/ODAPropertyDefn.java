@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.plugin;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -69,9 +70,16 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 */
 	public int getTypeCode( )
 	{
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				property.getType( ) );
-		return type == null ? -1 : type.getTypeCode( );
+		PropertyType tmpType = MetaDataDictionary.getInstance( )
+				.getPropertyType( property.getType( ) );
+		if ( tmpType == null )
+			return -1;
+
+		if ( tmpType.getTypeCode( ) == IPropertyType.STRING_TYPE
+				&& !property.allowsEmptyValueAsNull( ) )
+			return IPropertyType.LITERAL_STRING_TYPE;
+
+		return tmpType.getTypeCode( );
 	}
 
 	/*
@@ -202,9 +210,10 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getType()
 	 */
+
 	public PropertyType getType( )
 	{
-		return MetaDataDictionary.getInstance( ).getPropertyType(
-				property.getType( ) );
+		return MetaDataDictionary.getInstance( )
+				.getPropertyType( getTypeCode( ) );
 	}
 }

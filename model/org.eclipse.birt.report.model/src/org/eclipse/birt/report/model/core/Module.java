@@ -47,7 +47,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -192,7 +192,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * module name space.
 	 */
 
-	protected IModuleNameSpace moduleNameSpaces[] = new IModuleNameSpace[NAME_SPACE_COUNT];
+	protected IModuleNameScope moduleNameSpaces[] = new IModuleNameScope[NAME_SPACE_COUNT];
 
 	/**
 	 * Internal table to store a bunch of user-defined messages. One message can
@@ -456,7 +456,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return the module name space for the given name space
 	 */
 
-	public IModuleNameSpace getModuleNameSpace( int nameSpace )
+	public IModuleNameScope getModuleNameSpace( int nameSpace )
 	{
 		assert nameSpace >= 0 && nameSpace < NAME_SPACE_COUNT;
 		return moduleNameSpaces[nameSpace];
@@ -633,7 +633,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.elementIDCounter = 1;
 		module.fatalException = null;
 		module.idMap = new HashMap( );
-		module.moduleNameSpaces = new IModuleNameSpace[NAME_SPACE_COUNT];
+		module.moduleNameSpaces = new IModuleNameScope[NAME_SPACE_COUNT];
 		module.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
 		module.nameManager = new NameManager( module );
 		module.referencableProperties = null;
@@ -1368,7 +1368,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return the resolved element if the name can be resolved, otherwise,
 	 *         return null.
 	 * 
-	 * @see IModuleNameSpace#resolve(String, PropertyDefn)
+	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
 	public DesignElement resolveElement( String elementName, int nameSpace,
@@ -1393,7 +1393,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return the resolved element if the name can be resolved, otherwise,
 	 *         return null.
 	 * 
-	 * @see IModuleNameSpace#resolve(String, PropertyDefn)
+	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
 	public DesignElement resolveElement( DesignElement element, int nameSpace,
@@ -1564,7 +1564,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getAllLibraries( )
 	{
-		return getLibraries( IModuleNameSpace.ARBITARY_LEVEL );
+		return getLibraries( IModuleNameScope.ARBITARY_LEVEL );
 	}
 
 	/**
@@ -1574,19 +1574,19 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the given depth
 	 * @return list of libraries.
 	 * 
-	 * @see IModuleNameSpace
+	 * @see IModuleNameScope
 	 */
 
 	public List getLibraries( int level )
 	{
-		if ( level <= IModuleNameSpace.NATIVE_LEVEL || libraries == null )
+		if ( level <= IModuleNameScope.NATIVE_LEVEL || libraries == null )
 			return Collections.EMPTY_LIST;
 
 		int newLevel = level - 1;
 
 		// if the new level is less than 0, then no need to do the iterator.
 
-		if ( newLevel == IModuleNameSpace.NATIVE_LEVEL )
+		if ( newLevel == IModuleNameScope.NATIVE_LEVEL )
 			return Collections.unmodifiableList( libraries );
 
 		List allLibraries = new ArrayList( libraries );
@@ -1608,7 +1608,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getLibraries( )
 	{
-		return getLibraries( IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
+		return getLibraries( IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
 	}
 
 	/**
@@ -1678,7 +1678,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public Library getLibraryWithNamespace( String namespace )
 	{
 		return getLibraryWithNamespace( namespace,
-				IModuleNameSpace.ARBITARY_LEVEL );
+				IModuleNameScope.ARBITARY_LEVEL );
 	}
 
 	/**
@@ -1691,7 +1691,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the depth of the library
 	 * @return the module with the given namespace
 	 * 
-	 * @see IModuleNameSpace
+	 * @see IModuleNameScope
 	 */
 
 	public Library getLibraryWithNamespace( String namespace, int level )
@@ -2089,7 +2089,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( theme.isResolved( ) )
 			return (Theme) theme.getElement( );
 
-		IModuleNameSpace resolver = module
+		IModuleNameScope resolver = module
 				.getModuleNameSpace( Module.THEME_NAME_SPACE );
 
 		ElementRefValue refValue = resolver.resolve( ReferenceValueUtil
@@ -2266,7 +2266,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// List libraries = rootHost.getAllLibraries( );
 
 		List libraries = rootHost
-				.getLibraries( IModuleNameSpace.ARBITARY_LEVEL );
+				.getLibraries( IModuleNameScope.ARBITARY_LEVEL );
 		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{

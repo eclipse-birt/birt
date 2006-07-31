@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -355,6 +356,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	protected String xmlElement;
 
 	/**
+	 * Cached property definitions. It contains local defined and parents'
+	 * defined property definitions. After parsing ROM, property definition
+	 * should not be added/removed. Otherwise, cachedProperties can be
+	 * un-synchronized.
+	 */
+
+	protected Map cachedProperties = new LinkedHashMap( );
+
+	/**
 	 * Sets the Java class which implements this element.
 	 * 
 	 * @param theClass
@@ -473,18 +483,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public List getProperties( )
 	{
-		ArrayList list = new ArrayList( properties.values( ) );
-
-		// Add parent properties.
-
-		ElementDefn obj = parent;
-		while ( obj != null )
-		{
-			list.addAll( obj.properties.values( ) );
-			obj = obj.parent;
-		}
-
-		return list;
+		return new ArrayList( cachedProperties.values( ) );
 	}
 
 	/**
@@ -499,17 +498,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public IElementPropertyDefn getProperty( String propName )
 	{
 		assert propName != null;
-		ElementDefn e = this;
-		while ( e != null )
-		{
-			ElementPropertyDefn prop = (ElementPropertyDefn) e.properties
-					.get( propName );
-			if ( prop != null )
-				return prop;
-			e = e.parent;
-		}
 
-		return null;
+		return (ElementPropertyDefn) cachedProperties.get( propName );
 	}
 
 	/**
@@ -610,12 +600,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		buildDefn( );
 
-		// Cache data for properties defined here. Note, done here so
-		// we don't repeat the work for any style properties copied below.
-
 		buildProperties( );
-
-		buildStyleProperties( );
 
 		// check if the javaClass is valid for concrete element type
 
@@ -753,7 +738,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * @throws MetaDataException
 	 */
 
-	protected void buildStyleProperties( ) throws MetaDataException
+	private void buildStyleProperties( ) throws MetaDataException
 	{
 		// If this item has a style, copy the relevant style properties onto
 		// this element if it's leaf element or copy all the style properties
@@ -783,6 +768,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				throw new MetaDataException( new String[]{this.name},
 						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS );
 		}
+
 	}
 
 	/**
@@ -935,6 +921,25 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	protected void buildProperties( ) throws MetaDataException
 	{
+		// Cache data for properties defined here. Note, done here so
+		// we don't repeat the work for any style properties copied below.
+
+		buildLocalProperties( );
+
+		buildStyleProperties( );
+
+		buildCachedPropertyDefns( );
+	}
+
+	/**
+	 * Builds cached meta-data for properties defined on this element.
+	 * 
+	 * @throws MetaDataException
+	 *             if any exception occurs during build.
+	 */
+
+	protected void buildLocalProperties( ) throws MetaDataException
+	{
 		boolean isStyle = MetaDataConstants.STYLE_NAME.equals( name );
 		Iterator iter = properties.values( ).iterator( );
 		while ( iter.hasNext( ) )
@@ -954,6 +959,24 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			// Build the property.
 
 			prop.build( );
+		}
+	}
+
+	/**
+	 * Copies local and parent property definitions to the cached map. After
+	 * parsing ROM, property definition should not be added/removed. Otherwise,
+	 * cachedProperties can be un-synchronized.
+	 */
+
+	private void buildCachedPropertyDefns( )
+	{
+		// cached property definitions defined on parents
+
+		ElementDefn tmpDefn = this;
+		while ( tmpDefn != null )
+		{
+			cachedProperties.putAll( tmpDefn.properties );
+			tmpDefn = tmpDefn.parent;
 		}
 	}
 
@@ -985,9 +1008,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			for ( int i = 0; i < styleProperties.size( ); i++ )
 			{
 				PropertyDefn prop = (PropertyDefn) styleProperties.get( i );
-				
-				// special cases for row. PageBreak properties are not supported on TableRow element.
-				
+
+				// special cases for row. PageBreak properties are not supported
+				// on TableRow element.
+
 				if ( ReportDesignConstants.ROW_ELEMENT.equalsIgnoreCase( name ) )
 					if ( IStyleModel.PAGE_BREAK_AFTER_PROP
 							.equalsIgnoreCase( prop.getName( ) )
@@ -1463,7 +1487,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			}
 
 		}
-
+		
 		super.addProperty( property );
 	}
 

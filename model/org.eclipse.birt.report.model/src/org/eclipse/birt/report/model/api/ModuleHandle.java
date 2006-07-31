@@ -54,7 +54,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -1587,7 +1587,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public List getAllStyles( )
 	{
 		List elementList = module.getModuleNameSpace( Module.STYLE_NAME_SPACE )
-				.getElements( IModuleNameSpace.ARBITARY_LEVEL );
+				.getElements( IModuleNameScope.ARBITARY_LEVEL );
 
 		return generateHandleList( elementList );
 	}
@@ -1620,11 +1620,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSources( )
 	{
-		IModuleNameSpace namescope = module
+		IModuleNameScope namescope = module
 				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameSpace.ARBITARY_LEVEL );
+				.getElements( IModuleNameScope.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 
 	}
@@ -1637,11 +1637,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSources( )
 	{
-		IModuleNameSpace namescope = module
+		IModuleNameScope namescope = module
 				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameSpace.NATIVE_LEVEL );
+				.getElements( IModuleNameScope.NATIVE_LEVEL );
 		return generateHandleList( elementList );
 	}
 
@@ -1655,11 +1655,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllDataSets( )
 	{
-		IModuleNameSpace namescope = module
+		IModuleNameScope namescope = module
 				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameSpace.ARBITARY_LEVEL );
+				.getElements( IModuleNameScope.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 	}
 
@@ -1671,11 +1671,11 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getVisibleDataSets( )
 	{
-		IModuleNameSpace namescope = module
+		IModuleNameScope namescope = module
 				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameSpace.NATIVE_LEVEL );
+				.getElements( IModuleNameScope.NATIVE_LEVEL );
 		return generateHandleList( elementList );
 
 	}
@@ -1748,7 +1748,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllLibraries( )
 	{
-		return getLibraries( IModuleNameSpace.ARBITARY_LEVEL );
+		return getLibraries( IModuleNameScope.ARBITARY_LEVEL );
 	}
 
 	/**
@@ -1783,7 +1783,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getLibraries( )
 	{
-		return getLibraries( IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
+		return getLibraries( IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
 	}
 
 	/**
@@ -1797,7 +1797,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public LibraryHandle getLibrary( String namespace )
 	{
 		Module library = module.getLibraryWithNamespace( namespace,
-				IModuleNameSpace.DIRECTLY_INCLUDED_LEVEL );
+				IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
 		if ( library == null )
 			return null;
 
@@ -2275,7 +2275,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		List elementList = module.getModuleNameSpace(
 				Module.TEMPLATE_PARAMETER_NAME_SPACE ).getElements(
-				IModuleNameSpace.NATIVE_LEVEL );
+				IModuleNameScope.NATIVE_LEVEL );
 
 		return generateHandleList( elementList );
 	}

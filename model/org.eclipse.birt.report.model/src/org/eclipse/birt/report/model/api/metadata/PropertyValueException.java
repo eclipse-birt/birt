@@ -34,24 +34,6 @@ public class PropertyValueException extends SemanticException
 	private static final long serialVersionUID = 6453952392044174297L;
 
 	/**
-	 * The invalid value.
-	 */
-
-	protected Object invalidValue = null;
-
-	/**
-	 * The name of the property being set.
-	 */
-
-	protected String propertyName = null;
-
-	/**
-	 * Name of the type of the property.
-	 */
-
-	protected String propertyTypeName = null;
-
-	/**
 	 * Error code constant indicating that the property value is invalid.
 	 */
 
@@ -158,6 +140,30 @@ public class PropertyValueException extends SemanticException
 	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN;
 
 	/**
+	 * The invalid value.
+	 */
+
+	protected Object invalidValue = null;
+
+	/**
+	 * The name of the property being set.
+	 */
+
+	protected String propertyName = null;
+
+	/**
+	 * The name of the member being set.
+	 */
+
+	protected String memberName = null;
+
+	/**
+	 * Name of the type of the property.
+	 */
+
+	protected String propertyTypeName = null;
+
+	/**
 	 * Constructs an exception given an invalid value, error code and the
 	 * property type constants.
 	 * 
@@ -228,6 +234,37 @@ public class PropertyValueException extends SemanticException
 
 		this.invalidValue = value;
 		this.propertyName = propDefn.getName( );
+		this.propertyTypeName = ( (PropertyDefn) propDefn ).getType( )
+				.getName( );
+	}
+
+	/**
+	 * Constructs an exception given the definition of the property, the
+	 * structure member definition, an invalid value and its error code. Using
+	 * this constructor when the definition of the structure member is
+	 * available.
+	 * 
+	 * @param obj
+	 *            design element on which the property was being set
+	 * @param propDefn
+	 *            definition of the property.
+	 * @param memberDefn
+	 *            definition of the structure member
+	 * @param value
+	 *            invalid value of the property.
+	 * @param errCode
+	 *            error code.
+	 */
+
+	public PropertyValueException( DesignElement obj, IPropertyDefn propDefn,
+			IPropertyDefn memberDefn, Object value, String errCode )
+	{
+		super( obj, errCode );
+		assert propDefn != null;
+
+		this.invalidValue = value;
+		this.propertyName = propDefn.getName( );
+		this.memberName = memberDefn.getName( );
 		this.propertyTypeName = ( (PropertyDefn) propDefn ).getType( )
 				.getName( );
 	}
@@ -335,10 +372,16 @@ public class PropertyValueException extends SemanticException
 		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_ITEM_TYPE )
 		{
 			PropertyDefn propDefn = element.getPropertyDefn( propertyName );
+			
+			if ( memberName != null )
+			{
+				propDefn = (PropertyDefn) propDefn.getStructDefn( ).getMember(
+						memberName );
+			}
 
+			assert invalidValue instanceof IStructure;
 			assert propDefn != null;
 			assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
-			assert invalidValue instanceof IStructure;
 
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					( (IStructure) invalidValue ).getStructName( ),

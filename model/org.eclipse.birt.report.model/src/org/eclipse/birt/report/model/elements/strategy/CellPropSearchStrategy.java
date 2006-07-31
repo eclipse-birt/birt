@@ -76,12 +76,13 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 
 			// check property values on the columns.
 
-			if ( e.getContainer( ) instanceof TableItem
-					|| e.getContainer( ) instanceof GridItem )
-				return getColumnProperty( module, e.getContainer( ),
-						(Cell) cell, prop );
+			DesignElement tmpContainer = e.getContainer( );
+			if ( tmpContainer instanceof TableItem
+					|| tmpContainer instanceof GridItem )
+				return getColumnProperty( module, tmpContainer, (Cell) cell,
+						prop );
 
-			e = e.getContainer( );
+			e = tmpContainer;
 		}
 
 		return super.getPropertyRelatedToContainer( module, cell, prop );
@@ -112,8 +113,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 			TableItem table = (TableItem) container;
 			value = getPropertyFromColumn( module, table, cell, prop );
 		}
-
-		if ( container instanceof GridItem )
+		else if ( container instanceof GridItem )
 		{
 			GridItem grid = (GridItem) container;
 			value = getPropertyFromColumn( module, grid, cell, prop );
