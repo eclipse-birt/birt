@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -117,6 +118,25 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 	protected boolean validateType( Object transfer )
 	{
 		Object[] objects = (Object[]) transfer;
+		if ( objects.length <= 0 )
+		{
+			return false;
+		}
+
+		// Theme can be draged when only one is selected. Fix bug #151953
+		if ( objects[0] instanceof ThemeHandle )
+		{
+			if ( objects.length == 1 )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		// Drag the elements if selected ones are the same type.
 		Class type = null;
 		for ( int i = 0; i < objects.length; i++ )
 		{

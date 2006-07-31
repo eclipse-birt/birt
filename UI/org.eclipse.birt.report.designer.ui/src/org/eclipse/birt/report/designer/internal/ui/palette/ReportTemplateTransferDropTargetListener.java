@@ -144,18 +144,16 @@ public class ReportTemplateTransferDropTargetListener extends
 					return;
 				}
 			}
-			boolean isTheme = false;
-			if ( preHandle instanceof LibraryElementsToolHandleExtends
-					&& template instanceof Object[] )
+			boolean isTheme = checkTheme( preHandle,
+					(DesignElementHandle) getSingleTransferData( template ) );
+			if ( isTheme )
 			{
-				Object[] objs = (Object[]) template;
-				if ( objs.length == 1 && objs[0] instanceof ThemeHandle )
-				{
-					isTheme = true;
-				}
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getCommandStack( )
+						.commit( );
 			}
-
-			if ( isTheme == false )
+			else
 			{
 				super.handleDrop( );
 
@@ -168,18 +166,26 @@ public class ReportTemplateTransferDropTargetListener extends
 							.rollback( );
 					return;
 				}
-			}
 
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getCommandStack( )
-					.commit( );
-			if ( isTheme == false )
-			{
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getCommandStack( )
+						.commit( );
+
 				selectAddedObject( );
 			}
 		}
 
+	}
+
+	private boolean checkTheme( AbstractToolHandleExtends preHandle, Object obj )
+	{
+		if ( preHandle instanceof LibraryElementsToolHandleExtends
+				&& obj instanceof ThemeHandle )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
