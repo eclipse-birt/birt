@@ -59,9 +59,10 @@ public class ReportEngineTest extends EngineCase {
 
 	/**
 	 *Test openReportDesign(string) 
+	 * @throws EngineException 
 	 *
 	 */
-	public void testOpenReportDesign(){
+	public void testOpenReportDesign() throws EngineException{
 		EngineConfig config=new EngineConfig();
 		IReportRunnable reportRunner;
 		config.setTempDir("tempdir");
@@ -76,10 +77,14 @@ public class ReportEngineTest extends EngineCase {
 		
 		try{
 			reportRunner=engine.openReportDesign(designName);
-			assertEquals("openReportDesign(String) fail",designName, reportRunner.getReportName());
+			designName="file:" + designName;
+		    designName=designName.replace( '/', '\\' );	
+		    String reportName=reportRunner.getReportName().replace( '/', '\\');
+			assertEquals("openReportDesign(String) fail",designName, reportName);
 			assertNotNull("openReportDesign(String) fail",reportRunner.getImage("23.gif"));
 		}catch(EngineException ee){
 			ee.printStackTrace();
+			fail("openReportDesign(String) fail");
 		}
 		engine.destroy();
 		
