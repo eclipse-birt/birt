@@ -145,7 +145,7 @@ public class ReportTemplateTransferDropTargetListener extends
 				}
 			}
 			boolean isTheme = checkTheme( preHandle,
-					(DesignElementHandle) getSingleTransferData( template ) );
+					getSingleTransferData( template ) );
 			if ( isTheme )
 			{
 				SessionHandleAdapter.getInstance( )
