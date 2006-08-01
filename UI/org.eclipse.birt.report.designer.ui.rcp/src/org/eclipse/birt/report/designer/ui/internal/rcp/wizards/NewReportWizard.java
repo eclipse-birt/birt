@@ -189,9 +189,8 @@ public class NewReportWizard extends Wizard implements
 		InputStream inputData = null;
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
-
 		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).getReportPath( ) ) );
+				new Path( templateChoicePage.getTemplate( ).getReportFullName( )));
 		if ( url != null )
 		{
 			try
@@ -206,7 +205,7 @@ public class NewReportWizard extends Wizard implements
 		else
 		{
 			File file = new File( templateChoicePage.getTemplate( )
-					.getReportPath( ) );
+					.getReportFullName( ) );
 			if ( file.exists( ) )
 			{
 				try
