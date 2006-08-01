@@ -43,7 +43,7 @@
 					<LABEL FOR="availableColumnSelect"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.availablecolumn" )%></LABEL>
 				</TD></TR>
 				<TR><TD>
-					<SELECT ID="availableColumnSelect" SIZE="10" CLASS="birtviewer_exportdata_dialog_select">
+					<SELECT ID="availableColumnSelect" MULTIPLE="true" SIZE="10" CLASS="birtviewer_exportdata_dialog_select">
 					</SELECT>
 				</TD></TR>
 			</TABLE>
@@ -89,7 +89,7 @@
 					<LABEL FOR="selectedColumnSelect"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.selectedcolumn" )%></LABEL>
 				</TD></TR>
 				<TR><TD>
-					<SELECT ID="selectedColumnSelect" SIZE="10" CLASS="birtviewer_exportdata_dialog_select">
+					<SELECT ID="selectedColumnSelect" MULTIPLE="true" SIZE="10" CLASS="birtviewer_exportdata_dialog_select">
 					</SELECT>
 				</TD></TR>
 			</TABLE>

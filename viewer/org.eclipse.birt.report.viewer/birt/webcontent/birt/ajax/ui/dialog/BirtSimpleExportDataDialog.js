@@ -34,6 +34,8 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		// Closures
 		this.__neh_switchResultSet_closure = this.__neh_switchResultSet.bindAsEventListener( this );
 		this.__neh_click_exchange_closure = this.__neh_click_exchange.bindAsEventListener( this );
+		this.__neh_dblclick_src_closure = this.__neh_dblclick_src.bindAsEventListener( this );
+		this.__neh_dblclick_dest_closure = this.__neh_dblclick_dest.bindAsEventListener( this );
 		
 		this.__installEventHandlers( id );
 	},
@@ -49,11 +51,19 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var oSelects = this.__instance.getElementsByTagName( 'select' );
 		Event.observe( oSelects[0], 'change', this.__neh_switchResultSet_closure, false );
 		
-		// Initialise exchange buttons
+		// Initialize exchange buttons
 		var oInputs = this.__instance.getElementsByTagName( 'input' );
 		for ( var i = 0; i < oInputs.length ; i++ )
 		{
 			Event.observe( oInputs[i], 'click', this.__neh_click_exchange_closure, false );
+		}
+		
+		// Initialize exchange selects
+		var oSelects = this.__instance.getElementsByTagName( 'select' );
+		if( oSelects.length > 2 )
+		{
+			Event.observe( oSelects[1], 'dblclick', this.__neh_dblclick_src_closure, false );
+			Event.observe( oSelects[2], 'dblclick', this.__neh_dblclick_dest_closure, false );
 		}
 	},
 	
@@ -103,7 +113,37 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		
 		this.__updateButtons( );
 	},
-	
+
+	/**
+	 *	Native event handler for double click source select element.
+	 */
+	__neh_dblclick_src : function( event )
+	{
+		var oSelects = this.__instance.getElementsByTagName( 'select' );
+		
+		if ( oSelects[1].options.length  > 0 )
+		{
+			this.moveSingleItem( oSelects[1], oSelects[2] );
+		}
+		
+		this.__updateButtons( );
+	},
+
+	/**
+	 *	Native event handler for double click dest select element.
+	 */
+	__neh_dblclick_dest : function( event )
+	{
+		var oSelects = this.__instance.getElementsByTagName( 'select' );
+		
+		if ( oSelects[2].options.length  > 0 )
+		{
+			this.moveSingleItem( oSelects[2], oSelects[1] );
+		}
+		
+		this.__updateButtons( );
+	},
+		
 	/**
 	 *	Update button status.
 	 */
@@ -141,15 +181,18 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			return;
 		}
 		
-     	var SelectedText = sel_source.options[sel_source.selectedIndex].text;
-     	var SelectedValue = sel_source.options[sel_source.selectedIndex].value;
-   		var newOption = new Option( SelectedText );
-		newOption.value = SelectedValue;
-   		sel_dest.options.add( newOption );
-		sel_dest.selectedIndex = sel_dest.options.length - 1;
-   		
-   		sel_source.options[sel_source.selectedIndex] = null;
-   		sel_source.selectedIndex = 0;
+		for ( var i=0; i<sel_source.options.length; i++ )
+		{
+			if ( sel_source.options[i].selected )
+			{
+				var selectedItem = sel_source.options[i];
+				sel_dest.options.add( new Option( selectedItem.text, selectedItem.value ) );
+				sel_source.remove( i );
+				i = i - 1;
+			}							
+		}
+		
+		sel_source.selectedIndex = 0;
 	},
 	
 	/**
