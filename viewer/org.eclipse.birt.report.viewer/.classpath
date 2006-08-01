@@ -2,12 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry output="birt/WEB-INF/classes" kind="src" path="birt/WEB-INF/classes"/>
-	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="birt/WEB-INF/lib/axis.jar"/>
 	<classpathentry kind="lib" path="birt/WEB-INF/lib/jaxrpc.jar"/>
 	<classpathentry kind="lib" path="birt/WEB-INF/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="E:/httpunit-1.6.2/httpunit-1.6.2/lib/httpunit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
