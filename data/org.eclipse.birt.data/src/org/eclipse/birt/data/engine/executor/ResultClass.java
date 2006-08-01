@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 public class ResultClass implements IResultClass
 {
 	private ResultFieldMetadata[] projectedCols;
+	private int m_fieldCount;
 	private HashMap nameToIdMapping;
 	private String[] fieldNames;
 	private int[] fieldDriverPositions;
@@ -49,7 +50,8 @@ public class ResultClass implements IResultClass
 	 */
 	private void initColumnsInfo( List projectedColumns )
 	{
-		projectedCols = new ResultFieldMetadata[projectedColumns.size( )];
+		m_fieldCount = projectedColumns.size( );
+		projectedCols = new ResultFieldMetadata[m_fieldCount];
 		nameToIdMapping = new HashMap( );
 
 		for ( int i = 0, n = projectedColumns.size( ); i < n; i++ )
@@ -157,7 +159,7 @@ public class ResultClass implements IResultClass
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		
-		int size = projectedCols.length;
+		int size = m_fieldCount;
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
@@ -191,7 +193,7 @@ public class ResultClass implements IResultClass
 	
 	public int getFieldCount()
 	{
-		return projectedCols.length;
+		return m_fieldCount;
 	}
 
 	// returns the field names in the projected order
@@ -205,7 +207,7 @@ public class ResultClass implements IResultClass
 	{
 		if( fieldNames == null )
 		{
-			int size = projectedCols.length;
+			int size = m_fieldCount;
 			fieldNames = new String[ size ];
 			for( int i = 0; i < size; i++ )
 			{
@@ -220,7 +222,7 @@ public class ResultClass implements IResultClass
 	{
 		if( fieldDriverPositions == null )
 		{
-			int size = projectedCols.length;
+			int size = m_fieldCount;
 			fieldDriverPositions = new int[ size ];
 			for( int i = 0; i < size; i++ )
 			{

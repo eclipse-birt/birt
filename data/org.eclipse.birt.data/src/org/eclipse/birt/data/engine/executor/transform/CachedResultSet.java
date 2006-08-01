@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
@@ -241,20 +240,14 @@ public class CachedResultSet implements IResultIterator
 
 		resultSetPopulator = null;
 	}
-
-	private void checkStarted( ) throws DataException
-	{
-		if ( this.resultSetPopulator == null
-				|| this.resultSetPopulator.getCache( ) == null )
-			throw new DataException( ResourceConstants.NO_CURRENT_ROW );
-	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResult()
 	 */
 	public IResultObject getCurrentResult( ) throws DataException
 	{
-		checkStarted( );
+		assert this.resultSetPopulator != null
+				&& this.resultSetPopulator.getCache( ) != null;
 		return this.resultSetPopulator.getCache( ).getCurrentResult( );
 	}
 
@@ -266,7 +259,8 @@ public class CachedResultSet implements IResultIterator
 	public boolean next( ) throws DataException
 	{
 		// Make sure that the result set has been opened.
-		checkStarted( );
+		assert this.resultSetPopulator != null
+				&& this.resultSetPopulator.getCache( ) != null;
 		boolean hasNext = this.resultSetPopulator.getCache( ).next( );
 
 		this.resultSetPopulator.getGroupProcessorManager( )
@@ -326,7 +320,8 @@ public class CachedResultSet implements IResultIterator
 	 */
 	public int getCurrentResultIndex( ) throws DataException
 	{
-		checkStarted( );
+		assert this.resultSetPopulator != null
+				&& this.resultSetPopulator.getCache( ) != null;
 		return this.resultSetPopulator.getCache( ).getCurrentIndex( );
 	}
 

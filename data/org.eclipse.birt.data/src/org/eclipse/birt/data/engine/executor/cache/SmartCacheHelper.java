@@ -273,9 +273,12 @@ class SmartCacheHelper
 			{
 				// Populate Data according to the given meta data.
 				Object[] obs = new Object[rsMeta.getFieldCount( )];
-				for ( int i = 1; i <= rsMeta.getFieldCount( ); i++ )
+				//the followed variable is for performance
+				int odaObjectFieldCount = odaObject.getResultClass( ).getFieldCount( );
+				int metaFieldCount = rsMeta.getFieldCount( );
+				for ( int i = 1; i <= metaFieldCount; i++ )
 				{
-					if ( i <= odaObject.getResultClass( ).getFieldCount( ) )
+					if ( i <= odaObjectFieldCount )
 						obs[i - 1] = odaObject.getFieldValue( i );
 					else
 						obs[i - 1] = null;

@@ -156,7 +156,6 @@ public class ResultObject implements IResultObject
 	 */
 	public Object getFieldValue( int fieldIndex ) throws DataException
 	{
-		validateFieldIndex( fieldIndex );
 		return fields[fieldIndex - 1];
 	}
 
@@ -189,12 +188,12 @@ public class ResultObject implements IResultObject
 	 * @param index
 	 * @throws DataException
 	 */
-	private void validateFieldIndex( int index ) throws DataException
-	{
-		if ( index < 1 || index > fields.length )
-			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX,
-					new Integer( index ) );
-	}
+//	private void validateFieldIndex( int index ) throws DataException
+//	{
+//		if ( index < 1 || index > fields.length )
+//			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX,
+//					new Integer( index ) );
+//	}
 	
 	/*
 	 * To help with debugging and tracing

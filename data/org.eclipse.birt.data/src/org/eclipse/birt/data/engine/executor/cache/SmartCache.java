@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.io.OutputStream;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -110,7 +109,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public int getCount( ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		return resultSetCache.getCount( );
 	}
@@ -120,7 +119,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public int getCurrentIndex( ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		return resultSetCache.getCurrentIndex( );
 	}
@@ -130,7 +129,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public IResultObject getCurrentResult( ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		return resultSetCache.getCurrentResult( );
 	}
@@ -140,7 +139,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public boolean next( ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		return resultSetCache.next( );
 	}
@@ -150,7 +149,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public IResultObject fetch( ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		return resultSetCache.fetch( );
 	}
@@ -160,7 +159,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public void moveTo( int destIndex ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		resultSetCache.moveTo( destIndex );
 	}
@@ -170,7 +169,7 @@ public class SmartCache implements ResultSetCache
 	 */
 	public void reset( ) throws DataException
 	{
-		checkOpenStates( );
+		assert isOpen;
 		
 		resultSetCache.reset( );
 	}
@@ -186,15 +185,6 @@ public class SmartCache implements ResultSetCache
 		resultSetCache.close( );
 		resultSetCache = null;
 		isOpen = false;
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private void checkOpenStates( ) throws DataException
-	{
-		if ( isOpen == false )
-			throw new DataException( ResourceConstants.RESULT_CLOSED );
 	}
 	
 	/*

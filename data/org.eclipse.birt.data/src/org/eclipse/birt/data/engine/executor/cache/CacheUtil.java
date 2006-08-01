@@ -365,7 +365,7 @@ public class CacheUtil
 		boolean[] ascending = new boolean[fieldCount];
 		for ( int i = 0; i < fieldCount; i++ )
 		{
-			sortKeyIndexs[i] = i;
+			sortKeyIndexs[i] = i + 1; // 1-based
 			ascending[i] = true;
 		}
 
