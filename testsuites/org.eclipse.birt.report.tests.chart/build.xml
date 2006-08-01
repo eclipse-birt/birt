@@ -22,8 +22,10 @@
 	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
 
+	<property name="module.name" value="org.eclipse.birt.report.tests.chart" />
 	<property name="utest.report.dir" location="utestreports" />
 
+	<property name="tests.core.dir" location="../org.eclipse.birt.tests.core" />
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="data.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="data.oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
@@ -48,6 +50,8 @@
 			<include name="lib/*.jar" />
 		</fileset>
 
+		<pathelement path="${tests.core.dir}/bin" />
+
 		<fileset dir="..">
 			<include name="org.eclipse.birt.chart.reportitem/reportitem.jar" />
 			<include name="org.eclipse.birt.chart.device.extension/*.jar" />
@@ -61,10 +65,10 @@
 			<include name="com.ibm.icu_*.jar" />
 			<include name="org.eclipse.emf*.jar" />
 			<include name="org.eclipse.swt*.jar" />
+			<include name="org.junit_*/*.jar" />
 			<include name="org.eclipse.core.runtime*.jar" />
-			<include name="org.eclipse.osgi_*/*.jar"/>
-			<include name="org.eclipse.osgi*.jar"/>
-
+			<include name="org.eclipse.osgi*.jar" />
+			<include name="org.eclipse.osgi_*/*.jar" />
 		</fileset>
 	</path>
 
@@ -88,18 +92,26 @@
 	</target>
 
 	<target name="UnitTest">
-		<java fork="true" classname="org.eclipse.birt.report.tests.chart.AllTests">
-			<jvmarg value="-DSTANDALONE" />
-
-			<classpath refid="class.path" />
-		</java>
+		<delete dir="${utest.report.dir}" />
+		<mkdir dir="${utest.report.dir}" />
+		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="UnitTest" inheritAll="false" inheritRefs="false">
+			<property name="dir.utest" value="utest" />
+			<property name="module.name" value="${module.name}" />
+			<property name="utest.report.dir" value="${utest.report.dir}" />
+			<property name="classname" value="org.eclipse.birt.report.tests.chart.AllTests" />
+		</ant>
 	</target>
 
 	<target name="Report">
-		<copy todir="${utest.report.dir}/acceptance" failonerror="false">
-			<fileset dir="acceptance" />
-		</copy>
+		<junitreport todir="${utest.report.dir}">
+			<fileset dir="${utest.report.dir}">
+				<include name="*.xml" />
+				<exclude name="*TestSuites.xml" />
+			</fileset>
+			<report format="noframes" todir="${utest.report.dir}/" />
+		</junitreport>
 	</target>
+
 
 	<!-- Clean the build environment -->
 	<target name="Clean">
@@ -121,7 +133,7 @@
 			<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${model.dir}" level="info" />
-		
+
 		<echo message="start call Jar task in ${chart.engine.extension.dir}" level="info" />
 		<ant dir="${chart.engine.extension.dir}" antfile="BuildChartEngineExtension.xml" target="Jar" inheritall="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
@@ -133,6 +145,10 @@
 			<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${chart.device.extension.dir}" level="info" />
+
+		<echo message="start building tests.core" />
+		<ant dir="${tests.core.dir}" target="compileTest" antfile="build.xml" inheritAll="false" inheritrefs="false" />
+		<echo message="end building tests.core" />
 	</target>
 
 
