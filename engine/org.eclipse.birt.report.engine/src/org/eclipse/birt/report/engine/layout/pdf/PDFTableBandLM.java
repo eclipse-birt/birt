@@ -76,6 +76,16 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		}
 
 	}
+	
+	protected boolean checkAvailableSpace( )
+	{
+		boolean availableSpace = super.checkAvailableSpace( );
+		if(availableSpace && tbl != null)
+		{
+			tbl.setTableCloseStateAsForced( );
+		}
+		return availableSpace;
+	}
 
 	protected boolean traverseChildren( )
 	{

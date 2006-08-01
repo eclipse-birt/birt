@@ -11,6 +11,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
@@ -42,6 +43,37 @@ public class PDFTableGroupLM extends PDFGroupLM
 		if ( !childBreak )
 		{
 			tableLM.endGroup( (IGroupContent) content );
+		}
+		return childBreak;
+	}
+	
+	protected boolean checkAvailableSpace( )
+	{
+		boolean availableSpace = super.checkAvailableSpace( );
+		if(availableSpace && tableLM != null)
+		{
+			tableLM.setTableCloseStateAsForced( );
+		}
+		return availableSpace;
+	}
+	
+	public boolean layout()
+	{
+		boolean childBreak = super.layout( );
+		if ( childBreak )
+		{
+			IPDFTableLayoutManager itsTableLM = getTableLayoutManager( );
+			if ( itsTableLM != null )
+			{
+				if ( !isFinished( ) && needPageBreakBefore( ) )
+				{
+					itsTableLM.setTableCloseStateAsForced( );
+				}
+				else if ( isFinished( ) && needPageBreakAfter( ) )
+				{
+					itsTableLM.setTableCloseStateAsForced( );
+				}
+			}
 		}
 		return childBreak;
 	}

@@ -1,4 +1,4 @@
-/***********************************************************************
+/*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -6,8 +6,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
@@ -104,6 +104,16 @@ public class PDFTableLM extends PDFBlockStackingLM
 	protected ITableBandContent currentBand = null;
 
 	protected int repeatRowCount = 0;
+	
+	protected boolean tablepaginated = false;
+	
+	protected ITableCloseState pageBreakState;
+	
+	protected final ITableCloseState FORCED_PAGE_BREAK_STATE = new ForcedPageBreakState();
+	
+	protected final ITableCloseState AUTO_PAGE_BREAK_STATE = new AutoPageBreakState();
+	
+	protected final ITableCloseState TABLE_TERMINATED_STATE = new TableTerminatedState();
 
 	protected Stack groupStack = new Stack( );
 
@@ -117,6 +127,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		columnNumber = tableContent.getColumnCount( );
 		lastRowContent = new CellWrapper[columnNumber];
 		currentRowContent = new CellWrapper[columnNumber];
+		pageBreakState = AUTO_PAGE_BREAK_STATE;
 	}
 
 	public int getRepeatCount( )
@@ -239,7 +250,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 				dropCell.cell.setHeight(dropCell.cell.getHeight( ) + maxHeight - left);
 				dropCell.leftHeight = 0;
 			}
-				
 		}
 		if(maxHeight>0)
 		{
@@ -398,12 +408,13 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	}
 
-	protected void closeLayout( )
+	private void closeLayout( IBottomBorderResolverStrategy bbr )
 	{
  		if ( root.getChildrenCount( ) == 0 )
 		{
 			return;
 		}
+ 		
  		ArrayList lastDropCells = new ArrayList();
  		Iterator it = dropList.iterator( );
  		while ( it.hasNext( ) )
@@ -414,13 +425,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 					+ dropCell.cell.getColSpan(); columnID++)
 				lastDropCells.add(new Integer(columnID));
 		}
-		if ( !isLast )
-		{
-			updateAllUnresolvedCellArea(lastDropCells);
-			root.setHeight( getCurrentBP( ) + getOffsetY( ) );
-			return;
-		}
-
+ 		
 		// resolve bottom border for last row of this table
 		ArrayList list = this.dropList;
 		int bottomMaxBorder = 0;
@@ -428,7 +433,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			DropCellInfo cell = (DropCellInfo) list.get( i );
-			bottomMaxBorder = Math.max( resolveBottomBorder( cell.cell ),
+			bottomMaxBorder = Math.max( bbr.resolveBottomBorder( cell.cell ),
 					bottomMaxBorder );
 			changed.add( cell.cell );
 		}
@@ -443,7 +448,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				CellArea cell = (CellArea) iter.next( );
 				if ( !changed.contains( cell ) )
 				{
-					bottomMaxBorder = Math.max( resolveBottomBorder( cell ),
+					bottomMaxBorder = Math.max( bbr.resolveBottomBorder( cell ),
 							bottomMaxBorder );
 					changed.add( cell );
 				}
@@ -461,34 +466,133 @@ public class PDFTableLM extends PDFBlockStackingLM
 			// update height of last row
 			if ( lastRowArea != null )
 			{
-				lastRowArea.setHeight( lastRowArea.getHeight( )
-						+ bottomMaxBorder );
+				lastRowArea.setHeight( lastRowArea.getHeight( ) );
 			}
 
 		}
 		// update dimension of table area
-		root.setHeight( getCurrentBP( ) + getOffsetY( ) + bottomMaxBorder );
-
-		// add left area to parent
-		// root.align();
+		root.setHeight( getCurrentBP( ) + getOffsetY( ));
 
 	}
-
-	private int resolveBottomBorder( CellArea cell )
+	
+	public class ForcedPageBreakState
+			implements
+				IPDFTableLayoutManager.ITableCloseState
 	{
-		IStyle tableStyle = tableContent.getComputedStyle( );
-		IStyle rowStyle = ( lastRow == null ? null : lastRowArea.getContent( )
-				.getComputedStyle( ) );
-		IStyle columnStyle = getColumnStyle( cell.getColumnID( ) );
-		IStyle cellContentStyle = cell.getContent( ).getComputedStyle( );
-		IStyle cellAreaStyle = cell.getStyle( );
-		bcr.resolveTableBottomBorder( tableStyle, rowStyle, columnStyle,
-				cellContentStyle, cellAreaStyle );
-		int borderWidth = PropertyUtil.getDimensionValue( cellAreaStyle
-				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-		return borderWidth;
+
+		public void closeLayout( )
+		{
+			PDFTableLM.this.closeForcedPageBreak( );
+		}
 	}
 
+	public class AutoPageBreakState
+			implements
+				IPDFTableLayoutManager.ITableCloseState
+	{
+
+		public void closeLayout( )
+		{
+			PDFTableLM.this.closeAutoPageBreak( );
+		}
+	}
+
+	public class TableTerminatedState
+			implements
+				IPDFTableLayoutManager.ITableCloseState
+	{
+
+		public void closeLayout( )
+		{
+			PDFTableLM.this.closeTableLayout( );
+		}
+	}
+
+	protected void changeTableCloseState( ITableCloseState tableCloseState )
+	{
+		pageBreakState = tableCloseState;
+	}
+
+	public void setTableCloseStateAsForced( )
+	{
+		changeTableCloseState( FORCED_PAGE_BREAK_STATE );
+	}
+
+	public void setTableCloseStateAsAuto( )
+	{
+		changeTableCloseState( AUTO_PAGE_BREAK_STATE );
+	}
+
+	public void setTableCloseStateAsTerminated( )
+	{
+		changeTableCloseState( TABLE_TERMINATED_STATE );
+	}
+
+	protected void closeLayout( )
+	{
+		if ( isLast )
+			changeTableCloseState( TABLE_TERMINATED_STATE );
+		pageBreakState.closeLayout( );
+		changeTableCloseState( AUTO_PAGE_BREAK_STATE );
+	}
+
+	interface IBottomBorderResolverStrategy
+	{
+		int resolveBottomBorder( CellArea cell );
+	}
+
+	protected void closeTableLayout( )
+	{
+		closeLayout( new IBottomBorderResolverStrategy( ) {
+
+			public int resolveBottomBorder( CellArea cell )
+			{
+				IStyle tableStyle = tableContent.getComputedStyle( );
+				IStyle rowStyle = ( lastRow == null ? null : lastRowArea
+						.getContent( ).getComputedStyle( ) );
+				IStyle columnStyle = getColumnStyle( cell.getColumnID( ) );
+				IStyle cellContentStyle = cell.getContent( ).getComputedStyle( );
+				IStyle cellAreaStyle = cell.getStyle( );
+				bcr.resolveTableBottomBorder( tableStyle, rowStyle,
+						columnStyle, cellContentStyle, cellAreaStyle );
+				return PropertyUtil
+						.getDimensionValue( cellAreaStyle
+								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+			}
+		} );
+	}
+
+	protected void closeForcedPageBreak( )
+	{
+		closeLayout( new IBottomBorderResolverStrategy( ) {
+
+			public int resolveBottomBorder( CellArea cell )
+			{
+				IStyle rowStyle = ( lastRow == null ? null : lastRowArea
+						.getContent( ).getComputedStyle( ) );
+				IStyle cellContentStyle = cell.getContent( ).getComputedStyle( );
+				IStyle cellAreaStyle = cell.getStyle( );
+				bcr.resolvePagenatedTableBottomBorder( rowStyle,
+						cellContentStyle, cellAreaStyle );
+				return PropertyUtil
+						.getDimensionValue( cellAreaStyle
+								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+			}
+		} );
+		tablepaginated = true;
+	}
+
+	protected void closeAutoPageBreak( )
+	{
+		closeLayout( new IBottomBorderResolverStrategy( ) {
+
+			public int resolveBottomBorder( CellArea cell )
+			{
+				return 0;
+			}
+		} );
+	}
+	
 	public int getColumnNumber( )
 	{
 		return columnNumber;
@@ -537,8 +641,17 @@ public class PDFTableLM extends PDFBlockStackingLM
 		if ( rowID == 0 )
 		{
 			// resolve top border
-			bcr.resolveTableTopBorder( tableStyle, rowStyle, columnStyle,
+			if ( tablepaginated )
+			{
+				bcr.resolvePagenatedTableTopBorder( rowStyle, cellContentStyle,
+						cellAreaStyle );
+				tablepaginated = false;
+			}
+			else
+			{
+				bcr.resolveTableTopBorder( tableStyle, rowStyle, columnStyle,
 					cellContentStyle, cellAreaStyle );
+			}
 
 			// resolve left border
 			if ( columnID == 0 )
@@ -563,23 +676,20 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 		else
 		{
-			// resolve top border
-			/*
-			 * if(columnID>0 && isSameCell(rowID-1, columnID-1,rowID-1,
-			 * columnID)) { // column span if(leftCellAreaStyle!=null) {
-			 * cellAreaStyle.setProperty(IStyle.STYLE_BORDER_TOP_STYLE,
-			 * leftCellAreaStyle.getProperty(IStyle.STYLE_BORDER_TOP_STYLE));
-			 * cellAreaStyle.setProperty(IStyle.STYLE_BORDER_TOP_WIDTH,
-			 * leftCellAreaStyle.getProperty(IStyle.STYLE_BORDER_TOP_WIDTH));
-			 * cellAreaStyle.setProperty(IStyle.STYLE_BORDER_TOP_COLOR,
-			 * leftCellAreaStyle.getProperty(IStyle.STYLE_BORDER_TOP_COLOR)); } }
-			 * else { bcr.resolveCellTopBorder( preRowStyle, rowStyle,
-			 * topCellStyle, cellContentStyle, cellAreaStyle ); }
-			 */
+			//resolve group top border
+			if ( tablepaginated )
+			{
+				bcr.resolvePagenatedTableTopBorder( rowStyle, cellContentStyle,
+						cellAreaStyle );
+				tablepaginated = false;
+			}
 
 			// resolve top border
-			bcr.resolveCellTopBorder( preRowStyle, rowStyle, topCellStyle,
-					cellContentStyle, cellAreaStyle );
+			else
+			{
+				bcr.resolveCellTopBorder( preRowStyle, rowStyle, topCellStyle,
+						cellContentStyle, cellAreaStyle );
+			}
 			// resolve left border
 			if ( columnID == 0 )
 			{
@@ -589,21 +699,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 			}
 			else
 			{
-				/*
-				 * // not the first column // resolve row span conflict
-				 * if(isSameCell(rowID-1, columnID-1, rowID, columnID-1)) {
-				 * IStyle topStyle = getCellAreaStyle(rowID-1, columnID);
-				 * if(topStyle!=null) {
-				 * cellAreaStyle.setProperty(IStyle.STYLE_BORDER_LEFT_STYLE,
-				 * topStyle.getProperty(IStyle.STYLE_BORDER_LEFT_STYLE));
-				 * cellAreaStyle.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH,
-				 * topStyle.getProperty(IStyle.STYLE_BORDER_LEFT_WIDTH));
-				 * cellAreaStyle.setProperty(IStyle.STYLE_BORDER_LEFT_COLOR,
-				 * topStyle.getProperty(IStyle.STYLE_BORDER_LEFT_COLOR)); } }
-				 * else { // without row span bcr.resolveCellLeftBorder(
-				 * preColumnStyle, columnStyle, leftCellContentStyle,
-				 * cellContentStyle, cellAreaStyle ); }
-				 */
 				// TODO fix row span conflict
 				bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
 						leftCellContentStyle, cellContentStyle, cellAreaStyle );
@@ -788,41 +883,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void updateAllUnresolvedCellArea(ArrayList lastDropCells )
 	{
-		/*int maxHeight = 0;
-		Iterator iter = dropList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			DropCellInfo dropCell = (DropCellInfo) iter.next( );
-			maxHeight = Math.max( maxHeight, dropCell.leftHeight );
-		}
-		if(maxHeight>0)
-		{
-			if(lastRowArea!=null)
-			{
-				lastRowArea.setHeight( lastRowArea.getHeight( ) + maxHeight );
-				Iterator rowIter = lastRowArea.getChildren( );
-				while(rowIter.hasNext( ))
-				{
-					CellArea cell = (CellArea)rowIter.next( );
-					
-					cell.setHeight( cell.getHeight( ) + maxHeight );
-					
-						
-				}
-			}
-			currentBP += maxHeight;
-		}
-		Iterator removedIter = dropList.iterator( );
-		while(removedIter.hasNext( ))
-		{
-			DropCellInfo cell = (DropCellInfo)removedIter.next( );
-			if(maxHeight>0)
-			{
-				cell.cell.setHeight( cell.cell.getHeight( ) + maxHeight - cell.leftHeight );
-			}
-			this.verticalAlign( cell.cell );
-			removedIter.remove( );
-		}*/
 		removeDropCells(lastDropCells);
 	}
 
@@ -933,10 +993,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 							.createCellArea( cellContent );
 
 					resolveBorderConflict( emptyCell );
-					// remove top border
-					IStyle style = emptyCell.getStyle( );
-					// style.setProperty(IStyle.STYLE_BORDER_TOP_WIDTH,
-					// IStyle.NUMBER_0);
+					IStyle areaStyle = emptyCell.getStyle( );
+					areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
+							IStyle.NUMBER_0 );
+					areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
+					areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
 					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
 					emptyCell.setPosition( layoutInfo.getXPosition( i ), 0 );
 					row.addChild( emptyCell );

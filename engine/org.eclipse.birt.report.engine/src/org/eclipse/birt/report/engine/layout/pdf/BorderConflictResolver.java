@@ -139,6 +139,23 @@ public class BorderConflictResolver
 				new BorderStyleInfo( tableBottom, POSITION_BOTTOM )},
 				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
 	}
+	
+	public void resolvePagenatedTableTopBorder(IStyle rowTop, IStyle cellTop, IStyle usedStyle)
+	{
+		resolveBorder( new BorderStyleInfo[]{
+				new BorderStyleInfo( cellTop, POSITION_TOP ),
+				new BorderStyleInfo( rowTop, POSITION_TOP )},
+				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
+	}
+	
+	public void resolvePagenatedTableBottomBorder( IStyle rowBottom, IStyle cellBottom,
+			IStyle usedStyle )
+	{
+		resolveBorder( new BorderStyleInfo[]{
+				new BorderStyleInfo( cellBottom, POSITION_BOTTOM ),
+				new BorderStyleInfo( rowBottom, POSITION_BOTTOM )},
+				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
+	}
 
 	/**
 	 * The used style should be style of area which is writable, and the others

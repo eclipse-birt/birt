@@ -45,6 +45,36 @@ public class PDFRowLM extends PDFInlineStackingLM
 		tbl.startRow( (IRowContent) content );
 
 	}
+	
+	public boolean layout()
+	{
+		boolean childBreak = super.layout( );
+		if ( childBreak )
+		{
+			if ( tbl != null )
+			{
+				if ( !isFinished( ) && needPageBreakBefore( ) )
+				{
+					tbl.setTableCloseStateAsForced( );
+				}
+				else if ( isFinished( ) && needPageBreakAfter( ) )
+				{
+					tbl.setTableCloseStateAsForced( );
+				}
+			}
+		}
+		return childBreak;
+	}
+	
+	protected boolean checkAvailableSpace( )
+	{
+		boolean availableSpace = super.checkAvailableSpace( );
+		if(availableSpace && tbl != null)
+		{
+			tbl.setTableCloseStateAsForced( );
+		}
+		return availableSpace;
+	}
 
 	protected void calculateSpecifiedHeight( )
 	{
