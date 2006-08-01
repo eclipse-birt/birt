@@ -256,11 +256,17 @@ public class ParameterAccessor
 
 	/**
 	 * Servlet parameter name that determines the search strategy of searching
-	 * report resources. True if only search the working folder, otherwise
+	 * report resources. True if only search the document folder, otherwise
 	 * false.
 	 */
 
-	public static final String INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
+	public static final String INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY = "DOCUMENT_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
+
+	/**
+	 * The parameter name that gives the repository lication to put the created
+	 * documents and report design files.
+	 */
+	public static final String INIT_PARAM_DOCUMENT_FOLDER = "BIRT_VIEWER_DOCUMENT_FOLDER"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the absolute resource location
@@ -324,6 +330,12 @@ public class ParameterAccessor
 	public static String workingFolder = null;
 
 	/**
+	 * Document folder to put the report files and created documents.
+	 */
+
+	public static String documentFolder = null;
+
+	/**
 	 * Preview report max rows
 	 */
 
@@ -339,7 +351,7 @@ public class ParameterAccessor
 	 * Flag indicating that if user can only access the file in working folder.
 	 */
 
-	protected static boolean isWorkingFolderAccessOnly = true;
+	protected static boolean isDocumentFolderAccessOnly = false;
 
 	/**
 	 * Flag indicating that if initialize the context.
@@ -750,10 +762,10 @@ public class ParameterAccessor
 		else
 			documentName = filePath;
 
-		String documentFolder = workingFolder + fileSeparator + DOCUMENTS_DIR
+		String targetFolder = documentFolder + fileSeparator + DOCUMENTS_DIR
 				+ fileSeparator + sessionId + projectName;
 
-		String documentPath = documentFolder + documentName;
+		String documentPath = targetFolder + documentName;
 
 		return documentPath;
 
@@ -791,8 +803,8 @@ public class ParameterAccessor
 	 */
 	protected static void clearDocuments( )
 	{
-		String documentFolder = workingFolder + File.separator + DOCUMENTS_DIR;
-		File file = new File( documentFolder );
+		String targetFolder = documentFolder + File.separator + DOCUMENTS_DIR;
+		File file = new File( targetFolder );
 
 		boolean success = file.delete( );
 		if ( !success )
@@ -945,6 +957,16 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * Gets the current document folder.
+	 * 
+	 * @return returns the documentFolder.
+	 */
+	public static String getDocumentFolder( )
+	{
+		return documentFolder;
+	}
+
+	/**
 	 * This function is used to encode an ordinary string that may contain
 	 * characters or more than one consecutive spaces for appropriate HTML
 	 * display.
@@ -1041,6 +1063,7 @@ public class ParameterAccessor
 
 		// Report root.in the web.xml has higher priority.
 		workingFolder = context.getInitParameter( INIT_PARAM_REPORT_DIR );
+		documentFolder = context.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER );
 
 		if ( workingFolder == null || workingFolder.trim( ).length( ) <= 0 )
 		{
@@ -1057,16 +1080,19 @@ public class ParameterAccessor
 					workingFolder.trim( ).length( ) - 1 );
 		}
 
+		if ( documentFolder == null || documentFolder.trim( ).length( ) <= 0 )
+			documentFolder = workingFolder;
+
 		// Get Web App Default Locale
 		webAppLocale = getLocaleFromString( context
 				.getInitParameter( INIT_PARAM_LOCALE ) );
 		if ( webAppLocale == null )
 			webAppLocale = Locale.getDefault( );
 
-		isWorkingFolderAccessOnly = Boolean
+		isDocumentFolderAccessOnly = Boolean
 				.valueOf(
 						context
-								.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
+								.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
 
 		// Get preview report max rows parameter from Servlet Context
@@ -1270,9 +1296,9 @@ public class ParameterAccessor
 
 	protected static String createAbsolutePath( String filePath )
 	{
-		if ( isWorkingFolderAccessOnly || isRelativePath( filePath ) )
+		if ( isDocumentFolderAccessOnly || isRelativePath( filePath ) )
 		{
-			return workingFolder + File.separator + filePath;
+			return documentFolder + File.separator + filePath;
 		}
 		return filePath;
 	}
@@ -1599,7 +1625,7 @@ public class ParameterAccessor
 	 */
 	public static boolean isWorkingFolderAccessOnly( )
 	{
-		return isWorkingFolderAccessOnly;
+		return isDocumentFolderAccessOnly;
 	}
 
 	/**

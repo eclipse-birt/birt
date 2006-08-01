@@ -28,14 +28,16 @@
 			<TABLE CELLSPACING="2" CELLPADDING="2">
 				<TR>
 					<TD VALIGN="top"><IMG SRC="birt/images/Error.gif" /></TD>
+					
 					<TD>
+					
 						<TABLE CELLSPACING="2" CELLPADDING="4" style="border-left-style:solid;border-left-width:1px;border-left-color:#cccccc" >
 							<TR>
 								<TD>
 									<B><SPAN ID='faultstring'></SPAN><B>
 								</TD>
 							</TR>
-						
+						<!--	
 							<TR>
 								<TD>
 									<%= 
@@ -50,8 +52,11 @@
 									</DIV>
 								</TD>
 							</TR>
+						-->
 						</TABLE>
+					
 					</TD>
+					
 				</TR>
 			</TABLE>
 		</TD>

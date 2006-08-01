@@ -43,14 +43,14 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		}
 
 	 	// Prepare fault detail (Stack trace)
-	 	var faultDetail = data.getElementsByTagName( 'string' );
-	 	if ( faultDetail[0] && faultDetail[0].firstChild )
-	 	{
-			oSpans[1].innerHTML = faultDetail[0].firstChild.data;
-		}
-		else
-		{
-			oSpans[1].innerHTML = "";
-		}
+//	 	var faultDetail = data.getElementsByTagName( 'string' );
+//	 	if ( faultDetail[0] && faultDetail[0].firstChild )
+//	 	{
+//			oSpans[1].innerHTML = faultDetail[0].firstChild.data;
+//		}
+//		else
+//		{
+//			oSpans[1].innerHTML = "";
+//		}
 	}
 } );

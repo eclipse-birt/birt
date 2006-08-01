@@ -137,7 +137,8 @@ public abstract class AbstractGetPageActionHandler
 							.setFaultReason( BirtResources
 									.getMessage(
 											ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
-											new String[]{__bookmark} ) );
+											new String[]{getBookmark( operation
+													.getOprand( ), __bean )} ) );
 					throw fault;
 				}
 
