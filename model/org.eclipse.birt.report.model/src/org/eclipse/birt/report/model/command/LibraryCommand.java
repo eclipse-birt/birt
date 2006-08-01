@@ -377,6 +377,13 @@ public class LibraryCommand extends AbstractElementCommand
 			activityStack.rollback( );
 			throw e;
 		}
+		
+		// send the libraryreloadedevent first, and then commit transaction
+		
+		LibraryReloadedEvent event = new LibraryReloadedEvent( module
+				.getLibraryByLocation( url.toExternalForm( ) ) );
+
+		module.broadcast( event );
 
 		activityStack.commit( );
 
@@ -384,10 +391,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 		activityStack.flush( );
 
-		LibraryReloadedEvent event = new LibraryReloadedEvent( module
-				.getLibraryByLocation( url.toExternalForm( ) ) );
-
-		module.broadcast( event );
+		
 	}
 
 	/**
