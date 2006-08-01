@@ -124,6 +124,13 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		// Write the temp archive content to the compound file	
 		createFileFromFolder( fileArchiveName ); 
 	}
+	
+	public void toFileArchive( RandomAccessFile compoundFile ) throws IOException
+	{
+		// Write the temp archive content to the compound file	
+		createFileFromFolder( compoundFile ); 
+	}
+
 
 	/**
 	 * files used to record the reader count reference.
@@ -162,6 +169,13 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		ArchiveUtil.DeleteAllFiles( targetFile );	// Delete existing file or folder that has the same name of the file archive.
 		RandomAccessFile compoundFile = null;
 		compoundFile = new RandomAccessFile( targetFile, "rw" );  //$NON-NLS-1$
+		createFileFromFolder(compoundFile);
+		compoundFile.close( );
+	}
+	private void createFileFromFolder( RandomAccessFile compoundFile ) throws IOException
+	{
+		compoundFile.setLength( 0 );
+		compoundFile.seek( 0 );
 
 		compoundFile.writeLong(0); 	// reserve a spot for writing the start position of the stream data section in the file
 		compoundFile.writeLong(0);	// reserve a sopt for writing the entry number of the lookup map.
@@ -225,9 +239,6 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		compoundFile.seek( 0 );						 
 		compoundFile.writeLong( streamSectionPos );	
 		compoundFile.writeLong( entryNum );
-
-		// close the file
-		compoundFile.close();		
 	}
 
 	/**

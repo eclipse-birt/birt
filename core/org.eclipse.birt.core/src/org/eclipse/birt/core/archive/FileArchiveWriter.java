@@ -154,13 +154,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	{
 		if ( folderWriter != null )
 		{
-			// try to lock the file
-			// synchronize the locker
-			// get the reference count
-			closeAllStream( );
-			folderWriter.finish( );
-			folderWriter.toFileArchive( fileName );
-			folderWriter = null;
 			// try to remove the temp folders
 			RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );
 			try
@@ -170,16 +163,23 @@ public class FileArchiveWriter implements IDocArchiveWriter
 				{
 					synchronized ( fileName.intern( ) )
 					{
+						closeAllStream( );
+						folderWriter.finish( );
+						folderWriter.toFileArchive( rf );
+						folderWriter = null;
+						
 						RandomAccessFile readerCountFile = new RandomAccessFile(
 								countFileName, "rw" );;
 						int readerCount = readerCountFile.readInt( );
-						// if refCount == 0, remove the file archive
+						readerCount--;
+						readerCountFile.seek( 0 );
+						readerCountFile.writeInt( readerCount );
+						readerCountFile.close( );
 						if ( readerCount == 0 )
 						{
 							ArchiveUtil.DeleteAllFiles( new File(
 									tempFolderName ) );
 						}
-						readerCountFile.close( );
 					}
 				}
 				finally
