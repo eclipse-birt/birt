@@ -912,7 +912,9 @@ public class PDFEmitter implements IContentEmitter
 					isSvg = (( imageContent.getMIMEType( ) != null )
 							&& imageContent.getMIMEType( ).equalsIgnoreCase( "image/svg+xml" )) //$NON-NLS-1$
 							|| (( imageContent.getURI( ) != null )
-							&& imageContent.getURI( ).toLowerCase( ).endsWith( ".svg" )); //$NON-NLS-1$
+							&& imageContent.getURI( ).toLowerCase( ).endsWith( ".svg" )) //$NON-NLS-1$
+							|| (( imageContent.getExtension( ) != null )
+							&& imageContent.getExtension( ).toLowerCase( ).endsWith( ".svg" )); //$NON-NLS-1$
 					if(isSvg)
 					{
 						ti = new TranscoderInput(new ByteArrayInputStream(imageContent.getData( ))); 					
