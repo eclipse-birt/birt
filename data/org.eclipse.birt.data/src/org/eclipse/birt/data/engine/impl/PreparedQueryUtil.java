@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -25,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.FilterDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.GroupDefnUtil;
@@ -185,6 +187,16 @@ class PreparedQueryUtil
 			FilterDefnUtil.getRealFilterList( filters, queryDefn.getFilters( ) );
 		}
 		
+		if ( runningOnRS == false )
+			return false;
+	
+		if ( queryDefn.getFilters( ) != null
+				&& queryDefn.getFilters( ).size( ) > 0 )
+			runningOnRS = queryDefn.getResultSetExpressions( ).values( ) == null
+					|| !hasAggregationOnRowObjects( queryDefn.getResultSetExpressions( )
+							.values( )
+							.iterator( ) );
+		
 		return runningOnRS;
 	}
 
@@ -258,4 +270,21 @@ class PreparedQueryUtil
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param query
+	 * @return
+	 */
+	private static boolean hasAggregationOnRowObjects( Iterator it )
+	{
+		while( it.hasNext( ))
+		{
+			Object o = it.next( );
+			if( ExpressionCompilerUtil.hasRowExprInAggregation( (IBaseExpression)o))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
