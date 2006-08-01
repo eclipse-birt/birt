@@ -85,7 +85,7 @@ public abstract class EngineCase extends TestCase
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
-	private static boolean pagination=false; //$NON-NLS-1$
+	private boolean pagination = false; //$NON-NLS-1$
 
 	/*
 	 * @see TestCase#setUp()
@@ -232,6 +232,7 @@ public abstract class EngineCase extends TestCase
 
 	/**
 	 * Remove a given file or directory recursively.
+	 * 
 	 * @param file
 	 */
 	public void removeFile( File file )
@@ -252,14 +253,14 @@ public abstract class EngineCase extends TestCase
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Remove a given file or directory recursively.
+	 * 
 	 * @param file
-	 *  
+	 * 
 	 */
-	
+
 	public void removeFile( String file )
 	{
 		removeFile( new File( file ) );
@@ -369,13 +370,14 @@ public abstract class EngineCase extends TestCase
 	protected void runAndRender_HTML( String input, String output )
 			throws EngineException
 	{
-		this.pagination =false;
+		this.pagination = false;
 		runAndRender( input, output, null, "html" ); //$NON-NLS-1$
 	}
 
 	/**
-	 * Run and render the given design file into html file with pagination. If the input is
-	 * "a.xml", output html file will be named "a.html" under folder "output".
+	 * Run and render the given design file into html file with pagination. If
+	 * the input is "a.xml", output html file will be named "a.html" under
+	 * folder "output".
 	 * 
 	 * @param input
 	 * @throws EngineException
@@ -384,11 +386,10 @@ public abstract class EngineCase extends TestCase
 	protected void runAndRender_HTMLWithPagination( String input, String output )
 			throws EngineException
 	{
-		this.pagination=true;
+		this.pagination = true;
 		runAndRender( input, output, null, "html" ); //$NON-NLS-1$
 	}
 
-	
 	/**
 	 * Run and render the given design file into pdf file. If the input is
 	 * "a.xml", output html file will be named "a.pdf" under folder "output".
@@ -396,7 +397,7 @@ public abstract class EngineCase extends TestCase
 	 * @param input
 	 * @throws EngineException
 	 */
-	
+
 	protected void runAndRender_PDF( String input, String output )
 			throws EngineException
 	{
@@ -451,7 +452,7 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFormat( format );
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				ENCODING_UTF8 );
-		((HTMLRenderOption)options).setHtmlPagination( this.pagination );
+		( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
 		task.setRenderOption( options );
 		task.run( );
 		task.close( );
@@ -503,7 +504,7 @@ public abstract class EngineCase extends TestCase
 	protected void render_HTML( String doc, String output, String pageRange )
 			throws EngineException
 	{
-		this.pagination =false;
+		this.pagination = false;
 		render( "html", doc, output, pageRange ); //$NON-NLS-1$
 	}
 
@@ -519,14 +520,13 @@ public abstract class EngineCase extends TestCase
 	 *            render a selected page.
 	 * @throws EngineException
 	 */
-	protected void render_HTMLWithPagination( String doc, String output, String pageRange )
-			throws EngineException
+	protected void render_HTMLWithPagination( String doc, String output,
+			String pageRange ) throws EngineException
 	{
-		this.pagination=true;
+		this.pagination = true;
 		render( "html", doc, output, pageRange ); //$NON-NLS-1$
 	}
 
-	
 	/**
 	 * Render a report document into PDF file.
 	 * 
@@ -561,7 +561,7 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFormat( format );
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				encoding );
-		((HTMLRenderOption)options).setHtmlPagination( this.pagination );
+		( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
