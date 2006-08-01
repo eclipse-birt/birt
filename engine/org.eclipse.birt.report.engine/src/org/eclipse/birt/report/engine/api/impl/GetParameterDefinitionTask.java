@@ -471,7 +471,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				queryDefn.setAutoBinding( true );
 
-				IPreparedQuery query = dteDataEngine.prepare( queryDefn );
+				IPreparedQuery query = dteDataEngine.prepare( queryDefn, this.appContext );
 
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
@@ -609,7 +609,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				queryDefn.setAutoBinding( true );
 				
-				IPreparedQuery query = dteDataEngine.prepare( queryDefn );
+				IPreparedQuery query = dteDataEngine.prepare( queryDefn, this.appContext );
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
 				IResultIterator resultIter = result.getResultIterator( );
