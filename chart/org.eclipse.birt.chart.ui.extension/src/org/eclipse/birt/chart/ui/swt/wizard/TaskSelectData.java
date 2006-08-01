@@ -807,18 +807,24 @@ public class TaskSelectData extends SimpleTask
 		if ( getDataServiceProvider( ).getBoundDataSet( ) != null
 				|| getDataServiceProvider( ).getReportDataSet( ) != null )
 		{
-			if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
+			if ( event.widget instanceof Button )
 			{
-				createMenu( ).setVisible( true );
-			}
-			else if ( event.type == CustomPreviewTable.FOCUS_IN )
-			{
-				if ( event.widget instanceof Button
-						&& ( (Button) event.widget ).getMenu( ) == null )
+				Button header = (Button) event.widget;
+				
+				// Bind context menu to each header button
+				if ( header.getMenu( ) == null )
 				{
-					( (Button) event.widget ).setMenu( createMenu( ) );
+					header.setMenu( createMenu( ) );
+				}
+
+				// Right click to display the menu. Menu display by clicking
+				// application key is triggered by os, so do nothing.
+				if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
+				{
+					header.getMenu( ).setVisible( true );
 				}
 			}
+			
 		}
 	}
 
