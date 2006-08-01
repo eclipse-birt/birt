@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
@@ -68,7 +69,7 @@ public class EngineFragment extends BirtBaseFragment
 		else if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
-			String filename = "BIRTReport"; //$NON-NLS-1$
+			String filename = generateFileName( request );
 			response
 					.setHeader(
 							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -83,6 +84,63 @@ public class EngineFragment extends BirtBaseFragment
 				response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+	}
+	
+	/**
+	 * Generates a file name for the pdf output.
+	 * 
+	 * @param request
+	 * @return the file name
+	 */
+
+	private String generateFileName( HttpServletRequest request )
+	{
+		String defaultName = "BIRTReport"; //$NON-NLS-1$
+		String fileName = defaultName;
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		String baseName = attrBean.getReportDesignName( );
+		if ( baseName == null || baseName.length( ) == 0 )
+			baseName = attrBean.getReportDocumentName( );
+		assert baseName != null && baseName.length( ) > 0;
+		
+		int index = baseName.lastIndexOf( '/' );
+		if ( index == -1 )
+			index = baseName.lastIndexOf( '\\' );
+
+		// if base name contains parent package name, substring the
+		// design file name; otherwise let it be
+		if ( index != -1 )
+		{
+			baseName = baseName.substring( index + 1 );
+		}
+
+		// get the report design name, then extract the name without
+		// file extension and set it to fileName; otherwise do noting and
+		// let fileName with the default name
+		int dotIndex = baseName.lastIndexOf( '.' );
+		if ( dotIndex > 0 )
+		{
+			fileName = baseName.substring( 0, dotIndex );
+		}
+		
+		// check whether the file name contains non US-ASCII characters
+		
+		for ( int i = 0; i < fileName.length( ); i++ )
+		{
+			char c = fileName.charAt( i );
+			
+			// char is from 0-127
+			
+			if ( c< 0x00 || c >= 0x80 )
+			{
+				fileName = defaultName;
+				break;
+			}
+		}
+
+		fileName = fileName + ".pdf"; //$NON-NLS-1$ 
+		return fileName;
 	}
 
 	/**
