@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -72,6 +73,7 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
@@ -101,22 +103,19 @@ public class DEUtil
 
 	private static ArrayList notSupportList = new ArrayList( );
 
+	private static final DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
+
 	static
 	{
-		propertiesMap
-				.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
+		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
 		propertiesMap.put( TextItemHandle.CONTENT_PROP,
 				ELEMENT_LABELCONTENT_PROPERTY );
 
 		// do not support following element in release 2
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.LINE_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.FREE_FORM_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
+		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.LINE_ITEM ) );
+		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
+		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
+		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
 	}
 
@@ -145,8 +144,8 @@ public class DEUtil
 		List availableList = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( parent.canContain( slotId, ( (IElementDefn) list.get( i ) )
-					.getName( ) ) )
+			if ( parent.canContain( slotId,
+					( (IElementDefn) list.get( i ) ).getName( ) ) )
 			{
 				availableList.add( list.get( i ) );
 			}
@@ -242,8 +241,8 @@ public class DEUtil
 		{
 			obj = ( (Class) obj ).getName( );
 		}
-		return obj.toString( ).substring(
-				obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
+		return obj.toString( )
+				.substring( obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
 
 	/**
@@ -256,12 +255,10 @@ public class DEUtil
 	 */
 	public static IElementDefn getElementDefn( String elementName )
 	{
-		IElementDefn defn = DesignEngine.getMetaDataDictionary( ).getElement(
-				elementName );
+		IElementDefn defn = getMetaDataDictionary( ).getElement( elementName );
 		if ( defn == null )
 		{
-			defn = DesignEngine.getMetaDataDictionary( ).getExtension(
-					elementName );
+			defn = getMetaDataDictionary( ).getExtension( elementName );
 		}
 		return defn;
 	}
@@ -295,8 +292,7 @@ public class DEUtil
 			}
 			else
 			{
-				displayName = handle
-						.getDisplayLabel( DesignElementHandle.USER_LABEL );
+				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
 			}
 			if ( !StringUtil.isBlank( displayName ) )
 			{
@@ -319,7 +315,8 @@ public class DEUtil
 	public static int getMasterPageAccount( )
 	{
 		SlotHandle slotHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ).getMasterPages( );
+				.getReportDesignHandle( )
+				.getMasterPages( );
 
 		Iterator itor = slotHandle.iterator( );
 
@@ -390,8 +387,7 @@ public class DEUtil
 		assert parent instanceof DesignElementHandle;
 		assert child instanceof DesignElementHandle;
 
-		int slotID = ( (DesignElementHandle) parent )
-				.findContentSlot( (DesignElementHandle) child );
+		int slotID = ( (DesignElementHandle) parent ).findContentSlot( (DesignElementHandle) child );
 
 		return slotID;
 	}
@@ -436,8 +432,7 @@ public class DEUtil
 		// if after is null, insert at last
 		if ( element == null )
 		{
-			SlotHandle slotHandle = parent.getSlot( DEUtil
-					.getDefaultSlotID( parent ) );
+			SlotHandle slotHandle = parent.getSlot( DEUtil.getDefaultSlotID( parent ) );
 			if ( slotHandle != null )
 			{
 				return slotHandle.getCount( );
@@ -542,9 +537,11 @@ public class DEUtil
 		// added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
-			units = SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+			units = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
 					.getDefaultUnits( );
-			px = DimensionUtil.convertTo( measure, units,
+			px = DimensionUtil.convertTo( measure,
+					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		else if ( units == null )//$NON-NLS-1$
@@ -553,7 +550,8 @@ public class DEUtil
 		}
 		else
 		{
-			px = DimensionUtil.convertTo( measure, units,
+			px = DimensionUtil.convertTo( measure,
+					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 
@@ -575,7 +573,8 @@ public class DEUtil
 		if ( handle.isSet( ) )
 		{
 			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
-					handle.getUnits( ), targetUnit ).getMeasure( );
+					handle.getUnits( ),
+					targetUnit ).getMeasure( );
 		}
 		return retValue;
 	}
@@ -746,7 +745,8 @@ public class DEUtil
 			return null;
 		}
 
-		return new RGB( ( rgbValue >> 16 ) & 0xff, ( rgbValue >> 8 ) & 0xff,
+		return new RGB( ( rgbValue >> 16 ) & 0xff,
+				( rgbValue >> 8 ) & 0xff,
 				rgbValue & 0xff );
 	}
 
@@ -765,7 +765,8 @@ public class DEUtil
 			return -1;
 		}
 
-		return ( ( rgb.red & 0xff ) << 16 ) | ( ( rgb.green & 0xff ) << 8 )
+		return ( ( rgb.red & 0xff ) << 16 )
+				| ( ( rgb.green & 0xff ) << 8 )
 				| ( rgb.blue & 0xff );
 	}
 
@@ -783,15 +784,13 @@ public class DEUtil
 		{
 			if ( handle instanceof ReportItemHandle )
 			{
-				DesignElementHandle dataSet = ( (ReportItemHandle) handle )
-						.getDataSet( );
+				DesignElementHandle dataSet = ( (ReportItemHandle) handle ).getDataSet( );
 				if ( dataSet != null && !dataSetList.contains( dataSet ) )
 				{
 					dataSetList.add( dataSet );
 				}
 			}
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
-					.iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -816,8 +815,7 @@ public class DEUtil
 		List dataSetList = new ArrayList( );
 		if ( handle instanceof ReportElementHandle )
 		{
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
-					.iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -838,8 +836,7 @@ public class DEUtil
 	public static IElementPropertyDefn getPropertyDefn( String elementName,
 			String propertyName )
 	{
-		IElementDefn elementDefn = DesignEngine.getMetaDataDictionary( )
-				.getElement( elementName );
+		IElementDefn elementDefn = getMetaDataDictionary( ).getElement( elementName );
 		if ( elementDefn != null )
 		{
 			return elementDefn.getProperty( propertyName );
@@ -874,13 +871,11 @@ public class DEUtil
 		}
 		if ( model instanceof ComputedColumnHandle )
 		{
-			return getColumnExpression( ( (ComputedColumnHandle) model )
-					.getName( ) );
+			return getColumnExpression( ( (ComputedColumnHandle) model ).getName( ) );
 		}
 		if ( model instanceof ResultSetColumnHandle )
 		{
-			return getResultSetColumnExpression( ( (ResultSetColumnHandle) model )
-					.getColumnName( ) );
+			return getResultSetColumnExpression( ( (ResultSetColumnHandle) model ).getColumnName( ) );
 		}
 		if ( model instanceof DataSetParameterHandle )
 		{
@@ -922,8 +917,8 @@ public class DEUtil
 
 		if ( sp[0] != null && DEUtil.isValidNumber( sp[0] ) )
 		{
-			return (int) CSSUtil.convertToPoint( new DimensionValue( Double
-					.parseDouble( sp[0] ), sp[1] ) );
+			return (int) CSSUtil.convertToPoint( new DimensionValue( Double.parseDouble( sp[0] ),
+					sp[1] ) );
 		}
 
 		return 10;// as medium size.
@@ -988,8 +983,7 @@ public class DEUtil
 			{
 				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
 				{
-					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM
-							.equals( DesignerConstants.fontSizes[i][0] ) )
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
 						return DesignerConstants.fontSizes[i + 1][0];
 					}
@@ -1049,8 +1043,7 @@ public class DEUtil
 			{
 				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
 				{
-					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM
-							.equals( DesignerConstants.fontSizes[i][0] ) )
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
 						return DesignerConstants.fontSizes[i - 1][0];
 					}
@@ -1120,8 +1113,7 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap
-						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size );
 			}
 			if ( handle instanceof GroupHandle )
@@ -1160,8 +1152,7 @@ public class DEUtil
 		else
 		{
 			// return 10.
-			String size = (String) DesignerConstants.fontMap
-					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size );
 		}
 	}
@@ -1173,8 +1164,7 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap
-						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size ) + 1;
 			}
 			if ( handle instanceof GroupHandle )
@@ -1207,19 +1197,16 @@ public class DEUtil
 				{
 					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
-						return Integer
-								.parseInt( DesignerConstants.fontSizes[i + 1][1] );
+						return Integer.parseInt( DesignerConstants.fontSizes[i + 1][1] );
 					}
 				}
-				return Integer
-						.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
+				return Integer.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
 			}
 		}
 		else
 		{
 			// return 10 + 1.
-			String size = (String) DesignerConstants.fontMap
-					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size ) + 1;
 		}
 	}
@@ -1231,8 +1218,7 @@ public class DEUtil
 			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
-				String size = (String) DesignerConstants.fontMap
-						.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 				return Integer.parseInt( size ) - 1;
 			}
 			if ( handle instanceof GroupHandle )
@@ -1272,8 +1258,7 @@ public class DEUtil
 				{
 					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
 					{
-						return Integer
-								.parseInt( DesignerConstants.fontSizes[i - 1][1] );
+						return Integer.parseInt( DesignerConstants.fontSizes[i - 1][1] );
 					}
 				}
 				return Integer.parseInt( DesignerConstants.fontSizes[0][1] );
@@ -1282,8 +1267,7 @@ public class DEUtil
 		else
 		{
 			// return 10 -1.
-			String size = (String) DesignerConstants.fontMap
-					.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
 			return Integer.parseInt( size ) - 1;
 		}
 	}
@@ -1328,8 +1312,7 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment( );
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 
 		String[] fontNames = ge.getAvailableFontFamilyNames( );
 
@@ -1351,8 +1334,8 @@ public class DEUtil
 	{
 		ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		GroupElementHandle handle = GroupElementFactory.newGroupElement(
-				designHandle, modelList );
+		GroupElementHandle handle = GroupElementFactory.newGroupElement( designHandle,
+				modelList );
 		return handle;
 	}
 
@@ -1364,9 +1347,13 @@ public class DEUtil
 	 */
 	public static String escape( String str )
 	{
-		String[][] chars = {{"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-		}, {"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-		}};
+		String[][] chars = {
+				{
+						"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				}, {
+						"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				}
+		};
 		String result = str;
 		for ( int i = 0; i < chars[0].length; i++ )
 		{
@@ -1414,12 +1401,14 @@ public class DEUtil
 	 */
 	public static boolean isParameterGroup( Object transferSource )
 	{
-		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource )
-				.getDefn( ).getName( ).equals(
-						ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource ).getDefn( )
+				.getName( )
+				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
 	}
 
-	/** Get styles
+	/**
+	 * Get styles
+	 * 
 	 * @return Alphabetically sortted styles list.
 	 */
 	public static Iterator getStyles( )
@@ -1427,7 +1416,9 @@ public class DEUtil
 		return getStyles( new AlphabeticallyComparator( ) );
 	}
 
-	/** Get styles
+	/**
+	 * Get styles
+	 * 
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
@@ -1437,22 +1428,23 @@ public class DEUtil
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
 		{
 			styles = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ).getAllStyles( );
+					.getReportDesignHandle( )
+					.getAllStyles( );
 		}
 		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
 		{
 			styles = new ArrayList( );
-			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter
-					.getInstance( ).getReportDesignHandle( ) ).getTheme( );
+			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) ).getTheme( );
 
-			if (theme != null)
+			if ( theme != null )
 			{
-				styles.addAll(theme.getStyles().getContents());
+				styles.addAll( theme.getStyles( ).getContents( ) );
 			}
 		}
 
-		Object[] stylesArray = ( styles == null ? new Object[0] : styles
-				.toArray( ) );
+		Object[] stylesArray = ( styles == null ? new Object[0]
+				: styles.toArray( ) );
 
 		if ( comparator != null )
 		{
@@ -1615,7 +1607,8 @@ public class DEUtil
 	 */
 	public static List getDataSets( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
 				.getVisibleDataSets( );
 	}
 
@@ -1627,8 +1620,8 @@ public class DEUtil
 	private static Iterator getThemes( AlphabeticallyComparator comparator )
 	{
 		List themes = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ).getVisibleThemes(
-						IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+				.getReportDesignHandle( )
+				.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 
 		Object[] themesArray = themes.toArray( );
 
@@ -1649,12 +1642,13 @@ public class DEUtil
 	{
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
-			return GroupElementFactory.newGroupElement( SessionHandleAdapter
-					.getInstance( ).getReportDesignHandle( ),
+			return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ),
 					Collections.EMPTY_LIST );
 		}
-		return GroupElementFactory.newGroupElement( SessionHandleAdapter
-				.getInstance( ).getReportDesignHandle( ), modelList );
+		return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ),
+				modelList );
 
 	}
 
@@ -1671,6 +1665,7 @@ public class DEUtil
 
 	/**
 	 * Get classes with default comparator
+	 * 
 	 * @return List of classes
 	 */
 	public static List getClasses( )
@@ -1681,12 +1676,14 @@ public class DEUtil
 
 	/**
 	 * Get classes with specified comparator
-	 * @param comp the coparator
+	 * 
+	 * @param comp
+	 *            the coparator
 	 * @return List of classes
 	 */
 	public static List getClasses( Comparator comp )
 	{
-		List classes = DesignEngine.getMetaDataDictionary( ).getClasses( );
+		List classes = getMetaDataDictionary( ).getClasses( );
 		Collections.sort( classes, comp );
 
 		return classes;
@@ -1694,6 +1691,7 @@ public class DEUtil
 
 	/**
 	 * Get methods with default comparator
+	 * 
 	 * @param classInfo
 	 * @return List of methods
 	 */
@@ -1704,9 +1702,10 @@ public class DEUtil
 
 	/**
 	 * Get methods with specified comparator
-	 * @param classInfo 
+	 * 
+	 * @param classInfo
 	 * @param comp
-	 * 	The comparator
+	 *            The comparator
 	 * @return List of methods
 	 */
 	public static List getMethods( IClassInfo classInfo, Comparator comp )
@@ -1719,6 +1718,7 @@ public class DEUtil
 
 	/**
 	 * Get members with default comparator
+	 * 
 	 * @param classInfo
 	 * @return List of members
 	 */
@@ -1729,9 +1729,10 @@ public class DEUtil
 
 	/**
 	 * Get members with specified comparator
-	 * @param classInfo 
+	 * 
+	 * @param classInfo
 	 * @param comp
-	 * 	The comparator
+	 *            The comparator
 	 * @return List of methods
 	 */
 	public static List getMembers( IClassInfo classInfo, Comparator comp )
@@ -1765,18 +1766,15 @@ public class DEUtil
 		List methods = handle.getDefn( ).getLocalMethods( );
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
 		{
-			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) )
-					.getMethodInfo( );
+			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) ).getMethodInfo( );
 			if ( method.getName( ).equals( methodName ) )
 			{
 				Iterator argumentListIterator = method.argumentListIterator( );
 				if ( argumentListIterator.hasNext( ) )
 				{
-					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator
-							.next( );
+					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator.next( );
 					int i = 0;
-					for ( Iterator iterator = argumentInfoList
-							.argumentsIterator( ); iterator.hasNext( ); i++ )
+					for ( Iterator iterator = argumentInfoList.argumentsIterator( ); iterator.hasNext( ); i++ )
 					{
 						Object arg = iterator.next( );
 						if ( argIndex == i )
@@ -1824,18 +1822,15 @@ public class DEUtil
 
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
 		{
-			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) )
-					.getMethodInfo( );
+			IMethodInfo method = ( (ElementPropertyDefn) iter.next( ) ).getMethodInfo( );
 			if ( method.getName( ).equals( methodName ) )
 			{
 				Iterator argumentListIterator = method.argumentListIterator( );
 				if ( argumentListIterator.hasNext( ) )
 				{
-					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator
-							.next( );
+					IArgumentInfoList argumentInfoList = (IArgumentInfoList) argumentListIterator.next( );
 					int i = 0;
-					for ( Iterator iterator = argumentInfoList
-							.argumentsIterator( ); iterator.hasNext( ); i++ )
+					for ( Iterator iterator = argumentInfoList.argumentsIterator( ); iterator.hasNext( ); i++ )
 					{
 						IArgumentInfo arg = (IArgumentInfo) iterator.next( );
 						argMap.put( arg.getName( ), arg.getType( ) );
@@ -1851,7 +1846,8 @@ public class DEUtil
 	 */
 	public static List getDataSources( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
 				.getVisibleDataSources( );
 	}
 
@@ -1891,23 +1887,8 @@ public class DEUtil
 			{
 				bindingList.add( iterator.next( ) );
 			}
-			if ( handle instanceof ListingHandle )
-			{
-				SlotHandle groupSlotHandle = ( (ListingHandle) handle )
-						.getGroups( );
-				for ( Iterator iter = groupSlotHandle.iterator( ); iter
-						.hasNext( ); )
-				{
-					GroupHandle group = (GroupHandle) iter.next( );
-					for ( Iterator columnIter = group.columnBindingsIterator( ); columnIter
-							.hasNext( ); )
-					{
-						bindingList.add( columnIter.next( ) );
-					}
-				}
-			}
-			bindingList.addAll( 0, getAllColumnBindingList( handle
-					.getContainer( ), true ) );
+			bindingList.addAll( 0,
+					getAllColumnBindingList( handle.getContainer( ), true ) );
 		}
 		return bindingList;
 	}
@@ -1949,9 +1930,7 @@ public class DEUtil
 		ReportItemHandle holder = getBindingHolder( handle );
 		if ( holder != null )
 		{
-			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder
-					.getContainer( ); elementHandle = elementHandle
-					.getContainer( ) )
+			for ( DesignElementHandle elementHandle = handle.getContainer( ); elementHandle != holder.getContainer( ); elementHandle = elementHandle.getContainer( ) )
 			{
 				List subBindingList = new ArrayList( );
 				Iterator iterator = getBindingColumnIterator( elementHandle );
@@ -1984,14 +1963,15 @@ public class DEUtil
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-						|| ( (ReportItemHandle) handle )
-								.columnBindingsIterator( ).hasNext( ) )
+						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
+								.hasNext( ) )
 				{
 					return (ReportItemHandle) handle;
 				}
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null && handle instanceof ReportItemHandle
+			if ( result == null
+					&& handle instanceof ReportItemHandle
 					&& !( handle instanceof GridHandle ) )
 			{
 				result = (ReportItemHandle) handle;
@@ -2020,12 +2000,10 @@ public class DEUtil
 		}
 		if ( dataSetHandle == null )
 		{
-			for ( DesignElementHandle elementHandle = handle; elementHandle != null; elementHandle = elementHandle
-					.getContainer( ) )
+			for ( DesignElementHandle elementHandle = handle; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
 			{
 				if ( elementHandle instanceof ListingHandle
-						&& ( dataSetHandle = ( (ListingHandle) elementHandle )
-								.getDataSet( ) ) != null )
+						&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null )
 				{
 					return dataSetHandle;
 				}
@@ -2043,8 +2021,7 @@ public class DEUtil
 	public static ListingHandle getListingContainer(
 			DesignElementHandle container )
 	{
-		for ( DesignElementHandle elementHandle = container; elementHandle != null; elementHandle = elementHandle
-				.getContainer( ) )
+		for ( DesignElementHandle elementHandle = container; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
 		{
 			if ( elementHandle instanceof ListingHandle )
 			{
@@ -2071,12 +2048,7 @@ public class DEUtil
 	public static ComputedColumnHandle addColumn( DesignElementHandle handle,
 			ComputedColumn column, boolean inForce ) throws SemanticException
 	{
-		Assert.isLegal( handle instanceof ReportItemHandle
-				|| handle instanceof GroupHandle );
-		if ( handle instanceof GroupHandle )
-		{
-			return ( (GroupHandle) handle ).addColumnBinding( column, inForce );
-		}
+		Assert.isLegal( handle instanceof ReportItemHandle );
 		return ( (ReportItemHandle) handle ).addColumnBinding( column, inForce );
 	}
 
@@ -2089,12 +2061,8 @@ public class DEUtil
 	 * @return the iterator of binding columns
 	 */
 	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
-	{
-		if ( handle instanceof GroupHandle )
-		{
-			return ( (GroupHandle) handle ).columnBindingsIterator( );
-		}
-		else if ( handle instanceof ReportItemHandle )
+	{		
+		if ( handle instanceof ReportItemHandle )
 		{
 			return ( (ReportItemHandle) handle ).columnBindingsIterator( );
 		}
@@ -2139,9 +2107,7 @@ public class DEUtil
 			DesignElementHandle baseElement )
 	{
 		int level = 0;
-		for ( DesignElementHandle elementHandle = baseElement; elementHandle
-				.getContainer( ) != null; elementHandle = getBindingHolder(
-				elementHandle ).getContainer( ), level++ )
+		for ( DesignElementHandle elementHandle = baseElement; elementHandle.getContainer( ) != null; elementHandle = getBindingHolder( elementHandle ).getContainer( ), level++ )
 		{
 			DesignElementHandle bindingHolder = getBindingHolder( elementHandle );
 			if ( bindingHolder == holder )
@@ -2200,7 +2166,7 @@ public class DEUtil
 		{
 			if ( result instanceof GroupHandle )
 			{
-				groupList.add( (GroupHandle) result );
+				groupList.add( result );
 				return groupList;
 			}
 			return getGroups( result );
@@ -2249,7 +2215,7 @@ public class DEUtil
 		}
 		return TYPE_GROUP_NONE;
 	}
-	
+
 	/**
 	 * Get the string enclosed with quote.
 	 * 
@@ -2282,5 +2248,15 @@ public class DEUtil
 			return string.substring( 1, string.length( ) - 1 );
 		}
 		return string;
+	}
+
+	/**
+	 * Gets the meta data dictionary of model
+	 * 
+	 *  @return the meta data dictionary
+	 */
+	public static IMetaDataDictionary getMetaDataDictionary( )
+	{
+		return designEngine.getMetaData( );
 	}
 }

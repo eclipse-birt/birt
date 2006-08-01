@@ -41,7 +41,6 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -55,7 +54,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -64,7 +62,6 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -162,10 +159,6 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String RADIO_STATIC = Messages.getString( "ParameterDialog.Radio.Static" ); //$NON-NLS-1$
 
-	private static final String INPUT_PROPMT = Messages.getString( "ParameterDialog.Prompt.Input" ); //$NON-NLS-1$
-
-	private static final String ERROR_TITLE_INVALID_INPUT = Messages.getString( "ParameterDialog.ErrorTitle.InvalidInput" ); //$NON-NLS-1$
-
 	private static final String ERROR_TITLE_INVALID_LIST_LIMIT = Messages.getString( "ParameterDialog.ErrorTitle.InvalidListLimit" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_CANNOT_BE_BLANK = Messages.getString( "ParameterDialog.ErrorMessage.CanootBeBlank" ); //$NON-NLS-1$
@@ -180,7 +173,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String ERROR_MSG_DUPLICATED_NAME = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedName" ); //$NON-NLS-1$
 
-	private static final String ERROR_MSG_NAME_IS_EMPTY = Messages.getString( "ParameterDialog.Errormessage.EmptyName" ); //$NON-NLS-1$
+	private static final String ERROR_MSG_NAME_IS_EMPTY = Messages.getString( "ParameterDialog.ErrorMessage.EmptyName" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_NO_DEFAULT_VALUE = Messages.getString( "ParameterDialog.ErrorMessage.NoDefaultValue" ); //$NON-NLS-1$
 
@@ -222,18 +215,15 @@ public class ParameterDialog extends BaseDialog
 
 	private ArrayList choiceList = new ArrayList( );
 
-	private static IChoiceSet dataType = DesignEngine.getMetaDataDictionary( )
+	private static IChoiceSet dataType = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
 
-	private static IChoiceSet controlType = DesignEngine.getMetaDataDictionary( )
+	private static IChoiceSet controlType = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
 
 	private ScalarParameterHandle inputParameter;
 
 	private boolean loading = true;
-
-	// private static final SelectionChoice dummyChoice =
-	// StructureFactory.createSelectionChoice( );
 
 	private Text nameEditor, promptTextEditor, defaultValueEditor,
 			helpTextEditor, formatField;
@@ -290,7 +280,6 @@ public class ParameterDialog extends BaseDialog
 		{
 			ArrayList list = ( (ArrayList) inputElement );
 			ArrayList elementsList = (ArrayList) list.clone( );
-			// elementsList.add( dummyChoice );
 			return elementsList.toArray( );
 		}
 	};
@@ -326,25 +315,14 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( columnIndex == valueIndex )
 			{
-
-				// if ( choice == dummyChoice )
-				// {
-				// text = INPUT_PROPMT;
-				// }
-				// else
-				{
-					text = choice.getValue( );
-				}
+				text = choice.getValue( );
 			}
 			else if ( columnIndex == valueIndex + 1 )
 			{
-				// if ( choice != dummyChoice )
+				text = choice.getLabel( );
+				if ( text == null )
 				{
-					text = choice.getLabel( );
-					if ( text == null )
-					{
-						text = format( choice.getValue( ) );
-					}
+					text = format( choice.getValue( ) );
 				}
 			}
 			if ( text == null )
@@ -690,21 +668,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			dynamicRadio.setSelection( true );
 		}
-		// if ( isStatic( )
-		// && !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals(
-		// inputParameter.getControlType( ) )
-		// && ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
-		// inputParameter.getDataType( ) ) ||
-		// DesignChoiceConstants.PARAM_TYPE_STRING.equals(
-		// inputParameter.getDataType( ) ) ) )
-		// {
-		// defaultValue = removeQuoteString( inputParameter.getDefaultValue( )
-		// );
-		// }
-		// else
-		// {
 		defaultValue = inputParameter.getDefaultValue( );
-		// }
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
@@ -836,6 +800,15 @@ public class ParameterDialog extends BaseDialog
 		{
 			isHidden.setSelection( inputParameter.isHidden( ) );
 		}
+		if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
+		{
+			allowNull.setSelection( getProperty( CHECKBOX_ALLOW_NULL ) );
+		}
+		else
+		{
+			allowNull.setSelection( inputParameter.allowNull( ) );
+		}
+
 		if ( !DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
 		{
 			if ( !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
@@ -862,7 +835,6 @@ public class ParameterDialog extends BaseDialog
 
 			{
 				allowBlank.setEnabled( true );
-				allowNull.setEnabled( true );
 				doNotEcho.setEnabled( true );
 
 				if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
@@ -873,20 +845,10 @@ public class ParameterDialog extends BaseDialog
 				{
 					allowBlank.setSelection( inputParameter.allowBlank( ) );
 				}
-				if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
-				{
-					allowNull.setSelection( getProperty( CHECKBOX_ALLOW_NULL ) );
-				}
-				else
-				{
-					allowNull.setSelection( inputParameter.allowNull( ) );
-				}
 			}
 			else
 			{
 				allowBlank.setEnabled( false );
-				allowNull.setEnabled( false );
-
 			}
 
 			if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
@@ -907,17 +869,10 @@ public class ParameterDialog extends BaseDialog
 			}
 
 		}
-		else
-		{
-			allowNull.setEnabled( false );
-			allowNull.setSelection( false );
-			checkBoxChange( allowBlank, CHECKBOX_ALLOW_BLANK );
-		}
 		if ( !DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
 		{
 			allowBlank.setEnabled( false );
 			allowBlank.setSelection( false );
-			checkBoxChange( allowBlank, CHECKBOX_ALLOW_BLANK );
 		}
 	}
 
@@ -925,11 +880,24 @@ public class ParameterDialog extends BaseDialog
 	{
 		String selectedDataSetName = dataSetChooser.getText( );
 		String[] oldList = dataSetChooser.getItems( );
-		String[] newList = ChoiceSetFactory.getDataSets( );
 
-		if ( oldList.length != newList.length )
+		List dataSetList = new ArrayList( );
+
+		for ( Iterator iterator = inputParameter.getModuleHandle( )
+				.getVisibleDataSets( )
+				.iterator( ); iterator.hasNext( ); )
 		{
-			dataSetChooser.setItems( newList );
+			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
+			dataSetList.add( DataSetHandle.getQualifiedName( ) );
+		}
+		if ( !dataSetList.contains( inputParameter.getDataSetName( ) ) )
+		{
+			dataSetList.add( 0, inputParameter.getDataSetName( ) );
+		}
+
+		if ( oldList.length != dataSetList.size( ) )
+		{
+			dataSetChooser.setItems( (String[]) dataSetList.toArray( new String[]{} ) );
 			if ( StringUtil.isBlank( selectedDataSetName ) )
 			{
 				dataSetChooser.select( 0 );
@@ -1298,7 +1266,6 @@ public class ParameterDialog extends BaseDialog
 
 		String[] columns;
 		int[] columnWidth;
-		CellEditor[] cellEditors;
 		// if ( !getSelectedControlType( ).equals( PARAM_CONTROL_LIST ) )
 		// {
 		columns = new String[]{
@@ -1306,12 +1273,6 @@ public class ParameterDialog extends BaseDialog
 		};
 		columnWidth = new int[]{
 				20, 70, 145, 145,
-		};
-		cellEditors = new CellEditor[]{
-				null,
-				null,
-				new TextCellEditor( table ),
-				new TextCellEditor( table )
 		};
 
 		for ( int i = 0; i < columns.length; i++ )
@@ -1325,11 +1286,9 @@ public class ParameterDialog extends BaseDialog
 			column.setWidth( columnWidth[i] );
 		}
 		valueTable = tableArea.getTableViewer( );
-		// valueTable.setCellEditors( cellEditors );
 		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
-		// valueTable.setCellModifier( cellModifier );
 		tableArea.setInput( choiceList );
 		valueTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
@@ -2060,18 +2019,18 @@ public class ParameterDialog extends BaseDialog
 		IChoiceSet choiceSet = null;
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
-			choiceSet = DesignEngine.getMetaDataDictionary( )
+			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
-			choiceSet = DesignEngine.getMetaDataDictionary( )
+			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 		{
-			choiceSet = DesignEngine.getMetaDataDictionary( )
+			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE );
 		}
 		return choiceSet;
@@ -2085,7 +2044,7 @@ public class ParameterDialog extends BaseDialog
 		IChoiceSet choiceSet = getFormatChoiceSet( getSelectedDataType( ) );
 		if ( choiceSet == null )
 		{// Boolean type;
-			displayFormat = DesignEngine.getMetaDataDictionary( )
+			displayFormat = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
 					.findChoice( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED )
 					.getDisplayName( );
@@ -2236,19 +2195,15 @@ public class ParameterDialog extends BaseDialog
 	private boolean canBeNull( )
 	{
 		boolean canBeNull = false;
-		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
-				|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+		if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
 		{
-			if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
-			{
-				canBeNull = ( (Boolean) dirtyProperties.get( CHECKBOX_ALLOW_NULL ) ).booleanValue( );
-			}
-			else
-			{
-				canBeNull = inputParameter.allowNull( );
-			}
+			canBeNull = ( (Boolean) dirtyProperties.get( CHECKBOX_ALLOW_NULL ) ).booleanValue( );
 		}
-		return canBeNull;
+		else
+		{
+			canBeNull = inputParameter.allowNull( );
+		}
+		return  canBeNull;
 	}
 
 	private boolean isDefaultChoice( SelectionChoice choice )
