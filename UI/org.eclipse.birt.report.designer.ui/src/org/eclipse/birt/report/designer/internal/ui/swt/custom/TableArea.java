@@ -70,7 +70,9 @@ public class TableArea extends Composite
 			 */
 			public void keyReleased( KeyEvent e )
 			{
-				if ( !getSelection( ).isEmpty( )
+				if ( e.keyCode == SWT.DEL
+						&& e.stateMask == 0
+						&& !getSelection( ).isEmpty( )
 						&& modifier.removeItem( getSelection( ).toArray( ) ) )
 				{
 					tableViewer.refresh( );

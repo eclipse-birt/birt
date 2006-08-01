@@ -60,7 +60,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -151,8 +150,6 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String BUTTON_LABEL_REMOVE_DEFAULT = Messages.getString( "ParameterDialog.Button.RemoveDefault" ); //$NON-NLS-1$
 
-	private static final String BUTTON_LABEL_DELETE = Messages.getString( "ParameterDialog.Button.Delete" ); //$NON-NLS-1$
-
 	private static final String BUTTON_CREATE_DATA_SET = Messages.getString( "ParameterDialog.Button.CreateDataSet" ); //$NON-NLS-1$
 
 	private static final String RADIO_DYNAMIC = Messages.getString( "ParameterDialog.Radio.Dynamic" ); //$NON-NLS-1$
@@ -238,8 +235,7 @@ public class ParameterDialog extends BaseDialog
 	private Button allowNull, allowBlank, doNotEcho, isHidden, needSort;
 
 	// Push buttons
-	private Button importValue, changeDefault, delete, changeFormat,
-			createDataSet;
+	private Button importValue, changeDefault, changeFormat, createDataSet;
 
 	// Radio buttons
 	private Button dynamicRadio, staticRadio;
@@ -1266,8 +1262,6 @@ public class ParameterDialog extends BaseDialog
 
 		String[] columns;
 		int[] columnWidth;
-		// if ( !getSelectedControlType( ).equals( PARAM_CONTROL_LIST ) )
-		// {
 		columns = new String[]{
 				null, COLUMN_IS_DEFAULT, COLUMN_VALUE, COLUMN_DISPLAY_TEXT
 		};
@@ -1348,16 +1342,6 @@ public class ParameterDialog extends BaseDialog
 				updateMessageLine( );
 				updateButtons( );
 				changeDefault.getParent( ).layout( );
-			}
-		} );
-		delete = new Button( buttonBar, SWT.PUSH );
-		delete.setText( BUTTON_LABEL_DELETE );
-		setButtonLayoutData( delete );
-		delete.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				deleteRow( );
 			}
 		} );
 		createPromptLine( tableAreaComposite );
@@ -1728,8 +1712,6 @@ public class ParameterDialog extends BaseDialog
 
 		changeDefault.setSelection( isDefault );
 		changeDefault.setEnabled( isEnable );
-
-		delete.setEnabled( isEnable );
 	}
 
 	private void updateButtons( )
@@ -1818,36 +1800,6 @@ public class ParameterDialog extends BaseDialog
 			valueTable.refresh( );
 			updateTableButtons( );
 		}
-	}
-
-	private void deleteRow( )
-	{
-		int index = valueTable.getTable( ).getSelectionIndex( );
-		SelectionChoice choice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
-		if ( isDefaultChoice( choice ) )
-		{
-			defaultValue = null;
-		}
-		choiceList.remove( choice );
-		valueTable.refresh( );
-		index--;
-		if ( index < 0 && valueTable.getTable( ).getItemCount( ) > 1 )
-		{
-			index = 0;
-		}
-		StructuredSelection selection = null;
-		if ( index != -1 )
-		{
-			selection = new StructuredSelection( valueTable.getTable( )
-					.getItem( index )
-					.getData( ) );
-		}
-		else
-		{
-			selection = StructuredSelection.EMPTY;
-		}
-		valueTable.setSelection( selection );
-		updateTableButtons( );
 	}
 
 	private boolean getProperty( String key )
@@ -2203,7 +2155,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			canBeNull = inputParameter.allowNull( );
 		}
-		return  canBeNull;
+		return canBeNull;
 	}
 
 	private boolean isDefaultChoice( SelectionChoice choice )
