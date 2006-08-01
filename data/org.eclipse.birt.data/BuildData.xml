@@ -240,21 +240,14 @@
 		</jar>
 	</target>
 
-	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
-	<!-- Run Unit test.
-			 Parameters:
-			 		- ${utest.report.dir} target directory to put the unit test report
-	-->
+	<!-- Run Unit Test -->
 	<target name="UnitTest" depends="compileTest, testDependency" description="run all the unit tests">
-		
-		<!-- run all tests in current directory -->
-		<!-- Create the log directory -->
-		<delete dir="${utest.report.dir}"/>
-		<mkdir dir="${utest.report.dir}" />
-
-		<!-- If condition is satisfied, then executes test cases against JDBC -->
-		<antcall target="testJDBC"/>
-
+		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="UnitTest" inheritAll="false" inheritRefs="false">			
+			<property name="dir.utest" value="utest" />
+			<property name="utest.report.dir" value="${utest.report.dir}" />
+			<property name="module.name" value="${module.name}" />
+			<property name="classname" value="org.eclipse.birt.data.engine.AllTests" />
+		</ant>
 	</target>
 	
 	<!-- Clean all objects created by this script -->
