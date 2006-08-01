@@ -42,6 +42,12 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		this.countFileName = ArchiveUtil.generateFullPath( tempFolderName,
 				FolderArchiveWriter.READER_COUNT_FILE_NAME );
 		
+		//try to create the parent folder
+		File parentFile = new File( fileName ).getParentFile( );
+		if ( parentFile != null && !parentFile.exists( ) )
+		{
+			parentFile.mkdirs( );
+		}
 		// try to create an empty file, if failed that means
 		// some the file has been opened, throw out an exception.
 		RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );

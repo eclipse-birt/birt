@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.util.DocumentUtil;
 
 /**
  * 
@@ -234,8 +235,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
-			design.serialize( out );
-			// design.serialize( out );
+			//design.serialize( out );
+			DocumentUtil.serialize(design, out);
 			designName = design.getFileName( );
 		}
 		catch ( Exception ex )
