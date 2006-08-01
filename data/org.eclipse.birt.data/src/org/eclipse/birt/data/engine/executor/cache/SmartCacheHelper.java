@@ -271,19 +271,23 @@ class SmartCacheHelper
 			// notice. it is less than or equal
 			if ( dataCount <= memoryCacheRowCount )
 			{
-				// Populate Data according to the given meta data.
-				Object[] obs = new Object[rsMeta.getFieldCount( )];
 				//the followed variable is for performance
 				int odaObjectFieldCount = odaObject.getResultClass( ).getFieldCount( );
 				int metaFieldCount = rsMeta.getFieldCount( );
-				for ( int i = 1; i <= metaFieldCount; i++ )
+				if(odaObjectFieldCount < metaFieldCount)
 				{
-					if ( i <= odaObjectFieldCount )
+					//Populate Data according to the given meta data.
+					Object[] obs = new Object[metaFieldCount];
+					for ( int i = 1; i <= odaObjectFieldCount; i++ )
+					{
 						obs[i - 1] = odaObject.getFieldValue( i );
-					else
-						obs[i - 1] = null;
+					}
+					resultObjectsList.add( new ResultObject( rsMeta, obs ) );
 				}
-				resultObjectsList.add( new ResultObject( rsMeta, obs ) );
+				else
+				{
+					resultObjectsList.add( odaObject );
+				}
 			}
 			else
 			{
