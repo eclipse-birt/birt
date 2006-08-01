@@ -13,12 +13,16 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileLock;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class FileArchiveWriter implements IDocArchiveWriter
 {
 	private String fileName;
+	private String tempFolderName;
+	private String countFileName;
 	private FolderArchiveWriter folderWriter; 			
 	private LinkedList openStreams = new LinkedList( );
 
@@ -34,15 +38,59 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		File fd = new File( fileName );
 		fileName = fd.getCanonicalPath();   // make sure the file name is an absolute path
 		this.fileName = fileName;
+		this.tempFolderName = fileName + ".tmpfolder";
+		this.countFileName = ArchiveUtil.generateFullPath( tempFolderName,
+				FolderArchiveWriter.READER_COUNT_FILE_NAME );
 		
-		String tempFolder = ArchiveUtil.generateUniqueFileFolderName( fileName );		
-		File archiveRootFolder = new File( tempFolder );	
-		assert ( !archiveRootFolder.exists() );		
-		
-		// Create archive folder			
-		archiveRootFolder.mkdirs();	
-		
-		folderWriter = new FolderArchiveWriter( tempFolder );
+		// try to create an empty file, if failed that means
+		// some the file has been opened, throw out an exception.
+		RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );
+		// try to lock the file
+		try
+		{
+			FileLock lock = rf.getChannel( ).lock( );
+			// syncrhonize the lock among mutiple thread
+			try
+			{
+				synchronized ( fileName.intern( ) )
+				{
+					rf.setLength( 0 );
+					// try to remove the temp folder
+					File archiveRootFolder = new File( tempFolderName );
+					if ( archiveRootFolder.exists( ) )
+					{
+						ArchiveUtil.DeleteAllFiles( archiveRootFolder );
+					}
+					if ( archiveRootFolder.exists( ) )
+					{
+						throw new IOException(
+								"archive root folder can't be removed" );
+					}
+					// Create archive folder
+					archiveRootFolder.mkdirs( );
+					// create an ref count in the archive root folder
+					RandomAccessFile cf = new RandomAccessFile( countFileName,
+							"rw" );
+					try
+					{
+						cf.writeInt( 1 );
+					}
+					finally
+					{
+						cf.close( );
+					}
+					folderWriter = new FolderArchiveWriter( tempFolderName );
+				}
+			}
+			finally
+			{
+				lock.release( );
+			}
+		}
+		finally
+		{
+			rf.close( );
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -104,11 +152,45 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public void finish() throws IOException
 	{
-		if (folderWriter != null)
+		if ( folderWriter != null )
 		{
+			// try to lock the file
+			// synchronize the locker
+			// get the reference count
 			closeAllStream( );
+			folderWriter.finish( );
 			folderWriter.toFileArchive( fileName );
 			folderWriter = null;
+			// try to remove the temp folders
+			RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );
+			try
+			{
+				FileLock locker = rf.getChannel( ).lock( );
+				try
+				{
+					synchronized ( fileName.intern( ) )
+					{
+						RandomAccessFile readerCountFile = new RandomAccessFile(
+								countFileName, "rw" );;
+						int readerCount = readerCountFile.readInt( );
+						// if refCount == 0, remove the file archive
+						if ( readerCount == 0 )
+						{
+							ArchiveUtil.DeleteAllFiles( new File(
+									tempFolderName ) );
+						}
+						readerCountFile.close( );
+					}
+				}
+				finally
+				{
+					locker.release( );
+				}
+			}
+			finally
+			{
+				rf.close( );
+			}
 		}
 	}
 	
@@ -169,5 +251,4 @@ public class FileArchiveWriter implements IDocArchiveWriter
 			openStreams.clear( );
 		}
 	}
-
 }

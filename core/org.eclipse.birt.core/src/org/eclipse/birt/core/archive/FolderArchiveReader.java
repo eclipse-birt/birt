@@ -114,7 +114,10 @@ public class FolderArchiveReader implements IDocArchiveReader
 					if ( file.isFile() )
 					{
 						String relativePath = ArchiveUtil.generateRelativePath( folderName, file.getPath() );
-						streamList.add( relativePath );
+						if ( !FolderArchiveWriter.needSkip( relativePath ) )
+						{
+							streamList.add( relativePath );
+						}
 					}
 				}
 			}

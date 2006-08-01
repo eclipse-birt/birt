@@ -24,6 +24,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	private String folderName;
 	private IStreamSorter streamSorter = null;
 	private LinkedList openStreams = new LinkedList( );
+	
 
 	/**
 	 * @param absolute fileName the archive file name
@@ -113,7 +114,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	}
 	
 	/**
-	 * Convert the current folder archive to file archive. Then, the original folder archive will BE DELETED.
+	 * Convert the current folder archive to file archive. 
+	 * The original folder archive will NOT be removed.
 	 * @param fileArchiveName
 	 * @throws IOException
 	 */
@@ -121,12 +123,29 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	{
 		// Write the temp archive content to the compound file	
 		createFileFromFolder( fileArchiveName ); 
-		
-		// Delete the temp archive folder
-		File folderArchive = new File( folderName );
-		ArchiveUtil.DeleteAllFiles( folderArchive );		
 	}
 
+	/**
+	 * files used to record the reader count reference.
+	 */
+	static final String READER_COUNT_FILE_NAME = "/.reader.count";
+	/**
+	 * files which should not be copy into the archives
+	 */
+	static final String[] SKIP_FILES = new String[]{READER_COUNT_FILE_NAME};
+
+	static boolean needSkip( String file )
+	{
+		for ( int i = 0; i < SKIP_FILES.length; i++ )
+		{
+			if ( SKIP_FILES[i].equals( file ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Compound File Format: <br>
 	 * 1long(stream section position) + 1long(entry number in lookup map) + lookup map section + stream data section <br>
@@ -149,7 +168,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 
 		ArrayList fileList = new ArrayList();
 		getAllFiles( new File( folderName ), fileList );	
-				
+		
 		if ( streamSorter != null )
 		{
 			ArrayList streamNameList = new ArrayList();
@@ -179,13 +198,15 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		{
 			File file = (File)fileList.get(i);				
 			String relativePath = ArchiveUtil.generateRelativePath( folderName, file.getAbsolutePath() );
-			
-			compoundFile.writeUTF( relativePath );
-			compoundFile.writeLong( streamRelativePosition );
-			compoundFile.writeLong( file.length() );
-			
-			streamRelativePosition += file.length();
-			entryNum++;
+			if ( !needSkip( relativePath ) )
+			{
+				compoundFile.writeUTF( relativePath );
+				compoundFile.writeLong( streamRelativePosition );
+				compoundFile.writeLong( file.length() );
+				
+				streamRelativePosition += file.length();
+				entryNum++;
+			}
 		}
 
 		// Write the all of the streams to the stream data section in the compound file
@@ -193,7 +214,11 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		for ( int i=0; i<fileList.size(); i++ )
 		{
 			File file = (File)fileList.get(i);
-			copyFileIntoTheArchive( file, compoundFile );
+			String relativePath = ArchiveUtil.generateRelativePath( folderName, file.getAbsolutePath() );
+			if ( !needSkip( relativePath ) )
+			{
+				copyFileIntoTheArchive( file, compoundFile );
+			}
 		}			
 		
 		// go back and write the start position of the stream data section and the entry number of the lookup map 

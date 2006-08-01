@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +26,10 @@ public class FileArchiveReader implements IDocArchiveReader
 {
 
 	private String fileName;
+	private String tempFolderName;
+	private String readerCountFileName;
 	private RandomAccessFile file = null;
+	private FolderArchiveReader folderReader = null;
 	private HashMap lookupMap = new HashMap( );
 
 	/** 
@@ -41,7 +45,10 @@ public class FileArchiveReader implements IDocArchiveReader
 		if ( !fd.isFile() )
 			throw new IOException("The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name.");
 
-		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path		
+		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
+		this.tempFolderName = fileName + ".tmpfolder";
+		this.readerCountFileName = ArchiveUtil.generateFullPath( tempFolderName,
+				FolderArchiveWriter.READER_COUNT_FILE_NAME );
 	}
 
 	/*
@@ -61,10 +68,51 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void open( ) throws IOException
 	{
-		if ( file != null )
+		if ( file != null || folderReader != null )
 		{
 			// has been opend
 			return;
+		}
+
+		RandomAccessFile lf = new RandomAccessFile( new File( fileName ), "rw" );
+		try
+		{
+			FileLock lock = lf.getChannel( ).lock( );
+			try
+			{
+				synchronized ( fileName.intern( ) )
+				{
+					if ( lf.length( ) == 0 )
+					{
+						// open the refernce count, increase 1
+						RandomAccessFile rf = new RandomAccessFile(
+								readerCountFileName, "rw" );
+						try
+						{
+							int refCount = rf.readInt( );
+							refCount++;
+							rf.seek( 0 );
+							rf.writeInt( refCount );
+						}
+						finally
+						{
+							rf.close( );
+						}
+						// read it as a folder
+						folderReader = new FolderArchiveReader( tempFolderName );
+						folderReader.open( );
+						return;
+					}
+				}
+			}
+			finally
+			{
+				lock.release( );
+			}
+		}
+		finally
+		{
+			lf.close( );
 		}
 		
 		// restore the in-memory lookup map
@@ -89,6 +137,45 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public void close( ) throws IOException
 	{
+		if ( folderReader != null )
+		{
+			folderReader.close( );
+			folderReader = null;
+
+			RandomAccessFile lf = new RandomAccessFile( new File( fileName ),
+					"rw" );
+			try
+			{
+				FileLock lock = lf.getChannel( ).lock( );
+				try
+				{
+					synchronized ( fileName.intern( ) )
+					{
+						// open the refernce count, increase 1
+						RandomAccessFile rf = new RandomAccessFile(
+								readerCountFileName, "rw" );
+						int refCount = rf.readInt( );
+						refCount--;
+						rf.seek( 0 );
+						rf.writeInt( refCount );
+						rf.close( );
+						if ( refCount == 0 )
+						{
+							ArchiveUtil.DeleteAllFiles( new File(
+									tempFolderName ) );
+						}
+					}
+				}
+				finally
+				{
+					lock.release( );
+				}
+			}
+			finally
+			{
+				lf.close( );
+			}
+		}
 		if ( file != null )
 		{
 			file.close( );
@@ -98,6 +185,11 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
+		if ( folderReader != null )
+		{
+			return folderReader.getStream( relativePath );
+		}
+		
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 
@@ -115,6 +207,11 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
+		if ( folderReader != null )
+		{
+			return folderReader.exists( relativePath );
+		}
+		
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 
@@ -126,6 +223,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public List listStreams( String relativeStoragePath ) throws IOException
 	{
+		if ( folderReader != null )
+		{
+			return folderReader.listStreams( relativeStoragePath );
+		}
 		ArrayList streamList = new ArrayList( );
 		if ( !relativeStoragePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativeStoragePath = ArchiveUtil.UNIX_SEPERATOR
@@ -160,6 +261,8 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void expandFileArchive( String folderArchiveName ) throws IOException
 	{
+		assert folderReader == null;
+		
 		File folder = new File( folderArchiveName );
 		folderArchiveName = folder.getCanonicalPath( );
 		
