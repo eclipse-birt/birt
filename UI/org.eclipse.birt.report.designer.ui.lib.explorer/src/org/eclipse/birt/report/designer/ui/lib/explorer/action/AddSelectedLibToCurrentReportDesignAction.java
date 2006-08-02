@@ -55,7 +55,8 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		boolean enabled = library != null
 				&& moduleHandle != null
 				&& !moduleHandle.isInclude( library );
-		library.close( );
+		if ( library != null )
+			library.close( );
 		return enabled;
 	}
 
