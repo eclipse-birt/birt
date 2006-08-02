@@ -55,7 +55,7 @@ public class ResultIterator implements IResultIterator
 	private RDSaveHelper 			rdSaveHelper;
 	private Scriptable 				scope;
 	
-	private org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
+	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
 	
 	// needed service
 	private IServiceForResultSet 	resultService;
@@ -65,11 +65,6 @@ public class ResultIterator implements IResultIterator
 	
 	// util to get row id
 	private RowIDUtil 				rowIDUtil;
-	
-	// used in (usesDetails == false)
-	private boolean 				useDetails;
-	private int 					lowestGroupLevel;
-	private int 					savedStartingGroupLevel;
 	
 	// used for evaluate binding column value
 	private int 					lastRowIndex = -1;
@@ -83,6 +78,8 @@ public class ResultIterator implements IResultIterator
 	private static final int ON_ROW = 2;
 	private static final int AFTER_LAST_ROW = 3;
 	private static final int CLOSED = -1;
+	
+	private boolean isFirstRowPepared = false;
 	
 	// log instance
 	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
@@ -111,15 +108,7 @@ public class ResultIterator implements IResultIterator
 
 		this.context = rService.getContext( );
 
-		IBaseQueryDefinition queryDefn = rService.getQueryDefn( );
-		assert queryDefn != null;
-		this.useDetails = queryDefn.usesDetails( );
-		this.lowestGroupLevel = queryDefn.getGroups( ).size( );
 		this.start( );
-		logger.logp( Level.FINER,
-				ResultIterator.class.getName( ),
-				"ResultIterator",
-				"ResultIterator starts up" );
 	}
 
 	/*
@@ -181,6 +170,9 @@ public class ResultIterator implements IResultIterator
 
 		boolean hasNext = false;
 		
+		// This behavior does not follow the convention of JDBC. That is before
+		// next is called, there is no current row. but from below code, it can
+		// be seen that it is not true in our case.
 		if ( state == BEFORE_FIRST_ROW )
 		{
 			state = ON_ROW;
@@ -188,24 +180,25 @@ public class ResultIterator implements IResultIterator
 		}
 		else
 		{
-			hasNext = odiResult.next( );
+			hasNext = hasNextRow( );
 		}
 		
-		if ( useDetails == false && hasNext )
-		{
-			savedStartingGroupLevel = odiResult.getStartingGroupLevel( );
-			odiResult.last( lowestGroupLevel );
-		}
-
-		logger.logp( Level.FINE,
-				ResultIterator.class.getName( ),
-				"next",
-				"Moves down to the next element" );
+		if ( hasNext )
+			this.prepareCurrentRow( );
 		
 		if ( ! hasNext )
 			state = AFTER_LAST_ROW;
 		
 		return hasNext;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	protected boolean hasNextRow( ) throws DataException
+	{
+		return this.odiResult.next( );
 	}
 	
 	/*
@@ -217,7 +210,7 @@ public class ResultIterator implements IResultIterator
 		
 		if ( rowIDUtil == null )
 			rowIDUtil = new RowIDUtil( );
-		return rowIDUtil.getRowID( this.odiResult );
+		return rowIDUtil.getRowID( this.odiResult, getRowIndex( ) );
 	}
 	
 	/*
@@ -237,7 +230,10 @@ public class ResultIterator implements IResultIterator
 		checkStarted( );
 		
 		if ( state == BEFORE_FIRST_ROW )
+		{
+			this.prepareCurrentRow( );
 			state = ON_ROW;
+		}
 
 		int currRowIndex = odiResult.getCurrentResultIndex( );
 		
@@ -286,7 +282,28 @@ public class ResultIterator implements IResultIterator
 				&& this.resultService.getAutoBindingExpr( exprName ) == null )
 			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 					exprName );
+
+		// Actually below code is not correct, it is only back compatibility.
+		// the API of IResultIterator is a little different from JDBC that
+		// before the next is called, the cursor is in the first row, instead
+		// before the first row. This should be revised for consistency.
+		// Another issue is even if there is no row in result set, total Value
+		// is also available.
+		if ( this.isFirstRowPepared == false )
+			this.prepareCurrentRow( );
 		
+		Object exprValue = boundColumnValueMap.get( exprName );
+		if ( exprValue instanceof BirtException )
+			throw (BirtException) exprValue;
+
+		return exprValue;
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void prepareCurrentRow( ) throws DataException
+	{
 		// currRowIndex value will be changed driven by this.next method.
 		int currRowIndex = this.odiResult.getCurrentResultIndex( );
 		if ( lastRowIndex < currRowIndex )
@@ -302,13 +319,9 @@ public class ResultIterator implements IResultIterator
 			
 			lastRowIndex = currRowIndex;
 			boundColumnValueMap = bindingColumnsEvalUtil.getColumnsValue( );
+			
+			this.isFirstRowPepared = true;
 		}
-		
-		Object exprValue = boundColumnValueMap.get( exprName );
-		if ( exprValue instanceof BirtException )
-			throw (BirtException) exprValue;
-
-		return exprValue;
 	}
 	
 	/*
@@ -393,19 +406,6 @@ public class ResultIterator implements IResultIterator
 	 */
 	public int getStartingGroupLevel( ) throws DataException
 	{
-		if ( useDetails == false )
-		{
-			logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getStartingGroupLevel",
-					"return the starting group level" );
-			return savedStartingGroupLevel;
-		}
-
-		logger.logp( Level.FINE,
-				ResultIterator.class.getName( ),
-				"getStartingGroupLevel",
-				"return the starting group level" );
 		return odiResult.getStartingGroupLevel( );
 	}
 
@@ -414,10 +414,6 @@ public class ResultIterator implements IResultIterator
 	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
-		logger.logp( Level.FINE,
-					ResultIterator.class.getName( ),
-					"getEndingGroupLevel",
-					"return the ending group level" );
 		return odiResult.getEndingGroupLevel( );
 	}
 

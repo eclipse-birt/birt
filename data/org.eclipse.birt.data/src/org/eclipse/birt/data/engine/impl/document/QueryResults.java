@@ -12,10 +12,12 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * This class be used in presentation to retrieve ResultIterator. It will have
@@ -85,12 +87,7 @@ public class QueryResults implements IQueryResults
 	{		
 		if ( resultMetaData == null )
 		{
-			String baseID = QueryResultIDUtil.get1PartID( queryResultID );
-			if ( baseID == null )
-				baseID = queryResultID;
-			RDLoad rdLoad = RDUtil.newLoad( context,
-					new QueryResultInfo( baseID, subQueryName, currParentIndex ) );
-			this.resultMetaData = rdLoad.loadResultMetaData( );
+			this.resultMetaData = getRDLoad( ).loadResultMetaData( );
 		}
 
 		return resultMetaData;
@@ -103,11 +100,21 @@ public class QueryResults implements IQueryResults
 	{
 		if ( resultIterator == null )
 		{
-			if ( subQueryName == null )
+			if ( subQueryName == null ) // not a sub query
 			{
-				resultIterator = new ResultIterator( context,
-						this,
-						queryResultID );
+				IBaseQueryDefinition queryDefn = this.getRDLoad( )
+						.loadQueryDefn( StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				
+				if ( queryDefn.usesDetails( ) == true )
+					resultIterator = new ResultIterator( context,
+							this,
+							queryResultID );
+				else
+					resultIterator = new ResultIterator2( context,
+							this,
+							queryResultID,
+							queryDefn.getGroups( ).size( ) );
 			}
 			else
 			{
@@ -121,7 +128,22 @@ public class QueryResults implements IQueryResults
 
 		return resultIterator;
 	}
-
+	
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	private RDLoad getRDLoad( ) throws DataException
+	{
+		String baseID = QueryResultIDUtil.get1PartID( queryResultID );
+		if ( baseID == null )
+			baseID = queryResultID;
+		RDLoad rdLoad = RDUtil.newLoad( context, new QueryResultInfo( baseID,
+				subQueryName,
+				currParentIndex ) );
+		return rdLoad;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#close()
 	 */

@@ -31,14 +31,14 @@ public class RowIDUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	public int getRowID( IResultIterator ri ) throws DataException
+	public int getRowID( IResultIterator ri, int currIndex ) throws DataException
 	{
 		if ( mode == -1 )
 			init( ri );
 
 		if ( mode == MODE_NORMAL )
 		{
-			return ri.getCurrentResultIndex( );
+			return currIndex;
 		}
 		else
 		{

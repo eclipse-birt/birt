@@ -133,9 +133,13 @@ class QueryResults implements IQueryResults, IQueryService
 			this.queryService.initAutoBinding( );
 			this.queryService.validateQueryColumBinding( );
 			
-			iterator = new ResultIterator( new ResultService( context, this ),
-					queryService.executeQuery( ),
-					this.queryScope );
+			if ( queryService.getQueryDefn( ).usesDetails( ) == true )
+				iterator = new ResultIterator( new ResultService( context, this ),
+						queryService.executeQuery( ),
+						this.queryScope );
+			else
+				iterator = new ResultIterator2( new ResultService( context,
+						this ), queryService.executeQuery( ), this.queryScope );
 		}
 		
 		logger.logp( Level.FINE,

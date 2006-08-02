@@ -46,7 +46,7 @@ class ResultIterator implements IResultIterator
 	private int currParentIndex;
 	
 	// expression data result set
-	private IExprResultSet exprResultSet;
+	protected IExprResultSet exprResultSet;
 	
 	/**
 	 * @param context
@@ -54,9 +54,8 @@ class ResultIterator implements IResultIterator
 	 * @param queryResultID
 	 * @throws DataException 
 	 */
-	ResultIterator( DataEngineContext context,
-			IQueryResults queryResults, String queryResultID )
-			throws DataException
+	ResultIterator( DataEngineContext context, IQueryResults queryResults,
+			String queryResultID ) throws DataException
 	{
 		this( context, queryResults, queryResultID, null, -1 );
 	}
