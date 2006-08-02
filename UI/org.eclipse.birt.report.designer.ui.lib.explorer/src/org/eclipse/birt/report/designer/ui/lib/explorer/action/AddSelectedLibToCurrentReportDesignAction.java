@@ -52,11 +52,11 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		if ( library != null && moduleHandle != null )
-		{
-			return !moduleHandle.isInclude( library );
-		}
-		return false;
+		boolean enabled = library != null
+				&& moduleHandle != null
+				&& !moduleHandle.isInclude( library );
+		library.close( );
+		return enabled;
 	}
 
 	/*
@@ -68,13 +68,18 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	{
 		if ( isEnabled( ) )
 		{
+			LibraryHandle library = getSelectedLibrary( );
 			try
 			{
-				UIUtil.includeLibrary( getSelectedLibrary( ) );
+				UIUtil.includeLibrary( library );
 			}
 			catch ( Exception e )
 			{
 				ExceptionHandler.handle( e );
+			}
+			finally
+			{
+				library.close( );
 			}
 		}
 	}

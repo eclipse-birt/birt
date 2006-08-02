@@ -935,9 +935,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( ).getMediator( )
 				.removeGlobalColleague( this );
+		getModel( ).close( );
 		super.dispose( );
-		
-		
 	}
 	
 	protected void finalize( ) throws Throwable

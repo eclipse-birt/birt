@@ -18,15 +18,11 @@ import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoReport;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -49,7 +45,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	private RefreshLibExplorerAction refreshExplorerAction;
 	private AddLibraryAction addLibraryAction;
 	private AddSelectedLibToCurrentReportDesignAction useLibraryAction;
-
+	private DeleteLibraryAction deleteLibraryAction;
 
 	/**
 	 * constructor
@@ -65,6 +61,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		refreshExplorerAction = new RefreshLibExplorerAction( viewer );
 		addLibraryAction = new AddLibraryAction( viewer );
 		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( viewer );
+		deleteLibraryAction = new DeleteLibraryAction( viewer );
 	}
 
 	/**
@@ -110,13 +107,13 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 					}
 				}
 			}
-			else if (canAddtoReport(selected))
+			else if ( canAddtoReport( selected ) )
 			{
-				if(selection.size( ) == 1)
+				if ( selection.size( ) == 1 )
 				{
-					AddElementtoReport addElementAction = new AddElementtoReport( (StructuredViewer) getViewer() );
+					AddElementtoReport addElementAction = new AddElementtoReport( (StructuredViewer) getViewer( ) );
 					addElementAction.setSelectedElement( selected );
-					menu.add( addElementAction );					
+					menu.add( addElementAction );
 				}
 
 			}
@@ -128,12 +125,14 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			addLibraryAction.setFolder( null );
 			menu.add( addLibraryAction );
 		}
+		if ( deleteLibraryAction.isEnabled( ) )
+			menu.add( deleteLibraryAction );
 	}
-	
 
 	protected boolean canAddtoReport( Object transfer )
 	{
-		if ( transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle)
+		if ( transfer instanceof ReportElementHandle
+				|| transfer instanceof EmbeddedImageHandle )
 		{
 			if ( transfer instanceof ScalarParameterHandle
 					&& ( (ScalarParameterHandle) transfer ).getContainer( ) instanceof CascadingParameterGroupHandle )
@@ -145,7 +144,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			{
 				return false;
 			}
-			else if (transfer instanceof ThemeHandle)
+			else if ( transfer instanceof ThemeHandle )
 			{
 				return false;
 			}
@@ -156,5 +155,5 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		}
 		return false;
 	}
-	
+
 }

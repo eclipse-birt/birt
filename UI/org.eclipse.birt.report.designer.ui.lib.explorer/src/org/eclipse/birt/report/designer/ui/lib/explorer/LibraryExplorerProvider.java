@@ -22,14 +22,15 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * LibraryExplorerProvider
- * LibraryExplorer tree viewer label and content provider adapter.
- * this provider will list all library files in BIRT resource folder.
+ * LibraryExplorerProvider LibraryExplorer tree viewer label and content
+ * provider adapter. this provider will list all library files in BIRT resource
+ * folder.
  */
 public class LibraryExplorerProvider extends ViewsTreeProvider
 {
@@ -60,7 +61,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			if ( !file.exists( ) )
 			{
 				return new Object[]{
-					Messages.getString("LibraryExplorerProvider.FolderNotExist") //$NON-NLS-1$
+					Messages.getString( "LibraryExplorerProvider.FolderNotExist" ) //$NON-NLS-1$
 				};
 			}
 			if ( file.isDirectory( ) )
@@ -86,9 +87,13 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			{
 				try
 				{
-					return super.getChildren( SessionHandleAdapter.getInstance( )
+					//bugzilla 152419
+					LibraryHandle library = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
-							.openLibrary( file.getAbsolutePath( ) ) );
+							.openLibrary( file.getAbsolutePath( ) );
+					Object[] rtns = super.getChildren( library );
+					library.close( );
+					return rtns;
 				}
 				catch ( DesignFileException e )
 				{
