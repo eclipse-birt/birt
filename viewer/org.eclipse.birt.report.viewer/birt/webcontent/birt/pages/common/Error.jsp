@@ -30,7 +30,7 @@
 				<%= BirtResources.getMessage( "birt.viewer.title.error" )%>
 		</TITLE>
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
-		<LINK REL="stylesheet" HREF="<%= request.getContextPath( ) + "birt/styles/style.css" %>" TYPE="text/css">
+		<LINK REL="stylesheet" HREF="<%= request.getContextPath( ) + "/webcontent/birt/styles/style.css" %>" TYPE="text/css">
 	</HEAD>
 	<BODY>
 		<TABLE CLASS="BirtViewer_Highlight_Label">
