@@ -61,7 +61,7 @@ public class ATreeNode
 			xmlTypeToDataType.put( "positiveInteger", DataTypes.getTypeString( DataTypes.INT ) );
 			xmlTypeToDataType.put( "short", DataTypes.getTypeString( DataTypes.INT ) );
 			xmlTypeToDataType.put( "date", DataTypes.getTypeString( DataTypes.DATE ) );
-			xmlTypeToDataType.put( "dateTime", DataTypes.getTypeString( DataTypes.TIME ) );
+			xmlTypeToDataType.put( "dateTime", DataTypes.getTypeString( DataTypes.TIMESTAMP ) );
 			xmlTypeToDataType.put( "time", DataTypes.getTypeString( DataTypes.TIME ) );
 		}
 		catch ( OdaException e )
