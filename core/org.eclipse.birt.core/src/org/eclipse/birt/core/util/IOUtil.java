@@ -51,6 +51,8 @@ public class IOUtil
 	
 	public static final int RA_STREAM_BUFFER_LENGTH = 8192;
 	
+	public static final int MAX_NUMBER_OF_STREAM_BUFFER = 128;
+	
 	/**
 	 * Read an int value from an input stream
 	 * 

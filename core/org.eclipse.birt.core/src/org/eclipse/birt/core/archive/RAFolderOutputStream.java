@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import org.eclipse.birt.core.util.IOUtil;
 
 /**
  * RAOutputStream implementation for folder based report archive  
@@ -26,20 +25,10 @@ public class RAFolderOutputStream extends RAOutputStream
 	
 	private RandomAccessFile randomFile;
 	
-    /**
-     * The internal buffer where data is stored. 
-     */
-    protected byte buf[];
-
-    /**
-     * The number of valid bytes in the buffer. This value is always 
-     * in the range <tt>0</tt> through <tt>buf.length</tt>; elements 
-     * <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid 
-     * byte data.
-     */
-    protected int count;
+	private RAStreamBufferMgr bufferMgr;
 	
-	public RAFolderOutputStream( FolderArchiveWriter archive, File file ) throws FileNotFoundException
+	public RAFolderOutputStream( FolderArchiveWriter archive, File file ) 
+	throws FileNotFoundException, IOException
 	{
 		this.archive = archive;
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
@@ -51,16 +40,13 @@ public class RAFolderOutputStream extends RAOutputStream
 		{
 			e.printStackTrace();
 		}
-		this.buf = new byte[IOUtil.RA_STREAM_BUFFER_LENGTH];
-		this.count = 0;
+		this.bufferMgr = new RAStreamBufferMgr( this.randomFile );
 	}
 	
     /** Flush the internal buffer */
-    private void flushBuffer() throws IOException {
-        if (count > 0) {
-	    randomFile.write(buf, 0, count);
-	    count = 0;
-        }
+    private void flushBuffer() throws IOException 
+    {
+    	bufferMgr.flushBuffer();
     }
 
     /**
@@ -81,10 +67,9 @@ public class RAFolderOutputStream extends RAOutputStream
      */
 	public void write( int b ) throws IOException 
 	{
-		if (count >= buf.length) {
-		    flushBuffer();
-		}
-		buf[count++] = (byte)b;
+		byte writeBuffer[] = new byte[1];
+		writeBuffer[0] = (byte)b;
+		bufferMgr.write( writeBuffer, 0, 1 );
 	}
 
     /**
@@ -99,7 +84,7 @@ public class RAFolderOutputStream extends RAOutputStream
      */
 	public void write(byte b[]) throws IOException
     {
-		this.write(b, 0, b.length);		
+		bufferMgr.write(b, 0, b.length);		
     }
 
     /**
@@ -118,19 +103,7 @@ public class RAFolderOutputStream extends RAOutputStream
      */
     public void write(byte b[], int off, int len) throws IOException 
     {
-    	if (len >= buf.length) {
-    	    /* If the request length exceeds the size of the output buffer,
-        	       flush the output buffer and then write the data directly.
-        	       In this way buffered streams will cascade harmlessly. */
-    	    flushBuffer();
-    	    randomFile.write(b, off, len);
-    	    return;
-    	}
-    	if (len > buf.length - count) {
-    	    flushBuffer();
-    	}
-    	System.arraycopy(b, off, buf, count, len);
-    	count += len;
+    	bufferMgr.write( b, off, len );
     }
     
     /**
@@ -138,10 +111,12 @@ public class RAFolderOutputStream extends RAOutputStream
      */
     public void writeInt(int v) throws IOException
     {
-		this.write( ( v >>> 24 ) & 0xFF );
-		this.write( ( v >>> 16 ) & 0xFF );
-		this.write( ( v >>> 8 ) & 0xFF );
-		this.write( ( v >>> 0 ) & 0xFF );
+    	byte writeBuffer[] = new byte[4];
+    	writeBuffer[0] = (byte)(v >>> 24);
+        writeBuffer[1] = (byte)(v >>> 16);
+        writeBuffer[2] = (byte)(v >>>  8);
+        writeBuffer[3] = (byte)(v >>>  0);
+        bufferMgr.write(writeBuffer, 0, 4);
     }
     
     /**
@@ -158,12 +133,12 @@ public class RAFolderOutputStream extends RAOutputStream
         writeBuffer[5] = (byte)(v >>> 16);
         writeBuffer[6] = (byte)(v >>>  8);
         writeBuffer[7] = (byte)(v >>>  0);
-        this.write(writeBuffer, 0, 8);
+        bufferMgr.write(writeBuffer, 0, 8);
     }
     
     public long getOffset() throws IOException
     {
-    	return randomFile.getFilePointer( ) + count;
+    	return bufferMgr.getFilePointer();
     }
 
 	/**
@@ -180,11 +155,7 @@ public class RAFolderOutputStream extends RAOutputStream
 	 */
 	public void seek( long localPos ) throws IOException 
 	{
-		if ( localPos != this.getOffset() )
-		{
-			flushBuffer();
-			randomFile.seek( localPos );
-		}
+		bufferMgr.seek( localPos );
 	}
 	
 	/**
