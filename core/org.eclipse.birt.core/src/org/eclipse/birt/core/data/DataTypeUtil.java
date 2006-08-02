@@ -978,8 +978,15 @@ public final class DataTypeUtil
 		df = (DateFormatter) ( dfMap.get( locale ) );
 		if ( df == null )
 		{
-			df = new DateFormatter( locale );
-			dfMap.put( locale, df );
+			synchronized ( dfMap )
+			{
+				df = (DateFormatter) ( dfMap.get( locale ) );
+				if ( df == null )
+				{
+					df = new DateFormatter( locale );
+					dfMap.put( locale, df );
+				}
+			}
 		}
 
 		return df.format( (Date) source );
@@ -1121,10 +1128,9 @@ public final class DataTypeUtil
  */
 class DateFormatHolder
 {
-
 	//
-	private static Map dateTimeholder = DateFormatUtil.getAllDateTimeFormat( );
-	private static Map dateHolder = DateFormatUtil.getAllDateFormat( );
+	private static Map dateTimeFormatholder = DateFormatUtil.getAllDateTimeFormat( );
+	private static Map dateFormatHolder = DateFormatUtil.getAllDateFormat( );
 
 	/**
 	 * 
@@ -1147,14 +1153,24 @@ class DateFormatHolder
 		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,timeStyle,locale) ;
 		String key = String.valueOf( dateStyle )
 				+ ":" + String.valueOf( timeStyle ) + ":" + locale.getName( );
-		DateFormat result = (DateFormat) dateTimeholder.get( key );
+		DateFormat result = (DateFormat) dateTimeFormatholder.get( key );
+		
+		//This code block is added to solve the problem that the uncached datetimeformatter being used	
 		if ( result == null )
 		{
-			result = DateFormat.getDateTimeInstance( dateStyle,
-					timeStyle,
-					locale );
-			dateTimeholder.put( key, result );
+			synchronized ( dateTimeFormatholder )
+			{
+				result = (DateFormat) dateTimeFormatholder.get( key );
+				if ( result == null )
+				{
+					result = DateFormat.getDateTimeInstance( dateStyle,
+							timeStyle,
+							locale );
+					dateTimeFormatholder.put( key, result );
+				}
+			}
 		}
+		
 		return result;
 	}
 
@@ -1168,11 +1184,20 @@ class DateFormatHolder
 	{
 		String key = String.valueOf( dateStyle ) + ":" + locale.getName( );
 		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,0,locale) ;
-		DateFormat result = (DateFormat) dateHolder.get( key );
+		DateFormat result = (DateFormat) dateFormatHolder.get( key );
+		
+		//This code block is added to solve the problem that the uncached datetimeformatter being used	
 		if ( result == null )
 		{
-			result = DateFormat.getDateInstance( dateStyle, locale );
-			dateHolder.put( key, result );
+			synchronized ( dateTimeFormatholder )
+			{
+				result = (DateFormat)dateFormatHolder.get( key );
+				if ( result == null )
+				{
+					result = DateFormat.getDateInstance( dateStyle, locale );
+					dateFormatHolder.put( key, result );
+				}
+			}
 		}
 		return result;
 	}
