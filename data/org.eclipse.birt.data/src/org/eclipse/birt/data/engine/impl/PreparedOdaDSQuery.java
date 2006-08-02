@@ -25,8 +25,10 @@ import java.util.Set;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
@@ -38,6 +40,7 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A prepared query which access an ODA data source.
@@ -55,8 +58,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			IBaseDataSetDesign dataSetDesign, Map appContext )
 			throws DataException
 	{
-		super( dataEngine, queryDefn, dataSetDesign, appContext );
-	}	
+		super( dataEngine, queryDefn, dataSetDesign, appContext != null
+				? appContext: new HashMap( ) );
+	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.PreparedQuery#newExecutor()
@@ -119,6 +123,48 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
     	return exec.getParameterMetaData();
 	}
     
+    /*
+	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults,
+	 *      org.mozilla.javascript.Scriptable)
+	 */
+	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
+			throws DataException
+	{
+		this.configureParameterHints( queryDefn, appContext, scope );
+		
+		return super.execute( outerResults, scope );
+	}
+
+	/**
+	 * A work-around to set the user defined parameter metadata
+	 * 
+	 * @param querySpec
+	 * @param appContext
+	 * @param scope
+	 * @throws DataException
+	 */
+	private void configureParameterHints( IQueryDefinition querySpec,
+			Map appContext, Scriptable scope ) throws DataException
+	{
+		if ( querySpec == null )
+			return;
+		
+		if ( querySpec.getQueryResultsID( ) != null )
+			return;
+		
+		IBaseDataSetDesign dataSetDesign = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
+		List paramList = dataSetDesign.getParameters( );
+		if ( paramList == null || paramList.size( ) == 0 )
+			return;
+
+		if ( ( (IOdaDataSetDesign) dataSetDesign ).getExtensionID( )
+				.equals( "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" ) )
+		{
+			appContext.put( "parameter_hints",
+					new UserDefinedParamMetaData( paramList ) );
+		}
+	}
+	
     /**
      * 
 	 * Concrete class of DSQueryExecutor used in PreparedExtendedDSQuery

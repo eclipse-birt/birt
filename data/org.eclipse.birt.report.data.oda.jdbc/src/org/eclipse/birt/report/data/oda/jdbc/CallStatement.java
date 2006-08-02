@@ -15,13 +15,14 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
-import java.sql.ParameterMetaData;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,7 +66,8 @@ public class CallStatement implements IAdvancedQuery
 
 	private static Logger logger = Logger.getLogger( CallStatement.class.getName( ) );
 
-	//private boolean isCallabeStatement = true;
+	/** The user defined parameter metadata from AppContext */
+	private IParameterMetaData parameterDefn; 
 
 	protected String procedureName;
 
@@ -152,7 +154,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setAppContext( Object context ) throws OdaException
 	{
-	    // do nothing; no support for pass-through application context
+		if ( context instanceof Map )
+		{
+			parameterDefn = (IParameterMetaData) ( ( (Map) context ).get( "parameter_hints" ) );
+		}
 	}
 
 	/*
@@ -366,70 +371,17 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	private void registerOutputParameter( ) throws OdaException
 	{
-		ParameterMetaData metaData = null;
-		try
+		
+		if ( parameterDefn != null )
 		{
-			metaData = this.callStat.getParameterMetaData( );
-		}
-		catch ( SQLException e )
-		{
-			metaData = null;
-		}
-		try
-		{
-			if ( metaData != null )
+			for ( int i = 0; i < parameterDefn.getParameterCount( ); i++ )
 			{
-				for ( int index = 1; index <= metaData.getParameterCount( ); index++ )
+				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut
+						|| parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeInOut )
 				{
-					if ( metaData.getParameterMode( index ) == ParameterMetaData.parameterModeUnknown )
-					{
-						registerOnDbMetaData( );
-						break;
-					}
-					else if ( metaData.getParameterMode( index ) == java.sql.ParameterMetaData.parameterModeOut
-							|| metaData.getParameterMode( index ) == java.sql.ParameterMetaData.parameterModeInOut )
-						registerOutParameter( index,
-								metaData.getParameterType( index ) );
+					registerOutParameter( i + 1,
+							parameterDefn.getParameterType( i ) );
 				}
-			}
-			else
-				registerOnDbMetaData( );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL, e );
-		}
-	}
-
-	/**
-	 * register output parameter based on database metadata
-	 * 
-	 * @throws OdaException
-	 */
-	private void registerOnDbMetaData( ) throws OdaException
-	{
-		IParameterMetaData paramInfo = getParameterMetaData( );
-		if ( !paramUtil.hasNonDefaultParameter( ) )
-		{
-
-			int count = paramInfo.getParameterCount( );
-			for ( int i = 1; i <= count; i++ )
-			{
-				if ( paramInfo.getParameterMode( i ) == IParameterMetaData.parameterModeInOut
-						|| paramInfo.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
-					registerOutParameter( i, paramInfo.getParameterType( i ) );
-			}
-		}
-		else
-		{
-			int[] positionArray = paramUtil.getParameterPositions( );
-			for ( int index = 0; index < positionArray.length; index++ )
-			{
-				int position = positionArray[index];
-				if ( position <= paramInfo.getParameterCount( )
-						&& ( paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeInOut || paramInfo.getParameterMode( position ) == IParameterMetaData.parameterModeOut ) )
-					registerOutParameter( index + 1,
-							paramInfo.getParameterType( position ) );
 			}
 		}
 	}
@@ -1277,7 +1229,16 @@ public class CallStatement implements IAdvancedQuery
 	{
 		/* redirect the call to JDBC callableStatement.getParameterMetaData */
 		assertNotNull( callStat );
-		return new SPParameterMetaData( getCallableParamMetaData( ) );
+		int[] positionArray = paramUtil.getParameterPositions( );
+
+		List paramMetaList1 = this.getCallableParamMetaData( );
+		List paramMetaList2 = new ArrayList( );
+		for ( int i = 0; i < positionArray.length; i++ )
+		{
+			int index = positionArray[i]; // 1-based
+			paramMetaList2.add( paramMetaList1.get( index - 1 ) );
+		}
+		return new SPParameterMetaData( paramMetaList2 );
 	}
 
 	/**
