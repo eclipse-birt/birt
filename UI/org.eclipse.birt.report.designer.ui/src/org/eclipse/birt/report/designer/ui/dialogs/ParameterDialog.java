@@ -886,7 +886,8 @@ public class ParameterDialog extends BaseDialog
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
-		if ( !dataSetList.contains( inputParameter.getDataSetName( ) ) )
+		if ( inputParameter.getDataSetName( ) != null
+				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
 		{
 			dataSetList.add( 0, inputParameter.getDataSetName( ) );
 		}
