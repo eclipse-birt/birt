@@ -22,7 +22,7 @@ package org.eclipse.birt.report.engine.content;
  * For foreign object in "text/html" format, the PDF writer output the standard
  * content while the HTML writer output the raw value directly.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/11/17 16:50:48 $
+ * @version $Revision: 1.4 $ $Date: 2006/01/11 06:29:04 $
  */
 public interface IForeignContent extends IContent
 {
@@ -60,4 +60,15 @@ public interface IForeignContent extends IContent
 	public Object getRawValue( );
 
 	void setRawValue( Object value );
+	
+	/**
+	 * @return Returns the altText.
+	 */
+	public String getAltText( );
+
+	public String getAltTextKey( );
+
+	public void setAltText( String altText );
+
+	public void setAltTextKey( String key );
 }

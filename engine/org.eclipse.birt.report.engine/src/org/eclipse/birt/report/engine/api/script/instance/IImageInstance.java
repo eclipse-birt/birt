@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
+
 public interface IImageInstance extends IReportItemInstance
 {
 
@@ -36,6 +37,7 @@ public interface IImageInstance extends IReportItemInstance
 	String getURI( );
 
 	/**
+	 * @deprecated
 	 * Set the image URI
 	 * 
 	 */
@@ -90,5 +92,29 @@ public interface IImageInstance extends IReportItemInstance
 	 * Set the MIME Type
 	 */
 	void setMimeType(String type);
+	
+	/**
+	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>, 
+	 * and will automatically set in this method. 
+	 */
+	void setURL ( String url );
+	
+	/** 
+	 * get the image url, 
+	 * if the source type is not <code>IMAGE_REF_TYPE_URL</code> return null.
+	 */
+	String getURL( );
+	
+	/**
+	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>, 
+	 * and will automatically set in this method. 
+	 */
+	void setFile ( String file );
+
+	/** 
+	 * get the image url, 
+	 * if the source type is not <code>IMAGE_REF_TYPE_FILE</code> return null.
+	 */
+	String getFile( );
 
 }

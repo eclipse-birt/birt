@@ -677,6 +677,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				imageObj.setData( imageContent );
 				imageObj.setImageMap( imageMap );
 				imageObj.setMIMEType( imageMIMEType );
+				imageObj.setAltText( content.getAltText( ) );
+				imageObj.setAltTextKey( content.getAltTextKey( ) );
 				processImage( imageObj );
 				return imageObj;
 

@@ -546,7 +546,7 @@ public class HTML2Content
 			
 			if( !FileUtil.isLocalResource( src ) )
 			{
-				image.setImageSource(IImageContent.IMAGE_URI);
+				image.setImageSource(IImageContent.IMAGE_URL);
 				image.setURI(src);
 			}
 			else

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 
@@ -53,7 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.38 $ $Date: 2006/06/30 05:26:57 $
+ * @version $Revision: 1.39 $ $Date: 2006/07/25 04:35:11 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -186,7 +185,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		// the expression as the string constants, so first try
 		// to evaluate, if there are some errors, use it as a
 		// string.
-		imageContent.setImageSource( IImageContent.IMAGE_URI );
+		imageContent.setImageSource( IImageContent.IMAGE_URL );
 
 		assert uriExpr != null;
 		Object uriObj = evaluate( uriExpr );

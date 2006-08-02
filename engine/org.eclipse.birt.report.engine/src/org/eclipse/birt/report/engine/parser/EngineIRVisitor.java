@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.113 $ $Date: 2006/06/22 08:38:24 $
+ * @version $Revision: 1.114 $ $Date: 2006/06/29 09:21:11 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -849,7 +849,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		if ( EngineIRConstants.IMAGE_REF_TYPE_URL.equals( imageSrc ) )
 		{
-			image.setImageUri( createExpression( handle.getURI( ) ) );
+			image.setImageUri( createExpression( handle.getURL( ) ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
 		{
@@ -865,7 +865,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
-			image.setImageFile( createExpression( handle.getURI( ) ) );
+			image.setImageFile( createExpression( handle.getFile( ) ) );
 		}
 		else
 		{
@@ -1371,7 +1371,10 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		ExtendedItemDesign extendedItem = new ExtendedItemDesign( );
 		setupReportItem( extendedItem, obj );
-				
+		
+		// Alternative text for extendedItem
+		extendedItem.setAltText( obj.getAltTextKey( ), obj.getAltText( ) );
+		
 		currentElement = extendedItem;
 	}
 

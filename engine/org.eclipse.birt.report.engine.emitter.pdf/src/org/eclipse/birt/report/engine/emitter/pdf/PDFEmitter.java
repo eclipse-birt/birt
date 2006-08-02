@@ -894,7 +894,7 @@ public class PDFEmitter implements IContentEmitter
 						img = Image.getInstance(imageContent.getURI());
 					}
 					break;
-				case IImageContent.IMAGE_URI:
+				case IImageContent.IMAGE_URL:
 					if (null == imageContent.getURI())
 						return;
 					

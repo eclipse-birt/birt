@@ -163,7 +163,8 @@ public class Image extends ReportItem implements IImage
 		}
 	}
 
-	/*
+	/**
+	 * @deprecated
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setURI(java.lang.String)
@@ -337,4 +338,57 @@ public class Image extends ReportItem implements IImage
 		return new ActionImpl( ( ( ImageHandle ) handle ).getActionHandle( ),
 				( ImageHandle ) handle );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setFile()
+	 */
+	public void setFile( String file ) throws ScriptException
+	{
+		try
+		{
+			( ( ImageHandle ) handle ).setFile( file );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getFile()
+	 */
+	public String getFile( )
+	{
+		return ( ( ImageHandle ) handle ).getFile( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setURL()
+	 */
+	public void setURL( String url ) throws ScriptException
+	{
+		try
+		{
+			( ( ImageHandle ) handle ).setURL( url );
+		} catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getURL()
+	 */
+	public String getURL( )
+	{
+		return ( ( ImageHandle ) handle ).getURL( );
+	}
+
 }

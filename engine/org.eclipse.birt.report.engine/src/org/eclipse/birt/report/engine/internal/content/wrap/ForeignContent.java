@@ -20,6 +20,9 @@ public class ForeignContent extends AbstractContentWrapper
 {
 
 	IForeignContent foreignContent;
+	
+	protected String altText;
+	protected String altTextKey;
 
 	public ForeignContent( IForeignContent content )
 	{
@@ -66,5 +69,25 @@ public class ForeignContent extends AbstractContentWrapper
 	public void setRawValue( Object rawValue )
 	{
 		foreignContent.setRawValue( rawValue );
+	}
+
+	public String getAltText( )
+	{
+		return foreignContent.getAltText( );
+	}
+
+	public String getAltTextKey( )
+	{
+		return foreignContent.getAltTextKey( );
+	}
+
+	public void setAltTextKey( String key )
+	{
+		foreignContent.setAltTextKey( key );
+	}
+	
+	public void setAltText( String altText )
+	{
+		foreignContent.setAltText( altText );
 	}
 }

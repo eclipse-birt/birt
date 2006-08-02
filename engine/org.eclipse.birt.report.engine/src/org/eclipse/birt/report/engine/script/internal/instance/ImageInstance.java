@@ -36,7 +36,7 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( IImageContent ) content ).getAltText( );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setAltText(java.lang.String)
@@ -76,7 +76,8 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 		return ( ( IImageContent ) content ).getURI( );
 	}
 
-	/*
+	/**
+	 * @deprecated
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setURI(java.lang.String)
@@ -167,5 +168,54 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	{
 		( ( IImageContent ) content ).setMIMEType( type );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setFile()
+	 */
+	public void setFile( String file )
+	{
+		( ( IImageContent ) content ).setImageSource( IImageContent.IMAGE_FILE );
+		( ( IImageContent ) content ).setURI( file );
+	}	
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getFile()
+	 */
+	public String getFile( )
+	{
+		if ( ( ( IImageContent ) content ).getImageSource( ) == IImageContent.IMAGE_FILE )
+		{
+			return ( ( IImageContent ) content ).getURI( );
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setURL()
+	 */
+	public void setURL( String url ) 
+	{
+		( ( IImageContent ) content ).setImageSource( IImageContent.IMAGE_URL );
+		( ( IImageContent ) content ).setURI( url );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getURL()
+	 */
+	public String getURL( )
+	{
+		if ( ( ( IImageContent ) content ).getImageSource( ) == IImageContent.IMAGE_URL )
+		{
+			return ( ( IImageContent ) content ).getURI( );
+		}
+		return null;
+	}
 }

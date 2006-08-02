@@ -146,7 +146,7 @@ public class Image extends ReportPart implements IImage
 					this.id = content.getInstanceID( ).toString( );
 				}
 				break;
-			case IImageContent.IMAGE_URI :
+			case IImageContent.IMAGE_URL :
 				if ( imgUri != null )
 				{
 					this.id = imgUri;

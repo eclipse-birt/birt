@@ -147,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.137 $ $Date: 2006/07/21 06:16:37 $
+ * @version $Revision: 1.138 $ $Date: 2006/07/25 04:33:40 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -2173,7 +2173,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( "onresize", bookmark+".reload()"); //$NON-NLS-1$
 			
 			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
-			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
+			writer.attribute( HTMLTags.ATTR_SRC, imgUri );			
+
+			// alternative text
+			String altText = image.getAltText( );
+			if ( altText == null )
+			{
+				writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
+			}
+			else
+			{
+				writer.attribute( HTMLTags.ATTR_ALT, altText );
+			}
+			
 			setStyleName( image.getStyleClass( ) );
 			setDisplayProperty( display, 0, styleBuffer );
 			// build size

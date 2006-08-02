@@ -19,6 +19,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 public class ForeignContent extends AbstractContent implements IForeignContent
@@ -26,6 +27,9 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 
 	protected String rawType;
 	protected Object rawValue;
+	
+	protected String altText;
+	protected String altTextKey;
 
 	public int getContentType( )
 	{
@@ -108,9 +112,48 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		}
 		return IForeignContent.TEXT_TYPE;
 	}
+	
+	public String getAltText( )
+	{
+		if ( altText == null )
+		{
+			if ( generateBy instanceof ExtendedItemDesign )
+			{
+				return ( (ExtendedItemDesign) generateBy ).getAltText( );
+			}
+		}
+		return altText;
+	}
+
+	public String getAltTextKey( )
+	{
+		if ( altTextKey == null )
+		{
+			if ( generateBy instanceof ExtendedItemDesign )
+			{
+				return ( (ExtendedItemDesign) generateBy ).getAltTextKey( );
+			}
+		}
+		return altTextKey;
+	}
+
+	public void setAltTextKey( String key )
+	{
+		altTextKey = key;
+	}
+	/**
+	 * @param altText
+	 *            The altText to set.
+	 */
+	public void setAltText( String altText )
+	{
+		this.altText = altText;
+	}
 
 	static final protected int FIELD_ROW_TYPE = 400;
 	static final protected int FIELD_ROWVALUE = 401;
+	static final protected int FIELD_ALTTEXT = 402;
+	static final protected int FIELD_ALTTEXTKEY = 403;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -125,6 +168,16 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 			IOUtil.writeInt( out,  FIELD_ROWVALUE );
 			IOUtil.writeObject( out, rawValue );
 		}
+		if ( altText != null )
+		{
+			IOUtil.writeInt( out, FIELD_ALTTEXT );
+			IOUtil.writeString( out, altText );
+		}
+		if ( altTextKey != null )
+		{
+			IOUtil.writeInt( out, FIELD_ALTTEXTKEY );
+			IOUtil.writeString( out, altTextKey );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -137,6 +190,12 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 				break;
 			case FIELD_ROWVALUE :
 				rawValue = IOUtil.readObject( in );
+				break;
+			case FIELD_ALTTEXT :
+				altText = IOUtil.readString( in );
+				break;
+			case FIELD_ALTTEXTKEY :
+				altTextKey = IOUtil.readString( in );
 				break;
 			default :
 				super.readField( version, filedId, in );

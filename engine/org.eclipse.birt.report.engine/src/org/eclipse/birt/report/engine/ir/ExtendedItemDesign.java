@@ -16,12 +16,22 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Extended Item. 
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/17 16:50:43 $
  */
 public class ExtendedItemDesign extends ReportItemDesign
 {
 	IBaseQueryDefinition[] queries;
-
+	
+	/**
+	 * Text associated with this extendedItem, used for default locale.
+	 */
+	protected String altText;
+	
+	/**
+	 * Text Resource Key used for altText localization.
+	 */
+	protected String altTextKey;
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
 	 */
@@ -38,5 +48,31 @@ public class ExtendedItemDesign extends ReportItemDesign
 	public IBaseQueryDefinition[] getQueries()
 	{
 		return this.queries;
+	}
+	
+	/**
+	 * @param altText
+	 *            The altText to set.
+	 */
+	public void setAltText( String altTextKey, String altText )
+	{
+		this.altTextKey = altTextKey;
+		this.altText = altText;
+	}
+
+	/**
+	 * @return Returns the altTextKey.
+	 */
+	public String getAltTextKey( )
+	{
+		return altTextKey;
+	}
+
+	/**
+	 * @return Returns the altText.
+	 */
+	public String getAltText( )
+	{
+		return altText;
 	}
 }

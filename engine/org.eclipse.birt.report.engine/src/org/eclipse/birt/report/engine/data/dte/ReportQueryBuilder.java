@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.77 $ $Date: 2006/06/22 08:38:24 $
+ * @version $Revision: 1.78 $ $Date: 2006/07/24 12:30:53 $
  */
 public class ReportQueryBuilder
 {
@@ -321,11 +321,15 @@ public class ReportQueryBuilder
 				String newImageFormat = transformExpression( image.getImageFormat( ) );
 				image.setImageExpression( newImageExpression, newImageFormat );
 			}
-			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI
-					|| image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
+			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI )
 			{
 				String newImageUri = transformExpression( image.getImageUri( ) );
 				image.setImageUri( newImageUri );
+			}
+			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
+			{
+				String newImageUri = transformExpression( image.getImageUri( ) );
+				image.setImageFile( newImageUri );
 			}
 
 			finishVisit( query );

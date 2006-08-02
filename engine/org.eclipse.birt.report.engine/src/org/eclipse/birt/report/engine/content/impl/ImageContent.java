@@ -315,7 +315,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			case IImageContent.IMAGE_FILE :
 			case IImageContent.IMAGE_NAME :
-			case IImageContent.IMAGE_URI :
+			case IImageContent.IMAGE_URL :
 				if ( uri != null )
 				{
 					IOUtil.writeInt( out, FIELD_URI );

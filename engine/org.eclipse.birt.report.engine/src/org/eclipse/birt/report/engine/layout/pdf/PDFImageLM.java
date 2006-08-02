@@ -140,7 +140,7 @@ public class PDFImageLM extends PDFLeafItemLM
 				image = Image.getInstance( content.getData( ) );
 				break;
 
-			case IImageContent.IMAGE_URI :
+			case IImageContent.IMAGE_URL :
 				image = Image.getInstance( new URL( content.getURI( ) ) );
 				break;
 			default :

@@ -150,6 +150,7 @@ public interface IImage extends IReportItem
 	void setImageName( String name ) throws ScriptException;
 
 	/**
+	 * @deprecated
 	 * Sets the image uri property. The source type is automatically set in this
 	 * method. Whether <code>IMAGE_REF_TYPE_FILE</code> or
 	 * <code>IMAGE_REF_TYPE_URL</code> depends on the uri to set.
@@ -268,5 +269,30 @@ public interface IImage extends IReportItem
 	 */
 
 	void setHelpTextKey( String helpTextKey ) throws ScriptException;
+	
+	/**
+	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>, 
+	 * and will automatically set in this method. 
+	 */
+	void setURL ( String url ) throws ScriptException;
+	
+	/** 
+	 * get the image url, 
+	 * if the source type is not <code>IMAGE_REF_TYPE_URL</code> return null.
+	 */
+	String getURL( );
+	
+	/**
+	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>, 
+	 * and will automatically set in this method. 
+	 */
+	void setFile ( String file ) throws ScriptException;
 
+	/** 
+	 * get the image url, 
+	 * if the source type is not <code>IMAGE_REF_TYPE_FILE</code> return null.
+	 */
+	String getFile( );
+
+	
 }

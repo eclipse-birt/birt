@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Image content in the report.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:46 $
+ * @version $Revision: 1.2 $ $Date: 2005/12/05 08:11:33 $
  */
 public interface IImageContent extends IContent
 {
@@ -22,6 +22,11 @@ public interface IImageContent extends IContent
 	public final static int IMAGE_FILE = 0;
 	public final static int IMAGE_NAME = 1;
 	public final static int IMAGE_EXPRESSION = 2;
+	public final static int IMAGE_URL = 3;
+	/**
+	 * @deprecated
+	 * replaced by IMAGE_URL
+	 */
 	public final static int IMAGE_URI = 3;
 
 	/**
