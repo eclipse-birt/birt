@@ -34,7 +34,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -98,7 +97,7 @@ public class ImportValueDialog extends BaseDialog
 	public ImportValueDialog( String style )
 	{
 		super( DLG_TITLE );
-		Assert.isTrue( DesignEngine.getMetaDataDictionary( )
+		Assert.isTrue( DEUtil.getMetaDataDictionary( )
 				.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE )
 				.contains( style ) );
 		this.style = style;
@@ -109,21 +108,15 @@ public class ImportValueDialog extends BaseDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		createColumnSelectionArea( composite );
 		createValueSelectionArea( composite );
-		UIUtil.bindHelp( composite,IHelpContextIds.IMPORT_VALUE_DIALOG_ID );  
+		UIUtil.bindHelp( composite, IHelpContextIds.IMPORT_VALUE_DIALOG_ID );
 		return composite;
 	}
 
 	private void createColumnSelectionArea( Composite parent )
 	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		composite.setLayout( new GridLayout( 2, true ) );
-		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		Composite selectionArea = new Composite( composite, SWT.NONE );
+		Composite selectionArea = new Composite( parent, SWT.NONE );
 		selectionArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		selectionArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		new Label( composite, SWT.NONE );// Dummy
 
 		new Label( selectionArea, SWT.NONE ).setText( LABEL_SELECT_DATASET );
 		dataSetChooser = new Combo( selectionArea, SWT.DROP_DOWN
