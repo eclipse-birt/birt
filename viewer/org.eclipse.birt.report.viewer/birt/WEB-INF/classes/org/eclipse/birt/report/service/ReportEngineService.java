@@ -903,7 +903,7 @@ public class ReportEngineService
 
 		// Create render task.
 		IRenderTask renderTask = engine.createRenderTask( reportDocument );
-		
+
 		HashMap context = new HashMap( );
 		String format = ParameterAccessor.getFormat( request );
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
@@ -927,9 +927,9 @@ public class ReportEngineService
 		// Render option
 		HTMLRenderOption setting = new HTMLRenderOption( );
 		setting.setOutputStream( out );
+		setting.setOutputFormat( format );
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
-			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
 			setting
 					.setActionHandle( new ViewerHTMLActionHandler(
 							reportDocument, pageNumber, locale, false, rtl,
@@ -937,7 +937,6 @@ public class ReportEngineService
 		}
 		else
 		{
-			setting.setOutputFormat( IBirtConstants.HTML_RENDER_FORMAT );
 			boolean isEmbeddable = false;
 			if ( ParameterAccessor.SERVLET_PATH_FRAMESET
 					.equalsIgnoreCase( request.getServletPath( ) ) )
