@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
+import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -142,7 +143,7 @@ public class OdaDataSource extends DataSource
 
 	public List getPropertyDefns( )
 	{
-		if ( provider != null )
+		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			return provider.getPropertyDefns( );
 
 		return super.getPropertyDefns( );
@@ -162,7 +163,7 @@ public class OdaDataSource extends DataSource
 		if ( propDefn != null )
 			return propDefn;
 
-		if ( provider != null )
+		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
 
 		return propDefn;
@@ -194,8 +195,12 @@ public class OdaDataSource extends DataSource
 		{
 			extensionID = (String) value;
 			if ( extensionID != null )
+			{
 				provider = ODAProviderFactory.getInstance( ).createODAProvider(
 						this, extensionID );
+				if ( !provider.isValidODADataSourceExtensionID( extensionID ) )
+					provider = new OdaDummyProvider( extensionID );
+			}
 			else
 				provider = null;
 		}
@@ -215,7 +220,7 @@ public class OdaDataSource extends DataSource
 	{
 		super.checkExtends( parent );
 
-		if ( provider != null )
+		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			provider.checkExtends( parent );
 		else
 		{
@@ -248,6 +253,17 @@ public class OdaDataSource extends DataSource
 		List list = super.validate( module );
 
 		return list;
+	}
+
+	/**
+	 * Returns the extension provider of the data source.
+	 * 
+	 * @return the extension provider
+	 */
+
+	public ODAProvider getProvider( )
+	{
+		return provider;
 	}
 
 }

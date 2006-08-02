@@ -86,6 +86,8 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.extension.oda.ODAProvider;
+import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -1247,7 +1249,20 @@ public abstract class ModuleWriter extends ElementVisitor
 			extDefn = ( (OdaDataSet) obj ).getExtDefn( );
 
 		if ( extDefn == null )
+		{
+			ODAProvider provider = null;
+
+			if ( obj instanceof OdaDataSource )
+				provider = ( (OdaDataSource) obj ).getProvider( );
+			if ( obj instanceof OdaDataSet )
+				provider = ( (OdaDataSet) obj ).getProvider( );
+
+			if ( provider instanceof OdaDummyProvider )
+				writeOdaDummyProperties( obj, provider );
+
 			return;
+
+		}
 
 		List list = extDefn.getLocalProperties( );
 		for ( int i = 0; i < list.size( ); i++ )
@@ -1259,13 +1274,45 @@ public abstract class ModuleWriter extends ElementVisitor
 			Object value = obj.getLocalProperty( getModule( ), prop.getName( ) );
 			if ( value != null )
 			{
-				if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
-					writeProperty( obj, getTagByPropertyType( prop ), prop
-							.getName( ), false );
-				else
-					writeProperty( obj, getTagByPropertyType( prop ), prop
-							.getName( ), true );
+				boolean cdata = false;
+
+				if ( prop.getTypeCode( ) == PropertyType.XML_TYPE
+						|| prop.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+					cdata = true;
+				writeProperty( obj, getTagByPropertyType( prop ), prop
+						.getName( ), cdata );
 			}
+		}
+	}
+
+	/**
+	 * Writes ODA exension properties.
+	 * 
+	 * @param obj
+	 *            the ODA element to write
+	 * @param provider
+	 *            the extension provider
+	 */
+
+	private void writeOdaDummyProperties( DesignElement obj,
+			ODAProvider provider )
+	{
+		assert provider instanceof OdaDummyProvider;
+
+		OdaDummyProvider dummyProvider = (OdaDummyProvider) provider;
+		List propNames = dummyProvider.getPropertyNames( );
+		for ( int i = 0; i < propNames.size( ); i++ )
+		{
+			String propName = (String) propNames.get( i );
+			String tagName = dummyProvider.getTagName( propName );
+			String value = dummyProvider.getValue( propName );
+
+			boolean cdata = false;
+			if ( dummyProvider.getPropertyTypeCode( propName ) == PropertyType.SCRIPT_TYPE
+					|| dummyProvider.getPropertyTypeCode( propName ) == PropertyType.XML_TYPE )
+				cdata = true;
+			writeEntry( tagName, propName, value, cdata );
+
 		}
 	}
 
@@ -1368,12 +1415,12 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 				ExtendedItem.EXTENSION_NAME_PROP );
-	
+
 		super.visitExtendedItem( obj );
-		
+
 		resourceKey( obj, ExtendedItem.ALT_TEXT_KEY_PROP,
 				ExtendedItem.ALT_TEXT_PROP );
-		
+
 		// write the extension item local properties
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn != null )
@@ -1406,7 +1453,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write filter properties for the extended item
 
 		writeStructureList( obj, ExtendedItem.FILTER_PROP );
-		
+
 		writer.endElement( );
 	}
 
@@ -2660,7 +2707,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitOdaDataSet( obj );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
-		
+
 		if ( (String) obj.getLocalProperty( getModule( ),
 				OdaDataSet.QUERY_TEXT_PROP ) != null )
 		{

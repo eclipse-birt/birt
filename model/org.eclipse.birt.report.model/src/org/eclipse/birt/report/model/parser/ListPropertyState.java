@@ -319,7 +319,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.3" ) < 0 //$NON-NLS-1$
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 //$NON-NLS-1$
 				&& element instanceof ScriptDataSet
 				&& "resultSet".equals( name ) ) //$NON-NLS-1$
 		{

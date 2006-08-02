@@ -46,10 +46,6 @@ public class ODAManifestUtil
 			// Do nothing.
 		}
 
-		if ( manifest == null )
-			throw new IllegalArgumentException(
-					"The extension with ID '" + extensionID + "' is not found!" ); //$NON-NLS-1$ //$NON-NLS-2$
-
 		return manifest;
 	}
 
@@ -78,7 +74,7 @@ public class ODAManifestUtil
 					return types[j];
 			}
 		}
-		
+
 		return null;
 	}
 }

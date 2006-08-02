@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
+import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -130,7 +131,7 @@ public class OdaDataSet extends SimpleDataSet
 
 	public ExtensionElementDefn getExtDefn( )
 	{
-		if ( provider != null )
+		if ( provider != null  )
 			return provider.getExtDefn( );
 
 		return null;
@@ -144,7 +145,7 @@ public class OdaDataSet extends SimpleDataSet
 
 	public List getPropertyDefns( )
 	{
-		if ( provider != null )
+		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			return provider.getPropertyDefns( );
 
 		return super.getPropertyDefns( );
@@ -164,7 +165,7 @@ public class OdaDataSet extends SimpleDataSet
 		if ( propDefn != null )
 			return propDefn;
 
-		if ( provider != null )
+		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
 
 		return propDefn;
@@ -196,9 +197,14 @@ public class OdaDataSet extends SimpleDataSet
 		if ( EXTENSION_ID_PROP.equals( propName ) )
 		{
 			extensionID = (String) value;
+
 			if ( extensionID != null )
+			{
 				provider = ODAProviderFactory.getInstance( ).createODAProvider(
 						this, extensionID );
+				if ( !provider.isValidODADataSetExtensionID( extensionID ) )
+					provider = new OdaDummyProvider( extensionID );
+			}
 			else
 				provider = null;
 		}
@@ -218,7 +224,7 @@ public class OdaDataSet extends SimpleDataSet
 	{
 		super.checkExtends( parent );
 
-		if ( provider != null )
+		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
 			provider.checkExtends( parent );
 		else
 		{
@@ -255,5 +261,16 @@ public class OdaDataSet extends SimpleDataSet
 						this ) );
 
 		return list;
+	}
+
+	/**
+	 * Returns the extension provider of the data source.
+	 * 
+	 * @return the extension provider
+	 */
+
+	public ODAProvider getProvider( )
+	{
+		return provider;
 	}
 }
