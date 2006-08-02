@@ -1980,7 +1980,8 @@ public class ParameterDialog extends BaseDialog
 					.getChoiceSet( DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
-				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
+				|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{
 			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE );
@@ -1993,7 +1994,7 @@ public class ParameterDialog extends BaseDialog
 		String displayFormat;
 		String previewString;
 		String type = getSelectedDataType( );
-		IChoiceSet choiceSet = getFormatChoiceSet( getSelectedDataType( ) );
+		IChoiceSet choiceSet = getFormatChoiceSet( type );
 		if ( choiceSet == null )
 		{// Boolean type;
 			displayFormat = DEUtil.getMetaDataDictionary( )
