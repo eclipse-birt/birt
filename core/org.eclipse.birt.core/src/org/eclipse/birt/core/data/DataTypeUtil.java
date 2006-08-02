@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -50,7 +49,7 @@ public final class DataTypeUtil
 	private static int DEFAULT_DATE_STYLE = DateFormat.MEDIUM;
 
 	// cache DateFormatter of ICU
-	private static HashMap dfMap = new HashMap( );
+	private static Map dfMap = DateFormatUtil.getAllDateFormatter();
 
 	//all SimpleDateFormatter of ICU
 	private static SimpleDateFormat[] simpleDateFormatter = null;
@@ -976,14 +975,11 @@ public final class DataTypeUtil
 		DateFormatter df = null;
 
 		// avoid any multi-thread issue
-		synchronized ( DataTypeUtil.class )
+		df = (DateFormatter) ( dfMap.get( locale ) );
+		if ( df == null )
 		{
-			df = (DateFormatter) ( dfMap.get( locale ) );
-			if ( df == null )
-			{
-				df = new DateFormatter( locale );
-				dfMap.put( locale, df );
-			}
+			df = new DateFormatter( locale );
+			dfMap.put( locale, df );
 		}
 
 		return df.format( (Date) source );
@@ -1127,8 +1123,8 @@ class DateFormatHolder
 {
 
 	//
-	private static Map dateTimeholder = new HashMap( );
-	private static Map dateHolder = new HashMap( );
+	private static Map dateTimeholder = DateFormatUtil.getAllDateTimeFormat( );
+	private static Map dateHolder = DateFormatUtil.getAllDateFormat( );
 
 	/**
 	 * 
