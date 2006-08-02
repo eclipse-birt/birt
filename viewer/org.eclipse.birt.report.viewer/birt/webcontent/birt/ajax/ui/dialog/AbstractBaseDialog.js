@@ -54,6 +54,8 @@ AbstractBaseDialog.prototype =
 		this.mousedown_closure = this.__neh_mousedown.bindAsEventListener(this);
 		this.mouseup_closure = this.__neh_mouseup.bindAsEventListener(this);
 		this.drag_closure = this.__neh_drag.bindAsEventListener(this);
+		this.disposeSelection_closure = this.__neh_disposeSelection.bindAsEventListener(this);
+		this.enableSelection_closure = this.__neh_enableSelection.bindAsEventListener(this);
 		
 		// Initialize shared events	
 		this.__base_installEventHandlers(htmlId);	
@@ -99,8 +101,23 @@ AbstractBaseDialog.prototype =
 		this.dragBarName = id + "dialogTitleBar";
 		var dragArea = $(this.dragBarName);	
 		Event.observe(dragArea, 'mousedown', this.mousedown_closure, false);
-	},
-	
+		
+		//work around for IE, enable selection for dialog text controls
+		var oInputs = this.__instance.getElementsByTagName( 'INPUT' );
+		for ( var i = 0; i < oInputs.length ; i++ )
+		{
+			if(oInputs[i].type != 'button')
+			{
+				this.__enableSelection( oInputs[i] );
+			}
+		}
+		
+		var oTextAreas = this.__instance.getElementsByTagName( 'TEXTAREA' );
+		for ( var i = 0; i < oTextAreas.length ; i++ )
+		{
+			this.__enableSelection( oTextAreas[i] );
+		}		
+	},	
 	
 	/**
 	 *	Binding data to the dialog UI.
@@ -164,6 +181,7 @@ AbstractBaseDialog.prototype =
 			BirtPosition.center( this.__instance );
 			
 			Event.observe( window, 'resize', this.__neh_resize_closure, false );
+			Event.observe( document, 'mouseup', this.disposeSelection_closure, false );			
 		}
 		
 		this.__postShow();	
@@ -196,6 +214,7 @@ AbstractBaseDialog.prototype =
 	{
 		this.__preHide();
 		Event.stopObserving( window, 'resize', this.__neh_resize_closure, false );
+		Event.stopObserving( document, 'mouseup', this.disposeSelection_closure, false );
 		Element.hide( this.__instance, this.__iframe );
 		this.visible = false;
 		Mask.hide();
@@ -295,6 +314,49 @@ AbstractBaseDialog.prototype =
 		DragDrop.startDrag(this.__instance, event, null);	
 	},
 	
+	/**
+	* Handle cancel selection
+	*/
+	__neh_disposeSelection: function(event)
+	{
+		if(document.selection)
+		{
+			document.selection.empty();
+		}
+		else if(window.getSelection)
+		{
+			var selection = window.getSelection();
+			if(selection)
+			{
+				selection.removeAllRanges();
+			}
+		}
+	},
+
+	/**
+	 *	Handle enable selection for dialog controls.
+	 *
+	 *	@obj, incoming target object
+	 *	@return, void
+	 */	
+	__enableSelection: function( obj )
+	{
+		Event.observe( obj, 'select', this.enableSelection_closure , false );
+		Event.observe( obj, 'selectstart', this.enableSelection_closure , false );
+		Event.observe( obj, 'mouseup', this.enableSelection_closure , false );
+	},
+
+	/**
+	 *	Handle enable selection event.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */	
+	__neh_enableSelection: function( event )
+	{
+		event.cancelBubble = true;
+	},
+		
 	/**
 	 *	Handle native event 'resize'.
 	 *
