@@ -121,10 +121,9 @@ public final class ResultSetWrapper
 		workingResultSet.addAll( rawResultSet );
 
 		saExpressionKeys = (String[]) stExpressionKeys.toArray( new String[stExpressionKeys.size( )] );
-		
+
 		iaDataTypes = new int[saExpressionKeys.length];
-		
-		
+
 		htLookup = new Hashtable( );
 		for ( int i = 0; i < saExpressionKeys.length; i++ )
 		{
@@ -135,8 +134,8 @@ public final class ResultSetWrapper
 		iaGroupBreaks = findGroupBreaks( workingResultSet,
 				( oaGroupKeys != null && oaGroupKeys.length > 0 ) ? oaGroupKeys[0]
 						: null );
-		
-		initializeMeta();
+
+		initializeMeta( );
 	}
 
 	/**
@@ -209,7 +208,7 @@ public final class ResultSetWrapper
 	 * 
 	 * @throws ChartException
 	 */
-	public void applyBaseSeriesGrouping( SeriesDefinition sd,
+	public void applyBaseSeriesSortingAndGrouping( SeriesDefinition sd,
 			String[] saExpressionKeys ) throws ChartException
 	{
 		// PREVENT REDUNDANT GROUPING
@@ -218,6 +217,32 @@ public final class ResultSetWrapper
 			return;
 		}
 		bBaseGroupingApplied = true;
+
+		// Apply base series sorting.
+		final Series seBaseDesignTime = sd.getDesignTimeSeries( );
+		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
+		final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
+
+		SortOption so = null;
+		if ( !sd.isSetSorting( ) )
+		{
+			logger.log( ILogger.WARNING,
+					Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
+							new Object[]{
+								sd
+							},
+							ULocale.getDefault( ) ) );
+			so = SortOption.ASCENDING_LITERAL;
+		}
+		else
+		{
+			so = sd.getSorting( );
+		}
+
+		new GroupingSorter( ).sort( workingResultSet,
+				iSortColumnIndex,
+				so,
+				iaGroupBreaks );
 
 		// VALIDATE SERIES GROUPING
 		final SeriesGrouping sg = sd.getGrouping( );
@@ -249,29 +274,8 @@ public final class ResultSetWrapper
 		final DataType dtGrouping = sg.getGroupType( );
 		if ( dtGrouping == DataType.NUMERIC_LITERAL )
 		{
-			final Series seBaseDesignTime = sd.getDesignTimeSeries( );
-			final Query q = (Query) seBaseDesignTime.getDataDefinition( )
-					.get( 0 );
-			final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
-
-			SortOption so = null;
-			if ( !sd.isSetSorting( ) )
-			{
-				logger.log( ILogger.WARNING,
-						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
-								new Object[]{
-									sd
-								},
-								ULocale.getDefault( ) ) );
-				so = SortOption.ASCENDING_LITERAL;
-			}
-			else
-			{
-				so = sd.getSorting( );
-			}
 			groupNumerically( workingResultSet,
 					iSortColumnIndex,
-					so,
 					saExpressionKeys,
 					iaGroupBreaks,
 					null,
@@ -280,30 +284,8 @@ public final class ResultSetWrapper
 		}
 		else if ( dtGrouping == DataType.DATE_TIME_LITERAL )
 		{
-			// IDENTIFY THE MIN AND MAX IN THE DATASET
-			final Series seBaseDesignTime = sd.getDesignTimeSeries( );
-			final Query q = (Query) seBaseDesignTime.getDataDefinition( )
-					.get( 0 );
-			final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
-
-			SortOption so = null;
-			if ( !sd.isSetSorting( ) )
-			{
-				logger.log( ILogger.WARNING,
-						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
-								new Object[]{
-									sd
-								},
-								ULocale.getDefault( ) ) );
-				so = SortOption.ASCENDING_LITERAL;
-			}
-			else
-			{
-				so = sd.getSorting( );
-			}
 			groupDateTime( workingResultSet,
 					iSortColumnIndex,
-					so,
 					saExpressionKeys,
 					iaGroupBreaks,
 					null,
@@ -313,33 +295,8 @@ public final class ResultSetWrapper
 		}
 		else if ( dtGrouping == DataType.TEXT_LITERAL )
 		{
-			// IDENTIFY THE MIN AND MAX IN THE DATASET
-			final Series seBaseDesignTime = sd.getDesignTimeSeries( );
-			final Query q = (Query) seBaseDesignTime.getDataDefinition( )
-					.get( 0 );
-			final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
-
-			SortOption so = null;
-
-			if ( !sd.isSetSorting( ) )
-			{
-				logger.log( ILogger.WARNING,
-						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
-								new Object[]{
-									sd
-								},
-								ULocale.getDefault( ) ) );
-				so = SortOption.ASCENDING_LITERAL;
-			}
-			else
-			{
-				so = sd.getSorting( );
-			}
-			
-
 			groupTextually( workingResultSet,
 					iSortColumnIndex,
-					so,
 					saExpressionKeys,
 					iaGroupBreaks,
 					null,
@@ -347,18 +304,16 @@ public final class ResultSetWrapper
 					iafa );
 
 		}
-		
-		
+
+		// re-initialize meta since Aggretation could change data type(text->count)
 		initializeMeta( );
 	}
 
-	private void groupNumerically( List resultSet, int iSortColumnIndex,
-			SortOption so, String[] saExpressionKeys, int[] iaBreaks,
+	private void groupNumerically( List resultSet, int iBaseColumnIndex,
+			String[] saExpressionKeys, int[] iaBreaks,
 			NumberDataElement ndeBaseReference, long iGroupingInterval,
 			IAggregateFunction[] iafa ) throws ChartException
 	{
-		new GroupingSorter( ).sort( resultSet, iSortColumnIndex, so, iaBreaks );
-
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
 		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
@@ -386,7 +341,7 @@ public final class ResultSetWrapper
 			if ( baseReference == null )
 			{
 				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-				Number obj = (Number) ( (Object[]) resultSet.get( iStartIndex ) )[iSortColumnIndex];
+				Number obj = (Number) ( (Object[]) resultSet.get( iStartIndex ) )[iBaseColumnIndex];
 				baseReference = NumberDataElementImpl.create( obj == null ? 0
 						: obj.doubleValue( ) );
 			}
@@ -401,7 +356,7 @@ public final class ResultSetWrapper
 			{
 				oaTuple = (Object[]) resultSet.get( j );
 
-				if ( oaTuple[iSortColumnIndex] != null )
+				if ( oaTuple[iBaseColumnIndex] != null )
 				{
 					if ( iGroupingInterval == 0 )
 					{
@@ -409,7 +364,7 @@ public final class ResultSetWrapper
 					}
 					else
 					{
-						iGroupIndex = (int) Math.floor( Math.abs( ( ( (Number) oaTuple[iSortColumnIndex] ).doubleValue( ) - dBaseReference )
+						iGroupIndex = (int) Math.floor( Math.abs( ( ( (Number) oaTuple[iBaseColumnIndex] ).doubleValue( ) - dBaseReference )
 								/ iGroupingInterval ) );
 					}
 				}
@@ -443,7 +398,7 @@ public final class ResultSetWrapper
 						}
 
 						// reset base reference
-						Number obj = (Number) oaTuple[iSortColumnIndex];
+						Number obj = (Number) oaTuple[iBaseColumnIndex];
 						baseReference = NumberDataElementImpl.create( obj == null ? 0
 								: obj.doubleValue( ) );
 						dBaseReference = baseReference.getValue( );
@@ -535,14 +490,12 @@ public final class ResultSetWrapper
 		return Calendar.MILLISECOND;
 	}
 
-	private void groupDateTime( List resultSet, int iSortColumnIndex,
-			SortOption so, String[] saExpressionKeys, int[] iaBreaks,
+	private void groupDateTime( List resultSet, int iBaseColumnIndex,
+			String[] saExpressionKeys, int[] iaBreaks,
 			CDateTime ndeBaseReference, long iGroupingInterval,
 			GroupingUnitType groupingUnit, IAggregateFunction[] iafa )
 			throws ChartException
 	{
-		new GroupingSorter( ).sort( resultSet, iSortColumnIndex, so, iaBreaks );
-
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
 		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
@@ -571,7 +524,7 @@ public final class ResultSetWrapper
 
 			if ( baseReference == null )
 			{
-				Object obj = ( (Object[]) resultSet.get( iStartIndex ) )[iSortColumnIndex];
+				Object obj = ( (Object[]) resultSet.get( iStartIndex ) )[iBaseColumnIndex];
 
 				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
 				if ( obj instanceof CDateTime )
@@ -604,7 +557,7 @@ public final class ResultSetWrapper
 			{
 				oaTuple = (Object[]) resultSet.get( j );
 
-				if ( oaTuple[iSortColumnIndex] != null )
+				if ( oaTuple[iBaseColumnIndex] != null )
 				{
 					if ( iGroupingInterval == 0 )
 					{
@@ -614,7 +567,7 @@ public final class ResultSetWrapper
 					{
 						CDateTime dBaseValue = null;
 
-						Object obj = oaTuple[iSortColumnIndex];
+						Object obj = oaTuple[iBaseColumnIndex];
 
 						// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
 						if ( obj instanceof CDateTime )
@@ -680,7 +633,7 @@ public final class ResultSetWrapper
 						}
 
 						// reset base reference
-						Object obj = oaTuple[iSortColumnIndex];
+						Object obj = oaTuple[iBaseColumnIndex];
 
 						// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
 						if ( obj instanceof CDateTime )
@@ -764,13 +717,11 @@ public final class ResultSetWrapper
 		}
 	}
 
-	private void groupTextually( List resultSet, int iSortColumnIndex,
-			SortOption so, String[] saExpressionKeys, int[] iaBreaks,
+	private void groupTextually( List resultSet, int iBaseColumnIndex,
+			String[] saExpressionKeys, int[] iaBreaks,
 			String ndeBaseReference, long iGroupingInterval,
 			IAggregateFunction[] iafa ) throws ChartException
 	{
-		new GroupingSorter( ).sort( resultSet, iSortColumnIndex, so, iaBreaks );
-
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
 		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
@@ -798,7 +749,7 @@ public final class ResultSetWrapper
 			if ( baseReference == null )
 			{
 				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-				baseReference = ChartUtil.stringValue( ( (Object[]) resultSet.get( iStartIndex ) )[iSortColumnIndex] );
+				baseReference = ChartUtil.stringValue( ( (Object[]) resultSet.get( iStartIndex ) )[iBaseColumnIndex] );
 			}
 
 			Object[] oaTuple, oaSummarizedTuple = null;
@@ -810,9 +761,9 @@ public final class ResultSetWrapper
 			{
 				oaTuple = (Object[]) resultSet.get( j );
 
-				if ( oaTuple[iSortColumnIndex] != null )
+				if ( oaTuple[iBaseColumnIndex] != null )
 				{
-					String dBaseValue = String.valueOf( oaTuple[iSortColumnIndex] );
+					String dBaseValue = String.valueOf( oaTuple[iBaseColumnIndex] );
 
 					if ( !dBaseValue.equals( baseReference ) )
 					{
@@ -862,7 +813,7 @@ public final class ResultSetWrapper
 						}
 
 						// reset base reference
-						baseReference = ChartUtil.stringValue( oaTuple[iSortColumnIndex] );
+						baseReference = ChartUtil.stringValue( oaTuple[iBaseColumnIndex] );
 						iGroupIndex = 0;
 					}
 					else

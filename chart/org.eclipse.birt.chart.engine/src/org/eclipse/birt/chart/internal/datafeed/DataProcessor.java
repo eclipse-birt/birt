@@ -697,7 +697,7 @@ public class DataProcessor
 		}
 
 		// apply base series grouping
-		rsw.applyBaseSeriesGrouping( sdGrouping, saOrthogonalDataDefinitions );
+		rsw.applyBaseSeriesSortingAndGrouping( sdGrouping, saOrthogonalDataDefinitions );
 
 		return rsw;
 	}
