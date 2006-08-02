@@ -40,7 +40,8 @@ public class AllTests extends utility.BaseTestCase
 		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.api" ) ); //$NON-NLS-1$
 		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.regression" ) ); //$NON-NLS-1$
 		classes.add( "org.eclipse.birt.report.tests.engine.smoke.sampleReport.SampleReportTest" ); //$NON-NLS-1$
-		
+		classes.remove( org.eclipse.birt.report.tests.engine.api.EngineResourceLocator.class  );
+		classes.remove( org.eclipse.birt.report.tests.engine.api.TestRenderOptionBase.class);
 		Iterator iter = classes.iterator( );
 		while ( iter.hasNext( ) )
 		{

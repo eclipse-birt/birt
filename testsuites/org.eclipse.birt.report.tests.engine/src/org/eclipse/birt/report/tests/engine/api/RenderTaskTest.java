@@ -39,12 +39,6 @@ public class RenderTaskTest extends EngineCase
 	private String outputPath = path + OUTPUT_FOLDER + separator;
 	private String inputPath = path + INPUT_FOLDER + separator;
 
-	/*
-	 * protected String path =
-	 * "D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/";
-	 * 
-	 * protected String input = "input", output = "output";
-	 */
 	public RenderTaskTest( String name )
 	{
 		super( name );
@@ -52,8 +46,6 @@ public class RenderTaskTest extends EngineCase
 
 	public static Test Suite( )
 	{
-//		TestSuite suite = new TestSuite( );
-//		suite.addTest(  TestSuite.createTest( RenderTaskTest.class, "testMethod" ) );
 		return new TestSuite( RenderTaskTest.class );
 	}
 
@@ -61,11 +53,12 @@ public class RenderTaskTest extends EngineCase
 	{
 		super.setUp( );
 	}
+
 	public void testRender0( )
 	{
 		renderReport( "OrderReport", "All" );
 	}
-	
+
 	/**
 	 * Test RenderTask with different input design files
 	 */
@@ -137,40 +130,48 @@ public class RenderTaskTest extends EngineCase
 
 	public void testRender14( )
 	{
-		renderReport( "multiple_masterpage", "All" ); 
+		renderReport( "multiple_masterpage", "All" );
 	}
-	
-	public void testRender15(){
+
+	public void testRender15( )
+	{
 		renderReport( "smoke_data", "All" );
 	}
-	
+
 	public void testRender16( )
 	{
-		File fLib=new File(inputPath+"library1.rptlibrary");
-		if(fLib.exists( )){
-			try{
-				new File(outputPath).mkdirs( );
-				File tLib=new File(outputPath+"library1.rptlibrary");
-				FileInputStream fis=new FileInputStream(fLib);
-				FileOutputStream fos=new FileOutputStream(tLib);
-				byte[] contents=new byte[1024];
+		File fLib = new File( inputPath + "library1.rptlibrary" );
+		if ( fLib.exists( ) )
+		{
+			try
+			{
+				new File( outputPath ).mkdirs( );
+				File tLib = new File( outputPath + "library1.rptlibrary" );
+				FileInputStream fis = new FileInputStream( fLib );
+				FileOutputStream fos = new FileOutputStream( tLib );
+				byte[] contents = new byte[1024];
 				int len;
-				while((len=fis.read( contents ))>0){
-					fos.write( contents,0,len );
+				while ( ( len = fis.read( contents ) ) > 0 )
+				{
+					fos.write( contents, 0, len );
 				}
 				fis.close( );
 				fos.close( );
-				
+
 				renderReport( "report_from_library1", "All" );
-			}catch(Exception e){
-				e.printStackTrace( );
-				fail("Render library file failed. "+e.getLocalizedMessage( ));
 			}
-		}else{
-			fail("Library file doesn't exist!");
+			catch ( Exception e )
+			{
+				e.printStackTrace( );
+				fail( "Render library file failed. " + e.getLocalizedMessage( ) );
+			}
+		}
+		else
+		{
+			fail( "Library file doesn't exist!" );
 		}
 	}
-	
+
 	/*
 	 * Test RenderTask when set page range
 	 */
@@ -218,39 +219,38 @@ public class RenderTaskTest extends EngineCase
 	{
 		renderReport( "pages9", "abc" );
 	}
-	
-	
-     /*
+
+	/*
 	 * Test Rendertask when set bookmark
 	 */
 	public void testRenderBookmark_label( )
 	{
-		renderReport( "items_bookmark", "bookmark_label" );
-		renderReport( "multiple_masterpage", "bookmark_label" );
+		renderReportBookmark( "items_bookmark", "label" );
+		renderReportBookmark( "multiple_masterpage", "label" );
 	}
 
 	public void testRenderBookmark_text( )
 	{
-		renderReport( "items_bookmark", "bookmark_text" );
-		renderReport( "multiple_masterpage", "bookmark_text" );
+		renderReportBookmark( "items_bookmark", "text" );
+		renderReportBookmark( "multiple_masterpage", "text" );
 	}
 
 	public void testRenderBookmark_image( )
 	{
-		renderReport( "items_bookmark", "bookmark_image" );
-		renderReport( "multiple_masterpage", "bookmark_image" );
+		renderReportBookmark( "items_bookmark", "image" );
+		renderReportBookmark( "multiple_masterpage", "image" );
 	}
 
 	public void testRenderBookmark_gridrow( )
 	{
-		renderReport( "items_bookmark", "bookmark_gridrow" );
-		renderReport( "multiple_masterpage", "bookmark_gridrow" );
+		renderReportBookmark( "items_bookmark", "gridrow" );
+		renderReportBookmark( "multiple_masterpage", "gridrow" );
 	}
 
 	public void testRenderBookmark_chart( )
 	{
-		renderReport( "items_bookmark", "bookmark_chart" );
-		renderReport( "multiple_masterpage", "bookmark_chart" );
+		renderReportBookmark( "items_bookmark", "chart" );
+		renderReportBookmark( "multiple_masterpage", "chart" );
 	}
 
 	/*
@@ -276,13 +276,12 @@ public class RenderTaskTest extends EngineCase
 		iid = findIid( "iid_reportlet", "EXTENDED" );
 		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
 	}
-	
+
 	public void testRenderReportlet_bookmark( )
 	{
-		InstanceID iid;
 		renderReportlet( "reportlet_bookmark_toc", "bk_table" );
 	}
-	
+
 	public void testRenderReportlet_toc( )
 	{
 		renderReportlet( "reportlet_bookmark_toc", "toc_chart" );
@@ -294,8 +293,7 @@ public class RenderTaskTest extends EngineCase
 		iid = findIid( "iid_reportlet_complex", "LIST" );
 		renderReportlet( "iid_reportlet_complex", iid, "LIST" );
 	}
-	
-	
+
 	public void testRenderReportlet_complex_table( )
 	{
 		InstanceID iid;
@@ -304,56 +302,55 @@ public class RenderTaskTest extends EngineCase
 	}
 
 	/*
-	 * This case is for bug 137817
-	 * NPE when generated pdf because target folder doesn't exist
+	 * This case is for bug 137817 NPE when generated pdf because target folder
+	 * doesn't exist
 	 */
-	public void testRenderPDFNPE(){
-			report_design = inputPath + "case1.rptdesign";
-			report_document = outputPath + "pdfbug_reportdocument";
+	public void testRenderPDFNPE( )
+	{
+		report_design = inputPath + "case1.rptdesign";
+		report_document = outputPath + "pdfbug_reportdocument";
 
-			IRenderTask task;
-			try
-			{
-				createReportDocument( report_design, report_document );
-				reportDoc = engine.openReportDocument( report_document );
+		IRenderTask task;
+		try
+		{
+			createReportDocument( report_design, report_document );
+			reportDoc = engine.openReportDocument( report_document );
 
-				// Set IRenderOption
-				IRenderOption pdfRenderOptions = new HTMLRenderOption( );
-				HTMLRenderContext renderContext = new HTMLRenderContext( );
-				renderContext.setImageDirectory( "image" );
-				HashMap appContext = new HashMap( );
-				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-						renderContext );
+			// Set IRenderOption
+			IRenderOption pdfRenderOptions = new HTMLRenderOption( );
+			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( "image" );
+			HashMap appContext = new HashMap( );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					renderContext );
 
-				pdfRenderOptions.setOutputFormat( "pdf" );
-				pdfRenderOptions.getOutputSetting( ).put(
-						HTMLRenderOption.URL_ENCODING, "UTF-8" );
+			pdfRenderOptions.setOutputFormat( "pdf" );
+			pdfRenderOptions.getOutputSetting( ).put(
+					HTMLRenderOption.URL_ENCODING, "UTF-8" );
 
-				outputFileName = outputPath + "pdfbug/pdf/page1"
-						+ ".pdf";
-				removeFile( outputFileName );
-				pdfRenderOptions.setOutputFileName( outputFileName );
-				task = engine.createRenderTask( reportDoc );
-				task.setLocale( Locale.ENGLISH );
-				task.setAppContext( appContext );
-				task.setRenderOption( pdfRenderOptions );
-				task.render( );
-				task.close( );
-				File pdfFile = new File( outputFileName );
-				assertTrue( "Render pdf failed when target path doesn't exist",
-						pdfFile.exists( ) );
-				assertTrue( "Render pdf failed when target path doesn't exist",
-						pdfFile.length( ) != 0 );
-			}catch(Exception e){
-				e.printStackTrace( );
-				fail("Render pdf failed when target path doesn't exist");
-			}
+			outputFileName = outputPath + "pdfbug/pdf/page1" + ".pdf";
+			removeFile( outputFileName );
+			pdfRenderOptions.setOutputFileName( outputFileName );
+			task = engine.createRenderTask( reportDoc );
+			task.setLocale( Locale.ENGLISH );
+			task.setAppContext( appContext );
+			task.setRenderOption( pdfRenderOptions );
+			task.render( );
+			task.close( );
+			File pdfFile = new File( outputFileName );
+			assertTrue( "Render pdf failed when target path doesn't exist",
+					pdfFile.exists( ) );
+			assertTrue( "Render pdf failed when target path doesn't exist",
+					pdfFile.length( ) != 0 );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+			fail( "Render pdf failed when target path doesn't exist" );
+		}
 
 	}
 
-	
-	
-	
 	/*
 	 * Find instance id according to element type and design file.
 	 */
@@ -377,7 +374,8 @@ public class RenderTaskTest extends EngineCase
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 			htmlRenderOptions.setOutputStream( ostream );
 			htmlRenderOptions.setOutputFormat( "html" );
-
+			((HTMLRenderOption)htmlRenderOptions).setEnableMetadata( true );
+			
 			task.setRenderOption( htmlRenderOptions );
 			task.render( );
 			task.close( );
@@ -442,19 +440,23 @@ public class RenderTaskTest extends EngineCase
 				task.setRenderOption( htmlRenderOptions );
 				task.setInstanceID( iid );
 				task.render( );
-				assertTrue( "Render reportlet-" + docName + " to html failed. ",
-						new File(outputFileName).exists( ) );
-				
-				outputFileName = outputPath + docName + "/pdf/" + type
-				+ ".pdf";
+				assertEquals( "Exception when render reportlet-" + docName
+						+ " to html.", 0, task.getErrors( ).size( ) );
+				assertTrue(
+						"Render reportlet-" + docName + " to html failed. ",
+						new File( outputFileName ).exists( ) );
+
+				outputFileName = outputPath + docName + "/pdf/" + type + ".pdf";
 				htmlRenderOptions.setOutputFileName( outputFileName );
 				htmlRenderOptions.setOutputFormat( "pdf" );
 				task.setRenderOption( htmlRenderOptions );
 				task.setInstanceID( iid );
 				task.render( );
+				assertEquals( "Exception when render reportlet-" + docName
+						+ " to pdf.", 0, task.getErrors( ).size( ) );
 				task.close( );
 				assertTrue( "Render reportlet-" + docName + " to pdf failed. ",
-						new File(outputFileName).exists( ) );
+						new File( outputFileName ).exists( ) );
 			}
 			catch ( Exception e )
 			{
@@ -475,10 +477,11 @@ public class RenderTaskTest extends EngineCase
 
 		IRenderTask task;
 
-		boolean toc=false;
-		String s_toc=null;
-		if(bookmark.substring( 0, 3 ).equals( "toc" )){
-			toc=true;
+		boolean toc = false;
+		String s_toc = null;
+		if ( bookmark.substring( 0, 3 ).equals( "toc" ) )
+		{
+			toc = true;
 		}
 		// create directories to deposit output files
 		createDir( docName );
@@ -498,29 +501,36 @@ public class RenderTaskTest extends EngineCase
 					+ ".html";
 			htmlRenderOptions.setOutputFileName( outputFileName );
 			htmlRenderOptions.setOutputFormat( "html" );
-			
-			if(toc){
-				s_toc=((TOCNode)(reportDoc.findTOCByName( bookmark ).get( 0 ))).getBookmark( );
-			}else{
-				s_toc=bookmark;
+
+			if ( toc )
+			{
+				s_toc = ( (TOCNode) ( reportDoc.findTOCByName( bookmark )
+						.get( 0 ) ) ).getBookmark( );
 			}
-			
+			else
+			{
+				s_toc = bookmark;
+			}
+
 			task.setReportlet( s_toc );
 			task.setRenderOption( htmlRenderOptions );
 			task.render( );
+			assertEquals( "Exception when render reportlet-" + docName
+					+ " to html.", 0, task.getErrors( ).size( ) );
 			assertTrue( "Render reportlet-" + docName + " to html failed. ",
-					new File(outputFileName).exists( ) );
-			
-			outputFileName = outputPath + docName + "/pdf/" + bookmark
-			+ ".pdf";
+					new File( outputFileName ).exists( ) );
+
+			outputFileName = outputPath + docName + "/pdf/" + bookmark + ".pdf";
 			htmlRenderOptions.setOutputFileName( outputFileName );
 			htmlRenderOptions.setOutputFormat( "pdf" );
 			task.setRenderOption( htmlRenderOptions );
 			task.setReportlet( s_toc );
 			task.render( );
+			assertEquals( "Exception when render reportlet-" + docName
+					+ " to pdf.", 0, task.getErrors( ).size( ) );
 			task.close( );
 			assertTrue( "Render reportlet-" + docName + " to pdf failed. ",
-					new File(outputFileName).exists( ) );
+					new File( outputFileName ).exists( ) );
 		}
 		catch ( Exception e )
 		{
@@ -528,10 +538,9 @@ public class RenderTaskTest extends EngineCase
 			assertTrue( "Render reportlet " + bookmark + "from" + docName
 					+ " failed. " + e.getLocalizedMessage( ), false );
 		}
-		
+
 	}
 
-	
 	protected void renderReport( String fileName, String pageRange )
 	{
 		report_design = inputPath + fileName + ".rptdesign";
@@ -544,19 +553,14 @@ public class RenderTaskTest extends EngineCase
 		try
 		{
 			createReportDocument( report_design, report_document );
-			// open the document in the archive.
 			reportDoc = engine.openReportDocument( report_document );
-
-			// Set IRenderOption
 			IRenderOption htmlRenderOptions = new HTMLRenderOption( );
 			IRenderOption pdfRenderOptions = new HTMLRenderOption( );
-
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
 			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
-
 			htmlRenderOptions.setOutputFormat( "html" );
 			pdfRenderOptions.setOutputFormat( "pdf" );
 			htmlRenderOptions.getOutputSetting( ).put(
@@ -564,160 +568,116 @@ public class RenderTaskTest extends EngineCase
 			pdfRenderOptions.getOutputSetting( ).put(
 					HTMLRenderOption.URL_ENCODING, "UTF-8" );
 
-			int i_bookmark = -1;
-			if ( pageRange != null )
+			if ( pageRange != null && pageRange.equals( "no" ) )
 			{
-				i_bookmark = pageRange.indexOf( "bookmark_" );
-			}
-			if ( i_bookmark == -1 )
-			{
-				if ( pageRange != null && pageRange.equals( "no" ) )
-				{
-					/* set page number 1 and then render the first page */
-					// render html output
-					outputFileName = outputPath + fileName + "/html/page1"
-							+ ".html";
-					removeFile( outputFileName );
-					htmlRenderOptions.setOutputFileName( outputFileName );
-
-					task = engine.createRenderTask( reportDoc );
-					task.setLocale( Locale.ENGLISH );
-					task.setAppContext( appContext );
-					task.setRenderOption( htmlRenderOptions );
-					task.setPageNumber( 1 );
-					task.render( );
-					task.close( );
-
-					File htmlFile = new File( outputFileName );
-					assertTrue( "Render " + fileName + " to html failed. ",
-							htmlFile.exists( ) );
-					assertTrue( "Render " + fileName + " to html failed. ",
-							htmlFile.length( ) != 0 );
-					// render pdf output
-					outputFileName = outputPath + fileName + "/pdf/page1"
-							+ ".pdf";
-					removeFile( outputFileName );
-					pdfRenderOptions.setOutputFileName( outputFileName );
-					task = engine.createRenderTask( reportDoc );
-					task.setLocale( Locale.ENGLISH );
-					task.setAppContext( appContext );
-					task.setRenderOption( pdfRenderOptions );
-					task.setPageNumber( 1 );
-					task.render( );
-					task.close( );
-					File pdfFile = new File( outputFileName );
-					assertTrue( "Render " + fileName + " to pdf failed. ",
-							pdfFile.exists( ) );
-					assertTrue( "Render " + fileName + " to pdf failed. ",
-							pdfFile.length( ) != 0 );
-
-				}
-				else
-				{
-					/* set page range and then render according to range */
-
-					// render html output
-					outputFileName = outputPath + fileName + "/html/page"
-							+ pageRange + ".html";
-					removeFile( outputFileName );
-					htmlRenderOptions.setOutputFileName( outputFileName );
-					task = engine.createRenderTask( reportDoc );
-					task.setLocale( Locale.ENGLISH );
-					task.setAppContext( appContext );
-					task.setRenderOption( htmlRenderOptions );
-					task.setPageRange( pageRange );
-					task.render( );
-					task.close( );
-
-					File htmlFile = new File( outputFileName );
-					if ( pageRange != null
-							&& ( pageRange.equals( "0" ) || pageRange
-									.equals( "abc" ) ) )
-					{
-						assertFalse( htmlFile.exists( ) );
-					}
-					else
-					{
-						assertTrue( "Render " + fileName + " to html failed. "
-								+ pageRange, htmlFile.exists( ) );
-						assertTrue( "Render " + fileName + " to html failed. "
-								+ pageRange, htmlFile.length( ) != 0 );
-					}
-					// render pdf output
-					outputFileName = outputPath + fileName + "/pdf/page"
-							+ pageRange + ".pdf";
-					removeFile( outputFileName );
-					pdfRenderOptions.setOutputFileName( outputFileName );
-
-					task = engine.createRenderTask( reportDoc );
-					task.setLocale( Locale.ENGLISH );
-					task.setAppContext( new HashMap( ) );
-					task.setRenderOption( pdfRenderOptions );
-					task.setPageRange( pageRange );
-					task.render( );
-					task.close( );
-
-					File pdfFile = new File( outputFileName );
-					if ( pageRange != null
-							&& ( pageRange.equals( "0" ) || pageRange
-									.equals( "abc" ) ) )
-					{
-						assertFalse( pdfFile.exists( ) );
-					}
-					else
-					{
-						assertTrue( "Render " + fileName + " to pdf failed. "
-								+ pageRange, pdfFile.exists( ) );
-						assertTrue( "Render " + fileName + " to pdf failed. "
-								+ pageRange, pdfFile.length( ) != 0 );
-					}
-				}
-			}
-			else
-			{
-				String bookmark = pageRange.substring( 9 );
+				/* set page number 1 and then render the first page */
 				// render html output
-				outputFileName = outputPath + fileName + "/html/bookmark_"
-						+ bookmark + ".html";
+				outputFileName = outputPath + fileName + "/html/page1"
+						+ ".html";
 				removeFile( outputFileName );
 				htmlRenderOptions.setOutputFileName( outputFileName );
 
 				task = engine.createRenderTask( reportDoc );
 				task.setLocale( Locale.ENGLISH );
 				task.setAppContext( appContext );
-				task.setBookmark( bookmark );
 				task.setRenderOption( htmlRenderOptions );
+				task.setPageNumber( 1 );
 				task.render( );
+				assertEquals(
+						"Exception when render the first page to html from "
+								+ fileName, 0, task.getErrors( ).size( ) );
 				task.close( );
 
 				File htmlFile = new File( outputFileName );
-				assertTrue( "Render " + fileName + " to html failed. "
-						+ pageRange, htmlFile.exists( ) );
-				assertTrue( "Render " + fileName + " to html failed. "
-						+ pageRange, htmlFile.length( ) != 0 );
+				assertTrue( "Render " + fileName + " to html failed. ",
+						htmlFile.exists( ) );
+				assertTrue( "Render " + fileName + " to html failed. ",
+						htmlFile.length( ) != 0 );
 				// render pdf output
-				outputFileName = outputPath + fileName + "/pdf/bookmark_"
-						+ bookmark + ".pdf";
+				outputFileName = outputPath + fileName + "/pdf/page1" + ".pdf";
+				removeFile( outputFileName );
+				pdfRenderOptions.setOutputFileName( outputFileName );
+				task = engine.createRenderTask( reportDoc );
+				task.setLocale( Locale.ENGLISH );
+				task.setAppContext( appContext );
+				task.setRenderOption( pdfRenderOptions );
+				task.setPageNumber( 1 );
+				task.render( );
+				assertEquals(
+						"Exception when render the first page to pdf from "
+								+ fileName, 0, task.getErrors( ).size( ) );
+				task.close( );
+				File pdfFile = new File( outputFileName );
+				assertTrue( "Render " + fileName + " to pdf failed. ", pdfFile
+						.exists( ) );
+				assertTrue( "Render " + fileName + " to pdf failed. ", pdfFile
+						.length( ) != 0 );
+
+			}
+			else
+			{
+				/* set page range and then render according to range */
+
+				// render html output
+				outputFileName = outputPath + fileName + "/html/page"
+						+ pageRange + ".html";
+				removeFile( outputFileName );
+				htmlRenderOptions.setOutputFileName( outputFileName );
+				task = engine.createRenderTask( reportDoc );
+				task.setLocale( Locale.ENGLISH );
+				task.setAppContext( appContext );
+				task.setRenderOption( htmlRenderOptions );
+				task.setPageRange( pageRange );
+				task.render( );
+				assertEquals( "Exception when render html from " + fileName, 0,
+						task.getErrors( ).size( ) );
+				task.close( );
+
+				File htmlFile = new File( outputFileName );
+				if ( pageRange != null
+						&& ( pageRange.equals( "0" ) || pageRange
+								.equals( "abc" ) ) )
+				{
+					assertFalse( htmlFile.exists( ) );
+				}
+				else
+				{
+					assertTrue( "Render " + fileName + " to html failed. "
+							+ pageRange, htmlFile.exists( ) );
+					assertTrue( "Render " + fileName + " to html failed. "
+							+ pageRange, htmlFile.length( ) != 0 );
+				}
+				// render pdf output
+				outputFileName = outputPath + fileName + "/pdf/page"
+						+ pageRange + ".pdf";
 				removeFile( outputFileName );
 				pdfRenderOptions.setOutputFileName( outputFileName );
 
 				task = engine.createRenderTask( reportDoc );
 				task.setLocale( Locale.ENGLISH );
-				task.setAppContext( appContext );
-				task.setBookmark( bookmark );
+				task.setAppContext( new HashMap( ) );
 				task.setRenderOption( pdfRenderOptions );
+				task.setPageRange( pageRange );
 				task.render( );
+				assertEquals( "Exception when render pdf from " + fileName, 0,
+						task.getErrors( ).size( ) );
 				task.close( );
 
 				File pdfFile = new File( outputFileName );
-				assertTrue( "Render " + fileName + " to pdf failed. "
-						+ pageRange, pdfFile.exists( ) );
-				assertTrue( "Render " + fileName + " to pdf failed. "
-						+ pageRange, pdfFile.length( ) != 0 );
-
+				if ( pageRange != null
+						&& ( pageRange.equals( "0" ) || pageRange
+								.equals( "abc" ) ) )
+				{
+					assertFalse( pdfFile.exists( ) );
+				}
+				else
+				{
+					assertTrue( "Render " + fileName + " to pdf failed. "
+							+ pageRange, pdfFile.exists( ) );
+					assertTrue( "Render " + fileName + " to pdf failed. "
+							+ pageRange, pdfFile.length( ) != 0 );
+				}
 			}
-			task.close( );			
-
 		}
 		catch ( Exception e )
 		{
@@ -727,10 +687,82 @@ public class RenderTaskTest extends EngineCase
 		}
 	}
 
+	protected void renderReportBookmark( String fileName, String bookmark )
+	{
+		report_design = inputPath + fileName + ".rptdesign";
+		report_document = outputPath + fileName + "_reportdocument";
 
-	
-	
-	
+		IRenderTask task;
+
+		// create directories to deposit output files
+		createDir( fileName );
+		try
+		{
+			createReportDocument( report_design, report_document );
+			reportDoc = engine.openReportDocument( report_document );
+			IRenderOption options = new HTMLRenderOption( );
+			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( "image" );
+			HashMap appContext = new HashMap( );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					renderContext );
+			options.setOutputFormat( "html" );
+			options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
+					"UTF-8" );
+
+			outputFileName = outputPath + fileName + "/html/bookmark_"
+					+ bookmark + ".html";
+			removeFile( outputFileName );
+			options.setOutputFileName( outputFileName );
+
+			task = engine.createRenderTask( reportDoc );
+			task.setLocale( Locale.ENGLISH );
+			task.setAppContext( appContext );
+			task.setBookmark( bookmark );
+			task.setRenderOption( options );
+			task.render( );
+			assertEquals(
+					"Exception when render html with given bookmark from "
+							+ fileName, 0, task.getErrors( ).size( ) );
+			task.close( );
+
+			File htmlFile = new File( outputFileName );
+			assertTrue( "Render item with bookmark " + bookmark
+					+ " to html failed. ", htmlFile.exists( ) );
+			assertTrue( "Render item with bookmark " + bookmark
+					+ " to html failed. ", htmlFile.length( ) != 0 );
+
+			// render pdf output
+			outputFileName = outputPath + fileName + "/pdf/bookmark_"
+					+ bookmark + ".pdf";
+			options.setOutputFileName( outputFileName );
+			options.setOutputFormat( "pdf" );
+			task = engine.createRenderTask( reportDoc );
+			task.setLocale( Locale.ENGLISH );
+			task.setAppContext( appContext );
+			task.setBookmark( bookmark );
+			task.setRenderOption( options );
+			task.render( );
+			assertEquals( "Exception when render pdf with given bookmark from "
+					+ fileName, 0, task.getErrors( ).size( ) );
+			task.close( );
+
+			File pdfFile = new File( outputFileName );
+			assertTrue( "Render item with bookmark " + bookmark
+					+ " to pdf failed. ", pdfFile.exists( ) );
+			assertTrue( "Render item with bookmark " + bookmark
+					+ " to pdf failed. ", pdfFile.length( ) != 0 );
+
+			removeFile( outputPath + fileName );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+			assertTrue( "Render " + fileName + " failed. "
+					+ e.getLocalizedMessage( ), false );
+		}
+	}
+
 	/**
 	 * create the report document.
 	 * 
@@ -748,10 +780,12 @@ public class RenderTaskTest extends EngineCase
 		// execute the report to create the report document.
 		runTask.setAppContext( new HashMap( ) );
 		runTask.run( archive );
+
+		assertEquals( "Exception when generate document from " + reportdesign,
+				0, runTask.getErrors( ).size( ) );
 		// close the task, release the resource.
 		runTask.close( );
 	}
-
 
 	/**
 	 * create need directory creat html and pdf directory under the need
