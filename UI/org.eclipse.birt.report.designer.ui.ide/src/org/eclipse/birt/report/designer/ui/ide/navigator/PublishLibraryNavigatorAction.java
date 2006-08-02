@@ -69,10 +69,10 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 		}
 
 		String url = file.getLocation( ).toOSString( );
-
+		ModuleHandle handle = null;
 		try
 		{
-			ModuleHandle handle = SessionHandleAdapter.getInstance( )
+			handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
 					.openLibrary( url );
 
@@ -84,10 +84,10 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 
 			String filePath = handle.getFileName( );
 			String fileName = null;
-			if(filePath != null && filePath.length( ) != 0)
+			if ( filePath != null && filePath.length( ) != 0 )
 			{
 				fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
-			}			
+			}
 
 			PublishLibraryWizard publishLibrary = new PublishLibraryWizard( (LibraryHandle) handle,
 					fileName,
@@ -103,6 +103,13 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 		{
 			ExceptionHandler.handle( e );
 			return;
+		}
+		finally
+		{
+			if ( handle != null )
+			{
+				handle.close( );
+			}
 		}
 
 	}
@@ -121,6 +128,7 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 
 	/**
 	 * Get selected file.
+	 * 
 	 * @return IFile Selected file
 	 */
 	protected IFile getSelectedFile( )
