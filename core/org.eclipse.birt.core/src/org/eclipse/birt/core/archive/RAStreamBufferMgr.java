@@ -67,8 +67,11 @@ public class RAStreamBufferMgr {
 			len -= ret;
 			off += ret;
 			if ( len > 0)
+			{
 				currentBuffer = getBuffer( currentBuffer.getOffset() 
 						+ IOUtil.RA_STREAM_BUFFER_LENGTH);
+				currentBuffer.setBufCur( 0 );
+			}
 		}
 	}
 
