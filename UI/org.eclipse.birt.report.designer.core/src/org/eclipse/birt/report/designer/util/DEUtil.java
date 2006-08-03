@@ -291,8 +291,9 @@ public class DEUtil
 				displayName = handle.getQualifiedName( );
 			}
 			else
-			{
-				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
+			{	
+//				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
+				displayName = handle.getName( );				
 			}
 			if ( !StringUtil.isBlank( displayName ) )
 			{
