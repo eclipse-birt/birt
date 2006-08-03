@@ -104,7 +104,8 @@ public class RAStreamBufferMgr {
 	{
 		// If we already have a buffer allocated for that offset, just 
 		// return it.
-		RAStreamBuffer buffer = (RAStreamBuffer)bufferMap.get( offset );
+		Long offsetKey = new Long(offset);
+		RAStreamBuffer buffer = (RAStreamBuffer)bufferMap.get( offsetKey );
 		if ( buffer != null )
 			return buffer;
 		// If not, and MAX_NUMBER_OF_STREAM_BUFFER has not been reached, 
@@ -115,7 +116,7 @@ public class RAStreamBufferMgr {
 			buffer.resetBuffer( offset );
 			totalBuffer ++;
 			bufferList.add( buffer );
-			bufferMap.put(offset, buffer);
+			bufferMap.put(offsetKey, buffer);
 			return buffer;
 		}
 		
@@ -124,9 +125,9 @@ public class RAStreamBufferMgr {
 		// put the buffer to the end of the list.
 		buffer = (RAStreamBuffer)bufferList.get( 0 );
 		buffer.flushBuffer();
-		bufferMap.remove( buffer.getOffset());
+		bufferMap.remove( new Long(buffer.getOffset()) );
 		buffer.resetBuffer( offset ); 
-		bufferMap.put( offset, buffer);
+		bufferMap.put( offsetKey, buffer);
 		bufferList.remove( 0 );
 		bufferList.add( buffer );
 		
