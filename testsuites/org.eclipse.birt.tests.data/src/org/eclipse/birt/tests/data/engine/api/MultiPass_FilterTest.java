@@ -12,6 +12,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.APITestCase;
@@ -32,31 +33,47 @@ public class MultiPass_FilterTest extends APITestCase {
 	 */
 	public void test_FilteWithTopN() throws Exception
 	{
-		// Test a SQL with duplicate column name (quite common with join data sets)
-		String testSQL =  "select COUNTRY, AMOUNT from " + getTestTableName( ); //$NON-NLS-1$
-		((OdaDataSetDesign)this.dataSet).setQueryText( testSQL );
 		
-		ScriptExpression[] expressions = new ScriptExpression[2];
-		expressions[0] = new ScriptExpression( "row.COUNTRY" ); //$NON-NLS-1$
-		expressions[1] = new ScriptExpression( "row.AMOUNT" ); //$NON-NLS-1$
-	
-		FilterDefinition filterDef = new FilterDefinition (
-				new ConditionalExpression("row.AMOUNT",IConditionalExpression.OP_TOP_N,"1") );  //$NON-NLS-1$//$NON-NLS-2$
+		String[] bindingNameFilter = new String[3];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		bindingNameFilter[1] = "FILTER_COUNTRY";
+		bindingNameFilter[2] = "FILTER_SALE_DATE";
+		IBaseExpression[] bindingExprFilter = new IBaseExpression[3];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		bindingExprFilter[1] = new ScriptExpression( "dataSetRow.COUNTRY");
+		bindingExprFilter[2] = new ScriptExpression( "dataSetRow.SALE_DATE");
 		
-		// define a query design				
-		QueryDefinition queryDefn = newReportQuery( );		
+		String[] bindingNameRow = new String[6];
+		bindingNameRow[0] = "ROW_0";
+		bindingNameRow[1] = "ROW_rowPosition";
+		bindingNameRow[2] = "ROW_COUNTRY";
+		bindingNameRow[3] = "ROW_CITY";
+		bindingNameRow[4] = "ROW_SALE_DATE";
+		bindingNameRow[5] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[6];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow[0]" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow._rowPosition" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		// --- end binding
+		GroupDefinition[] groupDefn = null;
+		SortDefinition[] sortDefn = null;
 		
-		queryDefn.addFilter( filterDef );
+		String[] bindingNameFilter1 = new String[1];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		
-		queryDefn.addResultSetExpression( "COL_COUNTRY", expressions[0] ); //$NON-NLS-1$
-		queryDefn.addResultSetExpression( "COL_AMOUNT", expressions[1] );	 //$NON-NLS-1$
+		FilterDefinition[] filters = new FilterDefinition[]{
+				new FilterDefinition( new ConditionalExpression("row.FILTER_AMOUNT",IConditionalExpression.OP_TOP_N,"3"))};
 		
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultIterator resultIt = queryResults.getResultIterator( );
 
-		outputQueryResult( resultIt, new String[]{ "COL_COUNTRY", "COL_AMOUNT"} );	  //$NON-NLS-1$//$NON-NLS-2$
-		checkOutputFile( );	
+		
+		createAndRunQuery(null, null, null,
+				null, null, null,
+				bindingNameFilter, bindingExprFilter,filters,bindingNameRow, bindingExprRow);
 	}
 	
 	/**
@@ -66,37 +83,46 @@ public class MultiPass_FilterTest extends APITestCase {
 	public void test_FilterWithBottomN( ) throws Exception
 	{
 		
-		String sqlStatement = "select COUNTRY,AMOUNT,SALE_DATE from " + getTestTableName( );
-		( ( OdaDataSetDesign )this.dataSet ).setQueryText( sqlStatement );
+		String[] bindingNameFilter = new String[3];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		bindingNameFilter[1] = "FILTER_COUNTRY";
+		bindingNameFilter[2] = "FILTER_SALE_DATE";
+		IBaseExpression[] bindingExprFilter = new IBaseExpression[3];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		bindingExprFilter[1] = new ScriptExpression( "dataSetRow.COUNTRY");
+		bindingExprFilter[2] = new ScriptExpression( "dataSetRow.SALE_DATE");
 		
-		IBaseExpression[] expressions = new IBaseExpression[]{
-			new ScriptExpression( "row.COUNTRY", 0),
-			new ScriptExpression( "row.AMOUNT",2 ),	
-			new ScriptExpression( "row.SALE_DATE",6 )
-		};
-		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
+		String[] bindingNameRow = new String[6];
+		bindingNameRow[0] = "ROW_0";
+		bindingNameRow[1] = "ROW_rowPosition";
+		bindingNameRow[2] = "ROW_COUNTRY";
+		bindingNameRow[3] = "ROW_CITY";
+		bindingNameRow[4] = "ROW_SALE_DATE";
+		bindingNameRow[5] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[6];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow[0]" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow._rowPosition" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		// --- end binding
+		GroupDefinition[] groupDefn = null;
+		SortDefinition[] sortDefn = null;
+		
+		String[] bindingNameFilter1 = new String[1];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		
+		FilterDefinition[] filters = new FilterDefinition[]{
+				new FilterDefinition( new ConditionalExpression("row.FILTER_AMOUNT",IConditionalExpression.OP_BOTTOM_N,"3"))};
+		
 
 		
-		FilterDefinition filterDefn = new FilterDefinition(
-				new ConditionalExpression("row.SALE_DATE", IConditionalExpression.OP_BOTTOM_N,"3"));
-		
-		QueryDefinition queryDefn = new QueryDefinition( );
-		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		
-		queryDefn.addFilter( filterDefn );
-		
-		for( int i = 0; i < expressions.length; i ++ )
-		{
-			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
-		}
-
-		
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultIterator resultIt = queryResults.getResultIterator( );
-
-		outputQueryResult( resultIt, names );
-		checkOutputFile( );					
+		createAndRunQuery(null, null, null,
+				null, null, null,
+				bindingNameFilter, bindingExprFilter,filters,bindingNameRow, bindingExprRow);				
 		
 	}
 
@@ -108,39 +134,48 @@ public class MultiPass_FilterTest extends APITestCase {
 	
 	public void test_FilterGroup( ) throws Exception
 	{
-		String sqlStatement = "select COUNTRY,AMOUNT, SALE_DATE from " + getTestTableName( );
-		( ( OdaDataSetDesign )this.dataSet ).setQueryText( sqlStatement );
-		
-		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY" ),
-				new ScriptExpression( "row.AMOUNT" ),
-				new ScriptExpression( "row.SALE_DATE" )
-		};
-		
-		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
-		
-		QueryDefinition queryDefn = new QueryDefinition( );
-		queryDefn.setDataSetName( this.dataSet.getName( ) );
-
-		
-		for( int i = 0; i < expressions.length; i ++ )
-		{
-			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
-		}
+		String[] bindingNameFilter = new String[1];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		FilterDefinition[] filters = new FilterDefinition[]{new FilterDefinition(
+				new ScriptExpression( "row.FILTER_AMOUNT > 100" ) )};
 		
 		FilterDefinition filterDefn = new FilterDefinition( 
-				new ConditionalExpression( "Total.sum(row.AMOUNT,null,1)", IConditionalExpression.OP_TOP_PERCENT, "50" ) );
-		GroupDefinition groupDefn = new GroupDefinition( ); 
-		groupDefn.setKeyExpression( "row.COUNTRY" );
-		groupDefn.addFilter( filterDefn );
+				new ConditionalExpression( "Total.sum(row.ROW_AMOUNT)", IConditionalExpression.OP_TOP_PERCENT, "40" ) );
 		
-		queryDefn.addGroup( groupDefn );
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultIterator resultIt = queryResults.getResultIterator( );
+		String[] bindingNameGroup = new String[2];
+		bindingNameGroup[0] = "GROUP_GROUP0";
+		bindingNameGroup[1] = "GROUP_GROUP1";
 		
-		outputQueryResult( resultIt, names );
-		checkOutputFile( );
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0"), new GroupDefinition( "group1")};
+		groupDefn[0].setKeyExpression( "row.GROUP_GROUP0" );
+		
+		groupDefn[1].setKeyExpression( "row.GROUP_GROUP1" );
+		
+		
+		groupDefn[0].addFilter( filterDefn );
+		
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		
+		createAndRunQuery(bindingNameGroup, bindingExprGroup, groupDefn,
+				null, null, null,
+				bindingNameFilter, bindingExprFilter,filters,bindingNameRow, bindingExprRow);
+		
 		
 	}
 	
@@ -152,44 +187,56 @@ public class MultiPass_FilterTest extends APITestCase {
 	
 	public void test_MultiPassFilterGroup( ) throws Exception
 	{
-		String sqlStatement = "select COUNTRY,AMOUNT, SALE_DATE from " + getTestTableName( );
-		( ( OdaDataSetDesign )this.dataSet ).setQueryText( sqlStatement );
-		
-		
-		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY" ),
-				new ScriptExpression( "row.AMOUNT" ),
-				new ScriptExpression( "row.SALE_DATE" )				
-		};
-		
-		String names[] = { "COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
-		
-		QueryDefinition queryDefn = new QueryDefinition( );
-		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		for( int i = 0; i < expressions.length; i ++ )
-		{
-			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
-		}
-		
+		String[] bindingNameFilter = new String[1];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		FilterDefinition[] filters = new FilterDefinition[]{new FilterDefinition(
+				new ScriptExpression( "row.FILTER_AMOUNT > 100" ) )};
 		
 		FilterDefinition filterDefn = new FilterDefinition( 
-				new ConditionalExpression( "Total.sum(row.AMOUNT,null,1)", IConditionalExpression.OP_BOTTOM_PERCENT, "25" ) 
-					);
-		GroupDefinition groupDefn = new GroupDefinition();
-		groupDefn.setKeyExpression( "row.SALE_DATE" );		
-		groupDefn.setInterval( 2 );
-		groupDefn.setIntervalRange( IGroupDefinition.MONTH_INTERVAL);		
+				new ConditionalExpression( "Total.sum(row.ROW_AMOUNT)", IConditionalExpression.OP_TOP_PERCENT, "40" ) );
 		
-		groupDefn.addFilter( filterDefn );
+		String[] bindingNameGroup = new String[2];
+		bindingNameGroup[0] = "GROUP_GROUP0";
+		bindingNameGroup[1] = "GROUP_GROUP1";
 		
-		queryDefn.addGroup( groupDefn );
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultIterator resultIt = queryResults.getResultIterator( );
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
 		
-		outputQueryResult( resultIt, names );
-		checkOutputFile( );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0"), new GroupDefinition( "group1")};
+		groupDefn[0].setKeyExpression( "row.GROUP_GROUP0" );		
+		groupDefn[1].setKeyExpression( "row.GROUP_GROUP1" );		
+		groupDefn[0].addFilter( filterDefn );
 		
+		//add the second filter to group1
+		filterDefn = new FilterDefinition(new ScriptExpression(
+		"Total.sum(row.ROW_AMOUNT,Total.NO_FILTER,2)<=400"));
+		groupDefn[1].setKeyExpression("row.GROUP_GROUP1");
+		groupDefn[1].addFilter(filterDefn);
+		ConditionalExpression ce = new ConditionalExpression(
+		"Total.sum(row.ROW_AMOUNT)",
+		IConditionalExpression.OP_BOTTOM_N, "1");
+		ce.setGroupName( "group1" );
+		filterDefn = new FilterDefinition(ce);
+		groupDefn[1].addFilter(filterDefn);
+		
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		
+		createAndRunQuery(bindingNameGroup, bindingExprGroup, groupDefn,
+				null, null, null,
+				bindingNameFilter, bindingExprFilter,filters,bindingNameRow, bindingExprRow);
 	}
 	
 	
