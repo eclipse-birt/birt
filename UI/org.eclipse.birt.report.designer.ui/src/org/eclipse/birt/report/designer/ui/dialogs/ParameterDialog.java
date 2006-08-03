@@ -1929,15 +1929,15 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( v1 instanceof Double && v2 instanceof Double )
 		{
-			return ( (Double) v1 ).compareTo( v2 ) == 0;
+			return ( (Double) v1 ).compareTo( (Double) v2 ) == 0;
 		}
 		if ( v1 instanceof BigDecimal && v2 instanceof BigDecimal )
 		{
-			return ( (BigDecimal) v1 ).compareTo( v2 ) == 0;
+			return ( (BigDecimal) v1 ).compareTo( (BigDecimal) v2 ) == 0;
 		}
 		if ( v1 instanceof Integer && v2 instanceof Integer )
 		{
-			return ( (Integer) v1 ).compareTo( v2 ) == 0;
+			return ( (Integer) v1 ).compareTo( (Integer) v2 ) == 0;
 		}
 		return v1.equals( v2 );
 	}
