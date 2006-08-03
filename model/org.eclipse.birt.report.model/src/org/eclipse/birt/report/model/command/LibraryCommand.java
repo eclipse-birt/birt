@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -324,16 +325,20 @@ public class LibraryCommand extends AbstractElementCommand
 	public void reloadLibrary( String location ) throws DesignFileException,
 			SemanticException
 	{
-		Library library = module.getLibraryByLocation( location );
-
-		// library not found.
-
-		if ( !module.getLibraries( ).contains( library ) )
-		{
-			throw new LibraryException( library, new String[]{library == null
-					? null
-					: library.getNamespace( )},
+		Library library = module.getLibraryByLocation( location,
+				IAccessControl.ARBITARY_LEVEL );
+		if ( library == null )
+			throw new LibraryException( library, null,
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+
+		// find the right library to reload.
+
+		while ( library != null )
+		{
+			if ( library.getHost( ) == module )
+				break;
+
+			library = (Library)library.getHost( );
 		}
 
 		String namespace = library.getNamespace( );
@@ -377,9 +382,9 @@ public class LibraryCommand extends AbstractElementCommand
 			activityStack.rollback( );
 			throw e;
 		}
-		
+
 		// send the libraryreloadedevent first, and then commit transaction
-		
+
 		LibraryReloadedEvent event = new LibraryReloadedEvent( module
 				.getLibraryByLocation( url.toExternalForm( ) ) );
 
@@ -391,7 +396,6 @@ public class LibraryCommand extends AbstractElementCommand
 
 		activityStack.flush( );
 
-		
 	}
 
 	/**

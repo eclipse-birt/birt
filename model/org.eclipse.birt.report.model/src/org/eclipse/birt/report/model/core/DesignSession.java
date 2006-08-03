@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +24,8 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -85,8 +89,7 @@ public class DesignSession
 	}
 
 	/**
-	 * Gets resource path.
-	 * {@link #setBirtResourcePath(String)}
+	 * Gets resource path. {@link #setBirtResourcePath(String)}
 	 */
 
 	public static String getBirtResourcePath( )
@@ -763,17 +766,42 @@ public class DesignSession
 	{
 		return locale;
 	}
-	//
-	// /**
-	// * Returns the locale of the current session.
-	// *
-	// * @return the locale of the current session
-	// * @deprecated to support ICU4J, this method is replaced by:
-	// * getULocale
-	// */
-	//
-	// public Locale getLocale( )
-	// {
-	// return Locale.getDefault( );
-	// }
+
+	/**
+	 * Informs this session some resources is changed. Session will check all
+	 * opened mudules, all interfered modules will be informed of the changes.
+	 * 
+	 * <p>
+	 * Current, only changes of library or message file is supported.
+	 */
+
+	public void fireLibChange( LibraryChangeEvent ev )
+	{
+		String path = ev.getChangedResourcePath( );
+		try
+		{
+			path = new File( path ).toURL( ).toString( );
+		}
+		catch ( MalformedURLException e )
+		{
+			return;
+		}
+
+		Iterator iter = getModuleIterator( );
+		while ( iter.hasNext( ) )
+		{
+			Module module = (Module) iter.next( );
+			if ( module.getLocation( ).equalsIgnoreCase( path )
+					|| module.getLibraryByLocation( path,
+							IAccessControl.ARBITARY_LEVEL ) != null )
+			{
+				LibraryChangeEvent event = new LibraryChangeEvent( ev
+						.getChangedResourcePath( ) );
+				event.setTarget( module );
+				event.setDeliveryPath( ev.getDeliveryPath( ) );
+				module.broadcastResourceChangeEvent( event );
+			}
+		}
+	}
+
 }

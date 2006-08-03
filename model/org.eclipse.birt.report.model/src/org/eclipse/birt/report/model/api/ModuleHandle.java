@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -65,6 +67,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.util.ULocale;
@@ -1922,8 +1925,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Reloads the library with the given library file path. If the library
-	 * already is included, reload it. If the library is not included, exception
-	 * will be thrown.
+	 * already is included directly, reload it. If the library is not included,
+	 * exception will be thrown.
 	 * <p>
 	 * Call this method cautiously ONLY on the condition that the library file
 	 * is REALLY changed outside. After reload successfully, the command stack
@@ -1948,6 +1951,72 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		LibraryCommand command = new LibraryCommand( module );
 		command.reloadLibrary( libraryToReload.getLocation( ) );
+	}
+
+	/**
+	 * Reloads all libraries this module included.
+	 * <p>
+	 * Call this method cautiously ONLY on the condition that the library file
+	 * is REALLY changed outside. After reload successfully, the command stack
+	 * is cleared.
+	 * 
+	 * {@link #reloadLibrary(LibraryHandle)}
+	 */
+
+	public void reloadLibraries( ) throws SemanticException,
+			DesignFileException
+	{
+		for ( Iterator iter = getLibraries( ).iterator( ); iter.hasNext( ); )
+		{
+			LibraryHandle library = (LibraryHandle) iter.next( );
+			reloadLibrary( library );
+		}
+	}
+
+	/**
+	 * Reloads the library with the given library file path. If the library
+	 * already is included directly or indirectly(that is, the reload path could
+	 * be the path of grandson of this module), reload it. If the library is not
+	 * included, exception will be thrown.
+	 * <p>
+	 * Call this method cautiously ONLY on the condition that the library file
+	 * is REALLY changed outside. After reload successfully, the command stack
+	 * is cleared.
+	 * 
+	 * @param reloadPath
+	 *            this is supposed to be an absolute path, not in url form.
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>IncludeLibrary</code> structure list. Or it maybe
+	 *             because that the given library is not found in the design. Or
+	 *             that the library has descedents in the current module
+	 * @throws DesignFileException
+	 *             if the library file is not found, or has fatal error.
+	 */
+
+	public void reloadLibrary( String reloadPath ) throws SemanticException,
+			DesignFileException
+	{
+		if ( StringUtil.isEmpty( reloadPath ) )
+			return;
+
+		String path = null;
+		try
+		{
+			path = new File( reloadPath ).toURL( ).toString( );
+		}
+		catch ( MalformedURLException e )
+		{
+			DesignParserException ex = new DesignParserException(
+					new String[]{path},
+					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
+			List exceptionList = new ArrayList( );
+			exceptionList.add( ex );
+			throw new DesignFileException( path, exceptionList );
+		}
+
+		LibraryCommand command = new LibraryCommand( module );
+		command.reloadLibrary( path );
 	}
 
 	/**
@@ -2013,6 +2082,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Adds one resource change listener. The duplicate listener will not be
+	 * added.
+	 * 
+	 * @param listener
+	 *            the resource change listener to add
+	 */
+
+	public void addResourceChangeListener( IResourceChangeListener listener )
+	{
+		getModule( ).addResourceChangeListener( listener );
+	}
+
+	/**
 	 * Removes one dispose listener. If the listener not registered, then the
 	 * request is silently ignored.
 	 * 
@@ -2026,6 +2108,23 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public boolean removeDisposeListener( IDisposeListener listener )
 	{
 		return getModule( ).removeDisposeListener( listener );
+	}
+
+	/**
+	 * Removes one resource change listener. If the listener not registered,
+	 * then the request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the resource change listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 * 
+	 */
+
+	public boolean removeResourceChangeListener(
+			IResourceChangeListener listener )
+	{
+		return getModule( ).removeResourceChangeListener( listener );
 	}
 
 	/*

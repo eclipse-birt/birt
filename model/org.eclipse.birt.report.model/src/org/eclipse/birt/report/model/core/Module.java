@@ -31,12 +31,15 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.INameManager;
+import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -272,6 +275,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	private List disposeListeners = null;
+
+	/**
+	 * Resource change listener list to handle the resource change events.
+	 */
+
+	private List resourceChangeListeners = null;
 
 	/**
 	 * The theme for the module.
@@ -630,6 +639,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.allExceptions = null;
 		module.attributeListeners = null;
 		module.disposeListeners = null;
+		module.resourceChangeListeners = null;
 		module.elementIDCounter = 1;
 		module.fatalException = null;
 		module.idMap = new HashMap( );
@@ -1344,7 +1354,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 					// Clear the inverse relationship.
 
-					templateParam.setContainer( null, DesignElement.NO_SLOT );
+					templateParam.setContainer( null, NO_SLOT );
 				}
 			}
 		}
@@ -1564,7 +1574,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getAllLibraries( )
 	{
-		return getLibraries( IModuleNameScope.ARBITARY_LEVEL );
+		return getLibraries( IAccessControl.ARBITARY_LEVEL );
 	}
 
 	/**
@@ -1579,14 +1589,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getLibraries( int level )
 	{
-		if ( level <= IModuleNameScope.NATIVE_LEVEL || libraries == null )
+		if ( level <= IAccessControl.NATIVE_LEVEL || libraries == null )
 			return Collections.EMPTY_LIST;
 
 		int newLevel = level - 1;
 
 		// if the new level is less than 0, then no need to do the iterator.
 
-		if ( newLevel == IModuleNameScope.NATIVE_LEVEL )
+		if ( newLevel == IAccessControl.NATIVE_LEVEL )
 			return Collections.unmodifiableList( libraries );
 
 		List allLibraries = new ArrayList( libraries );
@@ -1608,7 +1618,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getLibraries( )
 	{
-		return getLibraries( IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
+		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 	}
 
 	/**
@@ -1678,7 +1688,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public Library getLibraryWithNamespace( String namespace )
 	{
 		return getLibraryWithNamespace( namespace,
-				IModuleNameScope.ARBITARY_LEVEL );
+				IAccessControl.ARBITARY_LEVEL );
 	}
 
 	/**
@@ -1796,6 +1806,23 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Adds one resource change listener. The duplicate listener will not be
+	 * added.
+	 * 
+	 * @param listener
+	 *            the resource change listener to add
+	 */
+
+	public void addResourceChangeListener( IResourceChangeListener listener )
+	{
+		if ( resourceChangeListeners == null )
+			resourceChangeListeners = new ArrayList( );
+
+		if ( !resourceChangeListeners.contains( listener ) )
+			resourceChangeListeners.add( listener );
+	}
+
+	/**
 	 * Removes one dispose listener. If the listener not registered, then the
 	 * request is silently ignored.
 	 * 
@@ -1811,6 +1838,25 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( disposeListeners == null )
 			return false;
 		return disposeListeners.remove( listener );
+	}
+
+	/**
+	 * Removes one resource change listener. If the listener not registered,
+	 * then the request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the resource change listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 * 
+	 */
+
+	public boolean removeResourceChangeListener(
+			IResourceChangeListener listener )
+	{
+		if ( resourceChangeListeners == null )
+			return false;
+		return resourceChangeListeners.remove( listener );
 	}
 
 	/**
@@ -1831,6 +1877,29 @@ public abstract class Module extends DesignElement implements IModuleModel
 		{
 			IDisposeListener listener = (IDisposeListener) iter.next( );
 			listener.moduleDisposed( (ModuleHandle) getHandle( this ), event );
+		}
+	}
+
+	/**
+	 * Broadcasts the resource change event to the resource change listeners.
+	 * 
+	 * @param event
+	 *            the dispose event
+	 */
+
+	public void broadcastResourceChangeEvent( ResourceChangeEvent event )
+	{
+		if ( resourceChangeListeners == null
+				|| resourceChangeListeners.isEmpty( ) )
+			return;
+
+		List temp = new ArrayList( resourceChangeListeners );
+		Iterator iter = temp.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IResourceChangeListener listener = (IResourceChangeListener) iter
+					.next( );
+			listener.resourceChanged( (ModuleHandle) getHandle( this ), event );
 		}
 	}
 
@@ -1907,7 +1976,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		if ( !StringUtil.isBlank( units ) )
 			return units;
-		return (String) getPropertyDefn( ReportDesign.UNITS_PROP ).getDefault( );
+		return (String) getPropertyDefn( UNITS_PROP ).getDefault( );
 	}
 
 	/**
@@ -2200,7 +2269,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Gets the library with the given location path.
+	 * Gets the library with the given location path in native level.
 	 * 
 	 * @param theLocation
 	 *            the location path to find
@@ -2208,6 +2277,22 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	public Library getLibraryByLocation( String theLocation )
+	{
+		return getLibraryByLocation( theLocation,
+				IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+	}
+
+	/**
+	 * Gets the library with the given location path in given level.
+	 * 
+	 * @param theLocation
+	 *            the location path to find
+	 * @param level
+	 *            the depth of the library
+	 * @return the library with the given location path if found, otherwise null
+	 */
+
+	public Library getLibraryByLocation( String theLocation, int level )
 	{
 		// if the location path is null or empty, return null
 
@@ -2217,7 +2302,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// look up the library with the location path in the included library
 		// list
 
-		List libraries = getLibraries( );
+		List libraries = getLibraries( level );
 		for ( int i = 0; i < libraries.size( ); i++ )
 		{
 			Library library = (Library) libraries.get( i );
@@ -2266,7 +2351,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// List libraries = rootHost.getAllLibraries( );
 
 		List libraries = rootHost
-				.getLibraries( IModuleNameScope.ARBITARY_LEVEL );
+				.getLibraries( IAccessControl.ARBITARY_LEVEL );
 		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -2372,7 +2457,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( StringUtil.isBlank( image.getName( ) ) )
 			return;
 
-		List images = getListProperty( this, Module.IMAGES_PROP );
+		List images = getListProperty( this, IMAGES_PROP );
 		if ( images == null )
 			return;
 

@@ -17,6 +17,9 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
 
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
@@ -537,6 +540,25 @@ public class SessionHandle
 	public ULocale getULocale( )
 	{
 		return session.getLocale( );
+	}
+
+	/**
+	 * Informs this session some resources is changed. Session will check all
+	 * opened mudules, all interfered modules will be informed of the changes.
+	 * 
+	 * <p>
+	 * Current, only changes of library is supported.
+	 */
+
+	public void fireResourceChange( ResourceChangeEvent ev )
+	{
+		if ( ev.getEventType( ) == NotificationEvent.LIBRARY_CHANGE_EVENT )
+			session.fireLibChange( (LibraryChangeEvent) ev );
+
+		// TODO: support message file change event
+		// else if ( ev.getEventType( ) ==
+		// NotificationEvent.MESSAGE_FILE_CHANGE_EVENT )
+		// session.fireMessageFileChange( ev );
 	}
 
 	/**

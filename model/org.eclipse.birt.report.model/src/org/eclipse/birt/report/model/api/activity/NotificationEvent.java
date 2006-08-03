@@ -157,6 +157,12 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int LIBRARY_RELOADED_EVENT = 19;
+	
+	/**
+	 * The event type of LIBRARY_CHANGE_EVENT
+	 */
+
+	public static final int LIBRARY_CHANGE_EVENT = 20;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
