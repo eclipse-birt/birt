@@ -152,41 +152,14 @@
 	    </copy>
 	</target>
 
-	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
-	<!-- Run Unit test.
-			 Parameters:
-			 		- ${utest.report.dir} target directory to put the unit test report
-	-->	
+	<!-- Run Unit Test -->
 	<target name="UnitTest" depends="compileTest" description="run all the unit tests">
-
-		<!-- run all tests in ${dir.utest} directory -->
-		<delete dir="${dir.utest}" />
-		<mkdir dir="${dir.utest}" />
-
-		<!-- Create the log directory -->
-		<delete dir="${utest.report.dir}" />
-		<mkdir dir="${utest.report.dir}" />
-
-		<!-- run junit for each testcase -->
-		<junit fork="yes" dir="${dir.utest}" taskname="ODA-JDBC Tests">
-			<jvmarg value="-ea" />
-			<sysproperty key="user" value="${user}" />
-			<sysproperty key="password" value="${password}" />
-			<sysproperty key="host" value="${host}" />
-			<sysproperty key="database" value="${database}" />
-			<classpath refid="class.path" />
-			<formatter type="xml" />
-			
-			<batchtest todir="${utest.report.dir}">
-				<fileset dir="${dir.test}">
-					<include name="**/*Test.java" />
-					<exclude name="**/AllTests.java" />
-				</fileset>
-			</batchtest>
-		</junit>
-
-		<!-- delete the ${dir.utest} dir /-->
-		<delete dir="${dir.utest}" />
+		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="UnitTest" inheritAll="false" inheritRefs="false">			
+			<property name="dir.utest" value="utest" />
+			<property name="utest.report.dir" value="${utest.report.dir}" />
+			<property name="module.name" value="${module.name}" />
+			<property name="classname" value="org.eclipse.birt.report.data.oda.jdbc.AllTests" />
+		</ant>
 	</target>
 	
 	<!-- Clean all objects created by this script -->
