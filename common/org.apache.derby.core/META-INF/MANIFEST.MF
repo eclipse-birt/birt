@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache Derby Core Plug-in for Eclipse
+Bundle-SymbolicName: org.apache.derby.core; singleton:=true
+Bundle-Version: 10.1.2.1
+Bundle-ClassPath: derby.jar,
+ derbyclient.jar,
+ derbynet.jar
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Eclipse-LazyStart: true
