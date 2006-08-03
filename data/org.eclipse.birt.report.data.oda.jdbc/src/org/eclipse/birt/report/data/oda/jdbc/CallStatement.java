@@ -156,7 +156,7 @@ public class CallStatement implements IAdvancedQuery
 	{
 		if ( context instanceof Map )
 		{
-			parameterDefn = (IParameterMetaData) ( ( (Map) context ).get( "parameter_hints" ) );
+			parameterDefn = (IParameterMetaData) ( ( (Map) context ).get( "org.eclipse.birt.report.data.oda.jdbc.ParameterHints" ) );
 		}
 	}
 

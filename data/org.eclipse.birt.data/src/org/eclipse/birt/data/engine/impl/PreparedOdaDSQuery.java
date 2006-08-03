@@ -160,7 +160,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		if ( ( (IOdaDataSetDesign) dataSetDesign ).getExtensionID( )
 				.equals( "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" ) )
 		{
-			appContext.put( "parameter_hints",
+			appContext.put( "org.eclipse.birt.report.data.oda.jdbc.ParameterHints",
 					new UserDefinedParamMetaData( paramList ) );
 		}
 	}
