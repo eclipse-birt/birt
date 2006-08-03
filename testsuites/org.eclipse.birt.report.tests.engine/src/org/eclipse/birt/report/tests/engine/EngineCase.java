@@ -475,6 +475,7 @@ public abstract class EngineCase extends TestCase
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunTask task = engine.createRunTask( runnable );
 		task.setAppContext( new HashMap( ) );
+		task.setLocale( Locale.ENGLISH );
 		IDocArchiveWriter archive = null;
 		try
 		{
