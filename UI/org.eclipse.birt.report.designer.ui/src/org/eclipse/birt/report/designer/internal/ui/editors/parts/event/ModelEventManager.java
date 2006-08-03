@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.parts.event;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
@@ -243,10 +242,10 @@ public class ModelEventManager implements Listener
 		}
 		unhookRoot( root );
 		
-		listenerList.clear( );
+		//listenerList.clear( );
 		if ( obj instanceof DesignElementHandle )
 		{
-			getListenerElementVisitor( ).addListener( (DesignElementHandle) obj );
+			getListenerElementVisitor( ).addListener( ((DesignElementHandle) obj).getModuleHandle( ) );
 		}
 		this.root = obj;
 	}

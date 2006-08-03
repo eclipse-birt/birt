@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.palette.MasterPagePaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -125,6 +123,7 @@ public class ReportMasterPageEditor extends
 		if (getGraphicalViewer( ).getContents( ).getModel( ) != handle)
 		{
 			getGraphicalViewer( ).setContents( handle );
+			hookModelEventManager( handle );
 		}
 	}
 

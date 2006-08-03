@@ -109,6 +109,10 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	 */
 	protected void propertyChange( Object focus, Map info )
 	{
+		if (getViewer( )==null)
+		{
+			return;
+		}
 		Object obj = getViewer( ).getEditPartRegistry( ).get( focus );
 		if ( obj instanceof ReportElementEditPart && !((ReportElementEditPart)obj).isDelete( ))
 		{
@@ -189,7 +193,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	 */
 	protected void contentChange( Object focus, Map info )
 	{
-		if (getViewer( ) == null || !getViewer( ).getControl( ).isVisible( ))
+		if (getViewer( )==null)
 		{
 			return;
 		}
@@ -224,6 +228,10 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 
 		public  void run( )
 		{
+			if (isDispose( ))
+			{
+				return;
+			}
 			runModelChange();
 			//When the model cahnge, the report design must layout one time.Because the table laout is
 			//complex, if the element in the table model change,must notify the table.
@@ -254,5 +262,13 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 				((ReportElementEditPart)part).notifyModelChange( );
 			}
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory#isDispose()
+	 */
+	public boolean isDispose( )
+	{
+		return getParent()==null || getViewer( ).getControl( ).isDisposed( );
 	}
 }

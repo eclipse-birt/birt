@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 /**
  * Processor the model event for the ReportEditorWithPalette
  */
-public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor implements IModelEventProcessor
+public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor implements IFastConsumerProcessor
 {
 
 	public static String CONTENT_EVENTTYPE = "Content event type";
@@ -160,6 +160,14 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 				}
 			}
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor#isOverdued()
+	 */
+	public boolean isOverdued( )
+	{
+		return getFactory( ).isDispose( );
 	}
 	
 }

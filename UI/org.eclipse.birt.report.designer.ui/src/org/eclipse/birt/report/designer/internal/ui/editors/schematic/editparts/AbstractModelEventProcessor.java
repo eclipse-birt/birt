@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +112,11 @@ public abstract class AbstractModelEventProcessor
 		 */
 		Runnable createModelEventRunnable( Object focus, int type,
 				Map args );
+		
+		/**
+		 * @return
+		 */
+		boolean isDispose();
 	}
 	
 	/* (non-Javadoc)
