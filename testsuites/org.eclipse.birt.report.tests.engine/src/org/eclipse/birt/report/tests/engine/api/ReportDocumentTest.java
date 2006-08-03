@@ -168,7 +168,7 @@ public class ReportDocumentTest extends EngineCase
 
 			// check getPageNumber(bookmark)
 			assertEquals( "return wrong page number which contains bookmark",
-					2, reportDoc.getPageNumber( pMark ) );
+					5, reportDoc.getPageNumber( pMark ) );
 
 			// check parameters(done)
 			HashMap params = (HashMap) reportDoc.getParameterValues( );
@@ -186,7 +186,7 @@ public class ReportDocumentTest extends EngineCase
 
 			// check report document name
 			String name = report_document;
-			name = name.replace( '/', '\\' );
+			name = name.replace( '/', '\\' ).substring( 1 );
 			assertEquals( "return wrong report document name", name, reportDoc
 					.getName( ) );
 
