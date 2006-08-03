@@ -110,6 +110,10 @@ public class FramesetFragment extends BirtBaseFragment
 		assert ParameterAccessor.PARAM_FORMAT_PDF
 				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) );
 		response.setContentType( "application/pdf" ); //$NON-NLS-1$
+		String filename = ParameterAccessor.generateFileName( request );
+		response
+				.setHeader(
+						"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**

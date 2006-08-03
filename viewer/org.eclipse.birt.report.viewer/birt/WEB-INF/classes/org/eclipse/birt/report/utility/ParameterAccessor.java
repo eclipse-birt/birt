@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.context.BaseAttributeBean;
 
 /**
  * Utilites class for all types of URl related operatnios.
@@ -1645,6 +1646,65 @@ public class ParameterAccessor
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Generates a file name for the pdf output.
+	 * 
+	 * @param request
+	 * @return the file name
+	 */
+
+	public static String generateFileName( HttpServletRequest request )
+	{
+		String defaultName = "BIRTReport"; //$NON-NLS-1$
+		String fileName = defaultName;
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		if ( attrBean == null )
+			return fileName + ".pdf"; //$NON-NLS-1$
+		String baseName = attrBean.getReportDesignName( );
+		if ( baseName == null || baseName.length( ) == 0 )
+			baseName = attrBean.getReportDocumentName( );
+		assert baseName != null && baseName.length( ) > 0;
+		
+		int index = baseName.lastIndexOf( '/' );
+		if ( index == -1 )
+			index = baseName.lastIndexOf( '\\' );
+
+		// if base name contains parent package name, substring the
+		// design file name; otherwise let it be
+		if ( index != -1 )
+		{
+			baseName = baseName.substring( index + 1 );
+		}
+
+		// get the report design name, then extract the name without
+		// file extension and set it to fileName; otherwise do noting and
+		// let fileName with the default name
+		int dotIndex = baseName.lastIndexOf( '.' );
+		if ( dotIndex > 0 )
+		{
+			fileName = baseName.substring( 0, dotIndex );
+		}
+		
+		// check whether the file name contains non US-ASCII characters
+		
+		for ( int i = 0; i < fileName.length( ); i++ )
+		{
+			char c = fileName.charAt( i );
+			
+			// char is from 0-127
+			
+			if ( c< 0x00 || c >= 0x80 )
+			{
+				fileName = defaultName;
+				break;
+			}
+		}
+
+		fileName = fileName + ".pdf"; //$NON-NLS-1$ 
+		return fileName;
 	}
 
 	/**
