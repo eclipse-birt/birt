@@ -32,7 +32,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -203,7 +202,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private TableViewer valueTable;
 	private CellEditor[] cellEditors;
 
-	private static IChoiceSet dataType = DesignEngine.getMetaDataDictionary( )
+	private static IChoiceSet dataType = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
 
 	private CascadingParameterGroupHandle inputParameterGroup;
@@ -822,10 +821,7 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				return getDataSet( handle.getDataSetName( ) );
 			}
-			else
-			{
-				return null;
-			}
+			return null;
 		}
 		return inputParameterGroup.getDataSet( );
 	}
@@ -1454,18 +1450,19 @@ public class CascadingParametersDialog extends BaseDialog
 		IChoiceSet choiceSet = null;
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
-			choiceSet = DesignEngine.getMetaDataDictionary( )
+			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
-			choiceSet = DesignEngine.getMetaDataDictionary( )
+			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
-				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
+				|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{
-			choiceSet = DesignEngine.getMetaDataDictionary( )
+			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE );
 		}
 		return choiceSet;
@@ -1551,7 +1548,7 @@ public class CascadingParametersDialog extends BaseDialog
 		IChoiceSet choiceSet = getFormatChoiceSet( getSelectedDataType( ) );
 		if ( choiceSet == null )
 		{// Boolean type;
-			displayFormat = DesignEngine.getMetaDataDictionary( )
+			displayFormat = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
 					.findChoice( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED )
 					.getDisplayName( );
@@ -1596,29 +1593,6 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 
 		previewLable.setText( formatStr );
-	}
-
-	private String getCategroy( String formatString )
-	{
-		if ( formatString != null )
-		{
-			return formatString.split( ":" )[0]; // NON-NLS-1$ //$NON-NLS-1$
-		}
-		return null;
-	}
-
-	private String getPattern( String formatString )
-	{
-		if ( formatString != null )
-		{
-			int index = formatString.indexOf( ':' ); // NON-NLS-1$
-			if ( index == -1 )
-			{
-				return null;
-			}
-			return formatString.substring( index + 1 );
-		}
-		return null;
 	}
 
 	private String getColumnName( ScalarParameterHandle handle, String column )
