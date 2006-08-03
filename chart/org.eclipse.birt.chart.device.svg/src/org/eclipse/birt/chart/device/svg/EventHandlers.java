@@ -365,10 +365,10 @@ public final class EventHandlers
     	.append( "        if (result != null){\n" ) //$NON-NLS-1$
     	.append( "    		endOf= /\\w+h\\b/g;\n" ) //$NON-NLS-1$
     	.append( "    		if (endOf.exec(result[1])== null){\n" ) //$NON-NLS-1$    	
-    	.append( "             return style.replace(urlStr, styleAttr+\"url(#\"+result[1]+\"h);\");\n")
+    	.append( "             return style.replace(urlStr, styleAttr+\"url(#\"+result[1]+\"h);\");\n") //$NON-NLS-1$
     	.append( "          }\n" ) //$NON-NLS-1$
     	.append( "          else{\n" ) //$NON-NLS-1$
-    	.append( "             return style.replace(urlStr, styleAttr+\"url(#\"+result[1].substring(0, result[1].length-1)+\");\");\n")
+    	.append( "             return style.replace(urlStr, styleAttr+\"url(#\"+result[1].substring(0, result[1].length-1)+\");\");\n") //$NON-NLS-1$
     	.append( "          }\n" ) //$NON-NLS-1$    	
     	.append( "        }\n" ) //$NON-NLS-1$
     	.append( "               else{\n" ) //$NON-NLS-1$
@@ -443,15 +443,17 @@ public final class EventHandlers
 		.append( "       var xScale = 1;\n" )//$NON-NLS-1$
 		.append( "       var yScale = 1;\n" )//$NON-NLS-1$
     	.append( "	function resizeSVG(e){\n" )//$NON-NLS-1$
-    	.append( "    if(isIE()){\n" )//$NON-NLS-1$
+    	.append( "    try{\n" )//$NON-NLS-1$
 		.append( "       var root=e.target.ownerDocument.documentElement;\n" )//$NON-NLS-1$
 		.append( "       var hotSpot = e.target.ownerDocument.getElementById('hotSpots');\n" )//$NON-NLS-1$
 		.append( "       var g = e.target.ownerDocument.getElementById('outerG');\n" )//$NON-NLS-1$
-		.append( "       xScale = (innerWidth) / root.getAttribute('width');\n" )//$NON-NLS-1$
-		.append( "       yScale = (innerHeight) / root.getAttribute('height');\n" )//$NON-NLS-1$
+		.append( "       xScale = (innerWidth) / root.getAttribute('initialWidth');\n" )//$NON-NLS-1$
+		.append( "       yScale = (innerHeight) / root.getAttribute('initialHeight');\n" )//$NON-NLS-1$
+		.append( "       root.setAttribute('width', xScale*root.getAttribute('initialWidth'));\n" )//$NON-NLS-1$
+		.append( "       root.setAttribute('height', yScale*root.getAttribute('initialHeight'));\n" )//$NON-NLS-1$
 		.append( "       g.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
 		.append( "       hotSpot.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');\n" )//$NON-NLS-1$
-		.append( "     }\n" )//$NON-NLS-1$
+		.append( "    }catch(e){}\n" )//$NON-NLS-1$
 		.append( "  }\n" )//$NON-NLS-1$		
 		.append( "        function getHighlight(color, highlight, lookupTable, id){\n" )//$NON-NLS-1$
     	.append( "        if (!(highlight)){\n" )//$NON-NLS-1$

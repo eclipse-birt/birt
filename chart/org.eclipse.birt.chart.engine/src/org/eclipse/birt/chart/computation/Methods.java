@@ -45,7 +45,15 @@ public class Methods implements IConstants
 	 */
 	public static final CDateTime asDateTime( Object o )
 	{
-		if ( o instanceof Calendar )
+		if ( o == null )
+		{
+			return null;
+		}
+		else if ( o instanceof DateTimeDataElement )
+		{
+			return ( (DateTimeDataElement) o ).getValueAsCDateTime( );
+		}
+		else if ( o instanceof Calendar )
 		{
 			return new CDateTime( (Calendar) o );
 		}
@@ -301,8 +309,7 @@ public class Methods implements IConstants
 						.getString( "exception.zero.negative.logarithmic.scale" ), //$NON-NLS-1$
 						new Object[]{
 							sc
-						} )
-				);
+						} ) );
 			}
 			double dMinimumLog = Math.log( asDouble( sc.getMinimum( ) ).doubleValue( ) )
 					/ LOG_10;
@@ -674,8 +681,7 @@ public class Methods implements IConstants
 					.getString( "exception.illegal.rotation.angle.label" ), //$NON-NLS-1$
 					new Object[]{
 						la
-					} )
-			);
+					} ) );
 		}
 
 		double dAngleInRadians = Math.toRadians( dAngleInDegrees );
@@ -754,8 +760,7 @@ public class Methods implements IConstants
 					.getString( "exception.illegal.rotation.angle.label" ), //$NON-NLS-1$
 					new Object[]{
 						la
-					} )
-			);
+					} ) );
 		}
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
