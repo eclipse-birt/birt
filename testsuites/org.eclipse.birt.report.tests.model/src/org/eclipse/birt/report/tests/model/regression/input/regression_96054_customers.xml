@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source name="Sample">
+            <property name="driverName">sampledb</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="Customers">
+            <property name="dataSource">Sample</property>
+            <property name="queryText">SELECT *
+FROM CUSTOMERS
+WHERE COUNTRY = 'USA'</property>
+            <property name="type">JdbcSelectDataSet</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report">
+            <property name="fontFamily">sans-serif</property>
+        </style>
+        <style name="label"/>
+        <style name="text"/>
+        <style name="data"/>
+        <style name="table"/>
+        <style name="grid"/>
+        <style name="list"/>
+        <style name="image"/>
+        <style name="Header">
+            <property name="backgroundColor">#0080FF</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFFF</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+            <page-header>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <row>
+                        <cell>
+                            <property name="fontSize">xx-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Title]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <text>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell>
+                            <property name="textAlign">right</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Page:]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid>
+            <property name="width">100%</property>
+            <column>
+                <property name="width">33%</property>
+            </column>
+            <column>
+                <property name="width">33%</property>
+                <property name="textAlign">center</property>
+            </column>
+            <column>
+                <property name="width">33%</property>
+                <property name="textAlign">right</property>
+            </column>
+            <row>
+                <property name="verticalAlign">top</property>
+                <cell>
+                    <image>
+                        <expression name="uri">http://www.eclipse.org/birt/tutorial/multichip-4.jpg</expression>
+                    </image>
+                </cell>
+                <cell>
+                    <property name="verticalAlign">top</property>
+                    <text>
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[<CENTER>
+<FONT size="6" color=blue>
+Customer Listing
+</FONT>
+<BR>
+<I>For internal use only</I>
+</CENTER>]]></text-property>
+                    </text>
+                </cell>
+                <cell>
+                    <property name="verticalAlign">top</property>
+                    <data>
+                        <structure name="dateTimeFormat">
+                            <property name="category">Long Date</property>
+                            <property name="pattern">Long Date</property>
+                        </structure>
+                        <expression name="valueExpr">new Date( )</expression>
+                    </data>
+                </cell>
+            </row>
+            <row>
+                <property name="height">0.25in</property>
+                <cell/>
+                <cell/>
+                <cell/>
+            </row>
+        </grid>
+        <table name="table1">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="width">100%</property>
+            <property name="dataSet">Customers</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["CUSTOMERNAME"]</expression>
+                </structure>
+            </list-property>
+            <column>
+                <property name="width">1.208in</property>
+            </column>
+            <column>
+                <property name="width">1.197in</property>
+            </column>
+            <column>
+                <property name="width">2.114in</property>
+            </column>
+            <column>
+                <property name="width">1.635in</property>
+            </column>
+            <header>
+                <row>
+                    <cell>
+                        <label>
+                            <property name="style">Header</property>
+                            <text-property name="text">State</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <label>
+                            <property name="style">Header</property>
+                            <text-property name="text">City</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <label>
+                            <property name="style">Header</property>
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <label>
+                            <property name="style">Header</property>
+                            <text-property name="text">Phone</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group>
+                <expression name="keyExpr">row["STATE"]</expression>
+                <header>
+                    <row>
+                        <property name="backgroundColor">#BBDDFF</property>
+                        <cell>
+                            <data>
+                                <property name="fontSize">large</property>
+                                <property name="fontWeight">bold</property>
+                                <expression name="valueExpr">row["STATE"]</expression>
+                            </data>
+                        </cell>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </header>
+                <footer>
+                    <row>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </footer>
+            </group>
+            <group>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["CITY"]</expression>
+                <header>
+                    <row>
+                        <cell/>
+                        <cell>
+                            <data>
+                                <property name="fontSize">large</property>
+                                <property name="color">#0080FF</property>
+                                <expression name="valueExpr">row["CITY"]</expression>
+                            </data>
+                        </cell>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </header>
+                <footer>
+                    <row>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell>
+                        <data>
+                            <expression name="valueExpr">row["CUSTOMERNAME"]</expression>
+                        </data>
+                    </cell>
+                    <cell>
+                        <data>
+                            <structure name="stringFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">(@@@)@@@-@@@@</property>
+                            </structure>
+                            <expression name="valueExpr">row["PHONE"]</expression>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
