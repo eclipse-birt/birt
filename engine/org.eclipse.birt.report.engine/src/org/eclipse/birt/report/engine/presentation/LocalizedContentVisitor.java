@@ -269,8 +269,17 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				}
 			}
 		}
-
-		data.setText( text );
+		//text can be null value after applying format
+		if(text!=null)
+		{
+			data.setText( text );
+		}
+		else
+		{
+			data.setText( "" ); //$NON-NLS-1$
+		}
+			
+			
 
 	}
 
