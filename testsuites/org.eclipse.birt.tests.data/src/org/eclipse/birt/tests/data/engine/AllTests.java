@@ -22,6 +22,8 @@ import org.eclipse.birt.tests.data.engine.api.ReportDoc_FilterTest;
 import org.eclipse.birt.tests.data.engine.api.ReportDoc_Gen_PreModeTest;
 import org.eclipse.birt.tests.data.engine.api.ReportDoc_GroupTest;
 import org.eclipse.birt.tests.data.engine.api.ReportDoc_ParameterTest;
+import org.eclipse.birt.tests.data.engine.regression.*;
+
 import org.eclipse.birt.tests.data.engine.smoke.DsAggregationTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsCombinationTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsComputeColumnTest;
@@ -52,6 +54,7 @@ public class AllTests extends TestCase
 		suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
 		suite.addTestSuite( ReportDoc_GroupTest.class );
 		suite.addTestSuite( ReportDoc_ParameterTest.class );
+		suite.addTestSuite( Reg_145508.class );
 
 		// Acceptance
 		suite.addTestSuite( ColumnAliasTest.class );
@@ -70,6 +73,53 @@ public class AllTests extends TestCase
 		suite.addTestSuite( DsGroupTest.class );
 		suite.addTestSuite( DsParameterTest.class );
 		suite.addTestSuite( DsSortTest.class );
+		
+		//Regression
+		/*
+		suite.addTestSuite( Reg_101568.class );
+		suite.addTestSuite( Reg_101810.class );
+		suite.addTestSuite( Reg_101864.class );
+		suite.addTestSuite( Reg_104204.class );
+		suite.addTestSuite( Reg_104611.class );
+		suite.addTestSuite( Reg_107415.class );
+		suite.addTestSuite( Reg_108248.class );
+		suite.addTestSuite( Reg_110566.class );
+		suite.addTestSuite( Reg_113200.class );
+		suite.addTestSuite( Reg_114470.class );
+		suite.addTestSuite( Reg_117274.class );
+		suite.addTestSuite( Reg_122860.class );
+		suite.addTestSuite( Reg_123389.class );
+		suite.addTestSuite( Reg_123545.class );
+		suite.addTestSuite( Reg_76549.class );
+		suite.addTestSuite( Reg_79009.class );
+		suite.addTestSuite( Reg_79012.class );
+		suite.addTestSuite( Reg_79182.class );
+		suite.addTestSuite( Reg_93220.class );
+		suite.addTestSuite( Reg_101856.class );
+		suite.addTestSuite( Reg_102128.class );
+		suite.addTestSuite( Reg_103346.class );
+		suite.addTestSuite( Reg_103802.class );
+		suite.addTestSuite( Reg_114898.class );
+		suite.addTestSuite( Reg_115989.class );
+		suite.addTestSuite( Reg_116772.class );
+		suite.addTestSuite( Reg_117437.class );
+		suite.addTestSuite( Reg_117641.class );
+		suite.addTestSuite( Reg_122066.class );
+		suite.addTestSuite( Reg_122309.class );
+		suite.addTestSuite( Reg_79505.class );
+		*/
+		//suite.addTestSuite( Regression_145508.class );
+		suite.addTestSuite( Regression_141600.class );
+		//suite.addTestSuite( Regression_139383.class );
+		suite.addTestSuite( Regression_137080.class );
+		//suite.addTestSuite( Regression_136542.class );
+		//suite.addTestSuite( Regression_134458.class );
+		//suite.addTestSuite( Regression_121857.class );
+		//suite.addTestSuite( Regression_74167.class );
+		//suite.addTestSuite( Regression_119309.class );
+		//suite.addTestSuite( Regression_119999.class );
+		suite.addTestSuite( Regression_103152.class );
+		
 		return suite;
 	}
 }
