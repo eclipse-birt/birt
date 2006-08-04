@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060802-1039 Build &lt;20060802-1039></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">prop3</property>
+            <property name="type">expression</property>
+            <property name="default">c</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <table name="table" id="39">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">prop1</property>
+                    <property name="type">expression</property>
+                    <property name="default">a</property>
+                </structure>
+            </list-property>
+            <property name="width">100%</property>
+            <column id="52"/>
+            <column id="53"/>
+            <column id="54"/>
+            <header>
+                <row id="40">
+                    <cell id="41"/>
+                    <cell id="42"/>
+                    <cell id="43"/>
+                </row>
+            </header>
+            <detail>
+                <row id="44">
+                    <list-property name="userProperties">
+                        <structure>
+                            <property name="name">prop2</property>
+                            <property name="type">expression</property>
+                            <property name="default">b</property>
+                        </structure>
+                    </list-property>
+                    <cell id="45"/>
+                    <cell id="46"/>
+                    <cell id="47"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="48">
+                    <cell id="49"/>
+                    <cell id="50"/>
+                    <cell id="51"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
