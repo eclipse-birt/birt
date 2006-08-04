@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -181,6 +182,17 @@ public class Utility
 	{
 		return getReportModuleHandle( )
 				.getVisibleDataSets( );
+	}
+    
+    /**
+	 * find the dataSet according to the given name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static DataSetHandle findDataSet( String name )
+	{
+		return getReportModuleHandle( ).findDataSet( name );
 	}
     
     /**
