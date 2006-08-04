@@ -412,7 +412,10 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 			{
 				if ( current instanceof CellHandle )
 				{
-					assert container instanceof RowHandle;
+					if (container == null)
+					{
+						continue;
+					}
 					if ( !( container.getContainer( ) instanceof GroupHandle ) )
 						return true;
 				}
