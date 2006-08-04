@@ -37,6 +37,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -49,8 +52,10 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
@@ -949,7 +954,7 @@ public class ModelUtil
 				String externalizedText = root.getMessage( textKey, locale );
 				return externalizedText;
 			}
-			
+
 			if ( DesignElement.NO_BASE_ID != element.getBaseId( ) )
 			{
 				element = element.getVirtualParent( );
@@ -1069,5 +1074,42 @@ public class ModelUtil
 					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
 
 		return rtnList;
+	}
+
+	/**
+	 * Justifies whether the given element supports template transform
+	 * 
+	 * @param element
+	 *            the element to check
+	 * @return true if Model supports the template element for the given one,
+	 *         otherwise false
+	 */
+
+	public static boolean isTemplateSupported( DesignElement element )
+	{
+		// all the data sets support template
+
+		if ( element instanceof DataSet )
+			return true;
+
+		// not all the report items support template, eg. auto text does not
+		// support template
+		
+		if ( element instanceof ReportItem )
+		{
+			IChoiceSet choiceSet = MetaDataDictionary.getInstance( )
+					.getChoiceSet(
+							DesignChoiceConstants.CHOICE_TEMPLATE_ELEMENT_TYPE );
+			assert choiceSet != null;
+			IChoice[] choices = choiceSet.getChoices( );
+			for ( int i = 0; i < choices.length; i++ )
+			{
+				if ( element.getDefn( ).getName( ).equalsIgnoreCase(
+						choices[i].getName( ) ) )
+					return true;
+			}
+		}
+
+		return false;
 	}
 }

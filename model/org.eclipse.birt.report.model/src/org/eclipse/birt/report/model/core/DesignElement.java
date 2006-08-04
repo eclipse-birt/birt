@@ -3580,19 +3580,24 @@ public abstract class DesignElement
 	 * @return true if it can be transformed, otherwise false.
 	 */
 
-	public boolean canTransformToTemplate( Module module )
+	public final boolean canTransformToTemplate( Module module )
 	{
-		if ( this instanceof TemplateElement || ( !canDrop( ) ) )
+		// if this kind of element does not support template or this element can
+		// not be dropped, return false;
+		
+		if ( !ModelUtil.isTemplateSupported( this ) || ( !canDrop( ) ) )
 			return false;
 
+		// check the containment for the template elements
+		
 		IElementDefn templateReportItem = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM );
 		IElementDefn templateDataSet = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.TEMPLATE_DATA_SET );
-		if ( getContainer( ) != null )
-			return getContainer( ).canContain( module, getContainerSlot( ),
+		if ( container != null )
+			return container.canContain( module, containerSlotID,
 					templateReportItem )
-					|| getContainer( ).canContain( module, getContainerSlot( ),
+					|| container.canContain( module, containerSlotID,
 							templateDataSet );
 
 		return true;
