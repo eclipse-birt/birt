@@ -9,8 +9,11 @@
 
 package org.eclipse.birt.report.tests.model;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -91,6 +94,7 @@ public abstract class BaseTestCase extends TestCase
 	 */
 
 	protected SessionHandle sessionHandle = null;
+
 
 	/**
 	 * the root element for this design.
@@ -184,7 +188,8 @@ public abstract class BaseTestCase extends TestCase
 
 	protected ReportDesignHandle createDesign( ULocale locale )
 	{
-		sessionHandle = DesignEngine.newSession( locale );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( locale );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 
@@ -257,7 +262,8 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
-		sessionHandle = DesignEngine.newSession( locale );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+		.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		libraryHandle = sessionHandle.openLibrary( fileName );
@@ -509,7 +515,7 @@ public abstract class BaseTestCase extends TestCase
 			while ( strA != null )
 			{
 				if ( ( strA.startsWith( "<report xmlns=" ) && strA //$NON-NLS-1$
-						.indexOf( "version=" ) != -1 ) ||  //$NON-NLS-1$
+						.indexOf( "version=" ) != -1 ) || //$NON-NLS-1$
 						( strA.startsWith( "<library xmlns=" ) && strA //$NON-NLS-1$
 								.indexOf( "version=" ) != -1 ) || //$NON-NLS-1$
 						strA.startsWith( "<property name=\"fileName\">" ) ) //$NON-NLS-1$ 
@@ -577,6 +583,58 @@ public abstract class BaseTestCase extends TestCase
 		return same;
 	}
 
+	
+	/**
+	 * Make a copy of a given file to the target file.
+	 * 
+	 * @param from
+	 *            the file where to copy from
+	 * @param to
+	 *            the target file to copy to.
+	 * @throws IOException
+	 */
+
+	protected final void copyFile( String from, String to ) throws IOException
+	{
+
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+
+		try
+		{
+			new File( to ).createNewFile( );
+
+			bis = new BufferedInputStream( new FileInputStream( from ) );
+			bos = new BufferedOutputStream( new FileOutputStream( to ) );
+
+			int nextByte = 0;
+			while ( ( nextByte = bis.read( ) ) != -1 )
+			{
+				bos.write( nextByte );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				if ( bis != null )
+					bis.close( );
+
+				if ( bos != null )
+					bos.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore
+			}
+
+		}
+	}
+	
 	/**
 	 * Prints out all semantic errors stored in the error list during parsing
 	 * the design file.
