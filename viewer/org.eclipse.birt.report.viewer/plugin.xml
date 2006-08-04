@@ -26,6 +26,7 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
    </requires>
 
    <extension-point id="browser" name="Web Browser" schema="schema/browser.exsd"/>
