@@ -405,6 +405,7 @@ public class ElementFactory
 	{
 		TableItem element = new TableItem( name );
 		module.makeUniqueName( element );
+		element.refreshRenderModel( module );
 		return element.handle( module );
 	}
 
