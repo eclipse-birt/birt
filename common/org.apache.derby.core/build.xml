@@ -74,6 +74,8 @@
 	</target>
 
 	<target name="Export">
+		<property file="META-INF/MANIFEST.MF" />
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<copy todir="${export.dir}/${module.name.version}">
 			<fileset dir=".">
 				<exclude name="build.xml" />
