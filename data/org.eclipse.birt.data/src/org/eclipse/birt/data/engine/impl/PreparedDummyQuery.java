@@ -412,10 +412,11 @@ public class PreparedDummyQuery implements IPreparedQuery
 		/**
 		 * @param queryResults
 		 * @param queryScope
+		 * @throws DataException 
 		 */
 		private ResultIterator( QueryResults queryResults,
 				ExprManager exprManager, Scriptable queryScope,
-				Scriptable parentScope )
+				Scriptable parentScope ) throws DataException
 		{
 			this.queryResults = queryResults;
 			this.exprManager = exprManager;
@@ -425,6 +426,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 					parentScope );
 			
 			queryScope.put( "row", queryScope, jsDummyRowObject );
+			this.getRdSaveUtil( ).doSaveStart( );
 		}
 
 		/**
@@ -821,6 +823,17 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.getRdSave( ).saveFinish( 0 );
 		}
 
+		/**
+		 * 
+		 * @throws DataException
+		 */
+		void doSaveStart( ) throws DataException
+		{
+			if ( needsSaveToDoc( ) == false )
+				return;
+			
+			this.getRdSave( ).saveStart( );
+		}
 		/**
 		 * @return
 		 */

@@ -130,6 +130,8 @@ public class ResultIterator implements IResultIterator
 		// Note that the odiResultIterator currently has its cursor located AT
 		// its first row. This iterator starts out with cursor BEFORE first row.
 		state = BEFORE_FIRST_ROW;
+		this.getRdSaveHelper( ).doSaveStart( );
+		
 	}
 	
 	/**
@@ -720,6 +722,17 @@ public class ResultIterator implements IResultIterator
 		{
 			doSave( null, true );
 		}
+
+		/**
+		 * @throws DataException
+		 */
+		void doSaveStart( ) throws DataException
+		{
+			if ( needsSaveToDoc( ) == false )
+				return;
+
+			this.getRdSave( ).saveStart( );
+		}
 		
 		/**
 		 * @throws DataException
@@ -734,13 +747,7 @@ public class ResultIterator implements IResultIterator
 			if ( isBasicSaved == false )
 			{
 				isBasicSaved = true;
-				this.rdSave = RDUtil.newSave( this.context,
-						this.queryDefn,
-						odiResult.getRowCount( ),
-						new QueryResultInfo( this.idInfo.getQueryResultID( ),
-								this.idInfo.getsubQueryName( ),
-								this.idInfo.getsubQueryIndex( ) ) );
-				this.rdSave.saveResultIterator( this.odiResult,
+				this.getRdSave( ).saveResultIterator( this.odiResult,
 						this.idInfo.getGroupLevel( ),
 						this.idInfo.getSubQueryInfo( ) );
 			}
@@ -750,6 +757,23 @@ public class ResultIterator implements IResultIterator
 						valueMap );
 			else
 				this.rdSave.saveFinish( odiResult.getCurrentResultIndex( ) );
+		}
+
+		/**
+		 * 
+		 * @return
+		 * @throws DataException
+		 */
+		private IRDSave getRdSave( ) throws DataException
+		{
+			if( this.rdSave == null )
+				this.rdSave = RDUtil.newSave( this.context,
+					this.queryDefn,
+					odiResult.getRowCount( ),
+					new QueryResultInfo( this.idInfo.getQueryResultID( ),
+							this.idInfo.getsubQueryName( ),
+							this.idInfo.getsubQueryIndex( ) ) );
+			return this.rdSave;
 		}
 		
 		/**

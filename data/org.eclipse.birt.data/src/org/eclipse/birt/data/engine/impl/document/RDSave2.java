@@ -64,7 +64,6 @@ class RDSave2 implements IRDSave
 	 */
 	public void saveFinish( int currIndex ) throws DataException
 	{
-		this.saveUtilHelper.saveQueryDefn( );
 		this.saveUtilHelper.saveChildQueryID( );
 	}
 
@@ -76,6 +75,15 @@ class RDSave2 implements IRDSave
 			int[] subQueryInfo ) throws DataException
 	{
 		saveUtilHelper.saveResultIterator( odiResult, groupLevel, subQueryInfo );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.IRDSave#saveStart()
+	 */
+	public void saveStart( ) throws DataException
+	{
+		this.saveUtilHelper.saveQueryDefn( );
 	}
 
 }

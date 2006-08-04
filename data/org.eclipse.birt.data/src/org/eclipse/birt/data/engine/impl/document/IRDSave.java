@@ -57,5 +57,13 @@ public interface IRDSave
 	 */
 	public void saveResultIterator( IResultIterator odiResult, int groupLevel,
 			int[] subQueryInfo ) throws DataException;
+	
+	/**
+	 * Save QueryDefinition to report design.
+	 * 
+	 * @throws DataException
+	 */
+	public void saveStart( ) throws DataException;
+	
 
 }

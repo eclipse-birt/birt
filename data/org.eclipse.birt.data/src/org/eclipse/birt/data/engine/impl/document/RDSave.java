@@ -147,9 +147,7 @@ class RDSave implements IRDSave
 		
 		// save expression metadata and transformation info
 		this.rdSaveUtil.saveExprMetadata( exprNameSet );
-
-		if ( this.streamManager.isSubquery( ) == false )
-			this.rdSaveUtil.saveQueryDefn( );
+	
 	}
 	
 	/* 
@@ -178,6 +176,13 @@ class RDSave implements IRDSave
 		}
 
 		return set;
+	}
+
+	public void saveStart( ) throws DataException
+	{
+		if ( this.streamManager.isSubquery( ) == false )
+			this.rdSaveUtil.saveQueryDefn( );
+		
 	}
 	
 }
