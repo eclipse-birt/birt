@@ -29,7 +29,9 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -115,9 +117,10 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			if ( path.toOSString( )
 					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
 			{
+				LibraryHandle library = null;
 				try
 				{
-					SessionHandleAdapter.getInstance( )
+					library = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openLibrary( path.toOSString( ) );
 				}
@@ -125,12 +128,20 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				{
 					return getExpetionErrorLine( e );
 				}
+				finally
+				{
+					if ( library != null )
+					{
+						library.close( );
+					}
+				}
 			}
 			else
 			{
+				ReportDesignHandle report = null;
 				try
 				{
-					SessionHandleAdapter.getInstance( )
+					report = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
 									new FileInputStream( path.toFile( ) ) );
@@ -138,6 +149,13 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				catch ( DesignFileException e )
 				{
 					return getExpetionErrorLine( e );
+				}
+				finally
+				{
+					if ( report != null )
+					{
+						report.close( );
+					}
 				}
 			}
 		}
