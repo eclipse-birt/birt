@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -32,6 +31,8 @@ import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -51,19 +52,20 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 /**
  * Regression description:
  * </p>
- * Some charts do not display correctly when changing from 2d to 2d with depth
- * </p>
+ * Set chart grid tick color won't take effect
+* </p>
  * Test description:
  * <p>
- * Changing a stacked bar chart from 2d to 2d with depth, generate a image, view the image to verify it.
+ * Set major and minor grid for the chart, view the jpg
  * </p>
  */
 
-public class Regression_98257 extends ChartTestCase{
-
-    private static String GOLDEN = "Reg_98257.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Reg_98257.jpg"; //$NON-NLS-1$	
+public class Regression_76963 extends ChartTestCase{
 	
+	
+	private static String GOLDEN = "Regression_76963.jpg"; //$NON-NLS-1$
+    private static String OUTPUT = "Regression_76963.jpg"; //$NON-NLS-1$
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -87,13 +89,13 @@ public class Regression_98257 extends ChartTestCase{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Regression_98257 st = new Regression_98257();
+		Regression_76963 st = new Regression_76963();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_98257() {
+	public Regression_76963() {
 		final PluginSettings ps = PluginSettings.instance();
 		try {
 			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
@@ -102,7 +104,6 @@ public class Regression_98257 extends ChartTestCase{
 			ex.printStackTrace();
 		}
 		cm = createBarChart();
-		cm = changeTo2Dwithdepth(cm);
 		BufferedImage img = new BufferedImage(500, 500,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.getGraphics();
@@ -125,13 +126,14 @@ public class Regression_98257 extends ChartTestCase{
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 	public void test( ) throws Exception
 	{
-		Regression_98257 st = new Regression_98257( );
+		Regression_76963 st = new Regression_76963( );
 		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+	}
+
 	/**
 	 * Creates a bar chart model as a reference implementation
 	 * 
@@ -148,12 +150,19 @@ public class Regression_98257 extends ChartTestCase{
 		// Title
 		cwaBar.getTitle().getLabel().getCaption().setValue(
 				"Computer Hardware Sales"); //$NON-NLS-1$
+		cwaBar.getTitle().setOutline(LineAttributesImpl.create(
+				ColorDefinitionImpl.create(239, 33, 3),
+				LineStyle.DASH_DOTTED_LITERAL, 3));
+		cwaBar.getTitle().setInsets(InsetsImpl.create(0,10,20,10));
 		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getBlock().setOutline(LineAttributesImpl.create(ColorDefinitionImpl.create(239,
+				33, 3), LineStyle.DOTTED_LITERAL, 2));
 
 		// Plot
 		cwaBar.getPlot().getClientArea().getOutline().setVisible(false);
 		cwaBar.getPlot().getClientArea().setBackground(
 				ColorDefinitionImpl.create(255, 255, 225));
+		cwaBar.getPlot().getClientArea().setShadowColor(ColorDefinitionImpl.create(100,100,100));
 
 		// X-Axis
 		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaBar).getPrimaryBaseAxes()[0];
@@ -163,20 +172,22 @@ public class Regression_98257 extends ChartTestCase{
 		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
 		xAxisPrimary.getLabel().getCaption().setColor(
 				ColorDefinitionImpl.GREEN().darker());
-
+		
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.GREY());
-		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getMajorGrid().setTickAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.create(255, 0,
+						0), LineStyle.SOLID_LITERAL, 1));
+		xAxisPrimary.getMinorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
+		xAxisPrimary.getMinorGrid().setTickAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.create(17, 37,
+						223), LineStyle.SOLID_LITERAL, 1));
 
 		// Y-Axis
 		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaBar)
 				.getPrimaryOrthogonalAxis(xAxisPrimary);
 		yAxisPrimary.getLabel().getCaption().setValue("Sales Growth"); //$NON-NLS-1$
 		FontDefinition fd = FontDefinitionImpl.create("Arial", (float) 10.0,
-				true, true, false, true, false, 0, TextAlignmentImpl
+				true, true, false, true, false, 10.0, TextAlignmentImpl
 						.create());
 		yAxisPrimary.getLabel().getCaption().setFont(fd);
 		yAxisPrimary.getLabel().getCaption().setColor(
@@ -186,25 +197,16 @@ public class Regression_98257 extends ChartTestCase{
 		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 		yAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
 
-		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
-				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
-				ColorDefinitionImpl.GREY());
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-
 		// Data Set
 		TextDataSet dsStringValue = TextDataSetImpl.create(new String[] {
 				"Keyboards", "Moritors", "Printers", "Mortherboards" });
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
 				143.26, 156.55, 95.25, 47.56 });
-		NumberDataSet dsNumericValues2 = NumberDataSetImpl.create(new double[] {
-				15.29, -14.53, -47.05, 32.55 });
-
+		
 		// X-Series
 		Series seBase = SeriesImpl.create();
 		seBase.setDataSet(dsStringValue);
-
+        
 		SeriesDefinition sdX = SeriesDefinitionImpl.create();
 		sdX.setSorting(SortOption.ASCENDING_LITERAL);
 		sdX.getQuery().setDefinition(""); //$NON-NLS-1$
@@ -224,26 +226,8 @@ public class Regression_98257 extends ChartTestCase{
 		yAxisPrimary.getSeriesDefinitions().add(sdY);
 		sdY.getSeriesPalette().update(ColorDefinitionImpl.BLUE());
 		sdY.getSeries().add(bs);
-
-		BarSeries bs2 = (BarSeries) BarSeriesImpl.create();
-		bs2.setSeriesIdentifier("Micorsoft"); //$NON-NLS-1$
-		bs2.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
-		bs2.getLabel().setBackground(ColorDefinitionImpl.CYAN());
-		bs2.getLabel().setVisible(true);
-		bs2.setDataSet(dsNumericValues2);
-		bs2.setStacked(true);
-
-		SeriesDefinition sdY2 = SeriesDefinitionImpl.create();
-		yAxisPrimary.getSeriesDefinitions().add(sdY2);
-		sdY2.getSeriesPalette().update(ColorDefinitionImpl.PINK());
-		sdY2.getSeries().add(bs2);
-
+		
 		return cwaBar;
 
-	}
-
-	public static final Chart changeTo2Dwithdepth(Chart c) {
-		c.setDimension(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL);
-		return c;
 	}
 }

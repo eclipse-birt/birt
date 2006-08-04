@@ -20,53 +20,74 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.TickStyle;
+import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
+import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
+import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
-import org.eclipse.birt.report.tests.chart.acceptance.LineChart_3D;
 
 /**
  * Regression description:
  * </p>
- * Series colors support different default values for pie chart
+ * Pie chart with zero value is shown
  * </p>
  * Test description:
  * <p>
- * Add two series pie chart, view the series colors
+ * Create a pie chart with zero value, view the image
  * </p>
  */
 
+public class Regression_143105 extends ChartTestCase
+{
 
+	private static String GOLDEN = "Regression_143105.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_143105.jpg"; //$NON-NLS-1$
 
-public class Regression_101039 extends ChartTestCase{
-	
-	
-	
-	private static String GOLDEN = "Reg_101039.jpg"; //$NON-NLS-1$
-	private static String OUTPUT = "Reg_101039.jpg"; //$NON-NLS-1$
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -89,50 +110,57 @@ public class Regression_101039 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_101039 st = new Regression_101039();
+	public static void main( String[] args )
+	{
+		Regression_143105 st = new Regression_143105( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_101039() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+	public Regression_143105( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
 		}
-		cm = createPieChart();
-		BufferedImage img = new BufferedImage(600, 600,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = createPieChart( );
+		BufferedImage img = new BufferedImage( 500, 500,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 600, 600);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gr.render( dRenderer, gcs );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 	}
-	
-	
+
 	public void test( ) throws Exception
 	{
-		Regression_101039 st = new Regression_101039( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+		Regression_143105 st = new Regression_143105( );
+		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -141,11 +169,13 @@ public class Regression_101039 extends ChartTestCase{
 	 * @return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
+
 	public static final Chart createPieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Chart Type
 		cwoaPie.setType("Pie Chart");
+		cwoaPie.setDimension(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL);
 
 		// Title
 		cwoaPie.getTitle().getLabel().getCaption().setValue("Sample Pie Chart");
@@ -180,11 +210,9 @@ public class Regression_101039 extends ChartTestCase{
 		TextDataSet dsStringValue = TextDataSetImpl.create(new String[] {
 				"Keyboards", "Moritors", "Printers", "Mortherboards" });
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
-				143.26, 156.55, 95.25, 47.56 });
-		NumberDataSet dsNumericValues2 = NumberDataSetImpl.create(new double[] {
-				31.24, 56.55, 5.25, 4.56 });
+				0.0, 0.0, 0.0, 0.0 });
 
-		// Series-1
+		// Series
 		Series seCategory = SeriesImpl.create();
 		seCategory.setDataSet(dsStringValue);
 
@@ -196,38 +224,20 @@ public class Regression_101039 extends ChartTestCase{
 		ps.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
 		ps.getLabel().setBackground(ColorDefinitionImpl.CYAN());
 		ps.getLabel().setVisible(true);
+//		ps.getTitle().getCaption().setValue("sss");
 		ps.setSeriesIdentifier("Actuate");
 		ps.setDataSet(dsNumericValues1);
 		ps.setLeaderLineAttributes(LineAttributesImpl.create(
 				ColorDefinitionImpl.create(239, 33, 3),
 				LineStyle.DASH_DOTTED_LITERAL, 3));
 		ps.setLeaderLineStyle(LeaderLineStyle.FIXED_LENGTH_LITERAL);
-		ps.setExplosion(0);
+		ps.setExplosion(5);
 		ps.setSliceOutline(ColorDefinitionImpl.BLACK());
-
+		
 		SeriesDefinition seGroup1 = SeriesDefinitionImpl.create();
 		series.getSeriesPalette().update(-2);
 		series.getSeriesDefinitions().add(seGroup1);
 		seGroup1.getSeries().add(ps);
-		
-		// Series-2
-		PieSeries ps2 = (PieSeries) PieSeriesImpl.create();
-		ps2.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
-		ps2.getLabel().setBackground(ColorDefinitionImpl.CYAN());
-		ps2.getLabel().setVisible(true);
-		ps2.setSeriesIdentifier("Micorsoft");
-		ps2.setDataSet(dsNumericValues2);
-		ps2.setLeaderLineAttributes(LineAttributesImpl.create(
-				ColorDefinitionImpl.create(239, 33, 3),
-				LineStyle.DASH_DOTTED_LITERAL, 3));
-		ps2.setLeaderLineStyle(LeaderLineStyle.FIXED_LENGTH_LITERAL);
-		ps2.setExplosion(0);
-		ps2.setSliceOutline(ColorDefinitionImpl.BLACK());
-
-		SeriesDefinition seGroup2 = SeriesDefinitionImpl.create();
-		series.getSeriesPalette().update(-2);
-		series.getSeriesDefinitions().add(seGroup2);
-		seGroup2.getSeries().add(ps2);
 
 		return cwoaPie;
 

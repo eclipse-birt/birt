@@ -21,46 +21,51 @@ import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataPoint;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
-import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.model.type.ScatterSeries;
+import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
  * 
- * Exception for add script of function beforeDrawSeries
+ * The property of scatter chart "Show Lines as Curves" exist, but does not work
  * 
- * Test decription:
+ * Test description:
  * 
- * No Error happens during the running of the report
+ * The property of scatter chart "Show Lines as Curves" works
  * 
  */
 
-public class Regression_121383 extends ChartTestCase{
+public class Regression_120557 extends ChartTestCase
+{
 
-    private static String GOLDEN = "Regression_121383.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_121383.jpg"; //$NON-NLS-1$	
-	
+	private static String GOLDEN = "Regression_120557.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_120557.jpg"; //$NON-NLS-1$
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -72,7 +77,7 @@ public class Regression_121383 extends ChartTestCase{
 	private Chart cm = null;
 
 	/**
-	 * The swing rendering device
+	 * The jpg rendering device
 	 */
 	private IDeviceRenderer dRenderer = null;
 
@@ -85,13 +90,13 @@ public class Regression_121383 extends ChartTestCase{
 	 */
 	public static void main( String[] args )
 	{
-		Regression_121383 st = new Regression_121383( );
+		Regression_120557 st = new Regression_120557( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_121383( )
+	public Regression_120557( )
 	{
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -103,17 +108,18 @@ public class Regression_121383 extends ChartTestCase{
 		{
 			ex.printStackTrace( );
 		}
-		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		cm = createScatterChart( );
+		BufferedImage img = new BufferedImage( 500, 500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
+				+ OUTPUT_FOLDER + OUTPUT );
+
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
 		Generator gr = Generator.instance( );
@@ -125,60 +131,63 @@ public class Regression_121383 extends ChartTestCase{
 		}
 		catch ( ChartException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
 	}
 
 	public void test( ) throws Exception
 	{
-		Regression_121383 st = new Regression_121383( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+		Regression_120557 st = new Regression_120557( );
+		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+	}
+
 	/**
-	 * Creates a line chart model as a reference implementation
+	 * Creates a scatter chart model as a reference implementation
 	 * 
 	 * @return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
-	public static final Chart createLineChart( )
+	public static final Chart createScatterChart( )
 	{
-		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
-		cwaLine
-				.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
-						+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl); " //$NON-NLS-1$
-						+ "series.setCurveFitting(CurveFittingImpl.create());" //$NON-NLS-1$
-						+ "series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
-				);
+		ChartWithAxes cwaScatter = ChartWithAxesImpl.create( );
 
 		// Chart Type
-		cwaLine.setType( "Line Chart" );
-		cwaLine.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+		cwaScatter.setType( "Scatter Chart" );
 
 		// Title
-		cwaLine.getTitle( ).getLabel( ).getCaption( ).setValue(
-				"Line Chart Using beforeDrawSeries" ); //$NON-NLS-1$
-		cwaLine.getTitle( ).getLabel( ).setVisible( true );
+		cwaScatter.getTitle( ).getLabel( ).getCaption( ).setValue(
+				"Sample Scatter Chart" ); //$NON-NLS-1$
+		cwaScatter.getBlock( ).setBackground( ColorDefinitionImpl.GREY( ) );
+
+		// Plot
+		Plot p = cwaScatter.getPlot( );
+
+		p.getOutline( ).setStyle( LineStyle.DASH_DOTTED_LITERAL );
+		p.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
+		p.getOutline( ).setVisible( true );
+
+		p.setBackground( ColorDefinitionImpl.CREAM( ) );
+		p.setAnchor( Anchor.NORTH_LITERAL );
+		p.getClientArea( ).getOutline( ).setVisible( true );
 
 		// Legend
-		Legend lg = cwaLine.getLegend( );
+		Legend lg = cwaScatter.getLegend( );
 		lg.setVisible( false );
 
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaScatter )
 				.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.getTitle( ).setVisible( false );
+
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.GREEN( ).darker( ) );
+				ColorDefinitionImpl.BLACK( ).darker( ) );
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaScatter )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "" ); //$NON-NLS-1$
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
 
@@ -187,36 +196,52 @@ public class Regression_121383 extends ChartTestCase{
 		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
 		// Data Set
-		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
-				"Keyboards", "Moritors", "Printers", "Mortherboards"} );
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl
-				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
+				.create( new double[]{22.49, 163.55, -65.43, 0.0, -107.0} );
+		NumberDataSet dsNumericValues2 = NumberDataSetImpl
+				.create( new double[]{-36.53, 43.9, 8.29, 97.45, 32.0} );
 
 		// X-Series
 		Series seBase = SeriesImpl.create( );
-		seBase.setDataSet( dsStringValue );
+		seBase.setDataSet( dsNumericValues1 );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+		sdX.setSorting( SortOption.DESCENDING_LITERAL );
+
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
-		ls.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-		ls.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
-				.create( 239, 33, 3 ), LineStyle.SOLID_LITERAL, 1 ) );
-		ls.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-		ls.getLabel( ).setVisible( true );
-		ls.setDataSet( dsNumericValues1 );
-		ls.setStacked( true );
+		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create( );
+
+		DataPoint dp = ss.getDataPoint( );
+		dp.getComponents( ).clear( );
+		dp.setPrefix( "(" ); //$NON-NLS-1$
+		dp.setSuffix( ")" ); //$NON-NLS-1$
+		dp.getComponents( ).add(
+				DataPointComponentImpl.create(
+						DataPointComponentType.BASE_VALUE_LITERAL,
+						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) ); //$NON-NLS-1$
+		dp.getComponents( ).add(
+				DataPointComponentImpl.create(
+						DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) ); //$NON-NLS-1$
+
+		ss.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+		ss.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+		ss.getLabel( ).setVisible( true );
+		ss.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
+				.create( 117, 137, 223 ), LineStyle.SOLID_LITERAL, 1 ) );
+		ss.setDataSet( dsNumericValues2 );
+		ss.setCurve( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
-		sdY.getSeries( ).add( ls );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
+		sdY.getSeries( ).add( ss );
 
-		return cwaLine;
+		return cwaScatter;
 
 	}
 }

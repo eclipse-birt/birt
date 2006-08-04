@@ -49,6 +49,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
@@ -61,9 +62,11 @@ import org.eclipse.birt.chart.util.PluginSettings;
  * 
  */
 
-public class Regression_122396
-{
+public class Regression_122396 extends ChartTestCase{
 
+    private static String GOLDEN = "Regression_122396.jpg"; //$NON-NLS-1$
+    private static String OUTPUT = "Regression_122396.jpg"; //$NON-NLS-1$	
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -113,9 +116,9 @@ public class Regression_122396
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		String s = System.getProperty( "user.dir" );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, s
-				+ "\\regression\\Regression_122396.jpg" ); //$NON-NLS-1$
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+				.getClassFolder( )
+				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -133,6 +136,12 @@ public class Regression_122396
 		}
 	}
 
+	public void test( ) throws Exception
+	{
+		Regression_122396 st = new Regression_122396( );
+		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+	}	
+	
 	/**
 	 * Creates a meter chart model as a reference implementation
 	 * 

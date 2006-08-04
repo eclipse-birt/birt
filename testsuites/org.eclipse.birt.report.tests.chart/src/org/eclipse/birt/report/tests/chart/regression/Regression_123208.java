@@ -23,12 +23,10 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -40,27 +38,31 @@ import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
  * 
- * Exception for add script of function beforeDrawSeries
+ * Exception is thrown out when the position of 2D bar series label is set as
+ * "inside"
  * 
- * Test decription:
+ * Test description:
  * 
- * No Error happens during the running of the report
+ * No exception is thrown out when the position of 2D bar series label is set as
+ * "inside"
  * 
  */
 
-public class Regression_121383 extends ChartTestCase{
+public class Regression_123208 extends ChartTestCase
+{
 
-    private static String GOLDEN = "Regression_121383.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_121383.jpg"; //$NON-NLS-1$	
-	
+	private static String GOLDEN = "Regression_123208.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_123208.jpg"; //$NON-NLS-1$
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -85,13 +87,13 @@ public class Regression_121383 extends ChartTestCase{
 	 */
 	public static void main( String[] args )
 	{
-		Regression_121383 st = new Regression_121383( );
+		Regression_123208 st = new Regression_123208( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_121383( )
+	public Regression_123208( )
 	{
 		final PluginSettings ps = PluginSettings.instance( );
 		try
@@ -103,17 +105,18 @@ public class Regression_121383 extends ChartTestCase{
 		{
 			ex.printStackTrace( );
 		}
-		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		cm = createBarChart( );
+		BufferedImage img = new BufferedImage( 500, 500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
+				+ OUTPUT_FOLDER + OUTPUT );
+
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
 		Generator gr = Generator.instance( );
@@ -125,58 +128,49 @@ public class Regression_121383 extends ChartTestCase{
 		}
 		catch ( ChartException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
 	}
 
 	public void test( ) throws Exception
 	{
-		Regression_121383 st = new Regression_121383( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+		Regression_123208 st = new Regression_123208( );
+		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+	}
+
 	/**
-	 * Creates a line chart model as a reference implementation
+	 * Creates a bar chart model as a reference implementation
 	 * 
 	 * @return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
-	public static final Chart createLineChart( )
+	public static final Chart createBarChart( )
 	{
-		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
-		cwaLine
-				.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
-						+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl); " //$NON-NLS-1$
-						+ "series.setCurveFitting(CurveFittingImpl.create());" //$NON-NLS-1$
-						+ "series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
-				);
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
 		// Chart Type
-		cwaLine.setType( "Line Chart" );
-		cwaLine.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+		cwaBar.setType( "Bar Chart" );
 
 		// Title
-		cwaLine.getTitle( ).getLabel( ).getCaption( ).setValue(
-				"Line Chart Using beforeDrawSeries" ); //$NON-NLS-1$
-		cwaLine.getTitle( ).getLabel( ).setVisible( true );
+		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
+				"Computer Hardware Sales" ); //$NON-NLS-1$
+		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 
 		// Legend
-		Legend lg = cwaLine.getLegend( );
+		Legend lg = cwaBar.getLegend( );
 		lg.setVisible( false );
 
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
-				.getPrimaryBaseAxes( )[0];
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes( )[0];
 		xAxisPrimary.getTitle( ).setVisible( false );
+
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.GREEN( ).darker( ) );
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
@@ -198,25 +192,26 @@ public class Regression_121383 extends ChartTestCase{
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
-		ls.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-		ls.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
-				.create( 239, 33, 3 ), LineStyle.SOLID_LITERAL, 1 ) );
-		ls.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-		ls.getLabel( ).setVisible( true );
-		ls.setDataSet( dsNumericValues1 );
-		ls.setStacked( true );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+		bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+		bs.getLabel( ).setVisible( true );
+		bs.setDataSet( dsNumericValues1 );
+		bs.setStacked( true );
+
+		bs.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
-		sdY.getSeries( ).add( ls );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
+		sdY.getSeries( ).add( bs );
 
-		return cwaLine;
+		return cwaBar;
 
 	}
 }

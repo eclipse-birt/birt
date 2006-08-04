@@ -57,6 +57,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
@@ -69,8 +70,12 @@ import org.eclipse.birt.chart.util.PluginSettings;
  * </p>
  */
 
-public class Regression_123554 {
+public class Regression_123554 extends ChartTestCase{
 
+    private static String GOLDEN = "Reg_123554.jpg"; //$NON-NLS-1$
+    private static String OUTPUT = "Reg_123554.jpg"; //$NON-NLS-1$	
+	
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -115,9 +120,9 @@ public class Regression_123554 {
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		String s = System.getProperty("user.dir");
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, s
-				+ "\\regression\\Reg_123554.jpg"); //$NON-NLS-1$
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+				.getClassFolder( )
+				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
 		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
@@ -132,6 +137,12 @@ public class Regression_123554 {
 		}
 	}
 
+	public void test( ) throws Exception
+	{
+		Regression_123554 st = new Regression_123554( );
+		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+	}	
+	
 	/**
 	 * Creates a scatter chart model as a reference implementation
 	 * 

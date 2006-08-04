@@ -19,10 +19,13 @@ import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -38,14 +41,18 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -68,20 +75,21 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Regression description:
  * </p>
- * Set chart title or axis title  alignment to center, chart preview and live preview style are inconsistent.
+ * Data sorting of X Axis in chart builder doesn't work.
  * </p>
  * Test description:
  * <p>
- * set chart title, axis title alignment to center, render a chart to swt device
+ * set data soring of X Axis, render a chart to swt device
  * </p>
  */
 
-
-public final class Regression_118773_swt extends Composite implements
-		PaintListener,
-		IUpdateNotifier,
-		SelectionListener
+public final class Regression_78699_swt extends Composite
+		implements
+			PaintListener,
+			IUpdateNotifier,
+			SelectionListener
 {
+
 	private IDeviceRenderer idr = null;
 
 	private Chart cm = null;
@@ -93,7 +101,7 @@ public final class Regression_118773_swt extends Composite implements
 	private GeneratedChartState gcs = null;
 
 	private boolean bNeedsGeneration = true;
-	
+
 	private Map contextMap;
 
 	/**
@@ -108,7 +116,7 @@ public final class Regression_118773_swt extends Composite implements
 		shell.setSize( 600, 400 );
 		shell.setLayout( new GridLayout( ) );
 
-		Regression_118773_swt siv = new Regression_118773_swt( shell,
+		Regression_78699_swt siv = new Regression_78699_swt( shell,
 				SWT.NO_BACKGROUND );
 		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		siv.addPaintListener( siv );
@@ -121,7 +129,7 @@ public final class Regression_118773_swt extends Composite implements
 
 		la.setText( "Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add("Bar Chart");
+		cbType.add( "Bar Chart" );
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -140,12 +148,12 @@ public final class Regression_118773_swt extends Composite implements
 	/**
 	 * Get the connection with SWT device to render the graphics.
 	 */
-	Regression_118773_swt( Composite parent, int style )
+	Regression_78699_swt( Composite parent, int style )
 	{
 		super( parent, style );
-		
-		contextMap = new HashMap();
-		
+
+		contextMap = new HashMap( );
+
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -156,7 +164,9 @@ public final class Regression_118773_swt extends Composite implements
 		{
 			ex.printStackTrace( );
 		}
-		cm = Title.BarChart( );
+		cm = createChart( );
+		bindGroupingData( cm );
+
 	}
 
 	/*
@@ -180,11 +190,7 @@ public final class Regression_118773_swt extends Composite implements
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ),
-						cm,
-						bo,
-						null,
-						null,
+				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
 						null );
 			}
 			catch ( ChartException ce )
@@ -217,9 +223,9 @@ public final class Regression_118773_swt extends Composite implements
 			int iSelection = cbType.getSelectionIndex( );
 			switch ( iSelection )
 			{
-			case 0:
-				cm = Title.BarChart();
-				break;
+				case 0 :
+					cm = Title.BarChart( );
+					break;
 			}
 			bNeedsGeneration = true;
 			this.redraw( );
@@ -271,7 +277,7 @@ public final class Regression_118773_swt extends Composite implements
 	{
 		redraw( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -292,7 +298,7 @@ public final class Regression_118773_swt extends Composite implements
 	{
 		return contextMap.put( key, value );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -303,5 +309,223 @@ public final class Regression_118773_swt extends Composite implements
 		return contextMap.remove( key );
 	}
 
-}
+	private void bindGroupingData( Chart chart )
 
+	{
+
+		// Data Set
+
+		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+
+		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
+
+		25, 35, 15, 2, 9
+
+		} );
+
+		final Object[][] data = new Object[][]{
+
+		{
+
+		"x1", new Integer( 1 ), "g1"
+
+		}, {
+
+		"x2", new Integer( 2 ), "g2"
+
+		}, {
+
+		"x3", new Integer( 3 ), "g1"
+
+		}, {
+
+		"x4", new Integer( 4 ), "g3"
+
+		}, {
+
+		"x5", new Integer( 5 ), "g2"
+
+		}, {
+
+		"x6", new Integer( 6 ), "g1"
+
+		}, {
+
+		"x7", new Integer( 7 ), "g3"
+
+		}, {
+
+		"x8", new Integer( 8 ), "g2"
+
+		}, {
+
+		"x9", new Integer( 9 ), "g2"
+
+		}, {
+
+		"x0", new Integer( 0 ), "g2"
+
+		},
+
+		};
+
+		try
+
+		{
+
+			Generator gr = Generator.instance( );
+
+			gr.bindData( new IDataRowExpressionEvaluator( ) {
+
+				int idx = 0;
+
+				public void close( )
+
+				{
+
+				}
+
+				public Object evaluate( String expression )
+
+				{
+
+					if ( "X".equals( expression ) )
+
+					{
+
+						return data[idx][0];
+
+					}
+
+					else if ( "Y".equals( expression ) )
+
+					{
+
+						return data[idx][1];
+
+					}
+
+					else if ( "G".equals( expression ) )
+
+					{
+
+						return data[idx][2];
+
+					}
+
+					return null;
+
+				}
+
+				public Object evaluateGlobal( String expression )
+
+				{
+
+					return evaluate( expression );
+
+				}
+
+				public boolean first( )
+
+				{
+
+					idx = 0;
+
+					return true;
+
+				}
+
+				public boolean next( )
+
+				{
+
+					idx++;
+
+					return ( idx < 9 );
+
+				}
+
+			}, chart, new RunTimeContext( ) );
+
+		}
+
+		catch ( ChartException e )
+
+		{
+
+			e.printStackTrace( );
+
+		}
+
+	}
+
+	private Chart createChart( )
+
+	{
+
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+
+		// X-Axis
+
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+
+		// Y-Axis
+
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+
+		// X-Series
+
+		Series seCategory = SeriesImpl.create( );
+
+		Query xQ = QueryImpl.create( "G" );
+
+		seCategory.getDataDefinition( ).add( xQ );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+
+		sdX.getSeries( ).add( seCategory );
+
+		// -------------------------------------------------------------
+
+		sdX.setSorting( SortOption.DESCENDING_LITERAL );
+
+		sdX.getGrouping( ).setEnabled( true );
+
+		sdX.getGrouping( ).setGroupType( DataType.TEXT_LITERAL );
+
+		sdX.getGrouping( ).setAggregateExpression( "Sum" );
+
+		sdX.getGrouping( ).setGroupingInterval( 0 );
+
+		// -------------------------------------------------------------
+
+		// Y-Series
+
+		LineSeries bs = (LineSeries) LineSeriesImpl.create( );
+
+		bs.getLabel( ).setVisible( false );
+
+		Query yQ = QueryImpl.create( "Y" );
+
+		bs.getDataDefinition( ).add( yQ );
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+
+		sdY.getSeriesPalette( ).update( 0 );
+
+		sdY.getSeries( ).add( bs );
+
+		return cwaBar;
+
+	}
+
+}

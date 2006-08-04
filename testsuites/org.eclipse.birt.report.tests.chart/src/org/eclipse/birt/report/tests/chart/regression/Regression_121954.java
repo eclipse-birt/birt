@@ -61,6 +61,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
@@ -73,8 +74,10 @@ import org.eclipse.birt.chart.util.PluginSettings;
  * </p>
  */
 
-public class Regression_121954 {
+public class Regression_121954 extends ChartTestCase{
 
+     private static String OUTPUT = "Reg_121954.jpg"; //$NON-NLS-1$	
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -119,9 +122,9 @@ public class Regression_121954 {
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		String s = System.getProperty("user.dir");
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, s
-				+ "\\regression\\Reg_121954.jpg"); //$NON-NLS-1$
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+				.getClassFolder( )
+				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
 		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
@@ -130,12 +133,18 @@ public class Regression_121954 {
 		try {
 			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
 			gr.render(dRenderer, gcs);
+			fail();
 		} catch (ChartException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 
+	public void test( ) throws Exception
+	{
+		Regression_121954 st = new Regression_121954( );
+	}	
+	
 	/**
 	 * Creates a area chart model as a reference implementation
 	 * 
@@ -253,11 +262,6 @@ public class Regression_121954 {
 				.getTitle().getCaption().getFont().setRotation(0);
 		
 		// Data Set
-//		TextDataSet dsStringValue = TextDataSetImpl.create(new String[] {
-//				"Keyboards", "Moritors", "Printers", "Mortherboards" });
-//		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
-//				143.26, 156.55, 95.25, 47.56 });
-		
 		TextDataSet dsStringValue = TextDataSetImpl.create(new String[] {
 				 });
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
