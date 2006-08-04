@@ -17,6 +17,8 @@ Mask.prototype = {
 		{
 			this.__useIFrame = true;
 			this.__mask = document.createElement( 'iframe' );
+			// Workaround for IE https secure warning
+			this.__mask.src = "blank.html";
 		}
 		else
 		{
@@ -53,6 +55,8 @@ Mask.prototype = {
 		{
 			this.__useIFrame = true;
 			this.__progressBarMask = document.createElement( 'iframe' );
+			// Workaround for IE https secure warning
+			this.__progressBarMask.src = "blank.html";
 		}
 		else
 		{
