@@ -834,7 +834,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		{
 			if ( !( getModel( ) instanceof ModuleHandle ) )
 			{
-				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null;
+				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null || ( (DesignElementHandle) getModel( ) ).getRoot( ) == null;
 			}
 		}
 		return bool;
