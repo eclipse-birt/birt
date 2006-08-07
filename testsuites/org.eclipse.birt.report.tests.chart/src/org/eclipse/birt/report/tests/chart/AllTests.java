@@ -102,7 +102,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_120557.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_120919.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121292.class );
-		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121383.class );
+		//To Do: chart script
+//		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121383.class );
+		
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121954.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_122343.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_122371.class );
