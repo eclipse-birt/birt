@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -34,19 +37,19 @@ import org.eclipse.swt.widgets.Table;
 public class TableArea extends Composite
 {
 
-	private static final String BUTTON_NEW = "&New...";
-	private static final String BUTTON_EDIT = "&Edit...";
-	private static final String BUTTON_REMOVE = "&Remove";
-	private static final String BUTTON_UP = "&Up";
-	private static final String BUTTON_DOWN = "D&own";
+	private static final String BUTTON_NEW = Messages.getString("TableArea.Button.New"); //$NON-NLS-1$
+	private static final String BUTTON_EDIT = Messages.getString("TableArea.Button.Edit"); //$NON-NLS-1$
+	private static final String BUTTON_REMOVE = Messages.getString("TableArea.Button.Remove"); //$NON-NLS-1$
+	private static final String BUTTON_UP = Messages.getString("TableArea.Button.Up"); //$NON-NLS-1$
+	private static final String BUTTON_DOWN = Messages.getString("TableArea.Button.Down"); //$NON-NLS-1$
 
 	private TableViewer tableViewer;
-	private ITableAreaModifier modifier;
+	private IBaseTableAreaModifier modifier;
 
 	private Button newButton, editButton, removeButton, upButton, downButton;
 
 	public TableArea( Composite parent, int tableStyle,
-			ITableAreaModifier modifier )
+			IBaseTableAreaModifier modifier )
 	{
 		super( parent, SWT.NONE );
 		Assert.isNotNull( modifier );
@@ -62,21 +65,34 @@ public class TableArea extends Composite
 				| SWT.FULL_SELECTION
 				| SWT.BORDER );
 		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		table.setHeaderVisible( true );
+		table.setLinesVisible( true );
 		tableViewer = new TableViewer( table );
-		table.addKeyListener( new KeyAdapter( ) {
+		if ( modifier instanceof ITableAreaModifier )
+		{
+			table.addKeyListener( new KeyAdapter( ) {
 
-			/**
-			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
-			 */
-			public void keyReleased( KeyEvent e )
-			{
-				if ( e.keyCode == SWT.DEL
-						&& e.stateMask == 0
-						&& !getSelection( ).isEmpty( )
-						&& modifier.removeItem( getSelection( ).toArray( ) ) )
+				/**
+				 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
+				 */
+				public void keyReleased( KeyEvent e )
 				{
-					tableViewer.refresh( );
-					updateButtons( );
+					if ( e.keyCode == SWT.DEL
+							&& e.stateMask == 0
+							&& !getSelection( ).isEmpty( ) )
+					{
+						doRemove( );
+					}
+				}
+			} );
+		}
+		tableViewer.addDoubleClickListener( new IDoubleClickListener( ) {
+
+			public void doubleClick( DoubleClickEvent event )
+			{
+				if ( getSelection( ).size( ) == 1 )
+				{
+					doEdit( );
 				}
 			}
 		} );
@@ -88,20 +104,23 @@ public class TableArea extends Composite
 		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 
-		newButton = new Button( buttonBar, SWT.PUSH );
-		newButton.setText( BUTTON_NEW );
-		setButtonLayout( newButton );
-		newButton.addSelectionListener( new SelectionAdapter( ) {
+		if ( modifier instanceof ITableAreaModifier )
+		{
+			newButton = new Button( buttonBar, SWT.PUSH );
+			newButton.setText( BUTTON_NEW );
+			setButtonLayout( newButton );
+			newButton.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( modifier.newItem( ) )
+				public void widgetSelected( SelectionEvent e )
 				{
-					tableViewer.refresh( );
-					updateButtons( );
+					if ( ( (ITableAreaModifier) modifier ).newItem( ) )
+					{
+						tableViewer.refresh( );
+						updateButtons( );
+					}
 				}
-			}
-		} );
+			} );
+		}
 
 		editButton = new Button( buttonBar, SWT.PUSH );
 		editButton.setText( BUTTON_EDIT );
@@ -110,39 +129,25 @@ public class TableArea extends Composite
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( modifier.editItem( getSelection( ).getFirstElement( ) ) )
-				{
-					tableViewer.refresh( );
-					updateButtons( );
-				}
+				doEdit( );
 			}
 		} );
 		editButton.setEnabled( false );
 
-		removeButton = new Button( buttonBar, SWT.PUSH );
-		removeButton.setText( BUTTON_REMOVE );
-		setButtonLayout( removeButton );
-		removeButton.addSelectionListener( new SelectionAdapter( ) {
+		if ( modifier instanceof ITableAreaModifier )
+		{
+			removeButton = new Button( buttonBar, SWT.PUSH );
+			removeButton.setText( BUTTON_REMOVE );
+			setButtonLayout( removeButton );
+			removeButton.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-
-				if ( modifier.removeItem( getSelection( ).toArray( ) ) )
+				public void widgetSelected( SelectionEvent e )
 				{
-					tableViewer.refresh( );
-					updateButtons( );
+					doRemove( );
 				}
-			}
-		} );
-		removeButton.setEnabled( false );
-
-		tableViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
-
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-			}
-
-		} );
+			} );
+			removeButton.setEnabled( false );
+		}
 
 		if ( modifier instanceof ISortedTableAreaModifier )
 		{
@@ -215,7 +220,10 @@ public class TableArea extends Composite
 			downButton.setEnabled( enable
 					&& index != tableViewer.getTable( ).getItemCount( ) - 1 );
 		}
-		removeButton.setEnabled( !getSelection( ).isEmpty( ) );
+		if ( modifier instanceof ITableAreaModifier )
+		{
+			removeButton.setEnabled( !getSelection( ).isEmpty( ) );
+		}
 	}
 
 	public Table getTable( )
@@ -237,4 +245,23 @@ public class TableArea extends Composite
 		tableViewer.setInput( input );
 		updateButtons( );
 	}
+
+	private void doEdit( )
+	{
+		if ( modifier.editItem( getSelection( ).getFirstElement( ) ) )
+		{
+			tableViewer.refresh( );
+			updateButtons( );
+		}
+	}
+
+	private void doRemove( )
+	{
+		if ( ( (ITableAreaModifier) modifier ).removeItem( getSelection( ).toArray( ) ) )
+		{
+			tableViewer.refresh( );
+			updateButtons( );
+		}
+	}
+
 }

@@ -18,18 +18,19 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.IBaseTableAreaModifier;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -44,9 +45,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -58,7 +58,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -94,9 +93,7 @@ public class ParameterBindingPage extends AttributePage
 
 	private transient boolean enableAutoCommit = true;
 
-	private ExpressionDialogCellEditor expressionCellEditor;
-
-	private static IChoiceSet DataTypes = DesignEngine.getMetaDataDictionary( )
+	private static IChoiceSet DataTypes = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
 
 	private static final String DEFAULT_VALUE_LABEL = Messages.getString( "label.defaultValue" ); //$NON-NLS-1$
@@ -142,13 +139,19 @@ public class ParameterBindingPage extends AttributePage
 		dataSetName.setLayoutData( data );
 
 		// create table and tableViewer
-		table = new Table( this, SWT.SINGLE
+		TableArea tableArea = new TableArea( this, SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
-		table.setLinesVisible( true );
-		table.setHeaderVisible( true );
+				| SWT.FULL_SELECTION, new IBaseTableAreaModifier( ) {
+
+			public boolean editItem( Object element )
+			{
+				return doEdit( element );
+			}
+
+		} );
+		table = tableArea.getTable( );
 		for ( int i = 0; i < columnNames.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
@@ -162,26 +165,13 @@ public class ParameterBindingPage extends AttributePage
 		data.left = new FormAttachment( title, 0, SWT.LEFT );
 		data.right = new FormAttachment( 100 );
 		data.bottom = new FormAttachment( 100 );
-		table.setLayoutData( data );
+		tableArea.setLayoutData( data );
 
-		createTableViewer( );
-	}
-
-	/**
-	 * Creates the TableViewer and set all kinds of processors.
-	 */
-	private void createTableViewer( )
-	{
-		tableViewer = new TableViewer( table );
+		tableViewer = tableArea.getTableViewer( );
 		tableViewer.setUseHashlookup( true );
 		tableViewer.setColumnProperties( columnNames );
-		expressionCellEditor = new ExpressionDialogCellEditor( table );
-		tableViewer.setCellEditors( new CellEditor[]{
-				null, null, expressionCellEditor
-		} );
 		tableViewer.setContentProvider( new BindingContentProvider( ) );
 		tableViewer.setLabelProvider( new BindingLabelProvider( ) );
-		tableViewer.setCellModifier( new BindingCellModifier( ) );
 	}
 
 	/*
@@ -197,7 +187,7 @@ public class ParameterBindingPage extends AttributePage
 		}
 		dataSetName.setText( ( (ReportItemHandle) input.get( 0 ) ).getDataSet( )
 				.getName( ) );
-		reconstructTable( );
+		tableViewer.refresh( );
 	}
 
 	private ReportItemHandle getReportItemHandle( )
@@ -218,17 +208,6 @@ public class ParameterBindingPage extends AttributePage
 			dataSetName = NONE;
 		}
 		return dataSetName;
-	}
-
-	/**
-	 * reconstruct the content of the table to show the last parameters in
-	 * DataSet.
-	 */
-	private void reconstructTable( )
-	{
-		ReportItemHandle reportItemHandle = (ReportItemHandle) input.get( 0 );
-		tableViewer.refresh( );
-		expressionCellEditor.setExpressionProvider( new ExpressionProvider( reportItemHandle.getContainer( ) ) );
 	}
 
 	/**
@@ -350,91 +329,6 @@ public class ParameterBindingPage extends AttributePage
 			}
 			return text;
 		}
-	}
-
-	private class BindingCellModifier implements ICellModifier
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
-		 *      java.lang.String)
-		 */
-		public boolean canModify( Object element, String property )
-		{
-			return property.equals( columnNames[2] );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
-		 *      java.lang.String)
-		 */
-		public Object getValue( Object element, String property )
-		{
-			ParamBindingHandle bindingParameter = (ParamBindingHandle) ( (Object[]) element )[1];
-			if ( bindingParameter != null )
-			{
-				return bindingParameter.getExpression( );
-			}
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
-		 *      java.lang.String, java.lang.Object)
-		 */
-		public void modify( Object element, String property, Object value )
-		{
-			if ( value == null )
-			{// The edit cancelled
-				return;
-			}
-			if ( element instanceof Item )
-			{
-				element = ( (Item) element ).getData( );
-			}
-			ParamBindingHandle bindingParameter = (ParamBindingHandle) ( (Object[]) element )[1];
-			startTrans( Messages.getString( "BindingPage.MessageDlg.SaveParamBinding" ) ); //$NON-NLS-1$			
-			if ( ( (String) value ).length( ) == 0 )
-			{
-				if ( bindingParameter != null )
-				{
-					try
-					{
-						getPropertyHandle( ).removeItem( bindingParameter.getStructure( ) );
-					}
-					catch ( PropertyValueException e )
-					{
-						ExceptionHandler.handle( e );
-						rollback( );
-					}
-				}
-			}
-			else
-			{
-				if ( bindingParameter == null )
-				{
-					DataSetParameterHandle parameter = (DataSetParameterHandle) ( (Object[]) element )[0];
-					try
-					{
-						bindingParameter = createBindingHandle( parameter.getName( ) );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-						rollback( );
-					}
-				}
-				bindingParameter.setExpression( (String) value );
-			}
-			commit( );
-		}
-
 	}
 
 	private class BindingContentProvider implements IStructuredContentProvider
@@ -609,5 +503,62 @@ public class ParameterBindingPage extends AttributePage
 					.getReportDesignHandle( )
 					.removeListener( this );
 		}
+	}
+
+	private boolean doEdit( Object element )
+	{
+		ParamBindingHandle bindingParameter = (ParamBindingHandle) ( (Object[]) element )[1];
+		String value = null;
+		if ( bindingParameter != null )
+		{
+			value = bindingParameter.getExpression( );
+		}
+		DataSetParameterBindingInputDialog dialog = new DataSetParameterBindingInputDialog( (DataSetParameterHandle) ( (Object[]) element )[0],
+				new ExpressionProvider( getReportItemHandle( ).getContainer( ) ) );
+		dialog.setValue( value );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			value = (String) dialog.getResult( );
+			if ( value.length( ) == 0 )
+			{
+				if ( bindingParameter != null )
+				{
+					startTrans( Messages.getString( "BindingPage.MessageDlg.SaveParamBinding" ) ); //$NON-NLS-1$
+					try
+					{
+						getPropertyHandle( ).removeItem( bindingParameter.getStructure( ) );
+						commit( );
+						return true;
+					}
+					catch ( PropertyValueException e )
+					{
+						ExceptionHandler.handle( e );
+						rollback( );
+					}
+				}
+			}
+			else
+			{
+				startTrans( Messages.getString( "BindingPage.MessageDlg.SaveParamBinding" ) ); //$NON-NLS-1$
+				if ( bindingParameter == null )
+				{
+					DataSetParameterHandle parameter = (DataSetParameterHandle) ( (Object[]) element )[0];
+					try
+					{
+						bindingParameter = createBindingHandle( parameter.getName( ) );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+						rollback( );
+						return false;
+					}
+				}
+				bindingParameter.setExpression( value );
+				commit( );
+				return true;
+			}
+		}
+		return false;
 	}
 }
