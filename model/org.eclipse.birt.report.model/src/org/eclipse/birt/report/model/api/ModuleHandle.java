@@ -1428,11 +1428,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void save( ) throws IOException
 	{
 		String fileName = getFileName( );
-		assert fileName != null;
 		if ( fileName == null )
 			return;
 		module.prepareToSave( );
-		module.getWriter( ).write( new File( getModule( ).getFileName( ) ) );
+		String resolvedFileName = URIUtil.getLocalPath( fileName );
+		if ( resolvedFileName != null )
+			fileName = resolvedFileName;
+		module.getWriter( ).write( new File( fileName ) );
 		module.onSave( );
 	}
 
@@ -1961,6 +1963,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * is cleared.
 	 * 
 	 * {@link #reloadLibrary(LibraryHandle)}
+	 * @throws SemanticException 
+	 * @throws DesignFileException 
 	 */
 
 	public void reloadLibraries( ) throws SemanticException,
@@ -2506,6 +2510,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Gets symbolic name of this module if defined. This property is needed
 	 * when search resources in fragments. Usually it should be the plug-in id
 	 * of the host plug-in.
+	 * @return 
 	 */
 
 	public String getSymbolicName( )
@@ -2517,6 +2522,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Sets symbolic name of this module. This property is needed when search
 	 * resources in fragments. Usually it should be the plug-in id of the host
 	 * plug-in.
+	 * @param symbolicName 
+	 * @throws SemanticException 
 	 */
 
 	public void setSymbolicName( String symbolicName ) throws SemanticException
