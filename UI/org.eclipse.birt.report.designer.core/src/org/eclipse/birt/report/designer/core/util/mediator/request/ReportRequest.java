@@ -34,17 +34,22 @@ public class ReportRequest extends Request
 	 * Open editor request. <code>OPEN_EDITOR</code>
 	 */
 	public static final String OPEN_EDITOR = "open editor"; //$NON-NLS-1$
-	
+
 	/**
 	 * Open editor request. <code>OPEN_EDITOR</code>
 	 */
 	public static final String LOAD_MASTERPAGE = "load masterpage"; //$NON-NLS-1$
-	
 
 	/**
 	 * Create element request. <code>CREATE_ELEMENT</code>
 	 */
 	public static final String CREATE_ELEMENT = "create element"; //$NON-NLS-1$
+
+	/**
+	 * Added for fixing bugs 144165 and 151317
+	 * Create scalarparameter or resultsetcolumn request.
+	 */
+	public static final String CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN = "create scalarparameter or resultsetcolumn";
 
 	private Object source;
 

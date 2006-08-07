@@ -193,6 +193,22 @@ public class ReportCreationTool extends CreationTool
 	public static void selectAddedObject( final Object model,
 			final EditPartViewer viewer )
 	{
+		selectAddedObject( model, viewer, new Request( ReportRequest.CREATE_ELEMENT ));
+	}
+
+	/**
+	 * Selects or clicks added object
+	 * 
+	 * @param model
+	 *            new object, null will do nothing
+	 * @param viewer
+	 *            edit part viewer, null will do nothing
+	 * @param request
+	 *            the request sended to EditPart
+	 */
+	public static void selectAddedObject( final Object model,
+			final EditPartViewer viewer, final Request request )
+	{
 		if ( model == null || viewer == null )
 			return;
 
@@ -212,7 +228,6 @@ public class ReportCreationTool extends CreationTool
 				{
 					return;
 				}
-				Request request = new Request( ReportRequest.CREATE_ELEMENT );
 				if ( ( (EditPart) editpart ).understandsRequest( request ) )
 				{
 					( (EditPart) editpart ).performRequest( request );

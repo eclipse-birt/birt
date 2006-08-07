@@ -12,26 +12,34 @@ package org.eclipse.birt.report.designer.internal.ui.palette;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LibraryElementsToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetToolExtends;
+import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ImageToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ParameterToolExtends;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
@@ -48,6 +56,7 @@ public class ReportTemplateTransferDropTargetListener extends
 {
 
 	private static final String TRANS_LABEL_CREATE_ELEMENT = Messages.getString( "ReportTemplateTransferDropTargetListener.transLabel.createElement" ); //$NON-NLS-1$
+	private static final String IMG_TRANS_MSG = Messages.getString( "ImageEditPart.trans.editImage" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -85,9 +94,12 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	protected void handleDrop( )
 	{
+		boolean isScalarparameter = false;
+		boolean isResultSetColumn = false;
+		boolean isEmbeddImage = false;
 		final Object template = TemplateTransfer.getInstance( ).getTemplate( );
-		Assert.isNotNull( template );
 
+		Assert.isNotNull( template );
 		Assert.isTrue( handleValidateDrag( template ) );
 
 		updateTargetRequest( );
@@ -104,23 +116,48 @@ public class ReportTemplateTransferDropTargetListener extends
 		{
 			transName = InsertInLayoutAction.DISPLAY_TEXT;
 			Object objectType = getFactory( template ).getObjectType( );
+
 			if ( objectType instanceof DataSetHandle )
 			{
 				preHandle = new DataSetToolExtends( );
 			}
-			else if ( objectType instanceof DataSetItemModel
-					|| objectType instanceof ResultSetColumnHandle )
+			else if ( objectType instanceof DataSetItemModel )
 			{
+				preHandle = new DataSetColumnToolExtends( );
+			}
+			else if ( objectType instanceof ResultSetColumnHandle )
+			{
+				isResultSetColumn = true;
 				preHandle = new DataSetColumnToolExtends( );
 			}
 			else if ( objectType instanceof ScalarParameterHandle )
 			{
+				isScalarparameter = true;
 				preHandle = new ParameterToolExtends( );
 			}
 		}
 		else if ( handleValidateLibrary( template ) )
 		{
-			preHandle = new LibraryElementsToolHandleExtends( (DesignElementHandle) getSingleTransferData( template ) );
+			Object dragObj = getSingleTransferData( template );
+			if ( dragObj instanceof EmbeddedImageHandle )
+			{
+				// Extend the EmbeddedImage from Library to ouline view
+				DNDUtil.copyHandles( dragObj, getTargetEditPart( ).getModel( ) );
+				
+				isEmbeddImage = true;
+				preHandle = new ImageToolExtends( );
+			}
+			else
+				preHandle = new LibraryElementsToolHandleExtends( (DesignElementHandle) dragObj );
+		}
+		else if ( handleValidateOutline( template ) )
+		{
+			Object dragObj = getSingleTransferData( template );
+			if ( dragObj instanceof EmbeddedImageHandle )
+			{
+				isEmbeddImage = true;
+				preHandle = new ImageToolExtends( );
+			}
 		}
 
 		if ( preHandle != null )
@@ -144,16 +181,19 @@ public class ReportTemplateTransferDropTargetListener extends
 					return;
 				}
 			}
-			boolean isTheme = checkTheme( preHandle,
-					getSingleTransferData( template ) );
-			if ( isTheme )
+
+			boolean isTheme = false;
+			if ( preHandle instanceof LibraryElementsToolHandleExtends
+					&& template instanceof Object[] )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
+				Object[] objs = (Object[]) template;
+				if ( objs.length == 1 && objs[0] instanceof ThemeHandle )
+				{
+					isTheme = true;
+				}
 			}
-			else
+
+			if ( isTheme == false )
 			{
 				super.handleDrop( );
 
@@ -166,26 +206,41 @@ public class ReportTemplateTransferDropTargetListener extends
 							.rollback( );
 					return;
 				}
+			}
 
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
-
-				selectAddedObject( );
+			SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getCommandStack( )
+					.commit( );
+			if ( !isTheme )
+			{
+				if ( isScalarparameter || isResultSetColumn)
+				{
+					Request request = new Request( ReportRequest.CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN );
+					selectAddedObject( request );
+				}
+				else if ( isEmbeddImage )
+				{
+					Object dragObj = getSingleTransferData( template );
+					final Object model = getCreateRequest( ).getExtendedData( )
+							.get( DesignerConstants.KEY_NEWOBJECT );
+					try
+					{
+						( (ImageHandle) model ).setImageName( ( (EmbeddedImageHandle) dragObj ).getName( ) );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( IMG_TRANS_MSG );
+					stack.commit( );
+				}
+				else
+					selectAddedObject( );
 			}
 		}
-
-	}
-
-	private boolean checkTheme( AbstractToolHandleExtends preHandle, Object obj )
-	{
-		if ( preHandle instanceof LibraryElementsToolHandleExtends
-				&& obj instanceof ThemeHandle )
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -199,7 +254,7 @@ public class ReportTemplateTransferDropTargetListener extends
 		return dragObj != null
 				&& ( handleValidatePalette( dragObj )
 						|| handleValidateOutline( dragObj )
-						|| handleValidateInsert( dragObj ) || handleValidateLibrary( dragObj ) );
+						|| handleValidateInsert( dragObj ) || handleValidateLibrary( dragObj )  );
 	}
 
 	private boolean handleValidatePalette( Object dragObj )
@@ -229,6 +284,37 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	private boolean handleValidateOutline( Object dragSource )
 	{
+		if ( dragSource != null )
+		{
+			Object[] dragObjs;
+			if ( dragSource instanceof Object[] )
+			{
+				dragObjs = (Object[]) dragSource;
+			}
+			else
+			{
+				dragObjs = new Object[]{
+					dragSource
+				};
+			}
+			if ( dragObjs.length == 0 )
+			{
+				return false;
+			}
+			for ( int i = 0; i < dragObjs.length; i++ )
+			{
+				if ( dragObjs[i] instanceof EmbeddedImageHandle
+						&& !( ( (EmbeddedImageHandle) dragObjs[i] ).getElementHandle( )
+								.getRoot( ) instanceof LibraryHandle ) )
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 
@@ -281,6 +367,15 @@ public class ReportTemplateTransferDropTargetListener extends
 						return false;
 					}
 				}
+				else if ( dragObj instanceof EmbeddedImageHandle
+						&& ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
+								.getRoot( ) instanceof LibraryHandle )
+				{
+					int canContain = DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
+							dragObj,
+							true );
+					return canContain == DNDUtil.CONTAIN_THIS;
+				}
 				else
 				{
 					return false;
@@ -314,6 +409,19 @@ public class ReportTemplateTransferDropTargetListener extends
 		final EditPartViewer viewer = getViewer( );
 		viewer.getControl( ).setFocus( );
 		ReportCreationTool.selectAddedObject( model, viewer );
+	}
+
+	/*
+	 * Add the newly created object(ScalarParameter or ResultSetColumn) to the
+	 * viewer's selected objects.
+	 */
+	private void selectAddedObject( Request request )
+	{
+		final Object model = getCreateRequest( ).getExtendedData( )
+				.get( DesignerConstants.KEY_NEWOBJECT );
+		final EditPartViewer viewer = getViewer( );
+		viewer.getControl( ).setFocus( );
+		ReportCreationTool.selectAddedObject( model, viewer, request );
 	}
 
 	/**
