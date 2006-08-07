@@ -13,21 +13,24 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.text.Bidi;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Stack;
-import java.util.regex.Pattern;
-
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -35,12 +38,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
@@ -187,6 +186,10 @@ public class TextEditor extends BaseDialog
 
 	private ToolItem tagItem;
 
+	private static String[] contentTypeDisplayNames;
+
+	private static IChoiceSet contentTypeChoiceSet;
+
 	/**
 	 * Constructor
 	 * 
@@ -209,6 +212,12 @@ public class TextEditor extends BaseDialog
 		{
 			oldValue = handle.getContent( );
 		}
+		contentTypeChoiceSet = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.TEXT_ITEM,
+				TextItemHandle.CONTENT_TYPE_PROP );
+
+		contentTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( contentTypeChoiceSet,
+				new AlphabeticallyComparator( ) );
+
 	}
 
 	/**
@@ -247,7 +256,7 @@ public class TextEditor extends BaseDialog
 		// create the text edit area.
 		createTextArea( composite );
 
-		UIUtil.bindHelp( parent,IHelpContextIds.TEXT_EDITOR_ID ); 		
+		UIUtil.bindHelp( parent, IHelpContextIds.TEXT_EDITOR_ID );
 		return composite;
 	}
 
@@ -341,21 +350,29 @@ public class TextEditor extends BaseDialog
 		textTypeChoicer.setBackground( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		textTypeChoicer.setItems( new String[]{
-				Messages.getString( "TextEditDialog.choice.plainText" ), Messages.getString( "TextEditDialog.choice.HTML" ) //$NON-NLS-1$ //$NON-NLS-2$
-		} );
 
-		textTypeChoicer.select( handle.getContentType( )
-				.equals( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML ) ? 1 : 0 );
+		textTypeChoicer.setItems( contentTypeDisplayNames );
+
+		int index = getContentChoiceType( textTypeChoicer,
+				handle.getContentType( ) );
+		if(index < 0)
+		{
+			index = 0;
+		}
+		textTypeChoicer.select( index );
+		
+		index = getContentChoiceType( textTypeChoicer,
+				DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
+		final int PLAIN_INDEX = ( index < 0 ? 0 : index );
 
 		textTypeChoicer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				final int index = textTypeChoicer.getSelectionIndex( );
-				formatChoicer.setEnabled( index == 1 );
-				formatTagsBar.setEnabled( index == 1 );
-				commonTagsBar.setEnabled( index == 1 );
+				formatChoicer.setEnabled( index != PLAIN_INDEX );
+				formatTagsBar.setEnabled( index != PLAIN_INDEX );
+				commonTagsBar.setEnabled( index != PLAIN_INDEX );
 
 				// set the enablement of all html tags when the text type is
 				// changed.
@@ -377,9 +394,21 @@ public class TextEditor extends BaseDialog
 		// create common tags on the right of the text type choicer.
 		commonTagsBar = new ToolBar( composite, SWT.FLAT );
 		commonTagsBar.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
-		commonTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) == 1 );
+		commonTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 		createCommonTags( commonTagsBar );
 
+	}
+
+	private int getContentChoiceType( CCombo typeChoicer, String contentType )
+	{
+
+		IChoice choice = contentTypeChoiceSet.findChoice( contentType );
+		if ( choice == null )
+		{
+			return -1;
+		}
+		String displayName = choice.getDisplayName( );
+		return typeChoicer.indexOf( displayName );
 	}
 
 	/**
@@ -404,8 +433,12 @@ public class TextEditor extends BaseDialog
 
 		} );
 
+		int index = getContentChoiceType( textTypeChoicer,
+				DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
+		final int PLAIN_INDEX = ( index < 0 ? 0 : index );
+
 		formatChoicer.select( 0 );
-		formatChoicer.setEnabled( textTypeChoicer.getSelectionIndex( ) == 1 );
+		formatChoicer.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 
 		formatTagsBar = new ToolBar( composite, SWT.FLAT );
 		GridData data = new GridData( GridData.FILL_BOTH );
@@ -415,7 +448,7 @@ public class TextEditor extends BaseDialog
 		// vertical separator between combo and tooItems
 		new ToolItem( formatTagsBar, SWT.SEPARATOR );
 
-		formatTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) == 1 );
+		formatTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 
 		// create initial format tags.
 		createFormatTags( 0, formatTagsBar );
@@ -454,15 +487,14 @@ public class TextEditor extends BaseDialog
 	 */
 	private void createTextArea( Composite parent )
 	{
-		UIUtil.bindHelp(parent,IHelpContextIds.TEXT_EDITOR_ID);
-
 		IVerticalRuler ruler = null;
 		textViewer = new SourceViewer( parent, ruler, SWT.WRAP
 				| SWT.MULTI
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION | SWT.LEFT_TO_RIGHT );
+				| SWT.FULL_SELECTION
+				| SWT.LEFT_TO_RIGHT );
 		textViewer.setDocument( new Document( ) );
 		textEditor = textViewer.getTextWidget( );
 		{
@@ -1104,13 +1136,23 @@ public class TextEditor extends BaseDialog
 		String result = textEditor.getText( );
 		try
 		{
-			if ( textTypeChoicer.getSelectionIndex( ) == 1 )
+			int index = textTypeChoicer.getSelectionIndex( );
+			if ( index < 0 )
 			{
-				handle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+				handle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO );
 			}
 			else
 			{
-				handle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_PLAIN );
+				IChoice choice = contentTypeChoiceSet.findChoice( textTypeChoicer.getText( ) );
+				if ( choice == null )
+				{
+					handle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO );
+				}
+				else
+				{
+					handle.setContentType( choice.getDisplayName( ) );
+				}
+
 			}
 			handle.setContent( result.length( ) > 0 ? result : null );
 		}
