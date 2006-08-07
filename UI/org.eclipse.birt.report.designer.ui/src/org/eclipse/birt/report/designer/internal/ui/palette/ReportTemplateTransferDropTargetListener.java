@@ -98,8 +98,8 @@ public class ReportTemplateTransferDropTargetListener extends
 		boolean isResultSetColumn = false;
 		boolean isEmbeddImage = false;
 		final Object template = TemplateTransfer.getInstance( ).getTemplate( );
-
 		Assert.isNotNull( template );
+
 		Assert.isTrue( handleValidateDrag( template ) );
 
 		updateTargetRequest( );
@@ -143,7 +143,7 @@ public class ReportTemplateTransferDropTargetListener extends
 			{
 				// Extend the EmbeddedImage from Library to ouline view
 				DNDUtil.copyHandles( dragObj, getTargetEditPart( ).getModel( ) );
-				
+
 				isEmbeddImage = true;
 				preHandle = new ImageToolExtends( );
 			}
@@ -159,6 +159,7 @@ public class ReportTemplateTransferDropTargetListener extends
 				preHandle = new ImageToolExtends( );
 			}
 		}
+
 
 		if ( preHandle != null )
 		{
@@ -181,19 +182,16 @@ public class ReportTemplateTransferDropTargetListener extends
 					return;
 				}
 			}
-
-			boolean isTheme = false;
-			if ( preHandle instanceof LibraryElementsToolHandleExtends
-					&& template instanceof Object[] )
+			boolean isTheme = checkTheme( preHandle,
+					getSingleTransferData( template ) );
+			if ( isTheme )
 			{
-				Object[] objs = (Object[]) template;
-				if ( objs.length == 1 && objs[0] instanceof ThemeHandle )
-				{
-					isTheme = true;
-				}
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getCommandStack( )
+						.commit( );
 			}
-
-			if ( isTheme == false )
+			else
 			{
 				super.handleDrop( );
 
@@ -206,15 +204,13 @@ public class ReportTemplateTransferDropTargetListener extends
 							.rollback( );
 					return;
 				}
-			}
 
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getCommandStack( )
-					.commit( );
-			if ( !isTheme )
-			{
-				if ( isScalarparameter || isResultSetColumn)
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getCommandStack( )
+						.commit( );
+				
+				if ( isScalarparameter || isResultSetColumn )
 				{
 					Request request = new Request( ReportRequest.CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN );
 					selectAddedObject( request );
@@ -241,6 +237,17 @@ public class ReportTemplateTransferDropTargetListener extends
 					selectAddedObject( );
 			}
 		}
+
+	}
+
+	private boolean checkTheme( AbstractToolHandleExtends preHandle, Object obj )
+	{
+		if ( preHandle instanceof LibraryElementsToolHandleExtends
+				&& obj instanceof ThemeHandle )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -254,7 +261,7 @@ public class ReportTemplateTransferDropTargetListener extends
 		return dragObj != null
 				&& ( handleValidatePalette( dragObj )
 						|| handleValidateOutline( dragObj )
-						|| handleValidateInsert( dragObj ) || handleValidateLibrary( dragObj )  );
+						|| handleValidateInsert( dragObj ) || handleValidateLibrary( dragObj ) );
 	}
 
 	private boolean handleValidatePalette( Object dragObj )
@@ -376,6 +383,7 @@ public class ReportTemplateTransferDropTargetListener extends
 							true );
 					return canContain == DNDUtil.CONTAIN_THIS;
 				}
+
 				else
 				{
 					return false;
