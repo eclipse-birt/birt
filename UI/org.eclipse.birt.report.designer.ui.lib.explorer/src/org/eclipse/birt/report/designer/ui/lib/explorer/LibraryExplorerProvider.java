@@ -85,18 +85,23 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			}
 			else
 			{
+				// bugzilla 152419
+				LibraryHandle library = null;
 				try
 				{
-					//bugzilla 152419
-					LibraryHandle library = SessionHandleAdapter.getInstance( )
+					library = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openLibrary( file.getAbsolutePath( ) );
 					Object[] rtns = super.getChildren( library );
-					library.close( );
 					return rtns;
 				}
 				catch ( DesignFileException e )
 				{
+				}
+				finally
+				{
+					if ( library != null )
+						library.close( );
 				}
 			}
 		}
