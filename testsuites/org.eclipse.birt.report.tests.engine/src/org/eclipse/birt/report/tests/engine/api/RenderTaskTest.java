@@ -340,6 +340,10 @@ public class RenderTaskTest extends EngineCase
 			task.setLocale( Locale.ENGLISH );
 			IRenderOption htmlRenderOptions = new HTMLRenderOption( );
 			HashMap appContext = new HashMap( );
+			HTMLRenderContext renderContext=new HTMLRenderContext();
+			renderContext.setImageDirectory( outputPath+"image" );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					renderContext );
 			task.setAppContext( appContext );
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
@@ -403,11 +407,11 @@ public class RenderTaskTest extends EngineCase
 				HashMap appContext = new HashMap( );
 				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 						renderContext );
-				task.setAppContext( appContext );
 				outputFileName = outputPath + docName + "/html/" + type
 						+ ".html";
 				htmlRenderOptions.setOutputFileName( outputFileName );
 				htmlRenderOptions.setOutputFormat( "html" );
+				task.setAppContext( appContext );
 				task.setRenderOption( htmlRenderOptions );
 				task.setInstanceID( iid );
 				task.render( );
@@ -422,6 +426,7 @@ public class RenderTaskTest extends EngineCase
 				htmlRenderOptions.setOutputFormat( "pdf" );
 				task.setRenderOption( htmlRenderOptions );
 				task.setInstanceID( iid );
+				task.setAppContext( appContext );
 				task.render( );
 				assertEquals( "Exception when render reportlet-" + docName
 						+ " to pdf.", 0, task.getErrors( ).size( ) );
