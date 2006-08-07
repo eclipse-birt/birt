@@ -226,7 +226,13 @@ public class MetaDataPopulator
 						&& !rsColumnHandle.getColumnName( )
 								.equals( columnDef.getColumnName( ) ) )
 				{
-					rsColumnHandle.setColumnName( columnDef.getColumnName( ) );
+					try
+					{
+						rsColumnHandle.setColumnName( columnDef.getColumnName( ) );
+					}
+					catch ( SemanticException e )
+					{
+					}
 				}
 				found = true;
 				break;

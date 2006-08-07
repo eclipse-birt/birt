@@ -427,7 +427,13 @@ public final class DataSetProvider
 						&& !rsColumnHandle.getColumnName( )
 								.equals( column.getDataSetColumnName( ) ) )
 				{
-					rsColumnHandle.setColumnName( column.getDataSetColumnName( ) );
+					try
+					{
+						rsColumnHandle.setColumnName( column.getDataSetColumnName( ) );
+					}
+					catch ( SemanticException e )
+					{
+					}
 				}
 				found = true;
 				break;
