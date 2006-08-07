@@ -67,7 +67,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
  * <dd>a column hint has an optional help text ID. It provides the key to
  * localize the help text.</dd>
  * </dl>
- *  
+ * 
  */
 public class ColumnHintHandle extends StructureHandle
 {
@@ -111,8 +111,8 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Returns the analysis option. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are
 	 * <ul>
 	 * <li>ANALYSIS_TYPE_AUTO
 	 * <li>ANALYSIS_TYPE_DIMENSION
@@ -131,8 +131,8 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Sets the analysis option. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are
 	 * <ul>
 	 * <li>ANALYSIS_TYPE_AUTO
 	 * <li>ANALYSIS_TYPE_DIMENSION
@@ -168,11 +168,14 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param columnName
 	 *            the column name to set
+	 * @throws SemanticException
+	 *             value required exception.
+	 * 
 	 */
 
-	public void setColumnName( String columnName )
+	public void setColumnName( String columnName ) throws SemanticException
 	{
-		setPropertySilently( ColumnHint.COLUMN_NAME_MEMBER, columnName );
+		setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
 	}
 
 	/**
@@ -224,8 +227,8 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Returns the export option. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are
 	 * <ul>
 	 * <li>EXPORT_TYPE_NONE
 	 * <li>EXPORT_TYPE_IF_REALIZED
@@ -242,8 +245,8 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Sets the export option. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are
 	 * <ul>
 	 * <li>EXPORT_TYPE_NONE
 	 * <li>EXPORT_TYPE_IF_REALIZED
@@ -356,8 +359,8 @@ public class ColumnHintHandle extends StructureHandle
 
 	/**
 	 * Returns the searching option. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are
 	 * <ul>
 	 * <li>SEARCH_TYPE_ANY
 	 * <li>SEARCH_TYPE_INDEXED
@@ -369,13 +372,13 @@ public class ColumnHintHandle extends StructureHandle
 
 	public String getSearching( )
 	{
-        return getStringProperty( ColumnHint.SEARCHING_MEMBER );
+		return getStringProperty( ColumnHint.SEARCHING_MEMBER );
 	}
 
 	/**
 	 * Sets the searching option. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are
 	 * <ul>
 	 * <li>SEARCH_TYPE_ANY
 	 * <li>SEARCH_TYPE_INDEXED
@@ -390,7 +393,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	public void setSearching( String searching ) throws SemanticException
 	{
-        setProperty( ColumnHint.SEARCHING_MEMBER, searching );
+		setProperty( ColumnHint.SEARCHING_MEMBER, searching );
 	}
 
 }

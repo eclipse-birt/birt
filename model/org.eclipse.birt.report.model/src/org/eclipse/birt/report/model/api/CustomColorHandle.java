@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -148,12 +149,14 @@ public class CustomColorHandle extends StructureHandle
 	 * 
 	 * @param colorValue
 	 *            the color value to be set.
+	 * @throws SemanticException
+	 *             value required exception
 	 * 
 	 */
 
-	public void setColor( String colorValue )
+	public void setColor( String colorValue ) throws SemanticException
 	{
-		setPropertySilently( CustomColor.COLOR_MEMBER, colorValue );
+		setProperty( CustomColor.COLOR_MEMBER, colorValue );
 	}
 
 	/**
@@ -161,11 +164,13 @@ public class CustomColorHandle extends StructureHandle
 	 * 
 	 * @param name
 	 *            the custom color name to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setName( String name )
+	public void setName( String name ) throws SemanticException
 	{
-		setPropertySilently( CustomColor.NAME_MEMBER, name );
+		setProperty( CustomColor.NAME_MEMBER, name );
 	}
 
 	/**

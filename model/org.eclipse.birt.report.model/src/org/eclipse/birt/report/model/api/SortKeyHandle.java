@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
  * <dt><strong>Direction </strong></dt>
  * <dd>the sort direction:asc or desc.</dd>
  * </dl>
- *  
+ * 
  */
 public class SortKeyHandle extends StructureHandle
 {
@@ -67,19 +67,20 @@ public class SortKeyHandle extends StructureHandle
 	 * 
 	 * @param key
 	 *            the key to sort
-	 * 
+	 * @throws SemanticException
+	 *             value required exception
 	 * @see #getKey()
 	 */
 
-	public void setKey( String key )
+	public void setKey( String key ) throws SemanticException
 	{
-		setPropertySilently( SortKey.KEY_MEMBER, key );
+		setProperty( SortKey.KEY_MEMBER, key );
 	}
 
 	/**
 	 * Returns the sort direction. The possible values are define in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
@@ -95,8 +96,8 @@ public class SortKeyHandle extends StructureHandle
 
 	/**
 	 * Sets the sort direction. The allowed values are define in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
@@ -132,12 +133,13 @@ public class SortKeyHandle extends StructureHandle
 	 * 
 	 * @param columnName
 	 *            the column name to set
-	 * 
+	 * @throws SemanticException
+	 *             value required exception
 	 * @deprecated This property has been removed. See the method
 	 *             {@link #setKey(String)}.
 	 */
 
-	public void setColumnName( String columnName )
+	public void setColumnName( String columnName ) throws SemanticException
 	{
 		setKey( columnName );
 	}

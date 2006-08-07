@@ -64,11 +64,13 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * 
 	 * @param columnName
 	 *            the column name to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setColumnName( String columnName )
+	public void setColumnName( String columnName ) throws SemanticException
 	{
-		setPropertySilently( ResultSetColumn.NAME_MEMBER, columnName );
+		setProperty( ResultSetColumn.NAME_MEMBER, columnName );
 	}
 
 	/**

@@ -498,7 +498,17 @@ public class PropertyCommand extends AbstractElementCommand
 
 		MemberRecord record = new MemberRecord( module, element, ref, value );
 		stack.execute( record );
+
+		Structure structure = ref.getStructure( module, element );
+		List semanticList = structure.validate( module, element );
+		if ( semanticList.size( ) > 0 )
+		{
+			stack.rollback( );
+			throw (SemanticException) semanticList.get( 0 );
+		}
+
 		stack.commit( );
+
 	}
 
 	/**

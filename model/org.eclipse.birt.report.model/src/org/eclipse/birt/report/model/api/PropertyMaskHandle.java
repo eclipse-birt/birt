@@ -39,7 +39,8 @@ public class PropertyMaskHandle extends StructureHandle
 
 	/**
 	 * Returns the property mask. The possible values are defined in
-	 * {org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they are:
+	 * {org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * are:
 	 * <ul>
 	 * <li>PROPERTY_MASK_TYPE_CHANGE
 	 * <li>PROPERTY_MASK_TYPE_LOCK
@@ -56,7 +57,8 @@ public class PropertyMaskHandle extends StructureHandle
 
 	/**
 	 * Sets the property mask. The allowed values are defined in
-	 * {org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they are:
+	 * {org.eclipse.birt.report.model.elements.DesignChoiceConstants}, and they
+	 * are:
 	 * <ul>
 	 * <li>PROPERTY_MASK_TYPE_CHANGE
 	 * <li>PROPERTY_MASK_TYPE_LOCK
@@ -90,10 +92,12 @@ public class PropertyMaskHandle extends StructureHandle
 	 * 
 	 * @param name
 	 *            the property name to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setName( String name )
+	public void setName( String name ) throws SemanticException
 	{
-		setPropertySilently( PropertyMask.NAME_MEMBER, name );
+		setProperty( PropertyMask.NAME_MEMBER, name );
 	}
 }

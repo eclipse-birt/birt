@@ -130,13 +130,15 @@ public class DataSetParameterHandle extends StructureHandle
 	 * 
 	 * @param name
 	 *            the name to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setName( String name )
+	public void setName( String name ) throws SemanticException
 	{
 		String oldName = getName( );
 
-		setPropertySilently( DataSetParameter.NAME_MEMBER, name );
+		setProperty( DataSetParameter.NAME_MEMBER, name );
 
 		if ( oldName != null )
 		{

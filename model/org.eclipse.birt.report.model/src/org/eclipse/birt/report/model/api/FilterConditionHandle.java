@@ -79,11 +79,13 @@ public class FilterConditionHandle extends StructureHandle
 	 * 
 	 * @param filterExpr
 	 *            the filter expression to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setExpr( String filterExpr )
+	public void setExpr( String filterExpr ) throws SemanticException
 	{
-		setPropertySilently( FilterCondition.EXPR_MEMBER, filterExpr );
+		setProperty( FilterCondition.EXPR_MEMBER, filterExpr );
 	}
 
 	/**
@@ -275,11 +277,12 @@ public class FilterConditionHandle extends StructureHandle
 	 * 
 	 * @param filterExpr
 	 *            the filter expression to set
-	 * 
+	 * @throws SemanticException
+	 *             value required exception
 	 * @deprecated Replaced by the method {@link #setExpr(String)}
 	 */
 
-	public void setFilterExpr( String filterExpr )
+	public void setFilterExpr( String filterExpr ) throws SemanticException
 	{
 		setExpr( filterExpr );
 	}

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 
 /**
@@ -110,10 +111,12 @@ public class SelectionChoiceHandle extends StructureHandle
 	 * 
 	 * @param value
 	 *            the value to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setValue( String value )
+	public void setValue( String value ) throws SemanticException
 	{
-		setPropertySilently( SelectionChoice.VALUE_MEMBER, value );
+		setProperty( SelectionChoice.VALUE_MEMBER, value );
 	}
 }

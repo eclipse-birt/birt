@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * <dt><strong>Data </strong></dt>
  * <dd>value of the image data in Base64 encoding.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class EmbeddedImageHandle extends StructureHandle
@@ -67,7 +67,7 @@ public class EmbeddedImageHandle extends StructureHandle
 	public byte[] getData( )
 	{
 		EmbeddedImage image = (EmbeddedImage) getStructure( );
-		return image.getData( getModule() );
+		return image.getData( getModule( ) );
 	}
 
 	/**
@@ -110,17 +110,19 @@ public class EmbeddedImageHandle extends StructureHandle
 	 * 
 	 * @param name
 	 *            the embedded image name to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setName( String name )
+	public void setName( String name ) throws SemanticException
 	{
-		setPropertySilently( EmbeddedImage.NAME_MEMBER, name );
+		setProperty( EmbeddedImage.NAME_MEMBER, name );
 	}
 
 	/**
 	 * Returns the image type. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li><code>IMAGE_TYPE_IMAGE_JPEG</code>
 	 * <li><code>IMAGE_TYPE_IMAGE_BMP</code>
@@ -139,8 +141,8 @@ public class EmbeddedImageHandle extends StructureHandle
 
 	/**
 	 * Sets the image type. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li><code>IMAGE_TYPE_IMAGE_JPEG</code>
 	 * <li><code>IMAGE_TYPE_IMAGE_BMP</code>
@@ -159,9 +161,9 @@ public class EmbeddedImageHandle extends StructureHandle
 	{
 		setProperty( EmbeddedImage.TYPE_MEMBER, type );
 	}
-	
+
 	/**
-	 * Returns the qualified name of this element. The qualified name is the 
+	 * Returns the qualified name of this element. The qualified name is the
 	 * name of this element if this element is in module user is editing.
 	 * 
 	 * @return the qualified name of thie element.
@@ -181,5 +183,5 @@ public class EmbeddedImageHandle extends StructureHandle
 		}
 
 		return getName( );
-	}	
+	}
 }

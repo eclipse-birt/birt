@@ -120,13 +120,15 @@ public class ComputedColumnHandle extends StructureHandle
 	 * 
 	 * @param expression
 	 *            the expression to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setExpression( String expression )
+	public void setExpression( String expression ) throws SemanticException
 	{
-		setPropertySilently( ComputedColumn.EXPRESSION_MEMBER, expression );
+		setProperty( ComputedColumn.EXPRESSION_MEMBER, expression );
 	}
-	
+
 	/**
 	 * Returns the aggregateOn expression used to define this computed column.
 	 * 
@@ -145,7 +147,7 @@ public class ComputedColumnHandle extends StructureHandle
 	 * 
 	 * @param aggregateOn
 	 *            the aggregateOn expression to set
-	 * @deprecated by {@link #setAggregateOn(String)}            
+	 * @deprecated by {@link #setAggregateOn(String)}
 	 */
 
 	public void setAggregrateOn( String aggregateOn )
@@ -175,7 +177,7 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setPropertySilently( ComputedColumn.AGGREGATEON_MEMBER, aggregateOn );
 	}
-	
+
 	/**
 	 * Returns the data type of this column. The possible values are defined in
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},

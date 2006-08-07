@@ -135,11 +135,13 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param leftDataset
 	 *            the left data set to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setLeftDataSet( String leftDataset )
+	public void setLeftDataSet( String leftDataset ) throws SemanticException
 	{
-		setPropertySilently( JoinCondition.LEFT_DATASET_MEMBER, leftDataset );
+		setProperty( JoinCondition.LEFT_DATASET_MEMBER, leftDataset );
 	}
 
 	/**
@@ -158,11 +160,13 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param rightDataset
 	 *            the right data set to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
-	public void setRightDataSet( String rightDataset )
+	public void setRightDataSet( String rightDataset ) throws SemanticException
 	{
-		setPropertySilently( JoinCondition.RIGHT_DATASET_MEMBER, rightDataset );
+		setProperty( JoinCondition.RIGHT_DATASET_MEMBER, rightDataset );
 	}
 
 	/**
@@ -181,12 +185,14 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param leftExpression
 	 *            the left expression to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
 	public void setLeftExpression( String leftExpression )
+			throws SemanticException
 	{
-		setPropertySilently( JoinCondition.LEFT_EXPRESSION_MEMBER,
-				leftExpression );
+		setProperty( JoinCondition.LEFT_EXPRESSION_MEMBER, leftExpression );
 	}
 
 	/**
@@ -205,12 +211,14 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param rightExpression
 	 *            the right expression to set
+	 * @throws SemanticException
+	 *             value required exception
 	 */
 
 	public void setRightExpression( String rightExpression )
+			throws SemanticException
 	{
-		setPropertySilently( JoinCondition.RIGHT_EXPRESSION_MEMBER,
-				rightExpression );
+		setProperty( JoinCondition.RIGHT_EXPRESSION_MEMBER, rightExpression );
 	}
 
 	/**
