@@ -147,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.138 $ $Date: 2006/07/25 04:33:40 $
+ * @version $Revision: 1.139 $ $Date: 2006/08/02 09:12:02 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1529,6 +1529,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 				writer.openTag( HTMLTags.TAG_TR );
 				writer.openTag( HTMLTags.TAG_TD );
+				writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 			}
 			if ( cell.isStartOfGroup( ) )
 			{
@@ -1544,6 +1545,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.closeTag( HTMLTags.TAG_IMAGE );
 				writer.closeTag( HTMLTags.TAG_TD );
 				writer.openTag( HTMLTags.TAG_TD );
+				writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 			}
 		}
 	}
