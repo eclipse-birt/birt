@@ -12,6 +12,7 @@ package org.eclipse.birt.report.model.activity;
 import java.util.Stack;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.TransactionOption;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -153,7 +154,8 @@ public class NotificationRecordTask extends RecordTask
 	 *         returns <code>false</code> otherwise.
 	 */
 
-	protected final boolean holdNotification( Stack transStack )
+	protected final boolean holdNotificationForFilterEventRecord(
+			Stack transStack )
 	{
 		if ( transStack != null && !transStack.isEmpty( ) )
 		{
@@ -165,6 +167,72 @@ public class NotificationRecordTask extends RecordTask
 		return false;
 	}
 
+	/**
+	 * Returns <code>true</code> if needs to hold the event at this time. We
+	 * need to hold the event if transaction option sets the event send to
+	 * <code>SELF_TRANSACTION_EVENT_SEND</code> or
+	 * <code>OUTMOST_TRANSACTION_EVENT_SEND</code>.
+	 * 
+	 * @param record
+	 *            the activity record to justify
+	 * @param transStack
+	 *            the transaction stack status
+	 * @return true if needs to hold the event at this time, otherwise false
+	 */
+
+	protected final boolean holdNotification( ActivityRecord record,
+			Stack transStack )
+	{
+		if ( record instanceof AbstractElementRecord )
+		{
+			if ( transStack != null && !transStack.isEmpty( ) )
+			{
+				// if the record is a simple one, then peek the nearest
+				// transaction in the stack and see the options
+
+				CompoundRecord cr = (CompoundRecord) transStack.peek( );
+				TransactionOption options = cr.getOptions( );
+				if ( options != null
+						&& options.getSendTime( ) != TransactionOption.INSTANTANEOUS_SEND_TIME )
+				{
+					return true;
+				}
+			}
+		}
+		else if ( record instanceof CompoundRecord )
+		{
+			CompoundRecord cr = (CompoundRecord) record;
+			TransactionOption options = cr.getOptions( );
+			if ( options != null )
+			{
+				// if the event send equals 'outmost' and transaction stack is
+				// not empty, then hold the event
+
+				if ( options.getSendTime( ) == TransactionOption.OUTMOST_TRANSACTION_SEND_TIME
+						&& transStack != null && !transStack.isEmpty( ) )
+					return true;
+			}
+			else
+			{
+				// out transaction sets the event hold, then return true
+
+				if ( transStack != null && !transStack.isEmpty( ) )
+				{
+					for ( int i = transStack.size( ) - 1; i >= 0; i-- )
+					{
+						CompoundRecord trans = (CompoundRecord) transStack
+								.get( i );
+						options = trans.getOptions( );
+						if ( options != null
+								&& options.getSendTime( ) != TransactionOption.INSTANTANEOUS_SEND_TIME )
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,7 +241,17 @@ public class NotificationRecordTask extends RecordTask
 
 	public void doTask( ActivityRecord record, Stack transStack )
 	{
-		if ( holdNotification( transStack ) )
+		// check there is filterEventCompoundRecord, if yes, the notifcations
+		// will not be send
+
+		if ( holdNotificationForFilterEventRecord( transStack ) )
+			return;
+
+		// check for the normal case to determine whether to hold the
+		// notifications
+
+		if ( !( record instanceof FilterEventsCompoundRecord )
+				&& holdNotification( record, transStack ) )
 			return;
 
 		if ( getTarget( ) instanceof DesignElement )
@@ -195,18 +273,18 @@ public class NotificationRecordTask extends RecordTask
 					? elementTarget.getRoot( )
 					: this.root;
 
-			if ( getTarget( ) instanceof Module || theRoot != null )
+			if ( !filtered && theRoot != null )
 				elementTarget.broadcast( event, theRoot );
 
 			if ( event instanceof ElementDeletedEvent )
 			{
 				elementTarget.clearListeners( );
 			}
-
 		}
 		else if ( getTarget( ) instanceof ReferencableStructure )
 		{
-			( (ReferencableStructure) getTarget( ) ).broadcast( event );
+			if ( !filtered )
+				( (ReferencableStructure) getTarget( ) ).broadcast( event );
 		}
 		else
 			assert false;

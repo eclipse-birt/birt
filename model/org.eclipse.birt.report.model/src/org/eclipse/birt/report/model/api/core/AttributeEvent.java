@@ -24,6 +24,10 @@ import org.eclipse.birt.report.model.core.Module;
 public class AttributeEvent extends NotificationEvent
 {
 
+	/**
+	 *  Name of 'fileName' attribute.  
+	 */
+	
 	public static final String FILE_NAME_ATTRIBUTE = "fileName"; //$NON-NLS-1$
 
 	/**
@@ -67,6 +71,25 @@ public class AttributeEvent extends NotificationEvent
 	public String getAttributeName( )
 	{
 		return this.attrName;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 */
+
+	public boolean isSame( NotificationEvent event )
+	{
+		if ( !super.isSame( event ) )
+			return false;
+		AttributeEvent attrEvent = (AttributeEvent) event;
+		if ( attrName != null
+				&& !attrName.equals( attrEvent.getAttributeName( ) ) )
+			return false;
+		if ( attrName == null && attrEvent.getAttributeName( ) != null )
+			return false;
+		return true;
 	}
 
 }

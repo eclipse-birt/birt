@@ -144,4 +144,22 @@ public class NameSpaceEvent extends NotificationEvent
 	{
 		return element;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 */
+	public boolean isSame( NotificationEvent event )
+	{
+		if ( !super.isSame( event ) )
+			return false;
+		NameSpaceEvent nsEvent = (NameSpaceEvent) event;
+		if ( action != nsEvent.getAction( )
+				|| nameSpaceID != nsEvent.getNameSpaceID( )
+				|| element != nsEvent.getElement( ) )
+			return false;
+		return true;
+	}
+
 }

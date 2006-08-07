@@ -12,9 +12,13 @@
 package org.eclipse.birt.report.model.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+
+import org.eclipse.birt.report.model.api.activity.IEventFilter;
+import org.eclipse.birt.report.model.api.activity.TransactionOption;
 
 /**
  * A compound record represents an atomic operation made up of a series of other
@@ -43,6 +47,12 @@ public class CompoundRecord extends ActivityRecord
 	 */
 
 	private List recordList = new ArrayList( );
+
+	/**
+	 * Options set for this transaction.
+	 */
+
+	protected TransactionOption options = null;
 
 	/**
 	 * Constructor.
@@ -355,15 +365,147 @@ public class CompoundRecord extends ActivityRecord
 	protected void performPostTasks( Stack transStack )
 	{
 		List simpleTasks = getPostTasks( );
-
-		for ( int j = 0; j < simpleTasks.size( ); j++ )
+		List validationTasks = new ArrayList( );
+		for ( int i = 0; i < simpleTasks.size( ); i++ )
 		{
-			RecordTask task = (RecordTask) simpleTasks.get( j );
+			RecordTask task = (RecordTask) simpleTasks.get( i );
 			if ( task instanceof ValidationRecordTask )
+				validationTasks.add( task );
+		}
+
+		// if this record is FilterEventsCompoundRecord and stask is empty, we
+		// can do the filter operation by the event filter directly, not need
+		// recusively call getFilterNotificationTask like the following 'else
+		// if'; it is a special case
+
+		if ( this instanceof FilterEventsCompoundRecord && transStack.isEmpty( ) )
+		{
+			// filter events
+
+			assert options != null;
+			IEventFilter filter = options.getEventFilter( );
+			assert filter != null;
+			doTasks( transStack, filter
+					.filter( getNotificationTask( getPostTasks( ) ) ) );
+
+		}
+		else if ( options != null
+				&& options.getSendTime( ) != TransactionOption.INSTANTANEOUS_SEND_TIME )
+		{
+			// filter notification tasks and do them second
+
+			doTasks( transStack, getFilterNotificationTask( ) );
+		}
+
+		// do the validation task in the end
+
+		if ( !validationTasks.isEmpty( ) )
+			( (RecordTask) validationTasks.get( 0 ) ).doTask( this, transStack );
+	}
+
+	/**
+	 * Gets the filtered notification tasks from all the post record task list.
+	 * 
+	 * @return the filtered notification tasks
+	 */
+
+	private List getFilterNotificationTask( )
+	{
+		List events = new ArrayList( );
+		for ( int i = 0; i < recordList.size( ); i++ )
+		{
+			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			if ( record instanceof AbstractElementRecord )
+				events.addAll( getNotificationTask( record.getPostTasks( ) ) );
+			else if ( record instanceof CompoundRecord )
 			{
-				task.doTask( this, transStack );
-				return;
+				// only collect those event will hold till the transaction stack
+				// is empty; otherwise the notifications must already be send
+
+				CompoundRecord cr = (CompoundRecord) record;
+				TransactionOption options = cr.getOptions( );
+				if ( options != null
+						&& options.getSendTime( ) == TransactionOption.OUTMOST_TRANSACTION_SEND_TIME )
+					events.addAll( cr.getFilterNotificationTask( ) );
+
 			}
 		}
+
+		// filter all the collected events
+
+		if ( options != null )
+		{
+			IEventFilter filter = options.getEventFilter( );
+			if ( filter != null )
+				events = filter.filter( events );
+		}
+		return events;
 	}
+
+	/**
+	 * Gets the <code>NotificationRecordTask</code> list from the given post
+	 * task list.
+	 * 
+	 * @param tasks
+	 *            the post task list to retrieve
+	 * @return the <code>NotificationRecordTask</code> list if exists,
+	 *         otherwise <code>EMPTY_LIST</code>
+	 */
+
+	private List getNotificationTask( List tasks )
+	{
+		if ( tasks == null || tasks.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		List events = new ArrayList( );
+		for ( int i = 0; i < tasks.size( ); i++ )
+		{
+			RecordTask task = (RecordTask) tasks.get( i );
+			if ( task instanceof NotificationRecordTask )
+				events.add( task );
+		}
+		return events;
+	}
+
+	/**
+	 * Does a list of record tasks.
+	 * 
+	 * @param transStack
+	 * @param tasks
+	 */
+
+	protected void doTasks( Stack transStack, List tasks )
+	{
+		if ( tasks == null || tasks.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < tasks.size( ); i++ )
+		{
+			RecordTask task = (RecordTask) tasks.get( i );
+			task.doTask( this, transStack );
+		}
+	}
+
+	/**
+	 * Gets the transaction option set in this record.
+	 * 
+	 * @return the options the options set in this record
+	 */
+
+	public TransactionOption getOptions( )
+	{
+		return options;
+	}
+
+	/**
+	 * Sets the option in this record.
+	 * 
+	 * @param options
+	 *            the options to set
+	 */
+
+	public void setOptions( TransactionOption options )
+	{
+		this.options = options;
+	}
+
 }

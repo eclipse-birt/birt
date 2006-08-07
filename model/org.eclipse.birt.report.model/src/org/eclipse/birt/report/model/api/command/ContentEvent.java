@@ -131,4 +131,22 @@ public class ContentEvent extends NotificationEvent
 	{
 		return content;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 */
+
+	public boolean isSame( NotificationEvent event )
+	{
+		if ( !super.isSame( event ) )
+			return false;
+		ContentEvent contentEvent = (ContentEvent) event;
+		if ( action != contentEvent.getAction( )
+				|| slot != contentEvent.getSlot( )
+				|| content != contentEvent.getContent( ) )
+			return false;
+		return true;
+	}
 }

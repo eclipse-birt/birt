@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.model.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.api.activity.IEventFilter;
+import org.eclipse.birt.report.model.api.activity.TransactionOption;
 
 /**
  * This compound record will do event filtering when it is executed, undone or
@@ -29,7 +31,7 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 	 * Indicates if it is the outer most filter event transaction.
 	 */
 
-	private boolean isOutermostFilterTrans = false;
+	protected boolean isOutermostFilterTrans = false;
 
 	/**
 	 * Constructor.
@@ -44,7 +46,32 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 	{
 		super( text );
 		this.isOutermostFilterTrans = outerMost;
+		buildOption( );
 	}
+
+	/**
+	 * Builds the options for this transaction.
+	 */
+	
+	protected void buildOption( )
+	{
+		if ( !isOutermostFilterTrans )
+			return;
+		options = new TransactionOption( );
+		List conds = new ArrayList( );
+		conds
+				.add( FilterConditionFactory
+						.createFilterCondition( FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION ) );
+		conds
+				.add( FilterConditionFactory
+						.createFilterCondition( FilterConditionFactory.ELEMENT_DELETED_FILTER_CONDITION ) );
+		conds
+				.add( FilterConditionFactory
+						.createFilterCondition( FilterConditionFactory.SAME_EVENT_FILTER_CONDITION ) );
+		IEventFilter filter = new EventFilter( conds );
+		options.setEventfilter( filter );
+		options.setSendTime( TransactionOption.OUTMOST_TRANSACTION_SEND_TIME );
+	}	
 
 	/*
 	 * (non-Javadoc)
@@ -62,32 +89,9 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 
 		if ( !isOutermostFilterTrans )
 			return;
-
-		// Collection all relating events, do fitering and then sent out.
-
-		List tasks = ModelUtil
-				.filterNotificationTasks( getPostTasks( ) );
-
-		for ( int i = 0; i < tasks.size( ); i++ )
-		{
-			NotificationRecordTask subTask = (NotificationRecordTask) tasks
-					.get( i );
-
-			subTask.doTask( this, transStack );
-		}
-
+	
 		super.performPostTasks( transStack );
 	}
 
-	/**
-	 * Checks whether this compound record is the outermost filter record.
-	 * 
-	 * @return <code>true</code> if this compound record is the outermost
-	 *         filter record. Otherwise <code>false</code>.
-	 */
-
-	protected boolean isOutermostFilterTrans( )
-	{
-		return isOutermostFilterTrans;
-	}
+	
 }

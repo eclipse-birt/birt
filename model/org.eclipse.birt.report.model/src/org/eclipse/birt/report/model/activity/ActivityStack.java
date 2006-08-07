@@ -314,7 +314,7 @@ public class ActivityStack implements CommandStack
 		ExtensionActivityRecord record = new ExtensionActivityRecord( command );
 
 		// The record must exist and must be in the initial state.
-		
+
 		execute( record );
 	}
 
@@ -746,9 +746,9 @@ public class ActivityStack implements CommandStack
 
 		trans.rollback( );
 		trans.destroy( );
-		
+
 		// if the trans stack is empty now, then send the notifications
-		
+
 		if ( transStack.empty( ) )
 		{
 			sendNotifcations( new ActivityStackEvent( this,
@@ -883,6 +883,9 @@ public class ActivityStack implements CommandStack
 	/**
 	 * Starts a silent transaction. All events in the trasaction will not be
 	 * sent out.
+	 * 
+	 * @param filterAll
+	 *            status to filter all events or not
 	 * 
 	 */
 

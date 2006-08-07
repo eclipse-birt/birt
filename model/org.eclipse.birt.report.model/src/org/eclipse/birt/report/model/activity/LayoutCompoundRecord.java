@@ -12,6 +12,7 @@ package org.eclipse.birt.report.model.activity;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.birt.report.model.api.activity.TransactionOption;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -22,12 +23,6 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 {
-
-	/**
-	 * <code>true</code> if do not send any notification except Layout event.
-	 */
-
-	private boolean filterAll = false;
 
 	/**
 	 * Constructor.
@@ -45,7 +40,13 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 			boolean filterAll )
 	{
 		super( text, isOutermostSilentTrans );
-		this.filterAll = filterAll;
+		if ( isOutermostSilentTrans && filterAll )
+		{
+			options = new TransactionOption( );
+			options.setEventfilter( new FullEventFilter( ) );
+			options
+					.setSendTime( TransactionOption.OUTMOST_TRANSACTION_SEND_TIME );
+		}
 	}
 
 	/*
@@ -56,21 +57,16 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 
 	protected void performPostTasks( Stack transStack )
 	{
-		if ( !isOutermostFilterTrans( ) )
+		if ( !isOutermostFilterTrans )
 			return;
 
-		List tasks = ModelUtil.filterLayoutTasks( getPostTasks( ) );
+		// do the layout tasks
+		
+		List layoutTasks = ModelUtil.filterLayoutTasks( getPostTasks( ) );
+		doTasks( transStack, layoutTasks );
 
-		for ( int i = 0; i < tasks.size( ); i++ )
-		{
-			RecordTask subTask = (RecordTask) tasks.get( i );
-			subTask.doTask( this, transStack );
-		}
-
-		if ( !filterAll )
-			super.performPostTasks( transStack );
+		super.performPostTasks( transStack );
 	}
-
 	/**
 	 * Undoes the composite record. This implementation undoes each of the
 	 * sub-records in the reverse of the order that they were originally

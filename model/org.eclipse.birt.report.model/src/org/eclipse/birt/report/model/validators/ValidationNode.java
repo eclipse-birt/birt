@@ -192,7 +192,7 @@ public class ValidationNode
 			sb.append( "[null]" ); //$NON-NLS-1$
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "id=" ); //$NON-NLS-1$
-		sb.append( element.toString( ) ); //$NON-NLS-1$
+		sb.append( element.toString( ) ); 
 
 		sb.append( ", " ); //$NON-NLS-1$
 		sb.append( "validator=" ); //$NON-NLS-1$

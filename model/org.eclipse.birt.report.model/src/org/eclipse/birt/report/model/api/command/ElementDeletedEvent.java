@@ -63,7 +63,7 @@ public class ElementDeletedEvent extends NotificationEvent
 	 * 
 	 * @return the container element.
 	 */
-	
+
 	public DesignElement getContainer( )
 	{
 		return container;
@@ -77,6 +77,21 @@ public class ElementDeletedEvent extends NotificationEvent
 	public int getEventType( )
 	{
 		return ELEMENT_DELETE_EVENT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 */
+	public boolean isSame( NotificationEvent event )
+	{
+		if ( !super.isSame( event ) )
+			return false;
+		ElementDeletedEvent edEvent = (ElementDeletedEvent) event;
+		if ( container != edEvent.getContainer( ) )
+			return false;
+		return true;
 	}
 
 }

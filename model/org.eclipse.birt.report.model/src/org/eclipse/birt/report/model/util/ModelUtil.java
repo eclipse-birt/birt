@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
-import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -503,27 +502,6 @@ public class ModelUtil
 			}
 		}
 		return returnList;
-	}
-
-	/**
-	 * Filtrates the notification tasks.
-	 * 
-	 * @param tasks
-	 *            the notification tasks
-	 * @return a list contained filtrated notification tasks
-	 */
-
-	public static List filterNotificationTasks( List tasks )
-	{
-		List notifications = new ArrayList( );
-		for ( int i = 0; i < tasks.size( ); i++ )
-		{
-			RecordTask task = (RecordTask) tasks.get( i );
-			if ( task instanceof NotificationRecordTask )
-				notifications.add( task );
-		}
-
-		return EventFilter.getInstance( ).filter( notifications );
 	}
 
 	/**

@@ -350,4 +350,25 @@ public abstract class NotificationEvent
 	 */
 
 	public abstract int getEventType( );
+
+	/**
+	 * Compares and justifies whether this event and the given event is the
+	 * same.
+	 * 
+	 * @param event
+	 *            the event to compare
+	 * @return true if the two events are the same, otherwise false
+	 * 
+	 */
+
+	public boolean isSame( NotificationEvent event )
+	{
+		if ( event == null )
+			return false;
+		if ( event.getEventType( ) != getEventType( )
+				|| target != event.getTarget( ) )
+			return false;
+		return true;
+	}
+
 }

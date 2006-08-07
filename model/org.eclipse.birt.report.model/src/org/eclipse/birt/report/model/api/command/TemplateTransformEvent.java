@@ -109,4 +109,20 @@ public class TemplateTransformEvent extends NotificationEvent
 		return this.toElement;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 */
+	public boolean isSame( NotificationEvent event )
+	{
+		if ( !super.isSame( event ) )
+			return false;
+		TemplateTransformEvent transEvent = (TemplateTransformEvent) event;
+		if ( slot != transEvent.getSlot( )
+				|| fromElement != transEvent.getFrom( )
+				|| toElement != transEvent.getTo( ) )
+			return false;
+		return true;
+	}
 }
