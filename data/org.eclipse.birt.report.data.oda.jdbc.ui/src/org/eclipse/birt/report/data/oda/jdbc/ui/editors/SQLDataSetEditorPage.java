@@ -14,20 +14,13 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.text.Bidi;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
@@ -35,27 +28,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.datatools.connectivity.oda.IConnection;
-import org.eclipse.datatools.connectivity.oda.IDriver;
-import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
-import org.eclipse.datatools.connectivity.oda.IQuery;
-import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
-import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
-import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
-import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
-import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
-import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
-import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
-import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -93,7 +68,6 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -106,66 +80,64 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * TODO: Please document
- * 
- * @version $Revision: 1.54 $ $Date: 2006/06/05 03:40:08 $
+ * The JDBC SQL DatasetEditor page which enable user to browse the catalog of
+ * the selected data source and input the sql text. The page extends the
+ * <code>DataSetWizardPage</code> it could be loaded as a custom page for jdbc
+ * ui.
  */
 
-public class SQLDataSetEditorPage extends DataSetWizardPage implements SelectionListener
+public class SQLDataSetEditorPage extends DataSetWizardPage
 {
-	private transient Document doc = null;
-	private SourceViewer viewer = null;
-	private Hashtable htActions = new Hashtable( );
-    private TreeItem rootNode = null;
-    private Text searchTxt = null;
-    private boolean isSchemaSupported = false;
-    private boolean expandDbObjectsTree = false;
-    private Tree availableDbObjectsTree = null;
-    private IMetaDataProvider metaDataProvider = null;
-    private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	// Images that will be used in displayign the tables, views etc
 	private Image schemaImage, tableImage, viewImage, 
 		    dataBaseImage, columnImage;
-	
-	// List of Schema Name
-	protected ArrayList schemaList;
-	
-	// List of Table names 
-	protected ArrayList tableList;
-	
+
+	// composite in editor page
+	private Document doc = null;
+	private SourceViewer viewer = null;
+	private TreeItem rootNode = null;
+	private Text searchTxt = null;
 	private ComboViewer filterComboViewer = null;
 	private Combo schemaCombo = null;
 	private Label schemaLabel = null;
-	Connection jdbcConnection = null;
-	boolean validConnection = false;
+	private Tree availableDbObjectsTree = null;
 	private Button identifierQuoteStringCheckBox = null; 
-	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
-	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
-	private static String PAGE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.PageIcon";
-	private static String SCHEMA_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.SchemaIcon";
-	private static String DATABASE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.DbIcon";
-	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
-	
+
+	private boolean isSchemaSupported = false;
+	private boolean expandDbObjectsTree = false;
+    private IMetaDataProvider metaDataProvider = null;
+    private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	private String cachedSearchTxt = "";
 	private String formerQueryTxt = "";
 	private String cachedDbType = "";
 	private int cachedSchemaComboIndex = -1;
 	private DataSourceDesign prevDataSourceDesign;
 	private DataSetDesign dataSetDesign;
+	
+	// List of Schema Name
+	protected ArrayList schemaList;
+	// List of Table names 
+	protected ArrayList tableList;
+	
+	private Connection jdbcConnection = null;
+	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
+	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
+	private static String PAGE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.PageIcon";
+	private static String SCHEMA_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.SchemaIcon";
+	private static String DATABASE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.DbIcon";
+	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
 	
 	static
 	{
 		try
-		{
-	
+		{	
 			ImageRegistry reg = JFaceResources.getImageRegistry( );
 			reg.put( TABLE_ICON,
 					ImageDescriptor.createFromFile( JdbcPlugin.class,
@@ -202,7 +174,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	}
 	
 	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPageCustomControl( Composite parent )
@@ -213,18 +184,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASET_JDBC );
 	}
-	
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
-	 */
-	public void setVisible( boolean visible )
-	{
-		super.setVisible( visible );
-		getControl( ).setFocus( );
-	}
-	
+
 	/**
 	 * create page control for sql edit page
 	 * 
@@ -236,15 +196,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		SashForm SashForm = new SashForm( parent, SWT.HORIZONTAL );
 		SashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		initialize( );
-
-		initJdbcInfo( );
+		initialImage( );
+		initialJdbcInfo( );
 
 		createTableSelectionComposite( SashForm );
-
-		// Populate the available Items
-		populateAvailableDbObjects( );
-
 		createTextualQueryComposite( SashForm );
 
 		setSashFormWeights( SashForm );
@@ -253,22 +208,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	}
 	
 	/**
-	 * initial dataset control
+	 * Initialize image property
 	 * 
 	 */
-	private void initializeControl( )
-	{
-		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
-		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-		refreshPage( );
-		prepareUI( );
-	}
-	
-	/**
-	 * initialize image property
-	 * 
-	 */
-	private void initialize( )
+	private void initialImage( )
 	{
 		tableImage = JFaceResources.getImage( TABLE_ICON );
 		viewImage = JFaceResources.getImage( VIEW_ICON );
@@ -283,23 +226,18 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 * ( such as the Jdbc Connection , Catalog Name etc )
 	 *
 	 */
-	protected void initJdbcInfo()
+	protected void initialJdbcInfo( )
 	{
 		createMetaDataProvider( );
+		jdbcConnection = connectMetadataProvider( metaDataProvider,
+				this.getDataSetDesign( ).getDataSourceDesign( ) );
 
-		prevDataSourceDesign = this.getDataSetDesign( ).getDataSourceDesign( );
-		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceDesign);
-		
-		validConnection = (jdbcConnection == null) ? false: true; 
-		
 		try
 		{
 			if ( jdbcConnection != null )
 			{
-				
 				// Check if schema is supported
 				isSchemaSupported = metaDataProvider.isSchemaSupported( );
-
 			}
 		}
 		catch ( Exception e )
@@ -309,6 +247,18 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 					e.getLocalizedMessage( ),
 					e );
 		}
+	}
+
+	/**
+	 * initial dataset control
+	 * 
+	 */
+	private void initializeControl( )
+	{
+		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
+		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+		refreshPage( );
+		prepareUI( );
 	}
 	
 	/**
@@ -446,15 +396,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		} );
 
 		setupIdentifierQuoteStringCheckBox( selectTableGroup );
-
 		setRootElement( );
-
 		// Create the drag source on the tree
 		addDragSupportToTree( );
 	}
 		
     /*
-	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
@@ -464,221 +411,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			design.setQueryText( doc.get( ) );
 		if ( !formerQueryTxt.equals( design.getQueryText( ) ) )
 		{
-			savePage( design );
+			SQLUtility.saveDataSetDesign( design );
 			formerQueryTxt = design.getQueryText( );
 		}
 		return design;
-	}
-	
-	/**
-	 * save resultset metadata and parameter metadata in dataset design
-	 * 
-	 * @param design
-	 */
-	private void savePage( DataSetDesign design )
-	{
-       // obtain query's result set metadata, and update
-        // the dataSetDesign with it
-        IConnection conn = null;
-		try
-		{
-			IDriver jdbcDriver = new OdaJdbcDriver( );
-			conn = jdbcDriver.getConnection( null );
-			java.util.Properties prop = new java.util.Properties( );
-			DataSourceDesign dataSourceDesign = design.getDataSourceDesign( );
-			if ( dataSourceDesign != null )
-			{
-				prop.put( Constants.ODADriverClass,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODADriverClass ) == null
-								? "" : dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODADriverClass ) );
-				prop.put( Constants.ODAURL,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODAURL ) == null ? ""
-								: dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODAURL ) );
-				prop.put( Constants.ODAUser,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODAUser ) == null ? ""
-								: dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODAUser ) );
-				prop.put( Constants.ODAPassword,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODAPassword ) == null
-								? "" : dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODAPassword ) );
-			}
-			conn.open( prop );
-			IQuery query = conn.newQuery( design.getOdaExtensionDataSetId( ) );
-			query.setMaxRows( 1 );
-			query.prepare( design.getQueryText( ) );
-
-			// set parameter metadata
-			IParameterMetaData paramMetaData = query.getParameterMetaData( );
-			mergeParameterMetaData( design, paramMetaData );
-			query.executeQuery( );
-
-			// set resultset metadata
-			IResultSetMetaData metadata = query.getMetaData( );
-			setResultSetMetaData( design, metadata );
-
-		}
-        catch( OdaException e )
-        {
-            // no result set definition available, reset in dataSetDesign
-        	design.setResultSets( null );
-        }
-        finally
-        {
-            closeConnection( conn );
-        }
-	}
-
-    /**
-     * 
-     * @param dataSetDesign
-     * @param md
-     * @throws OdaException
-     */
-    private void setResultSetMetaData( DataSetDesign dataSetDesign,
-			IResultSetMetaData md ) throws OdaException
-	{
-    	
-		ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
-
-		if ( columns != null )
-		{
-			ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE.createResultSetDefinition( );
-			// jdbc does not support result set name
-			resultSetDefn.setResultSetColumns( columns );
-			// no exception; go ahead and assign to specified dataSetDesign
-			dataSetDesign.setPrimaryResultSet( resultSetDefn );
-			dataSetDesign.getResultSets( ).setDerivedMetaData( true );
-		}
-		else
-		{
-			dataSetDesign.setResultSets( null );
-		}
-	}
-    
-    /**
-	 * merge paramter meta data between dataParameter and datasetDesign's
-	 * parameter.
-	 * 
-	 * @param dataSetDesign
-	 * @param md
-	 * @throws OdaException
-	 */
-	private void mergeParameterMetaData( DataSetDesign dataSetDesign,
-			IParameterMetaData md ) throws OdaException
-	{
-		DataSetParameters parameters = dataSetDesign.getParameters( );
-		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign( md,
-				ParameterMode.IN_LITERAL );
-		if ( parameters == null
-				|| parameters.getParameterDefinitions( ).size( ) == 0 )
-		{
-			if ( dataSetParameter != null )
-			{
-				Iterator iter = dataSetParameter.getParameterDefinitions( )
-						.iterator( );
-				while ( iter.hasNext( ) )
-				{
-					ParameterDefinition defn = (ParameterDefinition) iter.next( );
-					proccessParamDefn( defn, dataSetParameter );
-				}
-			}
-			dataSetDesign.setParameters( dataSetParameter );
-		}
-		else
-		{
-			int designParamSize = 0;
-			if ( dataSetParameter != null )
-				designParamSize = dataSetParameter.getParameterDefinitions( )
-						.size( );
-			int dataParamSize = parameters.getParameterDefinitions( ).size( );
-			while ( designParamSize > dataParamSize )
-			{
-				ParameterDefinition defn = (ParameterDefinition) dataSetParameter.getParameterDefinitions( )
-						.get( dataParamSize );
-
-				proccessParamDefn( defn, parameters );
-				parameters.getParameterDefinitions( ).add( defn );
-				designParamSize--;
-			}
-		}
-	}
-    
-    /**
-	 * Process the parameter definition for some special case
-	 * 
-	 * @param defn
-	 * @param parameters
-	 */
-	private void proccessParamDefn( ParameterDefinition defn,
-			DataSetParameters parameters )
-	{
-		if ( defn.getAttributes( ).getName( ) == null
-				|| defn.getAttributes( ).getName( ).trim( ).equals( "" ) )
-			defn.getAttributes( ).setName( getUniqueName( parameters ) );
-		if ( defn.getAttributes( ).getNativeDataTypeCode( ) == Types.NULL )
-		{
-			defn.getAttributes( ).setNativeDataTypeCode( Types.CHAR );
-		}
-	}
-
-	/**
-	 * Get a unique name for dataset parameter
-	 * @param parameters
-	 * @return
-	 */
-    protected final String getUniqueName( DataSetParameters parameters )
-	{
-		int n = 1;
-		String prefix = "param"; //$NON-NLS-1$
-		StringBuffer buf = new StringBuffer( );
-		while ( buf.length( ) == 0 )
-		{
-			buf.append( prefix ).append( n++ );
-			if ( parameters != null )
-			{
-				Iterator iter = parameters.getParameterDefinitions( )
-						.iterator( );
-				if ( iter != null )
-				{
-					while ( iter.hasNext( ) && buf.length( ) > 0 )
-					{
-						ParameterDefinition parameter = (ParameterDefinition) iter.next( );
-						if ( buf.toString( )
-								.equalsIgnoreCase( parameter.getAttributes( )
-										.getName( ) ) )
-						{
-							buf.setLength( 0 );
-						}
-					}
-				}
-			}
-		}
-		return buf.toString( );
-	}
-
-	/**
-	 * close the connection
-	 * @param conn
-	 */
-    private void closeConnection( IConnection conn )
-	{
-		try
-		{
-			if ( conn != null )
-				conn.close( );
-		}
-		catch ( OdaException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
 	}
 
 	/**
@@ -686,13 +422,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 * if left side is too wide,set weights with default value 40,60.  
 	 * @param splitter
 	 */
-	private void setSashFormWeights(SashForm sashForm) {
+	private void setSashFormWeights( SashForm sashForm )
+	{
 		int leftWidth = sashForm.getChildren( )[0].computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).x;
 		int totalWidth = sashForm.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		if ( (double) leftWidth / (double) totalWidth > 0.4 )
 		{
-			//if left side is too wide, set it to default value 40:60
+			// if left side is too wide, set it to default value 40:60
 			sashForm.setWeights( new int[]{
 					40, 60
 			} );
@@ -703,14 +440,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 					leftWidth, totalWidth - leftWidth
 			} );
 		}
-		
 	}
 
 	/**
 	 * 
 	 * @param group
 	 */
-	private void setupIdentifierQuoteStringCheckBox(Group group )
+	private void setupIdentifierQuoteStringCheckBox( Group group )
 	{
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		layoutData.horizontalSpan = 3;
@@ -743,69 +479,70 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	 * 
 	 * @param filterComboViewer
 	 */
-	private void setFilterComboContents(ComboViewer filterComboViewer)
+	private void setFilterComboContents( ComboViewer filterComboViewer )
 	{
-		if( filterComboViewer == null )
+		if ( filterComboViewer == null )
 		{
 			return;
 		}
-		
-		ArrayList dbTypeList = new ArrayList();
-		
-		DbType tableType  = new DbType(DbType.TABLE_TYPE, JdbcPlugin.getResourceString("tablepage.text.tabletype"));
-		DbType viewType = new DbType(DbType.VIEW_TYPE, JdbcPlugin.getResourceString("tablepage.text.viewtype"));
-		DbType allType = new DbType(DbType.ALL_TYPE, JdbcPlugin.getResourceString("tablepage.text.All"));
-		DbType procedureType = new DbType(DbType.PROCEDURE_TYPE,JdbcPlugin.getResourceString("tablepage.text.procedure"));
+
+		ArrayList dbTypeList = new ArrayList( );
+
+		DbType tableType = new DbType( DbType.TABLE_TYPE,
+				JdbcPlugin.getResourceString( "tablepage.text.tabletype" ) );
+		DbType viewType = new DbType( DbType.VIEW_TYPE,
+				JdbcPlugin.getResourceString( "tablepage.text.viewtype" ) );
+		DbType allType = new DbType( DbType.ALL_TYPE,
+				JdbcPlugin.getResourceString( "tablepage.text.All" ) );
+		DbType procedureType = new DbType( DbType.PROCEDURE_TYPE,
+				JdbcPlugin.getResourceString( "tablepage.text.procedure" ) );
 		// Populate the Types of Data bases objects which can be retrieved
 		dbTypeList.add( allType );
 		dbTypeList.add( tableType );
 		dbTypeList.add( viewType );
 		if ( metaDataProvider.isProcedureSupported( ) )
 			dbTypeList.add( procedureType );
-        filterComboViewer.setContentProvider(new IStructuredContentProvider(){
+		filterComboViewer.setContentProvider( new IStructuredContentProvider( ) {
 
-            public Object[] getElements(Object inputElement)
-            {
-                if(inputElement != null)
-                {
-                    return ((ArrayList)inputElement).toArray();
-                }
-                return new DbType[]{};
-            }
+			public Object[] getElements( Object inputElement )
+			{
+				if ( inputElement != null )
+				{
+					return ( (ArrayList) inputElement ).toArray( );
+				}
+				return new DbType[]{};
+			}
 
-            public void dispose()
-            {
-                // TODO Auto-generated method stub
-                
-            }
+			public void dispose( )
+			{
+			}
 
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-            {
-                // TODO Auto-generated method stub
-                
-            }
-            
-        });
-        
-        filterComboViewer.setLabelProvider(new LabelProvider(){
-            public String getText(Object inputElement)
-            {
-                DbType dbType = (DbType)inputElement;
-                return dbType.getName(); 
-            }
-            
-        });
-        
-		filterComboViewer.setInput(dbTypeList);
-		
+			public void inputChanged( Viewer viewer, Object oldInput,
+					Object newInput )
+			{
+			}
+
+		} );
+
+		filterComboViewer.setLabelProvider( new LabelProvider( ) {
+
+			public String getText( Object inputElement )
+			{
+				DbType dbType = (DbType) inputElement;
+				return dbType.getName( );
+			}
+
+		} );
+
+		filterComboViewer.setInput( dbTypeList );
+
 		// Set the Default selection to the First Item , which is "All"
-		filterComboViewer.getCombo().select(0);
+		filterComboViewer.getCombo( ).select( 0 );
 	}
 
-	/*
-	 * This method is invoked when the find button is clicked
-	 * It populates the Available Data Base obecets ( in the Tree control ) 
-	 * 
+	/**
+	 * This method is invoked when the find button is clicked It populates the
+	 * Available Data Base obecets ( in the Tree control )
 	 */
 	protected void populateAvailableDbObjects()
 	{
@@ -832,11 +569,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		
 		// Clear of the Old values in the Available Db objects 
 		// in the tree
-		
-		RemoveAllAvailableDbObjects();
-		
-		setRootElement();
-		setRefreshInfo();
+		RemoveAllAvailableDbObjects( );
+
+		setRootElement( );
+		setRefreshInfo( );
 		if ( isSchemaSupported )
 		{
 			populateSchemaList( );
@@ -867,31 +603,32 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	
 	/**
 	 * populate shema list if the schema is supported
-	 *
+	 * 
 	 */
-	protected void populateSchemaList()
+	protected void populateSchemaList( )
 	{
 		if ( rootNode != null )
 		{
 			removeTreeItem( rootNode );
 		}
-		getAvailableSchema();
+		getAvailableSchema( );
 		// If the schemaCombo have not be initialized yet.
-		if ( schemaCombo.getItemCount() < 1)
+		if ( schemaCombo.getItemCount( ) < 1 )
 		{
-			schemaCombo.add( JdbcPlugin.getResourceString("tablepage.text.All") );
+			schemaCombo.add( JdbcPlugin.getResourceString( "tablepage.text.All" ) );
 			schemaCombo.select( 0 );
-			if( schemaList != null){
+			if ( schemaList != null )
+			{
 				Iterator it = schemaList.iterator( );
 				while ( it.hasNext( ) )
 					schemaCombo.add( it.next( ).toString( ) );
 			}
 		}
-		ArrayList targetSchemaList = new ArrayList();	
-		ArrayList schemaObjectList = new ArrayList();
-		if(schemaList!=null)
+		ArrayList schemaObjectList = new ArrayList( );
+		if ( schemaList != null )
 		{
 			int numberOfSchema = 0;
+
 			Preferences preferences = JdbcPlugin.getDefault( )
 					.getPluginPreferences( );
 			if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
@@ -904,20 +641,28 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 				preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
 						numberOfSchema );
 			}
-			cachedSchemaComboIndex = schemaCombo.getSelectionIndex();
-			if ( schemaCombo.getSelectionIndex() == 0)
+			cachedSchemaComboIndex = schemaCombo.getSelectionIndex( );
+			if ( schemaCombo.getSelectionIndex( ) == 0 )
 			{
-				targetSchemaList = schemaList;
+				for ( int i = 0, count = 0; i < schemaList.size( )
+						&& count < numberOfSchema; i++ )
+				{
+					String schemaName = (String) schemaList.get( i );
+
+					if ( containsTableInSchema( schemaName ) )
+					{
+						DbObject schemaObj = new DbObject( schemaName,
+								schemaName,
+								DbObject.SCHEMA_TYPE,
+								schemaImage );
+						schemaObjectList.add( schemaObj );
+						count++;
+					}
+				}
 			}
 			else
 			{
-				targetSchemaList.add( schemaCombo.getItem( schemaCombo.getSelectionIndex() ));
-				numberOfSchema = 1;
-			}
-
-			for ( int i = 0; i < targetSchemaList.size( ) && i < numberOfSchema; i++ )
-			{
-				String schemaName = (String) targetSchemaList.get( i );
+				String schemaName = schemaCombo.getItem( schemaCombo.getSelectionIndex( ) );
 				DbObject schemaObj = new DbObject( schemaName,
 						schemaName,
 						DbObject.SCHEMA_TYPE,
@@ -935,20 +680,67 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		}
 	}
 	
-	/*
-	 * Sets the Root Element of the Available Data Sources
-	 * This is usually the Name of the Catalog of the Database
+	/**
+	 * 
+	 * @param schemaName
+	 * @return
 	 */
-	protected void setRootElement()
+	private boolean containsTableInSchema( String schemaName )
 	{
-		rootNode = new TreeItem(availableDbObjectsTree,SWT.NONE);
-		rootNode.setImage(dataBaseImage);
-		
-		DataSourceDesign dataSourceHandle = this.getDataSetDesign( ).getDataSourceDesign( );
-		
-		rootNode.setText(dataSourceHandle.getName());
+		ResultSet rs = metaDataProvider.getAlltables( metaDataProvider.getCatalog( ),
+				schemaName,
+				"%",
+				new String[]{
+						"TABLE", "VIEW"
+				} );
+		boolean hasNonSystemTable = false;
+		if ( rs != null )
+		{
+			try
+			{
+				while ( rs.next( ) )
+				{
+					if ( !"SYSTEM TABLE".equalsIgnoreCase( rs.getString( "TABLE_TYPE" ) ) )
+					{
+						hasNonSystemTable = true;
+						break;
+					}
+				}
+			}
+			catch ( SQLException e )
+			{
+				e.printStackTrace( );
+			}
+		}
+		if ( hasNonSystemTable )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
+	/**
+	 * Sets the Root Element of the Available Data Sources This is usually the
+	 * Name of the Catalog of the Database
+	 */
+	protected void setRootElement( )
+	{
+		rootNode = new TreeItem( availableDbObjectsTree, SWT.NONE );
+		rootNode.setImage( dataBaseImage );
+
+		DataSourceDesign dataSourceHandle = this.getDataSetDesign( )
+				.getDataSourceDesign( );
+
+		rootNode.setText( dataSourceHandle.getName( ) );
+	}
+	
+	/**
+	 * Remove all available db objects
+	 * 
+	 */
 	private void RemoveAllAvailableDbObjects( )
 	{
 		if ( availableDbObjectsTree != null )
@@ -956,27 +748,32 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	}
 	
 	/**
-	 *  Gets the list of schema objects 
+	 * Gets the list of schema objects
 	 */
-	private void getAvailableSchema()
+	private void getAvailableSchema( )
 	{
-		if (isSchemaSupported)
+		if ( isSchemaSupported )
 		{
-			ResultSet schemas = metaDataProvider.getAllSchema();
-			schemaList = createSchemaList( schemas );
+			ResultSet schemas = metaDataProvider.getAllSchema( );
+			schemaList = getAllSchemaList( schemas );
 		}
 	}
 	
+	/**
+	 * 
+	 * @param schemaName
+	 * @param schemaTreeItem
+	 */
 	protected void populateTableList( String schemaName ,TreeItem schemaTreeItem )
 	{
-		if(schemaTreeItem!=null)
+		if ( schemaTreeItem != null )
 		{
 			removeTreeItem( schemaTreeItem );
 		}
 		String namePattern = null;
 		String[] tableType = null;
-		cachedSearchTxt = searchTxt.getText();	
-		namePattern = getTailoredSearchText( searchTxt.getText() );
+		cachedSearchTxt = searchTxt.getText( );
+		namePattern = SQLUtility.getTailoredSearchText( searchTxt.getText( ) );
 		  
 		String dbtype = getSelectedDbType( );
 		cachedDbType = dbtype;
@@ -1140,7 +937,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		String namePattern = null;
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText( );
-		namePattern = getTailoredSearchText( searchTxt.getText( ) );
+		namePattern = SQLUtility.getTailoredSearchText( searchTxt.getText( ) );
 
 		String dbtype = getSelectedDbType( );
 		cachedDbType = dbtype;
@@ -1248,27 +1045,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		}
 	}
 
-
-	/**
-	 * @param namePattern
-	 * @return
-	 */
-	private String getTailoredSearchText( String namePattern )
-	{
-		if ( namePattern != null )
-		{
-			if ( namePattern.lastIndexOf( '%' ) == -1 )
-			{
-				namePattern = namePattern + "%";
-			}
-		}else
-		{
-			namePattern = "%";
-		}
-		
-		return namePattern;
-	}
-
 	/**
 	 * @param dbtype
 	 * @param procedureRs
@@ -1279,8 +1055,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		return procedureRs!=null&& procedureRs.size()>0  && (DbType.ALL_STRING.equalsIgnoreCase(dbtype)||DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype) );
 	}
 	
-	// Connects the metadata provider to the specified data source
-	protected Connection connectMetadataProvider( IMetaDataProvider metadata, DataSourceDesign dataSourceDesign )
+	/**
+	 * Connects the metadata provider to the specified data source
+	 */
+	protected Connection connectMetadataProvider( IMetaDataProvider metadata,
+			DataSourceDesign dataSourceDesign )
 	{
 		return metadata.connect( dataSourceDesign );
 	}
@@ -1333,25 +1112,27 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 
 		}
 	}
-	
-
-	
+		
 	/**
-	 *  Called to indicate that the process of getting the available Db objects
-	 *   is in progress
-	 *
+	 * Called to indicate that the process of getting the available Db objects
+	 * is in progress
+	 * 
 	 */
-	private void setRefreshInfo()
+	private void setRefreshInfo( )
 	{
 		if ( rootNode == null )
 		{
 			return;
 		}
-		
-		TreeItem item = new TreeItem(rootNode,0);
-		item.setText(JdbcPlugin.getResourceString("tablepage.refreshing"));
+
+		TreeItem item = new TreeItem( rootNode, 0 );
+		item.setText( JdbcPlugin.getResourceString( "tablepage.refreshing" ) );
 	}
 
+	/**
+	 * 
+	 * @param item
+	 */
 	private void selectNode(TreeItem item)
 	{
 		TreeItem[] selectedItem = new TreeItem[1];
@@ -1362,61 +1143,31 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	}
 
 	/**
-	 * @param schemaRs: The ResultSet containing the List of schema
+	 * @param schemaRs:
+	 *            The ResultSet containing the List of schema
 	 * @return A List of schema names
 	 */
-	private ArrayList createSchemaList(ResultSet schemaRs)
+	private ArrayList getAllSchemaList( ResultSet schemaRs )
 	{
 		if ( schemaRs == null )
 		{
 			return null;
 		}
-		
-		ArrayList schemas = new ArrayList();
-		ArrayList allSchemas = new ArrayList();
+
+		ArrayList allSchemas = new ArrayList( );
 		try
 		{
-			while( schemaRs.next() )
+			while ( schemaRs.next( ) )
 			{
-				allSchemas.add( schemaRs.getString("TABLE_SCHEM") );
-			}
-			
-			ResultSet rs = null;
-			Iterator it = allSchemas.iterator();
-			
-			while( it.hasNext())
-			{
-				String schema = it.next().toString();
-				rs = metaDataProvider.getAlltables( metaDataProvider.getCatalog( ),
-						schema,
-						"%",
-						new String[]{
-								"TABLE", "VIEW"
-						} );				
-				boolean hasNonSystemTable = false;				
-				if ( rs != null )
-				{
-					while ( rs.next( ) )
-					{
-						if ( !"SYSTEM TABLE".equalsIgnoreCase( rs.getString( "TABLE_TYPE" ) ) )
-						{
-							hasNonSystemTable = true;
-							break;
-						}
-					}
-				}				
-				if ( hasNonSystemTable )
-				{
-					schemas.add( schema );//$NON-NLS-1$					
-				}
+				allSchemas.add( schemaRs.getString( "TABLE_SCHEM" ) );
 			}
 		}
-		catch( SQLException e)
+		catch ( SQLException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
-		
-		return schemas;
+
+		return allSchemas;
 	}
 	
 	/**
@@ -1468,41 +1219,46 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		return false;
 	}
 	
-	private void refreshPage() 
+	/**
+	 * refresh page
+	 * 
+	 */
+	private void refreshPage( )
 	{
-
 		// Get the currently selected Data Source
 		DataSourceDesign curDataSourceDesign = this.getDataSetDesign( )
 				.getDataSourceDesign( );
-		
-		if( curDataSourceDesign != prevDataSourceDesign )
+
+		if ( curDataSourceDesign != prevDataSourceDesign )
 		{
-			RemoveAllAvailableDbObjects();
-			resetJdbcInfo(curDataSourceDesign);
+			RemoveAllAvailableDbObjects( );
+			resetJdbcInfo( curDataSourceDesign );
 			enableSchemaComponent( isSchemaSupported );
-			setRootElement();
-            sourceViewerConfiguration.getContentAssistProcessor().setDataSourceHandle(curDataSourceDesign);
-			
-			populateAvailableDbObjects();
+			setRootElement( );
+			sourceViewerConfiguration.getContentAssistProcessor( )
+					.setDataSourceHandle( curDataSourceDesign );
+
+			populateAvailableDbObjects( );
 			prevDataSourceDesign = curDataSourceDesign;
 		}
 	}	
 	
 	/**
-	 *
+	 * 
 	 */
-	private void addFetchDbObjectListener()
+	private void addFetchDbObjectListener( )
 	{
-		
-		availableDbObjectsTree.addListener(SWT.Expand, new Listener(){
-			
+
+		availableDbObjectsTree.addListener( SWT.Expand, new Listener( ) {
+
 			/*
 			 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 			 */
 			public void handleEvent( final Event event )
 			{
-				TreeItem item = (TreeItem)event.item;
+				TreeItem item = (TreeItem) event.item;
 				BusyIndicator.showWhile( item.getDisplay( ), new Runnable( ) {
+
 					/*
 					 * @see java.lang.Runnable#run()
 					 */
@@ -1512,38 +1268,38 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 					}
 				} );
 			}
-			
+
 			/**
 			 * @param event
 			 */
-			private void showTable(Event event)
+			private void showTable( Event event )
 			{
-				TreeItem item = (TreeItem)event.item;
-				if (item == null) return;
-				
-				if( item == rootNode )
-					return;				
+				TreeItem item = (TreeItem) event.item;
+				if ( item == null )
+					return;
+
+				if ( item == rootNode )
+					return;
 				if ( isSchemaNode( item ) )
 				{
 					populateTableList( item.getText( ), item );
 					return;
-				}//TODO
-				
+				}
+
 				String tableName = Utility.getTreeItemsName( item );
 
-				String catalogName = metaDataProvider.getCatalog();
+				String catalogName = metaDataProvider.getCatalog( );
 				String schemaName = null;
-					
 				String schemaSeparator = ".";
-					
-				if (metaDataProvider.isSchemaSupported())
+
+				if ( metaDataProvider.isSchemaSupported( ) )
 				{
 					// remove the schema name from the fully qualified name
 					int index = -1;
-					if ((index = tableName.lastIndexOf(schemaSeparator)) != -1)
+					if ( ( index = tableName.lastIndexOf( schemaSeparator ) ) != -1 )
 					{
-						schemaName = tableName.substring(0, index);
-						tableName = tableName.substring( index + 1);
+						schemaName = tableName.substring( 0, index );
+						tableName = tableName.substring( index + 1 );
 					}
 				}
 
@@ -1575,7 +1331,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 					{
 						ArrayList procedureList = metaDataProvider.getAllProcedure( catalogName,
 								schemaName,
-								getTailoredSearchText( searchTxt.getText() ) );
+								SQLUtility.getTailoredSearchText( searchTxt.getText( ) ) );
 						TreeItem[] items = item.getItems( );
 						if ( items != null )
 						{
@@ -1588,7 +1344,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 								procedureList,
 								SWT.NONE,
 								columnImage );
-						//expand procedure TreeItem
+						// expand procedure TreeItem
 
 					}
 				}
@@ -1599,7 +1355,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 						ArrayList columnList = metaDataProvider.getProcedureColumns( obj.getCatalog( ),
 								schemaName,
 								tableName,
-								getTailoredSearchText(null) );
+								SQLUtility.getTailoredSearchText( null ) );
 						TreeItem[] items = item.getItems( );
 						if ( items != null )
 						{
@@ -1615,10 +1371,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 					}
 				}
 			}
-		});
+		} );
 	}
 	
-
 	/**
 	 * Adds drag support to tree..Must set tree before execution.
 	 */
@@ -1667,9 +1422,23 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		} );
 	}
 	
+	/**
+	 * 
+	 * @param event
+	 */
 	private void populateEventData( TypedEvent event )
 	{
 		TreeItem[] selection = availableDbObjectsTree.getSelection( );
+		String identifierQuoteString;
+		try
+		{
+			identifierQuoteString = metaDataProvider.getMetaData( )
+					.getIdentifierQuoteString( );
+		}
+		catch ( SQLException e )
+		{
+			identifierQuoteString = "";
+		}
 		if ( selection.length > 0 )
 		{
 			String data = "";
@@ -1679,67 +1448,31 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 				// table
 				if ( obj instanceof DbObject )
 				{
-					data += getDnDString( ( (DbObject) obj ).getName( ) );
+
+					data += SQLUtility.getDnDString( ( (DbObject) obj ).getName( ),
+							identifierQuoteString,
+							identifierQuoteStringCheckBox.getSelection( ) );
 				}
 				// stored procedure
 				else if ( obj instanceof Procedure )
 				{
-					data += getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ) );
+					data += SQLUtility.getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ),
+							identifierQuoteString,
+							identifierQuoteStringCheckBox.getSelection( ) );
 				}
 				// column
 				else
 				{
-					data += getDnDString( obj );
+					data += SQLUtility.getDnDString( obj,
+							identifierQuoteString,
+							identifierQuoteStringCheckBox.getSelection( ) );
 				}
-
 				data += i != selection.length - 1 ? "," : "";
 			}
-
 			event.data = data;
 		}
 	}
-	
-	/**
-	 * @param obj
-	 * @return
-	 */
-	private Object getDnDString(Object obj )
-	{
-		if ( !identifierQuoteStringCheckBox.getSelection( )
-				|| !( obj instanceof String ) )
-			return obj;
 
-		String identifierQuoteString = "";
-		String dndString = (String) obj;
-		try
-		{
-			identifierQuoteString = metaDataProvider.getMetaData( )
-					.getIdentifierQuoteString( );
-		}
-		catch ( SQLException e )
-		{
-			identifierQuoteString = " ";
-		}
-
-		if ( !identifierQuoteString.equals( " " ) )
-		{
-			if ( dndString.indexOf( "." ) == -1 )
-				return identifierQuoteString + dndString + identifierQuoteString;
-
-			String[] str = dndString.split( "[.]" );
-			dndString = "";
-
-			for ( int i = 0; i < str.length; i++ )
-			{
-				dndString += identifierQuoteString
-						+ str[i] + identifierQuoteString + ".";
-			}
-			return dndString.substring( 0, dndString.lastIndexOf( "." ) );
-		}
-
-		return dndString;
-	}
-	
 	/**
 	 * Adds drop support to viewer.Must set viewer before execution.
 	 *  
@@ -1797,54 +1530,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 	}
 	
 	/**
-	 * @param lineText
-	 * @return
-	 */
-	private int[] getBidiLineSegments( String lineText )
-	{
-		int[] seg = null;
-		if ( lineText != null
-				&& lineText.length( ) > 0
-				&& !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
-		{
-			List list = new ArrayList( );
-
-			// Punctuations will be regarded as delimiter so that different
-			// splits could be rendered separately.
-			Object[] splits = lineText.split( "\\p{Punct}" );
-
-			// !=, <> etc. leading to "" will be filtered to meet the rule that
-			// segments must not have duplicates.
-			for ( int i = 0; i < splits.length; i++ )
-			{
-				if ( !splits[i].equals( "" ) )
-					list.add( splits[i] );
-			}
-			splits = list.toArray( );
-
-			// first segment must be 0
-			// last segment does not necessarily equal to line length
-			seg = new int[splits.length + 1];
-			for ( int i = 0; i < splits.length; i++ )
-			{
-				seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
-						+ ( (String) splits[i] ).length( );
-			}
-		}
-
-		return seg;
-	}
-
-// private boolean isValidConnection()
-//	{
-//		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-//		metaDataProvider = new JdbcMetaDataProvider(null);
-//		Connection jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
-//		validConnection = ( jdbcConnection == null) ? false: true;
-//		return validConnection;
-//	}
-
-	/**
 	 * Creates the textual query editor 
 	 * @param parent
 	 */
@@ -1879,12 +1564,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		viewer.getTextWidget( ).setFont( JFaceResources.getTextFont( ) );
 		viewer.getTextWidget( )
 				.addBidiSegmentListener( new BidiSegmentListener( ) {
+
 					/*
 					 * @see org.eclipse.swt.custom.BidiSegmentListener#lineGetSegments(org.eclipse.swt.custom.BidiSegmentEvent)
 					 */
 					public void lineGetSegments( BidiSegmentEvent event )
 					{
-						event.segments = getBidiLineSegments( event.lineText );
+						event.segments = SQLUtility.getBidiLineSegments( event.lineText );
 					}
 				} );
 		attachMenus( viewer );
@@ -1894,14 +1580,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
         
         // Add drop support to the viewer
         addDropSupportToViewer();
-        
-        if(isExternalEditorConfigured())
-        {
-            Button btnExternalEditor = new Button(composite, SWT.NONE);
-            btnExternalEditor.setText("Edit with external editor");
-            btnExternalEditor.addSelectionListener(this);
-        }
-        
+
         // add support of additional accelerated key
         viewer.getTextWidget( ).addKeyListener( new KeyListener( ) {
 			public void keyPressed( KeyEvent e )
@@ -1933,73 +1612,24 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			}
 		} );
 	}
-    
-    private final boolean isExternalEditorConfigured()
-    {
-    	return false;
-//        DataSourceDesign handle = this.getDataSetDesign( ).getDataSourceDesign( );
-//        String editorName = Utility.getUserProperty(handle, ExternalEditorPreferenceManager.PROPERTY_NAME_PREFIX + "externaleditortype");
-//        preference = ExternalEditorPreferenceManager.getInstance().getEditor(editorName); 
-//        return (preference != null && preference.canBeLaunched(this.getDataSetDesign( )));
-    }
-
-	private final void attachMenus( SourceViewer viewer )
-	{
-		StyledText widget = viewer.getTextWidget( );
-		MenuManager manager = new MenuManager( );
-		Separator separator = new Separator( "undo" );//$NON-NLS-1$
-		manager.add( separator );
-		separator = new Separator( "copy" );//$NON-NLS-1$
-		manager.add( separator );
-		separator = new Separator( "select" );//$NON-NLS-1$
-		manager.add( separator );
-		manager.appendToGroup( "undo", getAction( "undo", viewer, JdbcPlugin.getResourceString( "sqleditor.action.undo" ), ITextOperationTarget.UNDO ) );//$NON-NLS-1$
-		manager.appendToGroup( "undo", getAction( "redo", viewer, JdbcPlugin.getResourceString( "sqleditor.action.redo" ), ITextOperationTarget.REDO ) );//$NON-NLS-1$
-		manager.appendToGroup( "copy", getAction( "cut", viewer, JdbcPlugin.getResourceString( "sqleditor.action.cut" ), ITextOperationTarget.CUT ) );//$NON-NLS-1$
-		manager.appendToGroup( "copy", getAction( "copy", viewer, JdbcPlugin.getResourceString( "sqleditor.action.copy" ), ITextOperationTarget.COPY ) );//$NON-NLS-1$
-		manager.appendToGroup( "copy", getAction( "paste", viewer, JdbcPlugin.getResourceString( "sqleditor.action.paste" ), ITextOperationTarget.PASTE ) );//$NON-NLS-1$
-		manager.appendToGroup( "select", getAction( "selectall", viewer, JdbcPlugin.getResourceString( "sqleditor.action.selectAll" ), ITextOperationTarget.SELECT_ALL ) );//$NON-NLS-1$
-		Menu menu = manager.createContextMenu( widget );
-
-		manager.addMenuListener( new IMenuListener( ) {
-
-			public void menuAboutToShow( IMenuManager manager )
-			{
-				Enumeration elements = htActions.elements( );
-				while ( elements.hasMoreElements( ) )
-				{
-					SQLEditorAction action = (SQLEditorAction) elements.nextElement( );
-					action.update( );
-				}
-			}
-		} );
-		widget.setMenu( menu );
-	}
 
 	/**
 	 * 
-	 * @param id
 	 * @param viewer
-	 * @param name
-	 * @param operation
-	 * @return
 	 */
-	private final SQLEditorAction getAction( String id, SourceViewer viewer,
-			String name, int operation )
+	private final void attachMenus( SourceViewer viewer )
 	{
-		SQLEditorAction action = (SQLEditorAction) htActions.get( id );
-		if ( action == null )
-		{
-			action = new SQLEditorAction( viewer, name, operation );
-			htActions.put( id, action );
-		}
-		return action;
+		StyledText widget = viewer.getTextWidget( );
+		TextMenuManager menuManager = new TextMenuManager( viewer );
+		widget.setMenu( menuManager.getContextMenu( widget ) );
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
-     */
-    protected void refresh( DataSetDesign dataSetDesign )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
+	 */
+	protected void refresh( DataSetDesign dataSetDesign )
 	{
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.editor.page.query" );
 		setMessage( DEFAULT_MESSAGE );
@@ -2007,29 +1637,41 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		prepareUI( );
 	}
 	
+	/*
+	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
+	 */
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
+		getControl( ).setFocus( );
+	}
+    
 	/**
 	 * Prepare UI when pageActivated event is invoked Following things will be
 	 * done: Set StyledText content Set StyledText as focus
 	 * 
 	 */
-	private void prepareUI()
+	private void prepareUI( )
 	{
 		StyledText styledText = viewer.getTextWidget( );
 		String queryText = styledText.getText( );
+		String extensionId = this.getDataSetDesign( )
+				.getOdaExtensionDataSetId( );
 		this.formerQueryTxt = queryText;
 		if ( queryText != null
-				&& queryText.equalsIgnoreCase( getQueryPresetTextString( ) ) )
+				&& queryText.equalsIgnoreCase( SQLUtility.getQueryPresetTextString( extensionId ) ) )
 		{
-			String[] lines = getQueryPresetTextArray( );
+			String[] lines = SQLUtility.getQueryPresetTextArray( extensionId );
 			if ( lines != null && lines.length > 0 )
 				styledText.setSelection( lines[0].length( ) + 1,
 						lines[0].length( ) + 1 );
 		}
-		styledText.setFocus();
+		styledText.setFocus( );
 	}
 	
 	/**
-	 * return the query text. If the query text is empty then return the pre-defined pattern
+	 * return the query text. If the query text is empty then return the
+	 * pre-defined pattern
 	 * 
 	 * @return
 	 */
@@ -2039,50 +1681,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 		if ( queryText != null && queryText.trim( ).length( ) > 0 )
 			return queryText;
 
-		return getQueryPresetTextString( );
+		return SQLUtility.getQueryPresetTextString( this.getDataSetDesign( )
+				.getOdaExtensionDataSetId( ) );
 	}
-	
-	/**
-	 * Return pre-defined query text pattern with every element in a cell.
-	 * 
-	 * @return pre-defined query text
-	 */
-	private String getQueryPresetTextString( )
-	{
-		String[] lines = getQueryPresetTextArray( );
-		String result = "";
-		if ( lines != null && lines.length > 0 )
-		{
-			for ( int i = 0; i < lines.length; i++ )
-			{
-				result = result
-						+ lines[i] + ( i == lines.length - 1 ? " " : " \n" );
-			}
-		}
-		return result;
-	}
-	
-	/** 
-	 * Return pre-defined query text pattern with every element in a cell in an Array
-	 * 
-	 * @return pre-defined query text in an Array
-	 */
-	private String[] getQueryPresetTextArray( )
-	{
-		// TODO: to be externalized
-		final String[] lines;
-		if ( this.getDataSetDesign( ).getOdaExtensionDataSetId( )
-				.equals( "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" ) )
-			lines = new String[]{
-				"{call procedure-name(arg1,arg2, ...)}"
-			};
-		else
-			lines = new String[]{
-					"select", "from"
-			};
-		return lines;
-	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#cleanup()
@@ -2124,79 +1726,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage implements Selection
 			}
 		}
 	}
-	
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-    public void widgetSelected(SelectionEvent e)
-    {
-//        if(preference != null)
-//        {
-//            try
-//            {
-//                this.getDataSetDesign( ).setQueryText( doc.get( ) );
-//				String command = preference.getPreparedCommandLine( this.getDataSetDesign( ) );
-//				Process process = Runtime.getRuntime( ).exec( command );
-//                process.waitFor();
-//                FileInputStream fis = new FileInputStream(preference.getTemporaryFile());
-//                StringBuffer stringBuffer = new StringBuffer();
-//                byte[] buf = new byte[10000];
-//                int n = -1;
-//                while((n = fis.read(buf)) != -1)
-//                {
-//                    stringBuffer.append(new String(buf, 0, n));
-//                }
-//                doc.set(stringBuffer.toString());
-//                preference.getTemporaryFile().delete();
-//                
-//            }
-//            catch (Exception e1)
-//            {
-//            	ExceptionHandler.showException( null, "title", "msg", e1 );
-//            }
-//        }
-    }
-
-    /* (non-Javadoc)
-     * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-     */
-    public void widgetDefaultSelected(SelectionEvent e)
-    {
-    }
-	
 }
-
-class SQLEditorAction extends Action
-{
-
-	private int operationCode = -1;
-	private SourceViewer viewer = null;
-
-	public SQLEditorAction( SourceViewer viewer, String text, int operationCode )
-	{
-		super( text );
-		this.operationCode = operationCode;
-		this.viewer = viewer;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.action.IAction#run()
-	 */
-	public void run( )
-	{
-		viewer.doOperation( operationCode );
-	}
-
-	public void update( )
-	{
-		setEnabled( viewer.canDoOperation( operationCode ) );
-	}
-	
- }
 
 class DbType
 {
@@ -2241,4 +1771,3 @@ class DbType
     }
     
 }
- 
