@@ -9,3 +9,4 @@ Bundle-ClassPath: derby.jar,
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Eclipse-LazyStart: true
+Export-Package: org.apache.derby.jdbc
