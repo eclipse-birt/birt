@@ -54,7 +54,7 @@ public class AllTests extends TestCase
 		suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
 		suite.addTestSuite( ReportDoc_GroupTest.class );
 		suite.addTestSuite( ReportDoc_ParameterTest.class );
-		suite.addTestSuite( Reg_145508.class );
+		//suite.addTestSuite( Reg_145508.class );
 
 		// Acceptance
 		suite.addTestSuite( ColumnAliasTest.class );
