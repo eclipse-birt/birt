@@ -95,7 +95,6 @@ public abstract class BaseTestCase extends TestCase
 
 	protected SessionHandle sessionHandle = null;
 
-
 	/**
 	 * the root element for this design.
 	 */
@@ -263,7 +262,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
-		.newSessionHandle( locale );
+				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		libraryHandle = sessionHandle.openLibrary( fileName );
@@ -583,7 +582,6 @@ public abstract class BaseTestCase extends TestCase
 		return same;
 	}
 
-	
 	/**
 	 * Make a copy of a given file to the target file.
 	 * 
@@ -634,7 +632,7 @@ public abstract class BaseTestCase extends TestCase
 
 		}
 	}
-	
+
 	/**
 	 * Prints out all semantic errors stored in the error list during parsing
 	 * the design file.
@@ -767,13 +765,25 @@ public abstract class BaseTestCase extends TestCase
 	{
 		if ( moduleHandle == null )
 			return;
+
+		makeOutputDir( );
+		moduleHandle.saveAs( getClassFolder( ) + OUTPUT_FOLDER + filename );
+	}
+
+	/**
+	 * Create output folder under current class folder.
+	 * 
+	 * @throws IOException
+	 */
+
+	protected void makeOutputDir( ) throws IOException
+	{
 		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
-		moduleHandle.saveAs( outputPath + filename );
 	}
 
 	/**
