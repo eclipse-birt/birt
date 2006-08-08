@@ -59,13 +59,12 @@ public class JointDataSetHandleTest extends BaseTestCase{
 	    openDesign(filename);
 		JointDataSetHandle jointds = designHandle.findJointDataSet("JointDataSet");
 		//add data set to jointdataset
-		jointds.addDataSet("ds1");
-		jointds.addDataSet("ds2");
-		assertEquals(2,jointds.getListProperty(JointDataSet.DATA_SETS_PROP).size());
+		jointds.addDataSet("ds3");
+		assertEquals(3,jointds.getListProperty(JointDataSet.DATA_SETS_PROP).size());
 		
 		//remove data set from jointdataset
 		jointds.removeDataSet("ds2");
-		assertEquals(1,jointds.getListProperty(JointDataSet.DATA_SETS_PROP).size());
+		assertEquals(2,jointds.getListProperty(JointDataSet.DATA_SETS_PROP).size());
 	}
 	public void testJointDataSetType( ) throws Exception
 	{
@@ -87,11 +86,7 @@ public class JointDataSetHandleTest extends BaseTestCase{
 		JointDataSetHandle jointds3 = designHandle.findJointDataSet("jointds3");
 		jointds3.addDataSet("ds1");
 		assertEquals(1,jointds3.getListProperty(JointDataSet.DATA_SETS_PROP).size());
-		Iterator joinConditionsIterator = jointds3.joinConditionsIterator( );
-		JoinConditionHandle joinConditionHandle = (JoinConditionHandle) joinConditionsIterator
-				.next( );
-		joinConditionHandle.setLeftDataSet("ds1");
-		joinConditionHandle.setLeftDataSet("ds2");
+
 	}
 	public void testJointCondition( ) throws SemanticException, DesignFileException
 	{
