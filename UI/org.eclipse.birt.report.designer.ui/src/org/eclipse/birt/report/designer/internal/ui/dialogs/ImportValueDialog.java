@@ -55,6 +55,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The dialog used to import values from data sets
  * <dt><b>Styles: (Defined in DesingChoicesConstants) </b></dt>
@@ -487,7 +489,8 @@ public class ImportValueDialog extends BaseDialog
 					IResultIterator iter = results.getResultIterator( );
 					if ( iter != null )
 					{
-						DateFormatter formatter = new DateFormatter( DATE_TIME_PATTERN );
+						DateFormatter formatter = new DateFormatter( DATE_TIME_PATTERN,
+								ULocale.US );
 						while ( iter.next( ) )
 						{
 							String result = null;
