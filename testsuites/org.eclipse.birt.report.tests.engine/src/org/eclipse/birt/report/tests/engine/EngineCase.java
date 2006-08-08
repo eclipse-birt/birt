@@ -441,6 +441,7 @@ public abstract class EngineCase extends TestCase
 		{
 			options = new HTMLRenderOption( );
 			options.setOutputFileName( outputFile );
+			( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( IMAGE_DIR );
 			HashMap appContext = new HashMap( );
@@ -452,7 +453,6 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFormat( format );
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				ENCODING_UTF8 );
-		( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
 		task.setRenderOption( options );
 		task.run( );
 		task.close( );
@@ -562,7 +562,10 @@ public abstract class EngineCase extends TestCase
 		options.setOutputFormat( format );
 		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				encoding );
-		( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
+		if ( !format.equalsIgnoreCase( "pdf" ) )
+		{
+			( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
+		}
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
