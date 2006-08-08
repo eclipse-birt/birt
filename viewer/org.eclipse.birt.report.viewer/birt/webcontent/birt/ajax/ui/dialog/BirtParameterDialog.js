@@ -295,6 +295,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								//oIEC[j+1].value = "";
 								k++;	            
 							}
+							
+							// set display text for the List type parameter with entered value
+							if( !this.__parameter[k] )
+							{
+								this.__parameter[k] = { };
+							}
+							this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
+							this.__parameter[k].value = oIEC[j+1].value;
+							k++;
 						}
 						else if( oSEC[0] )
 						{
