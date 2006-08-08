@@ -25,6 +25,8 @@ class ResultIterator2 extends ResultIterator
 	
 	private int currRowIndex;
 	
+	private int cachedStartingGroupLevel;
+
 	/**
 	 * @param context
 	 * @param queryResults
@@ -41,6 +43,7 @@ class ResultIterator2 extends ResultIterator
 
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
+		this.cachedStartingGroupLevel = 0;
 	}
 
 	/*
@@ -63,9 +66,22 @@ class ResultIterator2 extends ResultIterator
 		// row
 		this.odiResult.last( lowestGroupLevel );
 		
-		return odiResult.next( );
+		boolean result = odiResult.next( );
+
+		if ( result )
+			cachedStartingGroupLevel = odiResult.getStartingGroupLevel( );
+		
+		return result;
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
+	 */
+	public int getStartingGroupLevel( ) throws DataException
+	{
+		return cachedStartingGroupLevel;		
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getEndingGroupLevel()
 	 */

@@ -26,6 +26,8 @@ public class ResultIterator2 extends ResultIterator
 	
 	private int currRowIndex;
 	
+	private int cachedStartingGroupLevel;
+
 	/**
 	 * @param context
 	 * @param queryResults
@@ -40,6 +42,7 @@ public class ResultIterator2 extends ResultIterator
 		
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
+		this.cachedStartingGroupLevel = 0;
 	}
 	
 	/*
@@ -52,9 +55,20 @@ public class ResultIterator2 extends ResultIterator
 
 		boolean hasNext = super.next( );
 		if ( hasNext )
+		{
 			currRowIndex++;
+			cachedStartingGroupLevel = exprResultSet.getStartingGroupLevel( );
+		}
 
 		return hasNext;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
+	 */
+	public int getStartingGroupLevel( ) throws DataException
+	{
+		return cachedStartingGroupLevel;		
 	}
 	
 	/*
