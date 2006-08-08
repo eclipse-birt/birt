@@ -45,10 +45,6 @@ from CLASSICMODELS.CUSTOMERS</property>
         <joint-data-set name="jointds3">
         <!--<property-list name="sourceatasets">
         </property-list >-->
-        <list-property name="joinConditions">
-        <structure>  
-        </structure>   
-        </list-property>
         </joint-data-set>
     </data-sets>
     <page-setup>
