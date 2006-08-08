@@ -33,7 +33,8 @@ public interface IScalarParameterDefn extends IParameterDefn
 	public static final int TYPE_FLOAT = 2;
 	public static final int TYPE_DECIMAL = 3;
 	public static final int TYPE_DATE_TIME = 4;
-	public static final int TYPE_BOOLEAN=5;
+	public static final int TYPE_BOOLEAN = 5;
+	public static final int TYPE_INTEGER = 6;
 	
 	public static final int SELECTION_LIST_NONE = 0;
 	public static final int SELECTION_LIST_DYNAMIC = 1;

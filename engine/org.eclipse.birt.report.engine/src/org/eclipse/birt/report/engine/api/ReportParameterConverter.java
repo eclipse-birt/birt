@@ -285,6 +285,52 @@ public class ReportParameterConverter
 					parameterValueObj = Boolean.valueOf( reportParameterValue );
 					break;
 				}
+				
+				//can use class DataTypeUtil to convert
+				case IScalarParameterDefn.TYPE_INTEGER:
+				{
+					NumberFormatter nf = new NumberFormatter( locale );
+					
+					if ( format != null )
+					{
+						nf.applyPattern( format );
+					}
+					
+					try
+					{
+						Number num = nf.parse( reportParameterValue );
+						
+						if ( num != null )
+						{
+							parameterValueObj = new Integer( num.intValue( ) );
+						}
+					}
+					catch( ParseException ex )
+					{
+						nf.applyPattern( "General Number" );
+						
+						try
+						{
+							Number num = nf.parse( reportParameterValue );
+							
+							if ( num != null )
+							{
+								parameterValueObj = new Integer( num.intValue( ) );
+							}
+						}
+						catch( ParseException pex )
+						{
+							try
+							{
+								parameterValueObj = new Integer( reportParameterValue );
+							}
+							catch( NumberFormatException nfe )
+							{
+								parameterValueObj = null;
+							}
+						}
+					}
+				}
 			}
 		}
 		

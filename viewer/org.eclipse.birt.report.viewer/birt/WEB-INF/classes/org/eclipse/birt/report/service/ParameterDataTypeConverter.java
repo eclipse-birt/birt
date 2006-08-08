@@ -28,6 +28,9 @@ public class ParameterDataTypeConverter
 		} else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
 			return IScalarParameterDefn.TYPE_STRING;
+		} else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+		{
+			return IScalarParameterDefn.TYPE_INTEGER;
 		}
 		return IScalarParameterDefn.TYPE_ANY;
 	}

@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.114 $ $Date: 2006/06/29 09:21:11 $
+ * @version $Revision: 1.115 $ $Date: 2006/08/02 09:12:19 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -689,6 +689,8 @@ class EngineIRVisitor extends DesignVisitor
 			scalarParameter.setDataType( IScalarParameterDefn.TYPE_FLOAT );
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( valueType ) )
 			scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
+			scalarParameter.setDataType( IScalarParameterDefn.TYPE_INTEGER );
 		else
 			scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
 
