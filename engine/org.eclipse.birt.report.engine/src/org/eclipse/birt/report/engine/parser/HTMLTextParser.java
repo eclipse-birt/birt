@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Properties;
@@ -36,7 +37,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.8 $ $Date: 2005/12/23 06:37:23 $
+ * @version $Revision: 1.9 $ $Date: 2006/03/08 02:51:02 $
  */
 public class HTMLTextParser
 {
@@ -55,6 +56,9 @@ public class HTMLTextParser
 	/**
 	 * Initializes and sets configuration
 	 */
+	
+	protected static Properties props;
+	
 	static
 	{
 		supportedTags.add( "a" ); //$NON-NLS-1$
@@ -89,6 +93,17 @@ public class HTMLTextParser
 		supportedTags.add( "ul" ); //$NON-NLS-1$
 		supportedTags.add( "tt" ); //$NON-NLS-1$
 		supportedTags.add( "u" ); //$NON-NLS-1$
+		
+		props = new Properties( );
+		try
+		{
+			props.load( HTMLTextParser.class.getResourceAsStream(
+					"htmlparser.properties" ) );//$NON-NLS-1$
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage(), ex );
+		} 
 	}
 	/** For heading level */
 	private static Pattern hn = Pattern.compile( "h[\\d]" ); //$NON-NLS-1$
@@ -102,19 +117,8 @@ public class HTMLTextParser
 	 */
 	public HTMLTextParser( )
 	{
-		try
-		{
-			Properties props = new Properties( );
-			props.load( getClass( ).getResourceAsStream(
-					"htmlparser.properties" ) ); //$NON-NLS-1$
-
-			tidy.setConfigurationFromProps( props );
-			supportAllTags = true;
-		}
-		catch ( Exception ex )
-		{
-		    logger.log( Level.SEVERE, ex.getMessage(), ex );
-		}
+		tidy.setConfigurationFromProps( props );
+		supportAllTags = true;
 	}
 
 	/**
