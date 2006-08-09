@@ -45,13 +45,13 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Exception is thrown out when a three-line text is set to X Axis title
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * No exception is thrown out when a three-line text is set to X Axis title
- * 
+ * </p>
  */
 
 public class Regression_104627 extends ChartTestCase

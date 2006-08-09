@@ -45,14 +45,14 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * If the chart title is set to a multiline characters like "abc\ndef", the
  * chart title is displayed as "def\nabc"
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * The multi-line title can work correctly
- * 
+ * </p>
  */
 
 public class Regression_106126 extends ChartTestCase

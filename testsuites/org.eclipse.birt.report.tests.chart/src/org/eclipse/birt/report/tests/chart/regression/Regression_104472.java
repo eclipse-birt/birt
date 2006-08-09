@@ -51,13 +51,15 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
- * If the anchor of the Y Axis Marker line label is set to east, it does not take effect
- * 
+ * </p>
+ * If the anchor of the Y Axis Marker line label is set to east, it does not
+ * take effect
+ * </p>
  * Test description:
- * 
- * If the anchor of the Y Axis Marker line label is set to east, it can take effect
- * 
+ * </p>
+ * If the anchor of the Y Axis Marker line label is set to east, it can take
+ * effect
+ * </p>
  */
 
 public class Regression_104472 extends ChartTestCase

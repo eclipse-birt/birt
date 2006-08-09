@@ -51,13 +51,13 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * The property of scatter chart "Show Lines as Curves" exist, but does not work
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * The property of scatter chart "Show Lines as Curves" works
- * 
+ * </p>
  */
 
 public class Regression_120557 extends ChartTestCase

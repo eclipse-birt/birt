@@ -49,13 +49,13 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Expressions don't work to explode the pie
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * Expressions do work to explode the pie
- * 
+ * </p>
  */
 
 public class Regression_122807 extends ChartTestCase

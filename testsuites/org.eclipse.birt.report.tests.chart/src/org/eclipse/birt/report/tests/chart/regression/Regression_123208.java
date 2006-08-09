@@ -46,15 +46,15 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Exception is thrown out when the position of 2D bar series label is set as
  * "inside"
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * No exception is thrown out when the position of 2D bar series label is set as
  * "inside"
- * 
+ * </p>
  */
 
 public class Regression_123208 extends ChartTestCase

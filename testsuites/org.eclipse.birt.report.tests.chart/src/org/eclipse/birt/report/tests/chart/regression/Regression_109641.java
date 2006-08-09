@@ -26,41 +26,32 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Exception is thrown out when have one or more data points missing from a
  * series
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * The chart allows missing values and no exception is thrown out when have one
  * or more data points missing from a series
- * 
+ * </p>
  */
 
 public class Regression_109641 extends ChartTestCase
@@ -112,7 +103,7 @@ public class Regression_109641 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createChart( );
-        bindGroupingData( cm );
+		bindGroupingData( cm );
 
 		BufferedImage img = new BufferedImage( 500, 500,
 				BufferedImage.TYPE_INT_ARGB );
@@ -148,165 +139,139 @@ public class Regression_109641 extends ChartTestCase
 
 	private void bindGroupingData( Chart chart )
 
-    {
+	{
 
-           // Data Set
+		// Data Set
 
-           final Object[][] data = new Object[][]{
-                         {
-                        	 "Chicago", new Integer( 1980 ), new Double(2783726)
-                         }, {
-                        	 "New York", new Integer( 1980 ), new Double(7322564)
-                         }, {
-                        	 "Los Angeles", new Integer( 1990 ), new Double(4694820)
-                         }, {
-                        	 "Chicago", new Integer( 1990 ), new Double(3196016)
-                         }, {
-                        	 "New York", new Integer( 1990 ), new Double(8008278)
-                         }, {
-                        	 "Los Angeles", new Integer( 2000 ), new Double(6819951)
-                         }, {
-                        	 "Chicago", new Integer( 2000 ), new Double(2569121)
-                         }, {
-                        	 "New York", new Integer( 2000 ), new Double(8085742)
-                         }, 
-           };
-           try
-           {
-                  Generator gr = Generator.instance( );
-                  gr.bindData( new IDataRowExpressionEvaluator( ) {
-                         int idx = 0;
-                         public void close( )
-                         {
-                         }
-                         public Object evaluate( String expression )
-                         {
-                                if ( "X".equals( expression ) )
-                                {
-                                       return data[idx][1];
-                                }
-                                else if ( "Y".equals( expression ) )
-                                {
-                                       return data[idx][2];
-                                }
-                                else if ( "G".equals( expression ) )
-                                {
-                                       return data[idx][0];
-                                }
-                                return null;
-                         }
+		final Object[][] data = new Object[][]{
+				{"Chicago", new Integer( 1980 ), new Double( 2783726 )},
+				{"New York", new Integer( 1980 ), new Double( 7322564 )},
+				{"Los Angeles", new Integer( 1990 ), new Double( 4694820 )},
+				{"Chicago", new Integer( 1990 ), new Double( 3196016 )},
+				{"New York", new Integer( 1990 ), new Double( 8008278 )},
+				{"Los Angeles", new Integer( 2000 ), new Double( 6819951 )},
+				{"Chicago", new Integer( 2000 ), new Double( 2569121 )},
+				{"New York", new Integer( 2000 ), new Double( 8085742 )},};
+		try
+		{
+			Generator gr = Generator.instance( );
+			gr.bindData( new IDataRowExpressionEvaluator( ) {
 
-                         public Object evaluateGlobal( String expression )
-                         {
-                                return evaluate( expression );
-                         }
+				int idx = 0;
 
-                         public boolean first( )
-                         {
-                                idx = 0;
-                                return true;
-                         }
+				public void close( )
+				{
+				}
 
-                         public boolean next( )
-                         {
-                                idx++;
-                                return ( idx < 7 );
-                         }
-                  }, chart, new RunTimeContext( ) );
+				public Object evaluate( String expression )
+				{
+					if ( "X".equals( expression ) )
+					{
+						return data[idx][1];
+					}
+					else if ( "Y".equals( expression ) )
+					{
+						return data[idx][2];
+					}
+					else if ( "G".equals( expression ) )
+					{
+						return data[idx][0];
+					}
+					return null;
+				}
 
-           }
+				public Object evaluateGlobal( String expression )
+				{
+					return evaluate( expression );
+				}
 
-           catch ( ChartException e )
-           {
-                  e.printStackTrace( );
-           }
-    }
+				public boolean first( )
+				{
+					idx = 0;
+					return true;
+				}
 
+				public boolean next( )
+				{
+					idx++;
+					return ( idx < 7 );
+				}
+			}, chart, new RunTimeContext( ) );
 
+		}
 
-    private Chart createChart( )
+		catch ( ChartException e )
+		{
+			e.printStackTrace( );
+		}
+	}
 
-    {
+	private Chart createChart( )
 
-           ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+	{
 
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
+		// X-Axis
 
-           // X-Axis
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
 
-           Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 
-           xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		// Y-Axis
 
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
 
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 
-           // Y-Axis
+		// X-Series
 
-           Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+		Series seCategory = SeriesImpl.create( );
 
-           yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		Query xQ = QueryImpl.create( "G" );
 
+		seCategory.getDataDefinition( ).add( xQ );
 
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 
-           // X-Series
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 
-           Series seCategory = SeriesImpl.create( );
+		sdX.getSeries( ).add( seCategory );
 
-           Query xQ = QueryImpl.create( "G" );
+		// -------------------------------------------------------------
 
-           seCategory.getDataDefinition( ).add( xQ );
+		sdX.setSorting( SortOption.ASCENDING_LITERAL );
 
+		sdX.getGrouping( ).setEnabled( true );
 
+		sdX.getGrouping( ).setGroupType( DataType.TEXT_LITERAL );
 
-           SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getGrouping( ).setAggregateExpression( "Sum" );
 
-           xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getGrouping( ).setGroupingInterval( 0 );
 
-           sdX.getSeries( ).add( seCategory );
+		// -------------------------------------------------------------
 
+		// Y-Series
 
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
 
-           // -------------------------------------------------------------
+		bs.getLabel( ).setVisible( false );
 
-           sdX.setSorting( SortOption.ASCENDING_LITERAL );
+		Query yQ = QueryImpl.create( "Y" );
 
-           sdX.getGrouping( ).setEnabled( true );
+		bs.getDataDefinition( ).add( yQ );
 
-           sdX.getGrouping( ).setGroupType( DataType.TEXT_LITERAL );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 
-           sdX.getGrouping( ).setAggregateExpression( "Sum" );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 
-           sdX.getGrouping( ).setGroupingInterval( 0 );
+		sdY.getSeriesPalette( ).update( 0 );
 
-           // -------------------------------------------------------------
+		sdY.getSeries( ).add( bs );
 
+		return cwaBar;
 
-
-           // Y-Series
-
-           BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-
-           bs.getLabel( ).setVisible( false );
-
-           Query yQ = QueryImpl.create( "Y" );
-
-           bs.getDataDefinition( ).add( yQ );
-
-
-
-           SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-
-           yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-
-           sdY.getSeriesPalette( ).update( 0 );
-
-           sdY.getSeries( ).add( bs );
-
-
-
-           return cwaBar;
-
-    }
-
+	}
 
 }

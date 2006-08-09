@@ -71,14 +71,14 @@ import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Regression description:
- * 
+ * </p>
  * When the user select a pie slice the pie slice does not make any changes
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * When the user select a pie slice the pie slice changes color indicating that
  * it has been selected
- * 
+ * </p>
  */
 
 public final class Regression_108965_swing extends JPanel
@@ -555,10 +555,10 @@ public final class Regression_108965_swing extends JPanel
 		lg.setBackground( null );
 		lg.getOutline( ).setVisible( true );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
-//		lg.getTriggers( ).add(
-//				TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-//						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
-//								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
+		// lg.getTriggers( ).add(
+		// TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+		// ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
+		// SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
 
 		// Title
 		cwoaPie.getTitle( ).getLabel( ).getCaption( ).setValue( "Pie Chart" ); //$NON-NLS-1$
@@ -585,10 +585,9 @@ public final class Regression_108965_swing extends JPanel
 		sePie.setDataSet( seriesOneValues );
 		sePie.setSeriesIdentifier( "Cities" ); //$NON-NLS-1$
 
-		Trigger triger = TriggerImpl.create(
-				TriggerCondition.ONCLICK_LITERAL, ActionImpl.create(
-						ActionType.HIGHLIGHT_LITERAL, SeriesValueImpl
-								.create( "not-used" ) ) );
+		Trigger triger = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+				ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
+						SeriesValueImpl.create( "not-used" ) ) );
 		sePie.getTriggers( ).add( triger );
 
 		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );

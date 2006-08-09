@@ -25,23 +25,15 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.DateTimeDataSet;
-import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
@@ -50,19 +42,17 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
-import com.ibm.icu.util.Calendar;
-
 /**
  * Regression description:
- * 
+ * </p>
  * If you create a bar chart with date type for the X Axis and use the group by
  * day and set interval to 1, the result is not correct
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * If you create a bar chart with date type for the X Axis and use the group by
  * day and set interval to 1, there will be only one group left
- * 
+ * </p>
  */
 
 public class Regression_120919 extends ChartTestCase
@@ -147,241 +137,223 @@ public class Regression_120919 extends ChartTestCase
 		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
-//	/**
-//	 * Creates a bar chart model as a reference implementation
-//	 * 
-//	 * @return An instance of the simulated runtime chart model (containing
-//	 *         filled datasets)
-//	 */
-//	public static final Chart createBarChart( )
-//	{
-//		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-//
-//		// Chart Type
-//		cwaBar.setType( "Bar Chart" );
-//
-//		// Title
-//		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
-//				"Computer Hardware Sales" ); //$NON-NLS-1$
-//		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-//
-//		// Legend
-//		Legend lg = cwaBar.getLegend( );
-//		lg.setVisible( false );
-//
-//		// X-Axis
-//		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes( )[0];
-//		xAxisPrimary.getTitle( ).setVisible( false );
-//
-//		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-//		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-//		xAxisPrimary.getLabel( ).getCaption( ).setColor(
-//				ColorDefinitionImpl.GREEN( ).darker( ) );
-//
-//		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 45 );
-//
-//		// Y-Axis
-//		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
-//				.getPrimaryOrthogonalAxis( xAxisPrimary );
-//		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-//		yAxisPrimary.getLabel( ).getCaption( ).setColor(
-//				ColorDefinitionImpl.BLUE( ) );
-//
-//		yAxisPrimary.getTitle( ).setVisible( false );
-//		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-//		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-//
-//		// Data Set
-//		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-//				.create( new Calendar[]{new CDateTime( 2005, 4, 1, 10, 12 ),
-//						new CDateTime( 2005, 4, 1, 11, 15 ),
-//						new CDateTime( 2005, 4, 1, 7, 15 )} );
-//		NumberDataSet dsNumericValues1 = NumberDataSetImpl
-//				.create( new double[]{143.26, 156.55, 95.25} );
-//
-//		// X-Series
-//		Series seBase = SeriesImpl.create( );
-//		seBase.setDataSet( dsDateValues );
-//
-//		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-//		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-//		sdX.setSorting( SortOption.DESCENDING_LITERAL );
-//		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-//		sdX.getSeries( ).add( seBase );
-//
-//		sdX.getGrouping( ).setEnabled( true );
-//		sdX.getGrouping( ).setGroupType( DataType.get( 1 ) );
-//		sdX.getGrouping( ).setGroupingUnit( GroupingUnitType.get( 3 ) );
-//		sdX.getGrouping( ).setGroupingInterval( 1 );
-//		sdX.getGrouping( ).setAggregateExpression( "Sum" );
-//
-//		// Y-Series
-//		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-//		bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-//		bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-//		bs.getLabel( ).setVisible( true );
-//		bs.setDataSet( dsNumericValues1 );
-//		bs.setStacked( true );
-//
-//		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-//		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-//		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
-//		sdY.getSeries( ).add( bs );
-//
-//		return cwaBar;
-//
-//	}
-	
+	// /**
+	// * Creates a bar chart model as a reference implementation
+	// *
+	// * @return An instance of the simulated runtime chart model (containing
+	// * filled datasets)
+	// */
+	// public static final Chart createBarChart( )
+	// {
+	// ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+	//
+	// // Chart Type
+	// cwaBar.setType( "Bar Chart" );
+	//
+	// // Title
+	// cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
+	// "Computer Hardware Sales" ); //$NON-NLS-1$
+	// cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+	//
+	// // Legend
+	// Legend lg = cwaBar.getLegend( );
+	// lg.setVisible( false );
+	//
+	// // X-Axis
+	// Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes(
+	// )[0];
+	// xAxisPrimary.getTitle( ).setVisible( false );
+	//
+	// xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+	// xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+	// xAxisPrimary.getLabel( ).getCaption( ).setColor(
+	// ColorDefinitionImpl.GREEN( ).darker( ) );
+	//
+	// xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 45 );
+	//
+	// // Y-Axis
+	// Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
+	// .getPrimaryOrthogonalAxis( xAxisPrimary );
+	// yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" );
+	// //$NON-NLS-1$
+	// yAxisPrimary.getLabel( ).getCaption( ).setColor(
+	// ColorDefinitionImpl.BLUE( ) );
+	//
+	// yAxisPrimary.getTitle( ).setVisible( false );
+	// yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+	// yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+	//
+	// // Data Set
+	// DateTimeDataSet dsDateValues = DateTimeDataSetImpl
+	// .create( new Calendar[]{new CDateTime( 2005, 4, 1, 10, 12 ),
+	// new CDateTime( 2005, 4, 1, 11, 15 ),
+	// new CDateTime( 2005, 4, 1, 7, 15 )} );
+	// NumberDataSet dsNumericValues1 = NumberDataSetImpl
+	// .create( new double[]{143.26, 156.55, 95.25} );
+	//
+	// // X-Series
+	// Series seBase = SeriesImpl.create( );
+	// seBase.setDataSet( dsDateValues );
+	//
+	// SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+	// sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+	// sdX.setSorting( SortOption.DESCENDING_LITERAL );
+	// xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+	// sdX.getSeries( ).add( seBase );
+	//
+	// sdX.getGrouping( ).setEnabled( true );
+	// sdX.getGrouping( ).setGroupType( DataType.get( 1 ) );
+	// sdX.getGrouping( ).setGroupingUnit( GroupingUnitType.get( 3 ) );
+	// sdX.getGrouping( ).setGroupingInterval( 1 );
+	// sdX.getGrouping( ).setAggregateExpression( "Sum" );
+	//
+	// // Y-Series
+	// BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+	// bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+	// bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+	// bs.getLabel( ).setVisible( true );
+	// bs.setDataSet( dsNumericValues1 );
+	// bs.setStacked( true );
+	//
+	// SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+	// yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+	// sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
+	// sdY.getSeries( ).add( bs );
+	//
+	// return cwaBar;
+	//
+	// }
+
 	private void bindGroupingData( Chart chart )
 
-    {
+	{
 
-           // Data Set
+		// Data Set
 
-           final Object[][] data = new Object[][]{
-                         {
-                        	 new CDateTime( 2005, 4, 1, 10, 12 ), new Double(143.26)
-                         }, {
-                        	 new CDateTime( 2005, 4, 1, 11, 15 ), new Double(156.55)
-                         }, {
-                        	 new CDateTime( 2005, 4, 1, 7, 15 ),  new Double(95.25)
-                         }, 
-           };
-           try
-           {
-                  Generator gr = Generator.instance( );
-                  gr.bindData( new IDataRowExpressionEvaluator( ) {
-                         int idx = 0;
-                         public void close( )
-                         {
-                         }
-                         public Object evaluate( String expression )
-                         {
-                                if ( "X".equals( expression ) )
-                                {
-                                       return data[idx][0];
-                                }
-                                else if ( "Y".equals( expression ) )
-                                {
-                                       return data[idx][1];
-                                }
-                                else if ( "G".equals( expression ) )
-                                {
-                                       return data[idx][0];
-                                }
-                                return null;
-                         }
+		final Object[][] data = new Object[][]{
+				{new CDateTime( 2005, 4, 1, 10, 12 ), new Double( 143.26 )},
+				{new CDateTime( 2005, 4, 1, 11, 15 ), new Double( 156.55 )},
+				{new CDateTime( 2005, 4, 1, 7, 15 ), new Double( 95.25 )},};
+		try
+		{
+			Generator gr = Generator.instance( );
+			gr.bindData( new IDataRowExpressionEvaluator( ) {
 
-                         public Object evaluateGlobal( String expression )
-                         {
-                                return evaluate( expression );
-                         }
+				int idx = 0;
 
-                         public boolean first( )
-                         {
-                                idx = 0;
-                                return true;
-                         }
+				public void close( )
+				{
+				}
 
-                         public boolean next( )
-                         {
-                                idx++;
-                                return ( idx < 2 );
-                         }
-                  }, chart, new RunTimeContext( ) );
+				public Object evaluate( String expression )
+				{
+					if ( "X".equals( expression ) )
+					{
+						return data[idx][0];
+					}
+					else if ( "Y".equals( expression ) )
+					{
+						return data[idx][1];
+					}
+					else if ( "G".equals( expression ) )
+					{
+						return data[idx][0];
+					}
+					return null;
+				}
 
-           }
+				public Object evaluateGlobal( String expression )
+				{
+					return evaluate( expression );
+				}
 
-           catch ( ChartException e )
-           {
-                  e.printStackTrace( );
-           }
-    }
+				public boolean first( )
+				{
+					idx = 0;
+					return true;
+				}
 
+				public boolean next( )
+				{
+					idx++;
+					return ( idx < 2 );
+				}
+			}, chart, new RunTimeContext( ) );
 
+		}
 
-    private Chart createChart( )
+		catch ( ChartException e )
+		{
+			e.printStackTrace( );
+		}
+	}
 
-    {
+	private Chart createChart( )
 
-           ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+	{
 
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
+		// X-Axis
 
-           // X-Axis
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
 
-           Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 
-           xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		// Y-Axis
 
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
 
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 
-           // Y-Axis
+		// X-Series
 
-           Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+		Series seCategory = SeriesImpl.create( );
 
-           yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		Query xQ = QueryImpl.create( "G" );
 
+		seCategory.getDataDefinition( ).add( xQ );
 
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 
-           // X-Series
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 
-           Series seCategory = SeriesImpl.create( );
+		sdX.getSeries( ).add( seCategory );
 
-           Query xQ = QueryImpl.create( "G" );
+		// -------------------------------------------------------------
 
-           seCategory.getDataDefinition( ).add( xQ );
+		// sdX.setSorting( SortOption.ASCENDING_LITERAL );
 
+		sdX.getGrouping( ).setEnabled( true );
 
+		sdX.getGrouping( ).setGroupType( DataType.DATE_TIME_LITERAL );
 
-           SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		sdX.getGrouping( ).setAggregateExpression( "Sum" );
+		sdX.getGrouping( ).setGroupingUnit( GroupingUnitType.get( 3 ) );
 
-           xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getGrouping( ).setGroupingInterval( 1 );
 
-           sdX.getSeries( ).add( seCategory );
+		// -------------------------------------------------------------
 
+		// Y-Series
 
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
 
-           // -------------------------------------------------------------
+		bs.getLabel( ).setVisible( false );
 
-//           sdX.setSorting( SortOption.ASCENDING_LITERAL );
+		Query yQ = QueryImpl.create( "Y" );
 
-           sdX.getGrouping( ).setEnabled( true );
+		bs.getDataDefinition( ).add( yQ );
 
-           sdX.getGrouping( ).setGroupType( DataType.DATE_TIME_LITERAL );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 
-           sdX.getGrouping( ).setAggregateExpression( "Sum" );
-           sdX.getGrouping( ).setGroupingUnit( GroupingUnitType.get( 3 ) );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 
-           sdX.getGrouping( ).setGroupingInterval( 1 );
+		sdY.getSeriesPalette( ).update( 0 );
 
-           // -------------------------------------------------------------
+		sdY.getSeries( ).add( bs );
 
+		return cwaBar;
 
-
-           // Y-Series
-
-           BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-
-           bs.getLabel( ).setVisible( false );
-
-           Query yQ = QueryImpl.create( "Y" );
-
-           bs.getDataDefinition( ).add( yQ );
-
-
-
-           SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-
-           yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-
-           sdY.getSeriesPalette( ).update( 0 );
-
-           sdY.getSeries( ).add( bs );
-
-
-
-           return cwaBar;
-
-    }
+	}
 }

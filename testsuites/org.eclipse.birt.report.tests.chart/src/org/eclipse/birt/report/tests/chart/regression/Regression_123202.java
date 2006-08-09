@@ -45,13 +45,13 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Outline of chart area is not displayed completely
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * Outline of chart area can be displayed completely
- * 
+ * </p>
  */
 
 public class Regression_123202 extends ChartTestCase

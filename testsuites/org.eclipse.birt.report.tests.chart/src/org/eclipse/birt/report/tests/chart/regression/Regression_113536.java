@@ -49,14 +49,14 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * The pie chart always stretches to use the available space, whick makes it
  * difficult to have a circle or fix a ratio
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * The pie chart can have a fixed ratio
- * 
+ * </p>
  */
 
 public class Regression_113536 extends ChartTestCase

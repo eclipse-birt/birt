@@ -47,13 +47,13 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Exception is thrown out when the title for the second Y Axis is added
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * No exception is thrown out when the title for the second Y Axis is added
- * 
+ * </p>
  */
 
 public class Regression_103787 extends ChartTestCase
