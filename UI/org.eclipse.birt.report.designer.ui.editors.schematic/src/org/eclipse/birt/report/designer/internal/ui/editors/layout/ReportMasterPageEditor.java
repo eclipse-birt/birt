@@ -43,10 +43,14 @@ public class ReportMasterPageEditor extends
 	protected void initializeGraphicalViewer( )
 	{
 		super.initializeGraphicalViewer( );
-		setViewContentsAsMasterPage( );
+		//setViewContentsAsMasterPage( );
 
 	}
 
+	protected void setContents( )
+	{
+		setViewContentsAsMasterPage( );
+	}
 	/**
 	 * Set view's contents.
 	 * 

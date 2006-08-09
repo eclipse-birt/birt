@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -269,5 +271,27 @@ public class ListEditPart extends ReportElementEditPart
 			}
 		}
 		return super.isinterest( model ) ;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#contentChange(java.util.Map)
+	 */
+	protected void contentChange( Map info )
+	{
+		int intValue = ((Integer)info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE )).intValue( );
+		if (intValue == ContentEvent.REMOVE)
+		{
+			List list = (List)info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
+			int size = list.size( );
+			for (int i=0;i<size; i++)
+			{
+				Object obj = list.get( i );
+				if (obj instanceof DesignElementHandle)
+				{
+					getListHandleAdapt( ).remove( obj );
+				}
+			}
+		}
+		super.contentChange( info );
 	}
 }

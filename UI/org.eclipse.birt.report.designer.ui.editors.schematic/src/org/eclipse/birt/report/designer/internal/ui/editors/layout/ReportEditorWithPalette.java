@@ -488,10 +488,18 @@ abstract public class ReportEditorWithPalette extends
 
 		if ( getModel( ) != null )
 		{
-			getGraphicalViewer( ).setContents( getModel( ) );
+			setContents( );
 			hookModelEventManager( getModel());
 		}
 		viewer.addDropTargetListener( createTemplateTransferDropTargetListener( viewer ) );
+	}
+	
+	/**
+	 * 
+	 */
+	protected void setContents()
+	{
+		getGraphicalViewer( ).setContents( getModel( ) );
 	}
 	
 	protected void hookModelEventManager(Object model)
