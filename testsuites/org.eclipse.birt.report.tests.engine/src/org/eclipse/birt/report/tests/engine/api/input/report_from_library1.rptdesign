@@ -5,7 +5,7 @@
     <property name="units">in</property>
     <list-property name="libraries">
         <structure>
-            <property name="fileName">/library1.rptlibrary</property>
+            <property name="fileName">library1.rptlibrary</property>
             <property name="namespace">library1</property>
         </structure>
     </list-property>
