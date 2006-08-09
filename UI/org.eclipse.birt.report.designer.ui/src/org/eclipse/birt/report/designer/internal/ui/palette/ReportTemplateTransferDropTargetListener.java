@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -47,6 +48,8 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
+
+import sun.java2d.pipe.OutlineTextRenderer;
 
 /**
  * Drag&Drop listener
@@ -160,7 +163,6 @@ public class ReportTemplateTransferDropTargetListener extends
 			}
 		}
 
-
 		if ( preHandle != null )
 		{
 			SessionHandleAdapter.getInstance( )
@@ -209,7 +211,7 @@ public class ReportTemplateTransferDropTargetListener extends
 						.getReportDesignHandle( )
 						.getCommandStack( )
 						.commit( );
-				
+
 				if ( isScalarparameter || isResultSetColumn )
 				{
 					Request request = new Request( ReportRequest.CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN );
