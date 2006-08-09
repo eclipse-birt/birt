@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
@@ -288,6 +289,17 @@ public class StructureFactory
 	public static JoinCondition createJoinCondition( )
 	{
 		return new JoinCondition( );
+	}
+	
+	/**
+	 * Creates an empty join condition structure.
+	 * 
+	 * @return an empty join condition structure
+	 */
+
+	public static ScriptLib createScriptLib( )
+	{
+		return new ScriptLib( );
 	}
 
 	/**

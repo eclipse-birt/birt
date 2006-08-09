@@ -1804,6 +1804,9 @@
     <Member displayNameID="Structure.OdaDesignerState.stateContentAsString" isIntrinsic="true" name="stateContentAsString" runtimeSettable="true" since="2.1" type="string" />
     <Member displayNameID="Structure.OdaDesignerState.stateContentAsBlob" isIntrinsic="true" name="stateContentAsBlob" returnType="any" runtimeSettable="true" since="2.1" type="string" />
   </Structure>  
+  <Structure displayNameID="Structure.ScriptLib" name="ScriptLib" since="3.2">
+    <Member displayNameID="Structure.ScriptLib.name" isIntrinsic="true" name="name" runtimeSettable="true" since="3.2" type="string" />
+  </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
@@ -1826,6 +1829,7 @@
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
     <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="20." type="structure"/>    
+    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="3.2" type="structure"/>    
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">

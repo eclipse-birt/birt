@@ -1059,6 +1059,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write property bindings
 
 		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
+		
+		// write script libs
+		
+		writeStructureList( obj, Module.SCRIPTLIBS_PROP );
 	}
 
 	/**

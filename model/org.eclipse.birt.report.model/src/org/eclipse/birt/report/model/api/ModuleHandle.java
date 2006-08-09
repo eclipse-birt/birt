@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -1963,8 +1964,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * is cleared.
 	 * 
 	 * {@link #reloadLibrary(LibraryHandle)}
-	 * @throws SemanticException 
-	 * @throws DesignFileException 
+	 * 
+	 * @throws SemanticException
+	 * @throws DesignFileException
 	 */
 
 	public void reloadLibraries( ) throws SemanticException,
@@ -2510,7 +2512,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Gets symbolic name of this module if defined. This property is needed
 	 * when search resources in fragments. Usually it should be the plug-in id
 	 * of the host plug-in.
-	 * @return 
+	 * 
+	 * @return
 	 */
 
 	public String getSymbolicName( )
@@ -2522,8 +2525,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Sets symbolic name of this module. This property is needed when search
 	 * resources in fragments. Usually it should be the plug-in id of the host
 	 * plug-in.
-	 * @param symbolicName 
-	 * @throws SemanticException 
+	 * 
+	 * @param symbolicName
+	 * @throws SemanticException
 	 */
 
 	public void setSymbolicName( String symbolicName ) throws SemanticException
@@ -2540,5 +2544,133 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public URL getSystemId( )
 	{
 		return module.getSystemId( );
+	}
+
+	/**
+	 * Removes special  script lib.
+	 * 
+	 * @param scriptLib
+	 *            script lib
+	 * @throws SemanticException
+	 */
+
+	public void dropScriptLib( ScriptLib scriptLib ) throws SemanticException
+	{
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+
+		if ( scriptLib == null )
+			return;
+
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLib );
+	}
+
+	/**
+	 * Removes all  script libs.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void dropAllScriptLibs( ) throws SemanticException
+	{
+		List scriptLibs = getListProperty( SCRIPTLIBS_PROP ) ;
+		int count = scriptLibs.size( );
+		for ( int i = count -1 ; i >= 0; --i )
+		{
+			ScriptLib scriptLib = (ScriptLib) scriptLibs.get( i );
+			dropScriptLib( scriptLib );
+		}
+	}
+	
+	/**
+	 * Returns the iterator over all script libs. Each one is the instance
+	 * of <code>ScriptLibHandle</code>.
+	 * <p>
+	 * 
+	 * @return the iterator over script libs.
+	 * @see ScriptLibHandle
+	 */
+
+	public Iterator scriptLibsIterator( )
+	{
+		return getFilteredStructureList( SCRIPTLIBS_PROP,
+				ScriptLib.SCRIPTLIB_NAME_MEMBER ).iterator( );
+	}
+
+	/**
+	 * Returns all script libs.
+	 * 
+	 * @return list which structure is <code>ScriptLib</code>
+	 */
+	
+	public List getAllScriptLibs( )
+	{
+		return getListProperty( SCRIPTLIBS_PROP );
+	}
+
+	/**
+	 * Gets script lib though name
+	 * 
+	 * @param name
+	 *            name of script lib
+	 * @return script lib
+	 */
+	
+	public ScriptLib findScriptLib( String name )
+	{
+		List scriptLibs = getListProperty( SCRIPTLIBS_PROP );
+		for( int i=0 ; scriptLibs!= null && i< scriptLibs.size( ); ++ i )
+		{
+			ScriptLib scriptLib = (ScriptLib)scriptLibs.get( i );
+			if( scriptLib.getName( ).equals( name ))
+			{
+				return scriptLib;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Shifts jar file from source position to destination position.
+	 * 
+	 * @param sourceIndex
+	 *            source position
+	 * @param destIndex
+	 *            destination position
+	 * @throws SemanticException
+	 */
+
+	public void shiftScriptLibs( int sourceIndex, int destIndex )
+			throws SemanticException
+	{
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
+	}
+
+	/**
+	 * Add script lib
+	 * 
+	 * @param scriptLib
+	 *            script lib
+	 * @throws SemanticException
+	 */
+
+	public void addScriptLib( ScriptLib scriptLib ) throws SemanticException
+	{
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+
+		if ( scriptLib == null )
+			return;
+
+		if ( StringUtil.isBlank( scriptLib.getName( ) ) )
+		{
+			throw new PropertyValueException( getElement( ), propDefn, scriptLib,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
+		}
+
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
 	}
 }

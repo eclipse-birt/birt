@@ -168,4 +168,10 @@ public interface IModuleModel
 	 */
 
 	public static final String PROPERTY_BINDINGS_PROP = "propertyBindings"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the "scriptLibs" property.
+	 */
+
+	public static final String SCRIPTLIBS_PROP = "scriptLibs"; //$NON-NLS-1$
 }
