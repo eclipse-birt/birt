@@ -170,6 +170,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( "1234.56" ); //$NON-NLS-1$
 
+	private static final int DEFAULT_PREVIEW_INTEGER_NUMBER = 123456;
+
 	private static final String DEFAULT_PREVIEW_STRING = Messages.getString( "CascadingParametersDialog.default.preview.string" ); //$NON-NLS-1$
 
 	private static final String ERROR_TITLE_INVALID_LIST_LIMIT = Messages.getString( "ParameterDialog.ErrorTitle.InvalidListLimit" ); //$NON-NLS-1$
@@ -1586,10 +1588,13 @@ public class CascadingParametersDialog extends BaseDialog
 			formatStr = new DateFormatter( pattern ).format( new Date( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
-				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
-				|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 		{
 			formatStr = new NumberFormatter( pattern ).format( DEFAULT_PREVIEW_NUMBER );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+		{
+			formatStr = new NumberFormatter( pattern ).format( DEFAULT_PREVIEW_INTEGER_NUMBER );
 		}
 
 		previewLable.setText( formatStr );

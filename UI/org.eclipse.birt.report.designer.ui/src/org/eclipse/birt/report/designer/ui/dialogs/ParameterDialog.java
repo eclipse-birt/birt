@@ -2027,6 +2027,12 @@ public class ParameterDialog extends BaseDialog
 							: formatPattern,
 							ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 				}
+				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
+				{
+					previewString = new NumberFormatter( formatCategroy != DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ? formatCategroy
+							: formatPattern,
+							ULocale.getDefault( ) ).format( 1234567890 );
+				}
 				else
 				{
 					previewString = new NumberFormatter( formatCategroy != DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ? formatCategroy
