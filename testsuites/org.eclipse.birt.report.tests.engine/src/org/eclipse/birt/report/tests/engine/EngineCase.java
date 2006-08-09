@@ -731,7 +731,7 @@ public abstract class EngineCase extends TestCase
 
 	// Sample: style="background-image:url(image\file44.jpg)"
 	private final static Pattern PATTERN_BG_IMAGE = Pattern
-			.compile( "background-image[\\s]*: url[(]'image.*'[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
+			.compile( "background-image[\\s]*:url[(]image.*[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	// Sample: src="image/design31"
 	// src="image\file31.jpg"
