@@ -13,6 +13,8 @@ package org.eclipse.birt.core.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
 
@@ -265,6 +267,21 @@ public final class ExpressionUtil
 
 		return oldExpression;
 	}
+	
+	/**
+	 * whether the exression is report paramter reference.The pattern should
+	 * like params["aa"].if yes, return true. else return false;
+	 * 
+	 * @param expression
+	 */
+	public static boolean isScalarParamReference( String expression )
+	{
+		final String PARAM_PATTERN = "params\\[\".+\\\"]";
+		Pattern pattern = Pattern.compile( PARAM_PATTERN );
+		Matcher matcher = pattern.matcher( expression );
+		return matcher.matches( );
+	}
+	
 	/**
 	 * This method is used to provide information necessary for next step parsing.
 	 * 
