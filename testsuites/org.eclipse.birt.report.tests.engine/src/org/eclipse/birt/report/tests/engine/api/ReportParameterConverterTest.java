@@ -95,7 +95,7 @@ public class ReportParameterConverterTest extends EngineCase
 	public void testParse( )
 	{
 		String str1 = "str", date1 = "2005/05/06", bool1 = "true";
-		String int1 = "8", float1 = "3.5", double1 = "1.352";
+		String int1 = "8", float1 = "3.5";
 		ReportParameterConverter converter = new ReportParameterConverter(
 				"(@@)", Locale.US );
 		assertTrue( "parse() fail", converter.parse( str1,
@@ -104,8 +104,9 @@ public class ReportParameterConverterTest extends EngineCase
 				IScalarParameterDefn.TYPE_DATE_TIME ) instanceof Date );
 		assertTrue( "parse() fail", converter.parse( bool1,
 				IScalarParameterDefn.TYPE_BOOLEAN ) instanceof Boolean );
-		// assertTrue("parse()
-		// fail",converter.parse(float1,IScalarParameterDefn.TYPE_FLOAT)
-		// instanceof Float);
+		assertTrue( "parse() fail", converter.parse( float1,
+				IScalarParameterDefn.TYPE_FLOAT ) instanceof Float );
+		assertTrue( "parse() fail", converter.parse( int1,
+				IScalarParameterDefn.TYPE_INTEGER ) instanceof Integer );
 	}
 }

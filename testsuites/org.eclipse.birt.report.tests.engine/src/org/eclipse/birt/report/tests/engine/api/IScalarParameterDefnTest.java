@@ -50,11 +50,18 @@ public class IScalarParameterDefnTest extends EngineCase
 	 */
 	public void testGetDefaultValue( )
 	{
+		// string
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_string" );
 		String golden = "abc", result = "";
 		result = scalarDefn.getDefaultValue( );
 		assertTrue( "Failed to get default value", golden.equals( result ) );
+		// int
+		scalarDefn = (IScalarParameterDefn) paramTask
+				.getParameterDefn( "p_int" );
+		int golden1 = 123, result1 = 0;
+		result1 = Integer.parseInt( scalarDefn.getDefaultValue( ) );
+		assertEquals( "Failed to get default value", golden1, result1 );
 	}
 
 	/*
@@ -224,6 +231,11 @@ public class IScalarParameterDefnTest extends EngineCase
 				.getParameterDefn( "p_datetime_format" );
 		assertEquals( "GetDataType method failed to get string type",
 				IScalarParameterDefn.TYPE_DATE_TIME, scalarDefn.getDataType( ) );
+
+		scalarDefn = (IScalarParameterDefn) paramTask
+				.getParameterDefn( "p_int" );
+		assertEquals( "GetDataType method failed to get integer type",
+				IScalarParameterDefn.TYPE_INTEGER, scalarDefn.getDataType( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_dispform_num" );

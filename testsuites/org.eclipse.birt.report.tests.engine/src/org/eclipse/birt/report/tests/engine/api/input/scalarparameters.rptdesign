@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060714-0934 Build &lt;20060714-0934></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -147,6 +147,16 @@
             <property name="controlType">text-box</property>
             <property name="alignment">right</property>
             <property name="defaultValue">p align</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="p_int" id="18">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">123</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
