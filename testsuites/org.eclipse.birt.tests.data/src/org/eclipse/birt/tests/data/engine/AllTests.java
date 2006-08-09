@@ -54,7 +54,7 @@ public class AllTests extends TestCase
 		suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
 		suite.addTestSuite( ReportDoc_GroupTest.class );
 		suite.addTestSuite( ReportDoc_ParameterTest.class );
-		//suite.addTestSuite( Reg_145508.class );
+		suite.addTestSuite( Reg_145508.class );
 
 		// Acceptance
 		suite.addTestSuite( ColumnAliasTest.class );
@@ -75,7 +75,7 @@ public class AllTests extends TestCase
 		suite.addTestSuite( DsSortTest.class );
 		
 		//Regression
-		/*
+		
 		suite.addTestSuite( Reg_101568.class );
 		suite.addTestSuite( Reg_101810.class );
 		suite.addTestSuite( Reg_101864.class );
@@ -107,17 +107,12 @@ public class AllTests extends TestCase
 		suite.addTestSuite( Reg_122066.class );
 		suite.addTestSuite( Reg_122309.class );
 		suite.addTestSuite( Reg_79505.class );
-		*/
-		//suite.addTestSuite( Regression_145508.class );
+		
+		
 		suite.addTestSuite( Regression_141600.class );
-		//suite.addTestSuite( Regression_139383.class );
+		
 		suite.addTestSuite( Regression_137080.class );
-		//suite.addTestSuite( Regression_136542.class );
-		//suite.addTestSuite( Regression_134458.class );
-		//suite.addTestSuite( Regression_121857.class );
-		//suite.addTestSuite( Regression_74167.class );
-		//suite.addTestSuite( Regression_119309.class );
-		//suite.addTestSuite( Regression_119999.class );
+		
 		suite.addTestSuite( Regression_103152.class );
 		
 		return suite;
