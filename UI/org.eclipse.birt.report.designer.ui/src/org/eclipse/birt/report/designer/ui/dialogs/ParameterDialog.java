@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1833,9 +1832,8 @@ public class ParameterDialog extends BaseDialog
 			}
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN );
-				Date date = formatter.parse( string );
-				formatter.applyPattern( pattern );
+				Date date = DataTypeUtil.toDate( string, ULocale.US );
+				DateFormatter formatter = new DateFormatter( pattern );
 				string = formatter.format( date );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
@@ -1855,9 +1853,6 @@ public class ParameterDialog extends BaseDialog
 		catch ( BirtException e )
 		{
 			// e.printStackTrace( );
-		}
-		catch ( ParseException e )
-		{
 		}
 		return string;
 	}
@@ -2165,15 +2160,11 @@ public class ParameterDialog extends BaseDialog
 
 		String choiceValue = choice.getValue( );
 		String defaultValue = convertToStandardFormat( this.defaultValue );
-		// if ( choice != dummyChoice )
+		if ( canBeNull( ) && choiceValue == null && defaultValue == null )
 		{
-			if ( canBeNull( ) && choiceValue == null && defaultValue == null )
-			{
-				return true;
-			}
-			return choiceValue != null && isEqual( choiceValue, defaultValue );
+			return true;
 		}
-		// return false;
+		return choiceValue != null && isEqual( choiceValue, defaultValue );
 	}
 
 	private boolean isStatic( )
@@ -2188,7 +2179,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			try
 			{
-				string = new DateFormatter( STANDARD_DATE_TIME_PATTERN ).format( DataTypeUtil.toDate( string,
+				string = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+						ULocale.US ).format( DataTypeUtil.toDate( string,
 						ULocale.US ) );
 			}
 			catch ( BirtException e )

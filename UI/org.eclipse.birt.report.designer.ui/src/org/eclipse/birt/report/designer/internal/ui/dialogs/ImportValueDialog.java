@@ -436,7 +436,8 @@ public class ImportValueDialog extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( column.getDataType( ) ) )
 		{
-			return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
+					|| style.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
 		}
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( column.getDataType( ) ) )
 		{
@@ -444,8 +445,7 @@ public class ImportValueDialog extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
 		{
-			return style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT )
-					|| style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
 		}
 		return false;
 	}
