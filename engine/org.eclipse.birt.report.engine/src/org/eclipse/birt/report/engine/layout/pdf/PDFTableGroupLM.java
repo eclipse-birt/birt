@@ -7,7 +7,6 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
@@ -24,15 +23,11 @@ public class PDFTableGroupLM extends PDFGroupLM
 	protected PDFTableLM tableLM = null;
 
 	public PDFTableGroupLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
-		PDFStackingLM lm = parent;
-		while ( !( lm instanceof PDFTableLM || lm == null ) )
-		{
-			lm = lm.getParent( );
-		}
+		super( context, parent, content, executor );
+		IPDFTableLayoutManager lm = getTableLayoutManager( );
+		assert(lm instanceof PDFTableLM);
 		tableLM = (PDFTableLM) lm;
 		tableLM.startGroup( (IGroupContent) content );
 	}
@@ -113,7 +108,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableLM
-				.getContent( ), emitter, tableLM.getLayoutInfo( ) );
+				.getContent( ), tableLM.getLayoutInfo( ) );
 		regionLM.setBandContent( header );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableLM.getContent( ).getExtension(

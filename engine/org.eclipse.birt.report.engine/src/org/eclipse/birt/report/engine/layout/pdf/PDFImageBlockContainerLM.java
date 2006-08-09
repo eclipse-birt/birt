@@ -4,7 +4,6 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.content.ItemExecutorWrapper;
@@ -16,11 +15,10 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM
 {
 
 	public PDFImageBlockContainerLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
-		child = new PDFLineAreaLM( context, this, emitter,
+		super( context, parent, content, executor );
+		child = new PDFLineAreaLM( context, this,
 				new LineStackingExecutor( new ItemExecutorWrapper( executor,
 						content ), executor ) );
 	}

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -31,10 +30,9 @@ public class PDFTemplateLM extends PDFLeafItemLM
 	protected int maxWidth;
 
 	public PDFTemplateLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content, executor );
 		assert ( content instanceof IAutoTextContent );
 		autoText = (IAutoTextContent) content;
 		maxWidth = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );

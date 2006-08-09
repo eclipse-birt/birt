@@ -16,7 +16,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
@@ -34,10 +33,9 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 	protected boolean repeatHeader = false;
 
 	public PDFTableBandLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content, executor );
 		tbl = getTableLayoutManager( );
 		IElement pContent = content.getParent( );
 

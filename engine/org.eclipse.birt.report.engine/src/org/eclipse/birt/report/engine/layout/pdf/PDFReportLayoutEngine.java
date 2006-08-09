@@ -63,7 +63,9 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		IReportContent report = executor.execute( );
 		if ( output != null )
 		{
+			context.setFormat( output.getOutputFormat( ) );
 			output.start( report );
+			
 		}
 		layoutReport( report, executor, output );
 		if ( output != null )
@@ -77,7 +79,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	{
 		IContent content = executor.execute( );
 		PDFAbstractLM layoutManager = factory.createLayoutManager( null,
-				content, emitter, executor );
+				content, executor );
 		layoutManager.layout( );
 		layoutManager.close( );
 	}

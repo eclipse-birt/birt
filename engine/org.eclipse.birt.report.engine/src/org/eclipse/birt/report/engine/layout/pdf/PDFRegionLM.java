@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -23,9 +22,9 @@ public class PDFRegionLM extends PDFBlockContainerLM
 
 	public PDFRegionLM( PDFLayoutEngineContext context,
 			IContainerArea container, IContent content,
-			IContentEmitter emitter, IReportItemExecutor executor )
+			IReportItemExecutor executor )
 	{
-		super( context, null, content, emitter, executor );
+		super( context, null, content, executor );
 		if ( container != null )
 		{
 			root = (ContainerArea) container;

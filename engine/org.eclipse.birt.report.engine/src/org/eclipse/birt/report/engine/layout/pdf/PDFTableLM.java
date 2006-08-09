@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -118,10 +117,9 @@ public class PDFTableLM extends PDFBlockStackingLM
 	protected Stack groupStack = new Stack( );
 
 	public PDFTableLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content, executor );
 		tableContent = (ITableContent) content;
 		repeatHeader = tableContent.isHeaderRepeat( );
 		columnNumber = tableContent.getColumnCount( );
@@ -861,11 +859,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	private boolean isColumnHidden( IColumn column )
 	{
-		String format = emitter.getOutputFormat( ).toUpperCase( );
+		String format = context.getFormat( );
 		String formats = column.getVisibleFormat( );
 		if ( formats != null
 				&& formats.length( ) > 0
-				&& ( formats.toUpperCase( ).indexOf( format ) >= 0 || formats.toUpperCase( )
+				&& ( formats.toUpperCase( ).indexOf( format.toUpperCase( ) ) >= 0 || formats.toUpperCase( )
 						.indexOf( BIRTConstants.BIRT_ALL_VALUE.toUpperCase( ) ) >= 0 ) )
 		{
 			return true;
@@ -1189,7 +1187,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableContent,
-				emitter, layoutInfo );
+				layoutInfo );
 		regionLM.setBandContent( header );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableContent
@@ -1244,7 +1242,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		con.setFactory( context.getFactory( ) );
 		con.setAllowPageBreak( false );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, content,
-				emitter, layoutInfo );
+				layoutInfo );
 		regionLM.setBandContent( band );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) content

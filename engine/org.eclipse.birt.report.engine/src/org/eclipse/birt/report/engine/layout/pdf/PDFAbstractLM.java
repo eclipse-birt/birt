@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -55,8 +54,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 
 	protected PDFLayoutEngineContext context;
 
-	protected IContentEmitter emitter;
-
 	protected IReportItemExecutor executor;
 
 	/**
@@ -78,33 +75,29 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return content;
 	}
 
-	public IReportItemExecutor getExecutor( )
-	{
-		return this.executor;
-	}
-
 	public PDFAbstractLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
 		this.context = context;
 		this.content = content;
 		this.parent = parent;
-		this.emitter = emitter;
 		this.executor = executor;
 	}
 
 	/**
 	 * layout the content and its children.
 	 * 
-	 * It can be called in three status: 1. start, the first time it is called,
-	 * in this status, it first check if it need page-break-before,
+	 * It can be called in three status:
+	 * <ol> 
+	 * <li> start, the first time it is called. In this status, 
+	 * it first check if it need page-break-before,
 	 * 
-	 * 2. inprogress, the second or more time it is called. In this status, it
+	 * <li> inprogress, the second or more time it is called. In this status, it
 	 * tries to layout the content and its children to the current page.
 	 * 
-	 * 3. end, the last time it is called. In this status, it means all the
+	 * <li> end, the last time it is called. In this status, it means all the
 	 * content has been layout, it is the time to handle the page-break-after.
+	 * </ol>
 	 */
 	public boolean layout( )
 	{
@@ -130,9 +123,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				// we need continue to execute.
 				status = STATUS_INPROGRESS;
 			case STATUS_INPROGRESS :
-				start( );
 				hasNextPage = layoutChildren( );
-				end( );
 				if ( hasNextPage )
 				{
 					// there are sill some content to output,
@@ -149,7 +140,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 					return true;
 				}
 			case STATUS_END :
-				processEndStatus( );
 				return false;
 		}
 		return hasNextPage;
@@ -163,11 +153,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		}
 	}
 
-	protected void processEndStatus( )
-	{
-		start( );
-		end( );
-	}
 
 	protected abstract boolean layoutChildren( );
 
@@ -184,16 +169,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	public PDFStackingLM getParent( )
 	{
 		return this.parent;
-	}
-
-	public void setParent( PDFStackingLM parent )
-	{
-		this.parent = parent;
-	}
-
-	protected IContentEmitter getEmitter( )
-	{
-		return this.emitter;
 	}
 
 	protected PDFLayoutManagerFactory getFactory( )
@@ -219,7 +194,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return false;
 	}
 
-	protected boolean canPageBreak( )
+	private boolean canPageBreak( )
 	{
 		if ( !context.allowPageBreak( ) )
 		{
@@ -278,7 +253,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return false;
 	}
 
-	protected boolean hasMasterPageChanged( )
+	private boolean hasMasterPageChanged( )
 	{
 		if ( content == null )
 		{
@@ -329,7 +304,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return getDefaultMasterPage( report );
 	}
 
-	private MasterPageDesign getDefaultMasterPage( IReportContent report )
+	protected MasterPageDesign getDefaultMasterPage( IReportContent report )
 	{
 		PageSetupDesign pageSetup = report.getDesign( ).getPageSetup( );
 		int pageCount = pageSetup.getMasterPageCount( );
@@ -355,7 +330,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		}
 	}
 
-	protected void traverse( IReportItemExecutor executor )
+	private void traverse( IReportItemExecutor executor )
 	{
 		if ( executor != null )
 		{
@@ -402,10 +377,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		}
 	}
 
-	public void setEmitter( IContentEmitter emitter )
-	{
-		this.emitter = emitter;
-	}
 
 	protected class ReportStackingExecutor implements IReportItemExecutor
 	{
@@ -453,14 +424,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return false;
 	}
 
-	protected void start( )
-	{
-
-	}
-
-	protected void end( )
-	{
-	}
 
 	protected void removeBoxProperty( IStyle style )
 	{
@@ -508,8 +471,8 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		if ( content != null )
 		{
 			IStyle style = content.getComputedStyle( );
-			String formats = style.getVisibleFormat( ).toUpperCase( );
-			String format = emitter.getOutputFormat( ).toUpperCase( );
+			String formats = style.getVisibleFormat( );
+			String format = context.getFormat( );
 			if ( CSSConstants.CSS_NONE_VALUE.equalsIgnoreCase( style
 					.getDisplay( ) )
 					|| ( formats != null && formats.length( ) > 0 && ( formats

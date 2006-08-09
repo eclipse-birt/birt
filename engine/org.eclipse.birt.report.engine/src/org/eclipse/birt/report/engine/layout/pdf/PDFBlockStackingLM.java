@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -39,10 +38,9 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	}
 
 	public PDFBlockStackingLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content, executor );
 	}
 
 	protected boolean traverseChildren( )
@@ -50,7 +48,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		boolean childBreak = false;
 		if ( child != null )
 		{
-			child.setEmitter( emitter );
 			childBreak = child.layout( );
 			if ( childBreak )
 			{
@@ -91,7 +88,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		boolean childBreak = false;
 		IContent childContent = childExecutor.execute( );
 		PDFAbstractLM childLM = getFactory( ).createLayoutManager( this,
-				childContent, emitter, childExecutor );
+				childContent, childExecutor );
 		childBreak = childLM.layout( );
 		if ( childBreak && !childLM.isFinished( ) )
 		{

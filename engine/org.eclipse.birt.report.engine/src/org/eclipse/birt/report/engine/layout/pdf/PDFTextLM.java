@@ -15,12 +15,10 @@ import java.util.HashSet;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ITextLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.pdf.text.Compositor;
-import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 /**
  * 
@@ -45,11 +43,10 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 	private ITextContent textContent = null;
 
 	public PDFTextLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
-		lineLM = (PDFLineAreaLM) getParent( );
+		super( context, parent, content, executor );
+		lineLM = (PDFLineAreaLM) parent;
 
 		ITextContent textContent = (ITextContent) content;
 		String text = textContent.getText( );

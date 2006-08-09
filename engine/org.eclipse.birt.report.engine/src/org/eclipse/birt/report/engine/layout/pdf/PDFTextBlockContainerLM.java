@@ -12,7 +12,6 @@ package org.eclipse.birt.report.engine.layout.pdf;
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.content.ItemExecutorWrapper;
@@ -24,11 +23,11 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 {
 
 	public PDFTextBlockContainerLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IContentEmitter emitter,
+			PDFStackingLM parent, IContent content,
 			IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
-		child = new PDFLineAreaLM( context, this, emitter,
+		super( context, parent, content,  executor );
+		child = new PDFLineAreaLM( context, this, 
 				new LineStackingExecutor( new ItemExecutorWrapper( executor,
 						content ), executor ) );
 	}

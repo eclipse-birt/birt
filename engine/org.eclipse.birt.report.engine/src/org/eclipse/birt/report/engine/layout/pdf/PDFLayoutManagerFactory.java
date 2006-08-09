@@ -33,7 +33,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -54,8 +53,6 @@ public class PDFLayoutManagerFactory
 
 	protected HTML2Content converter = null;
 
-	protected IContentEmitter emitter;
-
 	protected IReportItemExecutor executor;
 
 	public PDFLayoutManagerFactory( PDFLayoutEngineContext context )
@@ -64,15 +61,13 @@ public class PDFLayoutManagerFactory
 	}
 
 	public PDFAbstractLM createLayoutManager( PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
 		this.parent = parent;
-		this.emitter = emitter;
 		this.executor = executor;
 		if ( executor instanceof LineStackingExecutor )
 		{
-			return new PDFLineAreaLM( context, parent, emitter, executor );
+			return new PDFLineAreaLM( context, parent,  executor );
 		}
 		if ( content != null )
 		{
@@ -96,12 +91,12 @@ public class PDFLayoutManagerFactory
 			if ( isInline )
 			{
 				return new PDFTextInlineBlockLM( context, parent, content,
-						emitter, executor );
+						executor );
 			}
 			else
 			{
 				return new PDFBlockContainerLM( context, parent, content,
-						emitter, executor );
+						executor );
 			}
 		}
 
@@ -118,23 +113,23 @@ public class PDFLayoutManagerFactory
 
 		public Object visitTable( ITableContent table, Object value )
 		{
-			return new PDFTableLM( context, parent, table, emitter, executor );
+			return new PDFTableLM( context, parent, table, executor );
 		}
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
 		{
-			return new PDFTableBandLM( context, parent, tableBand, emitter,
+			return new PDFTableBandLM( context, parent, tableBand, 
 					executor );
 		}
 
 		public Object visitRow( IRowContent row, Object value )
 		{
-			return new PDFRowLM( context, parent, row, emitter, executor );
+			return new PDFRowLM( context, parent, row, executor );
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
 		{
-			return new PDFCellLM( context, parent, cell, emitter, executor );
+			return new PDFCellLM( context, parent, cell, executor );
 		}
 
 		public Object visitText( ITextContent text, Object value )
@@ -159,13 +154,13 @@ public class PDFLayoutManagerFactory
 			if ( isInline )
 			{
 				assert ( parent instanceof PDFLineAreaLM );
-				return new PDFImageLM( context, parent, image, emitter,
+				return new PDFImageLM( context, parent, image,
 						executor );
 			}
 			else
 			{
 				return new PDFImageBlockContainerLM( context, parent, image,
-						emitter, executor );
+						executor );
 			}
 		}
 
@@ -202,7 +197,7 @@ public class PDFLayoutManagerFactory
 
 				return handleText( autoText );
 			}
-			return new PDFTemplateLM( context, parent, autoText, emitter,
+			return new PDFTemplateLM( context, parent, autoText, 
 					executor );
 		}
 
@@ -218,11 +213,11 @@ public class PDFLayoutManagerFactory
 				if ( width != null /* || text.indexOf( '\n' )>=0 */)
 				{
 					return new PDFTextInlineBlockLM( context, parent, content,
-							emitter, executor );
+							executor );
 				}
 				else
 				{
-					return new PDFTextLM( context, parent, content, emitter,
+					return new PDFTextLM( context, parent, content, 
 							executor );
 				}
 			}
@@ -234,13 +229,13 @@ public class PDFLayoutManagerFactory
 					content.setText( " " );
 				}
 				return new PDFTextBlockContainerLM( context, parent, content,
-						emitter, executor );
+						executor );
 			}
 		}
 
 		public Object visitList( IListContent list, Object value )
 		{
-			return new PDFListLM( context, parent, list, emitter, executor );
+			return new PDFListLM( context, parent, list, executor );
 
 		}
 
@@ -255,19 +250,19 @@ public class PDFLayoutManagerFactory
 
 		public Object visitListGroup( IListGroupContent group, Object value )
 		{
-			return new PDFListGroupLM( context, parent, group, emitter,
+			return new PDFListGroupLM( context, parent, group, 
 					executor );
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
 		{
-			return new PDFTableGroupLM( context, parent, group, emitter,
+			return new PDFTableGroupLM( context, parent, group, 
 					executor );
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )
 		{
-			return new PDFListGroupLM( context, parent, group, emitter,
+			return new PDFListGroupLM( context, parent, group, 
 					executor );
 		}
 

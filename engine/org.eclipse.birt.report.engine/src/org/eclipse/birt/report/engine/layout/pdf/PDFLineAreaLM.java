@@ -18,7 +18,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
@@ -61,9 +60,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	protected IReportItemExecutor unfinishedExecutor = null;
 
 	public PDFLineAreaLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContentEmitter emitter, IReportItemExecutor executor )
+			IReportItemExecutor executor )
 	{
-		super( context, parent, null, emitter, executor );
+		super( context, parent, null, executor );
 	}
 
 	protected boolean submitRoot( boolean childBreak )
@@ -157,7 +156,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		boolean childBreak = false;
 		IContent childContent = childExecutor.execute( );
 		PDFAbstractLM childLM = getFactory( ).createLayoutManager( this,
-				childContent, emitter, childExecutor );
+				childContent, childExecutor );
 		if(needLineBreak( childContent ))
 		{
 			unfinishedExecutor = childExecutor;

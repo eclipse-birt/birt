@@ -53,12 +53,24 @@ public class PDFLayoutEngineContext
 
 	protected int maxHeight;
 	
+	protected String format;
+	
 	protected boolean cancel = false;
 	
 	
 	public void setCancel(boolean cancel)
 	{
 		this.cancel = cancel;
+	}
+	
+	public String getFormat()
+	{
+		return this.format;
+	}
+	
+	public void setFormat(String format)
+	{
+		this.format = format;
 	}
 	
 	public boolean isCancel()

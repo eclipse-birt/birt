@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
@@ -31,10 +30,9 @@ public class PDFListLM extends PDFBlockStackingLM
 	int repeatCount = 0;
 
 	public PDFListLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content, executor );
 		repeat = isRepeatHeader( );
 	}
 
@@ -86,7 +84,7 @@ public class PDFListLM extends PDFBlockStackingLM
 				.createLogicContainer( );
 		headerArea.setAllocatedWidth( parent.getMaxAvaWidth( ) );
 		PDFRegionLM regionLM = new PDFRegionLM( context, headerArea, band,
-				emitter, headerExecutor );
+				headerExecutor );
 		boolean allowPB = context.allowPageBreak( );
 		context.setAllowPageBreak( false );
 		regionLM.layout( );

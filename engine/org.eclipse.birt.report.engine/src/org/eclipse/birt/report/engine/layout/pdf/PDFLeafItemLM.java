@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -13,10 +12,9 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 {
 
 	public PDFLeafItemLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content,  executor );
 	}
 
 	protected void cancelChildren( )
@@ -24,11 +22,11 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 
 	}
 
-	public boolean isInlineFlow( )
-	{
-		return true;
-	}
-
+	/**
+	 * need overwrite this mothod to change default behavour.
+	 * For inline leaf elements, page-break is handled by this layout manager.
+	 * For block leaf elements. page-break is handled by it's block container
+	 */
 	protected boolean isPageBreakBefore( )
 	{
 		if ( content != null )
@@ -41,6 +39,11 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 		return false;
 	}
 
+	/**
+	 * need overwrite this mothod to change default behavour.
+	 * For inline leaf elements, page-break is handled by this layout manager.
+	 * For block leaf elements. page-break is handled by it's block container
+	 */
 	protected boolean isPageBreakAfter( )
 	{
 		if ( content != null )

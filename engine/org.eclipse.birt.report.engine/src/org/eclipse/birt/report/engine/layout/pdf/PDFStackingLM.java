@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutContext;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
@@ -117,10 +116,9 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	}
 
 	public PDFStackingLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content,  executor );
 	}
 
 	protected boolean layoutChildren( )

@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
@@ -40,10 +39,9 @@ public class PDFCellLM extends PDFBlockStackingLM
 	private ICellContent cellContent;
 
 	public PDFCellLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IContentEmitter emitter,
-			IReportItemExecutor executor )
+			IContent content, IReportItemExecutor executor )
 	{
-		super( context, parent, content, emitter, executor );
+		super( context, parent, content, executor );
 		assert ( parent != null );
 		tableLM = getTableLayoutManager( );
 		cellContent = (ICellContent) content;

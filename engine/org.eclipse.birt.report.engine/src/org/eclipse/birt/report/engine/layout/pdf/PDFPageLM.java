@@ -57,16 +57,18 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected IPageContent pageContent;
 	protected IReportExecutor reportExecutor = null;
 	protected PDFReportLayoutEngine engine;
+	protected IContentEmitter emitter;
 	protected int pageNumber = 1;
 
 	public PDFPageLM( PDFReportLayoutEngine engine,
 			PDFLayoutEngineContext context, IReportContent report,
 			IContentEmitter emitter, IReportExecutor executor )
 	{
-		super( context, null, null, emitter, null );
+		super( context, null, null, null );
 		this.reportExecutor = executor;
 		this.engine = engine;
 		this.report = report;
+		this.emitter = emitter;
 	}
 
 	protected void newContext( )
@@ -141,7 +143,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 				headerContent );
 		headerExecutor.execute( );
 		PDFRegionLM regionLM = new PDFRegionLM( context, page.getHeader( ),
-				headerContent, emitter, headerExecutor );
+				headerContent, headerExecutor );
 		boolean allowPB = context.allowPageBreak( );
 		context.setAllowPageBreak( false );
 		regionLM.layout( );
@@ -159,7 +161,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 				footerContent );
 		footerExecutor.execute( );
 		PDFRegionLM regionLM = new PDFRegionLM( context, page.getFooter( ),
-				footerContent, emitter, footerExecutor );
+				footerContent, footerExecutor );
 		boolean allowPB = context.allowPageBreak( );
 		context.setAllowPageBreak( false );
 		regionLM.layout( );
@@ -194,13 +196,13 @@ public class PDFPageLM extends PDFBlockContainerLM
 		if(!context.isCancel( ))
 		{
 			boolean childBreak = true;
-			start( );
+			startPage( );
 			childBreak = layoutChildren( );
 			if ( !childBreak )
 			{
 				isLast = true;
 			}
-			end( );
+			endPage( );
 			return childBreak;
 		}
 		else
@@ -219,14 +221,14 @@ public class PDFPageLM extends PDFBlockContainerLM
 		}
 	}
 
-	protected void start( )
+	protected void startPage( )
 	{
 		MasterPageDesign pageDesign = getMasterPage( report );
 		pageContent = reportExecutor.createPage( pageNumber, pageDesign );
 		this.content = pageContent;
 	}
 
-	protected void end( )
+	protected void endPage( )
 	{
 		if(isPageEmpty())
 		{
@@ -272,8 +274,8 @@ public class PDFPageLM extends PDFBlockContainerLM
 		{
 			isFirst = false;
 		}
-		getEmitter( ).startPage( pageContent );
-		getEmitter( ).endPage( pageContent );
+		emitter.startPage( pageContent );
+		emitter.endPage( pageContent );
 		pageBreakEvent( );
 		if ( isLast )
 		{
@@ -334,7 +336,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 			}
 			totalPageContent.setExtension( IContent.LAYOUT_EXTENSION,
 					totalPageArea );
-			getEmitter( ).startAutoText( totalPageContent );
+			emitter.startAutoText( totalPageContent );
 		}
 	}
 
