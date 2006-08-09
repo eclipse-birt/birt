@@ -24,34 +24,43 @@ import junit.framework.TestSuite;
  */
 public class AllTests extends utility.BaseTestCase
 {
+
 	public static void main( String[] args )
 	{
 		Test t = AllTests.suite( );
 		System.out.println( t );
 	}
-	
+
 	public static Test suite( )
 	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.tests.engine" ); //$NON-NLS-1$
+		TestSuite suite = new TestSuite(
+				"Test for org.eclipse.birt.report.tests.engine" ); //$NON-NLS-1$
 
 		List classes = new ArrayList( );
 		AllTests allTests = new AllTests( );
 
-		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.api" ) ); //$NON-NLS-1$
-		classes.addAll( allTests.getClasses( "org.eclipse.birt.report.tests.engine.regression" ) ); //$NON-NLS-1$
-		classes.add( "org.eclipse.birt.report.tests.engine.smoke.sampleReport.SampleReportTest" ); //$NON-NLS-1$
-		classes.remove( org.eclipse.birt.report.tests.engine.api.EngineResourceLocator.class  );
-		classes.remove( org.eclipse.birt.report.tests.engine.api.TestRenderOptionBase.class);
+		classes.addAll( allTests
+				.getClasses( "org.eclipse.birt.report.tests.engine.api" ) ); //$NON-NLS-1$
+		classes
+				.addAll( allTests
+						.getClasses( "org.eclipse.birt.report.tests.engine.regression" ) ); //$NON-NLS-1$
+		classes
+				.add( "org.eclipse.birt.report.tests.engine.smoke.sampleReport.SampleReportTest" ); //$NON-NLS-1$
+		classes
+				.remove( "org.eclipse.birt.report.tests.engine.api.EngineResourceLocator" );
+		classes
+				.remove( "org.eclipse.birt.report.tests.engine.api.TestRenderOptionBase" );
 		Iterator iter = classes.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String next = ( String ) iter.next( );
-			
+			String next = (String) iter.next( );
+
 			try
 			{
 				Class c = Class.forName( next );
 				int modifier = c.getModifiers( );
-				if ( Modifier.isPublic( modifier ) && !Modifier.isStatic( modifier ) )
+				if ( Modifier.isPublic( modifier )
+						&& !Modifier.isStatic( modifier ) )
 				{
 					suite.addTestSuite( c );
 				}
