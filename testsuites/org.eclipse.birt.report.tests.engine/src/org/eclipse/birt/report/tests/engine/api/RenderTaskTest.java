@@ -3,8 +3,6 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -27,6 +25,12 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
+/**
+ * <b>IRenderTask test</b>
+ * <p>
+ * This case tests methods in IRenderTask API.
+ * 
+ */
 public class RenderTaskTest extends EngineCase
 {
 
@@ -340,8 +344,8 @@ public class RenderTaskTest extends EngineCase
 			task.setLocale( Locale.ENGLISH );
 			IRenderOption htmlRenderOptions = new HTMLRenderOption( );
 			HashMap appContext = new HashMap( );
-			HTMLRenderContext renderContext=new HTMLRenderContext();
-			renderContext.setImageDirectory( outputPath+"image" );
+			HTMLRenderContext renderContext = new HTMLRenderContext( );
+			renderContext.setImageDirectory( outputPath + "image" );
 			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			task.setAppContext( appContext );
@@ -349,8 +353,8 @@ public class RenderTaskTest extends EngineCase
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 			htmlRenderOptions.setOutputStream( ostream );
 			htmlRenderOptions.setOutputFormat( "html" );
-			((HTMLRenderOption)htmlRenderOptions).setEnableMetadata( true );
-			
+			( (HTMLRenderOption) htmlRenderOptions ).setEnableMetadata( true );
+
 			task.setRenderOption( htmlRenderOptions );
 			task.render( );
 			task.close( );

@@ -25,9 +25,10 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
+ * <b>RenderUnfinishedReportDoc test</b>
+ * <p>
+ * This case tests render output from a half generated report document.
  * 
- *
- * Test rendering a half-generated report doc.
  */
 
 public class RenderUnfinishedReportDoc extends EngineCase
@@ -36,22 +37,23 @@ public class RenderUnfinishedReportDoc extends EngineCase
 	private final static String INPUT = "RenderUnfinishedReportDoc.xml"; //$NON-NLS-1$
 	private final static String REPORT_DOCUMENT_OUTPUT = "/RenderUnfinishedReportDoc/"; //$NON-NLS-1$
 	private final static String HTML_OUTPUT = "RenderUnfinishedReportDoc.html"; //$NON-NLS-1$
-	
+
 	private String docfolder = null;
 	private String outputHtml = null;
-	
-	public RenderUnfinishedReportDoc()
+
+	public RenderUnfinishedReportDoc( )
 	{
-		this.docfolder = getClassFolder( ) + "/" + OUTPUT_FOLDER + REPORT_DOCUMENT_OUTPUT;//$NON-NLS-1$
+		this.docfolder = getClassFolder( )
+				+ "/" + OUTPUT_FOLDER + REPORT_DOCUMENT_OUTPUT;//$NON-NLS-1$
 		this.outputHtml = getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + HTML_OUTPUT; //$NON-NLS-1$
 	}
-	
+
 	class PageHandler implements IPageHandler
 	{
 
 		IRenderTask renderTask;
-		
+
 		public void onPage( int pageNumber, boolean checkpoint,
 				IReportDocumentInfo doc )
 		{
@@ -89,7 +91,8 @@ public class RenderUnfinishedReportDoc extends EngineCase
 		{
 			String inputFile = getClassFolder( )
 					+ "/" + INPUT_FOLDER + "/" + INPUT; //$NON-NLS-1$ //$NON-NLS-2$ 
-			String outputDoc = getClassFolder( ) + "/" + OUTPUT_FOLDER + REPORT_DOCUMENT_OUTPUT; //$NON-NLS-1$
+			String outputDoc = getClassFolder( )
+					+ "/" + OUTPUT_FOLDER + REPORT_DOCUMENT_OUTPUT; //$NON-NLS-1$
 
 			// open the report runnable to execute.
 			IReportRunnable report;
@@ -105,7 +108,7 @@ public class RenderUnfinishedReportDoc extends EngineCase
 
 			// close the task, release the resource.
 			task.close( );
-			
+
 			File html = new File( outputHtml );
 			assertTrue( html.exists( ) );
 		}

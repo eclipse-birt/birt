@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.HashMap;
@@ -21,9 +22,17 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
+/**
+ * <b>DataExtractionTask test</b>
+ * <p>
+ * This case tests extracting data with filter rule from report through
+ * IDataExtractionTask interface.
+ * 
+ */
 
 public class DataExtractionTaskTest extends EngineCase
 {
+
 	private String report_design;
 	private String report_document;
 	private IReportDocument reportDoc;
@@ -31,7 +40,7 @@ public class DataExtractionTaskTest extends EngineCase
 	protected String path = getClassFolder( ) + separator;
 	private String outputPath = path + OUTPUT_FOLDER + separator;
 	private String inputPath = path + INPUT_FOLDER + separator;
-	
+
 	public DataExtractionTaskTest( String name )
 
 	{
@@ -48,42 +57,57 @@ public class DataExtractionTaskTest extends EngineCase
 		super.setUp( );
 	}
 
-	public void testDataExtractionWithFilter(){
-		report_design=inputPath+"DataExtraction_table.rptdesign";
-		report_document=outputPath+"DataExtraction_table.rptdocument";
-		try{
-			createReportDocument(report_design,report_document);
-			
-			reportDoc=engine.openReportDocument( report_document );
-			IDataExtractionTask extractTask=engine.createDataExtractionTask( reportDoc );
-			
+	public void testDataExtractionWithFilter( )
+	{
+		report_design = inputPath + "DataExtraction_table.rptdesign";
+		report_document = outputPath + "DataExtraction_table.rptdocument";
+		try
+		{
+			createReportDocument( report_design, report_document );
+
+			reportDoc = engine.openReportDocument( report_document );
+			IDataExtractionTask extractTask = engine
+					.createDataExtractionTask( reportDoc );
+
 			extractTask.selectResultSet( "t1" );
-			IFilterDefinition[] filterExpression=new IFilterDefinition[1];
-			filterExpression[0]=new FilterDefinition(new ConditionalExpression(
-					                    "row[\"territory\"]",ConditionalExpression.OP_EQ, "\"EMEA\"",null));
+			IFilterDefinition[] filterExpression = new IFilterDefinition[1];
+			filterExpression[0] = new FilterDefinition(
+					new ConditionalExpression( "row[\"territory\"]",
+							ConditionalExpression.OP_EQ, "\"EMEA\"", null ) );
 			extractTask.setFilters( filterExpression );
-			
-			IExtractionResults result=extractTask.extract( );
-			
-			if(result!=null){
-				int officecode=0;
-				IDataIterator data=result.nextResultIterator( );
-				if(data!=null){
+
+			IExtractionResults result = extractTask.extract( );
+
+			if ( result != null )
+			{
+				int officecode = 0;
+				IDataIterator data = result.nextResultIterator( );
+				if ( data != null )
+				{
 					data.next( );
-					officecode=Integer.parseInt(data.getValue("code").toString( ));
-					assertEquals("Fail to extract filtered data",4,officecode);
-					if(data.next()){
-						officecode=Integer.parseInt(data.getValue("code").toString( ));
-						assertEquals("Fail to extract filtered data",7,officecode);
+					officecode = Integer.parseInt( data.getValue( "code" )
+							.toString( ) );
+					assertEquals( "Fail to extract filtered data", 4,
+							officecode );
+					if ( data.next( ) )
+					{
+						officecode = Integer.parseInt( data.getValue( "code" )
+								.toString( ) );
+						assertEquals( "Fail to extract filtered data", 7,
+								officecode );
 					}
 				}
-			}else{
-				fail("Fail to extract filtered data");
 			}
-			
-		}catch(Exception e){
+			else
+			{
+				fail( "Fail to extract filtered data" );
+			}
+
+		}
+		catch ( Exception e )
+		{
 			e.printStackTrace( );
-			fail("Fail to extract filtered data");
+			fail( "Fail to extract filtered data" );
 		}
 	}
 
@@ -107,6 +131,5 @@ public class DataExtractionTaskTest extends EngineCase
 		// close the task, release the resource.
 		runTask.close( );
 	}
-
 
 }

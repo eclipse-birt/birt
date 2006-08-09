@@ -19,6 +19,13 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
+/**
+ * <b>Custom resource locator test</b>
+ * <p>
+ * This case tests resource locatore defined by customer can be found and
+ * loaded.
+ * 
+ */
 public class ResourceLocatorTest extends EngineCase
 {
 

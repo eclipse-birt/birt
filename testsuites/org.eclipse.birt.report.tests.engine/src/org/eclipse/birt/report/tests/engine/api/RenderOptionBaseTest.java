@@ -18,68 +18,85 @@ import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
+/**
+ * <b>RenderOptionBase test</b>
+ * <p>
+ * This case tests methods in RenderOptionBase API.
+ * 
+ */
+public class RenderOptionBaseTest extends EngineCase
+{
 
-public class RenderOptionBaseTest extends EngineCase {
+	private TestRenderOptionBase optionBase = new TestRenderOptionBase( );
 
-	private TestRenderOptionBase optionBase=new TestRenderOptionBase();
-	
 	/**
 	 * @param name
 	 */
-	public RenderOptionBaseTest(String name) {
-		super(name);
+	public RenderOptionBaseTest( String name )
+	{
+		super( name );
 	}
 
 	/**
 	 * Test suite()
+	 * 
 	 * @return
 	 */
-	public static Test suite(){
-		return new TestSuite(RenderOptionBaseTest.class);
+	public static Test suite( )
+	{
+		return new TestSuite( RenderOptionBaseTest.class );
 	}
-	
+
 	/**
-	 * Test setOption(java.lang.String name, java.lang.Object value) method
-	 * Test getOption() method
+	 * Test setOption(java.lang.String name, java.lang.Object value) method Test
+	 * getOption() method
 	 */
-	public void testGetOption(){
-		String name="newoption";
-		Object value=new String("option1");
-		optionBase.setOption(name,value);
-		assertEquals("set/getOption() fail",optionBase.getOption(name),value);
+	public void testGetOption( )
+	{
+		String name = "newoption";
+		Object value = new String( "option1" );
+		optionBase.setOption( name, value );
+		assertEquals( "set/getOption() fail", optionBase.getOption( name ),
+				value );
 	}
-	
+
 	/**
-	 * Test setOutputFormat(java.lang.String format) method
-	 * Test getOutputFormat() method
+	 * Test setOutputFormat(java.lang.String format) method Test
+	 * getOutputFormat() method
 	 */
-	public void testGetOutputFormat(){
-		String format="html",formatGet="";
-		optionBase.setOutputFormat(format);
-		formatGet=optionBase.getOutputFormat();
-		assertEquals("set/getOutputFormat() fail",format,formatGet);
+	public void testGetOutputFormat( )
+	{
+		String format = "html", formatGet = "";
+		optionBase.setOutputFormat( format );
+		formatGet = optionBase.getOutputFormat( );
+		assertEquals( "set/getOutputFormat() fail", format, formatGet );
 	}
-	
+
 	/**
 	 * Test setOutputFileName(java.lang.String outputFileName) method
 	 * 
 	 */
-	public void testSetOutputFileName(){
-		String name="ofName",nameGet="";
-		optionBase.setOutputFileName(name);
-		nameGet=(String)optionBase.getOption(TestRenderOptionBase.OUTPUT_FILE_NAME);
-		assertEquals("setOutputFileName() fail",name,nameGet);
+	public void testSetOutputFileName( )
+	{
+		String name = "ofName", nameGet = "";
+		optionBase.setOutputFileName( name );
+		nameGet = (String) optionBase
+				.getOption( TestRenderOptionBase.OUTPUT_FILE_NAME );
+		assertEquals( "setOutputFileName() fail", name, nameGet );
 	}
-	
+
 	/**
 	 * Test setOutputStream(java.io.OutputStream ostream) method
-	 *
+	 * 
 	 */
-	public void testOutputStream(){
-		ByteArrayOutputStream bos=new ByteArrayOutputStream();
-		optionBase.setOutputStream(bos);
-		ByteArrayOutputStream bosGet=(ByteArrayOutputStream)optionBase.getOutputSetting().get(TestRenderOptionBase.OUTPUT_STREAM);
-		assertEquals("setOutputStream(java.io.OutputStream ostream) fail",bos,bosGet);
-		
+	public void testOutputStream( )
+	{
+		ByteArrayOutputStream bos = new ByteArrayOutputStream( );
+		optionBase.setOutputStream( bos );
+		ByteArrayOutputStream bosGet = (ByteArrayOutputStream) optionBase
+				.getOutputSetting( ).get( TestRenderOptionBase.OUTPUT_STREAM );
+		assertEquals( "setOutputStream(java.io.OutputStream ostream) fail",
+				bos, bosGet );
+
 	}
 }

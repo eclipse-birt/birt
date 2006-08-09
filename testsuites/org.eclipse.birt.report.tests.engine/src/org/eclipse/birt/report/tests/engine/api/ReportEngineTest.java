@@ -27,132 +27,170 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
-
-public class ReportEngineTest extends EngineCase {
+/**
+ * <b>ReportEngine test</b>
+ * <p>
+ * This case tests methods in ReportEngine API.
+ * 
+ */
+public class ReportEngineTest extends EngineCase
+{
 
 	/**
 	 * @param name
 	 */
-	public ReportEngineTest(String name) {
-		super(name);
+	public ReportEngineTest( String name )
+	{
+		super( name );
 	}
-	
+
 	/**
 	 * Test suite
+	 * 
 	 * @return
 	 */
-	public static Test suite(){
-		return new TestSuite(ReportEngineTest.class);
+	public static Test suite( )
+	{
+		return new TestSuite( ReportEngineTest.class );
 	}
 
 	/**
 	 * Test getConfig() method
-	 *
+	 * 
 	 */
-	public void testGetConfig(){
-		EngineConfig config=new EngineConfig();
-		config.setTempDir("tempdir");
-		ReportEngine engine=new ReportEngine(config);
-		EngineConfig configGet=engine.getConfig();
-		assertEquals("getConfig() fail",config.getTempDir(),configGet.getTempDir());
+	public void testGetConfig( )
+	{
+		EngineConfig config = new EngineConfig( );
+		config.setTempDir( "tempdir" );
+		ReportEngine engine = new ReportEngine( config );
+		EngineConfig configGet = engine.getConfig( );
+		assertEquals( "getConfig() fail", config.getTempDir( ), configGet
+				.getTempDir( ) );
 	}
 
 	/**
-	 *Test openReportDesign(string) 
-	 * @throws EngineException 
-	 *
+	 * Test openReportDesign(string)
+	 * 
+	 * @throws EngineException
+	 * 
 	 */
-	public void testOpenReportDesign() throws EngineException{
-		EngineConfig config=new EngineConfig();
+	public void testOpenReportDesign( ) throws EngineException
+	{
+		EngineConfig config = new EngineConfig( );
 		IReportRunnable reportRunner;
-		config.setTempDir("tempdir");
-		ReportEngine engine=new ReportEngine(config);
-/*		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
-		input += System.getProperty("file.separator") ;
-		String designName=input+"report_engine.rptdesign";
-*/
-		String designName=getClassFolder()+System.getProperty("file.separator")
-		+ INPUT_FOLDER+System.getProperty("file.separator")
-		+"report_engine.rptdesign";
-		
-		try{
-			reportRunner=engine.openReportDesign(designName);
-			designName="file:" + designName;
-		    designName=designName.replace( '/', '\\' );	
-		    String reportName=reportRunner.getReportName().replace( '/', '\\');
-			assertEquals("openReportDesign(String) fail",designName, reportName);
-			assertNotNull("openReportDesign(String) fail",reportRunner.getImage("23.gif"));
-		}catch(EngineException ee){
-			ee.printStackTrace();
-			fail("openReportDesign(String) fail");
+		config.setTempDir( "tempdir" );
+		ReportEngine engine = new ReportEngine( config );
+		/*
+		 * String input =
+		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
+		 * input += System.getProperty("file.separator") ; String
+		 * designName=input+"report_engine.rptdesign";
+		 */
+		String designName = getClassFolder( )
+				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
+				+ System.getProperty( "file.separator" )
+				+ "report_engine.rptdesign";
+
+		try
+		{
+			reportRunner = engine.openReportDesign( designName );
+			designName = "file:" + designName;
+			designName = designName.replace( '/', '\\' );
+			String reportName = reportRunner.getReportName( ).replace( '/',
+					'\\' );
+			assertEquals( "openReportDesign(String) fail", designName,
+					reportName );
+			assertNotNull( "openReportDesign(String) fail", reportRunner
+					.getImage( "23.gif" ) );
 		}
-		engine.destroy();
-		
+		catch ( EngineException ee )
+		{
+			ee.printStackTrace( );
+			fail( "openReportDesign(String) fail" );
+		}
+		engine.destroy( );
+
 	}
 
-
 	/**
-	 *Test openReportDesign(inputStream) 
-	 *
+	 * Test openReportDesign(inputStream)
+	 * 
 	 */
-	public void testOpenReportDesign1(){
-		EngineConfig config=new EngineConfig();
+	public void testOpenReportDesign1( )
+	{
+		EngineConfig config = new EngineConfig( );
 		IReportRunnable reportRunner;
-		config.setTempDir("tempdir");
-		ReportEngine engine=new ReportEngine(config);
-/*		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
-		input += System.getProperty("file.separator") ;
-		String designName=input+"report_engine.rptdesign";
-*/		
+		config.setTempDir( "tempdir" );
+		ReportEngine engine = new ReportEngine( config );
+		/*
+		 * String input =
+		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
+		 * input += System.getProperty("file.separator") ; String
+		 * designName=input+"report_engine.rptdesign";
+		 */
 
-		String designName=getClassFolder()+System.getProperty("file.separator")
-		+ INPUT_FOLDER+System.getProperty("file.separator")
-		+"report_engine.rptdesign";
-		
-		try{
-			File file=new File(designName);
-			FileInputStream fis=new FileInputStream(file);
-			reportRunner=engine.openReportDesign(fis);
-			assertEquals("openReportDesign(InputStream) fail","<stream>", reportRunner.getReportName());
-			assertNotNull("openReportDesign(InputStream) fail",reportRunner.getImage("23.gif"));
-		}catch(EngineException ee){
-			ee.printStackTrace();
-		}catch(FileNotFoundException fe){
-			fe.printStackTrace();
+		String designName = getClassFolder( )
+				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
+				+ System.getProperty( "file.separator" )
+				+ "report_engine.rptdesign";
+
+		try
+		{
+			File file = new File( designName );
+			FileInputStream fis = new FileInputStream( file );
+			reportRunner = engine.openReportDesign( fis );
+			assertEquals( "openReportDesign(InputStream) fail", "<stream>",
+					reportRunner.getReportName( ) );
+			assertNotNull( "openReportDesign(InputStream) fail", reportRunner
+					.getImage( "23.gif" ) );
 		}
-		engine.destroy();
-		
+		catch ( EngineException ee )
+		{
+			ee.printStackTrace( );
+		}
+		catch ( FileNotFoundException fe )
+		{
+			fe.printStackTrace( );
+		}
+		engine.destroy( );
+
 	}
-	
+
 	/**
-	 * Test createGetParameterDefinitionTask() 
+	 * Test createGetParameterDefinitionTask()
 	 */
-	public void testCreateGetParameterDefinitionTask(){
-		EngineConfig config=new EngineConfig();
+	public void testCreateGetParameterDefinitionTask( )
+	{
+		EngineConfig config = new EngineConfig( );
 		IReportRunnable reportRunner;
-		ReportEngine engine=new ReportEngine(config);
-/*		String input = PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
-		input += System.getProperty("file.separator") ;
-		String designName=input+"parameter.rptdesign";
-*/
-		String designName=getClassFolder()+System.getProperty("file.separator")
-		+ INPUT_FOLDER+System.getProperty("file.separator")
-		+"parameter.rptdesign";
-		
-		
-		try{
-			reportRunner=engine.openReportDesign(designName);
-			IGetParameterDefinitionTask getParamTask=engine.createGetParameterDefinitionTask(reportRunner);
-			getParamTask.evaluateDefaults();
-			IParameterDefnBase paramDefn=getParamTask.getParameterDefn("p1");
-			System.err.println(paramDefn.getTypeName());
-			System.err.println(paramDefn instanceof ScalarParameterDefn);
-			assertEquals("creatGetParameterDefinitionTask() fail","\"abc\"",getParamTask.getDefaultValue(paramDefn));
-		}catch(EngineException ee){
-			ee.printStackTrace();
+		ReportEngine engine = new ReportEngine( config );
+		/*
+		 * String input =
+		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
+		 * input += System.getProperty("file.separator") ; String
+		 * designName=input+"parameter.rptdesign";
+		 */
+		String designName = getClassFolder( )
+				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
+				+ System.getProperty( "file.separator" )
+				+ "parameter.rptdesign";
+
+		try
+		{
+			reportRunner = engine.openReportDesign( designName );
+			IGetParameterDefinitionTask getParamTask = engine
+					.createGetParameterDefinitionTask( reportRunner );
+			getParamTask.evaluateDefaults( );
+			IParameterDefnBase paramDefn = getParamTask.getParameterDefn( "p1" );
+			System.err.println( paramDefn.getTypeName( ) );
+			System.err.println( paramDefn instanceof ScalarParameterDefn );
+			assertEquals( "creatGetParameterDefinitionTask() fail", "\"abc\"",
+					getParamTask.getDefaultValue( paramDefn ) );
 		}
-		
+		catch ( EngineException ee )
+		{
+			ee.printStackTrace( );
+		}
+
 	}
 }
-
-	

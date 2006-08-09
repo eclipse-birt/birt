@@ -21,11 +21,17 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
+/**
+ * <b>IRunAndRenderTask test</b>
+ * <p>
+ * This case tests methods in IRunAndRenderTask API.
+ * 
+ */
 public class RunAndRenderTaskTest extends EngineCase
 {
 
-	private Boolean cancelSignal=new Boolean(false);
-	
+	private Boolean cancelSignal = new Boolean( false );
+
 	/**
 	 * Test methods in RunAndRenderTask class
 	 */
@@ -74,49 +80,52 @@ public class RunAndRenderTaskTest extends EngineCase
 		String input = getClassFolder( )
 				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
 				+ System.getProperty( "file.separator" ) + "pages9.rptdesign";
-		long bTime,eTime,timeSpan1,timeSpan2, timeSpan3;
+		long bTime, eTime, timeSpan1, timeSpan2, timeSpan3;
 		try
 		{
 			IReportRunnable runnable = engine
 					.openReportDesign( new FileInputStream( new File( input ) ) );
 			IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
-			HTMLRenderOption option=new HTMLRenderOption();
+			HTMLRenderOption option = new HTMLRenderOption( );
 			option.setOutputFormat( "html" );
 			task.setRenderOption( option );
-			task.setAppContext( new HashMap() );
-			
+			task.setAppContext( new HashMap( ) );
+
 			CancelTask cancelThread = new CancelTask( "cancelThread", task );
 			cancelThread.start( );
-			bTime=System.currentTimeMillis( );
+			bTime = System.currentTimeMillis( );
 			task.run( );
-			eTime=System.currentTimeMillis( );
+			eTime = System.currentTimeMillis( );
 			task.close( );
-			timeSpan1=eTime-bTime;
+			timeSpan1 = eTime - bTime;
 
-			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask( "cancelWithFlagTask", task );
+			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
+					"cancelWithFlagTask", task );
 			cancelWithFlagTask.start( );
-			bTime=System.currentTimeMillis( );
+			bTime = System.currentTimeMillis( );
 			task.run( );
-			eTime=System.currentTimeMillis( );
+			eTime = System.currentTimeMillis( );
 			task.close( );
-			timeSpan2=eTime-bTime;
+			timeSpan2 = eTime - bTime;
 
-			task=engine.createRunAndRenderTask( runnable );
+			task = engine.createRunAndRenderTask( runnable );
 			task.setRenderOption( option );
-			task.setAppContext( new HashMap() );
-			bTime=System.currentTimeMillis( );
+			task.setAppContext( new HashMap( ) );
+			bTime = System.currentTimeMillis( );
 			task.run( );
-			eTime=System.currentTimeMillis( );
+			eTime = System.currentTimeMillis( );
 			task.close( );
-			timeSpan3=eTime-bTime;
+			timeSpan3 = eTime - bTime;
 
-			assertTrue("RunAndRenderTask.cancel() failed!",timeSpan3>timeSpan1);
-			assertTrue("RunAndRenderTask.cancel(signal) failed!",timeSpan3>timeSpan2);
+			assertTrue( "RunAndRenderTask.cancel() failed!",
+					timeSpan3 > timeSpan1 );
+			assertTrue( "RunAndRenderTask.cancel(signal) failed!",
+					timeSpan3 > timeSpan2 );
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace( );
-			fail("RunAndRenderTask.cancel() failed!");
+			fail( "RunAndRenderTask.cancel() failed!" );
 		}
 
 	}
@@ -151,7 +160,6 @@ public class RunAndRenderTaskTest extends EngineCase
 
 	}
 
-
 	/*
 	 * A new thread to cancel existed runTask which return a flag
 	 */
@@ -181,6 +189,5 @@ public class RunAndRenderTaskTest extends EngineCase
 		}
 
 	}
-
 
 }
