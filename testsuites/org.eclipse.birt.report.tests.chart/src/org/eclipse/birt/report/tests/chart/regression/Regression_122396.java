@@ -53,13 +53,13 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * The radius of meter chart can not be changed
- * 
+ * </p>
  * Test description:
- * 
+ * </p>
  * The radius of meter chart can be changed
- * 
+ * </p>
  */
 
 public class Regression_122396 extends ChartTestCase{

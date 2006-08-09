@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
@@ -47,17 +48,18 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 /**
  * Regression description:
- * 
+ * </p>
  * Exception for add script of function beforeDrawSeries
- * 
+ * </p>
  * Test decription:
- * 
+ * </p>
  * No Error happens during the running of the report
- * 
+ * </p>
  */
 
 public class Regression_121383 extends ChartTestCase{
-
+    
+	
     private static String GOLDEN = "Regression_121383.jpg"; //$NON-NLS-1$
     private static String OUTPUT = "Regression_121383.jpg"; //$NON-NLS-1$	
 	
@@ -93,6 +95,7 @@ public class Regression_121383 extends ChartTestCase{
 	 */
 	public Regression_121383( )
 	{
+		System.setProperty("STANDALONE", "true");
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -132,6 +135,7 @@ public class Regression_121383 extends ChartTestCase{
 
 	public void test( ) throws Exception
 	{
+		
 		Regression_121383 st = new Regression_121383( );
 		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
 	}	
@@ -145,17 +149,16 @@ public class Regression_121383 extends ChartTestCase{
 	public static final Chart createLineChart( )
 	{
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
-		cwaLine
-				.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
-						+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl); " //$NON-NLS-1$
-						+ "series.setCurveFitting(CurveFittingImpl.create());" //$NON-NLS-1$
-						+ "series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
-				);
-
+		cwaLine.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
+				+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl);" //$NON-NLS-1$
+				+ "series.setCurveFitting(CurveFittingImpl.create());" //$NON-NLS-1$
+				+ "series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
+		);
+  
 		// Chart Type
 		cwaLine.setType( "Line Chart" );
 		cwaLine.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-
+		
 		// Title
 		cwaLine.getTitle( ).getLabel( ).getCaption( ).setValue(
 				"Line Chart Using beforeDrawSeries" ); //$NON-NLS-1$
@@ -215,7 +218,9 @@ public class Regression_121383 extends ChartTestCase{
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
 		sdY.getSeries( ).add( ls );
-
+        
+		
+		
 		return cwaLine;
 
 	}
