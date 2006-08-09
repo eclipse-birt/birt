@@ -67,9 +67,10 @@ public final class DataTypeUtil
 		String[] dateFormatPattern = {
 				"yyyy-MM-dd HH:mm:ss.s z",
 				"yyyy-MM-dd HH:mm:ss.sz",
+				"yyyy-MM-dd HH:mm:ss.s",
 				"yyyy-MM-dd HH:mm:ss z",
 				"yyyy-MM-dd HH:mm:ssz",
-				"yyyy-MM-dd hh:mm:ss",
+				"yyyy-MM-dd HH:mm:ss",
 				"yyyy-MM-dd HH:mm z",
 				"yyyy-MM-dd HH:mmz",
 				"yyyy-MM-dd HH:mm",
