@@ -565,7 +565,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			sz.scale( dScale );
 
 			// validate legend size, restrict within the bounds.
-			// TODO this is requried due to the 1/3 size constraints policy in layoutManager,
+			// TODO this is requried due to the 1/3 size constraints policy in
+			// layoutManager,
 			// should use better solution.
 			if ( sz.getWidth( ) > bo.getWidth( ) )
 			{
@@ -3786,7 +3787,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				// BUILD A URI
 				final URLValue uv = (URLValue) tg.getAction( ).getValue( );
-				final String sBaseURL = uv.getBaseUrl( );
+				String sBaseURL = uv.getBaseUrl( );
+				if ( sBaseURL == null )
+				{
+					sBaseURL = ""; //$NON-NLS-1$
+				}
 				final StringBuffer sb = new StringBuffer( sBaseURL );
 				char c = '?';
 				if ( sBaseURL.indexOf( c ) != -1 )

@@ -218,6 +218,15 @@ public final class ResultSetWrapper
 		}
 		bBaseGroupingApplied = true;
 
+		boolean needBaseGrouping = true;
+
+		// VALIDATE SERIES GROUPING
+		final SeriesGrouping sg = sd.getGrouping( );
+		if ( sg == null || !sg.isEnabled( ) )
+		{
+			needBaseGrouping = false;;
+		}
+
 		// Apply base series sorting.
 		final Series seBaseDesignTime = sd.getDesignTimeSeries( );
 		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
@@ -232,7 +241,11 @@ public final class ResultSetWrapper
 								sd
 							},
 							ULocale.getDefault( ) ) );
-			so = SortOption.ASCENDING_LITERAL;
+
+			if ( needBaseGrouping )
+			{
+				so = SortOption.ASCENDING_LITERAL;
+			}
 		}
 		else
 		{
@@ -244,9 +257,8 @@ public final class ResultSetWrapper
 				so,
 				iaGroupBreaks );
 
-		// VALIDATE SERIES GROUPING
-		final SeriesGrouping sg = sd.getGrouping( );
-		if ( sg == null || !sg.isEnabled( ) )
+		// if no base grouping needed, simply return.
+		if ( !needBaseGrouping )
 		{
 			return;
 		}
@@ -305,7 +317,8 @@ public final class ResultSetWrapper
 
 		}
 
-		// re-initialize meta since Aggretation could change data type(text->count)
+		// re-initialize meta since Aggretation could change data
+		// type(text->count)
 		initializeMeta( );
 	}
 
@@ -718,9 +731,9 @@ public final class ResultSetWrapper
 	}
 
 	private void groupTextually( List resultSet, int iBaseColumnIndex,
-			String[] saExpressionKeys, int[] iaBreaks,
-			String ndeBaseReference, long iGroupingInterval,
-			IAggregateFunction[] iafa ) throws ChartException
+			String[] saExpressionKeys, int[] iaBreaks, String ndeBaseReference,
+			long iGroupingInterval, IAggregateFunction[] iafa )
+			throws ChartException
 	{
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];

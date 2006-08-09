@@ -66,8 +66,21 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		this.eih = eih;
 		this.handler = handler;
 		this.evaluator = evaluator;
-		this.context = ( (IReportContext) context ).getAppContext( )
-				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+
+		// TODO !!!This is only a temp solution to resovle bugzilla#152948 due
+		// to implementation limitation for other api team.
+		// The correct way should be that just pass IReportContext directly to
+		// ActionHandler and let handler find any render context it concerns.
+		if ( "html".equals( ( (IReportContext) context ).getOutputFormat( ) ) ) //$NON-NLS-1$
+		{
+			this.context = ( (IReportContext) context ).getAppContext( )
+					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+		}
+		else
+		{
+			this.context = ( (IReportContext) context ).getAppContext( )
+					.get( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT );
+		}
 	}
 
 	/*
@@ -187,7 +200,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
 						}
-						
+
 						public String getSystemId( )
 						{
 							ModuleHandle mod = eih.getRoot( );
@@ -303,12 +316,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return handle.getFormatType( );
 						}
-						
+
 						public boolean isBookmark( )
 						{
 							return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
 						}
-						
+
 						public String getSystemId( )
 						{
 							ModuleHandle mod = eih.getRoot( );
