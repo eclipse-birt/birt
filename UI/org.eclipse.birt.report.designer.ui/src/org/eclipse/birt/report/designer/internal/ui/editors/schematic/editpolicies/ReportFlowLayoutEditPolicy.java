@@ -36,6 +36,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
@@ -98,6 +99,10 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		else
 		{
 			parentModel = parent.getModel( );
+		}
+		if (!(child.getModel( ) instanceof DesignElementHandle))
+		{
+			return UnexecutableCommand.INSTANCE;
 		}
 		return new PasteCommand( (DesignElementHandle) child.getModel( ),
 				parentModel,
