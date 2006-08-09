@@ -193,17 +193,20 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		{
 			Object object = item.getData( );
 			if ( object instanceof DataSourceHandle
-					|| object instanceof DataSetHandle
-					|| object instanceof ParameterHandle
-					|| object instanceof ParameterGroupHandle
-					|| object instanceof EmbeddedImageHandle )
+					|| object instanceof DataSetHandle )
 			{
-				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDrapOutline" ); //$NON-NLS-1$
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline" ); //$NON-NLS-1$
 			}
-			else if ( object instanceof ReportItemHandle
-					|| object instanceof ThemeHandle )
+			else if ( object instanceof ThemeHandle )
 			{
-				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDrapLayout" ); //$NON-NLS-1$
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout" ); //$NON-NLS-1$
+			}
+			else if ( object instanceof ParameterHandle
+					|| object instanceof ParameterGroupHandle
+					|| object instanceof EmbeddedImageHandle
+					|| object instanceof ReportItemHandle )
+			{
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout" );
 			}
 			if ( object instanceof LibraryHandle )
 			{
