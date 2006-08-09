@@ -65,9 +65,9 @@ public final class DataTypeUtil
 		// date format pattern defined in ISO8601
 		// notice the order is significant.
 		String[] dateFormatPattern = {
-				"yyyy-MM-dd HH:mm:ss.s z",
-				"yyyy-MM-dd HH:mm:ss.sz",
-				"yyyy-MM-dd HH:mm:ss.s",
+				"yyyy-MM-dd HH:mm:ss.S z",
+				"yyyy-MM-dd HH:mm:ss.Sz",
+				"yyyy-MM-dd HH:mm:ss.S",
 				"yyyy-MM-dd HH:mm:ss z",
 				"yyyy-MM-dd HH:mm:ssz",
 				"yyyy-MM-dd HH:mm:ss",
