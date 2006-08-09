@@ -3431,6 +3431,8 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateElement" hasStyle="false" isAbstract="true" isNameRequired="false" name="TemplateElement" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.TemplateElement.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
+    <Property canInherit="false" displayNameID="Element.TemplateElement.displayName" name="displayName" runtimeSettable="false" since="2.1" type="string"/>
+    <Property canInherit="false" displayNameID="Element.TemplateElement.displayNameID" name="displayNameID" since="2.1" type="resourceKey"/>
     <Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.TemplateElement.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>	

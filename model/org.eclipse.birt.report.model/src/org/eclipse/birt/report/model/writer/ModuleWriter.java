@@ -1938,6 +1938,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				DesignElement.NAME_PROP );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
+		resourceKey( obj, DesignElement.DISPLAY_NAME_ID_PROP,
+				DesignElement.DISPLAY_NAME_PROP );
 
 		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );
 	}

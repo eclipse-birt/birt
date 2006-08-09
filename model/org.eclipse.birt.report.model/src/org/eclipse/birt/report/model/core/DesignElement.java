@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -3248,12 +3249,20 @@ public abstract class DesignElement
 
 	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = module.getMessage( getDisplayNameID( ) );
+		// search the externalized resource first
+
+		String displayLabel = ModelUtil.searchForExternalizedValue( this,
+				DISPLAY_NAME_ID_PROP, ThreadResources.getLocale( ) );
+
+		// if externalized resource not found, then check static display name
+		
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = getDisplayName( );
 		}
-
+		
+		// third, check the name to display
+		
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = getNameForDisplayLabel( );
@@ -3356,7 +3365,8 @@ public abstract class DesignElement
 	 * call the method
 	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
 	 * to change the element names.
-	 * 
+	 * @param policy 
+	 *  the policy for the clone action, maybe copy or copy for template
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
@@ -3584,12 +3594,12 @@ public abstract class DesignElement
 	{
 		// if this kind of element does not support template or this element can
 		// not be dropped, return false;
-		
+
 		if ( !ModelUtil.isTemplateSupported( this ) || ( !canDrop( ) ) )
 			return false;
 
 		// check the containment for the template elements
-		
+
 		IElementDefn templateReportItem = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM );
 		IElementDefn templateDataSet = MetaDataDictionary.getInstance( )

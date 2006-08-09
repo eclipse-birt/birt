@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
@@ -912,16 +913,20 @@ public class ModelUtil
 	 * 
 	 * @param element
 	 *            Design element.
-	 * @param propName
-	 *            Name of property
+	 * @param propIDName
+	 *            Name of resource key property
 	 * @param locale
 	 *            the locale
-	 * @return externalized message.
+	 * @return externalized message if found, otherwise <code>null</code>
 	 */
 
-	private static String searchForExternalizedValue( DesignElement element,
+	public static String searchForExternalizedValue( DesignElement element,
 			String propIDName, ULocale locale )
 	{
+		
+		if ( element == null || element.getPropertyDefn( propIDName ) == null )
+			return null;
+		IElementPropertyDefn defn = element.getPropertyDefn( propIDName );
 		while ( element != null )
 		{
 			Module root = element.getRoot( );
@@ -933,6 +938,10 @@ public class ModelUtil
 				return externalizedText;
 			}
 
+			// if this property can not inherit, return null
+			
+			if ( ! defn.canInherit( ) )
+				return null;
 			if ( DesignElement.NO_BASE_ID != element.getBaseId( ) )
 			{
 				element = element.getVirtualParent( );
@@ -962,7 +971,8 @@ public class ModelUtil
 	public static String getExternalizedValue( DesignElement element,
 			String propIDName, String propName, ULocale locale )
 	{
-		if ( element == null )
+		if ( element == null || element.getPropertyDefn( propName ) == null
+				|| element.getPropertyDefn( propIDName ) == null )
 			return null;
 		String textKey = searchForExternalizedValue( element, propIDName,
 				locale );
