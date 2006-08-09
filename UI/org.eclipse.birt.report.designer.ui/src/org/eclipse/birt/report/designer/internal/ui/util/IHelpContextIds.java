@@ -135,6 +135,9 @@ public interface IHelpContextIds
 
 	public static final String INSERT_EDIT_MAP_RULE_DIALOG_ID = PREFIX
 			+ "AddEditMapRule_ID";
+	
+	public static final String INSERT_EDIT_SORTKEY_DIALOG_ID = PREFIX
+	+ "AddEditSortkey_ID";
 
 	public static final String ADD_EDIT_USER_PROPERTIES_DIALOG_ID = PREFIX
 			+ "AddEditUserProperties_ID";

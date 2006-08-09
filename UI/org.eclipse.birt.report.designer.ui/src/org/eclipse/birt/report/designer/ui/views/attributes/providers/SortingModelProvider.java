@@ -15,13 +15,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -30,6 +32,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.jface.dialogs.Dialog;
 
 /**
  * Sort data processor
@@ -40,7 +43,8 @@ public class SortingModelProvider
 	/**
 	 * The list of allowed SortKey.DIRECTION_MEMBER
 	 */
-	private IChoiceSet choiceSet;
+	private final IChoiceSet choiceSetDirection = ChoiceSetFactory.getStructChoiceSet( SortKey.SORT_STRUCT,
+			SortKey.DIRECTION_MEMBER );
 
 	/**
 	 * Constant, represents empty String array.
@@ -112,7 +116,7 @@ public class SortingModelProvider
 			value = "";//$NON-NLS-1$
 		if ( key.equals( SortKey.DIRECTION_MEMBER ) )
 		{
-			IChoice choice = choiceSet.findChoice( value );
+			IChoice choice = choiceSetDirection.findChoice( value );
 			if ( choice != null )
 				return choice.getDisplayName( );
 		}
@@ -146,26 +150,12 @@ public class SortingModelProvider
 			if ( value != null )
 				newValue = value;
 		}
-		// if ( !( element instanceof StructureHandle ) )
-		// {
-		// SortKey sortkey = StructureFactory.createSortKey( );
-		// if ( key.equals( SortKey.KEY_MEMBER ) )
-		// {
-		// sortkey.setKey( newValue );
-		// }
-		//
-		// DesignElementHandle handle = (DesignElementHandle) item;
-		// PropertyHandle propertyHandle = handle.getPropertyHandle(
-		// ListingElement.SORT_PROP );
-		// propertyHandle.addItem( sortkey );
-		// element = sortkey.getHandle( propertyHandle );
-		// }
 
 		String saveValue = newValue;
 		StructureHandle handle = (StructureHandle) element;
 		if ( key.equals( SortKey.DIRECTION_MEMBER ) )
 		{
-			IChoice choice = choiceSet.findChoiceByDisplayName( newValue );
+			IChoice choice = choiceSetDirection.findChoiceByDisplayName( newValue );
 			if ( choice == null )
 				saveValue = null;
 			else
@@ -188,10 +178,8 @@ public class SortingModelProvider
 	{
 		if ( key.equals( SortKey.DIRECTION_MEMBER ) )
 		{
-			choiceSet = ChoiceSetFactory.getStructChoiceSet( SortKey.SORT_STRUCT,
-					key );
-			return ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
-		}		
+			return ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSetDirection );
+		}
 		if ( !( item instanceof DesignElementHandle ) )
 		{
 			return EMPTY;
@@ -294,12 +282,51 @@ public class SortingModelProvider
 	{
 		if ( item instanceof DesignElementHandle )
 		{
-			SortKey sortkey = StructureFactory.createSortKey( );
-			sortkey.setKey( "Key" );//$NON-NLS-1$
-			DesignElementHandle handle = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingHandle.SORT_PROP );
-			propertyHandle.addItem( sortkey );
+			SortkeyBuilder dialog = new SortkeyBuilder( UIUtil.getDefaultShell( ),
+					SortkeyBuilder.DLG_TITLE_NEW );
+			dialog.setHandle( (DesignElementHandle) item );
+			dialog.setInput( null );
+			if ( dialog.open( ) == Dialog.CANCEL )
+			{
+				return false;
+			}
+
 		}
 		return true;
 	}
+
+	/**
+	 * Edit one item into the given position.
+	 * 
+	 * @param item
+	 *            DesignElement object
+	 * @param pos
+	 *            The position.
+	 * @return True if success, otherwise false.
+	 * @throws SemanticException
+	 */
+	public boolean doEditItem( Object item, int pos )
+	{
+		if ( item instanceof DesignElementHandle )
+		{
+			DesignElementHandle element = (DesignElementHandle) item;
+			PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.SORT_PROP );
+			SortKeyHandle sortKeyHandle = (SortKeyHandle) ( propertyHandle.getAt( pos ) );
+			if ( sortKeyHandle == null )
+			{
+				return false;
+			}
+			SortkeyBuilder dialog = new SortkeyBuilder( UIUtil.getDefaultShell( ),
+					SortkeyBuilder.DLG_TITLE_EDIT );
+			dialog.setHandle( (DesignElementHandle) item );
+			dialog.setInput( sortKeyHandle );
+			if ( dialog.open( ) == Dialog.CANCEL )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

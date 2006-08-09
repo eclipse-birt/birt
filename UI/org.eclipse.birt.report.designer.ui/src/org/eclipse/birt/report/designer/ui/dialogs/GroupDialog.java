@@ -528,7 +528,7 @@ public class GroupDialog extends BaseDialog
 
 		TabItem sortItem = new TabItem( tab, SWT.NONE );
 		FormPage sortPage = new FormPage( tab,
-				FormPage.NORMAL_FUNCTION,
+				FormPage.FULL_FUNCTION_HORIZONTAL,
 				new SortingHandleProvider( ) {
 
 					public int[] getColumnWidths( )
@@ -537,7 +537,7 @@ public class GroupDialog extends BaseDialog
 								200, 100
 						};
 					}
-				} );
+				}, true );
 		sortPage.setInput( list );
 		sortItem.setText( TAB_SORTING );
 		sortItem.setControl( sortPage );
