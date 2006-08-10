@@ -119,7 +119,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_FORMAT = Messages.getString( "ParameterDialog.Label.Format" ); //$NON-NLS-1$
 
-	private static final String LABEL_LIST_LIMIT = Messages.getString( "ParameterDialog.Label.Listlimit" );
+	private static final String LABEL_LIST_LIMIT = Messages.getString( "ParameterDialog.Label.Listlimit" ); //$NON-NLS-1$
 
 	private static final String LABEL_NULL = Messages.getString( "ParameterDialog.Label.Null" ); //$NON-NLS-1$
 
@@ -352,7 +352,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			final SelectionChoice choice = (SelectionChoice) element;
 			boolean isDefault = isDefaultChoice( choice );
-			SelectionChoiceDialog dialog = new SelectionChoiceDialog( "Edit Selection Choice" );
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString("ParameterDialog.SelectionDialog.Edit") ); //$NON-NLS-1$
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
@@ -377,7 +377,7 @@ public class ParameterDialog extends BaseDialog
 		public boolean newItem( )
 		{
 			SelectionChoice choice = StructureFactory.createSelectionChoice( );
-			SelectionChoiceDialog dialog = new SelectionChoiceDialog( "New Selection Choice" );
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString("ParameterDialog.SelectionDialog.New") ); //$NON-NLS-1$
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
@@ -469,23 +469,8 @@ public class ParameterDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-
 				changeDataType( );
-				if ( allowBlank != null && !allowBlank.isDisposed( ) )
-				{
-					if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
-					{
-						allowBlank.setEnabled( true );
-					}
-					else
-					{
-						allowBlank.setEnabled( false );
-						allowBlank.setSelection( false );
-
-						checkBoxChange( allowBlank, CHECKBOX_ALLOW_BLANK );
-
-					}
-				}
+				updateCheckBoxArea( );
 			}
 		} );
 		createLabel( propertiesSection, LABEL_DISPALY_TYPE );
@@ -594,7 +579,7 @@ public class ParameterDialog extends BaseDialog
 
 			public void verifyText( VerifyEvent e )
 			{
-				e.doit = ( "0123456789\0\b\u007f".indexOf( e.character ) != -1 );
+				e.doit = ( "0123456789\0\b\u007f".indexOf( e.character ) != -1 ); //$NON-NLS-1$
 			}
 		} );
 		Label values = new Label( limitArea, SWT.NULL );
@@ -669,6 +654,12 @@ public class ParameterDialog extends BaseDialog
 		{
 			listLimit.setText( String.valueOf( inputParameter.getListlimit( ) ) );
 		}
+
+		isHidden.setSelection( inputParameter.isHidden( ) );
+		allowNull.setSelection( inputParameter.allowNull( ) );
+		allowBlank.setSelection( inputParameter.allowBlank( ) );
+		doNotEcho.setSelection( inputParameter.isConcealValue( ) );
+		needSort.setSelection( !inputParameter.isFixedOrder( ) );
 
 		changeDataType( );
 		dataTypeChooser.setText( dataType.findChoice( inputParameter.getDataType( ) )
@@ -783,93 +774,7 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		updateFormatField( );
-	}
-
-	private void refreshCheckBoxArea( )
-	{
-		if ( dirtyProperties.containsKey( CHECKBOX_HIDDEN ) )
-		{
-			isHidden.setSelection( getProperty( CHECKBOX_HIDDEN ) );
-		}
-		else
-		{
-			isHidden.setSelection( inputParameter.isHidden( ) );
-		}
-		if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
-		{
-			allowNull.setSelection( getProperty( CHECKBOX_ALLOW_NULL ) );
-		}
-		else
-		{
-			allowNull.setSelection( inputParameter.allowNull( ) );
-		}
-
-		if ( !DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
-		{
-			if ( !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
-			{
-				needSort.setEnabled( true );
-				if ( dirtyProperties.containsKey( CHECKBOX_SORT ) )
-				{
-					needSort.setSelection( getProperty( CHECKBOX_SORT ) );
-				}
-				else
-				{
-					needSort.setSelection( !inputParameter.isFixedOrder( ) );
-				}
-			}
-			else
-			{
-				needSort.setEnabled( false );
-				needSort.setSelection( false );
-				checkBoxChange( needSort, CHECKBOX_SORT );
-			}
-
-			if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-					|| PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
-
-			{
-				allowBlank.setEnabled( true );
-				doNotEcho.setEnabled( true );
-
-				if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
-				{
-					allowBlank.setSelection( getProperty( CHECKBOX_ALLOW_BLANK ) );
-				}
-				else
-				{
-					allowBlank.setSelection( inputParameter.allowBlank( ) );
-				}
-			}
-			else
-			{
-				allowBlank.setEnabled( false );
-			}
-
-			if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
-			{
-				doNotEcho.setEnabled( true );
-				if ( dirtyProperties.containsKey( CHECKBOX_DO_NOT_ECHO ) )
-				{
-					doNotEcho.setSelection( getProperty( CHECKBOX_DO_NOT_ECHO ) );
-				}
-				else
-				{
-					doNotEcho.setSelection( inputParameter.isConcealValue( ) );
-				}
-			}
-			else
-			{
-				doNotEcho.setEnabled( false );
-			}
-
-		}
-		if ( !DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
-		{
-			allowBlank.setEnabled( false );
-			allowBlank.setSelection( false );
-		}
-	}
+	}	
 
 	private void refreshDataSets( )
 	{
@@ -1183,7 +1088,7 @@ public class ParameterDialog extends BaseDialog
 				lastControlType = type;
 			}
 		}
-		refreshCheckBoxArea( );
+		updateCheckBoxArea( );
 		updateMessageLine( );
 		boolean radioEnable = false;
 		if ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) )
@@ -1213,7 +1118,7 @@ public class ParameterDialog extends BaseDialog
 		buildControlTypeList( getSelectedDataType( ) );
 		valueArea.layout( );
 		initValueArea( );
-		refreshCheckBoxArea( );
+		updateCheckBoxArea( );
 	}
 
 	private void switchToCheckBox( )
@@ -1470,21 +1375,7 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setControlType( newControlType );
 
 			// Save default value
-			// if ( ( isStatic( ) && !getSelectedControlType( ).equals(
-			// DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
-			// && ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
-			// getSelectedDataType( ) ) ||
-			// DesignChoiceConstants.PARAM_TYPE_STRING.equals(
-			// getSelectedDataType( ) ) )
-			// && defaultValue != null )
-			// {
-			// inputParameter.setDefaultValue( "\"" + defaultValue + "\""
-			// );//$NON-NLS-1$//$NON-NLS-2$
-			// }
-			// else
-			// {
 			inputParameter.setDefaultValue( defaultValue );
-			// }
 
 			// Set data type
 			inputParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
@@ -1543,27 +1434,25 @@ public class ParameterDialog extends BaseDialog
 			{
 				inputParameter.setHidden( getProperty( CHECKBOX_HIDDEN ) );
 			}
-			if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
-					|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+			if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
+			{
+				inputParameter.setAllowNull( getProperty( CHECKBOX_ALLOW_NULL ) );
+			}
+
+			if ( allowBlank.isEnabled( ) )
 			{
 				if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
 				{
 					inputParameter.setAllowBlank( getProperty( CHECKBOX_ALLOW_BLANK ) );
-				}
-				if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
-				{
-					inputParameter.setAllowNull( getProperty( CHECKBOX_ALLOW_NULL ) );
 				}
 			}
 			else
 			{
 				inputParameter.setProperty( ScalarParameterHandle.ALLOW_BLANK_PROP,
 						null );
-				inputParameter.setProperty( ScalarParameterHandle.ALLOW_NULL_PROP,
-						null );
 			}
 
-			if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+			if ( doNotEcho.isEnabled( ) )
 			{
 				if ( dirtyProperties.containsKey( CHECKBOX_DO_NOT_ECHO ) )
 				{
@@ -1576,19 +1465,17 @@ public class ParameterDialog extends BaseDialog
 						null );
 			}
 
-			if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( newControlType )
-					|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( newControlType ) )
-			{
-				inputParameter.setProperty( ScalarParameterHandle.FIXED_ORDER_PROP,
-						null );
-			}
-			else
+			if ( needSort.isEnabled( ) )
 			{
 				if ( dirtyProperties.containsKey( CHECKBOX_SORT ) )
 				{
 					inputParameter.setFixedOrder( !getProperty( CHECKBOX_SORT ) );
 				}
-
+			}
+			else
+			{
+				inputParameter.setProperty( ScalarParameterHandle.FIXED_ORDER_PROP,
+						null );
 			}
 
 			// Save limits
@@ -1596,7 +1483,6 @@ public class ParameterDialog extends BaseDialog
 			{
 				try
 				{
-
 					inputParameter.setListlimit( Integer.parseInt( listLimit.getText( ) ) );
 				}
 				catch ( NumberFormatException ex )
@@ -1731,6 +1617,41 @@ public class ParameterDialog extends BaseDialog
 		getOkButton( ).setEnabled( canFinish );
 	}
 
+	private void updateCheckBoxArea( )
+	{
+		// Allow blank check
+		if ( ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) || PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
+				&& DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
+		{
+			allowBlank.setEnabled( true );
+		}
+		else
+		{
+			allowBlank.setEnabled( false );
+		}
+
+		// Do not echo check
+		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+		{
+			doNotEcho.setEnabled( true );
+		}
+		else
+		{
+			doNotEcho.setEnabled( false );
+		}
+
+		// Fix order check
+		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
+				|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
+		{
+			needSort.setEnabled( false );
+		}
+		else
+		{
+			needSort.setEnabled( true );
+		}
+	}
+	
 	private void updateMessageLine( )
 	{
 		String errorMessage = validateName( );
@@ -1744,13 +1665,8 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( defaultValue == null
 					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
-			{// Now combo
-				// and radio
-				// must
-				// specify
-				// an
-				// default
-				// value
+			{
+				// Now combo and radio must specify an default value
 				errorMessage = ERROR_MSG_NO_DEFAULT_VALUE;
 			}
 		}
