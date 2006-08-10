@@ -278,20 +278,26 @@ public class ListEditPart extends ReportElementEditPart
 	 */
 	protected void contentChange( Map info )
 	{
-		int intValue = ((Integer)info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE )).intValue( );
-		if (intValue == ContentEvent.REMOVE)
+		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		if (action instanceof Integer)
 		{
-			List list = (List)info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
-			int size = list.size( );
-			for (int i=0;i<size; i++)
+			int intValue = ((Integer)action).intValue( );
+			if (intValue == ContentEvent.REMOVE)
 			{
-				Object obj = list.get( i );
-				if (obj instanceof DesignElementHandle)
+				List list = (List)info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
+				int size = list.size( );
+				for (int i=0;i<size; i++)
 				{
-					getListHandleAdapt( ).remove( obj );
+					Object obj = list.get( i );
+					if (obj instanceof DesignElementHandle)
+					{
+						getListHandleAdapt( ).remove( obj );
+					}
 				}
 			}
 		}
+		
+		
 		super.contentChange( info );
 	}
 }
