@@ -11,13 +11,20 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
-public class TemplateExecutor extends ReportItemExecutor
+public class TemplateExecutor extends TextItemExecutor
 {
 
 	/**
@@ -47,12 +54,9 @@ public class TemplateExecutor extends ReportItemExecutor
 	public IContent execute( )
 	{
 		TemplateDesign templateDesign = (TemplateDesign) design;
-		ILabelContent textContent = report.createLabelContent( );
+		IForeignContent textContent = report.createForeignContent( );
 		setContent(textContent);
-
-		restoreResultSet( );
-		context.registerOnPageBreak( content );
-		
+		textContent.setRawType( IForeignContent.HTML_TYPE );		
 		IStyle style = textContent.getStyle( );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, IStyle.GRAY_VALUE );
 		style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.SOLID_VALUE );
@@ -70,19 +74,20 @@ public class TemplateExecutor extends ReportItemExecutor
 		style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.MIDDLE_VALUE );
 
 		initializeContent( templateDesign, textContent );
-		textContent.setLabelText( templateDesign.getPromptText( ) );
-		textContent.setLabelKey( templateDesign.getPromptTextKey( ) );
+		textContent.setRawValue( templateDesign.getPromptText( ) );
+		textContent.setRawKey( templateDesign.getPromptTextKey( ) );
 
 		processVisibility( templateDesign, textContent );
 		
 		if ( emitter != null )
 		{
-			emitter.startLabel( textContent );
+			emitter.startForeign( textContent );
 		}
 		
 		return textContent;
 	}
 	
+
 	public void close( )
 	{
 		context.unregisterOnPageBreak( content );

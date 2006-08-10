@@ -90,4 +90,15 @@ public class ForeignContent extends AbstractContentWrapper
 	{
 		foreignContent.setAltText( altText );
 	}
+
+	public String getRawKey( )
+	{
+		return foreignContent.getRawKey( );
+	}
+
+	public void setRawKey( String rawKey )
+	{
+		foreignContent.setRawKey( rawKey );
+		
+	}
 }

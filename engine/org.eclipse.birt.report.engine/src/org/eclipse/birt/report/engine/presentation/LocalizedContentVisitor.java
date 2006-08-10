@@ -383,6 +383,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			return textContent;
 		}
 		
+		if ( IForeignContent.HTML_TYPE.equals( rawFormat ) )
+		{
+			TextItemScriptExecutor.handleOnRender( foreignContent, context );
+			String htmlText = (String)foreignContent.getRawValue( );
+			String text = localize( foreignContent, foreignContent.getRawKey( ), htmlText);
+			foreignContent.setRawValue(  text );
+			return foreignContent;
+		}
+		
 		if ( IForeignContent.VALUE_TYPE.equals( rawFormat ) )
 		{
 			DynamicTextScriptExecutor.handleOnRender( foreignContent, context );

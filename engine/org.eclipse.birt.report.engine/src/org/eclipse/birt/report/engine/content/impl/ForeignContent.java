@@ -28,6 +28,8 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	protected String rawType;
 	protected Object rawValue;
 	
+	protected String rawKey;
+	
 	protected String altText;
 	protected String altTextKey;
 
@@ -35,7 +37,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	{
 		return FOREIGN_CONTENT;
 	}
-
+	
 	public ForeignContent( ReportContent report )
 	{
 		super( report );
@@ -61,6 +63,15 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		return rawType;
 	}
 
+	public void setRawKey(String rawKey)
+	{
+		this.rawKey = rawKey;
+	}
+
+	public String getRawKey()
+	{
+		return this.rawKey;
+	}
 	/**
 	 * @return Returns the content. Caller knows how to cast this object
 	 */
@@ -154,6 +165,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	static final protected int FIELD_ROWVALUE = 401;
 	static final protected int FIELD_ALTTEXT = 402;
 	static final protected int FIELD_ALTTEXTKEY = 403;
+	static final protected int FIELD_RAWKEY = 404;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -178,6 +190,11 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 			IOUtil.writeInt( out, FIELD_ALTTEXTKEY );
 			IOUtil.writeString( out, altTextKey );
 		}
+		if( rawKey != null )
+		{
+			IOUtil.writeInt( out, FIELD_RAWKEY );
+			IOUtil.writeString( out, rawKey );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -196,6 +213,9 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 				break;
 			case FIELD_ALTTEXTKEY :
 				altTextKey = IOUtil.readString( in );
+				break;
+			case FIELD_RAWKEY :
+				rawKey = IOUtil.readString( in );
 				break;
 			default :
 				super.readField( version, filedId, in );
