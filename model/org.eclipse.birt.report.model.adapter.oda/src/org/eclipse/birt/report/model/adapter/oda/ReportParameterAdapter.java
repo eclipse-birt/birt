@@ -131,8 +131,8 @@ public class ReportParameterAdapter
 		if ( values != null )
 			cachedParam = DataSetParameterAdapter.findParameterDefinition(
 					values.getDataSetParameters( ), matchedParam
-							.getAttributes( ).getName( ), matchedParam
-							.getAttributes( ).getPosition( ) );
+							.getAttributes( ).getName( ), new Integer(
+							matchedParam.getAttributes( ).getPosition( ) ) );
 
 		// TODO update data type in the report parameters.
 
@@ -382,7 +382,7 @@ public class ReportParameterAdapter
 				.valueOf( cachedElementAttrs.isMasksValue( ) );
 		if ( cachedMasksValues == null
 				|| !cachedMasksValues.equals( masksValue ) )
-			reportParam.setConcealValue( masksValue );
+			reportParam.setConcealValue( masksValue.booleanValue( ) );
 
 		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
 				cachedElementAttrs == null ? null : cachedElementAttrs
