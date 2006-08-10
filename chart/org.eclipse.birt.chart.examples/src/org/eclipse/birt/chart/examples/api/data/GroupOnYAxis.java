@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -77,19 +76,16 @@ public class GroupOnYAxis
 		ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody( )
 				.getContents( ).get( 0 );
 
-		ChartReportItemImpl crii = null;
+		Chart cm = null;
 		try
 		{
-			crii = (ChartReportItemImpl) eih.getReportItem( );
+			cm = (Chart) eih.getReportItem( ).getProperty( "chart.instance" ); //$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-
-		Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
-
 		cm.getTitle( ).getLabel( ).getCaption( ).setValue( "Group On Y Axis" );//$NON-NLS-1$
 
 		Axis axisBase = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 ); // X-Axis

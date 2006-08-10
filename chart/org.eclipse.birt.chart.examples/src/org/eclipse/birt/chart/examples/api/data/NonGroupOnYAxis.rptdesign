@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="2">
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 0.0.1 Build &lt;20050405-1230></property>
     <property name="units">in</property>
     <data-sources>
-        <script-data-source name="Data Source"/>
+        <script-data-source name="Data Source" id="2"/>
     </data-sources>
     <data-sets>
-        <script-data-set name="Data Set">
-            <property name="dataSource">Data Source</property>
+        <script-data-set name="Data Set" id="3">
             <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Month</property>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Product</property>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Amount</property>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
                     <property name="name">Month</property>
@@ -37,6 +53,7 @@
                     <property name="columnName">Amount</property>
                 </structure>
             </list-property>
+            <property name="dataSource">Data Source</property>
             <method name="open"><![CDATA[i = 0;
 
 sourcedata = new Array( new Array(3),
@@ -81,14 +98,14 @@ sourcedata[5][2] = 212;]]></method>
         </script-data-set>
     </data-sets>
     <page-setup>
-        <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="4">
             <property name="type">a4</property>
             <page-header>
-                <grid>
+                <grid id="5">
                     <property name="width">100%</property>
-                    <column/>
-                    <row>
-                        <cell>
+                    <column id="6"/>
+                    <row id="7">
+                        <cell id="8">
                             <property name="fontSize">xx-large</property>
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">center</property>
@@ -97,18 +114,18 @@ sourcedata[5][2] = 212;]]></method>
                 </grid>
             </page-header>
             <page-footer>
-                <grid>
+                <grid id="9">
                     <property name="width">100%</property>
-                    <column/>
-                    <column/>
-                    <row>
-                        <cell>
-                            <text>
+                    <column id="10"/>
+                    <column id="11"/>
+                    <row id="12">
+                        <cell id="13">
+                            <text id="14">
                                 <property name="contentType">html</property>
                                 <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                             </text>
                         </cell>
-                        <cell>
+                        <cell id="15">
                             <property name="textAlign">right</property>
                         </cell>
                     </row>
@@ -117,10 +134,20 @@ sourcedata[5][2] = 212;]]></method>
         </simple-master-page>
     </page-setup>
     <body>
-        <extended-item extensionName="Chart">
+        <extended-item extensionName="Chart" id="16">
             <property name="height">3.468in</property>
             <property name="width">5.812in</property>
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Product</property>
+                    <expression name="expression">dataSetRow["Product"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">Amount</property>
+                    <expression name="expression">dataSetRow["Amount"]</expression>
+                </structure>
+            </list-property>
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -337,8 +364,8 @@ sourcedata[5][2] = 212;]]></method>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>418.5</Width>
-      <Height>249.75</Height>
+      <Width>417.75</Width>
+      <Height>249.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>

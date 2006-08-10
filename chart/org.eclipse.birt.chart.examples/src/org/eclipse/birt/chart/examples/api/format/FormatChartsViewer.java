@@ -97,7 +97,7 @@ public final class FormatChartsViewer extends JPanel implements
 		ControlPanel cp = fcv.new ControlPanel( fcv );
 		co.add( cp, BorderLayout.SOUTH );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**

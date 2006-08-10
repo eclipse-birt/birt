@@ -106,7 +106,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 		ControlPanel cp = scv.new ControlPanel( scv );
 		co.add( cp, BorderLayout.SOUTH );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**

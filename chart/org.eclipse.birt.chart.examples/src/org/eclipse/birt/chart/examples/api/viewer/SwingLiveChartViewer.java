@@ -109,7 +109,7 @@ public final class SwingLiveChartViewer extends JPanel
 
 		frame.setTitle( lcViewer.getClass( ).getName( )
 				+ " [device=" + lcViewer.dRenderer.getClass( ).getName( ) + "]" );//$NON-NLS-1$//$NON-NLS-2$
-		frame.show( );
+		frame.setVisible( true );
 	}
 
 	/**

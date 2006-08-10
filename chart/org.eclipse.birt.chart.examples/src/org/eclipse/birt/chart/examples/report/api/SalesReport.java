@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -496,13 +495,10 @@ public class SalesReport
 		ps.getDataPoint( ).getComponents( ).add( dpc );
 		ps.getLabel( ).setVisible( true );
 
-		ChartReportItemImpl crii;
 		try
 		{
-			//Add ChartReportItemImpl to ExtendedItemHandle
-			crii = (ChartReportItemImpl) eih.getReportItem( );
-			//Add chart instance to ChartReportItemImpl
-			crii.setProperty( "chart.instance", cwoaPie );//$NON-NLS-1$
+			//Add chart instance to IReportItem
+			eih.getReportItem( ).setProperty( "chart.instance", cwoaPie );//$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )
 		{

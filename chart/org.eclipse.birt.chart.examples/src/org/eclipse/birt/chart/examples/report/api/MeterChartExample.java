@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -189,13 +188,10 @@ public class MeterChartExample
 
 		reportDesignHandle.getBody( ).add( eih );
 
-		ChartReportItemImpl crii;
 		try
 		{
-			// Add ChartReportItemImpl to ExtendedItemHandle
-			crii = (ChartReportItemImpl) eih.getReportItem( );
-			// Add chart instance to ChartReportItemImpl
-			crii.setProperty( "chart.instance", createMeterChart( ) );//$NON-NLS-1$
+			// Add chart instance to IReportItem
+			eih.getReportItem( ).setProperty( "chart.instance", createMeterChart( ) );//$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )
 		{

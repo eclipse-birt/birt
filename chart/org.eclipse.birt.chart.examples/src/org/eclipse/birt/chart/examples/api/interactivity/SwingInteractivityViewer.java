@@ -119,7 +119,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 
 		} );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**

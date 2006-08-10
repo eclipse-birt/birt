@@ -97,7 +97,7 @@ public final class DataChartsViewer extends JPanel implements
 		ControlPanel cp = dcv.new ControlPanel( dcv );
 		co.add( cp, BorderLayout.SOUTH );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**
