@@ -34,4 +34,6 @@ public abstract class RAInputStream extends InputStream
     public abstract long readLong() throws IOException;
 
 	public abstract void readFully( byte b[], int off, int len ) throws IOException;
+	
+	public abstract void refresh( ) throws IOException;
 }

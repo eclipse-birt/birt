@@ -44,6 +44,12 @@ public class RAFileInputStream extends RAInputStream
 		this.bufCur = 0;
 	}
 	
+	public void refresh( ) throws IOException
+	{
+		bufLen = 0;
+		bufCur = 0;
+	}
+	
 	private void readToBuffer() throws IOException
 	{
 		bufLen = 0;
