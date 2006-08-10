@@ -45,15 +45,15 @@ public class MultiPass_NestedQueryTest extends APITestCase
 		( (OdaDataSetDesign) this.dataSet ).setQueryText( sqlStatement );
 
 		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY", 0 ),
-				new ScriptExpression( "row.AMOUNT", 0 ),
-				new ScriptExpression( "row.SALE_DATE", 0 )};
+				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
+				new ScriptExpression( "dataSetRow.AMOUNT", 0 ),
+				new ScriptExpression( "dataSetRow.SALE_DATE", 0 )};
 
 		String names[] = {"COL_COUNTRY", "COL_AMOUNT", "COL_SALE_DATE"};
 
 		FilterDefinition filterDefn = new FilterDefinition(
 				new ConditionalExpression(
-						"Total.sum( Total.ave( row.AMOUNT,null,1 ),null,1)",
+						"Total.sum( Total.ave( dataSetRow.AMOUNT,null,1 ),null,1)",
 						IConditionalExpression.OP_GT, "0.2" ) );
 
 		// FilterDefinition filterDefn = new FilterDefinition (
@@ -62,7 +62,7 @@ public class MultiPass_NestedQueryTest extends APITestCase
 		// );
 
 		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyExpression( "row.COUNTRY" );
+		groupDefn.setKeyExpression( "dataSetRow.COUNTRY" );
 		groupDefn.addFilter( filterDefn );
 
 		QueryDefinition queryDefn = new QueryDefinition( );
