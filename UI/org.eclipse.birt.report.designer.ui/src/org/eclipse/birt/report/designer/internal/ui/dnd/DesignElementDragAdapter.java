@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;
@@ -27,6 +30,9 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 {
 
 	private StructuredViewer viewer;
+
+	// added this member to fix bug 116180
+	private List selectionList = new ArrayList( );
 
 	/**
 	 * Constructor
@@ -59,9 +65,11 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 	 */
 	public void dragSetData( DragSourceEvent event )
 	{
-		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
-		Object[] objects = selection.toList( ).toArray( );
+//		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
+//		Object[] objects = selection.toList( ).toArray( );
 
+		// fix bug 116180
+		Object[] objects = selectionList.toArray( );
 		if ( TemplateTransfer.getInstance( ).isSupportedType( event.dataType ) )
 			event.data = objects;
 	}
@@ -75,6 +83,7 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 		if ( doit )
 		{
 			IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
+			selectionList = selection.toList( );
 			Object[] objects = selection.toList( ).toArray( );
 			if ( validateType( objects ) )
 			{
