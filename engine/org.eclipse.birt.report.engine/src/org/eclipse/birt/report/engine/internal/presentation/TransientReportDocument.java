@@ -30,14 +30,16 @@ public class TransientReportDocument implements IReportDocument
 	protected Map globalVariables;
 	protected Map parameters;
 	protected long pageNumber;
+	protected boolean isComplete;
 
 	TransientReportDocument( IReportDocument document, long pageNumber,
-			Map paramters, Map globalVariables )
+			Map paramters, Map globalVariables, boolean isComplete )
 	{
 		this.document = document;
 		this.pageNumber = pageNumber;
 		this.parameters = paramters;
 		this.globalVariables = globalVariables;
+		this.isComplete = isComplete;
 	}
 
 	public IDocArchiveReader getArchive( )
@@ -123,5 +125,25 @@ public class TransientReportDocument implements IReportDocument
 	public long getBookmarkOffset( String bookmark )
 	{
 		return -1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#isComplete()
+	 */
+	public boolean isComplete( )
+	{
+		return isComplete;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#refresh()
+	 */
+	public void refresh( )
+	{
+		return;
 	}
 }

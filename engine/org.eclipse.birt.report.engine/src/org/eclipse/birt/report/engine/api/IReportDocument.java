@@ -149,4 +149,16 @@ public interface IReportDocument
 	 * @return a map for all the global variables defined in JavaScript or Java
 	 */
 	public abstract Map getGlobalVariables( String option);
+	
+	/**
+	 * @return whether the document has all been written.
+	 */
+	public boolean isComplete( );
+	
+	/**
+	 * check the current readed checkpoint and the current writed check point.
+	 * if equal, do nothing.
+	 * otherwise, reload the core stream, the checkpoint and page count.
+	 */
+	public void refresh( );
 }

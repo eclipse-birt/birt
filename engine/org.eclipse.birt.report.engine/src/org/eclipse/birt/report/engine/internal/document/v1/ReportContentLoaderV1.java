@@ -202,9 +202,27 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		}
 	}
 
+	protected IPageHint loadPageHint( long pageNumber )
+	{
+		try
+		{
+			return hintReader.getPageHint( pageNumber );
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.WARNING,
+					"Failed to load page hint " + pageNumber, ex );
+		}
+		return null;
+	}
+	
 	private void excutePage( long pageNumber, boolean bodyOnly )
 	{
-		IPageHint pageHint = hintReader.getPageHint( pageNumber );
+		IPageHint pageHint = loadPageHint( pageNumber );
+		if ( pageHint == null )
+		{
+			return;
+		}
 		IPageContent pageContent = null;
 		if ( !bodyOnly )
 		{
@@ -556,7 +574,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.8 $ $Date: 2006/06/13 15:37:34 $
+	 * @version $Revision: 1.9 $ $Date: 2006/06/19 05:03:02 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{

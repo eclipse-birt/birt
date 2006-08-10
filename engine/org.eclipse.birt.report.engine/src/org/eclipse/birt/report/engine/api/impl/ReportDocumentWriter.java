@@ -40,15 +40,16 @@ import org.eclipse.birt.report.model.api.util.DocumentUtil;
  */
 public class ReportDocumentWriter implements ReportDocumentConstants
 {
-
 	static private Logger logger = Logger.getLogger( ReportDocumentWriter.class
 			.getName( ) );
-
+	
 	private IReportEngine engine;
 	private IDocArchiveWriter archive;
 	private String designName;
 	private HashMap paramters = new HashMap( );
 	private HashMap globalVariables = new HashMap( );
+	private int checkpoint = CHECKPOINT_INIT;
+	private long pageCount = PAGECOUNT_INIT;
 
 	public ReportDocumentWriter( IReportEngine engine, IDocArchiveWriter archive )
 	{
@@ -57,7 +58,21 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			archive.initialize( );
-			saveCoreStreams( );
+			IReportDocumentLock lock = lock( getName( ) );
+			synchronized ( lock )
+			{
+				try
+				{
+					saveCoreStreams( );
+				}
+				catch ( Exception ex )
+				{				
+				}
+				finally
+				{				
+					lock.unlock( );
+				}
+			}
 		}
 		catch ( Exception e )
 		{
@@ -74,7 +89,19 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		try
 		{
-			saveCoreStreams( );
+			IReportDocumentLock lock = lock( getName( ) );
+			synchronized ( lock )
+			{
+				try
+				{
+					checkpoint = CHECKPOINT_END;
+					saveCoreStreams( );
+				}
+				finally
+				{				
+					lock.unlock( );
+				}
+			}
 			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
 			archive.finish( );
 		}
@@ -289,7 +316,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 * @return
 	 * @throws BirtException
 	 */
-	protected IReportDocumentLock lock( String documentName )
+	public IReportDocumentLock lock( String documentName )
 			throws BirtException
 	{
 		IReportDocumentLockManager manager = null;
@@ -307,50 +334,79 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 		return manager.lock( documentName );
 	}
-
-	public void saveCoreStreams( )  throws Exception
+		
+	public void saveCoreStreams( ) throws Exception
 	{
-		// create a mutex named with the system
-		// lock the mutex
-		IReportDocumentLock lock = lock( getName( ) );
-		synchronized ( lock )
+		RAOutputStream out;
+		DataOutputStream coreStream = null;
+		try
 		{
-
-			RAOutputStream out;
-			DataOutputStream coreStream = null;
-			try
+			out = archive.createRandomAccessStream( CORE_STREAM );
+			coreStream = new DataOutputStream( new BufferedOutputStream(
+					out ) );
+			IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
+			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_2_1_0 );
+			IOUtil.writeString( coreStream, designName );
+			IOUtil.writeMap( coreStream, paramters );
+			IOUtil.writeMap( coreStream, globalVariables );			
+		}
+		catch ( IOException ex )
+		{
+			logger
+					.log( Level.SEVERE, "Failed to save the core stream!",
+							ex );
+		}
+		finally
+		{
+			if ( coreStream != null )
 			{
-				out = archive.createRandomAccessStream( CORE_STREAM );
-				coreStream = new DataOutputStream( new BufferedOutputStream(
-						out ) );
-				IOUtil.writeString( coreStream, REPORT_DOCUMENT_TAG );
-				IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_2_1_0 );
-				IOUtil.writeString( coreStream, designName );
-				IOUtil.writeMap( coreStream, paramters );
-				IOUtil.writeMap( coreStream, globalVariables );
-			}
-			catch ( IOException ex )
-			{
-				logger
-						.log( Level.SEVERE, "Failed to save the core stream!",
-								ex );
-			}
-			finally
-			{
-				if ( coreStream != null )
+				try
 				{
-					try
-					{
-						coreStream.flush( );
-						coreStream.close( );
-					}
-					catch ( Exception ex )
-					{
-					}
+					coreStream.close( );
 				}
-				lock.unlock( );
+				catch ( Exception ex )
+				{
+				}
 			}
 		}
+		
+		DataOutputStream checkpointStream = null;
+		try
+		{
+			out = archive.createRandomAccessStream( CHECKPOINT_STREAM );			
+			checkpointStream = new DataOutputStream( new BufferedOutputStream(
+					out ) );
+			if ( checkpoint != CHECKPOINT_END )
+			{
+				checkpoint++;
+			}
+			IOUtil.writeInt( checkpointStream, checkpoint );
+			IOUtil.writeLong( checkpointStream, pageCount );
+		}
+		catch ( IOException ex )
+		{
+			logger
+					.log( Level.SEVERE, "Failed to save the checkpoint stream!",
+							ex );
+		}
+		finally
+		{
+			if ( checkpointStream != null )
+			{
+				try
+				{
+					checkpointStream.close( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
+	}
+	
+	public void setPageCount( long pageCount )
+	{
+		this.pageCount = pageCount;
 	}
 
 	public void saveReprotletsBookmarkIndex( Map bookmarkToOffset)

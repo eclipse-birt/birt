@@ -94,6 +94,19 @@ public class ReportPageReader extends ReportReader
 		}
 	}
 
+	protected IPageHint loadPageHint(long pageNumber)
+	{
+		try
+		{
+			IPageHint hint = hintReader.getPageHint( pageNumber );
+			return hint;
+		}
+		catch(IOException ex)
+		{
+			logger.log( Level.WARNING, "Failed to load page hint" + pageNumber, ex );
+		}
+		return null;
+	}
 	protected void loadPageHints( )
 	{
 		for ( int m = 0; m < outputPages.size( ); m++ )
@@ -101,7 +114,11 @@ public class ReportPageReader extends ReportReader
 			long[] ps = (long[]) outputPages.get( m );
 			for ( long pageNumber = ps[0]; pageNumber <= ps[1]; pageNumber++ )
 			{
-				IPageHint pageHint = hintReader.getPageHint( pageNumber );
+				IPageHint pageHint = loadPageHint( pageNumber );
+				if ( pageHint == null )
+				{
+					continue;
+				}
 				int sectCount = pageHint.getSectionCount( );
 				for ( int i = 0; i < sectCount; i++ )
 				{
@@ -247,7 +264,7 @@ public class ReportPageReader extends ReportReader
 
 	IPageContent loadPageContent( long pageNumber )
 	{
-		IPageHint pageHint = hintReader.getPageHint( pageNumber );
+		IPageHint pageHint = loadPageHint( pageNumber );
 		if ( pageHint != null )
 		{
 			long offset = pageHint.getOffset( );
@@ -298,7 +315,7 @@ public class ReportPageReader extends ReportReader
 	Fragment loadPageFragment( long pageNumber )
 	{
 		Fragment fragment = new Fragment( );
-		IPageHint pageHint = hintReader.getPageHint( pageNumber );
+		IPageHint pageHint = loadPageHint( pageNumber );
 		if ( pageHint != null )
 		{
 			int sectionCount = pageHint.getSectionCount( );

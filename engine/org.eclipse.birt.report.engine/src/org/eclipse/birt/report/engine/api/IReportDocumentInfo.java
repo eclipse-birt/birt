@@ -18,10 +18,11 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * the interface used to access the traisent informations of a report document.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:31 $
+ * @version $Revision: 1.3 $ $Date: 2006/06/23 03:43:03 $
  */
 public interface IReportDocumentInfo
 {
 	List getErrors( );
 	IReportDocument openReportDocument() throws BirtException;
+	boolean isComplete();
 }

@@ -76,17 +76,17 @@ public class PageHintReaderV1 implements IPageHintReader
 	{
 	}
 
-	public long getTotalPage( )
+	public long getTotalPage( ) throws IOException
 	{
 		return pageHints.size( );
 	}
 
-	public IPageHint getPageHint( long pageNumber )
+	public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
 		return (PageHintV1) pageHints.get( (int) pageNumber );
 	}
 	
-	public long findPage(long offset)
+	public long findPage(long offset) throws IOException
 	{
 		for (int i = 0; i < pageHints.size( ); i++)
 		{

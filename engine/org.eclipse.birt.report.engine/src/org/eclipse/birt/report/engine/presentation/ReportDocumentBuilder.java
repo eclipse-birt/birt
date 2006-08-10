@@ -18,8 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
+import org.eclipse.birt.report.engine.api.IReportDocumentLock;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
@@ -152,7 +154,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.8 $ $Date: 2006/06/22 08:38:23 $
+	 * @version $Revision: 1.9 $ $Date: 2006/06/23 10:08:35 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -245,7 +247,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.8 $ $Date: 2006/06/22 08:38:23 $
+	 * @version $Revision: 1.9 $ $Date: 2006/06/23 10:08:35 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -407,7 +409,8 @@ public class ReportDocumentBuilder
 			if ( context instanceof HTMLLayoutContext )
 			{
 				HTMLLayoutContext htmlContext = (HTMLLayoutContext) context;
-
+				document.setPageCount( pageNumber );
+				
 				boolean checkpoint = false;
 				// check points for page 1, 10, 50, 100, 200 ...
 				// the end of report should also be check point.
@@ -419,9 +422,7 @@ public class ReportDocumentBuilder
 
 				boolean reportFinished = htmlContext.isFinished( );
 				if ( reportFinished )
-				{
-					writeTotalPage( pageNumber );
-					close( );
+				{					
 					checkpoint = true;
 				}
 				else
@@ -436,35 +437,63 @@ public class ReportDocumentBuilder
 						hint.addSection( startOffset, endOffset );
 					}
 					writePageHint( hint );
-					if ( checkpoint )
-					{
-						writeTotalPage( pageNumber );
-					}
 				}
 
 				if ( checkpoint )
 				{
+					// create a mutex named with the system
+					// lock the mutex
+					IReportDocumentLock lock;
 					try
 					{
-						document.saveCoreStreams( );
-					}
-					catch ( Exception ex )
-					{
-						logger.log( Level.SEVERE,
-								"Failed to save the report document", ex );
-					}
-					try
-					{
-						IDocArchiveWriter archive = document.getArchive( );
-						if ( archive != null )
+						lock = document.lock( document.getName( ) );
+						synchronized ( lock )
 						{
-							archive.flush( );
+							try
+							{					
+								
+								writeTotalPage( pageNumber );								
+								try
+								{
+									document.saveCoreStreams( );
+								}
+								catch ( Exception ex )
+								{
+									logger.log( Level.SEVERE,
+											"Failed to save the report document", ex );
+								}
+								
+								try
+								{
+									IDocArchiveWriter archive = document.getArchive( );
+									if ( archive != null )
+									{
+										archive.flush( );
+									}
+								}
+								catch ( IOException ex )
+								{
+									logger.log( Level.SEVERE,
+											"Failed to flush the report document", ex );
+								}
+							}
+							catch ( Exception ex )
+							{				
+							}
+							finally
+							{				
+								lock.unlock( );
+							}
 						}
 					}
-					catch ( IOException ex )
+					catch ( BirtException e )
 					{
-						logger.log( Level.SEVERE,
-								"Failed to flush the report document", ex );
+						e.printStackTrace();
+					}
+					
+					if ( reportFinished )
+					{					
+						close( );
 					}
 				}
 				// notify the page handler

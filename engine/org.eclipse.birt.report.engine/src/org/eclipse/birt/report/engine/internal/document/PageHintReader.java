@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
  * 
  * It can support mutiple versions.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
+ * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:31 $
  */
 public class PageHintReader implements IPageHintReader
 {
@@ -54,17 +54,17 @@ public class PageHintReader implements IPageHintReader
 		reader.close( );
 	}
 
-	public long getTotalPage( )
+	public long getTotalPage( ) throws IOException
 	{
 		return reader.getTotalPage( );
 	}
 
-	public IPageHint getPageHint( long pageNumber )
+	public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
 		return reader.getPageHint( pageNumber );
 	}
 
-	public long findPage( long content )
+	public long findPage( long content ) throws IOException
 	{
 		return reader.findPage( content );
 	}

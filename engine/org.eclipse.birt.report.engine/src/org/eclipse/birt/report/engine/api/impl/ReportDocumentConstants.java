@@ -76,6 +76,12 @@ public interface ReportDocumentConstants
 	static final String DATA_META_STREAM = "/Data/hierarchy";
 	
 	/**
+	 * checkpoint stream of the report content. 
+	 * To be used to control load core stream. 
+	 */
+	static final String CHECKPOINT_STREAM = "/checkpoint";
+	
+	/**
 	 * report document tag. exist in the header of the
 	 * core stream.
 	 */
@@ -94,4 +100,9 @@ public interface ReportDocumentConstants
 	 * version number, used after BIRT 2.1RC5.
 	 */
 	static final String REPORT_DOCUMENT_VERSION_2_1_0 = "2.1.0";
+	
+
+	static final int CHECKPOINT_INIT = 0;
+	static final int CHECKPOINT_END = -1;
+	static final int PAGECOUNT_INIT = 0;
 }

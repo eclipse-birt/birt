@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * the report document information given out by the report document builder
  * 
- * @version $Revision: 1.2 $ $Date: 2006/06/23 03:42:38 $
+ * @version $Revision: 1.3 $ $Date: 2006/07/17 03:24:00 $
  */
 public class ReportDocumentInfo implements IReportDocumentInfo
 {
@@ -54,7 +54,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		return pageNumber;
 	}
 
-	public boolean isFinsihed( )
+	public boolean isComplete( )
 	{
 		return finished;
 	}
@@ -79,7 +79,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		}
 		IReportDocument document = engine.openReportDocument( documentName );
 
-		return new TransientReportDocument( document, pageNumber, params, beans );
+		return new TransientReportDocument( document, pageNumber, params, beans, finished );
 	}
 
 	public List getErrors( )

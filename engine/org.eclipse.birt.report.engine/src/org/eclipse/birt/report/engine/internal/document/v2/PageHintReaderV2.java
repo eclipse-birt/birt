@@ -41,7 +41,12 @@ public class PageHintReaderV2 implements IPageHintReader
 		hintsStream = reader
 				.getStream( ReportDocumentConstants.PAGEHINT_STREAM );
 		indexStream = reader
-				.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );;
+				.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
+		if ( hintsStream == null || indexStream == null )
+		{
+			close();
+			throw new IOException("failed to open the index stream");
+		}
 	}
 
 	public void close( )
@@ -73,42 +78,25 @@ public class PageHintReaderV2 implements IPageHintReader
 		}
 	}
 
-	public long getTotalPage( )
+	public long getTotalPage( ) throws IOException
 	{
-		if ( totalPage == -1 )
-		{
-			try
-			{
-				indexStream.seek( 0 );
-				totalPage = indexStream.readLong( );
-			}
-			catch ( IOException ex )
-			{
-				ex.printStackTrace( );
-			}
-		}
+		indexStream.refresh();
+		indexStream.seek( 0 );
+		totalPage = indexStream.readLong( );
 		return totalPage;
 	}
 
-	public IPageHint getPageHint( long pageNumber )
+	public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
-		try
-		{
 			indexStream.seek( pageNumber * 8 );
 			long offset = indexStream.readLong( );
 			hintsStream.seek( offset );
 			PageHint hint = new PageHint( );
 			hint.readObject( new DataInputStream( hintsStream ) );
 			return hint;
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-		}
-		return null;
 	}
 
-	public long findPage( long offset )
+	public long findPage( long offset ) throws IOException
 	{
 		for ( long page = 1; page <= totalPage; page++ )
 		{

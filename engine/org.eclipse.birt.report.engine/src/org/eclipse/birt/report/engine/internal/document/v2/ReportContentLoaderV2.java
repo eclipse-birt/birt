@@ -206,6 +206,20 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 */
 	protected Stack contents = new Stack( );
 
+	protected IPageHint loadPageHint( long pageNumber )
+	{
+		try
+		{
+			return hintReader.getPageHint( pageNumber );
+		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.WARNING,
+					"Failed to load page hint " + pageNumber, ex );
+		}
+		return null;
+	}
+
 	/**
 	 * load the page content and output to the emitter.
 	 * 
@@ -216,7 +230,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 */
 	private void excutePage( long pageNumber, boolean bodyOnly )
 	{
-		IPageHint pageHint = hintReader.getPageHint( pageNumber );
+		IPageHint pageHint = loadPageHint( pageNumber );
+		if ( pageHint == null )
+		{
+			return;
+		}
 		IPageContent pageContent = null;
 		if ( !bodyOnly )
 		{
@@ -227,7 +245,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			}
 			catch ( IOException ex )
 			{
-				logger.log( Level.SEVERE, "Can't load the page content", ex );
+				logger.log( Level.SEVERE, "Can't load the page content " + pageNumber, ex );
 			}
 			if ( pageContent == null )
 			{

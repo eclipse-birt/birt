@@ -18,7 +18,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 /**
  * interfaces used to read the page hints.
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:52 $
  */
 public interface IPageHintReader
 {
@@ -27,9 +27,9 @@ public interface IPageHintReader
 
 	void close( );
 
-	long getTotalPage( );
+	long getTotalPage( ) throws IOException;
 
-	IPageHint getPageHint( long pageNumber );
+	IPageHint getPageHint( long pageNumber ) throws IOException;
 	
-	long findPage(long content);
+	long findPage(long content) throws IOException;
 }
