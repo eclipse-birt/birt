@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<xsd:schema targetNamespace="http://www.eclipse.org/birt/report/model/adapter/odaModel" xmlns:adapter="http://www.eclipse.org/birt/report/model/adapter/odaModel" xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:import namespace="http://www.eclipse.org/datatools/connectivity/oda/design" schemaLocation="DesignXML.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+		Schema file for the model.oda.adapter package.
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="DesignValues">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A collection of ODA related values. Includes data set parameters and result set columns.		</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Version" type="xsd:string" default="1.0.0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+					Specifies the version number of these values.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="design:DataSetParameters"/>
+			<xsd:element ref="design:ResultSets"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="DesignValues" type="adapter:DesignValues">
+		<xsd:annotation>
+			<xsd:documentation>A collection of ODA related values. Includes data set parameters and result set columns.		</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>
