@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
@@ -2545,7 +2546,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Removes special  script lib.
+	 * Removes special script lib.
 	 * 
 	 * @param scriptLib
 	 *            script lib
@@ -2564,25 +2565,25 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Removes all  script libs.
+	 * Removes all script libs.
 	 * 
 	 * @throws SemanticException
 	 */
 
 	public void dropAllScriptLibs( ) throws SemanticException
 	{
-		List scriptLibs = getListProperty( SCRIPTLIBS_PROP ) ;
+		List scriptLibs = getListProperty( SCRIPTLIBS_PROP );
 		int count = scriptLibs.size( );
-		for ( int i = count -1 ; i >= 0; --i )
+		for ( int i = count - 1; i >= 0; --i )
 		{
 			ScriptLib scriptLib = (ScriptLib) scriptLibs.get( i );
 			dropScriptLib( scriptLib );
 		}
 	}
-	
+
 	/**
-	 * Returns the iterator over all script libs. Each one is the instance
-	 * of <code>ScriptLibHandle</code>.
+	 * Returns the iterator over all script libs. Each one is the instance of
+	 * <code>ScriptLibHandle</code>.
 	 * <p>
 	 * 
 	 * @return the iterator over script libs.
@@ -2600,7 +2601,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return list which structure is <code>ScriptLib</code>
 	 */
-	
+
 	public List getAllScriptLibs( )
 	{
 		return getListProperty( SCRIPTLIBS_PROP );
@@ -2613,14 +2614,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            name of script lib
 	 * @return script lib
 	 */
-	
+
 	public ScriptLib findScriptLib( String name )
 	{
 		List scriptLibs = getListProperty( SCRIPTLIBS_PROP );
-		for( int i=0 ; scriptLibs!= null && i< scriptLibs.size( ); ++ i )
+		for ( int i = 0; scriptLibs != null && i < scriptLibs.size( ); ++i )
 		{
-			ScriptLib scriptLib = (ScriptLib)scriptLibs.get( i );
-			if( scriptLib.getName( ).equals( name ))
+			ScriptLib scriptLib = (ScriptLib) scriptLibs.get( i );
+			if ( scriptLib.getName( ).equals( name ) )
 			{
 				return scriptLib;
 			}
@@ -2659,13 +2660,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
 
-		if ( scriptLib == null )
-			return;
-
-		if ( StringUtil.isBlank( scriptLib.getName( ) ) )
+		if ( scriptLib == null || StringUtil.isBlank( scriptLib.getName( ) ) )
 		{
-			throw new PropertyValueException( getElement( ), propDefn, scriptLib,
+			throw new PropertyValueException( getElement( ), propDefn,
+					scriptLib,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
+		}
+		if ( findScriptLib( scriptLib.getName( ) ) != null )
+		{
+			throw new NameException( getElement( ), scriptLib.getName( ),
+					NameException.DESIGN_EXCEPTION_DUPLICATE );
 		}
 
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
