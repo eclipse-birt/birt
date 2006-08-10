@@ -29,7 +29,9 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -113,6 +115,17 @@ public class StructureFactory
 	public static DataSetParameter createDataSetParameter( )
 	{
 		return new DataSetParameter( );
+	}
+
+	/**
+	 * Creates an empty oda-data-set parameter strcuture.
+	 * 
+	 * @return an empty oda-data-set parameter
+	 */
+	 
+	public static OdaDataSetParameter createOdaDataSetParameter( )
+	{
+		return new OdaDataSetParameter( );
 	}
 
 	/**
@@ -201,6 +214,17 @@ public class StructureFactory
 	public static ResultSetColumn createResultSetColumn( )
 	{
 		return new ResultSetColumn( );
+	}
+
+	/**
+	 * Creates an empty oda result set column structure.
+	 * 
+	 * @return an empty result set column structure
+	 */
+
+	public static OdaResultSetColumn createOdaResultSetColumn( )
+	{
+		return new OdaResultSetColumn( );
 	}
 
 	/**

@@ -50,4 +50,19 @@ public interface IOdaDataSetModel
 
 	public static final String DESIGNER_STATE_PROP = "designerState"; //$NON-NLS-1$
 
+	/**
+	 * The property is used to save ODA persistent values.
+	 */
+
+	public static final String DESIGNER_VALUES_PROP = "designerValues"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of the structures of the expected result set's hint.
+	 * 
+	 * @deprecated since BIRT 2.1.1
+	 */
+
+	public static final String RESULT_SET_HINTS_PROP = "resultSetHints"; //$NON-NLS-1$
+
+
 }

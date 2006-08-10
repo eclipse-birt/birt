@@ -34,7 +34,9 @@ import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
@@ -315,15 +317,18 @@ public class StructureState extends AbstractPropertyState
 
 		if ( ( element instanceof DataSet ) )
 		{
-			if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
-			{
-				CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
-						handler, element, propDefn, list );
-				state.setName( propName );
-
-				return state;
-			}
-			else if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			// if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
+			// {
+			// CompatibleDataSetParamStructureState state = new
+			// CompatibleDataSetParamStructureState(
+			// handler, element, propDefn, list );
+			// state.setName( propName );
+			//
+			// return state;
+			//			}
+			//			else
+			//				
+			if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
 						handler, element, propDefn, list );
@@ -421,6 +426,9 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( DataSetParameter.STRUCT_NAME.toLowerCase( ),
 				DataSetParameter.class );
 
+		structDict.put( OdaDataSetParameter.STRUCT_NAME.toLowerCase( ),
+				OdaDataSetParameter.class );
+
 		structDict.put( MapRule.STRUCTURE_NAME.toLowerCase( ), MapRule.class );
 
 		structDict.put( ParamBinding.PARAM_BINDING_STRUCT.toLowerCase( ),
@@ -465,7 +473,10 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( OdaDesignerState.STRUCTURE_NAME.toLowerCase( ),
 				OdaDesignerState.class );
-		
+
+		structDict.put( OdaResultSetColumn.STRUCTURE_NAME.toLowerCase( ),
+				OdaResultSetColumn.class );
+
 		structDict.put( ScriptLib.STRUCTURE_NAME.toLowerCase( ),
 				ScriptLib.class );
 	}

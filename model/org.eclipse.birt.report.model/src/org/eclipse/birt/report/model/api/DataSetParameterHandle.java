@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
- * Represents the parameter for ODA drivers. The parameter is the part of the
- * data set definition, if defined. A parameter can be an input or output
+ * Represents the parameter for data set drivers. The parameter is the part of
+ * the data set definition, if defined. A parameter can be an input or output
  * parameter. A parameter can also be input and output parameter. Each data set
  * parameter has the following properties:
  * 
@@ -357,11 +357,13 @@ public class DataSetParameterHandle extends StructureHandle
 	 * Returns the native data type.
 	 * 
 	 * @return the parameter native data type.
+	 * 
+	 * @deprecated
 	 */
 
 	public Integer getNativeDataType( )
 	{
-		return (Integer) getProperty( DataSetParameter.NATIVE_DATA_TYPE_MEMBER );
+		return null;
 	}
 
 	/**
@@ -369,11 +371,13 @@ public class DataSetParameterHandle extends StructureHandle
 	 * 
 	 * @param dataType
 	 *            the native data type to set.
+	 * 
+	 * @deprecated
 	 */
 
 	public void setNativeDataType( Integer dataType )
 	{
-		setPropertySilently( DataSetParameter.NATIVE_DATA_TYPE_MEMBER, dataType );
+
 	}
 
 	/**

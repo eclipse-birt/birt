@@ -15,11 +15,13 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
@@ -165,7 +167,7 @@ class PropertyState extends AbstractPropertyState
 			state.setName( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN );
 			return state;
 		}
-		
+
 		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 ) //$NON-NLS-1$
 				&& ( element instanceof ScalarParameter )
 				&& ( ScalarParameter.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
@@ -274,6 +276,16 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) <= 0 //$NON-NLS-1$
+				&& struct instanceof DataSetParameter
+				&& "isNullable".equals( name ) ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, propDefn, struct, "isNullable" ); //$NON-NLS-1$
+			state.setName( DataSetParameter.ALLOW_NULL_MEMBER );
+			return state;
+		}
+
 		if ( ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
 				|| ITableRowModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) || IReportItemModel.ON_CREATE_METHOD
 				.equalsIgnoreCase( name ) )
@@ -296,6 +308,16 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.5" ) < 0 //$NON-NLS-1$
+				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
+				&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase( name ) )
+		{
+			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
+					handler, element, propDefn, struct );
+			state.setName( DataSetParameter.DATA_TYPE_MEMBER );
+			return state;
+		}
+
 		if ( element instanceof ReportDesign
 				&& IReportDesignModel.THUMBNAIL_PROP.equalsIgnoreCase( name ) )
 		{
@@ -304,17 +326,22 @@ class PropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-		
-		if ( struct instanceof EmbeddedImage && EmbeddedImage.DATA_MEMBER.equalsIgnoreCase( name ) )
+
+		if ( struct instanceof EmbeddedImage
+				&& EmbeddedImage.DATA_MEMBER.equalsIgnoreCase( name ) )
 		{
-			Base64PropertyState state = new Base64PropertyState( handler, element, propDefn, struct, EmbeddedImage.CHARSET );
+			Base64PropertyState state = new Base64PropertyState( handler,
+					element, propDefn, struct, EmbeddedImage.CHARSET );
 			state.setName( name );
 			return state;
 		}
-		
-		if ( struct instanceof OdaDesignerState && OdaDesignerState.CONTENT_AS_BLOB_MEMBER.equalsIgnoreCase( name ) )
+
+		if ( struct instanceof OdaDesignerState
+				&& OdaDesignerState.CONTENT_AS_BLOB_MEMBER
+						.equalsIgnoreCase( name ) )
 		{
-			Base64PropertyState state = new Base64PropertyState( handler, element, propDefn, struct, OdaDesignerState.CHARSET );
+			Base64PropertyState state = new Base64PropertyState( handler,
+					element, propDefn, struct, OdaDesignerState.CHARSET );
 			state.setName( name );
 			return state;
 		}

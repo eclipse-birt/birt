@@ -11,17 +11,11 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.JointDataSet;
-import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 /**
  * Parser of the joint data set element.
@@ -72,32 +66,4 @@ public class JointDataSetState extends ReportElementState
 	{
 		initElement( attrs, true );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
-	 */
-
-	public void end( ) throws SAXException
-	{
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
-		{
-			List dataSetColumns = (List) element.getLocalProperty(
-					handler.module, IDataSetModel.RESULT_SET_PROP );
-			Object dataSetHints = element.getLocalProperty( handler.module,
-					IDataSetModel.RESULT_SET_HINTS_PROP );
-			if ( dataSetHints == null && dataSetColumns != null )
-				element
-						.setProperty(
-								IDataSetModel.RESULT_SET_HINTS_PROP,
-								ModelUtil
-										.copyValue(
-												element
-														.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
-												dataSetColumns ) );
-		}
-		super.end( );
-	}
-
 }

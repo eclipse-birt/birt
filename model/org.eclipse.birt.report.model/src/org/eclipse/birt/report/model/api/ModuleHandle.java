@@ -1703,11 +1703,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Returns all parameter handles that this modules and the included modules
-	 * contain.
+	 * Returns all parameter handles that this modules.
 	 * 
-	 * @return all parameter handles that this modules and the included modules
-	 *         contain.
+	 * @return all parameter handles that this modules.
 	 */
 
 	public List getAllParameters( )

@@ -168,7 +168,25 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public Iterator resultSetIterator( )
 	{
-		return super.resultSetHintsIterator( );
+		return resultSetHintsIterator( );
+	}
+
+	/**
+	 * Returns an iterator over hints of the result set columns. The iterator
+	 * returns instances of <code>ResultSetColumnHandle</code> that represents
+	 * hints of result set column object.
+	 * 
+	 * @return iterator over hints of result set columns.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn
+	 * 
+	 */
+
+	public Iterator resultSetHintsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_HINTS_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 
 }

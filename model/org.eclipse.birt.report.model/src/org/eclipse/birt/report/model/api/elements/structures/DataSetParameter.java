@@ -24,8 +24,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 
 /**
- * Represents the parameter for ODA drivers. The parameter is the part of the
- * data set definition, if defined. A parameter can be an input or output
+ * Represents the parameter for data set drivers. The parameter is the part of
+ * the data set definition, if defined. A parameter can be an input or output
  * parameter. A parameter can also be input and output parameter. Each data set
  * parameter has the following properties:
  * 
@@ -54,7 +54,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
  * 
- *  
+ * 
  */
 
 public class DataSetParameter extends Structure
@@ -127,12 +127,6 @@ public class DataSetParameter extends Structure
 	public static final String IS_OUTPUT_MEMBER = "isOutput"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member indicating the native (database) data type code.
-	 */
-
-	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
-
-	/**
 	 * The parameter position.
 	 */
 
@@ -180,18 +174,6 @@ public class DataSetParameter extends Structure
 
 	private String defaultValue;
 
-	/**
-	 * The native (database) data type.
-	 */
-	
-	private Integer nativeDataType;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.OutputParameter#getStructName()
-	 */
-
 	public String getStructName( )
 	{
 		return STRUCT_NAME;
@@ -220,11 +202,9 @@ public class DataSetParameter extends Structure
 			return allowNull;
 		if ( IS_INPUT_MEMBER.equals( propName ) )
 			return isInput;
-		if ( IS_OUTPUT_MEMBER.equals( propName ) )			
+		if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			return isOutput;
-		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			return nativeDataType;		
-	
+
 		assert false;
 		return null;
 	}
@@ -255,8 +235,6 @@ public class DataSetParameter extends Structure
 			isInput = (Boolean) value;
 		else if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			isOutput = (Boolean) value;
-		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			nativeDataType = (Integer) value;
 		else
 			assert false;
 	}
@@ -507,34 +485,10 @@ public class DataSetParameter extends Structure
 
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
-			list.add( new PropertyValueException( element,
-					getDefn( ).getMember( NAME_MEMBER ),
-					getName( ),
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		return list;
-	}
-	
-	/**
-	 * Returns the native data type.
-	 * 
-	 * @return the parameter native data type.
-	 */
-
-	public Integer getNativeDataType( )
-	{
-		return (Integer) getProperty( null, NATIVE_DATA_TYPE_MEMBER );
-	}
-
-	/**
-	 * Sets the parameter native data type.
-	 * 
-	 * @param dataType
-	 *            the native data type to set.
-	 */
-
-	public void setNativeDataType( Integer dataType )
-	{
-		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
 	}
 }

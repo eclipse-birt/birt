@@ -202,11 +202,13 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * @return iterator over hints of result set columns.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn
+	 * 
+	 * @deprecated BIRT 2.1.1
 	 */
 
 	public Iterator resultSetHintsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_HINTS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( RESULT_SET_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
