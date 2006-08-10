@@ -17,10 +17,15 @@
 		<param-name>BIRT_VIEWER_WORKING_FOLDER</param-name>
 		<param-value></param-value>
 	</context-param>
-
-	<!-- If usr can only access the reprot under working folder. Default is true -->
+		
 	<context-param>
-		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
+		<param-name>BIRT_VIEWER_DOCUMENT_FOLDER</param-name>
+		<param-value></param-value>
+	</context-param>
+
+	<!-- If usr can only access the reprot and document under document folder. Default is false -->
+	<context-param>
+		<param-name>DOCUMENT_FOLDER_ACCESS_ONLY</param-name>
 		<param-value>false</param-value>
 	</context-param>
 

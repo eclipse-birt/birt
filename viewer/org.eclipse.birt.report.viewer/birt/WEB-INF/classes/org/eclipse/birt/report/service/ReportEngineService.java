@@ -1249,7 +1249,8 @@ public class ReportEngineService
 					}
 
 					buf.append( '\n' );
-					outputStream.write( buf.toString( ).getBytes( ) );
+					outputStream.write( buf.toString( ).getBytes(
+							ParameterAccessor.UTF_8_ENCODE ) );
 
 					buf.delete( 0, buf.length( ) );
 
@@ -1297,7 +1298,8 @@ public class ReportEngineService
 						}
 
 						buf.append( '\n' );
-						outputStream.write( buf.toString( ).getBytes( ) );
+						outputStream.write( buf.toString( ).getBytes(
+								ParameterAccessor.UTF_8_ENCODE ) );
 						buf.delete( 0, buf.length( ) );
 					}
 				}
