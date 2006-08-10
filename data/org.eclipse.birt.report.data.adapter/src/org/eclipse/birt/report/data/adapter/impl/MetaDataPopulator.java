@@ -51,8 +51,9 @@ public class MetaDataPopulator
 		if ( dataSetHandle instanceof OdaDataSetHandle )
 		{
 			resultSetList = (List) dataSetHandle.getProperty( OdaDataSetHandle.RESULT_SET_PROP );
-			dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
-					.clearValue( );
+			if ( dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP ) != null )
+				dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP )
+						.clearValue( );
 		}
 		else
 		{
