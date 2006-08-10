@@ -144,6 +144,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			spantmp.style.background = "#FFFFFF";
 			spantmp.style.overflow = "visible";
 			td1.appendChild( spantmp );
+			td1.noWrap = true;
 			
 			tr1.appendChild( td1 );
 			
