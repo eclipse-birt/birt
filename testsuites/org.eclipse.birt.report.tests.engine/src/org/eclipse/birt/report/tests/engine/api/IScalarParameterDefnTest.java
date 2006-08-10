@@ -186,15 +186,36 @@ public class IScalarParameterDefnTest extends EngineCase
 	/*
 	 * test getSelectionListType method
 	 */
-	public void testGetSelectionListType( )
+	public void testGetSelectionListType_static( )
 	{
+		// static
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_list" );
-		assertEquals( "GetSelectionListType method failed",
+		assertEquals( "GetSelectionListType method failed to get static type",
 				IScalarParameterDefn.SELECTION_LIST_STATIC, scalarDefn
 						.getSelectionListType( ) );
 	}
 
+	public void testGetSelectionListType_dynamic( )
+	{
+		// dynamic
+		scalarDefn = (IScalarParameterDefn) paramTask
+				.getParameterDefn( "p_dynamic" );
+		assertEquals( "GetSelectionListType method failed to get dynamic type",
+				IScalarParameterDefn.SELECTION_LIST_DYNAMIC, scalarDefn
+						.getSelectionListType( ) );
+	}
+	public void testGetSelectionListType_none( )
+	{
+		// none
+		scalarDefn = (IScalarParameterDefn) paramTask
+				.getParameterDefn( "p_string" );
+		assertEquals( "GetSelectionListType method failed to get none type",
+				IScalarParameterDefn.SELECTION_LIST_NONE, scalarDefn
+						.getSelectionListType( ) );
+
+	}
+	
 	/*
 	 * test displayInFixedOrder method
 	 */
