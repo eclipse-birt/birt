@@ -117,7 +117,7 @@ public class PageHintReaderV2 implements IPageHintReader
 			{
 				long start = pageHint.getSectionStart( section );
 				long end = pageHint.getSectionEnd( section );
-				if ( start >= offset && end <= offset )
+				if( start <= offset && offset <= end )
 				{
 					return page;
 				}
