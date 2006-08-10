@@ -127,6 +127,14 @@ public class DataSetParameter extends Structure
 	public static final String IS_OUTPUT_MEMBER = "isOutput"; //$NON-NLS-1$
 
 	/**
+	 * Name of the member indicating the native (database) data type code.
+	 * 
+	 * @deprecated since 2.1.1
+	 */
+
+	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
+
+	/**
 	 * The parameter position.
 	 */
 
@@ -174,6 +182,12 @@ public class DataSetParameter extends Structure
 
 	private String defaultValue;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.OutputParameter#getStructName()
+	 */
+
 	public String getStructName( )
 	{
 		return STRUCT_NAME;
@@ -204,6 +218,8 @@ public class DataSetParameter extends Structure
 			return isInput;
 		if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			return isOutput;
+		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+			return null;
 
 		assert false;
 		return null;
@@ -235,6 +251,8 @@ public class DataSetParameter extends Structure
 			isInput = (Boolean) value;
 		else if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			isOutput = (Boolean) value;
+		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+			;
 		else
 			assert false;
 	}
@@ -490,5 +508,29 @@ public class DataSetParameter extends Structure
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		return list;
+	}
+
+	/**
+	 * Returns the native data type.
+	 * 
+	 * @return the parameter native data type.
+	 * @deprecated since 2.1.1
+	 */
+
+	public Integer getNativeDataType( )
+	{
+		return null;
+	}
+
+	/**
+	 * Sets the parameter native data type.
+	 * 
+	 * @param dataType
+	 *            the native data type to set.
+	 * @deprecated since 2.1.1
+	 */
+
+	public void setNativeDataType( Integer dataType )
+	{
 	}
 }

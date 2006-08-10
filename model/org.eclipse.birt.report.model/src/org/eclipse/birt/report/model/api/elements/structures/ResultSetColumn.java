@@ -73,6 +73,14 @@ public class ResultSetColumn extends Structure
 	public static final String DATA_TYPE_MEMBER = "dataType"; //$NON-NLS-1$
 
 	/**
+	 * Name of the member indicating the native (database) data type code.
+	 * 
+	 * @deprecated since 2.1.1
+	 */
+
+	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
+
+	/**
 	 * The parameter position.
 	 */
 
@@ -115,6 +123,8 @@ public class ResultSetColumn extends Structure
 			return columnName;
 		if ( DATA_TYPE_MEMBER.equals( propName ) )
 			return dataType;
+		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+			return null;
 
 		assert false;
 		return null;
@@ -135,6 +145,8 @@ public class ResultSetColumn extends Structure
 			columnName = (String) value;
 		else if ( DATA_TYPE_MEMBER.equals( propName ) )
 			dataType = (String) value;
+		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+			;
 		else
 			assert false;
 	}
@@ -241,6 +253,30 @@ public class ResultSetColumn extends Structure
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
 		return new ResultSetColumnHandle( valueHandle, index );
+	}
+
+	/**
+	 * Returns the native data type.
+	 * 
+	 * @return the result set column native data type.
+	 * @deprecated since 2.1.1
+	 */
+
+	public Integer getNativeDataType( )
+	{
+		return null;
+	}
+
+	/**
+	 * Sets the result set column native data type.
+	 * 
+	 * @param dataType
+	 *            the native data type to set.
+	 * @deprecated since 2.1.1
+	 */
+
+	public void setNativeDataType( Integer dataType )
+	{
 	}
 
 	/**
