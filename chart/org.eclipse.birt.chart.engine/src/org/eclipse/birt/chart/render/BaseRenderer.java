@@ -639,11 +639,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					case Anchor.WEST :
 					case Anchor.NORTH_WEST :
+					case Anchor.SOUTH_WEST :
 						dX = bo.getLeft( );
 						break;
 
 					case Anchor.EAST :
 					case Anchor.SOUTH_EAST :
+					case Anchor.NORTH_EAST :
 						dX = bo.getLeft( ) + bo.getWidth( ) - sz.getWidth( );
 						break;
 

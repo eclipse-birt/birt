@@ -117,6 +117,10 @@ public final class LayoutManager
 
 		// restrict lenged size to 1/3 of the total block size.
 		// TODO use better layout solution
+
+		final double renderLegendHeight = szLegend.getHeight( );
+		final double renderLegendWidth = szLegend.getWidth( );
+
 		switch ( po.getValue( ) )
 		{
 			case Position.ABOVE :
@@ -129,7 +133,7 @@ public final class LayoutManager
 				break;
 			case Position.LEFT :
 			case Position.RIGHT :
-			case Position.OUTSIDE:
+			case Position.OUTSIDE :
 				// restrict width
 				if ( szLegend.getWidth( ) > bo.getWidth( ) / 3 )
 				{
@@ -465,7 +469,7 @@ public final class LayoutManager
 				break;
 
 			case Position.LEFT :
-				boLegend.setWidth( szLegend.getWidth( ) );
+				boLegend.setWidth( renderLegendWidth );
 				boLegend.setHeight( bo.getHeight( ) - szTitle.getHeight( ) );
 
 				boPlot.setWidth( plotWidthHint < 0 ? ( bo.getWidth( ) - boLegend.getWidth( ) )
@@ -496,15 +500,22 @@ public final class LayoutManager
 				}
 
 				boLegend.setTop( bo.getTop( ) );
-				boLegend.setLeft( bo.getLeft( ) );
+				boLegend.setLeft( bo.getLeft( )
+						+ szLegend.getWidth( )
+						- renderLegendWidth );
 
 				plotLeft = bo.getLeft( ) + szLegend.getWidth( );
 				plotTop = bo.getTop( );
 				switch ( titleAnchor.getValue( ) )
 				{
 					case Anchor.WEST :
-						boLegend.setLeft( bo.getLeft( ) + szTitle.getWidth( ) );
-						plotLeft = boLegend.getLeft( ) + szLegend.getWidth( );
+						boLegend.setLeft( bo.getLeft( )
+								+ szTitle.getWidth( )
+								+ szLegend.getWidth( )
+								- renderLegendWidth );
+						plotLeft = bo.getLeft( )
+								+ szTitle.getWidth( )
+								+ szLegend.getWidth( );
 						break;
 					case Anchor.EAST :
 						boTitle.setLeft( bo.getLeft( )
@@ -618,12 +629,12 @@ public final class LayoutManager
 
 			case Position.ABOVE :
 				boLegend.setWidth( bo.getWidth( ) );
-				boLegend.setHeight( szLegend.getHeight( ) );
+				boLegend.setHeight( renderLegendHeight );
 
 				boPlot.setWidth( plotWidthHint < 0 ? bo.getWidth( )
 						: plotWidthHint );
 				boPlot.setHeight( plotHeightHint < 0 ? ( bo.getHeight( )
-						- szTitle.getHeight( ) - boLegend.getHeight( ) )
+						- szTitle.getHeight( ) - szLegend.getHeight( ) )
 						: plotHeightHint );
 
 				switch ( titleAnchor.getValue( ) )
@@ -647,10 +658,12 @@ public final class LayoutManager
 						break;
 				}
 
-				boLegend.setTop( bo.getTop( ) );
+				boLegend.setTop( bo.getTop( )
+						+ szLegend.getHeight( )
+						- renderLegendHeight );
 				boLegend.setLeft( bo.getLeft( ) );
 				plotLeft = bo.getLeft( );
-				plotTop = bo.getTop( ) + boLegend.getHeight( );
+				plotTop = bo.getTop( ) + szLegend.getHeight( );
 
 				switch ( titleAnchor.getValue( ) )
 				{
@@ -667,9 +680,12 @@ public final class LayoutManager
 					case Anchor.NORTH_EAST :
 					case Anchor.NORTH_WEST :
 						plotTop = bo.getTop( )
-								+ boLegend.getHeight( )
+								+ szLegend.getHeight( )
 								+ szTitle.getHeight( );
-						boLegend.setTop( bo.getTop( ) + szTitle.getHeight( ) );
+						boLegend.setTop( bo.getTop( )
+								+ szTitle.getHeight( )
+								+ szLegend.getHeight( )
+								- renderLegendHeight );
 						break;
 				}
 
