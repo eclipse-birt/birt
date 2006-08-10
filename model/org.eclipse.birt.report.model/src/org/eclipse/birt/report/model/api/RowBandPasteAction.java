@@ -49,6 +49,12 @@ public class RowBandPasteAction extends RowBandAction
 	protected boolean canPaste( TableRow clonedRow,
 			RowOperationParameters parameters )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
+
 		int destIndex = parameters.getDestIndex( );
 
 		int desColumnCount = adapter.getColumnCount( );
@@ -85,10 +91,9 @@ public class RowBandPasteAction extends RowBandAction
 	{
 
 		if ( !canPaste( copiedRow, parameters ) )
-			throw new SemanticError( adapter
-				.getElementHandle( ).getElement( ), new String[]{adapter
-				.getElementHandle( ).getName( )},
-				SemanticError.DESIGN_EXCEPTION_ROW_PASTE_FORBIDDEN );
+			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
+					new String[]{adapter.getElementHandle( ).getName( )},
+					SemanticError.DESIGN_EXCEPTION_ROW_PASTE_FORBIDDEN );
 
 		int destIndex = parameters.getDestIndex( );
 		SlotHandle slotHandle = getSlotHandle( parameters );
@@ -103,9 +108,9 @@ public class RowBandPasteAction extends RowBandAction
 			// when paste , there is no need to adjust the position
 
 			slotHandle.drop( destIndex );
-			
-			//add table row and do semantic check
-			
+
+			// add table row and do semantic check
+
 			slotHandle.paste( copiedRow.getHandle( slotHandle.getModule( ) ),
 					destIndex );
 		}

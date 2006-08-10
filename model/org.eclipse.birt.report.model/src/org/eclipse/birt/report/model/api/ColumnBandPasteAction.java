@@ -55,6 +55,12 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 	protected boolean canPaste( int columnIndex, boolean inForce,
 			ColumnBandData data )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
+
 		List cells = data.getCells( );
 
 		List originalCells = getCellsContextInfo( adapter
@@ -124,7 +130,7 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 				adapter.getModule( ).getActivityStack( ).startSilentTrans( );
 			else
 				adapter.getModule( ).getActivityStack( ).startTrans( );
-			
+
 			pasteColumn( column, columnIndex, false );
 			pasteCells( cells, originalCells, columnIndex, false );
 		}

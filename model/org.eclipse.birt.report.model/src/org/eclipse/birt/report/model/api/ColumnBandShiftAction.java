@@ -52,6 +52,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 	protected ColumnBandData getShiftData( int sourceIndex )
 			throws SemanticException
 	{
+
 		if ( sourceIndex <= 0 )
 			throw new IllegalArgumentException( "wrong column to shift" ); //$NON-NLS-1$
 
@@ -226,7 +227,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 			throws SemanticException
 	{
 		int targetIndex = destIndex;
-		
+
 		// adds the copied cells to the destination.
 
 		for ( int i = 0; i < cellInfos.size( ); i++ )
@@ -250,7 +251,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 			if ( oldPosn < destIndex )
 				targetIndex = destIndex - 1;
-				
+
 			row.getCells( ).shift( cell, targetIndex );
 
 			clearsCellColumnProperties( row, oldPosn, targetIndex );
@@ -306,6 +307,11 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 	protected boolean checkTargetColumn( int sourceColumn, int destColumn )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
 
 		// If the new position is the same as the old, then skip the operation.
 

@@ -314,4 +314,20 @@ abstract class ColumnBandAdapter
 	 */
 
 	abstract protected List getRowContainerSlots( );
+
+	/**
+	 * Checks element has parent or not.
+	 * 
+	 * @return <code>true</code>if has parent, else return <code>false</code>
+	 */
+
+	protected final boolean hasParent( )
+	{
+		if ( getElementHandle( ).getElement( ).isVirtualElement( )
+				|| ( getElementHandle( ).getExtends( ) != null ) )
+		{
+			return true;
+		}
+		return false;
+	}
 }

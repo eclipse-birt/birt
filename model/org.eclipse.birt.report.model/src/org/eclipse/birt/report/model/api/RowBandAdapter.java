@@ -103,5 +103,21 @@ public abstract class RowBandAdapter
 		TableRow row = (TableRow)rowHandle.getElement( );
 		return computeRowCount( row );
 	}
+	
+	/**
+	 * Checks element has parent or not.
+	 * 
+	 * @return <code>true</code>if has parent, else return <code>false</code>
+	 */
+
+	protected boolean hasParent( )
+	{
+		if ( getElementHandle( ).getElement( ).isVirtualElement( )
+				|| ( getElementHandle( ).getExtends() != null ) )
+		{
+			return true;
+		}
+		return false;
+	}
 
 }

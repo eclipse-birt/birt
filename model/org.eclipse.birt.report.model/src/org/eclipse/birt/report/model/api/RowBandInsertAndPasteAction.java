@@ -29,7 +29,7 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 	 *            the adapter to work on tables and grids.
 	 * 
 	 */
-	
+
 	RowBandInsertAndPasteAction( RowBandAdapter adapter )
 	{
 		super( adapter );
@@ -50,6 +50,12 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 	protected boolean canInsertAndPaste( TableRow clonedRow,
 			RowOperationParameters parameters )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
+		
 		int destIndex = parameters.getDestIndex( );
 
 		int desColumnCount = adapter.getColumnCount( );
@@ -85,15 +91,14 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 	protected void doInsertAndPaste( TableRow copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		
+
 		if ( !canInsertAndPaste( copiedRow, parameters ) )
-			throw new SemanticError( adapter
-				.getElementHandle( ).getElement( ), new String[]{adapter
-				.getElementHandle( ).getName( )},
-				SemanticError.DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN );
-	
+			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
+					new String[]{adapter.getElementHandle( ).getName( )},
+					SemanticError.DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN );
+
 		int destIndex = parameters.getDestIndex( );
-		
+
 		SlotHandle slotHandle = getSlotHandle( parameters );
 		ActivityStack stack = adapter.getModule( ).getActivityStack( );
 		try
@@ -101,9 +106,9 @@ public class RowBandInsertAndPasteAction extends RowBandAction
 			stack.startTrans( );
 			adapter.getModule( ).getModuleHandle( ).rename(
 					copiedRow.getHandle( slotHandle.getModule( ) ) );
-			
+
 			slotHandle.paste( copiedRow.getHandle( slotHandle.getModule( ) ),
-					destIndex + 1  );
+					destIndex + 1 );
 		}
 		catch ( SemanticException e )
 		{

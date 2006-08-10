@@ -46,6 +46,12 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 
 	protected boolean canInsertAndPaste( int columnIndex, ColumnBandData data )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
+
 		int columnCount = adapter.getColumnCount( );
 		int targetColumnIndex = columnIndex + 1;
 

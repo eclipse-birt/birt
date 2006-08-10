@@ -45,6 +45,12 @@ public class RowBandShiftAction extends RowBandAction
 
 	protected boolean canShift( RowOperationParameters parameters )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
+
 		int destIndex = parameters.getDestIndex( );
 		int sourceIndex = parameters.getSourceIndex( );
 
@@ -79,8 +85,8 @@ public class RowBandShiftAction extends RowBandAction
 	}
 
 	/**
-	 * Does shift operation with the given parameters.
-	 * Now only allow to shift table row in the same slot.
+	 * Does shift operation with the given parameters. Now only allow to shift
+	 * table row in the same slot.
 	 * 
 	 * @param parameters
 	 *            parameters needed by insert operation.
@@ -91,10 +97,9 @@ public class RowBandShiftAction extends RowBandAction
 			throws SemanticException
 	{
 		if ( !canShift( parameters ) )
-			throw new SemanticError( adapter
-				.getElementHandle( ).getElement( ), new String[]{adapter
-				.getElementHandle( ).getName( )},
-				SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN );
+			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
+					new String[]{adapter.getElementHandle( ).getName( )},
+					SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN );
 
 		int destIndex = parameters.getDestIndex( );
 		int sourceIndex = parameters.getSourceIndex( );

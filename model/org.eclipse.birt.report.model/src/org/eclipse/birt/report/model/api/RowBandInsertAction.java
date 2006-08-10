@@ -28,7 +28,7 @@ public class RowBandInsertAction extends RowBandAction
 	 *            the adapter to work on tables and grids.
 	 * 
 	 */
-	
+
 	public RowBandInsertAction( RowBandAdapter adapter )
 	{
 		super( adapter );
@@ -48,6 +48,12 @@ public class RowBandInsertAction extends RowBandAction
 
 	protected boolean canInsert( RowOperationParameters parameters )
 	{
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
+			return false;
+
 		int destIndex = parameters.getDestIndex( );
 
 		SlotHandle slotHandle = getSlotHandle( parameters );
@@ -63,7 +69,7 @@ public class RowBandInsertAction extends RowBandAction
 		// row span.
 
 		RowHandle destHandle = (RowHandle) slotHandle.get( destIndex - 1 );
-		if ( !containsRowSpan( destHandle ) && isRectangleArea( destHandle ))
+		if ( !containsRowSpan( destHandle ) && isRectangleArea( destHandle ) )
 			return true;
 
 		return false;
@@ -84,17 +90,16 @@ public class RowBandInsertAction extends RowBandAction
 	protected void doInsert( RowOperationParameters parameters )
 			throws SemanticException
 	{
-		//new empty table row.
-		
+		// new empty table row.
+
 		ElementFactory factory = new ElementFactory( adapter.getModule( ) );
 		RowHandle rowHandle = factory.newTableRow( adapter.getColumnCount( ) );
-		
+
 		if ( !canInsert( parameters ) )
-			throw new SemanticError( adapter
-				.getElementHandle( ).getElement( ), new String[]{adapter
-				.getElementHandle( ).getName( )},
-				SemanticError.DESIGN_EXCEPTION_ROW_INSERT_FORBIDDEN );
-		
+			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
+					new String[]{adapter.getElementHandle( ).getName( )},
+					SemanticError.DESIGN_EXCEPTION_ROW_INSERT_FORBIDDEN );
+
 		int destIndex = parameters.getDestIndex( );
 
 		SlotHandle slotHandle = getSlotHandle( parameters );
