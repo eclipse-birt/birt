@@ -139,19 +139,24 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				{
 					try
 					{
-						if ( !DesignChoiceConstants.PARAM_TYPE_STRING
-								.equalsIgnoreCase( parameter.getDataType( ) ) )
-						{
-							Object paramValueObj = ParameterValidationUtil
-									.validate( parameter.getDataType( ),
-											parameter.getPattern( ),
-											paramValue, attrBean.getLocale( ) );
+						String pattern = parameter.getPattern( );
+						String dataType = parameter.getDataType( );
 
-							paramValue = ParameterValidationUtil
-									.getDisplayValue( parameter.getDataType( ),
-											parameter.getPattern( ),
-											paramValueObj, ULocale.US );
+						Object paramValueObj = ParameterValidationUtil
+								.validate( dataType, pattern, paramValue,
+										attrBean.getLocale( ) );
+
+						// if parameter type is String, cache the unformatted
+						// string
+						if ( DesignChoiceConstants.PARAM_TYPE_STRING
+								.equalsIgnoreCase( dataType ) )
+						{
+							pattern = null;
 						}
+
+						paramValue = ParameterValidationUtil.getDisplayValue(
+								dataType, pattern, paramValueObj, ULocale.US );
+
 					}
 					catch ( Exception err )
 					{
