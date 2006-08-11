@@ -70,7 +70,9 @@ import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -83,7 +85,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.75 $ $Date: 2006/07/17 03:24:01 $
+ * @version $Revision: 1.76 $ $Date: 2006/07/25 04:35:11 $
  */
 public class ExecutionContext
 {
@@ -245,8 +247,6 @@ public class ExecutionContext
 
 	private ClassLoader applicationClassLoader;
 	
-	private Map classLoaderCache = new HashMap( );
-	
 	private int MAX_ERRORS = 100;
 	/**
 	 * 
@@ -315,7 +315,7 @@ public class ExecutionContext
 		scriptContext
 				.eval( "function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }" );
 		
-		applicationClassLoader = new ApplicationClassLoader( );
+		applicationClassLoader = new ApplicationClassLoader( this );
 		scriptContext.getContext( ).setApplicationClassLoader(
 				applicationClassLoader );
 		
@@ -1455,112 +1455,202 @@ public class ExecutionContext
 	/**
 	 * the application class loader.
 	 * 
-	 *   The class loader first try to the load the class as following sequence:
-	 *   1. standard java class loader,
-	 *   2. classloader setted through the appContext.
-	 *   3. CLASSPATH setted by WEBAPP_CLASSPATH_KEY
-	 *   4. PROJECT_CLASSPATH_KEY
-	 *   5. WORKSAPCE_CLASSPATH_KEY
-	 *   
+	 * The class loader first try to the load the class as following sequence:
+	 * <li>1. standard java class loader,
+	 * <li>2. CLASSPATH setted by WEBAPP_CLASSPATH_KEY
+	 * <li>3. PROJECT_CLASSPATH_KEY
+	 * <li>4. WORKSAPCE_CLASSPATH_KEY
+	 * <li>5. classloader setted through the appContext.
+	 * <li>6. JARs define in the report design
 	 */
-	private class ApplicationClassLoader extends ClassLoader
+	static private class ApplicationClassLoader extends ClassLoader
 	{
 
-		String[] classPathes = new String[]{
+		private static String[] classPathes = new String[]{
 				EngineConstants.WEBAPP_CLASSPATH_KEY,
 				EngineConstants.PROJECT_CLASSPATH_KEY,
 				EngineConstants.WORKSPACE_CLASSPATH_KEY};
 
-		public ApplicationClassLoader( )
+		private ExecutionContext context = null;
+		private ClassLoader systemClassLoader = null;
+		private ClassLoader appClassLoader = null;
+		private ClassLoader designClassLoader = null;
+
+		public ApplicationClassLoader( ExecutionContext context )
 		{
+			this.context = context;
 		}
 
 		public Class loadClass( String className )
 				throws ClassNotFoundException
 		{
-			try
+			createWrappedClassLoaders( );
+			if ( designClassLoader != null )
 			{
+				return designClassLoader.loadClass( className );
+			}
+			if ( appClassLoader != null )
+			{
+				return appClassLoader.loadClass( className );
+			}
+
+			return systemClassLoader.loadClass( className );
+		}
+
+		public URL getResource( String name )
+		{
+			createWrappedClassLoaders( );
+			if ( designClassLoader != null )
+			{
+				return designClassLoader.getResource( name );
+			}
+			if ( appClassLoader != null )
+			{
+				return appClassLoader.getResource( name );
+			}
+			if ( systemClassLoader != null )
+			{
+				return systemClassLoader.getResource( name );
+			}
+			return null;
+		}
+
+		protected void createWrappedClassLoaders( )
+		{
+			if ( systemClassLoader == null )
+			{
+				systemClassLoader = createClassLoaderFromProperty( );
+				assert systemClassLoader != null;
+			}
+			if ( appClassLoader == null )
+			{
+				appClassLoader = createClassLoaderFromContext( systemClassLoader );
+				assert appClassLoader != null;
+			}
+			if ( designClassLoader == null )
+			{
+				designClassLoader = createClassLoaderFromDesign( appClassLoader );
+			}
+		}
+
+		protected ClassLoader createClassLoaderFromProperty( )
+		{
+			ClassLoader parent = ExecutionContext.class.getClassLoader( );
+			ArrayList urls = new ArrayList( );
+			for ( int i = 0; i < classPathes.length; i++ )
+			{
+				String classPath = System.getProperty( classPathes[i] );
+				if ( classPath != null && classPath.length( ) != 0 )
+				{
+					String[] jars = classPath.split( PROPERTYSEPARATOR, -1 );
+					if ( jars != null && jars.length != 0 )
+					{
+						for ( int j = 0; j < jars.length; j++ )
+						{
+							File file = new File( jars[j] );
+							try
+							{
+								urls.add( file.toURL( ) );
+							}
+							catch ( MalformedURLException e )
+							{
+								e.printStackTrace( );
+							}
+						}
+					}
+				}
+			}
+			if ( urls.size( ) != 0 )
+			{
+				return new URLClassLoader( (URL[]) urls.toArray( new URL[0] ),
+						parent );
+			}
+			return parent;
+		}
+
+		protected ClassLoader createClassLoaderFromContext( ClassLoader parent )
+		{
+			Map appContext = context.getAppContext( );
+			if ( appContext != null )
+			{
+				Object appLoader = appContext
+						.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
+				if ( appLoader instanceof ClassLoader )
+				{
+					return new UnionClassLoader( (ClassLoader) appLoader,
+							parent );
+				}
+			}
+			return parent;
+		}
+
+		static protected class UnionClassLoader extends ClassLoader
+		{
+
+			private ClassLoader loader;
+
+			public UnionClassLoader( ClassLoader loader, ClassLoader parent )
+			{
+				super( parent );
+				this.loader = loader;
+			}
+
+			public Class loadClass( String className )
+					throws ClassNotFoundException
+			{
+				// If not found in the cache, try creating one
 				try
 				{
-					// If not found in the cache, try creating one
-					return Class.forName( className );
+					return super.loadClass( className );
 				}
 				catch ( ClassNotFoundException ex )
 				{
-					if ( appContext != null )
-					{
-						Object appLoader = appContext
-								.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
-						if ( appLoader instanceof ClassLoader )
-						{
-							return ( (ClassLoader) appLoader )
-									.loadClass( className );
-						}
-					}
-					throw ex;
+					return loader.loadClass( className );
 				}
 			}
-			catch ( ClassNotFoundException e )
+
+			public URL getResource( String name )
 			{
-				for ( int i = 0; i < classPathes.length; i++ )
+				URL url = super.getResource( name );
+				if ( url == null )
 				{
-					ClassLoader loader = getCustomClassLoader( classPathes[i] );
-					if ( loader != null )
-					{
-						try
-						{
-							return loader.loadClass( className );
-						}
-						catch ( Exception ex )
-						{
-						}
-					}
+					return loader.getResource( name );
 				}
-				throw e;
+				return url;
 			}
 		}
-	}
 
-	protected ClassLoader getCustomClassLoader( String classPathKey )
-	{
-		Object o = null;
-
-		o = classLoaderCache.get( classPathKey );
-		if ( o != null )
-			return (ClassLoader) o;
-		String classPath = System.getProperty( classPathKey );
-		if ( classPath == null || classPath.length( ) == 0 )
+		protected ClassLoader createClassLoaderFromDesign( ClassLoader parent )
+		{
+			IReportRunnable runnable = context.getRunnable( );
+			if ( runnable != null )
+			{
+				ModuleHandle module = (ModuleHandle) runnable.getDesignHandle( );
+				ArrayList urls = new ArrayList( );
+				List list = module.getAllScriptLibs( );
+				Iterator iter = list.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					ScriptLib lib = (ScriptLib) iter.next( );
+					String libPath = lib.getName( );
+					URL url = module.findResource( libPath,
+							IResourceLocator.LIBRARY );
+					if ( url != null )
+					{
+						urls.add( url );
+					}
+				}
+				if ( urls.size( ) != 0 )
+				{
+					URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
+					return new URLClassLoader( jarUrls, parent );
+				}
+				return parent;
+			}
 			return null;
-		String[] classPathArray = classPath.split( PROPERTYSEPARATOR, -1 );
-		URL[] urls = null;
-		if ( classPathArray.length != 0 )
-		{
-			List l = new ArrayList( );
-			for ( int i = 0; i < classPathArray.length; i++ )
-			{
-				String cpValue = classPathArray[i];
-				File file = new File( cpValue );
-				try
-				{
-					l.add( file.toURL( ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-			urls = (URL[]) l.toArray( new URL[l.size( )] );
 		}
-
-		if ( urls != null )
-		{
-			ClassLoader cl = new URLClassLoader( urls, ExecutionContext.class
-					.getClassLoader( ) );
-			classLoaderCache.put( classPathKey, cl );
-			return cl;
-		}
-		return null;
 	}
+
 
 	/**
 	 * Set the cancel flag.
