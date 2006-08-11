@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060805-0630 Build &lt;20060807-0630></property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+    </themes>
+    <components>
+        <table name="NewTable" id="4">
+            <property name="width">100%</property>
+            <column id="11"/>
+            <header>
+                <row id="5">
+                    <cell id="6"/>
+                </row>
+            </header>
+            <detail>
+                <row id="7">
+                    <cell id="8">
+                        <label name="NewLabel" id="12">
+                            <text-property name="text">Sample Label</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="9">
+                    <cell id="10"/>
+                </row>
+            </footer>
+        </table>
+    </components>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

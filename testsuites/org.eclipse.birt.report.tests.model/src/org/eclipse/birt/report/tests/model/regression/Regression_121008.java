@@ -1,0 +1,78 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
+
+package org.eclipse.birt.report.tests.model.regression;
+
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+/**
+ * Regression description:
+ * </p>
+ * Preview, the icon of image that copied from template image that from library
+ * can lost.
+ * <p>
+ * Steps:
+ * <ol>
+ * <li>Create a library that include image
+ * <li>Create a template, user the library, drag the image to the layout
+ * <li>Publish the template
+ * <li>Create a report use the template
+ * <li>The layout can display the image, copy and paste the image
+ * <li>Preview in html
+ * <li>Open the Outline view
+ * </ol>
+ * <b>Actual Results:</b>
+ * <p>
+ * The copied image's icon has lost in the outline view
+ * <p>
+ * <b>Expected Results:</b>
+ * <p>
+ * The image's icon can be displayed correctly in the outline view.
+ * </p>
+ * Test description:
+ * <p>
+ * Follow the steps, use a template that include a library, and the template
+ * extends an image from library, ensure the the referenced image can be
+ * accessed from the design.
+ * </p>
+ */
+public class Regression_121008 extends BaseTestCase
+{
+
+	private final static String TEMPLATE = "regression_121008_template.xml"; //$NON-NLS-1$
+
+	/**
+	 * @throws ContentException
+	 * @throws NameException
+	 * @throws DesignFileException
+	 */
+
+	public void test_121008( ) throws ContentException, NameException,
+			DesignFileException
+	{
+		openDesign( TEMPLATE );
+		ImageHandle image = (ImageHandle) designHandle.findElement( "NewImage" ); //$NON-NLS-1$
+
+		ImageHandle copy = (ImageHandle) image.copy( ).getHandle( design );
+		designHandle.rename( copy );
+
+		designHandle.getBody( ).paste( copy );
+		ImageHandle image2 = (ImageHandle) designHandle.getBody( ).get( 1 );
+
+		// ensure the the referenced image can be accessed from the design.
+
+		assertEquals( "regression_121008_lib.lvback.gif", image2 //$NON-NLS-1$
+				.getEmbeddedImage( ).getQualifiedName( ) );
+		assertNotNull( image2.getEmbeddedImage( ).getData( ) );
+	}
+}
