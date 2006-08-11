@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns=" http://www.eclipse.org/birt/2005/design" version="2">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.flatfile" name="Data Source1">
+            <property name="HOME">D:\document</property>
+            <property name="CHARSET">UTF-8</property>
+            <property name="INCLTYPELINE">NO</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.flatfile.dataSet" name="Data Set1">
+            <property name="dataSource">Data Source1</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Name</property>
+                    <property name="alias">myName</property>
+                    <property name="displayName">cs</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select * from a.csv</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+        </simple-master-page>
+    </page-setup>
+    <body>
+    </body>
+</report>
