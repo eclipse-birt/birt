@@ -505,25 +505,6 @@ public abstract class EngineCase extends TestCase
 	protected void render_HTML( String doc, String output, String pageRange )
 			throws EngineException
 	{
-		this.pagination = false;
-		render( "html", doc, output, pageRange ); //$NON-NLS-1$
-	}
-
-	/**
-	 * Render a html file with pagination
-	 * 
-	 * @param doc
-	 *            input rpt docuement file
-	 * @param output
-	 *            output file of the generation.
-	 * @param pageRange
-	 *            The pages to render, use "All" to render all, use 1-N to
-	 *            render a selected page.
-	 * @throws EngineException
-	 */
-	protected void render_HTMLWithPagination( String doc, String output,
-			String pageRange ) throws EngineException
-	{
 		this.pagination = true;
 		render( "html", doc, output, pageRange ); //$NON-NLS-1$
 	}
