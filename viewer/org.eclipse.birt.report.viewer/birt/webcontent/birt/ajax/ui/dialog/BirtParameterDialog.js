@@ -255,9 +255,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					temp.checked?this.__parameter[k].value = 'true':this.__parameter[k].value = 'false';  
 					k++;
 				}
-				else
+				else if( temp.type == 'radio' )
 				{
-					//handle more cases
+					// deal with radio
+					this.__parameter[k].name = temp.name;
+					this.__parameter[k].value = temp.value;
+					k++;					
 				}
 			}
 			else if( oSEC.length <= 1 && oIEC.length >= 3 )
