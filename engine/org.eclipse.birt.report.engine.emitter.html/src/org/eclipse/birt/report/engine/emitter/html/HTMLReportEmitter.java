@@ -147,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.140 $ $Date: 2006/08/07 05:50:13 $
+ * @version $Revision: 1.141 $ $Date: 2006/08/10 05:25:02 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1869,6 +1869,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		display = checkElementType( x, y, width, height, mergedStyle,
 				styleBuffer );
 
+		// create default bookmark if we need output metadata
+		String designClassName = "birt-foreign-design";
+		if ( foreign.getGenerateBy( ) instanceof TemplateDesign )
+		{
+			//FIXME: actually, it should be birt-template-design
+			designClassName = "birt-label-design";			
+			String bookmark = foreign.getBookmark( );
+			if ( bookmark == null )
+			{
+				bookmark = generateUniqueID( );
+				foreign.setBookmark( bookmark );
+			}
+		}
+
 		// action
 		String tagName;
 		String selectHandleTag = null;
@@ -1880,7 +1894,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				// output select class
 				selectHandleTag = HTMLTags.TAG_SPAN;
 				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, "birt-foreign-design" ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_CLASS, designClassName ); //$NON-NLS-1$
 				setActiveIDTypeIID( foreign );
 				setBookmark( selectHandleTag, foreign.getBookmark( ) );
 			}
@@ -1897,7 +1911,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				selectHandleTag = getTagByType( display, DISPLAY_FLAG_ALL );
 				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, "birt-foreign-design" ); //$NON-NLS-1$
+				writer.attribute( HTMLTags.ATTR_CLASS, designClassName ); //$NON-NLS-1$
 				setActiveIDTypeIID( foreign );
 				setBookmark( selectHandleTag, foreign.getBookmark( ) );
 			}
