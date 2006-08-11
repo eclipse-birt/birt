@@ -37,13 +37,14 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public FileArchiveReader( String fileName ) throws IOException
 	{
-		if ( fileName == null ||
-			 fileName.length() == 0 )
-			throw new IOException("The file archive name is null or empty string.");
+		if ( fileName == null || fileName.length( ) == 0 )
+			throw new IOException(
+					"The file archive name is null or empty string." );
 
 		File fd = new File( fileName );
-		if ( !fd.isFile() )
-			throw new IOException("The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name.");
+		if ( !fd.isFile( ) )
+			throw new IOException(
+					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
 
 		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
 		this.tempFolderName = fileName + ".tmpfolder";
@@ -73,8 +74,16 @@ public class FileArchiveReader implements IDocArchiveReader
 			// has been opend
 			return;
 		}
+		File fd = new File( fileName );
+		if ( !fd.isFile( ) )
+			throw new IOException(
+					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
+		if ( !fd.exists( ) )
+		{
+			throw new IOException( "The specified file do not exist." );
+		}
 
-		RandomAccessFile lf = new RandomAccessFile( new File( fileName ), "rw" );
+		RandomAccessFile lf = new RandomAccessFile( fd, "rw" );
 		try
 		{
 			FileLock lock = lf.getChannel( ).lock( );
@@ -84,8 +93,9 @@ public class FileArchiveReader implements IDocArchiveReader
 				{
 					if ( lf.length( ) == 0 )
 					{
-						// open the refernce count, increase 1
+						//it is the folder archive now
 						RandomAccessFile rf = new RandomAccessFile(
+						// open the refernce count, increase 1
 								readerCountFileName, "rw" );
 						try
 						{
