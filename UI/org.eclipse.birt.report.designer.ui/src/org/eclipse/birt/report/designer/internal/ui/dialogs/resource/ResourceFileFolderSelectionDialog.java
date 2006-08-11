@@ -91,6 +91,23 @@ public class ResourceFileFolderSelectionDialog extends
 		return null;
 	}
 
+	/**
+	 * Get the relative path to BIRT resource folder.
+	 * 
+	 * @return
+	 */
+	public String getPath( int index )
+	{
+		Object[] selected = getResult( );
+		if ( index < 0 || index >= selected.length || rootFile == null )
+		{
+			return null;
+		}
+		File file = (File) selected[index];
+		return rootFile.toURI( ).relativize( file.toURI( ) ).getPath( );
+
+	}
+
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */

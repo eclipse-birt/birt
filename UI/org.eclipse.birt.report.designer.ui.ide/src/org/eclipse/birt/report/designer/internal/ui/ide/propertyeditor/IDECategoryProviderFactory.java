@@ -38,6 +38,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Listin
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ReferencePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ReportPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ResourcesPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.RowPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.SectionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TOCExpressionPage;
@@ -84,7 +85,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"CellPageGenerator.List.Borders", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$					
 			}, new Class[]{
 					CellPage.class,
 					CellPaddingPage.class,
@@ -92,7 +93,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					BordersPage.class,
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
-					HandlerPage.class
+					HandlerPage.class,					
 			} );
 		}
 		if ( ReportDesignConstants.DATA_ITEM.equals( elementName ) )
@@ -233,6 +234,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+					"ReportPageGenerator.List.Resources",
 			}, new Class[]{
 					LibraryPage.class,
 					DescriptionPage.class,
@@ -240,6 +242,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
 					HandlerPage.class,
+					ResourcesPage.class,
 			} );
 		}
 		if ( ReportDesignConstants.LIST_ITEM.equals( elementName ) )
@@ -277,6 +280,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+					"ReportPageGenerator.List.Resources",
 			}, new Class[]{
 					ReportPage.class,
 					DescriptionPage.class,
@@ -284,6 +288,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
 					HandlerPage.class,
+					ResourcesPage.class,
 			} );
 		}
 		if ( ReportDesignConstants.ROW_ELEMENT.equals( elementName ) )

@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.IStatus;
@@ -59,6 +61,11 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			IStatus.ERROR,
 			Messages.getString( "NewResourceFileDialog.ErrorMessage" ), //$NON-NLS-1$
 			null );
+	private Status ErrorStatusNoSelection = new Status( IStatus.ERROR,
+			ReportPlugin.REPORT_UI,
+			IStatus.ERROR,
+			Messages.getString( "" ), //$NON-NLS-1$
+			null );	
 
 	private class Validator implements ISelectionStatusValidator
 	{
@@ -66,15 +73,19 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		public IStatus validate( Object[] selection )
 		{
 			int nSelected = selection.length;
-			if ( nSelected == 0 || nSelected > 1 )
+			if ( nSelected == 0  )
+			{
+				return ErrorStatusNoSelection;
+			}else
+			if( nSelected > 1)
 			{
 				return ErrorStatus;
-			}
+			}else
 			if ( selection[0] instanceof File
 					&& ( (File) selection[0] ).isFile( ) )
 			{
 				return OKStatus;
-			}
+			}else
 			if ( newFileName == null
 					|| !newFileName.toLowerCase( )
 							.endsWith( ext.toLowerCase( ) ) )
@@ -91,8 +102,10 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		super( parent, labelProvider, contentProvider );
 		setDoubleClickSelects( true );
 		setValidator( new Validator( ) );
-		setAllowMultiple( false );
+		setAllowMultiple( false );		
 		setInput( getResourceRootFile( ) );
+		setTitle( Messages.getString( "ModulePage.Resourcefile.Dialog.Title" ) ); //$NON-NLS-1$
+		setMessage( Messages.getString( "ModulePage.Resourcefile.Dialog.Message" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -125,7 +138,8 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		} );
 
 		configViewer( );
-
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.NEW_ADD_RESOURCE_FILES_DIALOG_ID );
 		return rt;
 	}
 
@@ -204,4 +218,6 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			return super.getPath( );
 		}
 	}
+	
+
 }
