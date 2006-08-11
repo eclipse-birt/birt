@@ -95,6 +95,7 @@ public interface IMetaDataDictionary
 
 	/**
 	 * Enables the use of element IDs.
+	 * @deprecated
 	 */
 
 	public void enableElementID( );

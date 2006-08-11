@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-import org.eclipse.birt.report.model.metadata.MethodInfo;
 
 /**
  * Interface of the Meta-data information for an element property or an
@@ -123,7 +122,7 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 *         property is not a method property.
 	 */
 
-	public MethodInfo getMethodInfo( );
+	public IMethodInfo getMethodInfo( );
 
 	/**
 	 * Checks whether the property value can be edited by the user in the

@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -641,6 +642,14 @@ public class ContentCommand extends AbstractElementCommand
 					if ( ( value instanceof StructRefValue )
 							|| ( (ElementRefValue) value ).isResolved( ) )
 					{
+						TemplateParameterDefinition definition = null;
+						if ( value instanceof ElementRefValue )
+						{
+							ElementRefValue templateParam = (ElementRefValue) value;
+							if ( templateParam.getTargetElement( ) instanceof TemplateParameterDefinition )
+								definition = (TemplateParameterDefinition) templateParam
+										.getTargetElement( );
+						}
 						try
 						{
 							// Clear all element reference property for dropped
@@ -649,11 +658,24 @@ public class ContentCommand extends AbstractElementCommand
 							PropertyCommand cmd = new PropertyCommand( module,
 									element );
 							cmd.setProperty( propDefn.getName( ), null );
+							
+							// drop the useless template definition
+							
+							if ( definition != null && !definition.hasReferences( ) )
+							{
+								assert definition.getRoot( ) == module;
+								ContentCommand contentCmd = new ContentCommand(
+										module, module );
+								contentCmd
+										.remove(
+												definition,
+												ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+							}
 						}
 						catch ( SemanticException e )
 						{
 							assert false;
-						}
+						}						
 					}
 				}
 			}

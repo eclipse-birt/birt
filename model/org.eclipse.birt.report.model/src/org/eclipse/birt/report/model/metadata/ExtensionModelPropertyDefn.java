@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -123,7 +124,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getMethodInfo()
 	 */
 
-	public MethodInfo getMethodInfo( )
+	public IMethodInfo getMethodInfo( )
 	{
 		// TODO: till now, we will support the scripting type?
 		// if so, we will handle this in IPropertyDefinition

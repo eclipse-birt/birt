@@ -161,6 +161,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	/**
 	 * Whether to apply element ids to newly created elements. This feature is
 	 * used for the web environment, but not for the Eclipse environment.
+	 * @deprecated
 	 */
 
 	private boolean useElementID = false;

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -220,10 +221,10 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 *         property is not a method property.
 	 */
 
-	public MethodInfo getMethodInfo( )
+	public IMethodInfo getMethodInfo( )
 	{
 		if ( getTypeCode( ) == PropertyType.SCRIPT_TYPE )
-			return (MethodInfo) details;
+			return (IMethodInfo) details;
 
 		return null;
 	}
