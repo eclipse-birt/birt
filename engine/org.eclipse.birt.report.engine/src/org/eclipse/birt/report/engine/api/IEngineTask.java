@@ -163,6 +163,11 @@ public interface IEngineTask {
 	 */
 	public void close();
 	
+	/**
+	 * set the data source used by the engine task.
+	 * The dataSource is opend and closed by this task.
+	 * @param dataSource data source archive.
+	 */
 	public void setDataSource( IDocArchiveReader dataSource );
 
 	/**
