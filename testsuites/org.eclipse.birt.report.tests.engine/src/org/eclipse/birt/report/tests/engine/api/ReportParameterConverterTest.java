@@ -64,15 +64,15 @@ public class ReportParameterConverterTest extends EngineCase
 				"(@@)", Locale.US );
 		String pGet = "";
 		pGet = converter.format( pStr );
-		assertEquals( "format() fail", "p1Val(ue)", pGet );
+		assertEquals( "format string fail", "p1Val(ue)", pGet );
 		// datetime parameter
 		converter = new ReportParameterConverter( "yyyy", Locale.US );
 		pGet = converter.format( pDate );
-		assertEquals( "format() fail", "2005", pGet );
+		assertEquals( "format datetime fail", "2005", pGet );
 		// boolean parameter
 		converter = new ReportParameterConverter( "", Locale.US );
 		pGet = converter.format( pBool );
-		assertEquals( "format() fail", "false", pGet );
+		assertEquals( "format  fail", "false", pGet );
 
 		// float parameter
 		/*
@@ -98,15 +98,15 @@ public class ReportParameterConverterTest extends EngineCase
 		String int1 = "8", float1 = "3.5";
 		ReportParameterConverter converter = new ReportParameterConverter(
 				"(@@)", Locale.US );
-		assertTrue( "parse() fail", converter.parse( str1,
+		assertTrue( "parse string fail", converter.parse( str1,
 				IScalarParameterDefn.TYPE_STRING ) instanceof String );
-		assertTrue( "parse() fail", converter.parse( date1,
+		assertTrue( "parse datetime fail", converter.parse( date1,
 				IScalarParameterDefn.TYPE_DATE_TIME ) instanceof Date );
-		assertTrue( "parse() fail", converter.parse( bool1,
+		assertTrue( "parse boolean fail", converter.parse( bool1,
 				IScalarParameterDefn.TYPE_BOOLEAN ) instanceof Boolean );
-		assertTrue( "parse() fail", converter.parse( float1,
-				IScalarParameterDefn.TYPE_FLOAT ) instanceof Float );
-		assertTrue( "parse() fail", converter.parse( int1,
+		assertTrue( "parse float fail", converter.parse( float1,
+				IScalarParameterDefn.TYPE_FLOAT ) instanceof Double );
+		assertTrue( "parse integer fail", converter.parse( int1,
 				IScalarParameterDefn.TYPE_INTEGER ) instanceof Integer );
 	}
 }
