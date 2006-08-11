@@ -662,7 +662,7 @@ public class ModelDteApiAdapter
 		dteParam.setName( modelParam.getName( ) );
 		if ( modelParam.getPosition( ) != null )
 			dteParam.setPosition( modelParam.getPosition( ).intValue( ) );
-		dteParam.setType( toDteDataType( modelParam.getDataType( ) ) );
+		dteParam.setType( adaptModelParamDataType( modelParam.getDataType( ) ) );
 		dteParam.setInputMode( modelParam.isInput( ) );
 		dteParam.setOutputMode( modelParam.isOutput( ) );
 		dteParam.setNullable( modelParam.allowNull( ) );
@@ -851,6 +851,30 @@ public class ModelDteApiAdapter
 		if ( modelDataType
 				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
 			return DataType.DOUBLE_TYPE;
+
+		return DataType.UNKNOWN_TYPE;
+	}
+	
+	/**
+	 * Adapts a Model data type (string) to Data Engine data type constant on
+	 * parameter (integer)
+	 */
+	public static int adaptModelParamDataType( String modelDataType )
+	{
+		if ( modelDataType == null )
+			return DataType.UNKNOWN_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			return DataType.STRING_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT ) )
+			return DataType.DOUBLE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL ) )
+			return DataType.DECIMAL_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
+			return DataType.DATE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN ) )
+			return DataType.BOOLEAN_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
+			return DataType.INTEGER_TYPE;
 
 		return DataType.UNKNOWN_TYPE;
 	}

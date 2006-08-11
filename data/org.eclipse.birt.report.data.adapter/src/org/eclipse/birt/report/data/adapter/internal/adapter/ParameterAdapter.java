@@ -27,7 +27,7 @@ public class ParameterAdapter extends ParameterDefinition
 		setName( modelParam.getName( ) );
 		if ( modelParam.getPosition( ) != null )
 			setPosition( modelParam.getPosition( ).intValue( ) );
-		setType( ModelAdapter.adaptModelDataType( modelParam.getDataType( ) ) );
+		setType( ModelAdapter.adaptModelParamDataType( modelParam.getDataType( ) ) );
 		setInputMode( modelParam.isInput( ) );
 		setOutputMode( modelParam.isOutput( ) );
 		setNullable( modelParam.allowNull( ) );
