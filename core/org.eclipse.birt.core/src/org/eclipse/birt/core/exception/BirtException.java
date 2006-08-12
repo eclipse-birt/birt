@@ -493,20 +493,29 @@ public class BirtException extends Exception
 		String localizedMessage;
 		if ( rb == null )
 		{
-			return "$NO-RB$ " + errorCode; // $NON-NLS-1$
+			localizedMessage = "$NO-RB$ " + errorCode; // $NON-NLS-1$
+		}
+		else
+		{
+			try
+			{
+				localizedMessage = rb.getString( errorCode );
+			}
+			catch ( Exception e )
+			{
+				localizedMessage = errorCode;
+			}
 		}
 
 		try
 		{
-			localizedMessage = rb.getString( errorCode );
+			MessageFormat form = new MessageFormat( localizedMessage );
+			return form.format( oaMessageArguments );
 		}
-		catch ( Exception e )
+		catch ( Throwable ex )
 		{
-			return errorCode;
+			return localizedMessage;
 		}
-
-		MessageFormat form = new MessageFormat( localizedMessage );
-		return form.format( oaMessageArguments );
 	}
 
 	/**
