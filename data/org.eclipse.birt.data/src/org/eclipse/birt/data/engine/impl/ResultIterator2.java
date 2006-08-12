@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -26,7 +27,9 @@ class ResultIterator2 extends ResultIterator
 	private int currRowIndex;
 	
 	private int cachedStartingGroupLevel;
-
+	
+	private int cachedRowId;
+		
 	/**
 	 * @param context
 	 * @param queryResults
@@ -44,6 +47,8 @@ class ResultIterator2 extends ResultIterator
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
 		this.cachedStartingGroupLevel = 0;
+		this.cachedRowId = 0;
+
 	}
 
 	/*
@@ -69,12 +74,37 @@ class ResultIterator2 extends ResultIterator
 		boolean result = odiResult.next( );
 
 		if ( result )
+		{
 			cachedStartingGroupLevel = odiResult.getStartingGroupLevel( );
+			
+			if ( rowIDUtil == null )
+				rowIDUtil = new RowIDUtil( );
+			
+			if ( this.rowIDUtil.getMode( this.odiResult ) == RowIDUtil.MODE_NORMAL )
+				cachedRowId = this.odiResult.getCurrentResultIndex( );
+			else
+			{
+				IResultObject ob = this.odiResult.getCurrentResult( );
+				if ( ob == null )
+					cachedRowId = -1;
+				else
+					cachedRowId = ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
+			}
+		}
 		
 		return result;
 	}
 
 	/*
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()
+	 */
+	public int getRowId( ) throws BirtException
+	{
+		return this.cachedRowId;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
 	 */
 	public int getStartingGroupLevel( ) throws DataException

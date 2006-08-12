@@ -13,28 +13,39 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * Util for row ID
  */
 public class RowIDUtil
 {
-	private final static int MODE_NORMAL = 1;
-	private final static int MODE_IV = 2;
+	public final static int MODE_NORMAL = 1;
+	public final static int MODE_IV = 2;
 
 	private int mode = -1;
 	private int rowIDPos;
 	
 	/**
+	 * 
 	 * @param ri
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public int getRowID( IResultIterator ri, int currIndex ) throws DataException
+	public int getMode( IResultIterator ri ) throws DataException
 	{
 		if ( mode == -1 )
 			init( ri );
+		return mode;
+	}
+	
+	/**
+	 * @param ri
+	 * @return
+	 * @throws DataException 
+	 *//*
+	public int getRowID( IResultIterator ri, int currIndex ) throws DataException
+	{
+		
 
 		if ( mode == MODE_NORMAL )
 		{
@@ -48,7 +59,7 @@ public class RowIDUtil
 			else
 				return ( (Integer) ob.getFieldValue( rowIDPos ) ).intValue( );
 		}
-	}
+	}*/
 	
 	/**
 	 * @throws DataException
@@ -69,4 +80,12 @@ public class RowIDUtil
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getRowIdPos( )
+	{
+		return this.rowIDPos;
+	}
 }

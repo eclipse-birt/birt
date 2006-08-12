@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -64,7 +65,7 @@ public class ResultIterator implements IResultIterator
 	private GroupUtil 				groupUtil;
 	
 	// util to get row id
-	private RowIDUtil 				rowIDUtil;
+	protected RowIDUtil 				rowIDUtil;
 	
 	// used for evaluate binding column value
 	private int 					lastRowIndex = -1;
@@ -212,7 +213,19 @@ public class ResultIterator implements IResultIterator
 		
 		if ( rowIDUtil == null )
 			rowIDUtil = new RowIDUtil( );
-		return rowIDUtil.getRowID( this.odiResult, getRowIndex( ) );
+		if ( rowIDUtil == null )
+			rowIDUtil = new RowIDUtil( );
+		
+		if ( this.rowIDUtil.getMode( this.odiResult ) == RowIDUtil.MODE_NORMAL )
+			return this.odiResult.getCurrentResultIndex( );
+		else
+		{
+			IResultObject ob = this.odiResult.getCurrentResult( );
+			if ( ob == null )
+				return -1;
+			else
+				return ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
+		}
 	}
 	
 	/*
