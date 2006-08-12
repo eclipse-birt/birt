@@ -124,7 +124,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 			else
 			{
 				pRsetId = resultSet.getQueryResults( ).getID( );
-				rowId = resultSet.getCurrentPosition( );
+				rowId = resultSet.getRawID( );
 
 				// this is the nest query, execute the query in the
 				// parent results

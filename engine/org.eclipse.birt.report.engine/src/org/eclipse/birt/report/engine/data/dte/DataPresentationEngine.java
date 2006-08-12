@@ -172,7 +172,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 			else
 			{
 				String pRsetId = queryResults.getID( );
-				long rowid = parentResult.getCurrentPosition( );
+				long rowid = parentResult.getRawID( );
 
 				resultSetID = getResultID( pRsetId, rowid, queryID );
 			}
