@@ -422,8 +422,28 @@ public class ReportDocumentReader
 			while ( iterator.hasNext( ) )
 			{
 				Map.Entry entry = (Map.Entry) iterator.next( );
-				result.put( entry.getKey( ), ( (ParameterAttribute) entry
-						.getValue( ) ).getValue( ) );
+				String name = (String) entry.getKey( );
+				ParameterAttribute value = (ParameterAttribute) entry
+						.getValue( );
+				result.put( name, value.getValue( ) );
+			}
+		}
+		return result;
+	}
+	
+	public Map getParameterDisplayTexts( )
+	{
+		Map result = new HashMap( );
+		if ( parameters != null )
+		{
+			Iterator iterator = parameters.entrySet( ).iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iterator.next( );
+				String name = (String) entry.getKey( );
+				ParameterAttribute value = (ParameterAttribute) entry
+						.getValue( );
+				result.put( name, value.getDisplayText( ) );
 			}
 		}
 		return result;

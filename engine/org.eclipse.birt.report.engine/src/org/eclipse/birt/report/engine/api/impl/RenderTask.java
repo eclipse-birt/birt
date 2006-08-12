@@ -73,7 +73,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// load report design
 		loadDesign( );
 
-		innerRender = new PageRangeRender( new long[]{1, this.reportDoc.getPageCount( )} );
+		innerRender = new PageRangeRender( new long[]{1,
+				this.reportDoc.getPageCount( )} );
 	}
 
 	protected void openReportDocument( IReportDocument reportDoc )
@@ -83,6 +84,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		// load the informationf rom the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
+		//setParameterDisplayTexts( reportDoc.getParameterDisplayTexts( ) );
 		usingParameterValues( );
 		executionContext.registerGlobalBeans( reportDoc
 				.getGlobalVariables( null ) );
@@ -562,6 +564,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			throw new EngineException(
 					"Render options have to be specified to render a report." ); //$NON-NLS-1$
+		}
+		if ( runnable == null )
+		{
+			throw new EngineException(
+					"Can not find the report design in the report document {0}.",
+					new Object[]{reportDoc.getName( )} );
 		}
 		innerRender.render( );
 	}

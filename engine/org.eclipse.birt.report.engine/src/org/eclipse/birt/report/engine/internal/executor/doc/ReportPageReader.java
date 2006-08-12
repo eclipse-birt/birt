@@ -92,6 +92,7 @@ public class ReportPageReader extends ReportReader
 			pageReader.close( );
 			pageReader = null;
 		}
+		outputPages.clear( );
 	}
 
 	protected IPageHint loadPageHint(long pageNumber)
@@ -235,9 +236,13 @@ public class ReportPageReader extends ReportReader
 		// return the first page of the first range
 		if ( curPageRange == -1 )
 		{
-			curPageRange = 0;
-			long[] pageRange = (long[]) outputPages.get( curPageRange );
-			return pageRange[0];
+			if (outputPages.size( ) > 0)
+			{
+				curPageRange = 0;
+				long[] pageRange = (long[]) outputPages.get( curPageRange );
+				return pageRange[0];
+			}
+			return -1;
 		}
 		// we still have some pages remain
 		if ( curPageRange < outputPages.size( ) )

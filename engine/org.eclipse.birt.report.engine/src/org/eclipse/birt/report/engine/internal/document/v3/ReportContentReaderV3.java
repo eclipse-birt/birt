@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.5 $ $Date: 2006/04/28 06:44:28 $
+ * @version $Revision: 1.1 $ $Date: 2006/06/13 15:37:35 $
  */
 public class ReportContentReaderV3
 {
@@ -242,7 +242,7 @@ public class ReportContentReaderV3
 	{
 		if ( index >= stream.length( )  || index < 0)
 		{
-			return null;
+			throw new IOException("Invalid content offset:" + index);
 		}
 		DocumentExtension docExt  = readDocumentExtension( index );
 		IContent content = readObject( index + ReportContentWriterV3.INDEX_ENTRY_SIZE);

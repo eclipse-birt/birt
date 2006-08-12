@@ -17,6 +17,8 @@ public class ReportReader extends AbstractReportReader
 {
 
 	IReportExecutor executor = null;
+	protected long offset = 0;
+
 	public ReportReader( ExecutionContext context )
 	{
 		super( context );
@@ -41,8 +43,12 @@ public class ReportReader extends AbstractReportReader
 		closeReaders( );
 	}
 
-	protected long offset;
-
+	protected void closeReaders()
+	{
+		super.closeReaders( );
+		offset = -1;
+	}
+	
 	public IReportItemExecutor getNextChild( )
 	{
 		if ( hasNextChild( ) )

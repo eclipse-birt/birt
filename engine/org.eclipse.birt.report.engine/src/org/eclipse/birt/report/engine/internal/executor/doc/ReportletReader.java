@@ -14,7 +14,6 @@ public class ReportletReader extends ReportReader
 {
 
 	Fragment reportletFragment = null;
-	long offset = -1;
 
 	public ReportletReader( ExecutionContext context, long offset )
 	{

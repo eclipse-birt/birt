@@ -5,7 +5,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.ListContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
@@ -32,6 +31,8 @@ public class ReportItemReader implements IReportItemExecutor
 	void initialize( AbstractReportReader reader, ReportItemReader parent,
 			long offset, Fragment frag )
 	{
+		assert reader != null;
+		assert offset != -1;
 		this.reader = reader;
 		this.parent = parent;
 		this.offset = offset;
