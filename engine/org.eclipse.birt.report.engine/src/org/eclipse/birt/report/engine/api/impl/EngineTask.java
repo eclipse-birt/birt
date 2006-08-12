@@ -27,6 +27,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -243,16 +244,19 @@ public abstract class EngineTask implements IEngineTask
 
 	public void setReportRunnable( IReportRunnable runnable )
 	{
-		this.runnable = runnable;
-		executionContext.setRunnable( runnable );
-		//register the properties into the scope, so the user can 
-		//access the config through the property name directly.
-		executionContext.registerBeans( System.getProperties( ) );
-		executionContext.registerBeans( runnable.getTestConfig( ) );
-		//put the properties into the configs also, so the user can
-		//access the config through config["name"].
-		executionContext.getConfigs( ).putAll( System.getProperties( ) );
-		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
+		if ( runnable != null )
+		{
+			this.runnable = runnable;
+			executionContext.setRunnable( runnable );
+			// register the properties into the scope, so the user can
+			// access the config through the property name directly.
+			executionContext.registerBeans( System.getProperties( ) );
+			executionContext.registerBeans( runnable.getTestConfig( ) );
+			// put the properties into the configs also, so the user can
+			// access the config through config["name"].
+			executionContext.getConfigs( ).putAll( System.getProperties( ) );
+			executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
+		}
 	}
 
 	/*
@@ -361,6 +365,11 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public boolean validateParameters( )
 	{
+		if (runnable == null)
+		{
+			return false;
+		}
+		
 		// set the parameter values into the execution context
 		usingParameterValues( );
 
@@ -559,6 +568,18 @@ public abstract class EngineTask implements IEngineTask
 		return null;
 	}
 
+	public void setParameterDisplayTexts( Map params )
+	{
+		Iterator iterator = params.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			String name = (String) entry.getKey( );
+			String text = (String) entry.getValue( );
+			setParameterDisplayText( name, text );
+		}
+	}
+	
 	public void setParameterDisplayText( String name, String displayText )
 	{
 		parameterChanged = true;
@@ -622,7 +643,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.40 $ $Date: 2006/06/29 08:02:22 $
+	 * @version $Revision: 1.41 $ $Date: 2006/07/17 03:24:01 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -754,6 +775,10 @@ public abstract class EngineTask implements IEngineTask
 			executionContext.setParameter( (String) key, attribute.getValue( ),
 					attribute.getDisplayText( ) );
 		}
+		if ( runnable == null )
+		{
+			return;
+		}
 
 		// use default value for the parameter without user value.
 		new ParameterVisitor( ) {
@@ -788,19 +813,23 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void loadDesign( )
 	{
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
-		// execute scripts defined in include-script element of this report
-		Iterator iter = reportDesign.includeScriptsIterator( );
-		while ( iter.hasNext( ) )
+		if ( runnable != null )
 		{
-			IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
-					.next( );
-			String fileName = includeScript.getFileName( );
-			executionContext.loadScript( fileName );
-		}
+			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			// execute scripts defined in include-script element of this report
+			Iterator iter = reportDesign.includeScriptsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
+						.next( );
+				String fileName = includeScript.getFileName( );
+				executionContext.loadScript( fileName );
+			}
 
-		// Intialize the report
-		ReportScriptExecutor.handleInitialize( reportDesign, executionContext );
+			// Intialize the report
+			ReportScriptExecutor.handleInitialize( reportDesign,
+					executionContext );
+		}
 	}
 
 	protected void prepareDesign( )
@@ -841,6 +870,23 @@ public abstract class EngineTask implements IEngineTask
 	
 	public void setDataSource( IDocArchiveReader dataSource )
 	{
+		// try to open the dataSource as report document
+		try
+		{
+			ReportDocumentReader document = new ReportDocumentReader( engine,
+					dataSource );
+			Map values = document.getParameterValues( );
+			Map texts = document.getParameterDisplayTexts( );
+			setParameterValues( values );
+			setParameterDisplayTexts( texts );
+			document.close( );
+		}
+		catch ( EngineException ex )
+		{
+			log.log( Level.WARNING,
+					"failed to load the paremters in the data source", ex );
+		}
+		
 		executionContext.setDataSource( dataSource );		
 	}
 	
