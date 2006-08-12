@@ -63,27 +63,21 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
-import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.ir.LabelItemDesign;
-import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -147,7 +141,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.141 $ $Date: 2006/08/10 05:25:02 $
+ * @version $Revision: 1.136 $ $Date: 2006/07/18 11:27:49 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -211,8 +205,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	protected boolean enableMetadata = false;
 
-	protected boolean displayFilterIcon = false;
-	
 	protected List ouputInstanceIDs = null;
 
 	/**
@@ -293,8 +285,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected ContentEmitterVisitor contentVisitor;
 
-
-	private Stack detailRowStateStack = new Stack( );
+	private MetadataEmitter metadataEmitter;
+	
+	private IDGenerator idGenerator = new IDGenerator( );
 	/**
 	 * the constructor
 	 */
@@ -393,6 +386,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		renderOption = services.getRenderOption( );
 		runnable = services.getReportRunnable( );
+		writer = new HTMLWriter( );
 		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
 		{
 			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
@@ -412,11 +406,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			pageFooterFloatFlag = htmlOption.getPageFooterFloatFlag( );
 			htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
 			enableMetadata = htmlOption.getEnableMetadata( );
-			displayFilterIcon = htmlOption.getDisplayFilterIcon( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
+			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
 		}
-
-		writer = new HTMLWriter( );
 	}
 
 	/**
@@ -1018,13 +1010,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String bookmark = table.getBookmark( );
 		if ( bookmark == null )
 		{
-			bookmark = generateUniqueID( );
+			bookmark = idGenerator.generateUniqueID( );
 			table.setBookmark( bookmark );
 		}
-		setBookmark( null, bookmark );
+		HTMLEmitterUtil.setBookmark( writer, null, bookmark );
 
 		// Add it to active id list, and output type ��iid to html
-		setActiveIDTypeIID(table);
+		HTMLEmitterUtil.setActiveIDTypeIID(writer, ouputInstanceIDs, table);
 
 		// table caption
 		String caption = table.getCaption( );
@@ -1038,18 +1030,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// include select handle table
 		if ( enableMetadata )
 		{
-			Object generateBy = table.getGenerateBy( );
-			DetailRowState state = null;
-			if ( generateBy instanceof TableItemDesign )
-			{
-				state = new DetailRowState( false, false, true );
-			}
-			else
-			{
-				state = new DetailRowState( false, false, false );
-			}
-				
-			detailRowStateStack.push( state );
+			metadataEmitter.startTable( table );
 		}
 
 		writeColumns( table );
@@ -1134,47 +1115,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		return false;
 	}
-	
-	/**
-	 * get the new colspan of the cell 
-	 * by checking the relational columns.
-	 * @param column
-	 * @return
-	 */
-	private int getNewColSpan( ICellContent cell )
-	{
-		int columnNumber = cell.getColumn( );
-		int colSpan = cell.getColSpan( );
-		ITableContent table = getTableOfCell(cell);
-		if (table == null)
-		{
-			return colSpan;
-		}
-		int newColSpan = colSpan;
-		for ( int i = 0; i < colSpan; i++ )
-		{
-			IColumn column = table.getColumn( columnNumber + i );
-			if ( isColumnHidden( column ) )
-			{
-				newColSpan--;
-			}
-		}
-		return newColSpan;
-	}
-	
-	private ITableContent getTableOfCell( ICellContent cell )
-	{
-		IElement parent = cell.getParent( );
-		while ( parent != null )
-		{
-			if ( parent instanceof ITableContent )
-			{
-				return (ITableContent) parent;
-			}
-			parent = parent.getParent( );
-		}
-		return null;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -1191,7 +1131,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//	include select handle table
 		if ( enableMetadata )
 		{
-			detailRowStateStack.pop( );
+			metadataEmitter.endTable( table );
 		}
 				
 		writer.closeTag( HTMLTags.TAG_TABLE );
@@ -1315,24 +1255,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( enableMetadata )
 		{
-			if ( isRowInDetailBand( row ) )
-			{
-				DetailRowState state = (DetailRowState) detailRowStateStack
-						.peek( );
-				if ( !state.hasOutput && !state.isStartOfDetail
-						&& state.isTable )
-				{
-					state.isStartOfDetail = true;
-					state.hasOutput = true;
-				}
-			}
+			metadataEmitter.startRow( row );
 		}
 		writer.openTag( HTMLTags.TAG_TR );
 
 		setStyleName( row.getStyleClass( ) );
 
 		// bookmark
-		setBookmark( null, row.getBookmark( ) );
+		HTMLEmitterUtil.setBookmark(  writer, null, row.getBookmark( ) );
 
 		StringBuffer styleBuffer = new StringBuffer( );
 
@@ -1415,11 +1345,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( enableMetadata )
 		{
-			DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
-			if ( state.isStartOfDetail )
-			{
-				state.isStartOfDetail = false;
-			}
+			metadataEmitter.endRow( row );
 		}
 		// assert currentData != null;
 		//
@@ -1505,60 +1431,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 		
-		initializeCell( cell );
-	}
-
-	private void initializeCell( ICellContent cell )
-	{
 		if ( enableMetadata )
 		{
-			if ( needColumnFilter( cell ) || cell.isStartOfGroup( ) )
-			{
-				writer.openTag( HTMLTags.TAG_TABLE );
-				writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
-				writer.attribute( HTMLTags.ATTR_WIDTH, "100%" );
-				if ( cell.isStartOfGroup( ))
-				{
-					writer.openTag( HTMLTags.TAG_COL );
-					writer.attribute( "style", "width:" + getRowIndent( cell ) );
-					writer.closeNoEndTag( );
-					writer.openTag( HTMLTags.TAG_COL );
-					writer.closeNoEndTag( );
-					writer.openTag( HTMLTags.TAG_COL );
-					writer.closeNoEndTag( );
-				}
-				writer.openTag( HTMLTags.TAG_TR );
-				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
-			}
-			if ( cell.isStartOfGroup( ) )
-			{
-				// include select handle table
-				writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" + ";text-align:right" );
-				writer.openTag( HTMLTags.TAG_IMAGE );
-				writer.attribute( HTMLTags.ATTR_SRC,
-						"iv/images/collapsexpand.gif" );
-				writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
-				String bookmark = generateUniqueID( );
-				setBookmark( null, bookmark );
-				setActiveIDTypeIID( bookmark, "GROUP", null, -1 );
-				writer.closeTag( HTMLTags.TAG_IMAGE );
-				writer.closeTag( HTMLTags.TAG_TD );
-				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
-			}
+			metadataEmitter.startCell( cell );
 		}
-	}
-
-	private String getRowIndent( ICellContent cell )
-	{
-		IRowContent row = ( RowContent )cell.getParent( );
-		int groupLevel = HTMLUtil.getGroupLevel( row );
-		if ( groupLevel >= 0 )
-		{
-			return String.valueOf( HTMLUtil.getGroupLevel( row ) * 16 ) + "px";
-		}
-		return "0px";
 	}
 
 	private void handleColumnRelatedStyle( ICellContent cell,
@@ -1583,32 +1459,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( enableMetadata )
 		{
-			if ( needColumnFilter( cell ) )
-			{
-				// include select handle table
-				writer.closeTag( HTMLTags.TAG_TD );
-				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
-				writer.openTag( HTMLTags.TAG_IMAGE );
-				writer
-						.attribute( HTMLTags.ATTR_SRC,
-								"iv/images/columnicon.gif" );
-				writer.attribute( HTMLTags.ATTR_ALT, HTMLUtil
-						.getColumnFilterText( cell ) );
-				writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
-				writer.attribute( HTMLTags.ATTR_COLUMN, cell
-						.getColumnInstance( ).getInstanceID( ).toString( ) );
-				String bookmark = generateUniqueID( );
-				setBookmark( null, bookmark );
-				setActiveIDTypeIID( bookmark, "COLOUMNINFO", null, -1 );
-				writer.closeTag( HTMLTags.TAG_IMAGE );
-			}
-			if ( needColumnFilter( cell ) || cell.isStartOfGroup( ) )
-			{
-				writer.closeTag( HTMLTags.TAG_TD );
-				writer.closeTag( HTMLTags.TAG_TR );
-				writer.closeTag( HTMLTags.TAG_TABLE );
-			}
+			metadataEmitter.endCell( cell );
 		}
 		if ( isCellInTableHead( cell )	)
 		{
@@ -1655,13 +1506,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( bookmark == null )
 		{
-			bookmark = generateUniqueID( );
+			bookmark = idGenerator.generateUniqueID( );
 			container.setBookmark( bookmark );
 		}
 
-		setBookmark( tagName, bookmark );
+		HTMLEmitterUtil.setBookmark(  writer, tagName, bookmark );
 		
-		setActiveIDTypeIID( container );
+		HTMLEmitterUtil
+				.setActiveIDTypeIID( writer, ouputInstanceIDs, container );
 
 		// output style
 		// if ( x == null && y == null )
@@ -1737,21 +1589,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// action
 		String tagName;
-		String selectHandleTag = null;
 		String url = validate( text.getHyperlinkAction( ) );
-		boolean needMetadata = enableMetadata
-				&& ( text.getGenerateBy( ) instanceof LabelItemDesign || text
-						.getGenerateBy( ) instanceof TemplateDesign );
+		boolean metadataOutput = false;
 		if ( url != null )
 		{
 			//output select class
-			if ( needMetadata )
+			if ( enableMetadata )
 			{
-				selectHandleTag = HTMLTags.TAG_SPAN;
-				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, "birt-label-design" ); //$NON-NLS-1$
-				setActiveIDTypeIID( text );
-				setBookmark( selectHandleTag, text.getBookmark( ) );
+				metadataOutput = metadataEmitter.startText( text,
+						HTMLTags.TAG_SPAN );
 			}
 			tagName = HTMLTags.TAG_A;
 			outputAction( text.getHyperlinkAction( ), url );
@@ -1762,13 +1608,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			if ( needMetadata )
+			if ( enableMetadata )
 			{
-				selectHandleTag = getTagByType( display, DISPLAY_FLAG_ALL );
-				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, "birt-label-design" ); //$NON-NLS-1$
-				setActiveIDTypeIID( text );
-				setBookmark( selectHandleTag, text.getBookmark( ) );
+				metadataOutput = metadataEmitter.startText( text, HTMLEmitterUtil.getTagByType(
+						display, DISPLAY_FLAG_ALL ) );
 			}
 			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 			setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
@@ -1777,7 +1620,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( text.getStyleClass( ) );
 
 		// bookmark
-		if ( !needMetadata )
+		if ( !metadataOutput )
 		{
 			outputBookmark( text, tagName );
 		}
@@ -1835,9 +1678,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		
 		writer.closeTag( tagName );
-		if ( needMetadata )
+		if ( enableMetadata )
 		{
-			writer.closeTag( selectHandleTag );
+			metadataEmitter.endText( text );
 		}
 	}
 
@@ -1870,33 +1713,27 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				styleBuffer );
 
 		// create default bookmark if we need output metadata
-		String designClassName = "birt-foreign-design";
 		if ( foreign.getGenerateBy( ) instanceof TemplateDesign )
 		{
 			//FIXME: actually, it should be birt-template-design
-			designClassName = "birt-label-design";			
 			String bookmark = foreign.getBookmark( );
 			if ( bookmark == null )
 			{
-				bookmark = generateUniqueID( );
+				bookmark = idGenerator.generateUniqueID( );
 				foreign.setBookmark( bookmark );
 			}
 		}
 
 		// action
 		String tagName;
-		String selectHandleTag = null;
 		String url = validate( foreign.getHyperlinkAction( ) );
+		boolean metadataOutput = false;
 		if ( url != null )
 		{
 			if ( enableMetadata )
 			{
-				// output select class
-				selectHandleTag = HTMLTags.TAG_SPAN;
-				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, designClassName ); //$NON-NLS-1$
-				setActiveIDTypeIID( foreign );
-				setBookmark( selectHandleTag, foreign.getBookmark( ) );
+				metadataOutput = metadataEmitter.startForeign( foreign,
+						HTMLTags.TAG_SPAN );
 			}
 			tagName = HTMLTags.TAG_A;
 			outputAction( foreign.getHyperlinkAction( ), url );
@@ -1909,11 +1746,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			if ( enableMetadata )
 			{
-				selectHandleTag = getTagByType( display, DISPLAY_FLAG_ALL );
-				writer.openTag( selectHandleTag );
-				writer.attribute( HTMLTags.ATTR_CLASS, designClassName ); //$NON-NLS-1$
-				setActiveIDTypeIID( foreign );
-				setBookmark( selectHandleTag, foreign.getBookmark( ) );
+				metadataOutput = metadataEmitter.startForeign( foreign, HTMLEmitterUtil.getTagByType(
+						display, DISPLAY_FLAG_ALL ) );
 			}
 			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 			setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
@@ -1922,7 +1756,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( foreign.getStyleClass( ) );
 
 		// bookmark
-		if ( !enableMetadata )
+		if ( !metadataOutput )
 		{
 			outputBookmark( foreign, tagName );
 		}
@@ -1989,9 +1823,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( tagName );
 		if ( enableMetadata )
 		{
-			writer.closeTag( selectHandleTag );
+			metadataEmitter.endForeign( foreign );
 		}
-
 	}
 	
 	
@@ -2149,7 +1982,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String bookmark = label.getBookmark( );
 		if ( bookmark == null ) 
 		{
-			bookmark = generateUniqueID( );
+			bookmark = idGenerator.generateUniqueID( );
 			label.setBookmark( bookmark );
 		}
 		startText( label );
@@ -2182,28 +2015,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		logger.log( Level.FINE, "[HTMLImageEmitter] Start image" ); //$NON-NLS-1$ 
 
-		Object generateBy = image.getGenerateBy( );
-		
 		StringBuffer styleBuffer = new StringBuffer( );
 		int display = checkElementType( image.getX( ), image.getY( ),
 				mergedStyle, styleBuffer );
 		boolean isSelectHandleTableChart = false;
 		if ( enableMetadata  )
 		{
-			if ( generateBy instanceof ExtendedItemDesign )
-			{
-				startSelectHandle( display, DISPLAY_BLOCK, "birt-chart-design" ); //$NON-NLS-1$
-				isSelectHandleTableChart = true;
-				// If the image is a chart, add it to active id list, and output type ��iid to html
-				String bookmark = image.getBookmark( );				
-				if ( bookmark == null )
-				{
-					bookmark = generateUniqueID( );
-					image.setBookmark( bookmark );
-				}
-				setActiveIDTypeIID(image);				
-				setBookmark( HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
-			}
+			isSelectHandleTableChart = metadataEmitter.startImage( image );
 		}		
 
 		String tag = openTagByType( display, DISPLAY_BLOCK );
@@ -2229,7 +2047,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				if ( bookmark == null )
 				{
-					bookmark = generateUniqueID( );
+					bookmark = idGenerator.generateUniqueID( );
 					image.setBookmark( bookmark );
 				}
 				outputBookmark( image, HTMLTags.ATTR_IMAGE ); //$NON-NLS-1$
@@ -2295,7 +2113,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				if ( bookmark == null )
 				{
-					bookmark = generateUniqueID( );
+					bookmark = idGenerator.generateUniqueID( );
 					image.setBookmark( bookmark );
 				}
 				outputBookmark( image, HTMLTags.ATTR_IMAGE ); //$NON-NLS-1$
@@ -2407,24 +2225,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// include	select handle chart
 		if ( enableMetadata )
 		{
-			if ( generateBy instanceof ExtendedItemDesign )
-			{
-				endSelectHandle( display, DISPLAY_BLOCK);
-			}
+			metadataEmitter.endImage( image );
 		}
 	}
 	
-	private void startSelectHandle( int display, int blockType, String cssClass )
-	{
-		writer.openTag( getTagByType( display, blockType ) );
-		writer.attribute( HTMLTags.ATTR_CLASS, cssClass );
-	}
-
-	private void endSelectHandle( int display, int blockType )
-	{
-		writer.closeTag( getTagByType( display, blockType ) );
-	}
-
 	/**
 	 * gets the image's URI
 	 * 
@@ -2570,38 +2374,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return canShrink;
 	}
 
-	/**
-	 * Outputs the 'bookmark' property. Destination anchors in HTML documents
-	 * may be specified either by the A element (naming it with the 'name'
-	 * attribute), or by any other elements (naming with the 'id' attribute).
-	 * 
-	 * @param tagName
-	 *            The tag's name.
-	 * @param bookmark
-	 *            The bookmark value.
-	 */
-	protected void setBookmark( String tagName, String bookmark )
-	{
-		if ( tagName == null || !HTMLTags.TAG_A.equalsIgnoreCase( tagName ) )
-		{
-			writer.attribute( HTMLTags.ATTR_ID, bookmark );
-		}
-		else
-		{
-			writer.attribute( HTMLTags.ATTR_ID, bookmark );
-			writer.attribute( HTMLTags.ATTR_NAME, bookmark );
-		}
-	}
-
 	protected void outputBookmark( IContent content, String tagName )
 	{
 		String bookmark = content.getBookmark( );
-		setBookmark( tagName, bookmark );
-		String type = getActiveIdType( content );
-		InstanceID iid = content.getInstanceID( );
-		long componentID = ( iid != null ) ? iid.getComponentID( ) : 0;
-		exportElementID( bookmark, type, componentID);
+		HTMLEmitterUtil.setBookmark(  writer, tagName, bookmark );
 	}
+
 	/**
 	 * Checks whether the element is block, inline or inline-block level. In
 	 * BIRT, the absolute positioning model is used and a box is explicitly
@@ -2638,6 +2416,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			DimensionType width, DimensionType height, IStyle style,
 			StringBuffer styleBuffer )
 	{
+		if ( x != null || y != null )
+		{
+			styleBuffer.append( "position: absolute;" ); //$NON-NLS-1$
+			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, x );
+			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, y );
+		}
+		return getElementType( x, y, width, height, style);
+	}
+
+	public int getElementType( DimensionType x, DimensionType y,
+			DimensionType width, DimensionType height, IStyle style )
+	{
 		int type = 0;
 		String display = null;
 		if ( style != null )
@@ -2652,9 +2442,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( x != null || y != null )
 		{
-			styleBuffer.append( "position: absolute;" ); //$NON-NLS-1$
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, x );
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, y );
 			return type | DISPLAY_BLOCK;
 		}
 		else if ( EngineIRConstants.DISPLAY_INLINE.equalsIgnoreCase( display ) )
@@ -2698,28 +2485,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	protected String openTagByType( int display, int mask )
 	{
-		String tag = getTagByType( display, mask );
+		String tag = HTMLEmitterUtil.getTagByType( display, mask );
 		if ( tag != null)
 		{
 			writer.openTag( tag );
 		}
-		return tag;
-	}
-
-	private String getTagByType( int display, int mask )
-	{
-		int flag = display & mask;
-		String tag = null;
-		if ( ( flag & DISPLAY_BLOCK ) > 0 )
-		{
-			tag = HTMLTags.TAG_DIV;
-		}
-
-		if ( ( flag & DISPLAY_INLINE ) > 0 )
-		{
-			tag = HTMLTags.TAG_SPAN;
-		}
-
 		return tag;
 	}
 
@@ -2976,93 +2746,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
 	}
 
-	protected void exportElementID( String bookmark,
-			String type, long componentID )
-	{
-		if ( ouputInstanceIDs != null )
-		{
-			if ( bookmark != null )
-			{
-				assert type != null;
-				String newBookmark = bookmark + "," + type + ","
-						+ new Long( componentID ).toString( );
-				ouputInstanceIDs.add( newBookmark );
-			}
-		}
-	}
-
-	protected int bookmarkId = 0;
-	protected String generateUniqueID( )
-	{
-		bookmarkId ++;
-		return "AUTOGENBOOKMARK_" + bookmarkId;
-	}
-	
-	/**
-	 * Add element to active ID list. Output type & iid to html.
-	 * 
-	 * @param content
-	 *            the styled element content
-	 */
-	private void setActiveIDTypeIID( IContent content )
-	{
-		// If content is generated by LabelItemDesign or TemplateDesign,
-		// ExtendedItemDesign, TableItemDesign
-		// add it to active id list, and output type & iid to html
-		String type = getActiveIdType( content );
-		if (type != null)
-		{
-			// Instance ID
-			InstanceID iid = content.getInstanceID( );
-			long componentID = ( iid != null ) ? iid.getComponentID( ) : 0;
-			setActiveIDTypeIID( content.getBookmark( ), type, iid, componentID );
-		}
-	}
-
-	private String getActiveIdType( IContent content )
-	{
-		Object genBy = content.getGenerateBy( );
-		String type = null;
-		if (genBy instanceof LabelItemDesign)
-		{
-			type = "LABEL";
-		}
-		else if (genBy instanceof TemplateDesign)
-		{
-			type = "TEMPLATE";
-		}
-		
-		else if( genBy instanceof ExtendedItemDesign )
-		{
-			type = "EXTENDED" ;
-		}
-		else if ( genBy instanceof TableItemDesign )
-		{
-			type = "TABLE";
-		}
-		else if (genBy instanceof ListItemDesign)
-		{
-			type = "LIST";
-		}
-		else if ( genBy instanceof TextItemDesign )
-		{
-			type = "TEXT";
-		}
-		return type;
-	}
-
-	private void setActiveIDTypeIID( String bookmark, String type,
-			InstanceID iid, long elementId )
-	{
-		exportElementID( bookmark, type, elementId );
-		// type
-		writer.attribute( "element_type", type );
-		if ( iid != null )
-		{
-			writer.attribute( "iid", iid.toString( ) );
-		}
-	}
-	
 	/**
 	 * Resize chart template and table template element.
 	 * 
@@ -3115,19 +2798,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		return false;
-	}
-
-	private boolean needColumnFilter( ICellContent cell )
-	{
-		DetailRowState state = ( DetailRowState ) detailRowStateStack.peek( );
-		if ( cell.getColumnInstance( ) == null )
-		{
-			return false;
-		}
-		return state.isStartOfDetail
-				&& cell.getColumnInstance( ).hasDataItemsInDetail( )
-				&& displayFilterIcon
-				&& HTMLUtil.getFilterConditions( cell ).size( ) > 0 ;
 	}
 
 	/* (non-Javadoc)
@@ -3201,20 +2871,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 }
 
-class DetailRowState
+class IDGenerator
 {
-
-	public DetailRowState( boolean isStartOfDetail, boolean hasOutput,
-			boolean isTable )
+	protected int bookmarkId = 0;
+	IDGenerator( )
 	{
-		this.isStartOfDetail = isStartOfDetail;
-		this.hasOutput = hasOutput;
-		this.isTable = isTable;
+		this.bookmarkId = 0;
 	}
-
-	public boolean isStartOfDetail;
-
-	public boolean hasOutput;
-
-	public boolean isTable;
+	protected String generateUniqueID( )
+	{
+		bookmarkId ++;
+		return "AUTOGENBOOKMARK_" + bookmarkId;
+	}
 }

@@ -33,6 +33,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	public static final String HTML_INCLUDE_SELECTION_HANDLE = "includeSelectionHandle"; //$NON-NLS-1$
 	public static final String HTML_ENABLE_METADATA = "enableMetadata"; //$NON-NLS-1$
 	public static final String HTML_DISPLAY_FILTER_ICON = "displayFilterIcon"; //$NON-NLS-1$
+	public static final String HTML_DISPLAY_GROUP_ICON = "displayGroupIcon"; //$NON-NLS-1$
 
 	/**
 	 * @return Returns the instanceIDs.
@@ -269,6 +270,30 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	public boolean getDisplayFilterIcon( )
 	{
 		Object value = options.get( HTML_DISPLAY_FILTER_ICON );
+		if ( value instanceof Boolean )
+		{
+			return ( ( Boolean )value ).booleanValue( );
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the flag indicationg that if group expand/collapse icons should be displayed.
+	 * 
+	 * @param displayFilterIcon
+	 *            the flag
+	 */
+	public void setDisplayGroupIcon( boolean displayFilterIcon )
+	{
+		options.put( HTML_DISPLAY_GROUP_ICON, new Boolean( displayFilterIcon ) );
+	}
+
+	/**
+	 * @return the group expand/collapse icon flag value.
+	 */
+	public boolean getDisplayGroupIcon( )
+	{
+		Object value = options.get( HTML_DISPLAY_GROUP_ICON );
 		if ( value instanceof Boolean )
 		{
 			return ( ( Boolean )value ).booleanValue( );
