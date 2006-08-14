@@ -476,7 +476,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			if ( CSSConstants.CSS_NONE_VALUE.equalsIgnoreCase( style
 					.getDisplay( ) )
 					|| ( formats != null && formats.length( ) > 0 && ( formats
-							.indexOf( format ) >= 0 || formats
+							.indexOf( format ) >= 0 || formats.toUpperCase( )
 							.indexOf( BIRTConstants.BIRT_ALL_VALUE
 									.toUpperCase( ) ) >= 0 ) ) )
 			{
