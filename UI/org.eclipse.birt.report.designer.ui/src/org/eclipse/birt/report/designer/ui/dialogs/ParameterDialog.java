@@ -352,7 +352,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			final SelectionChoice choice = (SelectionChoice) element;
 			boolean isDefault = isDefaultChoice( choice );
-			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString("ParameterDialog.SelectionDialog.Edit") ); //$NON-NLS-1$
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.Edit" ) ); //$NON-NLS-1$
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
@@ -367,7 +367,7 @@ public class ParameterDialog extends BaseDialog
 				choice.setValue( convertToStandardFormat( choice.getValue( ) ) );
 				if ( isDefault )
 				{
-					defaultValue = choice.getValue( );
+					changeDefaultValue( choice.getValue( ) );
 				}
 				return true;
 			}
@@ -377,7 +377,7 @@ public class ParameterDialog extends BaseDialog
 		public boolean newItem( )
 		{
 			SelectionChoice choice = StructureFactory.createSelectionChoice( );
-			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString("ParameterDialog.SelectionDialog.New") ); //$NON-NLS-1$
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.New" ) ); //$NON-NLS-1$
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
@@ -399,6 +399,10 @@ public class ParameterDialog extends BaseDialog
 		{
 			for ( int i = 0; i < elements.length; i++ )
 			{
+				if ( isDefaultChoice( (SelectionChoice) elements[i] ) )
+				{
+					changeDefaultValue( null );
+				}
 				choiceList.remove( elements[i] );
 			}
 			return true;
@@ -774,7 +778,7 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		updateFormatField( );
-	}	
+	}
 
 	private void refreshDataSets( )
 	{
@@ -1237,15 +1241,13 @@ public class ParameterDialog extends BaseDialog
 				SelectionChoice choice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
 				if ( isDefaultChoice( choice ) )
 				{
-					defaultValue = null;
+					changeDefaultValue( null );
 				}
 				else
 				{
-					defaultValue = choice.getValue( );
+					changeDefaultValue( choice.getValue( ) );
 				}
 				refreshValueTable( );
-				updateMessageLine( );
-				updateButtons( );
 				changeDefault.getParent( ).layout( );
 			}
 		} );
@@ -1327,14 +1329,12 @@ public class ParameterDialog extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				defaultValue = UIUtil.convertToModelString( defaultValueEditor.getText( ),
-						false );
+				changeDefaultValue( UIUtil.convertToModelString( defaultValueEditor.getText( ),
+						false ) );
 				if ( isStatic( ) )
 				{
 					refreshValueTable( );
 				}
-				updateFormatField( );
-				updateMessageLine( );
 			}
 		} );
 	}
@@ -1651,7 +1651,7 @@ public class ParameterDialog extends BaseDialog
 			needSort.setEnabled( true );
 		}
 	}
-	
+
 	private void updateMessageLine( )
 	{
 		String errorMessage = validateName( );
@@ -1738,9 +1738,7 @@ public class ParameterDialog extends BaseDialog
 			String pattern = formatPattern;
 			if ( formatPattern == null )
 			{
-				if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-						|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-						|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
+				if ( isCustom( ) )
 				{
 					return string;
 				}
@@ -1925,34 +1923,32 @@ public class ParameterDialog extends BaseDialog
 			}
 			else
 			{
-				if ( formatCategroy == DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM
-						|| formatCategroy == DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM
-						|| formatCategroy == DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM )
+				if ( isCustom( ) )
 				{
 					displayFormat += ": " + formatPattern; //$NON-NLS-1$
 				}
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
-					previewString = new DateFormatter( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) ? formatPattern
+					previewString = new DateFormatter( isCustom( ) ? formatPattern
 							: formatCategroy,
 							ULocale.getDefault( ) ).format( new Date( ) );
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
-					previewString = new StringFormatter( formatCategroy != DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM ? formatCategroy
-							: formatPattern,
+					previewString = new StringFormatter( isCustom( ) ? formatPattern
+							: formatCategroy,
 							ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
 				{
-					previewString = new NumberFormatter( formatCategroy != DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ? formatCategroy
-							: formatPattern,
+					previewString = new NumberFormatter( isCustom( ) ? formatPattern
+							: formatCategroy,
 							ULocale.getDefault( ) ).format( 1234567890 );
 				}
 				else
 				{
-					previewString = new NumberFormatter( formatCategroy != DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ? formatCategroy
-							: formatPattern,
+					previewString = new NumberFormatter( isCustom( ) ? formatPattern
+							: formatCategroy,
 							ULocale.getDefault( ) ).format( 123456789.01234 );
 				}
 			}
@@ -2183,4 +2179,23 @@ public class ParameterDialog extends BaseDialog
 		}
 		return null;
 	}
+
+	private void changeDefaultValue( String value )
+	{
+		defaultValue = value;
+		updateFormatField( );
+		updateMessageLine( );
+	}
+
+	private boolean isCustom( )
+	{
+		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
 }

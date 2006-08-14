@@ -1559,7 +1559,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
-			if ( formatCategroy != DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM )
+			if ( isCustom( ) )
 			{
 				displayFormat += ":  " + formatPattern; //$NON-NLS-1$
 			}
@@ -1569,9 +1569,19 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( selectedParameter != null )
 		{
-			doPreview( formatCategroy != DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM ? formatCategroy
-					: formatPattern );
+			doPreview( isCustom( ) ? formatPattern : formatCategroy );
 		}
+	}
+
+	private boolean isCustom( )
+	{
+		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	private void doPreview( String pattern )
@@ -1596,8 +1606,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			formatStr = new NumberFormatter( pattern ).format( DEFAULT_PREVIEW_INTEGER_NUMBER );
 		}
-
-		previewLable.setText( formatStr );
+		previewLable.setText( UIUtil.convertToGUIString( formatStr ) );
 	}
 
 	private String getColumnName( ScalarParameterHandle handle, String column )
