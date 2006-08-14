@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -81,7 +82,9 @@ public abstract class EngineCase extends TestCase
 	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 
 	protected IReportEngine engine = null;
-
+	
+	protected IEngineTask engineTask = null;
+	
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
@@ -97,8 +100,8 @@ public abstract class EngineCase extends TestCase
 		// IPlatformContext context = new PlatformFileContext( );
 		// config.setEngineContext( context );
 		// this.engine = new ReportEngine( config );
-
-		EngineConfig config = new EngineConfig( );
+		
+		EngineConfig config = new EngineConfig( );		
 		this.engine = createReportEngine( config );
 	}
 
@@ -110,6 +113,8 @@ public abstract class EngineCase extends TestCase
 	public IReportEngine createReportEngine( EngineConfig config )
 			throws BirtException
 	{
+		setScriptingPath( );
+		
 		if ( config == null )
 		{
 			config = new EngineConfig( );
@@ -418,6 +423,9 @@ public abstract class EngineCase extends TestCase
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
+		
+		// set engine task
+		engineTask = task;
 
 		if ( paramValues != null )
 		{
@@ -772,6 +780,16 @@ public abstract class EngineCase extends TestCase
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
 		return PLUGIN_PATH + className.replace( '.', '/' );
+	}
+	
+	/**
+	 * Set scripts class folder
+	 */
+	
+	protected void setScriptingPath( )
+	{
+		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY,
+				this.getClassFolder( ) + "/input/scripts" );
 	}
 
 }
