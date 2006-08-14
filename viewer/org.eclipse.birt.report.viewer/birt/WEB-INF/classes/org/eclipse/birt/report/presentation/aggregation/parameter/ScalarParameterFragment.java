@@ -184,7 +184,9 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		if ( configMap != null && configMap.containsKey( parameter.getName( ) ) )
 		{
 			Object configObj = configMap.get( parameter.getName( ) );
-			if ( configObj != null )
+			// If parameter is Text, format value
+			if ( configObj != null
+					&& parameter.getControlType( ) == ParameterDefinition.TEXT_BOX )
 			{
 				parameterValue = ParameterValidationUtil.getDisplayValue( null,
 						parameterHandle.getPattern( ), configObj, attrBean
