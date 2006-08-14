@@ -24,6 +24,7 @@ import java.util.Set;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -283,6 +284,13 @@ public class BirtGetCascadeParameterActionHandler
 						// value for display
 						label = ParameterValidationUtil.getDisplayValue( null,
 								parameterHandle.getPattern( ), value, attrBean
+										.getLocale( ) );
+					}
+					else
+					{
+						// Format display text of dynamic parameter 
+						label = ParameterValidationUtil.getDisplayValue( null,
+								parameterHandle.getPattern( ), label, attrBean
 										.getLocale( ) );
 					}
 
