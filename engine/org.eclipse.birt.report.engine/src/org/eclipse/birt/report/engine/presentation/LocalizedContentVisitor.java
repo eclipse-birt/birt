@@ -386,9 +386,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		if ( IForeignContent.HTML_TYPE.equals( rawFormat ) )
 		{
 			TextItemScriptExecutor.handleOnRender( foreignContent, context );
-			String htmlText = (String)foreignContent.getRawValue( );
-			String text = localize( foreignContent, foreignContent.getRawKey( ), htmlText);
-			foreignContent.setRawValue(  text );
+			String key = foreignContent.getRawKey( );
+			if (key != null)
+			{
+				String text = localize( foreignContent, key, null);
+				if (text != null)
+				{
+					foreignContent.setRawValue(  text );
+				}
+			}
 			return foreignContent;
 		}
 		
