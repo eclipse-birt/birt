@@ -124,6 +124,22 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_94138.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_98257.class );
 		
+		//2006-08-11
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_115965.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_116800.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_118188.class );
+//		To Do: chart script
+//		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121813.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121816.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121828.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121829.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121831.class );
+//		To Do: chart script	
+//		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121836.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_121847.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_131285.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_128582.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_130073.class );
 		return suite;
 		
 		/*
