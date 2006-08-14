@@ -13,6 +13,7 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -135,12 +136,13 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 				// convert the parameter from current locale to default
 				// locale format
+				String dataType = DesignChoiceConstants.PARAM_TYPE_STRING;
 				if ( paramValue != null && parameter != null )
 				{
 					try
 					{
 						String pattern = parameter.getPattern( );
-						String dataType = parameter.getDataType( );
+						dataType = parameter.getDataType( );
 
 						Object paramValueObj = ParameterValidationUtil
 								.validate( dataType, pattern, paramValue,
@@ -167,6 +169,13 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					configVar.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
 					configVar.setValue( paramValue );
 					handle.addConfigVariable( configVar );
+
+					// add parameter type
+					ConfigVariable typeVar = new ConfigVariable( );
+					typeVar.setName( paramName + "_" + parameter.getID( ) + "_"  //$NON-NLS-1$//$NON-NLS-2$
+							+ IBirtConstants.PROP_TYPE );
+					typeVar.setValue( dataType );
+					handle.addConfigVariable( typeVar );
 				}
 			}
 		}

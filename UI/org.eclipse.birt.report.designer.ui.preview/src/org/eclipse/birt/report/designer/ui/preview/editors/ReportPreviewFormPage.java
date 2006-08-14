@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -57,6 +58,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	// suffix of design config file
 	public static final String SUFFIX_DESIGN_CONFIG = "rptconfig"; //$NON-NLS-1$
+
+	// property type
+	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -370,6 +374,31 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 						{
 							// check the parameter whether exist or not
 							String paramName = getParameterName( configVar.getName( ) );
+
+							// get parameter handle
+							ScalarParameterHandle parameter = findParameter( paramName );
+
+							if ( parameter != null )
+							{
+								// get cached parameter type
+								String typeVarName = configVar.getName( ) + "_" //$NON-NLS-1$
+										+ PROP_TYPE;
+								ConfigVariable typeVar = handle
+										.findConfigVariable( typeVarName );
+								String dataType = null;
+								if ( typeVar != null )
+									dataType = typeVar.getValue( );
+
+								// if null or data type changed, skip it
+								if ( dataType == null
+										|| !dataType
+												.equalsIgnoreCase( parameter
+														.getDataType( ) ) )
+								{
+									continue;
+								}
+							}
+
 							if ( paramName != null && paramName.length( ) > 0 )
 							{
 								configVars.put( paramName, configVar.getValue( ) );
@@ -448,6 +477,48 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 
 		return paramName;
+	}
+
+	/**
+	 * Find parameter by name
+	 * 
+	 * @param paramName
+	 * @return ScalarParameterHandle
+	 */
+	private ScalarParameterHandle findParameter( String paramName )
+	{
+		if ( paramName == null )
+			return null;
+
+		ScalarParameterHandle parameter = null;
+		List parameters = null;
+
+		// get parameter list from design handle
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		if ( model != null )
+		{
+			parameters = model.getFlattenParameters( );
+		}
+
+		if ( parameters != null )
+		{
+			for ( int i = 0; i < parameters.size( ); i++ )
+			{
+				if ( parameters.get( i ) instanceof ScalarParameterHandle )
+				{
+					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+				}
+
+				if ( parameter != null
+						&& paramName.equalsIgnoreCase( parameter.getName( ) ) )
+				{
+					break;
+				}
+			}
+		}
+
+		return parameter;
 	}
 
 	/**

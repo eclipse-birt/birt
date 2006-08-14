@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -280,6 +281,25 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						// locale
 						if ( paramValue != null && parameter != null )
 						{
+							// find cached parameter type
+							String typeVarName = configVar.getName( )
+									+ "_" + IBirtConstants.PROP_TYPE; //$NON-NLS-1$
+							ConfigVariable typeVar = handle
+									.findConfigVariable( typeVarName );
+							
+							// get cached parameter type
+							String dataType = null;
+							if ( typeVar != null )
+								dataType = typeVar.getValue( );
+
+							// if null or data type changed, skip it
+							if ( dataType == null
+									|| !dataType.equalsIgnoreCase( parameter
+											.getDataType( ) ) )
+							{
+								continue;
+							}
+
 							try
 							{
 								if ( !DesignChoiceConstants.PARAM_TYPE_STRING
