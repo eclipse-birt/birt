@@ -14,21 +14,18 @@ package org.eclipse.birt.report.tests.model.regression;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.metadata.ArgumentInfoList;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
@@ -70,25 +67,25 @@ public class Regression_120073 extends BaseTestCase
 		assertEquals( Label.ON_PAGE_BREAK_METHOD, ( (PropertyDefn) list
 				.get( i++ ) ).getName( ) );
 
-		MethodInfo onprepare = label.getProperty( Label.ON_PREPARE_METHOD )
+		IMethodInfo onprepare = label.getProperty( Label.ON_PREPARE_METHOD )
 				.getMethodInfo( );
 		Iterator iter = onprepare.argumentListIterator( );
 		ArgumentInfoList argumentList = (ArgumentInfoList) iter.next( );
 		assertNotNull( argumentList.getArgument( "this" ) );
 
-		MethodInfo oncreate = label.getProperty( Label.ON_CREATE_METHOD )
+		IMethodInfo oncreate = label.getProperty( Label.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
 		assertNotNull( argumentList.getArgument( "this" ) );
 
-		MethodInfo onrender = label.getProperty( Label.ON_RENDER_METHOD )
+		IMethodInfo onrender = label.getProperty( Label.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
 		assertNotNull( argumentList.getArgument( "this" ) );
 
-		MethodInfo onpagebreak = label.getProperty( Label.ON_PAGE_BREAK_METHOD )
+		IMethodInfo onpagebreak = label.getProperty( Label.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
