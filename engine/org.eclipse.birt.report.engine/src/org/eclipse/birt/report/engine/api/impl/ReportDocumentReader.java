@@ -252,6 +252,10 @@ public class ReportDocumentReader
 					{
 						documentInfo.systemId = orgSystemId;
 					}
+					else
+					{
+						documentInfo.systemId = systemId;
+					}
 					// load the report paramters
 					documentInfo.parameters = convertToCompatibleParameter( EngineIOUtil
 							.readMap( di ) );
