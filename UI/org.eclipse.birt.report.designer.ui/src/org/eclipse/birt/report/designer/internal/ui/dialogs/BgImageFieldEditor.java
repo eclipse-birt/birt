@@ -32,7 +32,19 @@ import org.eclipse.swt.widgets.Text;
 
 public class BgImageFieldEditor extends AbstractFieldEditor
 {
-
+	private static final String[] IMAGE_TYPES = new String[]{
+		".bmp",
+		".jpg",
+		".jpeg",
+		".jpe",
+		".jfif",
+		".gif",
+		".png",
+		".tif",
+		".tiff",
+		".ico",
+		".svg"
+};
 	/**
 	 * the text widget.
 	 */
@@ -187,7 +199,7 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 				public void widgetSelected( SelectionEvent evt )
 				{
 					String ext[] = new String[]{
-						"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+						"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 					} ;
 					FileDialog fd = new FileDialog( parent.getShell( ),
 							SWT.OPEN );
@@ -197,11 +209,13 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 					// //$NON-NLS-2$
 					// } );
 
+
+					
 					String file = fd.open( );
 					if ( file != null )					
 					{					
 					// should check extensions in Linux enviroment
-						if ( checkExtensions( ext,file ) == false )
+						if ( checkExtensions( IMAGE_TYPES,file ) == false )
 						{
 							ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ),
 									Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) );

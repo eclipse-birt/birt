@@ -145,7 +145,7 @@ public class WizardSelectCssStylePage extends WizardPage
 				if ( fileName != null )
 				{
 					// should check extensions in Linux enviroment
-					if (checkExtensions( new String[]{"*.css;*.CSS"}, fileName ) == false )
+					if (checkExtensions( new String[]{"*.css","*.CSS"}, fileName ) == false )
 					{
 						ExceptionHandler.openErrorMessageBox( Messages.getString( "WizardSelectCssStylePage.FileNameError.Title" ),
 								Messages.getString( "WizardSelectCssStylePage.FileNameError.Message" ) );
