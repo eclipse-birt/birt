@@ -88,16 +88,17 @@ public class PageHintReaderV2 implements IPageHintReader
 
 	public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
-			indexStream.seek( pageNumber * 8 );
-			long offset = indexStream.readLong( );
-			hintsStream.seek( offset );
-			PageHint hint = new PageHint( );
-			hint.readObject( new DataInputStream( hintsStream ) );
-			return hint;
+		indexStream.seek( pageNumber * 8 );
+		long offset = indexStream.readLong( );
+		hintsStream.seek( offset );
+		PageHint hint = new PageHint( );
+		hint.readObject( new DataInputStream( hintsStream ) );
+		return hint;
 	}
 
 	public long findPage( long offset ) throws IOException
 	{
+		getTotalPage();
 		for ( long page = 1; page <= totalPage; page++ )
 		{
 			IPageHint pageHint = getPageHint( page );
