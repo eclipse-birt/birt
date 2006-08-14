@@ -397,11 +397,10 @@ public class ColumnBindingDialog extends BaseDialog
 						String groupType = DEUtil.getGroupControlType( inputElement );
 						if ( ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) ) )
 						{
-							if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+							if ( !groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
 								bindingHandle.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
 										.get( 0 ) ).getName( ) );
-							else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-								bindingHandle.setAggregrateOn( null );
+							else bindingHandle.setAggregrateOn( null );
 						}
 						if ( !ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) )
 								|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
