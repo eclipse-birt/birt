@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Iterator;
@@ -42,14 +43,17 @@ import org.eclipse.birt.data.engine.impl.document.StreamManager;
  */
 class PreparedQueryUtil
 {
+
 	/**
 	 * Creates a new instance of the proper subclass based on the type of the
 	 * query passed in.
+	 * 
 	 * @param dataEngine
 	 * @param queryDefn
-	 * @param appContext	Application context map; could be null.
+	 * @param appContext
+	 *            Application context map; could be null.
 	 * @return PreparedReportQuery
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	static IPreparedQuery newInstance( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext ) throws DataException
@@ -105,7 +109,7 @@ class PreparedQueryUtil
 
 		return preparedQuery;
 	}
-	
+
 	/**
 	 * @param dataEngine
 	 * @param queryDefn
@@ -155,11 +159,11 @@ class PreparedQueryUtil
 						StreamManager.BASE_SCOPE ) );
 		if ( runningOnRS == false )
 			return false;
-		
+
 		runningOnRS = !hasTopBottomNInFilter( queryDefn.getFilters( ) );
-		if ( runningOnRS == false)
+		if ( runningOnRS == false )
 			return false;
-		
+
 		runningOnRS = isCompatibleRSMap( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE )
 				.getResultSetExpressions( ),
@@ -171,14 +175,14 @@ class PreparedQueryUtil
 		runningOnRS = isCompatibleSubQuery( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE ),
 				queryDefn );
-		
+
 		if ( runningOnRS == false )
 			return false;
-		
+
 		IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
 		List filters = qd.getFilters( );
-		
+
 		if ( FilterDefnUtil.isConflictFilter( filters, queryDefn.getFilters( ) ) )
 		{
 			runningOnRS = false;
@@ -186,17 +190,34 @@ class PreparedQueryUtil
 					StreamManager.BASE_SCOPE ).getFilters( );
 			FilterDefnUtil.getRealFilterList( filters, queryDefn.getFilters( ) );
 		}
-		
+
 		if ( runningOnRS == false )
 			return false;
-	
+
+		// TODO enhance me
+		// If the following conditions hold, running on data set
+		// 1.There are sorts that different from that of original design
+		// 2.The query has subqueries.
+
+		if ( hasSubquery( queryDefn ) )
+		{
+			if ( !QueryDefnUtil.isEqualSorts( queryDefn.getSorts( ),
+					qd.getSorts( ) ) )
+			{
+				runningOnRS = false;
+			}
+		}
+
+		if ( runningOnRS == false )
+			return false;
+
 		if ( queryDefn.getFilters( ) != null
 				&& queryDefn.getFilters( ).size( ) > 0 )
 			runningOnRS = queryDefn.getResultSetExpressions( ).values( ) == null
 					|| !hasAggregationOnRowObjects( queryDefn.getResultSetExpressions( )
 							.values( )
 							.iterator( ) );
-		
+
 		return runningOnRS;
 	}
 
@@ -208,24 +229,24 @@ class PreparedQueryUtil
 	{
 		if ( filters == null || filters.size( ) == 0 )
 			return false;
-		
-		for( int i = 0; i < filters.size( ); i++ )
+
+		for ( int i = 0; i < filters.size( ); i++ )
 		{
-			Object o = ((IFilterDefinition)filters.get( i )).getExpression( );
+			Object o = ( (IFilterDefinition) filters.get( i ) ).getExpression( );
 			if ( o instanceof IConditionalExpression )
 			{
-				int type = ((IConditionalExpression)o).getOperator( );
-				if( type == IConditionalExpression.OP_TOP_N 
-					|| type == IConditionalExpression.OP_BOTTOM_N
-					|| type == IConditionalExpression.OP_TOP_PERCENT
-					|| type == IConditionalExpression.OP_BOTTOM_PERCENT)
-				return true;	
+				int type = ( (IConditionalExpression) o ).getOperator( );
+				if ( type == IConditionalExpression.OP_TOP_N
+						|| type == IConditionalExpression.OP_BOTTOM_N
+						|| type == IConditionalExpression.OP_TOP_PERCENT
+						|| type == IConditionalExpression.OP_BOTTOM_PERCENT )
+					return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -240,7 +261,7 @@ class PreparedQueryUtil
 
 		return oldMap.size( ) >= newMap.size( );
 	}
-	
+
 	/**
 	 * @param oldSubQuery
 	 * @param newSubQuery
@@ -248,7 +269,7 @@ class PreparedQueryUtil
 	 */
 	private static boolean isCompatibleSubQuery( IBaseQueryDefinition oldDefn,
 			IBaseQueryDefinition newDefn )
-	{		
+	{
 		boolean isComp = QueryDefnUtil.isCompatibleSQs( oldDefn.getSubqueries( ),
 				newDefn.getSubqueries( ) );
 
@@ -269,7 +290,7 @@ class PreparedQueryUtil
 
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * @param query
@@ -277,12 +298,41 @@ class PreparedQueryUtil
 	 */
 	private static boolean hasAggregationOnRowObjects( Iterator it )
 	{
-		while( it.hasNext( ))
+		while ( it.hasNext( ) )
 		{
 			Object o = it.next( );
-			if( ExpressionCompilerUtil.hasRowExprInAggregation( (IBaseExpression)o))
+			if ( ExpressionCompilerUtil.hasRowExprInAggregation( (IBaseExpression) o ) )
 			{
 				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param qd
+	 * @return
+	 */
+	private static boolean hasSubquery( IQueryDefinition qd )
+	{
+		assert qd != null;
+		if ( qd.getSubqueries( ) != null && qd.getSubqueries( ).size( ) > 0 )
+		{
+			return true;
+		}
+
+		if ( qd.getGroups( ) != null )
+		{
+			for ( int i = 0; i < qd.getGroups( ).size( ); i++ )
+			{
+				IGroupDefinition gd = (IGroupDefinition) qd.getGroups( )
+						.get( i );
+				if ( gd.getSubqueries( ) != null
+						&& gd.getSubqueries( ).size( ) > 0 )
+				{
+					return true;
+				}
 			}
 		}
 		return false;
