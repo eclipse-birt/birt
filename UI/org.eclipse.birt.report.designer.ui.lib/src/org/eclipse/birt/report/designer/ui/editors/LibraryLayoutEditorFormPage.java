@@ -12,10 +12,12 @@
 package org.eclipse.birt.report.designer.ui.editors;
 
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
@@ -163,6 +165,13 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public boolean onBroughtToTop( IReportEditorPage page )
 	{
+//		reselect the selection
+		GraphicalViewer view = getGraphicalViewer( );
+
+		if(view !=null)
+		{
+			UIUtil.resetViewSelection( view, true );
+		}
 		return true;
 	}
 
