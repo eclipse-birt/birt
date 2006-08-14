@@ -1221,14 +1221,19 @@ public class ParameterDialog extends BaseDialog
 				if ( dialog.open( ) == OK )
 				{
 					String[] importValues = (String[]) dialog.getResult( );
+					ArrayList valueToAddList = new ArrayList( importValues.length );
 					for ( int i = 0; i < importValues.length; i++ )
 					{
 						if ( !containValue( null, importValues[i], COLUMN_VALUE ) )
 						{
-							SelectionChoice choice = StructureFactory.createSelectionChoice( );
-							choice.setValue( importValues[i] );
-							choiceList.add( choice );
+							valueToAddList.add( importValues[i] );
 						}
+					}
+					for ( Iterator iter = valueToAddList.iterator( ); iter.hasNext( ); )
+					{
+						SelectionChoice choice = StructureFactory.createSelectionChoice( );
+						choice.setValue( (String) iter.next( ) );
+						choiceList.add( choice );
 					}
 					refreshValueTable( );
 				}
