@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.39 $ $Date: 2006/07/25 04:35:11 $
+ * @version $Revision: 1.40 $ $Date: 2006/08/02 09:12:23 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -204,14 +204,13 @@ public class ImageItemExecutor extends QueryItemExecutor
 				IResourceLocator.IMAGE );
 		if ( uri != null )
 		{
-			strUri = uri.toExternalForm( );
 			if ( "file".equals( uri.getProtocol( ) ) )
 			{
 				handleFileImage( strUri, imageContent );
 			}
 			else
 			{
-				imageContent.setURI( strUri );
+				imageContent.setURI( uri.toExternalForm( ) );
 			}
 		}
 		else
