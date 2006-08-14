@@ -85,7 +85,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.76 $ $Date: 2006/07/25 04:35:11 $
+ * @version $Revision: 1.77 $ $Date: 2006/08/11 14:42:22 $
  */
 public class ExecutionContext
 {
@@ -1260,7 +1260,7 @@ public class ExecutionContext
 	 */
 	public boolean isInFactory( )
 	{
-		return factoryMode;
+		return true;
 	}
 
 	/**
