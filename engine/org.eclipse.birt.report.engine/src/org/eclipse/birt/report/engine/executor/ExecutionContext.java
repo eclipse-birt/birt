@@ -85,7 +85,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.77 $ $Date: 2006/08/11 14:42:22 $
+ * @version $Revision: 1.78 $ $Date: 2006/08/14 07:35:18 $
  */
 public class ExecutionContext
 {
@@ -1627,8 +1627,7 @@ public class ExecutionContext
 			{
 				ModuleHandle module = (ModuleHandle) runnable.getDesignHandle( );
 				ArrayList urls = new ArrayList( );
-				List list = module.getAllScriptLibs( );
-				Iterator iter = list.iterator( );
+				Iterator iter = module.scriptLibsIterator( );
 				while ( iter.hasNext( ) )
 				{
 					ScriptLib lib = (ScriptLib) iter.next( );
