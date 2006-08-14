@@ -760,7 +760,8 @@ public class ParameterDialog extends BaseDialog
 							.getName( );
 				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) )
-						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
+						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) )
+						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( getSelectedDataType( ) ) )
 				{
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
