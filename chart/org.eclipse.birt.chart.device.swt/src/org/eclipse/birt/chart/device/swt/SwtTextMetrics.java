@@ -250,7 +250,7 @@ public final class SwtTextMetrics extends TextAdapter
 			{
 				j = s.length( );
 			}
-			String ss = s.substring( i, j );
+			String ss = s.substring( i, j ).trim( );
 			if ( ss != null && ss.length( ) > 0 )
 			{
 				al.add( ss );

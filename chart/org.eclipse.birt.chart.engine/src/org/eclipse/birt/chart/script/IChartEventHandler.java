@@ -12,10 +12,8 @@
 package org.eclipse.birt.chart.script;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
-import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -129,54 +127,24 @@ public interface IChartEventHandler
 	public void afterDrawBlock( Block block, IChartScriptContext icsc );
 
 	/**
-	 * Called before drawing each entry in the legend.
+	 * Called befoer drawing each entry the legend.
 	 * 
 	 * @param label
 	 *            Label
 	 * @param icsc
 	 *            IChartScriptContext
-	 * @deprecated Since 2.2.0
-	 * 			  use beforeDrawLegendItem( ) instead
 	 */
 	public void beforeDrawLegendEntry( Label label, IChartScriptContext icsc );
 
 	/**
-	 * Called after drawing each entry in the legend.
+	 * Called after drawing each entry the legend.
 	 * 
 	 * @param label
 	 *            Label
 	 * @param icsc
 	 *            IChartScriptContext
-	 * @deprecated Since 2.2.0 
-	 * 			  use afterDrawLegendItem( ) instead
 	 */
 	public void afterDrawLegendEntry( Label label, IChartScriptContext icsc );
-	
-	/**
-	 * Called before drawing the legend item.
-	 * 
-	 * @param lerh
-	 * 			  LegendEntryRenderingHints
-	 * @param bo
-	 * 			  Bounds
-	 * @param icsc
-	 * 			  IChartScriptContext
-	 * @since Version 2.2.0
-	 */
-	public void beforeDrawLegendItem( LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc );
-	
-	/**
-	 * Called after drawing the legend item.
-	 * 
-	 * @param lerh
-	 * 			  LegendEntryRenderingHints
-	 * @param bo
-	 * 			  Bounds
-	 * @param icsc
-	 * 			  IChartScriptContext
-	 * @since Version 2.2.0
-	 */
-	public void afterDrawLegendItem( LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc );
 
 	/**
 	 * Called before rendering Series.
