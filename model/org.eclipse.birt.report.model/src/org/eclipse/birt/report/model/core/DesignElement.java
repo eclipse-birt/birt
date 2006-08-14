@@ -2685,8 +2685,7 @@ public abstract class DesignElement
 		}
 
 		// if this element can not be contained in the module, return false;
-		// such
-		// as, template elements can not be contained in the libraries, so
+		// such as, template elements can not be contained in the libraries, so
 		// either a template table or a real tabel with a template image in one
 		// cell of it can never be contained in a libraries
 
@@ -2719,6 +2718,12 @@ public abstract class DesignElement
 		DesignElement tmpContainer = this;
 		while ( tmpContainer != null )
 		{
+			if ( tmpContainer == element )
+			{
+				errors.add( e );
+				return errors;
+			}
+
 			if ( tmpContainer instanceof ListingElement
 					|| tmpContainer instanceof Theme
 					|| tmpContainer instanceof MasterPage )
@@ -3255,14 +3260,14 @@ public abstract class DesignElement
 				DISPLAY_NAME_ID_PROP, ThreadResources.getLocale( ) );
 
 		// if externalized resource not found, then check static display name
-		
+
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = getDisplayName( );
 		}
-		
+
 		// third, check the name to display
-		
+
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = getNameForDisplayLabel( );
@@ -3365,8 +3370,10 @@ public abstract class DesignElement
 	 * call the method
 	 * <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
 	 * to change the element names.
-	 * @param policy 
-	 *  the policy for the clone action, maybe copy or copy for template
+	 * 
+	 * @param policy
+	 *            the policy for the clone action, maybe copy or copy for
+	 *            template
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
