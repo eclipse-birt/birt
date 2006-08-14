@@ -582,7 +582,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		long totalPage = reportDoc.getPageCount( );
 		if ( pageNumber <= 0 || pageNumber > totalPage )
 		{
-			throw new EngineException( "Can't find page hints :{0}", new Long( //$NON-NLS-1$
+			throw new EngineException( "Page {0} is not found ", new Long( //$NON-NLS-1$
 					pageNumber ) );
 		}
 		innerRender = new PageRender( pageNumber);
@@ -611,7 +611,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		long pageNumber = reportDoc.getPageNumber( bookmark );
 		if ( pageNumber <= 0 ) {
-			throw new EngineException( "Can't find bookmark :{0}", bookmark ); //$NON-NLS-1$
+			throw new EngineException( "Can not find bookmark :{0}", bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRender( pageNumber );
 	}

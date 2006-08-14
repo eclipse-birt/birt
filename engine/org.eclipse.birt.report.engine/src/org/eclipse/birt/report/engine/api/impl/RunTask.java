@@ -138,7 +138,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		catch ( IOException ex )
 		{
-			throw new EngineException( "Can't open the report archive.", ex ); //$NON-NLS-1$	
+			throw new EngineException( "Can not open the report archive.", ex ); //$NON-NLS-1$	
 		}
 	}
 
