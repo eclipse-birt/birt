@@ -914,8 +914,8 @@ public final class DataTypeUtil
 		{
 			try
 			{
-				// format the String for Locale.US
-				return toDate( source, DEFAULT_LOCALE );
+				// format the String for JRE default locale
+				return toDate( source, ULocale.getDefault( ) );
 			}
 			catch ( BirtException use )
 			{
