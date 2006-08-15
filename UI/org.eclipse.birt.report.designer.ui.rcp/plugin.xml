@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.report.designer.ui.rcp"
    name="%ApplicationName"
-   version="2.0.1"
+   version="2.0.2"
    provider-name="Eclipse.org"
    >
 
