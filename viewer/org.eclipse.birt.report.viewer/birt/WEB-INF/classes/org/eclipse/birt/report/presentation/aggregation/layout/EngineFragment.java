@@ -61,9 +61,9 @@ public class EngineFragment extends BirtBaseFragment
 		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
 				.getServletPath( ) ) )
 		{
-			response.setContentType( "application/csv;charset=utf-8" ); //$NON-NLS-1$
+			response.setContentType( "text/plain; charset=utf-8" ); //$NON-NLS-1$
 			response.setHeader(
-					"Content-Disposition", "inline; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
+					"Content-Disposition", "attachment; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
