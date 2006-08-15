@@ -14,20 +14,17 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.ParseException;
 
 import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
 import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
 import org.eclipse.birt.report.data.oda.xml.util.SaxParserConsumer;
 import org.eclipse.birt.report.data.oda.xml.util.XMLDataInputStream;
+import org.eclipse.birt.report.data.oda.xml.util.date.DateUtil;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.util.ULocale;
 
 /**
  * This class implement IResultSet class 
@@ -360,109 +357,19 @@ public class ResultSet implements IResultSet
             }
             catch( IllegalArgumentException e )
             {
-                try
-                {
-                    return new Date( stringToLongDate( stringValue ) );
-                }
-                catch( ParseException e1 )
-                {
-                    this.wasNull = true;
-                }
+            	try
+        		{
+        			java.util.Date date = DateUtil.toDate( stringValue );
+        			return new Date( date.getTime( ) );
+        		}
+        		catch ( OdaException oe )
+        		{
+        			this.wasNull = true;
+        			return null;
+        		}
             }
         }
         return null;
-    }
-    
-    /**
-     * @param stringValue
-     * @return
-     * @throws ParseException
-     */
-	private long stringToLongDate( String stringValue ) throws ParseException
-    {
-        DateFormat dateFormat = null;
-        java.util.Date resultDate = null;
-
-        //For each pattern, we try to format a date for a default Locale
-        //If format fails, we format it for Locale.US
-
-        //Date style is SHORT such as 12.13.52
-        //Time sytle is MEDIUM such as 3:30:32pm
-        try
-        {
-            dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-                    DateFormat.MEDIUM );
-            resultDate = dateFormat.parse( stringValue );
-        }
-        catch( ParseException e )
-        {
-            try
-            {
-                dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-                        DateFormat.MEDIUM, ULocale.US );
-                resultDate = dateFormat.parse( stringValue );
-            }
-            catch( ParseException e1 )
-            {
-            }
-        }
-
-        if( resultDate == null )
-        {
-            //Date style is SHORT such as 12.13.52
-            //Time sytle is SHORT such as 3:30pm
-            try
-            {
-                dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-                        DateFormat.SHORT );
-                resultDate = dateFormat.parse( stringValue );
-            }
-            catch( ParseException e )
-            {
-                try
-                {
-                    dateFormat = DateFormat.getDateTimeInstance(
-                            DateFormat.SHORT, DateFormat.SHORT, ULocale.US );
-                    resultDate = dateFormat.parse( stringValue );
-                }
-                catch( ParseException e1 )
-                {
-                }
-            }
-        }
-
-        if( resultDate == null )
-        {
-            //No Date style
-            //Time style is short such as 13:05:55
-            try
-            {
-                dateFormat = DateFormat.getTimeInstance( DateFormat.MEDIUM );
-                resultDate = dateFormat.parse( stringValue );
-            }
-            catch( ParseException e )
-            {
-            }
-        }
-
-        if( resultDate == null )
-        {
-            //Date style is SHORT such as 12.13.52
-            //No Time sytle
-            try
-            {
-                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT );
-                resultDate = dateFormat.parse( stringValue );
-            }
-            catch( ParseException e )
-            {
-                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
-                        ULocale.US );
-                resultDate = dateFormat.parse( stringValue );
-            }
-        }
-
-        return resultDate.getTime();
     }
 	
 	/*
@@ -501,16 +408,21 @@ public class ResultSet implements IResultSet
             }
             catch( IllegalArgumentException e )
             {
-                Date date = stringToDate( stringValue );
-				if( date != null )
+				try
 				{
-					return new Time( date.getTime() );
+					java.util.Date date = DateUtil.toDate( stringValue );
+					return new Time( date.getTime( ) );
 				}
-            }
-        }
-    	this.wasNull = true;
-        return null;
-    }
+				catch ( OdaException oe )
+				{
+					this.wasNull = true;
+					return null;
+				}
+			}
+		}
+		this.wasNull = true;
+		return null;
+	}
 	/*
 	 *  (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
@@ -552,7 +464,18 @@ public class ResultSet implements IResultSet
             		return new Timestamp( timeMills );
             	}catch ( NumberFormatException e1)
             	{
-            		           		
+            		try
+					{
+						java.util.Date date = DateUtil.toDate( stringValue );
+						Timestamp timeStamp = new Timestamp( date.getTime( ) );
+
+						return timeStamp;
+					}
+					catch ( OdaException oe )
+					{
+						this.wasNull = true;
+						return null;
+					}
             	}
             	
             }

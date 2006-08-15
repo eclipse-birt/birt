@@ -76,7 +76,7 @@ public final class DataTypeUtil
 				"yyyy-MM-dd HH:mm",
 				"yyyy-MM-dd",
 				"yyyy-MM",
-				"yyyy",	
+				"yyyy"	
 		};
 		simpleDateFormatter = new SimpleDateFormat[dateFormatPattern.length];
 		for ( int i = 0; i < dateFormatPattern.length; i++ )
@@ -908,8 +908,7 @@ public final class DataTypeUtil
 	{
 		try
 		{
-			// Try to format the given String for JRE default Locale
-			return toDate( source, ULocale.getDefault( ) );
+			return toDateISO8601( source );
 		}
 		catch ( BirtException e )
 		{
@@ -920,7 +919,8 @@ public final class DataTypeUtil
 			}
 			catch ( BirtException use )
 			{
-				return toDateISO8601( source );
+				// format the String for Locale.US
+				return toDate( source, DEFAULT_LOCALE );
 			}
 		}
 	}
@@ -940,11 +940,23 @@ public final class DataTypeUtil
 
 		source = source.replaceFirst( "T", " " );
 		
-		for ( int i = 0; i < simpleDateFormatter.length; i++ )
+		for ( int i = 0; i < simpleDateFormatter.length - 1; i++ )
 		{
 			try
 			{
 				resultDate = simpleDateFormatter[i].parse( source );
+				return resultDate;
+			}
+			catch ( ParseException e1 )
+			{
+			}
+		}
+		//Only string matching "[0-9]+" can be applied to simpleDateFormatter.
+		if ( source.length( ) <= 4 && source.matches( "[0-9]+" ) )
+		{
+			try
+			{
+				resultDate = simpleDateFormatter[simpleDateFormatter.length - 1].parse( source );
 				return resultDate;
 			}
 			catch ( ParseException e1 )
