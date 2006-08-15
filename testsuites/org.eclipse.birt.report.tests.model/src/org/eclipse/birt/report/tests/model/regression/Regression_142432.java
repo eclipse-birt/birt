@@ -66,7 +66,7 @@ public class Regression_142432 extends BaseTestCase
 		pages.add( mp );
 		
 		GroupElementHandle group = new SimpleGroupElementHandle( designHandle, pages );
-		assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
+		assertTrue( group.hasLocalPropertiesForExtendedElements( ) );
 	}
 
 }
