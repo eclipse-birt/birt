@@ -13,16 +13,19 @@ package org.eclipse.birt.report.designer.util;
 
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -87,6 +90,9 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
 
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
+
 /**
  * This class integrated some methods that will be used in GUI. It provides the
  * information that GUI will use and is called widely. *
@@ -104,6 +110,11 @@ public class DEUtil
 	private static ArrayList notSupportList = new ArrayList( );
 
 	private static final DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
+
+	private static final String XMLDATE_PATTERN_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd";
+	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm";
+	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss";
 
 	static
 	{
@@ -291,9 +302,10 @@ public class DEUtil
 				displayName = handle.getQualifiedName( );
 			}
 			else
-			{	
-//				displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
-				displayName = handle.getName( );				
+			{
+				// displayName = handle.getDisplayLabel(
+				// DesignElementHandle.USER_LABEL );
+				displayName = handle.getName( );
 			}
 			if ( !StringUtil.isBlank( displayName ) )
 			{
@@ -2062,7 +2074,7 @@ public class DEUtil
 	 * @return the iterator of binding columns
 	 */
 	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
-	{		
+	{
 		if ( handle instanceof ReportItemHandle )
 		{
 			return ( (ReportItemHandle) handle ).columnBindingsIterator( );
@@ -2254,10 +2266,57 @@ public class DEUtil
 	/**
 	 * Gets the meta data dictionary of model
 	 * 
-	 *  @return the meta data dictionary
+	 * @return the meta data dictionary
 	 */
 	public static IMetaDataDictionary getMetaDataDictionary( )
 	{
 		return designEngine.getMetaData( );
+	}
+
+	public static String convertToXMLString( Date date )
+	{
+		GregorianCalendar cal = new GregorianCalendar( );
+		cal.setTime( date );
+		String pattern = XMLDATE_PATTERN_FULL;
+		if ( !cal.isSet( Calendar.HOUR ) )
+		{
+			pattern = XMLDATE_PATTERN_DATE_ONLY;
+		}
+		else if ( !cal.isSet( Calendar.SECOND ) )
+		{
+			pattern = XMLDATE_PATTERN_WITH_OUT_SECOND;
+		}
+		else if ( !cal.isSet( Calendar.MILLISECOND ) )
+		{
+			pattern = XMLDATE_PATTERN_WITH_OUT_MILLISECOND;
+		}
+		DateFormatter formater = new DateFormatter( pattern );
+		return formater.format( date );
+	}
+
+	public static Date convertToDate( String xmlString ) throws ParseException
+	{
+		String pattern = null;
+		if ( xmlString.indexOf( 'T' ) != -1 )
+		{
+			if ( xmlString.indexOf( '.' ) != -1 )
+			{
+				pattern = XMLDATE_PATTERN_FULL;
+			}
+			else if ( xmlString.indexOf( ':' ) == xmlString.lastIndexOf( ':' ) )
+			{
+				pattern = XMLDATE_PATTERN_WITH_OUT_SECOND;
+			}
+			else
+			{
+				pattern = XMLDATE_PATTERN_WITH_OUT_MILLISECOND;
+			}
+		}
+		else
+		{
+			pattern = XMLDATE_PATTERN_DATE_ONLY;
+		}
+		DateFormatter formater = new DateFormatter( pattern );
+		return formater.parse( xmlString );
 	}
 }

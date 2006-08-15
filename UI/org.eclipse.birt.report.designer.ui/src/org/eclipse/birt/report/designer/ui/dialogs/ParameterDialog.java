@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -653,6 +654,18 @@ public class ParameterDialog extends BaseDialog
 			dynamicRadio.setSelection( true );
 		}
 		defaultValue = inputParameter.getDefaultValue( );
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+		{
+			try
+			{
+				defaultValue = convertToStandardFormat( DEUtil.convertToDate( defaultValue ) );
+			}
+			catch ( ParseException e )
+			{
+				ExceptionHandler.handle( e );
+				return false;
+			}
+		}
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
@@ -1381,6 +1394,11 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setControlType( newControlType );
 
 			// Save default value
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+			{
+				defaultValue = DEUtil.convertToXMLString( DataTypeUtil.toDate( defaultValue,
+						ULocale.US ) );
+			}
 			inputParameter.setDefaultValue( defaultValue );
 
 			// Set data type
@@ -1673,7 +1691,10 @@ public class ParameterDialog extends BaseDialog
 					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
 			{
 				// Now combo and radio must specify an default value
-				errorMessage = ERROR_MSG_NO_DEFAULT_VALUE;
+				if ( !canBeNull( ) || !containValue( null, null, COLUMN_VALUE ) )
+				{// Filter null choice
+					errorMessage = ERROR_MSG_NO_DEFAULT_VALUE;
+				}
 			}
 		}
 		if ( errorMessage != null )
@@ -2103,8 +2124,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			try
 			{
-				string = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-						ULocale.US ).format( DataTypeUtil.toDate( string,
+				string = convertToStandardFormat( DataTypeUtil.toDate( string,
 						ULocale.US ) );
 			}
 			catch ( BirtException e )
@@ -2112,6 +2132,11 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		return string;
+	}
+
+	private String convertToStandardFormat( Date date )
+	{
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
 	}
 
 	private String getExpression( String columnName )
