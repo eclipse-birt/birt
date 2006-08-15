@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -121,6 +123,16 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			display( );
 		}
 
+		ReportRequest request = new ReportRequest( ReportPreviewFormPage.this );
+		List list = new ArrayList( );
+
+		request.setSelectionObject( list );
+		request.setType( ReportRequest.SELECTION );
+
+		// SessionHandleAdapter.getInstance().getMediator().pushState();
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.notifyRequest( request );
 		return true;
 	}
 
