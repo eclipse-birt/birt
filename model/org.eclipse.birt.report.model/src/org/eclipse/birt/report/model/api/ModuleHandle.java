@@ -1688,6 +1688,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Returns the embedded images which are defined on the module itself. The
+	 * embedded images defined in the included libraries will not be returned by
+	 * this method.
+	 * 
+	 * @return the local embedded image list.
+	 */
+	public List getVisibleImages( )
+	{
+		List images = getNativeStructureList( Module.IMAGES_PROP );
+		return images;
+	}
+
+	/**
 	 * Returns all page handles that this modules and the included modules
 	 * contain.
 	 * 
