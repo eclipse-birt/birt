@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -372,11 +373,11 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected void runAndRender_HTML( String input, String output )
+	protected ArrayList runAndRender_HTML( String input, String output )
 			throws EngineException
 	{
 		this.pagination = false;
-		runAndRender( input, output, null, "html" ); //$NON-NLS-1$
+		return runAndRender( input, output, null, "html" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -388,11 +389,11 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected void runAndRender_HTMLWithPagination( String input, String output )
-			throws EngineException
+	protected ArrayList runAndRender_HTMLWithPagination( String input,
+			String output ) throws EngineException
 	{
 		this.pagination = true;
-		runAndRender( input, output, null, "html" ); //$NON-NLS-1$
+		return runAndRender( input, output, null, "html" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -413,7 +414,7 @@ public abstract class EngineCase extends TestCase
 	 * RunAndRender a report with the given parameters.
 	 */
 
-	protected final void runAndRender( String input, String output,
+	protected final ArrayList runAndRender( String input, String output,
 			Map paramValues, String format ) throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
@@ -463,7 +464,9 @@ public abstract class EngineCase extends TestCase
 				ENCODING_UTF8 );
 		task.setRenderOption( options );
 		task.run( );
+		ArrayList errors = (ArrayList) task.getErrors( );
 		task.close( );
+		return errors;
 	}
 
 	/**
@@ -472,7 +475,7 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected final void run( String input, String output )
+	protected final ArrayList run( String input, String output )
 			throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
@@ -495,7 +498,9 @@ public abstract class EngineCase extends TestCase
 		}
 
 		task.run( archive );
+		ArrayList errors = (ArrayList) task.getErrors( );
 		task.close( );
+		return errors;
 	}
 
 	/**
@@ -510,11 +515,11 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected void render_HTML( String doc, String output, String pageRange )
+	protected ArrayList render_HTML( String doc, String output, String pageRange )
 			throws EngineException
 	{
 		this.pagination = true;
-		render( "html", doc, output, pageRange ); //$NON-NLS-1$
+		return render( "html", doc, output, pageRange ); //$NON-NLS-1$
 	}
 
 	/**
@@ -526,13 +531,13 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected void render_PDF( String doc, String output, String pageRange )
+	protected ArrayList render_PDF( String doc, String output, String pageRange )
 			throws EngineException
 	{
-		render( "pdf", doc, output, pageRange ); //$NON-NLS-1$
+		return render( "pdf", doc, output, pageRange ); //$NON-NLS-1$
 	}
 
-	private void render( String format, String doc, String output,
+	private ArrayList render( String format, String doc, String output,
 			String pageRange ) throws EngineException
 	{
 		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
@@ -565,7 +570,9 @@ public abstract class EngineCase extends TestCase
 
 		task.setPageRange( pageRange );
 		task.render( );
+		ArrayList errors = (ArrayList) task.getErrors( );
 		task.close( );
+		return errors;
 	}
 
 	/**
@@ -577,12 +584,16 @@ public abstract class EngineCase extends TestCase
 	 * @throws EngineException
 	 */
 
-	protected final void runAndThenRender( String input, String output,
+	protected final ArrayList runAndThenRender( String input, String output,
 			String pageRange, String format ) throws Exception
 	{
 		String tempDoc = "temp_123aaabbbccc789.rptdocument"; //$NON-NLS-1$
 
-		run( input, tempDoc );
+		ArrayList errors = run( input, tempDoc );
+		if ( errors.size( ) > 0 )
+		{
+			return errors;
+		}
 
 		String from = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
 				+ "/" + tempDoc; //$NON-NLS-1$
@@ -593,9 +604,9 @@ public abstract class EngineCase extends TestCase
 		{
 			copyFile( from, temp );
 			if ( "pdf".equals( format ) ) //$NON-NLS-1$
-				render_PDF( tempDoc, output, pageRange );
+				return render_PDF( tempDoc, output, pageRange );
 			else
-				render_HTML( tempDoc, output, pageRange );
+				return render_HTML( tempDoc, output, pageRange );
 		}
 		catch ( Exception e )
 		{
