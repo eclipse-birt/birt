@@ -63,13 +63,15 @@ public class GroupInfoUtil {
 			throws DataException
 	{
 		Map deleteNumMap = new HashMap( );
-		if ( groups == null || groups.length == 0 || indexArray == null )
+		if ( groups == null
+				|| groups.length == 0 || indexArray == null)
 			return groups;
 		List endLevelList = groups[groups.length - 1];
+		if ( endLevelList.size( ) == 0 )
+			return groups;
 		if ( validateGroupLevel( endLevelList, indexArray ) )
 		{
 			int firstChild = -1, count = 0, startCount = 0;
-
 			GroupInfo baseInfo = (GroupInfo) endLevelList.get( 0 );
 			for ( int i = 1; i < endLevelList.size( ); i++ )
 			{
