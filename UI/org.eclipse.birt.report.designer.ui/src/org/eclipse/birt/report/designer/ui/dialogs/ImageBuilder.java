@@ -768,7 +768,7 @@ public class ImageBuilder extends BaseDialog
 
 	private void initList( )
 	{
-		for ( Iterator itor = getModuleHandle( ).getAllImages( ).iterator( ); itor.hasNext( ); )
+		for ( Iterator itor = getModuleHandle( ).getVisibleImages( ).iterator( ); itor.hasNext( ); )
 		{
 			EmbeddedImageHandle handle = (EmbeddedImageHandle) itor.next( );
 			embeddedImageList.add( handle.getQualifiedName( ) );

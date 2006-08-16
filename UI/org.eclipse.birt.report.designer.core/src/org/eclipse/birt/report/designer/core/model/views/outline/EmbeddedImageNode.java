@@ -48,12 +48,7 @@ public class EmbeddedImageNode
 	 */
 	public Object[] getChildren( )
 	{
-		ArrayList children = new ArrayList( );
-		for ( Iterator itor = reportHandle.imagesIterator( ); itor.hasNext( ); )
-		{
-			children.add( itor.next( ) );
-		}
-		return children.toArray( );
+		return reportHandle.getVisibleImages( ).toArray( );
 	}
 
 	/* (non-Javadoc)
