@@ -1331,8 +1331,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScriptDataSet( obj );
 
-		writeStructureList( obj, DataSet.PARAMETERS_PROP );
-		writeStructureList( obj, DataSet.RESULT_SET_HINTS_PROP );
 		property( obj, ScriptDataSet.OPEN_METHOD );
 		property( obj, ScriptDataSet.DESCRIBE_METHOD );
 		property( obj, ScriptDataSet.FETCH_METHOD );
@@ -2472,6 +2470,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDataSet( obj );
 
+		writeStructureList( obj, DataSet.PARAMETERS_PROP );
+		writeStructureList( obj, DataSet.RESULT_SET_HINTS_PROP );
 		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
 		writeStructureList( obj, DataSet.FILTER_PROP );
@@ -2712,8 +2712,6 @@ public abstract class ModuleWriter extends ElementVisitor
 				OdaDataSet.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
-		
-		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 
 		if ( (String) obj.getLocalProperty( getModule( ),
@@ -2724,8 +2722,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
 		writeOdaDesignerState( obj, OdaDataSet.DESIGNER_STATE_PROP );
-		propertyCDATA( obj, OdaDataSet.DESIGNER_VALUES_PROP );
-		
+
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
@@ -2903,7 +2900,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
-		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 		writeSimplePropertyList( obj, JointDataSet.DATA_SETS_PROP );
 

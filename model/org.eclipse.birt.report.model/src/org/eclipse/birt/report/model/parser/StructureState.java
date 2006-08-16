@@ -316,18 +316,7 @@ public class StructureState extends AbstractPropertyState
 		String propName = propDefn == null ? null : propDefn.getName( );
 
 		if ( ( element instanceof DataSet ) )
-		{
-			// if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
-			// {
-			// CompatibleDataSetParamStructureState state = new
-			// CompatibleDataSetParamStructureState(
-			// handler, element, propDefn, list );
-			// state.setName( propName );
-			//
-			// return state;
-			//			}
-			//			else
-			//				
+		{	
 			if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(

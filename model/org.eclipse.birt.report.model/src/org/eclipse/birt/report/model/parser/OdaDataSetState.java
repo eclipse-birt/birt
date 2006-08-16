@@ -11,18 +11,24 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses an extended data set. Note: this is temporary syntax, the
@@ -211,5 +217,58 @@ public class OdaDataSetState extends SimpleDataSetState
 		if ( !isValidExtensionId )
 			provider = (OdaDummyProvider) ( (OdaDataSet) element )
 					.getProvider( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.SimpleDataSetState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		super.end( );
+
+		DesignElement tmpElement = getElement( );
+		doCompatibleDataSetProperty( tmpElement );
+
+		TemplateParameterDefinition refTemplateParam = tmpElement
+				.getTemplateParameterElement( handler.getModule( ) );
+		if ( refTemplateParam == null )
+			return;
+
+		doCompatibleDataSetProperty( refTemplateParam.getDefaultElement( ) );
+	}
+
+	/**
+	 * Copies the value from resultSet to resultSetHints.
+	 * 
+	 * @param dataSet
+	 *            the data set element
+	 */
+
+	private void doCompatibleDataSetProperty( DesignElement dataSet )
+	{
+		if ( dataSet == null )
+			return;
+
+		assert dataSet instanceof OdaDataSet;
+
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
+		{
+			List dataSetColumns = (List) dataSet.getProperty( null,
+					IDataSetModel.RESULT_SET_PROP );
+			Object dataSetHints = dataSet.getProperty( null,
+					IDataSetModel.RESULT_SET_HINTS_PROP );
+			if ( dataSetHints == null && dataSetColumns != null )
+				dataSet
+						.setProperty(
+								IDataSetModel.RESULT_SET_HINTS_PROP,
+								ModelUtil
+										.copyValue(
+												dataSet
+														.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
+												dataSetColumns ) );
+		}
 	}
 }

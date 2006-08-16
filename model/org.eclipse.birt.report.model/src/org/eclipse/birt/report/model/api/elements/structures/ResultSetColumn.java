@@ -74,8 +74,6 @@ public class ResultSetColumn extends Structure
 
 	/**
 	 * Name of the member indicating the native (database) data type code.
-	 * 
-	 * @deprecated since 2.1.1
 	 */
 
 	public static final String NATIVE_DATA_TYPE_MEMBER = "nativeDataType"; //$NON-NLS-1$
@@ -97,6 +95,12 @@ public class ResultSetColumn extends Structure
 	 */
 
 	private String dataType = null;
+
+	/**
+	 * The native (database) data type.
+	 */
+
+	private Integer nativeDataType;
 
 	/*
 	 * (non-Javadoc)
@@ -124,7 +128,7 @@ public class ResultSetColumn extends Structure
 		if ( DATA_TYPE_MEMBER.equals( propName ) )
 			return dataType;
 		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			return null;
+			return nativeDataType;
 
 		assert false;
 		return null;
@@ -146,7 +150,7 @@ public class ResultSetColumn extends Structure
 		else if ( DATA_TYPE_MEMBER.equals( propName ) )
 			dataType = (String) value;
 		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			;
+			nativeDataType = (Integer) value;		
 		else
 			assert false;
 	}
@@ -259,12 +263,11 @@ public class ResultSetColumn extends Structure
 	 * Returns the native data type.
 	 * 
 	 * @return the result set column native data type.
-	 * @deprecated since 2.1.1
 	 */
 
 	public Integer getNativeDataType( )
 	{
-		return null;
+		return (Integer) getProperty( null, NATIVE_DATA_TYPE_MEMBER );
 	}
 
 	/**
@@ -272,13 +275,13 @@ public class ResultSetColumn extends Structure
 	 * 
 	 * @param dataType
 	 *            the native data type to set.
-	 * @deprecated since 2.1.1
 	 */
 
 	public void setNativeDataType( Integer dataType )
 	{
+		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
 	}
-
+	
 	/**
 	 * Validates this structure. The following are the rules:
 	 * <ul>

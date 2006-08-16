@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
@@ -305,16 +304,6 @@ class PropertyState extends AbstractPropertyState
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$
 			state.setName( ComputedColumn.AGGREGATEON_MEMBER );
-			return state;
-		}
-
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.5" ) < 0 //$NON-NLS-1$
-				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
-				&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase( name ) )
-		{
-			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
-					handler, element, propDefn, struct );
-			state.setName( DataSetParameter.DATA_TYPE_MEMBER );
 			return state;
 		}
 

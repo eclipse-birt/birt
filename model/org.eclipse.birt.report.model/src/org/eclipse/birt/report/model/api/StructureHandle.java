@@ -112,7 +112,7 @@ public class StructureHandle extends ValueHandle
 	 *         is not set or is not found.
 	 */
 
-	protected Object getProperty( String memberName )
+	public Object getProperty( String memberName )
 	{
 		MemberHandle handle = getMember( memberName );
 		if ( handle == null )
@@ -151,7 +151,7 @@ public class StructureHandle extends ValueHandle
 	 *             value is not valid for the member.
 	 */
 
-	protected void setProperty( String memberName, Object value )
+	public void setProperty( String memberName, Object value )
 			throws SemanticException
 	{
 		MemberHandle memberHandle = getMember( memberName );

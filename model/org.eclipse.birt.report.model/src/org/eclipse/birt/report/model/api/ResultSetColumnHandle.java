@@ -149,13 +149,11 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * Returns the native data type.
 	 * 
 	 * @return the result set column native data type.
-	 * 
-	 * @deprecated
 	 */
 
 	public Integer getNativeDataType( )
 	{
-		return null;
+		return (Integer) getProperty( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER );
 	}
 
 	/**
@@ -163,10 +161,11 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * 
 	 * @param dataType
 	 *            the native data type to set.
-	 * @deprecated
 	 */
 
 	public void setNativeDataType( Integer dataType )
 	{
+		setPropertySilently( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER, dataType );
 	}
+
 }

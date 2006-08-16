@@ -11,18 +11,11 @@
 
 package org.eclipse.birt.report.model.adapter.oda;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
-import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
-import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -39,9 +32,7 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -194,6 +185,11 @@ public class ModelOdaAdapter
 
 		updateROMPublicProperties( setDesign.getPublicProperties( ), setHandle );
 
+		// udpate property bindings, report parameters and so on.
+
+		// updateROMPropertyBindings( setDesign.getPublicProperties( ),
+		// setHandle );
+
 		DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 		String dataSourceName = sourceDesign.getName( );
 
@@ -215,7 +211,9 @@ public class ModelOdaAdapter
 				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
 
 		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null );
+				setDesign.getParameters( ), setDesign
+						.getOdaExtensionDataSourceId( ), setDesign
+						.getOdaExtensionDataSetId( ), setHandle );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -224,7 +222,7 @@ public class ModelOdaAdapter
 		// set the result sets
 
 		List resultRetColumns = ResultSetsAdapter.newROMResultSets( setDesign
-				.getPrimaryResultSet( ), null, setDesign
+				.getPrimaryResultSet( ), setDesign
 				.getOdaExtensionDataSourceId( ), setDesign
 				.getOdaExtensionDataSetId( ) );
 		if ( resultRetColumns == null )
@@ -233,7 +231,7 @@ public class ModelOdaAdapter
 			if ( sets != null && !sets.getResultSetDefinitions( ).isEmpty( ) )
 				resultRetColumns = ResultSetsAdapter.newROMResultSets(
 						(ResultSetDefinition) sets.getResultSetDefinitions( )
-								.get( 0 ), null, setDesign
+								.get( 0 ), setDesign
 								.getOdaExtensionDataSourceId( ), setDesign
 								.getOdaExtensionDataSetId( ) );
 		}
@@ -258,92 +256,6 @@ public class ModelOdaAdapter
 				OdaDataSetHandle.RESULT_SET_NAME_PROP, queryText );
 		setHandle.getElement( ).setProperty(
 				OdaDataSetHandle.RESULT_SET_NAME_PROP, resultSetName );
-
-		// convert data set paramters and result set columns first. Then update
-		// designer values.
-
-		String odaValues = serializeOdaValues( setDesign );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
-		setHandle.getElement( ).setProperty(
-				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
-	}
-
-	private String serializeOdaValues( DataSetDesign setDesign )
-	{
-		DataSetParameters params = setDesign.getParameters( );
-		ResultSets resultSets = setDesign.getResultSets( );
-
-		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
-		values.setVersion( IConstants.DESINGER_VALUES_VERSION );
-		boolean hasData = false;
-		if ( params != null )
-		{
-			values.setDataSetParameters( params );
-			hasData = true;
-		}
-
-		if ( resultSets != null )
-		{
-			values.setResultSets( resultSets );
-			hasData = true;
-		}
-
-		if ( !hasData )
-			return IConstants.EMPTY_STRING;
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream( );
-
-		String retString = IConstants.EMPTY_STRING;
-		try
-		{
-			SerializerImpl.instance( ).write( values, bos );
-			retString = bos.toString( IConstants.CHAR_ENCODING );
-			bos.close( );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-		}
-		catch ( IOException e )
-		{
-		}
-
-		return retString;
-	}
-
-	/**
-	 * Return DesignValues that is de-serialized from the given string.
-	 * 
-	 * @param value
-	 *            the input string
-	 * @return the DesignValues instance
-	 */
-
-	private DesignValues deserializeOdaValues( String value )
-	{
-		if ( value == null )
-			return null;
-
-		byte[] rawData = null;
-
-		try
-		{
-			rawData = value.getBytes( IConstants.CHAR_ENCODING );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			return null;
-		}
-		ByteArrayInputStream bis = new ByteArrayInputStream( rawData );
-
-		try
-		{
-			return SerializerImpl.instance( ).fromXml( bis, false );
-		}
-		catch ( IOException e )
-		{
-			return null;
-		}
 	}
 
 	/**
@@ -395,6 +307,7 @@ public class ModelOdaAdapter
 
 		setDesign.setPrimaryResultSet( ResultSetsAdapter
 				.newOdaResultSetDefinition( setHandle ) );
+
 	}
 
 	/**
@@ -1058,22 +971,10 @@ public class ModelOdaAdapter
 				}
 			}
 
-			DesignValues designerValues = null;
-
-			try
-			{
-				designerValues = SerializerImpl.instance( ).read(
-						setHandle.getDesignerValues( ) );
-			}
-			catch ( IOException e )
-			{
-				e.printStackTrace( );
-			}
-
 			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
-					.newROMSetParams( setDesign, setHandle,
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ) ) );
+					.newROMSetParams( setDesign.getParameters( ), setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ), setHandle ) );
 
 			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
 			if ( resultDefn == null )
@@ -1085,43 +986,15 @@ public class ModelOdaAdapter
 							.getResultSetDefinitions( ).get( 0 );
 			}
 
-			DesignValues values = null;
-			try
-			{
-				values = SerializerImpl.instance( ).read(
-						setHandle.getDesignerValues( ) );
-			}
-			catch ( IOException e )
-			{
-
-			}
-
-			ResultSets cachedResultSets = values == null ? null : values
-					.getResultSets( );
-
-			ResultSetDefinition cachedResultDefn = null;
-			
-			if ( cachedResultSets != null
-					&& !cachedResultSets.getResultSetDefinitions( ).isEmpty( ) )
-				cachedResultDefn = (ResultSetDefinition) cachedResultSets
-						.getResultSetDefinitions( ).get( 0 );
-
 			updateROMStructureList( setHandle
 					.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
-					ResultSetsAdapter.newROMResultSets( resultDefn,
-							cachedResultDefn, setDesign
-									.getOdaExtensionDataSourceId( ), setDesign
-									.getOdaExtensionDataSetId( ) ) );
+					ResultSetsAdapter.newROMResultSets( resultDefn, setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ) ) );
 
 			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
 
 			setHandle.setQueryText( setDesign.getQueryText( ) );
-
-			// designer values must be saved after convert data set parameters
-			// and result set columns.
-
-			String odaValues = serializeOdaValues( setDesign );
-			setHandle.setDesignerValues( odaValues );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
