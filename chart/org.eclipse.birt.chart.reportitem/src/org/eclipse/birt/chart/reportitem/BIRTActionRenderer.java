@@ -138,23 +138,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 						public String getReportName( )
 						{
-							String rptName = handle.getReportName( );
-							ModuleHandle mod = eih.getRoot( );
-							if ( mod != null )
-							{
-								URL reportURL = mod.findResource( rptName,
-										IResourceLocator.LIBRARY );
-								if ( reportURL != null )
-								{
-									String reportFile = reportURL.getFile( );
-									if ( reportFile != null )
-									{
-										rptName = reportFile;
-									}
-								}
-							}
-
-							return rptName;
+							return handle.getReportName( );
 						}
 
 						public Map getParameterBindings( )
