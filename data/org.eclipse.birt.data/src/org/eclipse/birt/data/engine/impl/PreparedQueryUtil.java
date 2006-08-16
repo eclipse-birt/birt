@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +172,7 @@ class PreparedQueryUtil
 
 		if ( runningOnRS == false )
 			return false;
-
+		
 		runningOnRS = isCompatibleSubQuery( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE ),
 				queryDefn );
@@ -206,6 +207,43 @@ class PreparedQueryUtil
 			{
 				runningOnRS = false;
 			}
+
+			Collection subqueries = queryDefn.getSubqueries( );
+			List gps = queryDefn.getGroups( );
+			if ( gps != null && gps.size( ) > 0 )
+			{
+				for ( int i = 0; i < gps.size( ); i++ )
+				{
+					subqueries.addAll( ( (IGroupDefinition) gps.get( i ) ).getSubqueries( ) );
+				}
+			}
+			
+			Iterator it = subqueries.iterator( );
+			while ( it.hasNext( ) )
+			{
+				IBaseQueryDefinition query = (IBaseQueryDefinition) it.next( );
+				if ( query.getFilters( ) != null
+						&& query.getFilters( ).size( ) > 0 )
+				{
+					runningOnRS = false;
+					break;
+				}
+				List groups = query.getGroups( );
+				for ( int i = 0; i < groups.size( ); i++ )
+				{
+					List groupFilters = ( (IGroupDefinition) groups.get( i ) ).getFilters( );
+					if ( groupFilters != null && groupFilters.size( ) > 0 )
+					{
+						runningOnRS = false;
+						break;
+					}
+				}
+				if ( runningOnRS == false )
+					break;
+			}
+			
+			
+
 		}
 
 		if ( runningOnRS == false )
