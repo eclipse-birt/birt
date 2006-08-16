@@ -25,7 +25,7 @@ public class ChartException extends BirtException
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int MAX_VALUE = 20;
+	private static final int MAX_VALUE = 30;
 
 	/**
 	 * Exception type for Data format error.
@@ -107,6 +107,10 @@ public class ChartException extends BirtException
 	 * Exception type for Data binding error
 	 */
 	public static final int DATA_BINDING = 19;
+	/**
+	 * Exception type for all null values error.
+	 */
+	public static final int ALL_NULL_DATASET = 20;
 	/**
 	 * Exception type for Validation error.
 	 */

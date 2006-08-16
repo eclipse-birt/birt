@@ -508,6 +508,14 @@ public final class ChartReportItemPresentationImpl extends
 				return null;
 			}
 
+			if ( ex instanceof ChartException
+					&& ( (ChartException) ex ).getType( ) == ChartException.ALL_NULL_DATASET )
+			{
+				// if the Data set contains all null values, just 
+				// returns null gracefully and render nothing.
+				return null;
+			}
+
 			if ( ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
 			{
 				// if the image size is invalid, this may caused by
