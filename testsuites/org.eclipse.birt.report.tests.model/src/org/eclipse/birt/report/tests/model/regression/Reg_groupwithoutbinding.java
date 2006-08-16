@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
 
@@ -25,7 +23,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * binding in design.xml, fail to delete the element in group header/footer
  * </p>
  * Test description:
- *  <p>
+ * <p>
  * Can drop the elements in the empty group.
  * </p>
  */
@@ -33,30 +31,26 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Reg_groupwithoutbinding extends BaseTestCase
 {
 
-	public final static String INPUT = "Reg_groupwithoutbinding.xml"; //$NON-NLS-1$
-
-	public Reg_groupwithoutbinding( String name )
-	{
-		super( name );
-	}
+	private final static String INPUT = "Reg_groupwithoutbinding.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
+	
 	public void test( ) throws DesignFileException, SemanticException
 	{
 		openDesign( INPUT );
 		TextItemHandle text1 = (TextItemHandle) designHandle
-				.findElement( "text1" );
+				.findElement( "text1" ); //$NON-NLS-1$
 		TextItemHandle text4 = (TextItemHandle) designHandle
-				.findElement( "text4" );
+				.findElement( "text4" ); //$NON-NLS-1$
 		assertTrue( text1.canDrop( ) );
 		assertTrue( text4.canDrop( ) );
 		text1.drop( );
 		text4.drop( );
 
-		ListHandle list = (ListHandle) designHandle.findElement( "list" );
+		ListHandle list = (ListHandle) designHandle.findElement( "list" ); //$NON-NLS-1$
 		GroupHandle group = (GroupHandle) list.getGroups( ).get( 0 );
 		assertEquals( 2, group.getHeader( ).getContents( ).size( ) );
 		assertEquals( 0, group.getFooter( ).getContents( ).size( ) );
