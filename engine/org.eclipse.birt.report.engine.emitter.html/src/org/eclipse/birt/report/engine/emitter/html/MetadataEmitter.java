@@ -316,6 +316,10 @@ public class MetadataEmitter
 	{
 		tagStack.push( tag );
 		writer.openTag( tag );
+		if ( content.getBookmark( ) == null )
+		{
+			content.setBookmark( idGenerator.generateUniqueID( ) );
+		}
 		writer.attribute( HTMLTags.ATTR_CLASS, styleName ); //$NON-NLS-1$
 		setActiveIDTypeIID( content );
 		HTMLEmitterUtil.setBookmark( writer, tag, content.getBookmark( ) );
