@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
@@ -33,15 +31,11 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_73182 extends BaseTestCase
 {
 
-	private final static String INPUT = "Reg_73182.xml"; //$NON-NLS-1$
-
-
+	private final static String INPUT = "Regression_73182.xml"; //$NON-NLS-1$
 	/**
-	 * @throws DesignFileException
-	 * @throws ContentException
-	 * @throws NameException
+	 * @throws Exception
 	 */
-	public void test_73182( ) throws DesignFileException, ContentException, NameException 
+	public void test_73182( ) throws Exception
 	{
 		openDesign( INPUT );
 
