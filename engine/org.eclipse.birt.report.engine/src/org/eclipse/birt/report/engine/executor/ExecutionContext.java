@@ -1484,6 +1484,8 @@ public class ExecutionContext
 		public 	Class loadClass( String className )
 				throws ClassNotFoundException
 		{
+			//FIXME: intialize the class loader only if the 
+			//appContext and report design has been setted.
 			try
 			{
 				return Class.forName( className );
