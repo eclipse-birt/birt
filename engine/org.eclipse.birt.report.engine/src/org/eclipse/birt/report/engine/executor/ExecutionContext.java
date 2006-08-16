@@ -85,7 +85,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.78 $ $Date: 2006/08/14 07:35:18 $
+ * @version $Revision: 1.79 $ $Date: 2006/08/14 07:52:31 $
  */
 public class ExecutionContext
 {
@@ -1481,20 +1481,26 @@ public class ExecutionContext
 			this.context = context;
 		}
 
-		public Class loadClass( String className )
+		public 	Class loadClass( String className )
 				throws ClassNotFoundException
 		{
-			createWrappedClassLoaders( );
-			if ( designClassLoader != null )
+			try
 			{
-				return designClassLoader.loadClass( className );
+				return Class.forName( className );
 			}
-			if ( appClassLoader != null )
+			catch(ClassNotFoundException cnfe)
 			{
-				return appClassLoader.loadClass( className );
+				createWrappedClassLoaders( );
+				if ( designClassLoader != null )
+				{
+					return designClassLoader.loadClass( className );
+				}
+				if ( appClassLoader != null )
+				{
+					return appClassLoader.loadClass( className );
+				}
+				return systemClassLoader.loadClass( className );
 			}
-
-			return systemClassLoader.loadClass( className );
 		}
 
 		public URL getResource( String name )
