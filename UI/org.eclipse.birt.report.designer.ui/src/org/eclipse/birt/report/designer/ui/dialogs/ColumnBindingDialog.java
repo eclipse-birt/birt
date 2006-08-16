@@ -137,7 +137,7 @@ public class ColumnBindingDialog extends BaseDialog
 	private ExpressionCellEditor expressionCellEditor;
 
 	private String selectedColumnName = null;
-	
+
 	private String NullChoice = null;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -393,19 +393,24 @@ public class ColumnBindingDialog extends BaseDialog
 					}
 					else if ( COLUMN_EXPRESSION.equals( property ) )
 					{
-						bindingHandle.setExpression( (String) value );
-						String groupType = DEUtil.getGroupControlType( inputElement );
-						if ( ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) ) )
+						if ( !( bindingHandle.getExpression( ) != null && bindingHandle.getExpression( )
+								.equals( (String) value ) ) )
 						{
-							if ( !groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
-								bindingHandle.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
-										.get( 0 ) ).getName( ) );
-							else bindingHandle.setAggregrateOn( null );
-						}
-						if ( !ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) )
-								|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
-						{
-							bindingHandle.setAggregrateOn( null );
+							bindingHandle.setExpression( (String) value );
+							String groupType = DEUtil.getGroupControlType( inputElement );
+							if ( ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) ) )
+							{
+								if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+									bindingHandle.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
+											.get( 0 ) ).getName( ) );
+								else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+									bindingHandle.setAggregrateOn( null );
+							}
+							if ( !ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) )
+									|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
+							{
+								bindingHandle.setAggregrateOn( null );
+							}
 						}
 					}
 					else if ( COLUMN_AGGREGATEON.equals( property ) )
@@ -474,8 +479,8 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		
-		UIUtil.bindHelp(parent,IHelpContextIds.COLUMNBINDING_DIALOG_ID);
+
+		UIUtil.bindHelp( parent, IHelpContextIds.COLUMNBINDING_DIALOG_ID );
 		Composite parentComposite = (Composite) super.createDialogArea( parent );
 
 		if ( this.canSelect )
@@ -513,7 +518,7 @@ public class ColumnBindingDialog extends BaseDialog
 			combo.setItems( newList );
 			String dataSetName = getDataSetName( );
 			combo.deselectAll( );
-			
+
 			if ( dataSetName != null )
 			{
 				combo.setText( dataSetName );
