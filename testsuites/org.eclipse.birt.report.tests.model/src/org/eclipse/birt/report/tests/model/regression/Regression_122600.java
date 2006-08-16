@@ -30,6 +30,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_122600 extends BaseTestCase
 {
 
+	/**
+	 * 
+	 */
 	public void test_122600( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
@@ -38,9 +41,9 @@ public class Regression_122600 extends BaseTestCase
 
 		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
 
-		assertEquals( "top-n", naturedSortedChoices[17].getName( ) );
-		assertEquals( "bottom-n", naturedSortedChoices[1].getName( ) );
-		assertEquals( "like", naturedSortedChoices[10].getName( ) );
-		assertEquals( "match", naturedSortedChoices[12].getName( ) );
+		assertEquals( "top-n", naturedSortedChoices[17].getName( ) ); //$NON-NLS-1$
+		assertEquals( "bottom-n", naturedSortedChoices[1].getName( ) ); //$NON-NLS-1$
+		assertEquals( "like", naturedSortedChoices[10].getName( ) ); //$NON-NLS-1$
+		assertEquals( "match", naturedSortedChoices[12].getName( ) ); //$NON-NLS-1$
 	}
 }

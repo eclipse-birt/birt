@@ -48,6 +48,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_120073 extends BaseTestCase
 {
 
+	/**
+	 * 
+	 */
 	public void test_120073( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
@@ -71,25 +74,25 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		Iterator iter = onprepare.argumentListIterator( );
 		ArgumentInfoList argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		IMethodInfo oncreate = label.getProperty( Label.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		IMethodInfo onrender = label.getProperty( Label.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		IMethodInfo onpagebreak = label.getProperty( Label.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		// text has methods
 		IElementDefn text = instance.getElement( "Text" ); //$NON-NLS-1$
@@ -108,25 +111,25 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = text.getProperty( TextItem.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = text.getProperty( TextItem.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onpagebreak = text.getProperty( TextItem.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		// image has methods
 		IElementDefn image = instance.getElement( "Image" ); //$NON-NLS-1$
 		list = image.getMethods( );
@@ -144,25 +147,25 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = image.getProperty( ImageItem.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = image.getProperty( ImageItem.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onpagebreak = image.getProperty( ImageItem.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		
 		// grid has methods
 		IElementDefn grid = instance.getElement( "Grid" ); //$NON-NLS-1$
@@ -181,25 +184,25 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = grid.getProperty( GridItem.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = grid.getProperty( GridItem.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onpagebreak = grid.getProperty( GridItem.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		
 		// dynamic text has methods
 		IElementDefn textdata = instance.getElement( "TextData" ); //$NON-NLS-1$
@@ -218,25 +221,25 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = textdata.getProperty( TextDataItem.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = textdata.getProperty( TextDataItem.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onpagebreak = textdata.getProperty( TextDataItem.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		
 		// table has methods
 		IElementDefn table = instance.getElement( "Table" ); //$NON-NLS-1$
@@ -255,25 +258,25 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = table.getProperty( TableItem.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = table.getProperty( TableItem.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onpagebreak = table.getProperty( TableItem.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		
 		// table header/footer/detail row, group header/footer row has methods
 		IElementDefn row = instance.getElement( "Row" ); //$NON-NLS-1$
@@ -291,19 +294,19 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = row.getProperty( TableRow.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = row.getProperty( TableRow.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		// list has methods
 		IElementDefn listitem = instance.getElement( "List" ); //$NON-NLS-1$
@@ -322,26 +325,26 @@ public class Regression_120073 extends BaseTestCase
 				.getMethodInfo( );
 		iter = onprepare.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		oncreate = listitem.getProperty( ListItem.ON_CREATE_METHOD )
 				.getMethodInfo( );
 		iter = oncreate.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 
 		onrender = listitem.getProperty( ListItem.ON_RENDER_METHOD )
 				.getMethodInfo( );
 		iter = onrender.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		
 
 		onpagebreak = listitem.getProperty( ListItem.ON_PAGE_BREAK_METHOD )
 				.getMethodInfo( );
 		iter = onpagebreak.argumentListIterator( );
 		argumentList = (ArgumentInfoList) iter.next( );
-		assertNotNull( argumentList.getArgument( "this" ) );
+		assertNotNull( argumentList.getArgument( "this" ) ); //$NON-NLS-1$
 		
 	}
 

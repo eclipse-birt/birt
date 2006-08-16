@@ -28,8 +28,11 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_74938 extends BaseTestCase
 {
 
-	private String filename = "Regression_74938.xml";
+	private String filename = "Regression_74938.xml"; //$NON-NLS-1$
 
+	/**
+	 * @throws DesignFileException
+	 */
 	public void test_74938( ) throws DesignFileException
 	{
 		openDesign( filename );

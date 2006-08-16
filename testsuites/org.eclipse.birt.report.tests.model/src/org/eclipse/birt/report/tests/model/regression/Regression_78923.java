@@ -34,6 +34,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_78923 extends BaseTestCase
 {
 
+	/**
+	 * 
+	 */
 	public void test_78923( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );

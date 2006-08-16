@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -39,34 +38,38 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>When deleting the data source, message says "ODA Data Source-Data source
  * has following clients:Data set"
  * </ol>
- * 
  * Test description:
  * <p>
- *  Follow the steps, see if exception throws.
+ * Follow the steps, see if exception throws.
  * </p>
  */
 
 public class Regression_79040 extends BaseTestCase
 {
-	public final static String INPUT = "regression_79040.rptdesign"; //$NON-NLS-1$
 
-	public void test( ) throws DesignFileException, SemanticException
+	private final static String INPUT = "regression_79040.rptdesign"; //$NON-NLS-1$
+
+	/**
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 */
+	public void test_79040( ) throws DesignFileException, SemanticException
 	{
 		openDesign( INPUT );
-		TableHandle table1 = (TableHandle)designHandle.findElement( "table1" ); //$NON-NLS-1$
-		
+		TableHandle table1 = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
+
 		assertNotNull( table1 );
 		assertEquals( "Data Set", table1.getDataSet( ).getName( ) ); //$NON-NLS-1$
-	
+
 		// drop table, data set, data source in order.
 		table1.drop( );
-		
+
 		DataSetHandle dset = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
 		DataSourceHandle dsource = dset.getDataSource( );
-		
-		dset.drop();
+
+		dset.drop( );
 		dsource.drop( );
-		
+
 		// success if no exception throws.
 	}
 }

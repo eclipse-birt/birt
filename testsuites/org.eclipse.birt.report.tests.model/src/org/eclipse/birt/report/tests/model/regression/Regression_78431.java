@@ -35,6 +35,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_78431 extends BaseTestCase
 {
 
+	/**
+	 * 
+	 */
 	public void test_78431( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
@@ -43,8 +46,8 @@ public class Regression_78431 extends BaseTestCase
 
 		IClassInfo number = instance.getClass( "Date" ); //$NON-NLS-1$
 		IMethodInfo method1 = number.getMethod( "getMonth" ); //$NON-NLS-1$
-		IMethodInfo method2 = number.getMethod( "getMilliseconds" );
-		IMethodInfo method3 = number.getMethod( "getTimezoneOffset" );
+		IMethodInfo method2 = number.getMethod( "getMilliseconds" ); //$NON-NLS-1$
+		IMethodInfo method3 = number.getMethod( "getTimezoneOffset" ); //$NON-NLS-1$
 		assertNotNull( method1 );
 		assertNotNull( method2 );
 		assertNotNull( method3 );

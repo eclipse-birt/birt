@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
@@ -31,27 +33,28 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_73182 extends BaseTestCase
 {
 
-	public final static String INPUT = "Reg_73182.xml"; //$NON-NLS-1$
+	private final static String INPUT = "Reg_73182.xml"; //$NON-NLS-1$
 
-	public Regression_73182( String name )
-	{
-		super( name );
-	}
 
-	public void test( ) throws Exception
+	/**
+	 * @throws DesignFileException
+	 * @throws ContentException
+	 * @throws NameException
+	 */
+	public void test_73182( ) throws DesignFileException, ContentException, NameException 
 	{
 		openDesign( INPUT );
 
-		TableHandle table = (TableHandle) designHandle.findElement( "table" );
+		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
 		ElementFactory factory = designHandle.getElementFactory( );
 		TableGroupHandle group1 = factory.newTableGroup( );
-		group1.setName( "group1" );
+		group1.setName( "group1" ); //$NON-NLS-1$
 		TableGroupHandle group2 = factory.newTableGroup( );
 		table.getGroups( ).add( group1 );
 		table.getGroups( ).add( group2 );
 		try
 		{
-			group2.setName( "group1" );
+			group2.setName( "group1" ); //$NON-NLS-1$
 			table.getGroups( ).add( group2 );
 			fail( );
 		}

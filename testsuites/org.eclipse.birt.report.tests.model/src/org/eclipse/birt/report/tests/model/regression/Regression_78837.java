@@ -34,14 +34,19 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_78837 extends BaseTestCase
 {
 
-	private String filename = "Regression_78837.xml";
+	private String filename = "Regression_78837.xml"; //$NON-NLS-1$
 
+	/**
+	 * @throws DesignFileException
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void test_78837( ) throws DesignFileException, ContentException, NameException
 	{
 		openDesign( filename );
 		ElementFactory factory = designHandle.getElementFactory( );
-		ParameterGroupHandle group = factory.newParameterGroup( "group" );
-		ScalarParameterHandle param = factory.newScalarParameter( "p1" );
+		ParameterGroupHandle group = factory.newParameterGroup( "group" ); //$NON-NLS-1$
+		ScalarParameterHandle param = factory.newScalarParameter( "p1" ); //$NON-NLS-1$
 		
 		designHandle.getParameters( ).add( group );
 		group.getParameters( ).add( param );

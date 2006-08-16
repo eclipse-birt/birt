@@ -34,6 +34,10 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_78796 extends BaseTestCase
 {
 
+	/**
+	 * 
+	 */
+	
 	public void test_78796( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
@@ -41,9 +45,9 @@ public class Regression_78796 extends BaseTestCase
 		IChoiceSet choiceset = instance.getChoiceSet( "filterOperator" ); //$NON-NLS-1$
 
 		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
-		assertEquals( "is-null", naturedSortedChoices[8].getName( ) );
-		assertEquals( "is-not-null", naturedSortedChoices[7].getName( ) );
-		assertEquals( "is-true", naturedSortedChoices[9].getName( ) );
-		assertEquals( "is-false", naturedSortedChoices[6].getName( ) );
+		assertEquals( "is-null", naturedSortedChoices[8].getName( ) ); //$NON-NLS-1$
+		assertEquals( "is-not-null", naturedSortedChoices[7].getName( ) );//$NON-NLS-1$
+		assertEquals( "is-true", naturedSortedChoices[9].getName( ) );//$NON-NLS-1$
+		assertEquals( "is-false", naturedSortedChoices[6].getName( ) );//$NON-NLS-1$
 	}
 }

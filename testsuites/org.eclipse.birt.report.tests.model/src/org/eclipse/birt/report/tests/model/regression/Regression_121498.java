@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -32,13 +31,17 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_121498 extends BaseTestCase
 {
 
-	private String filename = "Regression_121498.xml";
+	private String filename = "Regression_121498.xml"; //$NON-NLS-1$
 
-	public void test( ) throws DesignFileException, SemanticException
+	/**
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 */
+	public void test_121498( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
-		DataSourceHandle datasource = designHandle.findDataSource( "dsource" );
-		DataSetHandle dataset = designHandle.findDataSet( "dset" );
+		DataSourceHandle datasource = designHandle.findDataSource( "dsource" ); //$NON-NLS-1$
+		DataSetHandle dataset = designHandle.findDataSet( "dset" ); //$NON-NLS-1$
         assertEquals(1,datasource.getPropertyBindings( ).size( ));
         assertEquals(1,dataset.getPropertyBindings( ).size( ));
 		

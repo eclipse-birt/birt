@@ -37,21 +37,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_74987 extends BaseTestCase
 {
 
-	private String filename = "Regression_74987.xml";
+	private String filename = "Regression_74987.xml"; //$NON-NLS-1$
 
+	/**
+	 * @throws DesignFileException
+	 * @throws StyleException
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void test( ) throws DesignFileException, StyleException,
 			ContentException, NameException
 	{
 		openDesign( filename );
-		GridHandle grid = (GridHandle) designHandle.findElement( "Grid" );
+		GridHandle grid = (GridHandle) designHandle.findElement( "Grid" ); //$NON-NLS-1$
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"Table" );
+				"Table" ); //$NON-NLS-1$
 
 		RowHandle row = (RowHandle) grid.getRows( ).get( 0 );
 		CellHandle cell = (CellHandle) row.getCells( ).get( 0 );
 		cell.addElement( table, 0 );
 
-		row.setStyleName( "Style" );
-		assertEquals( "red", table.getProperty( Style.COLOR_PROP ) );
+		row.setStyleName( "Style" ); //$NON-NLS-1$
+		assertEquals( "red", table.getProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
 	}
 }

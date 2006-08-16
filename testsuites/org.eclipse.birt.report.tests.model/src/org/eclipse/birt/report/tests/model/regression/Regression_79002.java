@@ -29,7 +29,10 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_79002 extends BaseTestCase
 {
 
-	public void test( )
+	/**
+	 * 
+	 */
+	public void test_79002( )
 	{
 		IMetaDataDictionary meta = MetaDataDictionary.getInstance( );
 		IClassInfo classInfo = meta.getClass( "Global" ); //$NON-NLS-1$

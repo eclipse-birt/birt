@@ -30,23 +30,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_120292 extends BaseTestCase
 {
 
-	private String filename = "Regression_120292.xml";
-	private String libraryname = "Regression_120292_Lib.xml";
+	private String filename = "Regression_120292.xml"; //$NON-NLS-1$
+	private String libraryname = "Regression_120292_Lib.xml"; //$NON-NLS-1$
 
-	public void test( ) throws DesignFileException, SemanticException
+	/**
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 */
+	public void test_120292( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
-		designHandle.includeLibrary( libraryname, "Lib" );
+		designHandle.includeLibrary( libraryname, "Lib" ); //$NON-NLS-1$
 
-		libraryHandle = designHandle.getLibrary( "Lib" );
+		libraryHandle = designHandle.getLibrary( "Lib" ); //$NON-NLS-1$
 		CascadingParameterGroupHandle paramGroup = libraryHandle
-				.findCascadingParameterGroup( "ParamGroup" );
+				.findCascadingParameterGroup( "ParamGroup" ); //$NON-NLS-1$
 		CascadingParameterGroupHandle extendGroup = (CascadingParameterGroupHandle) designHandle
 				.getElementFactory( ).newElementFrom( paramGroup,
 						paramGroup.getName( ) );
 		designHandle.getParameters( ).add( extendGroup );
-		assertEquals( "ParamGroup", extendGroup.getName( ) );
-		assertEquals( "p1", extendGroup.getParameters( ).get( 0 ).getName( ) );
-		assertEquals( "p2", extendGroup.getParameters( ).get( 1 ).getName( ) );
+		assertEquals( "ParamGroup", extendGroup.getName( ) ); //$NON-NLS-1$
+		assertEquals( "p1", extendGroup.getParameters( ).get( 0 ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "p2", extendGroup.getParameters( ).get( 1 ).getName( ) ); //$NON-NLS-1$
 	}
 }

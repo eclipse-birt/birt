@@ -14,17 +14,14 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
-import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
-import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
@@ -56,7 +53,7 @@ public class Regression_122077 extends BaseTestCase
 	{
 		openDesign( filename );
 
-		TableHandle table = (TableHandle) designHandle.findElement( "NewTable" );
+		TableHandle table = (TableHandle) designHandle.findElement( "NewTable" ); //$NON-NLS-1$
 		assertNotNull(table);
 		RowHandle row = (RowHandle)table.getHeader( ).get( 0 );
 		CellHandle cell =(CellHandle) row.getCells( ).get( 0 );
@@ -72,10 +69,10 @@ public class Regression_122077 extends BaseTestCase
 		Iterator iter = propHandle.iterator( );
 		HideRuleHandle structureHandle = (HideRuleHandle) iter.next( );
 
-		structureHandle.setExpression( "expression" );
+		structureHandle.setExpression( "expression" ); //$NON-NLS-1$
 		structureHandle.setFormat( DesignChoiceConstants.FORMAT_TYPE_PDF );
 
-		assertEquals( "expression", structureHandle.getExpression( ) );
+		assertEquals( "expression", structureHandle.getExpression( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FORMAT_TYPE_PDF, structureHandle
 				.getFormat( ) );
 	}
