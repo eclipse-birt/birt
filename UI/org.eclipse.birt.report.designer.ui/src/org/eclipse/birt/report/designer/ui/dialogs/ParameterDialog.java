@@ -2136,6 +2136,10 @@ public class ParameterDialog extends BaseDialog
 
 	private String convertToStandardFormat( Date date )
 	{
+		if ( date == null )
+		{
+			return null;
+		}
 		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
 	}
 

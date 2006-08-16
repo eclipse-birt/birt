@@ -2275,6 +2275,10 @@ public class DEUtil
 
 	public static String convertToXMLString( Date date )
 	{
+		if ( date == null )
+		{
+			return null;
+		}
 		GregorianCalendar cal = new GregorianCalendar( );
 		cal.setTime( date );
 		String pattern = XMLDATE_PATTERN_FULL;
@@ -2296,6 +2300,10 @@ public class DEUtil
 
 	public static Date convertToDate( String xmlString ) throws ParseException
 	{
+		if ( StringUtil.isBlank( xmlString ) )
+		{
+			return null;
+		}
 		String pattern = null;
 		if ( xmlString.indexOf( 'T' ) != -1 )
 		{
