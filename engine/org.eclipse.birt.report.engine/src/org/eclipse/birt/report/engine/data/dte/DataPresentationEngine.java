@@ -74,12 +74,21 @@ public class DataPresentationEngine extends AbstractDataEngine
 		loadDteMetaInfo( );
 	}
 
-	private void loadDteMetaInfo( )
+	private void loadDteMetaInfo()
+	{
+		loadDteMetaInfo( ReportDocumentConstants.DATA_META_STREAM );
+		if ( reader.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
+		{
+			loadDteMetaInfo( ReportDocumentConstants.DATA_SNAP_META_STREAM );
+		}
+	}
+	
+	private void loadDteMetaInfo( String metaDataStream)
 	{
 		DataInputStream dis = null;
 		try
 		{
-			dis = new DataInputStream( reader.getStream( ReportDocumentConstants.DATA_META_STREAM ) );
+			dis = new DataInputStream( reader.getStream( metaDataStream) );
 
 			StringBuffer buffer = new StringBuffer( );
 			while ( true )
@@ -135,7 +144,24 @@ public class DataPresentationEngine extends AbstractDataEngine
 		keyBuffer.append( rowId );
 		keyBuffer.append( "." );
 		keyBuffer.append( queryId );
-		return (String) rsetRelations.get( keyBuffer.toString( ) );
+		// try to search the ret
+		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+		if ( rsetId == null )
+		{
+			int charAt = pRsetId.indexOf( "_" );
+			if ( charAt != -1 )
+			{
+				String rootId = pRsetId.substring( 0, charAt );
+				keyBuffer.setLength( 0 );
+				keyBuffer.append( rootId );
+				keyBuffer.append( "." );
+				keyBuffer.append( rowId );
+				keyBuffer.append( "." );
+				keyBuffer.append( queryId );
+				rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+			}
+		}
+		return rsetId;
 	}
 
 	protected IResultSet doExecuteQuery( DteResultSet parentResult, IQueryDefinition query )

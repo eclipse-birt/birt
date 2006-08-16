@@ -76,6 +76,11 @@ public interface ReportDocumentConstants
 	static final String DATA_META_STREAM = "/Data/hierarchy";
 	
 	/**
+	 * the relationships of the result sets, only one copy for each
+	 * report document. 
+	 */
+	static final String DATA_SNAP_META_STREAM = "/Data/snap_hierarchy";
+	/**
 	 * checkpoint stream of the report content. 
 	 * To be used to control load core stream. 
 	 */
