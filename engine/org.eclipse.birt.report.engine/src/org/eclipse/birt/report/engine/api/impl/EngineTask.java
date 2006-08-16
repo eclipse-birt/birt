@@ -167,6 +167,13 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setLocale( Locale locale )
 	{
+		log.log( Level.FINE, "EngineTask.setLocale: locale={0}",
+				locale == null? null : locale.getDisplayName());
+		doSetLocale(locale);
+	}
+	
+	private void doSetLocale( Locale locale )
+	{
 		this.locale = locale;
 		executionContext.setLocale( locale );
 	}
@@ -177,9 +184,11 @@ public abstract class EngineTask implements IEngineTask
 	 * @param locale
 	 *            the task locale
 	 */
-	public void setLocale( ULocale locale )
+	public void setLocale( ULocale uLocale )
 	{
-		setLocale(locale.toLocale());
+		log.log( Level.FINE, "EngineTask.setLocale: uLocale={0}",
+				uLocale == null? null : uLocale.getDisplayName());
+		doSetLocale( uLocale.toLocale() );
 	}
 
 	/**
@@ -193,6 +202,10 @@ public abstract class EngineTask implements IEngineTask
 		this.appContext = context;
 		executionContext.setAppContext( context );
 
+		String logStr = null;
+		if ( log.isLoggable(Level.FINE) )
+			logStr = new String();
+		
 		// add the contexts into ScriptableJavaObject
 		if ( !context.isEmpty( ) )
 		{
@@ -204,17 +217,27 @@ public abstract class EngineTask implements IEngineTask
 				{
 					addScriptableJavaObject( (String) entry.getKey( ), entry
 							.getValue( ) );
+					if (logStr != null )
+					{
+						logStr += entry.getKey();
+						logStr += "=";
+						logStr += entry.getValue();
+						logStr += ";";
+					}
 				}
 				else
 				{
 					log
 							.log(
 									Level.WARNING,
-									"Map entry {0} is invalid and ignored, because its key is a string.", //$NON-NLS-1$ 
+									"Map entry {0} is invalid and ignored, because its key is a not string.", //$NON-NLS-1$ 
 									entry.getKey( ).toString( ) );
 				}
 			}
 		}
+		
+		if ( logStr != null )
+			log.log( Level.FINE, "EngineTask.setAppContext: context={0}", logStr );
 	}
 
 	/**
@@ -492,6 +515,8 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setParameterValue( String name, Object value )
 	{
+		log.log( Level.FINE, "EngineTask.setParameterValue: {0}={1} [{2}]",
+				new Object[] { name, value, value == null ? null : value.getClass().getName() } );
 		parameterChanged = true;
 		Object parameter = inputValues.get( name );
 		if ( parameter != null )
@@ -643,7 +668,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.41 $ $Date: 2006/07/17 03:24:01 $
+	 * @version $Revision: 1.42 $ $Date: 2006/08/12 08:45:02 $
 	 */
 	static abstract class ParameterVisitor
 	{

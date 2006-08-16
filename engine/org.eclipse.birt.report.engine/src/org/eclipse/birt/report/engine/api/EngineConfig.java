@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.IPlatformContext;
@@ -324,5 +326,33 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 			return ( (Integer) maxRows ).intValue( );
 		}
 		return 0;
+	}
+	
+	/**
+	 * Output properties for debug tracing
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString()
+	{
+		String str = "EngineConfig: ";
+		if ( properties == null )
+		{
+			str += "null";
+		}
+		else
+		{
+			Iterator entryIt = properties.entrySet().iterator();
+			while ( entryIt.hasNext() )
+			{
+				Map.Entry entry = (Map.Entry)entryIt.next();
+				Object key = entry.getKey();
+				Object value = entry.getValue();
+				str += key == null ? "<null>" : key.toString();
+				str += "=";
+				str += value == null? "<null>" : value.toString();
+				str += ";";
+			}
+		}
+		return str;
 	}
 }

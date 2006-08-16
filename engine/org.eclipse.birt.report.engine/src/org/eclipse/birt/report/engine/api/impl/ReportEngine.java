@@ -80,6 +80,8 @@ public class ReportEngine implements IReportEngine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
+		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ", 
+					config );
 		this.config = config;
 
 		this.helper = new ReportEngineHelper( this );
@@ -216,6 +218,8 @@ public class ReportEngine implements IReportEngine
 	public IReportRunnable openReportDesign( String designName )
 			throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDesign: designName={0} ", designName );
 		IResourceLocator locator = config.getResourceLocator( );
 		return helper.openReportDesign( designName, locator);
 	}
@@ -233,6 +237,8 @@ public class ReportEngine implements IReportEngine
 	public IReportRunnable openReportDesign( ReportDesignHandle designHandle )
 			throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDesign: designHandle={0} ", designHandle );
 		return helper.openReportDesign( designHandle );
 	}
 
@@ -252,12 +258,17 @@ public class ReportEngine implements IReportEngine
 	public IReportRunnable openReportDesign( InputStream designStream )
 			throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDesign: designStream={0} ", designStream );
 		return helper.openReportDesign( designStream );
 	}
 
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream ) throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDesign: name={0}, designStream={1} ", 
+				new Object[] {name, designStream} );
 		return helper.openReportDesign( name, designStream );
 	}
 
@@ -272,6 +283,8 @@ public class ReportEngine implements IReportEngine
 	public IRunAndRenderTask createRunAndRenderTask(
 			IReportRunnable reportRunnable )
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.createRunAndRenderTask: reportRunnable={0} ", reportRunnable );
 		return helper.createRunAndRenderTask( reportRunnable );
 	}
 
@@ -285,6 +298,8 @@ public class ReportEngine implements IReportEngine
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
 			IReportRunnable reportRunnable )
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.createGetParameterDefinitionTask: reportRunnable={0} ", reportRunnable );
 		return helper.createGetParameterDefinitionTask( reportRunnable );
 	}
 
@@ -321,6 +336,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void destroy( )
 	{
+		logger.fine( "ReportEngine.destroy" );
 		helper.stopLogging( );
 		rootScope = null;
 		helper = null;
@@ -343,6 +359,8 @@ public class ReportEngine implements IReportEngine
 	 */
 	public IRunTask createRunTask( IReportRunnable reportRunnable )
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.createRunTask: reportRunnable={0} ", reportRunnable );
 		return helper.createRunTask( reportRunnable );
 	}
 
@@ -355,6 +373,8 @@ public class ReportEngine implements IReportEngine
 	 */
 	public IRenderTask createRenderTask( IReportDocument reportDocument )
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.createRenderTask: reportDocument={0} ", reportDocument );
 		return helper.createRenderTask( reportDocument );
 	}
 
@@ -373,6 +393,8 @@ public class ReportEngine implements IReportEngine
 	public IReportDocument openReportDocument( String fileName )
 			throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDocument: fileName={0} ", fileName );
 		return helper.openReportDocument( fileName );
 	}
 
@@ -386,6 +408,8 @@ public class ReportEngine implements IReportEngine
 	public IDataExtractionTask createDataExtractionTask(
 			IReportDocument reportDocument )
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.createDataExtractionTask: reportDocument={0} ", reportDocument );
 		return helper.createDataExtractionTask( reportDocument );
 	}
 
@@ -394,33 +418,48 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void shutdown( )
 	{
-
+		logger.fine( "ReportEngine.shutdown");
 	}
 
 	public IReportDocument openReportDocument( String systemId,
 			String fileName ) throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDocument: systemID={0}, file={1} ", 
+				new Object[]{systemId, fileName}  );
 		return openReportDocument( systemId, fileName, null );
 	}
 
 	public IReportRunnable openReportDesign( String designName, IResourceLocator locator ) throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDesign: design={0}, locator={1} ", 
+				new Object[]{designName, locator}  );
 		return helper.openReportDesign( designName, locator);
 	}
 
 	public IReportRunnable openReportDesign( String name, InputStream designStream, IResourceLocator locator ) throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDesign: name={0}, designStream={1}, locator={2} ", 
+				new Object[]{name, designStream, locator}  );
 		return helper.openReportDesign(name, designStream, locator);
 	}
 
 	public IReportDocument openReportDocument( String fileName, IResourceLocator locator ) throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDocument: file={0}, locator={1} ", 
+				new Object[]{fileName, locator}  );
 		return openReportDocument( fileName, fileName, locator );
 	}
 
 	public IReportDocument openReportDocument( String systemId,
 			String fileName, IResourceLocator locator ) throws EngineException
 	{
+		logger.log( Level.FINE,
+				"ReportEngine.openReportDocument: systemId={0}, file={1}, locator={2} ", 
+				new Object[]{systemId, fileName, locator}  );
 		return helper.openReportDocument( systemId, fileName, locator );
 	}
 }
