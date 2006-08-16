@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine;
@@ -57,7 +56,6 @@ import org.eclipse.birt.report.engine.api.ReportRunner;
 
 /**
  * Base class for Engine test.
- * 
  */
 
 public abstract class EngineCase extends TestCase
@@ -83,13 +81,13 @@ public abstract class EngineCase extends TestCase
 	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 
 	protected IReportEngine engine = null;
-	
+
 	protected IEngineTask engineTask = null;
-	
+
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
-	private boolean pagination = false; //$NON-NLS-1$
+	private boolean pagination = false; 
 
 	/*
 	 * @see TestCase#setUp()
@@ -101,13 +99,15 @@ public abstract class EngineCase extends TestCase
 		// IPlatformContext context = new PlatformFileContext( );
 		// config.setEngineContext( context );
 		// this.engine = new ReportEngine( config );
-		
-		EngineConfig config = new EngineConfig( );		
+
+		EngineConfig config = new EngineConfig( );
 		this.engine = createReportEngine( config );
 	}
 
 	/**
 	 * Create a report engine instance.
+	 * @param config 
+	 * @return 
 	 * 
 	 * @throws BirtException
 	 */
@@ -115,7 +115,7 @@ public abstract class EngineCase extends TestCase
 			throws BirtException
 	{
 		setScriptingPath( );
-		
+
 		if ( config == null )
 		{
 			config = new EngineConfig( );
@@ -255,7 +255,7 @@ public abstract class EngineCase extends TestCase
 		{
 			if ( !file.delete( ) )
 			{
-				System.out.println( file.toString( ) + " can't be removed" );
+				System.out.println( file.toString( ) + " can't be removed" ); //$NON-NLS-1$
 			}
 		}
 	}
@@ -264,7 +264,6 @@ public abstract class EngineCase extends TestCase
 	 * Remove a given file or directory recursively.
 	 * 
 	 * @param file
-	 * 
 	 */
 
 	public void removeFile( String file )
@@ -424,7 +423,7 @@ public abstract class EngineCase extends TestCase
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
-		
+
 		// set engine task
 		engineTask = task;
 
@@ -504,7 +503,6 @@ public abstract class EngineCase extends TestCase
 	}
 
 	/**
-	 * 
 	 * @param doc
 	 *            input rpt docuement file
 	 * @param output
@@ -731,7 +729,13 @@ public abstract class EngineCase extends TestCase
 
 	// Sample: style="background-image:url(image\file44.jpg)"
 	private final static Pattern PATTERN_BG_IMAGE = Pattern
-			.compile( "background-image[\\s]*:url[(]image.*[)]" ); //$NON-NLS-1$ //$NON-NLS-2$
+			.compile( "background-image[\\s]*:url[(]image.*[)]" ); //$NON-NLS-1$ 
+
+	// Sample: .style_1 { background-image: url('image%5cfile24.jpg');}
+	private final static Pattern PATTERN_BG_IMAGE2 = Pattern
+			.compile( "background-image[\\s]*:[\\s]*url[(]'image.*'[)]" ); //$NON-NLS-1$
+	
+	
 
 	// Sample: src="image/design31"
 	// src="image\file31.jpg"
@@ -748,7 +752,8 @@ public abstract class EngineCase extends TestCase
 			{PATTERN_NAME_AUTOBOOKMARK, "REPLACEMENT_NAME_AUTOBOOKMARK"}, //$NON-NLS-1$
 			{PATTERN_IID, "REPLACEMENT_IID"}, //$NON-NLS-1$
 			{PATTERN_BG_IMAGE, "REPLACEMENT_BG_IMAGE"}, //$NON-NLS-1$
-			{PATTERN_IMAGE_SOURCE, "REPLACEMENT_IMAGE_SOURCE"}, //$NON-NLS-1$
+			{PATTERN_BG_IMAGE2, "REPLACEMENT_BG_IMAGE2"}, //$NON-NLS-1$
+			{PATTERN_IMAGE_SOURCE, "REPLACEMENT_IMAGE_SOURCE"} //$NON-NLS-1$
 	};
 
 	/**
@@ -792,15 +797,16 @@ public abstract class EngineCase extends TestCase
 		className = className.substring( 0, lastDotIndex );
 		return PLUGIN_PATH + className.replace( '.', '/' );
 	}
-	
+
 	/**
 	 * Set scripts class folder
 	 */
-	
+
 	protected void setScriptingPath( )
 	{
-		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY,
-				this.getClassFolder( ) + "/input/scripts" );
+		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY, this
+				.getClassFolder( )
+				+ "/input/scripts" );
 	}
 
 }
