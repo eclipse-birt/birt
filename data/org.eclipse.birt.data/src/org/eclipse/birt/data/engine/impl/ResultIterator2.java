@@ -26,10 +26,8 @@ class ResultIterator2 extends ResultIterator
 	
 	private int currRowIndex;
 	
-	private int cachedStartingGroupLevel;
-	
 	private int cachedRowId;
-		
+
 	/**
 	 * @param context
 	 * @param queryResults
@@ -46,7 +44,6 @@ class ResultIterator2 extends ResultIterator
 
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
-		this.cachedStartingGroupLevel = 0;
 		this.cachedRowId = 0;
 
 	}
@@ -67,19 +64,36 @@ class ResultIterator2 extends ResultIterator
 	 */
 	protected boolean hasNextRow( ) throws DataException
 	{
-		// make sure that the first row of group is used, instead of the last
-		// row
+		boolean result = false;
+		boolean shouldMoveForward = false;
+	
+		int index = this.odiResult.getCurrentResultIndex( );
+
 		this.odiResult.last( lowestGroupLevel );
+
+		if ( index != this.odiResult.getCurrentResultIndex( ) )
+		{
+			result = odiResult.getCurrentResult( ) == null ? false : true;
+			shouldMoveForward = false;
+		}
+		else
+		{
+			shouldMoveForward = true;
+		}
+	
 		
-		boolean result = odiResult.next( );
+		if( shouldMoveForward )
+		{
+			result = this.odiResult.next( );
+		}
 
 		if ( result )
 		{
-			cachedStartingGroupLevel = odiResult.getStartingGroupLevel( );
-			
+			// cachedStartingGroupLevel = odiResult.getStartingGroupLevel( );
+
 			if ( rowIDUtil == null )
 				rowIDUtil = new RowIDUtil( );
-			
+
 			if ( this.rowIDUtil.getMode( this.odiResult ) == RowIDUtil.MODE_NORMAL )
 				cachedRowId = this.odiResult.getCurrentResultIndex( );
 			else
@@ -91,8 +105,9 @@ class ResultIterator2 extends ResultIterator
 					cachedRowId = ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
 			}
 		}
-		
+
 		return result;
+		
 	}
 
 	/*
@@ -103,25 +118,25 @@ class ResultIterator2 extends ResultIterator
 		return this.cachedRowId;
 	}
 	
-	/*
+/*	
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
-	 */
+	 
 	public int getStartingGroupLevel( ) throws DataException
 	{
-		return cachedStartingGroupLevel;		
+		return this.odiResult.getStartingGroupLevel( );		
 	}
 	
-	/*
+	
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getEndingGroupLevel()
-	 */
+	 
 	public int getEndingGroupLevel( ) throws DataException
 	{
 		// make sure that the ending group level value is also correct
 		this.odiResult.last( this.lowestGroupLevel );
 		
 		return super.getEndingGroupLevel( );
-	}
+	}*/
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()

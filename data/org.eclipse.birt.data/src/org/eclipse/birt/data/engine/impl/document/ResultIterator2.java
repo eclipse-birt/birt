@@ -25,8 +25,6 @@ public class ResultIterator2 extends ResultIterator
 	private int lowestGroupLevel;
 	
 	private int currRowIndex;
-	
-	private int cachedStartingGroupLevel;
 
 	/**
 	 * @param context
@@ -42,7 +40,6 @@ public class ResultIterator2 extends ResultIterator
 		
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
-		this.cachedStartingGroupLevel = 0;
 	}
 	
 	/*
@@ -50,36 +47,58 @@ public class ResultIterator2 extends ResultIterator
 	 */
 	public boolean next( ) throws DataException
 	{
+		boolean hasNext = false;
+		boolean shouldMoveForward = false;
+	
+		int index = this.exprResultSet.getCurrentIndex( );
 		if ( this.exprResultSet.getCurrentIndex( ) >= 0 ) // not the first row
+		{
 			exprResultSet.skipToEnd( lowestGroupLevel );
+			if ( this.exprResultSet.getCurrentIndex( ) != index )
+			{
+				shouldMoveForward = false;
+				hasNext = exprResultSet.getCurrentIndex( ) >= 0;
 
-		boolean hasNext = super.next( );
+			}
+			else
+			{
+				shouldMoveForward = true;
+			}
+		}
+		else
+		{
+			shouldMoveForward = true;
+		}
+	
+		if( shouldMoveForward )
+		{
+			hasNext = super.next( );
+		}
 		if ( hasNext )
 		{
 			currRowIndex++;
-			cachedStartingGroupLevel = exprResultSet.getStartingGroupLevel( );
 		}
 
 		return hasNext;
 	}
 	
-	/*
+/*	
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
-	 */
+	 
 	public int getStartingGroupLevel( ) throws DataException
 	{
 		return cachedStartingGroupLevel;		
 	}
 	
-	/*
+	
 	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#getEndingGroupLevel()
-	 */
+	 
 	public int getEndingGroupLevel( ) throws BirtException
 	{
 		this.exprResultSet.skipToEnd( this.lowestGroupLevel );
 		
 		return super.getEndingGroupLevel( );
-	}
+	}*/
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
