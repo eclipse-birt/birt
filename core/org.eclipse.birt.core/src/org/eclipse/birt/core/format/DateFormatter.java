@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.9 $ $Date: 2006/02/22 06:44:15 $
+ * @version $Revision: 1.10 $ $Date: 2006/07/12 22:43:42 $
  */
 public class DateFormatter
 {
@@ -184,7 +184,6 @@ public class DateFormatter
 						dateFormat = new SimpleDateFormat( "HH:mm", locale );
 						return;
 					case 'f' :
-
 						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
 								com.ibm.icu.text.DateFormat.LONG,
 								com.ibm.icu.text.DateFormat.SHORT, locale );
@@ -194,6 +193,17 @@ public class DateFormatter
 								com.ibm.icu.text.DateFormat.LONG,
 								com.ibm.icu.text.DateFormat.LONG, locale );
 						return;
+                    case 'i' :
+                        dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+                                                com.ibm.icu.text.DateFormat.SHORT,
+                                                com.ibm.icu.text.DateFormat.MEDIUM, locale );
+                        return;
+                        
+                    case 'I' :
+                        dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+                                                com.ibm.icu.text.DateFormat.SHORT,
+                                                com.ibm.icu.text.DateFormat.LONG, locale );
+                        return;
 					case 'g' :
 
 						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
