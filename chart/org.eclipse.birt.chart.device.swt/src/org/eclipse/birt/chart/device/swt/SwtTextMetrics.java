@@ -56,6 +56,7 @@ public final class SwtTextMetrics extends TextAdapter
 		gc = new GC( ( (SwtDisplayServer) _ids ).getDevice( ) );
 		ids = _ids;
 		la = _la;
+
 		reuse( la );
 	}
 
@@ -74,6 +75,11 @@ public final class SwtTextMetrics extends TextAdapter
 		if ( s == null )
 		{
 			s = IConstants.NULL_STRING;
+		}
+		else
+		{
+			// trim leading and trailing spaces.
+			s = s.trim( );
 		}
 		String[] sa = splitOnBreaks( s, forceWrappingSize );
 		if ( sa == null )

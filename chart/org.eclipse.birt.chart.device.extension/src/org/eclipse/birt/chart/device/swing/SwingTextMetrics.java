@@ -85,6 +85,7 @@ public final class SwingTextMetrics extends TextAdapter
 		}
 		xs = _xs;
 		la = _la;
+
 		computeTextAntialiasing( );
 		reuse( la );
 	}
@@ -131,7 +132,13 @@ public final class SwingTextMetrics extends TextAdapter
 		{
 			s = IConstants.NULL_STRING;
 		}
-		else if ( s.length( ) == 0 ) // TextLayout DOESN'T LIKE EMPTY STRINGS
+		else
+		{
+			// trim leading and trailing spaces.
+			s = s.trim( );
+		}
+
+		if ( s.length( ) == 0 ) // TextLayout DOESN'T LIKE EMPTY STRINGS
 		{
 			s = IConstants.ONE_SPACE;
 		}
