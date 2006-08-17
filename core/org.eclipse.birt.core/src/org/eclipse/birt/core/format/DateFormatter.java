@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.10 $ $Date: 2006/07/12 22:43:42 $
+ * @version $Revision: 1.11 $ $Date: 2006/08/17 02:35:06 $
  */
 public class DateFormatter
 {
@@ -193,17 +193,48 @@ public class DateFormatter
 								com.ibm.icu.text.DateFormat.LONG,
 								com.ibm.icu.text.DateFormat.LONG, locale );
 						return;
+						
+						// I/i produces a short (all digit) date format with 4- digit years
+						// and a medium/long time
+						// Unfortunately SHORT date format returned by DateFormat is always 2-digits
+						// We will need to create our own SimpleDateFormat based on what the
+						// DateTime factory gives us
                     case 'i' :
-                        dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
+                    case 'I' :
+                    	int timeForm =  ( patternTemp == 'i' ) ? com.ibm.icu.text.DateFormat.MEDIUM
+                    			:com.ibm.icu.text.DateFormat.LONG;
+                    		
+                    	com.ibm.icu.text.DateFormat factoryFormat = 
+                    		com.ibm.icu.text.DateFormat.getDateTimeInstance(
                                                 com.ibm.icu.text.DateFormat.SHORT,
-                                                com.ibm.icu.text.DateFormat.MEDIUM, locale );
+                                                timeForm, locale );
+                        // Try cast this to SimpleDateFormat - DateFormat JavaDoc says this should
+                    	// succeed in most cases
+                    	SimpleDateFormat factorySimpleFormat;
+                    	try
+                    	{
+                    		factorySimpleFormat = (SimpleDateFormat) factoryFormat;
+                    	}
+                    	catch (ClassCastException e)
+                    	{
+                    		// no help; stuck with what the factory gives us
+                    		dateFormat = factoryFormat;
+                    		return;
+                    	}
+                        
+                    	String pattern = factorySimpleFormat.toPattern();
+                    	// Search for 'yy', then add a 'y' to make the year 4 digits
+                    	int idx = pattern.indexOf("yy");
+                    	if ( idx >=0 )
+                    	{
+                    		StringBuffer strBuf = new StringBuffer(pattern);
+                    		strBuf.insert(idx, 'y');
+                    		pattern = strBuf.toString();
+                    	}
+                    	
+                        dateFormat = new SimpleDateFormat(pattern, locale);
                         return;
                         
-                    case 'I' :
-                        dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
-                                                com.ibm.icu.text.DateFormat.SHORT,
-                                                com.ibm.icu.text.DateFormat.LONG, locale );
-                        return;
 					case 'g' :
 
 						dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance(
