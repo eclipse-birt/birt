@@ -31,6 +31,7 @@ public class Regression_69139 extends BaseTestCase
 
 	private final static String INPUT = "Reg_69139.xml"; //$NON-NLS-1$
 
+	
 	/**
 	 * @throws DesignFileException
 	 */

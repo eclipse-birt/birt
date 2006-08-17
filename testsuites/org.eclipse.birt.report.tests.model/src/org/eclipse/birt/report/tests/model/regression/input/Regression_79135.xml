@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.5" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060812-0630 Build &lt;20060814-0630></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <image name="image" id="31">
+            <property name="source">file</property>
+            <expression name="uri">"actuatetop.jpg"</expression>
+            <structure name="action">
+                <property name="linkType">hyperlink</property>
+                <expression name="uri">"http://www.actuate.com"</expression>
+            </structure>
+        </image>
+    </body>
+</report>
