@@ -72,7 +72,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
+import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -85,7 +85,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.79 $ $Date: 2006/08/14 07:52:31 $
+ * @version $Revision: 1.81 $ $Date: 2006/08/16 03:07:02 $
  */
 public class ExecutionContext
 {
@@ -1481,28 +1481,19 @@ public class ExecutionContext
 			this.context = context;
 		}
 
-		public 	Class loadClass( String className )
+		public Class loadClass( String className )
 				throws ClassNotFoundException
 		{
-			//FIXME: intialize the class loader only if the 
-			//appContext and report design has been setted.
-			try
+			createWrappedClassLoaders( );
+			if ( designClassLoader != null )
 			{
-				return Class.forName( className );
+				return designClassLoader.loadClass( className );
 			}
-			catch(ClassNotFoundException cnfe)
+			if ( appClassLoader != null )
 			{
-				createWrappedClassLoaders( );
-				if ( designClassLoader != null )
-				{
-					return designClassLoader.loadClass( className );
-				}
-				if ( appClassLoader != null )
-				{
-					return appClassLoader.loadClass( className );
-				}
-				return systemClassLoader.loadClass( className );
+				return appClassLoader.loadClass( className );
 			}
+			return systemClassLoader.loadClass( className );
 		}
 
 		public URL getResource( String name )
@@ -1527,23 +1518,22 @@ public class ExecutionContext
 		{
 			if ( systemClassLoader == null )
 			{
-				systemClassLoader = createClassLoaderFromProperty( );
+				createClassLoaderFromProperty( );
 				assert systemClassLoader != null;
 			}
 			if ( appClassLoader == null )
 			{
-				appClassLoader = createClassLoaderFromContext( systemClassLoader );
-				assert appClassLoader != null;
+				createClassLoaderFromContext( );
 			}
 			if ( designClassLoader == null )
 			{
-				designClassLoader = createClassLoaderFromDesign( appClassLoader );
+				createClassLoaderFromDesign( );
 			}
 		}
 
-		protected ClassLoader createClassLoaderFromProperty( )
+		protected void createClassLoaderFromProperty( )
 		{
-			ClassLoader parent = ExecutionContext.class.getClassLoader( );
+			systemClassLoader = ExecutionContext.class.getClassLoader( );
 			ArrayList urls = new ArrayList( );
 			for ( int i = 0; i < classPathes.length; i++ )
 			{
@@ -1570,13 +1560,13 @@ public class ExecutionContext
 			}
 			if ( urls.size( ) != 0 )
 			{
-				return new URLClassLoader( (URL[]) urls.toArray( new URL[0] ),
-						parent );
+				systemClassLoader = 
+				new URLClassLoader( (URL[]) urls.toArray( new URL[0] ),
+						systemClassLoader );
 			}
-			return parent;
 		}
 
-		protected ClassLoader createClassLoaderFromContext( ClassLoader parent )
+		protected void createClassLoaderFromContext( )
 		{
 			Map appContext = context.getAppContext( );
 			if ( appContext != null )
@@ -1585,11 +1575,10 @@ public class ExecutionContext
 						.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
 				if ( appLoader instanceof ClassLoader )
 				{
-					return new UnionClassLoader( (ClassLoader) appLoader,
-							parent );
+					appClassLoader = new UnionClassLoader(
+							(ClassLoader) appLoader, systemClassLoader );
 				}
 			}
-			return parent;
 		}
 
 		static protected class UnionClassLoader extends ClassLoader
@@ -1628,7 +1617,7 @@ public class ExecutionContext
 			}
 		}
 
-		protected ClassLoader createClassLoaderFromDesign( ClassLoader parent )
+		protected void createClassLoaderFromDesign( )
 		{
 			IReportRunnable runnable = context.getRunnable( );
 			if ( runnable != null )
@@ -1638,7 +1627,7 @@ public class ExecutionContext
 				Iterator iter = module.scriptLibsIterator( );
 				while ( iter.hasNext( ) )
 				{
-					ScriptLib lib = (ScriptLib) iter.next( );
+					ScriptLibHandle lib = (ScriptLibHandle) iter.next( );
 					String libPath = lib.getName( );
 					URL url = module.findResource( libPath,
 							IResourceLocator.LIBRARY );
@@ -1650,11 +1639,13 @@ public class ExecutionContext
 				if ( urls.size( ) != 0 )
 				{
 					URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
-					return new URLClassLoader( jarUrls, parent );
+					ClassLoader parent = appClassLoader == null
+							? systemClassLoader
+							: appClassLoader;
+
+					designClassLoader = new URLClassLoader( jarUrls, parent );
 				}
-				return parent;
 			}
-			return null;
 		}
 	}
 
