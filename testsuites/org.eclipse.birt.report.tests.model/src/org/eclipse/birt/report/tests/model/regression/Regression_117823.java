@@ -9,12 +9,16 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.SimpleGroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
@@ -69,17 +73,20 @@ public class Regression_117823 extends BaseTestCase
 		label.addUserPropertyDefn( userProp1 );
 		label.addUserPropertyDefn( userProp2 );
 		
-		
-		// TODO: change to GroupPropertyHandle.
+		List elements = new ArrayList( );
+		elements.add( label );
+
+		SimpleGroupElementHandle groupHandle = new SimpleGroupElementHandle(
+				designHandle, elements );
 		
 		// set property on label
 		
-		label.setProperty( "prop1", "Learning abc");  //$NON-NLS-1$//$NON-NLS-2$
-		label.setProperty( "prop2", "true"); //$NON-NLS-1$//$NON-NLS-2$
-		
+		groupHandle.setStringProperty( "prop1", "Learning abc" );//$NON-NLS-1$//$NON-NLS-2$
+		groupHandle.setStringProperty( "prop2", "true" );//$NON-NLS-1$//$NON-NLS-2$
+			
 		// ensure the value is properly set.
 		
-		assertEquals( "Learning abc", label.getStringProperty( "prop1" ) );  //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( "true", label.getStringProperty( "prop2" ) );  //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "Learning abc", groupHandle.getStringProperty( "prop1" ) );  //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "true", groupHandle.getStringProperty( "prop2" ) );  //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

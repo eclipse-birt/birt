@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -31,15 +30,16 @@ import com.ibm.icu.util.ULocale;
  * <li>LibA include LibB.
  * <li>LibB include LibA.
  * </ol>
- * 
- * Excepted result: When doing step3, model should check out it as a
- * recursive inclusion, and report an error to user.
+ * Excepted result: When doing step3, model should check out it as a recursive
+ * inclusion, and report an error to user.
  * </p>
  * Test description:
  * <p>
- * TODO:
+ * lib1 include lib2, make sure that after that lib2 can not include lib1, model 
+ * should throw an exception for that operation.
  * </p>
  */
+
 public class Regression_123377 extends BaseTestCase
 {
 
@@ -65,7 +65,7 @@ public class Regression_123377 extends BaseTestCase
 				+ "regression_123377_lib2.xml";//$NON-NLS-1$
 
 		makeOutputDir( );
-		
+
 		// open and modify the library files under the output folder.
 
 		copyFile( lib1Input, lib1Output );

@@ -9,6 +9,8 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+import java.io.IOException;
+
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -48,17 +50,16 @@ public class Regression_117427 extends BaseTestCase
 	/**
 	 * @throws DesignFileException 
 	 * @throws SemanticException 
+	 * @throws IOException 
 	 * 
 	 */
 	
-	public void test_117427( ) throws DesignFileException, SemanticException
+	public void test_117427( ) throws DesignFileException, SemanticException, IOException
 	{
 		openDesign( REPORT );
 		LibraryHandle lib = designHandle.getLibrary( "regression_117427_lib" ); //$NON-NLS-1$
 		designHandle.dropLibrary( lib );
 		
 		assertEquals( 0, designHandle.getLibraries( ).size( ) );
-		
-		// TODO: write out and reopen design
 	}
 }

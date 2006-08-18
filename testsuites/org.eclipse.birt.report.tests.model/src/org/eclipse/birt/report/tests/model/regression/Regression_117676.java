@@ -14,6 +14,8 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -69,6 +71,17 @@ public class Regression_117676 extends BaseTestCase
 				.getDetail( ).get( 0 ) ).getCells( ).get( 0 ) ).getContent( )
 				.get( 0 );
 		assertFalse( label2.canTransformToTemplate( ) );
-		// TODO: exception if performing transform
+
+		try
+		{
+			// throw exception if performing transform
+
+			label2.createTemplateElement( "templateLabel" ); //$NON-NLS-1$
+			fail();
+		}
+		catch ( SemanticException e )
+		{
+			assertTrue( e instanceof ContentException );
+		}
 	}
 }
