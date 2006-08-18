@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.115 $ $Date: 2006/08/02 09:12:19 $
+ * @version $Revision: 1.116 $ $Date: 2006/08/08 09:59:09 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -712,14 +712,25 @@ class EngineIRVisitor extends DesignVisitor
 		scalarParameter.setAllowNewValues( !handle.isMustMatch( ) );
 		scalarParameter.setFixedOrder( handle.isFixedOrder( ) );
 
-		if ( scalarParameter.getSelectionList( ) != null
+		String paramType = handle.getValueType( );
+		if ( IScalarParameterDefn.SELECTION_LIST_TYPE_STATIC.equals( paramType )
+				&& scalarParameter.getSelectionList( ) != null
 				&& scalarParameter.getSelectionList( ).size( ) > 0 )
+		{
 			scalarParameter
 					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_STATIC );
+		}
+		else if ( IScalarParameterDefn.SELECTION_LIST_TYPE_DYNAMIC
+				.equals( paramType ) )
+		{
+			scalarParameter
+					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_DYNAMIC );
+		}
 		else
+		{
 			scalarParameter
 					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_NONE );
-
+		}
 		scalarParameter.setValueConcealed( handle.isConcealValue( ) );
 		currentElement = scalarParameter;
 	}

@@ -40,6 +40,9 @@ public interface IScalarParameterDefn extends IParameterDefn
 	public static final int SELECTION_LIST_DYNAMIC = 1;
 	public static final int SELECTION_LIST_STATIC = 2;
 	
+	public static final String SELECTION_LIST_TYPE_STATIC = "static";
+	public static final String SELECTION_LIST_TYPE_DYNAMIC = "dynamic";
+	
 	/**
 	 * returns the parameter data type. See the ColumnDefn class
 	 * for the valid data type constants.
