@@ -34,9 +34,10 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -123,7 +124,11 @@ public class FillChooserComposite extends Composite
 
 	private transient ChartWizardContext wizardContext;
 
-	boolean isPressingKey = false;
+	// Indicates the last operation is fired by keyboard or not
+	boolean isPressingKey = false;	
+	
+	// Save the index of selected color
+	private int selectedIndex = -1;
 
 	/**
 	 * 
@@ -235,7 +240,6 @@ public class FillChooserComposite extends Composite
 		gdCNVSelection.heightHint = iSize;
 		cnvSelection.setLayoutData( gdCNVSelection );
 		cnvSelection.setFill( fCurrent );
-		cnvSelection.addListener( SWT.MouseDown, this );
 
 		// THE BUTTON
 		btnDown = new Button( cmpContentInner, SWT.ARROW | SWT.DOWN );
@@ -253,12 +257,15 @@ public class FillChooserComposite extends Composite
 			public void handleEvent( Event event )
 			{
 				handleEventCanvas( event );
-				return;
 			}
 		};
 
 		int[] textEvents = {
-				SWT.KeyDown, SWT.Traverse, SWT.FocusIn, SWT.FocusOut
+				SWT.KeyDown,
+				SWT.MouseDown,
+				SWT.Traverse,
+				SWT.FocusIn,
+				SWT.FocusOut
 		};
 		for ( int i = 0; i < textEvents.length; i++ )
 		{
@@ -283,23 +290,29 @@ public class FillChooserComposite extends Composite
 			}
 			case SWT.KeyDown :
 			{
-				// At this point the widget may have been disposed.
-				// If so, do not continue.
-				if ( isDisposed( ) )
-					break;
-
-				if ( event.keyCode == SWT.ARROW_DOWN )
+				if ( event.keyCode == SWT.KEYPAD_CR
+						|| event.keyCode == SWT.CR || event.keyCode == ' ' )
 				{
 					event.doit = true;
-					isPressingKey = true;
 					toggleDropDown( );
-					break;
 				}
+				break;
 			}
+			case SWT.MouseDown :
+				if ( !bEnabled )
+				{
+					return;
+				}
+				fireHandleEvent( MOUSE_CLICKED_EVENT );
+				toggleDropDown( );
+				break;
 			case SWT.Traverse :
 			{
 				switch ( event.detail )
 				{
+					case SWT.TRAVERSE_ESCAPE:
+						getShell( ).close( );
+						break;
 					case SWT.TRAVERSE_RETURN :
 					case SWT.TRAVERSE_TAB_NEXT :
 					case SWT.TRAVERSE_TAB_PREVIOUS :
@@ -308,7 +321,6 @@ public class FillChooserComposite extends Composite
 						event.doit = true;
 						cnvSelection.redraw( );
 				}
-
 				break;
 			}
 		}
@@ -401,6 +413,14 @@ public class FillChooserComposite extends Composite
 			iXLoc -= iShellWidth;
 		}
 		shell.setLocation( iXLoc, iYLoc );
+		shell.addShellListener( new ShellAdapter( ) {
+
+			public void shellClosed( ShellEvent e )
+			{
+				clearColorSelection( );
+			}
+
+		} );
 
 		cmpDropDown = new Composite( shell, SWT.NO_FOCUS );
 		GridLayout glDropDown = new GridLayout( );
@@ -408,22 +428,20 @@ public class FillChooserComposite extends Composite
 		glDropDown.marginWidth = 2;
 		glDropDown.horizontalSpacing = 1;
 		glDropDown.verticalSpacing = 4;
-		glDropDown.numColumns = 8;
 		cmpDropDown.setLayout( glDropDown );
-		cmpDropDown.addListener( SWT.FocusOut, this );
 
 		if ( colorArray == null )
 		{
 			colorArray = createColorMap( getDisplay( ) );
 		}
 		ColorSelectionCanvas cnv = new ColorSelectionCanvas( cmpDropDown,
-				SWT.BORDER | SWT.NO_FOCUS,
+				SWT.BORDER,
 				colorArray );
 		GridData gdCnv = new GridData( GridData.FILL_BOTH );
-		gdCnv.horizontalSpan = 8;
 		gdCnv.heightHint = 110;
 		cnv.setLayoutData( gdCnv );
-		cnv.addListener( SWT.MouseDown, this );
+		cnv.addListener( SWT.Traverse, this );
+		cnv.addListener( SWT.FocusOut, this );
 
 		if ( this.fCurrent instanceof ColorDefinition )
 		{
@@ -442,7 +460,6 @@ public class FillChooserComposite extends Composite
 		glButtons.numColumns = 2;
 		cmpButtons.setLayout( glButtons );
 		GridData gdButtons = new GridData( GridData.FILL_HORIZONTAL );
-		gdButtons.horizontalSpan = 8;
 		cmpButtons.setLayoutData( gdButtons );
 
 		// Layout for Transparency Composite
@@ -627,7 +644,7 @@ public class FillChooserComposite extends Composite
 			createDropDownComponent( pLoc.x, pLoc.y
 					+ cnvSelection.getSize( ).y + 1 );
 
-			cmpButtons.setFocus( );
+			cmpDropDown.setFocus( );
 		}
 		else
 		{
@@ -642,7 +659,7 @@ public class FillChooserComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		Object oSource = e.getSource( );
+		Object oSource = e.getSource( );		
 		if ( oSource.equals( btnDown ) )
 		{
 			fireHandleEvent( MOUSE_CLICKED_EVENT );
@@ -867,16 +884,20 @@ public class FillChooserComposite extends Composite
 		switch ( event.type )
 		{
 			case SWT.FocusOut :
+				if ( event.widget instanceof ColorSelectionCanvas )
+				{
+					( (ColorSelectionCanvas) event.widget ).redraw( );
+				}
 				if ( isPopupControl( event.widget ) )
 				{
-					// Condition added to handle behavior under Linux
-					Control cTmp = isPressingKey ? Display.getCurrent( )
-							.getFocusControl( ) : Display.getCurrent( )
-							.getCursorControl( );
+					Control cTmp = isPressingKey
+							? getDisplay( ).getFocusControl( )
+							: getDisplay( ).getCursorControl( );
 					// Set default value back
 					isPressingKey = false;
 					if ( cTmp != null )
 					{
+						// Condition added to handle behavior under Linux
 						if ( isPopupControl( cTmp )
 								|| SWT.getPlatform( ).indexOf( "win32" ) == 0//$NON-NLS-1$
 								&& ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) ) )
@@ -918,43 +939,6 @@ public class FillChooserComposite extends Composite
 				}
 				break;
 
-			case SWT.MouseDown :
-				if ( !bEnabled )
-				{
-					return;
-				}
-				fireHandleEvent( MOUSE_CLICKED_EVENT );
-				if ( event.widget.equals( cnvSelection ) )
-				{
-					if ( !cnvSelection.isDisposed( ) )
-					{
-						toggleDropDown( );
-					}
-				}
-				else if ( event.widget instanceof ColorSelectionCanvas )
-				{
-					ColorDefinition cTmp = AttributeFactory.eINSTANCE.createColorDefinition( );
-					Color clrTmp = ( (ColorSelectionCanvas) event.widget ).getColorAt( event.x,
-							event.y );
-					cTmp.set( clrTmp.getRed( ),
-							clrTmp.getGreen( ),
-							clrTmp.getBlue( ) );
-					int iTransparency = 255;
-					if ( fCurrent instanceof ColorDefinition
-							&& this.iTransparency != 0 )
-					{
-						iTransparency = ( bTransparencyChanged )
-								? this.iTransparency
-								: ( (ColorDefinition) fCurrent ).getTransparency( );
-					}
-					cTmp.setTransparency( iTransparency );
-					addAdapters( cTmp );
-					setFill( cTmp );
-					fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
-					cmpDropDown.getShell( ).close( );
-				}
-				break;
-
 			case SWT.Traverse :
 				switch ( event.detail )
 				{
@@ -963,99 +947,230 @@ public class FillChooserComposite extends Composite
 						// Indicates getting focus control rather than cursor
 						// control
 						isPressingKey = true;
+						event.doit = true;
 				}
 				break;
 		}
 
 	}
-}
-
-class ColorSelectionCanvas extends Canvas implements PaintListener
-{
-
-	Color[] colorMap = null;
-
-	Color colorSelection = null;
-
-	public ColorSelectionCanvas( Composite parent, int iStyle, Color[] colorMap )
+	
+	private void setColorToModel( Color clrTmp )
 	{
-		super( parent, iStyle );
-		this.addPaintListener( this );
-		this.colorMap = colorMap;
-	}
-
-	public Color getColor( )
-	{
-		return colorSelection;
-	}
-
-	public void setColor( Color color )
-	{
-		this.colorSelection = color;
-	}
-
-	public void paintControl( PaintEvent pe )
-	{
-		Color cBlack = new Color( this.getDisplay( ), 0, 0, 0 );
-		Color cWhite = new Color( this.getDisplay( ), 255, 255, 255 );
-		GC gc = pe.gc;
-		gc.setForeground( cBlack );
-
-		int iCellWidth = this.getSize( ).x / 8;
-		int iCellHeight = this.getSize( ).y / 5;
-
-		for ( int iR = 0; iR < 5; iR++ )
+		ColorDefinition cTmp = AttributeFactory.eINSTANCE.createColorDefinition( );
+		cTmp.set( clrTmp.getRed( ), clrTmp.getGreen( ), clrTmp.getBlue( ) );
+		int iTransparency = 255;
+		if ( fCurrent instanceof ColorDefinition && this.iTransparency != 0 )
 		{
-			for ( int iC = 0; iC < 8; iC++ )
+			iTransparency = ( bTransparencyChanged ) ? this.iTransparency
+					: ( (ColorDefinition) fCurrent ).getTransparency( );
+		}
+		cTmp.setTransparency( iTransparency );
+		addAdapters( cTmp );
+		setFill( cTmp );
+		fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
+	}
+
+	private void clearColorSelection( )
+	{
+		selectedIndex = -1;
+	}
+	
+	private class ColorSelectionCanvas extends Canvas implements Listener
+	{
+
+		static final int ROW_SIZE = 8;
+		static final int COLUMN_SIZE = 5;
+
+		final Color[] colorMap;
+
+		Color colorSelection = null;
+
+		public ColorSelectionCanvas( Composite parent, int iStyle,
+				final Color[] colorMap )
+		{
+			super( parent, iStyle );
+			this.colorMap = colorMap;
+			this.addListener( SWT.Paint, this );
+			this.addListener( SWT.KeyDown, this );
+			this.addListener( SWT.MouseDown, this );
+			this.addListener( SWT.FocusIn, this );
+		}
+
+		public Color getColor( )
+		{
+			return colorSelection;
+		}
+
+		public void setColor( Color color )
+		{
+			this.colorSelection = color;
+		}
+
+		void paintControl( PaintEvent pe )
+		{
+			Color cBlack = new Color( this.getDisplay( ), 0, 0, 0 );
+			Color cWhite = new Color( this.getDisplay( ), 255, 255, 255 );
+			GC gc = pe.gc;
+			gc.setForeground( cBlack );
+
+			int iCellWidth = this.getSize( ).x / ROW_SIZE;
+			int iCellHeight = this.getSize( ).y / COLUMN_SIZE;
+			boolean isFound = false;
+			for ( int iR = 0; iR < COLUMN_SIZE; iR++ )
 			{
-				try
+				for ( int iC = 0; iC < ROW_SIZE; iC++ )
 				{
-					gc.setBackground( colorMap[( iR * 8 ) + iC] );
-				}
-				catch ( Throwable e )
-				{
-					e.printStackTrace( );
-				}
-				gc.fillRectangle( iC * iCellWidth,
-						iR * iCellHeight,
-						iCellWidth,
-						iCellHeight );
-				// Highlight currently selected color if it exists in this list
-				if ( colorSelection != null
-						&& colorSelection.equals( colorMap[( iR * 8 ) + iC] ) )
-				{
-					gc.drawRectangle( iC * iCellWidth,
+					int index = iR * ROW_SIZE + iC;
+					try
+					{
+						gc.setBackground( colorMap[index] );
+					}
+					catch ( Throwable e )
+					{
+						e.printStackTrace( );
+					}
+					gc.fillRectangle( iC * iCellWidth,
 							iR * iCellHeight,
-							iCellWidth - 2,
-							iCellHeight - 2 );
-					gc.setForeground( cWhite );
-					gc.drawRectangle( iC * iCellWidth + 1,
-							iR * iCellHeight + 1,
-							iCellWidth - 3,
-							iCellHeight - 3 );
-					gc.setForeground( cBlack );
+							iCellWidth,
+							iCellHeight );
+					// Highlight currently selected color if it exists in this list
+					if ( selectedIndex == index
+							|| !isFound && colorSelection != null
+							&& colorSelection.equals( colorMap[index] ) )
+					{
+						isFound = true;
+						selectedIndex = index;
+						if ( colorSelection == null )
+						{
+							colorSelection = colorMap[index];
+						}
+						
+						if ( isFocusControl( ) )
+						{
+							gc.setLineStyle( SWT.LINE_DOT );
+						}
+						gc.drawRectangle( iC * iCellWidth,
+								iR * iCellHeight,
+								iCellWidth - 2,
+								iCellHeight - 2 );
+						gc.setForeground( cWhite );
+						gc.drawRectangle( iC * iCellWidth + 1,
+								iR * iCellHeight + 1,
+								iCellWidth - 3,
+								iCellHeight - 3 );
+						gc.setForeground( cBlack );
+					}
 				}
 			}
+			if ( !isFound )
+			{
+				clearColorSelection( );
+			}
+			cBlack.dispose( );
+			cWhite.dispose( );
+			gc.dispose( );
 		}
-		cBlack.dispose( );
-		cWhite.dispose( );
-		gc.dispose( );
-	}
 
-	/**
-	 * This method assumes a color array of 40 color arranged with equal sizes
-	 * in a 8x5 grid.
-	 * 
-	 * @param x
-	 * @param y
-	 */
-	public Color getColorAt( int x, int y )
-	{
-		int iCellWidth = this.getSize( ).x / 8;
-		int iCellHeight = this.getSize( ).y / 5;
-		int iHCell = x / iCellWidth;
-		int iVCell = y / iCellHeight;
-		int iArrayIndex = ( ( iVCell ) * 8 ) + iHCell;
-		return this.colorMap[iArrayIndex];
+		/**
+		 * This method assumes a color array of 40 color arranged with equal sizes
+		 * in a 8x5 grid.
+		 * 
+		 * @param x
+		 * @param y
+		 */
+		public Color getColorAt( int x, int y )
+		{
+			int iCellWidth = this.getSize( ).x / 8;
+			int iCellHeight = this.getSize( ).y / 5;
+			int iHCell = x / iCellWidth;
+			int iVCell = y / iCellHeight;
+			int iArrayIndex = ( ( iVCell ) * 8 ) + iHCell;
+			return this.colorMap[iArrayIndex];
+		}
+
+		public void handleEvent( Event event )
+		{
+			switch ( event.type )
+			{
+				case SWT.Paint :
+					paintControl( new PaintEvent( event ) );
+					break;
+				case SWT.FocusIn:
+					redraw( );
+					break;
+				case SWT.KeyDown :
+					keyDown( event );
+					break;					
+				case SWT.MouseDown :
+					if ( !bEnabled )
+					{
+						return;
+					}
+					fireHandleEvent( MOUSE_CLICKED_EVENT );
+					setColorToModel( this.getColorAt( event.x, event.y ) );
+					cmpDropDown.getShell( ).close( );
+					break;
+			}
+
+		}
+		
+		void keyDown( Event event )
+		{
+			if ( event.keyCode == SWT.ESC )
+			{
+				cmpDropDown.getShell( ).close( );
+				return;
+			}
+			if ( selectedIndex == -1 )
+			{
+				if ( event.keyCode == SWT.ARROW_LEFT
+						|| event.keyCode == SWT.ARROW_RIGHT
+						|| event.keyCode == SWT.ARROW_UP
+						|| event.keyCode == SWT.ARROW_DOWN )
+				{
+					selectedIndex = 0;
+				}
+			}
+			else
+			{
+				switch ( event.keyCode )
+				{
+					case SWT.ARROW_LEFT :
+						if ( selectedIndex - 1 >= 0 )
+						{
+							selectedIndex -= 1;
+						}
+						break;
+					case SWT.ARROW_RIGHT :
+						if ( selectedIndex + 1 < ROW_SIZE * COLUMN_SIZE )
+						{
+							selectedIndex += 1;
+						}
+						break;
+					case SWT.ARROW_UP :
+						if ( selectedIndex - ROW_SIZE >= 0 )
+						{
+							selectedIndex -= ROW_SIZE;
+						}
+						break;
+					case SWT.ARROW_DOWN :
+						if ( selectedIndex + ROW_SIZE < ROW_SIZE * COLUMN_SIZE )
+						{
+							selectedIndex += ROW_SIZE;
+						}
+						break;
+					case SWT.CR :
+					case SWT.KEYPAD_CR :
+						setColorToModel( colorMap[selectedIndex] );
+						cmpDropDown.getShell( ).close( );
+						break;
+				}
+			}
+			if ( !cmpDropDown.isDisposed( ) )
+			{
+				colorSelection = null;
+				redraw( );
+			}
+		}
 	}
 }
