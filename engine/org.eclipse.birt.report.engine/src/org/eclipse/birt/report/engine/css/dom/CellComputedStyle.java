@@ -1,16 +1,11 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
-import java.util.Collection;
-
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
-import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
@@ -37,15 +32,10 @@ public class CellComputedStyle extends ComputedStyle
 				{
 					IColumn column = table.getColumn( columnId );
 					columnStyle = column.getStyle( );
-					cell = new StyledCell( elt );
 				}
 			}
 		}
-		if ( cell == null )
-		{
-			cell = elt;
-			columnStyle = null;
-		}
+		cell = elt;
 	}
 
 	protected Value resolveProperty( int index )
@@ -118,115 +108,4 @@ public class CellComputedStyle extends ComputedStyle
 		}
 	}
 
-	private abstract static class StyledElement implements CSSStylableElement
-	{
-
-		private IStyle computedStyle;
-
-		public void setParent( IElement parent )
-		{
-		}
-
-		public Collection getChildren( )
-		{
-			return null;
-		}
-
-		public IStyle getComputedStyle( )
-		{
-			if ( computedStyle == null )
-			{
-				return new ComputedStyle( this );
-			}
-			return computedStyle;
-		}
-	}
-
-	private static class StyledCell extends StyledElement
-	{
-
-		ICellContent cellContent;
-		StyledRow row;
-
-		StyledCell( ICellContent cellContent )
-		{
-			this.cellContent = cellContent;
-			row = new StyledRow( (IRowContent) cellContent.getParent( ),
-					cellContent.getColumn( ) );
-		}
-
-		public IStyle getStyle( )
-		{
-			return cellContent.getStyle( );
-		}
-
-		public IElement getParent( )
-		{
-			return row;
-		}
-		
-		public CSSEngine getCSSEngine()
-		{
-			return cellContent.getCSSEngine();
-		}
-	}
-
-	private static class StyledRow extends StyledElement
-	{
-
-		private StyledColumn column;
-		private IRowContent rowContent;
-
-		public StyledRow( IRowContent rowContent, int columnId )
-		{
-			ITableContent table  = rowContent.getTable( );
-			column = new StyledColumn( table, columnId );
-			this.rowContent = rowContent;
-		}
-
-		public IStyle getStyle( )
-		{
-			return rowContent.getStyle( );
-		}
-
-		public IElement getParent( )
-		{
-			return column;
-		}
-		public CSSEngine getCSSEngine()
-		{
-			return rowContent.getCSSEngine();
-		}
-	}
-
-	private static class StyledColumn extends StyledElement
-	{
-
-		private ITableContent tableContent;
-		private IColumn column;
-		
-		public StyledColumn( ITableContent table, int columnId )
-		{
-			this.tableContent = table;
-			if ( columnId >= 0 && columnId <= table.getColumnCount( ) )
-			{
-				column = table.getColumn( columnId );
-			}
-		}
-
-		public IStyle getStyle( )
-		{
-			return column.getStyle( );
-		}
-
-		public IElement getParent( )
-		{
-			return tableContent;
-		}
-		
-		public CSSEngine getCSSEngine()
-		{
-			return column.getCssEngine( );
-		}
-	}
 }
