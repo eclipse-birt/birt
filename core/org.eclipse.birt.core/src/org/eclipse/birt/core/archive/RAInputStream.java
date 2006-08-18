@@ -36,4 +36,21 @@ public abstract class RAInputStream extends InputStream
 	public abstract void readFully( byte b[], int off, int len ) throws IOException;
 	
 	public abstract void refresh( ) throws IOException;
+	
+	/**
+	 * Returns the number of bytes that can be read (or skipped over) from this
+	 * random access input stream without blocking by the next caller of a
+	 * method for this input stream. The next caller might be the same thread or
+	 * another thread.
+	 * <P>
+	 * This abstract class is extended by <code>RAFolderInputStream</code> and
+	 * <code>RAFileInputStream</code>
+	 * <P>
+	 * The <code>available</code> method returns <code>-1</code> when no
+	 * more data because the end of the stream has been reached.
+	 * <P>
+	 * and returns <code>Integer.MAX_VALUE</code> when bytes of data is larger
+	 * then Integer.MAX_VALUE.
+	 */
+	public abstract int available( ) throws IOException;
 }

@@ -266,6 +266,22 @@ public class RAFileInputStream extends RAInputStream
 	{
 		return getStreamLength( );
 	}
+	
+	public int available( ) throws IOException
+	{
+		long availableSize = endPos - localPosToGlobalPos( cur );
+		if ( availableSize > Integer.MAX_VALUE )
+		{
+			return Integer.MAX_VALUE;
+		}
+		else if ( availableSize <= 0 )
+		{
+			return -1;
+		}
+		else
+			return (int) availableSize;
+	}
+	
 	/**
 	 * Convert the local position to global position.
 	 * @param localPos - the local postion which starts from 0

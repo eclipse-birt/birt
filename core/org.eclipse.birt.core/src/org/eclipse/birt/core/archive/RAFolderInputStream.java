@@ -271,4 +271,21 @@ public class RAFolderInputStream extends RAInputStream
     	super.close();
     }
     
+    public int available( ) throws IOException
+	{
+		long availableSize = randomFile.length( ) - randomFile.getFilePointer( );
+		if ( availableSize > Integer.MAX_VALUE )
+		{
+			return Integer.MAX_VALUE;
+		}
+		else if ( availableSize < 0 )
+		{
+			return -1;
+		}
+		else
+		{
+			return (int) availableSize;
+		}
+	}
+    
 }
