@@ -609,35 +609,17 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			{
 				try
 				{
+					// convert parameter to object
 					String format = ParameterAccessor.getFormat( request,
 							paramName );
-					if ( format != null && format.length( ) > 0 )
+					if ( format == null || format.length( ) <= 0 )
 					{
-						// Convert object using the specific format
-						paramValueObj = ParameterValidationUtil.validate(
-								parameter.getDataType( ), format, paramValueObj
-										.toString( ), locale );
+						format = parameter.getPattern( );
 					}
-					else
-					{
-						try
-						{
-							// Convert locale string to object
-							paramValueObj = ParameterValidationUtil.validate(
-									parameter.getDataType( ), parameter
-											.getPattern( ), paramValueObj
-											.toString( ), locale );
-						}
-						catch ( ValidationValueException e1 )
-						{
-							// Convert string to object using default local
-							paramValueObj = ParameterValidationUtil
-									.validate(
-											parameter.getDataType( ),
-											ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
-											paramValueObj.toString( ) );
-						}
-					}
+
+					paramValueObj = DataUtil.validate(
+							parameter.getDataType( ), format, paramValueObj
+									.toString( ), locale );
 
 					params.put( paramName, paramValueObj );
 				}

@@ -17,8 +17,6 @@ import java.util.Map;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -27,6 +25,7 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtRunReportActionHandler extends AbstractBaseActionHandler
@@ -109,24 +108,10 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 
 				if ( parameter != null && paramValue != null )
 				{
-					try
-					{
-						// use current locale to parse parameter
-						paramValue = ParameterValidationUtil.validate(
-								parameter.getDataType( ), parameter
-										.getPattern( ), paramValue.toString( ),
-								attrBean.getLocale( ) );
-					}
-					catch ( ValidationValueException e )
-					{
-						// Convert string to object using default local
-						paramValue = ParameterValidationUtil
-								.validate(
-										parameter.getDataType( ),
-										ParameterValidationUtil.DEFAULT_DATETIME_FORMAT,
-										paramValue.toString( ) );
-					}
-
+					// convert parameter to Object
+					paramValue = DataUtil.validate( parameter.getDataType( ),
+							parameter.getPattern( ), paramValue.toString( ),
+							attrBean.getLocale( ) );
 				}
 
 				if ( parameter != null )

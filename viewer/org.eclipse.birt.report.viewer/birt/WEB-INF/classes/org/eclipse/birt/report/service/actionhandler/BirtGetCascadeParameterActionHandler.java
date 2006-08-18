@@ -92,10 +92,15 @@ public class BirtGetCascadeParameterActionHandler
 				continue;
 
 			// Convert string to object using default local
-			Object paramValue = ParameterValidationUtil.validate(
-					parameterHandle.getDataType( ),
-					ParameterValidationUtil.DEFAULT_DATETIME_FORMAT, param
-							.getValue( ) );
+			String format = null;
+			String dataType = parameterHandle.getDataType( );
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+					.equalsIgnoreCase( dataType ) )
+			{
+				format = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
+			}
+			Object paramValue = ParameterValidationUtil.validate( dataType,
+					format, param.getValue( ) );
 
 			paramMap.put( paramName, paramValue );
 		}
