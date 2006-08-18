@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Provide the way to do some setting about the module.
  */
 
-public class ModuleOption implements Cloneable
+public class ModuleOption
 {
 
 	/**
