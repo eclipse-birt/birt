@@ -21,10 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -41,10 +41,10 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
-
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
+import org.eclipse.birt.data.engine.impl.group.GroupCalculatorFactory;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -308,6 +308,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	}
 	
 	/**
+	 * Populate grouping to the query.
 	 * 
 	 * @param cx
 	 * @throws DataException
@@ -323,47 +324,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 			{
 				IGroupDefinition src = (IGroupDefinition) it.next( );
 
-				if ( ( src.getKeyColumn( ) == null || src.getKeyColumn( )
-						.trim( )
-						.length( ) == 0 )
-						&& ( src.getKeyExpression( ) == null || src.getKeyExpression( )
-								.trim( )
-								.length( ) == 0 ) )
-					throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
-					
+				validateGroupExpression( src );
+
 				String expr = getGroupKeyExpression( src );
-				String groupName = "";
-				if ( expr.trim( ).equalsIgnoreCase( "row[0]" )
-						|| expr.trim( )
-								.equalsIgnoreCase( "row._rowPosition" )
-						|| expr.trim( ).equalsIgnoreCase( "dataSetRow[0]" )
-						|| expr.trim( )
-								.equalsIgnoreCase( "dataSetRow._rowPosition" ) )
-				{
-					groupName = "_{$TEMP_GROUP_" + i + "ROWID$}_";
-				}
-				else
-				{
-					groupName = "_{$TEMP_GROUP_" + i + "$}_";
-				}
 				
-				if ( ( src.getInterval( ) != IGroupDefinition.NO_INTERVAL )
-						&& ( src.getIntervalRange( ) != 0 ) )
-				{
-					try
-					{						
-						expr = ExpressionUtil.createGroupByExpression( src.getInterval( ),
-								src.getIntervalStart( ),
-								getGroupKeyExpression( src ),
-								src.getIntervalRange( ),
-								getColumnDataType(cx, expr));
-						
-					}
-					catch(BirtException be)
-					{
-						throw DataException.wrap( be );
-					}
-				}
+				String groupName = populateGroupName( i, expr );
+				
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
 						expr,
@@ -371,32 +337,97 @@ public abstract class QueryExecutor implements IQueryExecutor
 						-1 );
 				groupSpecs[i] = dest;
 
-				if ( ( dest.getInterval( ) != IGroupDefinition.NO_INTERVAL )
-						&& ( dest.getIntervalRange( ) != 0 ) )
-				{
-					if (dest.getInterval( ) == IGroupDefinition.STRING_PREFIX_INTERVAL)
-					{
-						temporaryComputedColumns.add( new ComputedColumn( groupName,
-								expr,
-								DataType.STRING_TYPE ) );
-					}
-					else
-					{
-						temporaryComputedColumns.add( new ComputedColumn( groupName,
-								expr,
-								DataType.INTEGER_TYPE ) );
-					}
-					
-				}
-				else
-				{
-					temporaryComputedColumns.add( new ComputedColumn( groupName,
-							expr,
-							QueryExecutorUtil.getTempComputedColumnType( groupSpecs[i].getInterval( ) ) ) );
-				}
+				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,
+						groupSpecs[i].getInterval( ),
+						src,
+						expr,
+						groupName,
+						dest ) );
 
 			}
 			odiQuery.setGrouping( Arrays.asList( groupSpecs ) );
+		}
+	}
+
+	/**
+	 * Validating the group expression.
+	 * 
+	 * @param src
+	 * @throws DataException
+	 */
+	private void validateGroupExpression( IGroupDefinition src ) throws DataException
+	{
+		if ( ( src.getKeyColumn( ) == null || src.getKeyColumn( )
+				.trim( )
+				.length( ) == 0 )
+				&& ( src.getKeyExpression( ) == null || src.getKeyExpression( )
+						.trim( )
+						.length( ) == 0 ) )
+			throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
+	}
+
+	/**
+	 * Populate the group name according to the given expression.
+	 * 
+	 * @param i
+	 * @param expr
+	 * @return
+	 */
+	private String populateGroupName( int i, String expr )
+	{
+		String groupName;
+		if ( expr.trim( ).equalsIgnoreCase( "row[0]" )
+				|| expr.trim( ).equalsIgnoreCase( "row._rowPosition" )
+				|| expr.trim( ).equalsIgnoreCase( "dataSetRow[0]" )
+				|| expr.trim( )
+						.equalsIgnoreCase( "dataSetRow._rowPosition" ) )
+		{
+			groupName = "_{$TEMP_GROUP_" + i + "ROWID$}_";
+		}
+		else
+		{
+			groupName = "_{$TEMP_GROUP_" + i + "$}_";
+		}
+		return groupName;
+	}
+
+	/**
+	 * Get the computed column instance according to the group type.If group has
+	 * interval, return GroupComputedColumn, otherwise return normal computed
+	 * column.
+	 * 
+	 * @param cx
+	 * @param groupSpecs
+	 * @param i
+	 * @param src
+	 * @param expr
+	 * @param groupName
+	 * @param dest
+	 * @return
+	 * @throws DataException
+	 */
+	private IComputedColumn getComputedColumnInstance( Context cx,
+			int interval, IGroupDefinition src,
+			String expr, String groupName, IQuery.GroupSpec dest )
+			throws DataException
+	{
+		if ( ( dest.getInterval( ) != IGroupDefinition.NO_INTERVAL )
+				&& ( dest.getIntervalRange( ) != 0 ) )
+		{
+			return new GroupComputedColumn( groupName,
+					expr,
+					QueryExecutorUtil.getTempComputedColumnType( interval ),
+					GroupCalculatorFactory.getGroupCalculator( src.getInterval( ),
+							getColumnDataType( cx, expr ),
+							src.getIntervalStart( ),
+							src.getIntervalRange( ) ) );
+
+		}
+		else
+		{
+			return new ComputedColumn( groupName,
+					expr,
+					QueryExecutorUtil.getTempComputedColumnType( interval ) );
 		}
 	}
 
