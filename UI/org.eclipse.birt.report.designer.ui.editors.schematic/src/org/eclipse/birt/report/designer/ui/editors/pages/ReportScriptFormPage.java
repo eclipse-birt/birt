@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -47,6 +49,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class ReportScriptFormPage extends ReportFormPage
 {
 
+	private ModelEventManager manager = getModelEventManager( );
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
 
 	private JSEditor jsEditor;
@@ -79,6 +82,29 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 	}
 
+	
+	protected void hookModelEventManager(Object model)
+	{	
+		getModelEventManager( ).hookRoot( model);
+		
+		getModelEventManager( ).hookCommandStack( new WrapperCommandStack( ) );
+	}
+	
+	protected void unhookModelEventManager(Object model)
+	{	
+		getModelEventManager( ).unhookRoot( model);
+	}
+	/**
+	 * @return
+	 */
+	protected ModelEventManager getModelEventManager()
+	{
+		if (manager == null)
+		{
+			manager = new ModelEventManager();
+		}
+		return manager;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -175,6 +201,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			{
 				onBroughtToTop( previouPage );
 			}
+			hookModelEventManager( getModel( ) );
 		}
 		catch ( Exception e )
 		{
@@ -342,6 +369,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void dispose( )
 	{
+		unhookModelEventManager( getModel( ) );
 		super.dispose( );
 		
 		jsEditor.dispose( );
@@ -373,7 +401,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			// Add JS Editor as a selection listener to Outline view selections.
 			// outlinePage.addSelectionChangedListener( jsEditor );
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
-
+			getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
 		}
 		return jsEditor.getAdapter( adapter );
