@@ -127,10 +127,13 @@ public class ReportParameterConverter
 	}
 
 	/**
-	 * Convert report parameter from string into object.
+	 * Convert report parameter from string into object. Need to be pointed out
+	 * is it return a Double object when the value type is Float.
 	 * 
-	 * @param reportParameterValue report parameter value in string.
-	 * @param parameterValueType report parameter type.
+	 * @param reportParameterValue
+	 *            report parameter value in string.
+	 * @param parameterValueType
+	 *            report parameter type.
 	 * @return parameter value object.
 	 */
 	public Object parse( String reportParameterValue, int parameterValueType )
