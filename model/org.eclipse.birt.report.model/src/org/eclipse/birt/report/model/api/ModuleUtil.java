@@ -335,8 +335,10 @@ public class ModuleUtil
 		ReportDesign design = null;
 		try
 		{
+			ModuleOption options = new ModuleOption( );
+			options.setSemanticCheck( false );
 			design = DesignReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is );
+					sessionHandle.getSession( ), fileName, is, options );
 			return design != null;
 		}
 		catch ( DesignFileException e )
@@ -364,8 +366,10 @@ public class ModuleUtil
 		Library lib = null;
 		try
 		{
+			ModuleOption options = new ModuleOption( );
+			options.setSemanticCheck( false );
 			lib = LibraryReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is );
+					sessionHandle.getSession( ), fileName, is, options );
 			return lib != null;
 		}
 		catch ( DesignFileException e )
@@ -396,8 +400,10 @@ public class ModuleUtil
 		Module rtnModule = null;
 		try
 		{
+			ModuleOption options = new ModuleOption( );
+			options.setSemanticCheck( false );
 			rtnModule = GenericModuleReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is );
+					sessionHandle.getSession( ), fileName, is, options );
 		}
 		catch ( DesignFileException e )
 		{
@@ -406,30 +412,7 @@ public class ModuleUtil
 
 		return rtnModule instanceof Library ? LIBRARY : REPORT_DESIGN;
 	}
-
-	/**
-	 * Finds the result columns on DataSet and update the bound column with the
-	 * element that uses this data set. Operations are in persistent
-	 * transaction. Hence, operations in the method can not undo/redo.
-	 * 
-	 * Parts of migration work from BIRT 2.1M5 to BIRT 2.1.0 for bound data
-	 * columns.
-	 * 
-	 * @param module
-	 *            the libray/report instance
-	 * 
-	 * @throws SemanticException
-	 *             if values in result set columns are not valid in data bound
-	 *             columns.
-	 * @deprecated temporarily since another way to implement this feature.
-	 * 
-	 */
-
-	public static void updateBoundDataColumns( ModuleHandle module )
-			throws SemanticException
-	{
-	}
-
+	
 	/**
 	 * Parser handler used to parse only the version attribute of the module.
 	 * The existing report and library state is reused.
@@ -586,9 +569,9 @@ public class ModuleUtil
 	public static String getExternalizedValue( DesignElementHandle element,
 			String key, String value, ULocale locale )
 	{
-		if (element == null)
+		if ( element == null )
 			return value;
-		
+
 		DesignElement tmpElement = element.getElement( );
 		while ( tmpElement != null )
 		{
@@ -599,10 +582,10 @@ public class ModuleUtil
 			String externalizedText = root.getMessage( key, locale );
 			if ( externalizedText != null )
 				return externalizedText;
-			
-			if (!tmpElement.isVirtualElement( ))		
+
+			if ( !tmpElement.isVirtualElement( ) )
 				tmpElement = tmpElement.getExtendsElement( );
-			else 
+			else
 				tmpElement = tmpElement.getVirtualParent( );
 		}
 

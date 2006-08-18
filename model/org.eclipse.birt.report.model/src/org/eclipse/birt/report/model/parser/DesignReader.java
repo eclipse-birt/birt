@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -69,7 +70,8 @@ public final class DesignReader extends ModuleReader
 	 *            the design file that the input stream is associated to.
 	 * @param inputStream
 	 *            the input stream that reads the design file
-	 * 
+	 * @param options
+	 *            the options set for this module
 	 * @return the internal representation of the design
 	 * @throws DesignFileException
 	 *             if the library file is not found or has syntax error. The
@@ -79,10 +81,12 @@ public final class DesignReader extends ModuleReader
 	 */
 
 	public ReportDesign read( DesignSession session, String fileName,
-			InputStream inputStream ) throws DesignFileException
+			InputStream inputStream, ModuleOption options )
+			throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		DesignParserHandler handler = new DesignParserHandler( session, systemId, fileName );
+		DesignParserHandler handler = new DesignParserHandler( session,
+				systemId, fileName, options );
 		return (ReportDesign) readModule( handler, inputStream );
 	}
 
@@ -97,6 +101,8 @@ public final class DesignReader extends ModuleReader
 	 *            the uri path for the design file
 	 * @param inputStream
 	 *            the input stream that reads the design file
+	 * @param options
+	 *            the options set for this module
 	 * @throws DesignFileException
 	 *             if the input stream is not well-formed xml, there is
 	 *             unsupported tags and there is run-time exception.
@@ -104,9 +110,11 @@ public final class DesignReader extends ModuleReader
 	 */
 
 	public ReportDesign read( DesignSession session, URL systemId,
-			InputStream inputStream ) throws DesignFileException
+			InputStream inputStream, ModuleOption options )
+			throws DesignFileException
 	{
-		DesignParserHandler handler = new DesignParserHandler( session, systemId, null );
+		DesignParserHandler handler = new DesignParserHandler( session,
+				systemId, null, options );
 		return (ReportDesign) readModule( handler, inputStream );
 	}
 
@@ -118,6 +126,8 @@ public final class DesignReader extends ModuleReader
 	 *            the session of the report
 	 * @param fileName
 	 *            the design file to parse
+	 * @param options
+	 *            the options set for this module
 	 * 
 	 * @return the internal representation of the design
 	 * @throws DesignFileException
@@ -127,11 +137,12 @@ public final class DesignReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public ReportDesign read( DesignSession session, String fileName )
-			throws DesignFileException
+	public ReportDesign read( DesignSession session, String fileName,
+			ModuleOption options ) throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		DesignParserHandler handler = new DesignParserHandler( session, systemId, fileName );
+		DesignParserHandler handler = new DesignParserHandler( session,
+				systemId, fileName, options );
 		return (ReportDesign) readModule( handler );
 	}
 }

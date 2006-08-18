@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
@@ -194,7 +195,7 @@ public class ReportDesign extends Module implements IReportDesignModel
 	{
 		return new DesignWriter( this );
 	}
-	
+
 	/**
 	 * Gets all TOCs or bookmarks defined in the slot of the module.
 	 * 
@@ -220,7 +221,7 @@ public class ReportDesign extends Module implements IReportDesignModel
 
 		return rtnList;
 	}
-	
+
 	/**
 	 * Gets the thumbnail image in Base64 encoding.
 	 * 
@@ -243,6 +244,17 @@ public class ReportDesign extends Module implements IReportDesignModel
 		}
 
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Module#getOptions()
+	 */
+
+	public ModuleOption getOptions( )
+	{
+		return options;
 	}
 
 }

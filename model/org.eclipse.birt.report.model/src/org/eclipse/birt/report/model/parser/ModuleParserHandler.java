@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -147,6 +148,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * current state, and then query whether to use a new state or the current
 	 * one according to the attributes value.
 	 * 
+	 * @param namespaceURI
+	 * @param localName
+	 * 
 	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String,
 	 *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
 	 */
@@ -227,14 +231,17 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 			throw new SAXException( exception );
 		}
-		
+
 		// the module is ok, then allocate the id for it and its contents
-		
+
 		module.manageId( module, true );
 
-		// Perform semantic check. The semantic error is recoverable.
+		// if module options not set the parser-semantic check options or set it
+		// to true, then perform semantic check. Semantic error is recoverable.
 
-		module.semanticCheck( module );
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			module.semanticCheck( module );
 
 		// translates warnings during parsing design files to ErrorDetail.
 

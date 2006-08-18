@@ -28,13 +28,11 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.JointDataSet;
-import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -255,7 +253,8 @@ public class DocumentUtil
 		if ( embeddedImage == null || !embeddedImage.isResolved( ) )
 			return;
 
-		if ( !isLocalImage( embeddedImage.getName( ), sourceDesign ) )
+		if ( !isLocalImage( embeddedImage.getQualifiedReference( ),
+				sourceDesign ) )
 		{
 
 			EmbeddedImage targetEmbeddedImage = (EmbeddedImage) embeddedImage
@@ -282,12 +281,13 @@ public class DocumentUtil
 	}
 
 	/**
-	 * 
+	 * Determines whether the given name embedded image is a local one.
 	 * 
 	 * @param imageName
 	 * @param sourceDesign
-	 * @return
+	 * @return true if the embedded image is a local one, otherwise false
 	 */
+
 	private static boolean isLocalImage( String imageName,
 			ReportDesign sourceDesign )
 	{

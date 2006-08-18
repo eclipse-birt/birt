@@ -58,7 +58,7 @@ public class SessionHandle
 	/**
 	 * Sets resource path.
 	 * 
-	 * @param path
+	 * @param resourcePath
 	 *            the resource path to set. It must be an absolute path based on
 	 *            file system and must present a dictory.
 	 */
@@ -70,6 +70,8 @@ public class SessionHandle
 
 	/**
 	 * Gets resource path. {@link #setBirtResourcePath(String)}
+	 * 
+	 * @return the resource path set in the session
 	 */
 
 	public static String getBirtResourcePath( )
@@ -144,6 +146,28 @@ public class SessionHandle
 	 * 
 	 * @param fileName
 	 *            name of the file to open.
+	 * @param is
+	 *            stream to read the design
+	 * @param options
+	 *            the options set for this module
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ModuleHandle openModule( String fileName, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
+		Module module = session.openModule( fileName, is, options );
+		return module.getModuleHandle( );
+	}
+
+	/**
+	 * Opens a module regardless of the module type(library or report design).
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open.
 	 * @return handle to the report design
 	 * @throws DesignFileException
 	 *             If the file is not found, or the file contains fatal errors.
@@ -153,6 +177,26 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		Module module = session.openModule( fileName );
+		return module.getModuleHandle( );
+	}
+
+	/**
+	 * Opens a module regardless of the module type(library or report design).
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open.
+	 * @param options
+	 *            the options set for this module
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ModuleHandle openModule( String fileName, ModuleOption options )
+			throws DesignFileException
+	{
+		Module module = session.openModule( fileName, options );
 		return module.getModuleHandle( );
 	}
 
@@ -174,6 +218,28 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		return session.openDesign( fileName ).handle( );
+	}
+
+	/**
+	 * Opens a design with the given the file name.
+	 * 
+	 * @param fileName
+	 *            name of the file to open. It may contain the relative/absolute
+	 *            path information. This name must include the file name with
+	 *            the filename extension.
+	 * @param options
+	 *            the options set for this module
+	 * 
+	 * @return handle to the report design
+	 * 
+	 * @throws DesignFileException
+	 *             if the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesignHandle openDesign( String fileName, ModuleOption options )
+			throws DesignFileException
+	{
+		return session.openDesign( fileName, options ).handle( );
 	}
 
 	/**
@@ -201,6 +267,31 @@ public class SessionHandle
 
 	/**
 	 * Opens a design given a stream to the design and the the file name of the
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open. If <code>null</code>, the design
+	 *            will be treated as a new design, and will be saved to a
+	 *            different file. If not <code>null</code>, it may contain
+	 *            the relative/absolute path information. This name must include
+	 *            the file name with the filename extension.
+	 * @param is
+	 *            stream to read the design
+	 * @param options
+	 *            options set for this module
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesignHandle openDesign( String fileName, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
+		return session.openDesign( fileName, is, options ).handle( );
+	}
+
+	/**
+	 * Opens a design given a stream to the design and the the file name of the
 	 * design. *
 	 * 
 	 * @param systemId
@@ -221,6 +312,29 @@ public class SessionHandle
 	}
 
 	/**
+	 * Opens a design given a stream to the design and the the file name of the
+	 * design. *
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the report.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream to read the design
+	 * @param options
+	 *            the options set for this module
+	 * 
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesignHandle openDesign( URL systemId, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
+		return session.openDesign( systemId, is, options ).handle( );
+	}
+
+	/**
 	 * Opens a library with the given the file name.
 	 * 
 	 * @param fileName
@@ -236,6 +350,26 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		return session.openLibrary( fileName ).handle( );
+	}
+
+	/**
+	 * Opens a library with the given the file name.
+	 * 
+	 * @param fileName
+	 *            name of the file to open. This name must include the file name
+	 *            with the filename extension.
+	 * @param options
+	 *            the options set for this module
+	 * @return handle to the library
+	 * 
+	 * @throws DesignFileException
+	 *             if the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle openLibrary( String fileName, ModuleOption options )
+			throws DesignFileException
+	{
+		return session.openLibrary( fileName, options ).handle( );
 	}
 
 	/**
@@ -262,6 +396,31 @@ public class SessionHandle
 	}
 
 	/**
+	 * Opens a library given a stream to the design and the the file name of the
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open. If <code>null</code>, the library
+	 *            will be treated as a new library, and will be saved to a
+	 *            different file. If not <code>null</code>, it may contain
+	 *            the relative/absolute path information. This name must include
+	 *            the file name with the filename extension.
+	 * @param is
+	 *            the stream to read the library
+	 * @param options
+	 *            the options set for this module
+	 * @return the library instance
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle openLibrary( String fileName, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
+		return session.openLibrary( fileName, is, options ).handle( );
+	}
+
+	/**
 	 * Opens a library with the given the file name.
 	 * 
 	 * @param systemId
@@ -279,6 +438,28 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		return session.openLibrary( systemId, is ).handle( );
+	}
+
+	/**
+	 * Opens a library with the given the file name.
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the library.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream
+	 * @param options
+	 *            the options set for this module
+	 * @return handle to the library
+	 * 
+	 * @throws DesignFileException
+	 *             if the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle openLibrary( URL systemId, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
+		return session.openLibrary( systemId, is, options ).handle( );
 	}
 
 	/**
@@ -548,6 +729,8 @@ public class SessionHandle
 	 * 
 	 * <p>
 	 * Current, only changes of library is supported.
+	 * @param ev
+	 *  the resource change event to fire 
 	 */
 
 	public void fireResourceChange( ResourceChangeEvent ev )

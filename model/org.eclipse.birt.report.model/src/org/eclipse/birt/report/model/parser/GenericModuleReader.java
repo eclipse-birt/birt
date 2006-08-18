@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
@@ -54,8 +55,8 @@ public class GenericModuleReader extends ModuleReader
 	}
 
 	/**
-	 * Parses an XML module(design/library) file given an input stream. Creates and returns the
-	 * internal representation of the module.
+	 * Parses an XML module(design/library) file given an input stream. Creates
+	 * and returns the internal representation of the module.
 	 * 
 	 * @param session
 	 *            the session of the module
@@ -63,20 +64,23 @@ public class GenericModuleReader extends ModuleReader
 	 *            the module file that the input stream is associated to.
 	 * @param inputStream
 	 *            the input stream that reads the module file
-	 * 
+	 * @param options
+	 *            the options set for this module
 	 * @return the internal representation of the module
 	 * @throws DesignFileException
-	 *             if the file is not found or has syntax error. The
-	 *             syntax errors include that input stream is not well-formed
-	 *             xml, that there is unsupported tags and that there is
-	 *             run-time exception.
+	 *             if the file is not found or has syntax error. The syntax
+	 *             errors include that input stream is not well-formed xml, that
+	 *             there is unsupported tags and that there is run-time
+	 *             exception.
 	 */
 
 	public Module read( DesignSession session, String fileName,
-			InputStream inputStream ) throws DesignFileException
+			InputStream inputStream, ModuleOption options )
+			throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		GenericModuleParserHandler handler = new GenericModuleParserHandler( session, systemId, fileName );
+		GenericModuleParserHandler handler = new GenericModuleParserHandler(
+				session, systemId, fileName, options );
 		return readModule( handler, inputStream );
 	}
 
@@ -90,6 +94,8 @@ public class GenericModuleReader extends ModuleReader
 	 *            the uri path for the library file
 	 * @param inputStream
 	 *            the input stream that reads the library file
+	 * @param options
+	 *            the options set for this module
 	 * @throws DesignFileException
 	 *             if the input stream is not well-formed xml, there is
 	 *             unsupported tags and there is run-time exception.
@@ -97,9 +103,11 @@ public class GenericModuleReader extends ModuleReader
 	 */
 
 	public Module read( DesignSession session, URL systemId,
-			InputStream inputStream ) throws DesignFileException
+			InputStream inputStream, ModuleOption options )
+			throws DesignFileException
 	{
-		GenericModuleParserHandler handler = new GenericModuleParserHandler( session, systemId, null );
+		GenericModuleParserHandler handler = new GenericModuleParserHandler(
+				session, systemId, null, options );
 		return readModule( handler, inputStream );
 	}
 
@@ -111,7 +119,8 @@ public class GenericModuleReader extends ModuleReader
 	 *            the session of the report
 	 * @param fileName
 	 *            the module file to parse
-	 * 
+	 * @param options
+	 *            the options set for this module
 	 * @return the internal representation of the module
 	 * @throws DesignFileException
 	 *             if the module file is not found or has syntax error. The
@@ -120,11 +129,12 @@ public class GenericModuleReader extends ModuleReader
 	 *             run-time exception.
 	 */
 
-	public Module read( DesignSession session, String fileName )
-			throws DesignFileException
+	public Module read( DesignSession session, String fileName,
+			ModuleOption options ) throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		GenericModuleParserHandler handler = new GenericModuleParserHandler( session, systemId, fileName );
+		GenericModuleParserHandler handler = new GenericModuleParserHandler(
+				session, systemId, fileName, options );
 		return readModule( handler );
 	}
 }

@@ -22,10 +22,9 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Abstract base class for working with all elements except the report design. A
@@ -380,16 +379,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public boolean isValidReferenceForCompoundElement( )
 	{
-		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
-				getModule( ), IDesignElementModel.EXTENDS_PROP );
-		if ( refValue == null )
-			return true;
-
-		// TODO resolve the element later. NO such case right now.
-
-		if ( element.getDefn( ).isContainer( ) && !refValue.isResolved( ) )
-			return false;
-
-		return true;
+		return ModelUtil.isValidReferenceForCompoundElement( getModule( ),
+				element );
 	}
 }

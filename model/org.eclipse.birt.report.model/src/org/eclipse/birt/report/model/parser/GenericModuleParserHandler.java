@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
 
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -25,18 +26,26 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 
 public class GenericModuleParserHandler extends ModuleParserHandler
 {
+
 	/**
 	 * Catched system ID.
 	 */
-	
+
 	private URL systemID = null;
-	
+
+	/**
+	 * Options set for this module.
+	 */
+
+	private ModuleOption options = null;
+
 	GenericModuleParserHandler( DesignSession theSession, URL systemID,
-			String fileName )
+			String fileName, ModuleOption options )
 	{
 		super( theSession, fileName );
 		this.systemID = systemID;
 		this.fileName = fileName;
+		this.options = options;
 	}
 
 	public AbstractParseState createStartState( )
@@ -64,13 +73,16 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module = new ReportDesign( session );
 				module.setSystemId( systemID );
 				module.setFileName( fileName );
+				module.setOptions( options );
 				return new ReportState( GenericModuleParserHandler.this );
 			}
-			else if ( DesignSchemaConstants.LIBRARY_TAG.equalsIgnoreCase( tagName ) )
+			else if ( DesignSchemaConstants.LIBRARY_TAG
+					.equalsIgnoreCase( tagName ) )
 			{
 				module = new Library( session );
 				module.setSystemId( systemID );
 				module.setFileName( fileName );
+				module.setOptions( options );
 				return new LibraryState( GenericModuleParserHandler.this );
 			}
 

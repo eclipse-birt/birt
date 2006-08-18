@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
@@ -270,6 +271,33 @@ public class Library extends Module implements ILibraryModel
 	protected String getNameForDisplayLabel( )
 	{
 		return namespace;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Module#getOptions()
+	 */
+
+	public ModuleOption getOptions( )
+	{
+		if ( options != null )
+			return this.options;
+
+		Module hostModule = this.host;
+		while ( hostModule != null )
+		{
+			ModuleOption hostOptions = hostModule.getOptions( );
+			if ( hostOptions != null )
+				return hostOptions;
+
+			if ( hostModule instanceof Library )
+				hostModule = ( (Library) hostModule ).host;
+
+			return null;
+		}
+
+		return null;
 	}
 
 }

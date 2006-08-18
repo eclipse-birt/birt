@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -90,6 +91,8 @@ public class DesignSession
 
 	/**
 	 * Gets resource path. {@link #setBirtResourcePath(String)}
+	 * 
+	 * @return the resource path set in this session
 	 */
 
 	public static String getBirtResourcePath( )
@@ -205,10 +208,31 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName )
 			throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openDesign( fileName, options );
+	}
+
+	/**
+	 * Opens a design given the file name of the design.
+	 * 
+	 * @param fileName
+	 *            The name of the file to open. This name must include the file
+	 *            name with the filename extension.
+	 * @param options
+	 *            the options set for this module
+	 * @return the opened report design.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesign openDesign( String fileName, ModuleOption options )
+			throws DesignFileException
+	{
 		if ( fileName == null )
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
-		ReportDesign design = DesignReader.getInstance( ).read( this, fileName );
+		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
+				options );
 		designs.add( design );
 		return design;
 	}
@@ -232,12 +256,37 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName, InputStream is )
 			throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openDesign( fileName, is, options );
+	}
+
+	/**
+	 * Opens a design given a stream to the design and the the file name of the
+	 * design.
+	 * 
+	 * @param fileName
+	 *            The name of the file to open. If null, the design will be
+	 *            treated as a new design, and will be saved to a different
+	 *            file. If not <code>null</code>, this name must include the
+	 *            file name with the filename extension.
+	 * @param is
+	 *            stream to read the design
+	 * @param options
+	 *            the options set for this module
+	 * @return the opened report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesign openDesign( String fileName, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
-				is );
+				is, options );
 		designs.add( design );
 		return design;
 	}
@@ -259,12 +308,34 @@ public class DesignSession
 	public ReportDesign openDesign( URL systemId, InputStream is )
 			throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openDesign( systemId, is, options );
+	}
+
+	/**
+	 * Opens a design given a stream to the design and the the file name of the
+	 * design.
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the library.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream to read the design
+	 * @param options
+	 * @return the opened report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesign openDesign( URL systemId, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
 		ReportDesign design = DesignReader.getInstance( ).read( this, systemId,
-				is );
+				is, options );
 		designs.add( design );
 		return design;
 	}
@@ -285,12 +356,34 @@ public class DesignSession
 	public Module openModule( String fileName, InputStream is )
 			throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openModule( fileName, is, options );
+	}
+
+	/**
+	 * Open a module regardless of the module type(library or report design).
+	 * 
+	 * @param fileName
+	 *            file name of the module This url is treated as an absolute
+	 *            directory.
+	 * @param is
+	 *            the input stream to read the module
+	 * @param options
+	 *            the options set for this module
+	 * @return the opened module
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Module openModule( String fileName, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
 		Module module = GenericModuleReader.getInstance( ).read( this,
-				fileName, is );
+				fileName, is, options );
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
@@ -313,12 +406,31 @@ public class DesignSession
 
 	public Module openModule( String fileName ) throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openModule( fileName, options );
+	}
+
+	/**
+	 * Open a module regardless of the module type(library or report design).
+	 * 
+	 * @param fileName
+	 *            file name of the module
+	 * @param options
+	 *            the options set for this module
+	 * @return the opened module
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Module openModule( String fileName, ModuleOption options )
+			throws DesignFileException
+	{
 		if ( fileName == null )
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
 
-		Module module = GenericModuleReader.getInstance( )
-				.read( this, fileName );
+		Module module = GenericModuleReader.getInstance( ).read( this,
+				fileName, options );
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
@@ -342,11 +454,32 @@ public class DesignSession
 
 	public Library openLibrary( String fileName ) throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openLibrary( fileName, options );
+	}
+
+	/**
+	 * Opens a library with the given library file name.
+	 * 
+	 * @param fileName
+	 *            the file name of the library to open. This name must include
+	 *            the file name with the filename extension.
+	 * @param options
+	 *            the options set for this module
+	 * @return the opened library
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library openLibrary( String fileName, ModuleOption options )
+			throws DesignFileException
+	{
 		if ( fileName == null )
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
 
-		Library library = LibraryReader.getInstance( ).read( this, fileName );
+		Library library = LibraryReader.getInstance( ).read( this, fileName,
+				options );
 		libraries.add( library );
 		return library;
 	}
@@ -370,11 +503,37 @@ public class DesignSession
 	public Library openLibrary( String fileName, InputStream is )
 			throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openLibrary( fileName, is, options );
+	}
+
+	/**
+	 * Opens a library given a stream to the library and the the file name of
+	 * the library.
+	 * 
+	 * @param fileName
+	 *            The name of the file to open. If null, the library will be
+	 *            treated as a new library, and will be saved to a different
+	 *            file. If not <code>null</code>, this name must include the
+	 *            file name with the filename extension.
+	 * @param is
+	 *            stream to read the design
+	 * @param options
+	 *            the options set for this module
+	 * @return the opened report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library openLibrary( String fileName, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
-		Library design = LibraryReader.getInstance( ).read( this, fileName, is );
+		Library design = LibraryReader.getInstance( ).read( this, fileName, is,
+				options );
 		designs.add( design );
 		return design;
 	}
@@ -396,12 +555,35 @@ public class DesignSession
 	public Library openLibrary( URL systemId, InputStream is )
 			throws DesignFileException
 	{
+		ModuleOption options = null;
+		return openLibrary( systemId, is, options );
+	}
+
+	/**
+	 * Opens a library with the given library file name.
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the library.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream
+	 * @param options
+	 *            the options set for this module
+	 * 
+	 * @return the opened library
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library openLibrary( URL systemId, InputStream is,
+			ModuleOption options ) throws DesignFileException
+	{
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
-		Library library = LibraryReader.getInstance( )
-				.read( this, systemId, is );
+		Library library = LibraryReader.getInstance( ).read( this, systemId,
+				is, options );
 		libraries.add( library );
 		return library;
 	}
@@ -773,6 +955,9 @@ public class DesignSession
 	 * 
 	 * <p>
 	 * Current, only changes of library or message file is supported.
+	 * 
+	 * @param ev
+	 *            the library change event to fire
 	 */
 
 	public void fireLibChange( LibraryChangeEvent ev )

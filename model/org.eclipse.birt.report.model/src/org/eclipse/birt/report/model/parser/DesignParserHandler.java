@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
 
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -33,16 +34,20 @@ public class DesignParserHandler extends ModuleParserHandler
 	 *            the design session that is to own the design
 	 * @param systemId
 	 *            the uri path for the design file
-	 * @param fileName 
-	 * 			  name of the design file
+	 * @param fileName
+	 *            name of the design file
+	 * @param options
+	 *            the options set for this module
 	 */
 
-	public DesignParserHandler( DesignSession theSession, URL systemId, String fileName )	
+	public DesignParserHandler( DesignSession theSession, URL systemId,
+			String fileName, ModuleOption options )
 	{
 		super( theSession, fileName );
 		module = new ReportDesign( session );
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
+		module.setOptions( options );
 	}
 
 	/*

@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -923,7 +924,7 @@ public class ModelUtil
 	public static String searchForExternalizedValue( DesignElement element,
 			String propIDName, ULocale locale )
 	{
-		
+
 		if ( element == null || element.getPropertyDefn( propIDName ) == null )
 			return null;
 		IElementPropertyDefn defn = element.getPropertyDefn( propIDName );
@@ -939,8 +940,8 @@ public class ModelUtil
 			}
 
 			// if this property can not inherit, return null
-			
-			if ( ! defn.canInherit( ) )
+
+			if ( !defn.canInherit( ) )
 				return null;
 			if ( DesignElement.NO_BASE_ID != element.getBaseId( ) )
 			{
@@ -1082,7 +1083,7 @@ public class ModelUtil
 
 		// not all the report items support template, eg. auto text does not
 		// support template
-		
+
 		if ( element instanceof ReportItem )
 		{
 			IChoiceSet choiceSet = MetaDataDictionary.getInstance( )
@@ -1099,5 +1100,45 @@ public class ModelUtil
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks whether the compound element is valid if the element has no
+	 * extends property value or if the current element is compound elements and
+	 * extends value is unresovled.
+	 * 
+	 * @param module
+	 *            the root module of the element
+	 * @param element
+	 *            the element to justify
+	 * 
+	 * @return <code>true</code> if the compound element is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public static boolean isValidReferenceForCompoundElement( Module module,
+			DesignElement element )
+	{
+		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
+				module, IDesignElementModel.EXTENDS_PROP );
+		if ( refValue == null )
+			return true;
+
+		// TODO resolve the element later. NO such case right now.
+
+		if ( element.getDefn( ).isContainer( ) && !refValue.isResolved( ) )
+			return false;
+
+		// if any ancestor of this element loses extended element, return false
+
+		DesignElement parent = element.getExtendsElement( );
+		while ( parent != null )
+		{
+			if ( !isValidReferenceForCompoundElement( parent.getRoot( ), parent ) )
+				return false;
+			parent = parent.getExtendsElement( );
+		}
+
+		return true;
 	}
 }

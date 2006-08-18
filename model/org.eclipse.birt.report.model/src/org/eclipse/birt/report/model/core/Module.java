@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
@@ -306,6 +307,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	protected VersionControlMgr versionMgr = null;
+
+	/**
+	 * Options set for this module.
+	 */
+
+	protected ModuleOption options = null;
 
 	/**
 	 * Default constructor.
@@ -1524,7 +1531,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		try
 		{
 			Library library = LibraryReader.getInstance( ).read( session, this,
-					url.toString( ), namespace, url.openStream( ) );
+					url.toString( ), namespace, url.openStream( ), null );
 
 			if ( StringUtil.isBlank( namespace ) )
 			{
@@ -2550,4 +2557,25 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		return versionMgr;
 	}
+
+	/**
+	 * Gets the options set in the module or any one of its host.
+	 * 
+	 * @return the options
+	 */
+
+	abstract public ModuleOption getOptions( );
+
+	/**
+	 * Sets the options in this module.
+	 * 
+	 * @param options
+	 *            the options to set
+	 */
+
+	public void setOptions( ModuleOption options )
+	{
+		this.options = options;
+	}
+
 }
