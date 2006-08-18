@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.D
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ImageToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ParameterToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -31,13 +32,15 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
@@ -48,8 +51,6 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
-
-import sun.java2d.pipe.OutlineTextRenderer;
 
 /**
  * Drag&Drop listener
@@ -144,9 +145,25 @@ public class ReportTemplateTransferDropTargetListener extends
 			Object dragObj = getSingleTransferData( template );
 			if ( dragObj instanceof EmbeddedImageHandle )
 			{
-				// Extend the EmbeddedImage from Library to ouline view
-				DNDUtil.copyHandles( dragObj, getTargetEditPart( ).getModel( ) );
+				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
+				LibraryHandle library = (LibraryHandle) ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
+						.getRoot( );
 
+				try
+				{
+					if ( UIUtil.includeLibrary( moduleHandle, library ) )
+					{
+						EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
+								moduleHandle );
+						DNDUtil.addEmbeddedImageHandle( getTargetEditPart( ).getModel( ),
+								image );
+					}
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+				}
 				isEmbeddImage = true;
 				preHandle = new ImageToolExtends( );
 			}
