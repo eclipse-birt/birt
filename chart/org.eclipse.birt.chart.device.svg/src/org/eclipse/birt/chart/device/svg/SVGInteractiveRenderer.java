@@ -56,7 +56,6 @@ import com.ibm.icu.util.ULocale;
  * This is an internal class used by SVGRendererImpl to add interactivity in the
  * SVG output
  */
-
 public class SVGInteractiveRenderer
 {
 
@@ -132,7 +131,7 @@ public class SVGInteractiveRenderer
 						DataPointHints dph = (DataPointHints) getElementFromSource( sourceObject,
 								StructureType.SERIES_DATA_POINT );
 						groupIdentifier += "index"; //$NON-NLS-1$
-						groupIdentifier += ( (DataPointHints) dph ).getIndex( );
+						groupIdentifier += dph.getIndex( );
 					}
 					else
 					{
@@ -144,11 +143,10 @@ public class SVGInteractiveRenderer
 				{
 					logger.log( e );
 					return;
-
 				}
+				
 				if ( drawText )
 				{
-
 					String id = Integer.toString( pre.hashCode( ) );
 					List components = (List) labelPrimitives.get( seDT );
 					if ( components == null )
@@ -171,12 +169,10 @@ public class SVGInteractiveRenderer
 					primGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$
 					outerGroup.setAttribute( "id", groupIdentifier + "_" + id + "_g" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					outerGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$
-
 				}
 				else
 				// Non-text
 				{
-
 					String id = Integer.toString( pre.hashCode( ) );
 					List components = (List) componentPrimitives.get( seDT );
 					if ( components == null )
@@ -188,11 +184,9 @@ public class SVGInteractiveRenderer
 					// May have to group drawing instructions that come from
 					// the same primitive render events.
 					String idTemp = id;
-					int counter = 1;
-					while ( components.contains( idTemp ) )
+					if ( components.size( ) > 0 )
 					{
-						idTemp = id + "@" + counter; //$NON-NLS-1$
-						counter++;
+						idTemp = id + "@" + components.size( ); //$NON-NLS-1$
 					}
 
 					components.add( idTemp );
@@ -205,9 +199,7 @@ public class SVGInteractiveRenderer
 					primGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 					svg_g2d.setDeferStrokColor( primGroup );
-
 				}
-
 			}
 			else
 			{
@@ -246,11 +238,9 @@ public class SVGInteractiveRenderer
 					// May have to group drawing instructions that come from
 					// the same primitive render events.
 					String idTemp = id;
-					int counter = 1;
-					while ( components.contains( idTemp ) )
+					if ( components.size( ) > 0 )
 					{
-						idTemp = id + "@" + counter; //$NON-NLS-1$
-						counter++;
+						idTemp = id + "@" + components.size( ); //$NON-NLS-1$
 					}
 
 					components.add( idTemp );
@@ -262,11 +252,8 @@ public class SVGInteractiveRenderer
 					primGroup.setAttribute( "id", groupIdentifier + "_" + idTemp ); //$NON-NLS-1$ //$NON-NLS-2$
 					primGroup.setAttribute( "style", "visibility:visible;" ); //$NON-NLS-1$ //$NON-NLS-2$	
 					svg_g2d.setDeferStrokColor( primGroup );
-
 				}
-
 			}
-
 		}
 	}
 
