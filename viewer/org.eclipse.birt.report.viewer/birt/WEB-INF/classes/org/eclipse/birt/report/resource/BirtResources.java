@@ -144,7 +144,7 @@ public class BirtResources
 	 * @return the resource handle with the locale of this thread
 	 */
 
-	private static ViewerResourceHandle getResourceHandle( )
+	public static ViewerResourceHandle getResourceHandle( )
 	{
 		Locale locale = getLocale( );
 

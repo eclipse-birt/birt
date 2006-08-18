@@ -26,6 +26,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -162,6 +163,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			throws Exception
 	{
 		this.reportDesignHandle = getDesignHandle( request );
+		if ( this.reportDesignHandle == null )
+			return;
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
@@ -450,62 +453,103 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		IViewerReportDesignHandle design = null;
 		IReportRunnable reportRunnable = null;
 
-		IReportDocument reportDocumentInstance = ReportEngineService
-				.getInstance( ).openReportDocument( this.reportDesignName,
-						this.reportDocumentName );
-
-		if ( reportDocumentInstance != null )
+		// check if document file path is valid
+		boolean isValidDocument = ParameterAccessor
+				.isValidFilePath( this.reportDocumentName );
+		if ( isValidDocument )
 		{
-			reportRunnable = reportDocumentInstance.getReportRunnable( );
+			IReportDocument reportDocumentInstance = ReportEngineService
+					.getInstance( ).openReportDocument( this.reportDesignName,
+							this.reportDocumentName );
 
-			// in frameset mode, parse parameter values from document file
-			// if the path is frameset, copy the parameter value from document
-			// to run the report. If the _document parameter from url is not
-			// null, means user wants to preview the document, copy the
-			// parameter from the document to do the preview.
-			if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
-					.getServletPath( ) ) )
-
+			if ( reportDocumentInstance != null )
 			{
-				this.parameterMap = reportDocumentInstance.getParameterValues( );
+				reportRunnable = reportDocumentInstance.getReportRunnable( );
+
+				// in frameset mode, parse parameter values from document file
+				// if the path is frameset, copy the parameter value from
+				// document
+				// to run the report. If the _document parameter from url is not
+				// null, means user wants to preview the document, copy the
+				// parameter from the document to do the preview.
+				if ( IBirtConstants.SERVLET_PATH_FRAMESET
+						.equalsIgnoreCase( request.getServletPath( ) ) )
+
+				{
+					this.parameterMap = reportDocumentInstance
+							.getParameterValues( );
+				}
+
+				if ( ParameterAccessor.getParameter( request,
+						ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
+					this.documentInUrl = true;
+
+				reportDocumentInstance.close( );
 			}
-
-			if ( ParameterAccessor.getParameter( request,
-					ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
-				this.documentInUrl = true;
-
-			reportDocumentInstance.close( );
 		}
 
 		// if report runnable is null, then get it from design file
 		if ( reportRunnable == null )
 		{
-			try
+			// if set __document parameter, throw exception directly
+			if ( ParameterAccessor.isReportParameterExist( request,
+					ParameterAccessor.PARAM_REPORT_DOCUMENT ) )
 			{
-				// check the design file if exist
-				File file = new File( this.reportDesignName );
-				if ( file.exists( ) )
-				{
-					reportRunnable = ReportEngineService.getInstance( )
-							.openReportDesign( this.reportDesignName );
-				}
-				else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
-				{
-					// try to get resource from war package, when
-					// WORKING_FOLDER_ACCESS_ONLY set as false
-					this.reportDesignName = ParameterAccessor.getParameter(
-							request, ParameterAccessor.PARAM_REPORT );
+				if ( isValidDocument )
+					this.exception = new ViewerException(
+							ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
+							new String[]{this.reportDocumentName} );
+				else
+					this.exception = new ViewerException(
+							ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
+							new String[]{this.reportDocumentName} );
 
-					InputStream is = request.getSession( ).getServletContext( )
-							.getResourceAsStream( this.reportDesignName );
-
-					reportRunnable = ReportEngineService.getInstance( )
-							.openReportDesign( is );
-				}
+				return design;
 			}
-			catch ( EngineException e )
+
+			// check if the report file path is valid
+			if ( !ParameterAccessor.isValidFilePath( this.reportDesignName ) )
 			{
-				this.exception = e;
+				this.exception = new ViewerException(
+						ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,
+						new String[]{this.reportDesignName} );
+			}
+			else
+			{
+				try
+				{
+					// check the design file if exist
+					File file = new File( this.reportDesignName );
+					if ( file.exists( ) )
+					{
+						reportRunnable = ReportEngineService.getInstance( )
+								.openReportDesign( this.reportDesignName );
+					}
+					else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
+					{
+						// try to get resource from war package, when
+						// WORKING_FOLDER_ACCESS_ONLY set as false
+						this.reportDesignName = ParameterAccessor.getParameter(
+								request, ParameterAccessor.PARAM_REPORT );
+
+						InputStream is = request.getSession( )
+								.getServletContext( ).getResourceAsStream(
+										this.reportDesignName );
+
+						reportRunnable = ReportEngineService.getInstance( )
+								.openReportDesign( is );
+					}
+					else
+					{
+						this.exception = new ViewerException(
+								ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
+								new String[]{this.reportDesignName} );
+					}
+				}
+				catch ( EngineException e )
+				{
+					this.exception = e;
+				}
 			}
 		}
 
@@ -514,10 +558,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			design = new BirtViewerReportDesignHandle(
 					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT,
 					reportRunnable );
-		}
-		else
-		{
-			design = new BirtViewerReportDesignHandle( null, reportDesignName );
 		}
 
 		return design;

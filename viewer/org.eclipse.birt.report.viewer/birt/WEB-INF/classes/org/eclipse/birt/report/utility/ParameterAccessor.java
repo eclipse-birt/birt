@@ -1287,9 +1287,9 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * If a report file name is a relative path, it is relative to working
+	 * If a report file name is a relative path, it is relative to document
 	 * folder. So if a report file path is relative path, it's absolute path is
-	 * synthesized by appending file path to the working folder path.
+	 * synthesized by appending file path to the document folder path.
 	 * 
 	 * @param file
 	 * @return
@@ -1297,11 +1297,39 @@ public class ParameterAccessor
 
 	protected static String createAbsolutePath( String filePath )
 	{
-		if ( isDocumentFolderAccessOnly || isRelativePath( filePath ) )
+		if ( isRelativePath( filePath ) )
 		{
 			return documentFolder + File.separator + filePath;
 		}
 		return filePath;
+	}
+
+	/**
+	 * If set isDocumentFolderAccessOnly as true, check the file if exist in
+	 * document folder.
+	 * 
+	 * @param filePath
+	 * @return boolean
+	 */
+
+	public static boolean isValidFilePath( String filePath )
+	{
+		assert filePath != null;
+		if ( isDocumentFolderAccessOnly )
+		{
+			String absolutePath = new File( filePath ).getAbsolutePath( );
+			String docFolderPath = new File( documentFolder ).getAbsolutePath( );
+			// if OS is windows, ignore the case sensitive.
+			if ( isWindowsPlatform( ) )
+			{
+				absolutePath = absolutePath.toLowerCase( );
+				docFolderPath = docFolderPath.toLowerCase( );
+			}
+
+			return absolutePath.startsWith( docFolderPath );
+		}
+
+		return true;
 	}
 
 	/**
@@ -1687,16 +1715,16 @@ public class ParameterAccessor
 		{
 			fileName = baseName.substring( 0, dotIndex );
 		}
-		
+
 		// check whether the file name contains non US-ASCII characters
-		
+
 		for ( int i = 0; i < fileName.length( ); i++ )
 		{
 			char c = fileName.charAt( i );
-			
+
 			// char is from 0-127
-			
-			if ( c< 0x00 || c >= 0x80 )
+
+			if ( c < 0x00 || c >= 0x80 )
 			{
 				fileName = defaultName;
 				break;
@@ -1713,5 +1741,17 @@ public class ParameterAccessor
 	public static void reset( )
 	{
 		isInitContext = false;
+	}
+
+	/**
+	 * 
+	 * Check if OS system is windows
+	 * 
+	 * @return boolean
+	 */
+	protected static boolean isWindowsPlatform( )
+	{
+		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
+				"windows" ) >= 0; //$NON-NLS-1$
 	}
 }
