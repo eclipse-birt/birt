@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
@@ -862,6 +863,24 @@ public class DNDUtil
 		}
 	}
 
+	public static void addEmbeddedImageHandle( Object container,
+			EmbeddedImage image ) throws SemanticException
+	{
+		if ( container instanceof EmbeddedImageNode )
+		{
+			container = ( (EmbeddedImageNode) container ).getReportDesignHandle( );
+		}
+		try
+		{
+			( (ModuleHandle) container ).rename( image );
+			( (ModuleHandle) container ).addImage( image );
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
 	/**
 	 * Validates target elements can contain transfer data
 	 * 
@@ -981,10 +1000,10 @@ public class DNDUtil
 					return CONTAIN_THIS;
 				else if ( targetObj instanceof EmbeddedImageNode )
 					return CONTAIN_THIS;
-				else 
+				else
 					return CONTAIN_NO;
-//				return targetObj instanceof EmbeddedImageNode ? CONTAIN_THIS
-//							: CONTAIN_NO;
+				// return targetObj instanceof EmbeddedImageNode ? CONTAIN_THIS
+				// : CONTAIN_NO;
 			}
 			else
 			{
