@@ -18,23 +18,6 @@ import java.util.List;
  */
 public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOption 
 {
-	public static final String HTML_TYPE = "HTMLType"; //$NON-NLS-1$
-	public static final String HTML = "HTML"; //$NON-NLS-1$
-	public static final String HTML_NOCSS = "HTMLNoCSS"; //$NON-NLS-1$
-	public static final String USER_AGENT = "user-agent"; //$NON-NLS-1$
-	public static final String URL_ENCODING = "url-encoding"; //$NON-NLS-1$
-	public static final String INSTANCE_ID_LIST = "InstanceIdList"; //$NON-NLS-1$
-	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
-	public static final String MASTER_PAGE_CONTENT = "htmlMasterPageContent"; //$NON-NLS-1$
-	public static final String OBSERVE_TEMPLATE_DEFAULT = "observeTemplateDefault"; //$NON-NLS-1$
-	/**
-	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
-	 */
-	public static final String HTML_INCLUDE_SELECTION_HANDLE = "includeSelectionHandle"; //$NON-NLS-1$
-	public static final String HTML_ENABLE_METADATA = "enableMetadata"; //$NON-NLS-1$
-	public static final String HTML_DISPLAY_FILTER_ICON = "displayFilterIcon"; //$NON-NLS-1$
-	public static final String HTML_DISPLAY_GROUP_ICON = "displayGroupIcon"; //$NON-NLS-1$
-
 	/**
 	 * @return Returns the instanceIDs.
 	 */
@@ -145,21 +128,6 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	public IHTMLActionHandler getActionHandle( )
 	{
 		return (IHTMLActionHandler) options.get( ACTION_HANDLER );
-	}
-	
-	public void setRenderTemplateUseDefault(boolean option)
-	{
-		options.put( OBSERVE_TEMPLATE_DEFAULT, new Boolean(option) );
-	}
-	
-	public boolean getRenderTemplateUseDefault()
-	{
-		Boolean value = (Boolean) options.get( OBSERVE_TEMPLATE_DEFAULT);
-		if ( value != null )
-		{
-			return value.booleanValue( );
-	}
-		return false;
 	}
 	
 	/**
