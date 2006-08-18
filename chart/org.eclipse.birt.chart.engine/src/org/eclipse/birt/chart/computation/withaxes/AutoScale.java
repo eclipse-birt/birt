@@ -88,8 +88,9 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Quick static lookup for linear scaling
 	 */
+	// private static int[] iaLinearDeltas = { 1, 2, 5 };
 	private static int[] iaLinearDeltas = {
-			1, 2, 5
+			1, 2, 5, 10
 	};
 
 	/**
@@ -270,10 +271,13 @@ public final class AutoScale extends Methods implements Cloneable
 	public final boolean zoomIn( )
 	{
 		if ( bStepFixed )
+		{
 			return false; // CANNOT ZOOM FOR FIXED STEPS
+		}
 		if ( ChartUtil.mathEqual( 0, ( (Number) oStep ).doubleValue( ) ) )
-			// if ( ( (Number) oStep ).doubleValue( ) == 0 )
+		{
 			return false; // CANNOT ZOOM ANY MORE
+		}
 
 		if ( ( iType & NUMERICAL ) == NUMERICAL )
 		{
@@ -327,7 +331,7 @@ public final class AutoScale extends Methods implements Cloneable
 							else
 							{
 								dPower /= 10;
-								dStep = iaLinearDeltas[n - 1] * dPower;
+								dStep = iaLinearDeltas[n - 2] * dPower;
 							}
 							break;
 						}
@@ -404,9 +408,13 @@ public final class AutoScale extends Methods implements Cloneable
 	public final boolean zoomOut( )
 	{
 		if ( bStepFixed )
+		{
 			return false;
+		}
 		if ( ( (Number) oStep ).doubleValue( ) >= Double.MAX_VALUE )
+		{
 			return false; // CANNOT ZOOM ANY MORE
+		}
 
 		if ( ( iType & NUMERICAL ) == NUMERICAL )
 		{
@@ -454,14 +462,18 @@ public final class AutoScale extends Methods implements Cloneable
 							{
 								dStep = iaLinearDeltas[i + 1] * dPower;
 								if ( dStep > 1 )
+								{
 									dStep = Math.round( dStep );
+								}
 							}
 							else
 							{
-								dPower *= 10;
+								dPower *= 20;
 								dStep = iaLinearDeltas[0] * dPower;
 								if ( dStep > 1 )
+								{
 									dStep = Math.round( dStep );
+								}
 							}
 							break;
 						}
@@ -2303,11 +2315,11 @@ public final class AutoScale extends Methods implements Cloneable
 			CDateTime cdtMinValue = new CDateTime( caMin );
 			CDateTime cdtMaxValue = new CDateTime( caMax );
 			int iUnit = CDateTime.getDifference( cdtMinValue, cdtMaxValue );
-			
+
 			// Can't detect a difference, assume ms
 			if ( iUnit == 0 )
 				iUnit = CDateTime.SECOND;
-			
+
 			CDateTime cdtMinAxis = cdtMinValue.backward( iUnit, 1 );
 			CDateTime cdtMaxAxis = cdtMaxValue.forward( iUnit, 1 );
 			cdtMinAxis.clearBelow( iUnit );
@@ -2350,10 +2362,8 @@ public final class AutoScale extends Methods implements Cloneable
 							ChartException.GENERATION,
 							"exception.invalid.minimum.scale.value", //$NON-NLS-1$ 
 							new Object[]{
-										oMinimum,
-										 ax.getModelAxis( )
-												.getType( )
-												.getName( )
+									oMinimum,
+									ax.getModelAxis( ).getType( ).getName( )
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
