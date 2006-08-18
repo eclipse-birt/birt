@@ -713,6 +713,7 @@ public class ActivityStack implements CommandStack
 			// and send out notifications.
 
 			record.setTransNo( ++transCount );
+
 			undoStack.push( record );
 			trimUndoStack( );
 
@@ -730,6 +731,7 @@ public class ActivityStack implements CommandStack
 		}
 
 	}
+	
 
 	/**
 	 * Undoes all actions done so far in the innermost transaction. Does not
@@ -830,7 +832,7 @@ public class ActivityStack implements CommandStack
 	 *            activity stack event.
 	 */
 
-	protected void sendNotifcations( ActivityStackEvent event )
+	public void sendNotifcations( ActivityStackEvent event )
 	{
 		// Send to all direct listeners.
 

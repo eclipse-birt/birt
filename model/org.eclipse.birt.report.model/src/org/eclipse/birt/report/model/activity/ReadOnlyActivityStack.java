@@ -71,7 +71,7 @@ public class ReadOnlyActivityStack extends ActivityStack
 	 * 
 	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#sendNotifcations(org.eclipse.birt.report.model.api.activity.ActivityStackEvent)
 	 */
-	protected void sendNotifcations( ActivityStackEvent event )
+	public void sendNotifcations( ActivityStackEvent event )
 	{
 		// Do nothing.
 	}

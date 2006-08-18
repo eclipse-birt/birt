@@ -28,7 +28,6 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
@@ -2612,12 +2611,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Returns all script libs.
 	 * 
-	 * @return list which structure is <code>ScriptLib</code>
+	 * @return list which structure is <code>ScriptLibHandle</code>
 	 */
 
 	public List getAllScriptLibs( )
 	{
-		return getListProperty( SCRIPTLIBS_PROP );
+		return getFilteredStructureList( SCRIPTLIBS_PROP,
+				ScriptLib.SCRIPTLIB_NAME_MEMBER );
 	}
 
 	/**
@@ -2679,12 +2679,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 					scriptLib,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
 		}
-		if ( findScriptLib( scriptLib.getName( ) ) != null )
-		{
-			throw new NameException( getElement( ), scriptLib.getName( ),
-					NameException.DESIGN_EXCEPTION_DUPLICATE );
-		}
-
+		
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
 	}

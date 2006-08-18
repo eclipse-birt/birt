@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
@@ -338,7 +339,7 @@ public class LibraryCommand extends AbstractElementCommand
 			if ( library.getHost( ) == module )
 				break;
 
-			library = (Library)library.getHost( );
+			library = (Library) library.getHost( );
 		}
 
 		String namespace = library.getNamespace( );
@@ -390,12 +391,18 @@ public class LibraryCommand extends AbstractElementCommand
 
 		module.broadcast( event );
 
-		activityStack.commit( );
+		// clear save state mark.
 
-		// clears the activity stack to avoid potential problems.
+		activityStack.commit( );
+		
+		// clear all common stack.
 
 		activityStack.flush( );
-
+		
+		module.setSaveState( 0 );
+		activityStack.sendNotifcations( new ActivityStackEvent( activityStack,
+					ActivityStackEvent.DONE ) );
+		
 	}
 
 	/**

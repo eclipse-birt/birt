@@ -593,6 +593,18 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Sets saveState mark.
+	 * 
+	 * @param saveState
+	 *            save state mark
+	 */
+
+	public void setSaveState( int saveState )
+	{
+		this.saveState = saveState;
+	}
+
+	/**
 	 * Called when creating a new module.
 	 */
 
@@ -2350,8 +2362,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		// List libraries = rootHost.getAllLibraries( );
 
-		List libraries = rootHost
-				.getLibraries( IAccessControl.ARBITARY_LEVEL );
+		List libraries = rootHost.getLibraries( IAccessControl.ARBITARY_LEVEL );
 		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{

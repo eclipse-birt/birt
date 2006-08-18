@@ -1010,6 +1010,49 @@
 	<Member dataType="Section[]" displayNameID="Class.ReportDoc.body" name="body" toolTipID="Class.ReportDoc.body.toolTip"/>		
   </Class>	    
   -->	    
+  <Class displayNameID="Class.BirtComp" name="BirtComp" toolTipID="Class.BirtComp.toolTip">
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.equalTo" isStatic="true" name="equalTo" toolTipID="Class.BirtComp.equalTo.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.equalTo.x" type="Object" />
+  		<Argument name="y" tagID="Class.BirtComp.equalTo.y" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.greaterThan" isStatic="true" name="greaterThan" toolTipID="Class.BirtComp.greaterThan.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.greaterThan.x" type="Object" />
+  		<Argument name="y" tagID="Class.BirtComp.greaterThan.y" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.lessThan" isStatic="true" name="lessThan" toolTipID="Class.BirtComp.lessThan.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.lessThan.x" type="Object" />
+  		<Argument name="y" tagID="Class.BirtComp.lessThan.y" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.greaterOrEqual" isStatic="true" name="greaterOrEqual" toolTipID="Class.BirtComp.greaterOrEqual.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.greaterOrEqual.x" type="Object" />
+  		<Argument name="y" tagID="Class.BirtComp.greaterOrEqual.y" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.lessOrEqual" isStatic="true" name="lessOrEqual" toolTipID="Class.BirtComp.lessOrEqual.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.lessOrEqual.x" type="Object" />
+  		<Argument name="y" tagID="Class.BirtComp.lessOrEqual.y" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.notEqual" isStatic="true" name="notEqual" toolTipID="Class.BirtComp.notEqual.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.notEqual.x" type="Object" />
+  		<Argument name="y" tagID="Class.BirtComp.notEqual.y" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.between" isStatic="true" name="between" toolTipID="Class.BirtComp.between.toolTip" >
+  		<Argument name="val" tagID="Class.BirtComp.between.val" type="Object" />
+  		<Argument name="r1" tagID="Class.BirtComp.between.r1" type="Object" />
+  		<Argument name="r2" tagID="Class.BirtComp.between.r2" type="Object" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.like" isStatic="true" name="like" toolTipID="Class.BirtComp.like.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.like.x" type="String" />
+  		<Argument name="y" tagID="Class.BirtComp.like.y" type="String" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.match" isStatic="true" name="match" toolTipID="Class.BirtComp.match.toolTip" >
+  		<Argument name="x" tagID="Class.BirtComp.match.x" type="String" />
+  		<Argument name="y" tagID="Class.BirtComp.match.y" type="String" />
+  	</Method>
+  	<Method returnType="Boolean" displayNameID="Class.BirtComp.anyOf" isStatic="true" name="anyOf" toolTipID="Class.BirtComp.anyOf.toolTip" >
+  		<Argument name="val" tagID="Class.BirtComp.anyOf.val" type="Object"  />
+  		<Argument name="optionalArgument" tagID="Class.optionalArgument"/>
+  	</Method>
+  </Class>
   <Class displayNameID="Class.Total" name="Total" toolTipID="Class.Total.toolTip">	
 	<Member dataType="String" displayNameID="Class.Total.OVERALL" isStatic="true" name="OVERALL" toolTipID="Class.Total.OVERALL.toolTip"/>						
 	<Member dataType="String" displayNameID="Class.Total.NO_FILTER" isStatic="true" name="NO_FILTER" toolTipID="Class.Total.NO_FILTER.toolTip"/>						
@@ -1805,7 +1848,7 @@
     <Member displayNameID="Structure.OdaDesignerState.stateContentAsBlob" isIntrinsic="true" name="stateContentAsBlob" returnType="any" runtimeSettable="true" since="2.1" type="string" />
   </Structure>  
   <Structure displayNameID="Structure.ScriptLib" name="ScriptLib" since="3.2">
-    <Member displayNameID="Structure.ScriptLib.name" isIntrinsic="true" name="name" runtimeSettable="true" since="3.2" type="string" />
+    <Member displayNameID="Structure.ScriptLib.name" isIntrinsic="true" name="name" runtimeSettable="true" since="2.1.1" type="memberKey" />
   </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
@@ -1828,8 +1871,8 @@
     <Property canInherit="false" detailType="IncludedLibrary" displayNameID="Element.Module.libraries" isList="true" name="libraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
-    <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="20." type="structure"/>    
-    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="3.2" type="structure"/>    
+    <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>    
+    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">
