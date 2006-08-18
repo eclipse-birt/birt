@@ -52,6 +52,7 @@ class ExprManagerUtil
 		ExprManagerUtil util = new ExprManagerUtil( );
 		
 		util.exprManager = exprManager;
+		util.checkColumnBindingExpression();
 		util.checkDependencyCycle( ); 
 		util.checkGroupNameValidation( );
 	}
@@ -79,7 +80,7 @@ class ExprManagerUtil
 				{
 					throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST, map.get( level ).toString( ));
 				}
-				throw new DataException( ResourceConstants.INVALID_GROUP_KEY, new Object[]{ map.get( level ).toString( ), level});
+				throw new DataException( ResourceConstants.INVALID_GROUP_KEY_COLUMN, new Object[]{ map.get( level ).toString( ), level});
 			}
 		}
 		exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
@@ -158,6 +159,76 @@ class ExprManagerUtil
 		}
 
 		validateNodes( source );
+	}
+	
+	/**
+	 * Check whether the expression of all the column bindings is valid.
+	 * 
+	 * @param exprManager
+	 * @return
+	 * @throws DataException
+	 */
+	private void checkColumnBindingExpression( ) throws DataException
+	{
+		List list = this.getColumnNames( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			String name = list.get( i ).toString( );
+			IBaseExpression expr = exprManager.getExpr( name );
+			if ( expr != null )
+			{
+				if ( !( expr instanceof IScriptExpression || expr instanceof IConditionalExpression ) )
+				{
+					throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
+				}
+
+				List l = null;
+				try
+				{
+					if ( expr instanceof IScriptExpression )
+						l = ExpressionCompilerUtil.extractColumnExpression( (IScriptExpression) expr );
+					else if ( expr instanceof IConditionalExpression )
+						l = ExpressionCompilerUtil.extractColumnExpression( (IConditionalExpression) expr );
+				}
+				catch ( DataException e )
+				{
+					// Do nothing.The mal-formatted expression should not
+					// prevent
+					// other correct expression from being evaluated and
+					// displayed.
+				}
+
+				if ( l != null )
+				{
+					for ( int j = 0; j < l.size( ); j++ )
+					{
+						checkColumnBindingExist( l.get( j ).toString( ), list );
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Test whether all the column bindings exist.
+	 * @param bindingName
+	 * @param binding
+	 * @throws DataException
+	 */
+	private void checkColumnBindingExist( String bindingName, List binding )
+			throws DataException
+	{
+		if ( "__rownum".equals( bindingName ) || "_outer".equals( bindingName ) )
+		{
+			return;
+		}
+		for ( int i = 0; i < binding.size( ); i++ )
+		{
+			if ( bindingName.equals( binding.get( i ).toString( ) ) )
+				return;
+		}
+		throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST,
+				bindingName );
 	}
 
 	/**
