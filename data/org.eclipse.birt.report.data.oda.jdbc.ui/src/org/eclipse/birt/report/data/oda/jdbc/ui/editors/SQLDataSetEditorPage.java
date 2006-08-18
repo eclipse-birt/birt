@@ -1431,8 +1431,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private void populateEventData( TypedEvent event )
 	{
 		TreeItem[] selection = availableDbObjectsTree.getSelection( );
-		// selection could be null on Mac
-		if ( selection == null )
+		// selection could be null or contain none tableItem on Mac
+		if ( selection == null || selection.length == 0 )
 			selection = selectionMac;
 		
 		String identifierQuoteString;
