@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -45,6 +46,39 @@ import org.eclipse.swt.graphics.Image;
 
 public class ExpressionProvider implements IExpressionProvider
 {
+	
+	private static class Expression
+	{
+		/**
+		 * The tooltip of the operator
+		 */
+		public String tooltip;
+		/**
+		 * The symbol of the operator
+		 */
+		public String symbol;
+
+		/**
+		 * The text to insert into the source viewer
+		 */
+		public String insertString;
+
+
+		Expression(String symbol,String insertString,String tooltip)
+		{
+			Assert.isNotNull( symbol );
+			this.symbol = symbol;
+			if ( insertString == null )
+			{
+				this.insertString = symbol;
+			}
+			else
+			{
+				this.insertString = insertString;
+			}
+			this.tooltip = tooltip;
+		}
+	}
 
 	/** Arithmetic operators and their descriptions */
 	protected static final Operator[] OPERATORS_ASSIGNMENT = new Operator[]{
@@ -100,6 +134,11 @@ public class ExpressionProvider implements IExpressionProvider
 			new Operator( "(", Messages.getString( "ExpressionProvider.Operator.LeftBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 	};
+	
+	private static final Expression rowNum = new Expression(
+			Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
+			"row.__rownum", //$NON-NLS-1$
+			Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ));//$NON-NLS-1$
 
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
 	protected static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
@@ -360,6 +399,9 @@ public class ExpressionProvider implements IExpressionProvider
 			{
 				childrenList.add( iter.next( ) );
 			}
+			// add hard code row count expression here
+			childrenList.add( rowNum );			
+			
 			// add edit option
 			childrenList.add( new Object[]{
 					Messages.getString( "ExpressionProvider.EditBindings" ), parent} ); //$NON-NLS-1$
@@ -466,6 +508,10 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (ComputedColumnHandle) element ).getName( );
 		}
+		else if (element instanceof Expression)
+		{
+			return ((Expression)element).symbol;
+		}
 		return element.toString( );
 	}
 
@@ -479,6 +525,10 @@ public class ExpressionProvider implements IExpressionProvider
 		if ( element instanceof Operator )
 		{
 			return ( (Operator) element ).tooltip;
+		}
+		else if(element instanceof Expression)
+		{
+			return ((Expression)element).tooltip;
 		}
 		else if ( element instanceof ILocalizableInfo[] )
 		{
@@ -525,7 +575,8 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 		else if ( element instanceof ComputedColumnHandle
 				|| element instanceof ResultSetColumnHandle
-				|| element instanceof DataSetItemModel )
+				|| element instanceof DataSetItemModel 
+				|| element instanceof Expression)
 		{
 			return IMAGE_COLUMN;
 		}
@@ -546,6 +597,10 @@ public class ExpressionProvider implements IExpressionProvider
 		if ( element instanceof Operator )
 		{
 			return ( (Operator) element ).insertString;
+		}
+		else if (element instanceof Expression)
+		{
+			return ((Expression)element).insertString;
 		}
 		else if ( element instanceof ILocalizableInfo[] )
 		{
