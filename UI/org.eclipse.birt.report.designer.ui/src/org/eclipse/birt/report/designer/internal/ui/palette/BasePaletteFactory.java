@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -127,9 +128,9 @@ public class BasePaletteFactory
 				TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
 						true );
 				if ( dlg.open( ) == Window.OK
-						&& dlg.getResult( ) instanceof int[] )
+						&& dlg.getResult( ) instanceof Object[] )
 				{
-					int[] data = (int[]) dlg.getResult( );
+					Object[] data = (Object[]) dlg.getResult( );
 					// String name = ReportPlugin.getDefault().getCustomName(
 					// ReportDesignConstants.TABLE_ITEM);
 					//					
@@ -138,8 +139,26 @@ public class BasePaletteFactory
 					// .getElementFactory( )
 					// .newTableItem( name, data[1], 1, data[0], 1 );
 					TableHandle table = DesignElementFactory.getInstance( )
-							.newTableItem( null, data[1], 1, data[0], 1 );
+							.newTableItem( null,
+									( (Integer) data[1] ).intValue( ),
+									1,
+									( (Integer) data[0] ).intValue( ),
+									1 );
 					InsertInLayoutUtil.setInitWidth( table );
+					if ( data[2] != null )
+					{
+						try
+						{
+							DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
+									.getReportDesignHandle( )
+									.findDataSet( data[2].toString( ) );
+							( (ReportItemHandle) table ).setDataSet( dataSet );
+						}
+						catch ( Exception e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
 					setModel( table );
 					return super.preHandleMouseUp( );
 				}
@@ -359,13 +378,15 @@ public class BasePaletteFactory
 					.newTextItem( null );
 			try
 			{
-//				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( type ) )
-//				{
-//					text = AUTOTEXT_LABEL_PAGE
-//							+ "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
-//					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
-//
-//				}else 
+				// if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase(
+				// type ) )
+				// {
+				// text = AUTOTEXT_LABEL_PAGE
+				// + "<value-of>pageNumber</value-of>"; //$NON-NLS-1$
+				// textItemHandle.setContentType(
+				// DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+				//
+				// }else
 				if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
 				{
 					text = "<value-of>new Date()</value-of>"; //$NON-NLS-1$
@@ -405,21 +426,25 @@ public class BasePaletteFactory
 							+ "<value-of>new Date()</value-of>"; //$NON-NLS-1$
 					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 				}
-//				else if ( IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase( type ) )
-//				{
-//					text = AUTOTEXT_LABEL_PAGE_COUNT
-//							+ "<value-of>pageNumber</value-of>"
-//							+ " of"
-//							+ "<value-of>pageNumber</value-of>";
-//				}
-//				else if ( IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( type ) )
-//				{
-//					text = AUTOTEXT_LABEL_PAGE_X_OF_Y
-//							+ "Page "
-//							+ "<value-of>pageNumber</value-of>"
-//							+ " of"
-//							+ "<value-of>pageNumber</value-of>";
-//				}
+				// else if (
+				// IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase(
+				// type ) )
+				// {
+				// text = AUTOTEXT_LABEL_PAGE_COUNT
+				// + "<value-of>pageNumber</value-of>"
+				// + " of"
+				// + "<value-of>pageNumber</value-of>";
+				// }
+				// else if (
+				// IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase(
+				// type ) )
+				// {
+				// text = AUTOTEXT_LABEL_PAGE_X_OF_Y
+				// + "Page "
+				// + "<value-of>pageNumber</value-of>"
+				// + " of"
+				// + "<value-of>pageNumber</value-of>";
+				// }
 				else if ( !IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( type ) )
 				{
 					return false;
@@ -650,7 +675,7 @@ public class BasePaletteFactory
 					autoTextHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER );
 					( (CellHandle) cellList.get( 1 ) ).getContent( )
 							.add( autoTextHandle );
-					
+
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
 					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
@@ -761,7 +786,8 @@ public class BasePaletteFactory
 							if ( UIUtil.includeLibrary( moduleHandle, library ) )
 							{
 								elementHandle = moduleHandle.getElementFactory( )
-										.newElementFrom( elementHandle, elementHandle.getName( ) );
+										.newElementFrom( elementHandle,
+												elementHandle.getName( ) );
 								moduleHandle.addElement( elementHandle,
 										moduleHandle.getDataSets( ).getSlotID( ) );
 							}

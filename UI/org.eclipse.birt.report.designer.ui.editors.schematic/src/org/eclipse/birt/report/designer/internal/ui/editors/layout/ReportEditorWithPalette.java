@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.text.ChangedCharSetException;
+
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEv
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CutPartAction;
@@ -266,7 +269,11 @@ abstract public class ReportEditorWithPalette extends
 
 		action = new InsertGroupMenuAction( this );
 		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );	
+		getSelectionActions( ).add( action.getId( ) );
+		
+		action = new ChangeDataColumnPartAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
 		
 		// add create place holder actions
 		action = new CreatePlaceHolderPartAction( this );

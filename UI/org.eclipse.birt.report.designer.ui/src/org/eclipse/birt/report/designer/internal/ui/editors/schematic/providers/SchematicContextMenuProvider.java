@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddThemeStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction;
@@ -266,6 +267,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				if ( element instanceof LabelEditPart
 						|| element instanceof ImageEditPart )
 				{
+					if ( element instanceof DataEditPart ){
+						IAction action = getAction( ChangeDataColumnPartAction.ID );
+						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+								action );
+					}
 					IAction action = getAction( GEFActionConstants.DIRECT_EDIT );
 					action.setAccelerator( SWT.F2 );
 					if ( element instanceof DataEditPart )

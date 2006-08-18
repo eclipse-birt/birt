@@ -18,11 +18,13 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpressionFilter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemSelfBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -43,6 +45,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.Assert;
@@ -67,8 +70,10 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -87,6 +92,12 @@ import org.eclipse.ui.PlatformUI;
 
 public class ColumnBindingDialog extends BaseDialog
 {
+
+	private static final String MSG_ADD = Messages.getString( "ColumnBindingDialog.Text.Add" );
+
+	private static final String MSG_EDIT = Messages.getString( "ColumnBindingDialog.Text.Edit" );
+
+	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" );
 
 	private static final String DEFAULT_COLUMN_NAME = "[result_set_col_name]"; //$NON-NLS-1$
 
@@ -127,7 +138,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private boolean canSelect = false;
 
-	private ReportItemHandle inputElement;
+	protected ReportItemHandle inputElement;
 
 	// private List bindingList;
 
@@ -139,6 +150,8 @@ public class ColumnBindingDialog extends BaseDialog
 	private String selectedColumnName = null;
 
 	private String NullChoice = null;
+
+	private int selectIndex;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -205,7 +218,16 @@ public class ColumnBindingDialog extends BaseDialog
 							text = NONE_AGGREGATEON;
 					}
 					else
-						text = value;
+					{
+						if ( groupType == DEUtil.TYPE_GROUP_NONE )
+						{
+							text = NONE_AGGREGATEON;
+							handle.setAggregateOn( null );
+						}
+						else
+							text = value;
+					}
+
 					break;
 			}
 
@@ -236,6 +258,7 @@ public class ColumnBindingDialog extends BaseDialog
 	};
 
 	private String highLightName = null;
+
 	private ICellModifier cellModifier = new ICellModifier( ) {
 
 		public boolean canModify( Object element, String property )
@@ -342,7 +365,7 @@ public class ColumnBindingDialog extends BaseDialog
 				if ( COLUMN_NAME.equals( property ) )
 				{
 					String newName = UIUtil.convertToModelString( (String) value,
-							false );
+							true );
 					if ( element == dummyChoice )
 					{
 						if ( newName == null )
@@ -360,8 +383,9 @@ public class ColumnBindingDialog extends BaseDialog
 					{
 						ComputedColumnHandle columnHandle = (ComputedColumnHandle) element;
 						boolean selectedNameChanged = false;
-						if ( columnHandle.getName( )
-								.equals( selectedColumnName ) )
+						if ( columnHandle.getName( ) != null
+								&& columnHandle.getName( )
+										.equals( selectedColumnName ) )
 						{
 							selectedNameChanged = true;
 						}
@@ -376,8 +400,9 @@ public class ColumnBindingDialog extends BaseDialog
 											Display.getDefault( )
 													.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
 						}
-
-						( (ComputedColumnHandle) element ).setName( newName );
+						if ( !( columnHandle.getName( ) != null && columnHandle.getName( )
+								.equals( newName ) ) )
+							( (ComputedColumnHandle) element ).setName( newName );
 						if ( selectedNameChanged )
 						{
 							selectedColumnName = newName;
@@ -580,37 +605,81 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 			} );
 		}
-
+		Composite contentComposite = new Composite( parentComposite, SWT.NONE );
+		contentComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		contentComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2,
+				false ) );
 		/**
 		 * Binding table
 		 */
-		Table table = new Table( parentComposite, SWT.SINGLE
+		final Table table = new Table( contentComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
 				| ( canSelect ? SWT.CHECK : 0 ) );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 200;
+		gd.verticalSpan = 3;
 		table.setLayoutData( gd );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
+		// table.addKeyListener( new KeyAdapter( ) {
+		//
+		// /**
+		// * @see
+		// org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
+		// */
+		// public void keyReleased( KeyEvent e )
+		// {
+		// // If Delete pressed, delete the selected row
+		// if ( e.keyCode == SWT.DEL )
+		// {
+		// IStructuredSelection selection = (IStructuredSelection)
+		// bindingTable.getSelection( );
+		// if ( selection.getFirstElement( ) instanceof ComputedColumnHandle )
+		// {
+		// deleteRow( (ComputedColumnHandle) selection.getFirstElement( ) );
+		// }
+		// }
+		// }
+		// } );
+
 		table.addKeyListener( new KeyAdapter( ) {
 
-			/**
-			 * @see org.eclipse.swt.events.KeyAdapter#keyReleased(org.eclipse.swt.events.KeyEvent)
-			 */
-			public void keyReleased( KeyEvent e )
+			public void keyPressed( KeyEvent e )
 			{
-				// If Delete pressed, delete the selected row
 				if ( e.keyCode == SWT.DEL )
 				{
-					IStructuredSelection selection = (IStructuredSelection) bindingTable.getSelection( );
-					if ( selection.getFirstElement( ) instanceof ComputedColumnHandle )
+					int itemCount = table.getItemCount( );
+					if ( selectIndex == itemCount - 1 )
 					{
-						deleteRow( (ComputedColumnHandle) selection.getFirstElement( ) );
+						return;
 					}
+					if ( selectIndex == itemCount - 2 )
+					{
+						selectIndex--;
+					}
+					try
+					{
+						handleDelEvent( );
+					}
+					catch ( Exception e1 )
+					{
+						WidgetUtil.processError( getShell( ), e1 );
+					}
+					refreshBindingTable( );
 				}
 			}
 		} );
+
+		table.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				selectIndex = table.getSelectionIndex( );
+				updateButtons( );
+			}
+		} );
+
 		String[] columns = null;
 		int[] columnWidth = null;
 		CellEditor[] cellEditors;
@@ -697,7 +766,6 @@ public class ColumnBindingDialog extends BaseDialog
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				// updateTableButtons( );
 				if ( !bindingTable.getSelection( ).isEmpty( ) )
 				{
 					Object obj = ( (IStructuredSelection) bindingTable.getSelection( ) ).getFirstElement( );
@@ -708,20 +776,152 @@ public class ColumnBindingDialog extends BaseDialog
 					}
 					else if ( obj instanceof ComputedColumnHandle )
 					{
-
-						ComputedColumnHandle column = (ComputedColumnHandle) obj;
-						BindingExpressionProvider provider = new BindingExpressionProvider( column.getElementHandle( ) );
-						provider.addFilter( new ComputedColumnExpressionFilter( bindingTable ) );
-						expressionCellEditor.setExpressionProvider( provider );
+						if ( expressionProvider != null )
+							expressionCellEditor.setExpressionProvider( expressionProvider );
+						else
+						{
+							ComputedColumnHandle column = (ComputedColumnHandle) obj;
+							BindingExpressionProvider provider = new BindingExpressionProvider( column.getElementHandle( ) );
+							provider.addFilter( new ComputedColumnExpressionFilter( bindingTable ) );
+							expressionCellEditor.setExpressionProvider( provider );
+						}
 					}
 				}
+				updateButtons( );
 			}
 
 		} );
 
+		btnAdd = new Button( contentComposite, SWT.PUSH );
+		btnAdd.setText( MSG_ADD );
+		GridData data = new GridData( );
+		data.widthHint = Math.max( 60, btnAdd.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnAdd.setLayoutData( data );
+		btnAdd.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleAddEvent( );
+				refreshBindingTable( );
+				if ( table.getItemCount( ) > 1 )
+					selectIndex = ( table.getItemCount( ) - 2 );
+				updateButtons( );
+			}
+
+		} );
+		btnEdit = new Button( contentComposite, SWT.PUSH );
+		btnEdit.setText( MSG_EDIT );
+		data = new GridData( );
+		data.widthHint = Math.max( 60, btnEdit.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnEdit.setLayoutData( data );
+		btnEdit.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleEditEvent( );
+				refreshBindingTable( );
+			}
+
+		} );
+		btnDel = new Button( contentComposite, SWT.PUSH );
+		btnDel.setText( MSG_DELETE );
+		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
+				| GridData.GRAB_VERTICAL );
+		data.widthHint = Math.max( 60, btnDel.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnDel.setLayoutData( data );
+		btnDel.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( bindingTable.isCellEditorActive( ) )
+				{
+					bindingTable.cancelEditing( );
+				}
+				int pos = bindingTable.getTable( ).getSelectionIndex( );
+				if ( pos == -1 )
+				{
+					bindingTable.getTable( ).setFocus( );
+					return;
+				}
+				selectIndex = pos;
+				int itemCount = bindingTable.getTable( ).getItemCount( );
+				if ( selectIndex == itemCount - 2 )
+				{
+					selectIndex--;
+				}
+				try
+				{
+					handleDelEvent( );
+				}
+				catch ( Exception e1 )
+				{
+					WidgetUtil.processError( getShell( ), e1 );
+				}
+				refreshBindingTable( );
+				updateButtons( );
+			}
+		} );
 		// initTableCellColor( );
 
 		return parentComposite;
+	}
+
+	protected void handleAddEvent( )
+	{
+		DataItemSelfBindingDialog dialog = new DataItemSelfBindingDialog( );
+		dialog.setInput( inputElement );
+		dialog.setExpressionProvider( expressionProvider );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( bindingTable != null )
+				bindingTable.editElement( bindingTable.getElementAt( bindingTable.getTable( )
+						.getItemCount( ) - 1 ),
+						0 );
+		}
+
+	}
+
+	protected void handleEditEvent( )
+	{
+		ComputedColumnHandle bindingHandle = null;
+		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		if ( pos > -1 )
+		{
+			bindingHandle = (ComputedColumnHandle) ( (ReportItemHandle) DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+					.getAt( pos );
+		}
+		if ( bindingHandle == null )
+			return;
+		DataItemSelfBindingDialog dialog = new DataItemSelfBindingDialog( );
+		dialog.setInput( (ReportItemHandle) inputElement, bindingHandle );
+		dialog.setExpressionProvider( expressionProvider );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( bindingTable != null )
+				bindingTable.editElement( bindingTable.getElementAt( pos ), 0 );
+		}
+	}
+
+	protected void handleDelEvent( )
+	{
+		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		if ( pos > -1 )
+		{
+			try
+			{
+				(  (ReportItemHandle) DEUtil.getBindingHolder( inputElement )  ).getColumnBindings( ).getAt( pos ).drop( );
+			}
+			catch ( Exception e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+		}
 	}
 
 	private boolean existHighLightColumn( )
@@ -846,6 +1046,22 @@ public class ColumnBindingDialog extends BaseDialog
 			okEnable = true;
 		}
 		getOkButton( ).setEnabled( okEnable );
+		int min = 0;
+		int max = bindingTable.getTable( ).getItemCount( ) - 2;
+
+		if ( ( min <= selectIndex ) && ( selectIndex <= max ) )
+		{
+			btnDel.setEnabled( true );
+			if ( btnEdit != null )
+				btnEdit.setEnabled( true );
+		}
+		else
+		{
+			btnDel.setEnabled( false );
+			if ( btnEdit != null )
+				btnEdit.setEnabled( false );
+		}
+		bindingTable.getTable( ).select( selectIndex );
 	}
 
 	private ComputedColumnHandle getSelectColumnHandle( )
@@ -942,6 +1158,12 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private String[] groups;
 
+	protected Button btnDel;
+
+	protected Button btnEdit;
+
+	protected Button btnAdd;
+
 	private PropertyHandle getParameterBindingPropertyHandle( )
 	{
 		return inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
@@ -954,6 +1176,13 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		Assert.isNotNull( groupList );
 		this.groupList = groupList;
+	}
+
+	protected IExpressionProvider expressionProvider;
+
+	public void setExpressionProvider( IExpressionProvider provider )
+	{
+		expressionProvider = provider;
 	}
 
 }

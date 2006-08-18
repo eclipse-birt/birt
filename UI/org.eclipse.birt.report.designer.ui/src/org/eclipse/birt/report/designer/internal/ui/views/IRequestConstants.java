@@ -23,14 +23,14 @@ public interface IRequestConstants
 	String REQUEST_TYPE_INSERT = "insert"; //$NON-NLS-1$
 
 	String REQUEST_TYPE_EDIT = "edit"; //$NON-NLS-1$
-	
+
 	String REQUEST_CREATE_PLACEHOLDER = "create-placeholder"; //$NON-NLS-1$
-	
+
 	String REQUEST_TRANSFER_PLACEHOLDER = "transfer-placeholder"; //$NON-NLS-1$
-	
-//	String REQUST_REVERT_TEMPLATE ="revert-template"; //$NON-NLS-1$
-	
-	String	REQUST_REVERT_TO_REPORTITEM = "revert-to-reportitem"; //$NON-NLS-1$
+
+	// String REQUST_REVERT_TEMPLATE ="revert-template"; //$NON-NLS-1$
+
+	String REQUST_REVERT_TO_REPORTITEM = "revert-to-reportitem"; //$NON-NLS-1$
 	String REQUST_REVERT_TO_TEMPLATEITEM = "revert-to-templateitem"; //$NON-NLS-1$
 
 	/**
@@ -50,4 +50,6 @@ public interface IRequestConstants
 	 * @deprecated
 	 */
 	String REQUEST_KEY_RENAME_NEWNAME = "rename-newname"; //$NON-NLS-1$
+
+	String REQUEST_CHANGE_DATA_COLUMN = "change-data-column"; //$NON-NLS-1$
 }

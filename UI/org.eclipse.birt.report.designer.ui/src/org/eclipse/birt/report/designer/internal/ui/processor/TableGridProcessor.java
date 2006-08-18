@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.processor;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.window.Window;
 
@@ -57,9 +62,9 @@ public class TableGridProcessor extends AbstractElementProcessor
 		TableOptionDialog dialog = new TableOptionDialog( UIUtil.getDefaultShell( ),
 				isTable );
 		if ( dialog.open( ) == Window.OK
-				&& dialog.getResult( ) instanceof int[] )
+				&& dialog.getResult( ) instanceof Object[] )
 		{
-			int[] data = (int[]) dialog.getResult( );
+			Object[] data = (Object[]) dialog.getResult( );
 			DesignElementHandle handle = null;
 			if ( isTable )
 			{
@@ -71,10 +76,24 @@ public class TableGridProcessor extends AbstractElementProcessor
 				// 1 );
 				handle = DesignElementFactory.getInstance( )
 						.newTableItem( getNewName( extendedData ),
-								data[1],
+								( (Integer) data[1] ).intValue( ),
 								1,
-								data[0],
+								( (Integer) data[0] ).intValue( ),
 								1 );
+				if ( data[2] != null )
+				{
+					try
+					{
+						DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( )
+								.findDataSet( data[2].toString( ) );
+						( (ReportItemHandle) handle ).setDataSet( dataSet );
+					}
+					catch ( Exception e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
 			}
 			else
 			{
@@ -84,8 +103,8 @@ public class TableGridProcessor extends AbstractElementProcessor
 				// data[0] );
 				handle = DesignElementFactory.getInstance( )
 						.newGridItem( getNewName( extendedData ),
-								data[1],
-								data[0] );
+								( (Integer) data[1] ).intValue( ),
+								( (Integer) data[0] ).intValue( ) );
 			}
 			InsertInLayoutUtil.setInitWidth( handle );
 			return handle;

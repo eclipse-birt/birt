@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -32,6 +33,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -47,24 +49,39 @@ import org.eclipse.swt.widgets.Text;
 public class TableOptionDialog extends BaseDialog
 {
 
+	private static final String MSG_DATA_SET = Messages.getString( "TableOptionDialog.text.DataSet" );
+
 	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS = Messages.getString( "TableOptionDialog.message.RememberGrid" ); //$NON-NLS-1$
+
 	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES = Messages.getString( "TableOptionDialog.message.RememberTable" ); //$NON-NLS-1$
+
 	private static final String MSG_NUMBER_OF_GRID_ROWS = Messages.getString( "TableOptionDialog.text.GridRow" ); //$NON-NLS-1$
+
 	private static final String MSG_NUMBER_OF_TABLE_ROWS = Messages.getString( "TableOptionDialog.text.TableDetail" ); //$NON-NLS-1$
+
 	private static final String MSG_NUMBER_OF_COLUMNS = Messages.getString( "TableOptionDialog.text.Column" ); //$NON-NLS-1$
+
 	private static final String MSG_GRID_SIZE = Messages.getString( "TableOptionDialog.text.GridSize" ); //$NON-NLS-1$
+
 	private static final String MSG_TABLE_SIZE = Messages.getString( "TableOptionDialog.text.TableSize" ); //$NON-NLS-1$
+
 	private static final String MSG_INSERT_GRID = Messages.getString( "TableOptionDialog.title.InsertGrid" ); //$NON-NLS-1$
+
 	private static final String MSG_INSERT_TABLE = Messages.getString( "TableOptionDialog.title.InsertTable" ); //$NON-NLS-1$
 
+	private static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
+
 	private static final int DEFAULT_TABLE_ROW_COUNT = 1;
+
 	private static final int DEFAULT_ROW_COUNT = 3;
+
 	private static final int DEFAULT_COLUMN_COUNT = 3;
 
 	/**
 	 * Comment for <code>DEFAULT_TABLE_ROW_COUNT_KEY</code>
 	 */
 	public static final String DEFAULT_TABLE_ROW_COUNT_KEY = "Default table row count"; //$NON-NLS-1$
+
 	/**
 	 * Comment for <code>DEFAULT_TABLE_COLUMN_COUNT_KEY</code>
 	 */
@@ -74,6 +91,7 @@ public class TableOptionDialog extends BaseDialog
 	 * Comment for <code>DEFAULT_GRID_ROW_COUNT_KEY</code>
 	 */
 	public static final String DEFAULT_GRID_ROW_COUNT_KEY = "Default grid row count"; //$NON-NLS-1$
+
 	/**
 	 * Comment for <code>DEFAULT_GRID_COLUMN_COUNT_KEY</code>
 	 */
@@ -88,6 +106,8 @@ public class TableOptionDialog extends BaseDialog
 	private int rowCount, columnCount;
 
 	private boolean insertTable = true;
+
+	private Combo dataSetCombo;
 
 	/**
 	 * The constructor.
@@ -194,11 +214,28 @@ public class TableOptionDialog extends BaseDialog
 		rowEditor.setText( String.valueOf( rowCount ) );
 		rowEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		Label lb = new Label( composite, SWT.NONE );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.horizontalSpan = 2;
-		lb.setLayoutData( gdata );
+		if ( insertTable )
+		{
+			new Label( innerPane, SWT.NONE ).setText( MSG_DATA_SET );
+			dataSetCombo = new Combo( innerPane, SWT.BORDER
+					| SWT.SINGLE
+					| SWT.READ_ONLY );
+			dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			String[] dataSets = ChoiceSetFactory.getDataSets( );
+			String[] newList = new String[dataSets.length + 1];
+			System.arraycopy( dataSets, 0, newList, 0, dataSets.length );
+			newList[dataSets.length] = NONE;
+			dataSetCombo.setItems( newList );
+			dataSetCombo.select( 0 );
+		}
 
+		else
+		{
+			Label lb = new Label( composite, SWT.NONE );
+			gdata = new GridData( GridData.FILL_HORIZONTAL );
+			gdata.horizontalSpan = 2;
+			lb.setLayoutData( gdata );
+		}
 		chkbox = new Button( composite, SWT.CHECK );
 		chkbox.setText( insertTable ? MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES
 				: MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS );
@@ -254,9 +291,19 @@ public class TableOptionDialog extends BaseDialog
 					: DEFAULT_ROW_COUNT;
 		}
 
-		setResult( new int[]{
-				rowCount, columnCount
-		} );
+		if ( insertTable )
+		{
+			setResult( new Object[]{
+					rowCount,
+					columnCount,
+					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) )
+							.toString( )
+			} );
+		}
+		else
+			setResult( new int[]{
+					rowCount, columnCount
+			} );
 
 		if ( chkbox.getSelection( ) )
 		{
@@ -275,7 +322,9 @@ public class TableOptionDialog extends BaseDialog
 		private static final int BUTTON_WIDTH = 16;
 
 		private Text text;
+
 		private Button up;
+
 		private Button down;
 
 		/**

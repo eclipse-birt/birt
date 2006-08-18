@@ -34,10 +34,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -362,6 +364,11 @@ public class DefaultNodeProvider implements INodeProvider
 			return performCreatePlaceHolder( (ReportElementHandle) model );
 		}
 		if ( request.getType( )
+				.equals( IRequestConstants.REQUEST_CHANGE_DATA_COLUMN ) )
+		{
+			return performChangeDataColumn( (ReportElementHandle) model );
+		}
+		if ( request.getType( )
 				.equals( IRequestConstants.REQUEST_TRANSFER_PLACEHOLDER ) )
 		{
 			return performTransferPlaceHolder( (TemplateElementHandle) model );
@@ -434,6 +441,26 @@ public class DefaultNodeProvider implements INodeProvider
 		return element != null;
 	}
 
+	private boolean performChangeDataColumn( ReportElementHandle handle )
+	{
+		if ( !( handle instanceof DataItemHandle ) )
+			return false;
+		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+		ColumnBindingDialog dialog = new ColumnBindingDialog( true );
+		dialog.setInput( (DataItemHandle) handle );
+		dialog.setGroupList( DEUtil.getGroups( handle ) );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			handle.getModuleHandle( ).getCommandStack( ).commit( );
+			return true;
+		}
+		else
+		{
+			handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+			return false;
+		}
+	}
+
 	private boolean performCreatePlaceHolder( ReportElementHandle handle )
 	{
 		boolean bIsNameExist = false;
@@ -447,7 +474,7 @@ public class DefaultNodeProvider implements INodeProvider
 		String desc = "";
 		try
 		{
-			
+
 			do
 			{
 				TemplateReportItemPropertiesDialog dialog = new TemplateReportItemPropertiesDialog( handle.getDefn( )
