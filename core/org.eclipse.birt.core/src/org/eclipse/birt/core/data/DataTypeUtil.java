@@ -143,6 +143,7 @@ public final class DataTypeUtil
 	 * 		Integer.class
 	 * 		BigDecimal.class
 	 * 		Boolean.class
+     *      Time.class
 	 * 		Date.class
 	 * 		Double.class
 	 * 		String.class
@@ -163,7 +164,9 @@ public final class DataTypeUtil
 			return toBigDecimal( source );
 		if ( toTypeClass == Boolean.class )
 			return toBoolean( source );
-		if ( Date.class.isAssignableFrom( toTypeClass ) )
+        if ( toTypeClass == Time.class )
+            return toTime( source );
+		if ( Date.class.isAssignableFrom( toTypeClass ) ) 
 			return toDate( source );
 		if ( toTypeClass == Double.class )
 			return toDouble( source );
@@ -424,6 +427,45 @@ public final class DataTypeUtil
 					resourceBundle );
 		}
 	}
+    
+    /**
+     * Date -> Time
+     * String -> Time
+     * @param source
+     * @return
+     * @throws BirtException
+     */
+    public static Time toTime( Object source ) throws BirtException
+    {
+        if ( source == null )
+            return null;
+
+        if ( source instanceof Date )
+        {
+            return new Time( ( (Date) source ).getTime( ) );
+        }
+        else if ( source instanceof String )
+        {
+            // limited support, expects value in format "hh:mm:ss"
+            // TODO - add support of alternative formats 
+            try
+            {
+                return Time.valueOf( (String ) source );
+            }
+            catch( IllegalArgumentException e )
+            {
+                // let fall thru to throw BirtException
+                e.printStackTrace();
+            }
+        }
+
+        throw new BirtException( pluginId,
+                    ResourceConstants.CONVERT_FAILS,
+                    new Object[]{
+                            source.toString( ), "Time"
+                    },
+                    resourceBundle );
+    }
 
 	/**
 	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate
