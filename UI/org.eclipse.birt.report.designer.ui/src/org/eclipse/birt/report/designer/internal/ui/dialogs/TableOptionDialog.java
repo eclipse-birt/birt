@@ -294,8 +294,8 @@ public class TableOptionDialog extends BaseDialog
 		if ( insertTable )
 		{
 			setResult( new Object[]{
-					rowCount,
-					columnCount,
+					(Integer)rowCount,
+					(Integer)columnCount,
 					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) )
 							.toString( )
 			} );
