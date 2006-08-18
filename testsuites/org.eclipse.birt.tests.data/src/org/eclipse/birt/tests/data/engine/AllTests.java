@@ -127,6 +127,21 @@ public class AllTests extends TestCase
 		suite.addTestSuite( Regression_142939.class );
 		suite.addTestSuite( Regression_137149.class );
 		
+		
+		suite.addTestSuite( Regression_112288.class );
+		suite.addTestSuite( Regression_136966.class );
+		suite.addTestSuite( Regression_136296.class );
+		suite.addTestSuite( Regression_135490.class );		
+		suite.addTestSuite( Regression_136259.class );
+		suite.addTestSuite( Regression_132805.class );		
+		suite.addTestSuite( Regression_124593.class );
+		suite.addTestSuite( Regression_128354.class );
+		suite.addTestSuite( Regression_117686.class );
+		suite.addTestSuite( Regression_123153.class );
+		suite.addTestSuite( Regression_96025.class );
+		suite.addTestSuite( Regression_121166.class );
+		
+		
 		return suite;
 	}
 }
