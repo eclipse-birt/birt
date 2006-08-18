@@ -180,8 +180,8 @@ public class SortkeyBuilder extends BaseDialog
 		Button btnExpression = new Button( content, SWT.NONE );
 		btnExpression.setText( "..." ); //$NON-NLS-1$
 		gdata = new GridData( );
-		gdata.heightHint = 22;
-		gdata.widthHint = 22;
+		gdata.heightHint = 20;
+		gdata.widthHint = 20;
 		btnExpression.setLayoutData( gdata );
 		btnExpression.setToolTipText( Messages.getString( "SortkeyBuilder.DialogTitle.Button.ExpressionBuilder" ) ); //$NON-NLS-1$
 		btnExpression.addSelectionListener( new SelectionAdapter( ) {

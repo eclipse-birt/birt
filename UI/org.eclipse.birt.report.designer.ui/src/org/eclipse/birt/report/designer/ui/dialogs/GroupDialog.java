@@ -512,7 +512,7 @@ public class GroupDialog extends BaseDialog
 
 		TabItem filterItem = new TabItem( tab, SWT.NONE );
 		FormPage filterPage = new FormPage( tab,
-				FormPage.NORMAL_FUNCTION,
+				FormPage.FULL_FUNCTION_HORIZONTAL,
 				new FilterHandleProvider( ) {
 
 					public int[] getColumnWidths( )
@@ -521,7 +521,7 @@ public class GroupDialog extends BaseDialog
 								200, 100, 100, 100
 						};
 					}
-				} );
+				} , true);
 		filterPage.setInput( list );
 		filterItem.setText( TAB_FILTER );
 		filterItem.setControl( filterPage );

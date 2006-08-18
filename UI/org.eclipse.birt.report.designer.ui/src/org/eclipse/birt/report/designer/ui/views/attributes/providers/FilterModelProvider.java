@@ -19,11 +19,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -44,14 +41,15 @@ public class FilterModelProvider
 	/**
 	 * The list of allowed FilterCondition.OPERATOR_MEMBER
 	 */
-	private IChoiceSet choiceSet;
+	private static IChoiceSet choiceSet = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
+			FilterCondition.OPERATOR_MEMBER );
 
 	private List columnList;
 	/**
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
-
+	
 	/**
 	 * Gets the display names of the given property keys.
 	 * 
@@ -301,11 +299,6 @@ public class FilterModelProvider
 	 */
 	public boolean doAddItem( Object item, int pos ) throws SemanticException
 	{
-		FilterCondition filterCond = StructureFactory.createFilterCond( );
-		filterCond.setExpr( "Expression" );//$NON-NLS-1$
-		DesignElementHandle handle = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = handle.getPropertyHandle( ListingHandle.FILTER_PROP );
-		propertyHandle.addItem( filterCond );
 		return true;
 	}
 }
