@@ -409,35 +409,7 @@ final class XSDFileSchemaTreePopulator
 		XSParticle particle = complexType.getParticle( );
 		if ( particle != null )
 		{
-			XSObjectList list = ( (XSModelGroupImpl) particle.getTerm( ) ).getParticles( );
-			for ( int j = 0; j < list.getLength( ); j++ )
-			{
-				ATreeNode childNode = new ATreeNode( );
-				childNode.setValue( ( (XSParticleDecl) list.item( j ) ).getTerm( )
-						.getName( ) );
-				String dataType = ( (XSElementDecl) ( (XSParticleDecl) list.item( j ) ).getTerm( ) ).getTypeDefinition( )
-						.getName( );
-				if ( dataType == null || dataType.length( ) == 0 )
-					dataType = childNode.getValue( ).toString( );
-				childNode.setDataType( dataType );
-				childNode.setType( ATreeNode.ELEMENT_TYPE );
-				XSTypeDefinition xstype = ((XSElementDecl) ((XSParticleDecl) list.item(j))
-						.getTerm()).getTypeDefinition();
-				//Populate the complex data types under node.
-				if ((!dataType.equals("anyType"))
-						&&  xstype instanceof XSComplexTypeDecl)
-				{	
-					//First do a recursive call to populate all child complex type of current node.
-					if( xstype.getName() == null)
-						addParticleAndAttributeInfo( childNode, (XSComplexTypeDecl)xstype, complexTypesRoot );
-					ATreeNode n = findComplexElement(complexTypesRoot,dataType);
-					if( n!= null )
-					{
-						childNode.addChild(n.getChildren());
-					}
-				}
-				node.addChild(childNode);
-			}
+			addElementToNode( node, complexTypesRoot, (XSModelGroupImpl) particle.getTerm( ) );
 		}
 		if(!includeAttribute)
 			return;
@@ -453,6 +425,51 @@ final class XSDFileSchemaTreePopulator
 				childNode.setType( ATreeNode.ATTRIBUTE_TYPE );
 				node.addChild( childNode );
 			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param node
+	 * @param complexTypesRoot
+	 * @param group
+	 * @throws OdaException
+	 */
+	private static void addElementToNode( ATreeNode node, ATreeNode complexTypesRoot, XSModelGroupImpl group ) throws OdaException
+	{
+		XSObjectList list = group.getParticles( );
+		for ( int j = 0; j < list.getLength( ); j++ )
+		{
+			if(  ( (XSParticleDecl) list.item( j ) ).getTerm( ) instanceof XSModelGroupImpl )
+			{
+				addElementToNode ( node, complexTypesRoot, (XSModelGroupImpl)( (XSParticleDecl) list.item( j ) ).getTerm( )  );
+				continue;
+			}
+			ATreeNode childNode = new ATreeNode( );
+			childNode.setValue( ( (XSParticleDecl) list.item( j ) ).getTerm( )
+					.getName( ) );
+			String dataType = ( (XSElementDecl) ( (XSParticleDecl) list.item( j ) ).getTerm( ) ).getTypeDefinition( )
+					.getName( );
+			if ( dataType == null || dataType.length( ) == 0 )
+				dataType = childNode.getValue( ).toString( );
+			childNode.setDataType( dataType );
+			childNode.setType( ATreeNode.ELEMENT_TYPE );
+			XSTypeDefinition xstype = ((XSElementDecl) ((XSParticleDecl) list.item(j))
+					.getTerm()).getTypeDefinition();
+			//Populate the complex data types under node.
+			if ((!dataType.equals("anyType"))
+					&&  xstype instanceof XSComplexTypeDecl)
+			{	
+				//First do a recursive call to populate all child complex type of current node.
+				if( xstype.getName() == null)
+					addParticleAndAttributeInfo( childNode, (XSComplexTypeDecl)xstype, complexTypesRoot );
+				ATreeNode n = findComplexElement(complexTypesRoot,dataType);
+				if( n!= null )
+				{
+					childNode.addChild(n.getChildren());
+				}
+			}
+			node.addChild(childNode);
 		}
 	}
 
