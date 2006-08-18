@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
+import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
+import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -44,6 +47,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * An adapter class that converts between ROM OdaDataSourceHandle and ODA
@@ -984,9 +988,9 @@ public class ModelOdaAdapter
 						&& !resultSets.getResultSetDefinitions( ).isEmpty( ) )
 					resultDefn = (ResultSetDefinition) resultSets
 							.getResultSetDefinitions( ).get( 0 );
-			}
+			}	
 
-			updateROMStructureList( setHandle
+		updateROMStructureList( setHandle
 					.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
 					ResultSetsAdapter.newROMResultSets( resultDefn, setDesign
 							.getOdaExtensionDataSourceId( ), setDesign
@@ -1012,10 +1016,15 @@ public class ModelOdaAdapter
 				}
 
 				// if the source is not changed, and it is not in the included
-				// library, then we can update it.
+				// library, and the data source design is not changed any, then
+				// we can update it.
 
-				if ( !isSourceChanged && sourceHandle != null
-						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
+				if ( !isSourceChanged
+						&& sourceHandle != null
+						&& !sourceHandle.getModuleHandle( ).isReadOnly( )
+						&& !( new EcoreUtil.EqualityHelper( ).equals(
+								createDataSourceDesign( sourceHandle ),
+								sourceDesign ) ) )
 				{
 					updateDataSourceHandle( sourceDesign, sourceHandle );
 				}
