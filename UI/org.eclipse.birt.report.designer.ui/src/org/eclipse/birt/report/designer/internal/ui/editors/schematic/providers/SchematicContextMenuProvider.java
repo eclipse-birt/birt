@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertGroupActionFactory;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertGroupHeaderFooterAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
@@ -111,6 +112,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
 
+	private static final String INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter");
+	
 	private static final String DELETE_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteGroup" ); //$NON-NLS-1$
 
 	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
@@ -125,6 +128,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String DELETE_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteStyle" ); //$NON-NLS-1$
 
+	private static final String NEW_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.NewStyle" ); //$NON-NLS-1$
+	
 	/** the action registry */
 	private final ActionRegistry actionRegistry;
 
@@ -420,6 +425,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createDeleteGroupMenus( menuManager,
 						GEFActionConstants.GROUP_ADD );
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
+				createInsertGroupHeaderFooter(menuManager, GEFActionConstants.GROUP_ADD);
 				Separator separator = new Separator( EditBindingAction.ID );
 				menuManager.add( separator );
 				menuManager.appendToGroup( EditBindingAction.ID,
@@ -678,7 +684,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			LibraryHandle libraryHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			MenuManager subMenu = new MenuManager( "New Style" );
+			MenuManager subMenu = new MenuManager(NEW_STYLE_MENU_ITEM_TEXT );
 
 			// AddThemeStyleAction
 			SlotHandle themeSlot = libraryHandle.getThemes( );
@@ -1138,4 +1144,53 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	}
 
 
+
+	/**
+	 * Creats sub menu in the specified action group of the specified menu
+	 * manager.
+	 * 
+	 * @param menuManager
+	 *            The menu manager contains the action group.
+	 * @param group_name
+	 *            The action group contains the sub menu.
+	 */
+	private void createInsertGroupHeaderFooter( IMenuManager menuManager,
+			String group_name )
+	{
+		// If select on Group, no need to provide cascade menu
+		if ( getFirstElement( ) instanceof RowHandle )
+		{
+			return;
+		}
+
+		if ( getFirstElement( ) instanceof SlotHandle )
+		{
+			return;
+		}
+
+		MenuManager subMenu = new MenuManager( INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT );
+		ListingHandle parentHandle = null;
+
+		if ( !getTableEditParts( ).isEmpty( ) )
+		{
+			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
+		}
+		else
+		{
+			return;
+		}
+		
+		SlotHandle handle = parentHandle.getGroups( );
+		Iterator iter = handle.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			GroupHandle groupHandle = (GroupHandle) iter.next( );
+			MenuManager groupMenu = new MenuManager( groupHandle.getName( ) );
+			groupMenu.add(  new InsertGroupHeaderFooterAction(groupHandle, InsertGroupHeaderFooterAction.HEADER) );
+			groupMenu.add(  new InsertGroupHeaderFooterAction(groupHandle, InsertGroupHeaderFooterAction.FOOTER) );
+			subMenu.add(groupMenu );
+		}
+		menuManager.appendToGroup( group_name, subMenu );
+	}
+	
 }
