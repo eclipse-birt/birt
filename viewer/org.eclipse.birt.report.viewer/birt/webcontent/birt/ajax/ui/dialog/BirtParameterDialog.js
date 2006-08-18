@@ -260,7 +260,20 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					// deal with radio
 					this.__parameter[k].name = temp.name;
 					this.__parameter[k].value = temp.value;
-					k++;					
+					k++;		
+					
+					// set display text for the "radio" parameter
+					var displayLabel = document.getElementById( temp.id + "_label" );
+					if( !displayLabel )
+						continue;
+						
+					if( !this.__parameter[k] )
+					{
+						this.__parameter[k] = { };
+					}
+					this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
+					this.__parameter[k].value = displayLabel.innerHTML;
+					k++;			
 				}
 			}
 			else if( oSEC.length <= 1 && oIEC.length >= 3 )
