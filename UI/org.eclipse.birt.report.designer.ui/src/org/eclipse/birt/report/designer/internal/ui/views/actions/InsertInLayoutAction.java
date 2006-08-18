@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -120,6 +123,7 @@ public class InsertInLayoutAction extends AbstractViewAction
 			if ( newElement != null )
 				runCreate( newElement, targetPart.getModel( ) );
 			stack.commit( );
+			fireCreateRequest(newElement);
 		}
 		catch ( SemanticException e )
 		{
@@ -128,6 +132,17 @@ public class InsertInLayoutAction extends AbstractViewAction
 		}
 	}
 
+	private void fireCreateRequest(Object newElement )
+	{
+		List list = new ArrayList();
+		list.add(newElement);
+		ReportRequest r = new ReportRequest();
+		r.setType(ReportRequest.CREATE_ELEMENT);
+		
+		r.setSelectionObject(list);
+		SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
+	}
+	
 	private void runCreate( Object insertedObj, Object container )
 	{
 		if ( container instanceof ListBandProxy )
