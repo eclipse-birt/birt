@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.sql.Types;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -143,7 +144,8 @@ public class ResultSetMetaData
 	 * Returns the ODA type at the specified column index.
 	 * @param index	the column index.
 	 * @return		the ODA type, in <code>java.sql.Types</code> value, 
-	 * 				at the specified column index.
+	 * 				at the specified column index; or Types.NULL
+     *              if runtime data type is unknown
 	 * @throws DataException	if data source error occurs.
 	 */
 	public int getColumnType( int index ) throws DataException
@@ -151,11 +153,14 @@ public class ResultSetMetaData
 	    final String methodName = "getColumnType";
 	    
 		int nativeType = doGetNativeColumnType( index );
-		int odaType = 
-			DriverManager.getInstance().getNativeToOdaMapping( m_driverName, 
-															   m_dataSetType,
-															   nativeType );
-		
+
+        // if the native type of the column is unknown (Types.NULL) at runtime, 
+        // we can't simply default to the ODA character type because we may 
+        // have a design hint that could provide the type
+        int odaType = ( nativeType == Types.NULL ) ?
+                Types.NULL :
+ 		        DataTypeUtil.toOdaType( nativeType, m_driverName, m_dataSetType );
+
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
 		            		"Column at index {0} has ODA data type {1}.",
@@ -230,4 +235,15 @@ public class ResultSetMetaData
 	    if( m_metadata == null )
 	        throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA );
 	}
+    
+    String getOdaDataSourceId()
+    {
+        return m_driverName;
+    }
+    
+    String getDataSetType()
+    {
+        return m_dataSetType;
+    }
+    
 }

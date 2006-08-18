@@ -50,6 +50,14 @@ public interface IColumnDefinition
 	 */
 	public int getDataType();
 
+    /**
+     * Gets the column's native data type as defined by the underlying data source.
+     * The native data type code value is implementation-specific.
+     * Default value is 0 for none or unknown value.
+     * @return  the native data type code of this column.
+     */
+    public int getNativeDataType();
+
 	/** 
 	 * Gets the alias of the column. An alias is a string that can be used interchangably as 
 	 * the name to refer to a column.

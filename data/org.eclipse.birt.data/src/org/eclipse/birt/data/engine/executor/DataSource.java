@@ -62,6 +62,15 @@ class DataSource implements IDataSource
 	}
     
     /**
+     * Returns the driverName.
+     * @return 
+     */
+    String getDriverName()
+    {
+        return driverName;
+    }
+
+    /**
      * @see org.eclipse.birt.data.engine.odi.IDataSource#addProperty(java.lang.String, java.lang.String)
      */
     public void addProperty(String name, String value) throws DataException

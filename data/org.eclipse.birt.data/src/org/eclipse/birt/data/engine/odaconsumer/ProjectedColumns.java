@@ -27,6 +27,7 @@ class ProjectedColumns
 	private ArrayList m_columns;
 	private int[] m_projectedIndices;
 	private int m_baseColumnMetadataCount;
+    private ResultSetMetaData m_runtimeMetaData;
 	
 	// hold these values in case we need them for re-creating another 
 	// ProjectedColumns with a different set of runtime metadata
@@ -41,10 +42,11 @@ class ProjectedColumns
 	
 	ProjectedColumns( ResultSetMetaData runtimeMetaData ) throws DataException
 	{
-		String methodName = "ProjectedColumns";
+        final String methodName = "ProjectedColumns";
 		sm_logger.entering( sm_className, methodName, runtimeMetaData );
 
 		assert( runtimeMetaData != null );
+        m_runtimeMetaData = runtimeMetaData;
 		m_columns = new ArrayList();
 		m_baseColumnMetadataCount = runtimeMetaData.getColumnCount();
 		
@@ -56,7 +58,8 @@ class ProjectedColumns
 			String nativeTypeName = runtimeMetaData.getColumnNativeTypeName( i );
 			ResultFieldMetadata column = 
 					new ResultFieldMetadata( i, name, label, 
-					        				 driverDataType, nativeTypeName, 
+                                             driverDataType, // initialize effective type
+                                             nativeTypeName, 
 											 false /* isCustom */ );
 			column.setDriverProvidedDataType( driverDataType );
 			
@@ -70,7 +73,7 @@ class ProjectedColumns
 	// it's not an error when that happens
 	void addHint( ColumnHint columnHint ) throws DataException
 	{
-		String methodName = "addHint";
+		final String methodName = "addHint";
 		sm_logger.entering( sm_className, methodName, columnHint );
 
 		assert( columnHint != null );
@@ -82,10 +85,10 @@ class ProjectedColumns
 			// corresponding position in the runtime metadata, which is stored 
 			// in a 0-based m_columns array.
 			int driverIndex = columnPosition - 1;
-			ResultFieldMetadata column = 
+			ResultFieldMetadata fieldMD = 
 				(ResultFieldMetadata) m_columns.get( driverIndex );
 			
-			// make sure we validate everything before updating anything
+			// make sure all revised values are valid before updating anything
 			String columnHintAlias = columnHint.getAlias();
 			if( columnHintAlias != null )
 				validateNewNameOrAlias( columnHintAlias, driverIndex );
@@ -99,11 +102,10 @@ class ProjectedColumns
 			if ( newColumnName != null && newColumnName.length( ) > 0 )
 			{
 				validateNewNameOrAlias( newColumnName, driverIndex );
-				column.setName( newColumnName );
+				fieldMD.setName( newColumnName );
 			}
 			
-			updateDataTypeAndAlias( column, columnHintAlias, 
-			                        columnHint.getDataType() );
+            updateFieldDataTypeAndAlias( fieldMD, columnHint, driverIndex );
 		}
 		else
 		{
@@ -112,15 +114,11 @@ class ProjectedColumns
 			String columnHintName = columnHint.getName();
 			for( int i = 0, n = m_columns.size(); i < n; i++ )
 			{
-				ResultFieldMetadata column = 
+				ResultFieldMetadata fieldMD = 
 					(ResultFieldMetadata) m_columns.get( i );
-				if( column.getName().equals( columnHintName ) )
+				if( fieldMD.getName().equals( columnHintName ) )
 				{
-					String columnHintAlias = columnHint.getAlias();
-					if( columnHintAlias != null )
-						validateNewNameOrAlias( columnHintAlias, i );
-					updateDataTypeAndAlias( column, columnHintAlias, 
-					                        columnHint.getDataType() );
+                    updateFieldDataTypeAndAlias( fieldMD, columnHint, i );
 				}
 			}
 		}
@@ -130,26 +128,40 @@ class ProjectedColumns
 		sm_logger.exiting( sm_className, methodName );
 	}
 
-	private void updateDataTypeAndAlias( ResultFieldMetadata column,
-									  	 String columnHintAlias, 
-									  	 Class columnHintType )
+	private void updateFieldDataTypeAndAlias( ResultFieldMetadata fieldMetaData,
+                                        ColumnHint columnHint, int driverIndex )
+        throws DataException
 	{
-		String methodName = "updateDataTypeAndAlias";
+		final String methodName = "updateFieldDataTypeAndAlias";
 
-		// accepts column hint's data type only if the driver
-		// cannot provide a data type
-		if( column.getDriverProvidedDataType() == null && 
-		    columnHintType != null )
-			column.setDataType( columnHintType );
-		
-		column.setAlias( columnHintAlias );
+        String columnHintAlias = columnHint.getAlias();
+        if( columnHintAlias != null )
+            validateNewNameOrAlias( columnHintAlias, driverIndex );
+
+        fieldMetaData.setAlias( columnHintAlias );
+        if( sm_logger.isLoggable( Level.FINER ) )
+            sm_logger.logp( Level.FINER, sm_className, methodName, 
+                    "Updated result field[{0}] to alias: {1}.", 
+                    new Object[] { new Integer( driverIndex ), columnHintAlias } );
+
+        // accepts column hint's data type only if the driver
+		// cannot provide a runtime data type
+        Class effectiveDataType = fieldMetaData.getDriverProvidedDataType();
+		if( effectiveDataType == null )
+            effectiveDataType = columnHint.getEffectiveDataType( 
+                                    m_runtimeMetaData.getOdaDataSourceId(), 
+                                    m_runtimeMetaData.getDataSetType() );
+        if( effectiveDataType == null )
+            return;     // no valid data type specified in hint, cannot update
+
+	    fieldMetaData.setDataType( effectiveDataType );		
 
 		if( sm_logger.isLoggable( Level.FINER ) )
 		    sm_logger.logp( Level.FINER, sm_className, methodName, 
-				"Updated columns to data type: {0} , alias: {1}.", 
-				new Object[] { columnHintType, columnHintAlias } );
+                    "Set result field[{0}] to data type: {1}.", 
+                    new Object[] { new Integer( driverIndex ), effectiveDataType } );
 	}
-
+    
 	private ArrayList doGetColumnHints()
 	{
 		if( m_columnHints == null )
@@ -161,7 +173,7 @@ class ProjectedColumns
 	void addCustomColumn( String columnName, Class columnType )
 		throws DataException
 	{
-		String methodName = "addCustomColumn";
+		final String methodName = "addCustomColumn";
 		sm_logger.entering( sm_className, methodName, columnName );
 
 		assert( columnName != null && columnName.length() > 0 );
@@ -193,7 +205,7 @@ class ProjectedColumns
 
 	void setProjectedNames( String[] projectedColumns ) throws DataException
 	{
-		String methodName = "setProjectedNames";
+		final String methodName = "setProjectedNames";
 		sm_logger.entering( sm_className, methodName, projectedColumns );
 
 		// can project since declared custom columns don't need to be 
@@ -214,7 +226,7 @@ class ProjectedColumns
 	// returns an empty List if there are no projected columns.
 	List getColumnsMetadata()
 	{
-		String methodName = "getColumnsMetadata";
+		final String methodName = "getColumnsMetadata";
 		sm_logger.entering( sm_className, methodName );
 		
 		// if the projected indices array is null, then that 
@@ -252,7 +264,7 @@ class ProjectedColumns
 	private void projectSelectedBaseColumns( String[] projectedColumns ) 
 		throws DataException
 	{
-		String methodName = "projectSelectedBaseColumns";
+		final String methodName = "projectSelectedBaseColumns";
 
 		// only project non-custom columns
 		ArrayList projectedIndices = new ArrayList();
@@ -299,7 +311,7 @@ class ProjectedColumns
 	// that the name/alias didn't match the runtime metadata
 	private int findColumnIndex( String projectedName )
 	{
-		String methodName = "findColumnIndex";
+		final String methodName = "findColumnIndex";
 
 		int foundIndex = -1;		
 		for( int colIndex = 0, n = m_columns.size(); colIndex < n; colIndex++ )
@@ -323,7 +335,7 @@ class ProjectedColumns
 
 	private void projectAllBaseColumns()
 	{
-		String methodName = "projectAllBaseColumns";
+		final String methodName = "projectAllBaseColumns";
 
 		// only project non-custom columns
 		m_projectedIndices = new int[ m_baseColumnMetadataCount ];
@@ -342,7 +354,7 @@ class ProjectedColumns
 										 int driverIndex )
 		throws DataException
 	{
-		String methodName = "validateNewNameOrAlias";
+		final String methodName = "validateNewNameOrAlias";
 
 		assert( newColumnNameOrAlias != null && 
 		        newColumnNameOrAlias.length() > 0 );

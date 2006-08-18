@@ -39,7 +39,15 @@ public interface IParameterDefinition
      * @return the parameter data type
      */
     public abstract int getType();
-	
+
+    /**
+     * Returns the parameter's native data type as defined by the underlying data source.
+     * The native data type code value is implementation-specific.
+     * Default value is 0 for none or unknown value.
+     * @return  the native data type code of this parameter
+     */
+    public abstract int getNativeType();
+
 	/**
 	 * Returns whether this parameter is an input parameter. 
 	 * A parameter can be of both input and output modes.

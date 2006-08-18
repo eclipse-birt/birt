@@ -116,7 +116,7 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 	 */
 	public int isNullable( int param ) throws OdaException
 	{
-		return 0;
+		return IParameterMetaData.parameterModeUnknown;
 	}
 
 }

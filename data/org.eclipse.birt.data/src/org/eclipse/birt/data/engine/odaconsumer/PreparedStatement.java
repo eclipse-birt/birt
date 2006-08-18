@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.core.DataException;
-//import org.eclipse.birt.data.engine.executor.ParameterMetaData;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -38,9 +38,9 @@ import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
-import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
 
@@ -55,7 +55,7 @@ public class PreparedStatement
 {
 	private String m_dataSetType;
 	private Connection m_connection;
-	private String m_query;
+	private String m_queryText;
 	
 	private IQuery m_statement;
 	private ArrayList m_properties;
@@ -111,7 +111,7 @@ public class PreparedStatement
 		m_statement = statement;
 		m_dataSetType = dataSetType;
 		m_connection = connection;
-		m_query = query;
+		m_queryText = query;
 		
 		m_supportsNamedResults = UNKNOWN;
 		m_supportsOutputParameters = UNKNOWN;
@@ -732,7 +732,7 @@ public class PreparedStatement
 	}
 	
 	/**
-	 * Returns the ODA data type code for the specified parameter.
+	 * Returns the effective ODA data type code for the specified parameter.
 	 * @param paramIndex	the 1-based index of the parameter.
 	 * @return	the ODA <code>java.sql.Types</code> code of the parameter.
 	 * @throws DataException	if data source error occurs.
@@ -751,7 +751,7 @@ public class PreparedStatement
 	}
 	
 	/**
-	 * Returns the ODA data type code for the specified parameter.
+	 * Returns the effective ODA data type code for the specified parameter.
 	 * @param paramName	the name of the parameter.
 	 * @return	the ODA <code>java.sql.Types</code> code of the parameter.
 	 * @throws DataException	if data source error occurs.
@@ -1424,7 +1424,9 @@ public class PreparedStatement
 		while( iter.hasNext() )
 		{
 			ParameterHint paramHint = (ParameterHint) iter.next();
-			ParameterMetaData paramMd = new ParameterMetaData( paramHint );
+			ParameterMetaData paramMd = new ParameterMetaData( paramHint,
+                                                m_connection.getDataSourceId(), 
+                                                m_dataSetType );
 			parameterMetaData.add( paramMd );						
 		}
 		
@@ -1439,6 +1441,8 @@ public class PreparedStatement
 		
 		assert( runtimeParamMetaData != null );
 		
+        // first create a ParameterMetaData for each parameter,
+        // based on runtime metadata
 		int numOfParameters = doGetParameterCount( runtimeParamMetaData );
 		ArrayList paramMetaData = new ArrayList( numOfParameters );
 		
@@ -1451,6 +1455,7 @@ public class PreparedStatement
 			paramMetaData.add( paramMd );
 		}
 		
+        // then supplement all parameters' runtime metadata with design hints
 		if( m_parameterHints != null && m_parameterHints.size() > 0 )
 			updateWithParameterHints( paramMetaData, m_parameterHints );
 
@@ -1488,6 +1493,12 @@ public class PreparedStatement
 		}
 	}
 	
+    /**
+     * Supplement runtime parameter metadata with design hints.
+     * @param parameterMetaData
+     * @param parameterHints
+     * @throws DataException
+     */
 	private void updateWithParameterHints( List parameterMetaData, 
 									   	   List parameterHints )
 		throws DataException
@@ -1528,7 +1539,12 @@ public class PreparedStatement
 			
 			ParameterMetaData paramMd = 
 				(ParameterMetaData) parameterMetaData.get( position - 1 );
-			paramMd.updateWith( paramHint );
+
+            // found matching runtime parameter metadata and design hint,
+            // merge design hint into runtime metadata
+            paramMd.updateWith( paramHint,
+                                m_connection.getDataSourceId(), 
+                                m_dataSetType );
 		}
 		
 		sm_logger.exiting( sm_className, methodName );
@@ -2467,23 +2483,25 @@ public class PreparedStatement
 		if( m_parameterHints == null )
 			return Types.CHAR;
 		
+        // first find the parameter hint for the specified parameter
 		ListIterator iter = m_parameterHints.listIterator();
 		boolean useParamName = ( paramName != null );
 		while( iter.hasNext() )
 		{
 			ParameterHint paramHint = (ParameterHint) iter.next();
 			
-			Class typeInHint = null;
 			if( ( useParamName && paramHint.getName().equals( paramName ) ) ||
 				( ! useParamName && paramHint.getPosition() == paramIndex ) )
 			{
-				typeInHint = paramHint.getDataType();
-				return DataTypeUtil.toOdaType( typeInHint );
+                // found parameter's corresponding design hint
+                return paramHint.getEffectiveOdaType( 
+                                        m_connection.getDataSourceId(),
+                                        m_dataSetType );
 			}
 		}
 		
-		// didn't have a hint for the specified parameter
-		return Types.CHAR;
+		// do not have a design hint for the specified parameter
+		return Types.CHAR;    // default to a String oda type
 	}
 
 	// returns 0 if the parameter hint doesn't exist for the specified parameter 
@@ -2573,7 +2591,7 @@ public class PreparedStatement
 	// statement
 	private void handleUnsupportedClearInParameters() throws DataException
 	{
-		m_statement = m_connection.prepareOdaQuery( m_query, 
+		m_statement = m_connection.prepareOdaQuery( m_queryText, 
 		                                                m_dataSetType );
 
 		// getting the new statement back into the previous statement's
@@ -2743,17 +2761,8 @@ public class PreparedStatement
 				setBigDecimal( paramName, paramIndex, decimal );
 				return;
 			}
-			
-			if( paramValue instanceof java.util.Date )
-			{
-				// need to convert the java.util.Date to the java.sql.Date supported 
-				// by ODA
-				java.util.Date date = (java.util.Date) paramValue;
-				Date sqlDate = new Date( date.getTime() );
-				setDate( paramName, paramIndex, sqlDate );
-				return;
-			}
 	
+            // check for subclasses before its java.util.Date base class type
 			if( paramValue instanceof Time )
 			{
 				Time time = (Time) paramValue;
@@ -2767,6 +2776,17 @@ public class PreparedStatement
 				setTimestamp( paramName, paramIndex, timestamp );
 				return;
 			}
+            
+            // check for all other types of java.util.Date
+            if( paramValue instanceof java.util.Date )
+            {
+                // need to convert the java.util.Date to the java.sql.Date supported 
+                // by ODA
+                java.util.Date date = (java.util.Date) paramValue;
+                Date sqlDate = new Date( date.getTime() );
+                setDate( paramName, paramIndex, sqlDate );
+                return;
+            }
 		}
 		catch( RuntimeException ex )
 		{
@@ -2801,7 +2821,7 @@ public class PreparedStatement
 		
 		try
 		{
-			// try to get the runtime parameter type
+			// try to get the effective parameter type
 			parameterType = ( paramName == null ) ?
 							getParameterType( paramIndex ) :
 							getParameterType( paramName );
@@ -2811,23 +2831,21 @@ public class PreparedStatement
 			// data source can't get the type, try to get it from the hints
 		}
 		
-		// if the runtime parameter metadata returns the unknown type, then 
-		// try to get the type from the parameter hints
+		// if not able to get the effective parameter metadata for any reason,  
+		// try to get the type directly from the parameter design hints
 		if( parameterType == Types.NULL )
 			parameterType = getOdaTypeFromParamHints( paramName, paramIndex );
-		
-		Class paramValueClass = paramValue.getClass();
-		
+				
 		// the runtime parameter metadata or hint would lead us to call the same 
-		// setXXX method again, so the last exception that got returned could be info 
+		// set<type> method again, so the last exception that got returned could be info 
 		// regarding problems with the data, so throw that
-		if( ( parameterType == Types.INTEGER && paramValueClass == Integer.class ) ||
-			( parameterType == Types.DOUBLE && paramValueClass == Double.class ) ||
-			( parameterType == Types.CHAR && paramValueClass == String.class ) ||
-			( parameterType == Types.DECIMAL && paramValueClass == BigDecimal.class ) ||
-			( parameterType == Types.DATE && paramValueClass == java.util.Date.class ) ||
-			( parameterType == Types.TIME && paramValueClass == Time.class ) ||
-			( parameterType == Types.TIMESTAMP && paramValueClass == Timestamp.class ) )
+		if( ( parameterType == Types.INTEGER && paramValue instanceof Integer ) ||
+			( parameterType == Types.DOUBLE && paramValue instanceof Double ) ||
+			( parameterType == Types.CHAR && paramValue instanceof String ) ||
+			( parameterType == Types.DECIMAL && paramValue instanceof BigDecimal ) ||
+			( parameterType == Types.TIME && paramValue instanceof Time ) ||
+			( parameterType == Types.TIMESTAMP && paramValue instanceof Timestamp ) ||
+            ( parameterType == Types.DATE && paramValue instanceof java.util.Date ) )
 		{
 			if( lastException instanceof RuntimeException )
 			{
@@ -2858,81 +2876,83 @@ public class PreparedStatement
 			}
 		}
 		
-		if( paramValueClass == Integer.class )
+        if( paramValue instanceof Integer )
 		{
-			retrySetIntegerParamValue( paramName, paramIndex, paramValue, 
+			retrySetIntegerParamValue( paramName, paramIndex, (Integer) paramValue, 
 			                           parameterType );
 			return;
 		}
 		
-		if( paramValueClass == Double.class )
+        if( paramValue instanceof Double )
 		{
-			retrySetDoubleParamValue( paramName, paramIndex, paramValue, 
+			retrySetDoubleParamValue( paramName, paramIndex, (Double) paramValue, 
 			                          parameterType );
 			return;
 		}
 		
-		if( paramValueClass == String.class )
+        if( paramValue instanceof String )
 		{	
-			retrySetStringParamValue( paramName, paramIndex, paramValue, 
+			retrySetStringParamValue( paramName, paramIndex, (String) paramValue, 
 			                          parameterType );
 			return;
 		}
 		
-		if( paramValueClass == BigDecimal.class )
+		if( paramValue instanceof BigDecimal )
 		{
-			retryBigDecimalParamValue( paramName, paramIndex, paramValue, 
+			retryBigDecimalParamValue( paramName, paramIndex, (BigDecimal) paramValue, 
 			                           parameterType );
 			return;
 		}
 		
-		if( paramValueClass == java.util.Date.class )
+        // check for subclasses before its java.util.Date base class type
+		if( paramValue instanceof Time )
 		{
-			retrySetDateParamValue( paramName, paramIndex, paramValue, 
+			retrySetTimeParamValue( paramName, paramIndex, (Time) paramValue, 
 			                        parameterType );
 			return;
 		}
 		
-		if( paramValueClass == Time.class )
+		if( paramValue instanceof Timestamp )
 		{
-			retrySetTimeParamValue( paramName, paramIndex, paramValue, 
-			                        parameterType );
-			return;
-		}
-		
-		if( paramValueClass == Timestamp.class )
-		{
-			retrySetTimestampParamValue( paramName, paramIndex, paramValue, 
+			retrySetTimestampParamValue( paramName, paramIndex, (Timestamp) paramValue, 
 			                             parameterType );
 			return;
 		}
+        
+        // check for all other types of java.util.Date
+        if( paramValue instanceof java.util.Date )
+        {
+            retrySetDateParamValue( paramName, paramIndex, (java.util.Date) paramValue, 
+                                    parameterType );
+            return;
+        }
 		
 		assert false;	// unsupported parameter value type was checked earlier
 	}
 
 	private void retrySetIntegerParamValue( String paramName, int paramIndex, 
-											Object paramValue, int parameterType ) 
+											Integer paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
 		{
 			case Types.DOUBLE:
 			{
-				double d = ( (Integer) paramValue ).doubleValue();
+				double d = paramValue.doubleValue();
 				setDouble( paramName, paramIndex, d );
 				return;
 			}
 			
 			case Types.CHAR:
 			{
-				String s = ( (Integer) paramValue ).toString();
+				String s = paramValue.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
 			
 			case Types.DECIMAL:
 			{
-				int i = ( (Integer) paramValue ).intValue();
+				int i = paramValue.intValue();
 				BigDecimal bd = new BigDecimal( i );
 				setBigDecimal( paramName, paramIndex, bd );
 				return;
@@ -2946,14 +2966,14 @@ public class PreparedStatement
 	}
 
 	private void retrySetDoubleParamValue( String paramName, int paramIndex, 
-										   Object paramValue, int parameterType ) 
+										   Double paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
 		{
 			case Types.INTEGER:
 			{
-				int i = ( (Double) paramValue ).intValue();
+				int i = paramValue.intValue();
 				Double intValue = new Double( i );
 				// this could be due to loss of precision or the double is 
 				// outside the range of an integer
@@ -2967,14 +2987,14 @@ public class PreparedStatement
 			
 			case Types.CHAR:
 			{
-				String s = ( (Double) paramValue ).toString();
+				String s = paramValue.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
 			
 			case Types.DECIMAL:
 			{
-				double d = ( (Double) paramValue ).doubleValue();
+				double d = paramValue.doubleValue();
 				BigDecimal bd = new BigDecimal( d );
 				setBigDecimal( paramName, paramIndex, bd );
 				return;
@@ -2988,7 +3008,7 @@ public class PreparedStatement
 	}
 
 	private void retrySetStringParamValue( String paramName, int paramIndex, 
-										   Object paramValue, int parameterType ) 
+										   String paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
@@ -2997,7 +3017,7 @@ public class PreparedStatement
 			{
 				try
 				{
-					int i = Integer.parseInt( (String) paramValue );
+					int i = Integer.parseInt( paramValue );
 					setInt( paramName, paramIndex, i );
 					return;
 				}
@@ -3013,7 +3033,7 @@ public class PreparedStatement
 			{
 				try
 				{
-					double d = Double.parseDouble( (String) paramValue );
+					double d = Double.parseDouble( paramValue );
 					setDouble( paramName, paramIndex, d );
 					return;
 				}
@@ -3029,7 +3049,7 @@ public class PreparedStatement
 			{
 				try
 				{
-					BigDecimal bd = new BigDecimal( (String) paramValue );
+					BigDecimal bd = new BigDecimal( paramValue );
 					setBigDecimal( paramName, paramIndex, bd );
 					return;
 				}
@@ -3045,7 +3065,7 @@ public class PreparedStatement
 			{
 				try
 				{
-					Date d = Date.valueOf( (String) paramValue );
+					Date d = Date.valueOf( paramValue );
 					setDate( paramName, paramIndex, d );
 					return;
 				}
@@ -3061,7 +3081,7 @@ public class PreparedStatement
 			{
 				try
 				{
-					Time t = Time.valueOf( (String) paramValue );
+					Time t = Time.valueOf( paramValue );
 					setTime( paramName, paramIndex, t );
 					return;
 				}
@@ -3077,7 +3097,7 @@ public class PreparedStatement
 			{
 				try
 				{
-					Timestamp ts = Timestamp.valueOf( (String) paramValue );
+					Timestamp ts = Timestamp.valueOf( paramValue );
 					setTimestamp( paramName, paramIndex, ts );
 					return;
 				}
@@ -3097,14 +3117,14 @@ public class PreparedStatement
 	}
 
 	private void retryBigDecimalParamValue( String paramName, int paramIndex, 
-											Object paramValue, int parameterType ) 
+                                            BigDecimal paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
 		{
 			case Types.INTEGER:
 			{
-				int i = ( (BigDecimal) paramValue ).intValue();
+				int i = paramValue.intValue();
 				BigDecimal intValue = new BigDecimal( i );
 				// this could occur if there is a loss in precision or 
 				// if the BigDecimal value is outside the range of an integer
@@ -3118,7 +3138,7 @@ public class PreparedStatement
 			
 			case Types.DOUBLE:
 			{
-				double d = ( (BigDecimal) paramValue ).doubleValue();
+				double d = paramValue.doubleValue();
 				BigDecimal doubleValue = new BigDecimal( d );
 				// this could occur if there is a loss in precision or 
 				// if the BigDecimal value is outside the range of a double
@@ -3132,7 +3152,7 @@ public class PreparedStatement
 			
 			case Types.CHAR:
 			{
-				String s = ( (BigDecimal) paramValue ).toString();
+				String s = paramValue.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
@@ -3145,7 +3165,7 @@ public class PreparedStatement
 	}
 
 	private void retrySetDateParamValue( String paramName, int paramIndex, 
-										 Object paramValue, int parameterType ) 
+                                        java.util.Date paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
@@ -3154,16 +3174,23 @@ public class PreparedStatement
 			{
 				// need to convert the java.util.Date to a java.sql.Date, 
 				// so that we can get the ISO format date string
-				Date sqlDate = new Date( ( (java.util.Date) paramValue ).getTime() );
+				Date sqlDate = new Date( paramValue.getTime() );
 				String s = sqlDate.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
+            
+            case Types.TIME:
+            {
+                // ignores the date portion
+                Time timeValue = new Time( paramValue.getTime() );
+                setTime( paramName, paramIndex, timeValue );
+                return;
+            }
 			
 			case Types.TIMESTAMP:
 			{
-				long time = ( (java.util.Date) paramValue ).getTime();
-				Timestamp ts = new Timestamp( time );
+				Timestamp ts = new Timestamp( paramValue.getTime() );
 				setTimestamp( paramName, paramIndex, ts );
 				return;
 			}
@@ -3176,17 +3203,31 @@ public class PreparedStatement
 	}
 
 	private void retrySetTimeParamValue( String paramName, int paramIndex, 
-										 Object paramValue, int parameterType ) 
+                                         Time paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
 		{
 			case Types.CHAR:
 			{
-				String s = ( (Time) paramValue ).toString();
+				String s = paramValue.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
+            
+            case Types.DATE:
+            {
+                Date d = new Date( paramValue.getTime() );
+                setDate( paramName, paramIndex, d );
+                return;
+            }
+            
+            case Types.TIMESTAMP:
+            {
+                Timestamp ts = new Timestamp( paramValue.getTime() );
+                setTimestamp( paramName, paramIndex, ts );
+                return;
+            }
 			
 			default:
 				conversionError( paramName, paramIndex, paramValue, 
@@ -3196,25 +3237,33 @@ public class PreparedStatement
 	}
 
 	private void retrySetTimestampParamValue( String paramName, int paramIndex, 	
-											  Object paramValue, int parameterType ) 
+                                            Timestamp paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
 		{
 			case Types.CHAR:
 			{
-				String s = ( (Timestamp) paramValue ).toString();
+				String s = paramValue.toString();
 				setString( paramName, paramIndex, s );
 				return;
 			}
 			
 			case Types.DATE:
 			{
-				long time = ( (Timestamp) paramValue ).getTime();
+				long time = paramValue.getTime();
 				Date d = new Date( time );
 				setDate( paramName, paramIndex, d );
 				return;
 			}
+            
+            case Types.TIME:
+            {
+                // ignores the date portion
+                Time timeValue = new Time( paramValue.getTime() );
+                setTime( paramName, paramIndex, timeValue );
+                return;
+            }
 			
 			default:
 				conversionError( paramName, paramIndex, paramValue, 

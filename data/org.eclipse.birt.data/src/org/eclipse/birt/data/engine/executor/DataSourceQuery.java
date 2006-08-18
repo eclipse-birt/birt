@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataType;
@@ -312,9 +313,17 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			if ( parameterHint.isInputMode( )
 					&& parameterHint.getDefaultInputValue( ) != null )
 			{
+                Class paramHintDataType = parameterHint.getDataType();
+                
+                // since a Date may have extended types,
+                // use the type of Date that is most effective for data conversion
+                if( paramHintDataType == Date.class )
+                    paramHintDataType = parameterHint.getEffectiveDataType( 
+                                            dataSource.getDriverName(), queryType );
+                
 				Object inputValue = convertToValue( 
 						parameterHint.getDefaultInputValue( ), 
-						parameterHint.getDataType());
+                        paramHintDataType );
 				if ( isParameterPositionValid(parameterHint.getPosition( )) )
 					this.setInputParamValue( parameterHint.getPosition( ),
 							inputValue );
@@ -396,16 +405,17 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	Iterator it = resultHints.iterator();
     	while ( it.hasNext())
     	{
-    		IDataSourceQuery.ResultFieldHint hint = 
+    		IDataSourceQuery.ResultFieldHint odiHint = 
     				(IDataSourceQuery.ResultFieldHint) it.next();
-    		ColumnHint colHint = new ColumnHint( hint.getName() );
-    		colHint.setAlias( hint.getAlias() );
-    		if ( hint.getDataType( ) == DataType.ANY_TYPE )
+    		ColumnHint colHint = new ColumnHint( odiHint.getName() );
+    		colHint.setAlias( odiHint.getAlias() );
+    		if ( odiHint.getDataType( ) == DataType.ANY_TYPE )
 				colHint.setDataType( null );
 			else
-				colHint.setDataType( DataType.getClass( hint.getDataType( ) ) );
-			if ( hint.getPosition() > 0 )
-    			colHint.setPosition( hint.getPosition());
+				colHint.setDataType( DataType.getClass( odiHint.getDataType( ) ) );  
+            colHint.setNativeDataType( odiHint.getNativeDataType() );
+			if ( odiHint.getPosition() > 0 )
+    			colHint.setPosition( odiHint.getPosition());
 
    			stmt.addColumnHint( colHint );
     	}

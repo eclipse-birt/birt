@@ -566,6 +566,7 @@ public class DataSourceAndDataSet
 	{
 		return pd.getPosition( ) == pd2.getPosition( )
 				&& pd.getType( ) == pd2.getType( )
+                && pd.getNativeType( ) == pd2.getNativeType( )
 				&& pd.isInputMode( ) == pd2.isInputMode( )
 				&& pd.isInputOptional( ) == pd2.isInputOptional( )
 				&& pd.isNullable( ) == pd2.isNullable( )
@@ -617,7 +618,8 @@ public class DataSourceAndDataSet
 				&& isEqualString( pb.getDefaultInputValue( ),
 						pb2.getDefaultInputValue( ) )
 				&& isEqualString( pb.getDataType( ).toString( ),
-						pb2.getDataType( ).toString( ) );
+						pb2.getDataType( ).toString( ) )
+                && pb.getNativeDataType() == pb2.getNativeDataType();
 	}
 
 	/**
@@ -665,6 +667,7 @@ public class DataSourceAndDataSet
 
 		return cd.getColumnPosition( ) == cd2.getColumnPosition( )
 				&& cd.getDataType( ) == cd2.getDataType( )
+                && cd.getNativeDataType( ) == cd2.getNativeDataType( )
 				&& cd.getExportHint( ) == cd2.getExportHint( )
 				&& cd.getSearchHint( ) == cd2.getSearchHint( )
 				&& isEqualString( cd.getAlias( ), cd2.getAlias( ) )

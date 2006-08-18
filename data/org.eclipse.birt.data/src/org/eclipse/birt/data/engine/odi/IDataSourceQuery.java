@@ -164,10 +164,13 @@ public interface IDataSourceQuery extends IQuery
      */
     public static final class ResultFieldHint
     {
+        public static final int UNKNOWN_NATIVE_DATA_TYPE = 0;   
+
         private String 	alias;
         private String 	name;
         private int	 	position = -1;
         private int	 	dataType = -1;
+        private int     nativeDataType = UNKNOWN_NATIVE_DATA_TYPE;
         
         /**
          * Constructs a hint for a column with provided name
@@ -195,6 +198,16 @@ public interface IDataSourceQuery extends IQuery
         public int getDataType()
         {
             return dataType;
+        }
+
+        public void setNativeDataType( int nativeTypeCode )
+        {
+            nativeDataType = nativeTypeCode;
+        }
+        
+        public int getNativeDataType()
+        {
+            return nativeDataType;
         }
         
         public String getName()

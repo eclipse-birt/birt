@@ -110,31 +110,7 @@ class DriverManager
 
 		sm_logger.exiting( sm_className, methodName );
 	}
-	
-	/**
-	 * Returns the default ODA type code mapped to the native type code for the 
-	 * specified driver and data set type.
-	 * @param dataSourceElementId	the name of the driver.
-	 * @param dataSetType	the type of the data set.
-	 * @param nativeType	the native type code.
-	 * @return	the ODA type code.
-	 */
-	int getNativeToOdaMapping( String dataSourceElementId, 
-							   String dataSetType, 
-							   int nativeType ) throws DataException
-	{
-		String methodName = "getNativeToOdaMapping";
-		if( sm_logger.isLoggingEnterExitLevel() )
-		    sm_logger.entering( sm_className, methodName, 
-							new Object[] { dataSourceElementId, dataSetType, new Integer( nativeType ) } );
-
-		Driver driver = getDriver( dataSourceElementId );
-		int ret = driver.getTypeMapping( dataSetType, nativeType );
 		
-		sm_logger.exiting( sm_className, methodName, ret );
-		return ret;
-	}
-	
 	private Driver getDriver( String dataSourceElementId )
 	{
 		assert( dataSourceElementId != null && dataSourceElementId.length() != 0 );

@@ -24,6 +24,7 @@ public class ColumnDefinition implements IColumnDefinition
 	String 		name;
 	int 		position = -1;
 	int			dataType = DataType.UNKNOWN_TYPE;
+    int         nativeDataType = 0;     // unknown
 	String 	 	alias;
 	int			searchHint = NOT_SEARCHABLE;
 	int 		exportHint = DONOT_EXPORT;
@@ -71,7 +72,15 @@ public class ColumnDefinition implements IColumnDefinition
 		return dataType;
 	}
 
-	/** 
+	/* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getNativeDataType()
+     */
+    public int getNativeDataType()
+    {
+        return nativeDataType;
+    }
+
+    /** 
 	 * Gets the alias of the column. An alias is a string that can be used interchangably as 
 	 * the name to refer to a column.
 	 */
@@ -112,6 +121,16 @@ public class ColumnDefinition implements IColumnDefinition
 	{
 		this.dataType = dataType;
 	}
+    
+    /**
+     * Set the column native data type.
+     * @param typeCode  a data type code defined by an underlying data source.
+     */
+    public void setNativeDataType( int typeCode )
+    {
+        nativeDataType = typeCode;
+    }
+    
 	/**
 	 * @param exportHint The exportHint to set.
 	 */

@@ -26,6 +26,7 @@ public class ParameterDefinition implements IParameterDefinition
 	private int posn = -1;
 	private String name;
 	private int type = DataType.UNKNOWN_TYPE;
+    private int nativeDataType = 0;     // unknown
 	private boolean isInputMode = false;
 	private boolean isOutputMode = false;
 	private boolean isInputOptional = true;
@@ -117,6 +118,22 @@ public class ParameterDefinition implements IParameterDefinition
 	    this.type = type;
 	}	
 	
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IParameterDefinition#getNativeType()
+     */
+    public int getNativeType()
+    {
+        return nativeDataType;
+    }
+    
+    /**
+     * Sets the parameter native data type
+     */
+    public void setNativeType( int typeCode )
+    {
+        nativeDataType = typeCode;
+    }   
+
     /**
      * @see org.eclipse.birt.data.engine.api.IParameterDefinition#isInputMode()
      */	

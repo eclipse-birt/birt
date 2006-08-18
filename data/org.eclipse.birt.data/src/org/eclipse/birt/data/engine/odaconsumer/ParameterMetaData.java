@@ -23,13 +23,15 @@ import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * Contains the metadata information of a single parameter.
+ * Contains the effective metadata information of a single parameter.
+ * Metadata is obtained from ODA driver's runtime metadata, if available, and
+ * supplemented with design hints.
  */
 public class ParameterMetaData
 {
 	private int m_position = -1;
 	private String m_name;
-	private int m_dataType = Types.NULL;
+	private int m_dataType = Types.NULL;   // ODA data type
 	private String m_nativeTypeName;
 	private String m_defaultValue;
 	private Boolean m_isOptional;
@@ -44,7 +46,12 @@ public class ParameterMetaData
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
 	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
-	ParameterMetaData( ParameterHint paramHint )
+    /**
+     * Instantiate a parameter metadata based on design-time metadata
+     * specified in a parameter hint.
+     */
+	ParameterMetaData( ParameterHint paramHint,
+                       String odaDataSourceId, String dataSetType ) 
 	{
 		String methodName = "ParameterMetaData";
 		sm_logger.entering( sm_className, methodName, paramHint );
@@ -54,8 +61,7 @@ public class ParameterMetaData
 		int position = paramHint.getPosition();
 		m_position = ( position > 0 ) ? position : -1;
 		
-		m_dataType = 
-			DataTypeUtil.toOdaType( paramHint.getDataType() );
+		m_dataType = paramHint.getEffectiveOdaType( odaDataSourceId, dataSetType );
 		
 		m_isOptional = Boolean.valueOf( paramHint.isInputOptional() );
 		
@@ -68,28 +74,31 @@ public class ParameterMetaData
 		sm_logger.exiting( sm_className, methodName, this );
 	}
 
+    /**
+     * Instantiate a parameter metadata based on runtime metadata
+     * of the specified oda data source and data set type.
+     * @throws DataException
+     */
 	ParameterMetaData( IParameterMetaData parameterMetaData, int index, 
-	                   String driverName, String dataSetType ) 
+	                   String odaDataSourceId, String dataSetType ) 
 		throws DataException
 	{
 		String methodName = "ParameterMetaData";
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
 		        				new Object[] { parameterMetaData, new Integer( index ),
-		            							driverName, dataSetType } );
+		            							odaDataSourceId, dataSetType } );
 		m_position = index;
 		int nativeType = getRuntimeParameterType( parameterMetaData, index );
 		
-		// if the native type of the parameter is unknown (Types.NULL), then 
+		// if the native type of the parameter is unknown (Types.NULL) at runtime, 
 		// we can't simply default to the ODA character type because we may 
-		// have a parameter hint that could provide the type
+		// have a design hint that could provide the type
 		if( nativeType != Types.NULL )
 			m_dataType = 
-				DriverManager.getInstance().getNativeToOdaMapping( driverName, 
-				                                                   dataSetType, 
-				                                                   nativeType );
-		
-		m_nativeTypeName = getRuntimeParamTypeName( parameterMetaData, index );
+                DataTypeUtil.toOdaType( nativeType, odaDataSourceId, dataSetType );
+
+        m_nativeTypeName = getRuntimeParamTypeName( parameterMetaData, index );
 		
 		int mode = getRuntimeParameterMode( parameterMetaData, index );
 		if( mode == IParameterMetaData.parameterModeIn )
@@ -125,11 +134,12 @@ public class ParameterMetaData
 	
 	/**
 	 * This method is meant to update the runtime parameter metadata with static 
-	 * parameter hints.
-	 * @param paramHint	the hint used to update the runtime parameter metadata.
+	 * design-time metadata specified in a parameter hint.
 	 * @throws DataException	if data source error occurs.
 	 */
-	void updateWith( ParameterHint paramHint ) throws DataException
+	void updateWith( ParameterHint paramHint,
+                    String odaDataSourceId, String dataSetType ) 
+        throws DataException
 	{
 		String methodName = "updateWith";
 		sm_logger.entering( sm_className, methodName, paramHint );
@@ -167,9 +177,8 @@ public class ParameterMetaData
 		// the hint if present or default to the character type
 		if( m_dataType == Types.NULL )
 		{
-			Class paramHintType = paramHint.getDataType();
-			m_dataType = 
-				DataTypeUtil.toOdaType( paramHintType );
+			m_dataType = paramHint.getEffectiveOdaType( 
+                                    odaDataSourceId, dataSetType );
 		}
 		
 		if( m_isOptional == null )	// was unknown

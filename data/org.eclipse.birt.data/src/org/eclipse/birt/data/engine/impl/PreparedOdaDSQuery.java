@@ -283,18 +283,19 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		    {
 		    	List source = extDataSet.getResultSetHints(); 
 		    	int count = source.size();
-		    	ArrayList hints = new ArrayList( count );
+		    	ArrayList odiHints = new ArrayList( count );
 		    	for ( int i = 0; i < count; i ++)
 		    	{
 		    		IColumnDefinition def = (IColumnDefinition) source.get(i);
-		    		IDataSourceQuery.ResultFieldHint hint = 
+		    		IDataSourceQuery.ResultFieldHint odiHint = 
 		    				new IDataSourceQuery.ResultFieldHint( def.getColumnName());
-		    		hint.setPosition( def.getColumnPosition());
-		    		hint.setAlias( def.getAlias());
-		    		hint.setDataType( def.getDataType());
-		    		hints.add( hint );
+		    		odiHint.setPosition( def.getColumnPosition());
+		    		odiHint.setAlias( def.getAlias());
+		    		odiHint.setDataType( def.getDataType());  
+                    odiHint.setNativeDataType( def.getNativeDataType() );
+		    		odiHints.add( odiHint );
 		    	}
-			    odiDSQuery.setResultHints( hints );
+			    odiDSQuery.setResultHints( odiHints );
 		    }	
 
 		    // assign computed columns and projected columns

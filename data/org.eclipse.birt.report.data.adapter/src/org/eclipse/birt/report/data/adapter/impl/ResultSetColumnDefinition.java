@@ -22,6 +22,7 @@ class ResultSetColumnDefinition implements IColumnDefinition
 	String 		name;
 	int 		position = -1;
 	int			dataType = DataType.UNKNOWN_TYPE;
+    int         nativeDataType = 0;     // unknown
 	String 	 	alias;
 	String      displayName;
 	boolean     computedCol = false;
@@ -96,7 +97,23 @@ class ResultSetColumnDefinition implements IColumnDefinition
 		this.dataTypeName = dataTypeName;
 	}
 
-	/** 
+	/* (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getNativeDataType()
+     */
+    public int getNativeDataType()
+    {
+        return nativeDataType;
+    }
+    
+    /**
+     * @param dataType The native data type to set.
+     */
+    void setNativeDataType( int typeCode ) 
+    {
+        nativeDataType = typeCode;
+    }
+
+    /** 
 	 * Gets the alias of the column. An alias is a string that can be used interchangably as 
 	 * the name to refer to a column.
 	 */

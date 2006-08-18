@@ -347,6 +347,8 @@ class ParameterUtil
 			dataTypeClass = String.class;
 		}
 		parameterHint.setDataType( dataTypeClass );
+        
+        parameterHint.setNativeDataType( paramDefn.getNativeType() );
 		parameterHint.setIsInputOptional( paramDefn.isInputOptional( ) );
 		parameterHint.setDefaultInputValue( getParameterValueString( dataTypeClass,
 				paramValue ) );

@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
  * Utility class for handling data types in the ODI layer of the Data 
@@ -133,4 +134,26 @@ public final class DataTypeUtil
 
 		return odaType;
 	}
+    
+    /**
+     * Converts the specified native data type code to 
+     * its default ODA data type code,
+     * based on the data type mapping defined
+     * by the specified ODA data source and data set types.
+     * @param nativeTypeCode    native type code specific to the ODA data source
+     * @param odaDataSourceId   the ODA data source element id
+     * @param dataSetType       the type of data set
+     * @return  the converted ODA data type code, 
+     *          or java.sql.Types.NULL if no valid mapping is found
+     */
+    static int toOdaType( int nativeTypeCode, 
+                          String odaDataSourceId, String dataSetType )
+    {
+        if( odaDataSourceId == null || odaDataSourceId.length() == 0 )
+            return Types.NULL;
+        
+        return ManifestExplorer.getInstance( ).getDefaultOdaDataTypeCode( 
+                                nativeTypeCode, odaDataSourceId, dataSetType );
+    }
+
 }

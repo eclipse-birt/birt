@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -34,11 +35,14 @@ public class ParameterHint
 	private String m_name;
 	private int m_position;
 	private Class m_dataType;
+    private int m_nativeDataType = UNKNOWN_NATIVE_TYPE;
 	private boolean m_isInputOptional;
 	private String m_defaultInputValue;
 	private boolean m_isInputMode;
 	private boolean m_isOutputMode;
 	private boolean m_isNullable;
+    
+    private static final int UNKNOWN_NATIVE_TYPE = 0;   
 
 	// trace logging variables
 	private static String sm_className = ParameterHint.class.getName();
@@ -171,7 +175,9 @@ public class ParameterHint
 	}
 	
 	/**
-	 * Returns the parameter data type for this parameter hint.
+	 * Returns the parameter ODI data type specified in this parameter hint.
+     * Note that this may not be the most effective data type to use.
+     * @see #getEffectiveDataType(String, String)
 	 * @return	the data type of the parameter.
 	 */
 	public Class getDataType()
@@ -179,6 +185,27 @@ public class ParameterHint
 		return m_dataType;
 	}
 
+    /**
+     * Sets the native data type for this parameter hint.
+     * @param typeCode  the native data type of the parameter.
+     */
+    public void setNativeDataType( int typeCode )
+    {
+        m_nativeDataType = typeCode;
+    }
+
+    /**
+     * Returns the native data type in this parameter hint.
+     * The native data type code value is implementation-specific, and collected
+     * at design time.
+     * Default value is 0 for none or unknown value.
+     * @return  the native data type of the parameter.
+     */
+    public int getNativeDataType()
+    {
+        return m_nativeDataType;
+    }
+    
 	/**
 	 * Sets whether the input parameter is optional.  Has 
 	 * no effect on non-input parameters.
@@ -271,12 +298,15 @@ public class ParameterHint
 
 		m_name = hint.m_name;
 		
-		// don't update if the other hint has the default values
+		// don't update if the specified hint has the default values
 		if( hint.m_position != 0 )
 			m_position = hint.m_position;
 		
 		if( hint.m_dataType != null )
 			m_dataType = hint.m_dataType;
+        
+        if( hint.m_nativeDataType != UNKNOWN_NATIVE_TYPE )
+            m_nativeDataType = hint.m_nativeDataType;
 		
 		m_isInputOptional = hint.m_isInputOptional;
 		m_defaultInputValue = hint.m_defaultInputValue;
@@ -286,4 +316,43 @@ public class ParameterHint
 
 		sm_logger.exiting( sm_className, methodName, this );
 	}
+    
+    /**
+     * Returns the most effective ODI data type defined in the hint.
+     * It determines the best type to use based on the native data type defined.
+     * @param odaDataSourceId   underlying ODA driver's data source id that defines
+     *                          the native data type mappings
+     * @param dataSetType       type of data set; may be null 
+     *                          if the oda data source has only one type of data set
+     * @return  the most effective ODI data type to use
+     */
+    public Class getEffectiveDataType( String odaDataSourceId, String dataSetType )
+    {
+        return DataTypeUtil.toTypeClass( 
+                    getEffectiveOdaType( odaDataSourceId, dataSetType ) );
+    }
+    
+    int getEffectiveOdaType( String odaDataSourceId, String dataSetType )
+    {
+        /* The BIRT DtE ODI data type specified in a parameter hint may be based on
+         * what an user manually entered in BIRT host designer, and was not necessarily 
+         * validated against an underlying ODA driver.
+         * Whereas, the native data type in hint, if available, is provided by
+         * a custom ODA designer.  It is thus a more reliable type to use in a retry.  
+         * So we first try to use the native data type for the effective ODA data type. 
+         */
+        if( getNativeDataType() != UNKNOWN_NATIVE_TYPE )
+        {
+            int odaType = DataTypeUtil.toOdaType( getNativeDataType(),
+                                                odaDataSourceId,
+                                                dataSetType );
+            if( odaType != Types.NULL )
+                return odaType;     // found valid native to oda type mapping
+        }
+        
+        // no native data type mapping info, use the BIRT DtE ODI API data type instead 
+        Class typeInHint = getDataType();
+        return DataTypeUtil.toOdaType( typeInHint );
+    }
+    
 }

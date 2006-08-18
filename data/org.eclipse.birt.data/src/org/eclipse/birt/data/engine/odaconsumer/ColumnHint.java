@@ -15,10 +15,11 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.logging.Level;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IBlob;
@@ -33,8 +34,11 @@ public class ColumnHint
 	private String m_name;
 	private int m_position;
 	private Class m_dataType;
+    private int m_nativeDataType = UNKNOWN_NATIVE_TYPE;
 	private String m_alias;
-	
+
+    private static final int UNKNOWN_NATIVE_TYPE = 0;   
+
 	// trace logging variables
 	private static String sm_className = ColumnHint.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
@@ -127,14 +131,37 @@ public class ColumnHint
 	}
 	
 	/**
-	 * Returns the column data type for this <code>ColumnHint</code>.
+	 * Returns the column data type specified in this <code>ColumnHint</code>.
+     * Note that this may not be the most effective data type to use.
+     * @see #getEffectiveDataType(String, String)
 	 * @return	the column data type.
 	 */
 	public Class getDataType()
 	{
 		return m_dataType;
 	}
-	
+
+    /**
+     * Sets the native data type for this <code>ColumnHint</code>.
+     * @param typeCode  the native data type of the column.
+     */
+    public void setNativeDataType( int typeCode )
+    {
+        m_nativeDataType = typeCode;
+    }
+
+    /**
+     * Returns the native data type for this <code>ColumnHint</code>.
+     * The native data type code value is implementation-specific, and collected
+     * at design time.
+     * Default value is 0 for none or unknown value.
+     * @return  the native data type of the column.
+     */
+    public int getNativeDataType()
+    {
+        return m_nativeDataType;
+    }
+
 	/**
 	 * Sets the column alias for this <code>ColumnHint</code>.
 	 * @param alias	the column alias.
@@ -168,4 +195,38 @@ public class ColumnHint
 	{
 		return m_alias;
 	}
+    
+    /**
+     * Returns the most effective ODI data type defined in this hint.
+     * It determines the best type to use based on the native data type defined.
+     * @param odaDataSourceId   underlying ODA driver's data source id that defines
+     *                          the native data type mappings
+     * @param dataSetType       type of data set; may be null 
+     *                          if the ODA data source has only one type of data set
+     * @return  the most effective ODI data type to use
+     */
+    public Class getEffectiveDataType( String odaDataSourceId, String dataSetType )
+    {
+        /* The BIRT DtE ODI data type specified in a column hint may be based on
+         * reversed mapping from a DtE API type.  Since multiple ODI types may be
+         * mapped to the same DtE API type, the reverse mapped value may not be
+         * the original one.  
+         * Using the native data type, if available, to determine the effective
+         * ODI type is thus more reliable.
+         * So we first try to use the native data type for the effective ODI type. 
+         */
+        if( getNativeDataType() != UNKNOWN_NATIVE_TYPE )
+        {
+            Class effectiveType = DataTypeUtil.toTypeClass( 
+                    DataTypeUtil.toOdaType( getNativeDataType(), 
+                                            odaDataSourceId, 
+                                            dataSetType ) );
+            if( effectiveType != null )
+                return effectiveType;     // found valid native to odi type mapping
+        }
+        
+        // no native data type mapping info, use the BIRT DtE ODI API data type instead 
+        return getDataType();
+    }
+
 }

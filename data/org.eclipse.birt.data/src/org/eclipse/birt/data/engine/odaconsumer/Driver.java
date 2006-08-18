@@ -16,7 +16,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Types;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.IBundle;
@@ -27,7 +26,6 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
-import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.TraceLogging;
@@ -126,36 +124,6 @@ class Driver
 			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
                                      new Object[] { m_dataSourceDriverId } );
 		}
-	}
-
-	// gets the specific native-to-oda type mapping for the specified data set type 
-	// in this driver
-	int getTypeMapping( String dataSetType, int nativeType ) throws DataException
-	{
-	    final String methodName = "getTypeMapping";
-		DataSetType dsType = null;
-		
-		try
-		{
-			dsType = getDriverExtensionConfig().getDataSetType( dataSetType );
-		}
-		catch( OdaException ex )
-		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName,
-					"Cannot find data set element.", ex );
-			throw new DataException( ResourceConstants.INVALID_DATA_SET_TYPE, ex );
-		}
-		
-		int odaTypeCode = dsType.getDefaultOdaDataTypeCode( nativeType );
-        
-        // no mapping found in data source extension configuration, return a default type
-        if( odaTypeCode == Types.NULL )
-        {
-			sm_logger.logp( Level.WARNING, sm_className, methodName,
-					"No ODA data type mapping found in data source extension for native data type ", 
-                    Integer.toString( nativeType ) );
-		}
-        return odaTypeCode;
 	}
 
     /**
