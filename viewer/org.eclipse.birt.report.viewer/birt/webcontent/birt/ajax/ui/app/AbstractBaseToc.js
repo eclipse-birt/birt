@@ -133,9 +133,13 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			var spantmp = document.createElement( "input" );
 			var displaynames = tmp.getElementsByTagName( 'DisplayName' );
 			var displayname = displaynames[0].firstChild;
+			var s_displayname = "";
+			if( displayname )
+				s_displayname = displayname.data;
+				
 			spantmp.type = "button";
-			spantmp.value = displayname.data;
-			spantmp.title = "TOC Link " + displayname.data;
+			spantmp.value = s_displayname;
+			spantmp.title = "TOC Link " + s_displayname;
 			spantmp.id =  'span_' + imgid;
 			spantmp.style.cursor = 'pointer';
 			spantmp.style.border = "0px";
