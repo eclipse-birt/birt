@@ -399,6 +399,11 @@ public class ParameterValidationUtil
 					return null;
 				return new Integer( number.intValue( ) );
 			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
+					.equalsIgnoreCase( dataType ) )
+			{
+				return doValidateBoolean( value, locale );
+			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_STRING
 					.equalsIgnoreCase( dataType ) )
 			{

@@ -16,9 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -188,19 +187,16 @@ public abstract class ReferencableStructure extends Structure
 		// reference and load the property values from it; third, read default
 		// in ROM
 
-		if ( libReference != null && module != null )
+		if ( libReference != null )
 		{
 			ReferencableStructure refStruct = libReference.getTargetStructure( );
 			if ( refStruct != null )
 			{
-				// Library lib = module
-				// .getVisibleLibraryWithNamespace( libReference
-				// .getLibraryNamespace( ) );
-
-				Library lib = module.getLibraryWithNamespace( libReference
-						.getLibraryNamespace( ), IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
-
-				Module root = lib == null ? module : lib;
+				Module root = null;
+				if ( module != null )
+					root = module.getLibraryWithNamespace( libReference
+							.getLibraryNamespace( ),
+							IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 				value = refStruct.getProperty( root, propDefn );
 				if ( value != null )
 					return value;
@@ -335,6 +331,9 @@ public abstract class ReferencableStructure extends Structure
 		struct.clients = new ArrayList( );
 		struct.clientStructures = new ArrayList( );
 
+		if ( libReference == null )
+			return struct;
+
 		// retrieve the member value from the lib reference
 
 		Iterator propIter = getDefn( ).getPropertyIterator( );
@@ -352,13 +351,24 @@ public abstract class ReferencableStructure extends Structure
 			StructRefValue libRef = this.libReference;
 			while ( libRef != null )
 			{
-				ReferencableStructure libStructure = libReference
+				ReferencableStructure libStructure = libRef
 						.getTargetStructure( );
+				if ( libStructure == null )
+				{
+					struct.libReference = new StructRefValue( libReference
+							.getLibraryNamespace( ), libReference.getName( ) );
+					return struct;
+				}
+
 				Object value = libStructure.getLocalProperty( null, prop );
 				if ( value != null )
+				{
 					struct.setProperty( prop, value );
+					break;
+				}
 
-				libRef = (StructRefValue) libStructure.getLocalProperty( null, LIB_REFERENCE_MEMBER );
+				libRef = (StructRefValue) libStructure.getLocalProperty( null,
+						LIB_REFERENCE_MEMBER );
 			}
 		}
 
