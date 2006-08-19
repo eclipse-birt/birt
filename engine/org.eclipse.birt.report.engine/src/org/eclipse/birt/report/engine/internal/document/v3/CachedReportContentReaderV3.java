@@ -12,8 +12,7 @@
 package org.eclipse.birt.report.engine.internal.document.v3;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -51,39 +50,26 @@ public class CachedReportContentReaderV3
 		}
 	}
 	
-	protected LinkedList caches = new LinkedList();
+	protected HashMap caches = new HashMap();
 
 	protected void addCache(long offset, IContent content)
 	{
-		caches.add(new CacheEntry(offset, content));
+		caches.put(new Long(offset), new CacheEntry(offset, content));
 	}
 	
 	protected void removeCache(long offset)
 	{
-		Iterator iter = caches.iterator();
-		while (iter.hasNext())
-		{
-			CacheEntry cache = (CacheEntry)iter.next();
-			if (cache.offset == offset)
-			{
-				iter.remove();
-				break;
-			}
-		}
+		final Long hashKey = new Long (offset);
+		caches.remove( hashKey );
 		return;
 	}
 
 	protected IContent findCache(long offset)
 	{
-		Iterator iter = caches.iterator();
-		while (iter.hasNext())
-		{
-			CacheEntry cache = (CacheEntry)iter.next();
-			if (cache.offset == offset)
-			{
-				return cache.content;
-			}
-		}
+		final Long hashKey = new Long (offset);
+		final CacheEntry cache = (CacheEntry)caches.get( hashKey );
+		if ( cache != null )
+			return cache.content;
 		return null;
 	}
 	
