@@ -3,7 +3,6 @@
 	<property name="eclipse.home" value=""/>
 	<property name="src.dir" location="src"/>
 	<property name="bin.dir" location="bin"/>
-	<property name="tests.dir" value="utest"/>
 	<property name="application" value=""/>
 	<property name="data.dir" value="${data.path}/${module.name}/${tests.dir}/configuration/"/>
 	<property name="core.dir" value="../org.eclipse.birt.core"/>
@@ -12,7 +11,8 @@
 	<property name="confFilePath" value=""/>
 	<property name="module.name" value=""/>
 	<property name="className" value=""/>
-	<property name="otherArgs" value=""/>
+	<property name="tests.dir" value="utest"/>
+	<property name="utest.report.dir" location="utestreport"/>
 	
 	<!-- classPath -->
 	
@@ -333,10 +333,14 @@
 			</classpath>
 			<arg line="-application ${application}"/>
 			<arg line="-data ${data.dir}"/>
-			<arg line="-configuration ${confFilePath}" />
-			<arg line="-testPluginName ${module.name}" />
-			<arg line="-className ${className}" />
-			<arg line="${otherArgs}"/>
+			<arg line="-configuration ${confFilePath}"/>
+			<arg line="-testPluginName ${module.name}"/>
+			<arg line="-className ${className}"/>
+			<arg line="formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,&quot;${utest.report.dir}/${module.name}.xml&quot;"/>
+			<!-- system properties for tests.viewer -->
+			<sysproperty key="server" value="${server}"/>
+			<sysproperty key="runtime" value="${runtime}"/>
+			<sysproperty key="deploy.dir" value="${deploy.dir}"/>
 		</java>
 		<delete dir="../${module.name}/${tests.dir}" includeEmptyDirs="true"/>
 	</target>
