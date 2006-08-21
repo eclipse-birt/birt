@@ -486,4 +486,45 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 		return (OdaDesignerStateHandle) designerState
 				.getHandle( getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP ) );
 	}
+
+	/**
+	 * Returns an iterator over the list of oda dataset parameter definitions.
+	 * The iterator returns instances of <code>OdaDataSetParameterHandle</code>
+	 * that represents oda dataset parameter objects.
+	 * 
+	 * @return iterator over oda dataset parameter definitions.
+	 * @see org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
+	 */
+
+	public Iterator parametersIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( PARAMETERS_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Returns persistent ODA designer values stored in the data set.
+	 * 
+	 * @return designer values in string
+	 */
+
+	public String getDesignerValues( )
+	{
+		return getStringProperty( DESIGNER_VALUES_PROP );
+	}
+
+	/**
+	 * Stores persistent ODA designer values in the data set.
+	 * 
+	 * @param values
+	 *            designer values in string
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setDesignerValues( String values ) throws SemanticException
+	{
+		setStringProperty( DESIGNER_VALUES_PROP, values );
+	}
 }

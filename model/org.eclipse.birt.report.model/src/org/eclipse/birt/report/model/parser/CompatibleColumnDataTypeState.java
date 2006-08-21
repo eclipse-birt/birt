@@ -1,14 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 import org.xml.sax.SAXException;
 
 /**
- * TODO
+ * Parsed column data type choices to parameter type choices.
+ * <p>
+ * The conversion is done from the file version 3.2.5. It is a part of automatic
+ * conversion for BIRT 2.1.1.
  */
 
 public class CompatibleColumnDataTypeState extends PropertyState
@@ -42,30 +55,7 @@ public class CompatibleColumnDataTypeState extends PropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
-		
-		doEnd( converToParamType( value ) );
+
+		doEnd( DataTypeConversionUtil.converToParamType( value ) );
 	}
-
-	private static String converToParamType( String columnType )
-	{
-		if ( columnType.length( ) == 0 )
-			return null;
-
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( columnType ) )
-			return DesignChoiceConstants.PARAM_TYPE_STRING;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME
-				.equals( columnType ) )
-			return DesignChoiceConstants.PARAM_TYPE_DATETIME;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( columnType ) )
-			return DesignChoiceConstants.PARAM_TYPE_DECIMAL;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( columnType ) )
-			return DesignChoiceConstants.PARAM_TYPE_FLOAT;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( columnType ) )
-			return DesignChoiceConstants.PARAM_TYPE_INTEGER;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( columnType ) )
-			return DesignChoiceConstants.PARAM_TYPE_STRING;
-
-		return null;
-	}
-
 }

@@ -180,6 +180,7 @@
     <Choice displayNameID="Choices.paramType.dateTime" name="dateTime"/>
     <Choice displayNameID="Choices.paramType.boolean" name="boolean"/>
     <Choice displayNameID="Choices.paramType.integer" name="integer"/>
+    <Choice displayNameID="Choices.paramType.any" name="any"/>	  
   </ChoiceType>
   <ChoiceType name="paramValueType">
     <Choice displayNameID="Choices.paramValueType.static" name="static"/>
@@ -369,6 +370,7 @@
     <Choice displayNameID="Choices.columnDataType.date-time" name="date-time"/>
     <Choice displayNameID="Choices.columnDataType.decimal" name="decimal"/>
     <Choice displayNameID="Choices.columnDataType.float" name="float"/>
+	<Choice displayNameID="Choices.columnDataType.boolean" name="boolean"/>	  
     <!-- not supported now
     <Choice displayNameID="Choices.columnDataType.structure" name="structure"/>
     <Choice displayNameID="Choices.columnDataType.table" name="table"/>
@@ -1735,8 +1737,9 @@
   </Structure>
   <Structure displayNameID="Structure.DataSetParam" name="DataSetParam" since="1.0">
     <Member displayNameID="Structure.DataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
-    <Member detailType="columnDataType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+    <Member detailType="paramType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
         <Default>any</Default>
+        <Allowed>string,any,float,decimal,dateTime,integer</Allowed>		
     </Member> 
 	<Member displayNameID="Structure.DataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />            
     <Member displayNameID="Structure.DataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
@@ -1754,6 +1757,30 @@
 		<Default>false</Default>	
 	</Member>   		
   </Structure>
+  <Structure displayNameID="Structure.OdaDataSetParam" name="OdaDataSetParam" since="2.1.1">
+    <Member displayNameID="Structure.OdaDataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.OdaDataSetParam.paramName" isIntrinsic="true" name="paramName" runtimeSettable="true" since="2.1.1" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.nativeName" isIntrinsic="true" name="nativeName " runtimeSettable="true" since="2.1.1" type="string"/>
+    <Member detailType="paramType" displayNameID="Structure.OdaDataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
+        <Default>any</Default>
+        <Allowed>string,any,float,decimal,dateTime,integer,any</Allowed>
+    </Member> 
+	<Member displayNameID="Structure.OdaDataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />            
+    <Member displayNameID="Structure.OdaDataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
+	<Member context="factory" displayNameID="Structure.OdaDataSetParam.defaultValue" isIntrinsic="true" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
+    <Member displayNameID="Structure.OdaDataSetParam.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="2.1.1" type="boolean">
+    	<Default>false</Default>
+	</Member>    	
+	<Member displayNameID="Structure.OdaDataSetParam.allowNull" isIntrinsic="true" name="allowNull" runtimeSettable="false" since="2.1.1" type="boolean">	
+		<Default>false</Default>	
+	</Member>   		
+	<Member displayNameID="Structure.OdaDataSetParam.isInput" isIntrinsic="true" name="isInput" runtimeSettable="false" since="2.1.1" type="boolean">
+		<Default>false</Default>	
+	</Member>   		
+	<Member displayNameID="Structure.OdaDataSetParam.isOutput" isIntrinsic="true" name="isOutput" runtimeSettable="false" since="2.1.1" type="boolean">			
+		<Default>false</Default>	
+	</Member>   		 
+  </Structure>
   <Structure displayNameID="Structure.ParamBinding" name="ParamBinding" since="1.0">
     <Member displayNameID="Structure.ParamBinding.paramName" isIntrinsic="true" name="paramName" since="1.0" type="name"/>
     <Member displayNameID="Structure.ParamBinding.expression" isIntrinsic="true" name="expression" returnType="any" since="1.0" type="expression"/>
@@ -1765,6 +1792,15 @@
 		<Default>any</Default>
 	</Member>
     <Member displayNameID="Structure.ResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />
+  </Structure>
+  <Structure displayNameID="Structure.OdaResultSetColumn" name="OdaResultSetColumn" since="2.1.1">
+    <Member displayNameID="Structure.OdaResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
+    <Member displayNameID="Structure.OdaResultSetColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.OdaResultSetColumn.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.1.1" type="string" valueRequired="false"/>   
+    <Member detailType="columnDataType" displayNameID="Structure.ResultSetColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
+		<Default>any</Default>
+	</Member>
+    <Member displayNameID="Structure.OdaResultSetColumn.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
@@ -2075,7 +2111,6 @@
 	</Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="2.1" xmlName="data-set">
-    <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" isList="true" name="computedColumns" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.DataSet.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
 	<Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSetHints" isList="true" name="resultSetHints" since="2.1" type="structure"/>
@@ -2110,6 +2145,7 @@
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">
+    <Property detailType="DataSetParam" displayNameID="Element.ScriptDataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>	  
     <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip" >
       <Argument name="this" tagID="Element.ScriptDataSet.open.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
 	</Method>		
@@ -2125,20 +2161,23 @@
       <Argument name="this" tagID="Element.ScriptDataSet.close.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
 	</Method>
   </Element>
-  <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
-    <Property detailType="ResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
+  <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">	  
+	<Property detailType="OdaDataSetParam" displayNameID="Element.OdaDataSet.parameters" isList="true" name="parameters" since="2.1.1" type="structure"/> 	  	  
+    <Property detailType="OdaResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
 	  <Trigger validator="DataSetResultSetValidator"/>
-	</Property>	  	  
+	</Property>	 	
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="literalString"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <Property detailType="OdaDesignerState" displayNameID="Element.OdaDataSet.designerState" name="designerState" since="2.1" type="structure"/>    
+    <Property displayNameID="Element.OdaDataSet.designerValues" name="designerValues" since="2.1.1" type="xml"/>    
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.JointDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.JointDataSet" name="JointDataSet" since="2.1" xmlName="joint-data-set">
+    <Property detailType="DataSetParam" displayNameID="Element.JointDataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>	  	  
     <Property detailType="ResultSetColumn" displayNameID="Element.JointDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
 	  <Trigger validator="DataSetResultSetValidator"/>
 	</Property>	  
@@ -2156,6 +2195,7 @@
   <Element displayNameID="Element.ScalarParameter" extends="Parameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
     <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
       <Default>string</Default>
+      <Allowed>string,float,decimal,dateTime,integer,boolean</Allowed>			
     </Property>
     <Property detailType="paramValueType" displayNameID="Element.ScalarParameter.type" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
       	<Default>static</Default>

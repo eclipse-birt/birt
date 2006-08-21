@@ -17,11 +17,13 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the
@@ -54,7 +56,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
  * 
- *  
+ * 
  */
 
 public class DataSetParameter extends Structure
@@ -183,9 +185,9 @@ public class DataSetParameter extends Structure
 	/**
 	 * The native (database) data type.
 	 */
-	
+
 	private Integer nativeDataType;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -220,11 +222,11 @@ public class DataSetParameter extends Structure
 			return allowNull;
 		if ( IS_INPUT_MEMBER.equals( propName ) )
 			return isInput;
-		if ( IS_OUTPUT_MEMBER.equals( propName ) )			
+		if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			return isOutput;
 		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
-			return nativeDataType;		
-	
+			return nativeDataType;
+
 		assert false;
 		return null;
 	}
@@ -421,7 +423,11 @@ public class DataSetParameter extends Structure
 
 	public String getDataType( )
 	{
-		return (String) getProperty( null, DATA_TYPE_MEMBER );
+		String paramType = (String) getProperty( null, DATA_TYPE_MEMBER );
+
+		// convert value in parameter type to column data type
+
+		return DataTypeConversionUtil.converToColumnDataType( paramType );
 	}
 
 	/**
@@ -433,7 +439,11 @@ public class DataSetParameter extends Structure
 
 	public void setDataType( String dataType )
 	{
-		setProperty( DATA_TYPE_MEMBER, dataType );
+		// convert column data type to parameter type.
+
+		String paramType = DataTypeConversionUtil.converToParamType( dataType );
+
+		setProperty( DataSetParameter.DATA_TYPE_MEMBER, paramType );
 	}
 
 	/**
@@ -507,14 +517,13 @@ public class DataSetParameter extends Structure
 
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
-			list.add( new PropertyValueException( element,
-					getDefn( ).getMember( NAME_MEMBER ),
-					getName( ),
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Returns the native data type.
 	 * 
@@ -536,5 +545,53 @@ public class DataSetParameter extends Structure
 	public void setNativeDataType( Integer dataType )
 	{
 		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
+	}
+
+	/**
+	 * Returns the data type in parameter type choices of this parameter. The
+	 * possible values are:
+	 * 
+	 * <ul>
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>PARAM_TYPE_BOOLEAN
+	 * </ul>
+	 * 
+	 * @return the data type of this parameter.
+	 */
+
+	public String getParameterDataType( )
+	{
+		return (String) getProperty( null, DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the data type in parameter type choices to this parameter. The
+	 * allowed values are:
+	 * 
+	 * <ul>
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>PARAM_TYPE_BOOLEAN
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the data type to set
+	 * @throws SemanticException
+	 *             if the value is not in the above list.
+	 */
+
+	public void setParameterDataType( String dataType )
+			throws SemanticException
+	{
+		setProperty( DATA_TYPE_MEMBER, dataType );
 	}
 }

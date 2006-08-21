@@ -16,10 +16,11 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 
 /**
- * Represents the parameter for ODA drivers. The parameter is the part of the
- * data set definition, if defined. A parameter can be an input or output
+ * Represents the parameter for data set drivers. The parameter is the part of
+ * the data set definition, if defined. A parameter can be an input or output
  * parameter. A parameter can also be input and output parameter. Each data set
  * parameter has the following properties:
  * 
@@ -86,7 +87,11 @@ public class DataSetParameterHandle extends StructureHandle
 
 	public String getDataType( )
 	{
-		return getStringProperty( DataSetParameter.DATA_TYPE_MEMBER );
+		String paramType = getStringProperty( DataSetParameter.DATA_TYPE_MEMBER );
+
+		// convert value in parameter type to column data type
+
+		return DataTypeConversionUtil.converToColumnDataType( paramType );
 	}
 
 	/**
@@ -111,7 +116,11 @@ public class DataSetParameterHandle extends StructureHandle
 
 	public void setDataType( String dataType ) throws SemanticException
 	{
-		setProperty( DataSetParameter.DATA_TYPE_MEMBER, dataType );
+		// convert column data type to parameter type.
+
+		String paramType = DataTypeConversionUtil.converToParamType( dataType );
+
+		setProperty( DataSetParameter.DATA_TYPE_MEMBER, paramType );
 	}
 
 	/**
@@ -348,15 +357,15 @@ public class DataSetParameterHandle extends StructureHandle
 
 		if ( DesignSchemaConstants.NAME_ATTRIB.equalsIgnoreCase( memberName ) )
 			return new NameMemberHandle( this, memberDefn );
-		else
-			return new MemberHandle( this, memberDefn );
 
+		return new MemberHandle( this, memberDefn );
 	}
 
 	/**
 	 * Returns the native data type.
 	 * 
 	 * @return the parameter native data type.
+	 * 
 	 */
 
 	public Integer getNativeDataType( )
@@ -369,11 +378,60 @@ public class DataSetParameterHandle extends StructureHandle
 	 * 
 	 * @param dataType
 	 *            the native data type to set.
+	 * 
 	 */
 
 	public void setNativeDataType( Integer dataType )
 	{
 		setPropertySilently( DataSetParameter.NATIVE_DATA_TYPE_MEMBER, dataType );
+	}
+
+	/**
+	 * Returns the data type in parameter type choices of this parameter. The
+	 * possible values are:
+	 * 
+	 * <ul>
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>PARAM_TYPE_BOOLEAN
+	 * </ul>
+	 * 
+	 * @return the data type of this parameter.
+	 */
+
+	public String getParameterDataType( )
+	{
+		return getStringProperty( DataSetParameter.DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the data type in parameter type choices to this parameter. The
+	 * allowed values are:
+	 * 
+	 * <ul>
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>PARAM_TYPE_BOOLEAN
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the data type to set
+	 * @throws SemanticException
+	 *             if the value is not in the above list.
+	 */
+
+	public void setParameterDataType( String dataType )
+			throws SemanticException
+	{
+		setProperty( DataSetParameter.DATA_TYPE_MEMBER, dataType );
 	}
 
 	/**

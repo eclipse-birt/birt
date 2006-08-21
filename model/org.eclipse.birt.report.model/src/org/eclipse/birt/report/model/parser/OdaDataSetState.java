@@ -13,7 +13,10 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -213,7 +216,7 @@ public class OdaDataSetState extends SimpleDataSetState
 		}
 
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
-		
+
 		if ( !isValidExtensionId )
 			provider = (OdaDummyProvider) ( (OdaDataSet) element )
 					.getProvider( );
@@ -231,6 +234,7 @@ public class OdaDataSetState extends SimpleDataSetState
 
 		DesignElement tmpElement = getElement( );
 		doCompatibleDataSetProperty( tmpElement );
+		mergeResultSetAndResultSetHints( (OdaDataSet) tmpElement );
 
 		TemplateParameterDefinition refTemplateParam = tmpElement
 				.getTemplateParameterElement( handler.getModule( ) );
@@ -238,6 +242,9 @@ public class OdaDataSetState extends SimpleDataSetState
 			return;
 
 		doCompatibleDataSetProperty( refTemplateParam.getDefaultElement( ) );
+
+		mergeResultSetAndResultSetHints( (OdaDataSet) refTemplateParam
+				.getDefaultElement( ) );
 	}
 
 	/**
@@ -256,9 +263,9 @@ public class OdaDataSetState extends SimpleDataSetState
 
 		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
 		{
-			List dataSetColumns = (List) dataSet.getProperty( null,
-					IDataSetModel.RESULT_SET_PROP );
-			Object dataSetHints = dataSet.getProperty( null,
+			List dataSetColumns = (List) dataSet.getLocalProperty(
+					handler.module, IDataSetModel.RESULT_SET_PROP );
+			Object dataSetHints = dataSet.getLocalProperty( handler.module,
 					IDataSetModel.RESULT_SET_HINTS_PROP );
 			if ( dataSetHints == null && dataSetColumns != null )
 				dataSet
@@ -269,6 +276,156 @@ public class OdaDataSetState extends SimpleDataSetState
 												dataSet
 														.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
 												dataSetColumns ) );
+		}
+	}
+
+	/**
+	 * Parses the old resultSets and resultSetHints list to the new resultSets
+	 * list.
+	 * <p>
+	 * resultSetsHints maps to new result set name. resultSet maps to new result
+	 * set native name.
+	 * <p>
+	 * The conversion is done from the file version 3.2.5. It is a part of
+	 * automatic conversion for BIRT 2.1.1.
+	 * 
+	 * @param resultSets
+	 *            the result sets
+	 * @param resultSetHints
+	 *            the result set hints
+	 */
+
+	private void mergeResultSetAndResultSetHints( OdaDataSet dataSet )
+	{
+		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.6" ) >= 0 ) //$NON-NLS-1$
+				|| StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) //$NON-NLS-1$ 
+		{
+			return;
+		}
+
+		List resultSets = (List) dataSet.getLocalProperty( handler.module,
+				IDataSetModel.RESULT_SET_PROP );
+		List resultSetHints = (List) dataSet.getLocalProperty( handler.module,
+				IDataSetModel.RESULT_SET_HINTS_PROP );
+
+		if ( resultSetHints == null )
+		{
+			updateOdaResultSetColumn( resultSets );
+			return;
+		}
+
+		for ( int i = 0; i < resultSetHints.size( ); i++ )
+		{
+			ResultSetColumn hint = (ResultSetColumn) resultSetHints.get( i );
+
+			// use both position and name to match, this can avoid position was
+			// not matched and the column name existed already.
+
+			OdaResultSetColumn currentColumn = findResultSet( resultSets, hint
+					.getColumnName( ), hint.getPosition( ) );
+			if ( currentColumn == null )
+			{
+				currentColumn = convertResultSetColumnToOdaResultSetColumn( hint );
+				resultSets.add( currentColumn );
+			}
+			else
+			{
+				String nativeName = currentColumn.getColumnName( );
+				String columnName = hint.getColumnName( );
+
+				currentColumn.setColumnName( columnName );
+				currentColumn.setNativeName( nativeName );
+
+				// already in the list, do not add again then.
+
+				if ( currentColumn.getDataType( ) == null )
+					currentColumn.setDataType( hint.getDataType( ) );
+
+				if ( currentColumn.getNativeDataType( ) == null )
+					currentColumn.setNativeDataType( hint.getNativeDataType( ) );
+
+				if ( currentColumn.getNativeName( ) == null )
+					currentColumn
+							.setNativeName( currentColumn.getColumnName( ) );
+
+				if ( currentColumn.getColumnName( ) == null )
+					currentColumn
+							.setColumnName( currentColumn.getNativeName( ) );
+			}
+
+		}
+	}
+
+	/**
+	 * Returns the result set column in the given position.
+	 * 
+	 * @param pos
+	 *            the position
+	 * @return the matched result set column
+	 */
+
+	private static OdaResultSetColumn findResultSet( List resultSets,
+			String columnName, Integer pos )
+	{
+		for ( int i = 0; i < resultSets.size( ); i++ )
+		{
+			OdaResultSetColumn setColumn = (OdaResultSetColumn) resultSets
+					.get( i );
+
+			// position is the first preference. column name is the second.
+
+			if ( ( pos != null && pos.equals( setColumn.getPosition( ) ) )
+					|| ( columnName != null && columnName.equals( setColumn
+							.getColumnName( ) ) ) )
+				return setColumn;
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a OdaResultSetColumn that maps from ResultSetColumn.
+	 * 
+	 * @param oldColumn
+	 *            the result set column to convert
+	 * @return the new OdaResultSetColumn
+	 */
+
+	private static OdaResultSetColumn convertResultSetColumnToOdaResultSetColumn(
+			ResultSetColumn oldColumn )
+	{
+		assert oldColumn != null;
+
+		OdaResultSetColumn newColumn = StructureFactory
+				.createOdaResultSetColumn( );
+		newColumn.setColumnName( oldColumn.getColumnName( ) );
+		newColumn.setDataType( oldColumn.getDataType( ) );
+		newColumn.setNativeDataType( oldColumn.getNativeDataType( ) );
+
+		// in default, native name is equal to name
+
+		newColumn.setNativeName( oldColumn.getColumnName( ) );
+
+		newColumn.setPosition( oldColumn.getPosition( ) );
+		return newColumn;
+	}
+
+	/**
+	 * Updates the native name in the oda result set columns
+	 * 
+	 * @param resultSets
+	 *            a list containing ODA result set columns
+	 */
+
+	private static void updateOdaResultSetColumn( List resultSets )
+	{
+		if ( resultSets == null )
+			return;
+
+		for ( int i = 0; i < resultSets.size( ); i++ )
+		{
+			OdaResultSetColumn newColumn = (OdaResultSetColumn) resultSets
+					.get( i );
+			newColumn.setNativeName( newColumn.getColumnName( ) );
 		}
 	}
 }

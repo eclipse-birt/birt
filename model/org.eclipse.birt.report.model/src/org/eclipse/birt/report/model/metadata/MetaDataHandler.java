@@ -403,7 +403,7 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.DIMENSION_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
-				case PropertyType.LITERAL_STRING_TYPE:
+				case PropertyType.LITERAL_STRING_TYPE :
 				case PropertyType.FLOAT_TYPE :
 				case PropertyType.INTEGER_TYPE :
 				case PropertyType.NUMBER_TYPE :
@@ -502,7 +502,8 @@ class MetaDataHandler extends XMLParserHandler
 		{
 			if ( tagName.equalsIgnoreCase( DEFAULT_TAG ) )
 				return new DefaultValueState( memberDefn );
-
+			else if ( tagName.equalsIgnoreCase( ALLOWED_TAG ) )
+				return new AllowedState( memberDefn );
 			return super.startElement( tagName );
 		}
 	}
@@ -764,7 +765,7 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.DIMENSION_TYPE :
 				case PropertyType.DATE_TIME_TYPE :
 				case PropertyType.STRING_TYPE :
-				case PropertyType.LITERAL_STRING_TYPE:
+				case PropertyType.LITERAL_STRING_TYPE :
 				case PropertyType.FLOAT_TYPE :
 				case PropertyType.INTEGER_TYPE :
 				case PropertyType.NUMBER_TYPE :
@@ -928,7 +929,7 @@ class MetaDataHandler extends XMLParserHandler
 			if ( tagName.equalsIgnoreCase( DEFAULT_TAG ) )
 				return new DefaultValueState( propDefn );
 			else if ( tagName.equalsIgnoreCase( ALLOWED_TAG ) )
-				return new AllowedState( );
+				return new AllowedState( propDefn );
 			else if ( tagName.equalsIgnoreCase( TRIGGER_TAG ) )
 				return new TriggerState( );
 			else if ( tagName.equalsIgnoreCase( DEFAULT_UNIT_TAG ) )
@@ -968,12 +969,19 @@ class MetaDataHandler extends XMLParserHandler
 	class AllowedState extends InnerParseState
 	{
 
+		PropertyDefn tmpPropDefn;
+
+		AllowedState( PropertyDefn tmpPropDefn )
+		{
+			this.tmpPropDefn = tmpPropDefn;
+		}
+
 		public void end( ) throws SAXException
 		{
-			if ( propDefn == null )
+			if ( tmpPropDefn == null )
 				return;
 
-			int type = propDefn.getTypeCode( );
+			int type = tmpPropDefn.getTypeCode( );
 
 			if ( type != PropertyType.DIMENSION_TYPE
 					&& type != PropertyType.CHOICE_TYPE )
@@ -1027,7 +1035,7 @@ class MetaDataHandler extends XMLParserHandler
 			{
 				// choices type restriction.
 
-				IChoiceSet choices = propDefn.getChoices( );
+				IChoiceSet choices = tmpPropDefn.getChoices( );
 				assert choices != null;
 
 				for ( int i = 0; i < nameArray.length; i++ )
@@ -1053,7 +1061,7 @@ class MetaDataHandler extends XMLParserHandler
 			allowedChoices.setChoices( (Choice[]) allowedList
 					.toArray( new Choice[0] ) );
 
-			propDefn.setAllowedChoices( allowedChoices );
+			tmpPropDefn.setAllowedChoices( allowedChoices );
 		}
 	}
 

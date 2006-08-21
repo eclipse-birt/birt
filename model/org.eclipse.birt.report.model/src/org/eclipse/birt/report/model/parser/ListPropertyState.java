@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -289,8 +290,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 
 		}
-
-		if ( element instanceof OdaDataSource )
+		else if ( element instanceof OdaDataSource )
 		{
 			if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
 					.equalsIgnoreCase( name )
@@ -306,8 +306,7 @@ public class ListPropertyState extends AbstractPropertyState
 				}
 			}
 		}
-
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
+		else if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
 				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 						|| ScalarParameter.BOUND_DATA_COLUMNS_PROP
 								.equalsIgnoreCase( name ) || "boundDataColumns" //$NON-NLS-1$
@@ -327,6 +326,21 @@ public class ListPropertyState extends AbstractPropertyState
 					handler, element, name );
 			state.setName( ScriptDataSet.RESULT_SET_HINTS_PROP );
 			return state;
+		}
+
+		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
+				&& element instanceof OdaDataSet && struct == null )
+		{
+			AbstractParseState state = null;
+
+			if ( "parameters".equals( name ) ) //$NON-NLS-1$
+			{
+				state = new CompatibleDataSetParamListPropertyState( handler,
+						element );
+				( (CompatibleDataSetParamListPropertyState) state )
+						.setName( OdaDataSet.PARAMETERS_PROP );
+				return state;
+			}
 		}
 
 		return super.jumpTo( );

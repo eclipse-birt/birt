@@ -251,6 +251,7 @@ public interface DesignChoiceConstants
 	public static final String PARAM_TYPE_DATETIME = "dateTime"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_INTEGER = "integer"; //$NON-NLS-1$
+	public static final String PARAM_TYPE_ANY = "any"; //$NON-NLS-1$
 
 	// paramValueType
 
@@ -483,7 +484,8 @@ public interface DesignChoiceConstants
 	public static final String COLUMN_DATA_TYPE_DATETIME = "date-time"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_DECIMAL = "decimal"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_FLOAT = "float"; //$NON-NLS-1$
-
+	public static final String COLUMN_DATA_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
+	
 	/**
 	 * searchType -- The search type for column hint The first constant is the
 	 * name of searchType choice. The followed constants are valid choice values
