@@ -457,6 +457,7 @@
     <Choice displayNameID="Choices.joinType.inner" name="inner"/>
     <Choice displayNameID="Choices.joinType.leftOut" name="left-out"/>
     <Choice displayNameID="Choices.joinType.rightOut" name="right-out"/>
+    <Choice displayNameID="Choices.joinType.fullOut" name="full-out"/>
   </ChoiceType>  
   <ChoiceType name="joinOperator">
     <Choice displayNameID="Choices.joinOperator.equals" name="eq"/>

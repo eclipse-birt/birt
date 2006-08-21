@@ -672,6 +672,7 @@ public interface DesignChoiceConstants
 	public static final String JOIN_TYPE_INNER = "inner"; //$NON-NLS-1$
 	public static final String JOIN_TYPE_LEFT_OUT = "left-out"; //$NON-NLS-1$
 	public static final String JOIN_TYPE_RIGHT_OUT = "right-out"; //$NON-NLS-1$
+	public static final String JOIN_TYPE_FULL_OUT = "full-out"; //$NON-NLS-1$
 
 	/**
 	 * joinOperator -- join operator of join condition.
