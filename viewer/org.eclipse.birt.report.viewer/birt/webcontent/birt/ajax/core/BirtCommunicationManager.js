@@ -46,9 +46,10 @@ BirtCommunicationManager.prototype =
 		this.__active = true;
 		birtProgressBar.__start( );
 		
+		//workaround for Bugzilla Bug 144598. Add request header "Connection" as "keep-alive"
 		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: birtSoapRequest.__xml_document,
 			onSuccess: this.responseHandler, onFailure: this.invalidResponseHandler,
-			requestHeaders: ['Content-type', 'text/xml; charset=utf-8', 'SOAPAction', '""', 'request-type', 'SOAP' ] } );
+			requestHeaders: ['Content-type', 'text/xml; charset=utf-8', 'SOAPAction', '""', 'request-type', 'SOAP', 'Connection', 'keep-alive' ] } );
 
 		birtSoapRequest.reset( );
 	},
