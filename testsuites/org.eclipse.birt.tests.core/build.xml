@@ -338,9 +338,9 @@
 			<arg line="-className ${className}"/>
 			<arg line="formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,&quot;${utest.report.dir}/${module.name}.xml&quot;"/>
 			<!-- system properties for tests.viewer -->
+			<sysproperty key="catalina.home" value="${catalina.home}"/>
 			<sysproperty key="server" value="${server}"/>
 			<sysproperty key="runtime" value="${runtime}"/>
-			<sysproperty key="deploy.dir" value="${deploy.dir}"/>
 		</java>
 		<delete dir="../${module.name}/${tests.dir}" includeEmptyDirs="true"/>
 	</target>
