@@ -142,26 +142,12 @@ public class ReportDocumentTest extends EngineCase
 			// check designStream
 			InputStream designStream = reportDoc.getDesignStream( );
 			FileInputStream designFile = new FileInputStream( report_design );
-			assertNotNull( "return null design stream", designStream );
+			assertNotNull( designStream );
 			// generate design file through designStream.
 			int length = designStream.available( );
-			byte[] fBytes = new byte[length];
-			designStream.read( fBytes, 0, length );
-
-			// String
-			// tempFile="D:/TEMP/workspace3.1/org.eclipse.birt.report.tests.engine/output/report_document_tmp.rptdesign";
-			String tempFile = path + OUTPUT_FOLDER
-					+ "report_document_tmp.rptdesign";
-			File tmp = new File( tempFile );
-			FileOutputStream fos = new FileOutputStream( tmp );
-			fos.write( fBytes );
-			fos.close( );
+			assertTrue(length>0);
 			designStream.close( );
 			designFile.close( );
-			assertEquals( "return wrong design stream", -6, new File(
-					report_design ).compareTo( tmp ) );
-			// remove tmp file.
-			removeFile( tempFile );
 
 			// check page count(done)
 			assertEquals( "return wrong page count", 5, reportDoc
@@ -228,7 +214,6 @@ public class ReportDocumentTest extends EngineCase
 		try
 		{
 			createReportDocument( report_design, report_document );
-			IDocArchiveReader archive = new FileArchiveReader( report_document );
 			IReportDocument reportDoc = engine
 					.openReportDocument( report_document );
 
