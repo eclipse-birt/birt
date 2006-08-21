@@ -590,7 +590,6 @@ public class DataSetParameter extends Structure
 	 */
 
 	public void setParameterDataType( String dataType )
-			throws SemanticException
 	{
 		setProperty( DATA_TYPE_MEMBER, dataType );
 	}
