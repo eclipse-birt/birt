@@ -66,8 +66,12 @@ public class MetaDataPopulator
 
 				columnDef.setDataTypeName( resultSetColumn.getDataType( ) );
 				columnDef.setDataType( ModelAdapter.adaptModelDataType( resultSetColumn.getDataType( ) ) );
-				columnDef.setColumnPosition( resultSetColumn.getPosition( )
-						.intValue( ) );
+				if ( resultSetColumn.getPosition( ) != null )
+					columnDef.setColumnPosition( resultSetColumn.getPosition( )
+							.intValue( ) );
+				if ( resultSetColumn.getNativeDataType( ) != null )
+					columnDef.setNativeDataType( resultSetColumn.getNativeDataType( )
+							.intValue( ) );
 
 				columnDef.setComputedColumn( false );
 				columnMeta.add( columnDef );

@@ -30,20 +30,21 @@ public class ParameterAdapter extends ParameterDefinition
 		setName( modelParam.getName( ) );
 		if ( modelParam.getPosition( ) != null )
 			setPosition( modelParam.getPosition( ).intValue( ) );
+		if ( modelParam.getNativeDataType( ) != null )
+			setNativeType( modelParam.getNativeDataType( ).intValue( ) );
 		setType( ModelAdapter.adaptModelDataType( modelParam.getDataType( ) ) );
 		setInputMode( modelParam.isInput( ) );
 		setOutputMode( modelParam.isOutput( ) );
 		setNullable( modelParam.allowNull( ) );
 		setInputOptional( modelParam.isOptional( ) );
-		if ( modelParam instanceof OdaDataSetParameterHandle )
+
+		if ( modelParam instanceof OdaDataSetParameterHandle
+				&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 		{
-			if ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
-			{
-				setDefaultInputValue( PARAMS_PREFIX
-						+ "[\""
-						+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
-						+ "\"]" );
-			}
+			setDefaultInputValue( PARAMS_PREFIX
+					+ "[\""
+					+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
+					+ "\"]" );
 		}
 		else
 			setDefaultInputValue( modelParam.getDefaultValue( ) );

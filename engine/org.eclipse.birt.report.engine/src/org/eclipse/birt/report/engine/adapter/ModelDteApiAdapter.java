@@ -689,13 +689,15 @@ public class ModelDteApiAdapter
 		dteParam.setName( modelParam.getName( ) );
 		if ( modelParam.getPosition( ) != null )
 			dteParam.setPosition( modelParam.getPosition( ).intValue( ) );
+		if( modelParam.getNativeDataType( ) != null )
+			dteParam.setNativeType( modelParam.getNativeDataType( ).intValue( ) );
+
 		dteParam.setType( toDteDataType( modelParam.getDataType( ) ) );
 		dteParam.setInputMode( modelParam.isInput( ) );
 		dteParam.setOutputMode( modelParam.isOutput( ) );
 		dteParam.setNullable( modelParam.allowNull( ) );
 		dteParam.setInputOptional( modelParam.isOptional( ) );
 		dteParam.setDefaultInputValue( modelParam.getDefaultValue( ) );
-		dteParam.setNativeType( modelParam.getNativeDataType( ).intValue( ) );
 
 		return dteParam;
 	}
@@ -777,9 +779,10 @@ public class ModelDteApiAdapter
 		ColumnDefinition newColumn = new ColumnDefinition( modelColumn.getColumnName( ) );
 		if ( modelColumn.getPosition( ) != null )
 			newColumn.setColumnPosition( modelColumn.getPosition( ).intValue( ) );
+		if ( modelColumn.getNativeDataType( ) != null )
+			newColumn.setNativeDataType( modelColumn.getNativeDataType( )
+					.intValue( ) );
 		newColumn.setDataType( toDteDataType( modelColumn.getDataType( ) ) );
-		newColumn.setNativeDataType( modelColumn.getNativeDataType( )
-				.intValue( ) );
 		return newColumn;
 	}
 

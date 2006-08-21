@@ -124,15 +124,7 @@ public class SQLUtility
 
 			// set resultset metadata
 			IResultSetMetaData metadata = query.getMetaData( );
-			if ( metadata != null )
-				setResultSetMetaData( design, metadata );
-			else
-			{
-				query.executeQuery( );
-				metadata = query.getMetaData( );
-				setResultSetMetaData( design, metadata );
-			}
-
+			setResultSetMetaData( design, metadata );
 		}
 		catch ( OdaException e )
 		{

@@ -30,7 +30,9 @@ public class ColumnAdapter extends ColumnDefinition
 	{
 		super( modelColumn.getColumnName( ) );
 		if ( modelColumn.getPosition( ) != null )
-				setColumnPosition( modelColumn.getPosition( ).intValue( ) );
+			setColumnPosition( modelColumn.getPosition( ).intValue( ) );
+		if( modelColumn.getNativeDataType( )!= null )
+			setNativeDataType( modelColumn.getNativeDataType( ).intValue( ) );			
 		setDataType( ModelAdapter.adaptModelDataType( modelColumn.getDataType( ) ) );
 	}
 
