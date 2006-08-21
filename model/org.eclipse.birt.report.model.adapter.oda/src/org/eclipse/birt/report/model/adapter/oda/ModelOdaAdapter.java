@@ -11,14 +11,19 @@
 
 package org.eclipse.birt.report.model.adapter.oda;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.birt.report.model.adapter.oda.ResultSetsAdapter.ResultSetColumnInfo;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
 import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
+import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -27,22 +32,21 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
-import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
-import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.Property;
-import org.eclipse.datatools.connectivity.oda.design.PropertyAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
@@ -189,15 +193,11 @@ public class ModelOdaAdapter
 
 		updateROMPublicProperties( setDesign.getPublicProperties( ), setHandle );
 
-		// udpate property bindings, report parameters and so on.
-
-		// updateROMPropertyBindings( setDesign.getPublicProperties( ),
-		// setHandle );
-
 		DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
-		String dataSourceName = sourceDesign.getName( );
 
 		if ( sourceDesign != null )
+		{
+			String dataSourceName = sourceDesign.getName( );
 			setHandle.getElement( )
 					.setProperty(
 							OdaDataSetHandle.DATA_SOURCE_PROP,
@@ -205,6 +205,7 @@ public class ModelOdaAdapter
 									setHandle,
 									OdaDataSetHandle.DATA_SOURCE_PROP,
 									dataSourceName ) );
+		}
 		else
 			setHandle.getElement( ).clearProperty(
 					OdaDataSetHandle.DATA_SOURCE_PROP );
@@ -215,9 +216,7 @@ public class ModelOdaAdapter
 				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
 
 		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign.getParameters( ), setDesign
-						.getOdaExtensionDataSourceId( ), setDesign
-						.getOdaExtensionDataSetId( ), setHandle );
+				setDesign, setHandle, null );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -225,25 +224,26 @@ public class ModelOdaAdapter
 
 		// set the result sets
 
-		List resultRetColumns = ResultSetsAdapter.newROMResultSets( setDesign
-				.getPrimaryResultSet( ), setDesign
-				.getOdaExtensionDataSourceId( ), setDesign
-				.getOdaExtensionDataSetId( ) );
-		if ( resultRetColumns == null )
-		{
-			ResultSets sets = setDesign.getResultSets( );
-			if ( sets != null && !sets.getResultSetDefinitions( ).isEmpty( ) )
-				resultRetColumns = ResultSetsAdapter.newROMResultSets(
-						(ResultSetDefinition) sets.getResultSetDefinitions( )
-								.get( 0 ), setDesign
-								.getOdaExtensionDataSourceId( ), setDesign
-								.getOdaExtensionDataSetId( ) );
-		}
+		List resultRetColumns = new ResultSetsAdapter( ).newROMResultSets(
+				setDesign, setHandle, null );
+		List columns = new ArrayList( );
+		List hints = new ArrayList( );
+
+		ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
+				columns, hints );
+
+		// create unique column names if native names is null or empty.
+		
+		createUniqueResultSetColumnNames( columns );
+		PropertyValueValidationUtil.validateProperty( setHandle,
+				OdaDataSetHandle.RESULT_SET_PROP, columns );
+		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
+				columns );
 
 		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.RESULT_SET_PROP, resultRetColumns );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
-				resultRetColumns );
+				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+		setHandle.getElement( ).setProperty(
+				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
 
 		// set the query text.
 
@@ -260,6 +260,59 @@ public class ModelOdaAdapter
 				OdaDataSetHandle.RESULT_SET_NAME_PROP, queryText );
 		setHandle.getElement( ).setProperty(
 				OdaDataSetHandle.RESULT_SET_NAME_PROP, resultSetName );
+
+		// convert data set paramters and result set columns first. Then update
+		// designer values.
+
+		String odaValues = serializeOdaValues( setDesign );
+		PropertyValueValidationUtil.validateProperty( setHandle,
+				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
+		setHandle.getElement( ).setProperty(
+				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
+	}
+
+	/**
+	 * Gets the serializable string for design values. Design values include
+	 * data set parameter definitions and result set definitions.
+	 * 
+	 * @param setDesign
+	 *            the data set desgin
+	 * @return the serializable string for design values
+	 */
+
+	private String serializeOdaValues( DataSetDesign setDesign )
+	{
+		DataSetParameters params = setDesign.getParameters( );
+		ResultSets resultSets = setDesign.getResultSets( );
+
+		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
+		values.setVersion( IConstants.DESINGER_VALUES_VERSION );
+		boolean hasData = false;
+
+		if ( params != null )
+		{
+			values.setDataSetParameters( (DataSetParameters) EcoreUtil
+					.copy( params ) );
+			hasData = true;
+		}
+
+		if ( resultSets != null )
+		{
+			values.setResultSets( (ResultSets) EcoreUtil.copy( resultSets ) );
+			hasData = true;
+		}
+
+		if ( !hasData )
+			return IConstants.EMPTY_STRING;
+
+		try
+		{
+			return SerializerImpl.instance( ).write( values );
+		}
+		catch ( IOException e )
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -309,7 +362,7 @@ public class ModelOdaAdapter
 		setDesign.setParameters( new DataSetParameterAdapter( )
 				.newOdaDataSetParams( setHandle.parametersIterator( ) ) );
 
-		setDesign.setPrimaryResultSet( ResultSetsAdapter
+		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
 				.newOdaResultSetDefinition( setHandle ) );
 
 	}
@@ -382,7 +435,7 @@ public class ModelOdaAdapter
 
 		else if ( OdaDataSetHandle.RESULT_SET_PROP
 				.equalsIgnoreCase( propertyName ) )
-			setDesign.setPrimaryResultSet( ResultSetsAdapter
+			setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
 					.newOdaResultSetDefinition( setHandle ) );
 	}
 
@@ -706,208 +759,6 @@ public class ModelOdaAdapter
 	}
 
 	/**
-	 * Copies values in <code>sourceHandle</code> to Oda properties.
-	 * 
-	 * @param props
-	 *            the ODA public properties
-	 * @param sourceHandle
-	 *            the Model ODA DataSourceHandle
-	 */
-
-	protected void updateOdaPublicProperties( Properties props,
-			OdaDataSourceHandle sourceHandle )
-	{
-		List propDefns = sourceHandle.getExtensionPropertyDefinitionList( );
-
-		// finds out the property bindings for this data source. So that
-		// values of report parameters can be copied to PropertyAttributes of
-		// Properties.
-
-		List propBindings = getPropertyBindings( sourceHandle.getID( ),
-				sourceHandle.getModuleHandle( ) );
-
-		for ( int i = 0; i < propDefns.size( ); i++ )
-		{
-			IPropertyDefn propDefn = (IPropertyDefn) propDefns.get( i );
-			String propName = propDefn.getName( );
-
-			Property property = props.findProperty( propName );
-			PropertyBinding propBinding = findPropertyBinding( propName,
-					propBindings );
-
-			if ( propBinding == null )
-				continue;
-
-			// synchronize data from propBinding to ODA property
-
-			// String paramName = propBinding.getValue( );
-			//
-			// if ( StringUtil.isBlank( paramName ) )
-			// continue;
-
-			// finds out the parameter with the given paramName
-
-			// ScalarParameterHandle paramHandle = (ScalarParameterHandle)
-			// sourceHandle
-			// .getModuleHandle( ).findParameter( paramName );
-			//
-			// property.getDesignAttributes( ).setElementAttributes(
-			// new ReportParameterAdapter( )
-			// .newInputElementAttributes( paramHandle ) );
-		}
-	}
-
-	/**
-	 * Finds the PropertyBinding with the given property name and binding list.
-	 * 
-	 * @param propName
-	 *            the property name
-	 * @param propBindings
-	 *            a list containing property bindings.
-	 * @return the found PropertyBinding
-	 */
-
-	private PropertyBinding findPropertyBinding( String propName,
-			List propBindings )
-	{
-		if ( propBindings == null || propBindings.isEmpty( ) )
-			return null;
-
-		for ( int i = 0; i < propBindings.size( ); i++ )
-		{
-			PropertyBinding propBinding = (PropertyBinding) propBindings
-					.get( i );
-			String tmpPropName = propBinding.getName( );
-			if ( tmpPropName != null && tmpPropName.equals( propName ) )
-				return propBinding;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns a list containing property bindings that are bound to a specified
-	 * element id.
-	 * 
-	 * @param id
-	 *            the element id
-	 * @param module
-	 *            the ROM module
-	 * @return a list containing property bindings
-	 */
-
-	private List getPropertyBindings( long id, ModuleHandle module )
-	{
-		List bindingList = module
-				.getListProperty( ModuleHandle.PROPERTY_BINDINGS_PROP );
-		if ( bindingList == null || bindingList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-
-		List retList = new ArrayList( );
-		for ( int i = 0; i < bindingList.size( ); i++ )
-		{
-			PropertyBinding propBinding = (PropertyBinding) bindingList.get( i );
-			long elementId = propBinding.getID( ).longValue( );
-			if ( id == elementId )
-				retList.add( propBinding );
-		}
-
-		return bindingList;
-	}
-
-	/**
-	 * Updates property bindings and report parameters in the report design with
-	 * the given ODA properties.
-	 * 
-	 * @param props
-	 *            the ODA public properties.
-	 * @param sourceHandle
-	 *            the ROM element
-	 * @throws SemanticException
-	 *             if any value are not valid.
-	 */
-
-	protected void updateROMPropertyBindings( Properties props,
-			ReportElementHandle sourceHandle ) throws SemanticException
-	{
-		// clear all property bindings for the OdaDataSource
-
-		clearPropertyBindings( sourceHandle );
-
-		EList propList = props.getProperties( );
-		for ( int i = 0; i < propList.size( ); i++ )
-		{
-			Property prop = (Property) propList.get( i );
-			updateROMODAProperty( prop, sourceHandle );
-		}
-	}
-
-	/**
-	 * Clears property bindings for the given <code>sourceHandle</code>.
-	 * 
-	 * @param sourceHandle
-	 *            the DataSource element
-	 */
-
-	private void clearPropertyBindings( ReportElementHandle sourceHandle )
-			throws PropertyValueException
-	{
-		List bindings = getPropertyBindings( sourceHandle.getID( ),
-				sourceHandle.getModuleHandle( ) );
-
-		PropertyHandle propHandle = sourceHandle.getModuleHandle( )
-				.getPropertyHandle( ModuleHandle.PROPERTY_BINDINGS_PROP );
-		propHandle.removeItems( bindings );
-	}
-
-	/**
-	 * Updates property bindings and report paramters with the given ODA
-	 * property.
-	 * 
-	 * @param prop
-	 *            the ODA property
-	 * @param sourceHandle
-	 *            the ROM data source
-	 * @throws SemanticException
-	 *             if values in <code>prop</code> are invalid in ROM.
-	 */
-
-	private void updateROMODAProperty( Property prop,
-			ReportElementHandle sourceHandle ) throws SemanticException
-	{
-		String name = prop.getName( );
-
-		// add the property binding first.
-
-		PropertyAttributes propAttrs = prop.getDesignAttributes( );
-		if ( propAttrs == null )
-			return;
-
-		InputElementAttributes inputAttrs = propAttrs.getElementAttributes( );
-
-		// TODO do we find property binding in the design?
-
-		List propBindings = getPropertyBindings( sourceHandle.getID( ),
-				sourceHandle.getModuleHandle( ) );
-
-		PropertyBinding propBinding = findPropertyBinding( name, propBindings );
-		String paramName = propBinding.getValue( );
-
-		if ( paramName == null )
-			return;
-
-		ScalarParameterHandle param = (ScalarParameterHandle) sourceHandle
-				.getModuleHandle( ).findParameter( paramName );
-
-		// convert Oda input element attributes to property bindings and
-		// scalar parameter.
-
-		// new ReportParameterAdapter( ).updateReportParameter( param,
-		// inputAttrs );
-
-	}
-
-	/**
 	 * Updates values of <code>sourceHandle</code> with the given
 	 * <code>sourceDesign</code>.
 	 * 
@@ -959,8 +810,6 @@ public class ModelOdaAdapter
 				}
 			}
 
-			// updateROMPropertyBindings( props, setHandle );
-
 			// set private properties.
 
 			props = setDesign.getPrivateProperties( );
@@ -975,30 +824,45 @@ public class ModelOdaAdapter
 				}
 			}
 
-			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
-					.newROMSetParams( setDesign.getParameters( ), setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ), setHandle ) );
+			DesignValues designerValues = null;
 
-			ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
-			if ( resultDefn == null )
+			try
 			{
-				ResultSets resultSets = setDesign.getResultSets( );
-				if ( resultSets != null
-						&& !resultSets.getResultSetDefinitions( ).isEmpty( ) )
-					resultDefn = (ResultSetDefinition) resultSets
-							.getResultSetDefinitions( ).get( 0 );
-			}	
+				designerValues = SerializerImpl.instance( ).read(
+						setHandle.getDesignerValues( ) );
+			}
+			catch ( IOException e )
+			{
+			}
 
-		updateROMStructureList( setHandle
-					.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP ),
-					ResultSetsAdapter.newROMResultSets( resultDefn, setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) ) );
+			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
+					.newROMSetParams( setDesign, setHandle,
+							designerValues == null ? null : designerValues
+									.getDataSetParameters( ) ) );
+
+			ResultSets cachedResultSets = designerValues == null
+					? null
+					: designerValues.getResultSets( );
+
+			ResultSetDefinition cachedResultDefn = null;
+
+			if ( cachedResultSets != null
+					&& !cachedResultSets.getResultSetDefinitions( ).isEmpty( ) )
+				cachedResultDefn = (ResultSetDefinition) cachedResultSets
+						.getResultSetDefinitions( ).get( 0 );
+
+			updateROMResultSets( setHandle, new ResultSetsAdapter( )
+					.newROMResultSets( setDesign, setHandle, cachedResultDefn ) );
 
 			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
 
 			setHandle.setQueryText( setDesign.getQueryText( ) );
+
+			// designer values must be saved after convert data set parameters
+			// and result set columns.
+
+			String odaValues = serializeOdaValues( setDesign );
+			setHandle.setDesignerValues( odaValues );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -1016,8 +880,7 @@ public class ModelOdaAdapter
 				}
 
 				// if the source is not changed, and it is not in the included
-				// library, and the data source design is not changed any, then
-				// we can update it.
+				// library, then we can update it.
 
 				if ( !isSourceChanged
 						&& sourceHandle != null
@@ -1052,18 +915,94 @@ public class ModelOdaAdapter
 	 *             if any strucutre has invalid value.
 	 */
 
-	private void updateROMStructureList( PropertyHandle propHandle,
+	private void updateROMResultSets( OdaDataSetHandle setHandle,
 			List structList ) throws SemanticException
 	{
-		assert propHandle != null;
+		List columns = new ArrayList( );
+		List hints = new ArrayList( );
+
+		ResultSetColumnInfo.updateResultSetColumnList( structList, columns,
+				hints );
+
+		PropertyHandle propHandle = setHandle
+				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
 
 		propHandle.setValue( null );
 
-		if ( structList == null || structList.isEmpty( ) )
+		if ( !columns.isEmpty( ) )
+		{
+			createUniqueResultSetColumnNames( columns );
+
+			for ( int i = 0; i < columns.size( ); i++ )
+				propHandle.addItem( columns.get( i ) );
+		}
+
+		propHandle = setHandle
+				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
+		if ( !hints.isEmpty( ) )
+		{
+			for ( int i = 0; i < hints.size( ); i++ )
+			{
+				ColumnHint hint = (ColumnHint) hints.get( i );
+				ColumnHintHandle oldHint = ResultSetsAdapter.findColumnHint(
+						(String) hint.getProperty( null,
+								ColumnHint.COLUMN_NAME_MEMBER ), setHandle
+								.columnHintsIterator( ) );
+
+				if ( oldHint == null )
+					propHandle.addItem( hints.get( i ) );
+				else
+				{
+					oldHint.setDisplayName( (String) hint.getProperty( null,
+							ColumnHint.DISPLAY_NAME_MEMBER ) );
+					oldHint.setHelpText( (String) hint.getProperty( null,
+							ColumnHint.HELP_TEXT_MEMBER ) );
+					oldHint.setFormat( (String) hint.getProperty( null,
+							ColumnHint.FORMAT_MEMBER ) );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Creates unique result set column names if column names are
+	 * <code>null</code> or empty string.
+	 * 
+	 * @param resultSetColumn
+	 */
+
+	private void createUniqueResultSetColumnNames( List resultSetColumn )
+	{
+		if ( resultSetColumn == null || resultSetColumn.isEmpty( ) )
 			return;
 
-		for ( int i = 0; i < structList.size( ); i++ )
-			propHandle.addItem( structList.get( i ) );
+		Set names = new HashSet( );
+		for ( int i = 0; i < resultSetColumn.size( ); i++ )
+		{
+			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
+					.get( i );
+			String nativeName = column.getNativeName( );
+			if ( nativeName != null )
+				names.add( nativeName );
+		}
+
+		Set newNames = new HashSet( );
+		for ( int i = 0; i < resultSetColumn.size( ); i++ )
+		{
+			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
+					.get( i );
+			String nativeName = column.getNativeName( );
+			if ( !StringUtil.isBlank( nativeName ) )
+				continue;
+
+			String newName = IdentifierUtility.getUniqueColumnName( names,
+					newNames, nativeName, i );
+
+			column.setColumnName( newName );
+		}
+		
+		names.clear( );
+		newNames.clear( );
 	}
 
 	/**
