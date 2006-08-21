@@ -35,7 +35,9 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -365,6 +367,54 @@ public class Utility
             }
         }
     }
+    
+    /**
+	 * 
+	 * @param structure
+	 * @param propName
+	 * @param value
+	 */
+	public static void setStructureProperty( IStructure structure,
+			String propName, Object value )
+	{
+		( (Structure) structure ).setProperty( propName, value );
+	}
+
+	/**
+	 * 
+	 * @param structure
+	 * @param memberName
+	 * @return
+	 */
+	public static String getStructureProperty( IStructure structure,
+			String memberName )
+	{
+		String value = (String) ( (Structure) structure ).getProperty( null,
+				memberName );
+
+		return value == null ? "" : value;
+	}
+
+	/**
+	 * 
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	public static int findIndex( String[] source, String target )
+	{
+		int index = 0;
+		for ( int i = 0; i < source.length; i++ )
+		{
+			if ( source[i].equals( target ) )
+			{
+				index = i;
+				break;
+			}
+		}
+
+		return index;
+	}
     
     /**
      * 
