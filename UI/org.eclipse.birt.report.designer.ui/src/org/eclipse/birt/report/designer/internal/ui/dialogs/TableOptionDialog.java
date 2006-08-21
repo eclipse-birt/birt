@@ -223,8 +223,8 @@ public class TableOptionDialog extends BaseDialog
 			dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			String[] dataSets = ChoiceSetFactory.getDataSets( );
 			String[] newList = new String[dataSets.length + 1];
-			System.arraycopy( dataSets, 0, newList, 0, dataSets.length );
-			newList[dataSets.length] = NONE;
+			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
+			newList[0] = NONE;
 			dataSetCombo.setItems( newList );
 			dataSetCombo.select( 0 );
 		}
