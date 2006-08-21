@@ -2577,6 +2577,27 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Removes special script lib handle.
+	 * 
+	 * @param scriptLibHandle
+	 *            script lib handle
+	 * @throws SemanticException
+	 */
+
+	public void dropScriptLib( ScriptLibHandle scriptLibHandle )
+			throws SemanticException
+	{
+		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
+
+		if ( scriptLibHandle == null )
+			return;
+
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLibHandle
+				.getStructure( ) );
+	}
+
+	/**
 	 * Removes all script libs.
 	 * 
 	 * @throws SemanticException
@@ -2584,12 +2605,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void dropAllScriptLibs( ) throws SemanticException
 	{
-		List scriptLibs = getListProperty( SCRIPTLIBS_PROP );
+		List scriptLibs = getFilteredStructureList( SCRIPTLIBS_PROP,
+				ScriptLib.SCRIPTLIB_NAME_MEMBER );
+		if ( scriptLibs == null )
+			return;
 		int count = scriptLibs.size( );
 		for ( int i = count - 1; i >= 0; --i )
 		{
-			ScriptLib scriptLib = (ScriptLib) scriptLibs.get( i );
-			dropScriptLib( scriptLib );
+			ScriptLibHandle scriptLibHandle = (ScriptLibHandle) scriptLibs
+					.get( i );
+			dropScriptLib( scriptLibHandle );
 		}
 	}
 
@@ -2643,12 +2668,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Shifts jar file from source position to destination position.
+	 * Shifts jar file from source position to destination position. For
+	 * example, if a list has A, B, C scriptLib in order, when move A scriptLib
+	 * to <code>newPosn</code> with the value 2, the sequence becomes B, A, C.
 	 * 
 	 * @param sourceIndex
-	 *            source position
+	 *            source position. The range is
+	 *            <code>sourceIndex &lt; 0 || sourceIndex &gt;= list.size()</code>
 	 * @param destIndex
-	 *            destination position
+	 *            destination position.The range is
+	 *            <code> destIndex &lt; 0 || destIndex &gt;= list.size()</code>
 	 * @throws SemanticException
 	 */
 
@@ -2656,7 +2685,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throws SemanticException
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
 	}
@@ -2672,14 +2700,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void addScriptLib( ScriptLib scriptLib ) throws SemanticException
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-
-		if ( scriptLib == null || StringUtil.isBlank( scriptLib.getName( ) ) )
-		{
-			throw new PropertyValueException( getElement( ), propDefn,
-					scriptLib,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
-		}
-		
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
 	}

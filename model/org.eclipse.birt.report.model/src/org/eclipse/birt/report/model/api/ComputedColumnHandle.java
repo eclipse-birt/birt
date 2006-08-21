@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.api.validators.ColumnBindingNameValidator;
 
 /**
  * Represents the handle of computed column. A computed column is a ¡°virtual¡±
@@ -87,20 +89,13 @@ public class ComputedColumnHandle extends StructureHandle
 
 	public void setName( String columnName ) throws SemanticException
 	{
-		if ( columnName != null )
+		List resultList = ColumnBindingNameValidator.getInstance( )
+				.validateForReplacing( getElementHandle( ) ,
+						getPropertyDefn( ), getStructure( ), columnName );
+		if( resultList.size( ) > 0 )
 		{
-			String tmpName = DataBoundColumnUtil.makeUniqueName(
-					getElementHandle( ), columnName,
-					(ComputedColumn) getStructure( ) );
-
-			if ( !columnName.equals( tmpName ) )
-			{
-				throw new PropertyValueException( getElementHandle( )
-						.getElement( ), getPropertyDefn( ), columnName,
-						PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
-			}
+			throw (PropertyValueException)resultList.get( 0 );
 		}
-
 		setProperty( ComputedColumn.NAME_MEMBER, columnName );
 	}
 

@@ -1609,7 +1609,8 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator" modules="design, library" name="MasterPageContextContainmentValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementExtendsValidator" modules="design, library" name="ElementExtendsValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.SimpleListValidator" modules="design, library" name="SimpleListValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>	  	  
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>	  
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ColumnBindingNameValidator" modules="design, library" name="ColumnBindingNameValidator"/>	  	  	  
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
