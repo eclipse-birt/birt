@@ -36,10 +36,12 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
+import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -53,6 +55,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
@@ -87,7 +90,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	private ModuleHandle getReportDesignHandle( )
 	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		return itemHandle.getModuleHandle( );
 	}
 
 	public String[] getAllDataSets( )
@@ -404,6 +407,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeNewDataSet( )
 	{
+		List dataSources = getReportDesignHandle( ).getVisibleDataSources( );
+		if ( dataSources.isEmpty( ) )
+		{
+			// Pop-up data source wizard if no data source available
+			new NewDataSourceAction( ).run( );
+		}
+
 		IAction action = new NewDataSetAction( );
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( action,
 				ChartHelpContextIds.DIALOG_NEW_DATA_SET );
@@ -465,6 +475,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		};
 		page.setInput( itemHandle );
+		ExpressionProvider ep = new ExpressionProvider( itemHandle );
+		ep.addFilter( new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				// Remove unsupported expression. See bugzilla#132768
+				return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS )
+						&& element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
+						.equals( "Total" ) ); //$NON-NLS-1$
+			}
+		} );
+		page.setExpressionProvider( ep );
 		return page.open( );
 	}
 
