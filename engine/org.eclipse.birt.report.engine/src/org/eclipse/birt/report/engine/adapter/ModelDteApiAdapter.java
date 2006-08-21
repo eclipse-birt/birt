@@ -75,7 +75,9 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -541,7 +543,16 @@ public class ModelDteApiAdapter
 					// defined for a parameter
 					if ( modelParam.isInput( ) )
 					{
-						String defaultValueExpr = modelParam.getDefaultValue( );
+						String defaultValueExpr = null;
+						if ( modelParam instanceof OdaDataSetParameterHandle )
+						{
+							if ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
+								defaultValueExpr = "params[\""
+										+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
+										+ "\"]";
+						}
+						else
+							defaultValueExpr = modelParam.getDefaultValue( );
 						if ( defaultValueExpr != null )
 							paramBindingCandidates.put( modelParam.getName( ),
 									defaultValueExpr );
@@ -618,17 +629,32 @@ public class ModelDteApiAdapter
 		// now merge model's result set column info into existing columnDefn
 		// with same column name, otherwise create new columnDefn
 		// based on the model's result set column
-		elmtIter = modelDataSet.resultSetHintsIterator( );
-		if ( elmtIter != null )
+		if ( modelDataSet instanceof OdaDataSetHandle )
 		{
-			while ( elmtIter.hasNext( ) )
+			elmtIter = modelDataSet.resultSetIterator( );
+			if ( elmtIter != null )
 			{
-				ResultSetColumnHandle modelColumn = ( ResultSetColumnHandle ) elmtIter
-						.next( );
-				dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
+				while ( elmtIter.hasNext( ) )
+				{
+					OdaResultSetColumnHandle modelColumn = (OdaResultSetColumnHandle) elmtIter.next( );
+					if ( !modelColumn.getColumnName( )
+							.equals( modelColumn.getNativeName( ) ) )
+						dteDataSet.addResultSetHint( newColumnDefn( (ResultSetColumnHandle) modelColumn ) );
+				}
 			}
 		}
-
+		else
+		{
+			elmtIter = modelDataSet.resultSetHintsIterator( );
+			if ( elmtIter != null )
+			{
+				while ( elmtIter.hasNext( ) )
+				{
+					ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next( );
+					dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
+				}
+			}
+		}
 		// merging result set column and column hints into DtE columnDefn;
 		// first create new columnDefn based on model's column hints
 		elmtIter = modelDataSet.columnHintsIterator( );

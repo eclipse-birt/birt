@@ -32,6 +32,9 @@ import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
+import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -43,6 +46,8 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
  */
 class DataAdapterUtil
 {
+	private static final String PARAMS_PREFIX = "params";
+	
 	/**
 	 * Adapts common base data source properties
 	 */
@@ -92,7 +97,17 @@ class DataAdapterUtil
 					// defined for a parameter
 					if ( modelParam.isInput( ) )
 					{
-						String defaultValueExpr = modelParam.getDefaultValue( );
+						String defaultValueExpr = null;
+						if ( modelParam instanceof OdaDataSetParameterHandle
+								&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
+						{
+							defaultValueExpr = PARAMS_PREFIX
+									+ "[\""
+									+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
+									+ "\"]";
+						}
+						else
+							defaultValueExpr = modelParam.getDefaultValue( );
 						if ( defaultValueExpr != null )
 							paramBindingCandidates.put( modelParam.getName( ),
 									defaultValueExpr );
@@ -167,14 +182,30 @@ class DataAdapterUtil
 		// now merge model's result set column info into existing columnDefn
 		// with same column name, otherwise create new columnDefn
 		// based on the model's result set column
-		elmtIter = modelDataSet.resultSetHintsIterator( );
-		if ( elmtIter != null )
+		if ( modelDataSet instanceof OdaDataSetHandle )
 		{
-			while ( elmtIter.hasNext( ) )
+			elmtIter = modelDataSet.resultSetIterator( );
+			if ( elmtIter != null )
 			{
-				ResultSetColumnHandle modelColumn = ( ResultSetColumnHandle ) elmtIter
-						.next( );
-				dteDataSet.addResultSetHint( new ColumnAdapter( modelColumn ) );
+				while ( elmtIter.hasNext( ) )
+				{
+					OdaResultSetColumnHandle modelColumn = (OdaResultSetColumnHandle) elmtIter.next( );
+					if ( !modelColumn.getColumnName( )
+							.equals( modelColumn.getNativeName( ) ) )
+						dteDataSet.addResultSetHint( new ColumnAdapter( (ResultSetColumnHandle) modelColumn ) );
+				}
+			}
+		}
+		else
+		{
+			elmtIter = modelDataSet.resultSetHintsIterator( );
+			if ( elmtIter != null )
+			{
+				while ( elmtIter.hasNext( ) )
+				{
+					ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next( );
+					dteDataSet.addResultSetHint( new ColumnAdapter( modelColumn ) );
+				}
 			}
 		}
 

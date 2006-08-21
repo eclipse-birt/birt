@@ -83,7 +83,7 @@ public class RefreshAction extends AbstractViewerAction
 			DataSetHandle handle = (DataSetHandle) getSelectedObjects( ).getFirstElement( );
 			try
 			{
-				DataSetUIUtil.updateColumnCache( handle );
+				DataSetUIUtil.updateColumnCacheAfterCleanRs( handle );
 			}
 			catch ( SemanticException e )
 			{

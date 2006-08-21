@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
@@ -409,14 +408,13 @@ public final class DataSetProvider
 	 */
 	private void updateModelColumn( DataSetHandle ds, DataSetViewData column )
 	{
-		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
+		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
 		if ( resultSetColumns == null )
 			return;
 		// update result set columns
 		Iterator iterator = resultSetColumns.iterator( );
-		if( iterator == null )
+		if ( iterator == null )
 			return;
-		boolean found = false;
 		while ( iterator.hasNext( ) )
 		{
 			ResultSetColumnHandle rsColumnHandle = (ResultSetColumnHandle) iterator.next( );
@@ -435,36 +433,10 @@ public final class DataSetProvider
 					{
 					}
 				}
-				found = true;
 				break;
 			}
 		}
-		if ( found == false )
-		{
-			addResultSetColumn( resultSetColumns, column );
-		}
 	}
-
-	/**
-	 * @param resultSetColumnHandle
-	 * @param column
-	 */
-	private void addResultSetColumn( PropertyHandle resultSetColumnHandle,
-			DataSetViewData column )
-	{
-		ResultSetColumn rsColumn = new ResultSetColumn( );
-		rsColumn.setColumnName( column.getDataSetColumnName( ) );
-		rsColumn.setPosition( new Integer( column.getPosition( ) ) );
-		try
-		{
-			resultSetColumnHandle.addItem( rsColumn );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-	}
-
 	
 	/**
 	 * 
@@ -753,7 +725,8 @@ public final class DataSetProvider
 		if ( element == null )
 		{
 			IConfigurationElement[] elements = Platform.getExtensionRegistry( )
-					.getConfigurationElementsFor( "org.eclipse.birt.report.designer.ui.odadatasource" ); 			for ( int n = 0; n < elements.length; n++ )
+					.getConfigurationElementsFor( "org.eclipse.birt.report.designer.ui.odadatasource" );
+			for ( int n = 0; n < elements.length; n++ )
 			{
 				if ( elements[n].getAttribute( "id" ).equals( dataSourceType ) ) //$NON-NLS-1$
 				{
@@ -762,8 +735,9 @@ public final class DataSetProvider
 					break;
 				}
 			}
-			 elements = Platform.getExtensionRegistry( )
-					.getConfigurationElementsFor( "org.eclipse.datatools.connectivity.oda.design.ui.dataSource" ); 			for ( int n = 0; n < elements.length; n++ )
+			elements = Platform.getExtensionRegistry( )
+					.getConfigurationElementsFor( "org.eclipse.datatools.connectivity.oda.design.ui.dataSource" );
+			for ( int n = 0; n < elements.length; n++ )
 			{
 				if ( elements[n].getAttribute( "id" ).equals( dataSourceType ) ) //$NON-NLS-1$
 				{

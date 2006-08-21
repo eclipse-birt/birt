@@ -20,6 +20,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
@@ -41,6 +42,22 @@ public final class DataSetUIUtil
 			throws SemanticException
 	{
 		updateColumnCache( dataSetHandle, false );
+	}
+	
+	/**
+	 * Update column cache with clean the resultset property
+	 * 
+	 * @param dataSetHandle
+	 * @throws SemanticException
+	 */
+	public static void updateColumnCacheAfterCleanRs(
+			DataSetHandle dataSetHandle ) throws SemanticException
+	{
+		if ( dataSetHandle instanceof OdaDataSetHandle )
+			dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
+					.clearValue( );
+		updateColumnCache( dataSetHandle );
+
 	}
 	
 	/**
@@ -120,7 +137,7 @@ public final class DataSetUIUtil
 	 * @param modelDataType
 	 * @return
 	 */
-	private static String toModelDataType( int modelDataType )
+	public static String toModelDataType( int modelDataType )
 	{
 		if ( modelDataType == DataType.INTEGER_TYPE )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER ;

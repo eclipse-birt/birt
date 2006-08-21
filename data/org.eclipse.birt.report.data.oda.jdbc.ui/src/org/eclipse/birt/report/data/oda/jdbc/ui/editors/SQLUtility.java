@@ -120,14 +120,18 @@ public class SQLUtility
 			query.setMaxRows( 1 );
 			query.prepare( design.getQueryText( ) );
 
-			// set parameter metadata
-			IParameterMetaData paramMetaData = query.getParameterMetaData( );
-			mergeParameterMetaData( design, paramMetaData );
-			query.executeQuery( );
+			setParameterMetaData( design, query );
 
 			// set resultset metadata
 			IResultSetMetaData metadata = query.getMetaData( );
-			setResultSetMetaData( design, metadata );
+			if ( metadata != null )
+				setResultSetMetaData( design, metadata );
+			else
+			{
+				query.executeQuery( );
+				metadata = query.getMetaData( );
+				setResultSetMetaData( design, metadata );
+			}
 
 		}
 		catch ( OdaException e )
@@ -146,6 +150,27 @@ public class SQLUtility
 				{
 					e.printStackTrace( );
 				};
+		}
+	}
+
+	/**
+	 * Set parameter metadata in dataset design
+	 * 
+	 * @param design
+	 * @param query
+	 */
+	private static void setParameterMetaData( DataSetDesign dataSetDesign,
+			IQuery query )
+	{
+		try
+		{
+			// set parameter metadata
+			IParameterMetaData paramMetaData = query.getParameterMetaData( );
+			mergeParameterMetaData( dataSetDesign, paramMetaData );
+		}
+		catch ( OdaException e )
+		{
+			dataSetDesign.setParameters( null );
 		}
 	}
 	
@@ -299,44 +324,22 @@ public class SQLUtility
 	private static void mergeParameterMetaData( DataSetDesign dataSetDesign,
 			IParameterMetaData md ) throws OdaException
 	{
-		DataSetParameters parameters = dataSetDesign.getParameters( );
-		DataSetParameters dataSetParameter = null;
+		if ( md == null || dataSetDesign == null )
+			return;
+		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign( md,
+				ParameterMode.IN_LITERAL );
 
-		dataSetParameter = DesignSessionUtil.toDataSetParametersDesign( md,
-					ParameterMode.IN_LITERAL );
-
-		if ( parameters == null
-				|| parameters.getParameterDefinitions( ).size( ) == 0 )
+		if ( dataSetParameter != null )
 		{
-			if ( dataSetParameter != null )
+			Iterator iter = dataSetParameter.getParameterDefinitions( )
+					.iterator( );
+			while ( iter.hasNext( ) )
 			{
-				Iterator iter = dataSetParameter.getParameterDefinitions( )
-						.iterator( );
-				while ( iter.hasNext( ) )
-				{
-					ParameterDefinition defn = (ParameterDefinition) iter.next( );
-					proccessParamDefn( defn, dataSetParameter );
-				}
-			}
-			dataSetDesign.setParameters( dataSetParameter );
-		}
-		else
-		{
-			int designParamSize = 0;
-			if ( dataSetParameter != null )
-				designParamSize = dataSetParameter.getParameterDefinitions( )
-						.size( );
-			int dataParamSize = parameters.getParameterDefinitions( ).size( );
-			while ( designParamSize > dataParamSize )
-			{
-				ParameterDefinition defn = (ParameterDefinition) dataSetParameter.getParameterDefinitions( )
-						.get( dataParamSize );
-
-				proccessParamDefn( defn, parameters );
-				parameters.getParameterDefinitions( ).add( defn );
-				designParamSize--;
+				ParameterDefinition defn = (ParameterDefinition) iter.next( );
+				proccessParamDefn( defn, dataSetParameter );
 			}
 		}
+		dataSetDesign.setParameters( dataSetParameter );
 	}
 
 	/**

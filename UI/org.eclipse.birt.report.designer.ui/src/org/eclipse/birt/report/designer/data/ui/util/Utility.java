@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -162,7 +163,42 @@ public class Utility
 	{
 		return getReportModuleHandle( ).getVisibleDataSources( );
 	}
+	
+	/**
+	 * get all available report parameter list
+	 * @return
+	 */
+	public static List getAllParameters( )
+	{
+		List parameterList = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getAllParameters( );
+		return parameterList;
+	}
     
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static ScalarParameterHandle getScalarParameter( String name )
+	{
+		if ( name == null )
+			return null;
+		List parameterList = getAllParameters( );
+		Object parameterObject = null;
+		for ( int i = 0; i < parameterList.size( ); i++ )
+		{
+			parameterObject = parameterList.get( i );
+			if ( parameterObject instanceof ScalarParameterHandle )
+			{
+				if ( name.equals( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ) ) )
+					return (ScalarParameterHandle) parameterObject;
+			}
+		}
+		return null;
+	}
+	
     /**
      * get all data source list
      * 

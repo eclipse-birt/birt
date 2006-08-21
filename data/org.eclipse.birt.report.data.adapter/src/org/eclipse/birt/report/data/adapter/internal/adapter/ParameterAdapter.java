@@ -16,12 +16,15 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 
 /**
  * Adapts a Model parameter definition
  */
 public class ParameterAdapter extends ParameterDefinition
 {
+	private static final String PARAMS_PREFIX = "params";
+	
 	public ParameterAdapter( DataSetParameterHandle modelParam )
 	{
 		setName( modelParam.getName( ) );
@@ -32,6 +35,17 @@ public class ParameterAdapter extends ParameterDefinition
 		setOutputMode( modelParam.isOutput( ) );
 		setNullable( modelParam.allowNull( ) );
 		setInputOptional( modelParam.isOptional( ) );
-		setDefaultInputValue( modelParam.getDefaultValue( ) );
+		if ( modelParam instanceof OdaDataSetParameterHandle )
+		{
+			if ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
+			{
+				setDefaultInputValue( PARAMS_PREFIX
+						+ "[\""
+						+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
+						+ "\"]" );
+			}
+		}
+		else
+			setDefaultInputValue( modelParam.getDefaultValue( ) );
 	}
 }

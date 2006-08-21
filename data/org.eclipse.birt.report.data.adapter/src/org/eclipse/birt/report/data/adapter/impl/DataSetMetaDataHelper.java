@@ -30,12 +30,14 @@ import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.CompaibilityUtil;
@@ -148,18 +150,53 @@ public class DataSetMetaDataHelper
 					modelAdaptor,
 					sessionContext,
 					false ).executeQuery( query ).getResultMetaData( );
-
-			if ( needsUseResultHint( dataSetHandle, metaData ) )
-			{
-				metaData = new QueryExecutionHelper( dataEngine,
-						modelAdaptor,
-						sessionContext,
-						true ).executeQuery( query ).getResultMetaData( );
-			}
+			addResultSetColumn( dataSetHandle, metaData );
 		}
+		
+		if ( needsUseResultHint( dataSetHandle, metaData ) )
+		{
+			metaData = new QueryExecutionHelper( dataEngine,
+					modelAdaptor,
+					sessionContext,
+					true ).executeQuery( query ).getResultMetaData( );
+		}
+		
 		if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
 			clearUnusedData( dataSetHandle, metaData );
 		return metaData;
+	}
+	
+	/**
+	 * 
+	 * @param meta
+	 * @throws BirtException 
+	 */
+	private void addResultSetColumn( DataSetHandle dataSetHandle,
+			IResultMetaData meta ) throws BirtException
+	{
+		if ( meta == null || !( dataSetHandle instanceof OdaDataSetHandle ) )
+			return;
+		PropertyHandle resultSetColumnHandle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+		for ( int i = 1; i <= meta.getColumnCount( ); i++ )
+		{
+			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
+
+			if ( !meta.isComputedColumn( i ) )
+			{
+				try
+				{
+					rsColumn.setColumnName( meta.getColumnName( i ) );
+					rsColumn.setDataType( toModelDataType( meta.getColumnType( i ) ) );
+					rsColumn.setNativeName( meta.getColumnName( i ) );
+					rsColumn.setPosition( new Integer( i ) );
+					resultSetColumnHandle.addItem( rsColumn );
+				}
+				catch ( BirtException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+		}
 	}
 	
 	/**
@@ -528,13 +565,12 @@ public class DataSetMetaDataHelper
 	private void updateModelColumn( DataSetHandle ds, String uniqueColumnName,
 			int index ) throws BirtException
 	{
-		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
+		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
 		if ( resultSetColumns == null )
 			return;
 
 		// update result set columns
 		Iterator iterator = resultSetColumns.iterator( );
-		boolean found = false;
 		while ( iterator.hasNext( ) )
 		{
 			ResultSetColumnHandle rsColumnHandle = (ResultSetColumnHandle) iterator.next( );
@@ -547,31 +583,9 @@ public class DataSetMetaDataHelper
 				{
 					rsColumnHandle.setColumnName( uniqueColumnName );
 				}
-				found = true;
 				break;
 			}
 		}
-		if ( found == false )
-		{
-			addResultSetColumn( resultSetColumns, uniqueColumnName, index );
-		}
-	}
-	
-	/**
-	 * 
-	 * @param resultSetColumnHandle
-	 * @param uniqueColumnName
-	 * @param index
-	 * @throws BirtException
-	 */
-	private void addResultSetColumn( PropertyHandle resultSetColumnHandle,
-			String uniqueColumnName, int index ) throws BirtException
-	{
-		ResultSetColumn rsColumn = new ResultSetColumn( );
-
-		rsColumn.setColumnName( uniqueColumnName );
-		rsColumn.setPosition( new Integer( index ) );
-		resultSetColumnHandle.addItem( rsColumn );
 	}
 	
 	/**
