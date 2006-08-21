@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ComputedColumnExpressionFilter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemSelfBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -874,7 +874,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected void handleAddEvent( )
 	{
-		DataItemSelfBindingDialog dialog = new DataItemSelfBindingDialog( );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( );
 		dialog.setInput( inputElement );
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
@@ -900,7 +900,7 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		if ( bindingHandle == null )
 			return;
-		DataItemSelfBindingDialog dialog = new DataItemSelfBindingDialog( );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( );
 		dialog.setInput( (ReportItemHandle) inputElement, bindingHandle );
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )

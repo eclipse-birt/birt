@@ -108,6 +108,11 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		super( NEW_DATAITEM_TITLE );
 	}
+	
+	public DataItemBindingDialog( String title )
+	{
+		super( title );
+	}
 
 	protected String[] convertListToStrings( List list )
 	{
