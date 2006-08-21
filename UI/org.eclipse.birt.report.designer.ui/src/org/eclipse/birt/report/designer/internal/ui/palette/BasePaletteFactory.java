@@ -721,10 +721,11 @@ public class BasePaletteFactory
 				TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
 						false );
 				if ( dlg.open( ) == Window.OK
-						&& dlg.getResult( ) instanceof int[] )
+						&& dlg.getResult( ) instanceof Object[] )
 				{
-					int[] data = (int[]) dlg.getResult( );
-					grid = factory.newGridItem( null, data[1], data[0] );
+					Object[] data = (Object[]) dlg.getResult( );
+					grid = factory.newGridItem( null, ( (Integer) data[1] ).intValue( ),
+							( (Integer) data[0] ).intValue( ) );
 				}
 				else
 				{

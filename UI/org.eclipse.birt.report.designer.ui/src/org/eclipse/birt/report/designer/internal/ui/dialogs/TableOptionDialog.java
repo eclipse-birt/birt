@@ -301,8 +301,8 @@ public class TableOptionDialog extends BaseDialog
 			} );
 		}
 		else
-			setResult( new int[]{
-					rowCount, columnCount
+			setResult( new Object[]{
+					new Integer(rowCount), new Integer(columnCount)
 			} );
 
 		if ( chkbox.getSelection( ) )
