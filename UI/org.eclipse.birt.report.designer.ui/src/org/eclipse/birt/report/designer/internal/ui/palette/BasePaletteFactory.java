@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -153,6 +154,9 @@ public class BasePaletteFactory
 									.getReportDesignHandle( )
 									.findDataSet( data[2].toString( ) );
 							( (ReportItemHandle) table ).setDataSet( dataSet );
+							DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
+							provider.setBindingObject( table );
+							provider.generateAllBindingColumns( );
 						}
 						catch ( Exception e )
 						{

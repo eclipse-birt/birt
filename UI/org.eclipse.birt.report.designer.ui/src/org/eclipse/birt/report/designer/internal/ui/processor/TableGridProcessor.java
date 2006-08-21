@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -88,6 +89,9 @@ public class TableGridProcessor extends AbstractElementProcessor
 								.getReportDesignHandle( )
 								.findDataSet( data[2].toString( ) );
 						( (ReportItemHandle) handle ).setDataSet( dataSet );
+						DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
+						provider.setBindingObject( (ReportItemHandle) handle );
+						provider.generateAllBindingColumns( );
 					}
 					catch ( Exception e )
 					{
