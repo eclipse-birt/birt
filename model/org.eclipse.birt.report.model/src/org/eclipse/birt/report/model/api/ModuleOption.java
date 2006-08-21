@@ -12,21 +12,14 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provide the way to do some setting about the module.
  */
 
-public class ModuleOption
+public class ModuleOption implements IModuleOption
 {
-
-	/**
-	 * Key to control whether to call semantic-check when opening a module. True
-	 * if user wants to do some semantic checks about the module when opening
-	 * it; otherwise false.
-	 */
-
-	public final static String PARSER_SEMANTIC_CHECK_KEY = "semanticCheck"; //$NON-NLS-1$
 
 	/**
 	 * Maps to store the key/value pairs.
@@ -41,6 +34,19 @@ public class ModuleOption
 	public ModuleOption( )
 	{
 
+	}
+
+	/**
+	 * Constructs the module options with mapping of the option settings.
+	 * 
+	 * @param options
+	 *            the option settings to add
+	 */
+
+	public ModuleOption( Map options )
+	{
+		if ( options != null && !options.isEmpty( ) )
+			options.putAll( options );
 	}
 
 	/**
@@ -69,5 +75,29 @@ public class ModuleOption
 	{
 		options.put( PARSER_SEMANTIC_CHECK_KEY, Boolean
 				.valueOf( useSemanticCheck ) );
+	}
+
+	/**
+	 * Gets the resource folder.
+	 * 
+	 * @return the resource folder
+	 */
+
+	public String getResourceFolder( )
+	{
+		return (String) options.get( RESOURCE_FOLDER_KEY );
+	}
+
+	/**
+	 * Sets the resource folder
+	 * 
+	 * @param resourceFolder
+	 *            the resource folder to set
+	 */
+
+	public void setResourceFolder( String resourceFolder )
+	{
+		if ( resourceFolder != null )
+			options.put( RESOURCE_FOLDER_KEY, resourceFolder );
 	}
 }
