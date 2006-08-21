@@ -544,12 +544,13 @@ public class ModelDteApiAdapter
 					if ( modelParam.isInput( ) )
 					{
 						String defaultValueExpr = null;
-						if ( modelParam instanceof OdaDataSetParameterHandle )
+						if ( modelParam instanceof OdaDataSetParameterHandle
+								&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 						{
-							if ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
-								defaultValueExpr = "params[\""
-										+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
-										+ "\"]";
+							defaultValueExpr = "params"
+									+ "[\""
+									+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
+									+ "\"]";
 						}
 						else
 							defaultValueExpr = modelParam.getDefaultValue( );
@@ -694,6 +695,7 @@ public class ModelDteApiAdapter
 		dteParam.setNullable( modelParam.allowNull( ) );
 		dteParam.setInputOptional( modelParam.isOptional( ) );
 		dteParam.setDefaultInputValue( modelParam.getDefaultValue( ) );
+		dteParam.setNativeType( modelParam.getNativeDataType( ).intValue( ) );
 
 		return dteParam;
 	}
@@ -772,12 +774,12 @@ public class ModelDteApiAdapter
 
 	private IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
 	{
-		ColumnDefinition newColumn = new ColumnDefinition( modelColumn
-				.getColumnName( ) );
+		ColumnDefinition newColumn = new ColumnDefinition( modelColumn.getColumnName( ) );
 		if ( modelColumn.getPosition( ) != null )
-			newColumn
-					.setColumnPosition( modelColumn.getPosition( ).intValue( ) );
+			newColumn.setColumnPosition( modelColumn.getPosition( ).intValue( ) );
 		newColumn.setDataType( toDteDataType( modelColumn.getDataType( ) ) );
+		newColumn.setNativeDataType( modelColumn.getNativeDataType( )
+				.intValue( ) );
 		return newColumn;
 	}
 
