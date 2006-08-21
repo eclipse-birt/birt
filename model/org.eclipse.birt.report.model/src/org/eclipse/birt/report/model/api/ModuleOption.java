@@ -100,4 +100,32 @@ public class ModuleOption implements IModuleOption
 		if ( resourceFolder != null )
 			options.put( RESOURCE_FOLDER_KEY, resourceFolder );
 	}
+
+	/**
+	 * Sets an option of this setting.
+	 * 
+	 * @param key
+	 *            the option key
+	 * @param value
+	 *            the option value
+	 */
+
+	public void setProperty( String key, Object value )
+	{
+		options.put( key, value );
+	}
+
+	/**
+	 * Gets the value in this setting.
+	 * 
+	 * @param key
+	 *            the key to search
+	 * @return the value in this setting if found, otherwise <code>null</code>
+	 */
+
+	public Object getProperty( String key )
+	{
+		return options.get( key );
+	}
+
 }

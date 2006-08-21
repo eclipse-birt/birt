@@ -32,4 +32,9 @@ public interface IModuleOption
 
 	static final String RESOURCE_FOLDER_KEY = "resourceFolder"; //$NON-NLS-1$
 
+	/**
+	 * Key to indicate the resource locator of the module.
+	 */
+
+	static final String RESOURCE_LOCATOR_KEY = "resourceLocator"; //$NON-NLS-1$	
 }
