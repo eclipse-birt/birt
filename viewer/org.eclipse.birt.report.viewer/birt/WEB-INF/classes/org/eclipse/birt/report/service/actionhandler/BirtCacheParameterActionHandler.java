@@ -105,7 +105,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					if ( parameter != null )
 					{
 						// add null parameter to config file
-						configVar.setName( ParameterAccessor.PARAM_ISNULL );
+						configVar.setName( ParameterAccessor.PARAM_ISNULL
+								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue
 								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
 						handle.addConfigVariable( configVar );
@@ -172,7 +173,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 					// add parameter type
 					ConfigVariable typeVar = new ConfigVariable( );
-					typeVar.setName( paramName + "_" + parameter.getID( ) + "_"  //$NON-NLS-1$//$NON-NLS-2$
+					typeVar.setName( paramName + "_" + parameter.getID( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
 							+ IBirtConstants.PROP_TYPE );
 					typeVar.setValue( dataType );
 					handle.addConfigVariable( typeVar );

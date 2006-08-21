@@ -250,8 +250,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						String paramValue = configVar.getValue( );
 
 						// check if null parameter
-						if ( paramName
-								.equalsIgnoreCase( ParameterAccessor.PARAM_ISNULL )
+						if ( paramName.toLowerCase( ).startsWith(
+								ParameterAccessor.PARAM_ISNULL )
 								&& paramValue != null )
 						{
 							String nullParamName = getParameterName( paramValue );
