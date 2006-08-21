@@ -35,6 +35,9 @@ import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
+import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.GraphicalViewer;
@@ -90,8 +93,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	private long fModificationStamp = -1;;
 
 	protected IReportProvider reportProvider;
-	
-	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider(this);
+
+	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider(
+			this );
 	private boolean isChanging = false;
 
 	// this is a bug because the getActiveEditor() return null, we should change
@@ -173,7 +177,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
 		// .addPartListener( this );
-		site.setSelectionProvider(provider );
+		site.setSelectionProvider( provider );
 
 		IReportProvider provider = getProvider( );
 
@@ -233,8 +237,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 				for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
 				{
 					FormPageDef pagedef = (FormPageDef) iter.next( );
-					if ( "org.eclipse.birt.report.designer.ui.editors.xmlsource" .equals( pagedef.id)) //$NON-NLS-1$
-							
+					if ( "org.eclipse.birt.report.designer.ui.editors.xmlsource".equals( pagedef.id ) ) //$NON-NLS-1$
+
 					{
 						try
 						{
@@ -334,6 +338,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	public void doSave( IProgressMonitor monitor )
 	{
 		getActivePageInstance( ).doSave( monitor );
+		fireDesignFileChangeEvent( );
+	}
+
+	private void fireDesignFileChangeEvent( )
+	{
+		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+				.fireResourceChange(
+						new LibraryChangeEvent( getModel( ).getFileName( ) ) );
+
 	}
 
 	/*
@@ -359,6 +372,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		}
 
 		updateRelatedViews( );
+		fireDesignFileChangeEvent();
 	}
 
 	/*
@@ -514,14 +528,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	protected void pageChange( int newPageIndex )
 	{
 		int oldPageIndex = getCurrentPage( );
-		
+
 		if ( oldPageIndex == newPageIndex )
 		{
 			isChanging = false;
 			bingdingKey( oldPageIndex );
 			return;
 		}
-		
 
 		if ( oldPageIndex != -1 )
 		{
@@ -529,7 +542,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			Object newPage = pages.get( newPageIndex );
 			// change to new page, must do it first, because must check old page
 			// is canleave.
-			isChanging  = true;
+			isChanging = true;
 			super.pageChange( newPageIndex );
 			updateRelatedViews( );
 			// check new page status
@@ -539,7 +552,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 				updateRelatedViews( );
 				return;
 			}
-			else if (isChanging)
+			else if ( isChanging )
 			{
 				bingdingKey( newPageIndex );
 			}
@@ -549,7 +562,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		{
 			super.pageChange( newPageIndex );
 		}
-		updateRelatedViews( );	
+		updateRelatedViews( );
 	}
 
 	public void setFocus( )
@@ -742,7 +755,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 					public void run( )
 					{
 						// UIUtil.resetViewSelection( view, true );
-						if(getActivePageInstance( )!=null)
+						if ( getActivePageInstance( ) != null )
 						{
 							( (IReportEditorPage) getActivePageInstance( ) )
 									.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
@@ -902,19 +915,19 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	 */
 	public void dispose( )
 	{
-		//dispose page
-		List list = new ArrayList(pages);
+		// dispose page
+		List list = new ArrayList( pages );
 		int size = list.size( );
-		for (int i=0; i<size; i++)
+		for ( int i = 0; i < size; i++ )
 		{
-			Object obj =list.get( i );
-			if (obj instanceof IReportEditorPage)
+			Object obj = list.get( i );
+			if ( obj instanceof IReportEditorPage )
 			{
-				((IReportEditorPage)obj).dispose( );
+				( (IReportEditorPage) obj ).dispose( );
 				pages.remove( obj );
 			}
 		}
-		
+
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
 		// .removePartListener( this );
@@ -931,19 +944,22 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		{
 			dataPage.dispose( );
 		}
-		getSite( ).setSelectionProvider(null );
+		getSite( ).setSelectionProvider( null );
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( ).getMediator( )
 				.removeGlobalColleague( this );
-		getModel( ).close( );
+		if(getModel()!=null)
+		{
+			getModel( ).close( );
+		}
 		super.dispose( );
 	}
-	
+
 	protected void finalize( ) throws Throwable
 	{
-		if(Policy.TRACING_PAGE_CLOSE)
+		if ( Policy.TRACING_PAGE_CLOSE )
 		{
-			System.out.println("Report multi page finalized" ); //$NON-NLS-1$
+			System.out.println( "Report multi page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
 	}

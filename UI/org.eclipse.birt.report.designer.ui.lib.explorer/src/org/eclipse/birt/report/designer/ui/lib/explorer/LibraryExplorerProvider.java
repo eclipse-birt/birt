@@ -11,18 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.lib.explorer.model.LibDirectoryNodeModel;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -35,19 +26,6 @@ import org.eclipse.ui.PlatformUI;
 public class LibraryExplorerProvider extends ViewsTreeProvider
 {
 
-	FileFilter filter = new FileFilter( ) {
-
-		public boolean accept( File pathname )
-		{
-			return pathname.isDirectory( )
-					|| pathname.isFile( )
-					&& pathname.getPath( )
-							.toLowerCase( )
-							.endsWith( ".rptlibrary" ); //$NON-NLS-1$
-		}
-
-	};
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -55,55 +33,9 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
-		if ( parentElement instanceof File )
+		if ( parentElement instanceof LibDirectoryNodeModel )
 		{
-			File file = (File) parentElement;
-			if ( !file.exists( ) )
-			{
-				return new Object[]{
-					Messages.getString( "LibraryExplorerProvider.FolderNotExist" ) //$NON-NLS-1$
-				};
-			}
-			if ( file.isDirectory( ) )
-			{
-				File[] children = file.listFiles( filter );
-				List folderList = new ArrayList( );
-				List fileList = new ArrayList( );
-				for ( int i = 0; i < children.length; i++ )
-				{
-					if ( children[i].isDirectory( ) )
-					{
-						folderList.add( children[i] );
-					}
-					else
-					{
-						fileList.add( children[i] );
-					}
-				}
-				folderList.addAll( fileList );
-				return folderList.toArray( );
-			}
-			else
-			{
-				// bugzilla 152419
-				LibraryHandle library = null;
-				try
-				{
-					library = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( )
-							.openLibrary( file.getAbsolutePath( ) );
-					Object[] rtns = super.getChildren( library );
-					return rtns;
-				}
-				catch ( DesignFileException e )
-				{
-				}
-				finally
-				{
-					if ( library != null )
-						library.close( );
-				}
-			}
+			return ( (LibDirectoryNodeModel) parentElement ).getChildren( );
 		}
 		return super.getChildren( parentElement );
 	}
@@ -115,36 +47,17 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Image getImage( Object element )
 	{
-		if ( element instanceof File )
+		if ( element instanceof LibDirectoryNodeModel )
 		{
-			File file = (File) element;
-			if ( file.isDirectory( ) )
-			{
+
 				return PlatformUI.getWorkbench( )
 						.getSharedImages( )
 						.getImage( ISharedImages.IMG_OBJ_FOLDER );
-			}
-			else
-			{
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY );
-			}
 		}
+
 		return super.getImage( element );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getParent(java.lang.Object)
-	 */
-	public Object getParent( Object element )
-	{
-		if ( element instanceof File )
-		{
-			return ( (File) element ).getParentFile( );
-		}
-		return super.getParent( element );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -153,9 +66,9 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public String getText( Object element )
 	{
-		if ( element instanceof File )
+		if ( element instanceof LibDirectoryNodeModel )
 		{
-			return ( (File) element ).getName( );
+			return ( (LibDirectoryNodeModel) element ).getText( );
 		}
 		else if ( element instanceof String )
 		{
@@ -171,19 +84,20 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public boolean hasChildren( Object element )
 	{
-		if ( element instanceof File )
+		if ( element instanceof LibDirectoryNodeModel )
 		{
-			if ( ( (File) element ).isDirectory( ) )
-			{
-				return ( (File) element ).list( ) != null
-						&& ( (File) element ).list( ).length > 0;
-			}
-			else
-			{
 				return true;
-			}
 		}
 		return super.hasChildren( element );
+	}
+	
+	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
+	{
+		if(oldInput instanceof LibDirectoryNodeModel)
+		{
+			((LibDirectoryNodeModel)oldInput).dispose( );
+		}
+		super.inputChanged( viewer, oldInput, newInput );
 	}
 
 }

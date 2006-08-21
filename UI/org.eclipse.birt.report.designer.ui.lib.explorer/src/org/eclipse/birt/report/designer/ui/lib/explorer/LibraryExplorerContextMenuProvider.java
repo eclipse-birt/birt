@@ -50,18 +50,18 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	/**
 	 * constructor
 	 * 
-	 * @param viewer
+	 * @param page
 	 *            the viewer
 	 * @param registry
 	 *            the registry
 	 */
-	public LibraryExplorerContextMenuProvider( TreeViewer viewer )
+	public LibraryExplorerContextMenuProvider( LibraryExplorerTreeViewPage page )
 	{
-		super( viewer );
-		refreshExplorerAction = new RefreshLibExplorerAction( viewer );
-		addLibraryAction = new AddLibraryAction( viewer );
-		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( viewer );
-		deleteLibraryAction = new DeleteLibraryAction( viewer );
+		super( page.getTreeViewer( ) );
+		refreshExplorerAction = new RefreshLibExplorerAction( page );
+		addLibraryAction = new AddLibraryAction( page.getTreeViewer( ) );
+		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
+		deleteLibraryAction = new DeleteLibraryAction( page.getTreeViewer( ) );
 	}
 
 	/**
