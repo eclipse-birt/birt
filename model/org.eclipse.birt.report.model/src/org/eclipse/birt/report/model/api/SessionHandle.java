@@ -20,6 +20,7 @@ import java.util.Locale;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
+import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
@@ -742,6 +743,36 @@ public class SessionHandle
 		// else if ( ev.getEventType( ) ==
 		// NotificationEvent.MESSAGE_FILE_CHANGE_EVENT )
 		// session.fireMessageFileChange( ev );
+	}
+	
+	/**
+	 * Adds one resource change listener. The duplicate listener will not be
+	 * added.
+	 * 
+	 * @param listener
+	 *            the resource change listener to add
+	 */
+
+	public void addResourceChangeListener( IResourceChangeListener listener )
+	{
+		session.addResourceChangeListener( listener );
+	}
+	
+	/**
+	 * Removes one resource change listener. If the listener not registered,
+	 * then the request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the resource change listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 * 
+	 */
+
+	public boolean removeResourceChangeListener(
+			IResourceChangeListener listener )
+	{
+		return session.removeResourceChangeListener( listener );
 	}
 
 	/**

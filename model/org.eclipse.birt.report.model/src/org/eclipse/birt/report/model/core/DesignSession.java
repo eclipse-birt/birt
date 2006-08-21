@@ -24,10 +24,13 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -155,6 +158,12 @@ public class DesignSession
 	 */
 
 	private HashMap defaultValues = new HashMap( );
+	
+	/**
+	 * Resource change listener list to handle the resource change events.
+	 */
+
+	private List resourceChangeListeners = null;
 
 	/**
 	 * Constructor.
@@ -987,6 +996,66 @@ public class DesignSession
 				module.broadcastResourceChangeEvent( event );
 			}
 		}
+		
+		broadcastResourceChangeEvent( ev );
+	}
+	
+	/**
+	 * Adds one resource change listener. The duplicate listener will not be
+	 * added.
+	 * 
+	 * @param listener
+	 *            the resource change listener to add
+	 */
+
+	public void addResourceChangeListener( IResourceChangeListener listener )
+	{
+		if ( resourceChangeListeners == null )
+			resourceChangeListeners = new ArrayList( );
+
+		if ( !resourceChangeListeners.contains( listener ) )
+			resourceChangeListeners.add( listener );
 	}
 
+	/**
+	 * Removes one resource change listener. If the listener not registered,
+	 * then the request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the resource change listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 * 
+	 */
+
+	public boolean removeResourceChangeListener(
+			IResourceChangeListener listener )
+	{
+		if ( resourceChangeListeners == null )
+			return false;
+		return resourceChangeListeners.remove( listener );
+	}
+	
+	/**
+	 * Broadcasts the resource change event to the resource change listeners.
+	 * 
+	 * @param event
+	 *            the dispose event
+	 */
+
+	public void broadcastResourceChangeEvent( ResourceChangeEvent event )
+	{
+		if ( resourceChangeListeners == null
+				|| resourceChangeListeners.isEmpty( ) )
+			return;
+
+		List temp = new ArrayList( resourceChangeListeners );
+		Iterator iter = temp.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IResourceChangeListener listener = (IResourceChangeListener) iter
+					.next( );
+			listener.resourceChanged( null, event );
+		}
+	}
 }
