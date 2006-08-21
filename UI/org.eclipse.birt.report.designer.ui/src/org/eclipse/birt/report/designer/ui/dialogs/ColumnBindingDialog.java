@@ -56,6 +56,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -167,7 +168,7 @@ public class ColumnBindingDialog extends BaseDialog
 		public Object[] getElements( Object inputElement )
 		{
 			List elementsList = getBindingList( (DesignElementHandle) inputElement );
-			elementsList.add( dummyChoice );
+			// elementsList.add( dummyChoice );
 			return elementsList.toArray( );
 		}
 	};
@@ -650,11 +651,11 @@ public class ColumnBindingDialog extends BaseDialog
 				if ( e.keyCode == SWT.DEL )
 				{
 					int itemCount = table.getItemCount( );
-					if ( selectIndex == itemCount - 1 )
+					if ( selectIndex == itemCount )
 					{
 						return;
 					}
-					if ( selectIndex == itemCount - 2 )
+					if ( selectIndex == itemCount - 1 )
 					{
 						selectIndex--;
 					}
@@ -759,7 +760,7 @@ public class ColumnBindingDialog extends BaseDialog
 		bindingTable.setColumnProperties( columns );
 		bindingTable.setContentProvider( contentProvider );
 		bindingTable.setLabelProvider( labelProvider );
-		bindingTable.setCellModifier( cellModifier );
+		// bindingTable.setCellModifier( cellModifier );
 		bindingTable.setInput( inputElement );
 
 		bindingTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
@@ -805,8 +806,8 @@ public class ColumnBindingDialog extends BaseDialog
 			{
 				handleAddEvent( );
 				refreshBindingTable( );
-				if ( table.getItemCount( ) > 1 )
-					selectIndex = ( table.getItemCount( ) - 2 );
+				if ( table.getItemCount( ) > 0 )
+					selectIndex = ( table.getItemCount( ) - 1 );
 				updateButtons( );
 			}
 
@@ -851,7 +852,7 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 				selectIndex = pos;
 				int itemCount = bindingTable.getTable( ).getItemCount( );
-				if ( selectIndex == itemCount - 2 )
+				if ( selectIndex == itemCount - 1 )
 				{
 					selectIndex--;
 				}
@@ -864,7 +865,6 @@ public class ColumnBindingDialog extends BaseDialog
 					WidgetUtil.processError( getShell( ), e1 );
 				}
 				refreshBindingTable( );
-				updateButtons( );
 			}
 		} );
 		// initTableCellColor( );
@@ -880,9 +880,11 @@ public class ColumnBindingDialog extends BaseDialog
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			if ( bindingTable != null )
-				bindingTable.editElement( bindingTable.getElementAt( bindingTable.getTable( )
-						.getItemCount( ) - 1 ),
-						0 );
+			{
+				refreshBindingTable( );
+				bindingTable.getTable( ).setSelection( bindingTable.getTable( )
+						.getItemCount( ) - 1 );
+			}
 		}
 
 	}
@@ -903,8 +905,8 @@ public class ColumnBindingDialog extends BaseDialog
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			if ( bindingTable != null )
-				bindingTable.editElement( bindingTable.getElementAt( pos ), 0 );
+			 if ( bindingTable != null )
+				 bindingTable.getTable( ).setSelection(pos );
 		}
 	}
 
@@ -915,7 +917,9 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			try
 			{
-				(  (ReportItemHandle) DEUtil.getBindingHolder( inputElement )  ).getColumnBindings( ).getAt( pos ).drop( );
+				ComputedColumnHandle handle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+						.getAt( pos );
+				deleteRow( handle );
 			}
 			catch ( Exception e1 )
 			{
@@ -1007,7 +1011,6 @@ public class ColumnBindingDialog extends BaseDialog
 				selectedColumnName = null;
 			}
 			handle.drop( );
-			refreshBindingTable( );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -1047,7 +1050,7 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		getOkButton( ).setEnabled( okEnable );
 		int min = 0;
-		int max = bindingTable.getTable( ).getItemCount( ) - 2;
+		int max = bindingTable.getTable( ).getItemCount( ) - 1;
 
 		if ( ( min <= selectIndex ) && ( selectIndex <= max ) )
 		{
@@ -1068,7 +1071,7 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		if ( selectedColumnName != null )
 		{
-			for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ) - 1; i++ )
+			for ( int i = 0; i < bindingTable.getTable( ).getItemCount( ); i++ )
 			{
 				ComputedColumnHandle handle = (ComputedColumnHandle) bindingTable.getElementAt( i );
 				if ( selectedColumnName.equals( handle.getName( ) ) )
