@@ -104,6 +104,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		PDFReportLayoutEngine engine = context.getLayoutEngine( );
 		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
 		con.setFactory( new PDFLayoutManagerFactory( con ) );
+		con.setFormat( context.getFormat( ) );
 		con.setAllowPageBreak( false );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );

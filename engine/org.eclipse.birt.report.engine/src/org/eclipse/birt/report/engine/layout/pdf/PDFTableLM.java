@@ -1399,6 +1399,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		PDFReportLayoutEngine engine = context.getLayoutEngine( );
 		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
 		con.setFactory( new PDFLayoutManagerFactory( con ) );
+		con.setFormat( context.getFormat( ) );
 		con.setAllowPageBreak( false );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
@@ -1456,6 +1457,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		PDFLayoutEngineContext con = new PDFLayoutEngineContext( context
 				.getLayoutEngine( ) );
 		con.setFactory( context.getFactory( ) );
+		con.setFormat( context.getFormat( ) );
 		con.setAllowPageBreak( false );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, content,
 				layoutInfo );
