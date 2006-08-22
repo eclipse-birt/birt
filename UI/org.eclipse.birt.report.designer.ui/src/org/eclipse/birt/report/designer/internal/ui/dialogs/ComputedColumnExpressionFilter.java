@@ -22,14 +22,20 @@ import org.eclipse.jface.viewers.TableViewer;
 public class ComputedColumnExpressionFilter extends ExpressionFilter
 {
 
-	protected TableViewer tableViewer;
+	protected ComputedColumnHandle handle;
 
+	protected TableViewer tableViewer;
 	public ComputedColumnExpressionFilter( TableViewer tableViewer )
 	{
 		super( );
 		this.tableViewer = tableViewer;
 	}
 
+	public ComputedColumnExpressionFilter( ComputedColumnHandle input )
+	{
+		super( );
+		handle = input;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -43,19 +49,17 @@ public class ComputedColumnExpressionFilter extends ExpressionFilter
 		{
 			IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection( );
 			Object obj = selection.getFirstElement( );
-			if ( obj instanceof ComputedColumnHandle
-					&& element instanceof ComputedColumnHandle )
-			{
-				ComputedColumnHandle objHandle = (ComputedColumnHandle) obj;
-				ComputedColumnHandle elementHandle = (ComputedColumnHandle) element;
-				if ( objHandle.getStructure( ) == elementHandle.getStructure( ) )
-				{
-					return false;
-				}
-			}
-			return true;
+			if ( obj instanceof ComputedColumnHandle )
+				handle = (ComputedColumnHandle) obj;
 		}
-		
+		if ( handle != null && element instanceof ComputedColumnHandle )
+		{
+			ComputedColumnHandle elementHandle = (ComputedColumnHandle) element;
+			if ( handle.getStructure( ) == elementHandle.getStructure( ) )
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 

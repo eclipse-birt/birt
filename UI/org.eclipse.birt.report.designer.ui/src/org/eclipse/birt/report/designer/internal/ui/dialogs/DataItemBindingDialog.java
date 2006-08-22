@@ -13,6 +13,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -42,7 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-
 
 public class DataItemBindingDialog extends BaseDialog
 {
@@ -108,7 +108,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		super( NEW_DATAITEM_TITLE );
 	}
-	
+
 	public DataItemBindingDialog( String title )
 	{
 		super( title );
@@ -215,7 +215,7 @@ public class DataItemBindingDialog extends BaseDialog
 		itemAggregateOn.setVisible( false );
 		hiddenLabel.setVisible( false );
 
-		if ( bindingColumn== null )
+		if ( bindingColumn == null )
 		{
 			btnForce = new Button( composite, SWT.CHECK );
 			btnForce.setText( FORCE_BINDING_TEXT );
@@ -465,7 +465,6 @@ public class DataItemBindingDialog extends BaseDialog
 		return StructureFactory.newComputedColumn( input, name ).getName( );
 	}
 
-	
 	public void setInput( ReportItemHandle input )
 	{
 		this.input = input;
@@ -494,19 +493,22 @@ public class DataItemBindingDialog extends BaseDialog
 				// Add data set items.
 				boolean isBindingDataSet = false;
 				List list = new LinkedList( );
-				
-				List bindingList = DEUtil.getAllColumnBindingList(  input ,true );
-				List bindingNameList = new LinkedList();
-				for(int i=0;i<bindingList.size( );i++)bindingNameList.add( ((ComputedColumnHandle)bindingList.get( i )).getName( ) );
-				
+
+				List bindingList = DEUtil.getAllColumnBindingList( input, true );
+				List bindingNameList = new LinkedList( );
+				for ( int i = 0; i < bindingList.size( ); i++ )
+					bindingNameList.add( ( (ComputedColumnHandle) bindingList.get( i ) ).getName( ) );
+
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
 					ComputedColumn resultSetColumn = (ComputedColumn) iter.next( );
-					if ( bindingColumn != null){
-						if(bindingColumn.getName( )
-									.equals( resultSetColumn.getName( ) ) )
-						isBindingDataSet = true;
-						else if(bindingNameList.contains( resultSetColumn.getName( ) )) continue;
+					if ( bindingColumn != null )
+					{
+						if ( bindingColumn.getName( )
+								.equals( resultSetColumn.getName( ) ) )
+							isBindingDataSet = true;
+						else if ( bindingNameList.contains( resultSetColumn.getName( ) ) )
+							continue;
 					}
 					list.add( resultSetColumn.getName( ) );
 				}
@@ -581,47 +583,49 @@ public class DataItemBindingDialog extends BaseDialog
 		return itemType.getText( );
 	}
 
+	ComputedColumnExpressionFilter filter;
 	protected void handleExpressionButtonSelectEvent( )
 	{
 		ExpressionBuilder expression = new ExpressionBuilder( getExpression( ) );
-		if ( expressionProvider != null )
-			expression.setExpressionProvier( expressionProvider );
-		else
-			expression.setExpressionProvier( new BindingExpressionProvider( input ) );
+		if ( expressionProvider == null )
+			expressionProvider = new BindingExpressionProvider( input );
+		if ( bindingColumn != null ){
+			if (filter!=null)expressionProvider.removeFilter( filter );
+			filter =  new ComputedColumnExpressionFilter( bindingColumn );
+			expressionProvider.addFilter( filter );
+		}
+		expression.setExpressionProvier( expressionProvider );
+
 		if ( expression.open( ) == OK )
 		{
 			setExpression( expression.getResult( ) );
 		}
 	}
 
-	protected IExpressionProvider expressionProvider;
+	protected ExpressionProvider expressionProvider;
 
 	protected Button btnForce;
 
-	public void setExpressionProvider( IExpressionProvider provider )
+	public void setExpressionProvider( ExpressionProvider provider )
 	{
 		expressionProvider = provider;
 	}
 
-	
 	public Combo getItemAggregateOn( )
 	{
 		return itemAggregateOn;
 	}
 
-	
 	public Text getItemExpression( )
 	{
 		return itemExpression;
 	}
 
-	
 	public CCombo getItemName( )
 	{
 		return itemName;
 	}
 
-	
 	public Combo getItemType( )
 	{
 		return itemType;
