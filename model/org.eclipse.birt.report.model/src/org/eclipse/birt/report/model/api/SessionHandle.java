@@ -66,7 +66,7 @@ public class SessionHandle
 
 	public static void setBirtResourcePath( String resourcePath )
 	{
-		DesignSession.setBirtResourcePath( resourcePath );
+		// do nothing
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class SessionHandle
 
 	public static String getBirtResourcePath( )
 	{
-		return DesignSession.getBirtResourcePath( );
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -730,8 +730,9 @@ public class SessionHandle
 	 * 
 	 * <p>
 	 * Current, only changes of library is supported.
+	 * 
 	 * @param ev
-	 *  the resource change event to fire 
+	 *            the resource change event to fire
 	 */
 
 	public void fireResourceChange( ResourceChangeEvent ev )
@@ -784,6 +785,29 @@ public class SessionHandle
 	DesignSession getSession( )
 	{
 		return this.session;
+	}
+
+	/**
+	 * Sets the resource folder for this session.
+	 * 
+	 * @param resourceFolder
+	 *            the folder to set
+	 */
+
+	public void setResourceFolder( String resourceFolder )
+	{
+		session.setResourceFolder( resourceFolder );
+	}
+
+	/**
+	 * Gets the resource folder set in this session.
+	 * 
+	 * @return the resource folder set in this session
+	 */
+
+	public String getResourceFolder( )
+	{
+		return session.getResourceFolder( );
 	}
 
 }

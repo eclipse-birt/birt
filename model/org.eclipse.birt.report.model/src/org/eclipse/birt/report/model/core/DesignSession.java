@@ -77,31 +77,7 @@ public class DesignSession
 	 * Resource path.
 	 */
 
-	private static String resourcePath = null;
-
-	/**
-	 * Sets resource path.
-	 * 
-	 * @param path
-	 *            the resource path to set. It must be an absolute path based on
-	 *            file system and must present a dictory.
-	 */
-
-	public static void setBirtResourcePath( String path )
-	{
-		resourcePath = path;
-	}
-
-	/**
-	 * Gets resource path. {@link #setBirtResourcePath(String)}
-	 * 
-	 * @return the resource path set in this session
-	 */
-
-	public static String getBirtResourcePath( )
-	{
-		return resourcePath;
-	}
+	private String resourceFolder = null;
 
 	/**
 	 * The algorithm of how to search a file.
@@ -1058,4 +1034,28 @@ public class DesignSession
 			listener.resourceChanged( null, event );
 		}
 	}
+	
+	/**
+	 * Sets the resource folder for this session.
+	 * 
+	 * @param resourceFolder
+	 *            the folder to set
+	 */	
+
+	public void setResourceFolder( String resourceFolder )
+	{
+		this.resourceFolder = resourceFolder;
+	}
+
+	/**
+	 * Gets the resource folder set in this session.
+	 * @return the resource folder set in this session
+	 */
+	
+	public String getResourceFolder( )
+	{
+		return this.resourceFolder;
+	}
+
+	
 }

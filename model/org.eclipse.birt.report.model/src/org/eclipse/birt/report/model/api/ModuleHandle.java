@@ -2524,7 +2524,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * when search resources in fragments. Usually it should be the plug-in id
 	 * of the host plug-in.
 	 * 
-	 * @return
+	 * @return the symbolica name of this module
 	 */
 
 	public String getSymbolicName( )
@@ -2703,4 +2703,28 @@ public abstract class ModuleHandle extends DesignElementHandle
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
 	}
+
+	/**
+	 * Sets the resource folder for this module.
+	 * 
+	 * @param resourceFolder
+	 *            the folder to set
+	 */
+
+	public void setResourceFolder( String resourceFolder )
+	{
+		module.setResourceFolder( resourceFolder );
+	}
+
+	/**
+	 * Gets the resource folder set in this module.
+	 * 
+	 * @return the resource folder set in this module
+	 */
+
+	public String getResourceFolder( )
+	{
+		return module.getResourceFolder( );
+	}
+
 }

@@ -84,16 +84,24 @@ public class DefaultResourceLocator implements IResourceLocator
 			// ignore the error
 		}
 
+		// if module is null, then can not search the fragment, resource path or
+		// systemId
+		if ( moduleHandle == null )
+			return null;
+
 		// try fragment search
 
 		URL url = tryFragmentSearch( moduleHandle, fileName );
 		if ( url != null )
 			return url;
 
-		// try file search based on resource path set on this session
+		// try file search based on resource path, value set on this module
+		// takes the higher priority than that in the session
 
-		String resourcePath = moduleHandle.getModule( ).getSession( )
-				.getBirtResourcePath( );
+		String resourcePath = moduleHandle.getResourceFolder( );
+		if ( resourcePath == null )
+			resourcePath = moduleHandle.getModule( ).getSession( )
+					.getResourceFolder( );
 		if ( resourcePath != null )
 		{
 			File f = new File( resourcePath, fileName );
@@ -111,9 +119,6 @@ public class DefaultResourceLocator implements IResourceLocator
 		}
 
 		// try file search based on path of the input module
-
-		if ( moduleHandle == null )
-			return null;
 
 		URL systemId = moduleHandle.getModule( ).getSystemId( );
 		if ( systemId == null )

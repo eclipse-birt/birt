@@ -2578,4 +2578,32 @@ public abstract class Module extends DesignElement implements IModuleModel
 		this.options = options;
 	}
 
+	/**
+	 * Sets the resource folder for this session.
+	 * 
+	 * @param resourceFolder
+	 *            the folder to set
+	 */
+
+	public void setResourceFolder( String resourceFolder )
+	{
+		if ( options == null )
+			options = new ModuleOption( );
+		options.setResourceFolder( resourceFolder );
+	}
+
+	/**
+	 * Gets the resource folder set in this session.
+	 * 
+	 * @return the resource folder set in this session
+	 */
+
+	public String getResourceFolder( )
+	{
+		ModuleOption effectOptions = getOptions( );
+		if ( effectOptions == null )
+			return null;
+		return effectOptions.getResourceFolder( );
+	}
+
 }
