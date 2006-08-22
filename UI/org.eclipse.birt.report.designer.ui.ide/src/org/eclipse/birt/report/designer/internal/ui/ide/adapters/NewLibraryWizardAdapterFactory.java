@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -26,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -50,7 +50,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * Add INewLibraryCreationPage adaptable to NewLibraryWizard. 
+ * Add INewLibraryCreationPage adaptable to NewLibraryWizard.
  */
 
 public class NewLibraryWizardAdapterFactory implements IAdapterFactory
@@ -65,39 +65,48 @@ public class NewLibraryWizardAdapterFactory implements IAdapterFactory
 
 	public Class[] getAdapterList( )
 	{
-		return new Class[]{
-			INewLibraryCreationPage.class
-		};
+		return new Class[]{INewLibraryCreationPage.class};
 	}
 
 }
 
-class NewLibraryCreationPage extends WizardNewFileCreationPage implements
-		INewLibraryCreationPage
+class NewLibraryCreationPage extends WizardNewFileCreationPage
+		implements
+			INewLibraryCreationPage
 {
 
-	
-	
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-	private static final String CREATING = Messages.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
-	
-//	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-//	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
-//	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX
-//			+ NEW_REPORT_FILE_EXTENSION;
-//	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewLibraryWizard.text.CreateReport" ); //$NON-NLS-1$
-//	private static final String REPORT = Messages.getString( "NewLibraryWizard.title.Report" ); //$NON-NLS-1$
-//	private static final String WIZARDPAGE = Messages.getString( "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
-//	private static final String NEW = Messages.getString( "NewLibraryWizard.title.New" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages
+			.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String CREATING = Messages
+			.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
 
-    /** (non-Javadoc)
-     * Method declared on IDialogPage.
-     */
-    public void createControl(Composite parent) {
-    	super.createControl( parent );
-    	UIUtil.bindHelp( getControl(), IHelpContextIds.NEW_LIBRARY_WIZARD_ID );    	
-    }
-    
+	// private static final String NEW_REPORT_FILE_NAME_PREFIX =
+	// Messages.getString(
+	// "NewLibraryWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	// private static final String NEW_REPORT_FILE_EXTENSION =
+	// Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension"
+	// ); //$NON-NLS-1$
+	// private static final String NEW_REPORT_FILE_NAME =
+	// NEW_REPORT_FILE_NAME_PREFIX
+	// + NEW_REPORT_FILE_EXTENSION;
+	// private static final String CREATE_A_NEW_REPORT = Messages.getString(
+	// "NewLibraryWizard.text.CreateReport" ); //$NON-NLS-1$
+	// private static final String REPORT = Messages.getString(
+	// "NewLibraryWizard.title.Report" ); //$NON-NLS-1$
+	// private static final String WIZARDPAGE = Messages.getString(
+	// "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
+	// private static final String NEW = Messages.getString(
+	// "NewLibraryWizard.title.New" ); //$NON-NLS-1$
+
+	/**
+	 * (non-Javadoc) Method declared on IDialogPage.
+	 */
+	public void createControl( Composite parent )
+	{
+		super.createControl( parent );
+		UIUtil.bindHelp( getControl( ), IHelpContextIds.NEW_LIBRARY_WIZARD_ID );
+	}
+
 	public NewLibraryCreationPage( String pageName,
 			IStructuredSelection selection )
 	{
@@ -174,11 +183,9 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.findMember( containerName );
+				.getRoot( ).findMember( containerName );
 		IContainer container = null;
-		if ( resource == null
-				|| !resource.exists( )
+		if ( resource == null || !resource.exists( )
 				|| !( resource instanceof IContainer ) )
 		{
 			// create folder if not exist
@@ -219,15 +226,20 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				try
 				{
 					IEditorPart editorPart = IDE.openEditor( page, file, true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-					    model.save( );
-					    editorPart.doSave( null );
+					ModuleHandle model = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					if ( ReportPlugin.getDefault( )
+							.getEnableCommentPreference( ) )
+					{
+						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
+								ReportPlugin.getDefault( )
+										.getCommentPreference( ) );
+						model.save( );
+						editorPart.doSave( null );
 					}
-//					page.openEditor( new FileEditorInput( file ),
-//							LibraryReportEditor.EDITOR_ID,
-//							true );
+					// page.openEditor( new FileEditorInput( file ),
+					// LibraryReportEditor.EDITOR_ID,
+					// true );
 				}
 				catch ( Exception e )
 				{
@@ -237,6 +249,14 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		} );
 
 		monitor.worked( 1 );
+
+		fireLibraryChanged( fileName );
+	}
+
+	private void fireLibraryChanged( String fileName )
+	{
+		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+				.fireResourceChange( new LibraryChangeEvent( fileName ) );
 	}
 
 	protected IFolder createFolderHandle( IPath folderPath )

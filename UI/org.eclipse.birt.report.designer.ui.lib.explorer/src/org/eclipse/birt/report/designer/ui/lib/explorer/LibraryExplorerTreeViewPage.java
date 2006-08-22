@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.lib.explorer.model.LibDirectoryNodeModel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
@@ -71,7 +72,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 
 	// private static final String LABEL_DOUBLE_CLICK = Messages.getString(
 	// "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
-
 
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
@@ -175,8 +175,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 	 */
 	private void createContextMenus( )
 	{
-		MenuManager menuManager = new LibraryExplorerContextMenuProvider(
-				this );
+		MenuManager menuManager = new LibraryExplorerContextMenuProvider( this );
 
 		Menu menu = menuManager.createContextMenu( treeViewer.getControl( ) );
 
@@ -253,11 +252,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 		LibDirectoryNodeModel rootModel = new LibDirectoryNodeModel(
 				ReportPlugin.getDefault( ).getResourcePreference( ) );
 
-		rootModel.setResourceListener( this );
-
 		treeViewer.setInput( rootModel );
+		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+				.addResourceChangeListener( this );
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -296,7 +294,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 			}
 		}
 	}
-	
+
 	public TreeViewer getTreeViewer( )
 	{
 		return treeViewer;

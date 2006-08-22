@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -294,7 +295,13 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		} );
 
 		monitor.worked( 1 );
+		fireLibraryChanged(fileName);
 
 	}
-
+	
+	private void fireLibraryChanged( String fileName )
+	{
+		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+				.fireResourceChange( new LibraryChangeEvent( fileName ) );
+	}
 }
