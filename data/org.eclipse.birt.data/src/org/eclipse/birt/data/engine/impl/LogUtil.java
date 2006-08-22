@@ -279,8 +279,9 @@ public final class LogUtil
 			stringBuffer.append( "ExtensionID : "+dataSource.getExtensionID()+"\r\n" );
 		if ( !isEmpty( dataSource.getPrivateProperties( ) ) )
 			stringBuffer.append( "PrivateProperties : "+dataSource.getPrivateProperties()+"\r\n" );
-		if ( !isEmpty( dataSource.getPublicProperties( ) ) )
-			stringBuffer.append( "PublicProperties : "+dataSource.getPublicProperties()+"\r\n" );
+		//Do not log the public properties.
+		/*if ( !isEmpty( dataSource.getPublicProperties( ) ) )
+			stringBuffer.append( "PublicProperties : "+dataSource.getPublicProperties()+"\r\n" );*/
 		
 		stringBuffer.append( ")" );
 		return stringBuffer.toString();
