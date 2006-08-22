@@ -526,75 +526,102 @@ public class ModelDteApiAdapter
 			dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
-//			 dataset parameters definition
-			HashMap paramBindingCandidates = new HashMap( );
-
-			Iterator elmtIter = modelDataSet.parametersIterator( );
-			if ( elmtIter != null )
-			{
-				while ( elmtIter.hasNext( ) )
-				{
-					DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
-							.next( );
-					dteDataSet.addParameter( newParam( modelParam ) );
-
-					// collect input parameter default values as
-					// potential parameter binding if no explicit ones are
-					// defined for a parameter
-					if ( modelParam.isInput( ) )
-					{
-						String defaultValueExpr = null;
-						if ( modelParam instanceof OdaDataSetParameterHandle
-								&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
-						{
-							defaultValueExpr = "params"
-									+ "[\""
-									+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
-									+ "\"]";
-						}
-						else
-							defaultValueExpr = modelParam.getDefaultValue( );
-						if ( defaultValueExpr != null )
-							paramBindingCandidates.put( modelParam.getName( ),
-									defaultValueExpr );
-					}
-				}
-			}
-
-			// input parameter bindings
-			elmtIter = modelDataSet.paramBindingsIterator( );
-			if ( elmtIter != null )
-			{
-				while ( elmtIter.hasNext( ) )
-				{
-					ParamBindingHandle modelParamBinding = ( ParamBindingHandle ) elmtIter
-							.next( );
-					// replace default value of the same parameter, if defined
-					paramBindingCandidates.put( modelParamBinding.getParamName( ),
-							modelParamBinding.getExpression( ) );
-				}
-			}
-
-			// assign merged parameter bindings to the data set
-			if ( paramBindingCandidates.size( ) > 0 )
-			{
-				elmtIter = paramBindingCandidates.keySet( ).iterator( );
-				while ( elmtIter.hasNext( ) )
-				{
-					Object paramName = elmtIter.next( );
-					assert ( paramName != null && paramName instanceof String );
-					String expression = ( String ) paramBindingCandidates
-							.get( paramName );
-					dteDataSet.addInputParamBinding( newInputParamBinding(
-							( String ) paramName, expression ) );
-				}
-			}
-
-			// cache row count
+			//cache row count
 			dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
 
 		}
+		populateParameter( modelDataSet, dteDataSet );
 	
+		populateComputedColumn( modelDataSet, dteDataSet );
+
+		populateFilter( modelDataSet, dteDataSet );
+
+		mergeHints( modelDataSet, dteDataSet );
+
+	}
+
+	/**
+	 * 
+	 * @param modelDataSet
+	 * @param dteDataSet
+	 * @return
+	 */
+	private Iterator populateParameter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	{
+		//dataset parameters definition
+		HashMap paramBindingCandidates = new HashMap( );
+
+		Iterator elmtIter = modelDataSet.parametersIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
+						.next( );
+				dteDataSet.addParameter( newParam( modelParam ) );
+
+				// collect input parameter default values as
+				// potential parameter binding if no explicit ones are
+				// defined for a parameter
+				if ( modelParam.isInput( ) )
+				{
+					String defaultValueExpr = null;
+					if ( modelParam instanceof OdaDataSetParameterHandle
+							&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
+					{
+						defaultValueExpr = "params"
+								+ "[\""
+								+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
+								+ "\"]";
+					}
+					else
+						defaultValueExpr = modelParam.getDefaultValue( );
+					if ( defaultValueExpr != null )
+						paramBindingCandidates.put( modelParam.getName( ),
+								defaultValueExpr );
+				}
+			}
+		}
+
+		// input parameter bindings
+		elmtIter = modelDataSet.paramBindingsIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				ParamBindingHandle modelParamBinding = ( ParamBindingHandle ) elmtIter
+						.next( );
+				// replace default value of the same parameter, if defined
+				paramBindingCandidates.put( modelParamBinding.getParamName( ),
+						modelParamBinding.getExpression( ) );
+			}
+		}
+
+		// assign merged parameter bindings to the data set
+		if ( paramBindingCandidates.size( ) > 0 )
+		{
+			elmtIter = paramBindingCandidates.keySet( ).iterator( );
+			while ( elmtIter.hasNext( ) )
+			{
+				Object paramName = elmtIter.next( );
+				assert ( paramName != null && paramName instanceof String );
+				String expression = ( String ) paramBindingCandidates
+						.get( paramName );
+				dteDataSet.addInputParamBinding( newInputParamBinding(
+						( String ) paramName, expression ) );
+			}
+		}
+		return elmtIter;
+	}
+
+	/**
+	 * 
+	 * @param modelDataSet
+	 * @param dteDataSet
+	 * @throws EngineException
+	 */
+	private void populateComputedColumn( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet ) throws EngineException
+	{
 		// computed columns
 		Iterator elmtIter = modelDataSet.computedColumnsIterator( );
 		if ( elmtIter != null )
@@ -607,9 +634,17 @@ public class ModelDteApiAdapter
 				dteDataSet.addComputedColumn( dteCmptdColumn );
 			}
 		}
+	}
 
+	/**
+	 * 
+	 * @param modelDataSet
+	 * @param dteDataSet
+	 */
+	private void populateFilter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	{
 		// filter conditions
-		elmtIter = modelDataSet.filtersIterator( );
+		Iterator elmtIter = modelDataSet.filtersIterator( );
 		if ( elmtIter != null )
 		{
 			while ( elmtIter.hasNext( ) )
@@ -620,7 +655,12 @@ public class ModelDteApiAdapter
 				dteDataSet.addFilter( dteFilter );
 			}
 		}
+	}
 
+	/**
+	 */
+	private void mergeHints( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	{
 		// merge ResultSetHints and ColumnHints, the order is important.
 		// ResultSetHints will give each column a unique name, and
 		// column hints should base on the result of ResultSet hint.
@@ -630,6 +670,7 @@ public class ModelDteApiAdapter
 		// now merge model's result set column info into existing columnDefn
 		// with same column name, otherwise create new columnDefn
 		// based on the model's result set column
+		Iterator elmtIter = null;
 		if ( modelDataSet instanceof OdaDataSetHandle )
 		{
 			elmtIter = modelDataSet.resultSetIterator( );
@@ -675,7 +716,6 @@ public class ModelDteApiAdapter
 							.addResultSetHint( newColumnDefn( modelColumnHint ) );
 			}
 		}
-
 	}
 
 	/**

@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -76,6 +78,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private DataEngineImpl dataEngine;
 	private IBaseDataSetDesign dataSetDesign;
 	private Map appContext;
+	
+	private Collection parameterBindings;
 
 	/**
 	 * Constructor.
@@ -91,9 +95,11 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			Map appContext ) throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext );
+		
 		this.dataEngine = dataEngine;
 		this.dataSetDesign = dataSetDesign;
 		this.appContext = appContext;
+		this.parameterBindings = queryDefn.getInputParamBindings( );
 	}
 
 	/**
@@ -150,7 +156,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					dataSet.getLeftDataSetDesignName( ),
 					appContext,
 					dataSet.getJoinConditions( ),
-					false );
+					true );
 
 			IQueryResults right = getResultSetQuery( dataEngine,
 					dataSet.getRightDataSetDesignName( ),
@@ -392,7 +398,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			boolean isLeftDataSet ) throws DataException
 	{
 		QueryDefinition queryDefinition = new QueryDefinition( );
+		
 		queryDefinition.setDataSetName( dataSetDesignName );
+		setParameterBindings( dataEngine, dataSetDesignName, isLeftDataSet, queryDefinition );
+		
 		IPreparedQuery preparedQuery;
 		try
 		{
@@ -427,6 +436,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	{
 		QueryDefinition queryDefinition = new QueryDefinition( );
 		queryDefinition.setDataSetName( dataSetDesignName );
+		setParameterBindings( dataEngine, dataSetDesignName, isLeftDataSet, queryDefinition );
 		IPreparedQuery preparedQuery;
 		try
 		{
@@ -450,6 +460,34 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			throw DataException.wrap(e);
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param dataEngine
+	 * @param dataSetDesignName
+	 * @param isLeftDataSet
+	 * @param queryDefinition
+	 */
+	private void setParameterBindings( DataEngineImpl dataEngine, String dataSetDesignName, boolean isLeftDataSet, QueryDefinition queryDefinition )
+	{
+		Iterator it = dataEngine.getDataSetDesign( dataSetDesignName )
+				.getParameters( )
+				.iterator( );
+		if ( it.hasNext( ) )
+		{
+			Iterator bindingIt = parameterBindings.iterator( );
+			while ( bindingIt.hasNext( ) )
+			{
+				InputParameterBinding iipb = (InputParameterBinding) bindingIt.next( );
+				if(JointDataSetParameterUtil.isDatasetParameter( dataSetDesignName, isLeftDataSet, iipb.getName( ) ))
+				{
+					queryDefinition.addInputParamBinding( new InputParameterBinding( 
+							JointDataSetParameterUtil.extractParameterName( iipb.getName( )  ),
+							iipb.getExpr( ) ) );
+				}
+			}
+		}
 	}
 
 	/**
