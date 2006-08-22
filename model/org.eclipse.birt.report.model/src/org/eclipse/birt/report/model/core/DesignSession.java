@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
@@ -77,13 +76,19 @@ public class DesignSession
 	 * Resource path.
 	 */
 
-	private String resourceFolder = null;
+	protected String resourceFolder = null;
 
 	/**
 	 * The algorithm of how to search a file.
 	 */
 
 	protected IResourceLocator resourceLocator = new DefaultResourceLocator( );
+
+	/**
+	 * Static resource path to do the compability of some APIs.
+	 */
+
+	protected static String resourcePath = null;
 
 	/**
 	 * The algorithm of how to provide the absolute dimension value for the
@@ -134,7 +139,7 @@ public class DesignSession
 	 */
 
 	private HashMap defaultValues = new HashMap( );
-	
+
 	/**
 	 * Resource change listener list to handle the resource change events.
 	 */
@@ -972,10 +977,10 @@ public class DesignSession
 				module.broadcastResourceChangeEvent( event );
 			}
 		}
-		
+
 		broadcastResourceChangeEvent( ev );
 	}
-	
+
 	/**
 	 * Adds one resource change listener. The duplicate listener will not be
 	 * added.
@@ -1011,7 +1016,7 @@ public class DesignSession
 			return false;
 		return resourceChangeListeners.remove( listener );
 	}
-	
+
 	/**
 	 * Broadcasts the resource change event to the resource change listeners.
 	 * 
@@ -1034,13 +1039,13 @@ public class DesignSession
 			listener.resourceChanged( null, event );
 		}
 	}
-	
+
 	/**
 	 * Sets the resource folder for this session.
 	 * 
 	 * @param resourceFolder
 	 *            the folder to set
-	 */	
+	 */
 
 	public void setResourceFolder( String resourceFolder )
 	{
@@ -1049,13 +1054,33 @@ public class DesignSession
 
 	/**
 	 * Gets the resource folder set in this session.
+	 * 
 	 * @return the resource folder set in this session
 	 */
-	
+
 	public String getResourceFolder( )
 	{
+		if ( resourceFolder == null )
+			return resourcePath;
 		return this.resourceFolder;
 	}
 
-	
+	/**
+	 * @return the resourcePath
+	 */
+
+	public static String getResourcePath( )
+	{
+		return resourcePath;
+	}
+
+	/**
+	 * @param resourcePath
+	 *            the resourcePath to set
+	 */
+
+	public static void setResourcePath( String resourcePath )
+	{
+		DesignSession.resourcePath = resourcePath;
+	}
 }

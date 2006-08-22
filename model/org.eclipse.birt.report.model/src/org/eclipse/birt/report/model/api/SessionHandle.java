@@ -66,7 +66,7 @@ public class SessionHandle
 
 	public static void setBirtResourcePath( String resourcePath )
 	{
-		// do nothing
+		DesignSession.setResourcePath( resourcePath );
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class SessionHandle
 
 	public static String getBirtResourcePath( )
 	{
-		return ""; //$NON-NLS-1$
+		return DesignSession.getResourcePath( );
 	}
 
 	/**
@@ -745,7 +745,7 @@ public class SessionHandle
 		// NotificationEvent.MESSAGE_FILE_CHANGE_EVENT )
 		// session.fireMessageFileChange( ev );
 	}
-	
+
 	/**
 	 * Adds one resource change listener. The duplicate listener will not be
 	 * added.
@@ -758,7 +758,7 @@ public class SessionHandle
 	{
 		session.addResourceChangeListener( listener );
 	}
-	
+
 	/**
 	 * Removes one resource change listener. If the listener not registered,
 	 * then the request is silently ignored.
