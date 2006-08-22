@@ -35,9 +35,9 @@ public class CellExecutor extends QueryItemExecutor
 		context.registerOnPageBreak( content );
 		initializeContent( cellDesign, cellContent );
 
-		cellContent.setColumn( cellDesign.getColumn( ) );
-		cellContent.setColSpan( cellDesign.getColSpan( ) );
-		cellContent.setRowSpan( cellDesign.getRowSpan( ) );
+		//cellContent.setColumn( cellDesign.getColumn( ) );
+		//cellContent.setColSpan( cellDesign.getColSpan( ) );
+		//cellContent.setRowSpan( cellDesign.getRowSpan( ) );
 
 		processAction( cellDesign, cellContent );
 		processBookmark( cellDesign, cellContent );

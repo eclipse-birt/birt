@@ -25,13 +25,14 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 /**
  * 
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.14 $ $Date: 2006/05/18 09:10:25 $
+ * @version $Revision: 1.16 $ $Date: 2006/06/13 15:37:19 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -77,6 +78,13 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getRowSpan( )
 	{
+		if (rowSpan == -1)
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getRowSpan( );
+			}
+		}
 		return this.rowSpan;
 	}
 
@@ -86,6 +94,13 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getColSpan( )
 	{
+		if (colSpan == -1)
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getColSpan( );
+			}
+		}
 		return colSpan;
 	}
 
@@ -95,6 +110,13 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getColumn( )
 	{
+		if (column == -1)
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getColumn( );
+			}
+		}
 		return column;
 	}
 
