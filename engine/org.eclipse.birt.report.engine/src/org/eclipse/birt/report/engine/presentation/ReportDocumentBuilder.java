@@ -22,6 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportDocumentLock;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
@@ -47,6 +48,7 @@ import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.toc.TOCTree;
 
 public class ReportDocumentBuilder
 {
@@ -154,7 +156,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.9 $ $Date: 2006/06/23 10:08:35 $
+	 * @version $Revision: 1.10 $ $Date: 2006/08/10 10:34:25 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -194,7 +196,11 @@ public class ReportDocumentBuilder
 		{
 			close( );
 			// save the toc stream
-			document.saveTOC( report.getTOC( ) );
+			ITOCTree tocTree = report.getTOCTree( null, null );
+			if ( tocTree instanceof TOCTree )
+			{
+				document.saveTOC( (TOCTree) report.getTOCTree( null, null ) );
+			}
 			// save the instance id to the report document
 			document.saveReportletsIdIndex( reportletsIndexById );
 			document.saveReprotletsBookmarkIndex( reportletsIndexByBookmark );
@@ -247,7 +253,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.9 $ $Date: 2006/06/23 10:08:35 $
+	 * @version $Revision: 1.10 $ $Date: 2006/08/10 10:34:25 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

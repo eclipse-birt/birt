@@ -141,7 +141,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.143 $ $Date: 2006/08/12 09:42:37 $
+ * @version $Revision: 1.144 $ $Date: 2006/08/22 05:58:39 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1418,6 +1418,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleStyle( cell, styleBuffer );
 
 		writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
+
+		if ( !startedGroups.isEmpty( ) )
+		{
+			Iterator iter = startedGroups.iterator( );
+			while (iter.hasNext( ))
+			{
+				IGroupContent group = (IGroupContent) iter.next( );
+				outputBookmark( group );
+			}
+			startedGroups.clear( );
+		}
 		
 		if ( enableMetadata )
 		{
@@ -2837,11 +2848,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 	}
 
+	/**
+	 * used to control the output of group bookmarks. 
+	 * @see {@link #startTableGroup(ITableGroupContent)}
+	 * @see {@link #startListGroup(IListGroupContent)}
+	 */
+	protected Stack startedGroups = new Stack(); 
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter#startListGroup(org.eclipse.birt.report.engine.content.IListGroupContent)
 	 */
 	public void startListGroup( IListGroupContent group )
 	{
+		outputBookmark( group );
 	}
 
 	/* (non-Javadoc)
@@ -2856,6 +2875,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startTableGroup( ITableGroupContent group )
 	{
+		startedGroups.push( group );
+	}
+
+	private void outputBookmark( IGroupContent group )
+	{
+		String bookmark = group.getBookmark( );
+		if ( bookmark == null )
+		{
+			bookmark = idGenerator.generateUniqueID( );
+			group.setBookmark( bookmark );
+		}
+		writer.openTag( HTMLTags.TAG_SPAN );
+		writer.attribute( HTMLTags.ATTR_ID, group.getBookmark( ) );
+		writer.closeTag( HTMLTags.TAG_SPAN );
 	}
 }
 

@@ -19,9 +19,12 @@ import java.util.Map;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+
+import com.ibm.icu.util.ULocale;
 
 public class TransientReportDocument implements IReportDocument
 {
@@ -145,5 +148,10 @@ public class TransientReportDocument implements IReportDocument
 	public void refresh( )
 	{
 		return;
+	}
+
+	public ITOCTree getTOCTree( String format, ULocale locale )
+	{
+		return null;
 	}
 }

@@ -1,16 +1,16 @@
 
 package org.eclipse.birt.report.engine.toc;
 
-import org.eclipse.birt.report.engine.api.TOCNode;
 
 public class TOCEntry
 {
 
 	TOCEntry parent;
-	TOCNode root;
-	TOCNode node;
+	TOCTreeNode root;
+	TOCTreeNode node;
+	String hiddenFormats;
 
-	public TOCEntry( TOCEntry parent, TOCNode root, TOCNode node )
+	public TOCEntry( TOCEntry parent, TOCTreeNode root, TOCTreeNode node )
 	{
 		this.parent = parent;
 		this.root = root;
@@ -20,7 +20,7 @@ public class TOCEntry
 	/**
 	 * @return the node
 	 */
-	public TOCNode getNode( )
+	public TOCTreeNode getNode( )
 	{
 		return node;
 	}
@@ -29,7 +29,7 @@ public class TOCEntry
 	 * @param node
 	 *            the node to set
 	 */
-	public void setNode( TOCNode node )
+	public void setNode( TOCTreeNode node )
 	{
 		this.node = node;
 	}
@@ -54,7 +54,7 @@ public class TOCEntry
 	/**
 	 * @return the root
 	 */
-	public TOCNode getRoot( )
+	public TOCTreeNode getRoot( )
 	{
 		return root;
 	}
@@ -63,8 +63,18 @@ public class TOCEntry
 	 * @param root
 	 *            the root to set
 	 */
-	public void setRoot( TOCNode root )
+	public void setRoot( TOCTreeNode root )
 	{
 		this.root = root;
+	}
+
+	public String getHideFormats( )
+	{
+		return hiddenFormats;
+	}
+	
+	public void setHideFormats( String hiddenFormats )
+	{
+		this.hiddenFormats = hiddenFormats;
 	}
 }

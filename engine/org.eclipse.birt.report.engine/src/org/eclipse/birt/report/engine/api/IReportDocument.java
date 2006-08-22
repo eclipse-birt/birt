@@ -17,6 +17,8 @@ import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A report document (i.e., not modifiable) that can be rendered to other
  * formats in the BIRT presentation engine
@@ -132,7 +134,7 @@ public interface IReportDocument
 	 * 
 	 * @param tocNodeId
 	 *            the id of the toc.
-	 * @return TOCNode with sucn an Id. NULL if not founded.
+	 * @return TOCNode with such an Id. NULL if not founded.
 	 */
 	public abstract TOCNode findTOC( String tocNodeId );
 	
@@ -141,7 +143,7 @@ public interface IReportDocument
 	 * 
 	 * @param tocName
 	 *            the name of the toc.
-	 * @return List of all tocs with the name.
+	 * @return List of all tocs with the specified name.
 	 */
 	public abstract List findTOCByName( String tocName );
 	
@@ -161,4 +163,9 @@ public interface IReportDocument
 	 * otherwise, reload the core stream, the checkpoint and page count.
 	 */
 	public void refresh( );
+
+	/**
+	 * Gets the TOC tree.
+	 */
+	ITOCTree getTOCTree( String format, ULocale locale );
 }

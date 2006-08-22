@@ -203,7 +203,7 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getTOC()
 	 */
-	public String getTOC( )
+	public Object getTOC( )
 	{
 		return content.getTOC( );
 	}
@@ -373,7 +373,7 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#setTOC(java.lang.String)
 	 */
-	public void setTOC( String toc )
+	public void setTOC( Object toc )
 	{
 		content.setTOC( toc );
 	}

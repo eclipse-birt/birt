@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.116 $ $Date: 2006/08/08 09:59:09 $
+ * @version $Revision: 1.117 $ $Date: 2006/08/18 09:26:51 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1279,15 +1279,10 @@ class EngineIRVisitor extends DesignVisitor
 			listGroup.setHeaderRepeat( handle.repeatHeader( ) );
 
 			// flatten TOC on group to the first report item in group header
-			String tocExpr = handle.getTocExpression( );
-			if ( null != tocExpr && !"".equals( tocExpr.trim( ) ) ) //$NON-NLS-1$
+			String toc = handle.getTocExpression( );
+			if ( null != toc && !"".equals( toc.trim( ) ) ) //$NON-NLS-1$
 			{
-				if ( header.getContentCount( ) > 0 )
-				{
-					ReportItemDesign item = (ReportItemDesign) header
-							.getContent( 0 );
-					item.setTOC( createExpression( tocExpr ) );
-				}
+				listGroup.setTOC( createExpression( toc ) );
 			}
 		}
 
@@ -1334,11 +1329,7 @@ class EngineIRVisitor extends DesignVisitor
 			String toc = handle.getTocExpression( );
 			if ( null != toc && !"".equals( toc.trim( ) ) ) //$NON-NLS-1$
 			{
-				if ( header.getRowCount( ) > 0 )
-				{
-					RowDesign row = header.getRow( 0 );
-					row.setTOC( createExpression( toc ) );
-				}
+				tableGroup.setTOC( createExpression( toc ) );
 			}
 		}
 

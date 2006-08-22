@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -40,11 +41,14 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.toc.TOCTree;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.14 $ $Date: 2006/06/13 15:37:19 $
+ * @version $Revision: 1.15 $ $Date: 2006/06/17 12:28:58 $
  */
 public class ReportContent implements IReportContent
 {
@@ -65,7 +69,7 @@ public class ReportContent implements IReportContent
 	/**
 	 * toc of this report
 	 */
-	private TOCNode tocRoot;
+	private TOCTree tocTree;
 	
 	private IContent root;
 	
@@ -263,18 +267,22 @@ public class ReportContent implements IReportContent
 		return errors;
 	}
 
+	public ITOCTree getTOCTree( String format, ULocale locale )
+	{
+		if ( tocTree == null )
+		{
+			tocTree = new TOCTree( );
+		}
+		return new TOCTree ( tocTree.getTOCRoot( ), format, locale );
+	}
+	
+	public void setTOCTree( TOCTree tocTree )
+	{
+		this.tocTree = tocTree;
+	}
+
 	public TOCNode getTOC( )
 	{
-		if ( tocRoot == null )
-		{
-			tocRoot = new TOCNode( );
-		}
-		return tocRoot;
+		return getTOCTree( "viewer", ULocale.getDefault( ) ).getRoot( );
 	}
-
-	public void setTOC( TOCNode root )
-	{
-		this.tocRoot = root;
-	}
-
 }

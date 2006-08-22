@@ -11,18 +11,16 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
@@ -50,7 +48,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.37 $ $Date: 2006/07/19 10:25:46 $
+ * @version $Revision: 1.38 $ $Date: 2006/07/31 10:12:26 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -247,26 +245,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			Object tmp = evaluate( toc );
 			if ( tmp != null )
 			{
-				String tocLabel = "";
-				if (tmp instanceof Number)
-				{
-					NumberFormatter fmt = context.getNumberFormatter( null );
-					tocLabel = fmt.format( (Number) tmp );
-				}
-				else if (tmp instanceof Date)
-				{
-					DateFormatter fmt = context.getDateFormatter( null);
-					tocLabel = fmt.format( (Date) tmp );
-				}
-				else if (tmp instanceof String)
-				{
-					tocLabel = (String)tmp;
-				}
-				else
-				{
-					tocLabel = tmp.toString();
-				}
-				itemContent.setTOC( tocLabel );
+				itemContent.setTOC( tmp );
 			}
 		}
 	}
@@ -527,6 +506,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 		return null;
 	}
+
 	/**
 	 * starts a TOC entry, mostly used for non-leaf TOC entry, which can not be
 	 * closed until its children have been written.
@@ -541,18 +521,25 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			if ( content != null )
 			{
-				String tocLabel = content.getTOC( );
-				if ( tocLabel != null )
+				TOCEntry parentTOCEntry = getParentTOCEntry( );
+				String hiddenFormats = content.getStyle( ).getVisibleFormat( );
+				Object tocValue = content.getTOC( );
+				if ( tocValue != null )
 				{
 					String bookmark = content.getBookmark( );
-					TOCEntry parentTOCEntry = getParentTOCEntry();
-					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocLabel, bookmark );
-					String tocId = tocEntry.getNode().getNodeID( );
+					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocValue,
+							bookmark, hiddenFormats );
+					String tocId = tocEntry.getNode( ).getNodeID( );
 					if ( bookmark == null )
 					{
 						content.setBookmark( tocId );
 					}
 					return;
+				}
+				else if ( hiddenFormats != null )
+				{
+					tocEntry = tocBuilder.startDummyEntry( parentTOCEntry,
+							hiddenFormats );
 				}
 			}
 		}
@@ -577,13 +564,20 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 	}
 
-	protected void startGroupTOCEntry( )
+	protected void startGroupTOCEntry( IGroupContent group )
 	{
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
 			TOCEntry entry = getParentTOCEntry();
-			tocEntry = tocBuilder.startGroupEntry( entry );
+			String hiddenFormats = group.getStyle( ).getVisibleFormat( );
+			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
+					group.getBookmark( ), hiddenFormats );
+			String tocId = tocEntry.getNode( ).getNodeID( );
+			if ( group.getBookmark( ) == null )
+			{
+				group.setBookmark( tocId );
+			}
 		}
 	}
 

@@ -13,15 +13,18 @@ package org.eclipse.birt.report.engine.content;
 
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.12 $ $Date: 2006/06/13 15:37:17 $
+ * @version $Revision: 1.13 $ $Date: 2006/06/17 12:28:58 $
  */
 public interface IReportContent
 {
@@ -51,9 +54,19 @@ public interface IReportContent
 	 * get the TOC structure constructed in the generation.
 	 * 
 	 * @return the TOC structure.
+	 * @deprecated This method shoule be substituted by:<br>
+	 *             &nbsp;&nbsp;&nbsp;&nbsp;
+	 *             <code>getTOCTree( format, locale ).getTOCTree( );</code>
 	 */
 	public TOCNode getTOC( );
-	
+
+	/**
+	 * Gets the toc tree of this report content.
+	 * 
+	 * @return the TOC Tree
+	 */
+	public ITOCTree getTOCTree( String format, ULocale locale );
+
 	/**
 	 * return root content
 	 * @return
@@ -61,6 +74,7 @@ public interface IReportContent
 	public IContent getRoot();
 
 	public long getTotalPage();
+	
 	/**
 	 * The page content in the report content.
 	 * If the page is not exist, return NULL.

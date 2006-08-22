@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -35,6 +36,8 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	 * the current table layout
 	 */
 	private TableContentLayout layout;
+	
+	private Stack layoutEvents;
 
 	/**
 	 * the emitter used to output the table content
@@ -92,6 +95,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			this.layout = new TableContentLayout( table,
 					EngineIRConstants.FORMAT_TYPE_VIEWER );
+			this.layoutEvents = new Stack();
 
 			emitter.startTable( table );
 		}
@@ -110,9 +114,27 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			flush( );
 			emitter.endTable( table );
 			layout = null;
+			layoutEvents = null;
 		}
 	}
 
+	private static class LayoutEvent
+	{
+		final static int START_GROUP = 0;
+		final static int START_BAND = 1;
+		final static int END_GROUP = 2;
+		final static int END_BAND = 3;
+		final static int ON_ROW = 4;
+		
+		LayoutEvent(int type, Object value )
+		{
+			this.eventType= type;
+			this.value = value;
+		}
+		int eventType;
+		Object value;
+	}
+	
 	public void startTableGroup( ITableGroupContent group )
 	{
 		if ( cellEmitter != null )
@@ -123,7 +145,8 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			int groupLevel = group.getGroupLevel( );
 			groupStack.push( new Integer( groupLevel ) );
-			// ContentEmitterUtil.startContent( group, emitter );
+			layoutEvents
+					.push( new LayoutEvent( LayoutEvent.START_GROUP, group ) );
 		}
 	}
 
@@ -142,6 +165,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			assert !groupStack.isEmpty( );
 			groupStack.pop( );
 			// ContentEmitterUtil.endContent( group, emitter );
+			layoutEvents.push( new LayoutEvent( LayoutEvent.END_GROUP, group ) );
 		}
 	}
 
@@ -168,6 +192,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				int groupLevel = getGroupLevel();
 				resolveCellsOfDrop( groupLevel, false );
 			}
+			layoutEvents.push( new LayoutEvent(LayoutEvent.START_BAND, band ));
 		}
 	}
 
@@ -185,6 +210,15 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				int groupLevel = getGroupLevel();
 				resolveCellsOfDrop( groupLevel, true );
 			}
+			if ( layout.hasDropCell( ) )
+			{
+				layoutEvents.push( new LayoutEvent(LayoutEvent.END_BAND, band ));
+			}
+			else
+			{
+				flush( );
+				ContentEmitterUtil.endContent( band, emitter );
+			}
 		}
 	}
 
@@ -196,6 +230,8 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
+			layoutEvents.push( new LayoutEvent( LayoutEvent.ON_ROW,
+					new Integer( layout.getRowCount( ) ) ) );
 			layout.createRow( row );
 		}
 	}
@@ -322,47 +358,69 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 
 	public void flush( )
 	{
-		int rowCount = layout.getRowCount( );
-		int colCount = layout.getColCount( );
-		for ( int i = 0; i < rowCount; i++ )
+		Iterator iter = layoutEvents.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			Row row = layout.getRow( i );
-			IRowContent rowContent = (IRowContent) row.getContent( );
-			emitter.startRow( rowContent );
-			for ( int j = 0; j < colCount; j++ )
+			LayoutEvent event = (LayoutEvent) iter.next( );
+			switch ( event.eventType )
 			{
-				Cell cell = row.getCell( j );
-				if ( cell.getStatus( ) == Cell.CELL_USED )
-				{
-					CellContent content = (CellContent) cell.getContent( );
-					CellContentWrapper tempCell = new CellContentWrapper(
-							content.cell ); 
-					tempCell.setColumn( cell.getColId( ) );
-					tempCell.setRowSpan( cell.getRowSpan( ) );
-					tempCell.setColSpan( cell.getColSpan( ) );
-
-					emitter.startCell( tempCell );
-					if ( content.buffer != null )
-					{
-						content.buffer.flush( );
-					}
-					emitter.endCell( tempCell );
-				}
-				if ( cell.getStatus( ) == Cell.CELL_EMPTY )
-				{
-					IReportContent report = rowContent.getReportContent( );
-					ICellContent cellContent = report.createCellContent( );
-					cellContent.setParent( rowContent );
-					cellContent.setColumn( cell.getColId( ) + 1 );
-					cellContent.setRowSpan( cell.getRowSpan( ) );
-					cellContent.setColSpan( cell.getColSpan( ) );
-					emitter.startCell( cellContent );
-					emitter.endCell( cellContent );
-				}
+				case LayoutEvent.START_GROUP :
+				case LayoutEvent.START_BAND :
+					ContentEmitterUtil.startContent( (IContent) event.value,
+							emitter );
+					break;
+				case LayoutEvent.END_GROUP :
+				case LayoutEvent.END_BAND :
+					ContentEmitterUtil.endContent( (IContent) event.value,
+							emitter );
+					break;
+				case LayoutEvent.ON_ROW :
+					flushRow( ( (Integer) event.value ).intValue( ) );
+					break;
 			}
-			emitter.endRow( rowContent );
 		}
+		layoutEvents.clear( );
 		layout.reset( );
+	}
+	
+	protected void flushRow( int rowId)
+	{
+		int colCount = layout.getColCount( );
+		Row row = layout.getRow( rowId );
+		IRowContent rowContent = (IRowContent) row.getContent( );
+		emitter.startRow( rowContent );
+		for ( int j = 0; j < colCount; j++ )
+		{
+			Cell cell = row.getCell( j );
+			if ( cell.getStatus( ) == Cell.CELL_USED )
+			{
+				CellContent content = (CellContent) cell.getContent( );
+				CellContentWrapper tempCell = new CellContentWrapper(
+						content.cell ); 
+				tempCell.setColumn( cell.getColId( ) );
+				tempCell.setRowSpan( cell.getRowSpan( ) );
+				tempCell.setColSpan( cell.getColSpan( ) );
+
+				emitter.startCell( tempCell );
+				if ( content.buffer != null )
+				{
+					content.buffer.flush( );
+				}
+				emitter.endCell( tempCell );
+			}
+			if ( cell.getStatus( ) == Cell.CELL_EMPTY )
+			{
+				IReportContent report = rowContent.getReportContent( );
+				ICellContent cellContent = report.createCellContent( );
+				cellContent.setParent( rowContent );
+				cellContent.setColumn( cell.getColId( ) + 1 );
+				cellContent.setRowSpan( cell.getRowSpan( ) );
+				cellContent.setColSpan( cell.getColSpan( ) );
+				emitter.startCell( cellContent );
+				emitter.endCell( cellContent );
+			}
+		}
+		emitter.endRow( rowContent );
 	}
 
 	private class CellContent implements Cell.Content

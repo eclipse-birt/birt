@@ -36,11 +36,12 @@ public class TableGroupExecutor extends GroupExecutor
 		context.registerOnPageBreak( content );
 		
 		initializeContent( groupDesign, groupContent );
+		processBookmark( groupDesign, groupContent );
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );
 		handlePageBreakAfterOfPreviousGroup( );
 
-		startGroupTOCEntry( );
+		startGroupTOCEntry( groupContent );
 		if ( emitter != null )
 		{
 			emitter.startTableGroup( groupContent );

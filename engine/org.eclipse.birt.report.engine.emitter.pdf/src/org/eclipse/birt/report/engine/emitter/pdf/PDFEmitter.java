@@ -66,6 +66,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
+import com.ibm.icu.util.ULocale;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -470,7 +471,8 @@ public class PDFEmitter implements IContentEmitter
 		public void end(IReportContent rc)
 		{
 			// Before closing the document, we need to create TOC.
-			TOCHandler tocHandler = new TOCHandler( rc.getTOC() );
+			TOCHandler tocHandler = new TOCHandler( rc.getTOCTree( "pdf",
+					ULocale.getDefault( ) ).getRoot( ) );
 			TOCNode tocRoot = tocHandler.getTOCRoot();
 			if (true == tocRoot.getChildren().isEmpty())
 			{
@@ -1741,12 +1743,6 @@ public class PDFEmitter implements IContentEmitter
 				if (null != bookmark)
 				{
 					cb.localDestination( bookmark, new PdfDestination(
-							PdfDestination.XYZ, -1, layoutPointY2PDF(areaY), 0));
-				}
-				String tocmark = content.getTOC();
-				if (null != tocmark)
-				{
-					cb.localDestination( tocmark, new PdfDestination(
 							PdfDestination.XYZ, -1, layoutPointY2PDF(areaY), 0));
 				}
 			}

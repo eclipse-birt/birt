@@ -37,11 +37,12 @@ public class ListGroupExecutor extends GroupExecutor
 		context.registerOnPageBreak( content );
 		
 		initializeContent( groupDesign, groupContent );
+		processBookmark( groupDesign, groupContent );
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );		
 		handlePageBreakAfterOfPreviousGroup( );
 
-		startGroupTOCEntry( );
+		startGroupTOCEntry( groupContent );
 		if ( emitter != null )
 		{
 			emitter.startListGroup( groupContent );

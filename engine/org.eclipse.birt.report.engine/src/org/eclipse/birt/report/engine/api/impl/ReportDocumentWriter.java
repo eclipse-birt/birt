@@ -29,9 +29,9 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportDocumentLock;
 import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 import org.eclipse.birt.report.engine.api.IReportEngine;
-import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 
@@ -122,19 +122,14 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 * @param node
 	 *            TOC nodes.
 	 */
-	public void saveTOC( TOCNode node )
+	public void saveTOC( TOCTree tocTree )
 	{
-//		write a empty toc to the toc stream if there is no toc.
-//      if ( node.getChildren( ).isEmpty( ) )
-//		{
-//			return;
-//		}
 		RAOutputStream out = null;
 		try
 		{
 			out = archive.createRandomAccessStream( TOC_STREAM );
 			DataOutputStream output = new DataOutputStream( out );
-			TOCBuilder.write( node, output );
+			TOCBuilder.write( tocTree, output );
 		}
 		catch ( Exception ex )
 		{

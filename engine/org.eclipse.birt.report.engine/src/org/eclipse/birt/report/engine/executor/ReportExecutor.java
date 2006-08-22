@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -49,7 +50,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.38 $ $Date: 2006/06/16 11:02:26 $
+ * @version $Revision: 1.39 $ $Date: 2006/07/06 06:30:36 $
  */
 public class ReportExecutor implements IReportExecutor
 {
@@ -69,7 +70,7 @@ public class ReportExecutor implements IReportExecutor
 	
 	private Report report;
 	
-	private IReportContent reportContent;
+	private ReportContent reportContent;
 	
 	/**
 	 * constructor
@@ -93,8 +94,10 @@ public class ReportExecutor implements IReportExecutor
 		report = new ReportParser( context ).parse( design );
 		context.setReport( report );
 		reportContent = new ReportContent( report );
+		TOCTree tocTree = new TOCTree( );
+		reportContent.setTOCTree( tocTree );
 		context.setReportContent( reportContent );
-		TOCBuilder tocBuilder = new TOCBuilder( reportContent.getTOC( ) );
+		TOCBuilder tocBuilder = new TOCBuilder( tocTree );
 		context.setTOCBuilder( tocBuilder );
 
 		// Prepare necessary data for this report

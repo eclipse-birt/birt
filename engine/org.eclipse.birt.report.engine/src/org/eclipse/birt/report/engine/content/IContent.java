@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/05/09 09:26:19 $
+ * @version $Revision: 1.9 $ $Date: 2006/06/13 15:37:17 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -178,8 +178,8 @@ public interface IContent extends IElement, CSSStylableElement
 
 	void setY( DimensionType y );
 	
-	String getTOC();
-	void setTOC(String toc);
+	Object getTOC();
+	void setTOC(Object toc);
 	
 	void writeContent( DataOutputStream out ) throws IOException;
 	void readContent( DataInputStream in ) throws IOException;

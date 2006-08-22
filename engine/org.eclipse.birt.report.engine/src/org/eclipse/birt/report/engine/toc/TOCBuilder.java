@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.report.engine.api.TOCNode;
 
 /**
  * A class for building up TOC hierarchy
@@ -28,45 +27,45 @@ public class TOCBuilder
 	/**
 	 * the root TOC entry
 	 */
-	private TOCNode rootNode;
+	private TOCTree tocTree;
 	private TOCEntry rootEntry;
 
+	private static final String VERSION = "__Version : 1.0";
 	public static final String TOC_PREFIX = "__TOC";//
 
 	/**
-	 * @param root
+	 * @param tocTree
 	 *            the root for the TOC tree
 	 */
-	public TOCBuilder( TOCNode root )
+	public TOCBuilder( TOCTree tocTree )
 	{
-		rootNode = root;
-		rootEntry = new TOCEntry( null, rootNode, rootNode );
+		this.tocTree = tocTree;
+		TOCTreeNode root = tocTree.getTOCRoot( );
+		rootEntry = new TOCEntry( null, root, root );
 	}
 
-	public TOCEntry startGroupEntry( TOCEntry parent )
+	public TOCEntry startGroupEntry( TOCEntry parent, Object tocValue,
+			String bookmark, String hiddenFormats )
 	{
-		if (parent == null)
+		return startEntry( parent, tocValue, bookmark, hiddenFormats, true );
+	}
+
+	private String mergeHideFormats( TOCEntry parent, String hiddenFormats )
+	{
+		String parentHiddenFormats = parent.getHideFormats( );
+		if ( hiddenFormats == null )
 		{
-			parent = rootEntry;
+			return parentHiddenFormats;
 		}
-		TOCEntry group = new TOCEntry( parent, parent.getNode( ), parent
-				.getNode( ) );
-		return group;
+		if ( parentHiddenFormats == null )
+		{
+			return hiddenFormats;
+		}
+		return hiddenFormats + ", " + parentHiddenFormats ;
 	}
 
 	public void closeGroupEntry( TOCEntry group )
 	{
-		assert group != null;
-		TOCEntry parent = group.parent;
-		if ( parent != null && parent != rootEntry )
-		{
-			if (parent.node == parent.root) 
-			{
-				// this is a group entry, and it is the first child of that group,
-				// use that entry as parent of following entry of the same group.
-				parent.node = group.node;			
-			}
-		}
 	}
 
 	/**
@@ -74,17 +73,24 @@ public class TOCBuilder
 	 *            display string for the TOC entry
 	 * @param bookmark
 	 */
-	public TOCEntry startEntry( TOCEntry parent, String displayString, String bookmark )
+	public TOCEntry startEntry( TOCEntry parent, Object tocValue,
+			String bookmark, String hiddenFormats )
 	{
-		assert displayString != null;
+		return startEntry( parent, tocValue, bookmark, hiddenFormats, false );
+	}
+
+	public TOCEntry startEntry( TOCEntry parent, Object tocValue,
+			String bookmark, String hiddenFormats, boolean isGroupRoot )
+	{
+		assert tocValue != null;
 
 		if ( parent == null )
 		{
 			parent = rootEntry;
 		}
-		
-		TOCNode parentNode = parent.node;
-		TOCNode node = new TOCNode( );
+
+		TOCTreeNode parentNode = parent.node;
+		TOCTreeNode node = new TOCTreeNode( );
 		String id = parentNode.getNodeID( );
 		if ( id == null )
 		{
@@ -92,21 +98,41 @@ public class TOCBuilder
 		}
 		id = id + "_" + parentNode.getChildren( ).size( );
 
-		// entry.nodeid is null
+		String formats = mergeHideFormats( parent, hiddenFormats);
 		node.setNodeID( id );
-		node.setDisplayString( displayString );
 		node.setBookmark( bookmark == null ? id : bookmark );
 		node.setParent( parentNode );
+		node.setHideFormats( formats );
+		node.setIsGroupRoot( isGroupRoot );
+		node.setTOCValue( tocValue );
 		parentNode.getChildren( ).add( node );
-		
+
 		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), node );
+		entry.setHideFormats( formats );
 		return entry;
 	}
 
-	public TOCEntry createEntry( TOCEntry parent, String label, String bookmark )
+	public TOCEntry startEntry( TOCEntry parent, Object tocValue, String bookmark )
 	{
-		TOCEntry entry = startEntry( parent, label, bookmark );
-		closeEntry(entry);
+		return startEntry( parent, tocValue, bookmark, null );
+	}
+
+	public TOCEntry startDummyEntry( TOCEntry parent, String hiddenFormats )
+	{
+		if ( parent == null )
+		{
+			parent = rootEntry;
+		}
+		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), parent
+				.getNode( ) );
+		entry.setHideFormats( mergeHideFormats( parent, hiddenFormats ) );
+		return entry;
+	}
+
+	public TOCEntry createEntry( TOCEntry parent, Object tocValue, String bookmark )
+	{
+		TOCEntry entry = startEntry( parent, tocValue, bookmark, null );
+		closeEntry( entry );
 		return entry;
 	}
 
@@ -117,17 +143,6 @@ public class TOCBuilder
 	 */
 	public void closeEntry( TOCEntry entry )
 	{
-		assert entry != null;
-		TOCEntry parent = entry.parent;
-		if ( parent != null && parent != rootEntry )
-		{
-			if (parent.node == parent.root) 
-			{
-				// this is a group entry, and it is the first child of that group,
-				// use that entry as parent of following entry of the same group.
-				parent.node = entry.node;
-			}
-		}
 	}
 	
 	public TOCEntry getTOCEntry( )
@@ -135,33 +150,60 @@ public class TOCBuilder
 		return rootEntry;
 	}
 	
-	public TOCNode getTOCNode( )
+	public TOCTree getTOCTree( )
 	{
-		return rootNode;
+		return tocTree;
 	}
 
-	static public void write( TOCNode root, DataOutputStream out )
+	static public void write( TOCTree tree, DataOutputStream out )
+			throws IOException
+	{
+		IOUtil.writeString( out, VERSION );
+		writeTOC( tree.getTOCRoot( ), out );
+	}
+
+	private static void writeTOC( TOCTreeNode root, DataOutputStream out )
 			throws IOException
 	{
 		IOUtil.writeString( out, root.getNodeID( ) );
 		IOUtil.writeString( out, root.getDisplayString( ) );
 		IOUtil.writeString( out, root.getBookmark( ) );
+		IOUtil.writeString( out, root.getHiddenFormats( ) );
+		IOUtil.writeBool( out, root.isGroupRoot( ) );
+		IOUtil.writeObject( out, root.getTOCValue( ) );
 		List children = root.getChildren( );
 		IOUtil.writeInt( out, children.size( ) );
 		Iterator iter = children.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			TOCNode child = (TOCNode) iter.next( );
-			write( child, out );
+			TOCTreeNode child = (TOCTreeNode) iter.next( );
+			writeTOC( child, out );
 		}
 		out.flush( );
 		return;
 	}
 
-	static public void read( TOCNode node, DataInputStream input )
-			throws IOException
+	public static void read( TOCTree tree, DataInputStream input ) throws IOException
 	{
-		String nodeId = IOUtil.readString( input );
+		TOCTreeNode node = tree.getTOCRoot( );
+		String head = IOUtil.readString( input );
+		if ( head == null || ! VERSION.equals( head ) )
+		{
+			readV0( node, input, head, true );
+		}
+		else
+		{
+			readV1( node, input );
+		}
+	}
+
+	static public void readV0( TOCTreeNode node, DataInputStream input,
+			String nodeId, boolean isRoot ) throws IOException
+	{
+		if ( !isRoot )
+		{
+			nodeId = IOUtil.readString( input );
+		}
 		String displayString = IOUtil.readString( input );
 		String bookmark = IOUtil.readString( input );
 		node.setNodeID( nodeId );
@@ -170,11 +212,35 @@ public class TOCBuilder
 		int size = IOUtil.readInt( input );
 		for ( int i = 0; i < size; i++ )
 		{
-			TOCNode child = new TOCNode( );
-			read( child, input );
+			TOCTreeNode child = new TOCTreeNode( );
+			readV0( child, input, null, false );
 			child.setParent( node );
 			node.getChildren( ).add( child );
 		}
 	}
 
+	static public void readV1( TOCTreeNode node, DataInputStream input )
+			throws IOException
+	{
+		String nodeId = IOUtil.readString( input );
+		String displayString = IOUtil.readString( input );
+		String bookmark = IOUtil.readString( input );
+		String hiddenFormats = IOUtil.readString( input );
+		boolean isGroupRoot = IOUtil.readBool( input );
+		Object tocValue = IOUtil.readObject( input );
+		node.setNodeID( nodeId );
+		node.setDisplayString( displayString );
+		node.setBookmark( bookmark );
+		node.setHideFormats( hiddenFormats );
+		node.setIsGroupRoot( isGroupRoot );
+		node.setTOCValue( tocValue );
+		int size = IOUtil.readInt( input );
+		for ( int i = 0; i < size; i++ )
+		{
+			TOCTreeNode child = new TOCTreeNode( );
+			readV1( child, input );
+			child.setParent( node );
+			node.getChildren( ).add( child );
+		}
+	}
 }

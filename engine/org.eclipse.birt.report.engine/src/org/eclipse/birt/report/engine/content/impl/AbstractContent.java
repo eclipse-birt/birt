@@ -67,8 +67,8 @@ abstract public class AbstractContent extends AbstractElement
 
 	protected InstanceID instanceId;
 
-	protected String toc;
-	
+	protected Object toc;
+
 	transient protected long offset = -1;
 	
 	transient protected IContent lastChild = null;
@@ -389,12 +389,12 @@ abstract public class AbstractContent extends AbstractElement
 		this.instanceId = id;
 	}
 
-	public void setTOC( String toc )
+	public void setTOC( Object toc )
 	{
 		this.toc = toc;
 	}
 
-	public String getTOC( )
+	public Object getTOC( )
 	{
 		return toc;
 	}
@@ -497,7 +497,7 @@ abstract public class AbstractContent extends AbstractElement
 		if ( toc != null )
 		{
 			IOUtil.writeInt( out, FIELD_TOC );
-			IOUtil.writeString( out, toc );
+			IOUtil.writeObject( out, toc );
 		}
 	}
 
@@ -549,7 +549,7 @@ abstract public class AbstractContent extends AbstractElement
 				instanceId = InstanceID.parse( value );
 				break;
 			case FIELD_TOC :
-				toc = IOUtil.readString( in );
+				toc = IOUtil.readObject( in );
 				break;
 		}
 	}

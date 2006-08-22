@@ -34,15 +34,18 @@ import org.eclipse.birt.report.engine.api.IReportDocumentLock;
 import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
-import org.eclipse.birt.report.engine.internal.util.EngineIOUtil;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ModuleOption;
+
+import com.ibm.icu.util.ULocale;
 
 public class ReportDocumentReader
 		implements
@@ -72,11 +75,7 @@ public class ReportDocumentReader
 	 */
 	private IPageHintReader pageHintReader;
 	/** root TOC, id is "/" */
-	private TOCNode tocRoot;
-	/** tocId, TOCNode map */
-	private HashMap tocMapByID;
-	/** Map from TOC name to a list of TOCNodes */
-	private HashMap tocMapByName;
+	private TOCTree tocTree;
 	/** Map from the id to offset */
 	private HashMap reportletsIndexById;
 	/** Map from the bookmark to offset */
@@ -275,8 +274,8 @@ public class ReportDocumentReader
 						documentInfo.systemId = systemId;
 					}
 					// load the report paramters
-					documentInfo.parameters = convertToCompatibleParameter( EngineIOUtil
-							.readMap( di ) );
+					Map originalParameters = IOUtil.readMap( di );
+					documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 					// load the persistence object
 					documentInfo.globalVariables = (HashMap) IOUtil
 							.readMap( di );
@@ -574,6 +573,20 @@ public class ReportDocumentReader
 		return pageNumber.longValue( );
 	}
 
+	public ITOCTree getTOCTree( String format, ULocale locale )
+	{
+		if ( !isComplete() )
+		{
+			return null;
+		}
+		if ( tocTree == null )
+		{
+			loadTOC( );
+		}
+		TOCTree result = new TOCTree( tocTree.getTOCRoot( ), format, locale );
+		return result;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -585,15 +598,12 @@ public class ReportDocumentReader
 		{
 			return null;
 		}
-		if ( tocRoot == null )
+		if ( tocTree == null )
 		{
 			loadTOC( );
 		}
-		if ( tocNodeId == null || "/".equals( tocNodeId ) ) //$NON-NLS-1$
-		{
-			return tocRoot;
-		}
-		return (TOCNode) tocMapByID.get( tocNodeId );
+		ITOCTree tree = getTOCTree( "all", ULocale.getDefault( ) );
+		return tree.findTOC( tocNodeId );
 	}
 
 	/*
@@ -607,15 +617,12 @@ public class ReportDocumentReader
 		{
 			return null;
 		}
-		if ( tocName == null )
-		{
-			return null;
-		}
-		if ( tocRoot == null )
+		if ( tocTree == null )
 		{
 			loadTOC( );
 		}
-		return (List) tocMapByName.get( tocName );
+		ITOCTree tree = getTOCTree( "all", ULocale.getDefault( ) );
+		return tree.findTOCByValue( tocName );
 	}
 
 	/*
@@ -642,7 +649,7 @@ public class ReportDocumentReader
 	 */
 	protected void loadTOC( )
 	{
-		tocRoot = new TOCNode( );
+		tocTree = new TOCTree( );
 		if ( archive.exists( TOC_STREAM ) )
 		{
 			InputStream in = null;
@@ -650,7 +657,7 @@ public class ReportDocumentReader
 			{
 				in = archive.getStream( TOC_STREAM );
 				DataInputStream input = new DataInputStream( in );
-				TOCBuilder.read( tocRoot, input );
+				TOCBuilder.read( tocTree, input );
 			}
 			catch ( Exception ex )
 			{
@@ -670,49 +677,6 @@ public class ReportDocumentReader
 				}
 			}
 		}
-		tocMapByID = new HashMap( );
-		tocMapByName = new HashMap( );
-		generateTOCIndex( tocRoot );
-	}
-
-	/**
-	 * add the TOC node into the map for search.
-	 * 
-	 * @param node
-	 *            TOC cache.
-	 * @param map
-	 *            map contains the (id, TOC) pair.
-	 */
-	private void generateTOCIndex( TOCNode node )
-	{
-		tocMapByID.put( node.getNodeID( ), node );
-		addTOCNameEntry( node, tocMapByName );
-		Iterator iter = node.getChildren( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			TOCNode child = (TOCNode) iter.next( );
-			generateTOCIndex( child );
-		}
-	}
-
-	/**
-	 * Add a toc node into the map which cache the map from toc display string
-	 * to nodes.
-	 * 
-	 * @param node
-	 *            the node.
-	 * @param map
-	 *            the map.
-	 */
-	private void addTOCNameEntry( TOCNode node, HashMap map )
-	{
-		List tocs = (List) map.get( node.getDisplayString( ) );
-		if ( tocs == null )
-		{
-			tocs = new ArrayList( );
-			map.put( node.getDisplayString( ), tocs );
-		}
-		tocs.add( node );
 	}
 
 	private void loadBookmarks( )

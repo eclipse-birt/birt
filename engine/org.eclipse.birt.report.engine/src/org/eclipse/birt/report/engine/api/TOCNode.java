@@ -37,6 +37,17 @@ public class TOCNode
 	 */
 	protected ArrayList children;
 
+	public TOCNode( )
+	{
+	}
+
+	public TOCNode( TOCNode node )
+	{
+		this.bookmark = node.bookmark;
+		this.displayString = node.displayString;
+		this.nodeId = node.nodeId;
+	}
+
 	/**
 	 * @return the unique ID for the TOC node
 	 */

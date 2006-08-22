@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -66,6 +65,7 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ReportContentLoaderV2 implements IReportContentLoader
@@ -110,8 +110,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		reportDoc = context.getReportDocument( );
 		dataEngine.prepare( report, context.getAppContext( ) );
 		
-		TOCNode root = reportDoc.findTOC( "/" );
-		reportContent.setTOC( root );
+		TOCTree tocTree = (TOCTree) reportDoc.getTOCTree( null, null );
+		reportContent.setTOCTree( tocTree );
 	}
 
 	protected void openReaders( )
