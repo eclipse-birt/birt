@@ -1181,9 +1181,9 @@ public class ColumnBindingDialog extends BaseDialog
 		this.groupList = groupList;
 	}
 
-	protected IExpressionProvider expressionProvider;
+	protected ExpressionProvider expressionProvider;
 
-	public void setExpressionProvider( IExpressionProvider provider )
+	public void setExpressionProvider( ExpressionProvider provider )
 	{
 		expressionProvider = provider;
 	}
