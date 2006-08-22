@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.internal.util.EngineIOUtil;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
-import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleOption;
 
 public class ReportDocumentReader
 		implements
@@ -56,7 +56,7 @@ public class ReportDocumentReader
 	private IReportEngine engine;
 	private IDocArchiveReader archive;
 	private IReportRunnable reportRunnable;
-	private IResourceLocator locator;
+	private Map moduleOptions;
 	/*
 	 * version, paramters, globalVariables are loaded from core stream.
 	 */
@@ -98,6 +98,10 @@ public class ReportDocumentReader
 		this.engine = engine;
 		this.archive = archive;
 		this.systemId = systemId;
+		this.moduleOptions = new HashMap( );
+		this.moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
+				Boolean.FALSE );
+		
 		try
 		{
 			archive.open( );
@@ -123,10 +127,24 @@ public class ReportDocumentReader
 		}
 	}
 
-	
-	void setResourceLocator( IResourceLocator locator )
+	/**
+	 * set the options used to parse the report design in the report document.
+	 * If the options has no PARSER_SEMANTIC_CHECK_KEY, set it to FALSE.
+	 * 
+	 * @param options
+	 *            options used to control the design parser.
+	 */
+	void setModuleOptions( Map options )
 	{
-		this.locator = locator;
+		moduleOptions = new HashMap( );
+		moduleOptions.putAll( options );
+		Object semanticCheck = moduleOptions
+				.get( ModuleOption.PARSER_SEMANTIC_CHECK_KEY );
+		if ( semanticCheck != null )
+		{
+			moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
+					Boolean.FALSE );
+		}
 	}
 	
 	
@@ -394,7 +412,7 @@ public class ReportDocumentReader
 			{
 				try
 				{
-					reportRunnable = engine.openReportDesign( name, stream, locator );
+					reportRunnable = engine.openReportDesign( name, stream, moduleOptions );
 				}
 				catch ( Exception ex )
 				{
