@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutContext;
-import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.IStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 
@@ -42,18 +41,11 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 
 	protected ContainerArea root;
 
-	protected boolean pageBreakAvoid = false;
-
 	protected PDFAbstractLM child;
 
 	protected int minHeight = 0;
 
 	protected int minWidth = 0;
-
-	public ILayoutManager getCurrentChild( )
-	{
-		return child;
-	}
 
 	public int getMaxAvaWidth( )
 	{
@@ -177,8 +169,6 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	 * <li> set CurrentIP and CurrentBP </li>
 	 * </ul>
 	 * 
-	 * @param pageExist
-	 *            TODO
 	 * 
 	 */
 	protected abstract void newContext( );

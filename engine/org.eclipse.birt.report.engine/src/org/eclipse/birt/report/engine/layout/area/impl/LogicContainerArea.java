@@ -10,19 +10,9 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area.impl;
 
-import org.eclipse.birt.report.engine.css.dom.AreaStyle;
-import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 
 public  class LogicContainerArea extends ContainerArea
 {
-
-	public IContainerArea copyArea()
-	{
-		LogicContainerArea area =  new LogicContainerArea();
-		area.style = new AreaStyle((AreaStyle)style);
-		copyPropertyTo(area);
-		return area;
-	}
 
 	public LogicContainerArea()
 	{

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
@@ -41,6 +42,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 public class PDFTableLM extends PDFBlockStackingLM
@@ -115,12 +117,15 @@ public class PDFTableLM extends PDFBlockStackingLM
 	protected final ITableCloseState TABLE_TERMINATED_STATE = new TableTerminatedState();
 
 	protected Stack groupStack = new Stack( );
+	
+	protected ColumnWidthResolver columnWidthResolver;
 
 	public PDFTableLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content, executor );
 		tableContent = (ITableContent) content;
+		columnWidthResolver = new ColumnWidthResolver(tableContent);
 		repeatHeader = tableContent.isHeaderRepeat( );
 		columnNumber = tableContent.getColumnCount( );
 		lastRowContent = new CellWrapper[columnNumber];
@@ -381,7 +386,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void buildTableLayoutInfo( )
 	{
-		this.layoutInfo = new TableLayoutInfo( resolveColumnWidth( ) );
+		//this.layoutInfo = new TableLayoutInfo( resolveColumnWidth( ) );
+		this.layoutInfo = resolveTableLayoutInfo( (TableArea)root );
 	}
 
 	protected void newContext( )
@@ -464,7 +470,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 			// update height of last row
 			if ( lastRowArea != null )
 			{
-				lastRowArea.setHeight( lastRowArea.getHeight( ) );
+				lastRowArea.setHeight( lastRowArea.getHeight( ) + bottomMaxBorder );
+				if(currentBP + bottomMaxBorder < maxAvaHeight)
+				{
+					currentBP += bottomMaxBorder;
+				}
 			}
 
 		}
@@ -553,8 +563,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				IStyle cellAreaStyle = cell.getStyle( );
 				bcr.resolveTableBottomBorder( tableStyle, rowStyle,
 						columnStyle, cellContentStyle, cellAreaStyle );
-				return PropertyUtil
-						.getDimensionValue( cellAreaStyle
+				return getDimensionValue( cellAreaStyle
 								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
 			}
 		} );
@@ -572,8 +581,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				IStyle cellAreaStyle = cell.getStyle( );
 				bcr.resolvePagenatedTableBottomBorder( rowStyle,
 						cellContentStyle, cellAreaStyle );
-				return PropertyUtil
-						.getDimensionValue( cellAreaStyle
+				return getDimensionValue( cellAreaStyle
 								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
 			}
 		} );
@@ -710,7 +718,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 
 	}
-
+	
+	
 	/**
 	 * get column style
 	 * 
@@ -723,12 +732,131 @@ public class PDFTableLM extends PDFBlockStackingLM
 		return null;
 	}
 
+	private class ColumnWidthResolver
+	{
+		ITableContent table;
+		
+		public ColumnWidthResolver(ITableContent table)
+		{
+			this.table = table;
+		}
+		
+		public int[] resolve(int specifiedWidth, int maxWidth)
+		{
+			assert(specifiedWidth<=maxWidth);
+			int columnNumber = table.getColumnCount( );
+			int[] columns = new int[columnNumber];
+			int columnWithWidth = 0;
+			int colSum = 0;
+			
+			for ( int j = 0; j < table.getColumnCount( ); j++ )
+			{
+				IColumn column = (IColumn) table.getColumn( j );
+				int columnWidth = getDimensionValue( column.getWidth( ), tableWidth );
+				if ( columnWidth > 0 )
+				{
+					columns[j] = columnWidth;
+					colSum += columnWidth;
+					columnWithWidth++;
+				}
+				else
+				{
+					columns[j] = -1;
+				}
+			}
+
+			if(columnWithWidth==columnNumber)
+			{
+				if(colSum<=maxWidth)
+				{
+					return columns;
+				}
+				else
+				{
+					int delta = (colSum - maxWidth)/columnNumber;
+					assert(delta>=0);
+					for ( int i = 0; i < columnNumber; i++ )
+					{
+						columns[i] -= delta;
+					}
+					return columns;
+				}
+			}
+			else
+			{
+				if(specifiedWidth==0)
+				{
+					if(colSum<maxWidth)
+					{
+						int colNumber = columnNumber - columnWithWidth;
+						int aw = (maxWidth - colSum)/colNumber;
+						distributeWidth( columns, colNumber, aw);
+					}
+					else
+					{
+						distributeWidth(columns, columnNumber, maxWidth/columnNumber);
+					}
+				}
+				else
+				{
+					if(colSum<specifiedWidth)
+					{
+						int colNumber = columnNumber - columnWithWidth;
+						int aw = (specifiedWidth - colSum)/colNumber;
+						distributeWidth( columns, colNumber, aw);
+					}
+					else 
+					{
+						if(colSum<maxWidth)
+						{
+							int colNumber = columnNumber - columnWithWidth;
+							int aw = (maxWidth - colSum)/colNumber;
+							distributeWidth( columns, colNumber, aw);
+						}
+						else
+						{
+							distributeWidth(columns, columnNumber, specifiedWidth/columnNumber);
+						}
+					}
+					
+				}
+				
+			}
+			return columns;
+		}
+		
+		private void distributeWidth(int cols[], int colNumber, int width)
+		{
+			assert(colNumber<=cols.length);
+			if(colNumber==cols.length)
+			{
+				for(int i=0; i<cols.length; i++)
+				{
+					cols[i] = width;
+				}
+			}
+			else
+			{
+				for(int i=0; i<cols.length; i++)
+				{
+					if(cols[i]<0)
+					{
+						cols[i] = width;
+					}
+				}
+			}
+		}		
+	}
+
+	
 	/**
 	 * resolve width for table columns
+	 * TODO remove it
 	 * 
 	 */
 	private int[] resolveColumnWidth( )
 	{
+		
 		int[] colWidth = new int[columnNumber];
 		int colHasNoWidth = 0;
 
@@ -736,8 +864,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		for ( int j = 0; j < tableContent.getColumnCount( ); j++ )
 		{
 			IColumn column = (IColumn) tableContent.getColumn( j );
-			int columnWidth = PropertyUtil
-					.getDimensionValue( column.getWidth( ) );
+			int columnWidth = getDimensionValue( column.getWidth( ) );
 			if ( columnWidth > 0 )
 			{
 				colWidth[j] = columnWidth;
@@ -756,7 +883,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			return colWidth;
 		}
 
-		tableWidth = PropertyUtil.getDimensionValue( tableContent.getWidth( ) );
+		tableWidth = getDimensionValue( tableContent.getWidth( ) );
 		int avaWidth = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
 		int parentMaxWidth = parent.getMaxAvaWidth( );
 		boolean isInline = PropertyUtil.isInlineElement( content );
@@ -793,9 +920,9 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 
 		IStyle style = root.getStyle( );
-		int marginWidth = PropertyUtil.getDimensionValue( style
+		int marginWidth = getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
-				+ PropertyUtil.getDimensionValue( style
+				+ getDimensionValue( style
 						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
 		// FIXME avawidth is not available
 		if ( marginWidth > tableWidth )
@@ -899,6 +1026,95 @@ public class PDFTableLM extends PDFBlockStackingLM
 				}
 			}
 		}
+	}
+	
+	protected void validateBoxProperty( IStyle style )
+	{
+		int maxWidth = 0;
+		if ( parent != null )
+		{
+			maxWidth = parent.getMaxAvaWidth( );
+		}
+		// support negative margin
+		int leftMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_LEFT ), maxWidth );
+		int rightMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_RIGHT ), maxWidth );
+		int topMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_TOP ), maxWidth );
+		int bottomMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_BOTTOM ), maxWidth );
+
+
+		int[] vs = new int[]{rightMargin, leftMargin};
+		resolveBoxConflict( vs, maxWidth );
+
+		int[] hs = new int[]{bottomMargin, topMargin};
+		resolveBoxConflict( hs, context.getMaxHeight( ) );
+
+		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );
+		style.setProperty( IStyle.STYLE_MARGIN_RIGHT, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[0] ) );
+		style.setProperty( IStyle.STYLE_MARGIN_TOP, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[1] ) );
+		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[0] ) );
+	}
+	
+	private TableLayoutInfo resolveTableLayoutInfo(TableArea area)
+	{
+		assert(parent!=null);
+		int avaWidth = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
+		int parentMaxWidth = parent.getMaxAvaWidth( );
+		IStyle style = area.getStyle( );
+		validateBoxProperty( style );
+		int marginWidth = getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
+				+ getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
+		int specifiedWidth = getDimensionValue( tableContent.getWidth( ), parentMaxWidth );
+		if(specifiedWidth + marginWidth > parentMaxWidth)
+		{
+			specifiedWidth = 0;
+		} 
+		
+		boolean isInline = PropertyUtil.isInlineElement( content );
+		if ( specifiedWidth == 0 )
+		{
+			if(isInline)
+			{
+				if ( avaWidth - marginWidth > parentMaxWidth / 4 )
+				{
+					tableWidth = avaWidth - marginWidth;
+				}
+				else
+				{
+					tableWidth = parentMaxWidth - marginWidth;
+				}
+			}
+			else
+			{
+				tableWidth = avaWidth - marginWidth;
+			}
+			return new TableLayoutInfo(columnWidthResolver.resolve( tableWidth, tableWidth ));
+		}
+		else
+		{
+			if ( !isInline )
+			{
+				tableWidth = Math.min( specifiedWidth, avaWidth - marginWidth );
+				return new TableLayoutInfo(columnWidthResolver.resolve( tableWidth, avaWidth - marginWidth ));
+			}
+			else
+			{
+				tableWidth = Math.min( specifiedWidth, parentMaxWidth - marginWidth );
+				return new TableLayoutInfo(columnWidthResolver.resolve( tableWidth, parentMaxWidth - marginWidth ));
+			}
+		}
+
+
+
 	}
 
 	/**

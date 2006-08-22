@@ -26,9 +26,8 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
+import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.ITextArea;
-import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
@@ -39,7 +38,7 @@ import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 
 /**
  * 
- * FIXME add multi-column support
+ * TODO add multi-column support
  */
 public class PDFPageLM extends PDFBlockContainerLM
 		implements
@@ -314,7 +313,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 			nf.applyPattern( patternStr );
 			totalPageContent.setText( nf.format( pageNumber ) );
 
-			ITextArea totalPageArea = null;
+			IArea totalPageArea = null;
 			ChunkGenerator cg = new ChunkGenerator( totalPageContent );
 			if ( cg.hasMore( ) )
 			{
@@ -327,10 +326,8 @@ public class PDFPageLM extends PDFBlockContainerLM
 							(int) ( c.getFontInfo( )
 									.getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
 							(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
-					totalPageArea = (ITextArea) AreaFactory
-							.createBlockTextArea( c.getText( ),
-									totalPageContent, 0,
-									c.getText( ).length( ), c.getFontInfo( ), d );
+					totalPageArea = createBlockTextArea( c.getText( ),
+							totalPageContent, c.getFontInfo( ), d );
 				}
 
 			}

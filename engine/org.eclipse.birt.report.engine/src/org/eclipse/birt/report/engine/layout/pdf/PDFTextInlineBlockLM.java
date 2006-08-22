@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -32,29 +31,22 @@ public class PDFTextInlineBlockLM extends PDFBlockStackingLM
 
 	protected void newContext( )
 	{
+		//TODO refactor
 		createRoot( );
-		// initialize offsetX and offsetY
 		IStyle areaStyle = root.getStyle( );
-		setOffsetX( getDimensionValue( areaStyle
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) ) );
-		setOffsetY( isFirst
-				? ( getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) ) + getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_TOP ) ) )
-				: 0 );
+		validateBoxProperty( areaStyle, parent.getMaxAvaWidth( ),
+				context.getMaxHeight( ) );
+		// initialize offsetX and offsetY
+		setOffsetX( root.getContentX( ) );
+		setOffsetY( isFirst?
+				root.getContentY( ): 0 );
 		if ( null != parent )
 		{
 			// support user defined width
 			int maxWidth = parent.getMaxAvaWidth( );
 			int leftWidth = maxWidth - parent.getCurrentIP( );
-			int specifiedWidth = 0;
+			calculateSpecifiedWidth( );
 			int width = 0;
-			if ( content != null )
-			{
-				specifiedWidth = getDimensionValue( content.getWidth( ) );
-			}
 			if ( specifiedWidth > 0 )
 			{
 				width = Math.min( specifiedWidth, maxWidth );

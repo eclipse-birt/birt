@@ -31,8 +31,6 @@ public interface IArea
 	
 	int getHeight();
 	
-	int getBaseline();
-	
 	void accept(IAreaVisitor visitor);
 	
 }

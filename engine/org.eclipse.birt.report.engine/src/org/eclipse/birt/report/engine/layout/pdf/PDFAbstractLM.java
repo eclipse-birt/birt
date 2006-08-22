@@ -15,9 +15,11 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -30,8 +32,12 @@ import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
+import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
@@ -510,13 +516,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		}
 	}
 
-	protected void validateBoxProperty( IStyle style )
+	protected void validateBoxProperty( IStyle style, int maxWidth, int maxHeight )
 	{
-		int maxWidth = 0;
-		if ( parent != null )
-		{
-			maxWidth = parent.getMaxAvaWidth( );
-		}
+
 		// support negative margin
 		int leftMargin = getDimensionValue( style
 				.getProperty( IStyle.STYLE_MARGIN_LEFT ), maxWidth );
@@ -553,7 +555,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 
 		int[] hs = new int[]{bottomMargin, topMargin, bottomPadding,
 				topPadding, bottomBorder, topBorder};
-		resolveBoxConflict( hs, context.getMaxHeight( ) );
+		resolveBoxConflict( hs, maxHeight );
 
 		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
 				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );
@@ -656,7 +658,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			}
 			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
 			{
-				double point = referenceLength * d.getMeasure( );
+				double point = referenceLength * d.getMeasure( )/100.0;
 				return (int) point;
 			}
 		}
@@ -696,7 +698,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 					return (int) v;
 				case CSSPrimitiveValue.CSS_PERCENTAGE :
 
-					return (int) ( referenceLength * v );
+					return (int) ( referenceLength * v/100.0 );
 			}
 		}
 		return 0;
@@ -716,7 +718,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return (IPDFTableLayoutManager) lm;
 	}
 
-	private void resolveBoxConflict( int[] vs, int max )
+	protected void resolveBoxConflict( int[] vs, int max )
 	{
 		int vTotal = 0;
 		for ( int i = 0; i < vs.length; i++ )
@@ -765,6 +767,24 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	{
 		// TODO Auto-generated method stub
 
+	}
+	
+	
+	/**
+	 * create block text area by text content
+	 * @param content the text content
+	 * @param text the text string
+	 * @param contentDimension the content dimension
+	 * @param isFirst if this area is the first area of the content
+	 * @param isLast if this area is the last area of the content
+	 * @return
+	 */
+	protected IArea createBlockTextArea(String text, ITextContent content, FontInfo fi, Dimension contentDimension)
+	{
+		AbstractArea textArea = (AbstractArea)AreaFactory.createTextArea( content, text, fi);
+		textArea.setWidth( contentDimension.getWidth() );
+		textArea.setHeight( contentDimension.getHeight() );
+		return textArea;
 	}
 
 }

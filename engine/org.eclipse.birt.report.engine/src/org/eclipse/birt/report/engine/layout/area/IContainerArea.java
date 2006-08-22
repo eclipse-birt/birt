@@ -16,8 +16,6 @@ public interface IContainerArea extends IArea
 {
 	Iterator getChildren();
 	
-	IContainerArea copyArea();
-	
 	int getChildrenCount();
 	
 	public void addChild(IArea area);

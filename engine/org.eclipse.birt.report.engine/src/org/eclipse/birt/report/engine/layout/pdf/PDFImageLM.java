@@ -19,8 +19,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
@@ -293,83 +291,27 @@ public class PDFImageLM extends PDFLeafItemLM
 		image = (IImageContent) content;
 		maxWidth = parent.getMaxAvaWidth( );
 		
-		Dimension content = getSpecifiedDimension( image );
-		IStyle style = image.getComputedStyle( );
-		root = (ContainerArea) AreaFactory.createInlineContainer( image, true,
+		Dimension contentDimension = getSpecifiedDimension( image );
+		root = (ContainerArea) createInlineContainer( image, true,
 				true );
-		int marginWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
-		int borderWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-		int paddingWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
+		validateBoxProperty( root.getStyle( ), maxWidth, context.getMaxHeight( ) );
 		
-		IStyle areaStyle = root.getStyle( );
-		
-		if(marginWidth>maxWidth)
+		//set max content width
+		root.setAllocatedWidth( maxWidth );
+		int maxContentWidth = root.getContentWidth( );
+		if(contentDimension.getWidth() > maxContentWidth)
 		{
-			//remove margin
-			areaStyle.setMarginLeft("0"); //$NON-NLS-1$
-			areaStyle.setMarginRight("0"); //$NON-NLS-1$
-			marginWidth = 0;
-		}
-		int maxContentWidthWithBorder = maxWidth - marginWidth;
-		if(borderWidth > maxContentWidthWithBorder)
-		{
-			//remove border
-			areaStyle.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0);
-			areaStyle.setProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0);
-			borderWidth = 0;
-		}
-		int maxContentWidthWithoutBorder = maxContentWidthWithBorder - borderWidth;
-		if(paddingWidth > maxContentWidthWithoutBorder)
-		{
-			//remove padding
-			areaStyle.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
-			areaStyle.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
-			paddingWidth = 0;
-		}
-		int maxContentWidth = maxContentWidthWithoutBorder - paddingWidth;
-		if(content.getWidth() > maxContentWidth)
-		{
-			content.setDimension(maxContentWidth, (int)(maxContentWidth/content.getRatio()));
+			contentDimension.setDimension(maxContentWidth, (int)(maxContentWidth/contentDimension.getRatio()));
 		}
 		
-		ImageArea imageArea = (ImageArea)AreaFactory.createImageArea(image, content);
+		ImageArea imageArea = (ImageArea)AreaFactory.createImageArea( image );
+		imageArea.setWidth(contentDimension.getWidth());
+		imageArea.setHeight(contentDimension.getHeight());
 		root.addChild(imageArea);
 		
-		int posX = (borderWidth==0 ? 0 : 
-				getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH)))
-				+ (paddingWidth ==0 ? 0 : 
-				getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT)));
-		int posY = getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH))
-					+ getDimensionValue(areaStyle.getProperty(StyleConstants.STYLE_PADDING_TOP));
-		
-		imageArea.setPosition( posX, posY );
-		
-		root.setWidth(content.getWidth()
-				+ ( borderWidth==0 ? 0 : 
-					(getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH))
-					+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH))))
-				+ ( paddingWidth==0 ? 0 : 
-					(getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_LEFT))
-					+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_RIGHT))))
-		);
-		root.setHeight(content.getHeight()
-				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH))
-				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH))
-				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_TOP))
-				+getDimensionValue(image.getComputedStyle().getProperty(StyleConstants.STYLE_PADDING_BOTTOM))
-		);
-
-		imageArea.setWidth(content.getWidth());
-		imageArea.setHeight(content.getHeight());
+		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
+		root.setContentWidth( contentDimension.getWidth( ) );
+		root.setContentHeight( contentDimension.getHeight( ) );
 	}
-
+	
 }

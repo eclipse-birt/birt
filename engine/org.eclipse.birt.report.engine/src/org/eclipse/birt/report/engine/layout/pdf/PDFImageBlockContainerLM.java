@@ -2,10 +2,10 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.content.ItemExecutorWrapper;
 import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
 
@@ -30,30 +30,21 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM
 
 	protected void closeLayout( )
 	{
-		assert ( parent != null );
-		IStyle areaStyle = root.getStyle( );
-		// set dimension property for root TODO suppport user defined height
-		root
-				.setHeight( getCurrentBP( )
-						+ getOffsetY( )
-						+ getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) )
-						+ getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) ) );
+		/**
+		 * set root height.
+		 * For Image block container, OffsetY and box property should be zero
+		 */
+		root.setHeight( getCurrentBP( ));
 	}
 
 	protected void createRoot( )
 	{
-		super.createRoot( );
-		IStyle style = root.getStyle( );
-		removeBoxProperty( root.getStyle( ) );
-		style.setProperty( StyleConstants.STYLE_BACKGROUND_IMAGE, IStyle.NONE_VALUE );
-		style.setProperty( StyleConstants.STYLE_BACKGROUND_COLOR, IStyle.AUTO_VALUE );
+		root = (ContainerArea)AreaFactory.createLogicContainer( );
 	}
 
 	protected void closeExecutor( )
 	{
-
+		
 	}
 
 }

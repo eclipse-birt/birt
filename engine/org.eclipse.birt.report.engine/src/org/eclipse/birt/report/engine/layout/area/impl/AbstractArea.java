@@ -57,10 +57,6 @@ public abstract class AbstractArea implements IArea
 	 */
 	protected IContent content;
 
-	/**
-	 * the baseline
-	 */
-	protected int baseline;
 
 	/**
 	 * constructor
@@ -339,25 +335,6 @@ public abstract class AbstractArea implements IArea
 	public IContent getContent( )
 	{
 		return content;
-	}
-
-
-	/**
-	 * set baseline for this area
-	 * 
-	 * @param baseline
-	 */
-	public void setBaseline( int baseline )
-	{
-		this.baseline = baseline;
-	}
-
-	/**
-	 * get baseline of this area
-	 */
-	public int getBaseline( )
-	{
-		return baseline;
 	}
 	
 	protected void removeMargin()

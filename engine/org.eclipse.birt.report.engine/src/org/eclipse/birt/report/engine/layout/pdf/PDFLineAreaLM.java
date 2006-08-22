@@ -333,14 +333,12 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 						|| CSSConstants.CSS_BASELINE_VALUE
 								.equalsIgnoreCase( vAlign ) )
 				{
-					child.setAllocatedPosition( child.getAllocatedX( ), spacing
-							+ root.getContentY( ) );
+					child.setPosition( child.getX( ), spacing + child.getY( ) );
 				}
 				else if ( CSSConstants.CSS_MIDDLE_VALUE
 						.equalsIgnoreCase( vAlign ) )
 				{
-					child.setAllocatedPosition( child.getAllocatedX( ), spacing
-							/ 2 + root.getContentY( ) );
+					child.setPosition( child.getX( ), spacing + child.getY( ) );
 				}
 				else
 				{

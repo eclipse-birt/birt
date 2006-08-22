@@ -224,9 +224,9 @@ public class PDFLayoutManagerFactory
 			else
 			{
 				String text = content.getText( );
-				if(text==null || "".equals( text ))
+				if(text==null || "".equals( text )) //$NON-NLS-1$
 				{
-					content.setText( " " );
+					content.setText( " " ); //$NON-NLS-1$
 				}
 				return new PDFTextBlockContainerLM( context, parent, content,
 						executor );

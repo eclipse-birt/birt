@@ -16,128 +16,70 @@ import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TemplateArea;
-import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public class PDFTemplateLM extends PDFLeafItemLM
 {
-
-	protected IAutoTextContent autoText;
-	protected int maxWidth;
 
 	public PDFTemplateLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content, executor );
 		assert ( content instanceof IAutoTextContent );
-		autoText = (IAutoTextContent) content;
-		maxWidth = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
-		handleAutoText( );
+		handleAutoText( (IAutoTextContent) content );
 
 	}
 
 	public boolean layoutChildren( )
 	{
-		ContainerArea con = (ContainerArea) AreaFactory.createInlineContainer(
+		IAutoTextContent autoText = (IAutoTextContent) content;
+		ContainerArea templateContainer = (ContainerArea) createInlineContainer(
 				autoText, true, true );
+		IStyle areaStyle = templateContainer.getStyle( );
+		int maxWidth = parent.getMaxAvaWidth( );
+		validateBoxProperty( areaStyle, maxWidth, context.getMaxHeight( ) );
 
-		int width = getDimensionValue( autoText.getWidth( ) );
-		int height = getDimensionValue( autoText.getHeight( ) );
-
-		IStyle style = autoText.getComputedStyle( );
-		int hMarginWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
-		int hBorderWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-		int hPaddingWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
-
-		int vMarginWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_TOP ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
-		int vBorderWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-		int vPaddingWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_PADDING_TOP ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) );
-
-		IStyle areaStyle = con.getStyle( );
-
-		if ( width <= 0 )
+		int width = getDimensionValue( autoText.getWidth( ), maxWidth );
+		templateContainer.setAllocatedWidth( maxWidth - parent.getCurrentIP( ) );
+		int minContentWidth = getDimensionValue( areaStyle.getFontSize( ) ) * 4;
+		int maxContentWidth = templateContainer.getWidth( );
+		int preWidth = 0;
+		if ( width >= maxContentWidth )
 		{
-			width = PropertyUtil.getDimensionValue( style.getFontSize( ) ) * 4
-					+ hMarginWidth + hBorderWidth + hPaddingWidth;
+			preWidth = Math.max( maxContentWidth, minContentWidth );
 		}
 		else
-		{ // remove the margin if the margin width is larger than the max
-			// avaliable width.
-			if ( hMarginWidth > maxWidth )
-			{
-				areaStyle.setProperty( IStyle.STYLE_MARGIN_LEFT,
-						IStyle.NUMBER_0 );
-				areaStyle.setProperty( IStyle.STYLE_MARGIN_RIGHT,
-						IStyle.NUMBER_0 );
-				hMarginWidth = 0;
-			}
-			// remove the border if the border width is larger than the
-			// dimension width.
-			if ( hBorderWidth > width )
-			{
-				areaStyle.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH,
-						IStyle.NUMBER_0 );
-				areaStyle.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH,
-						IStyle.NUMBER_0 );
-				hBorderWidth = 0;
-			}
-		}
-		if ( height <= 0 )
 		{
-			height = (int) ( PropertyUtil.getDimensionValue( style
-					.getFontSize( ) ) * 1.35 )
-					+ vMarginWidth + vBorderWidth + vPaddingWidth;
+			preWidth = Math.max( minContentWidth, width );
 		}
 
-		int maxContentWidth = maxWidth - hMarginWidth;
-		width = ( width > maxContentWidth ) ? maxContentWidth : width;
-		Dimension d = new Dimension( );
-		d.setDimension( width, height );
-		con.setWidth( d.getWidth( ) );
-		con.setHeight( d.getHeight( ) );
+		templateContainer.setWidth( preWidth );
+
+		int height = getDimensionValue( autoText.getHeight( ), maxWidth );
+		templateContainer.setContentHeight( Math.max(
+				(int) ( getDimensionValue( areaStyle.getFontSize( ) ) * 1.35 ),
+				height ) );
 
 		Dimension templateDimension = new Dimension( );
-		templateDimension.setDimension( con.getContentWidth( ), con
-				.getContentHeight( ) );
-
-		TemplateArea templateArea = (TemplateArea) AreaFactory
-				.createTemplateArea( autoText, templateDimension );
-		con.addChild( templateArea );
+		templateDimension.setDimension( templateContainer.getContentWidth( ),
+				templateContainer.getContentHeight( ) );
+		AbstractArea templateArea = createTemplateArea( autoText,
+				templateDimension );
+		templateContainer.addChild( templateArea );
 
 		templateArea
 				.setPosition(
-						getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) ),
-						getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) ) );
-		parent.addArea( con );
-
+						templateContainer.getContentX( ),
+						templateContainer.getContentY( ) );
+		parent.addArea( templateContainer );
 		return false;
 	}
 
-	protected void handleAutoText( )
+	protected void handleAutoText(IAutoTextContent autoText )
 	{
 		if ( IAutoTextContent.TOTAL_PAGE == autoText.getType( ) )
 		{
@@ -153,6 +95,25 @@ public class PDFTemplateLM extends PDFLeafItemLM
 			autoText.setText( nf
 					.format( Integer.parseInt( originalPageNumber ) ) );
 		}
+	}
+
+	/**
+	 * create template area by autoText content
+	 * 
+	 * @param autoText
+	 *            the autoText content
+	 * @param contentDimension
+	 *            content dimension
+	 * @return
+	 */
+	private TemplateArea createTemplateArea( IAutoTextContent autoText,
+			Dimension contentDimension )
+	{
+		TemplateArea templateArea = (TemplateArea) AreaFactory
+				.createTemplateArea( autoText );
+		templateArea.setWidth( contentDimension.getWidth( ) );
+		templateArea.setHeight( contentDimension.getHeight( ) );
+		return templateArea;
 	}
 
 }

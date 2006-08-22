@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.content.ItemExecutorWrapper;
 import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
 
@@ -40,6 +41,16 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 	protected void closeExecutor( )
 	{
 
+	}
+
+	public boolean addArea( IArea area )
+	{
+		boolean added = super.addArea( area );
+		if(added && isFirst)
+		{
+			isFirst = false;
+		}
+		return added;
 	}
 
 }

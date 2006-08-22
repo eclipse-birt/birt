@@ -80,7 +80,7 @@ public class PDFRowLM extends PDFInlineStackingLM
 		if ( specifiedHeight == 0 )
 		{
 			IStyle style = content.getComputedStyle( );
-			int fontSize = this.getDimensionValue( style
+			int fontSize = getDimensionValue( style
 					.getProperty( IStyle.STYLE_FONT_SIZE ) );
 			specifiedHeight = fontSize;
 		}
@@ -156,13 +156,6 @@ public class PDFRowLM extends PDFInlineStackingLM
 		cArea.setPosition( tbl.getXPos( cArea.getColumnID( ) ), 0 );
 		return true;
 	}
-
-	/*
-	 * protected void setupMinHeight( ) { if(content!=null) { int
-	 * specifiedHeight = PropertyUtil.getDimensionValue(content.getHeight( ));
-	 * if(specifiedHeight>0 && specifiedHeight<getNMaxHeight( )) { minHeight =
-	 * specifiedHeight; } } }
-	 */
 
 	protected boolean isRowFinished( )
 	{

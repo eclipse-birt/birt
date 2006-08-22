@@ -79,42 +79,28 @@ public class PDFCellLM extends PDFBlockStackingLM
 	{
 		createRoot( );
 		IStyle areaStyle = root.getStyle( );
-		setOffsetX( getDimensionValue( areaStyle
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) ) );
-		setOffsetY( isFirst
-				? ( getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) ) + getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_TOP ) ) )
-				: 0 );
+		removeMargin( areaStyle );
+		validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
+		setOffsetX( root.getContentX( ) );
+		setOffsetY( isFirst ? root.getContentY( ) : 0 );
 
-		int borderWidth = getDimensionValue( areaStyle
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-		int paddingWidth = getDimensionValue( areaStyle
-				.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
-				+ getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
-		if ( borderWidth + paddingWidth < columnWidth )
-		{
-			setMaxAvaWidth( columnWidth - borderWidth - paddingWidth );
-
-		}
-		else if ( borderWidth < columnWidth )// drop padding
-		{
-			setMaxAvaWidth( columnWidth - borderWidth );
-		}
-		else
-		{
-			// FIXME how to resolve this case
-			setMaxAvaWidth( 0 );
-		}
+		/*
+		 * int borderWidth = getDimensionValue( areaStyle .getProperty(
+		 * StyleConstants.STYLE_BORDER_LEFT_WIDTH ) ) + getDimensionValue(
+		 * areaStyle .getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+		 * int paddingWidth = getDimensionValue( areaStyle .getProperty(
+		 * StyleConstants.STYLE_PADDING_LEFT ) ) + getDimensionValue( areaStyle
+		 * .getProperty( StyleConstants.STYLE_PADDING_RIGHT ) ); if (
+		 * borderWidth + paddingWidth < columnWidth ) { setMaxAvaWidth(
+		 * columnWidth - borderWidth - paddingWidth );
+		 *  } else if ( borderWidth < columnWidth )// drop padding {
+		 * setMaxAvaWidth( columnWidth - borderWidth ); } else { // FIXME how to
+		 * resolve this case setMaxAvaWidth( 0 ); }
+		 */
+		setMaxAvaWidth (root.getContentWidth( ));
 		root.setAllocatedHeight( parent.getMaxAvaHeight( )
 				- parent.getCurrentBP( ) );
 		setMaxAvaHeight( root.getContentHeight( ) );
-
 		if ( isFirst )
 		{
 			isFirst = false;

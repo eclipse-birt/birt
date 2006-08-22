@@ -11,7 +11,6 @@
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
@@ -81,7 +80,7 @@ public class LineHeightManager extends AbstractLengthManager {
 				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
 				assert fontSize != null;
 				float fs = fontSize.getFloatValue();
-				return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs * scale);
+				return new FloatValue(CSSPrimitiveValue.CSS_NUMBER, fs * scale / 100.0f);
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

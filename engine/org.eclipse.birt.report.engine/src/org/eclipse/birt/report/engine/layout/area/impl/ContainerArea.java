@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
@@ -22,15 +22,6 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public abstract class ContainerArea extends AbstractArea implements IContainerArea
 {
-	public int getContentX()
-	{
-		return PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH)) + PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT));
-	}
-	
-	public int getContentY()
-	{
-		return PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH)) + PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_TOP));
-	}
 	
 	ContainerArea(IContent content)
 	{
@@ -73,16 +64,20 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	}
 
 	
-	protected void copyPropertyTo(ContainerArea area)
-	{
-		area.setPosition(x, y);
-		area.setHeight(height);
-		area.setWidth(width);
-	}
-	
 	public int getChildrenCount()
 	{
 		return children.size();
 	}
 
+	public int getContentY()
+	{
+		return PropertyUtil.getDimensionValue( style.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH ) )
+		+ PropertyUtil.getDimensionValue( style.getProperty( IStyle.STYLE_PADDING_TOP ) );
+	}
+	
+	public int getContentX()
+	{
+		return PropertyUtil.getDimensionValue( style.getProperty( IStyle.STYLE_BORDER_LEFT_WIDTH ) )
+		+ PropertyUtil.getDimensionValue( style.getProperty( IStyle.STYLE_PADDING_LEFT ) );
+	}
 }

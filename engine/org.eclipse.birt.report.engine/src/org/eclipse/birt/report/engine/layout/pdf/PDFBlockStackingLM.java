@@ -100,37 +100,26 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	protected void newContext( )
 	{
 		createRoot( );
-		// validateBoxProperty( root.getStyle( ) );
+		validateBoxProperty( root.getStyle( ), parent.getMaxAvaWidth( ),
+				context.getMaxHeight( ) );
 		if ( null != parent )
 		{
+			calculateSpecifiedWidth( );
 			// support user defined width
-			int max = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
-			if ( content != null )
+			int maxW = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
+			if ( specifiedWidth > 0 )
 			{
-				int specifiedWidth = getDimensionValue( content.getWidth( ) );
-				if ( specifiedWidth > 0 )
-				{
-					max = Math.min( max, specifiedWidth );
-				}
+				maxW = Math.min( maxW, specifiedWidth );
 			}
-			root.setAllocatedWidth( max );
+			root.setAllocatedWidth( maxW );
 			setMaxAvaWidth( root.getContentWidth( ) );
 			root.setAllocatedHeight( parent.getMaxAvaHeight( )
 					- parent.getCurrentBP( ) );
 			setMaxAvaHeight( root.getContentHeight( ) );
-
 		}
 		// initialize offsetX and offsetY
-		IStyle areaStyle = root.getStyle( );
-		setOffsetX( getDimensionValue( areaStyle
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) ) );
-		setOffsetY( isFirst
-				? ( getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) ) + getDimensionValue( areaStyle
-						.getProperty( StyleConstants.STYLE_PADDING_TOP ) ) )
-				: 0 );
+		setOffsetX( root.getContentX( ) );
+		setOffsetY( isFirst ? root.getContentY( ) : 0 );
 		// can be removed?
 		setCurrentBP( 0 );
 		setCurrentIP( 0 );
@@ -138,41 +127,26 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 
 	protected void closeLayout( )
 	{
-		IStyle contentStyle = content.getComputedStyle( );
 		IStyle areaStyle = root.getStyle( );
-		// we needn't flush empty container?
-		// if(root.getChildrenCount()==0)
-		// {
-		// return;
-		// }
-		if ( isLast )
+		if ( !isLast )
 		{
-			// set dimension property for root TODO suppport user defined height
-			areaStyle
-					.setProperty(
-							IStyle.STYLE_BORDER_BOTTOM_WIDTH,
-							contentStyle
-									.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ) );
-			areaStyle
-					.setProperty(
-							IStyle.STYLE_BORDER_BOTTOM_STYLE,
-							contentStyle
-									.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE ) );
-			areaStyle
-					.setProperty(
-							IStyle.STYLE_BORDER_BOTTOM_COLOR,
-							contentStyle
-									.getProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR ) );
-			areaStyle.setProperty( IStyle.STYLE_MARGIN_BOTTOM, contentStyle
-					.getProperty( IStyle.STYLE_MARGIN_BOTTOM ) );
+			// set dimension property for root
+			// TODO suppport user defined height
+			areaStyle.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH,
+					IStyle.NUMBER_0 );
+			areaStyle.setProperty( IStyle.STYLE_PADDING_BOTTOM,
+					IStyle.NUMBER_0 );
+			areaStyle.setProperty( IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0 );
 		}
+		
+		// FIXME
 		root
 				.setHeight( getCurrentBP( )
 						+ getOffsetY( )
-						+ getDimensionValue( contentStyle
+						+ getDimensionValue( areaStyle
 								.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) )
-						+ getDimensionValue( contentStyle
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) ) );
+						+ getDimensionValue( areaStyle
+								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH )) );
 	}
 
 	public boolean addArea( IArea area )
@@ -192,7 +166,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			root.addChild( area );
 			return true;
 		}
-
 		return false;
 	}
 
@@ -201,7 +174,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		if ( content != null )
 		{
 			IStyle contentStyle = content.getComputedStyle( );
-			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ) );
+			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ));
 		}
 		// FIXME return text size?
 		return 0;
@@ -223,22 +196,10 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		{
 			IStyle contentStyle = content.getComputedStyle( );
 			return getDimensionValue( contentStyle
-					.getProperty( StyleConstants.STYLE_TEXT_INDENT ) );
+					.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth );
 		}
 		return 0;
 	}
-
-	public boolean isInlineFlow( )
-	{
-		return false;
-	}
-
-	/*
-	 * protected void setupMinHeight( ) { if(content!=null) { int
-	 * specifiedHeight = PropertyUtil.getDimensionValue(content.getHeight( ));
-	 * if(specifiedHeight>0 && specifiedHeight<getNMaxHeight( )) { minHeight =
-	 * specifiedHeight; } } }
-	 */
 
 	protected void cancelChildren( )
 	{
