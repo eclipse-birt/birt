@@ -16,6 +16,7 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 
 /**
@@ -65,4 +66,6 @@ public interface IEmitterServices
 	public IEngineTask getTask( );
 	
 	public IReportExecutor getExecutor();
+	
+	public IReportContext getReportContext( );
 }

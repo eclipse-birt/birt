@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
@@ -668,7 +669,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.42 $ $Date: 2006/08/12 08:45:02 $
+	 * @version $Revision: 1.43 $ $Date: 2006/08/16 02:19:20 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -942,5 +943,10 @@ public abstract class EngineTask implements IEngineTask
 			notifyAll( );
 			notifyList.clear();
 		}
+	}
+	
+	public IReportContext getReportContext( )
+	{
+		return executionContext.getReportContext( );
 	}
 }

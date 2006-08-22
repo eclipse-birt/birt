@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 
 /**
@@ -32,6 +33,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 	protected Logger log = Logger
 			.getLogger( HTMLActionHandler.class.getName( ) );
 
+	public String getURL( IAction actionDefn, IReportContext context )
+	{
+		Object renderContext = getRenderContext( context );
+		return getURL( actionDefn, renderContext );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -321,4 +328,21 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 		return reportName;
 	}
+	
+	protected Object getRenderContext( IReportContext context )
+	{
+		Map appContext = context.getAppContext( );
+		if ( appContext != null )
+		{
+			String renderContextKey = EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT;
+			String format = context.getOutputFormat( );
+			if ( "pdf".equalsIgnoreCase( format ) )
+			{
+				renderContextKey = EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT;
+			}
+			return appContext.get( renderContextKey );
+		}
+		return null;
+	}
+	
 }

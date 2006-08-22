@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
-import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 /**
  * HTML action handler for url generation.
  */
-class ViewerHTMLActionHandler implements IHTMLActionHandler
+class ViewerHTMLActionHandler extends HTMLActionHandler
 {
 
 	/**
@@ -437,7 +437,7 @@ class ViewerHTMLActionHandler implements IHTMLActionHandler
 		return link.toString( );
 	}
 	
-	String getReportName( IAction action )
+	private String getReportName( IAction action )
 	{
 		String systemId = action.getSystemId( );
 		String reportName = action.getReportName( );

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
  * Default implementation for writing images in a form that is used in a
  * web-application.
  */
-public class HTMLServerImageHandler implements IHTMLImageHandler
+public class HTMLServerImageHandler extends HTMLImageHandler
 {
 
 	protected Logger log = Logger.getLogger( HTMLServerImageHandler.class

@@ -15,20 +15,18 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
-import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.Action;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -351,7 +349,7 @@ public class PDFEmitter implements IContentEmitter
 		
 		protected ReportDesignHandle reportDesign;
 
-		protected PDFRenderContext context;
+		protected IReportContext context;
 		
 		protected IEmitterServices services;
 		
@@ -392,15 +390,8 @@ public class PDFEmitter implements IContentEmitter
 				reportDesign = (ReportDesignHandle)reportRunnable.getDesignHandle();
 			}
 		
-			Object renderContext = services.getRenderContext();
-			if(renderContext!=null && renderContext instanceof Map)
-			{
-				Object con = ((Map)renderContext).get(EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT);
-				if(con instanceof PDFRenderContext)
-				{
-					this.context = (PDFRenderContext)con;
-				}
-			}
+			this.context = services.getReportContext( );
+			
 			Object fd = services.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
 			File file = null;
 			try

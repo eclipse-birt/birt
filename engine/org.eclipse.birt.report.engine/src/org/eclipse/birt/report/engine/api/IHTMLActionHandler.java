@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import org.eclipse.birt.report.engine.api.script.IReportContext;
+
 /**
  * Defines an interface for action handler used in HTML format 
  */
@@ -21,7 +23,9 @@ public interface IHTMLActionHandler {
 	 * 
 	 * @param actionDefn definition of an action
 	 * @param context the context for craetingt he hyperlink
-	 * @return the URL based on an action 
+	 * @return the URL based on an action
 	 */
 	public String getURL(IAction actionDefn, Object context);
+	
+	public String getURL(IAction actionDefn, IReportContext context);
 }

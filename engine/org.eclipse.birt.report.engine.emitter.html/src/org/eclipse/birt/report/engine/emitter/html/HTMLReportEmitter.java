@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -41,6 +40,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.impl.Image;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -141,7 +141,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.136 $ $Date: 2006/07/18 11:27:49 $
+ * @version $Revision: 1.143 $ $Date: 2006/08/12 09:42:37 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -218,9 +218,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected HTMLWriter writer;
 
 	/**
-	 * the image reder context
+	 * the context used to execute the report
 	 */
-	protected Object renderContext;
+	protected IReportContext reportContext;
 
 	/**
 	 * indicates that the styled element is hidden or not
@@ -370,19 +370,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			actionHandler = (IHTMLActionHandler) ac;
 		}
 
-		if ( services.getRenderContext( ) instanceof Map )
-		{
-			renderContext = ( (Map) services.getRenderContext( ) )
-					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
-		}
-		else
-		{
-			renderContext = services.getRenderContext( ); // Handle the
-			// old-style render
-			// context, follow
-			// the same code
-			// path as before.
-		}
+		reportContext = services.getReportContext( );
 
 		renderOption = services.getRenderOption( );
 		runnable = services.getReportRunnable( );
@@ -2248,19 +2236,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			switch ( img.getSource( ) )
 			{
 				case IImage.DESIGN_IMAGE :
-					imgUri = imageHandler.onDesignImage( img, renderContext );
+					imgUri = imageHandler.onDesignImage( img, reportContext );
 					break;
 				case IImage.URL_IMAGE :
-					imgUri = imageHandler.onURLImage( img, renderContext );
+					imgUri = imageHandler.onURLImage( img, reportContext );
 					break;
 				case IImage.REPORTDOC_IMAGE :
-					imgUri = imageHandler.onDocImage( img, renderContext );
+					imgUri = imageHandler.onDocImage( img, reportContext );
 					break;
 				case IImage.CUSTOM_IMAGE :
-					imgUri = imageHandler.onCustomImage( img, renderContext );
+					imgUri = imageHandler.onCustomImage( img, reportContext );
 					break;
 				case IImage.FILE_IMAGE :
-					imgUri = imageHandler.onFileImage( img, renderContext );
+					imgUri = imageHandler.onFileImage( img, reportContext );
 					break;
 				case IImage.INVALID_IMAGE :
 					break;
@@ -2581,7 +2569,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return null;
 		}
 
-		String link = actionHandler.getURL( act, renderContext );
+		String link = actionHandler.getURL( act, reportContext );
 		if ( link != null && !link.equals( "" ) )//$NON-NLS-1$
 		{
 			return link;
@@ -2616,11 +2604,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 
 				case IImage.URL_IMAGE :
-					imgUri = imageHandler.onURLImage( image, renderContext );
+					imgUri = imageHandler.onURLImage( image, reportContext );
 					break;
 
 				case IImage.FILE_IMAGE :
-					imgUri = imageHandler.onFileImage( image, renderContext );
+					imgUri = imageHandler.onFileImage( image, reportContext );
 					break;
 
 				case IImage.INVALID_IMAGE :

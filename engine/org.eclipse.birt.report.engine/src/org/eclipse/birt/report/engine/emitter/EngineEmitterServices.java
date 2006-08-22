@@ -16,6 +16,8 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 
 /**
@@ -56,13 +58,18 @@ public class EngineEmitterServices implements IEmitterServices
 	/**
 	 * The task that results in this
 	 */
-	protected IEngineTask task;
+	protected EngineTask task;
+	
+	/**
+	 * the context used to execute the rport
+	 */
+	protected IReportContext context;
 
 	/**
 	 * @param task
 	 *            he engine task that results in the creation of emitter
 	 */
-	public EngineEmitterServices( IEngineTask task )
+	public EngineEmitterServices( EngineTask task )
 	{
 		this.task = task;
 	}
@@ -169,5 +176,10 @@ public class EngineEmitterServices implements IEmitterServices
 	public void setExecutor(IReportExecutor executor)
 	{
 		this.executor = executor;
+	}
+	
+	public IReportContext getReportContext( )
+	{
+		return task.getReportContext( );
 	}
 }

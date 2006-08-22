@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * 
  * 
  */
-public class HTMLCompleteImageHandler implements IHTMLImageHandler
+public class HTMLCompleteImageHandler extends HTMLImageHandler
 {
 
 	protected Logger log = Logger.getLogger( HTMLCompleteImageHandler.class
