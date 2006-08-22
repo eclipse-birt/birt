@@ -40,8 +40,6 @@ public class CustomPropertiesSheet extends AbstractPopupSheet
 		Composite cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( );
-			glContent.horizontalSpacing = 5;
-			glContent.verticalSpacing = 5;
 			glContent.marginHeight = 7;
 			glContent.marginWidth = 7;
 			cmpContent.setLayout( glContent );
@@ -49,7 +47,8 @@ public class CustomPropertiesSheet extends AbstractPopupSheet
 
 		Composite cmpExtenedComposite = new ExtendedPropertyEditorComposite( cmpContent,
 				SWT.NONE,
-				getChart( ) );
+				getChart( ).getExtendedProperties( ),
+				getContext( ) );
 		{
 			GridData gd = new GridData( );
 			gd.heightHint = 300;

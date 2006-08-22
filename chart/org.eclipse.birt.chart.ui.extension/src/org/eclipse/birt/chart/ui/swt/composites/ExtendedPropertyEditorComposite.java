@@ -13,16 +13,14 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Vector;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -31,7 +29,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -50,10 +49,6 @@ public class ExtendedPropertyEditorComposite extends Composite
 
 	private transient Table table = null;
 
-	private transient TableColumn tcKey = null;
-
-	private transient TableColumn tcValue = null;
-
 	private transient TableEditor editorValue = null;
 
 	private transient Text txtNewKey = null;
@@ -62,34 +57,27 @@ public class ExtendedPropertyEditorComposite extends Composite
 
 	private transient Button btnRemove = null;
 
-	private transient Composite cmpDlgButtons = null;
-
-	private transient Button btnAccept = null;
-
-	private transient Button btnCancel = null;
-
-	private transient Color color;
-
-	private transient Chart chart;
+	private transient EList extendedProperties;
+	private transient ChartWizardContext context;
 
 	public ExtendedPropertyEditorComposite( Composite parent, int style,
-			Chart chart )
+			EList extendedProperties, ChartWizardContext context )
 	{
 		super( parent, style );
-		this.chart = chart;
+		this.extendedProperties = extendedProperties;
+		this.context = context;
 		init( );
 		placeComponents( );
-		color = new Color( Display.getCurrent( ), 100, 200, 100 );
 	}
 
 	private void init( )
 	{
-		propMap = getExtendedProperties( );
-		if ( propMap == null )
+		propMap = new LinkedHashMap( 6 );
+		for ( int i = 0; i < extendedProperties.size( ); i++ )
 		{
-			propMap = new LinkedHashMap( 20 );
+			ExtendedProperty property = ( (ExtendedProperty) extendedProperties.get( i ) );
+			propMap.put( property.getName( ), property );
 		}
-		// this.propMapBackup = (LinkedHashMap) props.clone( );
 	}
 
 	private void placeComponents( )
@@ -108,11 +96,11 @@ public class ExtendedPropertyEditorComposite extends Composite
 		table.setHeaderVisible( true );
 		table.setLinesVisible( true );
 
-		tcKey = new TableColumn( table, SWT.CENTER );
+		TableColumn tcKey = new TableColumn( table, SWT.CENTER );
 		tcKey.setWidth( 186 );
 		tcKey.setText( Messages.getString( "PropertyEditorDialog.Lbl.Key" ) ); //$NON-NLS-1$
 
-		tcValue = new TableColumn( table, SWT.LEFT );
+		TableColumn tcValue = new TableColumn( table, SWT.LEFT );
 		tcValue.setWidth( 186 );
 		tcValue.setText( Messages.getString( "PropertyEditorDialog.Lbl.Value" ) ); //$NON-NLS-1$
 
@@ -155,32 +143,6 @@ public class ExtendedPropertyEditorComposite extends Composite
 		btnRemove.setText( Messages.getString( "PropertyEditorDialog.Lbl.Remove" ) ); //$NON-NLS-1$
 		btnRemove.addSelectionListener( this );
 
-		// Layout for Dialog button composite
-		GridLayout glDlgButtons = new GridLayout( );
-		glDlgButtons.numColumns = 2;
-		glDlgButtons.horizontalSpacing = 5;
-		glDlgButtons.verticalSpacing = 5;
-		glDlgButtons.marginHeight = 0;
-		glDlgButtons.marginWidth = 0;
-
-		cmpDlgButtons = new Composite( this, SWT.NONE );
-		GridData gdCMPDlgButtons = new GridData( GridData.FILL_HORIZONTAL );
-		cmpDlgButtons.setLayoutData( gdCMPDlgButtons );
-		cmpDlgButtons.setLayout( glDlgButtons );
-
-		btnAccept = new Button( cmpDlgButtons, SWT.PUSH );
-		GridData gdBTNAccept = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_END );
-		btnAccept.setLayoutData( gdBTNAccept );
-		btnAccept.setText( Messages.getString( "Shared.Lbl.OK" ) ); //$NON-NLS-1$
-		btnAccept.addSelectionListener( this );
-
-		btnCancel = new Button( cmpDlgButtons, SWT.PUSH );
-		GridData gdBTNCancel = new GridData( );
-		btnCancel.setLayoutData( gdBTNCancel );
-		btnCancel.setText( Messages.getString( "Shared.Lbl.Cancel" ) ); //$NON-NLS-1$
-		btnCancel.addSelectionListener( this );
-
 		populateTable( );
 	}
 
@@ -189,15 +151,13 @@ public class ExtendedPropertyEditorComposite extends Composite
 		Iterator keys = propMap.keySet( ).iterator( );
 		while ( keys.hasNext( ) )
 		{
-			Object oKey = keys.next( );
-			Object oValue = propMap.get( oKey );
-
+			ExtendedProperty property = (ExtendedProperty) propMap.get( keys.next( ) );
 			String[] sProperty = new String[2];
-			sProperty[0] = oKey.toString( );
-			sProperty[1] = oValue.toString( );
+			sProperty[0] = property.getName( );
+			sProperty[1] = property.getValue( );
 
 			TableItem tiProp = new TableItem( table, SWT.NONE );
-			tiProp.setBackground( color );
+			tiProp.setBackground( getSelectionColor( ) );
 			tiProp.setText( sProperty );
 		}
 		if ( table.getItemCount( ) > 0 )
@@ -231,51 +191,36 @@ public class ExtendedPropertyEditorComposite extends Composite
 			String sKey = txtNewKey.getText( );
 			if ( sKey.length( ) > 0 && !propMap.containsKey( sKey ) )
 			{
-				propMap.put( sKey, "" ); //$NON-NLS-1$
 				String[] sProperty = new String[2];
 				sProperty[0] = sKey;
 				sProperty[1] = ""; //$NON-NLS-1$
 
 				TableItem tiProp = new TableItem( table, SWT.NONE );
-				tiProp.setBackground( color );
+				tiProp.setBackground( getSelectionColor( ) );
 				tiProp.setText( sProperty );
+
+				updateModel( sProperty[0], sProperty[1] );
+				txtNewKey.setText( "" ); //$NON-NLS-1$
 			}
 		}
 		else if ( e.getSource( ).equals( btnRemove ) )
 		{
 			if ( table.getSelection( ).length != 0 )
 			{
-				propMap.remove( table.getSelection( )[0].getText( 0 ) );
-				table.remove( table.getSelectionIndex( ) );
+				String key = table.getSelection( )[0].getText( 0 );
+				ExtendedProperty property = (ExtendedProperty) propMap.get( key );
+				if ( property != null )
+				{
+					extendedProperties.remove( property );
+					propMap.remove( key );
+					table.remove( table.getSelectionIndex( ) );
+				}
 				Control editor = editorValue.getEditor( );
 				if ( editor != null )
 				{
 					editor.dispose( );
 				}
 			}
-		}
-		else if ( e.getSource( ).equals( btnAccept ) )
-		{
-			for ( int i = 0; i < table.getItemCount( ); i++ )
-			{
-				propMap.put( table.getItem( i ).getText( 0 ), table.getItem( i )
-						.getText( 1 ) );
-			}
-			if ( editorValue.getEditor( ) != null
-					&& !editorValue.getEditor( ).isDisposed( ) )
-			{
-				propMap.put( table.getSelection( )[0].getText( 0 ),
-						( (Text) editorValue.getEditor( ) ).getText( ) );
-			}
-			chart.getExtendedProperties( ).clear( );
-			chart.getExtendedProperties( )
-					.addAll( createExtendedProperties( propMap ) );
-			getShell( ).close( );
-		}
-		else if ( e.getSource( ).equals( btnCancel ) )
-		{
-			// propMap = propMapBackup;
-			getShell( ).close( );
 		}
 		else if ( e.getSource( ).equals( table ) )
 		{
@@ -284,19 +229,22 @@ public class ExtendedPropertyEditorComposite extends Composite
 				oldEditor.dispose( );
 
 			// Identify the selected row
-			TableItem item = (TableItem) e.item;
+			final TableItem item = (TableItem) e.item;
 			if ( item == null )
+			{
 				return;
+			}
 
 			// The control that will be the editor must be a child of the Table
 			Text newEditor = new Text( table, SWT.NONE );
 			newEditor.setText( item.getText( 1 ) );
-			newEditor.addModifyListener( new ModifyListener( ) {
+			newEditor.addListener( SWT.FocusOut, new Listener( ) {
 
-				public void modifyText( ModifyEvent e )
+				public void handleEvent( Event event )
 				{
-					Text text = (Text) editorValue.getEditor( );
+					Text text = (Text) event.widget;
 					editorValue.getItem( ).setText( 1, text.getText( ) );
+					updateModel( item.getText( 0 ), text.getText( ) );
 				}
 			} );
 			newEditor.selectAll( );
@@ -305,53 +253,26 @@ public class ExtendedPropertyEditorComposite extends Composite
 		}
 	}
 
-	public void dispose( )
+	private void updateModel( String key, String value )
 	{
-		super.dispose( );
-		if ( color != null && !color.isDisposed( ) )
+		ExtendedProperty property = (ExtendedProperty) propMap.get( key );
+		if ( property == null )
 		{
-			color.dispose( );
+			property = AttributeFactory.eINSTANCE.createExtendedProperty( );
+			property.setName( key );
+			property.setValue( value );
+			property.eAdapters( ).addAll( context.getModel( ).eAdapters( ) );
+			extendedProperties.add( property );
+			propMap.put( key, property );
+		}
+		else
+		{
+			property.setValue( value );
 		}
 	}
 
-	private LinkedHashMap getExtendedProperties( )
+	private Color getSelectionColor( )
 	{
-		LinkedHashMap propMap = new LinkedHashMap( );
-		Object[] oArr = chart.getExtendedProperties( ).toArray( );
-		if ( oArr.length > 0 )
-		{
-			for ( int i = 0; i < oArr.length; i++ )
-			{
-				ExtendedProperty property = ( (ExtendedProperty) oArr[i] );
-				propMap.put( property.getName( ), property.getValue( ) );
-			}
-		}
-		return propMap;
-	}
-
-	private Vector createExtendedProperties( LinkedHashMap props )
-	{
-		Vector v = new Vector( );
-		if ( props == null || props.size( ) == 0 )
-		{
-			return v;
-		}
-		Iterator keys = props.keySet( ).iterator( );
-		while ( keys.hasNext( ) )
-		{
-			Object oKey = keys.next( );
-			Object oValue = props.get( oKey );
-
-			String[] sProperty = new String[2];
-			sProperty[0] = oKey.toString( );
-			sProperty[1] = oValue.toString( );
-
-			ExtendedProperty property = AttributeFactory.eINSTANCE.createExtendedProperty( );
-			property.setName( oKey.toString( ) );
-			property.setValue( props.get( oKey.toString( ) ).toString( ) );
-			property.eAdapters( ).addAll( chart.eAdapters( ) );
-			v.add( property );
-		}
-		return v;
+		return getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT );
 	}
 }
