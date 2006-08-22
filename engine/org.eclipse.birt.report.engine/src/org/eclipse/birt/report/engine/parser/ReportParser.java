@@ -13,8 +13,11 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -22,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -35,7 +38,7 @@ import com.ibm.icu.util.ULocale;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.15 $ $Date: 2006/05/09 08:41:50 $
+ * @version $Revision: 1.16 $ $Date: 2006/05/11 03:39:21 $
  */
 public class ReportParser
 {
@@ -43,11 +46,11 @@ public class ReportParser
 	/**
 	 * logger used to log syntax errors.
 	 */
-	static protected Logger logger = Logger.getLogger( ReportParser.class.getName() );
+	static protected Logger logger = Logger.getLogger( ReportParser.class
+			.getName( ) );
 
-	private IResourceLocator resourceLocator;
+	private Map options = new HashMap( );
 
-	private String resourcePath;
 	/**
 	 * constructor.
 	 */
@@ -55,35 +58,58 @@ public class ReportParser
 	{
 	}
 
-	public ReportParser(  IReportEngine engine )
+	public ReportParser( IReportEngine engine )
 	{
-		if ( engine != null && engine.getConfig( ) != null )
+		loadOption( engine );
+	}
+
+	public ReportParser( ExecutionContext context )
+	{
+
+		if ( context != null )
 		{
-			this.resourceLocator = engine.getConfig( ).getResourceLocator( );
-			this.resourcePath = engine.getConfig( ).getResourcePath( );
+			IReportEngine engine = context.getEngine( );
+			if ( engine != null )
+			{
+				loadOption( engine );
+			}
+		}
+	}
+	
+	protected void loadOption( IReportEngine engine )
+	{
+		if ( engine != null )
+
+		{
+			EngineConfig config = engine.getConfig( );
+			if ( config != null )
+			{
+				Object locator = config.getResourceLocator( );
+				if ( locator != null )
+				{
+					options.put( ModuleOption.RESOURCE_LOCATOR_KEY, locator );
+				}
+				Object resourcePath = config.getResourcePath( );
+				if ( resourcePath != null )
+				{
+					options
+							.put( ModuleOption.RESOURCE_FOLDER_KEY,
+									resourcePath );
+				}
+			}
 		}
 	}
 
-	public ReportParser(  ExecutionContext context )
+	public ReportParser( Map options )
 	{
-		if ( context != null && context.getEngine( ) != null
-				&& context.getEngine( ).getConfig( ) != null )
-		{
-			this.resourceLocator = context.getEngine( ).getConfig( )
-					.getResourceLocator( );
-			this.resourcePath = context.getEngine( ).getConfig( ).getResourcePath( );
-		}
+		this.options.putAll( options );
 	}
 
-	public ReportParser( IResourceLocator resourceLocator, String resourcePath )
-	{
-		this.resourceLocator = resourceLocator;
-		this.resourcePath = resourcePath;
-	}
 	/**
 	 * parse the XML input stream.
 	 * 
-	 * @param name design file name 
+	 * @param name
+	 *            design file name
 	 * 
 	 * @param in
 	 *            design file
@@ -104,33 +130,27 @@ public class ReportParser
 	 *            design file name
 	 * @return created report IR, null if exit any errors.
 	 */
-	public Report parse(String name) throws DesignFileException
+	public Report parse( String name ) throws DesignFileException
 	{
 		ReportDesignHandle designHandle = getDesignHandle( name, null );
 
 		return parse( designHandle );
 	}
-	
-	public ReportDesignHandle getDesignHandle( String name, InputStream in )  throws DesignFileException
+
+	public ReportDesignHandle getDesignHandle( String name, InputStream in )
+			throws DesignFileException
 	{
-		//	 Create new design session
+		// Create new design session
 		SessionHandle sessionHandle = DesignEngine.newSession( ULocale
 				.getDefault( ) );
 
-		if ( resourceLocator != null )
-		{
-			sessionHandle.setResourceLocator( resourceLocator );
-		}
-		if ( resourcePath != null )
-		{
-			sessionHandle.setBirtResourcePath( resourcePath );
-		}
 		// Obtain design handle
 		ReportDesignHandle designHandle = null;
+		ModuleOption modOptions = new ModuleOption( options );
 		if ( in != null )
-			designHandle = sessionHandle.openDesign( name, in );
+			designHandle = sessionHandle.openDesign( name, in, modOptions );
 		else
-			designHandle = sessionHandle.openDesign( name );
+			designHandle = sessionHandle.openDesign( name, modOptions );
 
 		return designHandle;
 	}
@@ -154,7 +174,8 @@ public class ReportParser
 	/**
 	 * Gets the parameter list of the report.
 	 * 
-	 * @param design - the handle of the report design
+	 * @param design -
+	 *            the handle of the report design
 	 * @param includeParameterGroups
 	 *            A <code>boolean</code> value specifies whether to include
 	 *            parameter groups or not.
@@ -163,12 +184,13 @@ public class ReportParser
 	 *         <code>true</code>; otherwise, returns all the report
 	 *         parameters.
 	 */
-	public ArrayList getParameters( ReportDesignHandle design, boolean includeParameterGroups )
+	public ArrayList getParameters( ReportDesignHandle design,
+			boolean includeParameterGroups )
 	{
 		assert ( design != null );
 		EngineIRVisitor visitor = new EngineIRVisitor( design );
-		ArrayList parameters = new ArrayList();
-		
+		ArrayList parameters = new ArrayList( );
+
 		SlotHandle paramSlot = design.getParameters( );
 		IParameterDefnBase param;
 		for ( int i = 0; i < paramSlot.getCount( ); i++ )
@@ -197,15 +219,17 @@ public class ReportParser
 	{
 		assert params != null;
 		IParameterDefnBase param;
-		ArrayList allParameters = new ArrayList();
+		ArrayList allParameters = new ArrayList( );
 
 		for ( int n = 0; n < params.size( ); n++ )
 		{
 			param = (IParameterDefnBase) params.get( n );
-			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP ||
-				 param.getParameterType() == IParameterDefnBase.CASCADING_PARAMETER_GROUP )
+			if ( param.getParameterType( ) == IParameterDefnBase.PARAMETER_GROUP
+					|| param.getParameterType( ) == IParameterDefnBase.CASCADING_PARAMETER_GROUP )
 			{
-				allParameters.addAll( flattenParameter(( (IParameterGroupDefn) param ).getContents()) );
+				allParameters
+						.addAll( flattenParameter( ( (IParameterGroupDefn) param )
+								.getContents( ) ) );
 			}
 			else
 			{

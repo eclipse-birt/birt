@@ -427,7 +427,7 @@ public class ReportEngine implements IReportEngine
 		logger.log( Level.FINE,
 				"ReportEngine.openReportDocument: systemID={0}, file={1} ", 
 				new Object[]{systemId, fileName}  );
-		return openReportDocument( systemId, fileName, null );
+		return openReportDocument( systemId, fileName, (IResourceLocator) null );
 	}
 
 	public IReportRunnable openReportDesign( String designName, IResourceLocator locator ) throws EngineException
@@ -445,6 +445,18 @@ public class ReportEngine implements IReportEngine
 				new Object[]{name, designStream, locator}  );
 		return helper.openReportDesign(name, designStream, locator);
 	}
+	
+	public IReportRunnable openReportDesign( String name,
+			InputStream designStream, Map options ) throws EngineException
+	{
+		logger
+				.log(
+						Level.FINE,
+						"ReportEngine.openReportDesign: name={0}, designStream={1}, options={3} ",
+						new Object[]{name, designStream, options} );
+		return helper.openReportDesign( name, designStream, options );
+	}
+	
 
 	public IReportDocument openReportDocument( String fileName, IResourceLocator locator ) throws EngineException
 	{
@@ -461,5 +473,16 @@ public class ReportEngine implements IReportEngine
 				"ReportEngine.openReportDocument: systemId={0}, file={1}, locator={2} ", 
 				new Object[]{systemId, fileName, locator}  );
 		return helper.openReportDocument( systemId, fileName, locator );
+	}
+
+	public IReportDocument openReportDocument( String systemId,
+			String fileName, Map options ) throws EngineException
+	{
+		logger
+				.log(
+						Level.FINE,
+						"ReportEngine.openReportDocument: systemId={0}, file={1}, options={2} ",
+						new Object[]{systemId, fileName, options} );
+		return helper.openReportDocument( systemId, fileName, options );
 	}
 }

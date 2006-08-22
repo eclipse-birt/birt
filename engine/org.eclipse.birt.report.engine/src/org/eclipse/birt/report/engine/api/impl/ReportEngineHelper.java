@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -173,26 +176,70 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign( String designName,
 			InputStream designStream ) throws EngineException
 	{
-		return openReportDesign(designName, designStream, null);
+		return openReportDesign( designName, designStream, new HashMap( ) );
 	}
 
 	public IReportRunnable openReportDesign( String designName,
-			InputStream designStream, IResourceLocator locator ) throws EngineException
+			InputStream designStream, IResourceLocator locator )
+			throws EngineException
+	{
+		HashMap options = new HashMap( );
+		if ( locator != null )
+		{
+			options.put( ModuleOption.RESOURCE_LOCATOR_KEY, locator );
+		}
+		return openReportDesign( designName, designStream, options );
+	}
+
+	/**
+	 * use the engine config to setup the module options.
+	 * Engine config contains two properties for the module options:
+	 * <li> resourceLocator
+	 * <li> resourceFolder
+	 * If the options contains no property, copy the property from the
+	 * engine config.
+	 *  
+	 * @param options
+	 */
+	protected void intializeModuleOptions( Map options )
+	{
+		EngineConfig config = engine.getConfig( );
+		if ( config != null )
+		{
+			if ( options.get( ModuleOption.RESOURCE_LOCATOR_KEY ) == null )
+			{
+				IResourceLocator locator = config.getResourceLocator( );
+				if ( locator != null )
+				{
+					options.put( ModuleOption.RESOURCE_LOCATOR_KEY, locator );
+				}
+			}
+			if ( options.get( ModuleOption.RESOURCE_FOLDER_KEY ) == null )
+			{
+				String resourcePath = config.getResourcePath( );
+				if ( resourcePath != null )
+				{
+					options
+							.put( ModuleOption.RESOURCE_FOLDER_KEY,
+									resourcePath );
+				}
+			}
+		}
+	}
+
+	public IReportRunnable openReportDesign( String designName,
+			InputStream designStream, Map options )
+			throws EngineException
 	{
 		ReportDesignHandle designHandle;
 		try
 		{
-			String resourcePath = null;
-			if (locator == null)
+			if ( options != null )
 			{
-				EngineConfig config = engine.getConfig( );
-				if ( config != null )
-				{
-					locator = config.getResourceLocator( );
-					resourcePath = config.getResourcePath( );
-				}
+				options = new HashMap( );
 			}
-			ReportParser parser = new ReportParser( locator, resourcePath );
+			intializeModuleOptions(options);
+			ReportParser parser = new ReportParser( options );
 			designHandle = parser.getDesignHandle( designName, designStream );
 		}
 		catch ( DesignFileException e )
@@ -313,17 +360,28 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String docArchiveName )
 			throws EngineException
 	{
-		return openReportDocument( null, docArchiveName );
+		return openReportDocument( null, docArchiveName, new HashMap( ) );
 	}
 
 	public IReportDocument openReportDocument( String systemId,
 			String docArchiveName ) throws EngineException
 	{
-		return openReportDocument(systemId, docArchiveName, null);
+		return openReportDocument( systemId, docArchiveName, new HashMap( ) );
+	}
+
+	public IReportDocument openReportDocument( String systemId,
+			String docArchiveName, IResourceLocator locator ) throws EngineException
+	{
+		HashMap options = new HashMap( );
+		if ( locator != null )
+		{
+			options.put( ModuleOption.RESOURCE_LOCATOR_KEY, locator );
+		}
+		return openReportDocument( systemId, docArchiveName, options );
 	}
 	
 	public IReportDocument openReportDocument( String systemId,
-			String docArchiveName, IResourceLocator locator ) throws EngineException
+			String docArchiveName, Map options ) throws EngineException
 	{
 		IDocArchiveReader reader = null;
 		try
@@ -358,16 +416,36 @@ public class ReportEngineHelper
 			throw new EngineException( e.getLocalizedMessage( ) );
 		}
 
-		return openReportDocument( systemId, reader, locator );
+		return openReportDocument( systemId, reader, options );
 	}
 
 	public IReportDocument openReportDocument( String systemId,
-			IDocArchiveReader archive, IResourceLocator locator ) throws EngineException
+			IDocArchiveReader archive, IResourceLocator locator )
+			throws EngineException
 	{
-		ReportDocumentReader reader = new ReportDocumentReader( systemId, engine, archive );
-		reader.setResourceLocator(locator);
+		HashMap options = new HashMap( );
+		if ( locator != null )
+		{
+			options.put( ModuleOption.RESOURCE_LOCATOR_KEY, locator );
+		}
+		return openReportDocument( systemId, archive, options );
+	}
+	
+	public IReportDocument openReportDocument( String systemId,
+			IDocArchiveReader archive, Map options ) throws EngineException
+	{
+		ReportDocumentReader reader = new ReportDocumentReader( systemId,
+				engine, archive );
+		if ( options != null )
+		{
+			options = new HashMap( );
+		}
+		intializeModuleOptions( options );
+
+		reader.setModuleOptions( options );
 		return reader;
 	}
+	
 
 	public IRunTask createRunTask( IReportRunnable runnable )
 	{

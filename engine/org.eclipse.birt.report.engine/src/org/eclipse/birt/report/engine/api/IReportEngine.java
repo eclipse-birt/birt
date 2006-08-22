@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -111,6 +112,19 @@ public interface IReportEngine
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream, IResourceLocator locator )
 			throws EngineException;
+	/**
+	 * open the report design and return the runnable
+	 * @param name system id of the report design.
+	 * @param designStream stream of the report desgin.
+	 * @param options options used to parse the design.
+	 * @return
+	 * @throws EngineException
+	 * @see ModelOptions
+	 */
+	public IReportRunnable openReportDesign( String name,
+			InputStream designStream, Map options )
+			throws EngineException;
+	
 	/**
 	 * creates an engine task for running and rendering report directly to
 	 * output format
@@ -214,6 +228,26 @@ public interface IReportEngine
 
 	public IReportDocument openReportDocument( String systemId,
 			String fileName, IResourceLocator locator ) throws EngineException;
+
+	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param systemId
+	 *            the system id the opend document. It is used to access the resources with
+	 *            relative path in the report document. If it is NULL, a saved one is used.
+	 * @param fileName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
+	 * @param options
+	 * 				Map defins the options used to parse the design file.
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valud report document
+	 */
+	public IReportDocument openReportDocument( String systemId,
+			String fileName, Map options ) throws EngineException;
 	/**
 	 * creates a task that allows data extraction from a report document
 	 * 

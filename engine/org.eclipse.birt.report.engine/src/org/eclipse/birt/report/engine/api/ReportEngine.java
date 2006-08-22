@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.Platform;
@@ -295,6 +296,14 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.openReportDesign( name, designStream, locator );
 	}
+	
+	public IReportRunnable openReportDesign( String name,
+			InputStream designStream, Map options )
+			throws EngineException
+	{
+		return engine.openReportDesign( name, designStream, options );
+	}
+	
 
 	public IReportDocument openReportDocument( String fileName,
 			IResourceLocator locator ) throws EngineException
@@ -306,5 +315,11 @@ public class ReportEngine implements IReportEngine
 			String fileName, IResourceLocator locator ) throws EngineException
 	{
 		return engine.openReportDocument( systemId, fileName, locator );
+	}
+	
+	public IReportDocument openReportDocument( String systemId,
+			String fileName, Map options ) throws EngineException
+	{
+		return engine.openReportDocument( systemId, fileName, options );
 	}
 }
