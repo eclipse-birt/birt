@@ -14,11 +14,8 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -412,80 +409,14 @@ class Driver
     }
     
     /*
-     * Returns the default configuration value if 
+     * Returns the driver name as the default relative folder name if 
      * the given log directory is not specified
      */
     private String getDefaultLogDirectory( String logDir )
     {
-        final String methodName = "getDefaultLogDirectory( String logDir )";
-        
         if( isNotEmpty( logDir ) )
-            return logDir;	// already specified, use as is
-        
-        // set default log directory to that used by the ODA consumer application
-        try
-        {
-            logDir = getDefaultLogDirectory();
-        }
-        catch( DataException ex )
-        {
-            // ignore error; leave null/empty log directory
-            sm_logger.logp( Level.WARNING, sm_className, methodName,
-                    "Not able to determine ODA driver's default log directory.", ex );
-        }
-        return logDir;		// may be null or empty
-    }
-    
-    /*
-     * Returns the default log directory of the driver
-     */
-    private String getDefaultLogDirectory() throws DataException
-    {
-        final String methodName = "getDefaultLogDirectory";
-        
-        String defaultLogDir = null;
-        ExtensionManifest driverManifest = getDriverExtensionConfig();
-        try
-        {
-            defaultLogDir = driverManifest.getDriverLocation().getPath();
-        }
-        catch( IOException ex )
-        {
-            // no driver directory info is available; ignore
-            sm_logger.logp( Level.WARNING, sm_className, methodName,
-                    "Not able to get ODA driver plugin directory.", ex );
-        }
-
-        if( defaultLogDir != null )
-            return defaultLogDir;
-        
-        // use the data engine installation directory as driver log destination
-                
-        IBundle dataBundle = Platform.getBundle( "org.eclipse.birt.data" );
-        if( dataBundle != null )
-        {
-            URL url = dataBundle.getEntry( "/" );
-            try
-            {
-                if( url != null )
-                    defaultLogDir = Platform.asLocalURL( url ).getPath();
-            }
-            catch( IOException ex )
-            {
-                sm_logger.logp( Level.WARNING, sm_className, methodName,
-                        "Not able to get Data Engine plugin directory.", ex );
-                throw new DataException( ex.getLocalizedMessage( ), ex.getCause( ) );
-            }
-        }
-
-        if( defaultLogDir == null )
-        {
-            sm_logger.logp( Level.WARNING, sm_className, methodName,
-                    "Not able to determine ODA consumer default log directory." );
-            throw new DataException( ResourceConstants.CANNOT_FIND_LOG_DIRECTORY );    // no log directory
-       }
-
-        return defaultLogDir;
+            return logDir;  // already specified, use as is
+        return m_dataSourceDriverId;
     }
  
     private boolean isNullOrEmpty( String value )
