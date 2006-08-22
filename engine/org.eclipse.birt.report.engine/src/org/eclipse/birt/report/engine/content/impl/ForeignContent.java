@@ -161,8 +161,8 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		this.altText = altText;
 	}
 
-	static final protected int FIELD_ROW_TYPE = 400;
-	static final protected int FIELD_ROWVALUE = 401;
+	static final protected int FIELD_RAW_TYPE = 400;
+	static final protected int FIELD_RAWVALUE = 401;
 	static final protected int FIELD_ALTTEXT = 402;
 	static final protected int FIELD_ALTTEXTKEY = 403;
 	static final protected int FIELD_RAWKEY = 404;
@@ -172,12 +172,12 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		super.writeFields( out );
 		if ( rawType != null )
 		{
-			IOUtil.writeInt( out,  FIELD_ROW_TYPE );
+			IOUtil.writeInt( out,  FIELD_RAW_TYPE );
 			IOUtil.writeString( out, rawType );
 		}
 		if ( rawValue != null )
 		{
-			IOUtil.writeInt( out,  FIELD_ROWVALUE );
+			IOUtil.writeInt( out,  FIELD_RAWVALUE );
 			IOUtil.writeObject( out, rawValue );
 		}
 		if ( altText != null )
@@ -202,10 +202,10 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	{
 		switch ( filedId )
 		{
-			case FIELD_ROW_TYPE :
+			case FIELD_RAW_TYPE :
 				rawType = IOUtil.readString( in  );
 				break;
-			case FIELD_ROWVALUE :
+			case FIELD_RAWVALUE :
 				rawValue = IOUtil.readObject( in );
 				break;
 			case FIELD_ALTTEXT :
