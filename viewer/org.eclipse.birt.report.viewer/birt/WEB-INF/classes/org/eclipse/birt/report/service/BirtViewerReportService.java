@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -125,7 +126,8 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options )
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 		String fileName = doc.getReportRunnable( ).getReportName( );
 		doc.close( );
 		// TODO: What is content type?
@@ -141,7 +143,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
-						docName );
+						docName, getModuleOptions( renderOptions ) );
 		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
@@ -195,7 +197,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
-						docName );
+						docName, getModuleOptions( renderOptions ) );
 		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
@@ -230,7 +232,7 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( renderOptions ),
-						docName );
+						docName, getModuleOptions( renderOptions ) );
 		HttpServletRequest request = (HttpServletRequest) renderOptions
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
@@ -272,7 +274,8 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
 		// TODO: Filters are not used...
 		try
@@ -292,7 +295,8 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 
 		// if doucment file doesn't exist, throw exception
 		if ( doc == null )
@@ -351,7 +355,8 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 
 		TOCNode node = null;
 		if ( tocId != null )
@@ -381,7 +386,8 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 
 		String tocId = null;
 
@@ -399,7 +405,8 @@ public class BirtViewerReportService implements IViewerReportService
 			OutputOptions outputOptions ) throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 		long count = doc.getPageCount( );
 		doc.close( );
 		return count;
@@ -409,7 +416,8 @@ public class BirtViewerReportService implements IViewerReportService
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			boolean includeGroups ) throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
+				runOptions );
 		return convertEngineParameters( task.getParameterDefns( true ), task,
 				includeGroups );
 	}
@@ -418,7 +426,8 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 		Map paramValues = doc.getParameterValues( );
 		doc.close( );
 		return paramValues;
@@ -429,7 +438,8 @@ public class BirtViewerReportService implements IViewerReportService
 			Object[] groupKeys, InputOptions options )
 			throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
+				options );
 		task.evaluateQuery( groupName );
 		Collection selectionList = task.getSelectionListForCascadingGroup(
 				groupName, groupKeys );
@@ -440,13 +450,15 @@ public class BirtViewerReportService implements IViewerReportService
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			String paramName ) throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
+				runOptions );
 		Collection selectionList = task.getSelectionList( paramName );
 		return convertEngineParameterSelectionChoice( selectionList );
 	}
 
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
-			IViewerReportDesignHandle design ) throws ReportServiceException
+			IViewerReportDesignHandle design, InputOptions options )
+			throws ReportServiceException
 	{
 		IGetParameterDefinitionTask task;
 		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
@@ -462,7 +474,8 @@ public class BirtViewerReportService implements IViewerReportService
 			// report design name is specified in IViewerReportDesignHandle.
 			try
 			{
-				task = getParameterDefinitionTask( design.getFileName( ) );
+				task = getParameterDefinitionTask( design.getFileName( ),
+						options );
 			}
 			catch ( EngineException e )
 			{
@@ -476,7 +489,8 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options ) throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 		long pageNumber = doc.getPageNumber( bookmark );
 		doc.close( );
 		return pageNumber;
@@ -486,7 +500,8 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions options ) throws ReportServiceException
 	{
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName );
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
 		long pageNumber = doc.getPageNumber( objectId );
 		doc.close( );
 		return pageNumber;
@@ -536,7 +551,8 @@ public class BirtViewerReportService implements IViewerReportService
 			String parameterName, InputOptions options )
 			throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
+				options );
 		return task.getDefaultValue( parameterName );
 	}
 
@@ -562,8 +578,10 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean isDesigner = ( isDesignerBoolean != null ? isDesignerBoolean
 				.booleanValue( ) : false );
 
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design );
-		IReportRunnable runnable = getReportRunnable( design );
+		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
+				options );
+		IReportRunnable runnable = getReportRunnable( design,
+				getModuleOptions( options ) );
 		Map configMap = runnable.getTestConfig( );
 
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
@@ -624,8 +642,8 @@ public class BirtViewerReportService implements IViewerReportService
 
 	}
 
-	public IReportRunnable getReportRunnable( IViewerReportDesignHandle design )
-			throws ReportServiceException
+	public IReportRunnable getReportRunnable( IViewerReportDesignHandle design,
+			Map moduleOptions ) throws ReportServiceException
 	{
 		IReportRunnable runnable;
 		if ( design.getContentType( ) == IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT )
@@ -639,7 +657,7 @@ public class BirtViewerReportService implements IViewerReportService
 			try
 			{
 				runnable = ReportEngineService.getInstance( ).openReportDesign(
-						design.getFileName( ) );
+						design.getFileName( ), moduleOptions );
 			}
 			catch ( EngineException e )
 			{
@@ -677,11 +695,13 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
-			String reportDesignName ) throws EngineException
+			String reportDesignName, InputOptions options )
+			throws EngineException
 	{
 
-		IReportRunnable runnable = ReportEngineService.getInstance( )
-				.openReportDesign( reportDesignName );
+		IReportRunnable runnable = ReportEngineService
+				.getInstance( )
+				.openReportDesign( reportDesignName, getModuleOptions( options ) );
 		IGetParameterDefinitionTask paramTask = ReportEngineService
 				.getInstance( ).createGetParameterDefinitionTask( runnable );
 		return paramTask;
@@ -900,5 +920,28 @@ public class BirtViewerReportService implements IViewerReportService
 			ret.add( paramChoice );
 		}
 		return ret;
+	}
+
+	/**
+	 * 
+	 * @param options
+	 * @return
+	 */
+
+	Map getModuleOptions( InputOptions options )
+	{
+		if ( options != null )
+		{
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+			if ( request != null )
+			{
+				ViewerAttributeBean bean = (ViewerAttributeBean) request
+						.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+				if ( bean != null )
+					return bean.getModuleOptions( );
+			}
+		}
+		return null;
 	}
 }

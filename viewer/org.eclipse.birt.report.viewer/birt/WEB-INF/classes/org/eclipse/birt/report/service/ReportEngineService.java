@@ -13,9 +13,12 @@ package org.eclipse.birt.report.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,13 +74,13 @@ import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.soapengine.api.Column;
@@ -147,30 +150,6 @@ public class ReportEngineService
 		imageHandler = new HTMLServerImageHandler( );
 		emitterConfig.setImageHandler( imageHandler );
 		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
-
-		// handle resource path
-
-		String resourcePath = servletConfig.getServletContext( )
-				.getInitParameter(
-						ParameterAccessor.INIT_PARAM_BIRT_RESOURCE_PATH );
-		boolean isResourceOk = true;
-		if ( resourcePath == null || resourcePath.trim( ).length( ) <= 0
-				|| ParameterAccessor.isRelativePath( resourcePath ) )
-		{
-			isResourceOk = false;
-		}
-		else
-		{
-			File resourceFile = new File( resourcePath );
-			if ( !resourceFile.exists( ) )
-			{
-				isResourceOk = resourceFile.mkdirs( );
-			}
-		}
-		if ( isResourceOk )
-		{
-			SessionHandle.setBirtResourcePath( resourcePath );
-		}
 
 		// Prepare image directory.
 		imageDirectory = servletConfig.getServletContext( ).getInitParameter(
@@ -365,27 +344,58 @@ public class ReportEngineService
 	 * Open report design.
 	 * 
 	 * @param report
+	 * @param options
+	 *            the config options in the report design
 	 * @return the report runnable
 	 * @throws EngineException
 	 */
-	public IReportRunnable openReportDesign( String report )
+	public IReportRunnable openReportDesign( String report, Map options )
 			throws EngineException
 	{
-		return engine.openReportDesign( report );
+		File file = new File( report );
+		if ( !file.exists( ) )
+		{
+			throw new EngineException(
+					MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, report );
+		}
+
+		try
+		{
+			InputStream in = new FileInputStream( file );
+			String systemId = report;
+			try
+			{
+				systemId = file.toURL( ).toString( );
+			}
+			catch ( MalformedURLException ue )
+			{
+				systemId = report;
+			}
+			return engine.openReportDesign( systemId, in, options );
+		}
+		catch ( FileNotFoundException ioe )
+		{
+			throw new EngineException(
+					MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, report );
+		}
 	}
 
 	/**
 	 * Open report design by using the input stream
 	 * 
+	 * @param name
+	 *            the system Id of the report design
 	 * @param reportStream -
 	 *            the input stream
+	 * @param options
+	 *            the config options in the report design
 	 * @return IReportRunnable
 	 * @throws EngineException
 	 */
-	public IReportRunnable openReportDesign( InputStream reportStream )
-			throws EngineException
+	public IReportRunnable openReportDesign( InputStream reportStream,
+			Map options ) throws EngineException
 	{
-		return engine.openReportDesign( reportStream );
+		return engine.openReportDesign( null, reportStream, options );
 	}
 
 	/**
@@ -418,17 +428,20 @@ public class ReportEngineService
 	 * @param systemId
 	 *            the system ID to search the resource in the document,
 	 *            generally it is the file name of the report design
+	 * @param options
+	 *            the config options used in document
 	 * @return the report docuement
 	 */
 
-	public IReportDocument openReportDocument( String systemId, String docName )
+	public IReportDocument openReportDocument( String systemId, String docName,
+			Map options )
 	{
 
 		IReportDocument document = null;
 
 		try
 		{
-			document = engine.openReportDocument( systemId, docName );
+			document = engine.openReportDocument( systemId, docName, options );
 		}
 		catch ( Exception e )
 		{
@@ -1130,7 +1143,7 @@ public class ReportEngineService
 			List resultSets = dataTask.getResultSetList( );
 			resultSetArray = new ResultSet[resultSets.size( )];
 
-			if ( resultSets != null && resultSets.size( ) > 0 )
+			if ( resultSets.size( ) > 0 )
 			{
 				for ( int k = 0; k < resultSets.size( ); k++ )
 				{
@@ -1267,7 +1280,7 @@ public class ReportEngineService
 						}
 						catch ( Exception e )
 						{
-							value = null;
+							// do nothing
 						}
 
 						if ( value != null )

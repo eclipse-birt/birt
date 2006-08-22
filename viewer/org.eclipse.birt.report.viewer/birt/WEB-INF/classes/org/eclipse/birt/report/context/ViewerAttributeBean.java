@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -93,6 +94,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	private Map displayTexts = null;
 
 	/**
+	 * 
+	 */
+	private Map moduleOptions = null;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param request
@@ -145,13 +151,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		// Report title.
 
-		String title = null;
-
-		if ( title == null || title.trim( ).length( ) <= 0 )
-		{
-			title = BirtResources
-					.getMessage( ResourceConstants.BIRT_VIEWER_TITLE );
-		}
+		String title = BirtResources
+				.getMessage( ResourceConstants.BIRT_VIEWER_TITLE );
 		this.reportTitle = ParameterAccessor.htmlEncode( title );
 		this.__initParameters( request );
 	}
@@ -205,6 +206,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		// Get display text of select parameters
 		this.displayTexts = getDisplayTexts( this.displayTexts, request );
+
+		// get some module options
+		this.moduleOptions = getModuleOptions( request );
 	}
 
 	/**
@@ -212,6 +216,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * 
 	 * @param request
 	 *            HttpServletRequest
+	 * @param parameterList
 	 * @return
 	 */
 	protected void parseConfigVars( HttpServletRequest request,
@@ -289,7 +294,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 									+ "_" + IBirtConstants.PROP_TYPE; //$NON-NLS-1$
 							ConfigVariable typeVar = handle
 									.findConfigVariable( typeVarName );
-							
+
 							// get cached parameter type
 							String dataType = null;
 							if ( typeVar != null )
@@ -337,15 +342,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 		catch ( Exception e )
 		{
-			// Close handle
-			try
-			{
-				if ( handle != null )
-					handle.close( );
-			}
-			catch ( Exception err )
-			{
-			}
+			// do nothing
 		}
 	}
 
@@ -460,7 +457,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		{
 			IReportDocument reportDocumentInstance = ReportEngineService
 					.getInstance( ).openReportDocument( this.reportDesignName,
-							this.reportDocumentName );
+							this.reportDocumentName,
+							this.getModuleOptions( request ) );
 
 			if ( reportDocumentInstance != null )
 			{
@@ -523,7 +521,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					if ( file.exists( ) )
 					{
 						reportRunnable = ReportEngineService.getInstance( )
-								.openReportDesign( this.reportDesignName );
+								.openReportDesign( this.reportDesignName,
+										this.getModuleOptions( request ) );
 					}
 					else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
 					{
@@ -535,9 +534,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						InputStream is = request.getSession( )
 								.getServletContext( ).getResourceAsStream(
 										this.reportDesignName );
-
 						reportRunnable = ReportEngineService.getInstance( )
-								.openReportDesign( is );
+								.openReportDesign( is,
+										this.getModuleOptions( request ) );
 					}
 					else
 					{
@@ -927,6 +926,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	}
 
 	/**
+	 * Gets the module option map from the request.
+	 * 
+	 * @param request
+	 *            the request
+	 * @return the module options
+	 */
+
+	protected Map getModuleOptions( HttpServletRequest request )
+	{
+		Map options = new HashMap( );
+		options.put( IModuleOption.RESOURCE_FOLDER_KEY, ParameterAccessor
+				.getResourceFolder( request ) );
+		return options;
+	}
+
+	/**
 	 * @return the parametersAsString
 	 */
 	public Map getParametersAsString( )
@@ -948,5 +963,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	public Map getDisplayTexts( )
 	{
 		return displayTexts;
+	}
+
+	/**
+	 * @return the moduleOptions
+	 */
+	public Map getModuleOptions( )
+	{
+		return moduleOptions;
 	}
 }

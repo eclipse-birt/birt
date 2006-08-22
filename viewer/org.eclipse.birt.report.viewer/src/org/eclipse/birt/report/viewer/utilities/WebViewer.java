@@ -14,6 +14,7 @@ package org.eclipse.birt.report.viewer.utilities;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -65,6 +66,32 @@ public class WebViewer
 	/** Preference key for max rows. */
 	final public static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
+	// parameter name constants for the URL
+
+	/**
+	 * Key to indicate the format of the preview.
+	 */
+
+	public final static String FORMAT_KEY = "FORMAT_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the 'allowPage' control of the preview.
+	 */
+
+	public final static String ALLOW_PAGE_KEY = "ALLOW_PAGE_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the 'servletName' of the preview.
+	 */
+
+	public final static String SERVLET_NAME_KEY = "SERVLET_NAME_KEY"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate the 'resourceFolder'.
+	 */
+
+	public final static String RESOURCE_FOLDER_KEY = "RESOURCE_FOLDER_KEY"; //$NON-NLS-1$
+
 	/**
 	 * locale mapping. Save some time.
 	 */
@@ -104,16 +131,38 @@ public class WebViewer
 	/**
 	 * Create web viewer url to run the report.
 	 * 
+	 * @param report
+	 *            report file name
+	 * @param params
+	 *            report parameter map
+	 * @return valid web viewer url
+	 */
+
+	private static String createURL( String report, Map params )
+	{
+		if ( params == null || params.isEmpty( ) )
+			return createURL( null, report, null, true, null );
+		String servletName = (String) params.get( SERVLET_NAME_KEY );
+		String format = (String) params.get( FORMAT_KEY );
+		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
+		return createURL( servletName, report, format, true, resourceFolder );
+	}
+
+	/**
+	 * Create web viewer url to run the report.
+	 * 
 	 * @param servletName
 	 *            servlet name to viewer report
 	 * @param report
 	 *            report file name
 	 * @param format
 	 *            report format
+	 * @param resourceFolder
+	 *            the resource folder
 	 * @return valid web viewer url
 	 */
 	private static String createURL( String servletName, String report,
-			String format, boolean inDesigner )
+			String format, boolean inDesigner, String resourceFolder )
 	{
 		String encodedReportName = null;
 
@@ -172,6 +221,23 @@ public class WebViewer
 			bMasterPageContent = false;
 		}
 
+		// handle resource folder encoding
+
+		String encodedResourceFolder = null;
+
+		try
+		{
+			if ( resourceFolder != null )
+				encodedResourceFolder = URLEncoder.encode( resourceFolder,
+						"utf-8" ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			// Do nothing
+		}
+		if ( encodedResourceFolder == null )
+			encodedResourceFolder = ""; //$NON-NLS-1$
+
 		// So far, only report name is encoded as utf-8 format
 		return getBaseURL( )
 				+ servletName
@@ -184,8 +250,9 @@ public class WebViewer
 				+ "&__designer=" //$NON-NLS-1$
 				+ String.valueOf( inDesigner )
 				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
-				+ "&__rtl=" + String.valueOf( rtl )  //$NON-NLS-1$
-				+ "&__maxrows=" + maxrows; //$NON-NLS-1$
+				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
+				+ "&__maxrows=" + maxrows //$NON-NLS-1$
+				+ "&__resourceFolder=" + encodedResourceFolder; //$NON-NLS-1$
 	}
 
 	/**
@@ -240,12 +307,12 @@ public class WebViewer
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "run", report, format, true ); //$NON-NLS-1$
+			root = createURL( "run", report, format, true, null ); //$NON-NLS-1$
 		}
 		else
 		{
 			root = createURL(
-					allowPage ? "frameset" : "run", report, format, true ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					allowPage ? "frameset" : "run", report, format, true, null ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		try
@@ -272,7 +339,7 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		browser
-				.setUrl( createURL( "run", report, format, true ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				.setUrl( createURL( "run", report, format, true, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -291,8 +358,24 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser,
 			String servletName )
 	{
-		browser.setUrl( createURL( servletName, report, format, true )
+		browser.setUrl( createURL( servletName, report, format, true, null )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
-
 	}
+
+	/**
+	 * Displays the specified url using eclipse SWT browser.
+	 * 
+	 * @param report
+	 *            report report
+	 * @param browser
+	 *            SWT browser instance
+	 * @param params
+	 *            the parameter map to set
+	 */
+
+	public static void display( String report, Browser browser, Map params )
+	{
+		browser.setUrl( createURL( report, params ) );
+	}
+
 }

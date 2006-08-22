@@ -177,6 +177,19 @@ public class ParameterAccessor
 	public static final String PARAM_ISREPORTLET = "__isreportlet";//$NON-NLS-1$
 
 	/**
+	 * Indentify the display text of select parameter
+	 */
+
+	protected static final String PREFIX_DISPLAY_TEXT = "__isdisplay__";
+
+	/**
+	 * URL parameter name to indicate the resource folder of all the report
+	 * resources.
+	 */
+
+	public static final String PARAM_RESOURCE_FOLDER = "__resourceFolder"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -355,16 +368,16 @@ public class ParameterAccessor
 	protected static boolean isDocumentFolderAccessOnly = false;
 
 	/**
+	 * Resource path set in the web application.
+	 */
+
+	protected static String birtResourceFolder = null;
+
+	/**
 	 * Flag indicating that if initialize the context.
 	 */
 
 	protected static boolean isInitContext = false;
-
-	/**
-	 * Indentify the display text of select parameter
-	 */
-
-	protected static final String PREFIX_DISPLAY_TEXT = "__isdisplay__";
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1107,6 +1120,11 @@ public class ParameterAccessor
 			maxRows = -1;
 		}
 
+		// get the default resource path
+
+		birtResourceFolder = context
+				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH );
+
 		clearDocuments( );
 
 		// Finish init context
@@ -1672,10 +1690,10 @@ public class ParameterAccessor
 		{
 			return paramName.replaceFirst( PREFIX_DISPLAY_TEXT, "" ); //$NON-NLS-1$
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Generates a file name for the pdf output.
 	 * 
@@ -1695,7 +1713,7 @@ public class ParameterAccessor
 		if ( baseName == null || baseName.length( ) == 0 )
 			baseName = attrBean.getReportDocumentName( );
 		assert baseName != null && baseName.length( ) > 0;
-		
+
 		int index = baseName.lastIndexOf( '/' );
 		if ( index == -1 )
 			index = baseName.lastIndexOf( '\\' );
@@ -1753,5 +1771,29 @@ public class ParameterAccessor
 	{
 		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
 				"windows" ) >= 0; //$NON-NLS-1$
+	}
+
+	/**
+	 * Gets the resource folder.
+	 * 
+	 * @param request
+	 *            the request to retrieve
+	 * @return the resource folder of the request
+	 */
+
+	public static String getResourceFolder( HttpServletRequest request )
+	{
+		String resourceFolder = null;
+
+		// get resource folder from request first
+
+		resourceFolder = getParameter( request, PARAM_RESOURCE_FOLDER );
+
+		// if the resource folder in the request is null or empty, read it from
+		// web init params
+
+		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
+			resourceFolder = birtResourceFolder;
+		return resourceFolder;
 	}
 }
