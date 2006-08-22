@@ -214,17 +214,20 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
 		if ( rsetId == null )
 		{
-			int charAt = pRsetId.indexOf( "_" );
-			if ( charAt != -1 )
+			if ( pRsetId != null )
 			{
-				String rootId = pRsetId.substring( 0, charAt );
-				keyBuffer.setLength( 0 );
-				keyBuffer.append( rootId );
-				keyBuffer.append( "." );
-				keyBuffer.append( rowId );
-				keyBuffer.append( "." );
-				keyBuffer.append( queryId );
-				rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+				int charAt = pRsetId.indexOf( "_" );
+				if ( charAt != -1 )
+				{
+					String rootId = pRsetId.substring( 0, charAt );
+					keyBuffer.setLength( 0 );
+					keyBuffer.append( rootId );
+					keyBuffer.append( "." );
+					keyBuffer.append( rowId );
+					keyBuffer.append( "." );
+					keyBuffer.append( queryId );
+					rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+				}
 			}
 		}
 		return rsetId;
@@ -283,7 +286,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			{
 				// this is the root query
 				dteResults = pQuery.execute( scope );
-				resultSet = new DteResultSet( this, context, dteResults );
+				resultSet = new DteResultSet( this, context, query, dteResults );
 			}
 			else
 			{
@@ -293,7 +296,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				// this is the nest query, execute the query in the
 				// parent results
 				dteResults = pQuery.execute( parentQueryResults, scope );
-				resultSet = new DteResultSet( parentResult, dteResults );
+				resultSet = new DteResultSet( parentResult, query, dteResults );
 			}
 			resultSet.setBaseRSetID( resultSetID );
 			

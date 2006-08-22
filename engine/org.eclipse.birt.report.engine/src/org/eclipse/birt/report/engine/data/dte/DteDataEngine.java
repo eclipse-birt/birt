@@ -31,7 +31,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.43 $ $Date: 2006/05/10 03:51:19 $
+ * @version $Revision: 1.44 $ $Date: 2006/06/17 12:28:57 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -110,7 +110,7 @@ public class DteDataEngine extends AbstractDataEngine
 			{
 				// this is the root query
 				dteResults = pQuery.execute( scope );
-				resultSet = new DteResultSet( this, context, dteResults );
+				resultSet = new DteResultSet( this, context, query, dteResults );
 			}
 			else
 			{
@@ -118,7 +118,7 @@ public class DteDataEngine extends AbstractDataEngine
 				// parent results
 				dteResults = pQuery.execute( resultSet.getQueryResults( ),
 						scope );
-				resultSet = new DteResultSet( resultSet, dteResults );
+				resultSet = new DteResultSet( resultSet, query, dteResults );
 			}
 			
 			return resultSet;

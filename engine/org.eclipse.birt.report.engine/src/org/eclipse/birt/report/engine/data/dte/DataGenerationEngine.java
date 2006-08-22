@@ -119,7 +119,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 			{
 				// this is the root query
 				dteResults = pQuery.execute( scope );
-				resultSet = new DteResultSet( this, context, dteResults );
+				resultSet = new DteResultSet( this, context, query, dteResults );
 			}
 			else
 			{
@@ -130,7 +130,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 				// parent results
 				dteResults = pQuery.execute( resultSet.getQueryResults( ),
 						scope );
-				resultSet = new DteResultSet( resultSet, dteResults );
+				resultSet = new DteResultSet( resultSet, query, dteResults );
 			}
 
 			// save the

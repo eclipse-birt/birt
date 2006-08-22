@@ -148,17 +148,20 @@ public class DataPresentationEngine extends AbstractDataEngine
 		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
 		if ( rsetId == null )
 		{
-			int charAt = pRsetId.indexOf( "_" );
-			if ( charAt != -1 )
+			if ( pRsetId != null )
 			{
-				String rootId = pRsetId.substring( 0, charAt );
-				keyBuffer.setLength( 0 );
-				keyBuffer.append( rootId );
-				keyBuffer.append( "." );
-				keyBuffer.append( rowId );
-				keyBuffer.append( "." );
-				keyBuffer.append( queryId );
-				rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+				int charAt = pRsetId.indexOf( "_" );
+				if ( charAt != -1 )
+				{
+					String rootId = pRsetId.substring( 0, charAt );
+					keyBuffer.setLength( 0 );
+					keyBuffer.append( rootId );
+					keyBuffer.append( "." );
+					keyBuffer.append( rowId );
+					keyBuffer.append( "." );
+					keyBuffer.append( queryId );
+					rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+				}
 			}
 		}
 		return rsetId;
@@ -214,12 +217,12 @@ public class DataPresentationEngine extends AbstractDataEngine
 			if ( parentResult == null )
 			{
 				// this is the root query
-				resultSet = new DteResultSet( this, context, queryResults );
+				resultSet = new DteResultSet( this, context, query, queryResults );
 			}
 			else
 			{
 				// this is the nest query
-				resultSet = new DteResultSet( parentResult, queryResults );
+				resultSet = new DteResultSet( parentResult, query, queryResults );
 			}
 						
 			return resultSet;
