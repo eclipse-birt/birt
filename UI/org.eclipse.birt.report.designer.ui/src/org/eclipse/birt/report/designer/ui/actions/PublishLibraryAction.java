@@ -23,13 +23,11 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 /**
  * 
@@ -38,7 +36,8 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 {
 
-	private ResourceNavigator navigator;
+	private IFile libFile = null;
+	private boolean selectLibrary = false;
 
 	public void dispose( )
 	{
@@ -49,8 +48,6 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 	public void init( IWorkbenchWindow window )
 	{
 		// TODO Auto-generated method stub
-		IViewPart view = UIUtil.getView( "org.eclipse.ui.views.ResourceNavigator" );
-		navigator = (ResourceNavigator) view;
 	}
 
 	/*
@@ -62,7 +59,7 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 	{
 		String fileName = null;
 		LibraryHandle libHandle = null;
-		if ( isEnable( ) == false )
+		if ( editLibrary( ) == false && selectLibrary == false )
 		{
 			return;
 		}
@@ -76,15 +73,10 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 			libHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 		}
-		else if ( selectLibrary( ) )
+		else if ( libFile != null
+				&& libFile.getFileExtension( ).equals( "rptlibrary" ) )
 		{
-			IFile file = getSelectedFile( navigator );
-			if ( file == null )
-			{
-				return;
-			}
-
-			String url = file.getLocation( ).toOSString( );
+			String url = libFile.getLocation( ).toOSString( );
 			ModuleHandle handle = null;
 			try
 			{
@@ -138,27 +130,30 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
+		if ( selection instanceof TreeSelection )
+		{
+			IFile file = null;
+			if ( ( (TreeSelection) selection ).getFirstElement( ) instanceof IFile )
+			{
+				file = (IFile) ( (TreeSelection) selection ).getFirstElement( );
+			}
+			if ( file != null )
+			{
+				if ( file.getFileExtension( ).equals( "rptlibrary" ) )
+				{
+					libFile = file;
+					selectLibrary = true;
+					action.setEnabled( true );
+					return;
+				}				
+			}
+		}
 		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
-
 	}
 
 	private boolean isEnable( )
 	{
-		return ( selectLibrary( ) || editLibrary( ) );
-
-	}
-
-	private boolean selectLibrary( )
-	{
-		IFile file = getSelectedFile( navigator );
-		if ( file == null )
-		{
-			return false;
-		}
-
-		if ( file.getFileExtension( ).equals( "rptlibrary" ) )
-			return true;
-		return false;
+		return editLibrary( );
 	}
 
 	private boolean editLibrary( )
@@ -169,25 +164,5 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 			return ( editor.getEditorInput( ).getName( ).endsWith( ".rptlibrary" ) ); //$NON-NLS-1$
 		}
 		return false;
-	}
-
-	/**
-	 * Get selected file.
-	 * 
-	 * @return IFile Selected file
-	 */
-	private IFile getSelectedFile( ResourceNavigator navigator )
-	{
-		if ( navigator != null )
-		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getTreeViewer( )
-					.getSelection( );
-			if ( selection.size( ) == 1
-					&& selection.getFirstElement( ) instanceof IFile )
-			{
-				return (IFile) selection.getFirstElement( );
-			}
-		}
-		return null;
 	}
 }
