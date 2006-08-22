@@ -217,11 +217,11 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				ReportExecutor executor = new ReportExecutor( executionContext,
 						reportDesign,
 						emitter );
-				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( lExecutor );
+//				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
+//						executor );
+				executionContext.setExecutor( executor );
 
-				initializeContentEmitter( emitter, lExecutor );
+				initializeContentEmitter( emitter, executor );
 
 				documentBuilder.build( );
 			}
