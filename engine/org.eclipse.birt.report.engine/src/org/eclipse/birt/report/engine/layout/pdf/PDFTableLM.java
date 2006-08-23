@@ -120,6 +120,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 	
 	protected ColumnWidthResolver columnWidthResolver;
 
+	protected int rowCount = 0;
 	public PDFTableLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
 	{
@@ -188,6 +189,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 	public void startRow( IRowContent row )
 	{
 		currentRowID++;
+		rowCount++;
 		CellWrapper[] newRowContent = new CellWrapper[columnNumber];
 		if ( currentRowID > 0 )
 		{
@@ -400,8 +402,9 @@ public class PDFTableLM extends PDFBlockStackingLM
 		setCurrentIP( 0 );
 		setCurrentBP( 0 );
 		repeatRowCount = 0;
-
+		rowCount = 0;
 		setCurrentIP( 0 );
+		
 	}
 
 	protected int getAvaHeight( )
@@ -556,10 +559,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 			public int resolveBottomBorder( CellArea cell )
 			{
 				IStyle tableStyle = tableContent.getComputedStyle( );
-				IStyle rowStyle = ( lastRow == null ? null : lastRowArea
-						.getContent( ).getComputedStyle( ) );
+				IContent cellContent = cell.getContent( );
+				IStyle rowStyle = ((IContent)cellContent.getParent()).getComputedStyle( ) ;
 				IStyle columnStyle = getColumnStyle( cell.getColumnID( ) );
-				IStyle cellContentStyle = cell.getContent( ).getComputedStyle( );
+				IStyle cellContentStyle = cellContent.getComputedStyle( );
 				IStyle cellAreaStyle = cell.getStyle( );
 				bcr.resolveTableBottomBorder( tableStyle, rowStyle,
 						columnStyle, cellContentStyle, cellAreaStyle );
@@ -575,9 +578,9 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 			public int resolveBottomBorder( CellArea cell )
 			{
-				IStyle rowStyle = ( lastRow == null ? null : lastRowArea
-						.getContent( ).getComputedStyle( ) );
-				IStyle cellContentStyle = cell.getContent( ).getComputedStyle( );
+				IContent cellContent = cell.getContent( );
+				IStyle rowStyle = ((IContent)cellContent.getParent()).getComputedStyle( ) ;
+				IStyle cellContentStyle = cellContent.getComputedStyle( );
 				IStyle cellAreaStyle = cell.getStyle( );
 				bcr.resolvePagenatedTableBottomBorder( rowStyle,
 						cellContentStyle, cellAreaStyle );
@@ -635,12 +638,34 @@ public class PDFTableLM extends PDFBlockStackingLM
 			}
 			if ( lastRow != null )
 			{
-				preRowStyle = lastRow.row.getComputedStyle( );
-				if ( lastRowContent[columnID] != null )
+				if(rowCount>1)
 				{
-					topCellStyle = lastRowContent[columnID].cell
-							.getComputedStyle( );
+					preRowStyle = lastRow.row.getComputedStyle( );
+					if ( lastRowContent[columnID] != null )
+					{
+						topCellStyle = lastRowContent[columnID].cell
+								.getComputedStyle( );
+					}
 				}
+				else
+				{
+					if(root.getChildrenCount( )>0 && lastRowArea!=null)
+					{
+						preRowStyle = lastRowArea.getContent( ).getComputedStyle( );
+						Iterator iter = lastRowArea.getChildren( );
+						while(iter.hasNext( ))
+						{
+							CellArea cell = (CellArea)iter.next( );
+							ICellContent cc = (ICellContent)cell.getContent( );
+							if(cc!=null && cc.getColumn( ) == columnID)
+							{
+								topCellStyle = cc.getComputedStyle( );
+								break;
+							}
+						}
+					}
+				}
+					
 			}
 		}
 
@@ -847,143 +872,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			}
 		}		
 	}
-
 	
-	/**
-	 * resolve width for table columns
-	 * TODO remove it
-	 * 
-	 */
-	private int[] resolveColumnWidth( )
-	{
-		
-		int[] colWidth = new int[columnNumber];
-		int colHasNoWidth = 0;
-
-		int colSum = 0;
-		for ( int j = 0; j < tableContent.getColumnCount( ); j++ )
-		{
-			IColumn column = (IColumn) tableContent.getColumn( j );
-			int columnWidth = getDimensionValue( column.getWidth( ) );
-			if ( columnWidth > 0 )
-			{
-				colWidth[j] = columnWidth;
-				colSum += columnWidth;
-			}
-			else
-			{
-				colWidth[j] = -1;
-				colHasNoWidth++;
-			}
-		}
-
-		if ( colHasNoWidth == 0 )
-		{
-			tableWidth = colSum;
-			return colWidth;
-		}
-
-		tableWidth = getDimensionValue( tableContent.getWidth( ) );
-		int avaWidth = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
-		int parentMaxWidth = parent.getMaxAvaWidth( );
-		boolean isInline = PropertyUtil.isInlineElement( content );
-		if ( tableWidth == 0 )
-		{
-			// user do not set the width
-			if ( !isInline )
-			{
-				tableWidth = avaWidth;
-			}
-			else
-			{
-				if ( avaWidth > parentMaxWidth / 4 )
-				{
-					tableWidth = avaWidth;
-				}
-				else
-				{
-					tableWidth = parentMaxWidth;
-				}
-			}
-
-		}
-		else
-		{
-			if ( !isInline )
-			{
-				tableWidth = Math.min( tableWidth, avaWidth );
-			}
-			else
-			{
-				tableWidth = Math.min( tableWidth, parentMaxWidth );
-			}
-		}
-
-		IStyle style = root.getStyle( );
-		int marginWidth = getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
-				+ getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
-		// FIXME avawidth is not available
-		if ( marginWidth > tableWidth )
-		{
-			style.setProperty( StyleConstants.STYLE_MARGIN_LEFT,
-					IStyle.NUMBER_0 );
-			style.setProperty( StyleConstants.STYLE_MARGIN_RIGHT,
-					IStyle.NUMBER_0 );
-			marginWidth = 0;
-		}
-
-		tableWidth = tableWidth - marginWidth;
-
-		int delta = tableWidth - colSum;
-		if ( colHasNoWidth == columnNumber ) // all columns are set width
-		{
-			int dis = delta / columnNumber;
-			if ( delta != 0 )
-			{
-				for ( int i = 0; i < columnNumber; i++ )
-				{
-					colWidth[i] = dis;
-				}
-			}
-		}
-		else
-		{
-			if ( delta > 0 )
-			{
-				int leftColumnWidth = delta / colHasNoWidth;
-				for ( int i = 0; i < columnNumber; i++ )
-				{
-					if ( colWidth[i] < 0 )
-					{
-						colWidth[i] = leftColumnWidth;
-					}
-				}
-			}
-			else
-			{
-				// redistribute width for each column
-				int standardColumnWidth = tableWidth / columnNumber;
-				for ( int i = 0; i < columnNumber; i++ )
-				{
-					colWidth[i] = standardColumnWidth;
-				}
-			}
-		}
-		// enable visibility
-		for ( int i = 0; i < tableContent.getColumnCount( ); i++ )
-		{
-			IColumn column = tableContent.getColumn( i );
-			if ( isColumnHidden( column ) )
-			{
-				colWidth[i] = 0;
-			}
-		}
-		return colWidth;
-
-	}
-
 	private boolean isColumnHidden( IColumn column )
 	{
 		String format = context.getFormat( );
@@ -1104,17 +993,37 @@ public class PDFTableLM extends PDFBlockStackingLM
 			if ( !isInline )
 			{
 				tableWidth = Math.min( specifiedWidth, avaWidth - marginWidth );
-				return new TableLayoutInfo(columnWidthResolver.resolve( tableWidth, avaWidth - marginWidth ));
+				return new TableLayoutInfo(
+						handleColummVisibity( columnWidthResolver.resolve(
+								tableWidth, avaWidth - marginWidth ) ) );
 			}
 			else
 			{
 				tableWidth = Math.min( specifiedWidth, parentMaxWidth - marginWidth );
-				return new TableLayoutInfo(columnWidthResolver.resolve( tableWidth, parentMaxWidth - marginWidth ));
+				return new TableLayoutInfo(
+						handleColummVisibity( columnWidthResolver.resolve(
+								tableWidth, parentMaxWidth - marginWidth ) ) );
 			}
 		}
-
-
-
+	}
+	
+	private int[] handleColummVisibity(int[] columns)
+	{
+		//enable visibility
+		int colWidth[] = new int[columnNumber];
+		for ( int i = 0; i < columnNumber; i++ )
+		{
+			IColumn column = tableContent.getColumn( i );
+			if ( isColumnHidden( column ) )
+			{
+				colWidth[i] = 0;
+			}
+			else
+			{
+				colWidth[i] = columns[i];
+			}
+		}
+		return colWidth;
 	}
 
 	/**
@@ -1405,7 +1314,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		headerExecutor.execute( );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableContent,
 				layoutInfo );
-		regionLM.setBandContent( header );
+		regionLM.initialize( header, null );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableContent
 				.getExtension( IContent.LAYOUT_EXTENSION );
@@ -1432,7 +1341,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void addCaption( String caption )
 	{
-		if ( caption == null || "".equals( caption ) )
+		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
 		{
 			return;
 		}
@@ -1461,7 +1370,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		con.setAllowPageBreak( false );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, content,
 				layoutInfo );
-		regionLM.setBandContent( band );
+		regionLM.initialize( band, null );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) content
 				.getExtension( IContent.LAYOUT_EXTENSION );

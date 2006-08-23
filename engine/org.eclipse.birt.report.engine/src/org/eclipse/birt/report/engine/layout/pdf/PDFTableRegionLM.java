@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
+import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 
 public class PDFTableRegionLM extends PDFTableLM
 		implements
@@ -32,10 +33,11 @@ public class PDFTableRegionLM extends PDFTableLM
 		this.layoutInfo = layoutInfo;
 	}
 
-	public void setBandContent( ITableBandContent content )
+	public void initialize( ITableBandContent content,  RowArea lastRowArea )
 	{
 		this.executor = new DOMReportItemExecutor( content );
 		this.executor.execute( );
+		this.lastRowArea = lastRowArea;
 	}
 
 	protected int getAvaHeight( )

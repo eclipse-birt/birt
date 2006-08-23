@@ -110,7 +110,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		headerExecutor.execute( );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableLM
 				.getContent( ), tableLM.getLayoutInfo( ) );
-		regionLM.setBandContent( header );
+		regionLM.initialize( header, tableLM.lastRowArea);
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableLM.getContent( ).getExtension(
 				IContent.LAYOUT_EXTENSION );
