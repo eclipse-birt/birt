@@ -25,7 +25,7 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	public String onCustomImage( IImage image, IReportContext context )
 	{
-		return onCustomImage( image, context.getAppContext( ) );
+		return onCustomImage( image, getRenderContext( context ) );
 	}
 
 	public String onDesignImage( IImage image, Object context )
