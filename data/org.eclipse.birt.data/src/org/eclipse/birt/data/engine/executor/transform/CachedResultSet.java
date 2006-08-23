@@ -215,13 +215,14 @@ public class CachedResultSet implements IResultIterator
 		if ( isSubQuery == false
 				&& streamsWrapper.getStreamForResultClass( ) != null )
 		{
-			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ) );
+			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
+					resultSetPopulator.getEventHandler( ).getColumnMappings( ) );
 		}
 
 		if ( streamsWrapper.getStreamForDataSet( ) != null )
 		{
 			this.resultSetPopulator.getCache( )
-					.doSave( streamsWrapper.getStreamForDataSet( ) );
+					.doSave( streamsWrapper.getStreamForDataSet( ), resultSetPopulator.getEventHandler( ).getColumnMappings( )  );
 		}
 	}
 	

@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
@@ -314,10 +315,10 @@ public class DiskCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( OutputStream outputStream ) throws DataException
+	public void doSave( OutputStream outputStream, Map cacheRequestMap ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
-		
+		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
 		try
 		{
 			// save data
@@ -333,7 +334,8 @@ public class DiskCache implements ResultSetCache
 			{
 				ResultSetUtil.writeResultObject( dos,
 						this.diskBasedResultSet.nextRow( ),
-						colCount );
+						colCount,
+						resultSetNameSet );
 			}
 			
 			this.reset( );

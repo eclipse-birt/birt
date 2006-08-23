@@ -73,7 +73,8 @@ public final class ExpressionUtil
 	}
 
 	/**
-     * extract all column expression info excluding outer_level > 0
+	 * Extract all column expression info
+	 * 
 	 * @param oldExpression
 	 * @return
 	 * @throws BirtException
@@ -81,10 +82,27 @@ public final class ExpressionUtil
 	public static List extractColumnExpressions( String oldExpression )
 			throws BirtException
 	{
+		return extractColumnExpressions( oldExpression, true );
+	}
+	
+	/**
+	 * Extract all column expression info
+	 * 
+	 * @param oldExpression
+	 * @param mode
+	 *            if true, it means to compile the "row" expression.else extract
+	 *            "dataSetRow" expression
+	 * @return
+	 * @throws BirtException
+	 */
+	public static List extractColumnExpressions( String oldExpression,
+			boolean mode ) throws BirtException
+	{
 		if ( oldExpression == null || oldExpression.trim( ).length( ) == 0 )
 			return new ArrayList( );
 
-		return ExpressionParserUtility.compileColumnExpression( oldExpression );
+		return ExpressionParserUtility.compileColumnExpression( oldExpression,
+				mode );
 	}
 
 	/**
@@ -100,7 +118,7 @@ public final class ExpressionUtil
 
 		try
 		{
-			return ExpressionParserUtility.hasAggregation( expression );
+			return ExpressionParserUtility.hasAggregation( expression, true );
 		}
 		catch ( BirtException e )
 		{

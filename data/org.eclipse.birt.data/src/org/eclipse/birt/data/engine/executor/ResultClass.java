@@ -19,9 +19,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -153,32 +156,37 @@ public class ResultClass implements IResultClass
 	 * @param outputStream
 	 * @throws DataException 
 	 */
-	public void doSave( OutputStream outputStream ) throws DataException
+	public void doSave( OutputStream outputStream, Map requestColumnMap )
+			throws DataException
 	{
 		assert outputStream != null;
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
-		
-		int size = m_fieldCount;
+		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
+
+		int size = resultSetNameSet.size( );
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
-			for ( int i = 0; i < size; i++ )
+			for ( int i = 0; i < m_fieldCount; i++ )
 			{
 				ResultFieldMetadata column = projectedCols[i];
 
-				IOUtil.writeInt( dos, column.getDriverPosition( ) );
-				IOUtil.writeString( dos, column.getName( ) );
-				IOUtil.writeString( dos, column.getLabel( ) );
-				IOUtil.writeString( dos, column.getAlias( ) );
-				IOUtil.writeString( dos, column.getDataType( ).getName( ) );
-				IOUtil.writeString( dos, column.getNativeTypeName( ) );
-				IOUtil.writeBool( dos, column.isCustom( ) );
-				if ( column.getDriverProvidedDataType( ) == null )
-					IOUtil.writeString( dos, null );
-				else
-					IOUtil.writeString( dos, column.getDriverProvidedDataType( )
-							.getName( ) );
+				if ( resultSetNameSet.contains( column.getName( ) ) )
+				{
+					IOUtil.writeInt( dos, column.getDriverPosition( ) );
+					IOUtil.writeString( dos, column.getName( ) );
+					IOUtil.writeString( dos, column.getLabel( ) );
+					IOUtil.writeString( dos, column.getAlias( ) );
+					IOUtil.writeString( dos, column.getDataType( ).getName( ) );
+					IOUtil.writeString( dos, column.getNativeTypeName( ) );
+					IOUtil.writeBool( dos, column.isCustom( ) );
+					if ( column.getDriverProvidedDataType( ) == null )
+						IOUtil.writeString( dos, null );
+					else
+						IOUtil.writeString( dos,
+								column.getDriverProvidedDataType( ).getName( ) );
+				}
 			}
 			
 			dos.close( );

@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -158,22 +160,25 @@ class MemoryCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( OutputStream outputStream ) throws DataException
+	public void doSave( OutputStream outputStream,  Map cacheRequestMap ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
-
+		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
 		try
 		{
 			// save data
 			int rowCount = this.resultObjects.length;
 			int colCount = this.rsMeta.getFieldCount( );
-			
+
 			IOUtil.writeInt( dos, rowCount );
 			
 			for ( int i = 0; i < rowCount; i++ )
 			{
-				ResultSetUtil.writeResultObject( dos, resultObjects[i], colCount );
-			}	
+				ResultSetUtil.writeResultObject( dos,
+						resultObjects[i],
+						colCount,
+						resultSetNameSet );
+			}
 
 			dos.close( );
 		}
@@ -182,5 +187,6 @@ class MemoryCache implements ResultSetCache
 			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
 	}
+
 	
 }

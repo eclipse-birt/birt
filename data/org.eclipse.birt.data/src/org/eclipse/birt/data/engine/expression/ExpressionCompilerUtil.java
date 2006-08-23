@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
 
 /**
+ * The utility class to provide method for expression compiling
  * 
  */
 public class ExpressionCompilerUtil
@@ -64,9 +65,7 @@ public class ExpressionCompilerUtil
 		if( expr == null )
 			return false;
 		
-		String expression = expr.getText( );
-
-		return compile( expression, exprManager );
+		return compile( expr.getText( ), exprManager );
 
 	}
 	
@@ -76,13 +75,38 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List extractColumnExpression( IScriptExpression expression )
+	public static List extractColumnExpression( IBaseExpression expression )
 			throws DataException
 	{
 		if ( expression == null )
-			return null;
+			return new ArrayList( );
+		List columnList = null;
+		if ( expression instanceof IScriptExpression )
+		{
+			columnList = extractColumnExpression( (IScriptExpression) expression );
+		}
+		else if ( expression instanceof IConditionalExpression )
+		{
+			columnList = extractColumnExpression( (IConditionalExpression) expression );
+		}
+		return columnList;
+	}
+	
+	/**
+	 * The utility method is to compile expression to get a list of column
+	 * expressions which is depended by given expression.
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractColumnExpression( IScriptExpression expression )
+			throws DataException
+	{
 		List list = new ArrayList( );
-		populateColumnList( list, expression );
+		if ( expression == null )
+			return list;
+		populateColumnList( list, expression, true );
 		return list;
 	}
 	
@@ -98,14 +122,78 @@ public class ExpressionCompilerUtil
 	public static List extractColumnExpression(
 			IConditionalExpression expression ) throws DataException
 	{
-		if ( expression == null )
-			return null;
 		List list = new ArrayList( );
-		populateColumnList( list, expression.getExpression( ) );
-		populateColumnList( list, expression.getOperand1( ) );
-		populateColumnList( list, expression.getOperand2( ) );
+		if ( expression == null )
+			return list;
+		populateColumnList( list, expression.getExpression( ), true );
+		populateColumnList( list, expression.getOperand1( ), true );
+		populateColumnList( list, expression.getOperand2( ), true );
 		return list;
+	}
+	
+	/**
+	 * This utility method is to compile expression to get a list of dataset
+	 * column expressions which is depended by given expression.
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractDataSetColumnExpression(
+			IBaseExpression expression ) throws DataException
+	{
+		List columnList = new ArrayList( );
 
+		if ( expression == null )
+			return columnList;
+		if ( expression instanceof IScriptExpression )
+		{
+			columnList = extractDataSetColumnExpression( (IScriptExpression) expression );
+		}
+		else if ( expression instanceof IConditionalExpression )
+		{
+			columnList = extractDataSetColumnExpression( (IConditionalExpression) expression );
+		}
+		return columnList;
+	}
+	
+	/**
+	 * This utility method is to compile expression to get a list of dataset
+	 * column expressions which is depended by given expression.
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractDataSetColumnExpression(
+			IConditionalExpression expression ) throws DataException
+	{
+		List list = new ArrayList( );
+		if ( expression == null )
+			return list;
+		populateColumnList( list, expression.getExpression( ), false );
+		populateColumnList( list, expression.getOperand1( ), false );
+		populateColumnList( list, expression.getOperand2( ), false );
+		return list;
+	}
+
+	/**
+	 * This utility method is to compile expression to get a list of dataset
+	 * column expressions which is depended by given expression.
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+	public static List extractDataSetColumnExpression(
+			IScriptExpression expression ) throws DataException
+	{
+		List list = new ArrayList( );
+
+		if ( expression == null )
+			return list;
+		populateColumnList( list, expression, false );
+		return list;
 	}
 	
 	/**
@@ -366,14 +454,15 @@ public class ExpressionCompilerUtil
 	 * @throws DataException
 	 */
 	private static void populateColumnList( List list,
-			IScriptExpression expression ) throws DataException
+			IScriptExpression expression, boolean rowMode ) throws DataException
 	{
 		if ( expression != null )
 		{
 			List l;
 			try
 			{
-				l = ExpressionUtil.extractColumnExpressions( expression.getText( ) );
+				l = ExpressionUtil.extractColumnExpressions( expression.getText( ),
+						rowMode );
 			}
 			catch ( BirtException e )
 			{

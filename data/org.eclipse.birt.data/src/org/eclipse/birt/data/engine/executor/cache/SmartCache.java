@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.OutputStream;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
@@ -190,9 +191,10 @@ public class SmartCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( OutputStream outputStream ) throws DataException
+	public void doSave( OutputStream outputStream, Map cacheRequestMap )
+			throws DataException
 	{
-		this.resultSetCache.doSave( outputStream );
+		this.resultSetCache.doSave( outputStream, cacheRequestMap );
 	}
 	
 	/*

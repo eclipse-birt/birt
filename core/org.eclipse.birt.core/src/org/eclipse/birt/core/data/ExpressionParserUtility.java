@@ -33,7 +33,8 @@ import org.mozilla.javascript.Token;
 class ExpressionParserUtility
 {
 	private final String pluginId = "org.eclipse.birt.core";
-	private final static String ROW_INDICATOR = "row";
+	private static String ROW_INDICATOR = "row";
+	private final static String ROW_COLUMN_INDICATOR = "row";
 	private final static String ROWS_0_INDICATOR = "rows";
 	private final static String DATASETROW_INDICATOR = "dataSetRow";
 	private final static String TOTAL = "Total";
@@ -51,8 +52,25 @@ class ExpressionParserUtility
 	static List compileColumnExpression( String expression )
 			throws BirtException
 	{
+		return compileColumnExpression( expression, true );
+	}
+	
+	/**
+	 * compile the expression
+	 * 
+	 * @param expression
+	 * @return List contains all column reference
+	 * @throws BirtException
+	 */
+	static List compileColumnExpression( String expression, boolean rowMode )
+			throws BirtException
+	{
 		if ( expression == null || expression.trim( ).length( ) == 0 )
 			return new ArrayList( );
+		if ( rowMode )
+			ROW_INDICATOR = ROW_COLUMN_INDICATOR;
+		else
+			ROW_INDICATOR = DATASETROW_INDICATOR;
 		List columnExprList = new ArrayList( );
 		columnExprList.clear( );
 		Context context = Context.enter( );
@@ -84,8 +102,19 @@ class ExpressionParserUtility
 	 */
 	static boolean hasAggregation( String expression ) throws BirtException
 	{
+		return hasAggregation( expression, true );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws BirtException 
+	 */
+	static boolean hasAggregation( String expression, boolean mode )
+			throws BirtException
+	{
 		hasAggregation = false;
-		compileColumnExpression( expression );
+		compileColumnExpression( expression, mode );
 		return hasAggregation;
 	}
 	
