@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -37,11 +38,11 @@ import org.eclipse.swt.widgets.Table;
 public class TableArea extends Composite
 {
 
-	private static final String BUTTON_NEW = Messages.getString("TableArea.Button.New"); //$NON-NLS-1$
-	private static final String BUTTON_EDIT = Messages.getString("TableArea.Button.Edit"); //$NON-NLS-1$
-	private static final String BUTTON_REMOVE = Messages.getString("TableArea.Button.Remove"); //$NON-NLS-1$
-	private static final String BUTTON_UP = Messages.getString("TableArea.Button.Up"); //$NON-NLS-1$
-	private static final String BUTTON_DOWN = Messages.getString("TableArea.Button.Down"); //$NON-NLS-1$
+	private static final String BUTTON_NEW = Messages.getString( "TableArea.Button.New" ); //$NON-NLS-1$
+	private static final String BUTTON_EDIT = Messages.getString( "TableArea.Button.Edit" ); //$NON-NLS-1$
+	private static final String BUTTON_REMOVE = Messages.getString( "TableArea.Button.Remove" ); //$NON-NLS-1$
+	private static final String BUTTON_UP = Messages.getString( "TableArea.Button.Up" ); //$NON-NLS-1$
+	private static final String BUTTON_DOWN = Messages.getString( "TableArea.Button.Down" ); //$NON-NLS-1$
 
 	private TableViewer tableViewer;
 	private IBaseTableAreaModifier modifier;
@@ -59,7 +60,7 @@ public class TableArea extends Composite
 		createButtonBar( );
 	}
 
-	private void createTableViewer( int tableStyle )
+	protected void createTableViewer( int tableStyle )
 	{
 		Table table = new Table( this, tableStyle
 				| SWT.FULL_SELECTION
@@ -67,7 +68,14 @@ public class TableArea extends Composite
 		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		table.setHeaderVisible( true );
 		table.setLinesVisible( true );
-		tableViewer = new TableViewer( table );
+		if ( (tableStyle & SWT.CHECK) != 0 )
+		{
+			tableViewer = new CheckboxTableViewer( table );
+		}
+		else
+		{
+			tableViewer = new TableViewer( table );
+		}
 		if ( modifier instanceof ITableAreaModifier )
 		{
 			table.addKeyListener( new KeyAdapter( ) {
@@ -98,7 +106,7 @@ public class TableArea extends Composite
 		} );
 	}
 
-	private void createButtonBar( )
+	protected Composite createButtonBar( )
 	{
 		Composite buttonBar = new Composite( this, SWT.NONE );
 		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
@@ -195,10 +203,11 @@ public class TableArea extends Composite
 			}
 
 		} );
+		return buttonBar;
 
 	}
 
-	private void setButtonLayout( Button button )
+	protected void setButtonLayout( Button button )
 	{
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		button.setLayoutData( gd );
@@ -209,7 +218,7 @@ public class TableArea extends Composite
 		return (IStructuredSelection) tableViewer.getSelection( );
 	}
 
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		boolean enable = ( getSelection( ).size( ) == 1 );
 		editButton.setEnabled( enable );
