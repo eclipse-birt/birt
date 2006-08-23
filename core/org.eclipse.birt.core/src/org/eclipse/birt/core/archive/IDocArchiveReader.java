@@ -76,4 +76,19 @@ public interface IDocArchiveReader {
 	 * close the archive.
 	 */
 	public void close() throws IOException;
+	
+	/**
+	 * try to lock the stream
+	 * @param stream
+	 * @return the locker.
+	 * @throws IOException
+	 */
+	public Object lock(String stream) throws IOException;
+	
+	/**
+	 * unlock the stream locked by the object.
+	 * @param locker object returned by the lock().
+	 * @throws IOException
+	 */
+	public void unlock(Object locker);
 }

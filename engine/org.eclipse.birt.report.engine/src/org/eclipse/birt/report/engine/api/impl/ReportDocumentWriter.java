@@ -23,11 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.IReportDocumentLock;
-import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -58,20 +54,14 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		try
 		{
 			archive.initialize( );
-			IReportDocumentLock lock = lock( getName( ) );
-			synchronized ( lock )
+			Object lock = archive.lock( CORE_STREAM );
+			try
 			{
-				try
-				{
-					saveCoreStreams( );
-				}
-				catch ( Exception ex )
-				{				
-				}
-				finally
-				{				
-					lock.unlock( );
-				}
+				saveCoreStreams( );
+			}
+			finally
+			{				
+				archive.unlock( lock );
 			}
 		}
 		catch ( Exception e )
@@ -89,18 +79,15 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	{
 		try
 		{
-			IReportDocumentLock lock = lock( getName( ) );
-			synchronized ( lock )
+			Object lock = archive.lock( CORE_STREAM );
+			try
 			{
-				try
-				{
-					checkpoint = CHECKPOINT_END;
-					saveCoreStreams( );
-				}
-				finally
-				{				
-					lock.unlock( );
-				}
+				checkpoint = CHECKPOINT_END;
+				saveCoreStreams( );
+			}
+			finally
+			{				
+				archive.unlock( lock );
 			}
 			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
 			archive.finish( );
@@ -306,33 +293,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		globalVariables = new HashMap( );
 		globalVariables.putAll( map );
 	}
-	/**
-	 * create a locker used to lock the report document
-	 * @return
-	 * @throws BirtException
-	 */
-	public IReportDocumentLock lock( String documentName )
-			throws BirtException
-	{
-		IReportDocumentLockManager manager = null;
-		if ( engine != null )
-		{
-			EngineConfig config = engine.getConfig( );
-			if ( config != null )
-			{
-				manager = config.getReportDocumentLockManager( );
-			}
-		}
-		if ( manager == null )
-		{
-			manager = ReportDocumentLockManager.getInstance( );
-		}
-		return manager.lock( documentName );
-	}
-		
+
 	public void saveCoreStreams( ) throws Exception
 	{
-		RAOutputStream out;
+		RAOutputStream out = null;
 		DataOutputStream coreStream = null;
 		try
 		{
@@ -343,7 +307,8 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION_2_1_0 );
 			IOUtil.writeString( coreStream, designName );
 			IOUtil.writeMap( coreStream, paramters );
-			IOUtil.writeMap( coreStream, globalVariables );			
+			IOUtil.writeMap( coreStream, globalVariables );
+			coreStream.flush( );
 		}
 		catch ( IOException ex )
 		{
@@ -353,11 +318,12 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 		finally
 		{
-			if ( coreStream != null )
+			if ( out != null )
 			{
 				try
 				{
-					coreStream.close( );
+					out.close( );
+					out = null;
 				}
 				catch ( Exception ex )
 				{
@@ -377,6 +343,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			}
 			IOUtil.writeInt( checkpointStream, checkpoint );
 			IOUtil.writeLong( checkpointStream, pageCount );
+			checkpointStream.flush( );
 		}
 		catch ( IOException ex )
 		{
@@ -386,11 +353,12 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 		finally
 		{
-			if ( checkpointStream != null )
+			if ( out != null )
 			{
 				try
 				{
-					checkpointStream.close( );
+					out.close( );
+					out = null;
 				}
 				catch ( Exception ex )
 				{

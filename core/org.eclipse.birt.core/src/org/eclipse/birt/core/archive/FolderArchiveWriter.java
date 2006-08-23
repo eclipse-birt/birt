@@ -388,4 +388,25 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		}
 		return true;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#lock(java.lang.String)
+	 */
+	public Object lock( String stream ) throws IOException
+	{
+		String path = ArchiveUtil.generateFullPath( folderName, stream + ".lck" );
+		return DocArchiveLockManager.getInstance( ).lock( path );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#unlock(java.lang.Object)
+	 */
+	public void unlock( Object lock )
+	{
+		DocArchiveLockManager.getInstance( ).unlock( lock );
+	}
 }

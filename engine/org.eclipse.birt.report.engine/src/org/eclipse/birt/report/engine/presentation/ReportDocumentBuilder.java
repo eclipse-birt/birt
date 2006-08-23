@@ -18,10 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
-import org.eclipse.birt.report.engine.api.IReportDocumentLock;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
@@ -156,7 +155,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.10 $ $Date: 2006/08/10 10:34:25 $
+	 * @version $Revision: 1.11 $ $Date: 2006/08/22 08:31:16 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -253,7 +252,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.10 $ $Date: 2006/08/10 10:34:25 $
+	 * @version $Revision: 1.11 $ $Date: 2006/08/22 08:31:16 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -447,58 +446,29 @@ public class ReportDocumentBuilder
 
 				if ( checkpoint )
 				{
-					// create a mutex named with the system
-					// lock the mutex
-					IReportDocumentLock lock;
 					try
 					{
-						lock = document.lock( document.getName( ) );
-						synchronized ( lock )
+						IDocArchiveWriter archive = document.getArchive( );
+						Object lock = archive
+								.lock( ReportDocumentConstants.CORE_STREAM );
+						try
 						{
-							try
-							{					
-								
-								writeTotalPage( pageNumber );								
-								try
-								{
-									document.saveCoreStreams( );
-								}
-								catch ( Exception ex )
-								{
-									logger.log( Level.SEVERE,
-											"Failed to save the report document", ex );
-								}
-								
-								try
-								{
-									IDocArchiveWriter archive = document.getArchive( );
-									if ( archive != null )
-									{
-										archive.flush( );
-									}
-								}
-								catch ( IOException ex )
-								{
-									logger.log( Level.SEVERE,
-											"Failed to flush the report document", ex );
-								}
-							}
-							catch ( Exception ex )
-							{				
-							}
-							finally
-							{				
-								lock.unlock( );
-							}
+							writeTotalPage( pageNumber );
+							document.saveCoreStreams( );
+							archive.flush( );
+						}
+						finally
+						{
+							archive.unlock( lock );
 						}
 					}
-					catch ( BirtException e )
+					catch ( Exception e )
 					{
-						e.printStackTrace();
+						logger.log( Level.WARNING, " check point failed ", e );
 					}
-					
+
 					if ( reportFinished )
-					{					
+					{
 						close( );
 					}
 				}

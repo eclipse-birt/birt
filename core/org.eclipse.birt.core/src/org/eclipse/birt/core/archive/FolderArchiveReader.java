@@ -18,22 +18,26 @@ import java.util.List;
 
 public class FolderArchiveReader implements IDocArchiveReader
 {
+
 	private String folderName;
 
 	/**
-	 * @param folderName - the absolute name of the folder archive
+	 * @param folderName -
+	 *            the absolute name of the folder archive
 	 */
 	public FolderArchiveReader( String folderName ) throws IOException
 	{
-		if ( folderName == null ||
-			 folderName.length() == 0 )
-			throw new IOException("The folder archive name is null or empty string.");
+		if ( folderName == null || folderName.length( ) == 0 )
+			throw new IOException(
+					"The folder archive name is null or empty string." );
 
-		File fd = new File( folderName );		
-		if ( !fd.isDirectory() )
-			throw new IOException("The specified name is not a folder name. The FolderArchiveReader is expecting a valid folder archive name.");
+		File fd = new File( folderName );
+		if ( !fd.isDirectory( ) )
+			throw new IOException(
+					"The specified name is not a folder name. The FolderArchiveReader is expecting a valid folder archive name." );
 
-		this.folderName = fd.getCanonicalPath( ); // make sure the folder name is an absolute path
+		this.folderName = fd.getCanonicalPath( ); // make sure the folder name
+													// is an absolute path
 	}
 
 	/*
@@ -58,9 +62,10 @@ public class FolderArchiveReader implements IDocArchiveReader
 	{
 		// Do nothing
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#close()
 	 */
 	public void close( )
@@ -70,27 +75,29 @@ public class FolderArchiveReader implements IDocArchiveReader
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#getStream(java.lang.String)
 	 */
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
 		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
-		
-		File file = new File(path);		
-		if ( file.exists() )
-		{	
+
+		File file = new File( path );
+		if ( file.exists( ) )
+		{
 			RAFolderInputStream in = new RAFolderInputStream( file );
 			return in;
 		}
-		
+
 		return null;
 	}
 
 	public boolean exists( String relativePath )
 	{
-		String fullPath = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String fullPath = ArchiveUtil.generateFullPath( folderName,
+				relativePath );
 		File fd = new File( fullPath );
-		return fd.exists();		
+		return fd.exists( );
 	}
 
 	/**
@@ -98,22 +105,23 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public List listStreams( String relativeStoragePath ) throws IOException
 	{
-		ArrayList streamList = new ArrayList();		
-		String storagePath = ArchiveUtil.generateFullPath( folderName, relativeStoragePath );
+		ArrayList streamList = new ArrayList( );
+		String storagePath = ArchiveUtil.generateFullPath( folderName,
+				relativeStoragePath );
 		File dir = new File( storagePath );
-		
-		if ( dir.exists() &&
-			 dir.isDirectory() )
+
+		if ( dir.exists( ) && dir.isDirectory( ) )
 		{
-			File[] files = dir.listFiles();
+			File[] files = dir.listFiles( );
 			if ( files != null )
 			{
-				for ( int i=0; i<files.length; i++ )
+				for ( int i = 0; i < files.length; i++ )
 				{
 					File file = files[i];
-					if ( file.isFile() )
+					if ( file.isFile( ) )
 					{
-						String relativePath = ArchiveUtil.generateRelativePath( folderName, file.getPath() );
+						String relativePath = ArchiveUtil.generateRelativePath(
+								folderName, file.getPath( ) );
 						if ( !FolderArchiveWriter.needSkip( relativePath ) )
 						{
 							streamList.add( relativePath );
@@ -122,8 +130,28 @@ public class FolderArchiveReader implements IDocArchiveReader
 				}
 			}
 		}
-		
-		return streamList;	
+
+		return streamList;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#lock(java.lang.String)
+	 */
+	public Object lock( String stream ) throws IOException
+	{
+		String path = ArchiveUtil.generateFullPath( folderName, stream );
+		return DocArchiveLockManager.getInstance( ).lock( path );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#unlock(java.lang.Object)
+	 */
+	public void unlock( Object lock )
+	{
+		DocArchiveLockManager.getInstance( ).unlock( lock );
+	}
 }
