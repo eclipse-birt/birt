@@ -156,12 +156,13 @@ public class ActionHandle extends StructureHandle
 
 	/**
 	 * Sets the format type of the action. The format type for action are
-	 * defined in DesignChoiceConstants and can be one of the following: *
+	 * defined in DesignChoiceConstants and can be one of the following:
 	 * <p>
 	 * <ul>
 	 * <li><code>ACTION_FORMAT_TYPE_HTML</code>
 	 * <li><code>ACTION_FORMAT_TYPE_PDF</code>
 	 * </ul>
+	 * Or, it may be one format that defined by users.
 	 * 
 	 * @param type
 	 *            the type of the action
@@ -180,6 +181,7 @@ public class ActionHandle extends StructureHandle
 	 * <li><code>ACTION_FORMAT_TYPE_HTML</code>
 	 * <li><code>ACTION_FORMAT_TYPE_PDF</code>
 	 * </ul>
+	 * Or, it may be one format that defined by users.
 	 * 
 	 * @return the format type of the action
 	 */

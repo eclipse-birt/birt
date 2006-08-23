@@ -1713,7 +1713,7 @@
     </Member>
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
-    <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="choice">
+    <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="string">
       <Default>all</Default>
     </Member>
     <Member displayNameID="Structure.HideRule.valueExpr" isIntrinsic="true" name="valueExpr" returnType="boolean" since="1.0" type="expression"/>
@@ -1841,7 +1841,7 @@
     <Member detailType="actionLinkType" displayNameID="Structure.Action.linkType" name="linkType" since="1.0" type="choice">
       <Default>hyperlink</Default>
     </Member>
-    <Member detailType="actionFormatType" displayNameID="Structure.Action.formatType" name="formatType" since="2.0" type="choice"/>
+    <Member detailType="actionFormatType" displayNameID="Structure.Action.formatType" name="formatType" since="2.0" type="string"/>
     <Member detailType="actionTargetFileType" displayNameID="Structure.Action.targetFileType" name="targetFileType" since="2.1" type="choice"/>
     <Member detailType="actionBookmarkType" displayNameID="Structure.Action.targetBookmarkType" name="targetBookmarkType" since="2.1" type="choice"/>
     <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" returnType="string" type="expression"/>

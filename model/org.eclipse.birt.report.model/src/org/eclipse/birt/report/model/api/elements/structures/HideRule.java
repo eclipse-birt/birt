@@ -160,7 +160,8 @@ public class HideRule extends Structure
 	 * <li><code>FORMAT_TYPE_WORD</code>
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
-	 * 
+     * Or can be user defined format.
+     * 
 	 * @return the choice code for the format
 	 */
 
@@ -186,6 +187,7 @@ public class HideRule extends Structure
      * <li><code>FORMAT_TYPE_WORD</code>
      * <li><code>FORMAT_TYPE_POWERPOINT</code>
      * </ul>
+     * Or can be user defined format.
      * 
      * @param format
      *            the output format to set

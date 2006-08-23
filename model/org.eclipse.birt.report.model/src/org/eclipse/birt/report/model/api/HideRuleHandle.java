@@ -57,6 +57,8 @@ public class HideRuleHandle extends StructureHandle
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
 	 * 
+     * Or can be user defined format.
+	 * 
 	 * @return the output format of this visibility rule
 	 */
 
@@ -82,10 +84,12 @@ public class HideRuleHandle extends StructureHandle
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
 	 * 
+     * Or can be user defined format.
+	 * 
 	 * @param format
 	 *            the output format to set
 	 * @throws SemanticException
-	 *             if the format is not in the choice list.
+	 *             if the property is locked.
 	 */
 
 	public void setFormat( String format ) throws SemanticException
