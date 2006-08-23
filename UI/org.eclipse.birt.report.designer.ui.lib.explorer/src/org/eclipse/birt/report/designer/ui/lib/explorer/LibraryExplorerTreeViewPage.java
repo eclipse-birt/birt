@@ -168,6 +168,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 		{
 			ExceptionHandler.handle( e );
 		}
+
+		// Listen to internal resouce change
+		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+		.addResourceChangeListener( this );
+
 	}
 
 	/**
@@ -251,10 +256,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 	{
 		LibDirectoryNodeModel rootModel = new LibDirectoryNodeModel(
 				ReportPlugin.getDefault( ).getResourcePreference( ) );
-
 		treeViewer.setInput( rootModel );
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
-				.addResourceChangeListener( this );
 	}
 
 	/*

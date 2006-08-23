@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
-import java.io.File;
-
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoReport;
@@ -22,6 +20,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteLibraryActi
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -30,7 +29,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
 /**
@@ -60,8 +58,9 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		super( page.getTreeViewer( ) );
 		refreshExplorerAction = new RefreshLibExplorerAction( page );
 		addLibraryAction = new AddLibraryAction( page.getTreeViewer( ) );
-		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
-		deleteLibraryAction = new DeleteLibraryAction( page.getTreeViewer( ) );
+		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page
+				.getTreeViewer( ) );
+		deleteLibraryAction = new DeleteLibraryAction( page );
 	}
 
 	/**
@@ -81,7 +80,8 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
 
-		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
+		IStructuredSelection selection = (IStructuredSelection) getViewer( )
+				.getSelection( );
 		if ( selection != null && selection.getFirstElement( ) != null )
 		{
 			Object selected = selection.getFirstElement( );
@@ -90,43 +90,36 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			menu.add( refreshExplorerAction );
 			menu.add( new Separator( ) );
 
-			if ( selected instanceof File )
+			if ( selected instanceof LibraryHandle )
 			{
-				if ( ( (File) selected ).isDirectory( ) )
+				menu.add( addLibraryAction );
+				if(useLibraryAction.isEnabled( ))
 				{
-					addLibraryAction.setFolder( (File) selected );
-					menu.add( addLibraryAction );
+					menu.add( useLibraryAction );
 				}
-				else
-				{
-					addLibraryAction.setFolder( ( (File) selected ).getParentFile( ) );
-					menu.add( addLibraryAction );
-					if ( useLibraryAction.isEnabled( ) )
-					{
-						menu.add( useLibraryAction );
-					}
-				}
+				menu.add( deleteLibraryAction );
 			}
-			else if ( canAddtoReport( selected ) )
+			else
 			{
+				// addLibraryAction.setFolder( (File) selected );
+				menu.add( addLibraryAction );
+			}
+			if ( canAddtoReport( selected ) )
+
 				if ( selection.size( ) == 1 )
 				{
-					AddElementtoReport addElementAction = new AddElementtoReport( (StructuredViewer) getViewer( ) );
+					AddElementtoReport addElementAction = new AddElementtoReport(
+							(StructuredViewer) getViewer( ) );
 					addElementAction.setSelectedElement( selected );
 					menu.add( addElementAction );
 				}
-
-			}
 		}
 		else
 		{
 			refreshExplorerAction.setSelectedElement( null );
 			menu.add( refreshExplorerAction );
-			addLibraryAction.setFolder( null );
 			menu.add( addLibraryAction );
 		}
-		if ( deleteLibraryAction.isEnabled( ) )
-			menu.add( deleteLibraryAction );
 	}
 
 	protected boolean canAddtoReport( Object transfer )
