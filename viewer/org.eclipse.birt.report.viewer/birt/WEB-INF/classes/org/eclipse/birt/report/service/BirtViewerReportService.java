@@ -39,10 +39,11 @@ import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.api.ExportedColumn;
@@ -58,6 +59,8 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.service.api.ToC;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
+
+import com.ibm.icu.util.ULocale;
 
 public class BirtViewerReportService implements IViewerReportService
 {
@@ -359,25 +362,37 @@ public class BirtViewerReportService implements IViewerReportService
 						getModuleOptions( options ) );
 
 		TOCNode node = null;
-		if ( tocId != null )
+		if ( doc != null )
 		{
-			node = doc.findTOC( tocId );
+			Locale locale = Locale.getDefault( );
+			if ( options != null )
+				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+			ITOCTree tocTree = doc.getTOCTree(
+					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
+							.forLocale( locale ) );
 
-		}
-		else
-		{
-			node = doc.findTOC( null );
+			if ( tocId != null )
+			{
+				node = tocTree.findTOC( tocId );
+
+			}
+			else
+			{
+				node = tocTree.findTOC( null );
+			}
 		}
 
 		if ( node == null )
 		{
-			doc.close( );
+			if ( doc != null )
+				doc.close( );
 			throw new ReportServiceException(
 					BirtResources
 							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_TOC ) );
 		}
 
-		doc.close( );
+		if ( doc != null )
+			doc.close( );
 		return transformTOCNode( node );
 	}
 
@@ -391,12 +406,21 @@ public class BirtViewerReportService implements IViewerReportService
 
 		String tocId = null;
 
-		if ( doc.findTOCByName( name ) != null
-				&& doc.findTOCByName( name ).size( ) > 0 )
-			return ( (TOCNode) doc.findTOCByName( name ).get( 0 ) )
-					.getBookmark( );
+		if ( doc != null )
+		{
+			Locale locale = Locale.getDefault( );
+			if ( options != null )
+				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+			ITOCTree tocTree = doc.getTOCTree(
+					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
+							.forLocale( locale ) );
+			assert tocTree != null;
+			List tocList = tocTree.findTOCByValue( name );
+			if ( tocList != null && tocList.size( ) > 0 )
+				return ( (TOCNode) tocList.get( 0 ) ).getBookmark( );
 
-		doc.close( );
+			doc.close( );
+		}
 		return tocId;
 
 	}
