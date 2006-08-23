@@ -29,6 +29,7 @@ import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ToolbarFragment;
+import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
@@ -73,7 +74,7 @@ public class FramesetFragment extends BirtBaseFragment
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		if ( attrBean != null
 				&& !attrBean.isMissingParameter( )
-				&& ParameterAccessor.PARAM_FORMAT_PDF
+				&& !ParameterAccessor.PARAM_FORMAT_HTML
 						.equalsIgnoreCase( attrBean.getFormat( ) ) )
 		{
 			this.doPreService( request, response );
@@ -107,13 +108,26 @@ public class FramesetFragment extends BirtBaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		assert ParameterAccessor.PARAM_FORMAT_PDF
-				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) );
-		response.setContentType( "application/pdf" ); //$NON-NLS-1$
-		String filename = ParameterAccessor.generateFileName( request );
-		response
-				.setHeader(
-						"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String format = ParameterAccessor.getFormat( request );
+		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+		{
+			response.setContentType( "application/pdf" ); //$NON-NLS-1$
+			String filename = ParameterAccessor.generateFileName( request );
+			response
+					.setHeader(
+							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		else
+		{
+			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
+					format );
+			if ( mimeType != null && mimeType.length( ) > 0 )
+				response.setContentType( mimeType + ";charset=utf-8" ); //$NON-NLS-1$
+			else
+				response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
+			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
 	}
 
 	/**
@@ -130,9 +144,6 @@ public class FramesetFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException,
 			IOException, BirtException
 	{
-		assert ParameterAccessor.PARAM_FORMAT_PDF
-				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) );
-
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
@@ -171,8 +182,6 @@ public class FramesetFragment extends BirtBaseFragment
 	protected String doPostService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		assert ParameterAccessor.PARAM_FORMAT_PDF
-				.equalsIgnoreCase( ParameterAccessor.getFormat( request ) );
 		return null;
 	}
 }
