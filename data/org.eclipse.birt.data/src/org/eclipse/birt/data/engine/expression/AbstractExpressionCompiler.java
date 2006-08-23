@@ -266,7 +266,7 @@ abstract class AbstractExpressionCompiler
 	 * @return
 	 * @throws DataException
 	 */
-	abstract CompiledExpression compileDirectColRefExpr( Node parent,
+	protected abstract CompiledExpression compileDirectColRefExpr( Node parent,
 			Node refNode, Node grandFather, boolean customerChecked,
 			Context context ) throws DataException;
 
@@ -339,7 +339,7 @@ abstract class AbstractExpressionCompiler
 	 * @return
 	 * @throws DataException
 	 */
-	abstract AggregateExpression compileAggregateExpr( Context context, Node parent,
+	protected abstract AggregateExpression compileAggregateExpr( Context context, Node parent,
 			Node callNode ) throws DataException;
 
 	/**

@@ -14,6 +14,8 @@
 package org.eclipse.birt.data.engine.expression;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
@@ -25,16 +27,18 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 public final class AggregateExpression extends BytecodeExpression
 {
 	private IAggregation aggregation;
-    private List arguments;
+	private int groupLevel;
+	private List arguments;
     private int m_id;		// Id of this expression in the aggregate registry
-
+	
 	AggregateExpression( IAggregation aggregation )
     {
 		logger.entering( AggregateExpression.class.getName( ),
 				"AggregateExpression" );
     	this.aggregation = aggregation;
     	this.arguments = new ArrayList();
-		logger.exiting( AggregateExpression.class.getName( ),
+    	this.groupLevel = -1;
+    	logger.exiting( AggregateExpression.class.getName( ),
 				"AggregateExpression" );
     }
     
@@ -55,6 +59,10 @@ public final class AggregateExpression extends BytecodeExpression
 
 		if ( !aggregation.getName( ).equals( expr2.getAggregation( )
 				.getName( ) ) )
+			return false;
+		if ( groupLevel != expr2.getGroupLevel( ) )
+			return false;
+		if ( this.getCalculationLevel( )!= expr2.getCalculationLevel( ))
 			return false;
 		if ( arguments.size( ) != expr2.getArguments( ).size( ) )
 			return false;
@@ -105,4 +113,103 @@ public final class AggregateExpression extends BytecodeExpression
     	return m_id;
     }
     
+    /**
+     * Return the calculation level of this aggregation expression.
+     * 
+     * @return
+     */
+    public int getCalculationLevel( )
+    {
+    	if( !this.isNestedAggregation( ))
+    		return 0;
+    	
+    	int result = this.groupLevel;
+    	
+    	for( int i = 0; i < this.arguments.size( ); i++ )
+    	{
+    		if( this.arguments.get( i ) instanceof BytecodeExpression )
+    		{
+    			int level = ((BytecodeExpression)this.arguments.get( i )).getGroupLevel( );
+    			if( level > result)
+    				result = level;
+    			
+    			if( level == 0 )
+    				return 0;
+    		}
+    	}
+    	return result;
+    }
+    
+    /**
+     * 
+     * @param groupLevel
+     */
+    public void setGroupLevel( int groupLevel )
+    {
+    	this.groupLevel = groupLevel;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.expression.BytecodeExpression#getGroupLevel()
+     */
+    public int getGroupLevel( )
+    {
+    	return this.groupLevel;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public boolean isNestedAggregation()
+    {
+    	if( this.arguments!= null )
+    	{
+    		for( int i = 0; i < this.arguments.size( ); i++ )
+    		{
+    			if( this.arguments.get( i ) instanceof AggregateExpression )
+    			{
+    				return true;
+    			}
+    			if ( this.arguments.get( i ) instanceof ComplexExpression )
+    			{
+    				if( hasAggregationInComplexExpression( (ComplexExpression)this.arguments.get( i )) )
+    					return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
+    
+    /**
+     * 
+     * @param expr
+     * @return
+     */
+    private boolean hasAggregationInComplexExpression( ComplexExpression expr )
+    {
+    	Collection collection = expr.getSubExpressions( );
+		if( collection!= null )
+		{
+			Iterator it =  collection.iterator( );
+			if( it.hasNext() )
+			{
+				Object o = it.next();
+				if( o instanceof AggregateExpression )
+				{
+					return true;
+				}
+				
+				if( o instanceof ComplexExpression )
+				{
+					if( hasAggregationInComplexExpression((ComplexExpression)o) )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+    }
 }

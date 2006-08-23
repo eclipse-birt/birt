@@ -29,6 +29,7 @@ class AggrExprInfo
 	// Arguments to the aggregate function
 	CompiledExpression[] args;
 
+	int calculateLevel;
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -39,7 +40,8 @@ class AggrExprInfo
 		AggrExprInfo rhs = (AggrExprInfo) other;
 		if ( aggregation != rhs.aggregation
 				|| groupLevel != rhs.groupLevel
-				|| args.length != rhs.args.length )
+				|| args.length != rhs.args.length
+				|| calculateLevel != rhs.calculateLevel)
 			return false;
 
 		if ( filter == null )

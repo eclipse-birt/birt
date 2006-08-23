@@ -261,6 +261,12 @@ class AggregateCalculator
 			}
 		}
 
+		if( aggrInfo.calculateLevel > 0 )
+		{
+			if( startingGroupLevel > aggrInfo.calculateLevel )
+				accepted = false;
+		}
+		
 		if ( accepted )
 		{
 			// Calculate arguments to the aggregate aggregationtion
@@ -294,8 +300,10 @@ class AggregateCalculator
 				return false;
 			}
 		}
-		// If this is a running aggregate, get value for current row
+		
+		//If this is a running aggregate, get value for current row
 		boolean isRunning = ( aggrInfo.aggregation.getType( ) == IAggregation.RUNNING_AGGR );
+		
 		if ( isRunning && populateValue )
 		{
 			Object value = acc.getValue( );
@@ -371,24 +379,6 @@ class AggregateCalculator
 		return new JSAggrValueObject( this.aggrExprInfoList,
 				this.odiResult,
 				this.aggrValues );
-	}
-	
-	/**
-	 * populate the aggregate value
-	 * 
-	 * @param scope
-	 */
-	void populateValue( JSAggrValueObject aggrValue )
-	{
-		if ( aggrValue == null )
-			return;
-		assert ( aggrValues.length >= aggrValue.getAggrCount( ) );
-		for ( int i = 0; i < aggrValue.getAggrCount( ); i++ )
-		{
-			Object value = aggrValue.get( i, aggrValue );
-			if ( value != null )
-				aggrValues[i].add( value );
-		}
 	}
 	
 	/**

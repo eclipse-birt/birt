@@ -79,11 +79,13 @@ public final class AggregateTable
 	 * @param afterGroup
 	 * @param cx
 	 * @return
+	 * @throws DataException 
 	 */
-	public AggregateRegistry getAggrRegistry( int groupLevel,
-			boolean isDetailedRow, Context cx )
+	public AggregateRegistry getAggrRegistry( int groupLevel, int calculationLevel,
+			boolean isDetailedRow, Context cx ) throws DataException
 	{
 		AggrRegistry aggrRegistry = new AggrRegistry( groupLevel,
+				calculationLevel,
 				isDetailedRow,
 				cx );
 		aggrRegistry.prepare( groupDefns, scope, baseQuery, aggrExprInfoList );
@@ -117,7 +119,6 @@ public final class AggregateTable
 			throws DataException
 	{
 		currentCalculator = new AggregateCalculator( aggrExprInfoList, odiResult );
-		currentCalculator.populateValue( aggrValue );
 		currentCalculator.calculate( scope );
 	}
 	

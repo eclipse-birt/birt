@@ -741,7 +741,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		this.dataSet.setResultSet( odiResult, false );
 
 		// Calculate aggregate values
-		this.aggrTable.calculate( odiResult, getQueryScope( ) );
+		//this.aggrTable.calculate( odiResult, getQueryScope( ) );
 		
 		this.isExecuted = true;
 

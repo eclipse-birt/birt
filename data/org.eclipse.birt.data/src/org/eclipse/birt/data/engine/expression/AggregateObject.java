@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.expression;
 
-import java.util.List;
 
 
 /**
@@ -136,19 +135,8 @@ class AggregateObject
 				.equals( rhs.getAggregateExpr( ).getAggregation( ).getName( ) )
 				|| aggregateExp.getType( ) != rhs.getAggregateExpr( ).getType( ) )
 			return false;
-		List list1 = this.getAggregateExpr( ).getArguments( );
-		List list2 = rhs.getAggregateExpr( ).getArguments( );
-		if ( list1 == null || list2 == null || list1.size( ) != list2.size( ) )
+		if ( !this.getAggregateExpr( ).equals( rhs.getAggregateExpr( ) ))
 			return false;
-		else
-		{
-			for ( int i = 0; i < list1.size( ); i++ )
-			{
-				if ( !list1.get( i ).equals( list2.get( i ) ) )
-					return false;
-			}
-		}
-
 		return true;
 	}
 	

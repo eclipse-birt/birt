@@ -36,6 +36,9 @@ public final class ComplexExpression extends BytecodeExpression
 		logger.exiting( ComplexExpression.class.getName( ), "ComplexExpression" );
 	}
 
+    /**
+     * 
+     */
 	int getType( )
 	{
 		return CompiledExpression.TYPE_COMPLEX_EXPR;
@@ -175,5 +178,32 @@ public final class ComplexExpression extends BytecodeExpression
 	Collection getSubExpressions()
 	{
 		return m_subExpressions;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.expression.BytecodeExpression#getGroupLevel()
+	 */
+	public int getGroupLevel( )
+	{
+		int result = -1;
+		boolean isOverall = false;
+		for( int i = 0; i < m_subExpressions.size( ); i++ )
+		{
+			if( m_subExpressions.get( i ) instanceof BytecodeExpression )
+			{
+				int level = ((BytecodeExpression)m_subExpressions.get( i )).getGroupLevel( );
+				if( level > result )
+					result = level;
+				if( level == 0 )
+					isOverall = true;
+			}else if ( m_subExpressions.get( i ) instanceof ColumnReferenceExpression )
+			{
+				isOverall = true;
+			}
+		}
+		if( result != -1 && isOverall )
+			result = 0;
+		return  result;
 	}
 }

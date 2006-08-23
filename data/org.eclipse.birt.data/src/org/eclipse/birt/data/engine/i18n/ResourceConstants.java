@@ -39,6 +39,7 @@ public class ResourceConstants
 	public final static String NO_CURRENT_ROW = "data.engine.NoCurrentRow";
 	public final static String INVALID_JS_EXPR = "data.engine.InvalidJSExpr";
 	public final static String INVALID_TOTAL_NAME = "data.engine.InvalidTotalFuncName";
+	public final static String INVALID_TOTAL_EXPRESSION = "data.engine.InvalidTotalFunc";
 	public final static String INVALID_CALL_AGGR = "data.engine.NoAggrFunc";
 	public final static String INVALID_EXPR_HANDLE = "data.engine.InvalidExprHandle";	
 	

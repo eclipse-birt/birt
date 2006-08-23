@@ -46,11 +46,12 @@ final class AggregationTablePopulator
 	 * @throws DataException
 	 */
 	public static int populateAggregationTable( AggregateTable table,
-			AggregateObject aggreObj, int groupLvl, boolean aftergroup, boolean isDetailedRow )
-			throws DataException
+			AggregateObject aggreObj, int groupLvl, int calculationLvl,
+			boolean aftergroup, boolean isDetailedRow ) throws DataException
 	{
 		Context cx = Context.enter();
 		AggregateRegistry reg = table.getAggrRegistry( groupLvl,
+				calculationLvl,
 				isDetailedRow,
 				cx );
 		try

@@ -148,5 +148,19 @@ public class JSAggrValueObject extends ScriptableObject
 	{
 		return this.aggrExprInfoList.size( );
 	}
+
+	/**
+	 * Get the aggregate value list.
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public List getAggregateValues( int i )
+	{
+		if( i < this.aggrCount )
+			return aggrValues[i];
+		else
+			return null;
+	}
 	
 }

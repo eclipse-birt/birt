@@ -142,7 +142,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.expression.AbstractExpressionParser#compileAggregateExpr(org.mozilla.javascript.Context, org.mozilla.javascript.Node, org.mozilla.javascript.Node)
 	 */
-	AggregateExpression compileAggregateExpr( Context context, Node parent, Node callNode ) throws DataException
+	protected AggregateExpression compileAggregateExpr( Context context, Node parent, Node callNode ) throws DataException
 	{
 		assert( callNode.getType() == Token.CALL );
 		
@@ -165,7 +165,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.expression.AbstractExpressionParser#compileDirectColRefExpr(org.mozilla.javascript.Node, org.mozilla.javascript.Node, boolean)
 	 */
-	CompiledExpression compileDirectColRefExpr( Node parent, Node refNode,
+	protected CompiledExpression compileDirectColRefExpr( Node parent, Node refNode,
 			Node grandFather, boolean customerChecked, Context context )
 			throws DataException
 	{

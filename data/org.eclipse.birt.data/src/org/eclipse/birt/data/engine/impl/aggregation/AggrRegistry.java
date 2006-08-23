@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.expression.AggregateExpression;
+import org.eclipse.birt.data.engine.expression.BytecodeExpression;
 import org.eclipse.birt.data.engine.expression.AggregationConstantsUtil;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ConstantExpression;
@@ -31,6 +32,7 @@ final class AggrRegistry implements AggregateRegistry
 {
 	private int groupLevel; // current group level
 	private boolean isDetailedRow;
+	private int calculationLevel;
 	private Context cx;
 	
 	private BaseQuery baseQuery;
@@ -50,12 +52,16 @@ final class AggrRegistry implements AggregateRegistry
 	 * @param groupLevel
 	 * @param isDetailedRow
 	 * @param cx
+	 * @throws DataException 
 	 */
-	AggrRegistry( int groupLevel, boolean isDetailedRow, Context cx )
+	AggrRegistry( int groupLevel, int calculationLevel, boolean isDetailedRow, Context cx ) throws DataException
 	{
 		this.groupLevel = groupLevel;
 		this.isDetailedRow = isDetailedRow;
+		this.calculationLevel = calculationLevel;
 		this.cx = cx;
+		if( this.calculationLevel < this.groupLevel && this.calculationLevel > 0 )
+			throw new DataException( ResourceConstants.INVALID_TOTAL_EXPRESSION );
 	}
 
 	/**
@@ -87,7 +93,7 @@ final class AggrRegistry implements AggregateRegistry
 	 */
 	public int register( AggregateExpression expr ) throws DataException
 	{
-		return registerExpression( expr, groupLevel, isDetailedRow, cx );
+		return registerExpression( expr, groupLevel, calculationLevel, isDetailedRow, cx );
 	}
 
 	/**
@@ -101,11 +107,12 @@ final class AggrRegistry implements AggregateRegistry
 	 * @throws DataException
 	 */
 	private int registerExpression( AggregateExpression expr,
-			int groupLevel, boolean isDetailedRow, Context cx )
+			int groupLevel, int calculationLevel, boolean isDetailedRow, Context cx )
 			throws DataException
 	{
 		AggrExprInfo info = newAggrExprInfo( expr,
 				groupLevel,
+				calculationLevel,
 				isDetailedRow,
 				cx );
 
@@ -118,7 +125,9 @@ final class AggrRegistry implements AggregateRegistry
 		}
 
 		if ( id == aggrExprInfoList.size( ) )
+		{
 			aggrExprInfoList.add( info );
+		}
 
 		expr.setRegId( id );
 
@@ -134,7 +143,7 @@ final class AggrRegistry implements AggregateRegistry
 	 * @throws DataException
 	 */
 	private AggrExprInfo newAggrExprInfo( AggregateExpression expr,
-			int currentGroupLevel, boolean isDetailedRow, Context cx )
+			int currentGroupLevel, int calculationLevel, boolean isDetailedRow, Context cx )
 			throws DataException
 	{
 		AggrExprInfo aggr = new AggrExprInfo( );
@@ -142,6 +151,7 @@ final class AggrRegistry implements AggregateRegistry
 		assert currentGroupLevel >= 0;
 
 		aggr.aggregation = expr.getAggregation( );
+		aggr.calculateLevel = calculationLevel;
 		List exprArgs = expr.getArguments( );
 
 		// Find out how many fixed arguments this aggregate function takes
@@ -239,7 +249,31 @@ final class AggrRegistry implements AggregateRegistry
 					&& ( (ConstantExpression) aggr.filter ).getValue( ) == null )
 			{
 				aggr.filter = null;
+			} 
+			else if( aggr.filter instanceof BytecodeExpression )
+			{
+				boolean isValid = false;
+				int groupLevel = ( (BytecodeExpression) aggr.filter ).getGroupLevel( );
+				if ( aggr.calculateLevel == -1 )
+				{
+					if ( groupLevel == 0 || groupLevel == -1 )
+						isValid = true;
+				}
+				else if ( groupLevel == -1 )
+				{
+					if ( aggr.calculateLevel == 0 )
+						isValid = true;
+				}
+				else
+				{
+
+					if ( aggr.calculateLevel == groupLevel )
+						isValid = true;
+				}
+				if ( !isValid )
+					throw new DataException( ResourceConstants.INVALID_TOTAL_EXPRESSION );
 			}
+			
 		}
 
 		aggr.args = new CompiledExpression[nFixedArgs];
@@ -247,6 +281,9 @@ final class AggrRegistry implements AggregateRegistry
 		{
 			exprArgs.subList( 0, nFixedArgs ).toArray( aggr.args );
 		}
+		
+		
+		
 		return aggr;
 	}
 	

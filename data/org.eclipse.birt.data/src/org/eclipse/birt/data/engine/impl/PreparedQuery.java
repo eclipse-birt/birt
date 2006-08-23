@@ -233,14 +233,16 @@ final class PreparedQuery
 	 * @param groupLevel
 	 * @param afterGroup
 	 * @param cx
+	 * @throws DataException 
 	 */
 	private void prepareExpressions( Collection expressions, int groupLevel,
-			boolean afterGroup, boolean isDetailedRow, Context cx )
+			boolean afterGroup, boolean isDetailedRow, Context cx ) throws DataException
 	{
 	    if ( expressions == null )
 	        return;
 	    
 	    AggregateRegistry reg = this.aggrTable.getAggrRegistry( groupLevel,
+	    		-1,
 				isDetailedRow,
 				cx );
 	    Iterator it = expressions.iterator();

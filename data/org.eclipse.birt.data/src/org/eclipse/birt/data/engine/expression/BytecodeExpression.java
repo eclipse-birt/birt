@@ -20,7 +20,7 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 
-abstract class BytecodeExpression extends CompiledExpression
+public abstract class BytecodeExpression extends CompiledExpression
 {
 	private Script m_script;
 	  
@@ -55,4 +55,11 @@ abstract class BytecodeExpression extends CompiledExpression
 	    }
 	}
 	
+	/**
+	 * Return the group level of the bytecode expression. 
+	 * 
+	 * @return
+	 */
+	public abstract int getGroupLevel( );
+
 }

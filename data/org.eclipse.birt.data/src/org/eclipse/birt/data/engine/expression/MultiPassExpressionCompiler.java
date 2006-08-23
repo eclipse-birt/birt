@@ -66,6 +66,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
     private final String ROW_INDICATOR = "row";
     private final String TOTAL_OVERALL = "Total.OVERALL";
     
+    
     // this list to save the current group level if there is nested column
 	// expression. it's last element always keep the newest group level.
 	private List currentGroupLevelList = new ArrayList( );
@@ -73,6 +74,9 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	private final static String AGGR_VALUE = "_temp_aggr_value";
 	private boolean useRsMetaData = true;
 	private BaseQuery baseQuery;
+	
+	//Cache the visited Available Computed Column list in each aggregation parsing
+	private List visitedList;
 	
 	/**
 	 * ExpressionParseHelper to help user parse common expression.
@@ -88,7 +92,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		this.hasAggregate = false;
 		this.hasNesetedAggregate = false;
 		this.caculatedAggregateList = availableAggrObj;
-		aggrObjList = new ArrayList( );
+		this.aggrObjList = new ArrayList( );
 	}
 	
 	/**
@@ -105,8 +109,10 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			currentGroupLevel = exprInfo.getCurrentGroupLevel( );
 			exprType = exprInfo.getExprType( );
 			useRsMetaData = exprInfo.useCustomerChecked( );
+			
 			CompiledExpression expr = compileExpression( exprInfo.getScriptExpression( ),
 					cx );
+			
 			return expr;
 		}
 		catch ( Exception e )
@@ -124,7 +130,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @see org.eclipse.birt.data.engine.impl.AbstractExpressionParser#compileDirectColRefExpr(org.mozilla.javascript.Node,
 	 *      boolean)
 	 */
-	CompiledExpression compileDirectColRefExpr( Node parent, Node refNode,
+	protected CompiledExpression compileDirectColRefExpr( Node parent, Node refNode,
 			Node grandfather, boolean customerChecked, Context context )
 			throws DataException
 	{
@@ -231,7 +237,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @see org.eclipse.birt.data.engine.impl.AbstractExpressionParser#compileAggregateExpr(org.mozilla.javascript.Context,
 	 *      org.mozilla.javascript.Node, org.mozilla.javascript.Node)
 	 */
-	AggregateExpression compileAggregateExpr( Context context, Node parent,
+	protected AggregateExpression compileAggregateExpr( Context context, Node parent,
 			Node callNode ) throws DataException
 	{
 		assert ( callNode.getType( ) == Token.CALL );
@@ -242,13 +248,16 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		{
 			return null;
 		}
+		this.visitedList = new ArrayList();
 
-		passLevel = 0;
+		this.passLevel = 0;
 		AggregateExpression aggregateExpression = new AggregateExpression( aggregation );
 
 		AggregateObject aggregateObj = new AggregateObject( aggregateExpression );
 		this.hasAggregate = true;
+		
 		extractArguments( context, aggregateExpression, callNode );
+		
 		Iterator iter = aggregateExpression.getArguments( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -269,6 +278,9 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		}
 		// get the aggregate current group level
 		currentGroupLevel = getCurrentGroupLevel( aggregateObj, context );
+		
+		aggregateExpression.setGroupLevel( currentGroupLevel );
+				
 		if ( exprType == IExpressionProcessor.GROUP_COLUMN_EXPR
 				|| exprType == IExpressionProcessor.FILTER_ON_GROUP_EXPR
 				|| exprType == IExpressionProcessor.SORT_ON_GROUP_EXPR )
@@ -277,11 +289,24 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		}
 		else
 			aggregateObj.setPassLevel( ++passLevel );
-		int id = registerAggregate( aggregateObj );
+		
+		//All the group level in nested total should follow the rule that the child aggregate group level should 
+		//greater than parent group level. 
+		if ( aggregateExpression.isNestedAggregation( )
+				&& aggregateExpression.getCalculationLevel( ) < aggregateExpression.getGroupLevel( )
+				&& aggregateExpression.getCalculationLevel( ) != 0 )
+		{
+			throw new DataException( ResourceConstants.INVALID_TOTAL_EXPRESSION );
+		}
+		
+		int id = registerAggregate( aggregateObj,
+				aggregateExpression.isNestedAggregation( )
+						? aggregateExpression.getCalculationLevel( ) : 0 );
 
 		if ( id >= 0 )
 			replaceAggregateNode( id, parent, callNode );
 		setTotalPassLevel( passLevel );
+		this.visitedList.clear( );
 		return aggregateExpression;
 	}
 
@@ -478,6 +503,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			throws DataException
 	{
 		Node arg = callNode.getFirstChild( ).getNext( );
+						
 		while ( arg != null )
 		{
 			// need to hold on to the next argument because the tree extraction
@@ -505,7 +531,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 				if ( registry >= 0 )
 					replaceAggregateNode( registry, exprNode, arg );
 			}
-
+			
 			compileForBytecodeExpr( context, tree, expr );
 			aggregateExpression.addArgument( expr );
 			arg = nextArg;
@@ -549,7 +575,15 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			{
 				AggregateObject obj = (AggregateObject) caculatedAggregateList.get( i );
 				if ( obj.equals( aggregateObj ) )
-					return true;
+				{
+					if ( visitedList.contains( aggregateObj ) )
+						return false;
+					else
+					{
+						visitedList.add( obj );
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -629,7 +663,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param aggregateObj
 	 * @return register id
 	 */
-	private int registerAggregate( AggregateObject aggregateObj )
+	private int registerAggregate( AggregateObject aggregateObj, int calculationLevel )
 			throws DataException
 	{
 		if ( rsPopulator == null )
@@ -644,6 +678,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 				index = AggregationTablePopulator.populateAggregationTable( table,
 						aggregateObj,
 						currentGroupLevel,
+						calculationLevel,
 						false,
 						false );
 				if ( aggrObjList == null )
