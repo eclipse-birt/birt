@@ -489,9 +489,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		// if report runnable is null, then get it from design file
 		if ( reportRunnable == null )
 		{
-			// if set __document parameter, throw exception directly
+			// if only set __document parameter, throw exception directly
 			if ( ParameterAccessor.isReportParameterExist( request,
-					ParameterAccessor.PARAM_REPORT_DOCUMENT ) )
+					ParameterAccessor.PARAM_REPORT_DOCUMENT )
+					&& !ParameterAccessor.isReportParameterExist( request,
+							ParameterAccessor.PARAM_REPORT ) )
 			{
 				if ( isValidDocument )
 					this.exception = new ViewerException(
