@@ -252,14 +252,10 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getAllocatedHeight( )
 	{
-		int topMarginHeight = PropertyUtil.getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_TOP ) );
-		int bottomMarginHeight = PropertyUtil.getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
-		int result = 0;
-		if( topMarginHeight >= 0) result = height + topMarginHeight;
-		if( bottomMarginHeight >= 0) result = result + bottomMarginHeight;
-		return result;
+		return height + PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_TOP ) )
+				+ PropertyUtil.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
 	}
 
 
