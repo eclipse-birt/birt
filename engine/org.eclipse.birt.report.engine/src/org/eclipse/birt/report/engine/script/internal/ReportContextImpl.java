@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -34,6 +35,11 @@ public class ReportContextImpl implements IReportContext
 		this.context = context;
 	}
 
+	public IReportRunnable getReportRunnable( )
+	{
+		return context.getRunnable( );
+	}
+	
 	public Map getAppContext( )
 	{
 		return context.getAppContext( );

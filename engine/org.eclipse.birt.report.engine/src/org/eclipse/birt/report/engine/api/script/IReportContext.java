@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.api.script;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
-import java.io.Serializable;
+
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 
 /**
  * An interface used to share information between the event methods in
@@ -24,6 +26,12 @@ import java.io.Serializable;
 public interface IReportContext
 {
 
+	/**
+	 * return the report runnable used to create/render this report
+	 * 
+	 * @return
+	 */
+	IReportRunnable getReportRunnable( );
 	/**
 	 * 
 	 * @param name
