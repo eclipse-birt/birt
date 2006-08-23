@@ -230,9 +230,14 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			layoutEvents.push( new LayoutEvent( LayoutEvent.ON_ROW,
-					new Integer( layout.getRowCount( ) ) ) );
+			int rowId = layout.getRowCount( );
 			layout.createRow( row );
+			int rowCount = layout.getRowCount( );
+			if ( rowId != rowCount )
+			{
+				layoutEvents.push( new LayoutEvent( LayoutEvent.ON_ROW,
+						new Integer( rowId ) ) );
+			}
 		}
 	}
 
