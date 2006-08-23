@@ -187,14 +187,23 @@ public class PDFLayoutManagerFactory
 		{
 			if ( IAutoTextContent.PAGE_NUMBER == autoText.getType( ) )
 			{
-				String originalPageNumber = autoText.getText( );
-				NumberFormatter nf = new NumberFormatter( );
-				String patternStr = autoText.getComputedStyle( )
-						.getNumberFormat( );
-				nf.applyPattern( patternStr );
-				autoText.setText( nf.format( Integer
-						.parseInt( originalPageNumber ) ) );
-
+				if ( parent instanceof PDFLineAreaLM )
+				{
+					String originalPageNumber = autoText.getText( );
+					NumberFormatter nf = new NumberFormatter( );
+					String patternStr = autoText.getComputedStyle( )
+							.getNumberFormat( );
+					nf.applyPattern( patternStr );
+					try
+					{
+						autoText.setText( nf.format( Integer
+								.parseInt( originalPageNumber ) ) );
+					}
+					catch(NumberFormatException nfe)
+					{
+						autoText.setText( originalPageNumber );
+					}
+				}
 				return handleText( autoText );
 			}
 			return new PDFTemplateLM( context, parent, autoText, 
