@@ -11,5 +11,17 @@
 	  		format="html"
 	  		mimeType="text/html" >
 	 	</emitter>
+	 	<emitter 
+	  		id="org.eclipse.birt.report.engine.emitter.html.webviewer"
+	  		class="org.eclipse.birt.report.engine.emitter.html.WebViewerHTMLReportEmitter"
+	  		format="web viewer"
+	  		mimeType="text/html" >
+	 	</emitter>
+	 	<emitter 
+	  		id="org.eclipse.birt.report.engine.emitter.html.static"
+	  		class="org.eclipse.birt.report.engine.emitter.html.StaticHTMLReportEmitter"
+	  		format="static html"
+	  		mimeType="text/html" >
+	 	</emitter>
    </extension>
 </plugin>
