@@ -14,8 +14,11 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.print.attribute.SupportedValuesAttribute;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -345,8 +348,11 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private Button sameWindowButton;
 	private Button newWindowButton;
-	private Button htmlButton;
-	private Button pdfButton;
+//	private Button htmlButton;
+//	private Button pdfButton;	
+	private HashMap formatCheckBtns;
+	private String[] supportedFormats;
+	
 	private Combo anchorChooser;
 	private Group targetGroup;
 
@@ -699,13 +705,34 @@ public class HyperlinkBuilder extends BaseDialog
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
-
-		htmlButton = new Button( group, SWT.RADIO );
-		htmlButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
-
-		pdfButton = new Button( group, SWT.RADIO );
-		pdfButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
-
+	
+//		htmlButton = new Button( group, SWT.RADIO );
+//		htmlButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
+//
+//		pdfButton = new Button( group, SWT.RADIO );
+//		pdfButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
+		
+		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+		supportedFormats = engine.getSupportedFormats( );
+		formatCheckBtns = new HashMap();
+		
+		for ( int i = 0; i < supportedFormats.length; i++ )
+		{
+			Button btn = new Button( group, SWT.RADIO );
+			if ( supportedFormats.equals( "html" ) )
+			{				
+				btn.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
+			}
+			else if ( supportedFormats.equals( "pdf" ) )
+			{				
+				btn.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
+			}
+			else
+			{				
+				btn.setText( supportedFormats[i] ); //$NON-NLS-1$
+			}
+			formatCheckBtns.put( supportedFormats[i], btn );
+		}
 	}
 
 	private void createBindingTable( Composite parent )
@@ -1003,13 +1030,21 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setTargetWindow( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK );
 				}
 
-				if ( htmlButton.getSelection( ) )
+				// if ( htmlButton.getSelection( ) )
+				// {
+				// inputHandle.setFormatType( "html" ); //$NON-NLS-1$
+				// }
+				// else
+				// {
+				// inputHandle.setFormatType(
+				// DesignChoiceConstants.FORMAT_TYPE_PDF );
+				//				}
+				for ( int i = 0; i < supportedFormats.length; i++ )
 				{
-					inputHandle.setFormatType( "html" ); //$NON-NLS-1$
-				}
-				else
-				{
-					inputHandle.setFormatType( DesignChoiceConstants.FORMAT_TYPE_PDF );
+					if ( ( (Button)formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
+					{
+						inputHandle.setFormatType( supportedFormats[i] );
+					}
 				}
 			}
 			inputHandle.setLinkType( selectedType );
@@ -1178,15 +1213,23 @@ public class HyperlinkBuilder extends BaseDialog
 				sameWindowButton.setSelection( true );
 			}
 
-			if ( DesignChoiceConstants.FORMAT_TYPE_PDF.equals( inputHandle.getFormatType( ) ) )
+//			if ( DesignChoiceConstants.FORMAT_TYPE_PDF.equals( inputHandle.getFormatType( ) ) )
+//			{
+//				pdfButton.setSelection( true );
+//			}
+//			else
+//			{
+//				htmlButton.setSelection( true );
+//			}
+
+			if ( inputHandle.getFormatType( ) != null )
 			{
-				pdfButton.setSelection( true );
+				( (Button)formatCheckBtns.get( inputHandle.getFormatType( ) ) ).setSelection( true );
 			}
 			else
 			{
-				htmlButton.setSelection( true );
+				( (Button)formatCheckBtns.get( "html" ) ).setSelection( true );
 			}
-
 		}
 		updateButtons( );
 	}
