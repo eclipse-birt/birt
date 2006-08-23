@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2006 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -26,8 +27,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * ConnectionManager manages a set of data source connections.  Calling 
  * <code>getInstance</code> will return an instance of <code>ConnectionManager</code>.
- * When the method <code>getConnection</code> is called, the 
- * <code>ConnectionManager</code> will attempt to return an opened 
+ * When the method <code>openConnection</code> is called, the 
+ * <code>ConnectionManager</code> will attempt to open and return a 
  * <code>Connection</code> instance of the data source extension 
  * supported by that driver.
  */
@@ -36,10 +37,9 @@ public class ConnectionManager
 	private static ConnectionManager sm_instance = null;
 	
     // trace logging variables
-	private static String sm_className = ConnectionManager.class.getName();
-	static String sm_packageName = "org.eclipse.birt.data.engine.odaconsumer";
-	private static String sm_loggerName = sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
+	private static final String sm_className = ConnectionManager.class.getName();
+	static final String sm_packageName = "org.eclipse.birt.data.engine.odaconsumer";  //$NON-NLS-1$
+	private static LogHelper sm_logger = null;
 	
 	protected ConnectionManager( )
 	{
@@ -49,20 +49,36 @@ public class ConnectionManager
 	 * Returns a <code>ConnectionManager</code> instance for getting opened 
 	 * <code>Connections</code>.
 	 * @return	a <code>ConnectionManager</code> instance.
-	 * @throws IllegalStateException	if the <code>ConnectionManager</code> subclass 
-	 * 									specified in the properties file cannot be found.
 	 */
-	public static ConnectionManager getInstance( ) throws IllegalStateException
+	public static ConnectionManager getInstance( )
 	{
-		String methodName = "getInstance";		
-		sm_logger.entering( sm_className, methodName );
+		final String methodName = "getInstance";		 //$NON-NLS-1$
+		getLogger().entering( sm_className, methodName );
 
 		if( sm_instance == null )
 		    sm_instance = new ConnectionManager( );		
 
-		sm_logger.exiting( sm_className, methodName, sm_instance );		
+		getLogger().exiting( sm_className, methodName, sm_instance );		
 		return sm_instance;
 	}
+    
+    /**
+     * Singleton instance release method.
+     */
+    public static void releaseInstance()
+    {
+    	DriverManager.releaseInstance();
+        sm_instance = null;
+        sm_logger = null;
+    }
+
+    private static LogHelper getLogger()
+    {
+        if( sm_logger == null )
+    		sm_logger = LogHelper.getInstance( sm_packageName );
+        
+        return sm_logger;
+    }
 
 	/**
 	 * Returns an opened <code>Connection</code> that is supported by the specified 
@@ -95,10 +111,10 @@ public class ConnectionManager
 									  Map appContext )
 		throws DataException
 	{
-		String methodName = "openConnection";
+		final String methodName = "openConnection"; //$NON-NLS-1$
 		
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { dataSourceElementId, connectionProperties } );
 		
 		try
@@ -125,21 +141,21 @@ public class ConnectionManager
 			
 			Connection ret = ( new Connection( connection, dataSourceElementId ) );
 			
-			sm_logger.exiting( sm_className, methodName, ret );	
+			getLogger().exiting( sm_className, methodName, ret );	
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot open connection.", ex );
+			getLogger().logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot open connection.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
 			                         new Object[] { dataSourceElementId } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot open connection.", ex );
+			getLogger().logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot open connection.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
 			                         new Object[] { dataSourceElementId } );
@@ -154,8 +170,8 @@ public class ConnectionManager
 	 */
 	public int getMaxConnections( String driverName ) throws DataException
 	{
-		String methodName = "getMaxConnections";
-		sm_logger.entering( sm_className, methodName, driverName );
+		final String methodName = "getMaxConnections"; //$NON-NLS-1$
+		getLogger().entering( sm_className, methodName, driverName );
 
 		int maxConnections = 0;  	// default to unknown limit
 		try
@@ -167,18 +183,18 @@ public class ConnectionManager
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Cannot get max connections.", ex );
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
+							"Cannot get max connections.", ex ); //$NON-NLS-1$
 			maxConnections = 0;
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-							"Cannot get max connections.", ex );
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+							"Cannot get max connections.", ex ); //$NON-NLS-1$
 			maxConnections = 0;
 		}
 
-		sm_logger.exiting( sm_className, methodName, maxConnections );			
+		getLogger().exiting( sm_className, methodName, maxConnections );			
 		return maxConnections;
 	}
 

@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2006 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */  
@@ -31,13 +31,12 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
  */
 class DriverManager
 {
-	private static DriverManager sm_driverManager = new DriverManager();
+	private static DriverManager sm_driverManager = null;
 	private Hashtable m_loadedDrivers;
 	
 	// trace logging variables
-	private static String sm_className = DriverManager.class.getName();
-	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
+	private static final String sm_className = DriverManager.class.getName();
+	private static LogHelper sm_logger;
 
 	private DriverManager()
 	{
@@ -47,13 +46,30 @@ class DriverManager
 	 * Returns a <code>DriverManager</code> instance for loading drivers and 
 	 * handling driver-related tasks.
 	 * @return	a <code>DriverManager</code> instance.
-	 * @throws IllegalStateException	if the <code>DriverManager</code> subclass 
-	 * 									specified in the properties file cannot be found.
 	 */
-	static DriverManager getInstance() throws IllegalStateException
+	static DriverManager getInstance()
 	{
+		if( sm_driverManager == null )
+			sm_driverManager = new DriverManager();
 		return sm_driverManager;
 	}
+    
+    /**
+     * Singleton instance release method.
+     */
+    static void releaseInstance()
+    {
+    	sm_driverManager = null;
+        sm_logger = null;
+    }
+
+    private static LogHelper getLogger()
+    {
+        if( sm_logger == null )
+            sm_logger = LogHelper.getInstance( ConnectionManager.sm_packageName );
+        
+        return sm_logger;
+    }
 	
 	/**
 	 * Returns the <code>IDriver</code> based on driverName.
@@ -63,13 +79,13 @@ class DriverManager
 	IDriver getDriverHelper( String dataSourceElementId )
 		throws DataException
 	{
-		String methodName = "getDriverHelper";
-		sm_logger.entering( sm_className, methodName, dataSourceElementId );
+		final String methodName = "getDriverHelper"; //$NON-NLS-1$
+		getLogger().entering( sm_className, methodName, dataSourceElementId );
 
 		Driver driver = getDriver( dataSourceElementId );
 		IDriver ret = driver.getDriverHelper();
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 
@@ -84,22 +100,22 @@ class DriverManager
 	String getExtensionDataSourceId( String dataSourceElementId ) 
 		throws DataException
 	{
-		String methodName = "getExtensionDataSourceId";
-		sm_logger.entering( sm_className, methodName, dataSourceElementId );
+		final String methodName = "getExtensionDataSourceId"; //$NON-NLS-1$
+		getLogger().entering( sm_className, methodName, dataSourceElementId );
 
 		Driver driver = getDriver( dataSourceElementId );
 		ExtensionManifest config = driver.getDriverExtensionConfig();
 		String ret = config.getDataSourceElementID();
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	void setDriverLogConfiguration( String dataSourceElementId )
 	{
-		String methodName = "setDriverLogConfiguration";
-		if( sm_logger.isLoggingEnterExitLevel() )
-		    sm_logger.entering( sm_className, methodName, 
+		final String methodName = "setDriverLogConfiguration"; //$NON-NLS-1$
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 		        				new Object[] { dataSourceElementId } );
 
 	    assert( dataSourceElementId != null );
@@ -108,7 +124,7 @@ class DriverManager
 		assert( driver != null );
         driver.setLogConfiguration();
 
-		sm_logger.exiting( sm_className, methodName );
+        getLogger().exiting( sm_className, methodName );
 	}
 		
 	private Driver getDriver( String dataSourceElementId )
