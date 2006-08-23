@@ -1,20 +1,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
-import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -34,7 +29,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.internal.win32.MSG;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -86,7 +80,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 	private Combo itemType;
 
-	private CCombo itemName;
+	private Text itemName;
 
 	private Combo itemAggregateOn;
 
@@ -132,12 +126,31 @@ public class DataItemBindingDialog extends BaseDialog
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
 
 		new Label( composite, SWT.NONE ).setText( NAME );
-		itemName = new CCombo( composite, SWT.BORDER );
+		itemName = new Text( composite, SWT.BORDER );
 		GridData data = new GridData( );
 		int width = itemName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		data.widthHint = width < 250 ? 250 : width;
 		itemName.setLayoutData( data );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
+
+		itemName.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				if ( DataItemBindingDialog.this.getOkButton( ) != null )
+				{
+					if ( itemName.getText( ) == null
+							|| itemName.getText( ).trim( ).equals( "" ) )
+						DataItemBindingDialog.this.getOkButton( )
+								.setEnabled( false );
+					else
+						DataItemBindingDialog.this.getOkButton( )
+								.setEnabled( true );
+				}
+
+			}
+
+		} );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -215,15 +228,6 @@ public class DataItemBindingDialog extends BaseDialog
 		itemAggregateOn.setVisible( false );
 		hiddenLabel.setVisible( false );
 
-		if ( bindingColumn == null )
-		{
-			btnForce = new Button( composite, SWT.CHECK );
-			btnForce.setText( FORCE_BINDING_TEXT );
-			data = new GridData( GridData.FILL_HORIZONTAL );
-			data.horizontalSpan = 3;
-			btnForce.setLayoutData( data );
-		}
-
 		init( );
 		return composite;
 	}
@@ -257,7 +261,7 @@ public class DataItemBindingDialog extends BaseDialog
 	private void init( )
 	{
 		initDataTypes( );
-		initItemNames( );
+		initName( );
 		initAggregateOns( );
 		initExpression( );
 	}
@@ -293,14 +297,12 @@ public class DataItemBindingDialog extends BaseDialog
 			itemExpression.setText( expression );
 	}
 
-	private void initItemNames( )
+	private String name;
+
+	private void initName( )
 	{
-		if ( itemNames != null && itemName != null )
-		{
-			itemName.setItems( itemNames );
-			if ( nameSelect != null )
-				itemName.select( getItemIndex( itemName.getItems( ), nameSelect ) );
-		}
+		if ( name != null && itemName != null )
+			itemName.setText( name );
 	}
 
 	protected void setValue( ) throws SemanticException
@@ -311,8 +313,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 			if ( bindingColumn == null )
 			{
-				ComputedColumn newBinding = StructureFactory.newComputedColumn( input,
-						itemName.getText( ) );
+				newBinding.setName( itemName.getText( ) );
 				for ( int i = 0; i < dataTypeChoices.length; i++ )
 				{
 					if ( dataTypeChoices[i].getDisplayName( )
@@ -334,7 +335,7 @@ public class DataItemBindingDialog extends BaseDialog
 					newBinding.setAggregateOn( null );
 				bindingColumn = DEUtil.addColumn( getBindingObject( ),
 						newBinding,
-						btnForce.getSelection( ) );
+						isForceBinding( ) );
 			}
 			else
 			{
@@ -366,6 +367,11 @@ public class DataItemBindingDialog extends BaseDialog
 		}
 	}
 
+	protected boolean isForceBinding( )
+	{
+		return false;
+	}
+
 	protected void setResultSetColumn( ) throws SemanticException
 	{
 		if ( input instanceof DataItemHandle )
@@ -384,6 +390,7 @@ public class DataItemBindingDialog extends BaseDialog
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
+			return ;
 		}
 
 		super.okPressed( );
@@ -442,12 +449,6 @@ public class DataItemBindingDialog extends BaseDialog
 		return DEUtil.getBindingHolder( input );
 	}
 
-	public void setDataItemNames( String[] itemNames )
-	{
-		this.itemNames = itemNames;
-		initItemNames( );
-	}
-
 	public void setDataTypes( String[] dataTypes )
 	{
 		this.dataTypes = dataTypes;
@@ -460,9 +461,18 @@ public class DataItemBindingDialog extends BaseDialog
 		initExpression( );
 	}
 
-	protected String createColumnName( ReportItemHandle input, String name )
+	public void setName( String name )
 	{
-		return StructureFactory.newComputedColumn( input, name ).getName( );
+		this.name = name;
+		initName( );
+	}
+
+	private ComputedColumn newBinding;
+
+	protected void createColumnName( ReportItemHandle input, String name )
+	{
+		newBinding = StructureFactory.newComputedColumn( input, name );
+		setName( newBinding.getName( ) );
 	}
 
 	public void setInput( ReportItemHandle input )
@@ -479,82 +489,25 @@ public class DataItemBindingDialog extends BaseDialog
 			{
 				bindingColumn = getInputBinding( input, bindingName );
 			}
-			List columnList = DataUtil.generateComputedColumns( input );
-			if ( ( columnList == null || columnList.size( ) == 0 )
-					&& bindingColumn == null )
+			if ( bindingColumn == null )
 			{
-				setDataItemNames( new String[]{
-					createColumnName( input, DEFAULT_ITEM_NAME )
-				} );
-				setNameSelect( itemNames[0] );
+				createColumnName( input, DEFAULT_ITEM_NAME );
+				setTypeSelect( dataTypes[0] );
 			}
 			else
 			{
-				// Add data set items.
-				boolean isBindingDataSet = false;
-				List list = new LinkedList( );
-
-				List bindingList = DEUtil.getAllColumnBindingList( input, true );
-				List bindingNameList = new LinkedList( );
-				for ( int i = 0; i < bindingList.size( ); i++ )
-					bindingNameList.add( ( (ComputedColumnHandle) bindingList.get( i ) ).getName( ) );
-
-				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-				{
-					ComputedColumn resultSetColumn = (ComputedColumn) iter.next( );
-					if ( bindingColumn != null )
-					{
-						if ( bindingColumn.getName( )
-								.equals( resultSetColumn.getName( ) ) )
-							isBindingDataSet = true;
-						else if ( bindingNameList.contains( resultSetColumn.getName( ) ) )
-							continue;
-					}
-					list.add( resultSetColumn.getName( ) );
-				}
-
-				setDataItemNames( convertListToStrings( list ) );
-
-				if ( bindingColumn != null )
-				{
-					if ( !isBindingDataSet )
-					{
-						String names[] = new String[itemNames.length + 1];
-						System.arraycopy( itemNames,
-								0,
-								names,
-								1,
-								itemNames.length );
-						names[0] = bindingColumn.getName( );
-						setDataItemNames( names );
-					}
-					setNameSelect( bindingColumn.getName( ) );
-					setTypeSelect( dataTypeChoiceSet.findChoice( bindingColumn.getDataType( ) )
-							.getDisplayName( ) );
-					setExpression( bindingColumn.getExpression( ) );
-					setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
-				}
-				else
-				{
-					String names[] = new String[itemNames.length + 1];
-					System.arraycopy( itemNames, 0, names, 1, itemNames.length );
-					names[0] = createColumnName( input, DEFAULT_ITEM_NAME );
-					setDataItemNames( names );
-					setNameSelect( itemNames[0] );
-					setTypeSelect( dataTypes[0] );
-				}
+				setName( bindingColumn.getName( ) );
+				setTypeSelect( dataTypeChoiceSet.findChoice( bindingColumn.getDataType( ) )
+						.getDisplayName( ) );
+				setExpression( bindingColumn.getExpression( ) );
+				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
 			}
+
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
-	}
-
-	public void setNameSelect( String nameSelect )
-	{
-		this.nameSelect = nameSelect;
-		initItemNames( );
 	}
 
 	public void setTypeSelect( String typeSelect )
@@ -573,25 +526,23 @@ public class DataItemBindingDialog extends BaseDialog
 		return itemAggregateOn.getText( );
 	}
 
-	public String getNameSelect( )
-	{
-		return itemName.getText( );
-	}
-
 	public String getTypeSelect( )
 	{
 		return itemType.getText( );
 	}
 
 	ComputedColumnExpressionFilter filter;
+
 	protected void handleExpressionButtonSelectEvent( )
 	{
 		ExpressionBuilder expression = new ExpressionBuilder( getExpression( ) );
 		if ( expressionProvider == null )
 			expressionProvider = new BindingExpressionProvider( input );
-		if ( bindingColumn != null ){
-			if (filter!=null)expressionProvider.removeFilter( filter );
-			filter =  new ComputedColumnExpressionFilter( bindingColumn );
+		if ( bindingColumn != null )
+		{
+			if ( filter != null )
+				expressionProvider.removeFilter( filter );
+			filter = new ComputedColumnExpressionFilter( bindingColumn );
 			expressionProvider.addFilter( filter );
 		}
 		expression.setExpressionProvier( expressionProvider );
@@ -604,30 +555,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected ExpressionProvider expressionProvider;
 
-	protected Button btnForce;
-
 	public void setExpressionProvider( ExpressionProvider provider )
 	{
 		expressionProvider = provider;
-	}
-
-	public Combo getItemAggregateOn( )
-	{
-		return itemAggregateOn;
-	}
-
-	public Text getItemExpression( )
-	{
-		return itemExpression;
-	}
-
-	public CCombo getItemName( )
-	{
-		return itemName;
-	}
-
-	public Combo getItemType( )
-	{
-		return itemType;
 	}
 }
