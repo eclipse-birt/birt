@@ -464,6 +464,9 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
 				options );
+		ViewerAttributeBean bean = getViewerAttrBean( options );
+		if ( bean != null )
+			task.setParameterValues( bean.getParameters( ) );
 		task.evaluateQuery( groupName );
 		Collection selectionList = task.getSelectionListForCascadingGroup(
 				groupName, groupKeys );
@@ -476,6 +479,10 @@ public class BirtViewerReportService implements IViewerReportService
 	{
 		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
 				runOptions );
+		ViewerAttributeBean bean = getViewerAttrBean( runOptions );
+		if ( bean != null )
+			task.setParameterValues( bean.getParameters( ) );
+		
 		Collection selectionList = task.getSelectionList( paramName );
 		return convertEngineParameterSelectionChoice( selectionList );
 	}
@@ -947,12 +954,28 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	/**
+	 * Get Module options from ViewerAttributeBean
 	 * 
 	 * @param options
 	 * @return
 	 */
 
-	Map getModuleOptions( InputOptions options )
+	private Map getModuleOptions( InputOptions options )
+	{
+		ViewerAttributeBean bean = getViewerAttrBean( options );
+		if ( bean != null )
+			return bean.getModuleOptions( );
+		return null;
+	}
+
+	/**
+	 * 
+	 * Get ViewerAttributeBean from InputOptions
+	 *  
+	 * @param options
+	 * @return
+	 */
+	private ViewerAttributeBean getViewerAttrBean( InputOptions options )
 	{
 		if ( options != null )
 		{
@@ -960,10 +983,8 @@ public class BirtViewerReportService implements IViewerReportService
 					.getOption( InputOptions.OPT_REQUEST );
 			if ( request != null )
 			{
-				ViewerAttributeBean bean = (ViewerAttributeBean) request
+				return (ViewerAttributeBean) request
 						.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-				if ( bean != null )
-					return bean.getModuleOptions( );
 			}
 		}
 		return null;
