@@ -177,7 +177,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 
 		Collection original = ( (ReportRunnable) runnable )
-				.getParameterDefns( false );
+				.getParameterDefns( true );
 		Iterator iter = original.iterator( );
 
 		while ( iter.hasNext( ) )
