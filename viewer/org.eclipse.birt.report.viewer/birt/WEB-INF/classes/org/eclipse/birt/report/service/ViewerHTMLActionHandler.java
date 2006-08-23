@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.service;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -26,7 +24,10 @@ import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -125,15 +126,17 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.isMasterPageContent = isMasterPageContent;
 	}
 
-	/**
-	 * Get URL
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse.birt.report.engine.api.IAction,
+	 *      org.eclipse.birt.report.engine.api.script.IReportContext)
 	 */
-	public String getURL( IAction actionDefn, Object context )
+
+	public String getURL( IAction actionDefn, IReportContext context )
 	{
 		if ( actionDefn == null )
-		{
 			return null;
-		}
 		switch ( actionDefn.getType( ) )
 		{
 			case IAction.ACTION_BOOKMARK :
@@ -161,21 +164,25 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @return the bookmark url
 	 */
 
-	protected String buildBookmarkAction( IAction action, Object context )
+	protected String buildBookmarkAction( IAction action, IReportContext context )
 	{
 		if ( action == null || context == null )
 			return null;
 
 		// Get Base URL
 		String baseURL = null;
-		if ( context instanceof HTMLRenderContext )
+		Object renderContext = getRenderContext( context );
+		if ( renderContext instanceof HTMLRenderContext )
 		{
-			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+			baseURL = ( (HTMLRenderContext) renderContext ).getBaseURL( );
 		}
-		if ( context instanceof PDFRenderContext )
+		if ( renderContext instanceof PDFRenderContext )
 		{
-			baseURL = ( (PDFRenderContext) context ).getBaseURL( );
+			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
 		}
+
+		if ( baseURL == null )
+			return null;
 
 		// Get bookmark
 		String bookmark = action.getBookmark( );
@@ -184,7 +191,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// link to internal bookmark
 		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
 		{
-			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-2$
+			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-1$//$NON-NLS-2$
 		}
 
 		// Save the URL String
@@ -236,7 +243,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			link.append( ParameterAccessor.PARAM_REPORT );
 			link.append( ParameterAccessor.EQUALS_OPERATOR );
-			String reportName = getReportName( action );
+			String reportName = getReportName( context, action );
 			try
 			{
 				reportName = URLEncoder.encode( reportName,
@@ -294,26 +301,27 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 *            the context for building the action string
 	 * @return a URL
 	 */
-	protected String buildDrillAction( IAction action, Object context )
+	protected String buildDrillAction( IAction action, IReportContext context )
 	{
 		if ( action == null || context == null )
 			return null;
 
 		String baseURL = null;
-		if ( context instanceof HTMLRenderContext )
+		Object renderContext = getRenderContext( context );
+		if ( renderContext instanceof HTMLRenderContext )
 		{
-			baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
+			baseURL = ( (HTMLRenderContext) renderContext ).getBaseURL( );
 		}
-		if ( context instanceof PDFRenderContext )
+		if ( renderContext instanceof PDFRenderContext )
 		{
-			baseURL = ( (PDFRenderContext) context ).getBaseURL( );
+			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
 		}
 
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_RUN;
 
 		StringBuffer link = new StringBuffer( );
-		String reportName = getReportName( action );
+		String reportName = getReportName( context, action );
 
 		if ( reportName != null && !reportName.equals( "" ) ) //$NON-NLS-1$
 		{
@@ -436,59 +444,33 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		return link.toString( );
 	}
-	
-	private String getReportName( IAction action )
-	{
-		String systemId = action.getSystemId( );
-		String reportName = action.getReportName( );
-		if ( systemId == null )
-		{
-			return reportName;
-		}
-		// if the reportName is an URL, use it directly
-		try
-		{
-			URL url = new URL( reportName );
-			if ("file".equals( url.getProtocol( ) ))
-			{
-				return url.getFile( );
-			}
-			return url.toExternalForm( );
-		}
-		catch ( MalformedURLException ex )
-		{
-		}
-		// if the system id is the URL, merget the report name with it
-		try
-		{
-			URL root = new URL( systemId );
-			URL url = new URL( root, reportName );
-			if ("file".equals( url.getProtocol( ) ))
-			{
-				return url.getFile( );
-			}
-			return url.toExternalForm( );
-		}
-		catch ( MalformedURLException ex )
-		{
 
-		}
-		// now the root should be a file and the report name is a file also
-		File file = new File( reportName );
-		if ( file.isAbsolute( ) )
+	/**
+	 * Gets the effective report path.
+	 * 
+	 * @param context
+	 * @param action
+	 * @return the effective report path
+	 */
+
+	private String getReportName( IReportContext context, IAction action )
+	{
+		assert context != null;
+		assert action != null;
+		String reportName = action.getReportName( );
+		IReportRunnable runnable = context.getReportRunnable( );
+		if ( runnable != null )
 		{
-			return reportName;
-		}
-		
-		try
-		{
-			URL root = new File( systemId ).toURL( );
-			URL url = new URL(root, reportName);
-			assert "file".equals(url.getProtocol( ));
-			return url.getFile( );
-		}
-		catch(MalformedURLException ex)
-		{
+			ModuleHandle moduleHandle = runnable.getDesignHandle( )
+					.getModuleHandle( );
+			URL url = moduleHandle.findResource( reportName, -1 );
+			if ( url != null )
+			{
+				if ( "file".equals( url.getProtocol( ) ) ) //$NON-NLS-1$
+					reportName = url.getFile( );
+				else
+					reportName = url.toExternalForm( );
+			}
 		}
 		return reportName;
 	}
