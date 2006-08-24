@@ -27,7 +27,7 @@
 -----------------------------------------------------------------------------%>
 <div id="<%= fragment.getClientId( ) %>" class="dialogBorder" style="display:none;position:absolute;z-index:220">
 	<iframe id="<%= fragment.getClientId( ) %>iframe"  name="<%= fragment.getClientId( ) %>iframe" style="z-index:-1; display: none; left:0px; top:0px;
-					 background-color: #ff0000; opacity: .0; filter: alpha(opacity = 0); position: absolute;" frameBorder="0" scrolling="no" src="blank.html">
+					 background-color: #ff0000; opacity: .0; filter: alpha(opacity = 0); position: absolute;" frameBorder="0" scrolling="no" src="birt/pages/common/blank.html">
 	</iframe>	
 	<div id="<%= fragment.getClientId( ) %>dialogTitleBar" class="dialogTitleBar dTitleBar">
 		<div class="dTitleTextContainer">

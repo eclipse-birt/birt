@@ -109,7 +109,7 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	{
 		var oMask = document.createElement( 'iframe' );
 		// Workaround for IE https secure warning
-		oMask.src = "blank.html";
+		oMask.src = "birt/pages/common/blank.html";
 		oMask.style.position = 'absolute';
 		oMask.style.top = '0px';
 		oMask.style.left = '0px';
