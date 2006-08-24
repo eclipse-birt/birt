@@ -7,6 +7,8 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 abstract public class GroupExecutor extends ReportItemExecutor
@@ -204,10 +206,13 @@ abstract public class GroupExecutor extends ReportItemExecutor
 					.equals( pageBreakBefore )
 					&& groupLevel == 0 )
 			{
-				int startGroupLevel = rset.getStartingGroupLevel( ); 
-				if ( startGroupLevel > 0 )
+				if ( isTopLevelListing( ) )
 				{
-					needPageBreak = true;
+					int startGroupLevel = rset.getStartingGroupLevel( );
+					if ( startGroupLevel > 0 )
+					{
+						needPageBreak = true;
+					}
 				}
 			}
 			if ( needPageBreak )
@@ -291,5 +296,23 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			ListingElementExecutor pList = (ListingElementExecutor)parent;
 			pList.needPageBreak = true;
 		}
+	}
+	
+	boolean isTopLevelListing( )
+	{
+		DesignElementHandle listing = listingExecutor.getDesign( ).getHandle( );
+		if ( listing != null )
+		{
+			DesignElementHandle parent = listing.getContainer( );
+			while ( parent != null )
+			{
+				if ( parent instanceof ListingHandle )
+				{
+					return false;
+				}
+				parent = parent.getContainer( );
+			}
+		}
+		return true;
 	}
 }
