@@ -122,9 +122,9 @@ public class FramesetFragment extends BirtBaseFragment
 			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
 					format );
 			if ( mimeType != null && mimeType.length( ) > 0 )
-				response.setContentType( mimeType + ";charset=utf-8" ); //$NON-NLS-1$
+				response.setContentType( mimeType );
 			else
-				response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
+				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
