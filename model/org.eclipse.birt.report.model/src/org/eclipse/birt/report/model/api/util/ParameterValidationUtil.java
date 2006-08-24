@@ -112,7 +112,7 @@ public class ParameterValidationUtil
 			Number number = doValidateNumber( dataType, value, locale );
 			if ( number == null )
 				return null;
-			return new BigDecimal( number.doubleValue( ) );
+			return new BigDecimal( number.toString( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 				.equalsIgnoreCase( dataType ) )
@@ -388,7 +388,7 @@ public class ParameterValidationUtil
 						value, locale );
 				if ( number == null )
 					return null;
-				return new BigDecimal( number.doubleValue( ) );
+				return new BigDecimal( number.toString( ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 					.equalsIgnoreCase( dataType ) )
@@ -576,9 +576,10 @@ public class ParameterValidationUtil
 		String packageName = ModelMessages.class.getName( ).substring( 0,
 				ModelMessages.class.getName( ).lastIndexOf( "." ) ); //$NON-NLS-1$
 
+		String localeName = locale == null ? null : locale.toString( );
 		UResourceBundle resourceBundle = UResourceBundle.getBundleInstance(
 				packageName + ".Messages", //$NON-NLS-1$
-				locale, ModelMessages.class.getClassLoader( ) );
+				localeName, ModelMessages.class.getClassLoader( ) );
 		if ( resourceBundle != null )
 			return resourceBundle.getString( key );
 		return key;
@@ -737,7 +738,12 @@ public class ParameterValidationUtil
 			formatter.applyPattern( DEFAULT_DATETIME_FORMAT );
 			return formatter.format( (Date) value );
 		}
-		else if ( value instanceof Float || value instanceof Double )
+		else if ( value instanceof Float )
+		{
+			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			return formatter.format( ( (Number) value ).floatValue( ) );
+		}
+		else if ( value instanceof Double )
 		{
 			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
 			return formatter.format( ( (Number) value ).doubleValue( ) );
@@ -745,7 +751,7 @@ public class ParameterValidationUtil
 		else if ( value instanceof BigDecimal )
 		{
 			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
-			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+			return formatter.format( ( (BigDecimal) value ) );
 		}
 		else if ( value instanceof Integer || value instanceof Long )
 		{
@@ -825,9 +831,19 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType )
 				|| value instanceof Float || value instanceof Double )
 		{
-			NumberFormatter formatter = new NumberFormatter( locale );
-			formatter.applyPattern( format );
-			return formatter.format( ( (Number) value ).doubleValue( ) );
+			if ( value instanceof Float )
+			{
+				NumberFormatter formatter = new NumberFormatter( locale );
+				formatter.applyPattern( format );
+				return formatter.format( ( (Number) value ).floatValue( ) );
+			}
+			else
+			{
+				NumberFormatter formatter = new NumberFormatter( locale );
+				formatter.applyPattern( format );
+				return formatter.format( ( (Number) value ).doubleValue( ) );
+			}
+
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
 				.equalsIgnoreCase( dataType )
@@ -835,7 +851,7 @@ public class ParameterValidationUtil
 		{
 			NumberFormatter formatter = new NumberFormatter( locale );
 			formatter.applyPattern( format );
-			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+			return formatter.format( ( (BigDecimal) value ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 				.equalsIgnoreCase( dataType )
@@ -937,15 +953,25 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType )
 				|| value instanceof Float || value instanceof Double )
 		{
-			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
-			return formatter.format( ( (Number) value ).doubleValue( ) );
+			if ( value instanceof Float )
+			{
+				NumberFormat formatter = NumberFormat
+						.getNumberInstance( locale );
+				return formatter.format( ( (Number) value ).floatValue( ) );
+			}
+			else
+			{
+				NumberFormat formatter = NumberFormat
+						.getNumberInstance( locale );
+				return formatter.format( ( (Number) value ).doubleValue( ) );
+			}
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
 				.equalsIgnoreCase( dataType )
 				|| value instanceof BigDecimal )
 		{
 			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
-			return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
+			return formatter.format( ( (BigDecimal) value ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 				.equalsIgnoreCase( dataType )
