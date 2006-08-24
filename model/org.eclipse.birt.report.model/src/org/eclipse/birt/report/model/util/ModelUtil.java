@@ -924,33 +924,35 @@ public class ModelUtil
 	public static String searchForExternalizedValue( DesignElement element,
 			String propIDName, ULocale locale )
 	{
-
-		if ( element == null || element.getPropertyDefn( propIDName ) == null )
+		if ( element == null )
 			return null;
+
 		IElementPropertyDefn defn = element.getPropertyDefn( propIDName );
-		while ( element != null )
+		if ( defn == null )
+			return null;
+
+		String textKey = (String) element.getProperty( element.getRoot( ),
+				propIDName );
+		if ( StringUtil.isBlank( textKey ) )
+			return null;
+
+		DesignElement temp = element;
+		while ( temp != null )
 		{
-			Module root = element.getRoot( );
-			String textKey = (String) element.getLocalProperty( root,
-					propIDName );
-			if ( !StringUtil.isBlank( textKey ) )
-			{
-				String externalizedText = root.getMessage( textKey, locale );
+			String externalizedText = temp.getRoot( ).getMessage( textKey,
+					locale );
+			if ( externalizedText != null )
 				return externalizedText;
-			}
 
 			// if this property can not inherit, return null
 
 			if ( !defn.canInherit( ) )
 				return null;
-			if ( DesignElement.NO_BASE_ID != element.getBaseId( ) )
-			{
-				element = element.getVirtualParent( );
-			}
+
+			if ( DesignElement.NO_BASE_ID != temp.getBaseId( ) )
+				temp = temp.getVirtualParent( );
 			else
-			{
-				element = element.getExtendsElement( );
-			}
+				temp = temp.getExtendsElement( );
 		}
 		return null;
 	}
