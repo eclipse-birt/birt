@@ -214,6 +214,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private Tree tree;
 
 	private DropTarget dropTarget;
+	private DropTargetAdapter dropTargetAdapter;
 
 	/**
 	 * public tree name constants used to be identified when a filter is added.
@@ -348,7 +349,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	}
 
 	private void buildParameterTree( )
-	{		
+	{
 		for ( Iterator iterator = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getParameters( )
@@ -652,50 +653,56 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void addDropSupportToViewer( )
 	{
 		Assert.isNotNull( expressionViewer );
-		final StyledText text = expressionViewer.getTextWidget( );
-		dropTarget = new DropTarget( text, DND.DROP_COPY | DND.DROP_DEFAULT );
-		dropTarget.setTransfer( new Transfer[]{
-			TextTransfer.getInstance( )
-		} );
-		dropTarget.addDropListener( new DropTargetAdapter( ) {
+		if ( dropTarget == null || dropTarget.isDisposed( ) )
+		{
+			final StyledText text = expressionViewer.getTextWidget( );
+			dropTarget = new DropTarget( text, DND.DROP_COPY | DND.DROP_DEFAULT );
+			dropTarget.setTransfer( new Transfer[]{
+				TextTransfer.getInstance( )
+			} );
+			dropTargetAdapter = new DropTargetAdapter( ) {
 
-			public void dragEnter( DropTargetEvent event )
-			{
-				text.setFocus( );
-				if ( event.detail == DND.DROP_DEFAULT )
-					event.detail = DND.DROP_COPY;
-				if ( event.detail != DND.DROP_COPY )
-					event.detail = DND.DROP_NONE;
-			}
+				public void dragEnter( DropTargetEvent event )
+				{
+					text.setFocus( );
+					if ( event.detail == DND.DROP_DEFAULT )
+						event.detail = DND.DROP_COPY;
+					if ( event.detail != DND.DROP_COPY )
+						event.detail = DND.DROP_NONE;
+				}
 
-			public void dragOver( DropTargetEvent event )
-			{
-				event.feedback = DND.FEEDBACK_SCROLL
-						| DND.FEEDBACK_INSERT_BEFORE;
-			}
+				public void dragOver( DropTargetEvent event )
+				{
+					event.feedback = DND.FEEDBACK_SCROLL
+							| DND.FEEDBACK_INSERT_BEFORE;
+				}
 
-			public void dragOperationChanged( DropTargetEvent event )
-			{
-				dragEnter( event );
-			}
+				public void dragOperationChanged( DropTargetEvent event )
+				{
+					dragEnter( event );
+				}
 
-			public void drop( DropTargetEvent event )
-			{
-				if ( event.data instanceof String )
-					insertText( (String) event.data );
-			}
-		} );
+				public void drop( DropTargetEvent event )
+				{
+					if ( event.data instanceof String )
+						insertText( (String) event.data );
+				}
+			};
+			dropTarget.addDropListener( dropTargetAdapter );
+		}
 	}
 
-	/**
-	 * Disposes resources.
-	 * 
-	 */
-	public void dispose( )
+	public void removeDropSupportToViewer( )
 	{
 		if ( dropTarget != null && !dropTarget.isDisposed( ) )
 		{
+			if ( dropTargetAdapter != null )
+			{
+				dropTarget.removeDropListener( dropTargetAdapter );
+				dropTargetAdapter = null;
+			}
 			dropTarget.dispose( );
+			dropTarget = null;
 		}
 	}
 

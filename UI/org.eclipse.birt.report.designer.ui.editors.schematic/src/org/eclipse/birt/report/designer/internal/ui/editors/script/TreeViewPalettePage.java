@@ -9,6 +9,7 @@
  *     IBM Corporation - initial API and implementation
  *     Actuate Corporation - Copy and change to fit BIRT requirement 
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -21,6 +22,8 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
@@ -68,10 +71,11 @@ public class TreeViewPalettePage extends Page implements
 	 */
 	public void createControl( Composite parent )
 	{
-		if(getViewer()==null)
+		if ( getViewer( ) == null )
 		{
 			return;
 		}
+
 		tree = new Tree( parent, SWT.NONE );
 		treeCommon.setTree( tree );
 		treeCommon.setExpressionViewer( getViewer( ) );
@@ -87,6 +91,14 @@ public class TreeViewPalettePage extends Page implements
 
 		// Add tool tips
 		tree.setToolTipText( "" ); //$NON-NLS-1$
+
+		tree.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				treeCommon.removeDropSupportToViewer( );
+			}
+		} );
 	}
 
 	/**
@@ -107,9 +119,8 @@ public class TreeViewPalettePage extends Page implements
 	 */
 	public void dispose( )
 	{
-		super.dispose( );
 		tree.dispose( );
-		treeCommon.dispose( );
+		super.dispose( );
 	}
 
 	/**
@@ -162,7 +173,7 @@ public class TreeViewPalettePage extends Page implements
 			IEditorPart editor = ( (IReportEditor) activeEditor ).getEditorPart( );
 			if ( editor instanceof MultiPageReportEditor )
 			{
-				page = ( (MultiPageReportEditor) editor ).getCurrentPageInstance( );					
+				page = ( (MultiPageReportEditor) editor ).getCurrentPageInstance( );
 			}
 		}
 		if ( page instanceof ReportScriptFormPage )
