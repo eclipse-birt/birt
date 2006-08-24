@@ -25,13 +25,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportDocumentLock;
-import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
@@ -157,31 +153,6 @@ public class ReportDocumentReader
 		return version;
 	}
 
-	/**
-	 * create a locker used to lock the report document
-	 * 
-	 * @return
-	 * @throws BirtException
-	 */
-	protected IReportDocumentLock lock( String documentName )
-			throws BirtException
-	{
-		IReportDocumentLockManager manager = null;
-		if ( engine != null )
-		{
-			EngineConfig config = engine.getConfig( );
-			if ( config != null )
-			{
-				manager = config.getReportDocumentLockManager( );
-			}
-		}
-		if ( manager == null )
-		{
-			manager = ReportDocumentLockManager.getInstance( );
-		}
-		return manager.lock( documentName );
-	}
-
 	protected class ReportDocumentCoreInfo
 	{
 		String version;
@@ -210,11 +181,10 @@ public class ReportDocumentReader
 	
 	protected void doRefresh( ) throws EngineException
 	{
-		IReportDocumentLock lock = null;
 		try
 		{
-			lock = lock( getName( ) );
-			synchronized ( lock )
+			Object lock = archive.lock( CORE_STREAM );
+			try
 			{
 				// load info into a document info object
 				ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
@@ -287,8 +257,8 @@ public class ReportDocumentReader
 					{
 						in.close( );
 					}
-				}		
-				
+				}
+
 				// save the document info into the object.
 				checkpoint = documentInfo.checkpoint;
 				pageCount = documentInfo.pageCount;
@@ -296,6 +266,10 @@ public class ReportDocumentReader
 				systemId = documentInfo.systemId;
 				globalVariables = documentInfo.globalVariables;
 				parameters = documentInfo.parameters;
+			}
+			finally
+			{
+				archive.unlock( lock );
 			}
 		}
 		catch ( EngineException ee )
@@ -305,10 +279,6 @@ public class ReportDocumentReader
 		catch ( Exception ex )
 		{
 			throw new EngineException( "document refresh failed", ex );
-		}
-		finally
-		{
-			lock.unlock();
 		}
 	}
 

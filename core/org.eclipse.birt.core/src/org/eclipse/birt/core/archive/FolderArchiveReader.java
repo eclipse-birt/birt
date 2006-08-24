@@ -141,7 +141,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, stream );
+		String path = ArchiveUtil.generateFullPath( folderName, stream + ".lck" );
 		return DocArchiveLockManager.getInstance( ).lock( path );
 	}
 
