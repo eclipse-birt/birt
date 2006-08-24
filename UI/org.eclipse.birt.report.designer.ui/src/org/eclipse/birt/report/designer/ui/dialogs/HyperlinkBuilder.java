@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
@@ -93,6 +94,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The builder for hyper link
@@ -348,11 +351,11 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private Button sameWindowButton;
 	private Button newWindowButton;
-//	private Button htmlButton;
-//	private Button pdfButton;	
+	// private Button htmlButton;
+	// private Button pdfButton;
 	private HashMap formatCheckBtns;
 	private String[] supportedFormats;
-	
+
 	private Combo anchorChooser;
 	private Group targetGroup;
 
@@ -705,33 +708,47 @@ public class HyperlinkBuilder extends BaseDialog
 		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( ) );
-	
-//		htmlButton = new Button( group, SWT.RADIO );
-//		htmlButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
-//
-//		pdfButton = new Button( group, SWT.RADIO );
-//		pdfButton.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
-		
+
+		// htmlButton = new Button( group, SWT.RADIO );
+		// htmlButton.setText( Messages.getString(
+		// "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
+		//
+		// pdfButton = new Button( group, SWT.RADIO );
+		// pdfButton.setText( Messages.getString(
+		// "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
+
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		supportedFormats = engine.getSupportedFormats( );
-		formatCheckBtns = new HashMap();
-		
+		formatCheckBtns = new HashMap( );
+
 		for ( int i = 0; i < supportedFormats.length; i++ )
 		{
 			Button btn = new Button( group, SWT.RADIO );
 			if ( supportedFormats.equals( "html" ) )
-			{				
+			{
 				btn.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
 			}
 			else if ( supportedFormats.equals( "pdf" ) )
-			{				
+			{
 				btn.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
 			}
 			else
-			{				
+			{
 				btn.setText( supportedFormats[i] ); //$NON-NLS-1$
 			}
 			formatCheckBtns.put( supportedFormats[i], btn );
+			// select format affects getting TOCTree from ReportDocument
+			btn.addSelectionListener( new SelectionListener( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					initAnchorChooser( targetReportHandle, true );
+				}
+
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+			} );
 		}
 	}
 
@@ -874,23 +891,24 @@ public class HyperlinkBuilder extends BaseDialog
 					if ( filename != null )
 					{
 						File file = new File( filename );
-						if(!(file.isFile( ) && file.exists( )))
+						if ( !( file.isFile( ) && file.exists( ) ) )
 						{
 							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ),
 									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) );
 							return;
 						}
-						
+
 						filename = file.toURL( ).toString( );
-						
+
 						// should check extensions in Linux enviroment
-						if ( needFilter && checkExtensions( fileExt, filename ) == false )
+						if ( needFilter
+								&& checkExtensions( fileExt, filename ) == false )
 						{
 							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ),
 									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) );
 							return;
 						}
-						
+
 						if ( needFilter )
 						{
 							filename = URIUtil.getRelativePath( getBasePath( ),
@@ -1038,10 +1056,10 @@ public class HyperlinkBuilder extends BaseDialog
 				// {
 				// inputHandle.setFormatType(
 				// DesignChoiceConstants.FORMAT_TYPE_PDF );
-				//				}
+				// }
 				for ( int i = 0; i < supportedFormats.length; i++ )
 				{
-					if ( ( (Button)formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
+					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
 					{
 						inputHandle.setFormatType( supportedFormats[i] );
 					}
@@ -1213,22 +1231,23 @@ public class HyperlinkBuilder extends BaseDialog
 				sameWindowButton.setSelection( true );
 			}
 
-//			if ( DesignChoiceConstants.FORMAT_TYPE_PDF.equals( inputHandle.getFormatType( ) ) )
-//			{
-//				pdfButton.setSelection( true );
-//			}
-//			else
-//			{
-//				htmlButton.setSelection( true );
-//			}
+			// if ( DesignChoiceConstants.FORMAT_TYPE_PDF.equals(
+			// inputHandle.getFormatType( ) ) )
+			// {
+			// pdfButton.setSelection( true );
+			// }
+			// else
+			// {
+			// htmlButton.setSelection( true );
+			// }
 
 			if ( inputHandle.getFormatType( ) != null )
 			{
-				( (Button)formatCheckBtns.get( inputHandle.getFormatType( ) ) ).setSelection( true );
+				( (Button) formatCheckBtns.get( inputHandle.getFormatType( ) ) ).setSelection( true );
 			}
 			else
 			{
-				( (Button)formatCheckBtns.get( "html" ) ).setSelection( true );
+				( (Button) formatCheckBtns.get( "html" ) ).setSelection( true );
 			}
 		}
 		updateButtons( );
@@ -1328,7 +1347,22 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			if ( isToc )
 			{
-				TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC( null );
+				String format = "html";
+				for ( int i = 0; i < supportedFormats.length; i++ )
+				{
+					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
+					{
+						format = supportedFormats[i];
+						break;
+					}
+				}
+				ITOCTree tocTree = ( (IReportDocument) handle ).getTOCTree( format,
+						SessionHandleAdapter.getInstance( )
+								.getSessionHandle( )
+								.getULocale( ) );
+				TOCNode rootTocNode = tocTree.getRoot( );
+				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
+				// null );
 				anchorChooser.setItems( (String[]) getAllTocDisplayString( rootTocNode ).toArray( new String[0] ) );
 			}
 			else
@@ -1629,12 +1663,12 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		return false;
 	}
-	
-	private boolean checkExtensions(String fileExt[], String fileName )
-	{		
+
+	private boolean checkExtensions( String fileExt[], String fileName )
+	{
 		for ( int i = 0; i < fileExt.length; i++ )
 		{
-			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.') );
+			String ext = fileExt[i].substring( fileExt[i].lastIndexOf( '.' ) );
 			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
 			{
 				return true;
@@ -1642,6 +1676,5 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		return false;
 	}
-	
-}
 
+}
