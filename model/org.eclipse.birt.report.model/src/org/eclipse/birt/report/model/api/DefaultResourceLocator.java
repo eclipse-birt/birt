@@ -209,7 +209,7 @@ public class DefaultResourceLocator implements IResourceLocator
 
 	private URL tryFragmentSearch( String fileName )
 	{
-		Bundle bundle = Platform.getBundle( SYMBOLIC_NAME );
+		Bundle bundle = Platform.getBundle( FRAGMENT_RESOURCE_HOST );
 		if ( bundle != null )
 			return bundle.getResource( URIUtil
 					.convertFileNameToURLString( fileName ) );
