@@ -87,6 +87,14 @@ public class CellComputedStyle extends ComputedStyle
 					sv = (Value) columnStyle.getProperty( index );
 				}
 			}
+			else
+			{
+				sv = (Value) rowStyle.getProperty( index );
+				if ( sv == null )
+				{
+					sv = (Value) columnStyle.getProperty( index );
+				}
+			}
 		}
 
 		Value cv = engine.resolveStyle( elt, index, sv, pcs );
