@@ -235,13 +235,6 @@ public final class ResultSetWrapper
 		SortOption so = null;
 		if ( !sd.isSetSorting( ) )
 		{
-			logger.log( ILogger.WARNING,
-					Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
-							new Object[]{
-								sd
-							},
-							ULocale.getDefault( ) ) );
-
 			if ( needBaseGrouping )
 			{
 				so = SortOption.ASCENDING_LITERAL;

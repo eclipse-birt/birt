@@ -696,9 +696,11 @@ public class DataProcessor
 			saOrthogonalDataDefinitions = (String[]) alODD.toArray( new String[alODD.size( )] );
 		}
 
-		// apply base series grouping
-		rsw.applyBaseSeriesSortingAndGrouping( sdGrouping, saOrthogonalDataDefinitions );
-
+		if ( rsw.getRowCount( ) > 0 )
+		{
+			// apply base series grouping
+			rsw.applyBaseSeriesSortingAndGrouping( sdGrouping, saOrthogonalDataDefinitions );
+		}
 		return rsw;
 	}
 
