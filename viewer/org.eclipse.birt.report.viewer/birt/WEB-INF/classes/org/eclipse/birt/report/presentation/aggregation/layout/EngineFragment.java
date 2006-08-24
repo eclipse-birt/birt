@@ -82,7 +82,6 @@ public class EngineFragment extends BirtBaseFragment
 				response.setContentType( mimeType );
 			else
 				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
-			response.setHeader( "cache-control", "no-cache" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
