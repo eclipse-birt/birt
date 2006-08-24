@@ -32,6 +32,11 @@ import java.net.URL;
 
 public interface IResourceLocator
 {
+	/**
+	 * The host name of the fragments where inner resources are located.
+	 */
+
+	public final static String SYMBOLIC_NAME = "org.eclipse.birt.resources"; //$NON-NLS-1$
 
 	/**
 	 * The type of the images to search

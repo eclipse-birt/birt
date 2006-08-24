@@ -84,16 +84,15 @@ public class DefaultResourceLocator implements IResourceLocator
 			// ignore the error
 		}
 
-		// if module is null, then can not search the fragment, resource path or
-		// systemId
-		if ( moduleHandle == null )
-			return null;
-
 		// try fragment search
 
-		URL url = tryFragmentSearch( moduleHandle, fileName );
+		URL url = tryFragmentSearch( fileName );
 		if ( url != null )
 			return url;
+
+		// if module is null, then can not search the resource path or systemId
+		if ( moduleHandle == null )
+			return null;
 
 		// try file search based on resource path, value set on this module
 		// takes the higher priority than that in the session
@@ -208,16 +207,9 @@ public class DefaultResourceLocator implements IResourceLocator
 	 * @return the url of resource if found
 	 */
 
-	private URL tryFragmentSearch( ModuleHandle moduleHandle, String fileName )
+	private URL tryFragmentSearch( String fileName )
 	{
-		if ( moduleHandle == null )
-			return null;
-
-		String symbolicName = moduleHandle.getSymbolicName( );
-		if ( symbolicName == null )
-			return null;
-
-		Bundle bundle = Platform.getBundle( symbolicName );
+		Bundle bundle = Platform.getBundle( SYMBOLIC_NAME );
 		if ( bundle != null )
 			return bundle.getResource( URIUtil
 					.convertFileNameToURLString( fileName ) );
