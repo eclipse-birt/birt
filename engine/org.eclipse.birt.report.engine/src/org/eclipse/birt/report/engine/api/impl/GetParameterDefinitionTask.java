@@ -179,25 +179,14 @@ public class GetParameterDefinitionTask extends EngineTask
 		Collection original = ( (ReportRunnable) runnable )
 				.getParameterDefns( true );
 		Iterator iter = original.iterator( );
-
 		while ( iter.hasNext( ) )
 		{
-			ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
-			if ( name.equals( pBase.getName( ) ) )
-			{
-				try
-				{
-					ret = (IParameterDefnBase) pBase.clone( );
-					break;
-				}
-				catch ( CloneNotSupportedException e ) // This is a Java
-				// exception
-				{
-					log.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
+			ret = getParamDefnBaseByName( (ParameterDefnBase) iter.next( ),
+					name );
+			if ( ret != null )
+				break;
 		}
-
+		
 		if ( ret != null )
 		{
 
@@ -841,5 +830,49 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		return createDynamicSelectionChoices( pattern, dataSetName, labelExpr,
 				valueExpr, dataType, limit, fixedOrder );
+	}
+	
+	private IParameterDefnBase getParamDefnBaseByName( ParameterDefnBase param,
+			String name )
+	{
+		ParameterDefnBase ret = null;
+		if ( param instanceof ScalarParameterDefn
+				&& name.equals( param.getName( ) ) )
+		{
+			ret = param;
+		}
+		else if ( param instanceof ParameterGroupDefn )
+		{
+			if ( name.equals( param.getName( ) ) )
+			{
+				ret = param;
+			}
+			else
+			{
+				Iterator iter = ( (ParameterGroupDefn) param ).getContents( )
+						.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
+					if ( name.equals( pBase.getName( ) ) )
+					{
+						ret = pBase;
+						break;
+					}
+				}
+			}
+		}
+		if ( ret != null )
+		{
+			try
+			{
+				return (IParameterDefnBase) ret.clone( );
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				log.log( Level.SEVERE, e.getMessage( ), e );
+			}
+		}
+		return ret;
 	}
 }
