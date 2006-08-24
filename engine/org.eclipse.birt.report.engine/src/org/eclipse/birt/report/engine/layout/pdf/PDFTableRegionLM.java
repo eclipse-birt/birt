@@ -25,7 +25,8 @@ public class PDFTableRegionLM extends PDFTableLM
 			IBlockStackingLayoutManager
 
 {
-
+	protected RowArea lastRow;
+	
 	public PDFTableRegionLM( PDFLayoutEngineContext context, IContent content,
 			TableLayoutInfo layoutInfo )
 	{
@@ -37,9 +38,14 @@ public class PDFTableRegionLM extends PDFTableLM
 	{
 		this.executor = new DOMReportItemExecutor( content );
 		this.executor.execute( );
-		this.lastRowArea = lastRowArea;
+		this.lastRow = lastRowArea;
 	}
-
+	
+	protected void newContext()
+	{
+		super.newContext( );
+		this.lastRowArea = lastRow;
+	}
 	protected int getAvaHeight( )
 	{
 		return Integer.MAX_VALUE;

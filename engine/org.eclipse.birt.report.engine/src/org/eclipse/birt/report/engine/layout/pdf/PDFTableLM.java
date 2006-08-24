@@ -403,6 +403,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		setCurrentBP( 0 );
 		repeatRowCount = 0;
 		rowCount = 0;
+		lastRowArea = null;
 		setCurrentIP( 0 );
 		
 	}
@@ -629,46 +630,39 @@ public class PDFTableLM extends PDFBlockStackingLM
 		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 
-		if ( rowID == currentRowID-1 )
+		if ( columnID > 0 && currentRowContent[columnID - 1] != null )
 		{
-			if ( columnID > 0 && currentRowContent[columnID - 1] != null )
+			leftCellContentStyle = currentRowContent[columnID - 1].cell
+					.getComputedStyle( );
+		}
+		if(rowCount>1 && lastRow!=null)
+		{
+			preRowStyle = lastRow.row.getComputedStyle( );
+			if ( lastRowContent[columnID] != null )
 			{
-				leftCellContentStyle = currentRowContent[columnID - 1].cell
+				topCellStyle = lastRowContent[columnID].cell
 						.getComputedStyle( );
 			}
-			if ( lastRow != null )
+		}
+		else
+		{
+			if ( lastRowArea != null )
 			{
-				if(rowCount>1)
+				preRowStyle = lastRowArea.getContent( ).getComputedStyle( );
+				Iterator iter = lastRowArea.getChildren( );
+				while ( iter.hasNext( ) )
 				{
-					preRowStyle = lastRow.row.getComputedStyle( );
-					if ( lastRowContent[columnID] != null )
+					CellArea cell = (CellArea) iter.next( );
+					ICellContent cc = (ICellContent) cell.getContent( );
+					if ( cc != null && cc.getColumn( ) == columnID )
 					{
-						topCellStyle = lastRowContent[columnID].cell
-								.getComputedStyle( );
+						topCellStyle = cc.getComputedStyle( );
+						break;
 					}
 				}
-				else
-				{
-					if(root.getChildrenCount( )>0 && lastRowArea!=null)
-					{
-						preRowStyle = lastRowArea.getContent( ).getComputedStyle( );
-						Iterator iter = lastRowArea.getChildren( );
-						while(iter.hasNext( ))
-						{
-							CellArea cell = (CellArea)iter.next( );
-							ICellContent cc = (ICellContent)cell.getContent( );
-							if(cc!=null && cc.getColumn( ) == columnID)
-							{
-								topCellStyle = cc.getComputedStyle( );
-								break;
-							}
-						}
-					}
-				}
-					
 			}
 		}
-
+					
 		if ( rowID == 0 )
 		{
 			// resolve top border
@@ -707,20 +701,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 		else
 		{
-			//resolve group top border
-			if ( tablepaginated )
-			{
-				bcr.resolvePagenatedTableTopBorder( rowStyle, cellContentStyle,
-						cellAreaStyle );
-				tablepaginated = false;
-			}
-
-			// resolve top border
-			else
-			{
-				bcr.resolveCellTopBorder( preRowStyle, rowStyle, topCellStyle,
+			bcr.resolveCellTopBorder( preRowStyle, rowStyle, topCellStyle,
 						cellContentStyle, cellAreaStyle );
-			}
 			// resolve left border
 			if ( columnID == 0 )
 			{
@@ -1309,6 +1291,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
 		con.setFactory( new PDFLayoutManagerFactory( con ) );
 		con.setFormat( context.getFormat( ) );
+		con.setMaxHeight( context.getMaxHeight( ) );
 		con.setAllowPageBreak( false );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
@@ -1367,6 +1350,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				.getLayoutEngine( ) );
 		con.setFactory( context.getFactory( ) );
 		con.setFormat( context.getFormat( ) );
+		con.setMaxHeight( context.getMaxHeight( ) );
 		con.setAllowPageBreak( false );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, content,
 				layoutInfo );
