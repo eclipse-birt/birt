@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.79 $ $Date: 2006/08/02 09:12:17 $
+ * @version $Revision: 1.80 $ $Date: 2006/08/04 07:56:55 $
  */
 public class ReportQueryBuilder
 {
@@ -978,7 +978,7 @@ public class ReportQueryBuilder
 			{
 				// create a sub query
 				String name = String.valueOf( item.getID( ) );
-				query = new SubqueryDefinition( name );
+				query = new SubqueryDefinition( name, getParentQuery( ) );
 				parentQuery.getSubqueries( ).add( query );
 				
 				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );

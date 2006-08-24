@@ -36,6 +36,19 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 		this.onGroup = true;
 	}
 	
+	/**
+	 * Constructs a SubqueryDefn. A name must be provided that uniquely
+	 * identifies the subquery within the report query that contains it.
+	 * The outer query (parent) can be another query, or a sub query.
+	 * @param name
+	 */
+	public SubqueryDefinition( String name, BaseQueryDefinition parent )
+	{
+		super( parent );
+		this.name = name;
+		this.onGroup = true;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.ISubqueryDefinition#getName()
 	 */
