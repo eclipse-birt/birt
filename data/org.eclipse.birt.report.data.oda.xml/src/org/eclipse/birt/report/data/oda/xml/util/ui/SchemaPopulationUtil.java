@@ -17,7 +17,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -285,7 +287,7 @@ final class XSDFileSchemaTreePopulator
 			Object value = ( (ATreeNode) toBeIterated[i] ).getDataType( );// .getValue(
 																			// );
 			List container = new ArrayList( );
-			findNodeWithValue( root, value.toString( ), container );
+			findNodeWithValue( root, value.toString( ), container, new VisitingRecorder() );
 			for ( int j = 0; j < container.size( ); j++ )
 			{
 				if ( ( (ATreeNode) container.get( j ) ).getChildren( ).length == 0 )
@@ -311,14 +313,18 @@ final class XSDFileSchemaTreePopulator
 	 * @param container
 	 */
 	private static void findNodeWithValue( ATreeNode root, String value,
-			List container )
+			List container, VisitingRecorder vr )
 	{
+		
+		if ( root.getType( ) == ATreeNode.ELEMENT_TYPE 
+				&& !vr.visit( root.getValue( ).toString( ) ) )
+			return;
 		if ( root.getDataType( ) != null && root.getDataType( ).equals( value ) )
 			container.add( root );
 		Object[] children = root.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
-			findNodeWithValue( (ATreeNode) children[i], value, container );
+			findNodeWithValue( (ATreeNode) children[i], value, container, vr );
 		}
 	}
 
@@ -385,7 +391,7 @@ final class XSDFileSchemaTreePopulator
 				else
 				{
 					
-					addParticleAndAttributeInfo( node, complexType, complexTypesRoot );
+					addParticleAndAttributeInfo( node, complexType, complexTypesRoot, new VisitingRecorder() );
 				}
 			}
 			root.addChild( node );
@@ -404,12 +410,14 @@ final class XSDFileSchemaTreePopulator
 	 * @throws OdaException 
 	 */
 	private static void addParticleAndAttributeInfo( ATreeNode node,
-			XSComplexTypeDecl complexType, ATreeNode complexTypesRoot  ) throws OdaException
+			XSComplexTypeDecl complexType, ATreeNode complexTypesRoot, VisitingRecorder vr  ) throws OdaException
 	{
+		if( !vr.visit( node.getValue( ).toString( ) ))
+			return;
 		XSParticle particle = complexType.getParticle( );
 		if ( particle != null )
 		{
-			addElementToNode( node, complexTypesRoot, (XSModelGroupImpl) particle.getTerm( ) );
+			addElementToNode( node, complexTypesRoot, (XSModelGroupImpl) particle.getTerm( ), vr );
 		}
 		if(!includeAttribute)
 			return;
@@ -435,14 +443,16 @@ final class XSDFileSchemaTreePopulator
 	 * @param group
 	 * @throws OdaException
 	 */
-	private static void addElementToNode( ATreeNode node, ATreeNode complexTypesRoot, XSModelGroupImpl group ) throws OdaException
+	private static void addElementToNode( ATreeNode node, ATreeNode complexTypesRoot, XSModelGroupImpl group, VisitingRecorder vr ) throws OdaException
 	{
+		if( !vr.visit( node.getValue( ).toString( ) ))
+			return;
 		XSObjectList list = group.getParticles( );
 		for ( int j = 0; j < list.getLength( ); j++ )
 		{
 			if(  ( (XSParticleDecl) list.item( j ) ).getTerm( ) instanceof XSModelGroupImpl )
 			{
-				addElementToNode ( node, complexTypesRoot, (XSModelGroupImpl)( (XSParticleDecl) list.item( j ) ).getTerm( )  );
+				addElementToNode ( node, complexTypesRoot, (XSModelGroupImpl)( (XSParticleDecl) list.item( j ) ).getTerm( ), vr  );
 				continue;
 			}
 			ATreeNode childNode = new ATreeNode( );
@@ -462,7 +472,7 @@ final class XSDFileSchemaTreePopulator
 			{	
 				//First do a recursive call to populate all child complex type of current node.
 				if( xstype.getName() == null)
-					addParticleAndAttributeInfo( childNode, (XSComplexTypeDecl)xstype, complexTypesRoot );
+					addParticleAndAttributeInfo( childNode, (XSComplexTypeDecl)xstype, complexTypesRoot, vr );
 				ATreeNode n = findComplexElement(complexTypesRoot,dataType);
 				if( n!= null )
 				{
@@ -576,6 +586,55 @@ final class XSDFileSchemaTreePopulator
 				XSObjectList obs = mGroup.getParticles();
 				populateTreeNodeWithParticles( node, obs );
 			}
+		}
+	}
+}
+
+/**
+ * Record the number of an element being visited.This is used to 
+ * parse recursive elements.
+ *
+ */
+class VisitingRecorder
+{
+	//
+	private Map map;
+
+	/**
+	 * 
+	 *
+	 */
+	VisitingRecorder( )
+	{
+		map = new HashMap( );
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public boolean visit( String value )
+	{
+		if ( map.containsKey( value ) )
+		{
+			int i = ( (Integer) ( map.get( value ) ) ).intValue( );
+			//If an element has been visited three times in a recursive call
+			//assume it is a recursive element.
+			if ( i > 3 )
+			{
+				return false;
+			}
+			else
+			{
+				map.put( value, new Integer( i + 1 ) );
+				return true;
+			}
+		}
+		else
+		{
+			map.put( value, new Integer( 0 ) );
+			return true;
 		}
 	}
 }
