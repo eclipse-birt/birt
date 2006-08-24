@@ -213,7 +213,7 @@ public class ReportParameterAdapter
 		if ( !StringUtil.isBlank( name ) )
 			reportParam.setName( name );
 
-		String dataType = dataSetParam.getDataType( );
+		String dataType = dataSetParam.getParameterDataType( );
 		if ( !StringUtil.isBlank( dataType ) )
 			reportParam.setDataType( dataType );
 
