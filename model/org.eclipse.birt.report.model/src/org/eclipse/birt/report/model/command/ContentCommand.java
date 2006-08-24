@@ -658,10 +658,11 @@ public class ContentCommand extends AbstractElementCommand
 							PropertyCommand cmd = new PropertyCommand( module,
 									element );
 							cmd.setProperty( propDefn.getName( ), null );
-							
+
 							// drop the useless template definition
-							
-							if ( definition != null && !definition.hasReferences( ) )
+
+							if ( definition != null
+									&& !definition.hasReferences( ) )
 							{
 								assert definition.getRoot( ) == module;
 								ContentCommand contentCmd = new ContentCommand(
@@ -675,7 +676,7 @@ public class ContentCommand extends AbstractElementCommand
 						catch ( SemanticException e )
 						{
 							assert false;
-						}						
+						}
 					}
 				}
 			}
@@ -727,7 +728,7 @@ public class ContentCommand extends AbstractElementCommand
 	private void dropUserProperties( DesignElement obj )
 			throws UserPropertyException
 	{
-		Collection props = obj.getUserProperties( );
+		Collection props = obj.getLocalUserProperties( );
 		if ( props != null )
 		{
 			UserPropertyCommand propCmd = new UserPropertyCommand( module, obj );
