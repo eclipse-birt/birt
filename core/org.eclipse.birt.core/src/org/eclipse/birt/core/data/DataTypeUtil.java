@@ -82,6 +82,7 @@ public final class DataTypeUtil
 		for ( int i = 0; i < dateFormatPattern.length; i++ )
 		{
 			simpleDateFormatter[i] = new SimpleDateFormat( dateFormatPattern[i] );
+			simpleDateFormatter[i].setLenient( false );
 		}
 	}
 
@@ -1221,6 +1222,7 @@ class DateFormatHolder
 					result = DateFormat.getDateTimeInstance( dateStyle,
 							timeStyle,
 							locale );
+					result.setLenient( false );
 					dateTimeFormatholder.put( key, result );
 				}
 			}
@@ -1250,6 +1252,7 @@ class DateFormatHolder
 				if ( result == null )
 				{
 					result = DateFormat.getDateInstance( dateStyle, locale );
+					result.setLenient( false );
 					dateFormatHolder.put( key, result );
 				}
 			}
