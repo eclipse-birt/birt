@@ -180,6 +180,10 @@ public class EngineEmitterServices implements IEmitterServices
 	
 	public IReportContext getReportContext( )
 	{
+		if ( task == null )
+		{
+			return null;
+		}
 		return task.getReportContext( );
 	}
 }

@@ -70,6 +70,10 @@ public class HTMLImageHandler implements IHTMLImageHandler
 
 	protected Object getRenderContext( IReportContext context )
 	{
+		if ( context == null )
+		{
+			return null;
+		}
 		Map appContext = context.getAppContext( );
 		if ( appContext != null )
 		{
