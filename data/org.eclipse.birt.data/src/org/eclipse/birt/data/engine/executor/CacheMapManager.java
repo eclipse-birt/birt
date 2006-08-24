@@ -231,6 +231,8 @@ class CacheMapManager
 		private void deleteDir( String dirStr )
 		{
 			File sessionsFolder = new File( dirStr );
+			if ( !sessionsFolder.exists( ) )
+				return;
 			File[] sessionFiles = sessionsFolder.listFiles( );
 			for ( int i = 0; i < sessionFiles.length; i++ )
 				sessionFiles[i].delete( );
