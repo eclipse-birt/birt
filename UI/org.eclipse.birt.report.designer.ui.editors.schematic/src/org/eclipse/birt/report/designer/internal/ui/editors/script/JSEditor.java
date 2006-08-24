@@ -182,7 +182,7 @@ public class JSEditor extends StatusTextEditor implements
 		selectionMap.clear( );
 		editingDomainEditor = null;
 		super.dispose( );
-		//( (ReportMultiPageEditorSite) getSite( ) ).dispose( );
+		// ( (ReportMultiPageEditorSite) getSite( ) ).dispose( );
 		( (MultiPageEditorSite) getSite( ) ).dispose( );
 	}
 
@@ -244,7 +244,7 @@ public class JSEditor extends StatusTextEditor implements
 							cmbItemLastSelected = elePropDefn;
 							setEditorText( desHandle.getStringProperty( elePropDefn.getName( ) ) );
 							setIsModified( false );
-														selectionMap.put( getModel( ), selection );
+							selectionMap.put( getModel( ), selection );
 
 							String method = cmbItemLastSelected.getName( );
 							Map argMap = DEUtil.getDesignElementMethodArguments( desHandle,
@@ -297,9 +297,7 @@ public class JSEditor extends StatusTextEditor implements
 
 			public void textChanged( TextEvent event )
 			{
-				if ( !settingText
-						&& !isModified
-						&& event.getOffset( )!=0 )
+				if ( !settingText && !isModified && event.getOffset( ) != 0 )
 				{
 					markDirty( );
 				}
@@ -324,6 +322,7 @@ public class JSEditor extends StatusTextEditor implements
 
 	/**
 	 * Get current edit element, not report design model.
+	 * 
 	 * @return
 	 */
 	public Object getModel( )
@@ -397,7 +396,7 @@ public class JSEditor extends StatusTextEditor implements
 			}
 			return palettePage;
 		}
-		
+
 		if ( adapter == IContentOutlinePage.class )
 		{
 
@@ -407,22 +406,24 @@ public class JSEditor extends StatusTextEditor implements
 
 			// Add JS Editor as a selection listener to Outline view selections.
 			// outlinePage.addSelectionChangedListener( jsEditor );
-			DesignerOutlinePage outlinePage = new DesignerOutlinePage( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ));
+			DesignerOutlinePage outlinePage = new DesignerOutlinePage( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) );
 
 			return outlinePage;
-			
+
 		}
-		
+
 		// return the property sheet page
 		if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( );
 			return sheetPage;
 		}
-		
+
 		if ( adapter == DataViewPage.class )
 		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) );
 			return page;
 		}
 
@@ -536,7 +537,7 @@ public class JSEditor extends StatusTextEditor implements
 		if ( editorUIEnabled == true )
 		{
 			// save the previous editor content.
-//			saveModelIfNeeds( );
+			// saveModelIfNeeds( );
 			saveModel( );
 		}
 
@@ -580,6 +581,7 @@ public class JSEditor extends StatusTextEditor implements
 					}
 				}
 				checkDirty( );
+				palettePage.getSupport( ).updateParametersTree( );
 			}
 			else
 			{
@@ -853,7 +855,7 @@ public class JSEditor extends StatusTextEditor implements
 				new StructuredSelection( list ) );
 		handleSelectionChanged( event );
 	}
-	
+
 }
 
 /**

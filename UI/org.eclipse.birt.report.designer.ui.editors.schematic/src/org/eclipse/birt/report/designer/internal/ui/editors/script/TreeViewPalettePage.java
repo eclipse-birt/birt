@@ -137,6 +137,7 @@ public class TreeViewPalettePage extends Page implements
 	public void setFocus( )
 	{
 		tree.setFocus( );
+		treeCommon.updateParametersTree( );
 	}
 
 	public ExpressionTreeSupport getSupport( )

@@ -170,14 +170,15 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			{
 					"&&",//$NON-NLS-1$
 					Messages.getString( "ExpressionProvider.Operator.And" ) //$NON-NLS-1$ 
-			}, {
+			},
+			{
 					"||",//$NON-NLS-1$
 					Messages.getString( "ExpressionProvider.Operator.Or" ) //$NON-NLS-1$ 
 			}
 	};
 
 	private static final String TREE_ITEM_CONTEXT = Messages.getString( "ExpressionProvider.Category.Context" ); //$NON-NLS-1$
-	
+
 	private static final String TREE_ITEM_OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 
 	private static final String TREE_ITEM_BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" ); //$NON-NLS-1$ 
@@ -226,7 +227,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private Object currentEditObject;
 	private String currentMethodName;
-	private TreeItem contextItem;
+	private TreeItem contextItem, dataSetsItem, parametersItem;
 
 	/**
 	 * Creates all expression trees in default order
@@ -249,10 +250,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 */
 	public void createFilteredExpressionTree( List dataSetList, List filterList )
 	{
-//		if ( filter( TREE_NAME_DATASETS, filterList ) )
-//		{
-//			createDataSetsTree( dataSetList );
-//		}
+		// if ( filter( TREE_NAME_DATASETS, filterList ) )
+		// {
+		// createDataSetsTree( dataSetList );
+		// }
 		if ( filter( TREE_NAME_CONTEXT, filterList ) )
 		{
 			createContextCatagory( );
@@ -342,16 +343,21 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void createParamtersTree( )
 	{
 		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_PARAMETERS );
+		parametersItem = createTopTreeItem( tree, TREE_ITEM_PARAMETERS );
+		buildParameterTree( );
+	}
+
+	private void buildParameterTree( )
+	{		
 		for ( Iterator iterator = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getAllParameters( )
+				.getParameters( )
 				.iterator( ); iterator.hasNext( ); )
 		{
 			ReportElementHandle handle = (ReportElementHandle) iterator.next( );
 			if ( handle instanceof ParameterHandle )
 			{
-				createSubTreeItem( topItem,
+				createSubTreeItem( parametersItem,
 						DEUtil.getDisplayLabel( handle, false ),
 						ReportPlatformUIImages.getImage( handle ),
 						DEUtil.getExpression( handle ),
@@ -360,7 +366,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			}
 			else if ( handle instanceof ParameterGroupHandle )
 			{
-				TreeItem groupItem = createSubTreeItem( topItem,
+				TreeItem groupItem = createSubTreeItem( parametersItem,
 						DEUtil.getDisplayLabel( handle, false ),
 						ReportPlatformUIImages.getImage( handle ),
 						true );
@@ -386,26 +392,21 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void createDataSetsTree( List dataSetList )
 	{
 		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_DATASETS );
+		dataSetsItem = createTopTreeItem( tree, TREE_ITEM_DATASETS );
+		buildDataSetsTree( dataSetList );
+	}
+
+	private void buildDataSetsTree( List dataSetList )
+	{
+		clearTreeItem( dataSetsItem );
 		for ( Iterator iterator = dataSetList.iterator( ); iterator.hasNext( ); )
 		{
 			DataSetHandle handle = (DataSetHandle) iterator.next( );
-			TreeItem dataSetItem = createSubTreeItem( topItem,
+			TreeItem dataSetItem = createSubTreeItem( dataSetsItem,
 					DEUtil.getDisplayLabel( handle, false ),
 					ReportPlatformUIImages.getImage( handle ),
 					true );
-//			DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
-//					.getColumns( handle, false );
-//			for ( int i = 0; i < columns.length; i++ )
-//			{
-//				createSubTreeItem( dataSetItem,
-//						columns[i].getDisplayName( ),
-//						IMAGE_COLUMN,
-//						DEUtil.getExpression( columns[i] ),
-//						columns[i].getHelpText( ),
-//						true );
-//			}
-			
+
 			try
 			{
 				CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( handle );
@@ -915,7 +916,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				&& currentEditObject != null
 				&& methodName != null )
 		{
-			removeTreeItem( );
+			clearTreeItem( contextItem );
 			DesignElementHandle handle = (DesignElementHandle) currentEditObject;
 			Map argMap = DEUtil.getDesignElementMethodArguments( handle,
 					methodName );
@@ -935,14 +936,16 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void setCurrentEditObject( Object obj )
 	{
 		this.currentEditObject = obj;
-		removeTreeItem( );
+		clearTreeItem( contextItem );
 	}
-	
-	private void removeTreeItem( )
+
+	private void clearTreeItem( TreeItem treeItem )
 	{
-		if ( contextItem == null || contextItem.isDisposed( ) )
+		if ( treeItem == null || treeItem.isDisposed( ) )
+		{
 			return;
-		TreeItem[] items = contextItem.getItems( );
+		}
+		TreeItem[] items = treeItem.getItems( );
 		for ( int i = 0; i < items.length; i++ )
 		{
 			if ( items[i] != null && !items[i].isDisposed( ) )
@@ -975,6 +978,15 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 					createContextObjects( currentMethodName );
 				}
 			}
+		}
+	}
+
+	public void updateParametersTree( )
+	{
+		if ( parametersItem != null && !parametersItem.isDisposed( ) )
+		{
+			clearTreeItem( parametersItem );
+			buildParameterTree( );
 		}
 	}
 }
