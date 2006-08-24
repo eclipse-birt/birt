@@ -1899,7 +1899,6 @@
     <Property canInherit="false" displayNameID="Element.Module.comments" name="comments" since="1.0" type="html"/>
     <Property canInherit="false" displayNameID="Element.Module.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
 	<Property canInherit="false" displayNameID="Element.Module.includeResource" name="includeResource" runtimeSettable="false" since="1.0" type="string"/>	
-	<Property canInherit="false" displayNameID="Element.Module.symbolicName" name="symbolicName" runtimeSettable="false" since="2.1" type="string"/>	
     <Property canInherit="false" detailType="units" displayNameID="Element.Module.units" isIntrinsic="true" name="units" since="1.0" type="choice">
       <Allowed>in,cm,mm,pt,pc</Allowed>
     </Property>

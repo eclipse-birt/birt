@@ -2529,7 +2529,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public String getSymbolicName( )
 	{
-		return this.getStringProperty( SYMBOLIC_NAME_PROP );
+		// This method should be deleted.
+		return null;
 	}
 
 	/**
@@ -2543,7 +2544,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setSymbolicName( String symbolicName ) throws SemanticException
 	{
-		setStringProperty( SYMBOLIC_NAME_PROP, symbolicName );
+		// This method should be deleted.
 	}
 
 	/**
