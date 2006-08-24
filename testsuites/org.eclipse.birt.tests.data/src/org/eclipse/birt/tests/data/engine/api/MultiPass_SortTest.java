@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.tests.data.engine.api;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -15,122 +16,143 @@ import testutil.APITestCase;
 import testutil.ConfigText;
 import testutil.APITestCase.DataSourceInfo;
 
-public class MultiPass_SortTest extends APITestCase {
+public class MultiPass_SortTest extends APITestCase
+{
 
-	protected DataSourceInfo getDataSourceInfo() {
-		return new DataSourceInfo( ConfigText.getString( "Api.TestData.TableName" ),
-				ConfigText.getString( "Api.TestData.TableSQL" ),
-				ConfigText.getString( "Api.TestData.TestDataFileName" ) );
-	}
-	/**
-	 * Test feature of
-	 * 		aggregation expression 
-	 */
-	public void test_SortOnAggregationExpression() throws Exception
+	protected DataSourceInfo getDataSourceInfo( )
 	{
-		// Test a SQL with duplicate column name (quite common with join data sets)
-		String testSQL =  "select COUNTRY, AMOUNT from " + getTestTableName( );
-		((OdaDataSetDesign)this.dataSet).setQueryText( testSQL );
-		
-		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY", 0 ),
-				new ScriptExpression( "row.AMOUNT", 2 ),
-				new ScriptExpression( "Total.runningSum(row.AMOUNT)", 2 ) };
+		return new DataSourceInfo( ConfigText
+				.getString( "Api.TestData.TableName" ), ConfigText
+				.getString( "Api.TestData.TableSQL" ), ConfigText
+				.getString( "Api.TestData.TestDataFileName" ) );
+	}
 
-		String names[] = { "COL_COUNTRY", "COL_AMOUNT" };
-		
-		SortDefinition[] sortDef = new SortDefinition[]{ new SortDefinition() };
-		sortDef[0].setExpression( "row.AMOUNT/Total.sum(row.AMOUNT)" );
-		sortDef[0].setSortDirection( ISortDefinition.SORT_DESC );		
-		
-		// define a query design				
+	/**
+	 * Test feature of aggregation expression
+	 */
+	public void test_SortOnAggregationExpression( ) throws Exception
+	{
+		// Test a SQL with duplicate column name (quite common with join data
+		// sets)
+		String testSQL = "select COUNTRY, AMOUNT from " + getTestTableName( );
+		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
+
+		IBaseExpression[] expressions = new IBaseExpression[]{
+				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
+				new ScriptExpression( "dataSetRow.AMOUNT", 2 ),
+				new ScriptExpression( "Total.runningSum(dataSetRow.AMOUNT)", 2 )};
+
+		String names[] = {"COL_COUNTRY", "COL_AMOUNT"};
+
+		SortDefinition[] sortDef = new SortDefinition[]{new SortDefinition( )};
+		sortDef[0]
+				.setExpression( "dataSetRow.AMOUNT/Total.sum(dataSetRow.AMOUNT)" );
+		sortDef[0].setSortDirection( ISortDefinition.SORT_DESC );
+
+		// define a query design
 		QueryDefinition queryDefn = newReportQuery( );
-		queryDefn.addSort(sortDef[0]);		
-		
-		for( int i = 0; i < 2; i ++ )
+		queryDefn.addSort( sortDef[0] );
+
+		for ( int i = 0; i < 2; i++ )
 		{
-			queryDefn.addResultSetExpression( names[i], expressions[ i ] );
+			queryDefn.addResultSetExpression( names[i], expressions[i] );
 		}
-		
+
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
-		assertTrue( resultIt.next() );		
+
+		assertTrue( resultIt.next( ) );
 		resultIt.getValue( names[0] );
-		resultIt.getValue( names[1] );	
-		System.out.print( resultIt.getValue( names[0] ) );
-		System.out.print( resultIt.getValue( names[1] ) );		
-		resultIt.next();
+		resultIt.getValue( names[1] );
 		System.out.print( resultIt.getValue( names[0] ) );
 		System.out.print( resultIt.getValue( names[1] ) );
-		resultIt.next();
+		resultIt.next( );
 		System.out.print( resultIt.getValue( names[0] ) );
 		System.out.print( resultIt.getValue( names[1] ) );
-		resultIt.next();
+		resultIt.next( );
 		System.out.print( resultIt.getValue( names[0] ) );
 		System.out.print( resultIt.getValue( names[1] ) );
-		resultIt.next();
+		resultIt.next( );
 		System.out.print( resultIt.getValue( names[0] ) );
-		System.out.print( resultIt.getValue( names[1] ) );	
+		System.out.print( resultIt.getValue( names[1] ) );
+		resultIt.next( );
+		System.out.print( resultIt.getValue( names[0] ) );
+		System.out.print( resultIt.getValue( names[1] ) );
 	}
 
-
 	/**
-	 * Test feature of
-	 * 		aggregation expression 
+	 * Test feature of aggregation expression
 	 */
 	public void test_sortGroup( ) throws Exception
 	{
-		// Test a SQL with duplicate column name (quite common with join data sets)
-		String testSQL =  "select COUNTRY, AMOUNT from " + getTestTableName( );
-		((OdaDataSetDesign)this.dataSet).setQueryText( testSQL );
-		
-		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY", 0 ),
-				new ScriptExpression( "row.AMOUNT", 2 ) };
-		
-		String names[] = { "COL_COUNTRY", "COL_AMOUNT" };
-		
-		SortDefinition sortDefn = new SortDefinition();
-		sortDefn.setExpression( "Total.sum( row.AMOUNT )" );
-		sortDefn.setSortDirection( sortDefn.SORT_DESC );	
-		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( )};
-		groupDefn[0].setKeyExpression( "row.COUNTRY" );	
-		groupDefn[0].addSort( sortDefn );
-				
-		// define a query design				
-		QueryDefinition queryDefn = newReportQuery( );
-		queryDefn.addResultSetExpression(names[0], expressions[0]);
-		queryDefn.addResultSetExpression(names[1], expressions[1]);	
-		
-		queryDefn.addGroup( groupDefn[0]);			
-		
-		
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultIterator resultIt = queryResults.getResultIterator( );
-		assertTrue( resultIt.next() );
+		// Test a SQL with duplicate column name (quite common with join data
+		// sets)
+		String testSQL = "select COUNTRY, AMOUNT from " + getTestTableName( );
+		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
 
-		outputQueryResult( executeQuery( queryDefn ), names );
-		checkOutputFile();
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[]{
+				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
+				};
+
+		String names[] = {"GROUP_COUNTRY"};
+
+		SortDefinition sortDefn = new SortDefinition( );
+		sortDefn.setExpression( "Total.sum( dataSetRow.AMOUNT )" );
+		sortDefn.setSortDirection( sortDefn.SORT_DESC );
+
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0")};
+		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
+		groupDefn[0].addSort( sortDefn );
 		
+		
+		
+		String[] bindingNameRow = new String[2];
+		bindingNameRow[0]="country";
+		bindingNameRow[1]="amount";
+		
+		IBaseExpression[] bindingExprRow = new IBaseExpression[2];
+		bindingExprRow[0]= new ScriptExpression("dataSetRow.COUNTRY");
+		bindingExprRow[1]= new ScriptExpression("dataSetRow.AMOUNT");
+		
+		createAndRunQuery( names, bindingExprGroup, groupDefn, null, null,
+				null, null, null, null, bindingNameRow, bindingExprRow );
+
+		// define a query design
+//		QueryDefinition queryDefn = newReportQuery( );
+//		queryDefn.setDataSetName( this.dataSet.getName( ) );
+//		queryDefn.addGroup( groupDefn[0] );
+//
+//		for ( int i = 0; i < expressions.length; i++ )
+//		{
+//			queryDefn.addResultSetExpression( names[i], expressions[i] );
+//
+//		}
+//
+//		// queryDefn.addGroup( groupDefn[0]);
+//
+//		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
+//		IQueryResults queryResults = preparedQuery.execute( null );
+//		IResultIterator resultIt = queryResults.getResultIterator( );
+//		assertTrue( resultIt.next( ) );
+//		System.out.print( resultIt.getValue( names[0] ) );
+//		System.out.print( resultIt.getValue( names[1] ) );
+//
+//		outputQueryResult(resultIt, names );
+		checkOutputFile();
+
 	}
 
 	public void test_sortOnGroupKey( ) throws Exception
 	{
-		String sqlStatement = "select COUNTRY, AMOUNT from " + getTestTableName( );
-		((OdaDataSetDesign)this.dataSet).setQueryText( sqlStatement );
-		
+		String sqlStatement = "select COUNTRY, AMOUNT from "
+				+ getTestTableName( );
+		( (OdaDataSetDesign) this.dataSet ).setQueryText( sqlStatement );
+
 		IBaseExpression[] expressions = new IBaseExpression[]{
 				new ScriptExpression( "row.COUNTRY", 0 ),
-				new ScriptExpression( "row>AMOUNT", 2)		};
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( ),
-				};
-		
-		
-		
-		
-	
+				new ScriptExpression( "row>AMOUNT", 2 )};
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( ),};
+
 	}
 }
