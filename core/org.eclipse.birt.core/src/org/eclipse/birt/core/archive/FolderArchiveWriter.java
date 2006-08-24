@@ -45,6 +45,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public void initialize() 
 	{
+		new File(folderName).mkdirs( );
 		// Do nothing
 	}
 
