@@ -56,7 +56,7 @@ class GroupInstanceSorter
 					groupLevels,
 					IExpressionProcessor.SORT_ON_GROUP_EXPR );
 			// The groupArray gotten here has not be sorted yet.
-			ArrayList[] groupArray = this.groupProcessor.getGroupCalculationUtil( )
+			List[] groupArray = this.groupProcessor.getGroupCalculationUtil( )
 					.getGroupInformationUtil( )
 					.getGroupBoundaryInfos( );
 			populateGroupBoundaryInfosSortings( cx, groupArray );
@@ -102,7 +102,7 @@ class GroupInstanceSorter
 	 * @param groupArray
 	 * @throws DataException
 	 */
-	void populateGroupBoundaryInfosSortings( Context cx, ArrayList[] groupArray )
+	void populateGroupBoundaryInfosSortings( Context cx, List[] groupArray )
 			throws DataException
 	{
 		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
@@ -130,7 +130,7 @@ class GroupInstanceSorter
 	 * @throws DataException
 	 */
 	private void populateGroupBoundaryInfoSortings( Context cx,
-			ArrayList[] groupArray, int groupPosition, int groupIndex )
+			List[] groupArray, int groupPosition, int groupIndex )
 			throws DataException
 	{
 		Object[] sortKeys = new Object[this.populator.getQuery( ).getGrouping( )[groupPosition].getSorts( )

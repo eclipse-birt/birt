@@ -22,6 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Aggregation;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
@@ -89,7 +90,7 @@ class AggregateCalculator
 			aggrArgs = new Object[aggrCount][];
 			for ( int i = 0; i < aggrCount; i++ )
 			{
-				aggrValues[i] = new ArrayList( );
+				aggrValues[i] = new BasicCachedList( );
 				AggrExprInfo aggrInfo = getAggrInfo( i );
 			
 				// Initialize argument array for this aggregate expression

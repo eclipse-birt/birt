@@ -19,6 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -64,7 +65,7 @@ class GroupInstanceFilter
 					groupLevels,
 					IExpressionProcessor.FILTER_ON_GROUP_EXPR );
 			// The groupBoundaryInfos gotten here has not be sorted yet.
-			ArrayList[] groupBoundaryInfos = this.groupProcessor.getGroupCalculationUtil( )
+			List[] groupBoundaryInfos = this.groupProcessor.getGroupCalculationUtil( )
 					.getGroupInformationUtil( )
 					.getGroupBoundaryInfos( );
 
@@ -116,7 +117,7 @@ class GroupInstanceFilter
 	 * @throws DataException
 	 */
 	private void populateFiltersInGroupBoundaryInfoSets( Context cx,
-			ArrayList[] groupBoundaryInfos ) throws DataException
+			List[] groupBoundaryInfos ) throws DataException
 	{
 		for ( int i = 1; i <= this.populator.getQuery( ).getGrouping( ).length; i++ )
 		{
@@ -166,7 +167,7 @@ class GroupInstanceFilter
 	 * @throws DataException
 	 */
 	private void populateGroupBoundaryInfoFilterValues( Context cx,
-			ArrayList[] groupBoundaryInfos, int i, List groupedFilters )
+			List[] groupBoundaryInfos, int i, List groupedFilters )
 			throws DataException
 	{
 		if ( i > 1 )
@@ -174,7 +175,7 @@ class GroupInstanceFilter
 			int passedGroups = 0;
 			for ( int k = 0; k < groupBoundaryInfos[i - 2].size( ); k++ )
 			{
-				List currentGroupArray = new ArrayList( );
+				List currentGroupArray = new CachedList( GroupBoundaryInfo.getCreator( ) );
 				for ( int n = 0; n < groupBoundaryInfos[i - 1].size( ); n++ )
 				{
 					if ( ( ( (GroupBoundaryInfo) groupBoundaryInfos[i - 2].get( k ) ).isInBoundary( ( (GroupBoundaryInfo) groupBoundaryInfos[i - 1].get( n ) ) ) ) )

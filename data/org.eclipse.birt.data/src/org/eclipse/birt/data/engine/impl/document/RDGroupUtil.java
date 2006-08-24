@@ -13,10 +13,10 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupUtil;
@@ -29,7 +29,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 public final class RDGroupUtil
 {
 	/*
-	 * groups[level] is an ArrayList of GroupInfo objects at the specified level.
+	 * groups[level] is an CachedList of GroupInfo objects at the specified level.
 	 * Level is a 0-based group index, with 0 denoting the outermost group, etc.
 	 * Example: 
 	 * Row GroupKey1 	GroupKey2 	GroupKey3 	Column4 	Column5 
@@ -72,11 +72,11 @@ public final class RDGroupUtil
 		try
 		{
 			int size = IOUtil.readInt( inputStream );
-			this.groups = new ArrayList[size];
+			this.groups = new List[size];
 
 			for ( int i = 0; i < size; i++ )
 			{
-				List list = new ArrayList( );
+				List list = new CachedList( GroupInfo.getCreator( ) );
 				int asize = IOUtil.readInt( inputStream );
 				for ( int j = 0; j < asize; j++ )
 				{

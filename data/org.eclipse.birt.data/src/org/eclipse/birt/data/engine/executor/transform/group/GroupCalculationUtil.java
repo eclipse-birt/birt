@@ -17,9 +17,13 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.cache.CachedList;
+import org.eclipse.birt.data.engine.cache.ICachedObject;
+import org.eclipse.birt.data.engine.cache.ICachedObjectCreator;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
@@ -160,7 +164,7 @@ public class GroupCalculationUtil
 	 * 
 	 * @param groupArray
 	 */
-	void sortGroupBoundaryInfos( ArrayList[] groupArray )
+	void sortGroupBoundaryInfos( List[] groupArray )
 	{
 		for ( int i = 0; i < groupArray.length; i++ )
 		{
@@ -190,12 +194,12 @@ public class GroupCalculationUtil
 	 * @param groupArray
 	 * @return
 	 */
-	ArrayList[] filterGroupBoundaryInfos( ArrayList[] groupArray )
+	List[] filterGroupBoundaryInfos( List[] groupArray )
 	{
-		ArrayList[] result = new ArrayList[groupArray.length];
+		List[] result = new List[groupArray.length];
 		for ( int i = 0; i < result.length; i++ )
 		{
-			result[i] = new ArrayList( );
+			result[i] = new CachedList( GroupBoundaryInfo.getCreator( ) );
 		}
 		for ( int i = 0; i < groupArray.length; i++ )
 		{
@@ -341,7 +345,7 @@ public class GroupCalculationUtil
  * result, sortKeys and Sort directions.
  * 
  */
-final class GroupBoundaryInfo
+final class GroupBoundaryInfo implements ICachedObject
 {
 
 	// The start index and end index of a Group
@@ -356,6 +360,15 @@ final class GroupBoundaryInfo
 	private boolean accept = true;
 
 	/**
+	 * 
+	 * @return
+	 */
+	public static ICachedObjectCreator getCreator()
+	{
+		return new GroupBoundaryInfoCreator();
+	}
+	
+	/**
 	 * @param start
 	 *            The start index of a group
 	 * @param end
@@ -366,6 +379,43 @@ final class GroupBoundaryInfo
 		this.startIndex = start;
 		this.endIndex = end;
 		sortKeys = new Object[0];
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.cache.ICachedObject#getFieldValues()
+	 */
+	public Object[] getFieldValues()
+	{
+		ArrayList fields = new ArrayList();
+		fields.add( new Integer(startIndex) );
+		fields.add( new Integer(endIndex) );
+		
+		if(sortKeys != null)
+		{
+			fields.add( new Integer(sortKeys.length) );
+			for(int i=0;i<sortKeys.length;i++)
+				fields.add(sortKeys[i]);
+		}
+		else
+		{
+			fields.add(null);
+		}
+		
+		if ( sortDirections != null)
+		{
+			fields.add( new Integer( sortDirections.length ) );
+			for ( int i = 0; i < sortDirections.length; i++ )
+				fields.add( new Boolean( sortDirections[i] ) );
+		}
+		else
+		{
+			fields.add(null);
+		}
+		
+		fields.add( new Boolean( accept ) );
+		
+		return fields.toArray( );
 	}
 
 	/**
@@ -544,5 +594,49 @@ final class GroupBoundaryInfoComparator implements Comparator
 		{
 			return obj1.toString( ).compareTo( obj2.toString( ) );
 		}
+	}
+}
+
+/**
+ * A creator class implemented ICachedObjectCreator. This class is used to
+ * create GroupBoundaryInfo object.
+ * 
+ * @author Administrator
+ * 
+ */
+class GroupBoundaryInfoCreator implements ICachedObjectCreator
+{
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.lang.Object[])
+	 */
+	public ICachedObject createInstance( Object[] fields )
+	{
+		GroupBoundaryInfo groupBoundaryInfo = new GroupBoundaryInfo( ( (Integer) fields[0] ).intValue( ),
+				( (Integer) fields[1] ).intValue( ) );
+		Object[] sortKeys = null;
+		int sortKeysTotalLength = 1;
+		if ( fields[2] != null )
+		{
+			sortKeys = new Object[( (Integer) fields[2] ).intValue( )];
+			System.arraycopy( fields, 3, sortKeys, 0, sortKeys.length );
+			sortKeysTotalLength = sortKeys.length + 1;
+		}
+		
+		boolean[] sortDirections = null;
+		if ( fields[2 + sortKeysTotalLength] != null )
+		{
+			sortDirections = new boolean[( (Integer) fields[2 + sortKeysTotalLength] ).intValue( )];
+			
+			for ( int i = 0; i < sortDirections.length; i++ )
+			{
+				sortDirections[i] = ( (Boolean) fields[3 + sortKeysTotalLength + i ] ).booleanValue( );
+			}
+		}
+		groupBoundaryInfo.setSortCondition( sortKeys, sortDirections );
+		
+		groupBoundaryInfo.setAccepted( ( (Boolean) fields[fields.length - 1] ).booleanValue( ) );
+
+		return groupBoundaryInfo;
 	}
 }

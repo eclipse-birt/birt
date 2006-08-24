@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.transform.group;
 
+import org.eclipse.birt.data.engine.cache.ICachedObject;
+import org.eclipse.birt.data.engine.cache.ICachedObjectCreator;
+
 /**
  * Structure to hold information about a group instance at a particular grouping
  * level.
  */
-public final class GroupInfo
+public final class GroupInfo implements ICachedObject
 {
 	
 	/**
@@ -28,5 +31,48 @@ public final class GroupInfo
 	 * group, this is the ID of the first data row in the group
 	 */
 	public int firstChild = -1;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static ICachedObjectCreator getCreator()
+	{
+		return new GroupInfoCreator();
+	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.cache.ICachedObject#getFieldValues()
+	 */
+	public Object[] getFieldValues()
+	{
+		Object[] fields = new Object[2];
+		fields[0] = new Integer(parent);
+		fields[1] = new Integer(firstChild);
+		return fields;
+	}
+	
+}
+
+/**
+ * A creator class implemented ICachedObjectCreator. This class is used to
+ * create GroupInfo object.
+ * 
+ * @author Administrator
+ * 
+ */
+class GroupInfoCreator implements ICachedObjectCreator
+{
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.lang.Object[])
+	 */
+	public ICachedObject createInstance(Object[] fields)
+	{
+		GroupInfo groupInfo = new GroupInfo();
+		groupInfo.parent = ((Integer)fields[0]).intValue( );
+		groupInfo.firstChild = ((Integer)fields[1]).intValue( );
+		return groupInfo;
+	}
 }

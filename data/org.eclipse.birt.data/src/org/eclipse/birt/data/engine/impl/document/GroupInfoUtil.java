@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -252,6 +253,14 @@ public class GroupInfoUtil {
 	 */
 	static List[] cleanUnUsedGroupInstance( List[] groups )
 	{
+		List[] savedList = groups;
+		groups = new List[groups.length];
+		for(int i=0;i<groups.length;i++)
+		{
+			groups[i] = new ArrayList();
+		}
+		copy(savedList, groups);
+		
 		int last = groups.length - 1;
 		List lastGroup = groups[last];
 		for( int i = 0; i < lastGroup.size(); i++ )
@@ -261,7 +270,27 @@ public class GroupInfoUtil {
 				return cleanUnUsedGroupInstance( removeWholeGroup( groups, last, i));
 			}
 		}
-		return groups;
+		
+		copy( groups, savedList );
+
+		return savedList;
+	}
+	
+	/**
+	 * 
+	 * @param sourceLists
+	 * @param destLists
+	 */
+	private static void copy(List[] sourceLists, List[] destLists)
+	{
+		for(int i=0;i<sourceLists.length;i++)
+		{
+			destLists[i].clear( );
+			for(int j=0;j<sourceLists[i].size( );j++)
+			{
+				destLists[i].add( sourceLists[i].get( j ) );
+			}
+		}
 	}
 	
 	/**

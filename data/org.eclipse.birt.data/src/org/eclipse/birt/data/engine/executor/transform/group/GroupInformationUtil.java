@@ -14,10 +14,10 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -415,14 +415,14 @@ public class GroupInformationUtil
 	{
 		assert this.groupCalculationUtil.getResultSetCache( ) != null;
 		// Pass through sorted data set to process group indexes
-		groups = new ArrayList[this.groupCalculationUtil.getGroupDefn( ).length];
+		groups = new CachedList[this.groupCalculationUtil.getGroupDefn( ).length];
 
 		if ( groups.length == 0 )
 			return;
 
 		for ( int i = 0; i < this.groupCalculationUtil.getGroupDefn( ).length; i++ )
 		{
-			groups[i] = new ArrayList( );
+			groups[i] = new CachedList( GroupInfo.getCreator( ) );
 		}
 
 		IResultObject prevRow = null;
@@ -610,11 +610,11 @@ public class GroupInformationUtil
 	void readGroupsFromStream( InputStream inputStream ) throws IOException
 	{
 		int size = IOUtil.readInt( inputStream );
-		this.groups = new ArrayList[size];
+		this.groups = new CachedList[size];
 
 		for ( int i = 0; i < size; i++ )
 		{
-			List list = new ArrayList( );
+			List list = new CachedList( GroupInfo.getCreator( ) );;
 			int asize = IOUtil.readInt( inputStream );
 			for ( int j = 0; j < asize; j++ )
 			{
@@ -656,13 +656,13 @@ public class GroupInformationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	ArrayList[] getGroupBoundaryInfos( ) throws DataException
+	List[] getGroupBoundaryInfos( ) throws DataException
 	{
-		ArrayList[] groupBoundaryInfos = new ArrayList[groups.length];
+		List[] groupBoundaryInfos = new List[groups.length];
 
 		for ( int i = 1; i <= groups.length; i++ )
 		{
-			groupBoundaryInfos[i - 1] = new ArrayList( );
+			groupBoundaryInfos[i - 1] = new CachedList( GroupBoundaryInfo.getCreator( ) );
 			// i is the group level, is 1-based
 			for ( int j = 0; j < groups[i - 1].size( ); j++ )
 			{
@@ -717,7 +717,7 @@ public class GroupInformationUtil
 	private List mergeTwoGroupBoundaryInfoGroups( List higherGroup,
 			List lowerGroup )
 	{
-		List result = new ArrayList( );
+		List result = new CachedList( GroupBoundaryInfo.getCreator( ) );
 		for ( int i = 0; i < higherGroup.size( ); i++ )
 		{
 			GroupBoundaryInfo gbi1 = (GroupBoundaryInfo) higherGroup.get( i );
