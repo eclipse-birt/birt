@@ -163,6 +163,9 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * sets the task locale
 	 * 
+	 * The locale must be called in the same thread which
+	 * create the engine task
+	 * 
 	 * @param locale
 	 *            the task locale
 	 */
@@ -177,6 +180,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		this.locale = locale;
 		executionContext.setLocale( locale );
+		EngineException.setULocale( ULocale.forLocale( locale ) );
 	}
 	
 	/**
@@ -669,7 +673,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.43 $ $Date: 2006/08/16 02:19:20 $
+	 * @version $Revision: 1.44 $ $Date: 2006/08/22 05:54:17 $
 	 */
 	static abstract class ParameterVisitor
 	{

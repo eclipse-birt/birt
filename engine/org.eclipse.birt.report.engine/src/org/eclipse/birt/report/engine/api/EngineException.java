@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api;
 
-import com.ibm.icu.util.ULocale;
-import com.ibm.icu.util.UResourceBundle;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Define an engine exception that clients of the engine need to handle. EngineException
@@ -27,7 +29,10 @@ public class EngineException extends BirtException {
 	 */
 	private static final long serialVersionUID = 3137320793453389473L;
 
-	static protected UResourceBundle rb = new EngineResourceHandle(ULocale.getDefault()).getUResourceBundle();
+	static protected UResourceBundle dftRb = new EngineResourceHandle( ULocale
+			.getDefault( ) ).getUResourceBundle( );
+
+	static protected ThreadLocal threadLocal = new ThreadLocal( );
 	
 	protected static final String pluginId = "org.eclipse.birt.report.engine"; //$NON-NLS-1$
 	/**
@@ -36,7 +41,7 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode, Object arg0 )
 	{
-		super(pluginId,  errorCode, arg0, rb);
+		super(pluginId,  errorCode, arg0, getResourceBundle());
 	}
 	
 	/**
@@ -47,7 +52,7 @@ public class EngineException extends BirtException {
 	public EngineException( String errorCode, Object arg0,
 			Throwable cause )
 	{
-		super( pluginId, errorCode, arg0, rb, cause );
+		super( pluginId, errorCode, arg0, getResourceBundle(), cause );
 	}
 	
 	/**
@@ -56,7 +61,7 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode, Object[] args)
 	{
-		super( pluginId, errorCode, args, rb );
+		super( pluginId, errorCode, args, getResourceBundle() );
 	}
 	
 	/**
@@ -64,10 +69,9 @@ public class EngineException extends BirtException {
 	 * @param args message arguments
 	 * @param cause the cause of the exception
 	 */
-	public EngineException( String errorCode, Object[] args,
-			Throwable cause )
+	public EngineException( String errorCode, Object[] args, Throwable cause )
 	{
-		super( pluginId, errorCode, args, rb, cause );
+		super( pluginId, errorCode, args, getResourceBundle( ), cause );
 	}
 	
 	/**
@@ -75,7 +79,7 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode)
 	{
-		super( pluginId, errorCode, rb );
+		super( pluginId, errorCode, getResourceBundle() );
 	}
 	
 	/**
@@ -84,6 +88,53 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode,Throwable cause )
 	{
-		super( pluginId, errorCode, rb, cause );
+		super( pluginId, errorCode, getResourceBundle(), cause );
+	}
+	
+	static public void setULocale( ULocale locale )
+	{
+		if ( locale == null )
+		{
+			return;
+		}
+		UResourceBundle rb = (UResourceBundle) threadLocal.get( );
+		if ( rb != null )
+		{
+			ULocale rbLocale = rb.getULocale( );
+			if ( locale.equals( rbLocale ) )
+			{
+				return;
+			}
+		}
+		rb = getResourceBundle(locale);
+		threadLocal.set( rb );
+	}
+	
+	static UResourceBundle getResourceBundle( )
+	{
+		UResourceBundle rb = (UResourceBundle) threadLocal.get( );
+		if ( rb == null )
+		{
+			return dftRb;
+		}
+		return rb;
+	}
+	
+	protected static HashMap resourceBundles = new HashMap( );
+
+	protected synchronized static UResourceBundle getResourceBundle(
+			ULocale locale )
+	{
+		/* ulocale has overides the hashcode */
+		UResourceBundle rb = (UResourceBundle) resourceBundles.get( locale );
+		if ( rb == null )
+		{
+			rb = new EngineResourceHandle( locale ).getUResourceBundle( );
+			if ( rb != null )
+			{
+				resourceBundles.put( locale, rb );
+			}
+		}
+		return rb;
 	}
 }

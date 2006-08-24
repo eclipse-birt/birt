@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.core.exception;
 
-import com.ibm.icu.text.MessageFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
+
+import com.ibm.icu.text.MessageFormat;
 
 /**
  * Define BIRT's Exception framework. Every BIRT exception has to include an
@@ -491,12 +493,14 @@ public class BirtException extends Exception
 	protected String getLocalizedMessage( String errorCode )
 	{
 		String localizedMessage;
+		Locale locale = null;
 		if ( rb == null )
 		{
 			localizedMessage = "$NO-RB$ " + errorCode; // $NON-NLS-1$
 		}
 		else
 		{
+			locale = rb.getLocale( );
 			try
 			{
 				localizedMessage = rb.getString( errorCode );
@@ -509,7 +513,8 @@ public class BirtException extends Exception
 
 		try
 		{
-			MessageFormat form = new MessageFormat( localizedMessage );
+			MessageFormat form = new MessageFormat( localizedMessage,
+					locale == null ? Locale.getDefault( ) : locale );
 			return form.format( oaMessageArguments );
 		}
 		catch ( Throwable ex )
