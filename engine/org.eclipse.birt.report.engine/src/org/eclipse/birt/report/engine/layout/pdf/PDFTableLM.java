@@ -780,11 +780,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 				}
 				else
 				{
-					int delta = (colSum - maxWidth)/columnNumber;
-					assert(delta>=0);
+					float delta = colSum - maxWidth;
 					for ( int i = 0; i < columnNumber; i++ )
 					{
-						columns[i] -= delta;
+						columns[i] -= (int)(delta * columns[i]  / colSum) ;
 					}
 					return columns;
 				}
@@ -795,34 +794,28 @@ public class PDFTableLM extends PDFBlockStackingLM
 				{
 					if(colSum<maxWidth)
 					{
-						int colNumber = columnNumber - columnWithWidth;
-						int aw = (maxWidth - colSum)/colNumber;
-						distributeWidth( columns, colNumber, aw);
+						distributeLeftWidth( columns, (maxWidth - colSum)/( columnNumber - columnWithWidth));
 					}
 					else
 					{
-						distributeWidth(columns, columnNumber, maxWidth/columnNumber);
+						redistributeWidth(columns, colSum - maxWidth + (columnNumber - columnWithWidth) * maxWidth / columnNumber, maxWidth, colSum);
 					}
 				}
 				else
 				{
 					if(colSum<specifiedWidth)
 					{
-						int colNumber = columnNumber - columnWithWidth;
-						int aw = (specifiedWidth - colSum)/colNumber;
-						distributeWidth( columns, colNumber, aw);
+						distributeLeftWidth( columns, (specifiedWidth - colSum)/columnNumber - columnWithWidth);
 					}
 					else 
 					{
 						if(colSum<maxWidth)
 						{
-							int colNumber = columnNumber - columnWithWidth;
-							int aw = (maxWidth - colSum)/colNumber;
-							distributeWidth( columns, colNumber, aw);
+							distributeLeftWidth( columns, (maxWidth - colSum)/(columnNumber - columnWithWidth));
 						}
 						else
 						{
-							distributeWidth(columns, columnNumber, specifiedWidth/columnNumber);
+							redistributeWidth(columns, colSum - specifiedWidth + (columnNumber - columnWithWidth) * specifiedWidth / columnNumber, specifiedWidth, colSum);
 						}
 					}
 					
@@ -832,24 +825,29 @@ public class PDFTableLM extends PDFBlockStackingLM
 			return columns;
 		}
 		
-		private void distributeWidth(int cols[], int colNumber, int width)
+		private void redistributeWidth(int cols[], int delta,  int sum, int currentSum)
 		{
-			assert(colNumber<=cols.length);
-			if(colNumber==cols.length)
+			int avaWidth = sum/cols.length;
+			for(int i=0; i<cols.length; i++)
 			{
-				for(int i=0; i<cols.length; i++)
+				if(cols[i]<0)
 				{
-					cols[i] = width;
+					cols[i] = avaWidth;
+				}
+				else
+				{
+					cols[i] -= (int)(((float)cols[i])*delta/currentSum);
 				}
 			}
-			else
+			
+		}
+		private void distributeLeftWidth(int cols[], int avaWidth)
+		{
+			for(int i=0; i<cols.length; i++)
 			{
-				for(int i=0; i<cols.length; i++)
+				if(cols[i]<0)
 				{
-					if(cols[i]<0)
-					{
-						cols[i] = width;
-					}
+					cols[i] = avaWidth;
 				}
 			}
 		}		
@@ -871,9 +869,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	public boolean addArea( IArea area )
 	{
-		assert ( area instanceof RowArea );
-		RowArea row = (RowArea) area;
-		lastRowArea = row;
+		if( area instanceof RowArea )
+		{
+			lastRowArea = (RowArea) area;
+		}
 		return super.addArea( area );
 	}
 
