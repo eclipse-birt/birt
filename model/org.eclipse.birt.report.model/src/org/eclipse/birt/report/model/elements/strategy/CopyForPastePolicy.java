@@ -96,7 +96,7 @@ public class CopyForPastePolicy extends CopyPolicy
 		while ( iter.hasNext( ) )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
-			if ( !propDefn.canInherit( ) )
+			if ( !propDefn.canInherit( ) && !propDefn.isStyleProperty( ) )
 				continue;
 
 			String propName = propDefn.getName( );
