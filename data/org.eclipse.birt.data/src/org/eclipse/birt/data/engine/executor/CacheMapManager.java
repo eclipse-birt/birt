@@ -119,7 +119,8 @@ class CacheMapManager
 		 */
 		private void createTempRootDir( )
 		{
-			if ( tempRootDirStr != null )
+			if ( tempRootDirStr != null
+					&& new File( tempRootDirStr ).exists( ) == true )
 				return;
 			
 			// system default temp dir is used
