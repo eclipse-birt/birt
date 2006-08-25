@@ -207,56 +207,21 @@ public class ExpressionCompilerUtil
 		if ( expression instanceof IScriptExpression )
 		{
 			String text = ((IScriptExpression)expression).getText( );
-			return hasAggregation( text );
+			return ExpressionUtil.hasAggregation( text );
 		}
 		else if ( expression instanceof IConditionalExpression )
 		{
 			String expr = getExprText(((IConditionalExpression)expression).getExpression( ));
 			String oprand1 = getExprText(((IConditionalExpression)expression).getOperand1( ));
 			String oprand2 = getExprText(((IConditionalExpression)expression).getOperand2( ));
-			return hasAggregation( expr )
-				   ||hasAggregation( oprand1 )
-				   ||hasAggregation( oprand2 );
+			return ExpressionUtil.hasAggregation(  expr )
+				   ||ExpressionUtil.hasAggregation(  oprand1 )
+				   ||ExpressionUtil.hasAggregation( oprand2 );
 		}
 		
 		return false;
 	}
-	
-	/**
-	 * 
-	 * @param expression
-	 * @return
-	 */
-	private static boolean hasAggregation( String expression )
-	{
-		if ( expression == null )
-			return false;
-		
-		Context context = Context.enter( );
 
-		// fake a registry to register the aggragation.
-		AggregateRegistry aggrReg = new AggregateRegistry( ) {
-
-			public int register( AggregateExpression aggregationExpr )
-			{
-				return -1;
-			}
-		};
-		try
-		{
-			expressionCompiler.setDataSetMode( true );
-			CompiledExpression expr = expressionCompiler.compile( expression,
-					aggrReg,
-					context );
-			return checkColumnRefInAggregation( expr );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-
-	}
-	
 	/**
 	 * 
 	 * @param expr
@@ -298,48 +263,6 @@ public class ExpressionCompilerUtil
 		{
 			Context.exit( );
 		}
-	}
-
-	/**
-	 * 
-	 * @param expr
-	 * @return
-	 */
-	private static boolean checkColumnRefInAggregation( CompiledExpression expr )
-	{
-		int type = expr.getType( );
-		switch ( type )
-		{
-			case CompiledExpression.TYPE_DIRECT_COL_REF :
-			case CompiledExpression.TYPE_CONSTANT_EXPR :
-			case CompiledExpression.TYPE_INVALID_EXPR :
-				return false;
-			case CompiledExpression.TYPE_SINGLE_AGGREGATE :
-			{
-				Iterator args = ( (AggregateExpression) expr ).getArguments( )
-						.iterator( );
-				while ( args.hasNext( ) )
-				{
-					/*//only check the first argument
-					if ( flattenExpression( (CompiledExpression) args.next( ) ) )*/
-						return true;
-					/*break;*/
-				}
-				break;
-			}
-			case CompiledExpression.TYPE_COMPLEX_EXPR :
-			{
-				Iterator col = ( (ComplexExpression) expr ).getSubExpressions( )
-						.iterator( );
-				while ( col.hasNext( ) )
-				{
-					if ( checkColumnRefInAggregation( (CompiledExpression) col.next( ) ) )
-						return true;
-				}
-				break;
-			}
-		}
-		return false;
 	}
 
 	/**

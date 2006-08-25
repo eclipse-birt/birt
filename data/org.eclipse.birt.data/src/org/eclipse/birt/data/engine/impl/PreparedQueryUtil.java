@@ -192,9 +192,9 @@ class PreparedQueryUtil
 		if ( FilterDefnUtil.isConflictFilter( filters, queryDefn.getFilters( ) ) )
 		{
 			runningOnRS = false;
-			filters = rdLoad.loadOriginalQueryDefn( StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE ).getFilters( );
-			FilterDefnUtil.getRealFilterList( filters, queryDefn.getFilters( ) );
+			
+			FilterDefnUtil.getRealFilterList( rdLoad.loadOriginalQueryDefn( StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE ).getFilters( ), queryDefn.getFilters( ) );
 		}
 
 		if ( runningOnRS == false )
