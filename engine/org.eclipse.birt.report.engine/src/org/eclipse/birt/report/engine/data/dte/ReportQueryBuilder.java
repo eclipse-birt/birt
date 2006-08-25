@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.80 $ $Date: 2006/08/04 07:56:55 $
+ * @version $Revision: 1.81 $ $Date: 2006/08/24 07:38:02 $
  */
 public class ReportQueryBuilder
 {
@@ -638,6 +638,7 @@ public class ReportQueryBuilder
 			IGroupDefinition groupDefn = handleGroup( group, handle );
 
 			pushQuery( groupDefn );
+			transformExpressions( group );
 			handleListingBand( group.getHeader( ), value );
 			handleListingBand( group.getFooter( ), value );
 			popQuery( );
@@ -828,7 +829,7 @@ public class ReportQueryBuilder
 			String type = binding.getDataType( );
 			int dbType = ModelDteApiAdapter.toDteDataType( type );
 			IBaseExpression dbExpr = new ScriptExpression( expr, dbType );
-			dbExpr.setGroupName( binding.getAggregrateOn( ) );
+			dbExpr.setGroupName( binding.getAggregateOn( ) );
 			transfer.getResultSetExpressions( ).put( name, dbExpr );
 		}
 
