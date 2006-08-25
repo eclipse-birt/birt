@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewComposite;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -113,6 +114,8 @@ public class ThumbnailBuilder extends BaseDialog
 		createButtons( composite );
 
 		new Label( topComposite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		UIUtil.bindHelp( parent,IHelpContextIds.THUMBNAIL_BUIDLER_ID ); 
+		
 		return topComposite;
 	}
 

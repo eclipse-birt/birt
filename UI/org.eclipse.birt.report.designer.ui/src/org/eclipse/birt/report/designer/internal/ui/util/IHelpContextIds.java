@@ -111,6 +111,8 @@ public interface IHelpContextIds
 
 	public static final String IMAGE_BUIDLER_ID = PREFIX + "ImageBuilder_ID";
 
+	public static final String THUMBNAIL_BUIDLER_ID = PREFIX + "ThumbnailBuilder_ID";
+	
 	public static final String TABLE_OPTION_DIALOG_ID = PREFIX
 			+ "TableOptionDialog_ID";
 
