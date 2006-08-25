@@ -12,6 +12,7 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 
@@ -78,6 +79,9 @@ public class PDFTableGroupLM extends PDFGroupLM
 		if ( isFirst )
 		{
 			isFirst = false;
+			IArea tocAnchor = AreaFactory.createTableGroupArea( (IGroupContent) content );
+			tableLM.addArea( tocAnchor );
+			tableLM.setRepeatCount( tableLM.getRepeatCount( ) + 1 );
 			return;
 		}
 		ITableBandContent header = (ITableBandContent) groupContent.getHeader( );

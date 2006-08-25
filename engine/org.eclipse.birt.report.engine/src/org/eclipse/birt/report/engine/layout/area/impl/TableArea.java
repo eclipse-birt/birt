@@ -10,36 +10,15 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.engine.content.ITableContent;
 
 
 public class TableArea extends ContainerArea
 {
-	protected ArrayList header = new ArrayList();
 	TableArea(ITableContent table)
 	{
 		super(table);
 		removeBorder();
 		removePadding();
-
 	}
-
-	public List getTableHeader()
-	{
-		return header;
-	}
-	
-	public void addHeaderArea(RowArea row)
-	{
-		header.add(row);
-	}
-	
-	public void setHeader(ArrayList list)
-	{
-		header.addAll(list);
-	}
-
 }

@@ -37,6 +37,11 @@ public class AreaFactory
 	{
 		return new ImageArea( image );
 	}
+	
+	public static IArea createTableGroupArea(IContent group)
+	{
+		return new BlockContainerArea(group);
+	}
 
 	public static IArea createTemplateArea( IAutoTextContent autoText )
 	{
