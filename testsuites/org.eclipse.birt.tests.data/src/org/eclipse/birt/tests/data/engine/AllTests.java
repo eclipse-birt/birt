@@ -23,6 +23,7 @@ import org.eclipse.birt.tests.data.engine.api.ReportDoc_Gen_PreModeTest;
 import org.eclipse.birt.tests.data.engine.api.ReportDoc_GroupTest;
 import org.eclipse.birt.tests.data.engine.api.ReportDoc_ParameterTest;
 import org.eclipse.birt.tests.data.engine.regression.*;
+import org.eclipse.birt.tests.data.engine.regression.xml.*;
 
 import org.eclipse.birt.tests.data.engine.smoke.DsAggregationTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsCombinationTest;
@@ -141,7 +142,16 @@ public class AllTests extends TestCase
 		suite.addTestSuite( Regression_96025.class );
 		suite.addTestSuite( Regression_121166.class );
 		
-		
+		suite.addTestSuite( Regression_143105.class );
+		suite.addTestSuite( Regression_143105.class );
+		suite.addTestSuite( Regression_143816.class );
+		suite.addTestSuite( Regression_144179.class );
+		suite.addTestSuite( Regression_124448.class );
+		suite.addTestSuite( Regression_134948.class );
+		//xml package
+		suite.addTestSuite( Regression_119999.class );
+		suite.addTestSuite( Regression_120036.class );
+		suite.addTestSuite( Regression_123157.class );
 		return suite;
 	}
 }
