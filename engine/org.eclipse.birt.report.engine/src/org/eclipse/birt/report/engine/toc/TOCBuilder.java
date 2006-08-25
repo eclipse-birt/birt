@@ -82,8 +82,6 @@ public class TOCBuilder
 	public TOCEntry startEntry( TOCEntry parent, Object tocValue,
 			String bookmark, String hiddenFormats, boolean isGroupRoot )
 	{
-		assert tocValue != null;
-
 		if ( parent == null )
 		{
 			parent = rootEntry;
