@@ -393,6 +393,28 @@ public final class ExpressionUtil
 
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @param jointColumName
+	 * @return
+	 */
+	public static String[] getSourceDataSetNames( String jointColumName )
+	{
+		assert jointColumName != null;
+
+		String[] result = new String[2];
+		if ( jointColumName.indexOf( "::" ) != -1 )
+		{
+			String[] splited = jointColumName.split( "::" );
+
+			result[0] = splited[0];
+			if ( result[0].endsWith( "1" ) || result[0].endsWith( "2" ) )
+				result[1] = result[0].substring( 0, result[0].length( ) - 1 );
+		}
+
+		return result;
+	}
 }
 
 /**
