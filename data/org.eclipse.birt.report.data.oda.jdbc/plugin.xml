@@ -261,16 +261,8 @@
    <extension
          point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
       <jdbcDriver
-            driverClass="sun.jdbc.odbc.JdbcOdbcDriver"
-            urlTemplate="jdbc:odbc:&lt;data source name&gt;"
-            name="Sun JDBC-ODBC Bridge Driver"/>
-      <jdbcDriver
             driverClass="org.apache.derby.jdbc.EmbeddedDriver"
             urlTemplate="jdbc:derby:[subsubprotocol:]DATABASE[;ATTRIBUTE=VALUE]*"
             name="Apache Derby Embedded Driver"/>
-      <jdbcDriver
-            driverClass="org.apache.derby.jdbc.ClientDriver"
-            urlTemplate="jdbc:derby://SERVER[:PORT]/DATABASE[;ATTRIBUTE=VALUE]*"
-            name="Apache Derby Network Client Driver"/>
    </extension>
 </plugin>
