@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -36,25 +35,24 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 public class FontConfigReader
 {
 	/** The config xml file name */
 	private static final String CONFIG_FILE_PATH = "/fontsConfig.xml"; //$NON-NLS-1$
 	
+	private static final String TAG_BLOCK = "block";
 	private static final String TAG_MAPPING = "mapping"; //$NON-NLS-1$
 	private static final String TAG_PATH = "path"; //$NON-NLS-1$
 	private static final String TAG_ENCODING = "encoding"; //$NON-NLS-1$
-	
+
+	private static final String PROP_BLOCK_INDEX = "index";
 	private static final String PROP_NAME = "name"; //$NON-NLS-1$
 	private static final String PROP_FONT_FAMILY = "font-family"; //$NON-NLS-1$
 	private static final String PROP_ENCODING = "encoding"; //$NON-NLS-1$
 	private static final String PROP_PATH = "path"; //$NON-NLS-1$
 	
-	private HashMap fontMapping = new HashMap();
-
-	private HashMap fontEncoding = new HashMap();
+	private FontMappingManager fontMappingManager = new FontMappingManager();
 
 	private ArrayList fontPaths = new ArrayList();
 
@@ -65,37 +63,42 @@ public class FontConfigReader
 	{
 		try
 		{
-			Bundle bundle = Platform.getBundle("org.eclipse.birt.report.engine.fonts"); //$NON-NLS-1$
-			Path path = new Path(CONFIG_FILE_PATH);
-			URL fileURL = FileLocator.find(bundle, path, null);
-			if (null == fileURL)
+			Bundle bundle = Platform
+					.getBundle( "org.eclipse.birt.report.engine.fonts" ); //$NON-NLS-1$
+			if ( bundle == null )
 				return false;
-			InputStream cfgFile = fileURL.openStream();	
-			
-			InputStreamReader r = new InputStreamReader(
-					new BufferedInputStream(cfgFile), Charset.forName("UTF-8")); //$NON-NLS-1$
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(new InputSource(r));
-			
-			handleFontMappings(doc);
-			handleFontPaths(doc);
-			handleFontEncodings(doc);
+
+			URL fileURL = bundle.getEntry( CONFIG_FILE_PATH );
+			if ( null == fileURL )
+				return false;
+
+			InputStream cfgFile = fileURL.openStream( );
+			try
+			{
+				InputStreamReader r = new InputStreamReader(
+						new BufferedInputStream( cfgFile ), Charset
+								.forName( "UTF-8" ) ); //$NON-NLS-1$
+				DocumentBuilderFactory dbf = DocumentBuilderFactory
+						.newInstance( );
+				DocumentBuilder db = dbf.newDocumentBuilder( );
+				Document doc = db.parse( new InputSource( r ) );
+
+				handleFontMappings( doc );
+				handleAllFonts( doc );
+				handleFontPaths( doc );
+				handleFontEncodings( doc );
+			}
+			finally
+			{
+				cfgFile.close( );
+			}
 			return true;
 
-		} catch (SAXException se)
+		} catch (Exception se)
 		{
 			logger.log(Level.WARNING, se.getMessage(), se);
-			return false;
-		} catch (IOException ioe)
-		{
-			logger.log(Level.WARNING, ioe.getMessage(), ioe);
-			return false;
-		} catch (ParserConfigurationException pce)
-		{
-			logger.log(Level.WARNING, pce.getMessage(), pce);
-			return false;
-		}
+		} 
+		return false;
 	}
 
 	public String getEmbededFontPath()
@@ -125,18 +128,14 @@ public class FontConfigReader
 		return this.fontPaths;
 	}
 
-	public HashMap getFontMapping()
+	public FontMappingManager getFontMappingManager()
 	{
-		return this.fontMapping;
+		return fontMappingManager;
 	}
 
-	public HashMap getFontEncoding()
-	{
-		return this.fontEncoding;
-	}
-	
 	private void handleFontEncodings(Document doc)
 	{
+		HashMap fontEncoding = new HashMap();
 		NodeList encodings = doc.getDocumentElement().getElementsByTagName(TAG_ENCODING);
 		for (int i = 0; i < encodings.getLength(); i++)
 		{
@@ -146,6 +145,7 @@ public class FontConfigReader
 			if (isValidValue(encoding) && isValidValue(fontFamily))
 				fontEncoding.put(fontFamily, encoding);
 		}
+		fontMappingManager.addFontEncoding(fontEncoding);
 	}
 
 	private void handleFontPaths(Document doc)
@@ -162,6 +162,7 @@ public class FontConfigReader
 
 	private void handleFontMappings(Document doc)
 	{
+		HashMap fontMapping = new HashMap();
 		NodeList mappings = doc.getDocumentElement().getElementsByTagName(TAG_MAPPING);
 		for (int i = 0; i < mappings.getLength(); i++)
 		{
@@ -171,11 +172,45 @@ public class FontConfigReader
 			if (isValidValue(name) && isValidValue(fontFamily))
 				fontMapping.put(name, fontFamily);
 		}
+		
+		fontMappingManager.addFontMapping( fontMapping);
+	}
+
+	private void handleAllFonts(Document doc)
+	{
+		NodeList blocks = doc.getDocumentElement().getElementsByTagName(TAG_BLOCK);
+		for (int i = 0; i < blocks.getLength( ); i++)
+		{
+			Node blockNode = blocks.item( i );
+			String blockIndex = getProperty(blockNode, PROP_BLOCK_INDEX);
+			if (isValidValue(blockIndex))
+			{
+				int index = Integer.parseInt( blockIndex );
+			
+				NodeList mappings = blockNode.getChildNodes( ); 
+			
+				for (int j = 0; j < mappings.getLength(); j++)
+				{
+					
+					Node node = mappings.item(j);
+					if (node.getNodeType( ) != Node.ELEMENT_NODE)
+						continue;
+					
+					String fontFamily = getProperty(node, PROP_FONT_FAMILY);
+					if ( isValidValue(fontFamily) )
+					{
+						fontMappingManager.setFontMappingByBlockIndex( 
+								index, 
+								fontFamily );
+					}
+				}
+			}
+		}
 	}
 	
-	private boolean isValidValue(String propertyName)
+	private boolean isValidValue( String propertyName )
 	{
-		return (null!= propertyName && !"".equalsIgnoreCase(propertyName)); //$NON-NLS-1$
+		return ( null != propertyName && propertyName.length( ) != 0 );
 	}
 	
 	private String getProperty(Node node, String propertyName)

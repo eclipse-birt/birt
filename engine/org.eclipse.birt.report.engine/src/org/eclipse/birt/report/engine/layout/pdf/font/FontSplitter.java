@@ -19,6 +19,12 @@ import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 
 public class FontSplitter implements ISplitter
 {
+	/**
+	 * If no font can display a charater, replace the character with this one. 
+	 * Make sure MISSING_CHAR can be displayed with DEFAUTL_FONT.
+	 */
+	public static final char MISSING_CHAR = '?';
+	
 	private FontHandler fh = null;
 	
 	private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
@@ -74,10 +80,10 @@ public class FontSplitter implements ISplitter
 				return c;
 			}
 			//We fail to find a font to display the character,
-			//we replace this character with '?'.
+			//we replace this character with MISSING_CHAR defined in FontHander.
 			if (!fh.selectFont(chunkText[currentPos]))
 			{
-				chunkText[currentPos] = '?';
+				chunkText[currentPos] = MISSING_CHAR;
 			}
 			//If a character uses a font different from the previous character,
 			//we split the chunk at the point.

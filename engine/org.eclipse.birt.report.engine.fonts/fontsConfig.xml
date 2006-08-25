@@ -10,12 +10,16 @@
 		<font-paths> will be loaded instead.
    
    	2. 	PDF emitter tries to use the font specified in design-time to render the pdf. 
-   		If the font can not be built, it will be mapped to default type1 font "Times-Roman". 
    		If the font is a generic family, it will be mapped to a PDF embeded type1 font. 	
 		"serif" to "Times-Roman" 
+		"fantasy" to "Times-Roman" 
 		"sans-serif" to "Helvetica"
 		"monospace" to "Courier"
-		"fantasy" to "ZapfDingbats"
+		"cursive" to "ZapfDingbats"
+		If the font can not be built, it will go to the unicode block of that character,
+		and try the font defined in that block.
+		If this also fails, the character will be replaced with '?' using the default font, 
+		currently "Times-Roman", to denote a place of missing character. 
 -->
 
 <font>
@@ -31,24 +35,244 @@
 	in design-time. 
 		for example: the following defines to replace "simsun" with "Arial Unicode MS".
 			<mapping name="simsun" font-family="Arial Unicode MS"/>
-	
-	c. Define a default mapping if no suitable font can be found.
-		for example: We set "Arial Unicode MS" as the default font family.
-			<mapping name="default" font-family="Arial Unicode MS"/>
-		We recommend you to use a font family supporting most charsets here.
 -->
 	<font-mappings>
-		<mapping name="default" font-family="Times-Roman"/>
 		<mapping name="serif" font-family="Times-Roman"/>
 		<mapping name="sans-serif" font-family="Helvetica"/>
-		<mapping name="sansserif" font-family="Helvetica"/>
 		<mapping name="monospace" font-family="Courier"/>
-		<mapping name="monospaced" font-family="Courier"/>
+		<mapping name="cursive" font-family="Zapfdingbats"/>
 		<mapping name="fantasy" font-family="Times-Roman"/>
-		<mapping name="cursive" font-family="Times-Roman"/>
-		<mapping name="dialog" font-family="Helvetica"/>
 	</font-mappings>
 	
+<!--
+	In <all-fonts> section, each <block> section corresponds to a unicode block.
+	In each block, a substitute font family name is specified for a character in
+	that block which can not be displayed by the customer defined font.
+	You can also add 
+		<mapping name="all-fonts" font-family="YOUR_FONT"/>
+	to define your own mapping.
+-->
+
+	<all-fonts>
+		<block name="Basic Latin" range-start="0" range-end="7f" index="0">
+			<mapping name="all-fonts" font-family="Symbol"/>
+		</block>
+		<block name="Latin-1 Supplement" range-start="80" range-end="ff" index="1">
+			<mapping name="all-fonts" font-family="Symbol"/>
+		</block>
+		<block name="Latin Extended-A" range-start="100" range-end="17f" index="2">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Latin Extended-B" range-start="180" range-end="24f" index="3">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="IPA Extensions" range-start="250" range-end="2af" index="4">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="Spacing Modifier Letters" range-start="2b0" range-end="2ff" index="5">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Combining Diacritical Marks" range-start="300" range-end="36f" index="6">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Greek and Coptic" range-start="370" range-end="3ff" index="7">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Cyrillic" range-start="400" range-end="4ff" index="8">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Lao" range-start="e80" range-end="eff" index="28">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Latin Extended Additional" range-start="1e00" range-end="1eff" index="54">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="General Punctuation" range-start="2000" range-end="206f" index="56">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Superscripts and Subscripts" range-start="2070" range-end="209f" index="57">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Currency Symbols" range-start="20a0" range-end="20cf" index="58">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Combining Diacritical Marks for Symbols" range-start="20d0" range-end="20ff" index="59">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Letterlike Symbols" range-start="2100" range-end="214f" index="60">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Number Forms" range-start="2150" range-end="218f" index="61">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Arrows" range-start="2190" range-end="21ff" index="62">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Mathematical Operators" range-start="2200" range-end="22ff" index="63">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Miscellaneous Technical" range-start="2300" range-end="23ff" index="64">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Control Pictures" range-start="2400" range-end="243f" index="65">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="Optical Character Recognition" range-start="2440" range-end="245f" index="66">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Enclosed Alphanumerics" range-start="2460" range-end="24ff" index="67">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Box Drawing" range-start="2500" range-end="257f" index="68">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Block Elements" range-start="2580" range-end="259f" index="69">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Geometric Shapes" range-start="25a0" range-end="25ff" index="70">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Miscellaneous Symbols" range-start="2600" range-end="26ff" index="71">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Dingbats" range-start="2700" range-end="27bf" index="72">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="CJK Radicals Supplement" range-start="2e80" range-end="2eff" index="87">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Kangxi Radicals" range-start="2f00" range-end="2fdf" index="88">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Ideographic Description Characters" range-start="2ff0" range-end="2fff" index="89">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="CJK Symbols and Punctuation" range-start="3000" range-end="303f" index="90">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Hiragana" range-start="3040" range-end="309f" index="91">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Katakana" range-start="30a0" range-end="30ff" index="92">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Bopomofo" range-start="3100" range-end="312f" index="93">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Hangul Compatibility Jamo" range-start="3130" range-end="318f" index="94">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Bopomofo Extended" range-start="31a0" range-end="31bf" index="96">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Enclosed CJK Letters and Months" range-start="3200" range-end="32ff" index="99">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="CJK Compatibility" range-start="3300" range-end="33ff" index="100">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="CJK Unified Ideographs Extension A" range-start="3400" range-end="4dbf" index="101">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="CJK Unified Ideographs" range-start="4e00" range-end="9fff" index="103">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Hangul Syllables" range-start="ac00" range-end="d7af" index="110">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Private Use Area" range-start="e000" range-end="f8ff" index="114">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="CJK Compatibility Ideographs" range-start="f900" range-end="faff" index="115">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Alphabetic Presentation Forms" range-start="fb00" range-end="fb4f" index="116">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="CJK Compatibility Forms" range-start="fe30" range-end="fe4f" index="121">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="Small Form Variants" range-start="fe50" range-end="fe6f" index="122">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Halfwidth and Fullwidth Forms" range-start="ff00" range-end="ffef" index="124">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Linear B Syllabary" range-start="10000" range-end="1007f" index="126">
+			<mapping name="all-fonts" font-family="Symbol"/>
+		</block>
+		<block name="Linear B Ideograms" range-start="10080" range-end="100ff" index="127">
+			<mapping name="all-fonts" font-family="Symbol"/>
+		</block>
+		<block name="Aegean Numbers" range-start="10100" range-end="1013f" index="128">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Ancient Greek Numbers" range-start="10140" range-end="1018f" index="129">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Old Italic" range-start="10300" range-end="1032f" index="130">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Gothic" range-start="10330" range-end="1034f" index="131">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Ugaritic" range-start="10380" range-end="1039f" index="132">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Old Persian" range-start="103a0" range-end="103df" index="133">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Deseret" range-start="10400" range-end="1044f" index="134">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Shavian" range-start="10450" range-end="1047f" index="135">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Cuneiform" range-start="12000" range-end="123ff" index="140">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Cuneiform Numbers and Punctuation" range-start="12400" range-end="1247f" index="141">
+			<mapping name="all-fonts" font-family="MSung-Light"/>
+		</block>
+		<block name="Byzantine Musical Symbols" range-start="1d000" range-end="1d0ff" index="142">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Musical Symbols" range-start="1d100" range-end="1d1ff" index="143">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Ancient Greek Musical Notation" range-start="1d200" range-end="1d24f" index="144">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Tai Xuan Jing Symbols" range-start="1d300" range-end="1d35f" index="145">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Counting Rod Numerals" range-start="1d360" range-end="1d37f" index="146">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Mathematical Alphanumeric Symbols" range-start="1d400" range-end="1d7ff" index="147">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="CJK Unified Ideographs Extension B" range-start="20000" range-end="2a6df" index="148">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="CJK Compatibility Ideographs Supplement" range-start="2f800" range-end="2fa1f" index="149">
+			<mapping name="all-fonts" font-family="HYGoThic-Medium"/>
+		</block>
+		<block name="Tags" range-start="e0000" range-end="e007f" index="150">
+			<mapping name="all-fonts" font-family="Symbol"/>
+		</block>
+		<block name="Variation Selectors Supplement" range-start="e0100" range-end="e01ef" index="151">
+			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
+		</block>
+		<block name="Supplementary Private Use Area-A" range-start="f0000" range-end="fffff" index="152">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+		<block name="Supplementary Private Use Area-B" range-start="100000" range-end="10ffff" index="153">
+			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+	</all-fonts>
+
+
 <!--
 	For <font-paths> section, If you just need to use the system defined font folder, you can simply
 	ignore this. 
@@ -82,6 +306,16 @@
 		<encoding font-family="Courier" encoding="Cp1252"/>
 		<encoding font-family="Zapfdingbats" encoding="Cp1252"/>
 		<encoding font-family="Symbol" encoding="Cp1252"/>
-		<encoding font-family="Times-Roman" encoding="Cp1252"/>	
+		<encoding font-family="STSong-Light" encoding="UniGB-UCS2-H"/>
+		<encoding font-family="STSongStd-Light" encoding="UniGB-UCS2-H"/>
+		<encoding font-family="MHei-Medium" encoding="UniCNS-UCS2-H"/>
+		<encoding font-family="MSung-Light" encoding="UniCNS-UCS2-H"/>
+		<encoding font-family="MSungStd-Light" encoding="UniCNS-UCS2-H"/>
+		<encoding font-family="HeiseiMin-W3" encoding="UniJIS-UCS2-H"/>
+		<encoding font-family="HeiseiKakuGo-W5" encoding="UniJIS-UCS2-H"/>
+		<encoding font-family="KozMinPro-Regular" encoding="UniJIS-UCS2-H"/>
+		<encoding font-family="HYGoThic-Medium" encoding="UniKS-UCS2-H"/>
+		<encoding font-family="HYSMyeongJo-Medium" encoding="UniKS-UCS2-H"/>
+		<encoding font-family="HYSMyeongJoStd" encoding="UniKS-UCS2-H"/>
 	</font-encodings>
 </font>
