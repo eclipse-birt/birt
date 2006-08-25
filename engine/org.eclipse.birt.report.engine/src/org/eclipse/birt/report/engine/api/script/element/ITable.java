@@ -3,9 +3,9 @@ package org.eclipse.birt.report.engine.api.script.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
- * Represents a the design of a Table in the scripting environment
+ * Represents the design of a Table in the scripting environment
  */
-public interface ITable extends IReportItem
+public interface ITable extends IListing
 {
 
 	/**

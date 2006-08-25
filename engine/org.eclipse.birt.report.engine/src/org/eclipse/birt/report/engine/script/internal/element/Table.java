@@ -16,7 +16,7 @@ import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class Table extends ReportItem implements ITable
+public class Table extends Listing implements ITable
 {
 
 	public Table( TableHandle table )

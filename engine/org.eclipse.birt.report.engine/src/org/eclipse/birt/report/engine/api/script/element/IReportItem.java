@@ -197,4 +197,55 @@ public interface IReportItem extends IReportElement
 	 */
 
 	String getTocExpression( );
+
+	/**
+	 * Returns array of all column bindings
+	 * 
+	 * @return all column bindings
+	 */
+
+	IDataBinding[] getColumnBindings( );
+
+	/**
+	 * Returns column binding.
+	 * 
+	 * @param bindingName
+	 * @return column binding expression.
+	 */
+	String getColumnBinding( String bindingName );
+
+	/**
+	 * Removes special column binding
+	 * 
+	 * @param bindingName
+	 * @throws ScriptException
+	 */
+	void removeColumnBinding( String bindingName ) throws ScriptException;;
+
+	/**
+	 * Returns all highlightrule
+	 * 
+	 * @return all highlightrule
+	 */
+	IHighLightRule[] getHighLightRule( );
+
+
+
+	 /**
+	  * Removes all hide rules that matches formatType.
+	  * @param formatType 
+	  * @exception ScriptException
+	  */
+	
+     void removeHideRule(String formatType) throws ScriptException;;
+     
+     /**
+      * Returns array of hide rule expression 
+      * @param formatType
+      * @return array of hide rule expression
+      */
+     String[] getHideRuleExpression(String formatType);
+
+
+
 }

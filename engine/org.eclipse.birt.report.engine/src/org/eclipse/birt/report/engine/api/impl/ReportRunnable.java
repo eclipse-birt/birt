@@ -16,7 +16,9 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
@@ -183,5 +185,17 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public void setDesignHandle(ReportDesignHandle handle) {
 		this.designHandle = handle;
+	}
+	
+	/**
+	 * Returns the report design
+	 * 
+	 * @return the report design
+	 */
+	
+	public IReportDesign getDesignInstance()
+	{
+		ReportDesign design = new ReportDesign( designHandle );
+		return design;
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -92,4 +93,12 @@ public interface IReportRunnable {
 	 * @return the report engine
 	 */
 	public abstract IReportEngine getReportEngine();
+	
+	/**
+	 * Returns the report design
+	 * 
+	 * @return the report design
+	 */
+	
+	public abstract IReportDesign getDesignInstance();
 }

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.model.api.ListHandle;
 
-public class List extends ReportItem implements IList
+public class List extends Listing implements IList
 {
 
 	public List( ListHandle list )

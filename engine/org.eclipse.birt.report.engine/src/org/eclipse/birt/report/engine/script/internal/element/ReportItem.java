@@ -11,12 +11,29 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
+import org.eclipse.birt.report.engine.api.script.element.IHighLightRule;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.HideRuleHandle;
+import org.eclipse.birt.report.model.api.HighlightRuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+
+/**
+ * Implements of ReportItem
+ * 
+ */
 
 public class ReportItem extends ReportElement implements IReportItem
 {
@@ -300,5 +317,140 @@ public class ReportItem extends ReportElement implements IReportItem
 	public String getTocExpression( )
 	{
 		return ( (ReportItemHandle) handle ).getTocExpression( );
+	}
+
+	public String getColumnBinding( String bindingName )
+	{
+		if ( bindingName == null || bindingName.length( ) == 0 )
+			return null;
+
+		Iterator iterator = ( (ReportItemHandle) handle )
+				.columnBindingsIterator( );
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle columnHandle = (ComputedColumnHandle) iterator
+					.next( );
+			if ( columnHandle.getName( ).equals( bindingName ) )
+			{
+				return columnHandle.getExpression( );
+			}
+		}
+
+		return null;
+	}
+
+	public IDataBinding[] getColumnBindings( )
+	{
+		Iterator iterator = ( (ReportItemHandle) handle )
+				.columnBindingsIterator( );
+		List rList = new ArrayList( );
+		int count = 0;
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle columnHandle = (ComputedColumnHandle) iterator
+					.next( );
+			DataBindingImpl d = new DataBindingImpl( columnHandle,
+					(ReportItemHandle) handle );
+			rList.add( d );
+			++count;
+		}
+
+		return (IDataBinding[]) rList.toArray( new IDataBinding[count] );
+	}
+
+	public IHighLightRule[] getHighLightRule( )
+	{
+		PropertyHandle propHandle = ( (ReportItemHandle) handle )
+				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
+		Iterator iterator = propHandle.iterator( );
+
+		List rList = new ArrayList( );
+		int count = 0;
+
+		while ( iterator.hasNext( ) )
+		{
+			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
+					.next( );
+			HighLightRuleImpl h = new HighLightRuleImpl( ruleHandle,
+					(ReportItemHandle) handle );
+			rList.add( h );
+			++count;
+		}
+
+		return (IHighLightRule[]) rList.toArray( new IHighLightRule[count] );
+	}
+
+	public void removeColumnBinding( String bindingName )
+			throws ScriptException
+	{
+		if ( bindingName == null || bindingName.length( ) == 0 )
+			return;
+
+		PropertyHandle propHandle = ( (ReportItemHandle) handle )
+				.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		Iterator iterator = propHandle.iterator( );
+
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle columnHandle = (ComputedColumnHandle) iterator
+					.next( );
+			if ( bindingName.equals( columnHandle.getName( ) ) )
+			{
+				try
+				{
+					propHandle.removeItem( columnHandle );
+					break;
+				}
+				catch ( SemanticException e )
+				{
+					throw new ScriptException( e.getLocalizedMessage( ) );
+				}
+			}
+		}
+	}
+
+	public String[] getHideRuleExpression( String formatType )
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		Iterator iterator = propHandle.iterator( );
+		List rList = new ArrayList( );
+		int count = 0;
+
+		while ( iterator.hasNext( ) )
+		{
+			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
+			rList.add( ruleHandle.getFormat( ) );
+			++count;
+		}
+
+		return (String[]) rList.toArray( new String[count] );
+
+	}
+
+	public void removeHideRule( String formatType ) throws ScriptException
+	{
+		if( formatType == null )
+			return;
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		Iterator iterator = propHandle.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
+			if ( formatType.equals( ruleHandle.getFormat( )  ) )
+			{
+				try
+				{
+					propHandle.removeItem( ruleHandle );
+					break;
+				}
+				catch ( SemanticException e )
+				{
+					throw new ScriptException( e.getLocalizedMessage( ) );
+				}
+			}
+		}
+
 	}
 }
