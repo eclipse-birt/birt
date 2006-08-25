@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -93,9 +93,11 @@ public class ParameterBindingPage extends AttributePage
 
 	private transient boolean enableAutoCommit = true;
 
-	private static IChoiceSet DataTypes = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
-
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getStructure( DataSetParameter.STRUCT_NAME )
+			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
+	
 	private static final String DEFAULT_VALUE_LABEL = Messages.getString( "label.defaultValue" ); //$NON-NLS-1$
 
 	private static final String DATA_SET_LABEL = Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
@@ -311,7 +313,7 @@ public class ParameterBindingPage extends AttributePage
 					if ( parameter.getDataType( ) != null )
 					{
 						text = ChoiceSetFactory.getDisplayNameFromChoiceSet( parameter.getDataType( ),
-								DataTypes );
+								DATA_TYPE_CHOICE_SET );
 					}
 					break;
 				case 2 :

@@ -35,8 +35,11 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -70,6 +73,11 @@ import com.ibm.icu.util.ULocale;
 public class ImportValueDialog extends BaseDialog
 {
 
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
+			.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
+			.getAllowedChoices( );
+
 	private static final String DLG_TITLE = Messages.getString( "ImportValueDialog.Title" ); //$NON-NLS-1$
 
 	private static final String LABEL_SELECT_DATASET = Messages.getString( "ImportValueDialog.Label.SelectDataSet" ); //$NON-NLS-1$
@@ -99,9 +107,7 @@ public class ImportValueDialog extends BaseDialog
 	public ImportValueDialog( String style )
 	{
 		super( DLG_TITLE );
-		Assert.isTrue( DEUtil.getMetaDataDictionary( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE )
-				.contains( style ) );
+		Assert.isTrue( DATA_TYPE_CHOICE_SET.contains( style ) );
 		this.style = style;
 	}
 

@@ -18,6 +18,8 @@ import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,6 +43,12 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	private static final String LABEL_DATA_TYPE = Messages.getString( "DataSetParameterBindingInputDialog.Label.DataType" ); //$NON-NLS-1$
 	private static final String LABEL_VALUE = Messages.getString( "DataSetParameterBindingInputDialog.Label.Value" ); //$NON-NLS-1$
 	private static final String DIALOG_TITLE = Messages.getString( "DataSetParameterBindingInputDialog.Title" ); //$NON-NLS-1$
+
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getStructure( DataSetParameter.STRUCT_NAME )
+			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
+
 	private Label nameLabel, typeLabel;
 	private Text valueEditor;
 	private Button expButton;
@@ -65,9 +73,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	protected boolean initDialog( )
 	{
 		nameLabel.setText( handle.getName( ) );
-		typeLabel.setText( DEUtil.getMetaDataDictionary( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE )
-				.findChoice( handle.getDataType( ) )
+		typeLabel.setText( DATA_TYPE_CHOICE_SET.findChoice( handle.getDataType( ) )
 				.getDisplayName( ) );
 		if ( value == null )
 		{
@@ -99,7 +105,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		valueEditor.setLayoutData( gd );
 		expButton = new Button( valueComposite, SWT.PUSH );
 		expButton.setText( "..." ); //$NON-NLS-1$
-		expButton.setLayoutData( new GridData( ) );	
+		expButton.setLayoutData( new GridData( ) );
 		expButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

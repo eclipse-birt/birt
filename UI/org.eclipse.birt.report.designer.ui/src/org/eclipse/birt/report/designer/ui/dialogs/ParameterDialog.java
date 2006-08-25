@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -212,10 +213,12 @@ public class ParameterDialog extends BaseDialog
 
 	private ArrayList choiceList = new ArrayList( );
 
-	private static IChoiceSet dataType = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
+			.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
+			.getAllowedChoices( );
 
-	private static IChoiceSet controlType = DEUtil.getMetaDataDictionary( )
+	private static final IChoiceSet CONTROL_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
 
 	private ScalarParameterHandle inputParameter;
@@ -469,7 +472,7 @@ public class ParameterDialog extends BaseDialog
 		dataTypeChooser = new Combo( propertiesSection, SWT.READ_ONLY
 				| SWT.DROP_DOWN );
 		dataTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		dataTypeChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( dataType ) );
+		dataTypeChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		dataTypeChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -679,7 +682,7 @@ public class ParameterDialog extends BaseDialog
 		needSort.setSelection( !inputParameter.isFixedOrder( ) );
 
 		changeDataType( );
-		dataTypeChooser.setText( dataType.findChoice( inputParameter.getDataType( ) )
+		dataTypeChooser.setText( DATA_TYPE_CHOICE_SET.findChoice( inputParameter.getDataType( ) )
 				.getDisplayName( ) );
 		switchParamterType( );
 		loading = false;
@@ -940,8 +943,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		else
 		{
-			IChoice choice = dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) );
-			type = dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
+			IChoice choice = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) );
+			type = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 					.getName( );
 			type = choice.getName( );
 		}
@@ -966,7 +969,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			return PARAM_CONTROL_LIST;
 		}
-		return controlType.findChoiceByDisplayName( displayText ).getName( );
+		return CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText ).getName( );
 	}
 
 	private void changeDataType( )
@@ -1019,17 +1022,17 @@ public class ParameterDialog extends BaseDialog
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 				{
-					choices[0] = controlType.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
+					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
 							.getDisplayName( );
 				}
 				else
 				{
-					choices[0] = controlType.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
+					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
 							.getDisplayName( );
 					choices[1] = DISPLAY_NAME_CONTROL_LIST;
 				}
 				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
-				choices[choices.length - 1] = controlType.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
+				choices[choices.length - 1] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
 						.getDisplayName( );
 
 			}
@@ -1402,7 +1405,7 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setDefaultValue( defaultValue );
 
 			// Set data type
-			inputParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
+			inputParameter.setDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 					.getName( ) );
 
 			// Clear original choices list
@@ -2174,9 +2177,9 @@ public class ParameterDialog extends BaseDialog
 	{
 		String type = getInputControlType( );
 		String displayName = null;
-		if ( controlType.findChoice( type ) != null )
+		if ( CONTROL_TYPE_CHOICE_SET.findChoice( type ) != null )
 		{
-			displayName = controlType.findChoice( type ).getDisplayName( );
+			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type ).getDisplayName( );
 		}
 		else
 		{

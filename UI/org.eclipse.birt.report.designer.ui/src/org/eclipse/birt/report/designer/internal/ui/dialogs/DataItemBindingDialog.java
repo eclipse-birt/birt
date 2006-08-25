@@ -15,13 +15,12 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
@@ -57,10 +56,12 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" );
 
-	protected static final IChoiceSet dataTypeChoiceSet = DesignEngine.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
+	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getStructure( DataSetParameter.STRUCT_NAME )
+			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
 
-	protected static final IChoice[] dataTypeChoices = dataTypeChoiceSet.getChoices( null );
+	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
 
 	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataItemBindingDialog.title.CreateNewItem" );
 
@@ -314,12 +315,12 @@ public class DataItemBindingDialog extends BaseDialog
 			if ( bindingColumn == null )
 			{
 				newBinding.setName( itemName.getText( ) );
-				for ( int i = 0; i < dataTypeChoices.length; i++ )
+				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
-					if ( dataTypeChoices[i].getDisplayName( )
+					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
 							.endsWith( itemType.getText( ) ) )
 					{
-						newBinding.setDataType( dataTypeChoices[i].getName( ) );
+						newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 						break;
 					}
 				}
@@ -342,12 +343,12 @@ public class DataItemBindingDialog extends BaseDialog
 				if ( !( bindingColumn.getName( ) != null && bindingColumn.getName( )
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
-				for ( int i = 0; i < dataTypeChoices.length; i++ )
+				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
-					if ( dataTypeChoices[i].getDisplayName( )
+					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
 							.endsWith( itemType.getText( ) ) )
 					{
-						bindingColumn.setDataType( dataTypeChoices[i].getName( ) );
+						bindingColumn.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 						break;
 					}
 				}
@@ -390,7 +391,7 @@ public class DataItemBindingDialog extends BaseDialog
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
-			return ;
+			return;
 		}
 
 		super.okPressed( );
@@ -479,7 +480,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		this.input = input;
 		setAggregateOns( DEUtil.getGroups( input ) );
-		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( dataTypeChoiceSet ) );
+		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		try
 		{
 			String bindingName = ( (DataItemHandle) input ).getResultSetColumn( );
@@ -497,7 +498,7 @@ public class DataItemBindingDialog extends BaseDialog
 			else
 			{
 				setName( bindingColumn.getName( ) );
-				setTypeSelect( dataTypeChoiceSet.findChoice( bindingColumn.getDataType( ) )
+				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );
 				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );

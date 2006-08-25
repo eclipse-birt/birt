@@ -33,14 +33,13 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -56,7 +55,6 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -71,7 +69,6 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -130,12 +127,14 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String INPUT_PROPMT = Messages.getString( "ColumnBindingDialog.InputPrompt" ); //$NON-NLS-1$
 
-	private static final IChoiceSet dataTypeChoiceSet = DesignEngine.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getStructure( DataSetParameter.STRUCT_NAME )
+			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
 
-	private static final IChoice[] dataTypes = dataTypeChoiceSet.getChoices( null );
+	private static final IChoice[] dataTypes = DATA_TYPE_CHOICE_SET.getChoices( null );
 
-	private static final String[] dataTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( dataTypeChoiceSet );
+	private static final String[] dataTypeDisplayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
 
 	private boolean canSelect = false;
 
@@ -200,7 +199,7 @@ public class ColumnBindingDialog extends BaseDialog
 					break;
 				case 2 :
 					text = ChoiceSetFactory.getDisplayNameFromChoiceSet( handle.getDataType( ),
-							dataTypeChoiceSet );
+							DATA_TYPE_CHOICE_SET );
 					break;
 				case 3 :
 					text = handle.getExpression( );
@@ -316,7 +315,7 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 			else if ( COLUMN_DATATYPE.equals( property ) )
 			{
-				IChoice type = dataTypeChoiceSet.findChoice( handle.getDataType( ) );
+				IChoice type = DATA_TYPE_CHOICE_SET.findChoice( handle.getDataType( ) );
 				if ( type != null )
 				{
 					for ( int i = 0; i < dataTypeDisplayNames.length; i++ )
@@ -905,8 +904,8 @@ public class ColumnBindingDialog extends BaseDialog
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			 if ( bindingTable != null )
-				 bindingTable.getTable( ).setSelection(pos );
+			if ( bindingTable != null )
+				bindingTable.getTable( ).setSelection( pos );
 		}
 	}
 

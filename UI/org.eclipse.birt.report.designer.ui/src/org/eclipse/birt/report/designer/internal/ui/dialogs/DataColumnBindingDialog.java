@@ -32,7 +32,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 	{
 		this.input = input;
 		setAggregateOns( DEUtil.getGroups( input ) );
-		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( dataTypeChoiceSet ) );
+		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		if ( bindingHandle != null )
 			setTitle( EDIT_DATAITEM_TITLE );
 		bindingColumn = bindingHandle;
@@ -48,7 +48,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 				// Add data set items.
 
 				setName( bindingColumn.getName( ) );
-				setTypeSelect( dataTypeChoiceSet.findChoice( bindingColumn.getDataType( ) )
+				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );
 				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );

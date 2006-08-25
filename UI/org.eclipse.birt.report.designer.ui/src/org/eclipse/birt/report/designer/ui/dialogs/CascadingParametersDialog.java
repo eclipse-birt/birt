@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -204,8 +205,10 @@ public class CascadingParametersDialog extends BaseDialog
 	private TableViewer valueTable;
 	private CellEditor[] cellEditors;
 
-	private static IChoiceSet dataType = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
+			.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
+			.getAllowedChoices( );
 
 	private CascadingParameterGroupHandle inputParameterGroup;
 
@@ -469,7 +472,7 @@ public class CascadingParametersDialog extends BaseDialog
 		dataTypeChooser = new Combo( propertiesGroup, SWT.DROP_DOWN
 				| SWT.READ_ONLY );
 		dataTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		dataTypeChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( dataType ) );
+		dataTypeChooser.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		dataTypeChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -477,11 +480,11 @@ public class CascadingParametersDialog extends BaseDialog
 				if ( selectedParameter != null
 						&& selectedParameter != newParameter )
 				{
-					changeDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
+					changeDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 							.getName( ) );
 					try
 					{
-						selectedParameter.setDataType( dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) )
+						selectedParameter.setDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 								.getName( ) );
 					}
 					catch ( SemanticException e1 )
@@ -1309,7 +1312,7 @@ public class CascadingParametersDialog extends BaseDialog
 			promptText.setText( selectedParameter.getPromptText( ) );
 		}
 
-		dataTypeChooser.setText( dataType.findChoice( selectedParameter.getDataType( ) )
+		dataTypeChooser.setText( DATA_TYPE_CHOICE_SET.findChoice( selectedParameter.getDataType( ) )
 				.getDisplayName( ) );
 
 		if ( getInputDisplayName( ) == null )
@@ -1486,7 +1489,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			IChoice choice = dataType.findChoiceByDisplayName( dataTypeChooser.getText( ) );
+			IChoice choice = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) );
 			type = choice.getName( );
 		}
 		return type;
