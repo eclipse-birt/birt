@@ -138,6 +138,11 @@ class PreparedQueryUtil
 	private static boolean runQueryOnRS( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn ) throws DataException
 	{
+		if( !queryDefn.usesDetails( ) )
+		{
+			queryDefn.getSorts( ).clear( );
+		}
+		
 		String queryResultID = queryDefn.getQueryResultsID( );
 
 		String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );
@@ -222,6 +227,8 @@ class PreparedQueryUtil
 			while ( it.hasNext( ) )
 			{
 				IBaseQueryDefinition query = (IBaseQueryDefinition) it.next( );
+				if ( !query.usesDetails( ) )
+					query.getSorts( ).clear( );
 				if ( query.getFilters( ) != null
 						&& query.getFilters( ).size( ) > 0 )
 				{
