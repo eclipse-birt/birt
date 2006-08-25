@@ -130,10 +130,10 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		assertEquals("abc",values.get( "p1_string" ));
 		assertEquals(null,values.get( "p2_static_dt" ));
 
-		assertEquals("2.35",values.get( "p41_decimal" ));
-		assertEquals("87.16",values.get( "p42_float" ));
+		assertEquals("2.35",  values.get( "p41_decimal" ).toString( ));
+		assertEquals("87.16",values.get( "p42_float" ).toString( ));
 		assertEquals(null,values.get( "p51" ));
-		assertEquals("0",values.get( "p52" ));
+		assertEquals(null,values.get( "p52" ));
 		assertNull(values.get( "p61_country" ));
 		assertNull(values.get( "p61_customernumber" ));
 		assertNull(values.get( "p61_orderno" ));
