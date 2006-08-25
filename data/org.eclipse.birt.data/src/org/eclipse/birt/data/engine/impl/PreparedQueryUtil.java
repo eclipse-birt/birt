@@ -258,12 +258,32 @@ class PreparedQueryUtil
 
 		if ( queryDefn.getFilters( ) != null
 				&& queryDefn.getFilters( ).size( ) > 0 )
+		{	
+			if( !isFiltersEquals(filters, queryDefn.getFilters( )))
 			runningOnRS = queryDefn.getResultSetExpressions( ).values( ) == null
 					|| !hasAggregationOnRowObjects( queryDefn.getResultSetExpressions( )
 							.values( )
 							.iterator( ) );
-
+		}
 		return runningOnRS;
+	}
+	
+	/**
+	 * 
+	 * @param oldFilter
+	 * @param newFilter
+	 * @return
+	 */
+	private static boolean isFiltersEquals( List oldFilter, List newFilter )
+	{
+		if( oldFilter.size() != newFilter.size( ))
+			return false;
+		for( int i = 0; i < oldFilter.size( ); i++ )
+		{
+			if( !FilterDefnUtil.isEqualFilter( (IFilterDefinition)oldFilter.get(i), (IFilterDefinition)newFilter.get(i )))
+					return false;
+		}	
+		return true;
 	}
 
 	/**
