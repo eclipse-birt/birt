@@ -84,15 +84,9 @@ public class DefaultResourceLocator implements IResourceLocator
 			// ignore the error
 		}
 
-		// try fragment search
-
-		URL url = tryFragmentSearch( fileName );
-		if ( url != null )
-			return url;
-
 		// if module is null, then can not search the resource path or systemId
 		if ( moduleHandle == null )
-			return null;
+			return tryFragmentSearch( fileName );
 
 		// try file search based on resource path, value set on this module
 		// takes the higher priority than that in the session
@@ -114,8 +108,13 @@ public class DefaultResourceLocator implements IResourceLocator
 			{
 				// ignore the error
 			}
-
 		}
+
+		// try fragment search
+
+		URL url = tryFragmentSearch( fileName );
+		if ( url != null )
+			return url;
 
 		// try file search based on path of the input module
 
