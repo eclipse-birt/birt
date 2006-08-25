@@ -21,7 +21,6 @@ public class ListGroupExecutor extends GroupExecutor
 		{
 			emitter.endListGroup( groupContent );
 		}
-		context.unregisterOnPageBreak( content );
 		finishGroupTOCEntry( );
 		manager.releaseExecutor( ExecutorManager.LISTGROUPITEM, this );
 	}
@@ -34,7 +33,6 @@ public class ListGroupExecutor extends GroupExecutor
 		setContent( groupContent );
 
 		restoreResultSet( );
-		context.registerOnPageBreak( content );
 		
 		initializeContent( groupDesign, groupContent );
 		processBookmark( groupDesign, groupContent );

@@ -22,7 +22,6 @@ public class ListBandExecutor extends StyledItemExecutor
 		setContent(bandContent);
 
 		restoreResultSet( );
-		context.registerOnPageBreak( content );		
 		
 		initializeContent( bandDesign, bandContent );
 
@@ -45,7 +44,6 @@ public class ListBandExecutor extends StyledItemExecutor
 		{
 			emitter.endListBand( bandContent );
 		}
-		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		manager.releaseExecutor( ExecutorManager.LISTBANDITEM, this );
 	}

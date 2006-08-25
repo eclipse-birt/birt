@@ -63,7 +63,6 @@ public class RowExecutor extends QueryItemExecutor
 		setContent( rowContent );
 
 		executeQuery( );
-		context.registerOnPageBreak( content );
 		initializeContent( rowDesign, rowContent );
 
 		processAction( rowDesign, rowContent );
@@ -107,7 +106,6 @@ public class RowExecutor extends QueryItemExecutor
 		{
 			emitter.endRow( rowContent );
 		}
-		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 		manager.releaseExecutor( ExecutorManager.ROWITEM, this );

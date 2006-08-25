@@ -95,7 +95,6 @@ public class TemplateExecutor extends TextItemExecutor
 
 	public void close( )
 	{
-		context.unregisterOnPageBreak( content );
 		manager.releaseExecutor( ExecutorManager.TEMPLATEITEM, this );
 	}
 }

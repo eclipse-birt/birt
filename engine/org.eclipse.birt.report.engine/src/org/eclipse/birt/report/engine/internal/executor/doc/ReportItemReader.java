@@ -49,7 +49,6 @@ public class ReportItemReader implements IReportItemExecutor
 
 	public void close( )
 	{
-		reader.context.unregisterOnPageBreak( content );
 		unloadContent( );
 		manager.releaseExecutor( this );
 	}
@@ -60,7 +59,6 @@ public class ReportItemReader implements IReportItemExecutor
 		loadContent( );
 		// setup the report design
 		initializeContent( );
-		reader.context.registerOnPageBreak( content );
 		return content;
 	}
 

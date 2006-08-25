@@ -22,7 +22,6 @@ public class TableBandExecutor extends StyledItemExecutor
 		setContent(bandContent);
 
 		restoreResultSet( );
-		context.registerOnPageBreak( content );
 		
 		initializeContent( bandDesign, bandContent );
 		
@@ -45,7 +44,6 @@ public class TableBandExecutor extends StyledItemExecutor
 		{
 			emitter.endTableBand( bandContent );
 		}
-		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		manager.releaseExecutor( ExecutorManager.TABLEBANDITEM, this );
 	}

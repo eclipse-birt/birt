@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IPageHandler;
-import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -28,6 +27,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -78,12 +78,11 @@ public class ReportDocumentBuilder
 	 */
 	protected HashMap reportletsIndexById = new HashMap( );
 
-	
 	/**
 	 * Reportlets index by bookmark, contains bookmark, offset pair.
 	 */
 	protected HashMap reportletsIndexByBookmark = new HashMap( );
-	
+
 	/**
 	 * report document used to save the informations.
 	 */
@@ -95,7 +94,7 @@ public class ReportDocumentBuilder
 	/**
 	 * used to write the page content stream.
 	 */
-	protected IContentEmitter pageEmitter;
+	protected CompositeContentEmitter outputEmitters;
 	/**
 	 * use the write the page hint stream.
 	 */
@@ -105,7 +104,7 @@ public class ReportDocumentBuilder
 	 * page handler used to recevie the document page events.
 	 */
 	protected IPageHandler pageHandler;
-	
+
 	protected IReportLayoutEngine engine;
 
 	/**
@@ -118,10 +117,16 @@ public class ReportDocumentBuilder
 	{
 		this.executionContext = context;
 		this.document = document;
-		pageEmitter = new PageEmitter( );
-		layoutPageHandler = new CompositeLayoutPageHandler();
-		layoutPageHandler.addPageHandler(new LayoutPageHandler( ));
-		layoutPageHandler.addPageHandler(new OnPageBreakLayoutPageHandle(context));
+		OnPageBreakLayoutPageHandle onPageBreakHandler = new OnPageBreakLayoutPageHandle(
+				context );
+		outputEmitters = new CompositeContentEmitter( );
+		outputEmitters.addEmitter( new PageEmitter( ) );
+		outputEmitters.addEmitter( onPageBreakHandler.getEmitter( ) );
+
+		layoutPageHandler = new CompositeLayoutPageHandler( );
+		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
+		layoutPageHandler.addPageHandler( onPageBreakHandler );
+
 		contentEmitter = new ContentEmitter( );
 	}
 
@@ -129,19 +134,19 @@ public class ReportDocumentBuilder
 	{
 		return contentEmitter;
 	}
-	
+
 	public void build( )
 	{
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory.createLayoutEngine( "html" );
-		engine.setPageHandler( layoutPageHandler);
-		engine.layout(executor, pageEmitter, true);
+		engine.setPageHandler( layoutPageHandler );
+		engine.layout( executor, outputEmitters, true );
 		engine = null;
 	}
-	
-	public void cancel()
+
+	public void cancel( )
 	{
-		if(engine!=null)
+		if ( engine != null )
 		{
 			engine.cancel( );
 		}
@@ -155,7 +160,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.11 $ $Date: 2006/08/22 08:31:16 $
+	 * @version $Revision: 1.12 $ $Date: 2006/08/23 16:10:56 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -226,17 +231,19 @@ public class ReportDocumentBuilder
 							String strIID = iid.toString( );
 							if ( reportletsIndexById.get( strIID ) == null )
 							{
-								reportletsIndexById.put( strIID, new Long( offset ) );
+								reportletsIndexById.put( strIID, new Long(
+										offset ) );
 							}
 						}
 					}
-					
+
 					String bookmark = content.getBookmark( );
 					if ( bookmark != null )
 					{
 						if ( reportletsIndexByBookmark.get( bookmark ) == null )
 						{
-							reportletsIndexByBookmark.put( bookmark, new Long( offset ) );
+							reportletsIndexByBookmark.put( bookmark, new Long(
+									offset ) );
 						}
 					}
 				}
@@ -252,7 +259,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.11 $ $Date: 2006/08/22 08:31:16 $
+	 * @version $Revision: 1.12 $ $Date: 2006/08/23 16:10:56 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -415,7 +422,7 @@ public class ReportDocumentBuilder
 			{
 				HTMLLayoutContext htmlContext = (HTMLLayoutContext) context;
 				document.setPageCount( pageNumber );
-				
+
 				boolean checkpoint = false;
 				// check points for page 1, 10, 50, 100, 200 ...
 				// the end of report should also be check point.
@@ -427,7 +434,7 @@ public class ReportDocumentBuilder
 
 				boolean reportFinished = htmlContext.isFinished( );
 				if ( reportFinished )
-				{					
+				{
 					checkpoint = true;
 				}
 				else

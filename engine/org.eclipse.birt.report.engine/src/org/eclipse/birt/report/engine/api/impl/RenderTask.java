@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
+import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
@@ -217,10 +218,17 @@ public class RenderTask extends EngineTask implements IRenderTask
 				initializeContentEmitter( emitter, executor );
 				IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( format );
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
+				
+				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+						executionContext );
 				layoutEngine.setPageHandler( handle );
+				
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+				outputEmitters.addEmitter( emitter );
+				outputEmitters.addEmitter( handle.getEmitter( ) );
+				
 				startRender( );
-				layoutEngine.layout( executor, emitter, false );
+				layoutEngine.layout( executor, outputEmitters, false );
 				closeRender( );
 				executor.close( );
 			}
@@ -288,12 +296,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executor );
 				executionContext.setExecutor( executor );
 				initializeContentEmitter( emitter, executor );
+				
 				IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( format );
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
+				
+				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+						executionContext );
 				layoutEngine.setPageHandler( handle );
+				
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+				outputEmitters.addEmitter( emitter );
+				outputEmitters.addEmitter( handle.getEmitter( ) );
+				
 				startRender( );
-				layoutEngine.layout( executor, emitter, true );
+				layoutEngine.layout( executor, outputEmitters, true );
 				closeRender( );
 				executor.close( );
 			}
@@ -368,10 +384,17 @@ public class RenderTask extends EngineTask implements IRenderTask
 					initializeContentEmitter( emitter, executor );
 					IReportLayoutEngine layoutEngine = LayoutEngineFactory
 							.createLayoutEngine( format );
-					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle( executionContext );
+					
+					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+							executionContext );
 					layoutEngine.setPageHandler( handle );
+
+					CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+					outputEmitters.addEmitter( emitter );
+					outputEmitters.addEmitter( handle.getEmitter( ) );
+					
 					startRender( );
-					layoutEngine.layout( executor, emitter, false );
+					layoutEngine.layout( executor, outputEmitters, false );
 					closeRender( );
 					executor.close( );
 				}

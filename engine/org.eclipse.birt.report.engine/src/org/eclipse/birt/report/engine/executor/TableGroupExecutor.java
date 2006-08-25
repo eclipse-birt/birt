@@ -20,7 +20,6 @@ public class TableGroupExecutor extends GroupExecutor
 		{
 			emitter.endTableGroup( groupContent );
 		}
-		context.unregisterOnPageBreak( content );
 		finishGroupTOCEntry( );
 		manager.releaseExecutor( ExecutorManager.TABLEGROUPITEM, this );
 	}
@@ -33,7 +32,6 @@ public class TableGroupExecutor extends GroupExecutor
 		setContent(groupContent);
 		
 		restoreResultSet( );
-		context.registerOnPageBreak( content );
 		
 		initializeContent( groupDesign, groupContent );
 		processBookmark( groupDesign, groupContent );

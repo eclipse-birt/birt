@@ -32,7 +32,6 @@ public class CellExecutor extends QueryItemExecutor
 		setContent(cellContent);
 		
 		executeQuery( );
-		context.registerOnPageBreak( content );
 		initializeContent( cellDesign, cellContent );
 
 		//cellContent.setColumn( cellDesign.getColumn( ) );
@@ -70,7 +69,6 @@ public class CellExecutor extends QueryItemExecutor
 		{
 			emitter.endCell( cellContent);
 		}
-		context.unregisterOnPageBreak( content );
 		finishTOCEntry( );
 		closeQuery( );
 		manager.releaseExecutor( ExecutorManager.CELLITEM, this );
