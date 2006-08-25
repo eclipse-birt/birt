@@ -85,7 +85,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.82 $ $Date: 2006/08/17 09:10:35 $
+ * @version $Revision: 1.83 $ $Date: 2006/08/25 03:24:02 $
  */
 public class ExecutionContext
 {
@@ -1457,10 +1457,10 @@ public class ExecutionContext
 	 * 
 	 * The class loader first try to the load the class as following sequence:
 	 * <li>1. standard java class loader,
-	 * <li>2. CLASSPATH setted by WEBAPP_CLASSPATH_KEY
-	 * <li>3. PROJECT_CLASSPATH_KEY
-	 * <li>4. WORKSAPCE_CLASSPATH_KEY
-	 * <li>5. classloader setted through the appContext.
+	 * <li>2. classloader setted through the appContext.
+	 * <li>3. CLASSPATH setted by WEBAPP_CLASSPATH_KEY
+	 * <li>4. PROJECT_CLASSPATH_KEY
+	 * <li>5. WORKSAPCE_CLASSPATH_KEY
 	 * <li>6. JARs define in the report design
 	 */
 	static private class ApplicationClassLoader extends ClassLoader
@@ -1472,9 +1472,7 @@ public class ExecutionContext
 				EngineConstants.WORKSPACE_CLASSPATH_KEY};
 
 		private ExecutionContext context = null;
-		private ClassLoader systemClassLoader = null;
-		private ClassLoader appClassLoader = null;
-		private ClassLoader designClassLoader = null;
+		private ClassLoader loader = null;
 
 		public ApplicationClassLoader( ExecutionContext context )
 		{
@@ -1483,57 +1481,50 @@ public class ExecutionContext
 
 		public Class loadClass( String className )
 				throws ClassNotFoundException
+
 		{
-			createWrappedClassLoaders( );
-			if ( designClassLoader != null )
+			try
 			{
-				return designClassLoader.loadClass( className );
+				return Class.forName( className );
 			}
-			if ( appClassLoader != null )
+			catch ( ClassNotFoundException ex )
 			{
-				return appClassLoader.loadClass( className );
+				if ( loader == null )
+				{
+					createWrappedClassLoaders( );
+				}
+				return loader.loadClass( className );
 			}
-			return systemClassLoader.loadClass( className );
 		}
 
 		public URL getResource( String name )
 		{
-			createWrappedClassLoaders( );
-			if ( designClassLoader != null )
+			URL url = ApplicationClassLoader.class.getClassLoader( )
+					.getResource( name );
+			if ( url == null )
 			{
-				return designClassLoader.getResource( name );
-			}
-			if ( appClassLoader != null )
-			{
-				return appClassLoader.getResource( name );
-			}
-			if ( systemClassLoader != null )
-			{
-				return systemClassLoader.getResource( name );
+				if ( loader == null )
+				{
+					createWrappedClassLoaders( );
+				}
+				return loader.getResource( name );
 			}
 			return null;
 		}
 
 		protected void createWrappedClassLoaders( )
 		{
-			if ( systemClassLoader == null )
+			ClassLoader root = getAppClassLoader( );
+			if ( root == null )
 			{
-				createClassLoaderFromProperty( );
-				assert systemClassLoader != null;
+				root = ExecutionContext.class.getClassLoader( );
 			}
-			if ( appClassLoader == null )
-			{
-				createClassLoaderFromContext( );
-			}
-			if ( designClassLoader == null )
-			{
-				createClassLoaderFromDesign( );
-			}
+			loader = createClassLoaderFromProperty( root );
+			loader = createClassLoaderFromDesign( loader );
 		}
 
-		protected void createClassLoaderFromProperty( )
+		protected ClassLoader createClassLoaderFromProperty( ClassLoader parent )
 		{
-			systemClassLoader = ExecutionContext.class.getClassLoader( );
 			ArrayList urls = new ArrayList( );
 			for ( int i = 0; i < classPathes.length; i++ )
 			{
@@ -1560,13 +1551,13 @@ public class ExecutionContext
 			}
 			if ( urls.size( ) != 0 )
 			{
-				systemClassLoader = 
-				new URLClassLoader( (URL[]) urls.toArray( new URL[0] ),
-						systemClassLoader );
+				return new URLClassLoader( (URL[]) urls.toArray( new URL[0] ),
+						parent );
 			}
+			return parent;
 		}
 
-		protected void createClassLoaderFromContext( )
+		protected ClassLoader getAppClassLoader( )
 		{
 			Map appContext = context.getAppContext( );
 			if ( appContext != null )
@@ -1575,49 +1566,13 @@ public class ExecutionContext
 						.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
 				if ( appLoader instanceof ClassLoader )
 				{
-					appClassLoader = new UnionClassLoader(
-							(ClassLoader) appLoader, systemClassLoader );
+					return (ClassLoader) appLoader;
 				}
 			}
+			return null;
 		}
 
-		static protected class UnionClassLoader extends ClassLoader
-		{
-
-			private ClassLoader loader;
-
-			public UnionClassLoader( ClassLoader loader, ClassLoader parent )
-			{
-				super( parent );
-				this.loader = loader;
-			}
-
-			public Class loadClass( String className )
-					throws ClassNotFoundException
-			{
-				// If not found in the cache, try creating one
-				try
-				{
-					return super.loadClass( className );
-				}
-				catch ( ClassNotFoundException ex )
-				{
-					return loader.loadClass( className );
-				}
-			}
-
-			public URL getResource( String name )
-			{
-				URL url = super.getResource( name );
-				if ( url == null )
-				{
-					return loader.getResource( name );
-				}
-				return url;
-			}
-		}
-
-		protected void createClassLoaderFromDesign( )
+		protected ClassLoader createClassLoaderFromDesign( ClassLoader parent )
 		{
 			IReportRunnable runnable = context.getRunnable( );
 			if ( runnable != null )
@@ -1639,13 +1594,10 @@ public class ExecutionContext
 				if ( urls.size( ) != 0 )
 				{
 					URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
-					ClassLoader parent = appClassLoader == null
-							? systemClassLoader
-							: appClassLoader;
-
-					designClassLoader = new URLClassLoader( jarUrls, parent );
+					return new URLClassLoader( jarUrls, parent );
 				}
 			}
+			return parent;
 		}
 	}
 
