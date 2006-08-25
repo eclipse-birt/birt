@@ -119,6 +119,7 @@ public abstract class AbstractGetPageActionHandler
 		{
 			__bookmark = getBookmark( operation.getOprand( ), __bean );
 			options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+			options.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
 			__pageNumber = getReportService( ).getPageNumberByBookmark(
 					__docName, __bookmark, options );
 

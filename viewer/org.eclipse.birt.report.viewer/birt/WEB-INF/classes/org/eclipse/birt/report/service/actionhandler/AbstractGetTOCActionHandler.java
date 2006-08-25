@@ -3,6 +3,9 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -16,13 +19,15 @@ import org.eclipse.birt.report.soapengine.api.TOC;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 
-public abstract class AbstractGetTOCActionHandler extends
-		AbstractBaseActionHandler
+public abstract class AbstractGetTOCActionHandler
+		extends
+			AbstractBaseActionHandler
 {
+
 	protected BaseAttributeBean __bean;
-	
+
 	protected String __docName;
-	
+
 	protected ToC __node = null;
 
 	/**
@@ -31,7 +36,6 @@ public abstract class AbstractGetTOCActionHandler extends
 	 * @return
 	 */
 	abstract protected String __getReportDocument( );
-	
 
 	public AbstractGetTOCActionHandler( IContext context, Operation operation,
 			GetUpdatedObjectsResponse response )
@@ -46,20 +50,31 @@ public abstract class AbstractGetTOCActionHandler extends
 		prepareResponse( );
 	}
 
-	protected void prepareParameters( ) throws ReportServiceException, RemoteException
+	protected void prepareParameters( ) throws ReportServiceException,
+			RemoteException
 	{
 		__bean = context.getBean( );
 		__docName = __getReportDocument( );
 	}
 
-	protected void doExecution( ) throws ReportServiceException, RemoteException
+	protected void doExecution( ) throws ReportServiceException,
+			RemoteException
 	{
 		Oprand[] oprands = operation.getOprand( );
 		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		HttpServletRequest request = context.getRequest( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		BaseAttributeBean bean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		if ( bean != null )
+		{
+			options.setOption( InputOptions.OPT_LOCALE, bean.getLocale( ) );
+		}
+
 		if ( oprands != null && oprands.length > 0 )
 		{
-			__node = getReportService( ).getTOC( __docName, oprands[0].getValue( ), options );
+			__node = getReportService( ).getTOC( __docName,
+					oprands[0].getValue( ), options );
 		}
 		else
 		{
@@ -67,7 +82,8 @@ public abstract class AbstractGetTOCActionHandler extends
 		}
 	}
 
-	protected void prepareResponse( ) throws ReportServiceException, RemoteException
+	protected void prepareResponse( ) throws ReportServiceException,
+			RemoteException
 	{
 		TOC toc = new TOC( );
 		List children = __node.getChildren( );
@@ -76,7 +92,7 @@ public abstract class AbstractGetTOCActionHandler extends
 			TOC[] childTOCNodes = new TOC[children.size( )];
 			for ( int i = 0; i < children.size( ); i++ )
 			{
-				ToC child = ( ToC ) children.get( i );
+				ToC child = (ToC) children.get( i );
 				childTOCNodes[i] = new TOC( );
 				childTOCNodes[i].setId( child.getID( ) );
 				childTOCNodes[i].setDisplayName( child.getDisplayName( ) );
@@ -95,6 +111,6 @@ public abstract class AbstractGetTOCActionHandler extends
 		updateData.setData( data );
 		Update update = new Update( );
 		update.setUpdateData( updateData );
-		response.setUpdate( new Update[] { update } );
+		response.setUpdate( new Update[]{update} );
 	}
 }

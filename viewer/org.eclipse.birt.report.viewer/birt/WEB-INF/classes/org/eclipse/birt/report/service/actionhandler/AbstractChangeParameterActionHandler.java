@@ -57,6 +57,9 @@ public abstract class AbstractChangeParameterActionHandler
 			{
 				options.setOption( InputOptions.OPT_REQUEST, context
 						.getRequest( ) );
+				options.setOption( InputOptions.OPT_LOCALE, attrBean
+						.getLocale( ) );
+
 				pageNumber = getReportService( ).getPageNumberByBookmark(
 						docName, bookmark, options );
 

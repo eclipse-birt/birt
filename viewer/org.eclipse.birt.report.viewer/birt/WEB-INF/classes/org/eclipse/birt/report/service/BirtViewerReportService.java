@@ -364,9 +364,11 @@ public class BirtViewerReportService implements IViewerReportService
 		TOCNode node = null;
 		if ( doc != null )
 		{
-			Locale locale = Locale.getDefault( );
+			Locale locale = null;
 			if ( options != null )
 				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+			if ( locale == null )
+				locale = Locale.getDefault( );
 			ITOCTree tocTree = doc.getTOCTree(
 					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
 							.forLocale( locale ) );
@@ -408,9 +410,11 @@ public class BirtViewerReportService implements IViewerReportService
 
 		if ( doc != null )
 		{
-			Locale locale = Locale.getDefault( );
+			Locale locale = null;
 			if ( options != null )
 				locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+			if ( locale == null )
+				locale = Locale.getDefault( );
 			ITOCTree tocTree = doc.getTOCTree(
 					DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
 							.forLocale( locale ) );
@@ -482,7 +486,7 @@ public class BirtViewerReportService implements IViewerReportService
 		ViewerAttributeBean bean = getViewerAttrBean( runOptions );
 		if ( bean != null )
 			task.setParameterValues( bean.getParameters( ) );
-		
+
 		Collection selectionList = task.getSelectionList( paramName );
 		return convertEngineParameterSelectionChoice( selectionList );
 	}
@@ -971,7 +975,7 @@ public class BirtViewerReportService implements IViewerReportService
 	/**
 	 * 
 	 * Get ViewerAttributeBean from InputOptions
-	 *  
+	 * 
 	 * @param options
 	 * @return
 	 */
