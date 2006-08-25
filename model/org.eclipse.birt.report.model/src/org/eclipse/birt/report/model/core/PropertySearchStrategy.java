@@ -254,12 +254,27 @@ public class PropertySearchStrategy
 
 				value = getPropertyFromSelf( currentRoot, e, prop );
 				if ( value != null )
+				{
+					setModuleOfValue( currentRoot );
 					return value;
+				}
 			}
 
 		} while ( e != null );
 
 		return value;
+	}
+
+	/**
+	 * Sets the root of the element has the local value.
+	 * 
+	 * @param module
+	 *            the root of the design element.
+	 */
+
+	protected void setModuleOfValue( Module module )
+	{
+		// the default beahvior does nothing.
 	}
 
 	/**
@@ -399,9 +414,9 @@ public class PropertySearchStrategy
 		assert prop != null;
 
 		boolean inherit = prop.canInherit( );
-		if( !inherit )
+		if ( !inherit )
 			return false;
-		
+
 		if ( element instanceof ReportItem )
 		{
 			if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals( prop
@@ -415,8 +430,8 @@ public class PropertySearchStrategy
 						IReportItemModel.DATA_SET_PROP ) != null )
 					return false;
 			}
-		}	
-		else if( element instanceof ScalarParameter )
+		}
+		else if ( element instanceof ScalarParameter )
 		{
 			if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP.equals( prop
 					.getName( ) ) )

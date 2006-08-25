@@ -13,6 +13,12 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.strategy.LibraryNamespaceSearchStrategy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
 /**
  * Represents a handle of condition used for joint dataset. The joint dataset is
@@ -135,13 +141,11 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param leftDataset
 	 *            the left data set to set
-	 * @throws SemanticException
-	 *             value required exception
 	 */
 
-	public void setLeftDataSet( String leftDataset ) throws SemanticException
+	public void setLeftDataSet( String leftDataset )
 	{
-		setProperty( JoinCondition.LEFT_DATASET_MEMBER, leftDataset );
+		setPropertySilently( JoinCondition.LEFT_DATASET_MEMBER, leftDataset );
 	}
 
 	/**
@@ -160,13 +164,11 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param rightDataset
 	 *            the right data set to set
-	 * @throws SemanticException
-	 *             value required exception
 	 */
 
-	public void setRightDataSet( String rightDataset ) throws SemanticException
+	public void setRightDataSet( String rightDataset )
 	{
-		setProperty( JoinCondition.RIGHT_DATASET_MEMBER, rightDataset );
+		setPropertySilently( JoinCondition.RIGHT_DATASET_MEMBER, rightDataset );
 	}
 
 	/**
@@ -185,14 +187,12 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param leftExpression
 	 *            the left expression to set
-	 * @throws SemanticException
-	 *             value required exception
 	 */
 
 	public void setLeftExpression( String leftExpression )
-			throws SemanticException
 	{
-		setProperty( JoinCondition.LEFT_EXPRESSION_MEMBER, leftExpression );
+		setPropertySilently( JoinCondition.LEFT_EXPRESSION_MEMBER,
+				leftExpression );
 	}
 
 	/**
@@ -211,14 +211,12 @@ public class JoinConditionHandle extends StructureHandle
 	 * 
 	 * @param rightExpression
 	 *            the right expression to set
-	 * @throws SemanticException
-	 *             value required exception
 	 */
 
 	public void setRightExpression( String rightExpression )
-			throws SemanticException
 	{
-		setProperty( JoinCondition.RIGHT_EXPRESSION_MEMBER, rightExpression );
+		setPropertySilently( JoinCondition.RIGHT_EXPRESSION_MEMBER,
+				rightExpression );
 	}
 
 	/**
@@ -232,4 +230,64 @@ public class JoinConditionHandle extends StructureHandle
 		return getStringProperty( JoinCondition.RIGHT_EXPRESSION_MEMBER );
 	}
 
+	/**
+	 * Returns the property value where a library name space is required.
+	 * 
+	 * @param memberName
+	 *            the structure name
+	 * @return the property value. If this value is not defined in the current
+	 *         module, the library namespace is added.
+	 */
+
+	private String getPrefixStringProperty( String memberName )
+	{
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) getPropertyDefn( );
+		assert propDefn != null;
+
+		PropertySearchStrategy strategy = getElement( ).getStrategy( );
+
+		strategy.getPropertyFromElement( getModule( ), getElement( ), propDefn );
+		Module moduleOfValue = ( (LibraryNamespaceSearchStrategy) strategy )
+				.getModuleOfValue( );
+
+		String value = super.getStringProperty( memberName );
+		if ( moduleOfValue == null )
+			return value;
+
+		if ( moduleOfValue == getModule( ) )
+			return value;
+
+		return ( (Library) moduleOfValue ).getNamespace( )
+				+ ReferenceValue.NAMESPACE_DELIMITER + value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getProperty(java.lang.String)
+	 */
+
+	public Object getProperty( String memberName )
+	{
+		if ( !JoinCondition.LEFT_DATASET_MEMBER.equals( memberName )
+				&& !JoinCondition.RIGHT_DATASET_MEMBER.equals( memberName ) )
+			return super.getProperty( memberName );
+
+		return getPrefixStringProperty( memberName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getStringProperty(java.lang.String)
+	 */
+
+	protected String getStringProperty( String memberName )
+	{
+		if ( !JoinCondition.LEFT_DATASET_MEMBER.equals( memberName )
+				&& !JoinCondition.RIGHT_DATASET_MEMBER.equals( memberName ) )
+			return super.getStringProperty( memberName );
+
+		return getPrefixStringProperty( memberName );
+	}
 }

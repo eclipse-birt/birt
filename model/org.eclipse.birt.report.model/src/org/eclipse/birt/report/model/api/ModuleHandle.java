@@ -1617,6 +1617,26 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Returns parameters and parameter groups on the module. Those parameters
+	 * included in the parameter groups are not included in the return list.
+	 * 
+	 * @return parameters and parameter groups
+	 */
+
+	public List getParametersAndParameterGroups( )
+	{
+		SlotHandle params = getSlot( PARAMETER_SLOT );
+
+		List retList = new ArrayList( );
+		for ( int i = 0; i < params.getCount( ); i++ )
+		{
+			retList.add( params.get( i ) );
+		}
+
+		return retList;
+	}
+
+	/**
 	 * Returns all data source handles that this modules and the included
 	 * modules contain.
 	 * 

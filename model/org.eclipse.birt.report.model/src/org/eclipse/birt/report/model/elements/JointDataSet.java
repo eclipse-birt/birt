@@ -19,7 +19,9 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
+import org.eclipse.birt.report.model.elements.strategy.LibraryNamespaceSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -139,5 +141,16 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 					.getQualifiedReference( ) );
 		}
 		return results;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
+	 */
+
+	public PropertySearchStrategy getStrategy( )
+	{
+		return new LibraryNamespaceSearchStrategy( );
 	}
 }

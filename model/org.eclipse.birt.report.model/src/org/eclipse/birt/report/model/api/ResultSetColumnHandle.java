@@ -11,8 +11,16 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
 /**
  * Represents the handle of one column in the result set. The result set column
@@ -56,7 +64,105 @@ public class ResultSetColumnHandle extends StructureHandle
 
 	public String getColumnName( )
 	{
-		return getStringProperty( ResultSetColumn.NAME_MEMBER );
+		if ( !isExtendedJointDataSet( ) )
+			return getStringProperty( ResultSetColumn.NAME_MEMBER );
+
+		return getPrefixStringProperty( ResultSetColumn.NAME_MEMBER );
+	}
+
+	private boolean isExtendedJointDataSet( )
+	{
+		if ( elementHandle instanceof JointDataSetHandle
+				&& elementHandle.getExtends( ) != null
+				&& getPropertyDefn( ).getName( ).equalsIgnoreCase(
+						DataSetHandle.CACHED_METADATA_PROP ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Returns the property value where a library name space is required.
+	 * 
+	 * @param memberName
+	 *            the structure name
+	 * @return the property value. If this value is not defined in the current
+	 *         module, the library namespace is added.
+	 */
+
+	private String getPrefixStringProperty( String memberName )
+	{
+		if ( !ResultSetColumn.NAME_MEMBER.equalsIgnoreCase( memberName ) )
+			return super.getStringProperty( memberName );
+
+		String resultSetName = super.getStringProperty( memberName );
+		if ( StringUtil.isBlank( resultSetName ) )
+			return resultSetName;
+
+		List dataSetRefs = elementHandle
+				.getListProperty( JointDataSetHandle.DATA_SETS_PROP );
+		if ( dataSetRefs == null || dataSetRefs.isEmpty( ) )
+			return super.getStringProperty( ResultSetColumn.NAME_MEMBER );
+
+		Module tmpRoot = null;
+
+		String[] dataSetNames = ExpressionUtil
+				.getSourceDataSetNames( resultSetName );
+
+		for ( int i = 0; i < dataSetNames.length; i++ )
+		{
+			String dataSetName = dataSetNames[i];
+			if ( dataSetName == null )
+				continue;
+			for ( int j = 0; j < dataSetRefs.size( ); j++ )
+			{
+				ElementRefValue refValue = (ElementRefValue) dataSetRefs
+						.get( j );
+				if ( refValue.getName( ).equalsIgnoreCase( dataSetName )
+						&& refValue.getElement( ) != null )
+				{
+					tmpRoot = refValue.getElement( ).getRoot( );
+					break;
+				}
+			}
+
+			if ( tmpRoot != null )
+				break;
+		}
+
+		if ( tmpRoot == getModule( ) || tmpRoot == null )
+			return resultSetName;
+
+		return ( (Library) tmpRoot ).getNamespace( )
+				+ ReferenceValue.NAMESPACE_DELIMITER + resultSetName;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getProperty(java.lang.String)
+	 */
+
+	public Object getProperty( String memberName )
+	{
+		if ( !isExtendedJointDataSet( ) )
+			return super.getProperty( memberName );
+
+		return getPrefixStringProperty( memberName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getStringProperty(java.lang.String)
+	 */
+
+	protected String getStringProperty( String memberName )
+	{
+		if ( !isExtendedJointDataSet( ) )
+			return super.getStringProperty( memberName );
+
+		return getPrefixStringProperty( memberName );
 	}
 
 	/**
