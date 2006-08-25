@@ -144,7 +144,9 @@ public class GroupDefnUtil
 						groupDefn2.getKeyColumn( ) )
 				&& isEqualStr( groupDefn1.getKeyExpression( ),
 						groupDefn2.getKeyExpression( ) )
-				&& groupDefn1.getSortDirection( ) == groupDefn2.getSortDirection( );
+				&& groupDefn1.getSortDirection( ) == groupDefn2.getSortDirection( )
+				&& QueryDefnUtil.isCompatibleSQs( groupDefn1.getSubqueries( ),
+						groupDefn2.getSubqueries( ) );
 	}
 
 	/**
