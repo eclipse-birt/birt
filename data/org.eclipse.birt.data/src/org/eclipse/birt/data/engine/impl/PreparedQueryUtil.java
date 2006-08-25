@@ -346,7 +346,7 @@ class PreparedQueryUtil
 		while ( it.hasNext( ) )
 		{
 			Object o = it.next( );
-			if ( ExpressionCompilerUtil.hasRowExprInAggregation( (IBaseExpression) o ) )
+			if ( ExpressionCompilerUtil.hasAggregationInExpr( (IBaseExpression) o ) )
 			{
 				return true;
 			}
