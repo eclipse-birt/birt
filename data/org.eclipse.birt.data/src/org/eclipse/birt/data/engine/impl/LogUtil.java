@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -279,10 +280,27 @@ public final class LogUtil
 			stringBuffer.append( "ExtensionID : "+dataSource.getExtensionID()+"\r\n" );
 		if ( !isEmpty( dataSource.getPrivateProperties( ) ) )
 			stringBuffer.append( "PrivateProperties : "+dataSource.getPrivateProperties()+"\r\n" );
-		//Do not log the public properties.
-		/*if ( !isEmpty( dataSource.getPublicProperties( ) ) )
-			stringBuffer.append( "PublicProperties : "+dataSource.getPublicProperties()+"\r\n" );*/
-		
+		if ( !isEmpty( dataSource.getPublicProperties( ) ) )
+		{
+			Map publicProperties = dataSource.getPublicProperties( );
+			String logMsg = " PulicProperties : ";
+			Iterator iterator = publicProperties.keySet( ).iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				String propName = (String) iterator.next( );
+				// Don't log value of any property that looks like a password
+				String lcPropName = propName.toLowerCase( );
+				String propVal;
+				if ( lcPropName.indexOf( "password" ) >= 0
+						|| lcPropName.indexOf( "pwd" ) >= 0 )
+					propVal = "***";
+				else
+					propVal = publicProperties.get( propName ).toString( );
+				logMsg += propName + "=" + propVal + ";";
+			}
+
+			stringBuffer.append( logMsg + "\r\n" );
+		}
 		stringBuffer.append( ")" );
 		return stringBuffer.toString();
 	}
