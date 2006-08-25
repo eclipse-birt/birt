@@ -80,6 +80,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -1411,5 +1413,20 @@ public class UIUtil
 			}
 		}
 		return true;
+	}
+	/**
+	 * Notice: Please dispose the image after done.
+	 * @param composite
+	 * @return
+	 */
+	public static Image newImageFromComposite(Composite composite)
+	{
+		Point compositeSize = composite.getSize();
+		GC gc = new GC(composite);
+		Image image =
+			new Image(Display.getCurrent(), compositeSize.x, compositeSize.y);
+		gc.copyArea(image, 0, 0);
+		gc.dispose();
+		return image;		
 	}
 }
