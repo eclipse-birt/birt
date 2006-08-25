@@ -13,6 +13,7 @@ package org.eclipse.birt.report.context;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -533,11 +534,24 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						this.reportDesignName = ParameterAccessor.getParameter(
 								request, ParameterAccessor.PARAM_REPORT );
 
-						InputStream is = request.getSession( )
-								.getServletContext( ).getResourceAsStream(
-										this.reportDesignName );
+						InputStream is = null;
+						URL url = null;
+						try
+						{
+							String reportPath = this.reportDesignName;
+							if ( !reportPath.startsWith( "/" ) ) //$NON-NLS-1$
+								reportPath = "/" + reportPath; //$NON-NLS-1$
+
+							url = request.getSession( ).getServletContext( )
+									.getResource( reportPath );
+							is = url.openStream( );
+						}
+						catch ( Exception e )
+						{
+
+						}
 						reportRunnable = ReportEngineService.getInstance( )
-								.openReportDesign( is,
+								.openReportDesign( url.toString( ), is,
 										this.getModuleOptions( request ) );
 					}
 					else

@@ -383,7 +383,7 @@ public class ReportEngineService
 	/**
 	 * Open report design by using the input stream
 	 * 
-	 * @param name
+	 * @param systemId
 	 *            the system Id of the report design
 	 * @param reportStream -
 	 *            the input stream
@@ -392,10 +392,10 @@ public class ReportEngineService
 	 * @return IReportRunnable
 	 * @throws EngineException
 	 */
-	public IReportRunnable openReportDesign( InputStream reportStream,
-			Map options ) throws EngineException
+	public IReportRunnable openReportDesign( String systemId,
+			InputStream reportStream, Map options ) throws EngineException
 	{
-		return engine.openReportDesign( null, reportStream, options );
+		return engine.openReportDesign( systemId, reportStream, options );
 	}
 
 	/**
