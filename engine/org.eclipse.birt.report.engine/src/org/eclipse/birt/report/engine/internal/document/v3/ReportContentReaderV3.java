@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/06/13 15:37:35 $
+ * @version $Revision: 1.2 $ $Date: 2006/08/12 08:45:35 $
  */
 public class ReportContentReaderV3
 {
@@ -185,6 +185,10 @@ public class ReportContentReaderV3
 				tableGroup.readContent( oi );
 				object = tableGroup;
 				break;
+			default:
+				// Not expected
+				throw new IOException("Found invalid contentType" +
+						contentType + " at object offset " + offset);
 		}
 		return object;		
 	}
