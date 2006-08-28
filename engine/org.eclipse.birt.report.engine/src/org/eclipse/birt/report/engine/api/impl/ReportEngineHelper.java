@@ -234,7 +234,7 @@ public class ReportEngineHelper
 		ReportDesignHandle designHandle;
 		try
 		{
-			if ( options != null )
+			if ( options == null )
 			{
 				options = new HashMap( );
 			}
@@ -436,7 +436,7 @@ public class ReportEngineHelper
 	{
 		ReportDocumentReader reader = new ReportDocumentReader( systemId,
 				engine, archive );
-		if ( options != null )
+		if ( options == null )
 		{
 			options = new HashMap( );
 		}
