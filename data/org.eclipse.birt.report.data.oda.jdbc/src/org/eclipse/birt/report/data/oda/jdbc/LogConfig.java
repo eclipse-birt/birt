@@ -213,7 +213,12 @@ public class LogConfig
         	    if( url != null )
         	    {
 	                String driverHomeDir = url.getPath();
-	                logDir = new File( driverHomeDir, logDirectory );
+	                logDir = new File( driverHomeDir,
+							getQualifiedLogDir( logDirectory ) );
+					if ( !logDir.exists( ) )
+					{
+						logDir.mkdir( );
+					}
 	                logDirectory = logDir.getPath();
         	    }
             }
@@ -230,7 +235,7 @@ public class LogConfig
         SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd-HHmmss" );
     	String logfileName = ( logDirectory.endsWith( "/" ) ||
     						   logDirectory.endsWith( "\\" ) ) ?
-    						 logDirectory : logDirectory + "/";
+    						 logDirectory : logDirectory + File.separator;
 
     	logfileName += logPrefix + "-";
     	
@@ -239,5 +244,13 @@ public class LogConfig
     	
     	return logfileName;
     }
+    
+    private static String getQualifiedLogDir( String logDir )
+	{
+		if ( logDir.startsWith( "." ) )
+			logDir = logDir.substring( 1 );
+
+		return logDir;
+	}
     
 }
