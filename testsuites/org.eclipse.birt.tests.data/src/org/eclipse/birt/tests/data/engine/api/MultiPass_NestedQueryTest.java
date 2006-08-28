@@ -15,7 +15,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.APITestCase;
 import testutil.ConfigText;
-import testutil.APITestCase.DataSourceInfo;
 
 public class MultiPass_NestedQueryTest extends APITestCase
 {

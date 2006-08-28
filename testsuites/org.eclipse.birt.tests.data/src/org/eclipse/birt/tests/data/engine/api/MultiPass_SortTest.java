@@ -14,7 +14,6 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.APITestCase;
 import testutil.ConfigText;
-import testutil.APITestCase.DataSourceInfo;
 
 public class MultiPass_SortTest extends APITestCase
 {
