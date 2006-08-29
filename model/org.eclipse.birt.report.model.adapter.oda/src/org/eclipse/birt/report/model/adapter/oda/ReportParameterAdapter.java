@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.model.adapter.oda.DataSetParameterAdapter.ParameterValueUtil;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -135,21 +136,21 @@ public class ReportParameterAdapter
 	 * 
 	 * @param reportParam
 	 *            the report parameter
+	 * @param dataSetParam
+	 *            the data set parameter
 	 * @param dataSetDesign
 	 *            the data set design
 	 * @throws SemanticException
 	 *             if value in the data set design is invalid
 	 */
 
-	void updateLinkedReportParameter( ScalarParameterHandle reportParam,
+	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
 			OdaDataSetParameterHandle dataSetParam, DataSetDesign dataSetDesign )
 			throws SemanticException
 	{
 		if ( reportParam == null || dataSetParam == null
 				|| dataSetDesign == null )
 			return;
-
-		updateLinkedReportParameterFromROMParameter( reportParam, dataSetParam );
 
 		ParameterDefinition matchedParam = getValidParameterDefinition(
 				dataSetParam, dataSetDesign.getParameters( ) );
@@ -186,8 +187,26 @@ public class ReportParameterAdapter
 				(OdaDataSetParameter) dataSetParam.getStructure( ),
 				setHandle == null ? null : setHandle.parametersIterator( ) );
 
-		updateLinkedReportParameter( reportParam, matchedParam, cachedParam,
-				dataType );
+		CommandStack cmdStack = reportParam.getModuleHandle( )
+				.getCommandStack( );
+
+		cmdStack.startTrans( null );
+		try
+		{
+
+			updateLinkedReportParameterFromROMParameter( reportParam,
+					dataSetParam );
+
+			updateLinkedReportParameter( reportParam, matchedParam,
+					cachedParam, dataType );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -218,20 +237,59 @@ public class ReportParameterAdapter
 			reportParam.setDataType( dataType );
 
 		String defaultValue = dataSetParam.getDefaultValue( );
-		if ( !StringUtil.isBlank( defaultValue ) )
+		String paramName = dataSetParam.getParamName( );
+
+		if ( !StringUtil.isBlank( defaultValue )
+				&& StringUtil.isBlank( paramName ) )
 		{
-			boolean match = ExpressionUtil
-					.isScalarParamReference( defaultValue );
-			if ( !match )
-				reportParam.setDefaultValue( defaultValue );
+			setROMDefaultValue( reportParam, defaultValue );
 		}
 
-		String paramName = dataSetParam.getParamName( );
 		if ( StringUtil.isBlank( paramName ) )
 		{
 			dataSetParam.setParamName( reportParam.getName( ) );
 		}
 
+	}
+
+	/**
+	 * Sets the default value for ROM data set parameter. Should add quotes for
+	 * the value if the data type is string.
+	 * 
+	 * @param setParam
+	 *            the ROM data set parameter
+	 * @param literalValue
+	 *            the value
+	 */
+
+	private void setROMDefaultValue( ScalarParameterHandle setParam,
+			String value ) throws SemanticException
+	{
+		String literalValue = value;
+
+		if ( literalValue != null )
+		{
+			boolean match = ExpressionUtil
+					.isScalarParamReference( literalValue );
+			if ( match )
+				return;
+		}
+
+		if ( DataSetParameterAdapter.BIRT_JS_EXPR
+				.equalsIgnoreCase( literalValue ) )
+		{
+			return;
+		}
+
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase( setParam
+				.getDataType( ) ) )
+		{
+			if ( ParameterValueUtil.isQuoted( value ) )
+			{
+				literalValue = ParameterValueUtil.toLiteralValue( value );
+				setParam.setDefaultValue( literalValue );
+			}
+		}
 	}
 
 	/**
@@ -370,7 +428,7 @@ public class ReportParameterAdapter
 			String displayName = dataUiHints.getDisplayName( );
 			String cachedDisplayName = cachedDataUiHints == null
 					? null
-					: dataUiHints.getDisplayName( );
+					: cachedDataUiHints.getDisplayName( );
 			if ( cachedDisplayName == null
 					|| !cachedDisplayName.equals( displayName ) )
 				reportParam.setPromptText( displayName );
@@ -378,7 +436,7 @@ public class ReportParameterAdapter
 			String description = dataUiHints.getDescription( );
 			String cachedDescription = cachedDataUiHints == null
 					? null
-					: dataUiHints.getDescription( );
+					: cachedDataUiHints.getDescription( );
 			if ( cachedDescription == null
 					|| !cachedDescription.equals( description ) )
 				reportParam.setHelpText( description );
@@ -465,7 +523,20 @@ public class ReportParameterAdapter
 				: cachedElementAttrs.getDefaultScalarValue( );
 		if ( cachedDefaultValue == null
 				|| !cachedDefaultValue.equals( defaultValue ) )
-			reportParam.setDefaultValue( defaultValue );
+		{
+			// only update when the value is not internal value.
+			
+			if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( defaultValue ) )
+				reportParam.setDefaultValue( defaultValue );
+		}
+
+		// update isOptional value
+
+		Boolean isOptional = Boolean.valueOf( elementAttrs.isOptional( ) );
+		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean
+				.valueOf( cachedElementAttrs.isOptional( ) );
+		if ( cachedIsOptional == null || !cachedIsOptional.equals( isOptional ) )
+			reportParam.setAllowBlank( isOptional.booleanValue( ) );
 
 		// update conceal value
 
@@ -497,7 +568,7 @@ public class ReportParameterAdapter
 					: cachedUiHints.getPromptStyle( );
 
 			if ( cachedStyle == null
-					|| ( style != null && cachedStyle.getValue( ) == style
+					|| ( style != null && cachedStyle.getValue( ) != style
 							.getValue( ) ) )
 				reportParam.setControlType( style == null
 						? null
