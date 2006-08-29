@@ -924,8 +924,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		List temp = new ArrayList( );
 
 		List hasAdjust = new ArrayList( );
-		
-		reload();
+		//There are some logic error, but is the framework error after change the event dispatch framework.
+		//same to the insertrow method.
+		reload( );
 		for ( int i = 0; i < rowNumber; i++ )
 		{
 			TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( getRow( i + 1 ) );
