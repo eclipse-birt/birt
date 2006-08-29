@@ -57,8 +57,8 @@ public class DataItemBindingDialog extends BaseDialog
 	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" );
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getStructure( ResultSetColumn.RESULT_SET_COLUMN_STRUCT )
-			.getMember( ResultSetColumn.DATA_TYPE_MEMBER )
+			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
 
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
