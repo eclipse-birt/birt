@@ -1317,7 +1317,7 @@
     <eLiterals name="Nabla" value="5"/>
     <eLiterals name="Diamond" value="6"/>
     <eLiterals name="FourDiamonds" value="7" literal="Four_Diamonds"/>
-    <eLiterals name="Ellipse" value="8" literal="Ellipse"/>
+    <eLiterals name="Ellipse" value="8"/>
     <eLiterals name="SemiCircle" value="9" literal="Semi_Circle"/>
     <eLiterals name="Hexagon" value="10"/>
     <eLiterals name="Rectangle" value="11"/>
@@ -1330,6 +1330,22 @@
       <details key="name" value="MarkerType:Object"/>
       <details key="baseType" value="MarkerType"/>
     </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultipleFill" eSuperTypes="#//Fill">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents a list of fill object."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MultipleFill"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fills" upperBound="-1"
+        eType="#//Fill" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Fills"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NumberFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

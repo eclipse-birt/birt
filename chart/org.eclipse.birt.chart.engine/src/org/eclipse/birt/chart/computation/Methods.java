@@ -374,7 +374,7 @@ public class Methods implements IConstants
 	 * @param dAngleInDegrees
 	 * @return
 	 */
-	protected final double computeWidth( IDisplayServer xs, Label la )
+	public static final double computeWidth( IDisplayServer xs, Label la )
 	{
 		final FontDefinition fd = la.getCaption( ).getFont( );
 		final double dAngleInRadians = ( ( -fd.getRotation( ) * Math.PI ) / 180.0 );
@@ -397,7 +397,7 @@ public class Methods implements IConstants
 	 * @param iAngleInDegrees
 	 * @return
 	 */
-	protected final double computeHeight( IDisplayServer xs, Label la )
+	public static final double computeHeight( IDisplayServer xs, Label la )
 	{
 		final FontDefinition fd = la.getCaption( ).getFont( );
 		final double dAngleInRadians = ( ( -fd.getRotation( ) * Math.PI ) / 180.0 );
@@ -909,6 +909,49 @@ public class Methods implements IConstants
 			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
 			{
 				bb = new BoundingBox( TOP, dX - dH / 2, dY - dW, dH, dW, dH / 2 );
+			}
+		}
+		else if ( iLabelLocation == INSIDE )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				bb = new BoundingBox( INSIDE,
+						dX - dW / 2,
+						dY - dH / 2,
+						dW,
+						dH,
+						0 );
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				bb = new BoundingBox( INSIDE, dX
+						- ( dH * dSineTheta + dW * dCosTheta )
+						/ 2, dY - ( dH * dCosTheta + dW * dSineTheta ) / 2, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, 0 );
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				bb = new BoundingBox( INSIDE, dX
+						- ( dW * dCosTheta + dH * dSineTheta )
+						/ 2, dY - ( dH * dCosTheta + dW * dSineTheta ) / 2, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, 0 );
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				bb = new BoundingBox( INSIDE,
+						dX - dH / 2,
+						dY - dW / 2,
+						dH,
+						dW,
+						0 );
 			}
 		}
 		itm.dispose( );

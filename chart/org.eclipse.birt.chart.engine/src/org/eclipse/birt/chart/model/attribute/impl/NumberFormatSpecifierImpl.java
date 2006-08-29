@@ -458,7 +458,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	{
 		return format( dValue, ULocale.forLocale( lo ) );
 	}
-	
+
 	public String format( double dValue, ULocale lo )
 	{
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );

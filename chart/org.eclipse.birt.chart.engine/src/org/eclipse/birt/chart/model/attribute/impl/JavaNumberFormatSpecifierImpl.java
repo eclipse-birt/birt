@@ -307,7 +307,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
 				: df.format( dValue );
 	}
-	
+
 	public String format( double dValue, Locale lo )
 	{
 		return format( dValue, ULocale.forLocale( lo ) );

@@ -45,7 +45,7 @@ public interface Rotation3D extends EObject
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Angles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRotation3D_Angles()
-	 * @model type="org.eclipse.birt.chart.model.attribute.Angle3D" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.attribute.Angle3D" containment="true"
 	 *        extendedMetaData="kind='element' name='Angles'"
 	 * @generated
 	 */

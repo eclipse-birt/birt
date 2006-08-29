@@ -55,6 +55,20 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BubbleDataSet" eSuperTypes="#//DataSet">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the bubble data associated with a series.&#xD;&#xA;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="BubbleDataSet"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Data" instanceClassName="java.lang.Object">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Data"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single element of data to be plotted in a chart. A data element can hold a scalar or a multi-dimensional value.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -73,7 +87,7 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType">
+        lowerBound="1" eType="#//Data">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds data values for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -108,6 +122,24 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateTimeDataSet"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DifferenceDataSet" eSuperTypes="#//DataSet">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the difference data associated with a series.&#xD;&#xA;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="DifferenceDataSet"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GanttDataSet" eSuperTypes="#//DataSet">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the gantt data associated with a series.&#xD;&#xA;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="GanttDataSet"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
   </eClassifiers>

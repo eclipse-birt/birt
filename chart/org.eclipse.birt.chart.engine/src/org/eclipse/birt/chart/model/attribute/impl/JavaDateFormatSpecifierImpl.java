@@ -208,7 +208,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		final SimpleDateFormat sdf = new SimpleDateFormat( getPattern( ) );
 		return sdf.format( c.getTime( ) );
 	}
-	
+
 	public String format( Calendar c, Locale lcl )
 	{
 		return format( c, ULocale.forLocale( lcl ) );

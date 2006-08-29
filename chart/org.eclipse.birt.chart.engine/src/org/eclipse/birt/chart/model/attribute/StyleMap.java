@@ -103,7 +103,7 @@ public interface StyleMap extends EObject
 	 * @return the value of the '<em>Style</em>' containment reference.
 	 * @see #setStyle(Style)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap_Style()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Style'"
 	 * @generated
 	 */

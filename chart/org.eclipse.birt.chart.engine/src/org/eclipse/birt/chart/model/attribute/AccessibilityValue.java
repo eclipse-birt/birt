@@ -9,7 +9,6 @@
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
-
 package org.eclipse.birt.chart.model.attribute;
 
 /**

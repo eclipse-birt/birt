@@ -119,12 +119,50 @@ public class TypeSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case TypePackage.BUBBLE_SERIES :
+			{
+				BubbleSeries bubbleSeries = (BubbleSeries) theEObject;
+				Object result = caseBubbleSeries( bubbleSeries );
+				if ( result == null )
+					result = caseScatterSeries( bubbleSeries );
+				if ( result == null )
+					result = caseLineSeries( bubbleSeries );
+				if ( result == null )
+					result = caseSeries( bubbleSeries );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case TypePackage.DIAL_SERIES :
 			{
 				DialSeries dialSeries = (DialSeries) theEObject;
 				Object result = caseDialSeries( dialSeries );
 				if ( result == null )
 					result = caseSeries( dialSeries );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			case TypePackage.DIFFERENCE_SERIES :
+			{
+				DifferenceSeries differenceSeries = (DifferenceSeries) theEObject;
+				Object result = caseDifferenceSeries( differenceSeries );
+				if ( result == null )
+					result = caseAreaSeries( differenceSeries );
+				if ( result == null )
+					result = caseLineSeries( differenceSeries );
+				if ( result == null )
+					result = caseSeries( differenceSeries );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			case TypePackage.GANTT_SERIES :
+			{
+				GanttSeries ganttSeries = (GanttSeries) theEObject;
+				Object result = caseGanttSeries( ganttSeries );
+				if ( result == null )
+					result = caseSeries( ganttSeries );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -209,6 +247,22 @@ public class TypeSwitch
 	}
 
 	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Bubble Series</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Bubble Series</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseBubbleSeries( BubbleSeries object )
+	{
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpretting the object as an instance of '<em>Dial Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -220,6 +274,38 @@ public class TypeSwitch
 	 * @generated
 	 */
 	public Object caseDialSeries( DialSeries object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Difference Series</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Difference Series</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDifferenceSeries( DifferenceSeries object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Gantt Series</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Gantt Series</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseGanttSeries( GanttSeries object )
 	{
 		return null;
 	}

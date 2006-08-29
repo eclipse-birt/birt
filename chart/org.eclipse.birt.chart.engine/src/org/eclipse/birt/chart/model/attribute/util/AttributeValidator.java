@@ -261,6 +261,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.MARKER :
 				return validateMarker( (Marker) value, diagnostics, context );
+			case AttributePackage.MULTIPLE_FILL :
+				return validateMultipleFill( (MultipleFill) value,
+						diagnostics,
+						context );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER :
 				return validateNumberFormatSpecifier( (NumberFormatSpecifier) value,
 						diagnostics,
@@ -875,6 +879,19 @@ public class AttributeValidator extends EObjectValidator
 			Map context )
 	{
 		return validate_EveryDefaultConstraint( marker, diagnostics, context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateMultipleFill( MultipleFill multipleFill,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( multipleFill,
+				diagnostics,
+				context );
 	}
 
 	/**

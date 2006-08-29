@@ -646,7 +646,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	{
 		return format( dValue, ULocale.forLocale( lo ) );
 	}
-	
+
 	public String format( double dValue, ULocale lo )
 	{
 		// Convert the decimal value to the fraction

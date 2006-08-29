@@ -508,6 +508,26 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EStringToDataSetMapEntry" instanceClassName="java.util.Map$Entry">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="EStringToDataSetMapEntry"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" unique="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Key"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="ecore:EClass org.eclipse.birt.chart.model.data.ecore#//DataSet"
+        containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Value"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Grid">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the grid associated with an axis.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -964,9 +984,8 @@
         <details key="name" value="DataPoint"/>
       </eAnnotations>
     </eStructuralFeatures>
-	<eStructuralFeatures xsi:type="ecore:EReference" name="dataSets"
-        upperBound="-1" eType="#//EStringToDataSetMapEntry"
-        containment="true" resolveProxies="false">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSets" lowerBound="1"
+        upperBound="-1" eType="#//EStringToDataSetMapEntry" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the runtime data for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -974,7 +993,7 @@
         <details key="kind" value="element"/>
         <details key="name" value="DataSets"/>
       </eAnnotations>
-    </eStructuralFeatures>    
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelPosition" unique="false"
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
@@ -1030,9 +1049,4 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EStringToDataSetMapEntry" instanceClassName="java.util.Map$Entry">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass org.eclipse.birt.chart.model.data.ecore#//DataSet"/>
-  </eClassifiers>
-  
 </ecore:EPackage>

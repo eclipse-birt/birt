@@ -277,13 +277,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -334,13 +334,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -368,7 +368,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
-		final Fill flBackground = rre.getBackground( );
+		final Fill flBackground = validateMultipleFill( rre.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -543,13 +543,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -584,7 +584,9 @@ public class SwtRendererImpl extends DeviceAdapter
 		// NOTE: SOME INCOMPLETE PAINTING ERRORS SEEM TO EXIST FOR GRADIENT POLY
 		// FILLS
 
-		if ( isFullTransparent( pre.getBackground( ) ) )
+		final Fill flBackground = validateMultipleFill( pre.getBackground( ) );
+
+		if ( isFullTransparent( flBackground ) )
 		{
 			return;
 		}
@@ -603,7 +605,7 @@ public class SwtRendererImpl extends DeviceAdapter
 
 		RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( pre.getSource( ),
 				RectangleRenderEvent.class );
-		rre.setBackground( pre.getBackground( ) );
+		rre.setBackground( flBackground );
 		try
 		{
 			rre.setBounds( pre.getBounds( ) );
@@ -863,7 +865,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
-		Fill flBackground = are.getBackground( );
+		Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -1386,13 +1388,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -1421,7 +1423,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
-		Fill flBackground = are.getBackground( );
+		Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -1548,13 +1550,13 @@ public class SwtRendererImpl extends DeviceAdapter
 		int iLineStyle = SWT.LINE_SOLID;
 		switch ( lia.getStyle( ).getValue( ) )
 		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DOT;
 				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASHDOT;
 				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                            ) :
+			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                ) :
 				iLineStyle = SWT.LINE_DASH;
 				break;
 		}
@@ -1582,7 +1584,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
-		final Fill flBackground = ore.getBackground( );
+		final Fill flBackground = validateMultipleFill( ore.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{

@@ -241,6 +241,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createMarkerAdapter( );
 		}
 
+		public Object caseMultipleFill( MultipleFill object )
+		{
+			return createMultipleFillAdapter( );
+		}
+
 		public Object caseNumberFormatSpecifier( NumberFormatSpecifier object )
 		{
 			return createNumberFormatSpecifierAdapter( );
@@ -687,6 +692,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createMarkerAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.MultipleFill <em>Multiple Fill</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.MultipleFill
+	 * @generated
+	 */
+	public Adapter createMultipleFillAdapter( )
 	{
 		return null;
 	}

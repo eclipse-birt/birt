@@ -237,6 +237,13 @@ public final class ResultSetWrapper
 		{
 			if ( needBaseGrouping )
 			{
+				logger.log( ILogger.WARNING,
+						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
+								new Object[]{
+									sd
+								},
+								ULocale.getDefault( ) ) );
+
 				so = SortOption.ASCENDING_LITERAL;
 			}
 		}

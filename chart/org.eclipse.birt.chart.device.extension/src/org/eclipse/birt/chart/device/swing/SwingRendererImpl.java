@@ -231,7 +231,6 @@ public class SwingRendererImpl extends DeviceAdapter
 			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
 		}
 
-
 	}
 
 	/**
@@ -452,7 +451,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
-		final Fill flBackground = rre.getBackground( );
+		final Fill flBackground = validateMultipleFill( rre.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -479,10 +478,6 @@ public class SwingRendererImpl extends DeviceAdapter
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 			// int iAlpha = g.getTransparency();
-
-			/*
-			 * if (bCyclic) { }
-			 */
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
@@ -604,7 +599,6 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 			}
 
-			// img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shClip ); // RESTORE
 		}
 	}
@@ -708,7 +702,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
-		final Fill flBackground = pre.getBackground( );
+		final Fill flBackground = validateMultipleFill( pre.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -738,10 +732,6 @@ public class SwingRendererImpl extends DeviceAdapter
 			final double dMaxX = BaseRenderer.getX( loa, IConstants.MAX );
 			final double dMinY = BaseRenderer.getY( loa, IConstants.MIN );
 			final double dMaxY = BaseRenderer.getY( loa, IConstants.MAX );
-
-			/*
-			 * if (bRadial) { }
-			 */
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
@@ -861,18 +851,8 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 			}
 
-			// img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shClip ); // RESTORE
 		}
-
-		/*
-		 * if (pre.iObjIndex > 0) { try { Bounds bo = pre.getBounds();
-		 * _g2d.setColor(Color.red); _g2d.setFont(new Font("Arial", Font.BOLD,
-		 * 14)); _g2d.drawString("{0}" + pre.iObjIndex, (int) (bo.getLeft() +
-		 * bo.getWidth() / 2), (int) (bo.getTop() + bo //
-		 * i18n_CONCATENATIONS_REMOVED .getHeight() / 2)); } catch (Exception ex ) {
-		 * ex.printStackTrace(); } }
-		 */
 	}
 
 	/*
@@ -992,7 +972,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
-		final Fill flBackground = are.getBackground( );
+		final Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -1384,7 +1364,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
-		final Fill flBackground = are.getBackground( );
+		final Fill flBackground = validateMultipleFill( are.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -1497,7 +1477,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			// TBD
+			// TODO TBD
 		}
 		_g2d.fill( gp );
 	}
@@ -1541,7 +1521,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 	}
 
-	protected void registerTriggers( Trigger[] tga, ShapedAction sa)
+	protected void registerTriggers( Trigger[] tga, ShapedAction sa )
 	{
 		TriggerCondition tc;
 		Action ac;
@@ -1560,6 +1540,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		this._allShapes.add( sa );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1582,14 +1563,14 @@ public class SwingRendererImpl extends DeviceAdapter
 
 		// Get the shape Action for the event
 		ShapedAction sa = getShapedAction( iev );
-		
+
 		if ( sa != null )
 		{
 			// Register the triggers in the shape and renderer.
 			registerTriggers( tga, sa );
 		}
 	}
-		
+
 	protected ShapedAction getShapedAction( InteractionEvent iev )
 	{
 		Shape clipping = _g2d.getClip( );
@@ -1597,9 +1578,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( pre instanceof PolygonRenderEvent )
 		{
 			final Location[] loa = ( (PolygonRenderEvent) pre ).getPoints( );
-			return new ShapedAction( iev.getStructureSource( ),
-					loa,				
-					clipping ) ;
+			return new ShapedAction( iev.getStructureSource( ), loa, clipping );
 		}
 		else if ( pre instanceof RectangleRenderEvent )
 		{
@@ -1613,15 +1592,13 @@ public class SwingRendererImpl extends DeviceAdapter
 					bo.getTop( ) + bo.getHeight( ) );
 			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) );
-			return new ShapedAction( iev.getStructureSource( ),
-					loa,
-					clipping );
+			return new ShapedAction( iev.getStructureSource( ), loa, clipping );
 		}
 		else if ( pre instanceof OvalRenderEvent )
 		{
 			final Bounds boEllipse = ( (OvalRenderEvent) pre ).getBounds( );
 			return new ShapedAction( iev.getStructureSource( ),
-					boEllipse,					
+					boEllipse,
 					clipping );
 		}
 		else if ( pre instanceof ArcRenderEvent )
@@ -1639,7 +1616,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					clipping );
 		}
 		else if ( pre instanceof AreaRenderEvent )
-		{		
+		{
 			final Bounds bo = ( (AreaRenderEvent) pre ).getBounds( );
 
 			final Location[] loa = new Location[4];
@@ -1650,10 +1627,8 @@ public class SwingRendererImpl extends DeviceAdapter
 					bo.getTop( ) + bo.getHeight( ) );
 			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) );
-			return new ShapedAction( iev.getStructureSource( ),
-					loa,
-					clipping ) ;
-			
+			return new ShapedAction( iev.getStructureSource( ), loa, clipping );
+
 		}
 		assert false;
 		return null;
@@ -1804,7 +1779,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
-		final Fill flBackground = ore.getBackground( );
+		final Fill flBackground = validateMultipleFill( ore.getBackground( ) );
 
 		if ( isFullTransparent( flBackground ) )
 		{
@@ -1830,11 +1805,6 @@ public class SwingRendererImpl extends DeviceAdapter
 			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			// int iAlpha = g.getTransparency();
-
-			/*
-			 * if (bCyclic) { }
-			 */
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
@@ -1955,7 +1925,6 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 			}
 
-			// img.flush(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shClip ); // RESTORE
 		}
 	}
@@ -1987,11 +1956,11 @@ public class SwingRendererImpl extends DeviceAdapter
 		return _lhmAllTriggers;
 	}
 
-
 	protected List getShapeActions( )
 	{
 		return _allShapes;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

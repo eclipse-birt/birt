@@ -92,9 +92,24 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 			return createBarSeriesAdapter( );
 		}
 
+		public Object caseBubbleSeries( BubbleSeries object )
+		{
+			return createBubbleSeriesAdapter( );
+		}
+
 		public Object caseDialSeries( DialSeries object )
 		{
 			return createDialSeriesAdapter( );
+		}
+
+		public Object caseDifferenceSeries( DifferenceSeries object )
+		{
+			return createDifferenceSeriesAdapter( );
+		}
+
+		public Object caseGanttSeries( GanttSeries object )
+		{
+			return createGanttSeriesAdapter( );
 		}
 
 		public Object caseLineSeries( LineSeries object )
@@ -170,6 +185,21 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.BubbleSeries <em>Bubble Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.type.BubbleSeries
+	 * @generated
+	 */
+	public Adapter createBubbleSeriesAdapter( )
+	{
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.DialSeries <em>Dial Series</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -180,6 +210,36 @@ public class TypeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createDialSeriesAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.DifferenceSeries <em>Difference Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.type.DifferenceSeries
+	 * @generated
+	 */
+	public Adapter createDifferenceSeriesAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.GanttSeries <em>Gantt Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries
+	 * @generated
+	 */
+	public Adapter createGanttSeriesAdapter( )
 	{
 		return null;
 	}

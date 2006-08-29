@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
@@ -188,4 +189,21 @@ public class EventObjectCache
 		return false;
 	}
 
+	protected final Fill validateMultipleFill( Fill fill )
+	{
+		if ( !( fill instanceof MultipleFill ) )
+		{
+			return fill;
+		}
+
+		if ( ( (MultipleFill) fill ).getFills( ).size( ) > 0 )
+		{
+			return validateMultipleFill( (Fill) ( (MultipleFill) fill ).getFills( )
+					.get( 0 ) );
+		}
+		else
+		{
+			return null;
+		}
+	}
 }

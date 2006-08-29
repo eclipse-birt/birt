@@ -23,7 +23,10 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
@@ -62,7 +65,28 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass bubbleSeriesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass dialSeriesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass differenceSeriesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ganttSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -224,6 +248,38 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBubbleSeries( )
+	{
+		return bubbleSeriesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBubbleSeries_AccLineAttributes( )
+	{
+		return (EReference) bubbleSeriesEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBubbleSeries_AccOrientation( )
+	{
+		return (EAttribute) bubbleSeriesEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDialSeries( )
 	{
 		return dialSeriesEClass;
@@ -247,6 +303,159 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	public EReference getDialSeries_Needle( )
 	{
 		return (EReference) dialSeriesEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDifferenceSeries( )
+	{
+		return differenceSeriesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDifferenceSeries_NegativeMarkers( )
+	{
+		return (EReference) differenceSeriesEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDifferenceSeries_NegativeLineAttributes( )
+	{
+		return (EReference) differenceSeriesEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGanttSeries( )
+	{
+		return ganttSeriesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGanttSeries_StartMarker( )
+	{
+		return (EReference) ganttSeriesEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGanttSeries_StartMarkerPosition( )
+	{
+		return (EAttribute) ganttSeriesEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGanttSeries_EndMarker( )
+	{
+		return (EReference) ganttSeriesEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGanttSeries_EndMarkerPosition( )
+	{
+		return (EAttribute) ganttSeriesEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGanttSeries_ConnectionLine( )
+	{
+		return (EReference) ganttSeriesEClass.getEStructuralFeatures( ).get( 4 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGanttSeries_Outline( )
+	{
+		return (EReference) ganttSeriesEClass.getEStructuralFeatures( ).get( 5 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGanttSeries_OutlineFill( )
+	{
+		return (EReference) ganttSeriesEClass.getEStructuralFeatures( ).get( 6 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGanttSeries_UseDecorationLabelValue( )
+	{
+		return (EAttribute) ganttSeriesEClass.getEStructuralFeatures( ).get( 7 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGanttSeries_DecorationLabel( )
+	{
+		return (EReference) ganttSeriesEClass.getEStructuralFeatures( ).get( 8 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGanttSeries_DecorationLabelPosition( )
+	{
+		return (EAttribute) ganttSeriesEClass.getEStructuralFeatures( ).get( 9 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGanttSeries_PaletteLineColor( )
+	{
+		return (EAttribute) ganttSeriesEClass.getEStructuralFeatures( )
+				.get( 10 );
 	}
 
 	/**
@@ -506,9 +715,36 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEAttribute( barSeriesEClass, BAR_SERIES__RISER );
 		createEReference( barSeriesEClass, BAR_SERIES__RISER_OUTLINE );
 
+		bubbleSeriesEClass = createEClass( BUBBLE_SERIES );
+		createEReference( bubbleSeriesEClass,
+				BUBBLE_SERIES__ACC_LINE_ATTRIBUTES );
+		createEAttribute( bubbleSeriesEClass, BUBBLE_SERIES__ACC_ORIENTATION );
+
 		dialSeriesEClass = createEClass( DIAL_SERIES );
 		createEReference( dialSeriesEClass, DIAL_SERIES__DIAL );
 		createEReference( dialSeriesEClass, DIAL_SERIES__NEEDLE );
+
+		differenceSeriesEClass = createEClass( DIFFERENCE_SERIES );
+		createEReference( differenceSeriesEClass,
+				DIFFERENCE_SERIES__NEGATIVE_MARKERS );
+		createEReference( differenceSeriesEClass,
+				DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES );
+
+		ganttSeriesEClass = createEClass( GANTT_SERIES );
+		createEReference( ganttSeriesEClass, GANTT_SERIES__START_MARKER );
+		createEAttribute( ganttSeriesEClass,
+				GANTT_SERIES__START_MARKER_POSITION );
+		createEReference( ganttSeriesEClass, GANTT_SERIES__END_MARKER );
+		createEAttribute( ganttSeriesEClass, GANTT_SERIES__END_MARKER_POSITION );
+		createEReference( ganttSeriesEClass, GANTT_SERIES__CONNECTION_LINE );
+		createEReference( ganttSeriesEClass, GANTT_SERIES__OUTLINE );
+		createEReference( ganttSeriesEClass, GANTT_SERIES__OUTLINE_FILL );
+		createEAttribute( ganttSeriesEClass,
+				GANTT_SERIES__USE_DECORATION_LABEL_VALUE );
+		createEReference( ganttSeriesEClass, GANTT_SERIES__DECORATION_LABEL );
+		createEAttribute( ganttSeriesEClass,
+				GANTT_SERIES__DECORATION_LABEL_POSITION );
+		createEAttribute( ganttSeriesEClass, GANTT_SERIES__PALETTE_LINE_COLOR );
 
 		lineSeriesEClass = createEClass( LINE_SERIES );
 		createEReference( lineSeriesEClass, LINE_SERIES__MARKERS );
@@ -572,7 +808,11 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		areaSeriesEClass.getESuperTypes( ).add( this.getLineSeries( ) );
 		barSeriesEClass.getESuperTypes( )
 				.add( theComponentPackage.getSeries( ) );
+		bubbleSeriesEClass.getESuperTypes( ).add( this.getScatterSeries( ) );
 		dialSeriesEClass.getESuperTypes( )
+				.add( theComponentPackage.getSeries( ) );
+		differenceSeriesEClass.getESuperTypes( ).add( this.getAreaSeries( ) );
+		ganttSeriesEClass.getESuperTypes( )
 				.add( theComponentPackage.getSeries( ) );
 		lineSeriesEClass.getESuperTypes( )
 				.add( theComponentPackage.getSeries( ) );
@@ -598,6 +838,17 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				null,
 				"riserOutline", null, 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
+		initEClass( bubbleSeriesEClass,
+				BubbleSeries.class,
+				"BubbleSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getBubbleSeries_AccLineAttributes( ),
+				theAttributePackage.getLineAttributes( ),
+				null,
+				"accLineAttributes", null, 0, 1, BubbleSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getBubbleSeries_AccOrientation( ),
+				theAttributePackage.getOrientation( ),
+				"accOrientation", "Horizontal", 0, 1, BubbleSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+
 		initEClass( dialSeriesEClass,
 				DialSeries.class,
 				"DialSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -609,6 +860,61 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				theComponentPackage.getNeedle( ),
 				null,
 				"needle", null, 1, 1, DialSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( differenceSeriesEClass,
+				DifferenceSeries.class,
+				"DifferenceSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getDifferenceSeries_NegativeMarkers( ),
+				theAttributePackage.getMarker( ),
+				null,
+				"negativeMarkers", null, 0, -1, DifferenceSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDifferenceSeries_NegativeLineAttributes( ),
+				theAttributePackage.getLineAttributes( ),
+				null,
+				"negativeLineAttributes", null, 0, 1, DifferenceSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( ganttSeriesEClass,
+				GanttSeries.class,
+				"GanttSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getGanttSeries_StartMarker( ),
+				theAttributePackage.getMarker( ),
+				null,
+				"startMarker", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getGanttSeries_StartMarkerPosition( ),
+				theAttributePackage.getPosition( ),
+				"startMarkerPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference( getGanttSeries_EndMarker( ),
+				theAttributePackage.getMarker( ),
+				null,
+				"endMarker", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getGanttSeries_EndMarkerPosition( ),
+				theAttributePackage.getPosition( ),
+				"endMarkerPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEReference( getGanttSeries_ConnectionLine( ),
+				theAttributePackage.getLineAttributes( ),
+				null,
+				"connectionLine", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getGanttSeries_Outline( ),
+				theAttributePackage.getLineAttributes( ),
+				null,
+				"outline", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getGanttSeries_OutlineFill( ),
+				theAttributePackage.getFill( ),
+				null,
+				"outlineFill", null, 0, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getGanttSeries_UseDecorationLabelValue( ),
+				theXMLTypePackage.getBoolean( ),
+				"useDecorationLabelValue", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getGanttSeries_DecorationLabel( ),
+				theComponentPackage.getLabel( ),
+				null,
+				"decorationLabel", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getGanttSeries_DecorationLabelPosition( ),
+				theAttributePackage.getPosition( ),
+				"decorationLabelPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getGanttSeries_PaletteLineColor( ),
+				theXMLTypePackage.getBoolean( ),
+				"paletteLineColor", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( lineSeriesEClass,
 				LineSeries.class,
@@ -729,6 +1035,20 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "RiserOutline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( bubbleSeriesEClass, source, new String[]{
+				"name", "BubbleSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getBubbleSeries_AccLineAttributes( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "AccLineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getBubbleSeries_AccOrientation( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "AccOrientation" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( dialSeriesEClass, source, new String[]{
 				"name", "DialSeries", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -741,6 +1061,80 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Needle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( differenceSeriesEClass, source, new String[]{
+				"name", "DifferenceSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDifferenceSeries_NegativeMarkers( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "NegativeMarkers" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getDifferenceSeries_NegativeLineAttributes( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "NegativeLineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( ganttSeriesEClass, source, new String[]{
+				"name", "GanttSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_StartMarker( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StartMarker" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_StartMarkerPosition( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "StartMarkerPosition" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getGanttSeries_EndMarker( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "EndMarker" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_EndMarkerPosition( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "EndMarkerPosition" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getGanttSeries_ConnectionLine( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ConnectionLine" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_Outline( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_OutlineFill( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "OutlineFill" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_UseDecorationLabelValue( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "UseDecorationLabelValue" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getGanttSeries_DecorationLabel( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DecorationLabel" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getGanttSeries_DecorationLabelPosition( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "DecorationLabelPosition" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getGanttSeries_PaletteLineColor( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "PaletteLineColor" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( lineSeriesEClass, source, new String[]{
 				"name", "LineSeries", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

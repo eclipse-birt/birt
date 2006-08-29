@@ -40,7 +40,6 @@ import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -699,7 +698,8 @@ public class DataProcessor
 		if ( rsw.getRowCount( ) > 0 )
 		{
 			// apply base series grouping
-			rsw.applyBaseSeriesSortingAndGrouping( sdGrouping, saOrthogonalDataDefinitions );
+			rsw.applyBaseSeriesSortingAndGrouping( sdGrouping,
+					saOrthogonalDataDefinitions );
 		}
 		return rsw;
 	}
@@ -918,8 +918,8 @@ public class DataProcessor
 		}
 	}
 
-	private void generateRuntimeSeries( ChartWithAxes cwa,
-			ResultSetWrapper rsw ) throws ChartException
+	private void generateRuntimeSeries( ChartWithAxes cwa, ResultSetWrapper rsw )
+			throws ChartException
 	{
 		final int iGroupCount = rsw.getGroupCount( );
 
@@ -1127,8 +1127,8 @@ public class DataProcessor
 		}
 	}
 
-	private DataSet adjustDataSet( DataSet ds, int maxcount,
-			List indexMap, DataSet[] userDs )
+	private DataSet adjustDataSet( DataSet ds, int maxcount, List indexMap,
+			DataSet[] userDs )
 	{
 		ds = adjustEachDataSet( ds, indexMap );
 
@@ -1330,8 +1330,9 @@ public class DataProcessor
 				ds.setValues( stringBuffer );
 			}
 		}
-		else if ( ds instanceof StockDataSet )
+		else
 		{
+			// for other anonymous types
 			if ( oContent instanceof Collection )
 			{
 				co = (Collection) oContent;
@@ -1437,8 +1438,8 @@ public class DataProcessor
 	/**
 	 * Fill series with populated and adjusted dataset.
 	 */
-	private void fillSeriesDataSet( IDataSetProcessor idsp,
-			Series seRuntime, DataSet ds ) throws ChartException
+	private void fillSeriesDataSet( IDataSetProcessor idsp, Series seRuntime,
+			DataSet ds ) throws ChartException
 	{
 		fillSeriesDataSet( idsp, seRuntime, ds, null, null );
 	}
@@ -1446,8 +1447,8 @@ public class DataProcessor
 	/**
 	 * Fill series with populated and adjusted dataset.
 	 */
-	private void fillSeriesDataSet( IDataSetProcessor idsp,
-			Series seRuntime, DataSet ds, String[] userKeys, DataSet[] userDs )
+	private void fillSeriesDataSet( IDataSetProcessor idsp, Series seRuntime,
+			DataSet ds, String[] userKeys, DataSet[] userDs )
 			throws ChartException
 	{
 		final ScriptHandler sh = rtc.getScriptHandler( );

@@ -54,25 +54,24 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarkers <em>Markers</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarker <em>Marker</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isConnectMissingValue <em>Connect Missing Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarkers <em>Markers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarker <em>Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isConnectMissingValue <em>Connect Missing Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class LineSeriesImpl extends SeriesImpl implements LineSeries
 {
 
 	/**
-	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMarkers()
 	 * @generated
 	 * @ordered
@@ -80,9 +79,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected EList markers = null;
 
 	/**
-	 * The cached value of the '{@link #getMarker() <em>Marker</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMarker() <em>Marker</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMarker()
 	 * @generated
 	 * @ordered
@@ -90,9 +88,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected Marker marker = null;
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -100,9 +97,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -110,9 +106,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected static final boolean PALETTE_LINE_COLOR_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -131,7 +126,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	/**
 	 * The default value of the '{@link #isCurve() <em>Curve</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #isCurve()
 	 * @generated
 	 * @ordered
@@ -141,7 +135,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	/**
 	 * The cached value of the '{@link #isCurve() <em>Curve</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #isCurve()
 	 * @generated
 	 * @ordered
@@ -149,18 +142,17 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected boolean curve = CURVE_EDEFAULT;
 
 	/**
-	 * This is true if the Curve attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Curve attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean curveESet = false;
 
 	/**
-	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getShadowColor()
 	 * @generated
 	 * @ordered
@@ -168,9 +160,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected ColorDefinition shadowColor = null;
 
 	/**
-	 * The default value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isConnectMissingValue()
 	 * @generated
 	 * @ordered
@@ -178,9 +169,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected static final boolean CONNECT_MISSING_VALUE_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isConnectMissingValue() <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isConnectMissingValue()
 	 * @generated
 	 * @ordered
@@ -198,7 +188,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected LineSeriesImpl( )
@@ -208,7 +197,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -218,7 +206,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getMarkers( )
@@ -247,7 +234,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMarker( Marker newMarker,
@@ -285,7 +271,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -295,7 +280,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -320,7 +304,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -354,7 +337,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isPaletteLineColor( )
@@ -364,7 +346,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPaletteLineColor( boolean newPaletteLineColor )
@@ -384,7 +365,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetPaletteLineColor( )
@@ -404,7 +384,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetPaletteLineColor( )
@@ -414,7 +393,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isCurve( )
@@ -424,7 +402,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setCurve( boolean newCurve )
@@ -444,7 +421,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetCurve( )
@@ -464,7 +440,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetCurve( )
@@ -474,7 +449,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ColorDefinition getShadowColor( )
@@ -484,7 +458,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetShadowColor(
@@ -509,7 +482,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setShadowColor( ColorDefinition newShadowColor )
@@ -543,7 +515,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isConnectMissingValue( )
@@ -553,7 +524,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setConnectMissingValue( boolean newConnectMissingValue )
@@ -573,7 +543,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetConnectMissingValue( )
@@ -593,7 +562,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetConnectMissingValue( )
@@ -603,7 +571,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -626,7 +593,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -653,7 +619,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -688,7 +653,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -722,7 +686,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -749,7 +712,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

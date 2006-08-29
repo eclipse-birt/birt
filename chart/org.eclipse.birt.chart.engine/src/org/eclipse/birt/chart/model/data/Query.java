@@ -65,7 +65,7 @@ public interface Query extends EObject
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Rules</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Rules()
-	 * @model type="org.eclipse.birt.chart.model.data.Rule" containment="true" resolveProxies="false" required="true"
+	 * @model type="org.eclipse.birt.chart.model.data.Rule" containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Rules'"
 	 * @generated
 	 */

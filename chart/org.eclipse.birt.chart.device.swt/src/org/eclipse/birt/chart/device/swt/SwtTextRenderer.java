@@ -411,6 +411,11 @@ final class SwtTextRenderer implements IConstants
 				bb.setTop( lo.getY( ) - bb.getHotPoint( ) );
 				bb.setLeft( lo.getX( ) );
 				break;
+
+			case INSIDE :
+				bb.setTop( lo.getY( ) - bb.getHeight( ) / 2 );
+				bb.setLeft( lo.getX( ) - bb.getWidth( ) / 2 );
+				break;
 		}
 
 		// RENDER Shadow around the text label
@@ -612,13 +617,13 @@ final class SwtTextRenderer implements IConstants
 			int iLineStyle = SWT.LINE_SOLID;
 			switch ( lia.getStyle( ).getValue( ) )
 			{
-				case ( LineStyle.DOTTED                    ) :
+				case ( LineStyle.DOTTED                     ) :
 					iLineStyle = SWT.LINE_DOT;
 					break;
-				case ( LineStyle.DASH_DOTTED                    ) :
+				case ( LineStyle.DASH_DOTTED                     ) :
 					iLineStyle = SWT.LINE_DASHDOT;
 					break;
-				case ( LineStyle.DASHED                    ) :
+				case ( LineStyle.DASHED                     ) :
 					iLineStyle = SWT.LINE_DASH;
 					break;
 			}

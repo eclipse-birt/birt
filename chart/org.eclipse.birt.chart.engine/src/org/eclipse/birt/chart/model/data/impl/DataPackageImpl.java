@@ -18,12 +18,15 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
+import org.eclipse.birt.chart.model.data.DifferenceDataSet;
+import org.eclipse.birt.chart.model.data.GanttDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
@@ -69,6 +72,13 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	private EClass baseSampleDataEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass bubbleDataSetEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -91,6 +101,20 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	 * @generated
 	 */
 	private EClass dateTimeDataSetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass differenceDataSetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ganttDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -231,28 +255,28 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				: ComponentPackage.eINSTANCE );
 		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackage.eINSTANCE );
 		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
 		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theDataPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theDataPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theDataPackage.freeze( );
@@ -304,6 +328,16 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	{
 		return (EAttribute) baseSampleDataEClass.getEStructuralFeatures( )
 				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBubbleDataSet( )
+	{
+		return bubbleDataSetEClass;
 	}
 
 	/**
@@ -359,6 +393,26 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	public EClass getDateTimeDataSet( )
 	{
 		return dateTimeDataSetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDifferenceDataSet( )
+	{
+		return differenceDataSetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGanttDataSet( )
+	{
+		return ganttDataSetEClass;
 	}
 
 	/**
@@ -759,6 +813,8 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		createEAttribute( baseSampleDataEClass,
 				BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION );
 
+		bubbleDataSetEClass = createEClass( BUBBLE_DATA_SET );
+
 		dataElementEClass = createEClass( DATA_ELEMENT );
 
 		dataSetEClass = createEClass( DATA_SET );
@@ -769,6 +825,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				DATE_TIME_DATA_ELEMENT__VALUE );
 
 		dateTimeDataSetEClass = createEClass( DATE_TIME_DATA_SET );
+
+		differenceDataSetEClass = createEClass( DIFFERENCE_DATA_SET );
+
+		ganttDataSetEClass = createEClass( GANTT_DATA_SET );
 
 		numberDataElementEClass = createEClass( NUMBER_DATA_ELEMENT );
 		createEAttribute( numberDataElementEClass, NUMBER_DATA_ELEMENT__VALUE );
@@ -860,9 +920,12 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Add supertypes to classes
+		bubbleDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		dateTimeDataElementEClass.getESuperTypes( )
 				.add( this.getDataElement( ) );
 		dateTimeDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
+		differenceDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
+		ganttDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		numberDataElementEClass.getESuperTypes( ).add( this.getDataElement( ) );
 		numberDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		stockDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
@@ -887,6 +950,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				theXMLTypePackage.getString( ),
 				"dataSetRepresentation", null, 1, 1, BaseSampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
+		initEClass( bubbleDataSetEClass,
+				BubbleDataSet.class,
+				"BubbleDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
 		initEClass( dataElementEClass,
 				DataElement.class,
 				"DataElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -908,6 +975,14 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		initEClass( dateTimeDataSetEClass,
 				DateTimeDataSet.class,
 				"DateTimeDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
+		initEClass( differenceDataSetEClass,
+				DifferenceDataSet.class,
+				"DifferenceDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
+		initEClass( ganttDataSetEClass,
+				GanttDataSet.class,
+				"GanttDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( numberDataElementEClass,
 				NumberDataElement.class,
@@ -1088,6 +1163,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
+		addAnnotation( bubbleDataSetEClass, source, new String[]{
+				"name", "BubbleDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( dataEDataType, source, new String[]{
 				"name", "Data" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
@@ -1113,6 +1192,14 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		} );
 		addAnnotation( dateTimeDataSetEClass, source, new String[]{
 				"name", "DateTimeDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( differenceDataSetEClass, source, new String[]{
+				"name", "DifferenceDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( ganttDataSetEClass, source, new String[]{
+				"name", "GanttDataSet", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( numberDataElementEClass, source, new String[]{

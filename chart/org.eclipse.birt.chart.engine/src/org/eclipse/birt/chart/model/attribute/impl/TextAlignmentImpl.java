@@ -27,20 +27,19 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getHorizontalAlignment <em>Horizontal Alignment</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getVerticalAlignment <em>Vertical Alignment</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getHorizontalAlignment <em>Horizontal Alignment</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl#getVerticalAlignment <em>Vertical Alignment</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 {
 
 	/**
-	 * The default value of the '{@link #getHorizontalAlignment() <em>Horizontal Alignment</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getHorizontalAlignment() <em>Horizontal Alignment</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalAlignment()
 	 * @generated
 	 * @ordered
@@ -48,9 +47,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	protected static final HorizontalAlignment HORIZONTAL_ALIGNMENT_EDEFAULT = HorizontalAlignment.LEFT_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getHorizontalAlignment() <em>Horizontal Alignment</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getHorizontalAlignment() <em>Horizontal Alignment</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalAlignment()
 	 * @generated
 	 * @ordered
@@ -67,9 +65,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	protected boolean horizontalAlignmentESet = false;
 
 	/**
-	 * The default value of the '{@link #getVerticalAlignment() <em>Vertical Alignment</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getVerticalAlignment() <em>Vertical Alignment</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getVerticalAlignment()
 	 * @generated
 	 * @ordered
@@ -77,9 +74,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	protected static final VerticalAlignment VERTICAL_ALIGNMENT_EDEFAULT = VerticalAlignment.TOP_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getVerticalAlignment() <em>Vertical Alignment</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getVerticalAlignment() <em>Vertical Alignment</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getVerticalAlignment()
 	 * @generated
 	 * @ordered
@@ -97,7 +93,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TextAlignmentImpl( )
@@ -107,7 +102,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -117,7 +111,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public HorizontalAlignment getHorizontalAlignment( )
@@ -127,7 +120,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setHorizontalAlignment(
@@ -149,7 +141,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetHorizontalAlignment( )
@@ -169,7 +160,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetHorizontalAlignment( )
@@ -179,7 +169,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public VerticalAlignment getVerticalAlignment( )
@@ -189,7 +178,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVerticalAlignment( VerticalAlignment newVerticalAlignment )
@@ -210,7 +198,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVerticalAlignment( )
@@ -230,7 +217,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVerticalAlignment( )
@@ -240,7 +226,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -257,7 +242,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -276,7 +260,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -295,7 +278,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -312,7 +294,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

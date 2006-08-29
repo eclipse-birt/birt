@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.computation;
 
+import org.eclipse.birt.chart.datafeed.IFormattable;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
@@ -31,17 +32,15 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ * This class handles the formatting work of any data value.
  */
 public final class ValueFormatter
 {
 
-	/**
-	 * 
-	 */
 	private static final String sNegativeZero = "-0."; //$NON-NLS-1$
 
 	/**
+	 * Returns the formatted string representation of given object.
 	 * 
 	 * @param oValue
 	 * @param fs
@@ -99,6 +98,11 @@ public final class ValueFormatter
 						return ( (DateFormat) oCachedJavaFormatter ).format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 					}
 				}
+				else if ( oValue instanceof IFormattable )
+				{
+					return ( (IFormattable) oValue ).getFormattedString( oCachedJavaFormatter,
+							lcl );
+				}
 			}
 			else
 			{
@@ -122,6 +126,10 @@ public final class ValueFormatter
 							.format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 				}
 			}
+		}
+		else if ( oValue instanceof IFormattable )
+		{
+			return ( (IFormattable) oValue ).getFormattedString( fs, lcl );
 		}
 		else if ( NumberFormatSpecifier.class.isInstance( fs ) )
 		{
@@ -223,7 +231,7 @@ public final class ValueFormatter
 	 * @param dValue
 	 * @return corrected number
 	 */
-	public static final String correctNumber( String sValue, double dValue )
+	private static final String correctNumber( String sValue, double dValue )
 	{
 		int n = ( sValue.length( ) - sNegativeZero.length( ) );
 		final StringBuffer sb = new StringBuffer( sNegativeZero );

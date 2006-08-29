@@ -83,7 +83,7 @@ public interface TypePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getLineSeries()
 	 * @generated
 	 */
-	int LINE_SERIES = 3;
+	int LINE_SERIES = 6;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -554,7 +554,406 @@ public interface TypePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getDialSeries()
 	 * @generated
 	 */
-	int DIAL_SERIES = 2;
+	int DIAL_SERIES = 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl <em>Difference Series</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl
+	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getDifferenceSeries()
+	 * @generated
+	 */
+	int DIFFERENCE_SERIES = 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl <em>Gantt Series</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl
+	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getGanttSeries()
+	 * @generated
+	 */
+	int GANTT_SERIES = 5;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.type.impl.PieSeriesImpl
+	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getPieSeries()
+	 * @generated
+	 */
+	int PIE_SERIES = 7;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl <em>Scatter Series</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl
+	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getScatterSeries()
+	 * @generated
+	 */
+	int SCATTER_SERIES = 8;
+
+	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__VISIBLE = LINE_SERIES__VISIBLE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__LABEL = LINE_SERIES__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Data Definition</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__DATA_DEFINITION = LINE_SERIES__DATA_DEFINITION;
+
+	/**
+	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__SERIES_IDENTIFIER = LINE_SERIES__SERIES_IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__DATA_POINT = LINE_SERIES__DATA_POINT;
+
+	/**
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__DATA_SETS = LINE_SERIES__DATA_SETS;
+
+	/**
+	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__LABEL_POSITION = LINE_SERIES__LABEL_POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Stacked</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__STACKED = LINE_SERIES__STACKED;
+
+	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__TRIGGERS = LINE_SERIES__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Translucent</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__TRANSLUCENT = LINE_SERIES__TRANSLUCENT;
+
+	/**
+	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__CURVE_FITTING = LINE_SERIES__CURVE_FITTING;
+
+	/**
+	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__MARKERS = LINE_SERIES__MARKERS;
+
+	/**
+	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__MARKER = LINE_SERIES__MARKER;
+
+	/**
+	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__LINE_ATTRIBUTES = LINE_SERIES__LINE_ATTRIBUTES;
+
+	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__PALETTE_LINE_COLOR = LINE_SERIES__PALETTE_LINE_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Curve</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__CURVE = LINE_SERIES__CURVE;
+
+	/**
+	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__CONNECT_MISSING_VALUE = LINE_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Scatter Series</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES_FEATURE_COUNT = LINE_SERIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl <em>Bubble Series</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl
+	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getBubbleSeries()
+	 * @generated
+	 */
+	int BUBBLE_SERIES = 2;
+
+	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__VISIBLE = SCATTER_SERIES__VISIBLE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__LABEL = SCATTER_SERIES__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Data Definition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__DATA_DEFINITION = SCATTER_SERIES__DATA_DEFINITION;
+
+	/**
+	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__SERIES_IDENTIFIER = SCATTER_SERIES__SERIES_IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__DATA_POINT = SCATTER_SERIES__DATA_POINT;
+
+	/**
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__DATA_SETS = SCATTER_SERIES__DATA_SETS;
+
+	/**
+	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__LABEL_POSITION = SCATTER_SERIES__LABEL_POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Stacked</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__STACKED = SCATTER_SERIES__STACKED;
+
+	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__TRIGGERS = SCATTER_SERIES__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Translucent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__TRANSLUCENT = SCATTER_SERIES__TRANSLUCENT;
+
+	/**
+	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__CURVE_FITTING = SCATTER_SERIES__CURVE_FITTING;
+
+	/**
+	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__MARKERS = SCATTER_SERIES__MARKERS;
+
+	/**
+	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__MARKER = SCATTER_SERIES__MARKER;
+
+	/**
+	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__LINE_ATTRIBUTES = SCATTER_SERIES__LINE_ATTRIBUTES;
+
+	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__PALETTE_LINE_COLOR = SCATTER_SERIES__PALETTE_LINE_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Curve</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__CURVE = SCATTER_SERIES__CURVE;
+
+	/**
+	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__SHADOW_COLOR = SCATTER_SERIES__SHADOW_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__CONNECT_MISSING_VALUE = SCATTER_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Acc Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__ACC_LINE_ATTRIBUTES = SCATTER_SERIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Acc Orientation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__ACC_ORIENTATION = SCATTER_SERIES_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Bubble Series</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES_FEATURE_COUNT = SCATTER_SERIES_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute.
@@ -683,13 +1082,400 @@ public interface TypePackage extends EPackage
 	int DIAL_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.type.impl.PieSeriesImpl
-	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getPieSeries()
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
+	 * @ordered
 	 */
-	int PIE_SERIES = 4;
+	int DIFFERENCE_SERIES__VISIBLE = AREA_SERIES__VISIBLE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__LABEL = AREA_SERIES__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Data Definition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__DATA_DEFINITION = AREA_SERIES__DATA_DEFINITION;
+
+	/**
+	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__SERIES_IDENTIFIER = AREA_SERIES__SERIES_IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__DATA_POINT = AREA_SERIES__DATA_POINT;
+
+	/**
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__DATA_SETS = AREA_SERIES__DATA_SETS;
+
+	/**
+	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__LABEL_POSITION = AREA_SERIES__LABEL_POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Stacked</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__STACKED = AREA_SERIES__STACKED;
+
+	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__TRIGGERS = AREA_SERIES__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Translucent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__TRANSLUCENT = AREA_SERIES__TRANSLUCENT;
+
+	/**
+	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__CURVE_FITTING = AREA_SERIES__CURVE_FITTING;
+
+	/**
+	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__MARKERS = AREA_SERIES__MARKERS;
+
+	/**
+	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__MARKER = AREA_SERIES__MARKER;
+
+	/**
+	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__LINE_ATTRIBUTES = AREA_SERIES__LINE_ATTRIBUTES;
+
+	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__PALETTE_LINE_COLOR = AREA_SERIES__PALETTE_LINE_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Curve</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__CURVE = AREA_SERIES__CURVE;
+
+	/**
+	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__SHADOW_COLOR = AREA_SERIES__SHADOW_COLOR;
+
+	/**
+	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__CONNECT_MISSING_VALUE = AREA_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Negative Markers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__NEGATIVE_MARKERS = AREA_SERIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Negative Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES = AREA_SERIES_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Difference Series</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES_FEATURE_COUNT = AREA_SERIES_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__VISIBLE = ComponentPackage.SERIES__VISIBLE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__LABEL = ComponentPackage.SERIES__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Data Definition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__DATA_DEFINITION = ComponentPackage.SERIES__DATA_DEFINITION;
+
+	/**
+	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__SERIES_IDENTIFIER = ComponentPackage.SERIES__SERIES_IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
+
+	/**
+	 * The feature id for the '<em><b>Data Sets</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__DATA_SETS = ComponentPackage.SERIES__DATA_SETS;
+
+	/**
+	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__LABEL_POSITION = ComponentPackage.SERIES__LABEL_POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Stacked</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__STACKED = ComponentPackage.SERIES__STACKED;
+
+	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__TRIGGERS = ComponentPackage.SERIES__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Translucent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__TRANSLUCENT = ComponentPackage.SERIES__TRANSLUCENT;
+
+	/**
+	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
+
+	/**
+	 * The feature id for the '<em><b>Start Marker</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__START_MARKER = ComponentPackage.SERIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Start Marker Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__START_MARKER_POSITION = ComponentPackage.SERIES_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>End Marker</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__END_MARKER = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>End Marker Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__END_MARKER_POSITION = ComponentPackage.SERIES_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Connection Line</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__CONNECTION_LINE = ComponentPackage.SERIES_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__OUTLINE = ComponentPackage.SERIES_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Outline Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__OUTLINE_FILL = ComponentPackage.SERIES_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Use Decoration Label Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__USE_DECORATION_LABEL_VALUE = ComponentPackage.SERIES_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Decoration Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__DECORATION_LABEL = ComponentPackage.SERIES_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Decoration Label Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__DECORATION_LABEL_POSITION = ComponentPackage.SERIES_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES__PALETTE_LINE_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 10;
+
+	/**
+	 * The number of structural features of the '<em>Gantt Series</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GANTT_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -868,184 +1654,13 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 9;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl <em>Scatter Series</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl
-	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getScatterSeries()
-	 * @generated
-	 */
-	int SCATTER_SERIES = 5;
-
-	/**
-	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__VISIBLE = LINE_SERIES__VISIBLE;
-
-	/**
-	 * The feature id for the '<em><b>Label</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__LABEL = LINE_SERIES__LABEL;
-
-	/**
-	 * The feature id for the '<em><b>Data Definition</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__DATA_DEFINITION = LINE_SERIES__DATA_DEFINITION;
-
-	/**
-	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__SERIES_IDENTIFIER = LINE_SERIES__SERIES_IDENTIFIER;
-
-	/**
-	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__DATA_POINT = LINE_SERIES__DATA_POINT;
-
-	/**
-	 * The feature id for the '<em><b>Data Sets</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__DATA_SETS = LINE_SERIES__DATA_SETS;
-
-	/**
-	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__LABEL_POSITION = LINE_SERIES__LABEL_POSITION;
-
-	/**
-	 * The feature id for the '<em><b>Stacked</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__STACKED = LINE_SERIES__STACKED;
-
-	/**
-	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__TRIGGERS = LINE_SERIES__TRIGGERS;
-
-	/**
-	 * The feature id for the '<em><b>Translucent</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__TRANSLUCENT = LINE_SERIES__TRANSLUCENT;
-
-	/**
-	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__CURVE_FITTING = LINE_SERIES__CURVE_FITTING;
-
-	/**
-	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__MARKERS = LINE_SERIES__MARKERS;
-
-	/**
-	 * The feature id for the '<em><b>Marker</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__MARKER = LINE_SERIES__MARKER;
-
-	/**
-	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__LINE_ATTRIBUTES = LINE_SERIES__LINE_ATTRIBUTES;
-
-	/**
-	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__PALETTE_LINE_COLOR = LINE_SERIES__PALETTE_LINE_COLOR;
-
-	/**
-	 * The feature id for the '<em><b>Curve</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__CURVE = LINE_SERIES__CURVE;
-
-	/**
-	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__SHADOW_COLOR = LINE_SERIES__SHADOW_COLOR;
-
-	/**
-	 * The feature id for the '<em><b>Connect Missing Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES__CONNECT_MISSING_VALUE = LINE_SERIES__CONNECT_MISSING_VALUE;
-
-	/**
-	 * The number of structural features of the '<em>Scatter Series</em>' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCATTER_SERIES_FEATURE_COUNT = LINE_SERIES_FEATURE_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl <em>Stock Series</em>}' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.type.impl.StockSeriesImpl
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getStockSeries()
 	 * @generated
 	 */
-	int STOCK_SERIES = 6;
+	int STOCK_SERIES = 9;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -1222,6 +1837,38 @@ public interface TypePackage extends EPackage
 	EReference getBarSeries_RiserOutline( );
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.BubbleSeries <em>Bubble Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Bubble Series</em>'.
+	 * @see org.eclipse.birt.chart.model.type.BubbleSeries
+	 * @generated
+	 */
+	EClass getBubbleSeries( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccLineAttributes <em>Acc Line Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Acc Line Attributes</em>'.
+	 * @see org.eclipse.birt.chart.model.type.BubbleSeries#getAccLineAttributes()
+	 * @see #getBubbleSeries()
+	 * @generated
+	 */
+	EReference getBubbleSeries_AccLineAttributes( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation <em>Acc Orientation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Acc Orientation</em>'.
+	 * @see org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation()
+	 * @see #getBubbleSeries()
+	 * @generated
+	 */
+	EAttribute getBubbleSeries_AccOrientation( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.DialSeries <em>Dial Series</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1252,6 +1899,169 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 */
 	EReference getDialSeries_Needle( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.DifferenceSeries <em>Difference Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Difference Series</em>'.
+	 * @see org.eclipse.birt.chart.model.type.DifferenceSeries
+	 * @generated
+	 */
+	EClass getDifferenceSeries( );
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeMarkers <em>Negative Markers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Negative Markers</em>'.
+	 * @see org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeMarkers()
+	 * @see #getDifferenceSeries()
+	 * @generated
+	 */
+	EReference getDifferenceSeries_NegativeMarkers( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeLineAttributes <em>Negative Line Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Negative Line Attributes</em>'.
+	 * @see org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeLineAttributes()
+	 * @see #getDifferenceSeries()
+	 * @generated
+	 */
+	EReference getDifferenceSeries_NegativeLineAttributes( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.GanttSeries <em>Gantt Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Gantt Series</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries
+	 * @generated
+	 */
+	EClass getGanttSeries( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.GanttSeries#getStartMarker <em>Start Marker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Start Marker</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getStartMarker()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EReference getGanttSeries_StartMarker( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.GanttSeries#getStartMarkerPosition <em>Start Marker Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Start Marker Position</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getStartMarkerPosition()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EAttribute getGanttSeries_StartMarkerPosition( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.GanttSeries#getEndMarker <em>End Marker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>End Marker</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getEndMarker()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EReference getGanttSeries_EndMarker( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.GanttSeries#getEndMarkerPosition <em>End Marker Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>End Marker Position</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getEndMarkerPosition()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EAttribute getGanttSeries_EndMarkerPosition( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.GanttSeries#getConnectionLine <em>Connection Line</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Connection Line</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getConnectionLine()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EReference getGanttSeries_ConnectionLine( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.GanttSeries#getOutline <em>Outline</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Outline</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getOutline()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EReference getGanttSeries_Outline( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.GanttSeries#getOutlineFill <em>Outline Fill</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Outline Fill</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getOutlineFill()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EReference getGanttSeries_OutlineFill( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.GanttSeries#isUseDecorationLabelValue <em>Use Decoration Label Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Use Decoration Label Value</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#isUseDecorationLabelValue()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EAttribute getGanttSeries_UseDecorationLabelValue( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabel <em>Decoration Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Decoration Label</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabel()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EReference getGanttSeries_DecorationLabel( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabelPosition <em>Decoration Label Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Decoration Label Position</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#getDecorationLabelPosition()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EAttribute getGanttSeries_DecorationLabelPosition( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.GanttSeries#isPaletteLineColor <em>Palette Line Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Palette Line Color</em>'.
+	 * @see org.eclipse.birt.chart.model.type.GanttSeries#isPaletteLineColor()
+	 * @see #getGanttSeries()
+	 * @generated
+	 */
+	EAttribute getGanttSeries_PaletteLineColor( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'.
@@ -1558,6 +2368,32 @@ public interface TypePackage extends EPackage
 		EReference BAR_SERIES__RISER_OUTLINE = eINSTANCE.getBarSeries_RiserOutline( );
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl <em>Bubble Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getBubbleSeries()
+		 * @generated
+		 */
+		EClass BUBBLE_SERIES = eINSTANCE.getBubbleSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Acc Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BUBBLE_SERIES__ACC_LINE_ATTRIBUTES = eINSTANCE.getBubbleSeries_AccLineAttributes( );
+
+		/**
+		 * The meta object literal for the '<em><b>Acc Orientation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BUBBLE_SERIES__ACC_ORIENTATION = eINSTANCE.getBubbleSeries_AccOrientation( );
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl <em>Dial Series</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1582,6 +2418,130 @@ public interface TypePackage extends EPackage
 		 * @generated
 		 */
 		EReference DIAL_SERIES__NEEDLE = eINSTANCE.getDialSeries_Needle( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl <em>Difference Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getDifferenceSeries()
+		 * @generated
+		 */
+		EClass DIFFERENCE_SERIES = eINSTANCE.getDifferenceSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Negative Markers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIFFERENCE_SERIES__NEGATIVE_MARKERS = eINSTANCE.getDifferenceSeries_NegativeMarkers( );
+
+		/**
+		 * The meta object literal for the '<em><b>Negative Line Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES = eINSTANCE.getDifferenceSeries_NegativeLineAttributes( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl <em>Gantt Series</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl
+		 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getGanttSeries()
+		 * @generated
+		 */
+		EClass GANTT_SERIES = eINSTANCE.getGanttSeries( );
+
+		/**
+		 * The meta object literal for the '<em><b>Start Marker</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GANTT_SERIES__START_MARKER = eINSTANCE.getGanttSeries_StartMarker( );
+
+		/**
+		 * The meta object literal for the '<em><b>Start Marker Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GANTT_SERIES__START_MARKER_POSITION = eINSTANCE.getGanttSeries_StartMarkerPosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>End Marker</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GANTT_SERIES__END_MARKER = eINSTANCE.getGanttSeries_EndMarker( );
+
+		/**
+		 * The meta object literal for the '<em><b>End Marker Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GANTT_SERIES__END_MARKER_POSITION = eINSTANCE.getGanttSeries_EndMarkerPosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Connection Line</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GANTT_SERIES__CONNECTION_LINE = eINSTANCE.getGanttSeries_ConnectionLine( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GANTT_SERIES__OUTLINE = eINSTANCE.getGanttSeries_Outline( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline Fill</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GANTT_SERIES__OUTLINE_FILL = eINSTANCE.getGanttSeries_OutlineFill( );
+
+		/**
+		 * The meta object literal for the '<em><b>Use Decoration Label Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GANTT_SERIES__USE_DECORATION_LABEL_VALUE = eINSTANCE.getGanttSeries_UseDecorationLabelValue( );
+
+		/**
+		 * The meta object literal for the '<em><b>Decoration Label</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GANTT_SERIES__DECORATION_LABEL = eINSTANCE.getGanttSeries_DecorationLabel( );
+
+		/**
+		 * The meta object literal for the '<em><b>Decoration Label Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GANTT_SERIES__DECORATION_LABEL_POSITION = eINSTANCE.getGanttSeries_DecorationLabelPosition( );
+
+		/**
+		 * The meta object literal for the '<em><b>Palette Line Color</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GANTT_SERIES__PALETTE_LINE_COLOR = eINSTANCE.getGanttSeries_PaletteLineColor( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl <em>Line Series</em>}' class.

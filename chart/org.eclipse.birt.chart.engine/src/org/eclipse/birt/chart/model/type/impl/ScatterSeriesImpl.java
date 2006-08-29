@@ -74,7 +74,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * @return
 	 */
-	public static final Series create( )
+	public static Series create( )
 	{
 		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries( );
 		( (ScatterSeriesImpl) ss ).initialize( );
@@ -86,7 +86,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * Note: Manually written
 	 */
-	protected final void initialize( )
+	protected void initialize( )
 	{
 		super.initialize( );
 		getLineAttributes( ).setVisible( false );

@@ -31,21 +31,20 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition <em>Condition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction <em>Action</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getTriggerFlow <em>Trigger Flow</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition <em>Condition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction <em>Action</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getTriggerFlow <em>Trigger Flow</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class TriggerImpl extends EObjectImpl implements Trigger
 {
 
 	/**
-	 * The default value of the '{@link #getCondition() <em>Condition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCondition()
 	 * @generated
 	 * @ordered
@@ -53,9 +52,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	protected static final TriggerCondition CONDITION_EDEFAULT = TriggerCondition.MOUSE_HOVER_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getCondition() <em>Condition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCondition()
 	 * @generated
 	 * @ordered
@@ -63,18 +61,17 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	protected TriggerCondition condition = CONDITION_EDEFAULT;
 
 	/**
-	 * This is true if the Condition attribute has been set. <!-- begin-user-doc
+	 * This is true if the Condition attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean conditionESet = false;
 
 	/**
-	 * The cached value of the '{@link #getAction() <em>Action</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAction()
 	 * @generated
 	 * @ordered
@@ -82,9 +79,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	protected Action action = null;
 
 	/**
-	 * The default value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTriggerFlow()
 	 * @generated
 	 * @ordered
@@ -92,9 +88,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	protected static final TriggerFlow TRIGGER_FLOW_EDEFAULT = TriggerFlow.CAPTURE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTriggerFlow()
 	 * @generated
 	 * @ordered
@@ -112,7 +107,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TriggerImpl( )
@@ -122,7 +116,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -132,7 +125,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TriggerCondition getCondition( )
@@ -142,7 +134,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setCondition( TriggerCondition newCondition )
@@ -162,7 +153,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetCondition( )
@@ -182,7 +172,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetCondition( )
@@ -192,7 +181,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Action getAction( )
@@ -202,7 +190,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetAction( Action newAction,
@@ -227,7 +214,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setAction( Action newAction )
@@ -259,7 +245,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TriggerFlow getTriggerFlow( )
@@ -269,7 +254,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTriggerFlow( TriggerFlow newTriggerFlow )
@@ -290,7 +274,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTriggerFlow( )
@@ -310,7 +293,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTriggerFlow( )
@@ -320,7 +302,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -336,7 +317,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -355,7 +335,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -377,7 +356,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -399,7 +377,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -418,7 +395,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

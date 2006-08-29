@@ -85,7 +85,7 @@ public interface SampleData extends EObject
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ancillary Sample Data</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSampleData_AncillarySampleData()
-	 * @model type="org.eclipse.birt.chart.model.data.BaseSampleData" containment="true" resolveProxies="false" required="true"
+	 * @model type="org.eclipse.birt.chart.model.data.BaseSampleData" containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='AncillarySampleData'"
 	 * @generated
 	 */

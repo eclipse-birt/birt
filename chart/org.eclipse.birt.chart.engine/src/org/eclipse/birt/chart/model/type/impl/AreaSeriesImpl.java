@@ -74,7 +74,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * 
 	 * @return
 	 */
-	public static final Series create( )
+	public static Series create( )
 	{
 		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries( );
 		( (AreaSeriesImpl) as ).initialize( );

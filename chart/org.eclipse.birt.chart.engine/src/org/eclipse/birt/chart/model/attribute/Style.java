@@ -46,7 +46,7 @@ public interface Style extends EObject
 	 * @return the value of the '<em>Font</em>' containment reference.
 	 * @see #setFont(FontDefinition)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle_Font()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Font'"
 	 * @generated
 	 */
@@ -72,7 +72,7 @@ public interface Style extends EObject
 	 * @return the value of the '<em>Color</em>' containment reference.
 	 * @see #setColor(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle_Color()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Color'"
 	 * @generated
 	 */
@@ -98,7 +98,7 @@ public interface Style extends EObject
 	 * @return the value of the '<em>Background Color</em>' containment reference.
 	 * @see #setBackgroundColor(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle_BackgroundColor()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='BackgroundColor'"
 	 * @generated
 	 */
@@ -124,7 +124,7 @@ public interface Style extends EObject
 	 * @return the value of the '<em>Background Image</em>' containment reference.
 	 * @see #setBackgroundImage(Image)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle_BackgroundImage()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='BackgroundImage'"
 	 * @generated
 	 */
@@ -150,7 +150,7 @@ public interface Style extends EObject
 	 * @return the value of the '<em>Padding</em>' containment reference.
 	 * @see #setPadding(Insets)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle_Padding()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Padding'"
 	 * @generated
 	 */

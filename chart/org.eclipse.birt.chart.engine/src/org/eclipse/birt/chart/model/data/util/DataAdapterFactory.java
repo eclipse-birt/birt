@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.data.util;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -101,6 +103,11 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 			return createBaseSampleDataAdapter( );
 		}
 
+		public Object caseBubbleDataSet( BubbleDataSet object )
+		{
+			return createBubbleDataSetAdapter( );
+		}
+
 		public Object caseDataElement( DataElement object )
 		{
 			return createDataElementAdapter( );
@@ -119,6 +126,16 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 		public Object caseDateTimeDataSet( DateTimeDataSet object )
 		{
 			return createDateTimeDataSetAdapter( );
+		}
+
+		public Object caseDifferenceDataSet( DifferenceDataSet object )
+		{
+			return createDifferenceDataSetAdapter( );
+		}
+
+		public Object caseGanttDataSet( GanttDataSet object )
+		{
+			return createGanttDataSetAdapter( );
 		}
 
 		public Object caseNumberDataElement( NumberDataElement object )
@@ -222,6 +239,21 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.BubbleDataSet <em>Bubble Data Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.data.BubbleDataSet
+	 * @generated
+	 */
+	public Adapter createBubbleDataSetAdapter( )
+	{
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.DataElement <em>Element</em>}'.
 	 * <!-- begin-user-doc --> This default
 	 * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
@@ -273,6 +305,36 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createDateTimeDataSetAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.DifferenceDataSet <em>Difference Data Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.data.DifferenceDataSet
+	 * @generated
+	 */
+	public Adapter createDifferenceDataSetAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.GanttDataSet <em>Gantt Data Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.data.GanttDataSet
+	 * @generated
+	 */
+	public Adapter createGanttDataSetAdapter( )
 	{
 		return null;
 	}

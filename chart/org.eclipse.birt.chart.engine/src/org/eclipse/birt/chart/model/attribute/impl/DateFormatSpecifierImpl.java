@@ -381,10 +381,10 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		}
 		return df.format( c.getTime( ) );
 	}
-	
+
 	public String format( Calendar c, Locale lcl )
 	{
-		return format(c, ULocale.forLocale( lcl ));
+		return format( c, ULocale.forLocale( lcl ) );
 	}
 
 } // DateFormatSpecifierImpl

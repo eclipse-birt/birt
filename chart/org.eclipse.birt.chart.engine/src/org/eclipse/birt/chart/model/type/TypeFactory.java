@@ -47,6 +47,15 @@ public interface TypeFactory extends EFactory
 	BarSeries createBarSeries( );
 
 	/**
+	 * Returns a new object of class '<em>Bubble Series</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Bubble Series</em>'.
+	 * @generated
+	 */
+	BubbleSeries createBubbleSeries( );
+
+	/**
 	 * Returns a new object of class '<em>Dial Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -54,6 +63,24 @@ public interface TypeFactory extends EFactory
 	 * @generated
 	 */
 	DialSeries createDialSeries( );
+
+	/**
+	 * Returns a new object of class '<em>Difference Series</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Difference Series</em>'.
+	 * @generated
+	 */
+	DifferenceSeries createDifferenceSeries( );
+
+	/**
+	 * Returns a new object of class '<em>Gantt Series</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Gantt Series</em>'.
+	 * @generated
+	 */
+	GanttSeries createGanttSeries( );
 
 	/**
 	 * Returns a new object of class '<em>Line Series</em>'.

@@ -98,6 +98,8 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 				return createAction( );
 			case DataPackage.BASE_SAMPLE_DATA :
 				return createBaseSampleData( );
+			case DataPackage.BUBBLE_DATA_SET :
+				return createBubbleDataSet( );
 			case DataPackage.DATA_ELEMENT :
 				return createDataElement( );
 			case DataPackage.DATA_SET :
@@ -106,6 +108,10 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 				return createDateTimeDataElement( );
 			case DataPackage.DATE_TIME_DATA_SET :
 				return createDateTimeDataSet( );
+			case DataPackage.DIFFERENCE_DATA_SET :
+				return createDifferenceDataSet( );
+			case DataPackage.GANTT_DATA_SET :
+				return createGanttDataSet( );
 			case DataPackage.NUMBER_DATA_ELEMENT :
 				return createNumberDataElement( );
 			case DataPackage.NUMBER_DATA_SET :
@@ -186,6 +192,17 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BubbleDataSet createBubbleDataSet( )
+	{
+		BubbleDataSetImpl bubbleDataSet = new BubbleDataSetImpl( );
+		return bubbleDataSet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -223,6 +240,28 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	{
 		DateTimeDataSetImpl dateTimeDataSet = new DateTimeDataSetImpl( );
 		return dateTimeDataSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DifferenceDataSet createDifferenceDataSet( )
+	{
+		DifferenceDataSetImpl differenceDataSet = new DifferenceDataSetImpl( );
+		return differenceDataSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GanttDataSet createGanttDataSet( )
+	{
+		GanttDataSetImpl ganttDataSet = new GanttDataSetImpl( );
+		return ganttDataSet;
 	}
 
 	/**

@@ -25,6 +25,15 @@
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Scatter"
             series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
+      <modelRenderer
+            renderer="org.eclipse.birt.chart.render.Bubble"
+            series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
+      <modelRenderer
+            renderer="org.eclipse.birt.chart.render.Gantt"
+            series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
+      <modelRenderer
+            renderer="org.eclipse.birt.chart.render.Difference"
+            series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.datasetprocessors">
@@ -52,6 +61,15 @@
       <datasetProcessor
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
+      <datasetProcessor
+            processor="org.eclipse.birt.chart.datafeed.BubbleDataSetProcessorImpl"
+            series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
+      <datasetProcessor
+            processor="org.eclipse.birt.chart.datafeed.GanttDataSetProcessorImpl"
+            series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
+      <datasetProcessor
+            processor="org.eclipse.birt.chart.datafeed.DifferenceDataSetProcessorImpl"
+            series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.aggregatefunctions">

@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
@@ -179,6 +180,13 @@ public final class PlotWithoutAxes
 			Series seOrthogonal ) throws ChartException,
 			IllegalArgumentException
 	{
+		if ( seOrthogonal == null
+				|| seOrthogonal.getClass( ) == SeriesImpl.class )
+		{
+			// EMPTY PLOT RENDERING TECHNIQUE
+			return null;
+		}
+
 		final EList elCategories = cwoa.getSeriesDefinitions( );
 		if ( elCategories.size( ) != 1 )
 		{

@@ -21,25 +21,28 @@ import org.eclipse.emf.common.util.EList;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Line Series</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This is a Series type that holds data for Line Charts.
- * 
+ * 			This is a Series type that holds data for Line Charts.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getMarkers <em>Markers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries()
- * @model
+ * @model extendedMetaData="name='LineSeries' kind='elementOnly'"
  * @generated
  */
 public interface LineSeries extends Series
@@ -113,12 +116,9 @@ public interface LineSeries extends Series
 	LineAttributes getLineAttributes( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Line Attributes</em>'
-	 *            containment reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
@@ -143,12 +143,9 @@ public interface LineSeries extends Series
 	boolean isPaletteLineColor( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Palette Line Color</em>'
-	 *            attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Palette Line Color</em>' attribute.
 	 * @see #isSetPaletteLineColor()
 	 * @see #unsetPaletteLineColor()
 	 * @see #isPaletteLineColor()
@@ -157,9 +154,8 @@ public interface LineSeries extends Series
 	void setPaletteLineColor( boolean value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetPaletteLineColor()
 	 * @see #isPaletteLineColor()
 	 * @see #setPaletteLineColor(boolean)
@@ -168,11 +164,9 @@ public interface LineSeries extends Series
 	void unsetPaletteLineColor( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return whether the value of the '<em>Palette Line Color</em>'
-	 *         attribute is set.
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Palette Line Color</em>' attribute is set.
 	 * @see #unsetPaletteLineColor()
 	 * @see #isPaletteLineColor()
 	 * @see #setPaletteLineColor(boolean)
@@ -202,11 +196,9 @@ public interface LineSeries extends Series
 	boolean isCurve( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Curve</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Curve</em>' attribute.
 	 * @see #isSetCurve()
 	 * @see #unsetCurve()
 	 * @see #isCurve()
@@ -215,9 +207,8 @@ public interface LineSeries extends Series
 	void setCurve( boolean value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetCurve()
 	 * @see #isCurve()
 	 * @see #setCurve(boolean)
@@ -226,9 +217,8 @@ public interface LineSeries extends Series
 	void unsetCurve( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Curve</em>' attribute is set.
 	 * @see #unsetCurve()
 	 * @see #isCurve()
@@ -256,12 +246,9 @@ public interface LineSeries extends Series
 	ColorDefinition getShadowColor( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Shadow Color</em>' containment
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Shadow Color</em>' containment reference.
 	 * @see #getShadowColor()
 	 * @generated
 	 */
@@ -287,12 +274,9 @@ public interface LineSeries extends Series
 	boolean isConnectMissingValue( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Connect Missing Value</em>'
-	 *            attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Connect Missing Value</em>' attribute.
 	 * @see #isSetConnectMissingValue()
 	 * @see #unsetConnectMissingValue()
 	 * @see #isConnectMissingValue()
@@ -301,9 +285,8 @@ public interface LineSeries extends Series
 	void setConnectMissingValue( boolean value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetConnectMissingValue()
 	 * @see #isConnectMissingValue()
 	 * @see #setConnectMissingValue(boolean)
@@ -312,11 +295,9 @@ public interface LineSeries extends Series
 	void unsetConnectMissingValue( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return whether the value of the '<em>Connect Missing Value</em>'
-	 *         attribute is set.
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Connect Missing Value</em>' attribute is set.
 	 * @see #unsetConnectMissingValue()
 	 * @see #isConnectMissingValue()
 	 * @see #setConnectMissingValue(boolean)

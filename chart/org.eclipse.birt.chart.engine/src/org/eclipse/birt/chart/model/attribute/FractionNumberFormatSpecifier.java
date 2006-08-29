@@ -316,7 +316,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * @deprecated
 	 */
 	String format( double dValue, Locale lo );
-	
+
 	/**
 	 * Formats a value using the internally defined format specifier rules
 	 * 

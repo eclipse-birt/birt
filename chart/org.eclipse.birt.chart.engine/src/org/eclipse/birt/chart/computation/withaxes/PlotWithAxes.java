@@ -12,9 +12,11 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -43,8 +45,11 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.render.AxesRenderer;
+import org.eclipse.birt.chart.render.IAxesDecorator;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.util.Calendar;
 
@@ -984,6 +989,40 @@ public abstract class PlotWithAxes extends Methods
 		double dYAxisLabelsThickness = scY.computeAxisLabelThickness( ids,
 				axPV.getLabel( ),
 				VERTICAL );
+
+		// Compute axes decoration thickness, the value sequence is either
+		// [left,right] or
+		// [top, bottom]
+		double[] dDecorationThickness = {
+				0, 0
+		};
+		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
+		Map seriesRenderingHints = rtc.getSeriesRenderers( );
+		for ( int i = 0; i < sea.length; i++ )
+		{
+			LegendItemRenderingHints lirh = (LegendItemRenderingHints) seriesRenderingHints.get( sea[i] );
+
+			if ( lirh != null && lirh.getRenderer( ) instanceof AxesRenderer )
+			{
+				IAxesDecorator iad = ( (AxesRenderer) lirh.getRenderer( ) ).getAxesDecorator( axPV );
+
+				if ( iad != null )
+				{
+					double[] thickness = iad.computeDecorationThickness( ids,
+							axPV );
+
+					if ( thickness[0] > dDecorationThickness[0] )
+					{
+						dDecorationThickness[0] = thickness[0];
+					}
+					if ( thickness[1] > dDecorationThickness[1] )
+					{
+						dDecorationThickness[1] = thickness[1];
+					}
+				}
+			}
+		}
+
 		double dYAxisTitleThickness = 0;
 		if ( laYAxisTitle.isVisible( ) )
 		{
@@ -1035,7 +1074,7 @@ public abstract class PlotWithAxes extends Methods
 			}
 			if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= dYAxisLabelsThickness;
+				dX1 -= Math.max( dYAxisLabelsThickness, dDecorationThickness[0] );
 				dX2 += Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
 				// MAX(RT_TICK_SIZE, HORZ_SPACING)
 				bTicksRight ? TICK_SIZE : 0,
@@ -1043,6 +1082,7 @@ public abstract class PlotWithAxes extends Methods
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
+				dX1 -= dDecorationThickness[0];
 				// IF LABELS ARE RIGHT, THEN RIGHT SPACING IS
 				// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS, HORZ_SPACING)
 				dX2 += Math.max( ( bTicksRight ? TICK_SIZE : 0 )
@@ -1237,14 +1277,17 @@ public abstract class PlotWithAxes extends Methods
 
 			if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += dYAxisLabelsThickness;
-				dX1 -= Math.max( bTicksLeft ? TICK_SIZE : 0,
-						dAppliedYAxisPlotSpacing );
+				dX2 += Math.max( dYAxisLabelsThickness, dDecorationThickness[1] );
+				dX1 -= Math.max( ( bTicksLeft ? TICK_SIZE : 0 )
+						+ dDecorationThickness[0], dAppliedYAxisPlotSpacing );
 			}
 			else if ( iYLabelLocation == LEFT )
 			{
 				dX1 -= Math.max( ( bTicksLeft ? TICK_SIZE : 0 )
-						+ dYAxisLabelsThickness, dAppliedYAxisPlotSpacing );
+						+ Math.max( dYAxisLabelsThickness,
+								dDecorationThickness[0] ),
+						dAppliedYAxisPlotSpacing );
+				dX2 += dDecorationThickness[1];
 			}
 			if ( iYTitleLocation == RIGHT )
 			{
@@ -1429,7 +1472,9 @@ public abstract class PlotWithAxes extends Methods
 
 			if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= ( bTicksLeft ? TICK_SIZE : 0 ) + dYAxisLabelsThickness;
+				dX1 -= ( bTicksLeft ? TICK_SIZE : 0 )
+						+ Math.max( dYAxisLabelsThickness,
+								dDecorationThickness[0] );
 				dX2 += ( bTicksRight ? TICK_SIZE : 0 );
 				dDeltaX1 = dX - dX1;
 				dDeltaX2 = dX2 - dX;
@@ -1582,7 +1627,9 @@ public abstract class PlotWithAxes extends Methods
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += ( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness;
+				dX2 += ( bTicksRight ? TICK_SIZE : 0 )
+						+ Math.max( dYAxisLabelsThickness,
+								dDecorationThickness[1] );
 				dX1 -= ( bTicksLeft ? TICK_SIZE : 0 );
 				dDeltaX1 = dX - dX1;
 				dDeltaX2 = dX2 - dX;
@@ -1778,6 +1825,40 @@ public abstract class PlotWithAxes extends Methods
 		double dXAxisLabelsThickness = scX.computeAxisLabelThickness( ids,
 				axPH.getLabel( ),
 				HORIZONTAL );
+
+		// Compute axes decoration thickness, the value sequence is either
+		// [left,right] or
+		// [top, bottom]
+		double[] dDecorationThickness = {
+				0, 0
+		};
+		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
+		Map seriesRenderingHints = rtc.getSeriesRenderers( );
+		for ( int i = 0; i < sea.length; i++ )
+		{
+			LegendItemRenderingHints lirh = (LegendItemRenderingHints) seriesRenderingHints.get( sea[i] );
+
+			if ( lirh != null && lirh.getRenderer( ) instanceof AxesRenderer )
+			{
+				IAxesDecorator iad = ( (AxesRenderer) lirh.getRenderer( ) ).getAxesDecorator( axPH );
+
+				if ( iad != null )
+				{
+					double[] thickness = iad.computeDecorationThickness( ids,
+							axPH );
+
+					if ( thickness[0] > dDecorationThickness[0] )
+					{
+						dDecorationThickness[0] = thickness[0];
+					}
+					if ( thickness[1] > dDecorationThickness[1] )
+					{
+						dDecorationThickness[1] = thickness[1];
+					}
+				}
+			}
+		}
+
 		double dXAxisTitleThickness = 0;
 		if ( laXAxisTitle.isVisible( ) )
 		{
@@ -1829,12 +1910,13 @@ public abstract class PlotWithAxes extends Methods
 			}
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= dXAxisLabelsThickness;
+				dY1 -= Math.max( dXAxisLabelsThickness, dDecorationThickness[0] );
 				dY2 += Math.max( bTicksBelow ? TICK_SIZE : 0,
 						dAppliedXAxisPlotSpacing );
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
+				dY1 -= dDecorationThickness[0];
 				dY2 += Math.max( ( bTicksBelow ? TICK_SIZE : 0 )
 						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
 			}
@@ -1950,10 +2032,11 @@ public abstract class PlotWithAxes extends Methods
 			{
 				dY1 -= Math.max( ( bTicksAbove ? TICK_SIZE : 0 )
 						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
+				dY2 += dDecorationThickness[1];
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
-				dY2 += dXAxisLabelsThickness;
+				dY2 += Math.max( dXAxisLabelsThickness, dDecorationThickness[1] );
 				dY1 -= Math.max( bTicksAbove ? TICK_SIZE : 0,
 						dAppliedXAxisPlotSpacing );
 			}
@@ -2060,7 +2143,9 @@ public abstract class PlotWithAxes extends Methods
 			double dDeltaY1 = 0, dDeltaY2 = 0;
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= ( bTicksAbove ? TICK_SIZE : 0 ) + dXAxisLabelsThickness;
+				dY1 -= ( bTicksAbove ? TICK_SIZE : 0 )
+						+ Math.max( dXAxisLabelsThickness,
+								dDecorationThickness[0] );
 				dY2 += ( bTicksBelow ? TICK_SIZE : 0 );
 
 				if ( iXTitleLocation == ABOVE )
@@ -2186,7 +2271,9 @@ public abstract class PlotWithAxes extends Methods
 			else if ( iXLabelLocation == BELOW )
 			{
 				dY1 -= ( bTicksAbove ? TICK_SIZE : 0 );
-				dY2 += ( bTicksBelow ? TICK_SIZE : 0 ) + dXAxisLabelsThickness;
+				dY2 += ( bTicksBelow ? TICK_SIZE : 0 )
+						+ Math.max( dXAxisLabelsThickness,
+								dDecorationThickness[1] );
 
 				if ( iXTitleLocation == ABOVE )
 				{
@@ -2255,6 +2342,12 @@ public abstract class PlotWithAxes extends Methods
 								// Y-AXIS SCALE TO THE TOP EDGE
 								// OF THE PLOT BLOCK
 							}
+						}
+
+						if ( ChartUtil.mathEqual( Math.abs( dEnd - dStart ), 0 ) )
+						{
+							// too small space to adjust, break here.
+							bForceBreak = true;
 						}
 
 						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS

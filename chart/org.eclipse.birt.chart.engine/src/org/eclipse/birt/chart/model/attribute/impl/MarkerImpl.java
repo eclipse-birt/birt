@@ -613,7 +613,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		result.append( ')' );
 		return result.toString( );
 	}
-	
+
 	public static final Marker create( MarkerType markerType, int size )
 	{
 		Marker marker = AttributeFactory.eINSTANCE.createMarker( );
@@ -622,5 +622,5 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		marker.setVisible( true );
 		return marker;
 	}
-	
+
 } // MarkerImpl

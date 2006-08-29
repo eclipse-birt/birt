@@ -358,6 +358,16 @@ public class AttributeSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.MULTIPLE_FILL :
+			{
+				MultipleFill multipleFill = (MultipleFill) theEObject;
+				Object result = caseMultipleFill( multipleFill );
+				if ( result == null )
+					result = caseFill( multipleFill );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER :
 			{
 				NumberFormatSpecifier numberFormatSpecifier = (NumberFormatSpecifier) theEObject;
@@ -845,6 +855,22 @@ public class AttributeSwitch
 	 * @generated
 	 */
 	public Object caseMarker( Marker object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Multiple Fill</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Multiple Fill</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseMultipleFill( MultipleFill object )
 	{
 		return null;
 	}

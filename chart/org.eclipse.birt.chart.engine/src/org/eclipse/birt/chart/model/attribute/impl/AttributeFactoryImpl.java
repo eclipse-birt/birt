@@ -198,6 +198,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createLocation3D( );
 			case AttributePackage.MARKER :
 				return createMarker( );
+			case AttributePackage.MULTIPLE_FILL :
+				return createMultipleFill( );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER :
 				return createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
@@ -864,6 +866,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		MarkerImpl marker = new MarkerImpl( );
 		return marker;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MultipleFill createMultipleFill( )
+	{
+		MultipleFillImpl multipleFill = new MultipleFillImpl( );
+		return multipleFill;
 	}
 
 	/**

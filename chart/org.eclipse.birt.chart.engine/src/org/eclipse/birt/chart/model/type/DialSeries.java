@@ -20,6 +20,11 @@ import org.eclipse.birt.chart.model.component.Series;
  * A representation of the model object '<em><b>Dial Series</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * 
+ * 			This is a Series type that holds data for Dial Charts.
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -45,7 +50,7 @@ public interface DialSeries extends Series
 	 * @return the value of the '<em>Dial</em>' containment reference.
 	 * @see #setDial(Dial)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getDialSeries_Dial()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Dial'"
 	 * @generated
 	 */
@@ -71,7 +76,7 @@ public interface DialSeries extends Series
 	 * @return the value of the '<em>Needle</em>' containment reference.
 	 * @see #setNeedle(Needle)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getDialSeries_Needle()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Needle'"
 	 * @generated
 	 */

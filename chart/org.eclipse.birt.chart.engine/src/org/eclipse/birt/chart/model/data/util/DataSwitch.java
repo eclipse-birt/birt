@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.data.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.data.*;
+
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -122,6 +124,16 @@ public class DataSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case DataPackage.BUBBLE_DATA_SET :
+			{
+				BubbleDataSet bubbleDataSet = (BubbleDataSet) theEObject;
+				Object result = caseBubbleDataSet( bubbleDataSet );
+				if ( result == null )
+					result = caseDataSet( bubbleDataSet );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case DataPackage.DATA_ELEMENT :
 			{
 				DataElement dataElement = (DataElement) theEObject;
@@ -154,6 +166,26 @@ public class DataSwitch
 				Object result = caseDateTimeDataSet( dateTimeDataSet );
 				if ( result == null )
 					result = caseDataSet( dateTimeDataSet );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			case DataPackage.DIFFERENCE_DATA_SET :
+			{
+				DifferenceDataSet differenceDataSet = (DifferenceDataSet) theEObject;
+				Object result = caseDifferenceDataSet( differenceDataSet );
+				if ( result == null )
+					result = caseDataSet( differenceDataSet );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			case DataPackage.GANTT_DATA_SET :
+			{
+				GanttDataSet ganttDataSet = (GanttDataSet) theEObject;
+				Object result = caseGanttDataSet( ganttDataSet );
+				if ( result == null )
+					result = caseDataSet( ganttDataSet );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -290,6 +322,22 @@ public class DataSwitch
 	}
 
 	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Bubble Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Bubble Data Set</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseBubbleDataSet( BubbleDataSet object )
+	{
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpretting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
@@ -345,6 +393,38 @@ public class DataSwitch
 	 * @generated
 	 */
 	public Object caseDateTimeDataSet( DateTimeDataSet object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Difference Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Difference Data Set</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDifferenceDataSet( DifferenceDataSet object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Gantt Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Gantt Data Set</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseGanttDataSet( GanttDataSet object )
 	{
 		return null;
 	}

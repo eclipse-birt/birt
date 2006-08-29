@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
-import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
@@ -164,8 +163,8 @@ public final class DataSetIterator implements Iterator
 			}
 		}
 		else
-		// e.g. StockObject[]
 		{
+			// for other anonymous types
 			if ( oContent instanceof Collection )
 			{
 				iContentType = IConstants.COLLECTION;
@@ -268,8 +267,9 @@ public final class DataSetIterator implements Iterator
 				sa = (String[]) oContent;
 			}
 		}
-		else if ( ds instanceof StockDataSet )
+		else
 		{
+			// for other anonymous types
 			iDataType = IConstants.OTHER;
 			if ( oContent instanceof Collection )
 			{
@@ -625,7 +625,7 @@ public final class DataSetIterator implements Iterator
 	{
 		return iDataType;
 	}
-	
+
 	/**
 	 * @return current index
 	 */

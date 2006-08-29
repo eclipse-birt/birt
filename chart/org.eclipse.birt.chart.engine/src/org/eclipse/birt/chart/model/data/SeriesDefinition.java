@@ -23,26 +23,26 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Series Definition</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type represents design-time definition for a series.
- * 
+ * 			This type represents design-time definition for a series.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions <em>Series Definitions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries <em>Series</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries <em>Series</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition()
  * @model extendedMetaData="name='SeriesDefinition' kind='elementOnly'"
  * @generated
@@ -51,54 +51,45 @@ public interface SeriesDefinition extends EObject
 {
 
 	/**
-	 * Returns the value of the '<em><b>Query</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Query</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Query</em>' containment reference.
 	 * @see #setQuery(Query)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_Query()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Query'"
 	 * @generated
 	 */
 	Query getQuery( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Query</em>' containment
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Query</em>' containment reference.
 	 * @see #getQuery()
 	 * @generated
 	 */
 	void setQuery( Query value );
 
 	/**
-	 * Returns the value of the '<em><b>Series Palette</b></em>'
-	 * containment reference. <!-- begin-user-doc --> Gets the palette
+	 * Returns the value of the '<em><b>Series Palette</b></em>' containment reference.
+	 * <!-- begin-user-doc --> Gets the palette
 	 * associated with the series definiton instance. This palette will be used
 	 * to determine the sequence of colors for the series that are represented
 	 * by this definition. <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Series Palette</em>' containment
-	 *         reference.
+	 * @return the value of the '<em>Series Palette</em>' containment reference.
 	 * @see #setSeriesPalette(Palette)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_SeriesPalette()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='SeriesPalette'"
 	 * @generated
 	 */
 	Palette getSeriesPalette( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Series Palette</em>' containment
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Series Palette</em>' containment reference.
 	 * @see #getSeriesPalette()
 	 * @generated
 	 */
@@ -121,26 +112,21 @@ public interface SeriesDefinition extends EObject
 	EList getSeriesDefinitions( );
 
 	/**
-	 * Returns the value of the '<em><b>Format Specifier</b></em>'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Format Specifier</em>' containment
-	 *         reference.
+	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_FormatSpecifier()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='FormatSpecifier'"
 	 * @generated
 	 */
 	FormatSpecifier getFormatSpecifier( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Format Specifier</em>'
-	 *            containment reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 */
@@ -184,12 +170,9 @@ public interface SeriesDefinition extends EObject
 	SeriesGrouping getGrouping( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Grouping</em>' containment
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Grouping</em>' containment reference.
 	 * @see #getGrouping()
 	 * @generated
 	 */
@@ -218,11 +201,9 @@ public interface SeriesDefinition extends EObject
 	SortOption getSorting( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Sorting</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sorting</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.SortOption
 	 * @see #isSetSorting()
 	 * @see #unsetSorting()
@@ -232,9 +213,8 @@ public interface SeriesDefinition extends EObject
 	void setSorting( SortOption value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetSorting()
 	 * @see #getSorting()
 	 * @see #setSorting(SortOption)
@@ -243,10 +223,8 @@ public interface SeriesDefinition extends EObject
 	void unsetSorting( );
 
 	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Sorting</em>' attribute is set.
 	 * @see #unsetSorting()
 	 * @see #getSorting()

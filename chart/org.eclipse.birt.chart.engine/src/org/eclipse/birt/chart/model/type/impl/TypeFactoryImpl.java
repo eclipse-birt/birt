@@ -83,8 +83,14 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 				return createAreaSeries( );
 			case TypePackage.BAR_SERIES :
 				return createBarSeries( );
+			case TypePackage.BUBBLE_SERIES :
+				return createBubbleSeries( );
 			case TypePackage.DIAL_SERIES :
 				return createDialSeries( );
+			case TypePackage.DIFFERENCE_SERIES :
+				return createDifferenceSeries( );
+			case TypePackage.GANTT_SERIES :
+				return createGanttSeries( );
 			case TypePackage.LINE_SERIES :
 				return createLineSeries( );
 			case TypePackage.PIE_SERIES :
@@ -123,10 +129,43 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public BubbleSeries createBubbleSeries( )
+	{
+		BubbleSeriesImpl bubbleSeries = new BubbleSeriesImpl( );
+		return bubbleSeries;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public DialSeries createDialSeries( )
 	{
 		DialSeriesImpl dialSeries = new DialSeriesImpl( );
 		return dialSeries;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DifferenceSeries createDifferenceSeries( )
+	{
+		DifferenceSeriesImpl differenceSeries = new DifferenceSeriesImpl( );
+		return differenceSeries;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GanttSeries createGanttSeries( )
+	{
+		GanttSeriesImpl ganttSeries = new GanttSeriesImpl( );
+		return ganttSeries;
 	}
 
 	/**

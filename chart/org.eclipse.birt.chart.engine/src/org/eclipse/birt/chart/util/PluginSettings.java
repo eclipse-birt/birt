@@ -69,7 +69,10 @@ public final class PluginSettings
 			"org.eclipse.birt.chart.model.type.impl.LineSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.PieSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.StockSeriesImpl", //$NON-NLS-1$
-			"org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl" //$NON-NLS-1$
+			"org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl", //$NON-NLS-1$
 	};
 
 	/**
@@ -86,6 +89,9 @@ public final class PluginSettings
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.BubbleDataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.GanttDataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.DifferenceDataSetProcessorImpl", //$NON-NLS-1$
 	};
 
 	/**
@@ -100,7 +106,10 @@ public final class PluginSettings
 			"org.eclipse.birt.chart.render.Line", //$NON-NLS-1$
 			"org.eclipse.birt.chart.render.Pie", //$NON-NLS-1$ 
 			"org.eclipse.birt.chart.render.Stock", //$NON-NLS-1$
-			"org.eclipse.birt.chart.render.Scatter" //$NON-NLS-1$
+			"org.eclipse.birt.chart.render.Scatter", //$NON-NLS-1$
+			"org.eclipse.birt.chart.render.Bubble", //$NON-NLS-1$
+			"org.eclipse.birt.chart.render.Gantt", //$NON-NLS-1$
+			"org.eclipse.birt.chart.render.Difference", //$NON-NLS-1$
 	};
 
 	/**

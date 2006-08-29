@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
@@ -276,6 +277,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass markerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multipleFillEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -849,28 +857,28 @@ public class AttributePackageImpl extends EPackageImpl implements
 				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackage.eINSTANCE );
 		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
 		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theAttributePackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theAttributePackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put( theAttributePackage,
@@ -1823,6 +1831,27 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EReference getMarker_IconPalette( )
 	{
 		return (EReference) markerEClass.getEStructuralFeatures( ).get( 4 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultipleFill( )
+	{
+		return multipleFillEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultipleFill_Fills( )
+	{
+		return (EReference) multipleFillEClass.getEStructuralFeatures( )
+				.get( 0 );
 	}
 
 	/**
@@ -3029,6 +3058,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEReference( markerEClass, MARKER__FILL );
 		createEReference( markerEClass, MARKER__ICON_PALETTE );
 
+		multipleFillEClass = createEClass( MULTIPLE_FILL );
+		createEReference( multipleFillEClass, MULTIPLE_FILL__FILLS );
+
 		numberFormatSpecifierEClass = createEClass( NUMBER_FORMAT_SPECIFIER );
 		createEAttribute( numberFormatSpecifierEClass,
 				NUMBER_FORMAT_SPECIFIER__PREFIX );
@@ -3209,6 +3241,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		javaNumberFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
 		location3DEClass.getESuperTypes( ).add( this.getLocation( ) );
+		multipleFillEClass.getESuperTypes( ).add( this.getFill( ) );
 		numberFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
 		scriptValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
@@ -3542,6 +3575,14 @@ public class AttributePackageImpl extends EPackageImpl implements
 				this.getPalette( ),
 				null,
 				"iconPalette", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( multipleFillEClass,
+				MultipleFill.class,
+				"MultipleFill", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getMultipleFill_Fills( ),
+				this.getFill( ),
+				null,
+				"fills", null, 0, -1, MultipleFill.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( numberFormatSpecifierEClass,
 				NumberFormatSpecifier.class,
@@ -4686,6 +4727,14 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( markerTypeObjectEDataType, source, new String[]{
 				"name", "MarkerType:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( multipleFillEClass, source, new String[]{
+				"name", "MultipleFill", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMultipleFill_Fills( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Fills" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( numberFormatSpecifierEClass, source, new String[]{
 				"name", "NumberFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$

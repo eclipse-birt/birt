@@ -46,6 +46,15 @@ public interface DataFactory extends EFactory
 	BaseSampleData createBaseSampleData( );
 
 	/**
+	 * Returns a new object of class '<em>Bubble Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Bubble Data Set</em>'.
+	 * @generated
+	 */
+	BubbleDataSet createBubbleDataSet( );
+
+	/**
 	 * Returns a new object of class '<em>Element</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Element</em>'.
@@ -77,6 +86,24 @@ public interface DataFactory extends EFactory
 	 * @generated
 	 */
 	DateTimeDataSet createDateTimeDataSet( );
+
+	/**
+	 * Returns a new object of class '<em>Difference Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Difference Data Set</em>'.
+	 * @generated
+	 */
+	DifferenceDataSet createDifferenceDataSet( );
+
+	/**
+	 * Returns a new object of class '<em>Gantt Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Gantt Data Set</em>'.
+	 * @generated
+	 */
+	GanttDataSet createGanttDataSet( );
 
 	/**
 	 * Returns a new object of class '<em>Number Data Element</em>'.
