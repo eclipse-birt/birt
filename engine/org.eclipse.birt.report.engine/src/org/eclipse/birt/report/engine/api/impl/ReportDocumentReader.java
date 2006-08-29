@@ -135,7 +135,7 @@ public class ReportDocumentReader
 		moduleOptions.putAll( options );
 		Object semanticCheck = moduleOptions
 				.get( ModuleOption.PARSER_SEMANTIC_CHECK_KEY );
-		if ( semanticCheck != null )
+		if ( semanticCheck == null )
 		{
 			moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
 					Boolean.FALSE );
