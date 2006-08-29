@@ -94,7 +94,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		finally
 		{
 			lockManager.unlock( lock );
-			new File( lockFileName ).delete( );
 		}
 	}
 	
@@ -196,7 +195,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 			finally
 			{
 				lockManager.unlock( lock );
-				new File( lockFileName ).delete( );
 			}
 		}
 	}
