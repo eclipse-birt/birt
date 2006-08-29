@@ -419,7 +419,7 @@ public class MetadataEmitter
 				{
 					
 					IElement bandParent = bandContent.getParent( );
-					if ( bandParent instanceof IGroupContent )
+					while ( bandParent instanceof IGroupContent )
 					{
 						bandParent = bandParent.getParent( );
 					}
