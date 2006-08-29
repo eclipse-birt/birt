@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
  * This class help to manipulate expressions.
@@ -30,6 +31,9 @@ public final class ExpressionUtil
 
 	/** prefix for dataset row */
 	private static final String DATASET_ROW_INDICATOR = "dataSetRow";
+	
+	/** prefix for parameter */
+	public static final String PARAMETER_INDICATOR = "params";//$NON-NLS-1$
 
 	private static String PREFIX = "COLUMN_";
 	
@@ -57,6 +61,20 @@ public final class ExpressionUtil
 	{
 		return DATASET_ROW_INDICATOR
 				+ "[\"" + ( rowName == null ? "" : rowName.trim( ) ) + "\"]";
+	}
+	
+	/**
+	 * Return a parameter expression text according to given row name.
+	 * 
+	 * @param rowName
+	 * @return
+	 */
+	public static String createParameterExpression( String parameterName )
+	{
+		return PARAMETER_INDICATOR
+				+ "[\""
+				+ JavascriptEvalUtil.transformToJsConstants( parameterName )
+				+ "\"]";
 	}
 
 	/**

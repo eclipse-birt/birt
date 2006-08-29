@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -575,10 +576,7 @@ public class ModelDteApiAdapter
 					if ( modelParam instanceof OdaDataSetParameterHandle
 							&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 					{
-						defaultValueExpr = "params"
-								+ "[\""
-								+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
-								+ "\"]";
+						defaultValueExpr = ExpressionUtil.createParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) );
 					}
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
