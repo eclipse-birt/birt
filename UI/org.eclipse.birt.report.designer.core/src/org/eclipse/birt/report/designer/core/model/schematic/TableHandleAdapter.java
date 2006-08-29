@@ -924,6 +924,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		List temp = new ArrayList( );
 
 		List hasAdjust = new ArrayList( );
+		
+		reload();
 		for ( int i = 0; i < rowNumber; i++ )
 		{
 			TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( getRow( i + 1 ) );
