@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
@@ -46,8 +47,6 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
  */
 class DataAdapterUtil
 {
-	private static final String PARAMS_PREFIX = "params";
-	
 	/**
 	 * Adapts common base data source properties
 	 */
@@ -123,10 +122,7 @@ class DataAdapterUtil
 					if ( modelParam instanceof OdaDataSetParameterHandle
 							&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 					{
-						defaultValueExpr = PARAMS_PREFIX
-								+ "[\""
-								+ ( (OdaDataSetParameterHandle) modelParam ).getParamName( )
-								+ "\"]";
+						defaultValueExpr = ExpressionUtil.createParameterExpression( ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) ) );
 					}
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
