@@ -223,7 +223,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executionContext );
 				layoutEngine.setPageHandler( handle );
 				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 				
@@ -304,7 +304,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executionContext );
 				layoutEngine.setPageHandler( handle );
 				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(format);
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 				
@@ -389,7 +389,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 							executionContext );
 					layoutEngine.setPageHandler( handle );
 
-					CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+					CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
 					outputEmitters.addEmitter( emitter );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
 					

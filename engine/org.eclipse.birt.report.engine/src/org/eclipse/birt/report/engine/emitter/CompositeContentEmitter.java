@@ -36,16 +36,22 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 /**
  * Emitter the input to mutiple outputs.
  *
- * @version $Revision: 1.2 $ $Date: 2006/04/05 13:22:48 $
+ * @version $Revision: 1.3.6.1 $ $Date: 2006/08/29 08:21:21 $
  */
 public class CompositeContentEmitter extends ContentEmitterAdapter
 {
 	protected ArrayList emitters = new ArrayList();
 
+	protected String format = "mutliple";
+	
 	public CompositeContentEmitter()
 	{
 	}
 	
+	public CompositeContentEmitter(String format)
+	{
+		this.format = format;
+	}
 	
 	public void addEmitter(IContentEmitter emitter)
 	{
@@ -197,7 +203,7 @@ public class CompositeContentEmitter extends ContentEmitterAdapter
 
 	public String getOutputFormat( )
 	{
-		return "mutliple";
+		return format;
 	}
 
 	public void initialize( IEmitterServices service )
