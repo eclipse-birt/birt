@@ -40,7 +40,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -52,10 +51,11 @@ import org.eclipse.swt.widgets.Listener;
  * Legend - Layout
  */
 
-public class LegendLayoutSheet extends AbstractPopupSheet implements
-		Listener,
-		ModifyListener,
-		SelectionListener
+public class LegendLayoutSheet extends AbstractPopupSheet
+		implements
+			Listener,
+			ModifyListener,
+			SelectionListener
 {
 
 	private transient Combo cmbAnchor;
@@ -78,8 +78,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 
 	private transient Combo cmbDirection;
 
-	private transient Button btnVisible;
-
 	private transient LocalizedNumberEditorComposite txtWrapping;
 
 	// private transient Label lblHorizontalSpacing;
@@ -100,18 +98,14 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 
 	private transient Label lblWrapping;
 
-	private boolean bEnableUI = true;
-
 	public LegendLayoutSheet( String title, ChartWizardContext context )
 	{
-		super( title, context, true );
+		super( title, context, false );
 	}
 
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_LEGEND_LAYOUT );
-
-		bEnableUI = getBlockForProcessing( ).isVisible( );
 
 		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( new GridLayout( ) );
@@ -156,16 +150,11 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 
 	private void getComponentLegendLeftArea( Composite cmpLegLeft )
 	{
-		btnVisible = new Button( cmpLegLeft, SWT.CHECK );
-		GridData gdBTNVisible = new GridData( );
-		gdBTNVisible.horizontalSpan = 2;
-		btnVisible.setLayoutData( gdBTNVisible );
-		btnVisible.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.Visible" ) );//$NON-NLS-1$
-		btnVisible.setSelection( bEnableUI );
-		btnVisible.addSelectionListener( this );
+		boolean bEnableUI = getBlockForProcessing( ).isVisible( );
 
 		lblOrientation = new Label( cmpLegLeft, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "BlockAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
+		lblOrientation.setEnabled( bEnableUI );
 
 		cmbOrientation = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
@@ -204,7 +193,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 		cmbStretch.setEnabled( bEnableUI );
 
 		lblBackground = new Label( cmpLegLeft, SWT.NONE );
-		lblBackground.setText( Messages.getString( "BlockAttributeComposite.Lbl.Background" ) ); //$NON-NLS-1$
+		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
 		lblBackground.setEnabled( bEnableUI );
 
 		fccBackground = new FillChooserComposite( cmpLegLeft,
@@ -239,6 +228,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 			txtWrapping.setLayoutData( gd );
 			txtWrapping.setValue( getBlockForProcessing( ).getWrappingSize( ) );
 			txtWrapping.addModifyListener( this );
+			txtWrapping.setEnabled( bEnableUI );
 		}
 
 		// lblVerticalSpacing = new Label( cmpLegLeft, SWT.NONE );
@@ -274,6 +264,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 			grpOutline.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.Outline" ) ); //$NON-NLS-1$
 		}
 
+		boolean bEnableUI = getBlockForProcessing( ).isVisible( );
 		outlineLegend = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
 				getContext( ),
@@ -283,7 +274,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 				true );
 		{
 			outlineLegend.addListener( this );
-			outlineLegend.setEnabled( bEnableUI );
+			outlineLegend.setAttributesEnabled( bEnableUI );
 		}
 
 		icLegend = new InsetsComposite( cmpLegRight,
@@ -291,9 +282,12 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 				getBlockForProcessing( ).getInsets( ),
 				getChart( ).getUnits( ),
 				getContext( ).getUIServiceProvider( ) );
-		GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
-		icLegend.setLayoutData( gdICBlock );
-		icLegend.addListener( this );
+		{
+			GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
+			icLegend.setLayoutData( gdICBlock );
+			icLegend.addListener( this );
+			icLegend.setEnabled( bEnableUI );
+		}
 	}
 
 	private void populateLists( )
@@ -416,31 +410,6 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 		else if ( oSource.equals( cmbStretch ) )
 		{
 			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
-		}
-		else if ( oSource.equals( btnVisible ) )
-		{
-			getBlockForProcessing( ).setVisible( btnVisible.getSelection( ) );
-			boolean bEnableUI = btnVisible.getSelection( );
-			lblAnchor.setEnabled( bEnableUI );
-			cmbAnchor.setEnabled( bEnableUI );
-			lblStretch.setEnabled( bEnableUI );
-			cmbStretch.setEnabled( bEnableUI );
-			lblBackground.setEnabled( bEnableUI );
-			fccBackground.setEnabled( bEnableUI );
-			icLegend.setEnabled( bEnableUI );
-
-			// lblHorizontalSpacing.setEnabled( bEnableUI );
-			// iscHSpacing.setEnabled( bEnableUI );
-			// lblVerticalSpacing.setEnabled( bEnableUI );
-			// iscVSpacing.setEnabled( bEnableUI );
-
-			lblOrientation.setEnabled( bEnableUI );
-			cmbOrientation.setEnabled( bEnableUI );
-			lblDirection.setEnabled( bEnableUI );
-			cmbDirection.setEnabled( bEnableUI );
-			lblPosition.setEnabled( bEnableUI );
-			cmbPosition.setEnabled( bEnableUI );
-			outlineLegend.setEnabled( bEnableUI );
 		}
 		else if ( oSource.equals( cmbOrientation ) )
 		{

@@ -15,23 +15,31 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -59,6 +67,10 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private transient InsetsComposite icText;
 
+	private transient FormatSpecifierPreview fsp;
+
+	private transient Button btnFormatSpecifier;
+
 	public LegendTextSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, true );
@@ -78,18 +90,19 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			cmpContent.setLayout( glMain );
 		}
 
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		attributesContext.isVisibilityEnabled = false;
+		attributesContext.isFontAlignmentEnabled = false;
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
+				getContext( ),
+				attributesContext,
 				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 				getLegend( ).getTitlePosition( ),
 				getLegend( ).getTitle( ),
 				getChart( ).getUnits( ),
-				true,
-				false,
-				getContext( ),
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
-						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION,
-				false );
+						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION );
 		{
 			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
 			gdLACTitle.verticalSpan = 2;
@@ -106,6 +119,52 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			grpTxtArea.setLayout( layout );
 			grpTxtArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 			grpTxtArea.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.TextArea" ) ); //$NON-NLS-1$
+		}
+		
+		boolean isFormatEnabled = getChart( ).getLegend( ).getItemType( ) != LegendItemType.SERIES_LITERAL;
+		Label lblFormat = new Label( grpTxtArea, SWT.NONE );
+		{
+			lblFormat.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
+			lblFormat.setEnabled( isFormatEnabled );
+		}
+
+		Composite cmpFormat = new Composite( grpTxtArea, SWT.BORDER );
+		{
+			GridLayout layout = new GridLayout( 2, false );
+			layout.marginWidth = 0;
+			layout.marginHeight = 0;
+			layout.horizontalSpacing = 0;
+			cmpFormat.setLayout( layout );
+			cmpFormat.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			if ( isFormatEnabled )
+			{
+				cmpFormat.setBackground( cmpFormat.getDisplay( )
+						.getSystemColor( SWT.COLOR_WHITE ) );
+			}
+		}
+
+		fsp = new FormatSpecifierPreview( cmpFormat, SWT.NONE, false );
+		{
+			GridData gd = new GridData( );
+			gd.grabExcessHorizontalSpace = true;
+			gd.horizontalAlignment = SWT.CENTER;
+			fsp.setLayoutData( gd );
+			fsp.updatePreview( getBaseSeriesDefinition( ).getFormatSpecifier( ) );
+			fsp.setEnabled( isFormatEnabled );
+		}
+
+		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = 20;
+			gd.heightHint = 20;
+			btnFormatSpecifier.setLayoutData( gd );
+			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
+			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			btnFormatSpecifier.getImage( )
+					.setBackground( btnFormatSpecifier.getBackground( ) );
+			btnFormatSpecifier.addListener( SWT.Selection, this );
+			btnFormatSpecifier.setEnabled( isFormatEnabled );
 		}
 
 		new Label( grpTxtArea, SWT.NONE ).setText( Messages.getString( "LegendTextSheet.Label.Font" ) ); //$NON-NLS-1$
@@ -135,7 +194,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				false );
 		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
 		fccShadow.setLayoutData( gdFCCShadow );
-		fccShadow.setEnabled( getLegend( ).isVisible( ) );
 		fccShadow.addListener( this );
 
 		Group grpOutline = new Group( grpTxtArea, SWT.NONE );
@@ -153,7 +211,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				true,
 				true );
 		outlineText.addListener( this );
-		outlineText.setEnabled( true );
+		outlineText.setAttributesEnabled( true );
 
 		icText = new InsetsComposite( grpTxtArea,
 				SWT.NONE,
@@ -185,10 +243,16 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		{
 			lineSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			lineSeparator.addListener( this );
-			lineSeparator.setEnabled( true );
+			lineSeparator.setAttributesEnabled( true );
 		}
 
 		return cmpContent;
+	}
+	
+	private SeriesDefinition getBaseSeriesDefinition( )
+	{
+		return (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( getChart( ) )
+				.get( 0 );
 	}
 
 	/*
@@ -312,6 +376,17 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
 					break;
 			}
+		}
+		else if(event.widget.equals( btnFormatSpecifier ))
+		{
+			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+					getBaseSeriesDefinition( ).getFormatSpecifier( ),
+					Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
+			if ( editor.open( ) == Window.OK )
+			{
+				getBaseSeriesDefinition( ).setFormatSpecifier( editor.getFormatSpecifier( ) );
+				fsp.updatePreview( editor.getFormatSpecifier( ) );
+			}			
 		}
 	}
 

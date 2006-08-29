@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -57,6 +58,8 @@ public class DialLabelSheet extends AbstractPopupSheet
 
 	private transient SeriesDefinition seriesDefn = null;
 
+	private FormatSpecifierPreview fsp;
+
 	public DialLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
@@ -67,7 +70,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_LABEL );
-		
+
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( 2, false );
 		glContent.verticalSpacing = 0;
@@ -76,28 +79,6 @@ public class DialLabelSheet extends AbstractPopupSheet
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
-
-		Label label = new Label( cmpContent, SWT.NONE );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalIndent = 10;
-			label.setLayoutData( gd );
-			label.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
-		}
-
-		btnFormatSpecifier = new Button( cmpContent, SWT.PUSH );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalIndent = 25;
-			gd.widthHint = 20;
-			gd.heightHint = 20;
-			btnFormatSpecifier.setLayoutData( gd );
-			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.getImage( )
-					.setBackground( btnFormatSpecifier.getBackground( ) );
-			btnFormatSpecifier.addSelectionListener( this );
-		}
 
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isPositionEnabled = false;
@@ -114,6 +95,49 @@ public class DialLabelSheet extends AbstractPopupSheet
 		gdLACTitle.horizontalSpan = 2;
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );
+
+		Label label = new Label( cmpContent, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalIndent = 10;
+			label.setLayoutData( gd );
+			label.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
+		}
+
+		Composite cmpFormat = new Composite( cmpContent, SWT.BORDER );
+		{
+			GridLayout layout = new GridLayout( 2, false );
+			layout.marginWidth = 0;
+			layout.marginHeight = 0;
+			layout.horizontalSpacing = 0;
+			cmpFormat.setLayout( layout );
+			cmpFormat.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			cmpFormat.setBackground( cmpFormat.getDisplay( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
+		}
+
+		fsp = new FormatSpecifierPreview( cmpFormat, SWT.NONE, false );
+		{
+			GridData gd = new GridData( );
+			gd.grabExcessHorizontalSpace = true;
+			gd.horizontalAlignment = SWT.CENTER;
+			fsp.setLayoutData( gd );
+			fsp.updatePreview( getSeriesForProcessing( ).getDial( )
+					.getFormatSpecifier( ) );
+		}
+
+		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = 20;
+			gd.heightHint = 20;
+			btnFormatSpecifier.setLayoutData( gd );
+			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
+			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			btnFormatSpecifier.getImage( )
+					.setBackground( btnFormatSpecifier.getBackground( ) );
+			btnFormatSpecifier.addSelectionListener( this );
+		}
 
 		return cmpContent;
 	}
@@ -187,6 +211,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 			{
 				getSeriesForProcessing( ).getDial( )
 						.setFormatSpecifier( editor.getFormatSpecifier( ) );
+				fsp.updatePreview( editor.getFormatSpecifier( ) );
 			}
 		}
 	}

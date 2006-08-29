@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -32,6 +33,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
@@ -45,23 +47,26 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private transient ExternalizedTextEditorComposite txtTitle;
+	private Button btnVisible;
 
-	private transient FillChooserComposite cmbBackgroundColor;
+	private ExternalizedTextEditorComposite txtTitle;
 
-	private transient Button btnTitleVisible;
+	private FillChooserComposite cmbBackgroundColor;
 
-	private transient Button btnShowValue;
+	private Button btnTitleVisible;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	private Button btnShowValue;
+
+	private Label lblTitle;
+
+	private Label lblBackground;
+
+	private Label lblShowValue;
+
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_LEGEND );
-		
+
 		init( );
 
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -72,14 +77,29 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			cmpContent.setLayoutData( gd );
 		}
 
-		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
+		Group cmpBasic = new Group( cmpContent, SWT.NONE );
 		{
-			cmpBasic.setLayout( new GridLayout( 3, false ) );
+			GridLayout layout = new GridLayout( 3, false );
+			layout.marginWidth = 10;
+			layout.marginHeight = 10;
+			cmpBasic.setLayout( layout );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmpBasic.setLayoutData( gd );
+			cmpBasic.setText( Messages.getString( "ChartLegendSheetImpl.Label.Legend" ) ); //$NON-NLS-1$
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Title" ) ); //$NON-NLS-1$
+		btnVisible = new Button( cmpBasic, SWT.CHECK );
+		{
+			GridData gdBTNVisible = new GridData( );
+			gdBTNVisible.horizontalSpan = 3;
+			btnVisible.setLayoutData( gdBTNVisible );
+			btnVisible.setText( Messages.getString( "Shared.mne.Visibile_v" ) );//$NON-NLS-1$
+			btnVisible.setSelection( getChart( ).getLegend( ).isVisible( ) );
+			btnVisible.addSelectionListener( this );
+		}
+
+		lblTitle = new Label( cmpBasic, SWT.NONE );
+		lblTitle.setText( Messages.getString( "ChartLegendSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
 		List keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
@@ -98,21 +118,19 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			gd.widthHint = 200;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
-			txtTitle.setEnabled( getChart( ).getLegend( )
-					.getTitle( )
-					.isVisible( ) );
 		}
 
 		btnTitleVisible = new Button( cmpBasic, SWT.CHECK );
 		{
-			btnTitleVisible.setText( Messages.getString( "ChartLegendSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+			btnTitleVisible.setText( Messages.getString( "Shared.mne.Visibile_s" ) ); //$NON-NLS-1$
 			btnTitleVisible.addSelectionListener( this );
 			btnTitleVisible.setSelection( getChart( ).getLegend( )
 					.getTitle( )
 					.isVisible( ) );
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Background" ) ); //$NON-NLS-1$
+		lblBackground = new Label( cmpBasic, SWT.NONE );
+		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
 
 		cmbBackgroundColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
 				| SWT.READ_ONLY, getContext( ), getChart( ).getLegend( )
@@ -126,9 +144,10 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			cmbBackgroundColor.addListener( this );
 		}
 
-		if ( getChart( ).getLegend( ).getItemType( ) == LegendItemType.SERIES_LITERAL )
+		if ( isShowValueEnabled( ) )
 		{
-			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
+			lblShowValue = new Label( cmpBasic, SWT.NONE );
+			lblShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
 
 			btnShowValue = new Button( cmpBasic, SWT.CHECK );
 			{
@@ -144,6 +163,33 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 
 		createButtonGroup( cmpContent );
+		setState( getChart( ).getLegend( ).isVisible( ) );
+	}
+
+	private void setState( boolean enabled )
+	{
+		lblTitle.setEnabled( enabled );
+		txtTitle.setEnabled( enabled );
+		btnTitleVisible.setEnabled( enabled );
+		lblBackground.setEnabled( enabled );
+		cmbBackgroundColor.setEnabled( enabled );
+		if ( isShowValueEnabled( ) )
+		{
+			lblShowValue.setEnabled( enabled );
+			btnShowValue.setEnabled( enabled );
+		}
+
+		// Adjust the button selection according to visibility
+		Iterator buttons = getToggleButtons( ).iterator( );
+		while ( buttons.hasNext( ) )
+		{
+			( (Button) buttons.next( ) ).setEnabled( enabled );
+		}
+	}
+
+	private boolean isShowValueEnabled( )
+	{
+		return getChart( ).getLegend( ).getItemType( ) == LegendItemType.SERIES_LITERAL;
 	}
 
 	private void init( )
@@ -235,7 +281,20 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
 
-		if ( e.widget.equals( btnTitleVisible ) )
+		if ( e.widget.equals( btnVisible ) )
+		{
+			getChart( ).getLegend( ).setVisible( btnVisible.getSelection( ) );
+			boolean enabled = btnVisible.getSelection( );
+
+			// If legend is invisible, close popup
+			if ( !enabled && isButtonSelected( ) )
+			{
+				detachPopup( );
+			}
+			// Adjust the UI according to visibility
+			setState( enabled );
+		}
+		else if ( e.widget.equals( btnTitleVisible ) )
 		{
 			getChart( ).getLegend( )
 					.getTitle( )
