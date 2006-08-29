@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,12 +40,12 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -122,8 +122,8 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	public TaskFormatChart( )
 	{
-		super( Messages.getString( "TaskFormatChart.TaskExp" ) ); //$NON-NLS-1$
-		setDescription( Messages.getString( "TaskFormatChart.Task.Description" ) ); //$NON-NLS-1$
+		super( Messages.getString( "TaskFormatChart.TaskExp" ), true ); //$NON-NLS-1$
+		setDescription( Messages.getString( "TaskFormatChart.Task.Description" ) ); //$NON-NLS-1$		
 	}
 
 	protected void populateSubtasks( )
@@ -441,15 +441,7 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	protected Composite createContainer( Composite parent )
 	{
-		Composite cmpTask = new Composite( parent, SWT.NONE );
-		{
-			GridLayout layout = new GridLayout( );
-			layout.marginWidth = 10;
-			cmpTask.setLayout( layout );
-			GridData gridData = new GridData( GridData.FILL_BOTH );
-			cmpTask.setLayoutData( gridData );
-		}
-		createPreviewArea( cmpTask );
+		Composite cmpTask = super.createContainer( parent );
 
 		lblNodeTitle = new Label( cmpTask, SWT.NONE );
 		{
@@ -459,37 +451,31 @@ public class TaskFormatChart extends TreeCompoundTask
 		Label separator = new Label( cmpTask, SWT.SEPARATOR | SWT.HORIZONTAL );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			// gd.horizontalIndent = -10;
 			separator.setLayoutData( gd );
 		}
 
 		return cmpTask;
 	}
 
-	private void createPreviewArea( Composite parent )
+	protected Composite createTitleArea( Composite parent )
 	{
-		Composite cmpPreview = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		cmpPreview.setLayout( layout );
+		Composite cmpTitle = super.createTitleArea( parent );
+		( (GridData) cmpTitle.getLayoutData( ) ).heightHint = 250;
 
-		GridData gridData = new GridData( GridData.FILL_BOTH );
-		gridData.heightHint = 250;
-		cmpPreview.setLayoutData( gridData );
-
-		Label label = new Label( cmpPreview, SWT.NONE );
+		previewCanvas = new Canvas( cmpTitle, SWT.BORDER );
 		{
-			label.setFont( JFaceResources.getBannerFont( ) );
-			label.setText( Messages.getString( "TaskFormatChart.Label.Preview" ) ); //$NON-NLS-1$
-		}
-
-		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
-		{
-			previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 2;
+			previewCanvas.setLayoutData( gd );
 			previewCanvas.setBackground( Display.getDefault( )
 					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
+		return cmpTitle;
+	}
+
+	protected String getTitleAreaString( )
+	{
+		return Messages.getString( "TaskFormatChart.Label.Preview" ); //$NON-NLS-1$
 	}
 
 	protected void createSubtaskArea( Composite parent, ISubtaskSheet subtask )
@@ -521,9 +507,9 @@ public class TaskFormatChart extends TreeCompoundTask
 			}
 			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
 			{
-				ChartAdapter.ignoreNotifications( true );
+				ChartAdapter.beginIgnoreNotifications( );
 				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
-				ChartAdapter.ignoreNotifications( false );
+				ChartAdapter.endIgnoreNotifications( );
 			}
 			previewPainter.renderModel( getCurrentModelState( ) );
 		}
@@ -549,7 +535,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.beginIgnoreNotifications( );
 			try
 			{
 				ChartUIUtil.doLivePreview( getCurrentModelState( ),
@@ -561,7 +547,7 @@ public class TaskFormatChart extends TreeCompoundTask
 				// Enable sample data instead
 				ChartPreviewPainter.activateLivePreview( false );
 			}
-			ChartAdapter.ignoreNotifications( false );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 		else
 		{

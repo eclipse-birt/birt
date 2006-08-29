@@ -38,6 +38,11 @@ public final class UIHelper
 
 	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
 
+	public static final String IMAGE_NAV_FORWARD = "icons/obj16/forward_nav.gif"; //$NON-NLS-1$
+	public static final String IMAGE_NAV_FORWARD_DIS = "icons/obj16/forward_nav_disabled.gif"; //$NON-NLS-1$
+	public static final String IMAGE_NAV_BACKWARD = "icons/obj16/backward_nav.gif"; //$NON-NLS-1$
+	public static final String IMAGE_NAV_BACKWARD_DIS = "icons/obj16/backward_nav_disabled.gif"; //$NON-NLS-1$
+	
 	/**
 	 * This is a helper method created to get the location on screen of a
 	 * composite. It does not take into account multiple monitors.
