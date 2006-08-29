@@ -46,7 +46,7 @@ public class ModuleOption implements IModuleOption
 	public ModuleOption( Map options )
 	{
 		if ( options != null && !options.isEmpty( ) )
-			options.putAll( options );
+			this.options.putAll( options );
 	}
 
 	/**

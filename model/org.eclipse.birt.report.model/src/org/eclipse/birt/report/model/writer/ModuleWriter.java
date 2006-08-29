@@ -1058,9 +1058,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		// write property bindings
 
 		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
-		
+
 		// write script libs
-		
+
 		writeStructureList( obj, Module.SCRIPTLIBS_PROP );
 	}
 
@@ -2711,7 +2711,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				OdaDataSet.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
-		
+
 		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.RESULT_SET_PROP );
 
@@ -2724,7 +2724,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
 		writeOdaDesignerState( obj, OdaDataSet.DESIGNER_STATE_PROP );
 		propertyCDATA( obj, OdaDataSet.DESIGNER_VALUES_PROP );
-		
+
 		List properties = (List) obj.getLocalProperty( getModule( ),
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
@@ -2836,6 +2836,8 @@ public abstract class ModuleWriter extends ElementVisitor
 					baseId ).toString( ) );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, virtualElement
 					.getName( ) );
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long(
+					virtualElement.getID( ) ).toString( ) );
 
 			assert virtualElement.getExtendsElement( ) == null;
 
