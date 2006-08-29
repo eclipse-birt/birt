@@ -21,8 +21,6 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.composites.DialScaleDialog;
-import org.eclipse.birt.chart.ui.swt.composites.DialTicksDialog;
 import org.eclipse.birt.chart.ui.swt.composites.HeadStyleAttributeComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -33,11 +31,8 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -49,13 +44,10 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class MeterSeriesAttributeComposite extends Composite implements
 		Listener,
-		ModifyListener,
-		SelectionListener
+		ModifyListener
 {
 
 	private transient Composite cmpContent = null;
-
-	private transient Composite cmpButton = null;
 
 	private transient LocalizedNumberEditorComposite txtRadius = null;
 
@@ -64,10 +56,6 @@ public class MeterSeriesAttributeComposite extends Composite implements
 	private transient IntegerSpinControl iscStopAngle = null;
 
 	private transient DialSeries series = null;
-
-	private transient Button btnTicks = null;
-
-	private transient Button btnScale = null;
 
 	private transient Group grpNeedle = null;
 
@@ -178,24 +166,6 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		iscStopAngle.setMaximum( 360 );
 		iscStopAngle.addListener( this );
 
-		cmpButton = new Composite( cmpContent, SWT.NONE );
-		GridData gdCMPButton = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMPButton.horizontalSpan = 2;
-		cmpButton.setLayoutData( gdCMPButton );
-		cmpButton.setLayout( new GridLayout( 2, true ) );
-
-		btnTicks = new Button( cmpButton, SWT.PUSH );
-		GridData gdBTNTicks = new GridData( GridData.FILL_HORIZONTAL );
-		btnTicks.setLayoutData( gdBTNTicks );
-		btnTicks.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialTicks" ) );//$NON-NLS-1$
-		btnTicks.addSelectionListener( this );
-
-		btnScale = new Button( cmpButton, SWT.PUSH );
-		GridData gdBTNScale = new GridData( GridData.FILL_HORIZONTAL );
-		btnScale.setLayoutData( gdBTNScale );
-		btnScale.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialScale" ) );//$NON-NLS-1$
-		btnScale.addSelectionListener( this );
-
 		// Layout for the Needle group
 		GridLayout glNeedle = new GridLayout( 1, true );
 		glNeedle.verticalSpacing = 0;
@@ -290,28 +260,6 @@ public class MeterSeriesAttributeComposite extends Composite implements
 			{
 				series.getNeedle( ).setDecorator( (LineDecorator) event.data );
 			}
-		}
-	}
-
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
-		// TODO Auto-generated method stub
-	}
-
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.widget.equals( btnTicks ) )
-		{
-			DialTicksDialog ticksDialog = new DialTicksDialog( this.getShell( ),
-					wizardContext,
-					series );
-			series.setDial( ticksDialog.getDialForProcessing( ) );
-		}
-		else if ( e.widget.equals( btnScale ) )
-		{
-			DialScaleDialog scaleDialog = new DialScaleDialog( this.getShell( ),
-					series );
-			series.setDial( scaleDialog.getDialForProcessing( ) );
 		}
 	}
 

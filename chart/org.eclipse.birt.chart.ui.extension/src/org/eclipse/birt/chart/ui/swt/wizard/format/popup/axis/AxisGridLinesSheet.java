@@ -283,12 +283,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				axis.getOrientation( ).getValue( ) );
 		gacMinor.addListener( this );
 
-		setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
-				.getLineAttributes( )
-				.isVisible( )
-				|| getAxisForProcessing( ).getMinorGrid( )
-						.getTickAttributes( )
-						.isVisible( ) );
+		setStateOfMinorGrid( );
 
 		return cmpContent;
 	}
@@ -378,9 +373,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					getAxisForProcessing( ).getMinorGrid( )
 							.getLineAttributes( )
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
-							.getLineAttributes( )
-							.isVisible( ) );
+					setStateOfMinorGrid( );
 					break;
 				case GridAttributesComposite.TICK_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getMinorGrid( )
@@ -395,16 +388,20 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					getAxisForProcessing( ).getMinorGrid( )
 							.getTickAttributes( )
 							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					setStateOfMinorGrid( getAxisForProcessing( ).getMinorGrid( )
-							.getTickAttributes( )
-							.isVisible( ) );
+					setStateOfMinorGrid( );
 					break;
 			}
 		}
 	}
 
-	private void setStateOfMinorGrid( boolean enabled )
+	private void setStateOfMinorGrid( )
 	{
+		boolean enabled = getAxisForProcessing( ).getMinorGrid( )
+				.getLineAttributes( )
+				.isVisible( )
+				|| getAxisForProcessing( ).getMinorGrid( )
+						.getTickAttributes( )
+						.isVisible( );
 		lblGridCount.setEnabled( enabled );
 		iscGridCount.setEnabled( enabled );
 	}

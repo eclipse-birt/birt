@@ -32,6 +32,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialLabelSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialScaleSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialTickSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.LineSeriesMarkerSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
@@ -66,12 +68,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 	private transient Hashtable htSeriesAttributeUIProviders = null;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
@@ -119,12 +116,13 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		// Label or Region
+		// For Meter series and other non-Stock series
 		ITaskPopupSheet popup;
 		if ( !( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof StockSeries ) )
 		{
 			if ( isMeterSeries( ) )
 			{
+				// Label
 				popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
@@ -133,6 +131,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 						popup );
 				btnDialLabel.addSelectionListener( this );
 
+				// Region
 				popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
@@ -140,9 +139,28 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 						Messages.getString( "SeriesYSheetImpl.Label.Region&" ), //$NON-NLS-1$
 						popup );
 				btnDialRegion.addSelectionListener( this );
+
+				// Ticks
+				popup = new DialTickSheet( Messages.getString( "DialTicksDialog.Title.DialTicks" ), //$NON-NLS-1$
+						getContext( ),
+						( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
+				Button btnDialTicks = createToggleButton( cmp,
+						Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialTicks" ), //$NON-NLS-1$
+						popup );
+				btnDialTicks.addSelectionListener( this );
+
+				// Scale
+				popup = new DialScaleSheet( Messages.getString( "DialScaleDialog.Title.DialScale" ), //$NON-NLS-1$
+						getContext( ),
+						( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
+				Button btnDialScale = createToggleButton( cmp,
+						Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialScale" ), //$NON-NLS-1$
+						popup );
+				btnDialScale.addSelectionListener( this );
 			}
 			else
 			{
+				// Label
 				popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
