@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -25,6 +26,7 @@ import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -313,9 +315,19 @@ public final class ScriptHandler extends ScriptableObject
 
 	public static final String AFTER_DRAW_BLOCK = "afterDrawBlock"; //$NON-NLS-1$
 
+	/**
+	 * @deprecated This is kept for backward compatibility only.
+	 */
 	public static final String BEFORE_DRAW_LEGEND_ENTRY = "beforeDrawLegendEntry"; //$NON-NLS-1$
 
+	/**
+	 * @deprecated This is kept for backward compatibility only.
+	 */
 	public static final String AFTER_DRAW_LEGEND_ENTRY = "afterDrawLegendEntry"; //$NON-NLS-1$
+	
+	public static final String BEFORE_DRAW_LEGEND_ITEM = "beforeDrawLegendItem"; //$NON-NLS-1$
+	
+	public static final String AFTER_DRAW_LEGEND_ITEM = "afterDrawLegendItem"; //$NON-NLS-1$
 
 	public static final String BEFORE_DRAW_SERIES = "beforeDrawSeries"; //$NON-NLS-1$
 
@@ -845,6 +857,18 @@ public final class ScriptHandler extends ScriptableObject
 		{
 			javahandler.afterDrawLegendEntry( (Label) tmpArgs[0],
 					(IChartScriptContext) tmpArgs[1] );
+		}
+		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ITEM.equals( name ) )
+		{
+			javahandler.beforeDrawLegendItem( (LegendEntryRenderingHints) tmpArgs[0],
+					(Bounds)tmpArgs[1],
+					(IChartScriptContext) tmpArgs[2] );
+		}
+		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ITEM.equals( name ) )
+		{
+			javahandler.afterDrawLegendItem( (LegendEntryRenderingHints) tmpArgs[0],
+					(Bounds)tmpArgs[1],
+					(IChartScriptContext) tmpArgs[2] );
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_SERIES.equals( name ) )
 		{

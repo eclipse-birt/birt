@@ -12,9 +12,11 @@
 package org.eclipse.birt.chart.script;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -34,6 +36,24 @@ import org.eclipse.birt.chart.script.IChartScriptContext;
  */
 public class ChartEventHandlerAdapter implements IChartEventHandler
 {
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.script.IChartEventHandler#afterDrawLegendItem(org.eclipse.birt.chart.computation.LegendEntryRenderingHints, 
+	 * org.eclipse.birt.chart.model.attribute.Bounds, 
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
+	 */
+	public void afterDrawLegendItem( LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc )
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.script.IChartEventHandler#beforeDrawLegendItem(org.eclipse.birt.chart.computation.LegendEntryRenderingHints, 
+	 * org.eclipse.birt.chart.model.attribute.Bounds, 
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
+	 */
+	public void beforeDrawLegendItem( LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc )
+	{
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -171,7 +191,7 @@ public class ChartEventHandlerAdapter implements IChartEventHandler
 	 */
 	public void beforeDrawSeries( Series series, ISeriesRenderer isr,
 			IChartScriptContext icsc )
-	{
+	{ 
 	}
 
 	/*

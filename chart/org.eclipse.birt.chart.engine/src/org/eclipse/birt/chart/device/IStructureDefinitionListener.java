@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.script.ScriptHandler;
  */
 public interface IStructureDefinitionListener
 {
-
 	/**
 	 * Comment for <code>BEFORE_DRAW_BLOCK</code>
 	 */
@@ -41,6 +40,16 @@ public interface IStructureDefinitionListener
 	 */
 	public static final String AFTER_DRAW_LEGEND_ENTRY = ScriptHandler.AFTER_DRAW_LEGEND_ENTRY;
 
+	/**
+	 * Comment for <code>BEFORE_DRAW_LEGEND_ITEM</code>
+	 */
+	public static final String BEFORE_DRAW_LEGEND_ITEM = ScriptHandler.BEFORE_DRAW_LEGEND_ITEM;
+	
+	/**
+	 * Comment for <code>AFTER_DRAW_LEGEND_ITEM</code>
+	 */
+	public static final String AFTER_DRAW_LEGEND_ITEM = ScriptHandler.AFTER_DRAW_LEGEND_ITEM;
+	
 	/**
 	 * Comment for <code>BEFORE_DRAW_SERIES</code>
 	 */
