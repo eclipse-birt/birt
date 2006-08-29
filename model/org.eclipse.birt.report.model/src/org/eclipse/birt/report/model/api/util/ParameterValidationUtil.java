@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 
-import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
@@ -815,10 +814,7 @@ public class ParameterValidationUtil
 		if ( value == null )
 			return null;
 
-		if ( StringUtil.isBlank( format ) )
-		{
-			return getDisplayValue( dataType, value, locale );
-		}
+		format = StringUtil.trimString( format );
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType )
 				|| value instanceof Date )
@@ -922,86 +918,5 @@ public class ParameterValidationUtil
 			Object value )
 	{
 		return getDisplayValue( dataType, format, value, DEFAULT_LOCALE );
-	}
-
-	/**
-	 * Gets the display string for the value with the given data type and the
-	 * locale. The value must be the valid data type.
-	 * 
-	 * @param dataType
-	 *            the data type of the input value
-	 * @param value
-	 *            the input value to validate
-	 * @param locale
-	 *            the locale information
-	 * @return the formatted string
-	 * 
-	 */
-
-	static private String getDisplayValue( String dataType, Object value,
-			ULocale locale )
-	{
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equalsIgnoreCase( dataType )
-				|| value instanceof Date )
-		{
-			DateFormat formatter = DateFormat.getDateTimeInstance(
-					DateFormat.MEDIUM, DateFormat.MEDIUM, locale );
-			return formatter.format( (Date) value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
-				.equalsIgnoreCase( dataType )
-				|| value instanceof Float || value instanceof Double )
-		{
-			if ( value instanceof Float )
-			{
-				NumberFormat formatter = NumberFormat
-						.getNumberInstance( locale );
-				return formatter.format( ( (Number) value ).floatValue( ) );
-			}
-			else
-			{
-				NumberFormat formatter = NumberFormat
-						.getNumberInstance( locale );
-				return formatter.format( ( (Number) value ).doubleValue( ) );
-			}
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-				.equalsIgnoreCase( dataType )
-				|| value instanceof BigDecimal )
-		{
-			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
-			return formatter.format( ( (BigDecimal) value ) );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
-				.equalsIgnoreCase( dataType )
-				|| value instanceof Integer || value instanceof Long )
-		{
-			NumberFormat formatter = NumberFormat.getNumberInstance( locale );
-			return formatter.format( ( (Number) value ).longValue( ) );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
-				.equalsIgnoreCase( dataType )
-				|| value instanceof Boolean )
-		{
-			if ( ( (Boolean) value ).booleanValue( ) )
-			{
-				return getMessage( locale,
-						BooleanPropertyType.BOOLEAN_TRUE_RESOURCE_KEY );
-			}
-
-			return getMessage( locale,
-					BooleanPropertyType.BOOLEAN_FALSE_RESOURCE_KEY );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( dataType )
-				|| value instanceof String )
-		{
-			return (String) value;
-		}
-		else
-		{
-			return value.toString( );
-		}
 	}
 }
