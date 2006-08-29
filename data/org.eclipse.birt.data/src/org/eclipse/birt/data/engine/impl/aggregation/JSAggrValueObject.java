@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl.aggregation;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -99,7 +100,9 @@ public class JSAggrValueObject extends ScriptableObject
 				
 		if ( this.odiResult.getRowCount( ) == 0 )
 		{
-			if ( aggrInfo.aggregation.getName( ).equalsIgnoreCase( "COUNT" ) )
+			if ( aggrInfo.aggregation.getName( ).equalsIgnoreCase( BuiltInAggregationFactory.TOTAL_COUNT_FUNC)
+				 ||	aggrInfo.aggregation.getName( ).equalsIgnoreCase( BuiltInAggregationFactory.TOTAL_COUNTDISTINCT_FUNC))
+				
 				return new Integer( 0 );
 			else
 				return null;
