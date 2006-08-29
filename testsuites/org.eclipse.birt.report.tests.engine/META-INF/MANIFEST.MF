@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.data,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.engine,
- org.eclipse.birt.tests.core
+ org.eclipse.birt.tests.core,
+ org.eclipse.birt.chart.engine
 Eclipse-LazyStart: true
