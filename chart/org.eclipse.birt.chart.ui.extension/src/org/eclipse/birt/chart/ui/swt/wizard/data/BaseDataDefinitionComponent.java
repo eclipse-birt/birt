@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -71,6 +73,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient Button btnFormatEditor = null;
 
+	private transient Button btnGroup = null;
+
 	private transient Query query = null;
 
 	private transient SeriesDefinition seriesdefinition = null;
@@ -85,10 +89,36 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient boolean isQueryModified;
 
-	private transient boolean isFormatSpecifiedEnabled = true;
+	private transient int style = BUTTON_NONE;
+
+	/** Indicates no button */
+	public static final int BUTTON_NONE = 0;
+
+	/** Indicates button for format specifier will be created */
+	public static final int BUTTON_FORMAT = 1;
+
+	/** Indicates button for group sorting will be created */
+	public static final int BUTTON_GROUP = 2;
 
 	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
 			Query query, ChartWizardContext context, String sTitle )
+	{
+		this( BUTTON_FORMAT, seriesdefinition, query, context, sTitle );
+	}
+
+	/**
+	 * 
+	 * @param style
+	 *            Specify buttons by using '|'. See {@link #BUTTON_FORMAT},
+	 *            {@link #BUTTON_GROUP}, {@link #BUTTON_NONE}
+	 * @param seriesdefinition
+	 * @param query
+	 * @param context
+	 * @param sTitle
+	 */
+	public BaseDataDefinitionComponent( int style,
+			SeriesDefinition seriesdefinition, Query query,
+			ChartWizardContext context, String sTitle )
 	{
 		super( );
 		assert query != null;
@@ -98,6 +128,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
 				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
+		this.style = style;
 	}
 
 	public Composite createArea( Composite parent )
@@ -107,7 +138,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			numColumns++;
 		}
-		if ( isFormatSpecifiedEnabled )
+		if ( ( style & BUTTON_FORMAT ) == BUTTON_FORMAT )
+		{
+			numColumns++;
+		}
+		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
 		{
 			numColumns++;
 		}
@@ -172,7 +207,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 					.isInvokingSupported( ) );
 		}
 
-		if ( isFormatSpecifiedEnabled )
+		if ( ( style & BUTTON_FORMAT ) == BUTTON_FORMAT )
 		{
 			btnFormatEditor = new Button( cmpTop, SWT.PUSH );
 			GridData gdBTNFormatEditor = new GridData( );
@@ -184,6 +219,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			btnFormatEditor.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
 			btnFormatEditor.getImage( )
 					.setBackground( btnFormatEditor.getBackground( ) );
+		}
+
+		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
+		{
+			btnGroup = new Button( cmpTop, SWT.PUSH );
+			GridData gdBTNFormatEditor = new GridData( );
+			gdBTNFormatEditor.heightHint = 20;
+			gdBTNFormatEditor.widthHint = 20;
+			btnGroup.setLayoutData( gdBTNFormatEditor );
+			btnGroup.setText( "S" ); //$NON-NLS-1$
+			// btnGroup.setImage( UIHelper.getImage(
+			// "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			btnGroup.addSelectionListener( this );
+			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
 		}
 
 		// Updatas color setting
@@ -261,6 +310,29 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				{
 					seriesdefinition.setFormatSpecifier( editor.getFormatSpecifier( ) );
 				}
+			}
+		}
+		else if ( e.getSource( ).equals( btnGroup ) )
+		{
+			SeriesDefinition sdBackup = (SeriesDefinition) EcoreUtil.copy( seriesdefinition );
+			GroupSortingDialog groupDialog = new GroupSortingDialog( cmpTop.getShell( ),
+					context,
+					sdBackup );
+
+			if ( groupDialog.open( ) == Window.OK )
+			{
+				if ( !sdBackup.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+				{
+					seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+				}
+				else
+				{
+					seriesdefinition.setSorting( sdBackup.getSorting( ) );
+				}
+				seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
+				seriesdefinition.getGrouping( )
+						.eAdapters( )
+						.addAll( seriesdefinition.eAdapters( ) );
 			}
 		}
 	}
@@ -377,7 +449,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	 */
 	public void setFormatSpecifierEnabled( boolean isEnabled )
 	{
-		this.isFormatSpecifiedEnabled = isEnabled;
+		if ( isEnabled )
+		{
+			this.style |= BUTTON_FORMAT;
+		}
+		else
+		{
+			this.style &= ~BUTTON_FORMAT;
+		}
 	}
 
 	public void setTooltipWhenBlank( String tootipWhenBlank )

@@ -74,7 +74,8 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 			leftAngle.getImage( ).setBackground( leftAngle.getBackground( ) );
 		}
 
-		comData = new BaseDataDefinitionComponent( seriesDefn,
+		comData = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
+				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				context,
 				sTitle );

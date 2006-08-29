@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -99,13 +98,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					.getItemType( )
 					.getName( ) ) );
 			cmbColorBy.addSelectionListener( this );
-		}
-
-		Label separator = new Label( cmpContent, SWT.SEPARATOR | SWT.HORIZONTAL );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = COLUMN_CONTENT;
-			separator.setLayoutData( gd );
 		}
 
 		final int COLUMN_DETAIL = 6;
@@ -377,21 +369,14 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				{
 					Class seriesClass = Class.forName( (String) htSeriesNames.get( sSeriesName ) );
 					Method createMethod = seriesClass.getDeclaredMethod( "create", new Class[]{} ); //$NON-NLS-1$
-					final Series newSeries = (Series) createMethod.invoke( seriesClass,
+					series = (Series) createMethod.invoke( seriesClass,
 							new Object[]{} );
-					ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-						public Object run( )
-						{
-							ChartUIUtil.copyGeneralSeriesAttributes( oldSeries,
-									newSeries );
-							// newSeries.translateFrom( oldSeries,
-							// iSeriesDefinitionIndex,
-							// getChart( ) );
-							return null;
-						}
-					} );
-					series = newSeries;
+					ChartAdapter.beginIgnoreNotifications( );
+					ChartUIUtil.copyGeneralSeriesAttributes( oldSeries, series );
+					// newSeries.translateFrom( oldSeries,
+					// iSeriesDefinitionIndex,
+					// getChart( ) );
+					ChartAdapter.endIgnoreNotifications( );
 				}
 				return series;
 			}
