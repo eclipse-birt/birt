@@ -152,6 +152,7 @@ public class LabelAttributesComposite extends Composite
 		public boolean isPositionEnabled = true;
 		public boolean isVisibilityEnabled = true;
 		public boolean isFontAlignmentEnabled = true;
+		public boolean isFontEnabled = true;
 		public boolean isInsetsEnabled = true;
 		public boolean isShadowEnabled = true;
 	}
@@ -238,6 +239,8 @@ public class LabelAttributesComposite extends Composite
 	 * @param serviceprovider
 	 * @param isAlignmentEnabled
 	 * @since 2.1
+	 * @deprecated To use
+	 *             {@link #LabelAttributesComposite(Composite, int, ChartWizardContext, org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext, String, Position, org.eclipse.birt.chart.model.component.Label, String)}
 	 */
 	public LabelAttributesComposite( Composite parent, int style,
 			String sGroupName, Position lpCurrent,
@@ -272,6 +275,8 @@ public class LabelAttributesComposite extends Composite
 	 * @param wizardContext
 	 * @param positionScope
 	 * @param isAlignmentEnabled
+	 * @deprecated To use
+	 *             {@link #LabelAttributesComposite(Composite, int, ChartWizardContext, org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext, String, Position, org.eclipse.birt.chart.model.component.Label, String, int)}
 	 */
 	public LabelAttributesComposite( Composite parent, int style,
 			String sGroupName, Position lpCurrent,
@@ -353,7 +358,7 @@ public class LabelAttributesComposite extends Composite
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
 
-		boolean bEnableUI = bEnabled;
+		boolean bEnableUI = bEnabled && this.lblCurrent.isVisible( );
 		if ( attributesContext.isVisibilityEnabled )
 		{
 			cbVisible = new Button( cmpGeneral, SWT.CHECK );
@@ -407,25 +412,28 @@ public class LabelAttributesComposite extends Composite
 			cmbPosition.setEnabled( bEnableUI );
 		}
 
-		lblFont = new Label( cmpGeneral, SWT.NONE );
-		GridData gdLFont = new GridData( );
-		lblFont.setLayoutData( gdLFont );
-		lblFont.setText( Messages.getString( "LabelAttributesComposite.Lbl.Font" ) ); //$NON-NLS-1$
-		lblFont.setEnabled( bEnableUI );
+		if ( attributesContext.isFontEnabled )
+		{
+			lblFont = new Label( cmpGeneral, SWT.NONE );
+			GridData gdLFont = new GridData( );
+			lblFont.setLayoutData( gdLFont );
+			lblFont.setText( Messages.getString( "LabelAttributesComposite.Lbl.Font" ) ); //$NON-NLS-1$
+			lblFont.setEnabled( bEnableUI );
 
-		fdcFont = new FontDefinitionComposite( cmpGeneral,
-				SWT.NONE,
-				wizardContext,
-				this.fdCurrent,
-				this.cdFont,
-				attributesContext.isFontAlignmentEnabled );
-		GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
-		gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
-		gdFDCFont.widthHint = 96;
-		gdFDCFont.grabExcessVerticalSpace = false;
-		fdcFont.setLayoutData( gdFDCFont );
-		fdcFont.addListener( this );
-		fdcFont.setEnabled( bEnableUI );
+			fdcFont = new FontDefinitionComposite( cmpGeneral,
+					SWT.NONE,
+					wizardContext,
+					this.fdCurrent,
+					this.cdFont,
+					attributesContext.isFontAlignmentEnabled );
+			GridData gdFDCFont = new GridData( GridData.FILL_BOTH );
+			gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+			gdFDCFont.widthHint = 96;
+			gdFDCFont.grabExcessVerticalSpace = false;
+			fdcFont.setLayoutData( gdFDCFont );
+			fdcFont.addListener( this );
+			fdcFont.setEnabled( bEnableUI );
+		}
 
 		lblFill = new Label( cmpGeneral, SWT.NONE );
 		GridData gdLFill = new GridData( );
@@ -584,8 +592,6 @@ public class LabelAttributesComposite extends Composite
 	{
 		this.lblCurrent = lbl;
 		this.sUnits = sUnits;
-		this.fdCurrent = lblCurrent.getCaption( ).getFont( );
-		this.cdFont = lblCurrent.getCaption( ).getColor( );
 		this.fBackground = lblCurrent.getBackground( );
 		this.laCurrent = lblCurrent.getOutline( );
 
@@ -612,8 +618,15 @@ public class LabelAttributesComposite extends Composite
 			this.cdShadow = lblCurrent.getShadowColor( );
 			this.fccShadow.setFill( cdShadow );
 		}
-		this.fdcFont.setFontDefinition( fdCurrent );
-		this.fdcFont.setFontColor( cdFont );
+
+		if ( attributesContext.isFontEnabled )
+		{
+			this.fdCurrent = lblCurrent.getCaption( ).getFont( );
+			this.cdFont = lblCurrent.getCaption( ).getColor( );
+			this.fdcFont.setFontDefinition( fdCurrent );
+			this.fdcFont.setFontColor( cdFont );
+		}
+
 		this.fccBackground.setFill( fBackground );
 		this.liacOutline.setLineAttributes( laCurrent );
 
@@ -681,8 +694,11 @@ public class LabelAttributesComposite extends Composite
 			cmbPosition.setEnabled( isVisible );
 		}
 		lblFill.setEnabled( isVisible );
-		lblFont.setEnabled( isVisible );
-		fdcFont.setEnabled( isVisible );
+		if ( attributesContext.isFontEnabled )
+		{
+			lblFont.setEnabled( isVisible );
+			fdcFont.setEnabled( isVisible );
+		}
 		fccBackground.setEnabled( isVisible );
 
 		if ( attributesContext.isShadowEnabled )

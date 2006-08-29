@@ -24,8 +24,10 @@ import org.eclipse.swt.accessibility.AccessibleAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -41,9 +43,8 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 public class FontDefinitionComposite extends Composite
-		implements
-			SelectionListener
 {
+	private static final String TOOLTIP = Messages.getString( "FontDefinitionComposite.Tooltip.FontDialog" ); //$NON-NLS-1$
 
 	private transient Composite cmpContent = null;
 
@@ -126,6 +127,15 @@ public class FontDefinitionComposite extends Composite
 		GridData gdCNVSelection = new GridData( GridData.FILL_HORIZONTAL );
 		gdCNVSelection.heightHint = iSize;
 		cnvSelection.setLayoutData( gdCNVSelection );
+		cnvSelection.setToolTipText( TOOLTIP );
+		cnvSelection.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseUp( MouseEvent e )
+			{
+				openFontDialog( );
+			}
+
+		} );
 
 		btnEllipsis = new Button( cmpContent, SWT.NONE );
 		GridData gdBEllipsis = new GridData( );
@@ -133,8 +143,15 @@ public class FontDefinitionComposite extends Composite
 		gdBEllipsis.heightHint = iSize + 4;
 		btnEllipsis.setLayoutData( gdBEllipsis );
 		btnEllipsis.setText( "..." ); //$NON-NLS-1$
-		btnEllipsis.setToolTipText( Messages.getString( "FontDefinitionComposite.Tooltip.FontDialog" ) ); //$NON-NLS-1$
-		btnEllipsis.addSelectionListener( this );
+		btnEllipsis.setToolTipText( TOOLTIP ); 
+		btnEllipsis.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				openFontDialog( );
+			}
+
+		} );
 	}
 
 	public void setEnabled( boolean bState )
@@ -177,41 +194,23 @@ public class FontDefinitionComposite extends Composite
 		vListeners.add( listener );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
+	void openFontDialog( )
 	{
-		Object oSource = e.getSource( );
-		if ( oSource.equals( btnEllipsis ) )
+		// Launch the font selection dialog
+		FontDefinitionDialog fontDlg = new FontDefinitionDialog( this.getShell( ),
+				wizardContext,
+				fdCurrent,
+				cdCurrent,
+				isAlignmentEnabled );
+		if ( fontDlg.open( ) == Window.OK )
 		{
-			// Launch the font selection dialog
-			FontDefinitionDialog fontDlg = new FontDefinitionDialog( this.getShell( ),
-					wizardContext,
-					fdCurrent,
-					cdCurrent,
-					isAlignmentEnabled );
-			if ( fontDlg.open( ) == Window.OK )
-			{
-				fdCurrent = fontDlg.getFontDefinition( );
-				cdCurrent = fontDlg.getFontColor( );
-				cnvSelection.setFontDefinition( fdCurrent );
-				cnvSelection.setColor( cdCurrent );
-				cnvSelection.redraw( );
-				fireEvent( );
-			}
+			fdCurrent = fontDlg.getFontDefinition( );
+			cdCurrent = fontDlg.getFontColor( );
+			cnvSelection.setFontDefinition( fdCurrent );
+			cnvSelection.setColor( cdCurrent );
+			cnvSelection.redraw( );
+			fireEvent( );
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
 	}
 
 	private void fireEvent( )

@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -30,7 +31,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -54,8 +54,6 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 	private transient LabelAttributesComposite lacLabel = null;
 
-	private transient Button cbStaggered;
-
 	private transient Spinner iscInterval;
 
 	private transient Axis axis;
@@ -73,13 +71,11 @@ public class AxisTextSheet extends AbstractPopupSheet
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_TEXT_FORMAT );
-		
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glMain = new GridLayout( );
 			glMain.numColumns = 2;
-			glMain.horizontalSpacing = 5;
-			glMain.verticalSpacing = 5;
 			glMain.marginHeight = 7;
 			glMain.marginWidth = 7;
 			cmpContent.setLayout( glMain );
@@ -87,30 +83,32 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 		if ( axisType == AngleType.Z )
 		{
+			LabelAttributesContext attributesContext = new LabelAttributesContext( );
+			attributesContext.isPositionEnabled = false;
+			attributesContext.isVisibilityEnabled = false;
 			lacTitle = new LabelAttributesComposite( cmpContent,
 					SWT.NONE,
+					getContext( ),
+					attributesContext,
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 					getAxisForProcessing( ).getTitlePosition( ),
 					getAxisForProcessing( ).getTitle( ),
-					getChart( ).getUnits( ),
-					false,
-					true,
-					getContext( ),
-					true );
+					getChart( ).getUnits( ) );
 		}
 		else
 		{
+			LabelAttributesContext attributesContext = new LabelAttributesContext( );
+			attributesContext.isVisibilityEnabled = false;
 			lacTitle = new LabelAttributesComposite( cmpContent,
 					SWT.NONE,
+					getContext( ),
+					attributesContext,
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 					getAxisForProcessing( ).getTitlePosition( ),
 					getAxisForProcessing( ).getTitle( ),
 					getChart( ).getUnits( ),
-					true,
-					true,
-					getContext( ),
-					getPositionScope( ),
-					true );
+					getPositionScope( ) );
+
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING );
@@ -125,8 +123,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 		{
 			GridLayout layout = new GridLayout( );
 			layout.numColumns = 2;
-			// layout.marginWidth = 0;
-			// layout.verticalSpacing = 0;
+			layout.marginWidth = 0;
+			layout.marginHeight = 0;
 			grpLabel.setLayout( layout );
 			grpLabel.setText( Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Label" ) ); //$NON-NLS-1$
 			grpLabel.setEnabled( isLabelEnabled );
@@ -134,52 +132,41 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 		if ( axisType == AngleType.Z )
 		{
-			lacLabel = new LabelAttributesComposite( grpLabel, SWT.NONE, null,// Replace
-					// group
-					// with
-					// composite
+			LabelAttributesContext attributesContext = new LabelAttributesContext( );
+			attributesContext.isPositionEnabled = false;
+			attributesContext.isVisibilityEnabled = false;
+			attributesContext.isFontEnabled = false;
+			attributesContext.isFontAlignmentEnabled = false;
+			lacLabel = new LabelAttributesComposite( grpLabel,
+					SWT.NONE,
+					getContext( ),
+					attributesContext,
+					null,
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
-					getChart( ).getUnits( ),
-					false,
-					false,
-					getContext( ),
-					false );
+					getChart( ).getUnits( ) );
 		}
 		else
 		{
-			lacLabel = new LabelAttributesComposite( grpLabel, SWT.NONE, null,// Replace
-					// group
-					// with
-					// composite
+			LabelAttributesContext attributesContext = new LabelAttributesContext( );
+			attributesContext.isVisibilityEnabled = false;
+			attributesContext.isFontEnabled = false;
+			attributesContext.isFontAlignmentEnabled = false;
+			lacLabel = new LabelAttributesComposite( grpLabel,
+					SWT.NONE,
+					getContext( ),
+					attributesContext,
+					null,
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
 					getChart( ).getUnits( ),
-					true,
-					false,
-					getContext( ),
-					getPositionScope( ),
-					false );
+					getPositionScope( ) );
 		}
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
-		gdLACLabel.verticalIndent = 14;
 		gdLACLabel.horizontalSpan = 2;
 		lacLabel.setLayoutData( gdLACLabel );
 		lacLabel.addListener( this );
 		lacLabel.setEnabled( isLabelEnabled );
-
-		cbStaggered = new Button( grpLabel, SWT.CHECK );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			gd.horizontalIndent = 10;
-			cbStaggered.setLayoutData( gd );
-			cbStaggered.setSelection( getAxisForProcessing( ).isSetStaggered( )
-					&& getAxisForProcessing( ).isStaggered( ) );
-			cbStaggered.setText( Messages.getString( "AxisTextSheet.Label.StaggerLabels" ) ); //$NON-NLS-1$
-			cbStaggered.addSelectionListener( this );
-			cbStaggered.setEnabled( isLabelEnabled );
-		}
 
 		Label lblInterval = new Label( grpLabel, SWT.NONE );
 		{
@@ -326,11 +313,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( cbStaggered ) )
-		{
-			getAxisForProcessing( ).setStaggered( cbStaggered.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( iscInterval ) )
+		if ( e.getSource( ).equals( iscInterval ) )
 		{
 			getAxisForProcessing( ).setInterval( iscInterval.getSelection( ) );
 		}

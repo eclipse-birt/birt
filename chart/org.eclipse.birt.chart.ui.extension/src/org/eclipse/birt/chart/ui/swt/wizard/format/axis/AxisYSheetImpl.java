@@ -34,9 +34,9 @@ public class AxisYSheetImpl extends AbstractAxisSubtask
 		return AngleType.Y;
 	}
 	
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YAXIS );
-		super.getComponent( parent );
+		super.createControl( parent );
 	}
 }

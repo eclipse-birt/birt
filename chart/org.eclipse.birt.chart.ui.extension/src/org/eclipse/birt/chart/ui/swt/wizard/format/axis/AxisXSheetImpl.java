@@ -33,9 +33,9 @@ public class AxisXSheetImpl extends AbstractAxisSubtask
 		return AngleType.X;
 	}
 	
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_XAXIS );
-		super.getComponent( parent );
+		super.createControl( parent );
 	}
 }
