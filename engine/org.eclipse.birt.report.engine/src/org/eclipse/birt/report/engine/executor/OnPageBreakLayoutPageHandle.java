@@ -198,12 +198,6 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		public void startContainer( IContainerArea containerArea )
 		{
 			addContent( containerArea.getContent( ) );
-			Iterator iter = containerArea.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				IArea area = (IArea) iter.next( );
-				area.accept( this );
-			}
 		}
 
 		public void endContainer( IContainerArea containerArea )

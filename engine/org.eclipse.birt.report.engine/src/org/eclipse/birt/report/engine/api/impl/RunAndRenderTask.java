@@ -188,7 +188,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 						executionContext );
 				layoutEngine.setPageHandler( handle );
 
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( );
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format);
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 

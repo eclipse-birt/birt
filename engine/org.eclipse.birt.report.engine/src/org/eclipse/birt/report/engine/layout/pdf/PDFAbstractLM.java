@@ -21,8 +21,8 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.ListValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -477,14 +477,29 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		if ( content != null )
 		{
 			IStyle style = content.getComputedStyle( );
-			String formats = style.getVisibleFormat( );
-			String format = context.getFormat( );
-			if ( CSSConstants.CSS_NONE_VALUE.equalsIgnoreCase( style
-					.getDisplay( ) )
-					|| ( formats != null && formats.length( ) > 0 && ( formats
-							.indexOf( format ) >= 0 || formats.toUpperCase( )
-							.indexOf( BIRTConstants.BIRT_ALL_VALUE
-									.toUpperCase( ) ) >= 0 ) ) )
+			if(!IStyle.NONE_VALUE.equals(style.getProperty( IStyle.STYLE_DISPLAY )))
+			{
+				ListValue formats = (ListValue)style.getProperty( IStyle.STYLE_VISIBLE_FORMAT );
+				if(formats.getLength( )==0)
+				{
+					return false;
+				}
+				else
+				{
+					String format = context.getFormat( );
+					for(int i=0; i<formats.getLength( ); i++)
+					{
+						String hiddenFormat = formats.item( i ).getCssText( );
+						if(format.equalsIgnoreCase( hiddenFormat ) 
+								|| BIRTConstants.BIRT_ALL_VALUE.equalsIgnoreCase(hiddenFormat) )
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+			}
+			else
 			{
 				return true;
 			}

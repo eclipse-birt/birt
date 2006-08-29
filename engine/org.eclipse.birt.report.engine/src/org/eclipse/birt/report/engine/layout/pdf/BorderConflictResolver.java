@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -52,7 +51,9 @@ import org.w3c.dom.css.CSSValue;
  * same type disagree.
  * </ul>
  * 
+ * 
  */
+///TODO: change the border style's resolve.
 public class BorderConflictResolver
 {
 
@@ -223,82 +224,66 @@ public class BorderConflictResolver
 	private void resolveBorder( BorderStyleInfo[] styles,
 			BorderStyleInfo usedStyle )
 	{
+		CSSValue[] borderStyles = new CSSValue[styles.length];
 		for ( int i = 0; i < styles.length; i++ )
 		{
-			if ( IStyle.HIDDEN_VALUE.equals( styles[i].getBorderStyle( ) ) )
+			borderStyles[i] = styles[i].getBorderStyle( );
+			if ( IStyle.HIDDEN_VALUE.equals( borderStyles[i] ) )
 			{
 				usedStyle.setBorderStyle( IStyle.HIDDEN_VALUE );
 				return;
 			}
 		}
-		resolveBorderWidth( styles, usedStyle );
-	}
-
-	private void resolveBorderWidth( BorderStyleInfo[] styles,
-			BorderStyleInfo usedStyle )
-	{
+		
+		//resolve border width
 		int maxWidth = 0;
-		int count = 1;
+		int maxCount = 1;
 		int maxFirstIndex = 0;
 		int[] ws = new int[styles.length];
+		CSSValue[] borderWidths = new CSSValue[styles.length];
 		for ( int i = 0; i < styles.length; i++ )
 		{
+			borderWidths[i] = styles[i].getBorderWidth( );
 			ws[i] = PropertyUtil
 					.getDimensionValue( styles[i].getBorderWidth( ) );
 			if ( ws[i] > maxWidth )
 			{
 				maxWidth = ws[i];
-				count = 1;
+				maxCount = 1;
 				maxFirstIndex = i;
 			}
 			else if ( ws[i] == maxWidth )
 			{
-				count++;
+				maxCount++;
 			}
 		}
 
-		if ( count == 1 )
+		if ( maxCount == 1 )
 		{
-			usedStyle.copyBorder( styles[maxFirstIndex] );
+			usedStyle.setBorder( borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], styles[maxFirstIndex].getBorderColor( ) );
 			return;
 		}
 		else
 		{
-			ArrayList styleList = new ArrayList( );
+			//resolve border style
+			int max = 0;
+			int maxStyleIndex = 0;
+			int[] ss = new int[styles.length];
 			for ( int i = 0; i < styles.length; i++ )
 			{
 				if ( ws[i] == maxWidth )
 				{
-					styleList.add( styles[i] );
+					ss[i] = ( (Integer) styleMap.get( styles[i].getBorderStyle( ) ) )
+					.intValue( );
+					if ( ss[i] > max )
+					{
+						max = ss[i];
+						maxFirstIndex = i;
+					}
 				}
 			}
-			resolveBorderStyle( (BorderStyleInfo[]) styleList
-					.toArray( new BorderStyleInfo[styleList.size( )] ),
-					usedStyle );
-
+			usedStyle.setBorder( borderStyles[maxStyleIndex], borderWidths[maxStyleIndex], styles[maxStyleIndex].getBorderColor( ) );
 		}
-
-	}
-
-	private void resolveBorderStyle( BorderStyleInfo[] styles,
-			BorderStyleInfo usedStyle )
-	{
-		int max = 0;
-		int maxFirstIndex = 0;
-		int[] ss = new int[styles.length];
-		for ( int i = 0; i < styles.length; i++ )
-		{
-			ss[i] = ( (Integer) styleMap.get( styles[i].getBorderStyle( ) ) )
-					.intValue( );
-			if ( ss[i] > max )
-			{
-				max = ss[i];
-				maxFirstIndex = i;
-			}
-		}
-
-		usedStyle.copyBorder( styles[maxFirstIndex] );
-		return;
 	}
 
 	protected class BorderStyleInfo
@@ -411,7 +396,7 @@ public class BorderConflictResolver
 			return null;
 		}
 
-		public void setBorderStyle( CSSValue value )
+		private void setBorderStyle( CSSValue value )
 		{
 			switch ( position )
 			{
@@ -433,7 +418,7 @@ public class BorderConflictResolver
 			}
 		}
 
-		public void setBorderWidth( CSSValue value )
+		private void setBorderWidth( CSSValue value )
 		{
 			switch ( position )
 			{
@@ -460,14 +445,11 @@ public class BorderConflictResolver
 
 		}
 
-		public void copyBorder( BorderStyleInfo orginal )
+		public void setBorder(CSSValue style, CSSValue width, CSSValue color)
 		{
-			if ( orginal != null )
-			{
-				setBorderStyle( orginal.getBorderStyle( ) );
-				setBorderColor( orginal.getBorderColor( ) );
-				setBorderWidth( orginal.getBorderWidth( ) );
-			}
+			setBorderStyle( style );
+			setBorderWidth( width );
+			setBorderColor( color );
 		}
 	}
 }
