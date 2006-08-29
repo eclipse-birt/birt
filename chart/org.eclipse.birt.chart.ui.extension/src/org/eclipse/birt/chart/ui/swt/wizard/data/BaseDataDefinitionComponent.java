@@ -225,17 +225,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			btnGroup = new Button( cmpTop, SWT.PUSH );
 			GridData gdBTNFormatEditor = new GridData( );
-			gdBTNFormatEditor.heightHint = 20;
-			gdBTNFormatEditor.widthHint = 20;
+//			gdBTNFormatEditor.heightHint = 20;
+//			gdBTNFormatEditor.widthHint = 20;
 			btnGroup.setLayoutData( gdBTNFormatEditor );
-			btnGroup.setText( "S" ); //$NON-NLS-1$
+			btnGroup.setText( "Grouping..." );
 			// btnGroup.setImage( UIHelper.getImage(
 			// "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 			btnGroup.addSelectionListener( this );
 			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
 		}
 
-		// Updatas color setting
+		// Updates color setting
 		setColor( );
 
 		return cmpTop;

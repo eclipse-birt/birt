@@ -169,7 +169,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	private void setState( boolean enabled )
 	{
 		lblTitle.setEnabled( enabled );
-		txtTitle.setEnabled( enabled );
+		txtTitle.setEnabled( enabled && btnTitleVisible.getSelection( ) );
 		btnTitleVisible.setEnabled( enabled );
 		lblBackground.setEnabled( enabled );
 		cmbBackgroundColor.setEnabled( enabled );

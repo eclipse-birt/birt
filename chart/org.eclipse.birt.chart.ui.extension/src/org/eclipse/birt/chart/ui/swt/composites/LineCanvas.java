@@ -20,7 +20,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Actuate Corporation
@@ -71,38 +70,33 @@ public class LineCanvas extends Canvas implements PaintListener, FocusListener
 		{
 			isFocusIn = true;
 		}
-		
+
 		Color cForeground = null;
 		Color cBackground = null;
 		if ( this.isEnabled( ) )
 		{
-			cForeground = Display.getCurrent( )
-					.getSystemColor( SWT.COLOR_BLACK );
-			cBackground = Display.getCurrent( )
-					.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+			cForeground = getDisplay( ).getSystemColor( SWT.COLOR_LIST_FOREGROUND );
+			cBackground = getDisplay( ).getSystemColor( SWT.COLOR_LIST_BACKGROUND );
 		}
 		else
 		{
-			cForeground = Display.getCurrent( )
-					.getSystemColor( SWT.COLOR_DARK_GRAY );
-			cBackground = Display.getCurrent( )
-					.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
+			cForeground = getDisplay( ).getSystemColor( SWT.COLOR_DARK_GRAY );
+			cBackground = getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
 		}
 
 		GC gc = pe.gc;
-
-		gc.setBackground( cBackground );
-		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
-
-		// Render a gray background to indicate focus
 		if ( isFocusIn )
 		{
-			gc.setBackground( Display.getCurrent( )
-					.getSystemColor( SWT.COLOR_LIST_SELECTION ) );
-			gc.fillRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
+			gc.setBackground( getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+			gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT ) );
+		}
+		else
+		{
+			gc.setBackground( cBackground );
+			gc.setForeground( cForeground );
 		}
 
-		gc.setForeground( cForeground );
+		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
 		gc.setLineStyle( iLineStyle );
 		gc.setLineWidth( iLineWidth );
 		gc.drawLine( 10,
@@ -110,15 +104,6 @@ public class LineCanvas extends Canvas implements PaintListener, FocusListener
 				this.getSize( ).x - 10,
 				this.getSize( ).y / 2 );
 
-		// Render a boundary line to indicate focus
-		if ( isFocusIn )
-		{
-			gc.setLineStyle( SWT.LINE_DOT );
-			gc.setLineWidth( 1 );
-			gc.setForeground( Display.getCurrent( )
-					.getSystemColor( SWT.COLOR_BLACK ) );
-			gc.drawRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
-		}
 	}
 
 	public void setEnabled( boolean bState )

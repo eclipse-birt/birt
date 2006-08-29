@@ -709,8 +709,6 @@ public class WizardBase implements IRegistrationListener
 					Messages.getString( "WizardBase.Cancel" ),//$NON-NLS-1$
 					false );
 
-			( (GridData) getButton( IDialogConstants.NEXT_ID ).getLayoutData( ) ).horizontalIndent = -5;
-
 			for ( int i = 0; i < buttonList.size( ); i++ )
 			{
 				IButtonHandler buttonHandler = (IButtonHandler) buttonList.get( i );
