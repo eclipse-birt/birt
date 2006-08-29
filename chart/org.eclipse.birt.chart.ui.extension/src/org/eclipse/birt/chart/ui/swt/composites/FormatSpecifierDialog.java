@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -35,6 +36,8 @@ public class FormatSpecifierDialog extends TrayDialog
 
 	private transient FormatSpecifier formatspecifier = null;
 
+	private AxisType[] axisTypes = null;
+
 	/**
 	 * 
 	 * @param shellParent
@@ -53,6 +56,46 @@ public class FormatSpecifierDialog extends TrayDialog
 			this.formatspecifier = (FormatSpecifier) EcoreUtil.copy( formatspecifier );
 		}
 	}
+	
+	/**
+	 * 
+	 * @param shellParent
+	 *            dialog shell
+	 * @param formatspecifier
+	 *            format model
+	 * @param sTitle
+	 *            this argument is obsolete
+	 * @param axisType
+	 *            Axis type to indicate supported data type.
+	 * @since 2.2
+	 */
+	public FormatSpecifierDialog( Shell shellParent,
+			FormatSpecifier formatspecifier, AxisType axisType, String sTitle )
+	{
+		this( shellParent, formatspecifier, new AxisType[]{
+			axisType
+		}, sTitle );
+	}
+
+	/**
+	 * 
+	 * @param shellParent
+	 *            dialog shell
+	 * @param formatspecifier
+	 *            format model
+	 * @param sTitle
+	 *            this argument is obsolete
+	 * @param axisTypes
+	 *            Axis types to indicate supported data types. Null means all
+	 *            types are supported.
+	 * @since 2.2
+	 */
+	public FormatSpecifierDialog( Shell shellParent,
+			FormatSpecifier formatspecifier, AxisType[] axisTypes, String sTitle )
+	{
+		this( shellParent, formatspecifier, sTitle );
+		this.axisTypes = axisTypes;
+	}
 
 	protected void setShellStyle( int newShellStyle )
 	{
@@ -70,9 +113,24 @@ public class FormatSpecifierDialog extends TrayDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		editor = new FormatSpecifierComposite( parent,
-				SWT.NONE,
-				formatspecifier );
+		if ( axisTypes == null )
+		{
+			editor = new FormatSpecifierComposite( parent,
+					SWT.NONE,
+					formatspecifier );
+		}
+		else
+		{
+			String[] supportedTypes = new String[axisTypes.length];
+			for ( int i = 0; i < axisTypes.length; i++ )
+			{
+				supportedTypes[i] = getSupportedType( axisTypes[i] );
+			}
+			editor = new FormatSpecifierComposite( parent,
+					SWT.NONE,
+					formatspecifier,
+					supportedTypes );
+		}
 		GridData gdEditor = new GridData( GridData.FILL_BOTH );
 		editor.setLayoutData( gdEditor );
 
@@ -88,6 +146,20 @@ public class FormatSpecifierDialog extends TrayDialog
 	{
 		formatspecifier = editor.getFormatSpecifier( );
 		super.okPressed( );
+	}
+
+	String getSupportedType( AxisType axisType )
+	{
+		if ( axisType == AxisType.DATE_TIME_LITERAL )
+		{
+			return FormatSpecifierComposite.DATA_TYPE_DATETIME;
+		}
+		if ( axisType == AxisType.LINEAR_LITERAL
+				|| axisType == AxisType.LOGARITHMIC_LITERAL )
+		{
+			return FormatSpecifierComposite.DATA_TYPE_NUMBER;
+		}
+		return FormatSpecifierComposite.DATA_TYPE_NONE;
 	}
 
 }

@@ -41,7 +41,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
@@ -49,8 +52,9 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class FormatSpecifierComposite extends Composite implements
-		SelectionListener
+public class FormatSpecifierComposite extends Composite
+		implements
+			SelectionListener
 {
 
 	private transient Button btnUndefined = null;
@@ -93,22 +97,47 @@ public class FormatSpecifierComposite extends Composite implements
 
 	private transient Composite cmpFractionNumberDetails = null;
 
+	private transient FormatSpecifierPreview fsp = null;
+
 	private transient FormatSpecifier formatspecifier = null;
 
 	private transient boolean bEnableEvents = true;
-	
-	private final static int DATA_TYPE_NMUBER = 0;
-	private final static int DATA_TYPE_DATETIME = 1;
+
+	public final static String DATA_TYPE_NONE = Messages.getString( "FormatSpecifierComposite.Lbl.None" ); //$NON-NLS-1$
+	public final static String DATA_TYPE_NUMBER = Messages.getString( "FormatSpecifierComposite.Lbl.Number" ); //$NON-NLS-1$
+	public final static String DATA_TYPE_DATETIME = Messages.getString( "FormatSpecifierComposite.Lbl.DateTime" ); //$NON-NLS-1$
+
+	private String[] supportedTypes = null;
 
 	/**
+	 * 
 	 * @param parent
 	 * @param style
+	 * @param formatspecifier
 	 */
 	public FormatSpecifierComposite( Composite parent, int style,
 			FormatSpecifier formatspecifier )
 	{
+		this( parent, style, formatspecifier, new String[]{
+				DATA_TYPE_NUMBER, DATA_TYPE_DATETIME
+		} );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param formatspecifier
+	 * @param supportedTypes
+	 *            Supported data types. Null means no supported data type.
+	 * @since 2.2
+	 */
+	public FormatSpecifierComposite( Composite parent, int style,
+			FormatSpecifier formatspecifier, String[] supportedTypes )
+	{
 		super( parent, style );
 		this.formatspecifier = formatspecifier;
+		this.supportedTypes = supportedTypes;
 		init( );
 		placeComponents( );
 	}
@@ -124,9 +153,8 @@ public class FormatSpecifierComposite extends Composite implements
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
-		glContent.marginHeight = 7;
-		glContent.marginWidth = 7;
-		glContent.horizontalSpacing = 5;
+		glContent.marginHeight = 10;
+		glContent.marginWidth = 10;
 		glContent.verticalSpacing = 0;
 
 		// Layout for the details composite
@@ -136,6 +164,25 @@ public class FormatSpecifierComposite extends Composite implements
 		slAdvancedDetails = new StackLayout( );
 
 		this.setLayout( glContent );
+
+		Group grpPreview = new Group( this, SWT.NONE );
+		{
+			grpPreview.setLayout( new GridLayout( ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			grpPreview.setLayoutData( gd );
+			grpPreview.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Preview" ) ); //$NON-NLS-1$
+		}
+
+		fsp = new FormatSpecifierPreview( grpPreview, SWT.NONE, true );
+		{
+			GridData gd = new GridData( );
+			gd.grabExcessHorizontalSpace = true;
+			gd.horizontalAlignment = SWT.CENTER;
+			fsp.setLayoutData( gd );
+		}
+
+		createPlaceHolder( this, 2 );
 
 		Label lblDataType = new Label( this, SWT.NONE );
 		GridData gdLBLDataType = new GridData( );
@@ -147,6 +194,8 @@ public class FormatSpecifierComposite extends Composite implements
 		cmbDataType.setLayoutData( gdCMBDataType );
 		cmbDataType.addSelectionListener( this );
 
+		createPlaceHolder( this, 2 );
+
 		btnUndefined = new Button( this, SWT.RADIO );
 		GridData gdBTNUndefined = new GridData( GridData.FILL_HORIZONTAL );
 		gdBTNUndefined.horizontalSpan = 2;
@@ -154,11 +203,7 @@ public class FormatSpecifierComposite extends Composite implements
 		btnUndefined.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Undefined" ) ); //$NON-NLS-1$
 		btnUndefined.addSelectionListener( this );
 
-		Label lblDummyStandard = new Label( this, SWT.NONE );
-		GridData gdLBLDummyStandard = new GridData( );
-		gdLBLDummyStandard.horizontalSpan = 2;
-		gdLBLDummyStandard.heightHint = 10;
-		lblDummyStandard.setLayoutData( gdLBLDummyStandard );
+		createPlaceHolder( this, 2 );
 
 		btnStandard = new Button( this, SWT.RADIO );
 		GridData gdBTNStandard = new GridData( GridData.FILL_HORIZONTAL );
@@ -196,11 +241,7 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 		cpWrapStandardNumber = new NumberStandardComposite( cmpStandardNumberDetails );
 
-		Label lblDummyAdvanced = new Label( this, SWT.NONE );
-		GridData gdLBLDummyAdvanced = new GridData( );
-		gdLBLDummyAdvanced.horizontalSpan = 2;
-		gdLBLDummyAdvanced.heightHint = 10;
-		lblDummyAdvanced.setLayoutData( gdLBLDummyAdvanced );
+		createPlaceHolder( this, 2 );
 
 		btnAdvanced = new Button( this, SWT.RADIO );
 		GridData gdBTNAdvanced = new GridData( GridData.FILL_HORIZONTAL );
@@ -238,14 +279,7 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 		cpWrapAdvancedNumber = new NumberAdvancedComposite( cmpAdvancedNumberDetails );
 
-		// Fraction Number details Composite
-		Label lblDummyFraction = new Label( this, SWT.NONE );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			gd.heightHint = 10;
-			lblDummyFraction.setLayoutData( gd );
-		}
+		createPlaceHolder( this, 2 );
 
 		btnFraction = new Button( this, SWT.RADIO );
 		{
@@ -269,23 +303,55 @@ public class FormatSpecifierComposite extends Composite implements
 		populateLists( );
 	}
 
+	private void createPlaceHolder( Composite parent, int horizontalSpan )
+	{
+		Label label = new Label( parent, SWT.NONE );
+		GridData gd = new GridData( );
+		gd.horizontalSpan = horizontalSpan;
+		gd.heightHint = 10;
+		label.setLayoutData( gd );
+	}
+
 	private void populateLists( )
 	{
 		this.bEnableEvents = false;
-		cmbDataType.add( Messages.getString("FormatSpecifierComposite.Lbl.Number") ); //$NON-NLS-1$
-		cmbDataType.add( Messages.getString("FormatSpecifierComposite.Lbl.DateTime") ); //$NON-NLS-1$
+		if ( supportedTypes == null )
+		{
+			cmbDataType.add( DATA_TYPE_NONE );
+		}
+		else
+		{
+			cmbDataType.setItems( supportedTypes );
+		}
 
 		if ( formatspecifier == null )
 		{
 			cmbDataType.select( 0 );
 			btnUndefined.setSelection( true );
-			slStandardDetails.topControl = this.cmpStandardNumberDetails;
-			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
+
+			if ( cmbDataType.getText( ).equals( DATA_TYPE_NUMBER ) )
+			{
+				slStandardDetails.topControl = this.cmpStandardNumberDetails;
+				slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
+			}
+			else if ( cmbDataType.getText( ).equals( DATA_TYPE_DATETIME ) )
+			{
+				slStandardDetails.topControl = this.cmpStandardDateDetails;
+				slAdvancedDetails.topControl = this.cmpAdvancedDateDetails;
+			}
+			else if ( cmbDataType.getText( ).equals( DATA_TYPE_NONE ) )
+			{
+				// Hide UI
+				cmpFractionNumberDetails.setVisible( false );
+				btnFraction.setVisible( false );
+				btnStandard.setVisible( false );
+				btnAdvanced.setVisible( false );
+			}
 		}
 		else if ( formatspecifier instanceof DateFormatSpecifier
 				|| formatspecifier instanceof JavaDateFormatSpecifier )
 		{
-			cmbDataType.select( 1 );
+			cmbDataType.setText( DATA_TYPE_DATETIME );
 			if ( formatspecifier instanceof DateFormatSpecifier )
 			{
 				btnStandard.setSelection( true );
@@ -304,7 +370,7 @@ public class FormatSpecifierComposite extends Composite implements
 		else if ( formatspecifier instanceof NumberFormatSpecifier
 				|| formatspecifier instanceof JavaNumberFormatSpecifier )
 		{
-			cmbDataType.select( 0 );
+			cmbDataType.setText( DATA_TYPE_NUMBER );
 			if ( formatspecifier instanceof NumberFormatSpecifier )
 			{
 				btnStandard.setSelection( true );
@@ -322,18 +388,19 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 		else if ( formatspecifier instanceof FractionNumberFormatSpecifier )
 		{
-			cmbDataType.select( 0 );
+			cmbDataType.setText( DATA_TYPE_NUMBER );
 			btnFraction.setSelection( true );
 			slStandardDetails.topControl = this.cmpStandardNumberDetails;
 			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
 		}
-		updateUIState( );
 
 		cpWrapStandardDate.populateLists( );
 		cpWrapStandardNumber.populateLists( );
 		cpWrapAdvancedNumber.populateLists( );
 		cpWrapAdvancedDate.populateLists( );
 		cpWrapFractionNumber.populateLists( );
+
+		updateUIState( );
 
 		this.layout( );
 		this.bEnableEvents = true;
@@ -353,18 +420,7 @@ public class FormatSpecifierComposite extends Composite implements
 	private FormatSpecifier buildFormatSpecifier( )
 	{
 		FormatSpecifier fs = null;
-		if ( cmbDataType.getSelectionIndex( ) == DATA_TYPE_DATETIME ) 
-		{
-			if ( this.btnAdvanced.getSelection( ) )
-			{
-				fs = cpWrapAdvancedDate.buildFormatSpecifier( );
-			}
-			else if ( this.btnStandard.getSelection( ) )
-			{
-				fs = cpWrapStandardDate.buildFormatSpecifier( );
-			}
-		}
-		else
+		if ( cmbDataType.getText( ).equals( DATA_TYPE_NUMBER ) )
 		{
 			if ( this.btnAdvanced.getSelection( ) )
 			{
@@ -379,12 +435,23 @@ public class FormatSpecifierComposite extends Composite implements
 				fs = cpWrapFractionNumber.buildFormatSpecifier( );
 			}
 		}
+		else if ( cmbDataType.getText( ).equals( DATA_TYPE_DATETIME ) )
+		{
+			if ( this.btnAdvanced.getSelection( ) )
+			{
+				fs = cpWrapAdvancedDate.buildFormatSpecifier( );
+			}
+			else if ( this.btnStandard.getSelection( ) )
+			{
+				fs = cpWrapStandardDate.buildFormatSpecifier( );
+			}
+		}
 		return fs;
 	}
 
 	private void updateUIState( )
 	{
-		if ( cmbDataType.getSelectionIndex( )==DATA_TYPE_NMUBER )
+		if ( cmbDataType.getText( ).equals( DATA_TYPE_NUMBER ) )
 		{
 			if ( this.btnStandard.getSelection( ) )
 			{
@@ -415,7 +482,7 @@ public class FormatSpecifierComposite extends Composite implements
 			cmpFractionNumberDetails.setVisible( true );
 			btnFraction.setVisible( true );
 		}
-		else
+		else if ( cmbDataType.getText( ).equals( DATA_TYPE_DATETIME ) )
 		{
 			if ( this.btnStandard.getSelection( ) )
 			{
@@ -445,6 +512,8 @@ public class FormatSpecifierComposite extends Composite implements
 			cmpFractionNumberDetails.setVisible( false );
 			btnFraction.setVisible( false );
 		}
+		fsp.setDataType( cmbDataType.getText( ) );
+		updatePreview( );
 	}
 
 	/**
@@ -468,12 +537,12 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 		if ( e.getSource( ).equals( cmbDataType ) )
 		{
-			if ( cmbDataType.getSelectionIndex( ) == DATA_TYPE_NMUBER )
+			if ( cmbDataType.getText( ).equals( DATA_TYPE_NUMBER ) )
 			{
 				slStandardDetails.topControl = cmpStandardNumberDetails;
 				slAdvancedDetails.topControl = cmpAdvancedNumberDetails;
 			}
-			else
+			else if ( cmbDataType.getText( ).equals( DATA_TYPE_DATETIME ) )
 			{
 				slStandardDetails.topControl = cmpStandardDateDetails;
 				slAdvancedDetails.topControl = cmpAdvancedDateDetails;
@@ -496,6 +565,11 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 	}
 
+	private void updatePreview( )
+	{
+		fsp.updatePreview( getFormatSpecifier( ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -515,19 +589,28 @@ public class FormatSpecifierComposite extends Composite implements
 		void setEnabled( boolean enabled );
 	}
 
-	private class NumberStandardComposite extends Composite implements
-			IFormatSpecifierUIComponent,
-			SelectionListener,
-			ModifyListener
+	private class NumberStandardComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				ModifyListener,
+				Listener
 	{
 
-		private transient Text txtPrefix = null;
+		private Text txtPrefix = null;
 
-		private transient Text txtSuffix = null;
+		private Text txtSuffix = null;
 
-		private transient LocalizedNumberEditorComposite txtMultiplier = null;
+		private LocalizedNumberEditorComposite txtMultiplier = null;
 
-		private transient Spinner iscFractionDigits = null;
+		private Spinner iscFractionDigits = null;
+
+		private Label lblPrefix;
+
+		private Label lblSuffix;
+
+		private Label lblMultiplier;
+
+		private Label lblFractionDigit;
 
 		private NumberStandardComposite( Composite parent )
 		{
@@ -547,7 +630,7 @@ public class FormatSpecifierComposite extends Composite implements
 			this.setLayoutData( gdGRPNumberStandard );
 			this.setLayout( glNumberStandard );
 
-			Label lblPrefix = new Label( this, SWT.NONE );
+			lblPrefix = new Label( this, SWT.NONE );
 			GridData gdLBLPrefix = new GridData( );
 			lblPrefix.setLayoutData( gdLBLPrefix );
 			lblPrefix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
@@ -558,7 +641,7 @@ public class FormatSpecifierComposite extends Composite implements
 			txtPrefix.setLayoutData( gdTXTPrefix );
 			txtPrefix.addModifyListener( this );
 
-			Label lblSuffix = new Label( this, SWT.NONE );
+			lblSuffix = new Label( this, SWT.NONE );
 			GridData gdLBLSuffix = new GridData( );
 			lblSuffix.setLayoutData( gdLBLSuffix );
 			lblSuffix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
@@ -569,7 +652,7 @@ public class FormatSpecifierComposite extends Composite implements
 			txtSuffix.setLayoutData( gdTXTSuffix );
 			txtSuffix.addModifyListener( this );
 
-			Label lblMultiplier = new Label( this, SWT.NONE );
+			lblMultiplier = new Label( this, SWT.NONE );
 			GridData gdLBLMultiplier = new GridData( );
 			lblMultiplier.setLayoutData( gdLBLMultiplier );
 			lblMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
@@ -581,7 +664,7 @@ public class FormatSpecifierComposite extends Composite implements
 			txtMultiplier.setLayoutData( gdTXTMultiplier );
 			txtMultiplier.addModifyListener( this );
 
-			Label lblFractionDigit = new Label( this, SWT.NONE );
+			lblFractionDigit = new Label( this, SWT.NONE );
 			GridData gdLBLFractionDigit = new GridData( );
 			lblFractionDigit.setLayoutData( gdLBLFractionDigit );
 			lblFractionDigit.setText( Messages.getString( "FormatSpecifierComposite.Lbl.FractionDigits" ) ); //$NON-NLS-1$
@@ -591,7 +674,7 @@ public class FormatSpecifierComposite extends Composite implements
 			gdISCFractionDigits.widthHint = 60;
 			iscFractionDigits.setLayoutData( gdISCFractionDigits );
 			iscFractionDigits.setSelection( 2 );
-			iscFractionDigits.addSelectionListener( this );
+			iscFractionDigits.addListener( SWT.Selection, this );
 		}
 
 		public void modifyText( ModifyEvent e )
@@ -654,10 +737,15 @@ public class FormatSpecifierComposite extends Composite implements
 				}
 			}
 			bEnableEvents = true;
+			updatePreview( );
 		}
 
 		public void setEnabled( boolean enabled )
 		{
+			this.lblPrefix.setEnabled( enabled );
+			this.lblSuffix.setEnabled( enabled );
+			this.lblMultiplier.setEnabled( enabled );
+			this.lblFractionDigit.setEnabled( enabled );
 			this.txtPrefix.setEnabled( enabled );
 			this.txtSuffix.setEnabled( enabled );
 			this.txtMultiplier.setEnabled( enabled );
@@ -702,41 +790,45 @@ public class FormatSpecifierComposite extends Composite implements
 			return fs;
 		}
 
-		public void widgetSelected( SelectionEvent e )
+		public void handleEvent( Event event )
 		{
 			bEnableEvents = false;
-			if ( e.widget.equals( iscFractionDigits ) )
+			if ( event.type == SWT.Selection )
 			{
-				if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
+				if ( event.widget.equals( iscFractionDigits ) )
 				{
-					formatspecifier = NumberFormatSpecifierImpl.create( );
-					( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
-					( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
-					if ( txtMultiplier.isSetValue( ) )
+					if ( !( formatspecifier instanceof NumberFormatSpecifier ) )
 					{
-						( (NumberFormatSpecifier) formatspecifier ).setMultiplier( txtMultiplier.getValue( ) );
+						formatspecifier = NumberFormatSpecifierImpl.create( );
+						( (NumberFormatSpecifier) formatspecifier ).setPrefix( txtPrefix.getText( ) );
+						( (NumberFormatSpecifier) formatspecifier ).setSuffix( txtSuffix.getText( ) );
+						if ( txtMultiplier.isSetValue( ) )
+						{
+							( (NumberFormatSpecifier) formatspecifier ).setMultiplier( txtMultiplier.getValue( ) );
+						}
 					}
+					( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
 				}
-				( (NumberFormatSpecifier) formatspecifier ).setFractionDigits( iscFractionDigits.getSelection( ) );
 			}
 			bEnableEvents = true;
-		}
-
-		public void widgetDefaultSelected( SelectionEvent e )
-		{
-			// TODO Auto-generated method stub
-
+			updatePreview( );
 		}
 
 	}
 
-	private class DateStandardComposite extends Composite implements
-			IFormatSpecifierUIComponent
+	private class DateStandardComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				Listener
 	{
 
-		private transient Combo cmbDateType = null;
+		private Combo cmbDateType = null;
 
-		private transient Combo cmbDateForm = null;
+		private Combo cmbDateForm = null;
+
+		private Label lblDateType;
+
+		private Label lblDateDetails;
 
 		private DateStandardComposite( Composite parent )
 		{
@@ -756,7 +848,7 @@ public class FormatSpecifierComposite extends Composite implements
 			this.setLayoutData( gdGRPDateStandard );
 			this.setLayout( glDateStandard );
 
-			Label lblDateType = new Label( this, SWT.NONE );
+			lblDateType = new Label( this, SWT.NONE );
 			GridData gdLBLDateType = new GridData( );
 			lblDateType.setLayoutData( gdLBLDateType );
 			lblDateType.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Type" ) ); //$NON-NLS-1$
@@ -764,8 +856,9 @@ public class FormatSpecifierComposite extends Composite implements
 			cmbDateType = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 			GridData gdCMBDateType = new GridData( GridData.FILL_HORIZONTAL );
 			cmbDateType.setLayoutData( gdCMBDateType );
+			cmbDateType.addListener( SWT.Selection, this );
 
-			Label lblDateDetails = new Label( this, SWT.NONE );
+			lblDateDetails = new Label( this, SWT.NONE );
 			GridData gdLBLDateDetails = new GridData( );
 			lblDateDetails.setLayoutData( gdLBLDateDetails );
 			lblDateDetails.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Details" ) ); //$NON-NLS-1$
@@ -773,6 +866,7 @@ public class FormatSpecifierComposite extends Composite implements
 			cmbDateForm = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 			GridData gdCMBDateForm = new GridData( GridData.FILL_HORIZONTAL );
 			cmbDateForm.setLayoutData( gdCMBDateForm );
+			cmbDateForm.addListener( SWT.Selection, this );
 		}
 
 		public void populateLists( )
@@ -814,20 +908,32 @@ public class FormatSpecifierComposite extends Composite implements
 
 		public void setEnabled( boolean enabled )
 		{
+			this.lblDateDetails.setEnabled( enabled );
+			this.lblDateType.setEnabled( enabled );
 			this.cmbDateForm.setEnabled( enabled );
 			this.cmbDateType.setEnabled( enabled );
 			super.setEnabled( enabled );
 		}
+
+		public void handleEvent( Event event )
+		{
+			updatePreview( );
+		}
 	}
 
-	private class NumberAdvancedComposite extends Composite implements
-			IFormatSpecifierUIComponent,
-			ModifyListener
+	private class NumberAdvancedComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				ModifyListener
 	{
 
-		private transient Text txtNumberPattern = null;
+		private Text txtNumberPattern = null;
 
-		private transient LocalizedNumberEditorComposite txtAdvMultiplier = null;
+		private LocalizedNumberEditorComposite txtAdvMultiplier = null;
+
+		private Label lblAdvMultiplier;
+
+		private Label lblNumberPattern;
 
 		private NumberAdvancedComposite( Composite parent )
 		{
@@ -847,7 +953,7 @@ public class FormatSpecifierComposite extends Composite implements
 			this.setLayoutData( gdGRPNumberAdvanced );
 			this.setLayout( glNumberAdvanced );
 
-			Label lblAdvMultiplier = new Label( this, SWT.NONE );
+			lblAdvMultiplier = new Label( this, SWT.NONE );
 			GridData gdLBLAdvMultiplier = new GridData( );
 			lblAdvMultiplier.setLayoutData( gdLBLAdvMultiplier );
 			lblAdvMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
@@ -858,7 +964,7 @@ public class FormatSpecifierComposite extends Composite implements
 			txtAdvMultiplier.setLayoutData( gdTXTAdvMultiplier );
 			txtAdvMultiplier.addModifyListener( this );
 
-			Label lblNumberPattern = new Label( this, SWT.NONE );
+			lblNumberPattern = new Label( this, SWT.NONE );
 			GridData gdLBLNumberPattern = new GridData( );
 			lblNumberPattern.setLayoutData( gdLBLNumberPattern );
 			lblNumberPattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.NumberPattern" ) ); //$NON-NLS-1$
@@ -899,6 +1005,8 @@ public class FormatSpecifierComposite extends Composite implements
 
 		public void setEnabled( boolean enabled )
 		{
+			this.lblAdvMultiplier.setEnabled( enabled );
+			this.lblNumberPattern.setEnabled( enabled );
 			this.txtAdvMultiplier.setEnabled( enabled );
 			this.txtNumberPattern.setEnabled( enabled );
 			super.setEnabled( enabled );
@@ -932,16 +1040,20 @@ public class FormatSpecifierComposite extends Composite implements
 				( (JavaNumberFormatSpecifier) formatspecifier ).setPattern( txtNumberPattern.getText( ) );
 			}
 			bEnableEvents = true;
+
+			updatePreview( );
 		}
 
 	}
 
-	private class DateAdvancedComposite extends Composite implements
-			IFormatSpecifierUIComponent,
-			ModifyListener
+	private class DateAdvancedComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				ModifyListener
 	{
 
-		private transient Text txtDatePattern = null;
+		private Text txtDatePattern = null;
+		private Label lblDatePattern;
 
 		private DateAdvancedComposite( Composite parent )
 		{
@@ -961,7 +1073,7 @@ public class FormatSpecifierComposite extends Composite implements
 			this.setLayoutData( gdGRPDateAdvanced );
 			this.setLayout( glDateAdvanced );
 
-			Label lblDatePattern = new Label( this, SWT.NONE );
+			lblDatePattern = new Label( this, SWT.NONE );
 			GridData gdLBLDatePattern = new GridData( );
 			lblDatePattern.setLayoutData( gdLBLDatePattern );
 			lblDatePattern.setText( Messages.getString( "FormatSpecifierComposite.Lbl.DatePattern" ) ); //$NON-NLS-1$
@@ -974,10 +1086,9 @@ public class FormatSpecifierComposite extends Composite implements
 
 		public void populateLists( )
 		{
-			String str = ""; //$NON-NLS-1$
 			if ( formatspecifier instanceof JavaDateFormatSpecifier )
 			{
-				str = ( (JavaDateFormatSpecifier) formatspecifier ).getPattern( );
+				String str = ( (JavaDateFormatSpecifier) formatspecifier ).getPattern( );
 				if ( str == null )
 				{
 					str = ""; //$NON-NLS-1$
@@ -994,6 +1105,7 @@ public class FormatSpecifierComposite extends Composite implements
 
 		public void setEnabled( boolean enabled )
 		{
+			this.lblDatePattern.setEnabled( enabled );
 			this.txtDatePattern.setEnabled( enabled );
 			super.setEnabled( enabled );
 		}
@@ -1011,14 +1123,16 @@ public class FormatSpecifierComposite extends Composite implements
 				( (JavaDateFormatSpecifier) formatspecifier ).setPattern( txtDatePattern.getText( ) );
 			}
 			bEnableEvents = true;
+
+			updatePreview( );
 		}
 
 	}
 
-	private class NumberFractionComposite extends Composite implements
-			IFormatSpecifierUIComponent,
-			ModifyListener,
-			SelectionListener
+	private class NumberFractionComposite extends Composite
+			implements
+				IFormatSpecifierUIComponent,
+				Listener
 	{
 
 		/**
@@ -1043,6 +1157,12 @@ public class FormatSpecifierComposite extends Composite implements
 
 		private transient Spinner spnFractionDigits = null;
 
+		private Label lblDelimiter;
+
+		private Label lblPrefix;
+
+		private Label lblSuffix;
+
 		private NumberFractionComposite( Composite parent )
 		{
 			super( parent, SWT.NONE );
@@ -1059,7 +1179,8 @@ public class FormatSpecifierComposite extends Composite implements
 
 			this.setLayout( glNumberStandard );
 
-			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Delimiter" ) ); //$NON-NLS-1$
+			lblDelimiter = new Label( this, SWT.NONE );
+			lblDelimiter.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Delimiter" ) ); //$NON-NLS-1$
 
 			txtDelimiter = new Text( this, SWT.BORDER | SWT.SINGLE );
 			{
@@ -1072,7 +1193,7 @@ public class FormatSpecifierComposite extends Composite implements
 					str = ""; //$NON-NLS-1$
 				}
 				txtDelimiter.setText( str );
-				txtDelimiter.addModifyListener( this );
+				txtDelimiter.addListener( SWT.Modify, this );
 			}
 
 			btnApproximate = new Button( this, SWT.CHECK );
@@ -1081,10 +1202,11 @@ public class FormatSpecifierComposite extends Composite implements
 				gd.horizontalSpan = 2;
 				btnApproximate.setLayoutData( gd );
 				btnApproximate.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Approximate" ) ); //$NON-NLS-1$
-				btnApproximate.addSelectionListener( this );
+				btnApproximate.addListener( SWT.Selection, this );
 			}
 
-			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
+			lblPrefix = new Label( this, SWT.NONE );
+			lblPrefix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
 
 			txtPrefix = new Text( this, SWT.BORDER | SWT.SINGLE );
 			{
@@ -1097,13 +1219,13 @@ public class FormatSpecifierComposite extends Composite implements
 					str = ""; //$NON-NLS-1$
 				}
 				txtPrefix.setText( str );
-				txtPrefix.addModifyListener( this );
+				txtPrefix.addListener( SWT.Modify, this );
 			}
 
 			btnUseNumerator = new Button( this, SWT.RADIO );
 			{
 				btnUseNumerator.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Numerator" ) ); //$NON-NLS-1$
-				btnUseNumerator.addSelectionListener( this );
+				btnUseNumerator.addListener( SWT.Selection, this );
 			}
 
 			spnNumerator = new Spinner( this, SWT.BORDER );
@@ -1114,10 +1236,11 @@ public class FormatSpecifierComposite extends Composite implements
 				spnNumerator.setMinimum( 1 );
 				spnNumerator.setSelection( (int) getFormatSpecifier( ).getNumerator( ) );
 				spnNumerator.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.InputAPositiveInteger" ) ); //$NON-NLS-1$
-				spnNumerator.addSelectionListener( this );
+				spnNumerator.addListener( SWT.Selection, this );
 			}
 
-			new Label( this, SWT.NONE ).setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
+			lblSuffix = new Label( this, SWT.NONE );
+			lblSuffix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
 
 			txtSuffix = new Text( this, SWT.BORDER | SWT.SINGLE );
 			{
@@ -1130,13 +1253,13 @@ public class FormatSpecifierComposite extends Composite implements
 					str = ""; //$NON-NLS-1$
 				}
 				txtSuffix.setText( str );
-				txtSuffix.addModifyListener( this );
+				txtSuffix.addListener( SWT.Modify, this );
 			}
 
 			btnUseDenorminator = new Button( this, SWT.RADIO );
 			{
 				btnUseDenorminator.setText( Messages.getString( "FormatSpecifierComposite.Lbl.MaxRecursionTimes" ) ); //$NON-NLS-1$
-				btnUseDenorminator.addSelectionListener( this );
+				btnUseDenorminator.addListener( SWT.Selection, this );
 			}
 
 			spnFractionDigits = new Spinner( this, SWT.BORDER );
@@ -1148,11 +1271,11 @@ public class FormatSpecifierComposite extends Composite implements
 				spnFractionDigits.setLayoutData( gdISCFractionDigits );
 				spnFractionDigits.setSelection( getFormatSpecifier( ).getFractionDigits( ) );
 				spnFractionDigits.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.FractionDigits" ) ); //$NON-NLS-1$
-				spnFractionDigits.addSelectionListener( this );
+				spnFractionDigits.addListener( SWT.Selection, this );
 			}
 		}
 
-		public void modifyText( ModifyEvent e )
+		void modifyText( ModifyEvent e )
 		{
 			Object oSource = e.getSource( );
 			bEnableEvents = false;
@@ -1173,11 +1296,15 @@ public class FormatSpecifierComposite extends Composite implements
 
 		public void setEnabled( boolean enabled )
 		{
-			this.btnApproximate.setSelection( !getFormatSpecifier( ).isPrecise( ) );
-			this.btnApproximate.setEnabled( enabled );
+			this.lblDelimiter.setEnabled( enabled );
+			this.lblPrefix.setEnabled( enabled );
+			this.lblSuffix.setEnabled( enabled );
 			this.txtDelimiter.setEnabled( enabled );
 			this.txtPrefix.setEnabled( enabled );
 			this.txtSuffix.setEnabled( enabled );
+
+			this.btnApproximate.setSelection( !getFormatSpecifier( ).isPrecise( ) );
+			this.btnApproximate.setEnabled( enabled );
 
 			this.btnUseNumerator.setEnabled( enabled
 					&& btnApproximate.getSelection( ) );
@@ -1214,8 +1341,8 @@ public class FormatSpecifierComposite extends Composite implements
 
 		private FractionNumberFormatSpecifier getFormatSpecifier( )
 		{
-			return formatspecifier instanceof FractionNumberFormatSpecifier ? (FractionNumberFormatSpecifier) formatspecifier
-					: dummyFs;
+			return formatspecifier instanceof FractionNumberFormatSpecifier
+					? (FractionNumberFormatSpecifier) formatspecifier : dummyFs;
 		}
 
 		public FormatSpecifier buildFormatSpecifier( )
@@ -1237,7 +1364,7 @@ public class FormatSpecifierComposite extends Composite implements
 			return fs;
 		}
 
-		public void widgetSelected( SelectionEvent e )
+		void widgetSelected( SelectionEvent e )
 		{
 			if ( e.widget.equals( btnApproximate ) )
 			{
@@ -1264,10 +1391,17 @@ public class FormatSpecifierComposite extends Composite implements
 			}
 		}
 
-		public void widgetDefaultSelected( SelectionEvent e )
+		public void handleEvent( Event event )
 		{
-			// TODO Auto-generated method stub
-
+			if ( event.type == SWT.Selection )
+			{
+				widgetSelected( new SelectionEvent( event ) );
+			}
+			else if ( event.type == SWT.Modify )
+			{
+				modifyText( new ModifyEvent( event ) );
+			}
+			updatePreview( );
 		}
 
 	}
