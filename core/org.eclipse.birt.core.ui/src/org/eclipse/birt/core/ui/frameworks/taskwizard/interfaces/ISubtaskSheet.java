@@ -12,12 +12,9 @@
 package org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces;
 
 import org.eclipse.jface.dialogs.IDialogPage;
-import org.eclipse.swt.widgets.Composite;
 
 public interface ISubtaskSheet extends Cloneable, IDialogPage
 {
-
-	void getComponent( Composite parent );
 
 	/**
 	 * Called just before the UI for this Subtask is shown. Intended for the UI

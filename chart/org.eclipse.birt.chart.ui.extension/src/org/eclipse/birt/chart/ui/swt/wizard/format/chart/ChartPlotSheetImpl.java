@@ -48,12 +48,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 	private transient FillChooserComposite cmbClientAreaColor;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
-	 */
-	public void getComponent( Composite parent )
+	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_PLOT );
 		

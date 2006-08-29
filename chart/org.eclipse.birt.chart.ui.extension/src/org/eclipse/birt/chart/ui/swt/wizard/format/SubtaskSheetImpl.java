@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,9 +21,9 @@ import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.swt.wizard.TreeCompoundTask;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.CompoundTask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
@@ -68,9 +69,9 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private transient Map popupButtonRegistry = new HashMap( 5 );
+	private transient Map popupButtonRegistry = new HashMap( 6 );
 
-	private transient Map popupSheetRegistry = new HashMap( 5 );
+	private transient Map popupSheetRegistry = new HashMap( 6 );
 
 	private transient Map lastPopupRegistry = new HashMap( 3 );
 
@@ -79,14 +80,9 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		super( );
 	}
 
-	public void getComponent( Composite parent )
-	{
-		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, "" ); //$NON-NLS-1$
-	}
-
 	public void createControl( Composite parent )
 	{
-		getComponent( parent );
+		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, "" ); //$NON-NLS-1$
 	}
 
 	public Object onHide( )
@@ -189,7 +185,10 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		}
 	}
 
-	private boolean isButtonSelected( )
+	/**
+	 * Checks if there's a selected button.
+	 */
+	protected boolean isButtonSelected( )
 	{
 		Iterator buttons = popupButtonRegistry.values( ).iterator( );
 		while ( buttons.hasNext( ) )
@@ -216,6 +215,14 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns all registered toggle buttons.
+	 */
+	protected Collection getToggleButtons( )
+	{
+		return popupButtonRegistry.values( );
 	}
 
 	protected void refreshPopupSheet( )
