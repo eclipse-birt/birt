@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -27,7 +26,6 @@ import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.Methods;
-import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
@@ -65,7 +63,6 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
@@ -564,19 +561,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			sz.scale( dScale );
 
-			// validate legend size, restrict within the bounds.
-			// TODO this is requried due to the 1/3 size constraints policy in
-			// layoutManager,
-			// should use better solution.
-			if ( sz.getWidth( ) > bo.getWidth( ) )
-			{
-				sz.setWidth( bo.getWidth( ) );
-			}
-			if ( sz.getHeight( ) > bo.getHeight( ) )
-			{
-				sz.setHeight( bo.getHeight( ) );
-			}
-
 			// USE ANCHOR IN POSITIONING THE LEGEND CLIENT AREA WITHIN THE BLOCK
 			// SLACK SPACE
 			dX = bo.getLeft( ) + ( bo.getWidth( ) - sz.getWidth( ) ) / 2;
@@ -674,6 +658,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		// get cached legend info.
 		final LegendLayoutHints lilh = rtc.getLegendLayoutHints( );
 
+		if ( lilh == null )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
+					"exception.null.legend.layout.hints", //$NON-NLS-1$
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
+		}
+
 		// consider legend title size.
 		Label lgTitle = lg.getTitle( );
 		double lgTitleWidth = 0, lgTitleHeight = 0;
@@ -692,36 +684,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
 			lgTitle.getCaption( )
 					.setValue( rtc.externalizedMessage( sPreviousValue ) );
-			if ( lilh != null )
-			{
-				// use cached value
-				Size titleSize = lilh.getTitleSize( );
 
-				lgTitleWidth = titleSize.getWidth( );
-				lgTitleHeight = titleSize.getHeight( );
-			}
-			else
-			{
+			// use cached value
+			Size titleSize = lilh.getTitleSize( );
 
-				BoundingBox bb = null;
-				try
-				{
-					bb = Methods.computeBox( xs,
-							IConstants.ABOVE,
-							lgTitle,
-							0,
-							0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							uiex );
-				}
-
-				lgTitleWidth = bb.getWidth( );
-				lgTitleHeight = bb.getHeight( );
-			}
+			lgTitleWidth = titleSize.getWidth( );
+			lgTitleHeight = titleSize.getHeight( );
 
 			iTitlePos = lg.getTitlePosition( ).getValue( );
 
@@ -809,11 +777,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 
-		final double maxWrappingSize = lg.getWrappingSize( ) * dScale;
 		final double dItemHeight = itm.getFullHeight( );
 		final double dHorizontalSpacing = 4;
-		final double dVerticalSpacing = 4;
-		double dSeparatorThickness = lia.getThickness( );
 		Insets insCA = ca.getInsets( ).scaledInstance( dScale );
 
 		Series seBase;
@@ -827,137 +792,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				.getItemType( )
 				.getValue( ) == LegendItemType.CATEGORIES );
 
-		// Get available maximum block width/height.
-		Block bl = cm.getBlock( );
-		Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
-		Insets ins = bl.getInsets( ).scaledInstance( dScale );
-
-		double dMaxX = boFull.getLeft( )
-				+ boFull.getWidth( )
-				- ins.getRight( )
-				- lgIns.getRight( );
-		double dMaxY = boFull.getTop( )
-				+ boFull.getHeight( )
-				- ins.getBottom( )
-				- lgIns.getBottom( );
-
-		// Calculate if minSlice applicable.
-		String sMinSliceLabel = null;
-		boolean bMinSliceApplied = false;
-
-		if ( lilh != null )
-		{
-			// use cached value.
-			sMinSliceLabel = lilh.getMinSliceText( );
-			bMinSliceApplied = lilh.isMinSliceApplied( );
-		}
-		else
-		{
-			boolean bMinSliceDefined = false;
-			double dMinSlice = 0;
-			boolean bPercentageMinSlice = false;
-
-			if ( cm instanceof ChartWithoutAxes )
-			{
-				bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
-				dMinSlice = ( (ChartWithoutAxes) cm ).getMinSlice( );
-				bPercentageMinSlice = ( (ChartWithoutAxes) cm ).isMinSlicePercent( );
-				sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
-				if ( sMinSliceLabel == null || sMinSliceLabel.length( ) == 0 )
-				{
-					sMinSliceLabel = IConstants.UNDEFINED_STRING;
-				}
-				else
-				{
-					sMinSliceLabel = rtc.externalizedMessage( sMinSliceLabel );
-				}
-			}
-
-			// calculate if need an extra legend item when minSlice defined.
-			if ( bMinSliceDefined
-					&& bPaletteByCategory
-					&& cm instanceof ChartWithoutAxes )
-			{
-				if ( !( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-						.isEmpty( ) )
-				{
-					// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-					SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-							.get( 0 );
-
-					SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdBase.getSeriesDefinitions( )
-							.toArray( );
-
-					DataSetIterator dsiOrtho = null;
-					double dCurrentMinSlice = 0;
-
-					for ( int i = 0; i < sdOrtho.length && !bMinSliceApplied; i++ )
-					{
-						try
-						{
-							dsiOrtho = new DataSetIterator( ( (Series) sdOrtho[i].getRunTimeSeries( )
-									.get( 0 ) ).getDataSet( ) );
-						}
-						catch ( Exception ex )
-						{
-							throw new ChartException( ChartEnginePlugin.ID,
-									ChartException.RENDERING,
-									ex );
-						}
-
-						// TODO Check dataset type, throw exception or ignore?.
-
-						if ( bPercentageMinSlice )
-						{
-							double total = 0;
-
-							while ( dsiOrtho.hasNext( ) )
-							{
-								Object obj = dsiOrtho.next( );
-
-								if ( obj instanceof Number )
-								{
-									total += ( (Number) obj ).doubleValue( );
-								}
-							}
-
-							dsiOrtho.reset( );
-
-							dCurrentMinSlice = total * dMinSlice / 100d;
-						}
-						else
-						{
-							dCurrentMinSlice = dMinSlice;
-						}
-
-						while ( dsiOrtho.hasNext( ) )
-						{
-							Object obj = dsiOrtho.next( );
-							if ( obj instanceof Number )
-							{
-								double val = ( (Number) obj ).doubleValue( );
-
-								if ( val < dCurrentMinSlice )
-								{
-									bMinSliceApplied = true;
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 		if ( o.getValue( ) == Orientation.VERTICAL )
 		{
-			double dXOffset = 0, dMaxW = 0;
-
 			if ( bPaletteByCategory )
 			{
 				SeriesDefinition sdBase = null;
-				FormatSpecifier fs = null;
 				if ( cm instanceof ChartWithAxes )
 				{
 					// ONLY SUPPORT 1 BASE AXIS FOR NOW
@@ -992,220 +832,103 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				elPaletteEntries = pa.getEntries( );
 				iPaletteCount = elPaletteEntries.size( );
 
-				if ( lilh != null && lilh.getLegendItemHints( ) != null )
+				if ( lilh.getLegendItemHints( ) == null )
 				{
-					// use cached value
-					LegendItemHints[] liha = lilh.getLegendItemHints( );
-					LegendItemHints lih;
-
-					Map columnCache = searchMaxColumnWidth( liha );
-
-					for ( int i = 0; i < liha.length; i++ )
-					{
-						// render each legend item.
-						lih = liha[i];
-
-						if ( ( lih.getType( ) & IConstants.LEGEND_ENTRY ) == IConstants.LEGEND_ENTRY )
-						{
-							la.getCaption( ).setValue( lih.getText( ) );
-
-							// CYCLE THROUGH THE PALETTE
-							fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( )
-									% iPaletteCount );
-
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
-							double columnWidth = bo.getWidth( );
-							Double cachedWidth = (Double) columnCache.get( lih );
-							if ( cachedWidth != null )
-							{
-								columnWidth = cachedWidth.doubleValue( )
-										+ 3
-										* dItemHeight
-										/ 2
-										+ 2
-										* insCA.getLeft( );
-							}
-
-							renderLegendItem( ipr,
-									lg,
-									la,
-									null,
-									dBaseX + lih.getLeft( ),
-									dBaseY + lih.getTop( ) + insCA.getTop( ),
-									lih.getWidth( ),
-									dItemHeight,
-									lih.getHeight( ),
-									0,
-									columnWidth,
-									insCA.getLeft( ),
-									dHorizontalSpacing,
-									seBase,
-									fPaletteEntry,
-									lirh,
-									i );
-						}
-					}
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							"exception.null.legend.item.hints", //$NON-NLS-1$
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
-				else
+
+				// use cached value
+				LegendItemHints[] liha = lilh.getLegendItemHints( );
+				LegendItemHints lih;
+
+				Map columnCache = searchMaxColumnWidth( liha );
+
+				for ( int i = 0; i < liha.length; i++ )
 				{
-					DataSetIterator dsiBase = null;
-					try
-					{
-						dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
+					// render each legend item.
+					lih = liha[i];
 
-					if ( sdBase != null )
+					if ( ( lih.getType( ) & IConstants.LEGEND_ENTRY ) == IConstants.LEGEND_ENTRY )
 					{
-						fs = sdBase.getFormatSpecifier( );
-					}
+						la.getCaption( ).setValue( lih.getText( ) );
 
-					int i = 0;
-					while ( dsiBase.hasNext( ) )
-					{
-						Object obj = dsiBase.next( );
+						// CYCLE THROUGH THE PALETTE
+						fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( )
+								% iPaletteCount );
 
-						// TODO filter the not-used legend.
-
-						// render legend item.
-						dY += insCA.getTop( );
-						String lgtext = String.valueOf( obj );
-						if ( fs != null )
-						{
-							try
-							{
-								lgtext = ValueFormatter.format( obj,
-										fs,
-										getRunTimeContext( ).getULocale( ),
-										null );
-							}
-							catch ( ChartException e )
-							{
-								// ignore, use original text.
-							}
-						}
-						la.getCaption( ).setValue( lgtext );
-						itm.reuse( la, maxWrappingSize ); // RECYCLED
-						fPaletteEntry = (Fill) elPaletteEntries.get( i++
-								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
-						if ( dY + itm.getFullHeight( ) + insCA.getBottom( ) > dMaxY )
+						double columnWidth = bo.getWidth( );
+						Double cachedWidth = (Double) columnCache.get( lih );
+						if ( cachedWidth != null )
 						{
-							dXOffset += dMaxW
-									+ insCA.getLeft( )
-									+ insCA.getRight( )
-									+ ( 3 * dItemHeight )
+							columnWidth = cachedWidth.doubleValue( )
+									+ 3
+									* dItemHeight
 									/ 2
-									+ dHorizontalSpacing;
-							dMaxW = 0;
-							dY = bo.getTop( ) + insCA.getTop( );
-							dX = bo.getLeft( ) + dXOffset;
+									+ 2
+									* insCA.getLeft( );
 						}
-
-						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
 
 						renderLegendItem( ipr,
 								lg,
 								la,
 								null,
-								dX,
-								dY,
-								itm.getFullWidth( ),
+								dBaseX + lih.getLeft( ),
+								dBaseY + lih.getTop( ) + insCA.getTop( ),
+								lih.getWidth( ),
 								dItemHeight,
-								itm.getFullHeight( ),
+								lih.getHeight( ),
 								0,
-								bo.getWidth( ),
+								columnWidth,
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
 								lirh,
 								i );
-
-						dY += itm.getFullHeight( ) + insCA.getBottom( );
-					}
-
-					// render the extra MinSlice legend item if applicable.
-					if ( bMinSliceApplied )
-					{
-						dY += insCA.getTop( );
-						la.getCaption( ).setValue( sMinSliceLabel );
-						itm.reuse( la, maxWrappingSize ); // RECYCLED
-						fPaletteEntry = (Fill) elPaletteEntries.get( dsiBase.size( )
-								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
-						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
-						if ( dY + itm.getFullHeight( ) + insCA.getBottom( ) > dMaxY )
-						{
-							dXOffset += dMaxW
-									+ insCA.getLeft( )
-									+ insCA.getRight( )
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ dHorizontalSpacing;
-							dMaxW = 0;
-							dY = bo.getTop( ) + insCA.getTop( );
-							dX = bo.getLeft( ) + dXOffset;
-						}
-
-						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
-
-						renderLegendItem( ipr,
-								lg,
-								la,
-								null,
-								dX,
-								dY,
-								itm.getFullWidth( ),
-								dItemHeight,
-								itm.getFullHeight( ),
-								0,
-								bo.getWidth( ),
-								insCA.getLeft( ),
-								dHorizontalSpacing,
-								seBase,
-								fPaletteEntry,
-								lirh,
-								i );
-						dY += itm.getFullHeight( ) + insCA.getBottom( );
 					}
 				}
 			}
 			else if ( d.getValue( ) == Direction.TOP_BOTTOM )
 			{
-				if ( lilh != null && lilh.getLegendItemHints( ) != null )
+				if ( lilh.getLegendItemHints( ) == null )
 				{
-					LegendItemHints[] liha = lilh.getLegendItemHints( );
-					LegendItemHints lih;
-					int k = 0;
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							"exception.null.legend.item.hints", //$NON-NLS-1$
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
+				}
 
-					Map columnCache = searchMaxColumnWidth( liha );
+				LegendItemHints[] liha = lilh.getLegendItemHints( );
+				LegendItemHints lih;
+				int k = 0;
 
-					for ( int j = 0; j < seda.length; j++ )
+				Map columnCache = searchMaxColumnWidth( liha );
+
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					pa = seda[j].getSeriesPalette( );
+					elPaletteEntries = pa.getEntries( );
+					iPaletteCount = elPaletteEntries.size( );
+
+					for ( int i = 0; i < al.size( ); i++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						seBase = (Series) al.get( i );
 
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( !seBase.isVisible( ) )
 						{
-							seBase = (Series) al.get( i );
+							continue;
+						}
 
-							if ( !seBase.isVisible( ) )
-							{
-								continue;
-							}
+						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
+						if ( k < liha.length )
+						{
 							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_ENTRY )
@@ -1255,201 +978,62 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										i );
 							}
 						}
-
-						if ( j < seda.length - 1 && k < liha.length )
-						{
-							lih = liha[k];
-
-							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
-							{
-								k++;
-								renderSeparator( ipr,
-										lg,
-										liSep,
-										dBaseX + lih.getLeft( ),
-										dBaseY + lih.getTop( ),
-										lih.getWidth( ),
-										Orientation.HORIZONTAL_LITERAL );
-							}
-						}
 					}
-				}
-				else
-				{
-					dSeparatorThickness += dVerticalSpacing;
 
-					for ( int j = 0; j < seda.length; j++ )
+					if ( j < seda.length - 1 && k < liha.length )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						lih = liha[k];
 
-						FormatSpecifier fs = seda[j].getFormatSpecifier( );
-
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 						{
-							seBase = (Series) al.get( i );
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
-							dY += insCA.getTop( );
-							Object obj = seBase.getSeriesIdentifier( );
-							String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
-							if ( fs != null )
-							{
-								try
-								{
-									lgtext = ValueFormatter.format( obj,
-											fs,
-											getRunTimeContext( ).getULocale( ),
-											null );
-								}
-								catch ( ChartException e )
-								{
-									// ignore, use original text.
-								}
-							}
-							la.getCaption( ).setValue( lgtext );
-							itm.reuse( la, maxWrappingSize ); // RECYCLED
-
-							double dFWidth = itm.getFullWidth( );
-							double dFHeight = itm.getFullHeight( );
-
-							Label valueLa = null;
-							double valueHeight = 0;
-
-							if ( lg.isShowValue( ) )
-							{
-								DataSetIterator dsiBase = null;
-								try
-								{
-									dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-								}
-								catch ( Exception ex )
-								{
-									throw new ChartException( ChartEnginePlugin.ID,
-											ChartException.GENERATION,
-											ex );
-								}
-
-								// Use first value for each series.
-								if ( dsiBase.hasNext( ) )
-								{
-									obj = dsiBase.next( );
-									String valueText = String.valueOf( obj );
-									if ( fs != null )
-									{
-										try
-										{
-											lgtext = ValueFormatter.format( obj,
-													fs,
-													rtc.getULocale( ),
-													null );
-										}
-										catch ( ChartException e )
-										{
-											// ignore, use original text.
-										}
-									}
-
-									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
-									valueLa.getCaption( ).setValue( valueText );
-									itm.reuse( valueLa );
-
-									dFWidth = Math.max( dFWidth,
-											itm.getFullWidth( ) );
-
-									valueHeight = itm.getFullHeight( );
-								}
-							}
-
-							if ( dY
-									+ dFHeight
-									+ valueHeight
-									+ 2
-									+ insCA.getBottom( ) > dMaxY )
-							{
-								dXOffset += dMaxW
-										+ insCA.getLeft( )
-										+ insCA.getRight( )
-										+ ( 3 * dItemHeight )
-										/ 2
-										+ dHorizontalSpacing;
-								dMaxW = 0;
-								dY = bo.getTop( ) + insCA.getTop( );
-								dX = bo.getLeft( ) + dXOffset;
-							}
-
-							dMaxW = Math.max( dMaxW, dFWidth );
-
-							fPaletteEntry = (Fill) elPaletteEntries.get( i
-									% iPaletteCount ); // CYCLE THROUGH THE
-							// PALETTE
-							renderLegendItem( ipr,
+							k++;
+							renderSeparator( ipr,
 									lg,
-									la,
-									valueLa,
-									dX,
-									dY,
-									dFWidth,
-									dItemHeight,
-									dFHeight,
-									valueHeight,
-									bo.getWidth( ),
-									insCA.getLeft( ),
-									dHorizontalSpacing,
-									seBase,
-									fPaletteEntry,
-									lirh,
-									i );
-							dY += dFHeight
-									+ insCA.getBottom( )
-									+ valueHeight
-									+ 2;
-						}
-
-						if ( j < seda.length - 1 )
-						{
-							renderSeparator( ipr, lg, liSep, dX, dY
-									+ dSeparatorThickness
-									/ 2, dMaxW
-									+ insCA.getLeft( )
-									+ insCA.getRight( )
-									+ ( 3 * dItemHeight )
-									/ 2, Orientation.HORIZONTAL_LITERAL );
-							dY += dSeparatorThickness;
+									liSep,
+									dBaseX + lih.getLeft( ),
+									dBaseY + lih.getTop( ),
+									lih.getWidth( ),
+									Orientation.HORIZONTAL_LITERAL );
 						}
 					}
 				}
 			}
 			else if ( d.getValue( ) == Direction.LEFT_RIGHT )
 			{
-				if ( lilh != null && lilh.getLegendItemHints( ) != null )
+				if ( lilh.getLegendItemHints( ) == null )
 				{
-					LegendItemHints[] liha = lilh.getLegendItemHints( );
-					LegendItemHints lih;
-					int k = 0;
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							"exception.null.legend.item.hints", //$NON-NLS-1$
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
+				}
 
-					Map columnCache = searchMaxColumnWidth( liha );
+				LegendItemHints[] liha = lilh.getLegendItemHints( );
+				LegendItemHints lih;
+				int k = 0;
 
-					for ( int j = 0; j < seda.length; j++ )
+				Map columnCache = searchMaxColumnWidth( liha );
+
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					pa = seda[j].getSeriesPalette( );
+					elPaletteEntries = pa.getEntries( );
+					iPaletteCount = elPaletteEntries.size( );
+
+					for ( int i = 0; i < al.size( ); i++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						seBase = (Series) al.get( i );
 
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( !seBase.isVisible( ) )
 						{
-							seBase = (Series) al.get( i );
+							continue;
+						}
 
-							if ( !seBase.isVisible( ) )
-							{
-								continue;
-							}
+						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
+						if ( k < liha.length )
+						{
 							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_ENTRY )
@@ -1499,185 +1083,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										i );
 							}
 						}
-
-						if ( j < seda.length - 1 && k < liha.length )
-						{
-							lih = liha[k];
-
-							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
-							{
-								k++;
-								renderSeparator( ipr,
-										lg,
-										liSep,
-										dBaseX + lih.getLeft( ),
-										dBaseY + lih.getTop( ),
-										bo.getHeight( ),
-										Orientation.VERTICAL_LITERAL );
-							}
-						}
 					}
-				}
-				else
-				{
-					dSeparatorThickness += dHorizontalSpacing;
 
-					for ( int j = 0; j < seda.length; j++ )
+					if ( j < seda.length - 1 && k < liha.length )
 					{
-						dMaxW = 0;
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						lih = liha[k];
 
-						FormatSpecifier fs = seda[j].getFormatSpecifier( );
-
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 						{
-							dY += insCA.getTop( );
-							seBase = (Series) al.get( i );
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-							Object obj = seBase.getSeriesIdentifier( );
-							String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
-							if ( fs != null )
-							{
-								try
-								{
-									lgtext = ValueFormatter.format( obj,
-											fs,
-											getRunTimeContext( ).getULocale( ),
-											null );
-								}
-								catch ( ChartException e )
-								{
-									// ignore, use original text.
-								}
-							}
-							la.getCaption( ).setValue( lgtext );
-							itm.reuse( la, maxWrappingSize ); // RECYCLED
-
-							double dFWidth = itm.getFullWidth( );
-							double dFHeight = itm.getFullHeight( );
-
-							Label valueLa = null;
-							double valueHeight = 0;
-
-							if ( lg.isShowValue( ) )
-							{
-								DataSetIterator dsiBase = null;
-								try
-								{
-									dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-								}
-								catch ( Exception ex )
-								{
-									throw new ChartException( ChartEnginePlugin.ID,
-											ChartException.GENERATION,
-											ex );
-								}
-
-								// Use first value for each series.
-								if ( dsiBase.hasNext( ) )
-								{
-									obj = dsiBase.next( );
-									String valueText = String.valueOf( obj );
-									if ( fs != null )
-									{
-										try
-										{
-											lgtext = ValueFormatter.format( obj,
-													fs,
-													rtc.getULocale( ),
-													null );
-										}
-										catch ( ChartException e )
-										{
-											// ignore, use original text.
-										}
-									}
-
-									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
-									valueLa.getCaption( ).setValue( valueText );
-									itm.reuse( valueLa );
-
-									dFWidth = Math.max( dFWidth,
-											itm.getFullWidth( ) );
-
-									valueHeight = itm.getFullHeight( );
-								}
-							}
-
-							if ( dY
-									+ dFHeight
-									+ valueHeight
-									+ 2
-									+ insCA.getBottom( ) > dMaxY )
-							{
-								dXOffset += dMaxW
-										+ insCA.getLeft( )
-										+ insCA.getRight( )
-										+ ( 3 * dItemHeight )
-										/ 2
-										+ dHorizontalSpacing;
-								dMaxW = 0;
-								dY = bo.getTop( );
-								dX = bo.getLeft( ) + dXOffset;
-							}
-
-							dMaxW = Math.max( dMaxW, dFWidth );
-
-							fPaletteEntry = (Fill) elPaletteEntries.get( i
-									% iPaletteCount ); // CYCLE THROUGH THE
-							// PALETTE
-							renderLegendItem( ipr,
-									lg,
-									la,
-									valueLa,
-									dX,
-									dY,
-									dFWidth,
-									dItemHeight,
-									dFHeight,
-									valueHeight,
-									bo.getWidth( ),
-									insCA.getLeft( ),
-									dHorizontalSpacing,
-									seBase,
-									fPaletteEntry,
-									lirh,
-									i );
-							dY += dFHeight
-									+ insCA.getBottom( )
-									+ valueHeight
-									+ 2;
-						}
-
-						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
-						// +
-						// MAX ITEM WIDTH + RIGHT INSETS
-						dXOffset += insCA.getLeft( )
-								+ ( 3 * dItemHeight / 2 )
-								+ dHorizontalSpacing
-								+ dMaxW
-								+ insCA.getRight( );
-						dX += insCA.getLeft( )
-								+ ( 3 * dItemHeight / 2 )
-								+ dHorizontalSpacing
-								+ dMaxW
-								+ insCA.getRight( );
-						dY = bo.getTop( );
-
-						// SETUP VERTICAL SEPARATOR SPACING
-						if ( j < seda.length - 1 )
-						{
+							k++;
 							renderSeparator( ipr,
 									lg,
 									liSep,
-									dX + dSeparatorThickness / 2,
-									dY,
+									dBaseX + lih.getLeft( ),
+									dBaseY + lih.getTop( ),
 									bo.getHeight( ),
 									Orientation.VERTICAL_LITERAL );
-							dX += dSeparatorThickness;
 						}
 					}
 				}
@@ -1695,12 +1116,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else if ( o.getValue( ) == Orientation.HORIZONTAL )
 		{
-			double dYOffset = 0, dMaxH = 0;
-
 			if ( bPaletteByCategory )
 			{
 				SeriesDefinition sdBase = null;
-				FormatSpecifier fs = null;
 				if ( cm instanceof ChartWithAxes )
 				{
 					// ONLY SUPPORT 1 BASE AXIS FOR NOW
@@ -1734,132 +1152,44 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				elPaletteEntries = pa.getEntries( );
 				iPaletteCount = elPaletteEntries.size( );
 
-				if ( lilh != null && lilh.getLegendItemHints( ) != null )
+				if ( lilh.getLegendItemHints( ) == null )
 				{
-					// use cached value
-					LegendItemHints[] liha = lilh.getLegendItemHints( );
-					LegendItemHints lih;
-
-					for ( int i = 0; i < liha.length; i++ )
-					{
-						// render each legend item.
-						lih = liha[i];
-
-						if ( ( lih.getType( ) & IConstants.LEGEND_ENTRY ) == IConstants.LEGEND_ENTRY )
-						{
-							la.getCaption( ).setValue( lih.getText( ) );
-
-							// CYCLE THROUGH THE PALETTE
-							fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( )
-									% iPaletteCount );
-
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
-							renderLegendItem( ipr,
-									lg,
-									la,
-									null,
-									dBaseX + lih.getLeft( ),
-									dBaseY + lih.getTop( ) + insCA.getTop( ),
-									lih.getWidth( ),
-									dItemHeight,
-									lih.getHeight( ),
-									0,
-									lih.getWidth( )
-											+ 3
-											* dItemHeight
-											/ 2
-											+ 2
-											* insCA.getLeft( ),
-									insCA.getLeft( ),
-									dHorizontalSpacing,
-									seBase,
-									fPaletteEntry,
-									lirh,
-									i );
-						}
-					}
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							"exception.null.legend.item.hints", //$NON-NLS-1$
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
-				else
+
+				// use cached value
+				LegendItemHints[] liha = lilh.getLegendItemHints( );
+				LegendItemHints lih;
+
+				for ( int i = 0; i < liha.length; i++ )
 				{
-					DataSetIterator dsiBase = null;
-					try
-					{
-						dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.RENDERING,
-								ex );
-					}
+					// render each legend item.
+					lih = liha[i];
 
-					if ( sdBase != null )
+					if ( ( lih.getType( ) & IConstants.LEGEND_ENTRY ) == IConstants.LEGEND_ENTRY )
 					{
-						fs = sdBase.getFormatSpecifier( );
-					}
+						la.getCaption( ).setValue( lih.getText( ) );
 
-					int i = 0;
-					double dFullWidth = 0;
-					dY += insCA.getTop( );
-					while ( dsiBase.hasNext( ) )
-					{
-						Object obj = dsiBase.next( );
+						// CYCLE THROUGH THE PALETTE
+						fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( )
+								% iPaletteCount );
 
-						// TODO filter the not-used legend.
-
-						dX += insCA.getLeft( );
-						String lgtext = String.valueOf( obj );
-						if ( fs != null )
-						{
-							try
-							{
-								lgtext = ValueFormatter.format( obj,
-										fs,
-										getRunTimeContext( ).getULocale( ),
-										null );
-							}
-							catch ( ChartException e )
-							{
-								// ignore, use original text.
-							}
-						}
-						la.getCaption( ).setValue( lgtext );
-						itm.reuse( la, maxWrappingSize ); // RECYCLED
-						fPaletteEntry = (Fill) elPaletteEntries.get( i++
-								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
-						dFullWidth = itm.getFullWidth( );
-
-						if ( dX
-								+ dFullWidth
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ insCA.getRight( ) > dMaxX )
-						{
-							dYOffset += dMaxH
-									+ insCA.getTop( )
-									+ insCA.getBottom( )
-									+ dVerticalSpacing;
-							dMaxH = 0;
-							dX = bo.getLeft( ) + insCA.getLeft( );
-							dY = bo.getTop( ) + insCA.getTop( ) + dYOffset;
-						}
-
-						dMaxH = Math.max( dMaxH, itm.getFullHeight( ) );
 
 						renderLegendItem( ipr,
 								lg,
 								la,
 								null,
-								dX,
-								dY,
-								dFullWidth,
+								dBaseX + lih.getLeft( ),
+								dBaseY + lih.getTop( ) + insCA.getTop( ),
+								lih.getWidth( ),
 								dItemHeight,
-								itm.getFullHeight( ),
+								lih.getHeight( ),
 								0,
-								dFullWidth
+								lih.getWidth( )
 										+ 3
 										* dItemHeight
 										/ 2
@@ -1871,98 +1201,43 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								fPaletteEntry,
 								lirh,
 								i );
-						dX += dFullWidth
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ insCA.getRight( );
-					}
-
-					// render the extra MinSlice legend item if applicable.
-					if ( bMinSliceApplied )
-					{
-						dX += insCA.getLeft( );
-						la.getCaption( ).setValue( sMinSliceLabel );
-						itm.reuse( la, maxWrappingSize ); // RECYCLED
-						fPaletteEntry = (Fill) elPaletteEntries.get( dsiBase.size( )
-								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
-						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
-						dFullWidth = itm.getFullWidth( );
-						if ( dX
-								+ dFullWidth
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ insCA.getRight( ) > dMaxX )
-						{
-							dYOffset += dMaxH
-									+ insCA.getTop( )
-									+ insCA.getBottom( )
-									+ dVerticalSpacing;
-							dMaxH = 0;
-							dX = bo.getLeft( ) + insCA.getLeft( );
-							dY = bo.getTop( ) + insCA.getTop( ) + dYOffset;
-						}
-
-						dMaxH = Math.max( dMaxH, itm.getFullHeight( ) );
-
-						renderLegendItem( ipr,
-								lg,
-								la,
-								null,
-								dX,
-								dY,
-								dFullWidth,
-								dItemHeight,
-								itm.getFullHeight( ),
-								0,
-								dFullWidth
-										+ 3
-										* dItemHeight
-										/ 2
-										+ 2
-										* insCA.getLeft( ),
-								insCA.getLeft( ),
-								dHorizontalSpacing,
-								seBase,
-								fPaletteEntry,
-								lirh,
-								i );
-
-						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
-						// + MAX ITEM WIDTH + RIGHT INSETS
-						dX += dFullWidth
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ insCA.getRight( );
 					}
 				}
 			}
 			else if ( d.getValue( ) == Direction.TOP_BOTTOM )
 			{
-				if ( lilh != null && lilh.getLegendItemHints( ) != null )
+				if ( lilh.getLegendItemHints( ) == null )
 				{
-					LegendItemHints[] liha = lilh.getLegendItemHints( );
-					LegendItemHints lih;
-					int k = 0;
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							"exception.null.legend.item.hints", //$NON-NLS-1$
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
+				}
 
-					for ( int j = 0; j < seda.length; j++ )
+				LegendItemHints[] liha = lilh.getLegendItemHints( );
+				LegendItemHints lih;
+				int k = 0;
+
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					pa = seda[j].getSeriesPalette( );
+					elPaletteEntries = pa.getEntries( );
+					iPaletteCount = elPaletteEntries.size( );
+
+					for ( int i = 0; i < al.size( ); i++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						seBase = (Series) al.get( i );
 
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( !seBase.isVisible( ) )
 						{
-							seBase = (Series) al.get( i );
+							continue;
+						}
 
-							if ( !seBase.isVisible( ) )
-							{
-								continue;
-							}
+						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
+						if ( k < liha.length )
+						{
 							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_ENTRY )
@@ -2004,219 +1279,60 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										i );
 							}
 						}
-
-						if ( j < seda.length - 1 && k < liha.length )
-						{
-							lih = liha[k];
-
-							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
-							{
-								k++;
-								renderSeparator( ipr,
-										lg,
-										liSep,
-										dBaseX + lih.getLeft( ),
-										dBaseY + lih.getTop( ),
-										bo.getWidth( ),
-										Orientation.HORIZONTAL_LITERAL );
-							}
-						}
 					}
-				}
-				else
-				{
-					dSeparatorThickness += dVerticalSpacing;
-					for ( int j = 0; j < seda.length; j++ )
+
+					if ( j < seda.length - 1 && k < liha.length )
 					{
-						dMaxH = 0;
-						dY += insCA.getTop( );
-						dX = bo.getLeft( ) + insCA.getLeft( );
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						lih = liha[k];
 
-						FormatSpecifier fs = seda[j].getFormatSpecifier( );
-
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 						{
-							seBase = (Series) al.get( i );
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-							Object obj = seBase.getSeriesIdentifier( );
-							String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
-							if ( fs != null )
-							{
-								try
-								{
-									lgtext = ValueFormatter.format( obj,
-											fs,
-											getRunTimeContext( ).getULocale( ),
-											null );
-								}
-								catch ( ChartException e )
-								{
-									// ignore, use original text.
-								}
-							}
-							la.getCaption( ).setValue( lgtext );
-							itm.reuse( la, maxWrappingSize ); // RECYCLED
-
-							double dFWidth = itm.getFullWidth( );
-							double dFHeight = itm.getFullHeight( );
-
-							Label valueLa = null;
-							double valueHeight = 0;
-
-							if ( lg.isShowValue( ) )
-							{
-								DataSetIterator dsiBase = null;
-								try
-								{
-									dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-								}
-								catch ( Exception ex )
-								{
-									throw new ChartException( ChartEnginePlugin.ID,
-											ChartException.GENERATION,
-											ex );
-								}
-
-								// Use first value for each series.
-								if ( dsiBase.hasNext( ) )
-								{
-									obj = dsiBase.next( );
-									String valueText = String.valueOf( obj );
-									if ( fs != null )
-									{
-										try
-										{
-											lgtext = ValueFormatter.format( obj,
-													fs,
-													rtc.getULocale( ),
-													null );
-										}
-										catch ( ChartException e )
-										{
-											// ignore, use original text.
-										}
-									}
-
-									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
-									valueLa.getCaption( ).setValue( valueText );
-									itm.reuse( valueLa );
-
-									dFWidth = Math.max( dFWidth,
-											itm.getFullWidth( ) );
-
-									valueHeight = itm.getFullHeight( );
-								}
-							}
-
-							if ( dX
-									+ insCA.getLeft( )
-									+ dFWidth
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ insCA.getRight( ) > dMaxX )
-							{
-								dYOffset += dMaxH
-										+ insCA.getTop( )
-										+ insCA.getBottom( )
-										+ dVerticalSpacing;
-								dMaxH = 0;
-								dX = bo.getLeft( ) + insCA.getLeft( );
-								dY = bo.getTop( ) + insCA.getTop( ) + dYOffset;
-							}
-
-							dMaxH = Math.max( dMaxH, dFHeight + valueHeight + 2 );
-
-							fPaletteEntry = (Fill) elPaletteEntries.get( i
-									% iPaletteCount ); // CYCLE THROUGH THE
-							// PALETTE
-							renderLegendItem( ipr,
-									lg,
-									la,
-									valueLa,
-									dX,
-									dY,
-									dFWidth,
-									dItemHeight,
-									dFHeight,
-									valueHeight,
-									dFWidth
-											+ 3
-											* dItemHeight
-											/ 2
-											+ 2
-											* insCA.getLeft( ),
-									insCA.getLeft( ),
-									dHorizontalSpacing,
-									seBase,
-									fPaletteEntry,
-									lirh,
-									i );
-
-							// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL
-							// SPACING
-							// + MAX ITEM WIDTH + RIGHT INSETS
-							dX += insCA.getLeft( )
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ dFWidth
-									+ insCA.getRight( );
-						}
-
-						dYOffset += insCA.getTop( )
-								+ insCA.getBottom( )
-								+ dMaxH
-								+ dVerticalSpacing;
-						dY += insCA.getTop( )
-								+ insCA.getBottom( )
-								+ dMaxH
-								+ dVerticalSpacing;
-						dX = bo.getLeft( ) + insCA.getLeft( );
-
-						// SETUP HORIZONTAL SEPARATOR SPACING
-						if ( j < seda.length - 1 )
-						{
+							k++;
 							renderSeparator( ipr,
 									lg,
 									liSep,
-									dX,
-									dY + dSeparatorThickness / 2,
+									dBaseX + lih.getLeft( ),
+									dBaseY + lih.getTop( ),
 									bo.getWidth( ),
 									Orientation.HORIZONTAL_LITERAL );
-							dY += dSeparatorThickness;
 						}
 					}
 				}
 			}
 			else if ( d.getValue( ) == Direction.LEFT_RIGHT )
 			{
-				if ( lilh != null && lilh.getLegendItemHints( ) != null )
+				if ( lilh.getLegendItemHints( ) == null )
 				{
-					LegendItemHints[] liha = lilh.getLegendItemHints( );
-					LegendItemHints lih;
-					int k = 0;
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							"exception.null.legend.item.hints", //$NON-NLS-1$
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
+				}
 
-					for ( int j = 0; j < seda.length; j++ )
+				LegendItemHints[] liha = lilh.getLegendItemHints( );
+				LegendItemHints lih;
+				int k = 0;
+
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					pa = seda[j].getSeriesPalette( );
+					elPaletteEntries = pa.getEntries( );
+					iPaletteCount = elPaletteEntries.size( );
+
+					for ( int i = 0; i < al.size( ); i++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						seBase = (Series) al.get( i );
 
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( !seBase.isVisible( ) )
 						{
-							seBase = (Series) al.get( i );
+							continue;
+						}
 
-							if ( !seBase.isVisible( ) )
-							{
-								continue;
-							}
+						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-
+						if ( k < liha.length )
+						{
 							lih = liha[k++];
 
 							if ( lih.getType( ) == IConstants.LEGEND_ENTRY )
@@ -2258,179 +1374,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										i );
 							}
 						}
-
-						if ( j < seda.length - 1 && k < liha.length )
-						{
-							lih = liha[k];
-
-							if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
-							{
-								k++;
-								renderSeparator( ipr,
-										lg,
-										liSep,
-										dBaseX + lih.getLeft( ),
-										dBaseY + lih.getTop( ),
-										lih.getHeight( ),
-										Orientation.VERTICAL_LITERAL );
-							}
-						}
 					}
-				}
-				else
-				{
-					dSeparatorThickness += dHorizontalSpacing;
-					dX += insCA.getLeft( );
-					dY += insCA.getTop( );
-					for ( int j = 0; j < seda.length; j++ )
+
+					if ( j < seda.length - 1 && k < liha.length )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
-						elPaletteEntries = pa.getEntries( );
-						iPaletteCount = elPaletteEntries.size( );
+						lih = liha[k];
 
-						FormatSpecifier fs = seda[j].getFormatSpecifier( );
-
-						for ( int i = 0; i < al.size( ); i++ )
+						if ( lih.getType( ) == IConstants.LEGEND_SEPERATOR )
 						{
-							seBase = (Series) al.get( i );
-							lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
-							Object obj = seBase.getSeriesIdentifier( );
-							String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
-							if ( fs != null )
-							{
-								try
-								{
-									lgtext = ValueFormatter.format( obj,
-											fs,
-											getRunTimeContext( ).getULocale( ),
-											null );
-								}
-								catch ( ChartException e )
-								{
-									// ignore, use original text.
-								}
-							}
-							la.getCaption( ).setValue( lgtext );
-							itm.reuse( la, maxWrappingSize ); // RECYCLED
-
-							double dFWidth = itm.getFullWidth( );
-							double dFHeight = itm.getFullHeight( );
-
-							Label valueLa = null;
-							double valueHeight = 0;
-
-							if ( lg.isShowValue( ) )
-							{
-								DataSetIterator dsiBase = null;
-								try
-								{
-									dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-								}
-								catch ( Exception ex )
-								{
-									throw new ChartException( ChartEnginePlugin.ID,
-											ChartException.GENERATION,
-											ex );
-								}
-
-								// Use first value for each series.
-								if ( dsiBase.hasNext( ) )
-								{
-									obj = dsiBase.next( );
-									String valueText = String.valueOf( obj );
-									if ( fs != null )
-									{
-										try
-										{
-											lgtext = ValueFormatter.format( obj,
-													fs,
-													rtc.getULocale( ),
-													null );
-										}
-										catch ( ChartException e )
-										{
-											// ignore, use original text.
-										}
-									}
-
-									valueLa = LabelImpl.copyInstance( seBase.getLabel( ) );
-									valueLa.getCaption( ).setValue( valueText );
-									itm.reuse( valueLa );
-
-									dFWidth = Math.max( dFWidth,
-											itm.getFullWidth( ) );
-
-									valueHeight = itm.getFullHeight( );
-								}
-							}
-
-							if ( dX
-									+ insCA.getLeft( )
-									+ dFWidth
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ insCA.getRight( ) > dMaxX )
-							{
-								dYOffset += dMaxH
-										+ insCA.getTop( )
-										+ insCA.getBottom( )
-										+ dVerticalSpacing;
-								dMaxH = 0;
-								dX = bo.getLeft( ) + insCA.getLeft( );
-								dY = bo.getTop( ) + dYOffset;
-							}
-
-							dMaxH = Math.max( dMaxH, dFHeight + valueHeight + 2 );
-
-							fPaletteEntry = (Fill) elPaletteEntries.get( i
-									% iPaletteCount ); // CYCLE THROUGH THE
-							// PALETTE
-							renderLegendItem( ipr,
-									lg,
-									la,
-									valueLa,
-									dX,
-									dY,
-									dFWidth,
-									dItemHeight,
-									dFHeight,
-									valueHeight,
-									dFWidth
-											+ 3
-											* dItemHeight
-											/ 2
-											+ 2
-											* insCA.getLeft( ),
-									insCA.getLeft( ),
-									dHorizontalSpacing,
-									seBase,
-									fPaletteEntry,
-									lirh,
-									i );
-
-							// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL
-							// SPACING
-							// + MAX ITEM WIDTH + RIGHT INSETS
-							dX += insCA.getLeft( )
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ dHorizontalSpacing
-									+ dFWidth
-									+ insCA.getRight( );
-						}
-
-						// SETUP VERTICAL SEPARATOR SPACING
-						if ( j < seda.length - 1 )
-						{
+							k++;
 							renderSeparator( ipr,
 									lg,
 									liSep,
-									dX + dSeparatorThickness / 2,
-									dY,
-									dMaxH,
+									dBaseX + lih.getLeft( ),
+									dBaseY + lih.getTop( ),
+									lih.getHeight( ),
 									Orientation.VERTICAL_LITERAL );
-							dX += dSeparatorThickness;
 						}
 					}
 				}
@@ -2753,30 +1712,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			EList elTriggers = lg.getTriggers( );
 			Location[] loaHotspot = new Location[4];
 
-			if ( isRightToLeft( ) )
-			{
-				double dTextStartX = tre.getLocation( ).getX( ) + 1;
-				loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
-				loaHotspot[1] = LocationImpl.create( dTextStartX - dW, dY + 1 );
-				loaHotspot[2] = LocationImpl.create( dTextStartX - dW, dY
-						+ dFullHeight
-						+ dExtraHeight );
-				loaHotspot[3] = LocationImpl.create( dTextStartX, dY
-						+ dFullHeight
-						+ dExtraHeight );
-			}
-			else
-			{
-				double dTextStartX = tre.getLocation( ).getX( ) - 1;
-				loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
-				loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
-				loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
-						+ dFullHeight
-						+ dExtraHeight );
-				loaHotspot[3] = LocationImpl.create( dTextStartX, dY
-						+ dFullHeight
-						+ dExtraHeight );
-			}
+			// use the complete legend item area as the hotspot
+			loaHotspot[0] = LocationImpl.create( dX + 1, dY + 1 );
+			loaHotspot[1] = LocationImpl.create( dX + dColumnWidth - 1, dY + 1 );
+			loaHotspot[2] = LocationImpl.create( dX + dColumnWidth - 1, dY
+					+ dFullHeight
+					+ dExtraHeight
+					- 1 );
+			loaHotspot[3] = LocationImpl.create( dX + 1, dY
+					+ dFullHeight
+					+ dExtraHeight
+					- 1 );
 
 			Trigger buildinTg = null;
 

@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -43,6 +44,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.emf.common.util.EList;
@@ -98,6 +100,7 @@ public final class LegendBuilder implements IConstants
 		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
 		final Orientation orientation = lg.getOrientation( );
 		final Direction direction = lg.getDirection( );
+		final Position lgPosition = lg.getPosition( );
 
 		Label la = LabelImpl.create( );
 		la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
@@ -108,13 +111,13 @@ public final class LegendBuilder implements IConstants
 		double dWidth = 0, dHeight = 0;
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
-		double dItemHeight = itm.getFullHeight( );
+		final double dItemHeight = itm.getFullHeight( );
 
 		Series se;
 		List al;
 
-		double dScale = xs.getDpiResolution( ) / 72d;
-		Insets insCA = ca.getInsets( ).scaledInstance( dScale );
+		final double dScale = xs.getDpiResolution( ) / 72d;
+		final Insets insCA = ca.getInsets( ).scaledInstance( dScale );
 		final boolean bPaletteByCategory = ( cm.getLegend( )
 				.getItemType( )
 				.getValue( ) == LegendItemType.CATEGORIES );
@@ -123,30 +126,93 @@ public final class LegendBuilder implements IConstants
 
 		Series seBase;
 		final List legendItems = new ArrayList( );
+		final List columnList = new ArrayList( );
 
 		final double dHorizontalSpacing = 3 * dScale;
 		final double dVerticalSpacing = 3 * dScale;
 
+		final double dSafeSpacing = 3 * dScale;
+
+		final double dHorizonalReservedSpace = insCA.getLeft( )
+				+ insCA.getRight( )
+				+ ( 3 * dItemHeight )
+				/ 2
+				+ dHorizontalSpacing;
+		final double dVerticalReservedSpace = insCA.getTop( )
+				+ insCA.getBottom( )
+				+ dVerticalSpacing;
+
 		// Get maximum block width/height available
-		Block bl = cm.getBlock( );
-		Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
-		Insets ins = bl.getInsets( ).scaledInstance( dScale );
-		Insets lgIns = lg.getInsets( ).scaledInstance( dScale );
+		final Block bl = cm.getBlock( );
+		final Bounds boFull = bl.getBounds( ).scaledInstance( dScale );
+		final Insets ins = bl.getInsets( ).scaledInstance( dScale );
+		final Insets lgIns = lg.getInsets( ).scaledInstance( dScale );
+
+		int titleWPos = 0;
+		int titleHPos = 0;
+
+		final TitleBlock titleBlock = cm.getTitle( );
+		final Bounds titleBounds = titleBlock.getBounds( )
+				.scaledInstance( dScale );
+
+		if ( titleBlock.isVisible( ) )
+		{
+			switch ( titleBlock.getAnchor( ).getValue( ) )
+			{
+				case Anchor.EAST :
+				case Anchor.WEST :
+					titleWPos = 1;
+					break;
+				case Anchor.NORTH :
+				case Anchor.NORTH_EAST :
+				case Anchor.NORTH_WEST :
+				case Anchor.SOUTH :
+				case Anchor.SOUTH_EAST :
+				case Anchor.SOUTH_WEST :
+					titleHPos = 1;
+					break;
+			}
+		}
 
 		double dAvailableWidth = boFull.getWidth( )
 				- ins.getLeft( )
 				- ins.getRight( )
 				- lgIns.getLeft( )
-				- lgIns.getRight( );
+				- lgIns.getRight( )
+				- titleBounds.getWidth( )
+				* titleWPos;
+
 		double dAvailableHeight = boFull.getHeight( )
 				- ins.getTop( )
 				- ins.getBottom( )
 				- lgIns.getTop( )
 				- lgIns.getBottom( )
-				- cm.getTitle( )
-						.getBounds( )
-						.scaledInstance( dScale )
-						.getHeight( );
+				- titleBounds.getHeight( )
+				* titleHPos;
+
+		// TODO ...
+		// check 1/3 chart block size constraint for legend block
+		double dMaxLegendWidth = boFull.getWidth( ) / 3;
+		double dMaxLegendHeight = boFull.getHeight( ) / 3;
+
+		switch ( lgPosition.getValue( ) )
+		{
+			case Position.LEFT :
+			case Position.RIGHT :
+			case Position.OUTSIDE :
+				if ( dAvailableWidth > dMaxLegendWidth )
+				{
+					dAvailableWidth = dMaxLegendWidth;
+				}
+				break;
+			case Position.ABOVE :
+			case Position.BELOW :
+				if ( dAvailableHeight > dMaxLegendHeight )
+				{
+					dAvailableHeight = dMaxLegendHeight;
+				}
+				break;
+		}
 
 		// Calculate if minSlice applicable.
 		boolean bMinSliceDefined = false;
@@ -257,7 +323,7 @@ public final class LegendBuilder implements IConstants
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 		if ( orientation.getValue( ) == Orientation.VERTICAL )
 		{
-			double dW, dMaxW = 0;
+			double dW, dMaxW = 0, dColumnWidth;
 			double dRealHeight = 0, dExtraWidth = 0, dDeltaHeight;
 
 			if ( bPaletteByCategory )
@@ -360,15 +426,25 @@ public final class LegendBuilder implements IConstants
 
 					if ( dHeight + dDeltaHeight > dAvailableHeight )
 					{
-						dExtraWidth += dWidth
-								+ insCA.getLeft( )
-								+ insCA.getRight( )
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ dHorizontalSpacing;
-						dWidth = dFWidth;
-						dRealHeight = Math.max( dRealHeight, dHeight );
-						dHeight = dDeltaHeight;
+						// check available bounds
+						dColumnWidth = dWidth + dHorizonalReservedSpace;
+						if ( dExtraWidth + dColumnWidth > dAvailableWidth
+								+ dSafeSpacing )
+						{
+							dWidth = -dHorizonalReservedSpace;
+							columnList.clear( );
+							break;
+						}
+						else
+						{
+							legendItems.addAll( columnList );
+							columnList.clear( );
+
+							dExtraWidth += dColumnWidth;
+							dWidth = dFWidth;
+							dRealHeight = Math.max( dRealHeight, dHeight );
+							dHeight = dDeltaHeight;
+						}
 					}
 					else
 					{
@@ -376,7 +452,7 @@ public final class LegendBuilder implements IConstants
 						dHeight += dDeltaHeight;
 					}
 
-					legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+					columnList.add( new LegendItemHints( LEGEND_ENTRY,
 							new Point( dExtraWidth, dHeight - dDeltaHeight ),
 							dFWidth,
 							dFHeight,
@@ -411,36 +487,64 @@ public final class LegendBuilder implements IConstants
 
 					if ( dHeight + dDeltaHeight > dAvailableHeight )
 					{
-						dExtraWidth += dWidth
-								+ insCA.getLeft( )
-								+ insCA.getRight( )
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ dHorizontalSpacing;
-						dWidth = dFWidth;
-						dRealHeight = Math.max( dRealHeight, dHeight );
-						dHeight = dDeltaHeight;
+						// check available bounds
+						dColumnWidth = dWidth + dHorizonalReservedSpace;
+						if ( dExtraWidth + dColumnWidth > dAvailableWidth
+								+ dSafeSpacing )
+						{
+							dWidth = -dHorizonalReservedSpace;
+							columnList.clear( );
+
+							// !not add the entry if it exceeds the available
+							// bounds.
+						}
+						else
+						{
+							legendItems.addAll( columnList );
+							columnList.clear( );
+
+							dExtraWidth += dColumnWidth;
+							dWidth = dFWidth;
+							dRealHeight = Math.max( dRealHeight, dHeight );
+							dHeight = dDeltaHeight;
+
+							columnList.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
+									new Point( dExtraWidth, dHeight
+											- dDeltaHeight ),
+									dFWidth,
+									dFHeight,
+									la.getCaption( ).getValue( ),
+									dsiBase.size( ) ) );
+						}
 					}
 					else
 					{
 						dWidth = Math.max( dFWidth, dWidth );
 						dHeight += dDeltaHeight;
-					}
 
-					legendItems.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
-							new Point( dExtraWidth, dHeight - dDeltaHeight ),
-							dFWidth,
-							dFHeight,
-							la.getCaption( ).getValue( ),
-							dsiBase.size( ) ) );
+						columnList.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
+								new Point( dExtraWidth, dHeight - dDeltaHeight ),
+								dFWidth,
+								dFHeight,
+								la.getCaption( ).getValue( ),
+								dsiBase.size( ) ) );
+					}
 				}
 
-				dWidth += insCA.getLeft( )
-						+ ( 3 * dItemHeight )
-						/ 2
-						+ dHorizontalSpacing
-						+ insCA.getRight( )
-						+ dExtraWidth;
+				// check available bounds
+				dColumnWidth = dWidth + dHorizonalReservedSpace;
+				if ( dExtraWidth + dColumnWidth > dAvailableWidth
+						+ dSafeSpacing )
+				{
+					dWidth = -dHorizonalReservedSpace;
+				}
+				else
+				{
+					legendItems.addAll( columnList );
+				}
+				columnList.clear( );
+
+				dWidth += dHorizonalReservedSpace + dExtraWidth;
 				dHeight = Math.max( dRealHeight, dHeight );
 			}
 			else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
@@ -562,15 +666,25 @@ public final class LegendBuilder implements IConstants
 
 						if ( dHeight + dDeltaHeight > dAvailableHeight )
 						{
-							dExtraWidth += dMaxW
-									+ insCA.getLeft( )
-									+ insCA.getRight( )
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ dHorizontalSpacing;
-							dMaxW = dW;
-							dRealHeight = Math.max( dRealHeight, dHeight );
-							dHeight = dDeltaHeight;
+							// check available bounds
+							dColumnWidth = dMaxW + dHorizonalReservedSpace;
+							if ( dExtraWidth + dColumnWidth > dAvailableWidth
+									+ dSafeSpacing )
+							{
+								dMaxW = -dHorizonalReservedSpace;
+								columnList.clear( );
+								break;
+							}
+							else
+							{
+								legendItems.addAll( columnList );
+								columnList.clear( );
+
+								dExtraWidth += dColumnWidth;
+								dMaxW = dW;
+								dRealHeight = Math.max( dRealHeight, dHeight );
+								dHeight = dDeltaHeight;
+							}
 						}
 						else
 						{
@@ -578,7 +692,7 @@ public final class LegendBuilder implements IConstants
 							dHeight += dDeltaHeight;
 						}
 
-						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+						columnList.add( new LegendItemHints( LEGEND_ENTRY,
 								new Point( dExtraWidth, dHeight - dDeltaHeight ),
 								dW,
 								dFHeight,
@@ -587,39 +701,46 @@ public final class LegendBuilder implements IConstants
 								extraText ) );
 					}
 
-					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( oneVisibleSerie
-							&& j < seda.length - 1
-							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
-									.isVisible( ) ) )
+					// check available bounds
+					dColumnWidth = dMaxW + dHorizonalReservedSpace;
+					if ( dExtraWidth + dColumnWidth > dAvailableWidth
+							+ dSafeSpacing )
 					{
-						dHeight += dSeparatorThickness;
-
-						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-								new Point( dExtraWidth, dHeight
-										- dSeparatorThickness
-										/ 2 ),
-								dMaxW
-										+ insCA.getLeft( )
-										+ insCA.getRight( )
-										+ ( 3 * dItemHeight )
-										/ 2,
-								0,
-								null,
-								0,
-								null ) );
+						dMaxW = -dHorizonalReservedSpace;
 					}
+					else
+					{
+						legendItems.addAll( columnList );
+
+						// SETUP HORIZONTAL SEPARATOR SPACING
+						if ( oneVisibleSerie
+								&& j < seda.length - 1
+								&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+										.isVisible( ) ) )
+						{
+							dHeight += dSeparatorThickness;
+
+							legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+									new Point( dExtraWidth, dHeight
+											- dSeparatorThickness
+											/ 2 ),
+									dMaxW
+											+ insCA.getLeft( )
+											+ insCA.getRight( )
+											+ ( 3 * dItemHeight )
+											/ 2,
+									0,
+									null,
+									0,
+									null ) );
+						}
+					}
+					columnList.clear( );
 				}
 
 				// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING + MAX
 				// ITEM WIDTH + RIGHT INSETS
-				dWidth = insCA.getLeft( )
-						+ ( 3 * dItemHeight )
-						/ 2
-						+ dHorizontalSpacing
-						+ dMaxW
-						+ insCA.getRight( )
-						+ dExtraWidth;
+				dWidth = dMaxW + dHorizonalReservedSpace + dExtraWidth;
 				dHeight = Math.max( dRealHeight, dHeight );
 			}
 			else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
@@ -743,15 +864,25 @@ public final class LegendBuilder implements IConstants
 
 						if ( dHeight + dDeltaHeight > dAvailableHeight )
 						{
-							dExtraWidth += dMaxW
-									+ insCA.getLeft( )
-									+ insCA.getRight( )
-									+ ( 3 * dItemHeight )
-									/ 2
-									+ dHorizontalSpacing;
-							dMaxW = dW;
-							dRealHeight = Math.max( dRealHeight, dHeight );
-							dHeight = dDeltaHeight;
+							// check available bounds
+							dColumnWidth = dMaxW + dHorizonalReservedSpace;
+							if ( dExtraWidth + dColumnWidth > dAvailableWidth
+									+ dSafeSpacing )
+							{
+								dMaxW = -dHorizonalReservedSpace;
+								columnList.clear( );
+								break;
+							}
+							else
+							{
+								legendItems.addAll( columnList );
+								columnList.clear( );
+
+								dExtraWidth += dColumnWidth;
+								dMaxW = dW;
+								dRealHeight = Math.max( dRealHeight, dHeight );
+								dHeight = dDeltaHeight;
+							}
 						}
 						else
 						{
@@ -759,7 +890,7 @@ public final class LegendBuilder implements IConstants
 							dHeight += dDeltaHeight;
 						}
 
-						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+						columnList.add( new LegendItemHints( LEGEND_ENTRY,
 								new Point( dExtraWidth, dHeight - dDeltaHeight ),
 								dW,
 								dFHeight,
@@ -768,44 +899,53 @@ public final class LegendBuilder implements IConstants
 								extraText ) );
 					}
 
-					if ( oneVisibleSerie )
-					{
-						dExtraWidth += dMaxW
-								+ insCA.getLeft( )
-								+ insCA.getRight( )
-								+ ( 3 * dItemHeight )
-								/ 2
-								+ dHorizontalSpacing;
-					}
-
-					dMaxW = 0;
+					// refresh real height
 					dRealHeight = Math.max( dRealHeight, dHeight );
-					dHeight = 0;
 
-					// SETUP VERTICAL SEPARATOR SPACING
-					if ( oneVisibleSerie
-							&& j < seda.length - 1
-							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
-									.isVisible( ) ) )
+					// check available bounds
+					dColumnWidth = dMaxW + dHorizonalReservedSpace;
+					if ( dExtraWidth + dColumnWidth > dAvailableWidth
+							+ dSafeSpacing )
 					{
-						dExtraWidth += dSeparatorThickness;
-
-						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-								new Point( dExtraWidth
-										- dSeparatorThickness
-										/ 2, 0 ),
-								0,
-								dRealHeight,
-								null,
-								0,
-								null ) );
+						// do nothing
 					}
+					else
+					{
+						legendItems.addAll( columnList );
+
+						if ( oneVisibleSerie )
+						{
+							dExtraWidth += dMaxW + dHorizonalReservedSpace;
+
+							// SETUP VERTICAL SEPARATOR SPACING
+							if ( j < seda.length - 1
+									&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+											.isVisible( ) ) )
+							{
+								dExtraWidth += dSeparatorThickness;
+
+								legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+										new Point( dExtraWidth
+												- dSeparatorThickness
+												/ 2, 0 ),
+										0,
+										dRealHeight,
+										null,
+										0,
+										null ) );
+							}
+						}
+					}
+					columnList.clear( );
+
+					// reset variables.
+					dMaxW = 0;
+					dHeight = 0;
 				}
 
 				// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING +
 				// MAX ITEM WIDTH + RIGHT INSETS
 				dWidth += dExtraWidth;
-
 				dHeight = Math.max( dRealHeight, dHeight );
 			}
 			else
@@ -821,7 +961,7 @@ public final class LegendBuilder implements IConstants
 		}
 		else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
 		{
-			double dH, dMaxH = 0;
+			double dH, dMaxH = 0, dRowHeight;
 			double dRealWidth = 0, dExtraHeight = 0, dDeltaWidth;
 
 			if ( bPaletteByCategory )
@@ -932,13 +1072,25 @@ public final class LegendBuilder implements IConstants
 
 					if ( dWidth + dDeltaWidth > dAvailableWidth )
 					{
-						dExtraHeight += dHeight
-								+ insCA.getTop( )
-								+ insCA.getBottom( )
-								+ dVerticalSpacing;
-						dHeight = dFHeight;
-						dRealWidth = Math.max( dRealWidth, dWidth );
-						dWidth = dDeltaWidth;
+						// check available bounds
+						dRowHeight = dHeight + dVerticalReservedSpace;
+						if ( dExtraHeight + dRowHeight > dAvailableHeight
+								+ dSafeSpacing )
+						{
+							dHeight = -dVerticalReservedSpace;
+							columnList.clear( );
+							break;
+						}
+						else
+						{
+							legendItems.addAll( columnList );
+							columnList.clear( );
+
+							dExtraHeight += dRowHeight;
+							dHeight = dFHeight;
+							dRealWidth = Math.max( dRealWidth, dWidth );
+							dWidth = dDeltaWidth;
+						}
 					}
 					else
 					{
@@ -946,7 +1098,7 @@ public final class LegendBuilder implements IConstants
 						dWidth += dDeltaWidth;
 					}
 
-					legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+					columnList.add( new LegendItemHints( LEGEND_ENTRY,
 							new Point( dWidth - dDeltaWidth, dExtraHeight ),
 							dFWidth,
 							dFHeight,
@@ -982,32 +1134,65 @@ public final class LegendBuilder implements IConstants
 
 					if ( dWidth + dDeltaWidth > dAvailableWidth )
 					{
-						dExtraHeight += dHeight
-								+ insCA.getTop( )
-								+ insCA.getBottom( )
-								+ dVerticalSpacing;
-						dHeight = dFHeight;
-						dRealWidth = Math.max( dRealWidth, dWidth );
-						dWidth = dDeltaWidth;
+						// check available bounds
+						dRowHeight = dHeight + dVerticalReservedSpace;
+						if ( dExtraHeight + dRowHeight > dAvailableHeight
+								+ dSafeSpacing )
+						{
+							dHeight = -dVerticalReservedSpace;
+							columnList.clear( );
+
+							// !not add the entry if it exceeds the available
+							// bounds.
+						}
+						else
+						{
+							legendItems.addAll( columnList );
+							columnList.clear( );
+
+							dExtraHeight += dRowHeight;
+							dHeight = dFHeight;
+							dRealWidth = Math.max( dRealWidth, dWidth );
+							dWidth = dDeltaWidth;
+
+							columnList.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
+									new Point( dWidth - dDeltaWidth,
+											dExtraHeight ),
+									dFWidth,
+									dFHeight,
+									la.getCaption( ).getValue( ),
+									dsiBase.size( ) ) );
+						}
 					}
 					else
 					{
 						dHeight = Math.max( dFHeight, dHeight );
 						dWidth += dDeltaWidth;
+
+						columnList.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
+								new Point( dWidth - dDeltaWidth, dExtraHeight ),
+								dFWidth,
+								dFHeight,
+								la.getCaption( ).getValue( ),
+								dsiBase.size( ) ) );
 					}
 
-					legendItems.add( new LegendItemHints( LEGEND_MINSLICE_ENTRY,
-							new Point( dWidth - dDeltaWidth, dExtraHeight ),
-							dFWidth,
-							dFHeight,
-							la.getCaption( ).getValue( ),
-							dsiBase.size( ) ) );
 				}
 
-				dHeight += dExtraHeight
-						+ insCA.getTop( )
-						+ insCA.getBottom( )
-						+ dVerticalSpacing;
+				// check available bounds
+				dRowHeight = dHeight + dVerticalReservedSpace;
+				if ( dExtraHeight + dRowHeight > dAvailableHeight
+						+ dSafeSpacing )
+				{
+					dHeight = -dVerticalReservedSpace;
+				}
+				else
+				{
+					legendItems.addAll( columnList );
+				}
+				columnList.clear( );
+
+				dHeight += dExtraHeight + dVerticalReservedSpace;
 				dWidth = Math.max( dWidth, dRealWidth );
 			}
 			else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
@@ -1133,13 +1318,25 @@ public final class LegendBuilder implements IConstants
 
 						if ( dWidth + dDeltaWidth > dAvailableWidth )
 						{
-							dExtraHeight += dMaxH
-									+ insCA.getTop( )
-									+ insCA.getBottom( )
-									+ dVerticalSpacing;
-							dMaxH = dH;
-							dRealWidth = Math.max( dRealWidth, dWidth );
-							dWidth = dDeltaWidth;
+							// check available bounds
+							dRowHeight = dMaxH + dVerticalReservedSpace;
+							if ( dExtraHeight + dRowHeight > dAvailableHeight
+									+ dSafeSpacing )
+							{
+								dMaxH = -dVerticalReservedSpace;
+								columnList.clear( );
+								break;
+							}
+							else
+							{
+								legendItems.addAll( columnList );
+								columnList.clear( );
+
+								dExtraHeight += dRowHeight;
+								dMaxH = dH;
+								dRealWidth = Math.max( dRealWidth, dWidth );
+								dWidth = dDeltaWidth;
+							}
 						}
 						else
 						{
@@ -1147,7 +1344,7 @@ public final class LegendBuilder implements IConstants
 							dWidth += dDeltaWidth;
 						}
 
-						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+						columnList.add( new LegendItemHints( LEGEND_ENTRY,
 								new Point( dWidth - dDeltaWidth, dExtraHeight ),
 								dFWidth,
 								dFHeight,
@@ -1156,41 +1353,52 @@ public final class LegendBuilder implements IConstants
 								extraText ) );
 					}
 
-					if ( oneVisibleSerie )
-					{
-						dExtraHeight += dMaxH
-								+ insCA.getTop( )
-								+ insCA.getBottom( )
-								+ dVerticalSpacing;
-					}
-					dMaxH = 0;
+					// refresh real width
 					dRealWidth = Math.max( dRealWidth, dWidth );
-					dWidth = 0;
 
-					// SETUP HORIZONTAL SEPARATOR SPACING
-					if ( oneVisibleSerie
-							&& j < seda.length - 1
-							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
-									.isVisible( ) ) )
+					// check available bounds
+					dRowHeight = dMaxH + dVerticalReservedSpace;
+					if ( dExtraHeight + dRowHeight > dAvailableHeight
+							+ dSafeSpacing )
 					{
-						dHeight += dSeparatorThickness;
-
-						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-								new Point( 0, dExtraHeight
-										- dSeparatorThickness
-										/ 2 ),
-								dRealWidth,
-								0,
-								null,
-								0,
-								null ) );
+						// do nothing
 					}
+					else
+					{
+						legendItems.addAll( columnList );
+
+						if ( oneVisibleSerie )
+						{
+							dExtraHeight += dRowHeight;
+
+							// SETUP HORIZONTAL SEPARATOR SPACING
+							if ( j < seda.length - 1
+									&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+											.isVisible( ) ) )
+							{
+								dHeight += dSeparatorThickness;
+
+								legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+										new Point( 0, dExtraHeight
+												- dSeparatorThickness
+												/ 2 ),
+										dRealWidth,
+										0,
+										null,
+										0,
+										null ) );
+							}
+						}
+					}
+					columnList.clear( );
+
+					// reset variables
+					dMaxH = 0;
+					dWidth = 0;
 				}
 
 				dHeight += dExtraHeight;
-
 				dWidth = Math.max( dRealWidth, dWidth );
-
 			}
 			else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
 			{
@@ -1314,13 +1522,25 @@ public final class LegendBuilder implements IConstants
 
 						if ( dWidth + dDeltaWidth > dAvailableWidth )
 						{
-							dExtraHeight += dMaxH
-									+ insCA.getTop( )
-									+ insCA.getBottom( )
-									+ dVerticalSpacing;
-							dMaxH = dH;
-							dRealWidth = Math.max( dRealWidth, dWidth );
-							dWidth = dDeltaWidth;
+							// check available bounds
+							dRowHeight = dMaxH + dVerticalReservedSpace;
+							if ( dExtraHeight + dRowHeight > dAvailableHeight
+									+ dSafeSpacing )
+							{
+								dMaxH = -dVerticalReservedSpace;
+								columnList.clear( );
+								break;
+							}
+							else
+							{
+								legendItems.addAll( columnList );
+								columnList.clear( );
+
+								dExtraHeight += dRowHeight;
+								dMaxH = dH;
+								dRealWidth = Math.max( dRealWidth, dWidth );
+								dWidth = dDeltaWidth;
+							}
 						}
 						else
 						{
@@ -1328,7 +1548,7 @@ public final class LegendBuilder implements IConstants
 							dWidth += dDeltaWidth;
 						}
 
-						legendItems.add( new LegendItemHints( LEGEND_ENTRY,
+						columnList.add( new LegendItemHints( LEGEND_ENTRY,
 								new Point( dWidth - dDeltaWidth, dExtraHeight ),
 								dFWidth,
 								dFHeight,
@@ -1337,35 +1557,40 @@ public final class LegendBuilder implements IConstants
 								extraText ) );
 					}
 
-					// SETUP VERTICAL SEPARATOR SPACING
-					if ( oneVisibleSerie
-							&& j < seda.length - 1
-							&& ( lg.getSeparator( ) == null || lg.getSeparator( )
-									.isVisible( ) ) )
+					// check available bounds
+					dRowHeight = dMaxH + dVerticalReservedSpace;
+					if ( dExtraHeight + dRowHeight > dAvailableHeight
+							+ dSafeSpacing )
 					{
-						dWidth += dSeparatorThickness;
-
-						legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-								new Point( dWidth - dSeparatorThickness / 2,
-										dExtraHeight ),
-								0,
-								dMaxH
-										+ insCA.getTop( )
-										+ insCA.getBottom( )
-										+ dVerticalSpacing,
-								null,
-								0,
-								null ) );
-
+						dMaxH = -dVerticalReservedSpace;
 					}
+					else
+					{
+						legendItems.addAll( columnList );
+
+						// SETUP VERTICAL SEPARATOR SPACING
+						if ( oneVisibleSerie
+								&& j < seda.length - 1
+								&& ( lg.getSeparator( ) == null || lg.getSeparator( )
+										.isVisible( ) ) )
+						{
+							dWidth += dSeparatorThickness;
+
+							legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+									new Point( dWidth - dSeparatorThickness / 2,
+											dExtraHeight ),
+									0,
+									dMaxH + insCA.getTop( ) + insCA.getBottom( ),
+									null,
+									0,
+									null ) );
+
+						}
+					}
+					columnList.clear( );
 				}
 
-				dHeight += insCA.getTop( )
-						+ dVerticalSpacing
-						+ insCA.getBottom( )
-						+ dMaxH
-						+ dExtraHeight;
-
+				dHeight += dVerticalReservedSpace + dMaxH + dExtraHeight;
 				dWidth = Math.max( dRealWidth, dWidth );
 			}
 			else
