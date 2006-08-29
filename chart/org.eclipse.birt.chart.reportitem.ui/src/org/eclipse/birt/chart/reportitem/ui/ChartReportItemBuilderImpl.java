@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.reportitem.QueryHelper;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -56,8 +58,9 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * ChartReportItemBuilderImpl
  */
-public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
-		IUIServiceProvider
+public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
+		implements
+			IUIServiceProvider
 {
 
 	private static int iInstanceCount = 0;
@@ -93,7 +96,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI#open(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public int open( ExtendedItemHandle eih )
+	public int open( final ExtendedItemHandle eih )
 	{
 		if ( iInstanceCount > 0 ) // LIMIT TO ONE INSTANCE
 		{
@@ -121,108 +124,148 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			{
 				logger.log( ILogger.ERROR,
 						Messages.getString( "ChartReportItemBuilderImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
-				iInstanceCount--;
 				return Window.CANCEL;
 			}
+			
+			final CommandStack commandStack = eih.getRoot( ).getCommandStack( );
+			final String TRANS_NAME = "chart builder internal transaction"; //$NON-NLS-1$
+			commandStack.startTrans( TRANS_NAME );
 
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
 			final Chart cmClone = ( cm == null ) ? null
 					: (Chart) EcoreUtil.copy( cm );
+			// This array is for storing the latest chart data before pressing
+			// apply button
+			final Object[] applyData = new Object[2];
 
 			// Set the ExtendedItemHandle instance (for use by the Chart Builder
 			// UI
 			this.extendedHandle = eih;
 
+			// Use workbench shell to open the dialog
+			Shell parentShell = null;
+			if ( PlatformUI.isWorkbenchRunning( ) )
 			{
-				// Use workbench shell to open the dialog
-				Shell parentShell = null;
-				if ( PlatformUI.isWorkbenchRunning( ) )
-				{
-					parentShell = PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( );
-				}
-				ChartWizard chartBuilder = new ChartWizard( parentShell );
-				ChartWizardContext context = new ChartWizardContext( cmClone );
-				context.setUIServiceProvider( this );
-				context.setDataServiceProvider( new ReportDataServiceProvider( eih ) );
-				context.setRtL( ReportItemUIUtil.isRtl( ) );
-				Object of = eih.getProperty( "outputFormat" ); //$NON-NLS-1$
-				if ( of instanceof String )
-				{
-					// GIF is deprecated in favor of PNG. Automatically update
-					// model
-					if ( of.equals( "GIF" ) ) //$NON-NLS-1$
-					{
-						context.setOutputFormat( "PNG" ); //$NON-NLS-1$
-					}
-					else
-						context.setOutputFormat( (String) of );
-				}
-				context.setExtendedItem( eih );
-				context.setProcessor( new ChartReportStyleProcessor( eih, false ) );
-				context = (ChartWizardContext) chartBuilder.open( null,
-						taskId,
-						context );
-				if ( context != null && context.getModel( ) != null )
-				{
-					// update the output format property information.
-					eih.setProperty( "outputFormat", context.getOutputFormat( ) ); //$NON-NLS-1$
-
-					// TODO: Added till the model team sorts out pass-through
-					// for
-					// setProperty
-					crii.executeSetModelCommand( eih, cm, context.getModel( ) );
-
-					try
-					{
-						final Bounds bo = context.getModel( )
-								.getBlock( )
-								.getBounds( );
-
-						// Modified to fix Bugzilla #99331
-						NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
-
-						if ( eih.getWidth( ).getStringValue( ) == null )
-						{
-							eih.setWidth( nf.format( bo.getWidth( ) ) + "pt" ); //$NON-NLS-1$
-						}
-						if ( eih.getHeight( ).getStringValue( ) == null )
-						{
-							eih.setHeight( nf.format( bo.getHeight( ) ) + "pt" ); //$NON-NLS-1$
-						}
-					}
-					catch ( SemanticException smx )
-					{
-						logger.log( smx );
-					}
-
-					if ( crii.getDesignerRepresentation( ) != null )
-					{
-						( (DesignerRepresentation) crii.getDesignerRepresentation( ) ).setDirty( true );
-					}
-
-					iInstanceCount--;
-					// Reset the ExtendedItemHandle instance since it is no
-					// longer
-					// needed
-					this.extendedHandle = null;
-
-					return Window.OK;
-				}
+				parentShell = PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( );
 			}
+			final ChartWizard chartBuilder = new ChartWizard( parentShell );
+			final ChartWizardContext context = new ChartWizardContext( cmClone );
+			chartBuilder.addCustomButton( new ApplyButtonHandler( chartBuilder ) {
 
-			iInstanceCount--;
-			// Reset the ExtendedItemHandle instance since it is no longer
-			// needed
-			this.extendedHandle = null;
+				public void run( )
+				{
+					super.run( );
+					// Save the data when applying
+					applyData[0] = EcoreUtil.copy( context.getModel( ) );
+					applyData[1] = context.getOutputFormat( );
+
+					commandStack.commit( );
+					commandStack.startTrans( TRANS_NAME );
+				}
+			} );
+
+			context.setUIServiceProvider( this );
+			context.setDataServiceProvider( new ReportDataServiceProvider( eih ) );
+			context.setRtL( ReportItemUIUtil.isRtl( ) );
+			Object of = eih.getProperty( "outputFormat" ); //$NON-NLS-1$
+			if ( of instanceof String )
+			{
+				// GIF is deprecated in favor of PNG. Automatically update
+				// model
+				if ( of.equals( "GIF" ) ) //$NON-NLS-1$
+				{
+					context.setOutputFormat( "PNG" ); //$NON-NLS-1$
+				}
+				else
+					context.setOutputFormat( (String) of );
+			}
+			context.setExtendedItem( eih );
+			context.setProcessor( new ChartReportStyleProcessor( eih, false ) );
+			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
+					taskId,
+					context );
+			if ( contextResult != null && contextResult.getModel( ) != null )
+			{
+				// Pressing Finish
+				commandStack.commit( );
+				updateModel( eih,
+						chartBuilder,
+						crii,
+						cm,
+						contextResult.getModel( ),
+						contextResult.getOutputFormat( ) );
+				return Window.OK;
+			}
+			else if ( applyData[0] != null )
+			{
+				// Pressing Cancel but Apply was pressed before, so revert to
+				// the point pressing Apply
+				commandStack.rollback( );
+				updateModel( eih,
+						chartBuilder,
+						crii,
+						cm,
+						(Chart) applyData[0],
+						(String) applyData[1] );
+				return Window.OK;
+			}
+			commandStack.rollback( );
 			return Window.CANCEL;
 		}
 		catch ( Exception e )
 		{
-			iInstanceCount--;
 			throw new RuntimeException( e );
+		}
+		finally
+		{
+			iInstanceCount--;
+			// Reset the ExtendedItemHandle instance since it is no
+			// longer needed
+			this.extendedHandle = null;
+		}
+	}
+
+	private void updateModel( ExtendedItemHandle eih, ChartWizard chartBuilder,
+			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
+			String outputFormat )
+	{
+		try
+		{
+			// update the output format property information.
+			eih.setProperty( "outputFormat", outputFormat );//$NON-NLS-1$
+
+			// TODO: Added till the model team sorts out pass-through
+			// for setProperty
+			crii.executeSetModelCommand( eih, cmOld, cmNew );
+
+			// Resizes chart with a default value when the size is zero or null
+			chartBuilder.resizeChart( cmNew );
+
+			final Bounds bo = cmNew.getBlock( ).getBounds( );
+
+			// Modified to fix Bugzilla #99331
+			NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
+
+			if ( eih.getWidth( ).getStringValue( ) == null )
+			{
+				eih.setWidth( nf.format( bo.getWidth( ) ) + "pt" ); //$NON-NLS-1$
+			}
+			if ( eih.getHeight( ).getStringValue( ) == null )
+			{
+				eih.setHeight( nf.format( bo.getHeight( ) ) + "pt" ); //$NON-NLS-1$
+			}
+		}
+		catch ( SemanticException smx )
+		{
+			logger.log( smx );
+		}
+
+		if ( crii.getDesignerRepresentation( ) != null )
+		{
+			( (DesignerRepresentation) crii.getDesignerRepresentation( ) ).setDirty( true );
 		}
 	}
 
@@ -390,8 +433,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		{
 			case IUIServiceProvider.COMMAND_EXPRESSION :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE
-						| SWT.APPLICATION_MODAL );
+						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
 				eb = new ExpressionBuilder( shell, value );
@@ -430,8 +472,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				break;
 			case IUIServiceProvider.COMMAND_HYPERLINK :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE
-						| SWT.APPLICATION_MODAL );
+						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
 				HyperlinkBuilder hb = new HyperlinkBuilder( shell );

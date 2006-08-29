@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -235,6 +236,7 @@ public final class DesignerRepresentation extends Figure
 		if ( cm != null )
 		{
 			IDisplayServer ids = ChartUIUtil.getDisplayServer( );
+			ChartAdapter.beginIgnoreNotifications( );
 			cm.getBlock( )
 					.getBounds( )
 					.setWidth( ChartUtil.convertPixelsToPoints( ids, dim.width ) );
@@ -242,6 +244,7 @@ public final class DesignerRepresentation extends Figure
 					.getBounds( )
 					.setHeight( ChartUtil.convertPixelsToPoints( ids,
 							dim.height ) );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 
 		return dim;
@@ -327,9 +330,11 @@ public final class DesignerRepresentation extends Figure
 			idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
 
 			Generator gr = Generator.instance( );
+			ChartAdapter.beginIgnoreNotifications( );
 			cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
 			// RUNTIME SERIES
 			cm.createSampleRuntimeSeries( ); // USING SAMPLE DATA STORED IN
+			ChartAdapter.endIgnoreNotifications( );
 			// MODEL
 			try
 			{

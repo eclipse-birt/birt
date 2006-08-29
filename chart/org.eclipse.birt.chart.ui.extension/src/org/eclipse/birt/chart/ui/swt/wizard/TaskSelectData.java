@@ -122,7 +122,7 @@ public class TaskSelectData extends SimpleTask
 			customizeUI( );
 		}
 		doLivePreview( );
-		// Refresh all data definitino text
+		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 
 		ChartUIUtil.bindHelp( getControl( ),
@@ -158,7 +158,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void placeComponents( )
 	{
-		ChartAdapter.ignoreNotifications( true );
+		ChartAdapter.beginIgnoreNotifications( );
 		try
 		{
 			createHeadArea( );// place two rows
@@ -185,7 +185,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			// THIS IS IN A FINALLY BLOCK TO ENSURE THAT NOTIFICATIONS ARE
 			// ENABLED EVEN IF ERRORS OCCUR DURING UI INITIALIZATION
-			ChartAdapter.ignoreNotifications( false );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 	}
 
@@ -504,6 +504,7 @@ public class TaskSelectData extends SimpleTask
 
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		doLivePreview( );
+		updateApplyButton( );
 		return bCancel;
 	}
 
@@ -646,6 +647,7 @@ public class TaskSelectData extends SimpleTask
 			{
 				refreshTablePreview( );
 				doLivePreview( );
+				updateApplyButton( );
 			}
 		}
 		else if ( e.getSource( ).equals( btnParameters ) )
@@ -654,6 +656,7 @@ public class TaskSelectData extends SimpleTask
 			{
 				refreshTablePreview( );
 				doLivePreview( );
+				updateApplyButton( );
 			}
 		}
 		else if ( e.getSource( ).equals( btnBinding ) )
@@ -662,6 +665,7 @@ public class TaskSelectData extends SimpleTask
 			{
 				refreshTablePreview( );
 				doLivePreview( );
+				updateApplyButton( );
 			}
 		}
 		else if ( e.getSource( ) instanceof MenuItem )
@@ -741,7 +745,7 @@ public class TaskSelectData extends SimpleTask
 					.get( 0 ) );
 			manageColorAndQuery( query );
 			refreshBottomArea( );
-			// Refresh all data definitino text
+			// Refresh all data definition text
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
@@ -760,14 +764,14 @@ public class TaskSelectData extends SimpleTask
 		public void run( )
 		{
 			// Use the first group, and copy to the all groups
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.beginIgnoreNotifications( );
 			ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ),
 					ChartUIUtil.getExpressionString( tablePreview.getCurrentColumnHeading( ) ) );
-			ChartAdapter.ignoreNotifications( false );
+			ChartAdapter.endIgnoreNotifications( );
 
 			manageColorAndQuery( query );
 			refreshRightArea( );
-			// Refresh all data definitino text
+			// Refresh all data definition text
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
@@ -787,7 +791,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			manageColorAndQuery( query );
 			refreshLeftArea( );
-			// Refresh all data definitino text
+			// Refresh all data definition text
 			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
@@ -1004,9 +1008,9 @@ public class TaskSelectData extends SimpleTask
 			}
 			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
 			{
-				ChartAdapter.ignoreNotifications( true );
+				ChartAdapter.beginIgnoreNotifications( );
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
-				ChartAdapter.ignoreNotifications( false );
+				ChartAdapter.endIgnoreNotifications( );
 
 				previewPainter.renderModel( getChartModel( ) );
 			}
@@ -1030,6 +1034,11 @@ public class TaskSelectData extends SimpleTask
 		// Reset table column color
 		refreshTableColor( );
 	}
+	
+	private void updateApplyButton( )
+	{
+		( (ChartWizard) container ).updateApplayButton( );
+	}
 
 	private void doLivePreview( )
 	{
@@ -1040,7 +1049,7 @@ public class TaskSelectData extends SimpleTask
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.beginIgnoreNotifications( );
 			try
 			{
 				ChartUIUtil.doLivePreview( getChartModel( ),
@@ -1052,7 +1061,7 @@ public class TaskSelectData extends SimpleTask
 				// Enable sample data instead
 				ChartPreviewPainter.activateLivePreview( false );
 			}
-			ChartAdapter.ignoreNotifications( false );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 		else
 		{

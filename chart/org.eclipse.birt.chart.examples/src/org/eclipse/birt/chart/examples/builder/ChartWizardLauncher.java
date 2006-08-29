@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultUIServiceProviderImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart;
@@ -27,13 +28,11 @@ import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.utils.UIHelper;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
 
 /**
  * A wizard launcher for Chart builder.
- * <p>
- * All used icons should be moved into current root folder from
- * <b>org.eclipse.birt.chart.ui/icons</b>.
  * <p>
  * If the eclipse extension is expected to use, append the argument in VM,
  * <b>-DBIRT_HOME=birt_home_directory</b>; or append <b>-DSTANDALONE</b> to
@@ -45,13 +44,17 @@ import org.eclipse.swt.widgets.Display;
 public class ChartWizardLauncher
 {
 
-	public static void main( String[] args )
+	public void launch( )
 	{
 		init( );
 
 		Chart chart = null;
 		Serializer serializer = null;
-		File chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
+		final File chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
+
+		// This array is for storing the latest chart data before pressing
+		// apply button
+		final Object[] applyData = new Object[1];
 
 		// Reads the chart model
 		try
@@ -59,7 +62,6 @@ public class ChartWizardLauncher
 			serializer = SerializerImpl.instance( );
 			if ( chartFile.exists( ) )
 			{
-
 				chart = serializer.read( new FileInputStream( chartFile ) );
 			}
 		}
@@ -69,8 +71,8 @@ public class ChartWizardLauncher
 		}
 
 		// Configures the chart wizard.
-		ChartWizard chartWizard = new ChartWizard( );
-		ChartWizardContext context = new ChartWizardContext( chart );
+		final ChartWizard chartWizard = new ChartWizard( );
+		final ChartWizardContext context = new ChartWizardContext( chart );
 
 		/*
 		 * Used to fetch data. Default implementation of <code>IDataServiceProvider</code>.
@@ -88,16 +90,42 @@ public class ChartWizardLauncher
 		 */
 		context.setUIServiceProvider( new DefaultUIServiceProviderImpl( ) );
 
-		// Opens the wizard
-		context = (ChartWizardContext) chartWizard.open( context );
+		// Add Apply button
+		chartWizard.addCustomButton( new ApplyButtonHandler( chartWizard ) {
 
-		// Writes the chart model
-		if ( context != null )
+			public void run( )
+			{
+				super.run( );
+				// Save the data when applying
+				applyData[0] = EcoreUtil.copy( context.getModel( ) );
+			}
+
+		} );
+
+		// Opens the wizard
+		ChartWizardContext contextResult = (ChartWizardContext) chartWizard.open( context );
+
+		if ( contextResult != null )
 		{
-			chart = context.getModel( );
+			// Pressing Finish
 			try
 			{
-				serializer.write( chart, new FileOutputStream( chartFile ) );
+				serializer.write( contextResult.getModel( ),
+						new FileOutputStream( chartFile ) );
+			}
+			catch ( Exception e )
+			{
+				WizardBase.displayException( e );
+			}
+		}
+		else if ( applyData[0] != null )
+		{
+			// Pressing Cancel but Apply was pressed before, so revert to
+			// the point pressing Apply
+			try
+			{
+				serializer.write( (Chart) applyData[0],
+						new FileOutputStream( chartFile ) );
 			}
 			catch ( Exception e )
 			{
@@ -110,7 +138,7 @@ public class ChartWizardLauncher
 		}
 	}
 
-	static void init( )
+	void init( )
 	{
 		// Create display
 		Display.getDefault( );
@@ -129,6 +157,11 @@ public class ChartWizardLauncher
 				TasksManager.instance( )
 						.registerTask( "org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart", //$NON-NLS-1$
 								new TaskFormatChart( ) );
+				// TasksManager.instance( )
+				// .registerTask(
+				// "org.eclipse.birt.chart.ui.swt.wizard.TaskEditScript",
+				// //$NON-NLS-1$
+				// new TaskEditScript( ) );
 				String sChartTasks = "org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType,org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData,org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"; //$NON-NLS-1$
 				TasksManager.instance( )
 						.registerWizard( "org.eclipse.birt.chart.ui.ChartWizard", //$NON-NLS-1$
@@ -140,5 +173,10 @@ public class ChartWizardLauncher
 				WizardBase.displayException( e );
 			}
 		}
+	}
+
+	public static void main( String[] args )
+	{
+		new ChartWizardLauncher( ).launch( );
 	}
 }

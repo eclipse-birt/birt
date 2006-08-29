@@ -28,7 +28,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -617,36 +616,31 @@ public class TaskSelectType extends SimpleTask
 			}
 
 			// Prevent notifications rendering preview
-			ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-				public Object run( )
+			ChartAdapter.beginIgnoreNotifications( );
+			int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+			if ( cbMultipleY.getSelectionIndex( ) == 0 )
+			{
+				// Keeps one axis
+				if ( iAxisNumber > 1 )
 				{
-					int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
-					if ( cbMultipleY.getSelectionIndex( ) == 0 )
-					{
-						// Keeps one axis
-						if ( iAxisNumber > 1 )
-						{
-							ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
-									iAxisNumber - 1 );
-						}
-					}
-					else if ( cbMultipleY.getSelectionIndex( ) == 1 )
-					{
-						// Keeps two axes
-						if ( iAxisNumber == 1 )
-						{
-							ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
-						}
-						else if ( iAxisNumber > 2 )
-						{
-							ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
-									iAxisNumber - 2 );
-						}
-					}
-					return null;
+					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+							iAxisNumber - 1 );
 				}
-			} );
+			}
+			else if ( cbMultipleY.getSelectionIndex( ) == 1 )
+			{
+				// Keeps two axes
+				if ( iAxisNumber == 1 )
+				{
+					ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
+				}
+				else if ( iAxisNumber > 2 )
+				{
+					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+							iAxisNumber - 2 );
+				}
+			}
+			ChartAdapter.endIgnoreNotifications( );
 
 			// Update dimension combo and related sub-types
 			if ( updateDimensionCombo( sType ) )
@@ -684,11 +678,15 @@ public class TaskSelectType extends SimpleTask
 		else if ( oSelected.equals( cbOutput ) )
 		{
 			( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
+			// Update apply button
+			( (ChartWizard) container ).updateApplayButton( );
 		}
 
 		// Following operations need new model
 		if ( needUpdateModel )
 		{
+			// Update apply button
+			ChartAdapter.notifyUpdateApply( );
 			// Update chart model
 			refreshChart( );
 
@@ -810,7 +808,7 @@ public class TaskSelectType extends SimpleTask
 			int iOverlaySeriesCount = ( (Axis) XAxis.getAssociatedAxes( )
 					.get( 1 ) ).getSeriesDefinitions( ).size( );
 			// DISABLE NOTIFICATIONS WHILE MODEL UPDATE TAKES PLACE
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
 				Series newSeries = (Series) createMethod.invoke( seriesClass,
@@ -837,7 +835,7 @@ public class TaskSelectType extends SimpleTask
 		finally
 		{
 			// ENABLE NOTIFICATIONS IN CASE EXCEPTIONS OCCUR
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 	}
 
@@ -1023,8 +1021,8 @@ public class TaskSelectType extends SimpleTask
 
 	private void refreshChart( )
 	{
-		// DISABLE PREVIEW REFRESH DURING CONVERSION
-		ChartAdapter.ignoreNotifications( true );
+		// DISABLE PREVIEW REFRESH DURING CONVERSION		
+		ChartAdapter.beginIgnoreNotifications( );
 		IChartType chartType = (IChartType) htTypes.get( sType );
 		try
 		{
@@ -1040,7 +1038,7 @@ public class TaskSelectType extends SimpleTask
 		}
 
 		// RE-ENABLE PREVIEW REFRESH
-		ChartAdapter.ignoreNotifications( false );
+		ChartAdapter.endIgnoreNotifications( );
 
 		updateSelection( );
 		if ( context == null )
@@ -1204,7 +1202,7 @@ public class TaskSelectType extends SimpleTask
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.beginIgnoreNotifications( );
 			try
 			{
 				ChartUIUtil.doLivePreview( chartModel, getDataServiceProvider( ) );
@@ -1215,7 +1213,7 @@ public class TaskSelectType extends SimpleTask
 				// Enable sample data instead
 				ChartPreviewPainter.activateLivePreview( false );
 			}
-			ChartAdapter.ignoreNotifications( false );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 		else
 		{

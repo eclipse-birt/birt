@@ -38,6 +38,12 @@ public class ChartAdapter extends EContentAdapter
 	// For use by sample series creation
 	private static boolean bIgnoreNotifications = false;
 
+	// Indicates Apply button needs updating when notify changed
+	private static boolean needUpdateApply = false;
+
+	// For saving status between two methods
+	private static boolean transIgnore = false;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
 	private transient WizardBase wizardContainer;
@@ -49,10 +55,18 @@ public class ChartAdapter extends EContentAdapter
 
 	public void notifyChanged( Notification notification )
 	{
+		if ( needUpdateApply )
+		{
+			// Update Apply button status when notification may be ignored.
+			( (ChartWizard) wizardContainer ).updateApplayButton( );
+		}
+
 		if ( bIgnoreNotifications || notification.isTouch( ) )
 		{
+			needUpdateApply = false;
 			return;
 		}
+
 		logger.log( ILogger.INFORMATION,
 				new MessageFormat( Messages.getString( "ChartAdapter.Info.NotificationRecieved" ) ).format( new Object[]{notification.getNotifier( ).getClass( ).getName( )} ) ); //$NON-NLS-1$
 		logger.log( ILogger.INFORMATION,
@@ -69,6 +83,20 @@ public class ChartAdapter extends EContentAdapter
 			}
 		}
 
+		if ( !needUpdateApply )
+		{
+			// Update Apply button status after notification
+			( (ChartWizard) wizardContainer ).updateApplayButton( );
+		}
+		else
+		{
+			needUpdateApply = false;
+		}
+	}
+
+	public static void notifyUpdateApply( )
+	{
+		needUpdateApply = true;
 	}
 
 	public static void ignoreNotifications( boolean bIgnoreNotifications )
@@ -87,6 +115,8 @@ public class ChartAdapter extends EContentAdapter
 	 * @param runable
 	 *            Chart model change
 	 * @return context data
+	 * @deprecated To use {@link #beginIgnoreNotifications()} and
+	 *             {@link #endIgnoreNotifications()}
 	 */
 	public static Object changeChartWithoutNotification(
 			IChangeWithoutNotification runable )
@@ -96,6 +126,17 @@ public class ChartAdapter extends EContentAdapter
 		Object context = runable.run( );
 		bIgnoreNotifications = status;
 		return context;
+	}
+
+	public static void beginIgnoreNotifications( )
+	{
+		transIgnore = bIgnoreNotifications;
+		bIgnoreNotifications = true;
+	}
+
+	public static void endIgnoreNotifications( )
+	{
+		bIgnoreNotifications = transIgnore;
 	}
 
 	public void addListener( ITaskChangeListener listener )

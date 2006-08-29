@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.core.ui.frameworks.errordisplay.ErrorDialog;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IRegistrationListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
@@ -58,6 +61,8 @@ public class WizardBase implements IRegistrationListener
 
 	// HOLDS COLLECTION OF TASK IDS IN SEQUENCE...FOR INDEXING
 	private transient Vector vTaskIDs = null;
+
+	private transient List buttonList = null;
 
 	private transient String sCurrentActiveTask = null;
 
@@ -128,6 +133,23 @@ public class WizardBase implements IRegistrationListener
 	public void firePageChanged( IDialogPage taskPage )
 	{
 		dialog.firePageChanged( new PageChangedEvent( dialog, taskPage ) );
+	}
+
+	/**
+	 * Adds a custom button after built-in buttons. This method must be invoked
+	 * before invoking {@link #open(String[], String, IWizardContext)}
+	 * 
+	 * @param buttonHandler
+	 *            Custom button handler
+	 */
+	public void addCustomButton( IButtonHandler buttonHandler )
+	{
+		buttonList.add( buttonHandler );
+	}
+
+	protected List getCustomButtons( )
+	{
+		return buttonList;
 	}
 
 	public void addTask( String sTaskID )
@@ -326,11 +348,12 @@ public class WizardBase implements IRegistrationListener
 		// Initialize instance variables
 		availableTasks = new LinkedHashMap( );
 		vTaskIDs = new Vector( );
+		buttonList = new ArrayList( 1 );
 
 		Shell shell = shellParent;
 		if ( shell == null )
 		{
-			shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
+			shell = new Shell( Display.getCurrent( ), SWT.DIALOG_TRIM
 					| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
 
@@ -360,6 +383,7 @@ public class WizardBase implements IRegistrationListener
 		// Reset all instance variables to clear cached task instances
 		availableTasks.clear( );
 		vTaskIDs.clear( );
+		buttonList.clear( );
 	}
 
 	/**
@@ -470,9 +494,19 @@ public class WizardBase implements IRegistrationListener
 		// TODO Add cleanup code here...including removal of adapters
 	}
 
+	protected TitleAreaDialog getDialog( )
+	{
+		return dialog;
+	}
+
 	protected void setTitle( String wizardTitle )
 	{
 		dialog.wizardTitle = wizardTitle;
+	}
+
+	protected String getTitle( )
+	{
+		return dialog.wizardTitle;
 	}
 
 	/**
@@ -675,6 +709,19 @@ public class WizardBase implements IRegistrationListener
 					Messages.getString( "WizardBase.Cancel" ),//$NON-NLS-1$
 					false );
 
+			( (GridData) getButton( IDialogConstants.NEXT_ID ).getLayoutData( ) ).horizontalIndent = -5;
+
+			for ( int i = 0; i < buttonList.size( ); i++ )
+			{
+				IButtonHandler buttonHandler = (IButtonHandler) buttonList.get( i );
+				// Make sure the same id was not registered.
+				assert getButton( buttonHandler.getId( ) ) == null;
+				buttonHandler.setButton( createButton( parent,
+						buttonHandler.getId( ),
+						buttonHandler.getLabel( ),
+						false ) );
+			}
+
 			// Update buttons status
 			int taskIndex = vTaskIDs.indexOf( sCurrentActiveTask );
 			if ( taskIndex > 0 )
@@ -713,6 +760,16 @@ public class WizardBase implements IRegistrationListener
 			else if ( IDialogConstants.NEXT_ID == buttonId )
 			{
 				nextPressed( );
+			}
+
+			for ( int i = 0; i < buttonList.size( ); i++ )
+			{
+				IButtonHandler buttonHandler = (IButtonHandler) buttonList.get( i );
+				if ( buttonId == buttonHandler.getId( ) )
+				{
+					buttonHandler.run( );
+					break;
+				}
 			}
 		}
 

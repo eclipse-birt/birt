@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -28,6 +29,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -38,6 +40,10 @@ public class ChartWizard extends WizardBase
 {
 
 	public static final String WIZARD_ID = "org.eclipse.birt.chart.ui.ChartWizard"; //$NON-NLS-1$
+
+	private static final String WIZARD_TITLE_NEW = Messages.getString( "ChartWizard.Title.NewChart" ); //$NON-NLS-1$
+
+	private static final String WIZARD_TITLE_EDIT = Messages.getString( "ChartWizard.Title.EditChart" ); //$NON-NLS-1$
 
 	private static final int CHART_WIZARD_WIDTH_MINMUM = 680;
 
@@ -98,7 +104,13 @@ public class ChartWizard extends WizardBase
 		}
 	}
 
-	private void resizeChart( Chart chartModelCurrent )
+	/**
+	 * Resizes chart with a default value when the size is zero or null
+	 * 
+	 * @param chartModelCurrent
+	 *            chart model
+	 */
+	public void resizeChart( Chart chartModelCurrent )
 	{
 		if ( chartModelCurrent.getBlock( ).getBounds( ) == null
 				|| chartModelCurrent.getBlock( ).getBounds( ).getWidth( ) == 0
@@ -145,9 +157,6 @@ public class ChartWizard extends WizardBase
 			Chart chart = getContext( ).getModel( );
 			if ( chart != null )
 			{
-				// Set size if size is zero
-				resizeChart( chart );
-
 				// Remove all adapters
 				removeAllAdapters( chart );
 
@@ -181,11 +190,11 @@ public class ChartWizard extends WizardBase
 		Chart chart = ( (ChartWizardContext) initialContext ).getModel( );
 		if ( chart == null )
 		{
-			setTitle( Messages.getString( "ChartWizard.Title.NewChart" ) ); //$NON-NLS-1$
+			setTitle( WIZARD_TITLE_NEW );
 		}
 		else
 		{
-			setTitle( Messages.getString( "ChartWizard.Title.EditChart" ) ); //$NON-NLS-1$
+			setTitle( WIZARD_TITLE_EDIT );
 			// Add adapters to chart model
 			chart.eAdapters( ).add( adapter );
 		}
@@ -201,6 +210,40 @@ public class ChartWizard extends WizardBase
 			topTaskId = (String) lastTask.get( initialContext.getWizardID( ) );
 		}
 		return super.open( sTasks, topTaskId, initialContext );
+	}
+
+	/**
+	 * Updates wizard title as Edit chart.
+	 * 
+	 */
+	public void updateTitleAsEdit( )
+	{
+		if ( getTitle( ).equals( WIZARD_TITLE_NEW ) )
+		{
+			setTitle( WIZARD_TITLE_EDIT );
+			getDialog( ).setTitle( WIZARD_TITLE_EDIT );
+			getDialog( ).getShell( ).setText( WIZARD_TITLE_EDIT );
+		}
+	}
+	
+	/**
+	 * Updates Apply button with enabled status.
+	 * 
+	 */
+	public void updateApplayButton( )
+	{
+		List buttonList = getCustomButtons( );
+		for ( int i = 0; i < buttonList.size( ); i++ )
+		{
+			if ( buttonList.get( i ) instanceof ApplyButtonHandler )
+			{
+				Button applyButton = ( (ApplyButtonHandler) buttonList.get( i ) ).getButton( );
+				if ( !applyButton.isEnabled( ) )
+				{
+					applyButton.setEnabled( true );
+				}
+			}
+		}
 	}
 
 	public void detachPopup( )
