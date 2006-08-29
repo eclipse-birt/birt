@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
@@ -57,8 +57,8 @@ public class DataItemBindingDialog extends BaseDialog
 	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" );
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getStructure( DataSetParameter.STRUCT_NAME )
-			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
+			.getStructure( ResultSetColumn.RESULT_SET_COLUMN_STRUCT )
+			.getMember( ResultSetColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
 
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
