@@ -111,7 +111,7 @@ public class ReportParameterAdapter
 
 		reportParamDefn = new ReportParameterAdapter( )
 				.updateParameterDefinitionFromReportParam( reportParamDefn,
-						reportParam );
+						reportParam, dataSetDesign );
 
 		String reportParamString = DesignObjectSerializer
 				.toExternalForm( reportParamDefn );
@@ -525,7 +525,7 @@ public class ReportParameterAdapter
 				|| !cachedDefaultValue.equals( defaultValue ) )
 		{
 			// only update when the value is not internal value.
-			
+
 			if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( defaultValue ) )
 				reportParam.setDefaultValue( defaultValue );
 		}
@@ -702,7 +702,8 @@ public class ReportParameterAdapter
 	 */
 
 	ParameterDefinition updateParameterDefinitionFromReportParam(
-			ParameterDefinition paramDefn, ScalarParameterHandle paramHandle )
+			ParameterDefinition paramDefn, ScalarParameterHandle paramHandle,
+			DataSetDesign dataSetDesign )
 	{
 
 		assert paramHandle != null;
@@ -713,7 +714,7 @@ public class ReportParameterAdapter
 				.getAttributes( ), paramHandle ) );
 
 		paramDefn.setInputAttributes( updateInputElementAttrs( paramDefn
-				.getInputAttributes( ), paramHandle ) );
+				.getInputAttributes( ), paramHandle, dataSetDesign ) );
 		return paramDefn;
 	}
 
@@ -751,13 +752,14 @@ public class ReportParameterAdapter
 	 * 
 	 * @param paramDefn
 	 *            the ROM report parameter.
+	 * @param dataSetDesign
 	 * 
 	 * @return the created <code>InputParameterAttributes</code>.
 	 */
 
 	private InputParameterAttributes updateInputElementAttrs(
 			InputParameterAttributes inputParamAttrs,
-			ScalarParameterHandle paramDefn )
+			ScalarParameterHandle paramDefn, DataSetDesign dataSetDesign )
 	{
 		if ( inputParamAttrs == null )
 			inputParamAttrs = DesignFactory.eINSTANCE
@@ -800,8 +802,11 @@ public class ReportParameterAdapter
 		{
 			DynamicValuesQuery valueQuery = DesignFactory.eINSTANCE
 					.createDynamicValuesQuery( );
-			valueQuery.setDataSetDesign( new ModelOdaAdapter( )
-					.createDataSetDesign( (OdaDataSetHandle) setHandle ) );
+			DataSetDesign targetDataSetDesign = dataSetDesign;
+			if ( !setHandle.getName( ).equals( dataSetDesign.getName( ) ) )
+				targetDataSetDesign = new ModelOdaAdapter( )
+						.createDataSetDesign( (OdaDataSetHandle) setHandle );
+			valueQuery.setDataSetDesign( targetDataSetDesign );
 			valueQuery.setDisplayNameColumn( labelExpr );
 			valueQuery.setValueColumn( valueExpr );
 			valueQuery.setEnabled( true );

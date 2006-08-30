@@ -233,7 +233,7 @@ public class ModelOdaAdapter
 				columns, hints );
 
 		// create unique column names if native names is null or empty.
-		
+
 		createUniqueResultSetColumnNames( columns );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.RESULT_SET_PROP, columns );
@@ -360,7 +360,8 @@ public class ModelOdaAdapter
 					.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
 
 		setDesign.setParameters( new DataSetParameterAdapter( )
-				.newOdaDataSetParams( setHandle.parametersIterator( ) ) );
+				.newOdaDataSetParams( setHandle.parametersIterator( ),
+						setDesign ) );
 
 		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
 				.newOdaResultSetDefinition( setHandle ) );
@@ -431,7 +432,8 @@ public class ModelOdaAdapter
 		else if ( OdaDataSetHandle.PARAMETERS_PROP
 				.equalsIgnoreCase( propertyName ) )
 			setDesign.setParameters( new DataSetParameterAdapter( )
-					.newOdaDataSetParams( setHandle.parametersIterator( ) ) );
+					.newOdaDataSetParams( setHandle.parametersIterator( ),
+							setDesign ) );
 
 		else if ( OdaDataSetHandle.RESULT_SET_PROP
 				.equalsIgnoreCase( propertyName ) )
@@ -1000,7 +1002,7 @@ public class ModelOdaAdapter
 
 			column.setColumnName( newName );
 		}
-		
+
 		names.clear( );
 		newNames.clear( );
 	}
