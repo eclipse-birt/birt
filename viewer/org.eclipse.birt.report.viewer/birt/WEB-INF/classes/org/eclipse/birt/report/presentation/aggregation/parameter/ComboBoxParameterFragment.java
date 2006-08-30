@@ -31,7 +31,7 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ParameterGroupDefinition;
 import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.utility.ParameterAccessor;
+import org.eclipse.birt.report.utility.DataUtil;
 
 /**
  * Fragment help rendering scalar parameter.
@@ -101,12 +101,12 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 						.next( );
 
 				// Convert parameter value using standard format
-				String value = ParameterValidationUtil
-						.getDisplayValue( selectionItem.getValue( ) );
+				String value = DataUtil.getDisplayValue( selectionItem
+						.getValue( ) );
 
 				if ( value == null )
 					continue;
-				
+
 				String label = selectionItem.getLabel( );
 				if ( label == null || label.length( ) <= 0 )
 				{
@@ -114,15 +114,14 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					// value for display
 					label = ParameterValidationUtil.getDisplayValue( null,
 							parameterHandle.getPattern( ), selectionItem
-									.getValue( ), attrBean.getLocale( ) );
+									.getValue( ), locale );
 				}
 				else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 						.equals( parameterHandle.getValueType( ) ) )
 				{
-					// Format display text of dynamic parameter 
+					// Format display text of dynamic parameter
 					label = ParameterValidationUtil.getDisplayValue( null,
-							parameterHandle.getPattern( ), label, attrBean
-									.getLocale( ) );
+							parameterHandle.getPattern( ), label, locale );
 				}
 
 				if ( label != null )
@@ -131,7 +130,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					parameterBean.getSelectionTable( ).put( label, value );
 				}
 
-				if ( value != null && value.equals( parameterBean.getValue( ) ) )
+				if ( value.equals( parameterBean.getValue( ) ) )
 				{
 					parameterBean.setValueInList( true );
 				}
