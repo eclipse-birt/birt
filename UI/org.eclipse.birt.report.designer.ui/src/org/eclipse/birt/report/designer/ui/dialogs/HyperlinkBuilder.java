@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.print.attribute.SupportedValuesAttribute;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -94,8 +92,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * The builder for hyper link
@@ -838,7 +834,7 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
-				builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
+				configureExpressionBuilder( builder );
 				if ( builder.open( ) == Dialog.OK )
 				{
 					text.setText( builder.getResult( ) );
@@ -848,6 +844,18 @@ public class HyperlinkBuilder extends BaseDialog
 
 		} );
 
+	}
+	
+	/**
+	 * Configures the expression builder which is to be opened in the hyper-link
+	 * builder
+	 * 
+	 * @param builder
+	 *            Expression builder
+	 */
+	protected void configureExpressionBuilder( ExpressionBuilder builder )
+	{
+		builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,

@@ -423,7 +423,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int,
 	 *      java.lang.String, java.lang.Object, java.lang.String)
 	 */
-	public String invoke( int command, String value, Object context,
+	public String invoke( int command, String value, final Object context,
 			String sTitle ) throws ChartException
 	{
 		ExpressionBuilder eb = null;
@@ -475,7 +475,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
-				HyperlinkBuilder hb = new HyperlinkBuilder( shell );
+				HyperlinkBuilder hb = new HyperlinkBuilder( shell ) {
+
+					protected void configureExpressionBuilder(
+							ExpressionBuilder builder )
+					{
+						builder.setExpressionProvier( new ExpressionProvider( (ExtendedItemHandle) context ) );
+					}
+
+				};
 				try
 				{
 					hb.setInputString( value );
