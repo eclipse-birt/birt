@@ -12,21 +12,17 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import com.ibm.icu.util.ULocale;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -74,10 +70,6 @@ public class ResourceEditDialog extends BaseDialog
 
 	private Button btnDelete;
 
-	private String baseName;
-
-	private String folderName;
-
 	private Properties content = new Properties( );
 
 	private String propFileName;
@@ -85,6 +77,10 @@ public class ResourceEditDialog extends BaseDialog
 	private boolean column1desc, column2desc;
 
 	private boolean listChanged;
+
+	private URL resourceURL;
+
+	private Button btnAdd;
 
 	/**
 	 * PropertyLabelProvider
@@ -259,23 +255,13 @@ public class ResourceEditDialog extends BaseDialog
 	}
 
 	/**
-	 * Sets the message file base name.
+	 * Set the resource file URL. The url is computed by Model.
 	 * 
-	 * @param name
+	 * @param url
 	 */
-	public void setBaseName( String name )
+	public void setResourceURL( URL url )
 	{
-		this.baseName = name;
-	}
-
-	/**
-	 * Sets the design file folder path.
-	 * 
-	 * @param folder
-	 */
-	public void setDesignFolder( String folder )
-	{
-		this.folderName = folder;
+		this.resourceURL = url;
 	}
 
 	/*
@@ -299,135 +285,20 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	private void loadMessage( )
 	{
-		if ( folderName == null || baseName == null )
-		{
-			return;
-		}
-
-		ULocale lc = SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.getULocale( );
-
-		String fullBaseName = null;
-		if ( folderName.endsWith( File.separator ) )
-		{
-			fullBaseName = folderName + baseName + "_" //$NON-NLS-1$
-					+ lc.getLanguage( )
-					+ "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-		else
-		{
-			fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
-					+ lc.getLanguage( )
-					+ "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-
-		File f = new File( fullBaseName );
-		if ( f.exists( ) && f.isFile( ) )
+		if ( this.resourceURL != null )
 		{
 			try
 			{
-				FileInputStream fis = new FileInputStream( f );
-				content.load( fis );
-				fis.close( );
-				propFileName = fullBaseName;
-				return;
-			}
-			catch ( FileNotFoundException e )
-			{
-				// ignore.
+				InputStream in = this.resourceURL.openStream( );
+				content.load( in );
+				in.close( );
+				propFileName = this.resourceURL.getPath( );
 			}
 			catch ( IOException e )
 			{
-				// ignore.
+				ExceptionHandler.handle( e );
 			}
 		}
-
-		if ( folderName.endsWith( File.separator ) )
-		{
-			fullBaseName = folderName + baseName + "_" //$NON-NLS-1$
-					+ lc.getLanguage( )
-					+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else
-		{
-			fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
-					+ lc.getLanguage( )
-					+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		f = new File( fullBaseName );
-		if ( f.exists( ) && f.isFile( ) )
-		{
-			try
-			{
-				FileInputStream fis = new FileInputStream( f );
-				content.load( fis );
-				fis.close( );
-				propFileName = fullBaseName;
-				return;
-			}
-			catch ( FileNotFoundException e )
-			{
-				// ignore.
-			}
-			catch ( IOException e )
-			{
-				// ignore.
-			}
-		}
-
-		if ( folderName.endsWith( File.separator ) )
-		{
-			fullBaseName = folderName + baseName + ".properties"; //$NON-NLS-1$
-		}
-		else
-		{
-			fullBaseName = folderName
-					+ File.separator
-					+ baseName
-					+ ".properties"; //$NON-NLS-1$
-		}
-
-		f = new File( fullBaseName );
-		if ( f.exists( ) && f.isFile( ) )
-		{
-			try
-			{
-				FileInputStream fis = new FileInputStream( f );
-				content.load( fis );
-				fis.close( );
-				propFileName = fullBaseName;
-				return;
-			}
-			catch ( FileNotFoundException e )
-			{
-				// ignore.
-			}
-			catch ( IOException e )
-			{
-				// ignore.
-			}
-		}
-
-		if ( folderName.endsWith( File.separator ) )
-		{
-			propFileName = folderName
-					+ baseName
-					+ "_" + lc.getLanguage( ) + "_" //$NON-NLS-1$ //$NON-NLS-2$
-					+ lc.getCountry( )
-					+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-		else
-		{
-			propFileName = folderName
-					+ File.separator
-					+ baseName
-					+ "_" + lc.getLanguage( ) + "_" //$NON-NLS-1$ //$NON-NLS-2$
-					+ lc.getCountry( )
-					+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-
 	}
 
 	/**
@@ -435,78 +306,62 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	private boolean saveMessage( )
 	{
-		if ( propFileName != null && folderName != null && content != null )
+		if ( this.resourceURL != null )
 		{
-			try
+			if ( this.resourceURL.getProtocol( ).equals( "file" ) //$NON-NLS-1$
+					&& listChanged )
 			{
-				if ( listChanged == true )
-				{
-					File f = new File( propFileName );
-					if ( !( f.exists( ) && f.isFile( ) ))
-					{
-						MessageDialog.openError( getShell( ),
-								Messages.getString( "ResourceEditDialog.NotFile.Title" ),
-								Messages.getFormattedString( "ResourceEditDialog.NotFile.Message",
-										new Object[]{
-											propFileName
-										} ) );
-						return false;
-					}
-					else if ( !f.canWrite( ) )
-					{
-						MessageDialog.openError( getShell( ),
-								Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
-								Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
-										new Object[]{
-											propFileName
-										} ) );
-						return false;
-					}
-
-					if ( f.canWrite( ) )
-					{
-						FileOutputStream fos = new FileOutputStream( f );
-
-						content.store( fos, "" ); //$NON-NLS-1$
-
-						fos.close( );
-					}
-				}
-
+				return saveFile( this.resourceURL.getPath( ) );
 			}
-			catch ( FileNotFoundException e )
+			else
 			{
-				ExceptionHandler.handle( e );
+				return true;
 			}
-			catch ( SecurityException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-			catch ( IOException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-			// reset resource property
-			// if property not change, event will not broadcast,
-			// so, must clean and reset property.
-			try
-			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP,
-								"" );
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.setStringProperty( ModuleHandle.INCLUDE_RESOURCE_PROP,
-								baseName );
-			}
-			catch ( SemanticException e )
-			{
-			}
-
-			return true;
 		}
 
+		return false;
+	}
+
+	private boolean saveFile( String filePath )
+	{
+		File f = new File( filePath );
+		if ( !( f.exists( ) && f.isFile( ) ) )
+		{
+			MessageDialog.openError( getShell( ),
+					Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
+							new Object[]{
+								propFileName
+							} ) );
+			return false;
+		}
+		else if ( !f.canWrite( ) )
+		{
+			MessageDialog.openError( getShell( ),
+					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
+							new Object[]{
+								propFileName
+							} ) );
+			return false;
+		}
+
+		try
+		{
+			if ( f.canWrite( ) )
+			{
+				FileOutputStream fos = new FileOutputStream( f );
+
+				content.store( fos, "" ); //$NON-NLS-1$
+
+				fos.close( );
+			}
+			return true;
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
 		return false;
 	}
 
@@ -621,7 +476,7 @@ public class ResourceEditDialog extends BaseDialog
 				}
 			}
 		} );
-
+		
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
 		gp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -642,15 +497,16 @@ public class ResourceEditDialog extends BaseDialog
 		valueText = new Text( gp, SWT.BORDER | SWT.SINGLE );
 		valueText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		Button btn = new Button( gp, SWT.PUSH );
-		btn.setText( Messages.getString( "ResourceEditDialog.text.Add" ) ); //$NON-NLS-1$
-		btn.addSelectionListener( new SelectionAdapter( ) {
+		btnAdd = new Button( gp, SWT.PUSH );
+		btnAdd.setText( Messages.getString( "ResourceEditDialog.text.Add" ) ); //$NON-NLS-1$
+		btnAdd.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				addSelection( );
 			}
 		} );
+		btnAdd.setEnabled( isFileSystemFile( ) );
 
 		btnDelete = new Button( gp, SWT.PUSH );
 		btnDelete.setText( Messages.getString( "ResourceEditDialog.text.Delete" ) ); //$NON-NLS-1$
@@ -689,18 +545,18 @@ public class ResourceEditDialog extends BaseDialog
 		if ( !( f.exists( ) && f.isFile( ) ) )
 		{
 			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.NotFile.Title" ),
-					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message",
+					Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
 							new Object[]{
 								propFileName
 							} ) );
 			return;
-		}else
-		if ( !f.canWrite( ) )
+		}
+		else if ( !f.canWrite( ) )
 		{
 			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
-					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
+					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
 							new Object[]{
 								propFileName
 							} ) );
@@ -736,21 +592,21 @@ public class ResourceEditDialog extends BaseDialog
 		}
 		// if the file is read-only then change is not allowed.
 		File f = new File( propFileName );
-		if ( !( f.exists( ) && f.isFile( ) ))
+		if ( !( f.exists( ) && f.isFile( ) ) )
 		{
 			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.NotFile.Title" ),
-					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message",
+					Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
 							new Object[]{
 								propFileName
 							} ) );
 			return;
-		}else
-		if ( !f.canWrite( ) )
+		}
+		else if ( !f.canWrite( ) )
 		{
 			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ),
-					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message",
+					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
 							new Object[]{
 								propFileName
 							} ) );
@@ -773,7 +629,15 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		getOkButton( ).setEnabled( viewer.getTable( ).getSelectionCount( ) > 0 );
 
-		btnDelete.setEnabled( viewer.getTable( ).getSelectionIndex( ) != -1 );
+		btnDelete.setEnabled( isFileSystemFile( )
+				&& viewer.getTable( ).getSelectionIndex( ) != -1 );
+	}
+
+	private boolean isFileSystemFile( )
+	{
+		return this.resourceURL == null
+				|| this.resourceURL != null
+				&& this.resourceURL.getProtocol( ).equals( "file" ); //$NON-NLS-1$
 	}
 
 	/*

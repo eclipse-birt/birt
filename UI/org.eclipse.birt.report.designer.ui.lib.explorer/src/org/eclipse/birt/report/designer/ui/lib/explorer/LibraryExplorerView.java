@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -39,6 +40,8 @@ public class LibraryExplorerView extends PageBookView
 
 	private LibraryExplorerTreeViewPage treeViewPage;
 
+	private String resourceFolder;
+
 	/**
 	 * default constructor
 	 */
@@ -61,6 +64,23 @@ public class LibraryExplorerView extends PageBookView
 		page.createControl( book );
 		page.setMessage( defaultText );
 		return page;
+	}
+
+	protected PageRec getPageRec( IWorkbenchPart part )
+	{
+		if ( !ReportPlugin.getDefault( )
+				.getResourceFolder( )
+				.equals( this.resourceFolder ) )
+		{
+			// refresh viewer only resource folder changed.
+			if ( treeViewPage != null && !treeViewPage.isDisposed( ) )
+			{
+				treeViewPage.refreshRoot( );
+			}
+			this.resourceFolder = ReportPlugin.getDefault( )
+					.getResourceFolder( );
+		}
+		return super.getPageRec( part );
 	}
 
 	/**

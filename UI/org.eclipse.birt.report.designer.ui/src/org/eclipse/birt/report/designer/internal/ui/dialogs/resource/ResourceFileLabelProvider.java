@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -26,6 +27,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class ResourceFileLabelProvider extends LabelProvider
 {
+
 	private File rootFile;
 
 	private static final Image IMG_FOLDER = PlatformUI.getWorkbench( )
@@ -64,6 +66,10 @@ public class ResourceFileLabelProvider extends LabelProvider
 				return IMG_FILE;
 			}
 		}
+		if ( element instanceof ResourceEntry )
+		{
+			return ( (ResourceEntry) element ).getImage( );
+		}
 		return super.getImage( element );
 	}
 
@@ -79,12 +85,12 @@ public class ResourceFileLabelProvider extends LabelProvider
 			if ( element.equals( rootFile ) )
 			{
 				String path = ( (File) element ).getPath( );
-				if(path == null || path.length( ) == 0)
+				if ( path == null || path.length( ) == 0 )
 				{
-					return "";
+					return ""; //$NON-NLS-1$
 				}
 				String retString = path.substring( path.lastIndexOf( File.separator ) + 1 );
-				if(retString == null || retString.length( ) == 0)
+				if ( retString == null || retString.length( ) == 0 )
 				{
 					retString = path;
 				}
@@ -95,17 +101,19 @@ public class ResourceFileLabelProvider extends LabelProvider
 				return ( (File) element ).getName( );
 			}
 		}
+		if ( element instanceof ResourceEntry )
+		{
+			return ( (ResourceEntry) element ).getName( );
+		}
 		return super.getText( element );
 	}
-
-
 
 	/**
 	 * 
 	 * @return the absolute path of resource folder
 	 */
-	public String getToolTip(Object element )
-	{	
+	public String getToolTip( Object element )
+	{
 		if ( element instanceof File )
 		{
 			if ( element.equals( rootFile ) )

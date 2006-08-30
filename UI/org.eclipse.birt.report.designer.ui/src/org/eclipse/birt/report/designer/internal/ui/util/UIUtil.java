@@ -13,8 +13,10 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Bidi;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -162,8 +164,8 @@ public class UIUtil
 	{
 		if ( string != null
 				&& string.length( ) >= 2
-				&& string.startsWith( "\"" )
-				&& string.endsWith( "\"" ) )
+				&& string.startsWith( "\"" ) //$NON-NLS-1$
+				&& string.endsWith( "\"" ) ) //$NON-NLS-1$
 		{
 			return string.substring( 1, string.length( ) - 1 );
 		}
@@ -639,7 +641,7 @@ public class UIUtil
 		}
 		if ( string.length( ) == 0 )
 		{
-			string = null; //$NON-NLS-1$
+			string = null; 
 		}
 		return string;
 	}
@@ -1051,7 +1053,7 @@ public class UIUtil
 	 */
 	public static String getHomeDirectory( )
 	{
-		URL url = ReportPlugin.getDefault( ).getBundle( ).getEntry( "/" );
+		URL url = ReportPlugin.getDefault( ).getBundle( ).getEntry( "/" ); //$NON-NLS-1$
 		String home = null;
 		try
 		{
@@ -1092,10 +1094,33 @@ public class UIUtil
 		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
 		if ( namespace != null )
 		{
-			moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( )
-					.getResourcePreference( ),
-					libraryPath ),
-					namespace );
+			if ( libraryPath.startsWith( "file" ) ) //$NON-NLS-1$
+			{
+				moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( )
+						.getResourceFolder( ),
+						libraryPath ),
+						namespace );
+			}
+			else if ( libraryPath.startsWith( "bundleresource" ) ) //$NON-NLS-1$
+			{
+				try
+				{
+					moduleHandle.includeLibrary( new URL( libraryPath ).getPath( ),
+							namespace );
+				}
+				catch ( MalformedURLException e )
+				{
+					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
+							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+								libraryPath
+							} ),
+							SWT.ICON_INFORMATION );
+				}
+			}
+			else
+			{
+				moduleHandle.includeLibrary( libraryPath, namespace );
+			}
 			// ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
 			// MessageFormat.format( MSG_DIALOG_MSG, new String[]{
 			// libraryPath
@@ -1168,7 +1193,7 @@ public class UIUtil
 	private static String getLibraryNamespace( ModuleHandle handle,
 			String libraryPath )
 	{
-		String namespace = getSimpleFileName( libraryPath ).split( "\\." )[0];
+		String namespace = getSimpleFileName( libraryPath ).split( "\\." )[0]; //$NON-NLS-1$
 		if ( handle.getLibrary( namespace ) != null )
 		{
 			ImportLibraryDialog dialog = new ImportLibraryDialog( namespace );
@@ -1393,8 +1418,9 @@ public class UIUtil
 	}
 
 	/**
-	 * Check if the property should add quote.
-	 * Currently use in set fontfamily property.
+	 * Check if the property should add quote. Currently use in set fontfamily
+	 * property.
+	 * 
 	 * @param elementName
 	 * @param property
 	 * @param value
@@ -1414,19 +1440,22 @@ public class UIUtil
 		}
 		return true;
 	}
+
 	/**
 	 * Notice: Please dispose the image after done.
+	 * 
 	 * @param composite
 	 * @return
 	 */
-	public static Image newImageFromComposite(Composite composite)
+	public static Image newImageFromComposite( Composite composite )
 	{
-		Point compositeSize = composite.getSize();
-		GC gc = new GC(composite);
-		Image image =
-			new Image(Display.getCurrent(), compositeSize.x, compositeSize.y);
-		gc.copyArea(image, 0, 0);
-		gc.dispose();
-		return image;		
+		Point compositeSize = composite.getSize( );
+		GC gc = new GC( composite );
+		Image image = new Image( Display.getCurrent( ),
+				compositeSize.x,
+				compositeSize.y );
+		gc.copyArea( image, 0, 0 );
+		gc.dispose( );
+		return image;
 	}
 }

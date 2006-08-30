@@ -13,19 +13,18 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileLabelProvider;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -258,11 +257,11 @@ public class WizardLibrarySettingPage extends WizardPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				ResourceFileLabelProvider labelProvider = new ResourceFileLabelProvider( );
-				ResourceFileContentProvider contentProvider = new ResourceFileContentProvider( false );
-				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( UIUtil.getDefaultShell( ),
-						labelProvider,
-						contentProvider );
+				// ResourceFileLabelProvider labelProvider = new
+				// ResourceFileLabelProvider( );
+				// ResourceFileContentProvider contentProvider = new
+				// ResourceFileContentProvider( false );
+				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( false );
 
 				dialog.setAllowMultiple( false );
 				dialog.setTitle( Messages.getString( "WizardLibrarySettingPage.Resourcefile.Dialog.Title" ) ); //$NON-NLS-1$
@@ -270,15 +269,15 @@ public class WizardLibrarySettingPage extends WizardPage
 
 				dialog.setValidator( new Validator( ) );
 
-				dialog.setInput( ReportPlugin.getDefault( )
-						.getResourcePreference( ) );
+				// dialog.setInput( ReportPlugin.getDefault(
+				// ).getResourceFolder( ) );
 				if ( dialog.open( ) == dialog.OK )
 				{
 					Object[] selected = dialog.getResult( );
 					if ( selected.length > 0 )
 					{
-						File file = (File) selected[0];
-						folderText.setText( file.getPath( ) );
+						ResourceEntry file = (ResourceEntry) selected[0];
+						folderText.setText( new File( file.getURL( ).getPath( ) ).getAbsolutePath( ) );
 					}
 
 				}
@@ -323,7 +322,7 @@ public class WizardLibrarySettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound",new String[]{sourceFileText.getText( )} ), //$NON-NLS-1$
+					Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound", new String[]{sourceFileText.getText( )} ), //$NON-NLS-1$
 					null );
 		}
 		else if ( isTextEmpty( nameText ) )

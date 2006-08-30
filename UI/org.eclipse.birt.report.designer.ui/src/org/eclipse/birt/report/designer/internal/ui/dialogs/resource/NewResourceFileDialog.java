@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -21,9 +22,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -34,7 +33,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
@@ -65,7 +63,7 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			ReportPlugin.REPORT_UI,
 			IStatus.ERROR,
 			Messages.getString( "" ), //$NON-NLS-1$
-			null );	
+			null );
 
 	private class Validator implements ISelectionStatusValidator
 	{
@@ -73,20 +71,20 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		public IStatus validate( Object[] selection )
 		{
 			int nSelected = selection.length;
-			if ( nSelected == 0  )
+			if ( nSelected == 0 )
 			{
 				return ErrorStatusNoSelection;
-			}else
-			if( nSelected > 1)
+			}
+			else if ( nSelected > 1 )
 			{
 				return ErrorStatus;
-			}else
-			if ( selection[0] instanceof File
-					&& ( (File) selection[0] ).isFile( ) )
+			}
+			else if ( selection[0] instanceof ResourceEntry
+					&& ( (ResourceEntry) selection[0] ).getChildren( ).length == 0 )
 			{
 				return OKStatus;
-			}else
-			if ( newFileName == null
+			}
+			else if ( newFileName == null
 					|| !newFileName.toLowerCase( )
 							.endsWith( ext.toLowerCase( ) ) )
 			{
@@ -96,14 +94,15 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		}
 	}
 
-	public NewResourceFileDialog( Shell parent, ILabelProvider labelProvider,
-			ITreeContentProvider contentProvider )
+	public NewResourceFileDialog( )
 	{
-		super( parent, labelProvider, contentProvider );
+		super( true, new String[]{
+			"*.properties" //$NON-NLS-1$
+			} );
 		setDoubleClickSelects( true );
 		setValidator( new Validator( ) );
-		setAllowMultiple( false );		
-		setInput( getResourceRootFile( ) );
+		setAllowMultiple( false );
+		// setInput( getResourceRootFile( ) );
 		setTitle( Messages.getString( "ModulePage.Resourcefile.Dialog.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "ModulePage.Resourcefile.Dialog.Message" ) ); //$NON-NLS-1$
 	}
@@ -151,12 +150,13 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			public void selectionChanged( SelectionChangedEvent event )
 			{
 				Object object = ( (StructuredSelection) event.getSelection( ) ).getFirstElement( );
-				if ( object instanceof File )
+				if ( object instanceof ResourceEntry )
 				{
-					File file = (File) object;
-					if ( file.isDirectory( ) )
+					ResourceEntry entry = (ResourceEntry) object;
+					if ( entry.getURL( ).getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 					{
-						text.setEnabled( true );
+						File file = new File( entry.getURL( ).getPath( ) );
+						text.setEnabled( file.isDirectory( ) );
 					}
 					else
 					{
@@ -174,11 +174,6 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 
 	}
 
-	private String getResourceRootFile( )
-	{
-		return ReportPlugin.getDefault( ).getResourcePreference( );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -190,7 +185,8 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		Object[] selected = getResult( );
 		if ( selected.length > 0 )
 		{
-			File file = (File) selected[0];
+			ResourceEntry entry = (ResourceEntry) selected[0];
+			File file = new File( entry.getURL( ).getPath( ) );
 			try
 			{
 				new File( file, newFileName ).createNewFile( );
@@ -218,6 +214,5 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			return super.getPath( );
 		}
 	}
-	
 
 }

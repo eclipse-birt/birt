@@ -31,13 +31,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
-import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
-import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.GraphicalViewer;
@@ -73,11 +72,10 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * 
  * @see IReportEditorPage
  */
-public class MultiPageReportEditor extends AbstractMultiPageEditor
-		implements
-			IPartListener,
-			IReportEditor,
-			IColleague
+public class MultiPageReportEditor extends AbstractMultiPageEditor implements
+		IPartListener,
+		IReportEditor,
+		IColleague
 {
 
 	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage";
@@ -94,17 +92,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	protected IReportProvider reportProvider;
 
-	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider(
-			this );
+	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider( this );
 	private boolean isChanging = false;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
 	// return the correct current page index.we may delete this class
 	// TODO
-	private static class FormEditorSelectionProvider
-			extends
-				MultiPageSelectionProvider
+	private static class FormEditorSelectionProvider extends
+			MultiPageSelectionProvider
 	{
 
 		private ISelection globalSelection;
@@ -119,8 +115,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 		public ISelection getSelection( )
 		{
-			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) )
-					.getActivePageInstance( );
+			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) ).getActivePageInstance( );
 			// IEditorPart activeEditor = getActivePageInstance( );
 			if ( activeEditor != null )
 			{
@@ -137,8 +132,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		 */
 		public void setSelection( ISelection selection )
 		{
-			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) )
-					.getActivePageInstance( );
+			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) ).getActivePageInstance( );
 			if ( activeEditor != null )
 			{
 				ISelectionProvider selectionProvider = activeEditor.getSite( )
@@ -193,8 +187,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		}
 
 		// suport the mediator
-		SessionHandleAdapter.getInstance( ).getMediator( ).addGlobalColleague(
-				this );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.addGlobalColleague( this );
 	}
 
 	protected IReportProvider getProvider( )
@@ -227,12 +222,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		{
 			IVersionInfo info = (IVersionInfo) message.get( 0 );
 
-			if ( !MessageDialog
-					.openConfirm(
-							UIUtil.getDefaultShell( ),
-							Messages
-									.getString( "MultiPageReportEditor.CheckVersion.Dialog.Title" ), //$NON-NLS-1$
-							info.getLocalizedMessage( ) ) )
+			if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+					Messages.getString( "MultiPageReportEditor.CheckVersion.Dialog.Title" ), //$NON-NLS-1$
+					info.getLocalizedMessage( ) ) )
 			{
 				for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
 				{
@@ -343,9 +335,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 
 	private void fireDesignFileChangeEvent( )
 	{
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
-				.fireResourceChange(
-						new LibraryChangeEvent( getModel( ).getFileName( ) ) );
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.fireResourceChange( new LibraryChangeEvent( getModel( ).getFileName( ) ) );
 
 	}
 
@@ -366,13 +358,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 					.lastSegment( ) );
 			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
 			getProvider( ).getReportModuleHandle( getEditorInput( ) )
-					.setFileName(
-							getProvider( ).getInputPath( getEditorInput( ) )
-									.toOSString( ) );
+					.setFileName( getProvider( ).getInputPath( getEditorInput( ) )
+							.toOSString( ) );
 		}
 
 		updateRelatedViews( );
-		fireDesignFileChangeEvent();
+		fireDesignFileChangeEvent( );
 	}
 
 	/*
@@ -472,8 +463,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			return;
 		}
 
-		Object designOutLinePage = activePageInstance
-				.getAdapter( IContentOutlinePage.class );
+		Object designOutLinePage = activePageInstance.getAdapter( IContentOutlinePage.class );
 		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
 	}
 
@@ -592,8 +582,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 				final INestableKeyBindingService nestableService = (INestableKeyBindingService) service;
 				if ( editor != null )
 				{
-					nestableService.activateKeyBindingService( editor
-							.getEditorSite( ) );
+					nestableService.activateKeyBindingService( editor.getEditorSite( ) );
 				}
 				else
 				{
@@ -621,8 +610,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		if ( oldPage instanceof IReportEditorPage
 				&& newPage instanceof IReportEditorPage )
 		{
-			isNewPageValid = ( (IReportEditorPage) newPage )
-					.onBroughtToTop( (IReportEditorPage) oldPage );
+			isNewPageValid = ( (IReportEditorPage) newPage ).onBroughtToTop( (IReportEditorPage) oldPage );
 			// TODO: HOW TO RESET MODEL?????????
 			// model = SessionHandleAdapter.getInstance(
 			// ).getReportDesignHandle( );
@@ -700,31 +688,30 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 				PageBookView view = (PageBookView) part;
 				if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
 				{
-					ISelectionProvider provider = (ISelectionProvider) view
-							.getCurrentPage( );
-					ReportRequest request = new ReportRequest( view
-							.getCurrentPage( ) );
+					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage( );
+					ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
 					List list = new ArrayList( );
 					if ( provider.getSelection( ) instanceof IStructuredSelection )
 					{
-						list = ( (IStructuredSelection) provider.getSelection( ) )
-								.toList( );
+						list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
 					}
 					request.setSelectionObject( list );
 					request.setType( ReportRequest.SELECTION );
 					// no convert
 					// request.setRequestConvert(new
 					// EditorReportRequestConvert());
-					SessionHandleAdapter.getInstance( ).getMediator( )
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
 							.notifyRequest( request );
-					SessionHandleAdapter.getInstance( ).getMediator( )
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
 							.pushState( );
 				}
 			}
 			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
 			{
-				if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) )
-						.getGraphicalViewer( ).getEditDomain( )
+				if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( )
+						.getEditDomain( )
 						.getPaletteViewer( ) != null )
 				{
 					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
@@ -743,8 +730,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			{
 				handleActivation( );
 
-				SessionHandleAdapter.getInstance( ).setReportDesignHandle(
-						getModel( ) );
+				SessionHandleAdapter.getInstance( )
+						.setReportDesignHandle( getModel( ) );
 			}
 
 			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette
@@ -757,8 +744,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 						// UIUtil.resetViewSelection( view, true );
 						if ( getActivePageInstance( ) != null )
 						{
-							( (IReportEditorPage) getActivePageInstance( ) )
-									.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+							( (IReportEditorPage) getActivePageInstance( ) ).onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
 						}
 					}
 				} );
@@ -776,6 +762,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
+		getModel( ).setResourceFolder( ReportPlugin.getDefault( )
+				.getResourceFolder( ) );
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.setResourceFolder( ReportPlugin.getDefault( )
+						.getResourceFolder( ) );
 	}
 
 	/*
@@ -861,10 +853,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 	protected void handleEditorInputChanged( )
 	{
 
-		String title = Messages
-				.getString( "ReportEditor.error.activated.outofsync.title" ); //$NON-NLS-1$
-		String msg = Messages
-				.getString( "ReportEditor.error.activated.outofsync.message" ); //$NON-NLS-1$
+		String title = Messages.getString( "ReportEditor.error.activated.outofsync.title" ); //$NON-NLS-1$
+		String msg = Messages.getString( "ReportEditor.error.activated.outofsync.message" ); //$NON-NLS-1$
 
 		if ( MessageDialog.openQuestion( getSite( ).getShell( ), title, msg ) )
 		{
@@ -895,8 +885,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 			IReportProvider provider = getProvider( );
 			if ( provider != null )
 			{
-				return computeModificationStamp( provider
-						.getInputPath( (IEditorInput) element ) );
+				return computeModificationStamp( provider.getInputPath( (IEditorInput) element ) );
 			}
 		}
 
@@ -946,9 +935,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 		}
 		getSite( ).setSelectionProvider( null );
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( ).getMediator( )
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
 				.removeGlobalColleague( this );
-		if(getModel()!=null)
+		if ( getModel( ) != null )
 		{
 			getModel( ).close( );
 		}
@@ -1004,7 +994,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor
 					r.setType( ReportRequest.LOAD_MASTERPAGE );
 
 					r.setSelectionObject( request.getSelectionModelList( ) );
-					SessionHandleAdapter.getInstance( ).getMediator( )
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
 							.notifyRequest( r );
 				}
 			} );

@@ -14,7 +14,8 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.lib.explorer.model.LibDirectoryNodeModel;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
@@ -46,6 +47,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -63,11 +66,10 @@ import org.osgi.service.prefs.BackingStoreException;
  * This class represents the tree view page of the data view
  * 
  */
-public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
-		implements
-			IValidationListener,
-			IPreferenceChangeListener,
-			IResourceChangeListener
+public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage implements
+		IValidationListener,
+		IPreferenceChangeListener,
+		IResourceChangeListener
 {
 
 	// private static final String LABEL_DOUBLE_CLICK = Messages.getString(
@@ -75,6 +77,18 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
+
+	private static final String[] LIBRARY_FILENAME_PATTERN = new String[]{
+		"*.rptlibrary" //$NON-NLS-1$
+	};
+
+	public LibraryExplorerTreeViewPage( )
+	{
+		super( );
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.addResourceChangeListener( this );
+	}
 
 	/**
 	 * Creates the tree view
@@ -84,10 +98,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 	 */
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
-		treeViewer = new TreeViewer( parent, SWT.MULTI | SWT.H_SCROLL
+		treeViewer = new TreeViewer( parent, SWT.MULTI
+				| SWT.H_SCROLL
 				| SWT.V_SCROLL );
 		configTreeViewer( );
 		initPage( );
+		refreshRoot( );
 		return treeViewer;
 	}
 
@@ -102,13 +118,14 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 		treeViewer.setContentProvider( provider );
 		treeViewer.setLabelProvider( provider );
 
-		refreshRoot( );
-
 		// Adds drag and drop support
 		int ops = DND.DROP_COPY;
-		Transfer[] transfers = new Transfer[]{TemplateTransfer.getInstance( )};
-		treeViewer.addDragSupport( ops, transfers, new LibraryDragListener(
-				treeViewer ) );
+		Transfer[] transfers = new Transfer[]{
+			TemplateTransfer.getInstance( )
+		};
+		treeViewer.addDragSupport( ops,
+				transfers,
+				new LibraryDragListener( treeViewer ) );
 
 		treeViewer.getControl( ).addKeyListener( new KeyListener( ) {
 
@@ -124,6 +141,25 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 					treeViewer.refresh( );
 				}
 			}
+		} );
+
+		treeViewer.getTree( ).addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				Object input = treeViewer.getInput( );
+				if ( input instanceof Object[] )
+				{
+					Object[] array = (Object[]) input;
+					for ( int i = 0; i < array.length; i++ )
+					{
+						if ( array[i] instanceof ResourceEntry )
+							( (ResourceEntry) array[i] ).dispose( );
+					}
+
+				}
+			}
+
 		} );
 	}
 
@@ -150,17 +186,17 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 		} );
 
 		// Listen to preference change.
-		IEclipsePreferences rootNode = (IEclipsePreferences) Platform
-				.getPreferencesService( ).getRootNode( ).node(
-						InstanceScope.SCOPE );
-		final String reportName = ReportPlugin.getDefault( ).getBundle( )
+		IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService( )
+				.getRootNode( )
+				.node( InstanceScope.SCOPE );
+		final String reportName = ReportPlugin.getDefault( )
+				.getBundle( )
 				.getSymbolicName( );
 		try
 		{
 			if ( rootNode.nodeExists( reportName ) )
 			{
-				reportPreferenceNode = (IEclipsePreferences) rootNode
-						.node( reportName );
+				reportPreferenceNode = (IEclipsePreferences) rootNode.node( reportName );
 				reportPreferenceNode.addPreferenceChangeListener( this );
 			}
 		}
@@ -168,11 +204,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 		{
 			ExceptionHandler.handle( e );
 		}
-
-		// Listen to internal resouce change
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
-		.addResourceChangeListener( this );
-
 	}
 
 	/**
@@ -197,21 +228,18 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 			if ( object instanceof DataSourceHandle
 					|| object instanceof DataSetHandle )
 			{
-				return Messages
-						.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline" ); //$NON-NLS-1$
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline" ); //$NON-NLS-1$
 			}
 			else if ( object instanceof ThemeHandle )
 			{
-				return Messages
-						.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout" ); //$NON-NLS-1$
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout" ); //$NON-NLS-1$
 			}
 			else if ( object instanceof ParameterHandle
 					|| object instanceof ParameterGroupHandle
 					|| object instanceof EmbeddedImageHandle
 					|| object instanceof ReportItemHandle )
 			{
-				return Messages
-						.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout" );
+				return Messages.getString( "LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout" ); //$NON-NLS-1$
 			}
 			if ( object instanceof LibraryHandle )
 			{
@@ -230,7 +258,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 	{
 		if ( reportPreferenceNode != null )
 			reportPreferenceNode.removePreferenceChangeListener( this );
-
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.removeResourceChangeListener( this );
 		super.dispose( );
 	}
 
@@ -249,14 +279,20 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 	public void elementValidated( DesignElementHandle targetElement,
 			ValidationEvent ev )
 	{
-		treeViewer.refresh( );
+		if ( treeViewer != null && !treeViewer.getTree( ).isDisposed( ) )
+			treeViewer.refresh( );
 	}
 
 	public void refreshRoot( )
 	{
-		LibDirectoryNodeModel rootModel = new LibDirectoryNodeModel(
-				ReportPlugin.getDefault( ).getResourcePreference( ) );
-		treeViewer.setInput( rootModel );
+		if ( treeViewer != null && !treeViewer.getTree( ).isDisposed( ) )
+		{
+			// treeViewer.setInput( new Object[]{
+			// new ResourceFolderLibNode( ), new FragmentsLibNode( )
+			// } );
+			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
+			treeViewer.expandToLevel( 2 );
+		}
 	}
 
 	/*
@@ -283,16 +319,16 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 		{
 			File file = new File( path );
 			String resourcePath = ReportPlugin.getDefault( )
-					.getResourcePreference( );
+					.getResourceFolder( );
 
 			File resource = new File( resourcePath );
 
 			if ( file.exists( )
 					&& resource.exists( )
-					&& file.toURI( ).toString( ).indexOf(
-							resource.toURI( ).toString( ) ) > -1 )
+					&& file.toURI( ).toString( ).indexOf( resource.toURI( )
+							.toString( ) ) > -1 )
 			{
-				if(!isDisposed( ))
+				if ( !isDisposed( ) )
 				{
 					refreshRoot( );
 				}
@@ -304,4 +340,5 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 	{
 		return treeViewer;
 	}
+
 }

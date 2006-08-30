@@ -11,17 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileLabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -96,7 +92,7 @@ public class ImageBuilder extends BaseDialog
 	private static final String DLG_PREVIEW_LABEL = Messages.getString( "ImageBuilder.Button.Preview" ); //$NON-NLS-1$
 
 	private static final String DLG_ENTER_URI_LABEL = Messages.getString( "ImageBuilder.Label.EnterUri" ); //$NON-NLS-1$
-	
+
 	private static final String DLG_ENTER_RESOURCE_FILE_LABEL = Messages.getString( "ImageBuilder.Label.EnterResourceFile" ); //$NON-NLS-1$
 
 	private static final String DLG_EMBEDDED_IMAGE_LABEL = Messages.getString( "ImageBuilder.Label.EmbededImage" ); //$NON-NLS-1$
@@ -207,7 +203,7 @@ public class ImageBuilder extends BaseDialog
 
 		new Label( topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		UIUtil.bindHelp( parent,IHelpContextIds.IMAGE_BUIDLER_ID ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.IMAGE_BUIDLER_ID );
 		return topCompostie;
 	}
 
@@ -346,7 +342,7 @@ public class ImageBuilder extends BaseDialog
 
 		innerComp.setLayout( new GridLayout( 2, false ) );
 		title.setText( DLG_ENTER_RESOURCE_FILE_LABEL );
-		
+
 		Button inputButton = new Button( innerComp, SWT.PUSH );
 		inputButton.setText( Messages.getString( "ImageBuilder.ButtonBrowser" ) ); //$NON-NLS-1$
 		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
@@ -366,9 +362,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent event )
 			{
 				uriEditor.setText( uriEditor.getText( ).trim( ) );
-				preview( CorePlugin.RESOURCE_FOLDER
-						+ File.separator
-						+ removeQuoteString( uriEditor.getText( ) ) );
+				preview( removeQuoteString( uriEditor.getText( ) ) );
 			}
 		} );
 
@@ -459,21 +453,24 @@ public class ImageBuilder extends BaseDialog
 		// uriEditor.setText( dialog.getPath( ) );
 		// }
 
-		ResourceFileLabelProvider labelProvider = new ResourceFileLabelProvider( );
-		ResourceFileContentProvider contentProvider = new ResourceFileContentProvider( IMAGE_TYPES );
+		// ResourceFileLabelProvider labelProvider = new
+		// ResourceFileLabelProvider( );
+		// ResourceFileContentProvider contentProvider = new
+		// ResourceFileContentProvider( IMAGE_TYPES );
 		ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
 
-		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( UIUtil.getDefaultShell( ),
-				labelProvider,
-				contentProvider );
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+				true,
+				IMAGE_FILEFILTERS );
 		dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
 		dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$
 		dialog.setValidator( validator );
-		dialog.setInput( ReportPlugin.getDefault( ).getResourcePreference( ) );
+		// dialog.setInput( ReportPlugin.getDefault( ).getResourcePreference( )
+		// );
 
 		if ( dialog.open( ) == Window.OK )
 		{
-			uriEditor.setText( "\"" + dialog.getPath( ) + "\"" );
+			uriEditor.setText( "\"" + dialog.getPath( ) + "\"" );  //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -539,15 +536,16 @@ public class ImageBuilder extends BaseDialog
 										SWT.ICON_WARNING );
 								return;
 							}
-							
+
 							if ( checkExtensions( fileName ) == false )
 							{
-								ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ),
-										Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) );
+								ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
+										Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
 								return;
 							}
-							
-							previewCanvas.loadImage( ImageManager.getInstance( ).loadImage( fullPath ) );
+
+							previewCanvas.loadImage( ImageManager.getInstance( )
+									.loadImage( fullPath ) );
 							BirtImageLoader imageLoader = new BirtImageLoader( );
 							EmbeddedImage image = imageLoader.save( getModuleHandle( ),
 									fullPath,
@@ -898,5 +896,5 @@ public class ImageBuilder extends BaseDialog
 		}
 		return false;
 	}
-	
+
 }
