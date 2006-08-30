@@ -243,6 +243,8 @@
     <Choice displayNameID="Choices.mapOperator.match" name="match"/>
     <Choice displayNameID="Choices.mapOperator.top-n" name="top-n" />
     <Choice displayNameID="Choices.mapOperator.bottom-n" name="bottom-n" />   
+    <Choice displayNameID="Choices.mapOperator.top-percent" name="top-percent"/>
+    <Choice displayNameID="Choices.mapOperator.bottom-percent" name="bottom-percent"/>
     <Choice displayNameID="Choices.mapOperator.not-like" name="not-like"/>
     <Choice displayNameID="Choices.mapOperator.not-match" name="not-match"/>    
   </ChoiceType>

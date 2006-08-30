@@ -330,6 +330,8 @@ public interface DesignChoiceConstants
 	public static final String MAP_OPERATOR_MATCH = "match"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_TOP_N = "top-n"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_BOTTOM_N = "bottom-n"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_TOP_PERCENT = "top-percent"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_BOTTOM_PERCENT = "bottom-percent"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_NOT_LIKE = "not-like"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_NOT_MATCH = "not-match"; //$NON-NLS-1$
 

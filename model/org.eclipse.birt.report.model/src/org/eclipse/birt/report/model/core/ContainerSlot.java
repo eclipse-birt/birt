@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.core;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
 /**
