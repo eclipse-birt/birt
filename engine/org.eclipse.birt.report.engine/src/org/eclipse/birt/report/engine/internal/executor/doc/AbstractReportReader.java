@@ -237,11 +237,6 @@ public abstract class AbstractReportReader implements IReportExecutor
 		if ( iid != null )
 		{
 			DataID dataId = iid.getDataID( );
-			while ( dataId == null && iid.getParentID( ) != null )
-			{
-				iid = iid.getParentID( );
-				dataId = iid.getDataID( );
-			}
 			if ( dataId != null )
 			{
 				if ( rset != null )
