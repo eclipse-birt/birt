@@ -838,7 +838,7 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				ExpressionBuilder builder = new ExpressionBuilder( text.getText( ) );
-				builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
+				configureExpressionBuilder( builder );
 				if ( builder.open( ) == Dialog.OK )
 				{
 					text.setText( builder.getResult( ) );
@@ -848,6 +848,18 @@ public class HyperlinkBuilder extends BaseDialog
 
 		} );
 
+	}
+	
+	/**
+	 * Configures the expression builder which is to be opened in the hyper-link
+	 * builder
+	 * 
+	 * @param builder
+	 *            Expression builder
+	 */
+	protected void configureExpressionBuilder( ExpressionBuilder builder )
+	{
+		builder.setExpressionProvier( new ExpressionProvider( inputHandle.getElementHandle( ) ) );
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,
