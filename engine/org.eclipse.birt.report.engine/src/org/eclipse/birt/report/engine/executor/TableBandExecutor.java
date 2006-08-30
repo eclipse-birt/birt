@@ -1,8 +1,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 
@@ -12,6 +15,23 @@ public class TableBandExecutor extends StyledItemExecutor
 	protected TableBandExecutor( ExecutorManager manager )
 	{
 		super( manager );
+	}
+	
+	protected DataID getDataID( )
+	{
+		//FIXME: overide the getDataId from the reportItemExecutor.
+		IResultSet curRset = getResultSet( );
+		if (curRset == null)
+		{
+			curRset = getParentResultSet( );
+		}
+		if ( curRset != null )
+		{
+			DataSetID dataSetID = curRset.getID( );
+			long position = curRset.getCurrentPosition( );
+			return new DataID( dataSetID, position );
+		}		
+		return null;
 	}
 
 	public IContent execute( )

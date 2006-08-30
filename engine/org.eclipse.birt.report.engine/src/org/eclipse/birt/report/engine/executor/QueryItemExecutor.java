@@ -77,20 +77,6 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	{
 	}
 
-	public DataID getDataID( )
-	{
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
-		{
-			curRset = getParentResultSet( );
-		}
-		if ( curRset != null )
-		{
-			return new DataID( curRset.getID( ), curRset.getCurrentPosition( ) );
-		}
-		return null;
-	}
-
 	public void reset( )
 	{
 		rset = null;

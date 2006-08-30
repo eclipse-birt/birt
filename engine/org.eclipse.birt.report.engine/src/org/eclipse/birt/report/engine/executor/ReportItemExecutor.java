@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
@@ -48,7 +49,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.38 $ $Date: 2006/07/31 10:12:26 $
+ * @version $Revision: 1.39 $ $Date: 2006/08/22 08:31:13 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -466,13 +467,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected DataID getDataID( )
 	{
 		IResultSet curRset = getResultSet( );
-		if (curRset == null)
-		{
-			curRset = getParentResultSet( );
-		}
 		if ( curRset != null )
 		{
-			return new DataID( curRset.getID( ), curRset.getCurrentPosition( ) );
+			DataSetID dataSetID = curRset.getID( );
+			long position = curRset.getCurrentPosition( );
+			return new DataID( dataSetID, position );
 		}
 		return null;
 	}

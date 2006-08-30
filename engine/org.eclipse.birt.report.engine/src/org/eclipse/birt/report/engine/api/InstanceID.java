@@ -49,13 +49,6 @@ public class InstanceID
 
 	protected void append( StringBuffer buffer )
 	{
-		if ( dataId == null )
-		{
-			if ( parentId != null )
-			{
-				parentId.append( buffer );
-			}
-		}
 		buffer.append( "/" );
 		buffer.append( designId );
 		if ( dataId != null )
