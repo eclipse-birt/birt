@@ -2823,11 +2823,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			DesignElement virtualElement = (DesignElement) iter.next( );
 
-			if ( !virtualElement.hasLocalPropertyValues( )
-					&& virtualElement.getStyle( ) == null
-					&& StringUtil.isBlank( virtualElement.getName( ) ) )
-				continue;
-
 			writer
 					.conditionalStartElement( DesignSchemaConstants.REF_ENTRY_TAG );
 
@@ -2838,6 +2833,12 @@ public abstract class ModuleWriter extends ElementVisitor
 					.getName( ) );
 			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long(
 					virtualElement.getID( ) ).toString( ) );
+			if ( !virtualElement.hasLocalPropertyValues( )
+					&& virtualElement.getStyle( ) == null )
+			{
+				writer.endElement( );
+				continue;
+			}
 
 			assert virtualElement.getExtendsElement( ) == null;
 
