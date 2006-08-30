@@ -356,7 +356,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		/**
 		 * set positon and dimension for root
 		 */
-		ContainerArea pageRoot = new LogicContainerArea( );
+		ContainerArea pageRoot = new LogicContainerArea( report );
 		int rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
 				pageWidth );
 		int rootTop = getDimensionValue( pageContent.getMarginTop( ), pageWidth );
@@ -391,7 +391,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		int headerWidth = pageRoot.getWidth( );
 		headerHeight = Math.max( 0, headerHeight );
 		headerHeight = Math.min( pageRoot.getHeight( ), headerHeight );
-		ContainerArea header = new LogicContainerArea( );
+		ContainerArea header = new LogicContainerArea( report);
 		header.setHeight( headerHeight );
 		header.setWidth( headerWidth );
 		header.setPosition( 0, 0 );
@@ -407,7 +407,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		footerHeight = Math.max( 0, footerHeight );
 		footerHeight = Math.min( pageRoot.getHeight( ) - headerHeight,
 				footerHeight );
-		ContainerArea footer = new LogicContainerArea( );
+		ContainerArea footer = new LogicContainerArea( report );
 		footer.setHeight( footerHeight );
 		footer.setWidth( footerWidth );
 		footer.setPosition( 0, pageRoot.getHeight( ) - footerHeight );
@@ -417,7 +417,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		/**
 		 * set position and dimension for body
 		 */
-		ContainerArea body = new LogicContainerArea( );
+		ContainerArea body = new LogicContainerArea( report );
 		int bodyLeft = getDimensionValue( pageContent.getLeftWidth( ), pageRoot
 				.getWidth( ) );
 		bodyLeft = Math.max( 0, bodyLeft );

@@ -61,6 +61,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		context.setAllowPageBreak(pagination);
 		this.executor = executor;
 		IReportContent report = executor.execute( );
+		context.setReport( report );
 		if ( output != null )
 		{
 			context.setFormat( output.getOutputFormat( ) );

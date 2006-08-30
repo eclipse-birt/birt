@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -71,9 +72,9 @@ public class AreaFactory
 	 * @param content
 	 * @return
 	 */
-	public static IContainerArea createLogicContainer( )
+	public static IContainerArea createLogicContainer( IReportContent report )
 	{
-		return new LogicContainerArea( );
+		return new LogicContainerArea( report );
 	}
 
 	/**
@@ -120,9 +121,9 @@ public class AreaFactory
 		return new RowArea( row );
 	}
 
-	public static LineArea createLineArea( )
+	public static LineArea createLineArea( IReportContent report )
 	{
-		return new LineArea( );
+		return new LineArea( report );
 	}
 
 	public static IContainerArea createInlineContainer( IContent content )

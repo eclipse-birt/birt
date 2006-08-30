@@ -81,7 +81,7 @@ public class PDFListLM extends PDFBlockStackingLM
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( band );
 		headerExecutor.execute( );
 		ContainerArea headerArea = (ContainerArea) AreaFactory
-				.createLogicContainer( );
+				.createLogicContainer( content.getReportContent( ) );
 		headerArea.setAllocatedWidth( parent.getMaxAvaWidth( ) );
 		PDFRegionLM regionLM = new PDFRegionLM( context, headerArea, band,
 				headerExecutor );
