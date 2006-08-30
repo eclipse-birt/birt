@@ -328,7 +328,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					&& file.toURI( ).toString( ).indexOf( resource.toURI( )
 							.toString( ) ) > -1 )
 			{
-				refreshRoot( );
+				if(!isDisposed( ))
+				{
+					refreshRoot( );
+				}
 			}
 		}
 	}
