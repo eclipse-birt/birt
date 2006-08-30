@@ -541,7 +541,25 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		// disable the Navigation Bar buttons
 		birtUtility.setButtonsDisabled ( "navigationBar", true );
 	},
-	
+
+	/**
+	Called after element is shown
+	*/
+	__postShow: function()
+	{
+		// focus on the first input text/password or button control
+		var oITCs = this.__instance.getElementsByTagName( "input" );
+		for( var i = 0; i < oITCs.length; i++ )
+		{
+			if( oITCs[i].type == "text" 
+			    || oITCs[i].type == "password" || oITCs[i].type == 'button' )
+			{
+				oITCs[i].focus( );
+				break;
+			}			
+		}		
+	},
+		
 	/**
 	Called before element is hidden
 	*/

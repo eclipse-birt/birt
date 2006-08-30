@@ -380,20 +380,22 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{
 			if( oInput[i].id == temp.id )
 			{
-				//enable the next conponent
+				//enable the next component
 				oInput[i].checked = true;
 				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
 				{
 					oInput[i+1].disabled = false;
+					oInput[i+1].focus( );
 				}
 				else if( oSelect[0] )
 				{
 					oSelect[0].disabled = false;
+					oSelect[0].focus( );
 				}
 			}
 			else if( oInput[i].type == "radio" && oInput[i].id != temp.id )
 			{
-				//disable the next conponent and clear the radio
+				//disable the next component and clear the radio
 				oInput[i].checked = false;
 				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
 				{
