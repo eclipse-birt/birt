@@ -75,10 +75,6 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 			{
 				ExceptionHandler.handle( e );
 			}
-			finally
-			{
-				library.close( );
-			}
 		}
 	}
 
@@ -89,7 +85,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		{
 			if ( selection.getFirstElement( ) instanceof LibraryHandle )
 			{
-					return  (LibraryHandle) selection.getFirstElement( );
+				return (LibraryHandle) selection.getFirstElement( );
 			}
 		}
 		return null;

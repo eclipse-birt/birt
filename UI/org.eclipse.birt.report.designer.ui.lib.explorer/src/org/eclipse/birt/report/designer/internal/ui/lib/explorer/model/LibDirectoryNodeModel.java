@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 
 /**
- * 
+ * @deprecated use ResourceEntity to represent library in resource folder.
  */
 
 public class LibDirectoryNodeModel
@@ -36,8 +36,9 @@ public class LibDirectoryNodeModel
 		{
 			return pathname.isDirectory( )
 					|| pathname.isFile( )
-					&& pathname.getPath( ).toLowerCase( ).endsWith(
-							".rptlibrary" ); //$NON-NLS-1$
+					&& pathname.getPath( )
+							.toLowerCase( )
+							.endsWith( ".rptlibrary" ); //$NON-NLS-1$
 		}
 
 	};
@@ -66,8 +67,8 @@ public class LibDirectoryNodeModel
 
 		if ( !file.exists( ) )
 		{
-			return new Object[]{Messages
-					.getString( "LibraryExplorerProvider.FolderNotExist" ) //$NON-NLS-1$
+			return new Object[]{
+				Messages.getString( "LibraryExplorerProvider.FolderNotExist" ) //$NON-NLS-1$
 			};
 		}
 		if ( file.isDirectory( ) )
@@ -78,8 +79,7 @@ public class LibDirectoryNodeModel
 			{
 				if ( children[i].isDirectory( ) )
 				{
-					childrenList.add( new LibDirectoryNodeModel(
-							( (File) children[i] ).getAbsolutePath( ) ) );
+					childrenList.add( new LibDirectoryNodeModel( ( (File) children[i] ).getAbsolutePath( ) ) );
 				}
 				else
 				{
@@ -87,14 +87,12 @@ public class LibDirectoryNodeModel
 					try
 					{
 						library = SessionHandleAdapter.getInstance( )
-								.getSessionHandle( ).openLibrary(
-										( (File) children[i] )
-												.getAbsolutePath( ) );
+								.getSessionHandle( )
+								.openLibrary( ( (File) children[i] ).getAbsolutePath( ) );
 
 						if ( resourceListener != null )
 						{
-							library
-									.addResourceChangeListener( resourceListener );
+							library.addResourceChangeListener( resourceListener );
 						}
 
 						childrenList.add( library );
@@ -127,8 +125,7 @@ public class LibDirectoryNodeModel
 			{
 				if ( resourceListener != null )
 				{
-					( (LibraryHandle) obj )
-							.removeResourceChangeListener( resourceListener );
+					( (LibraryHandle) obj ).removeResourceChangeListener( resourceListener );
 				}
 				( (LibraryHandle) obj ).close( );
 			}

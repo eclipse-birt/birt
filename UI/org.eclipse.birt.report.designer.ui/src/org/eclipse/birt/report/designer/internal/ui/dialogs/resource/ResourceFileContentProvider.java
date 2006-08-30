@@ -12,11 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -29,13 +26,14 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 {
 
 	private boolean showFiles;
-	private FileFilter filter = new FileFilter( ) {
+	private ResourceEntry.Filter filter = new ResourceEntry.Filter( ) {
 
-		public boolean accept( File pathname )
+		public boolean accept( ResourceEntry entity )
 		{
 			return true;
 		}
 	};
+	private String[] fileExtension;
 
 	/**
 	 * Constructor.
@@ -43,9 +41,20 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	 * @param showFiles
 	 *            show files.
 	 */
-	public ResourceFileContentProvider( boolean showFiles )
+	public ResourceFileContentProvider( final boolean showFiles )
 	{
 		this.showFiles = showFiles;
+		filter = new ResourceEntry.Filter( ) {
+
+			public boolean accept( ResourceEntry entity )
+			{
+				if ( entity.getChildren( ).length > 0 )
+				{
+					return true;
+				}
+				return showFiles;
+			}
+		};
 	}
 
 	/**
@@ -58,19 +67,46 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	public ResourceFileContentProvider( final String[] extension )
 	{
 		this.showFiles = true;
-		filter = new FileFilter( ) {
+		this.fileExtension = extension;
+		filter = new ResourceEntry.Filter( ) {
 
-			public boolean accept( File pathname )
+			public boolean accept( ResourceEntry entity )
 			{
-				if ( pathname.isDirectory( ) )
+				if ( entity.getChildren( ).length > 0 )
 				{
 					return true;
 				}
 				for ( int i = 0; i < extension.length; i++ )
 				{
-					if ( pathname.getName( )
+					if ( entity.getName( )
 							.toLowerCase( )
 							.endsWith( extension[i] ) )
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		};
+	}
+
+	public void setFileNamePattern( final String[] fileNamePattern )
+	{
+		this.filter = new ResourceEntry.Filter( ) {
+
+			public boolean accept( ResourceEntry entity )
+			{
+				if ( entity.getChildren( ).length > 0 )
+				{
+					return true;
+				}
+				for ( int i = 0; i < fileNamePattern.length; i++ )
+				{
+					// FIXME
+					// 
+					if ( entity.getName( )
+							.toLowerCase( )
+							.endsWith( fileNamePattern[i].substring( 1 ) ) )
 					{
 						return true;
 					}
@@ -87,36 +123,13 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
-		if ( parentElement instanceof File )
+		if ( parentElement instanceof Object[] )
 		{
-			File file = (File) parentElement;
-			if ( !file.exists( ) )
-			{
-				return new Object[]{
-					Messages.getString( "LibraryExplorerProvider.FolderNotExist" ) //$NON-NLS-1$
-				};
-			}
-			File[] childrenFiles = file.listFiles( filter );
-			if ( childrenFiles != null )
-			{
-				List folers = new ArrayList( );
-				List files = new ArrayList( );
-
-				for ( int i = 0; i < childrenFiles.length; i++ )
-				{
-					File child = childrenFiles[i];
-					if ( child.isDirectory( ) )
-					{
-						folers.add( child );
-					}
-					else if ( showFiles )
-					{
-						files.add( child );
-					}
-				}
-				folers.addAll( files );
-				return folers.toArray( );
-			}
+			return (Object[]) parentElement;
+		}
+		if ( parentElement instanceof ResourceEntry )
+		{
+			return ( (ResourceEntry) parentElement ).getChildren( this.filter );
 		}
 		return new Object[0];
 	}
@@ -131,6 +144,10 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 		if ( element instanceof File )
 		{
 			return ( (File) element ).getParentFile( );
+		}
+		if ( element instanceof ResourceEntry )
+		{
+			return ( (ResourceEntry) element ).getParent( );
 		}
 		return null;
 	}
@@ -147,6 +164,10 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 			return ( (File) element ).list( ) != null
 					&& ( (File) element ).list( ).length > 0;
 		}
+		if ( element instanceof ResourceEntry )
+		{
+			return ( (ResourceEntry) element ).getChildren( ).length > 0;
+		}
 		return false;
 	}
 
@@ -157,12 +178,12 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	 */
 	public Object[] getElements( Object inputElement )
 	{
-		if ( inputElement instanceof String )
-		{
-			return new Object[]{
-				new File( inputElement.toString( ) )
-			};
-		}
+		// if ( inputElement instanceof String )
+		// {
+		// return new Object[]{
+		// new File( inputElement.toString( ) )
+		// };
+		// }
 		return getChildren( inputElement );
 	}
 

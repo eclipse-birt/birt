@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
-import org.eclipse.birt.report.designer.internal.ui.lib.explorer.model.LibDirectoryNodeModel;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * LibraryExplorerProvider LibraryExplorer tree viewer label and content
@@ -33,9 +35,19 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
-		if ( parentElement instanceof LibDirectoryNodeModel )
+		if ( parentElement instanceof ResourceEntry )
 		{
-			return ( (LibDirectoryNodeModel) parentElement ).getChildren( );
+			Object[] children = ( (ResourceEntry) parentElement ).getChildren( );
+			List childrenList = new ArrayList( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				Object library = ( (ResourceEntry) children[i] ).getAdapter( LibraryHandle.class );
+				if ( library != null )
+					childrenList.add( library );
+				else
+					childrenList.add( children[i] );
+			}
+			return childrenList.toArray( );
 		}
 		return super.getChildren( parentElement );
 	}
@@ -47,17 +59,12 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Image getImage( Object element )
 	{
-		if ( element instanceof LibDirectoryNodeModel )
+		if ( element instanceof ResourceEntry )
 		{
-
-				return PlatformUI.getWorkbench( )
-						.getSharedImages( )
-						.getImage( ISharedImages.IMG_OBJ_FOLDER );
+			return ( (ResourceEntry) element ).getImage( );
 		}
-
 		return super.getImage( element );
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -66,11 +73,18 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public String getText( Object element )
 	{
-		if ( element instanceof LibDirectoryNodeModel )
+		if ( element instanceof LibraryHandle )
 		{
-			return ( (LibDirectoryNodeModel) element ).getText( );
+			// fileName of the LibraryHandle is a relative path.
+			String fileName = ( (LibraryHandle) element ).getFileName( );
+			//fileName is a URL string.
+			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
 		}
-		else if ( element instanceof String )
+		if ( element instanceof ResourceEntry )
+		{
+			return ( (ResourceEntry) element ).getName( );
+		}
+		if ( element instanceof String )
 		{
 			return element.toString( );
 		}
@@ -84,18 +98,23 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public boolean hasChildren( Object element )
 	{
-		if ( element instanceof LibDirectoryNodeModel )
+		if ( element instanceof ResourceEntry )
 		{
-				return true;
+			return true;
 		}
 		return super.hasChildren( element );
 	}
-	
+
 	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
 	{
-		if(oldInput instanceof LibDirectoryNodeModel)
+		if ( oldInput instanceof Object[] )
 		{
-			((LibDirectoryNodeModel)oldInput).dispose( );
+			Object[] array = (Object[]) oldInput;
+			for ( int i = 0; i < array.length; i++ )
+			{
+				if ( array[i] instanceof ResourceEntry )
+					( (ResourceEntry) array[i] ).dispose( );
+			}
 		}
 		super.inputChanged( viewer, oldInput, newInput );
 	}

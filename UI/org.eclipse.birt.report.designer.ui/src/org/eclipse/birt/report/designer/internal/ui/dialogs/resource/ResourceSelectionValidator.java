@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
-import java.io.File;
-
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.IStatus;
@@ -135,17 +134,18 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator
 		for ( int i = 0; i < selection.length; i++ )
 		{
 			Object curr = selection[i];
-			if ( curr instanceof File )
+			if ( curr instanceof ResourceEntry )
 			{
-				File file = (File) curr;
-				if ( acceptFolders == false && file.isDirectory( ) )
+				ResourceEntry resource = (ResourceEntry) curr;
+				if ( acceptFolders == false
+						&& resource.getChildren( ).length > 0 )
 				{
 					return EmptyStatus;
 				}
 				if ( ext != null )
 				{
 					boolean isCorrectExt = false;
-					String fileName = file.getName( ).toLowerCase( );
+					String fileName = resource.getName( ).toLowerCase( );
 					for ( int j = 0; j < ext.length; j++ )
 					{
 						if ( fileName.endsWith( ext[j].toLowerCase( ) ) )

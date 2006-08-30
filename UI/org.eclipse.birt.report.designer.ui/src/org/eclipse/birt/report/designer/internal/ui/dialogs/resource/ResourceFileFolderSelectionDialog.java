@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -57,7 +59,40 @@ public class ResourceFileFolderSelectionDialog extends
 		}
 	}
 
-	public ResourceFileFolderSelectionDialog( Shell parent,
+	public ResourceFileFolderSelectionDialog( )
+	{
+		this( true, false, null );
+	}
+
+	public ResourceFileFolderSelectionDialog( boolean showFiles )
+	{
+		this( showFiles, false, null );
+	}
+
+	public ResourceFileFolderSelectionDialog( String[] fileNamePattern )
+	{
+		this( true, false, fileNamePattern );
+	}
+
+	public ResourceFileFolderSelectionDialog( boolean includeFragments,
+			String[] fileNamePattern )
+	{
+		this( true, includeFragments, fileNamePattern );
+	}
+
+	public ResourceFileFolderSelectionDialog( boolean showFiles,
+			boolean includeFragments, String[] fileNamePattern )
+	{
+		this( UIUtil.getDefaultShell( ),
+				new ResourceFileLabelProvider( ),
+				new ResourceFileContentProvider( showFiles ) );
+		if ( includeFragments )
+			setInput( ResourceLocator.getRootEntries( fileNamePattern ) );
+		else
+			setInput( ResourceLocator.getResourceFolder( fileNamePattern ) );
+	}
+
+	private ResourceFileFolderSelectionDialog( Shell parent,
 			ILabelProvider labelProvider, ITreeContentProvider contentProvider )
 	{
 		super( parent, labelProvider, contentProvider );
@@ -85,8 +120,8 @@ public class ResourceFileFolderSelectionDialog extends
 		Object[] selected = getResult( );
 		if ( selected.length > 0 && rootFile != null )
 		{
-			File file = (File) selected[0];
-			return rootFile.toURI( ).relativize( file.toURI( ) ).getPath( );
+			ResourceEntry entry = (ResourceEntry) selected[0];
+			return ResourceLocator.relativize( entry.getURL( ) );
 		}
 		return null;
 	}
@@ -103,8 +138,8 @@ public class ResourceFileFolderSelectionDialog extends
 		{
 			return null;
 		}
-		File file = (File) selected[index];
-		return rootFile.toURI( ).relativize( file.toURI( ) ).getPath( );
+		ResourceEntry entry = (ResourceEntry) selected[index];
+		return ResourceLocator.relativize( entry.getURL( ) );
 
 	}
 
@@ -150,7 +185,6 @@ public class ResourceFileFolderSelectionDialog extends
 						{
 							tree.setToolTipText( null );
 						}
-
 					}
 				}
 			}

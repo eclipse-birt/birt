@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -47,7 +48,10 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -460,31 +464,31 @@ public class ReportPlugin extends AbstractUIPlugin
 	private void appendDefaultPreference( String defaultName,
 			StringBuffer preference )
 	{
-		if ( defaultName.equals( ReportDesignConstants.DATA_ITEM ) ) //$NON-NLS-1$
+		if ( defaultName.equals( ReportDesignConstants.DATA_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.dataReportItem" ) ); //$NON-NLS-1$
 		}
-		else if ( defaultName.equals( ReportDesignConstants.GRID_ITEM ) ) //$NON-NLS-1$
+		else if ( defaultName.equals( ReportDesignConstants.GRID_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.gridReportItem" ) ); //$NON-NLS-1$
 		}
-		else if ( defaultName.equals( ReportDesignConstants.IMAGE_ITEM ) ) //$NON-NLS-1$
+		else if ( defaultName.equals( ReportDesignConstants.IMAGE_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.imageReportItem" ) ); //$NON-NLS-1$
 		}
-		else if ( defaultName.equals( ReportDesignConstants.LABEL_ITEM ) ) //$NON-NLS-1$
+		else if ( defaultName.equals( ReportDesignConstants.LABEL_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.labelReportItem" ) ); //$NON-NLS-1$
 		}
-		else if ( defaultName.equals( ReportDesignConstants.LIST_ITEM ) ) //$NON-NLS-1$
+		else if ( defaultName.equals( ReportDesignConstants.LIST_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.listReportItem" ) ); //$NON-NLS-1$
 		}
-		else if ( defaultName.equals( ReportDesignConstants.TABLE_ITEM ) ) //$NON-NLS-1$
+		else if ( defaultName.equals( ReportDesignConstants.TABLE_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.tableReportItem" ) ); //$NON-NLS-1$
 		}
-		else if ( defaultName.equals( ReportDesignConstants.TEXT_ITEM ) ) //$NON-NLS-1$
+		else if ( defaultName.equals( ReportDesignConstants.TEXT_ITEM ) ) 
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.textReportItem" ) ); //$NON-NLS-1$
 		}
@@ -800,7 +804,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			defaultDir = defaultDir + "/"; //$NON-NLS-1$
 		}
 
-		getPreferenceStore( ).setDefault( TEMPLATE_PREFERENCE, defaultDir ); //$NON-NLS-1$
+		getPreferenceStore( ).setDefault( TEMPLATE_PREFERENCE, defaultDir );
 	}
 
 	/**
@@ -819,7 +823,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setTemplatePreference( String preference )
 	{
-		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference ); //$NON-NLS-1$
+		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference );
 	}
 
 	/**
@@ -843,23 +847,28 @@ public class ReportPlugin extends AbstractUIPlugin
 		// }
 		// getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath );
 		// //$NON-NLS-1$
-		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
-		defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
-		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
-		{
-			defaultDir = defaultDir + "/"; //$NON-NLS-1$
-		}
-		defaultDir = defaultDir + BIRT_RESOURCE;
-		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
-		{
-			defaultDir = defaultDir + "/"; //$NON-NLS-1$
-		}
-		File targetFolder = new File( defaultDir );
-		if ( !targetFolder.exists( ) )
-		{
-			targetFolder.mkdirs( );
-		}
-		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, defaultDir ); //$NON-NLS-1$
+
+		
+		// String defaultDir = new String( UIUtil.getHomeDirectory( ) );
+		// defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$
+		// //$NON-NLS-2$
+		// if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
+		// {
+		// defaultDir = defaultDir + "/"; //$NON-NLS-1$
+		// }
+		// defaultDir = defaultDir + BIRT_RESOURCE;
+		// if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
+		// {
+		// defaultDir = defaultDir + "/"; //$NON-NLS-1$
+		// }
+		// File targetFolder = new File( defaultDir );
+		// if ( !targetFolder.exists( ) )
+		// {
+		// targetFolder.mkdirs( );
+		// }
+		
+		// bug 151361, set default resource folder empty
+		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, "" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -888,7 +897,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setResourcePreference( String preference )
 	{
-		getPreferenceStore( ).setValue( RESOURCE_PREFERENCE, preference ); //$NON-NLS-1$
+		getPreferenceStore( ).setValue( RESOURCE_PREFERENCE, preference );
 		CorePlugin.RESOURCE_FOLDER = preference;
 	}
 
@@ -959,7 +968,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCommentPreference( String preference )
 	{
-		getPreferenceStore( ).setValue( COMMENT_PREFERENCE, preference ); //$NON-NLS-1$
+		getPreferenceStore( ).setValue( COMMENT_PREFERENCE, preference ); 
 	}
 
 	/**
@@ -997,7 +1006,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setEnableCommentPreference( boolean preference )
 	{
-		getPreferenceStore( ).setValue( ENABLE_COMMENT_PREFERENCE, preference ); //$NON-NLS-1$
+		getPreferenceStore( ).setValue( ENABLE_COMMENT_PREFERENCE, preference ); 
 	}
 
 	/**
@@ -1055,5 +1064,35 @@ public class ReportPlugin extends AbstractUIPlugin
 			}
 		}
 		return false;
+	}
+
+	public String getResourceFolder( )
+	{
+		String resourceFolder = getResourcePreference( );
+		if ( resourceFolder == null
+				|| resourceFolder.equals( "" ) //$NON-NLS-1$
+				|| !new File( resourceFolder ).exists( ) )
+		{
+			IEditorPart editor = UIUtil.getActiveEditor( true );
+			if ( editor != null )
+			{
+				IEditorInput input = editor.getEditorInput( );
+				Object fileAdapter = input.getAdapter( IFile.class );
+				IFile file = null;
+				if ( fileAdapter != null )
+					file = (IFile) fileAdapter;
+				if ( file != null && file.getProject( ) != null )
+				{
+					return file.getProject( ).getLocation( ).toOSString( );
+				}
+				if ( input instanceof IPathEditorInput )
+				{
+					File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+							.toFile( );
+					return fileSystemFile.getParent( );
+				}
+			}
+		}
+		return resourceFolder;
 	}
 }

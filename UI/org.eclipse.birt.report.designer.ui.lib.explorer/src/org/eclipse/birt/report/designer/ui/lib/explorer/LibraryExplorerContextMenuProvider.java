@@ -58,8 +58,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		super( page.getTreeViewer( ) );
 		refreshExplorerAction = new RefreshLibExplorerAction( page );
 		addLibraryAction = new AddLibraryAction( page.getTreeViewer( ) );
-		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page
-				.getTreeViewer( ) );
+		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
 		deleteLibraryAction = new DeleteLibraryAction( page );
 	}
 
@@ -78,10 +77,11 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			System.out.println( "Menu(for Views) >> Shows for library" ); //$NON-NLS-1$
 		}
 
+		menu.removeAll( );
+
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
 
-		IStructuredSelection selection = (IStructuredSelection) getViewer( )
-				.getSelection( );
+		IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
 		if ( selection != null && selection.getFirstElement( ) != null )
 		{
 			Object selected = selection.getFirstElement( );
@@ -93,11 +93,14 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			if ( selected instanceof LibraryHandle )
 			{
 				menu.add( addLibraryAction );
-				if(useLibraryAction.isEnabled( ))
+				if ( useLibraryAction.isEnabled( ) )
 				{
 					menu.add( useLibraryAction );
 				}
-				menu.add( deleteLibraryAction );
+				if ( deleteLibraryAction.isEnabled( ) )
+				{
+					menu.add( deleteLibraryAction );
+				}
 			}
 			else
 			{
@@ -108,8 +111,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 				if ( selection.size( ) == 1 )
 				{
-					AddElementtoReport addElementAction = new AddElementtoReport(
-							(StructuredViewer) getViewer( ) );
+					AddElementtoReport addElementAction = new AddElementtoReport( (StructuredViewer) getViewer( ) );
 					addElementAction.setSelectedElement( selected );
 					menu.add( addElementAction );
 				}
