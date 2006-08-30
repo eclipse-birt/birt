@@ -292,7 +292,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage
 					&& file.toURI( ).toString( ).indexOf(
 							resource.toURI( ).toString( ) ) > -1 )
 			{
-				refreshRoot( );
+				if(!isDisposed( ))
+				{
+					refreshRoot( );
+				}
 			}
 		}
 	}
