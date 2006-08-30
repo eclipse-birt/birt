@@ -39,7 +39,7 @@ public class PDFImageBlockContainerLM extends PDFBlockContainerLM
 
 	protected void createRoot( )
 	{
-		root = (ContainerArea)AreaFactory.createLogicContainer( );
+		root = (ContainerArea)AreaFactory.createLogicContainer( content.getReportContent( ) );
 	}
 
 	protected void closeExecutor( )

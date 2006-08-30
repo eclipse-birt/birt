@@ -31,7 +31,7 @@ public class PDFRegionLM extends PDFBlockContainerLM
 		}
 		else
 		{
-			root = (ContainerArea) AreaFactory.createLogicContainer( );
+			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
 		}
 		setMaxAvaWidth( root.getContentWidth( ) );
 		// set unlimited length for block direction
@@ -50,7 +50,7 @@ public class PDFRegionLM extends PDFBlockContainerLM
 	{
 		if ( root == null )
 		{
-			root = (ContainerArea) AreaFactory.createLogicContainer( );
+			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
 		}
 	}
 

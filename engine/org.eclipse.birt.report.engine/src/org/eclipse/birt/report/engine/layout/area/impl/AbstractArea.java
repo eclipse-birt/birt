@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
@@ -74,6 +75,19 @@ public abstract class AbstractArea implements IArea
 		{
 			style = new AreaStyle( new BIRTCSSEngine( ) );
 		}
+	}
+	
+	AbstractArea(IReportContent report)
+	{
+		if(report!=null)
+		{
+			style = new AreaStyle(report.getCSSEngine( ));
+		}
+		else
+		{
+			style = new AreaStyle( new BIRTCSSEngine( ) );
+		}
+		
 	}
 
 

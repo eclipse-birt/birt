@@ -10,12 +10,14 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area.impl;
 
+import org.eclipse.birt.report.engine.content.IReportContent;
+
 
 public  class LogicContainerArea extends ContainerArea
 {
 
-	public LogicContainerArea()
+	public LogicContainerArea(IReportContent report)
 	{
-		super(null);
+		super(report);
 	}
 }

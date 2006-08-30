@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -56,6 +57,18 @@ public class PDFLayoutEngineContext
 	protected String format;
 	
 	protected boolean cancel = false;
+	
+	protected IReportContent report;
+	
+	public IReportContent getReport()
+	{
+		return report;
+	}
+	
+	public void setReport(IReportContent report)
+	{
+		this.report = report;
+	}
 	
 	
 	public void setCancel(boolean cancel)

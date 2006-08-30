@@ -58,7 +58,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	protected int expectedIP = 0;
 	
 	protected IReportItemExecutor unfinishedExecutor = null;
-
+	
 	public PDFLineAreaLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IReportItemExecutor executor )
 	{
@@ -182,7 +182,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 
 	protected void createRoot( )
 	{
-		root = AreaFactory.createLineArea( );
+		root = AreaFactory.createLineArea( context.getReport( ));
 		lineCount++;
 	}
 
