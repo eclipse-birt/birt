@@ -34,7 +34,7 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-class BundleHelper
+public class BundleHelper
 {
 
 	/**
@@ -163,13 +163,43 @@ class BundleHelper
 
 	private List gatherMessageBundles( ULocale locale )
 	{
+		List bundleHierarchy = new ArrayList( );
+
+		List bundleNames = getMessageFilenames( locale );
+		for ( int i = 0; i < bundleNames.size( ); i++ )
+		{
+			String bundleName = (String) bundleNames.get( i );
+			PropertyResourceBundle bundle = populateBundle( bundleName );
+			if ( bundle != null )
+				bundleHierarchy.add( bundle );
+		}
+
+		return bundleHierarchy;
+	}
+
+	/**
+	 * Return a message resource name list for the given locale. A message key
+	 * should be look into the files in the sequence order from the first to the
+	 * last. Content of the list is <code>String</code>.
+	 * <p>
+	 * If the given locale is <code>null</code>, locale of the current thread
+	 * will be used.
+	 * 
+	 * @param locale
+	 *            locale to use when locating the bundles.
+	 * 
+	 * @return a message file list for the given locale.
+	 */
+
+	public List getMessageFilenames( ULocale locale )
+	{
 		if ( locale == null )
 			locale = ThreadResources.getLocale( );
 
-		List bundleHierarchy = new ArrayList( );
+		List bundleNames = new ArrayList( );
 
 		if ( this.baseName == null )
-			return bundleHierarchy;
+			return bundleNames;
 
 		// find the correspondent message files.
 		// e.g: message
@@ -191,9 +221,7 @@ class BundleHelper
 			temp.append( country );
 			temp.append( ".properties" ); //$NON-NLS-1$
 
-			PropertyResourceBundle bundle = populateBundle( temp.toString( ) );
-			if ( bundle != null )
-				bundleHierarchy.add( bundle );
+			bundleNames.add( temp.toString( ) );
 
 		}
 
@@ -206,19 +234,14 @@ class BundleHelper
 			temp.append( language );
 			temp.append( ".properties" ); //$NON-NLS-1$
 
-			PropertyResourceBundle bundle = populateBundle( temp.toString( ) );
-			if ( bundle != null )
-				bundleHierarchy.add( bundle );
+			bundleNames.add( temp.toString( ) );
 		}
 
 		// default.
 
-		PropertyResourceBundle bundle = populateBundle( baseName
-				+ ".properties" ); //$NON-NLS-1$
-		if ( bundle != null )
-			bundleHierarchy.add( bundle );
+		bundleNames.add( baseName + ".properties" ); //$NON-NLS-1$
 
-		return bundleHierarchy;
+		return bundleNames;
 	}
 
 	/**
