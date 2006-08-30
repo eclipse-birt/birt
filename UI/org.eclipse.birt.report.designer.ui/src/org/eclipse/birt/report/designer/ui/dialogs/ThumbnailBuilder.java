@@ -287,8 +287,8 @@ public class ThumbnailBuilder extends BaseDialog
 			FileDialog dialog = new FileDialog( getShell( ), SWT.OPEN );
 			dialog.setText( Messages.getString( "ThumbnailBuilder.FileDialog.Title" ) ); //$NON-NLS-1$
 			dialog.setFilterExtensions( IMAGE_FILTER );
-			fileName = dialog.open( ).trim( );
-			if ( fileName == null || fileName.length( ) == 0 )
+			fileName = dialog.open( );
+			if ( fileName == null || fileName.trim().length( ) == 0 )
 			{
 				return;
 			}
