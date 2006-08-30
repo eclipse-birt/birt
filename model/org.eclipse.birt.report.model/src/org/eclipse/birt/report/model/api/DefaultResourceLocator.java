@@ -18,8 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 
 /**
  * The default file search algorithm. It searches for a given file in the 'base'
@@ -208,12 +206,7 @@ public class DefaultResourceLocator implements IResourceLocator
 
 	private URL tryFragmentSearch( String fileName )
 	{
-		Bundle bundle = Platform.getBundle( FRAGMENT_RESOURCE_HOST );
-		if ( bundle != null )
-			return bundle.getResource( URIUtil
-					.convertFileNameToURLString( fileName ) );
-
-		return null;
-
+		return BundleFactory.getBundleFactory( ).getBundleResource(
+				FRAGMENT_RESOURCE_HOST, fileName );
 	}
 }
