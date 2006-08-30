@@ -32,6 +32,7 @@ import java.net.URL;
 
 public interface IResourceLocator
 {
+
 	/**
 	 * The host name of the fragments where inner resources are located.
 	 */
@@ -55,6 +56,12 @@ public interface IResourceLocator
 	 */
 
 	public final static int CASCADING_STYLE_SHEET = 3;
+
+	/**
+	 * The type for the jar file. Includes .jar type.
+	 */
+
+	public final static int JAR_FILE = 4;
 
 	/**
 	 * Searches the file by the given file name. The actual search algorithm
