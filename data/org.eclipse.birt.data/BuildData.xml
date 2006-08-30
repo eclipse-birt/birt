@@ -359,6 +359,7 @@
 	
 		<!-- Copy messages.properties file to class directory-->
 		<copy tofile="${bin}/testutil/messages.properties" file="${test.src}/testutil/messages.properties"/>
+		<copy tofile="${bin}/org/eclipse/birt/data/engine/expression/messages.properties" file="${test.src}/org/eclipse/birt/data/engine/expression/messages.properties"/>
 		
 		<javac srcdir="${test.src}"
 			   destdir="${bin}" 
