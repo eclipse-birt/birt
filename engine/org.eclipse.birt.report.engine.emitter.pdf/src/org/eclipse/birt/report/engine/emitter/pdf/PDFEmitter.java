@@ -825,20 +825,17 @@ public class PDFEmitter implements IContentEmitter
 			contentByte.saveState();
 			//start drawing the text content
 			contentByte.beginText();
-		    
+			Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));   
+			if (null != color)
+		    {
+		    	contentByte.setColorFill(color);
+		    	contentByte.setColorStroke( color );
+		    }
 			contentByte.setFontAndSize(text.getFontInfo().getBaseFont(), fontSize); 
 			contentByte.setCharacterSpacing(characterSpacing);
 			contentByte.setWordSpacing(wordSpacing);
-		       
 		    placeText(contentByte, text.getFontInfo(), layoutAreaX2PDF(textX), 
 		    		layoutAreaY2PDFEx(textY, text.getFontInfo().getBaseline(), contentByteHeight));
-		    
-		    Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));
-		    if (null != color)
-		    {
-		    	contentByte.setColorFill(color);
-		    }
-		   
 		    contentByte.showText(text.getText());
 		    contentByte.endText();
 		    contentByte.restoreState();
