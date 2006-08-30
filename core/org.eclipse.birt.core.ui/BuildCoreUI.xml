@@ -90,7 +90,7 @@
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
 			<include name="org.eclipse.osgi_*/*.jar"/>
-			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.core.*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 			<include name="org.eclipse.jface*.jar"/>

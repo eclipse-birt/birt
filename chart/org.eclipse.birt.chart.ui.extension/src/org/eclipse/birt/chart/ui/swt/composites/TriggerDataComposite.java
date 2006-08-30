@@ -211,7 +211,7 @@ public class TriggerDataComposite extends Composite
 		lblTriggerType.setLayoutData( gdLBLTriggerType );
 		lblTriggerType.setText( Messages.getString( "TriggerDataComposite.Lbl.Type" ) ); //$NON-NLS-1$
 
-		cmbTriggerType = new CTextCombo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbTriggerType = new CTextCombo( this, SWT.NONE );
 		GridData gdCMBTriggerType = new GridData( GridData.FILL_HORIZONTAL );
 		cmbTriggerType.setLayoutData( gdCMBTriggerType );
 		cmbTriggerType.addListener( new Listener( ) {
@@ -245,6 +245,7 @@ public class TriggerDataComposite extends Composite
 		GridData gdCMBActionType = new GridData( GridData.FILL_HORIZONTAL );
 		cmbActionType.setLayoutData( gdCMBActionType );
 		cmbActionType.addSelectionListener( this );
+		cmbActionType.setVisibleItemCount( 10 );
 
 		grpValue = new Group( this, SWT.NONE );
 		GridData gdGRPValue = new GridData( GridData.FILL_BOTH );
