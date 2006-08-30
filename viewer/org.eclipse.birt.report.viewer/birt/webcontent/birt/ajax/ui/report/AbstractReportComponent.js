@@ -38,11 +38,42 @@ AbstractReportComponent.prototype =
 			oDiv.removeChild(oDiv.firstChild);
 		}
 		
+		// workaround for IE. If content starts with script, 
+		// append a hidden line to avoid ignore these scripts.
+		// Delete script attribute "defer" to avoid exec javascript twice
+		if( BrowserUtility.__isIE( ) )
+		{
+			content = '<span style="display: none">&nbsp;</span>' + content;
+			content = content.replace(/<script(.*)defer([^\s|^>]*)([^>]*)>/gi,'<script$1$3>');
+		}		
+				
 		var container = document.createElement( "div" );
 		container.style.position = "relative";
 		container.style.padding = "15px";
 		container.innerHTML = content;
-		oDiv.appendChild( container );
+		oDiv.appendChild( container );		
+		
+		var scripts = container.getElementsByTagName( "script" );
+		for( var i = 0; i < scripts.length; i++ )
+		{
+		    if( scripts[i].src )
+		    {
+		    	var head = document.getElementsByTagName( "head" )[0];
+		    	
+		    	var scriptObj = document.createElement( "script" );
+				scriptObj.setAttribute( "type", "text/javascript" );
+				scriptObj.setAttribute( "src", scripts[i].src );
+				
+				if( head )
+					head.appendChild( scriptObj );
+		    }
+		    else if ( scripts[i].innerHTML )
+		    {	    	
+			    //  Internet Explorer has a funky execScript method that makes this easy
+			    if ( window.execScript )
+			        window.execScript( scripts[i].innerHTML );
+		    }
+		}
 	},
 	
 	/**
