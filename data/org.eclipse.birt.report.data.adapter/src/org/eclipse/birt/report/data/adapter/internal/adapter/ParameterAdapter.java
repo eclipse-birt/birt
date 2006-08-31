@@ -41,7 +41,7 @@ public class ParameterAdapter extends ParameterDefinition
 		if ( modelParam instanceof OdaDataSetParameterHandle
 				&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 		{
-			setDefaultInputValue( ExpressionUtil.createParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) ) );
+			setDefaultInputValue( ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) ) );
 		}
 		else
 			setDefaultInputValue( modelParam.getDefaultValue( ) );

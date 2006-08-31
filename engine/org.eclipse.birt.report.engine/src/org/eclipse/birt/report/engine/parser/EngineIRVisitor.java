@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.impl.CascadingParameterGroupDefn;
@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.117 $ $Date: 2006/08/18 09:26:51 $
+ * @version $Revision: 1.118 $ $Date: 2006/08/22 08:31:15 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -781,7 +781,7 @@ class EngineIRVisitor extends DesignVisitor
 		String expr = handle.getResultSetColumn( );
 		if (expr != null && expr.trim( ).length( ) > 0)
 		{
-			expr = "row[\"" + JavascriptEvalUtil.transformToJsConstants( expr ) + "\"]";
+			expr = ExpressionUtil.createJSRowExpression( expr );
 			data.setValue( expr );
 		}
 		// Handle Action

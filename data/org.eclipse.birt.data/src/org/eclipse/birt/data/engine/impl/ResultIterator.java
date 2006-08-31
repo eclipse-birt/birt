@@ -44,6 +44,8 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+
 /**
  * An iterator on a result set from a prepared and executed report query.
  * Multiple ResultIterator objects could be associated with the same
@@ -670,7 +672,7 @@ public class ResultIterator implements IResultIterator
 			String columnName;
 			if ( group.getKeyColumn( ) != null )
 			{
-				columnName = "row[\"" + group.getKeyColumn( ) +"\"]";
+				columnName = ExpressionUtil.createJSRowExpression( group.getKeyColumn( ) );
 			}
 			else
 			{

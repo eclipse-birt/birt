@@ -15,8 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -385,9 +385,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				if ( colName == null )
 					colName = metaData.getColumnName( colIndex );
 
-				ScriptExpression baseExpr = new ScriptExpression( "dataSetRow[\""
-						+ JavascriptEvalUtil.transformToJsConstants( colName )
-						+ "\"]",
+				ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
 						metaData.getColumnType( colIndex ) );
 				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
 						cx );
