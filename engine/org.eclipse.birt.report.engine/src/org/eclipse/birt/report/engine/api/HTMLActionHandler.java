@@ -23,6 +23,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 
+import com.ibm.icu.math.BigDecimal;
+
 /**
  * Defines a default action handler for HTML output format
  */
@@ -38,7 +40,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		Object renderContext = getRenderContext( context );
 		return getURL( actionDefn, renderContext );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -86,11 +88,11 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		String baseURL = null;
 		if ( context != null )
 		{
-			if (context instanceof HTMLRenderContext)
+			if ( context instanceof HTMLRenderContext )
 			{
 				baseURL = ( (HTMLRenderContext) context ).getBaseURL( );
 			}
-			if (context instanceof PDFRenderContext)
+			if ( context instanceof PDFRenderContext )
 			{
 				baseURL = ( (PDFRenderContext) context ).getBaseURL( );
 			}
@@ -148,8 +150,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 						Object valueObj = entry.getValue( );
 						if ( valueObj != null )
 						{
-							String value = ParameterValidationUtil
-									.getDisplayValue( valueObj );
+							String value = getDisplayValue( valueObj );
 							link
 									.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
 											+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -166,8 +167,9 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			link.append( "&__overwrite=true" ); //$NON-NLS-1$
 
 			// The search rules are not supported yet.
-			if ( /*!"pdf".equalsIgnoreCase( format )
-					&&*/ action.getBookmark( ) != null )
+			if ( /*
+					 * !"pdf".equalsIgnoreCase( format ) &&
+					 */action.getBookmark( ) != null )
 			{
 
 				try
@@ -272,7 +274,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		{
 		}
 	}
-	
+
 	String getReportName( IAction action )
 	{
 		String systemId = action.getSystemId( );
@@ -285,7 +287,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		try
 		{
 			URL url = new URL( reportName );
-			if ("file".equals( url.getProtocol( ) ))
+			if ( "file".equals( url.getProtocol( ) ) )
 			{
 				return url.getFile( );
 			}
@@ -299,7 +301,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		{
 			URL root = new URL( systemId );
 			URL url = new URL( root, reportName );
-			if ("file".equals( url.getProtocol( ) ))
+			if ( "file".equals( url.getProtocol( ) ) )
 			{
 				return url.getFile( );
 			}
@@ -315,20 +317,20 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		{
 			return reportName;
 		}
-		
+
 		try
 		{
 			URL root = new File( systemId ).toURL( );
-			URL url = new URL(root, reportName);
-			assert "file".equals(url.getProtocol( ));
+			URL url = new URL( root, reportName );
+			assert "file".equals( url.getProtocol( ) );
 			return url.getFile( );
 		}
-		catch(MalformedURLException ex)
+		catch ( MalformedURLException ex )
 		{
 		}
 		return reportName;
 	}
-	
+
 	protected Object getRenderContext( IReportContext context )
 	{
 		Map appContext = context.getAppContext( );
@@ -344,5 +346,18 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 		return null;
 	}
-	
+
+	String getDisplayValue( Object value )
+	{
+		if ( value == null )
+			return null;
+
+		if ( value instanceof Float || value instanceof Double
+				|| value instanceof BigDecimal )
+		{
+			return value.toString( );
+		}
+		return ParameterValidationUtil.getDisplayValue( value );
+	}
+
 }

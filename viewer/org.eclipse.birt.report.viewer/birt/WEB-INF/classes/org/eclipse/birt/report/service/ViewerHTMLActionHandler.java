@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -365,8 +366,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						{
 							// TODO: here need the get the format from the
 							// parameter.
-							String value = ParameterValidationUtil
-									.getDisplayValue( valueObj );
+							String value = DataUtil.getDisplayValue( valueObj );
 
 							link
 									.append( ParameterAccessor

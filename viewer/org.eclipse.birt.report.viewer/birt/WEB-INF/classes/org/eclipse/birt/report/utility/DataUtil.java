@@ -17,6 +17,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 
+import com.ibm.icu.math.BigDecimal;
+
 /**
  * Provides data convert and format services
  * 
@@ -74,5 +76,40 @@ public class DataUtil
 		}
 
 		return obj;
+	}
+
+	/**
+	 * Gets the display string for the value with default locale and default
+	 * format, The value must be the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param value
+	 *  		the input value to validate
+	 * @return the formatted string
+	 */
+
+	static public String getDisplayValue( Object value )
+	{
+		if ( value == null )
+			return null;
+
+		if ( value instanceof Float || value instanceof Double
+				|| value instanceof BigDecimal )
+		{
+			return value.toString( );
+		}
+		return ParameterValidationUtil.getDisplayValue( value );
 	}
 }

@@ -45,6 +45,7 @@ import org.eclipse.birt.report.soapengine.api.SelectItemChoice;
 import org.eclipse.birt.report.soapengine.api.SelectionList;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.DataUtil;
 
 public class BirtGetCascadeParameterActionHandler
 		extends
@@ -293,7 +294,7 @@ public class BirtGetCascadeParameterActionHandler
 					}
 					else
 					{
-						// Format display text of dynamic parameter 
+						// Format display text of dynamic parameter
 						label = ParameterValidationUtil.getDisplayValue( null,
 								parameterHandle.getPattern( ), label, attrBean
 										.getLocale( ) );
@@ -302,7 +303,7 @@ public class BirtGetCascadeParameterActionHandler
 					if ( label != null )
 					{
 						selectItemChoice.setLabel( label );
-						selectItemChoice.setValue( ParameterValidationUtil
+						selectItemChoice.setValue( DataUtil
 								.getDisplayValue( value ) );
 						selectionList.add( index++, selectItemChoice );
 					}
