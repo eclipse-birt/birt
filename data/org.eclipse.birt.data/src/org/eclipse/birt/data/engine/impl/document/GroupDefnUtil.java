@@ -145,6 +145,10 @@ public class GroupDefnUtil
 				&& isEqualStr( groupDefn1.getKeyExpression( ),
 						groupDefn2.getKeyExpression( ) )
 				&& groupDefn1.getSortDirection( ) == groupDefn2.getSortDirection( )
+				&& QueryDefnUtil.isEqualSorts( groupDefn1.getSorts( ),
+						groupDefn2.getSorts( ) )
+				&& FilterDefnUtil.isEqualFilter( groupDefn1.getFilters( ),
+						groupDefn2.getFilters( ) )
 				&& QueryDefnUtil.isCompatibleSQs( groupDefn1.getSubqueries( ),
 						groupDefn2.getSubqueries( ) );
 	}
