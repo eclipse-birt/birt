@@ -389,7 +389,8 @@ public class WebViewer
 
 	public static void display( String report, Browser browser, Map params )
 	{
-		browser.setUrl( createURL( report, params ) );
+		browser.setUrl( createURL( report, params )
+				+ "&" + new Random( ).nextInt( )); //$NON-NLS-1$
 	}
 
 	/**
@@ -406,7 +407,7 @@ public class WebViewer
 		try
 		{
 			BrowserAccessor.getPreviewBrowser( false ).displayURL(
-					createURL( report, params ) );
+					createURL( report, params ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
