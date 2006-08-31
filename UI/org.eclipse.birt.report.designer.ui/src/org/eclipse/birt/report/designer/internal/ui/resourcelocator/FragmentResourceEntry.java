@@ -56,66 +56,68 @@ class FragmentResourceEntry extends BaseResourceEntity
 
 	public FragmentResourceEntry( String[] filePattern )
 	{
-		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null );  //$NON-NLS-1$//$NON-NLS-2$
+		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null ); //$NON-NLS-1$//$NON-NLS-2$
 		this.isRoot = true;
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
-		if ( filePattern != null && filePattern.length > 0 )
+		if ( bundle != null )
 		{
-			for ( int i = 0; i < filePattern.length; i++ )
+			if ( filePattern != null && filePattern.length > 0 )
 			{
-				String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
-				for ( int j = 0; j < patterns.length; j++ )
+				for ( int i = 0; i < filePattern.length; i++ )
 				{
-					Enumeration enumeration = bundle.findEntries( "/", //$NON-NLS-1$
-							patterns[j],
-							true );
-					while ( enumeration != null
-							&& enumeration.hasMoreElements( ) )
+					String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
+					for ( int j = 0; j < patterns.length; j++ )
 					{
-						URL element = (URL) enumeration.nextElement( );
-						String[] path = element.getPath( ).split( "/" ); //$NON-NLS-1$
-						FragmentResourceEntry parent = this;
-						for ( int m = 0; m < path.length; m++ )
+						Enumeration enumeration = bundle.findEntries( "/", //$NON-NLS-1$
+								patterns[j],
+								true );
+						while ( enumeration != null
+								&& enumeration.hasMoreElements( ) )
 						{
-							if ( path[m].equals( "" ) ) //$NON-NLS-1$
-								continue;
-							FragmentResourceEntry child = parent.getChild( path[m] );
-							if ( child == null )
+							URL element = (URL) enumeration.nextElement( );
+							String[] path = element.getPath( ).split( "/" ); //$NON-NLS-1$
+							FragmentResourceEntry parent = this;
+							for ( int m = 0; m < path.length; m++ )
 							{
-								child = new FragmentResourceEntry( path[m],
-										( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
-												: parent.path ) + "/" //$NON-NLS-1$
-												+ path[m],
-										parent );
+								if ( path[m].equals( "" ) ) //$NON-NLS-1$
+									continue;
+								FragmentResourceEntry child = parent.getChild( path[m] );
+								if ( child == null )
+								{
+									child = new FragmentResourceEntry( path[m],
+											( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
+													: parent.path ) + "/" //$NON-NLS-1$
+													+ path[m],
+											parent );
+								}
+								parent = child;
 							}
-							parent = child;
 						}
 					}
 				}
 			}
-		}
-		else
-		{
-			Enumeration enumeration = bundle.findEntries( "/", "*", true ); //$NON-NLS-1$//$NON-NLS-2$
-			while ( enumeration != null && enumeration.hasMoreElements( ) )
+			else
 			{
-				URL element = (URL) enumeration.nextElement( );
-				String[] path = element.getPath( ).split( "/" ); //$NON-NLS-1$
-				FragmentResourceEntry parent = this;
-				for ( int i = 0; i < path.length; i++ )
+				Enumeration enumeration = bundle.findEntries( "/", "*", true ); //$NON-NLS-1$//$NON-NLS-2$
+				while ( enumeration != null && enumeration.hasMoreElements( ) )
 				{
-					if ( path[i].equals( "" ) ) //$NON-NLS-1$
-						continue;
-					FragmentResourceEntry child = parent.getChild( path[i] );
-					if ( child == null )
-						child = new FragmentResourceEntry( path[i],
-								path[i],
-								parent );
-					parent = child;
+					URL element = (URL) enumeration.nextElement( );
+					String[] path = element.getPath( ).split( "/" ); //$NON-NLS-1$
+					FragmentResourceEntry parent = this;
+					for ( int i = 0; i < path.length; i++ )
+					{
+						if ( path[i].equals( "" ) ) //$NON-NLS-1$
+							continue;
+						FragmentResourceEntry child = parent.getChild( path[i] );
+						if ( child == null )
+							child = new FragmentResourceEntry( path[i],
+									path[i],
+									parent );
+						parent = child;
+					}
 				}
 			}
 		}
-
 	}
 
 	private FragmentResourceEntry( String name, String path,
@@ -170,7 +172,9 @@ class FragmentResourceEntry extends BaseResourceEntity
 
 	public URL getURL( )
 	{
-		return bundle.getResource( this.path );
+		if ( bundle != null )
+			return bundle.getResource( this.path );
+		return null;
 	}
 
 	public void dispose( )
