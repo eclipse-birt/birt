@@ -554,8 +554,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			if( oITCs[i].type == "text" 
 			    || oITCs[i].type == "password" || oITCs[i].type == 'button' )
 			{
-				oITCs[i].focus( );
-				break;
+				if( !oITCs[i].disabled )
+				{
+					oITCs[i].focus( );
+					break;
+				}
 			}			
 		}		
 	},
