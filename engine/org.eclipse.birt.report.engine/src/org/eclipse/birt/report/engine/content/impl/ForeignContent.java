@@ -161,38 +161,38 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		this.altText = altText;
 	}
 
-	static final protected int FIELD_RAW_TYPE = 400;
-	static final protected int FIELD_RAWVALUE = 401;
-	static final protected int FIELD_ALTTEXT = 402;
-	static final protected int FIELD_ALTTEXTKEY = 403;
-	static final protected int FIELD_RAWKEY = 404;
+	static final protected short FIELD_RAW_TYPE = 400;
+	static final protected short FIELD_RAWVALUE = 401;
+	static final protected short FIELD_ALTTEXT = 402;
+	static final protected short FIELD_ALTTEXTKEY = 403;
+	static final protected short FIELD_RAWKEY = 404;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( rawType != null )
 		{
-			IOUtil.writeInt( out,  FIELD_RAW_TYPE );
+			IOUtil.writeShort( out,  FIELD_RAW_TYPE );
 			IOUtil.writeString( out, rawType );
 		}
 		if ( rawValue != null )
 		{
-			IOUtil.writeInt( out,  FIELD_RAWVALUE );
+			IOUtil.writeShort( out,  FIELD_RAWVALUE );
 			IOUtil.writeObject( out, rawValue );
 		}
 		if ( altText != null )
 		{
-			IOUtil.writeInt( out, FIELD_ALTTEXT );
+			IOUtil.writeShort( out, FIELD_ALTTEXT );
 			IOUtil.writeString( out, altText );
 		}
 		if ( altTextKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_ALTTEXTKEY );
+			IOUtil.writeShort( out, FIELD_ALTTEXTKEY );
 			IOUtil.writeString( out, altTextKey );
 		}
 		if( rawKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_RAWKEY );
+			IOUtil.writeShort( out, FIELD_RAWKEY );
 			IOUtil.writeString( out, rawKey );
 		}
 	}

@@ -60,6 +60,36 @@ public class IOUtil
 	 * @return int value
 	 * @throws IOException
 	 */
+	public final static short readShort( InputStream inputStream )
+			throws IOException
+	{
+		int ch1 = inputStream.read( );
+		int ch2 = inputStream.read( );
+
+		return (short)( ( ch1 << 8 ) + ch2 );
+	}
+
+	/**
+	 * Write an int value to an output stream
+	 * 
+	 * @param outputStream
+	 * @param value
+	 * @throws IOException
+	 */
+	public final static void writeShort( OutputStream outputStream, short value )
+			throws IOException
+	{
+		outputStream.write( ( value >>> 8 ) & 0xFF );
+		outputStream.write( ( value >>> 0 ) & 0xFF );
+	}
+	
+	/**
+	 * Read an int value from an input stream
+	 * 
+	 * @param inputStream
+	 * @return int value
+	 * @throws IOException
+	 */
 	public final static int readInt( InputStream inputStream )
 			throws IOException
 	{

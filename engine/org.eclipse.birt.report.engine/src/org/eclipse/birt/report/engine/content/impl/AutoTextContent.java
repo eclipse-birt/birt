@@ -59,20 +59,20 @@ public class AutoTextContent extends TextContent implements IAutoTextContent
 		return visitor.visitAutoText( this, value );
 	}
 	
-	static final protected int FIELD_TYPE = 650;
-	static final protected int FIELD_TEXT = 651;
+	static final protected short FIELD_TYPE = 650;
+	static final protected short FIELD_TEXT = 651;
 	
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( type != -1 )
 		{
-			IOUtil.writeInt( out, FIELD_TYPE );
+			IOUtil.writeShort( out, FIELD_TYPE );
 			IOUtil.writeInt( out, type );
 		}
 		if ( text != null)
 		{
-			IOUtil.writeInt( out, FIELD_TEXT );
+			IOUtil.writeShort( out, FIELD_TEXT );
 			IOUtil.writeString( out, text );
 		}
 	}

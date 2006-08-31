@@ -274,41 +274,41 @@ public class ImageContent extends AbstractContent implements IImageContent
 		return MIMEType;
 	}
 
-	static final protected int FIELD_ALTTEXT = 500;
-	static final protected int FIELD_ALTTEXTKEY = 501;
-	static final protected int FIELD_EXTENSEION = 502;
-	static final protected int FIELD_URI = 503;
-	static final protected int FIELD_SOURCETYPE = 504;
-	static final protected int FIELD_IMAGEMAP = 505;
-	static final protected int FIELD_MIMETYPE = 506;
-	static final protected int FIELD_DATA = 507;
+	static final protected short FIELD_ALTTEXT = 500;
+	static final protected short FIELD_ALTTEXTKEY = 501;
+	static final protected short FIELD_EXTENSEION = 502;
+	static final protected short FIELD_URI = 503;
+	static final protected short FIELD_SOURCETYPE = 504;
+	static final protected short FIELD_IMAGEMAP = 505;
+	static final protected short FIELD_MIMETYPE = 506;
+	static final protected short FIELD_DATA = 507;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( altText != null )
 		{
-			IOUtil.writeInt( out, FIELD_ALTTEXT );
+			IOUtil.writeShort( out, FIELD_ALTTEXT );
 			IOUtil.writeString( out, altText );
 		}
 		if ( altTextKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_ALTTEXTKEY );
+			IOUtil.writeShort( out, FIELD_ALTTEXTKEY );
 			IOUtil.writeString( out, altTextKey );
 		}
 		if ( extension != null )
 		{
-			IOUtil.writeInt( out, FIELD_EXTENSEION );
+			IOUtil.writeShort( out, FIELD_EXTENSEION );
 			IOUtil.writeString( out, extension );
 		}
 		if ( imageMap != null )
 		{
-			IOUtil.writeInt( out, FIELD_IMAGEMAP );
+			IOUtil.writeShort( out, FIELD_IMAGEMAP );
 			IOUtil.writeObject( out, imageMap );
 		}
 		if ( sourceType != -1 )
 		{
-			IOUtil.writeInt( out, FIELD_SOURCETYPE );
+			IOUtil.writeShort( out, FIELD_SOURCETYPE );
 			IOUtil.writeInt( out, sourceType );
 		}
 		switch ( sourceType )
@@ -318,21 +318,21 @@ public class ImageContent extends AbstractContent implements IImageContent
 			case IImageContent.IMAGE_URL :
 				if ( uri != null )
 				{
-					IOUtil.writeInt( out, FIELD_URI );
+					IOUtil.writeShort( out, FIELD_URI );
 					IOUtil.writeString( out, uri );
 				}
 				break;
 			case IImageContent.IMAGE_EXPRESSION :
 				if ( data != null )
 				{
-					IOUtil.writeInt( out, FIELD_DATA );
+					IOUtil.writeShort( out, FIELD_DATA );
 					IOUtil.writeBytes( out, data );
 				}
 				break;
 		}
 		if ( MIMEType != null )
 		{
-			IOUtil.writeInt( out, FIELD_MIMETYPE );
+			IOUtil.writeShort( out, FIELD_MIMETYPE );
 			IOUtil.writeString( out, MIMEType );
 		}
 	}

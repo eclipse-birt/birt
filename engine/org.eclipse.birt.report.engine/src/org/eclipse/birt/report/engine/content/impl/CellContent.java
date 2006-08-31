@@ -32,7 +32,7 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.16 $ $Date: 2006/06/13 15:37:19 $
+ * @version $Revision: 1.18 $ $Date: 2006/08/31 02:19:27 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -168,32 +168,32 @@ public class CellContent extends AbstractContent implements ICellContent
 		return computedStyle;
 	}
 
-	static final protected int FIELD_ROW_SPAN = 100;
-	static final protected int FIELD_COL_SPAN = 101;
-	static final protected int FIELD_COLUMN = 102;
-	static final protected int FIELD_START_OF_GROUP = 103;
+	static final protected short FIELD_ROW_SPAN = 100;
+	static final protected short FIELD_COL_SPAN = 101;
+	static final protected short FIELD_COLUMN = 102;
+	static final protected short FIELD_START_OF_GROUP = 103;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( rowSpan != -1 )
 		{
-			IOUtil.writeInt( out, FIELD_ROW_SPAN );
+			IOUtil.writeShort( out, FIELD_ROW_SPAN );
 			IOUtil.writeInt( out, rowSpan );
 		}
 		if ( colSpan != -1 )
 		{
-			IOUtil.writeInt( out, FIELD_COL_SPAN );
+			IOUtil.writeShort( out, FIELD_COL_SPAN );
 			IOUtil.writeInt( out, colSpan );
 		}
 		if ( column != -1 )
 		{
-			IOUtil.writeInt( out, FIELD_COLUMN );
+			IOUtil.writeShort( out, FIELD_COLUMN );
 			IOUtil.writeInt( out, column );
 		}
 		if ( isStartOfGroup )
 		{
-			IOUtil.writeInt( out, FIELD_START_OF_GROUP );
+			IOUtil.writeShort( out, FIELD_START_OF_GROUP );
 			IOUtil.writeBool( out, isStartOfGroup );
 		}
 	}

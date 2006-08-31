@@ -111,10 +111,10 @@ public class DataContent extends TextContent implements IDataContent
 		return visitor.visitData( this, value );
 	}
 
-	static final protected int FIELD_VALUE = 300;
-	static final protected int FIELD_LAVELTEXT = 301;
-	static final protected int FIELD_LABELKEY = 302;
-	static final protected int FIELD_HELPKEY = 303;
+	static final protected short FIELD_VALUE = 300;
+	static final protected short FIELD_LAVELTEXT = 301;
+	static final protected short FIELD_LABELKEY = 302;
+	static final protected short FIELD_HELPKEY = 303;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -132,23 +132,23 @@ public class DataContent extends TextContent implements IDataContent
 			}
 			if ( needSave )
 			{
-				IOUtil.writeInt( out, FIELD_VALUE );
+				IOUtil.writeShort( out, FIELD_VALUE );
 				IOUtil.writeObject( out, value );
 			}
 		}
 		if ( labelText != null )
 		{
-			IOUtil.writeInt( out, FIELD_LAVELTEXT );
+			IOUtil.writeShort( out, FIELD_LAVELTEXT );
 			IOUtil.writeString( out, labelText );
 		}
 		if ( labelKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_LABELKEY );
+			IOUtil.writeShort( out, FIELD_LABELKEY );
 			IOUtil.writeString( out, labelKey );
 		}
 		if ( helpKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_HELPKEY );
+			IOUtil.writeShort( out, FIELD_HELPKEY );
 			IOUtil.writeString( out, helpKey );
 		}
 	}
@@ -174,5 +174,4 @@ public class DataContent extends TextContent implements IDataContent
 				super.readField( version, filedId, in );
 		}
 	}
-
 }

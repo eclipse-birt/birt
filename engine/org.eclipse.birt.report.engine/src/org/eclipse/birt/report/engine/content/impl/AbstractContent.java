@@ -423,61 +423,62 @@ abstract public class AbstractContent extends AbstractElement
 	/**
 	 * object document version
 	 */
-	static final protected int VERSION = 0;
+	static final protected int VERSION_0 = 0;
+	static final protected int VERSION_1 = 1;
 
-	final static int FIELD_NONE = -1;
-	final static int FIELD_NAME = 0;
-	final static int FIELD_X = 1;
-	final static int FIELD_Y = 2;
-	final static int FIELD_WIDTH = 3;
-	final static int FIELD_HEIGHT = 4;
-	final static int FIELD_HYPERLINK = 5;
-	final static int FIELD_BOOKMARK = 6;
-	final static int FIELD_HELPTEXT = 7;
-	final static int FIELD_INLINESTYLE = 8;
-	final static int FIELD_INSTANCE_ID = 9;
-	final static int FIELD_TOC = 10;
+	final static short FIELD_NONE = -1;
+	final static short FIELD_NAME = 0;
+	final static short FIELD_X = 1;
+	final static short FIELD_Y = 2;
+	final static short FIELD_WIDTH = 3;
+	final static short FIELD_HEIGHT = 4;
+	final static short FIELD_HYPERLINK = 5;
+	final static short FIELD_BOOKMARK = 6;
+	final static short FIELD_HELPTEXT = 7;
+	final static short FIELD_INLINESTYLE = 8;
+	final static short FIELD_INSTANCE_ID = 9;
+	final static short FIELD_TOC = 10;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		if ( name != null )
 		{
-			IOUtil.writeInt( out, FIELD_NAME );
+			IOUtil.writeShort( out, FIELD_NAME );
 			IOUtil.writeString( out, name );
 		}
 		if ( x != null )
 		{
-			IOUtil.writeInt( out, FIELD_X );
+			IOUtil.writeShort( out, FIELD_X );
 			x.writeObject( out );
 		}
 		if ( y != null )
 		{
-			IOUtil.writeInt( out, FIELD_Y );
+			IOUtil.writeShort( out, FIELD_Y );
 			y.writeObject( out );
 		}
 		if ( width != null )
 		{
-			IOUtil.writeInt( out, FIELD_WIDTH );
+			IOUtil.writeShort( out, FIELD_WIDTH );
 			width.writeObject( out );
 		}
 		if ( height != null )
 		{
-			IOUtil.writeInt( out, FIELD_HEIGHT );
+			IOUtil.writeShort( out, FIELD_HEIGHT );
 			height.writeObject( out );
 		}
 		if ( hyperlink != null )
 		{
-			IOUtil.writeInt( out, FIELD_HYPERLINK );
+			IOUtil.writeShort( out, FIELD_HYPERLINK );
 			( (ActionContent) hyperlink ).writeObject( out );
 		}
 		if ( bookmark != null )
 		{
-			IOUtil.writeInt( out, FIELD_BOOKMARK );
+			IOUtil.writeShort( out, FIELD_BOOKMARK );
 			IOUtil.writeString( out, bookmark );
 		}
 		if ( helpText != null )
 		{
-			IOUtil.writeInt( out, FIELD_HELPTEXT );
+			IOUtil.writeShort( out, FIELD_HELPTEXT );
 			IOUtil.writeString( out, helpText );
 		}
 		if ( inlineStyle != null )
@@ -485,18 +486,18 @@ abstract public class AbstractContent extends AbstractElement
 			String cssText = inlineStyle.getCssText( );
 			if ( cssText != null && cssText.length( ) != 0 )
 			{
-				IOUtil.writeInt( out, FIELD_INLINESTYLE );
+				IOUtil.writeShort( out, FIELD_INLINESTYLE );
 				IOUtil.writeString( out, cssText );
 			}
 		}
 		if ( instanceId != null )
 		{
-			IOUtil.writeInt( out, FIELD_INSTANCE_ID );
+			IOUtil.writeShort( out, FIELD_INSTANCE_ID );
 			IOUtil.writeString( out, instanceId.toString( ) );
 		}
 		if ( toc != null )
 		{
-			IOUtil.writeInt( out, FIELD_TOC );
+			IOUtil.writeShort( out, FIELD_TOC );
 			IOUtil.writeObject( out, toc );
 		}
 	}
@@ -557,19 +558,42 @@ abstract public class AbstractContent extends AbstractElement
 	public void readContent( DataInputStream in ) throws IOException
 	{
 		int version = IOUtil.readInt( in );
+		if ( version == VERSION_1 )
+		{
+			readContentV1( in );
+		}
+		else if ( version == VERSION_0 )
+		{
+			readContentV0( in );
+		}
+		else
+		{
+			throw new IOException( "Unknown content version " + version );
+		}
+	}
+
+	protected void readContentV0( DataInputStream in ) throws IOException
+	{
 		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
-			readField( version, filedId, in );
+			readField( VERSION_0, filedId, in );
 			filedId = IOUtil.readInt( in );
+		}
+	}
+
+	protected void readContentV1( DataInputStream in ) throws IOException
+	{
+		while ( in.available( ) > 0 )
+		{
+			int filedId = IOUtil.readShort( in );
+			readField( VERSION_1, filedId, in );
 		}
 	}
 
 	public void writeContent( DataOutputStream out ) throws IOException
 	{
-		IOUtil.writeInt( out, VERSION );
+		IOUtil.writeInt( out, VERSION_1 );
 		writeFields( out );
-		IOUtil.writeInt( out, FIELD_NONE );
 	}
-
 }

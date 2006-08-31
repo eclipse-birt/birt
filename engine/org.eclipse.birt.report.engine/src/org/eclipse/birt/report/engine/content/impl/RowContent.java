@@ -28,7 +28,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.14 $ $Date: 2006/06/13 15:37:19 $
+ * @version $Revision: 1.16 $ $Date: 2006/08/31 02:19:27 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {
@@ -84,22 +84,22 @@ public class RowContent extends AbstractContent implements IRowContent
 		return null;
 	}
 
-	static final protected int FIELD_ROWID = 800;
-	static final protected int FIELD_ROWTYPE = 801;
-	static final protected int FIELD_ROW_GROUPLEVEL = 802;
-	static final protected int FIELD_ROW_GROUPID = 803;
+	static final protected short FIELD_ROWID = 800;
+	static final protected short FIELD_ROWTYPE = 801;
+	static final protected short FIELD_ROW_GROUPLEVEL = 802;
+	static final protected short FIELD_ROW_GROUPID = 803;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( rowID != -1 )
 		{
-			IOUtil.writeInt( out,  FIELD_ROWID );
+			IOUtil.writeShort( out,  FIELD_ROWID );
 			IOUtil.writeInt( out,  rowID );
 		}
 		if ( groupId != null )
 		{
-			IOUtil.writeInt( out,  FIELD_ROW_GROUPID );
+			IOUtil.writeShort( out,  FIELD_ROW_GROUPID );
 			IOUtil.writeString( out,  groupId );
 		}
 	}

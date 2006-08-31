@@ -107,14 +107,14 @@ public class GroupContent extends AbstractContent implements IGroupContent
 		return visitor.visitGroup( this, value );
 	}
 
-	static final protected int FIELD_HEADER_REPEAT = 1500;
+	static final protected short FIELD_HEADER_REPEAT = 1500;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( headerRepeat != null )
 		{
-			IOUtil.writeInt( out, FIELD_HEADER_REPEAT);
+			IOUtil.writeShort( out, FIELD_HEADER_REPEAT);
 			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
 		}
 	}

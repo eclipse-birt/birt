@@ -66,12 +66,12 @@ public class AbstractBandContent extends ContainerContent
 		return null;
 	}
 	
-	static final protected int FIELD_TYPE = 900;
+	static final protected short FIELD_TYPE = 900;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
-		IOUtil.writeInt( out, FIELD_TYPE );
+		IOUtil.writeShort( out, FIELD_TYPE );
 		IOUtil.writeInt( out, getBandType( ) );
 	}
 

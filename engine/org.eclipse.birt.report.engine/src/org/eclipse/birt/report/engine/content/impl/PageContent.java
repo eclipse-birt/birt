@@ -324,86 +324,86 @@ public class PageContent extends AbstractContent implements IPageContent
 		return this.pageNumber;
 	}
 
-	static final protected int FIELD_ORIENTATION = 700;
-	static final protected int FIELD_PAGETYPE = 701;
-	static final protected int FIELD_PAGEHEIGHT = 702;
-	static final protected int FIELD_PAGEWIDTH = 703;
-	static final protected int FIELD_HEADERHEIGHT = 704;
-	static final protected int FIELD_FOOTERHEIGHT = 705;
-	static final protected int FIELD_LEFTWIDTH = 706;
-	static final protected int FIELD_RIGHTWIDTH = 707;
-	static final protected int FIELD_MARGINTOP = 708;
-	static final protected int FIELD_MARGINLEFT = 709;
-	static final protected int FIELD_MARGINRIGHT = 710;
-	static final protected int FIELD_MARGINBUTTOM = 711;
-	static final protected int FIELD_PAGENUMBER = 712;
+	static final protected short FIELD_ORIENTATION = 700;
+	static final protected short FIELD_PAGETYPE = 701;
+	static final protected short FIELD_PAGEHEIGHT = 702;
+	static final protected short FIELD_PAGEWIDTH = 703;
+	static final protected short FIELD_HEADERHEIGHT = 704;
+	static final protected short FIELD_FOOTERHEIGHT = 705;
+	static final protected short FIELD_LEFTWIDTH = 706;
+	static final protected short FIELD_RIGHTWIDTH = 707;
+	static final protected short FIELD_MARGINTOP = 708;
+	static final protected short FIELD_MARGINLEFT = 709;
+	static final protected short FIELD_MARGINRIGHT = 710;
+	static final protected short FIELD_MARGINBUTTOM = 711;
+	static final protected short FIELD_PAGENUMBER = 712;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( orientation != null )
 		{
-			IOUtil.writeInt( out, FIELD_ORIENTATION );
+			IOUtil.writeShort( out, FIELD_ORIENTATION );
 			IOUtil.writeString( out, orientation );
 		}
 		if ( pageType != null )
 		{
-			IOUtil.writeInt( out, FIELD_PAGETYPE );
+			IOUtil.writeShort( out, FIELD_PAGETYPE );
 			IOUtil.writeString( out, pageType );
 		}
 		if ( pageHeight != null )
 		{
-			IOUtil.writeInt( out, FIELD_PAGEHEIGHT );
+			IOUtil.writeShort( out, FIELD_PAGEHEIGHT );
 			pageHeight.writeObject( out );
 		}
 		if ( pageWidth != null )
 		{
-			IOUtil.writeInt( out, FIELD_PAGEWIDTH );
+			IOUtil.writeShort( out, FIELD_PAGEWIDTH );
 			pageWidth.writeObject( out );
 		}
 		if ( headerHeight != null )
 		{
-			IOUtil.writeInt( out, FIELD_HEADERHEIGHT );
+			IOUtil.writeShort( out, FIELD_HEADERHEIGHT );
 			headerHeight.writeObject( out );
 		}
 		if ( footerHeight != null )
 		{
-			IOUtil.writeInt( out, FIELD_FOOTERHEIGHT );
+			IOUtil.writeShort( out, FIELD_FOOTERHEIGHT );
 			footerHeight.writeObject( out );
 		}
 		if ( leftWidth != null )
 		{
-			IOUtil.writeInt( out, FIELD_LEFTWIDTH );
+			IOUtil.writeShort( out, FIELD_LEFTWIDTH );
 			leftWidth.writeObject( out );
 		}
 		if ( rightWidth != null )
 		{
-			IOUtil.writeInt( out, FIELD_RIGHTWIDTH );
+			IOUtil.writeShort( out, FIELD_RIGHTWIDTH );
 			rightWidth.writeObject( out );
 		}
 		if ( marginTop != null )
 		{
-			IOUtil.writeInt( out, FIELD_MARGINTOP );
+			IOUtil.writeShort( out, FIELD_MARGINTOP );
 			marginTop.writeObject( out );
 		}
 		if ( marginLeft != null )
 		{
-			IOUtil.writeInt( out, FIELD_MARGINLEFT );
+			IOUtil.writeShort( out, FIELD_MARGINLEFT );
 			marginLeft.writeObject( out );
 		}
 		if ( marginRight != null )
 		{
-			IOUtil.writeInt( out, FIELD_MARGINRIGHT );
+			IOUtil.writeShort( out, FIELD_MARGINRIGHT );
 			marginRight.writeObject( out );
 		}
 		if ( marginBottom != null )
 		{
-			IOUtil.writeInt( out, FIELD_MARGINBUTTOM );
+			IOUtil.writeShort( out, FIELD_MARGINBUTTOM );
 			marginBottom.writeObject( out );
 		}
 		if ( pageNumber != -1 )
 		{
-			IOUtil.writeInt( out, FIELD_PAGENUMBER );
+			IOUtil.writeShort( out, FIELD_PAGENUMBER );
 			IOUtil.writeLong( out, pageNumber );
 		}
 	}
