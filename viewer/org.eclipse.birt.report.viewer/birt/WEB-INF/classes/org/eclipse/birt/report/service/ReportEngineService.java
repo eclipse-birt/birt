@@ -158,8 +158,8 @@ public class ReportEngineService
 		if ( imageDirectory == null || imageDirectory.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( imageDirectory ) )
 		{
-			imageDirectory = servletConfig.getServletContext( ).getRealPath(
-					"/report/images" ); //$NON-NLS-1$
+			imageDirectory = ParameterAccessor.getRealPath( servletConfig
+					.getServletContext( ), "/report/images" ); //$NON-NLS-1$
 		}
 
 		// Prepare image base url.
@@ -172,8 +172,8 @@ public class ReportEngineService
 		if ( logDirectory == null || logDirectory.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( logDirectory ) )
 		{
-			logDirectory = servletConfig.getServletContext( ).getRealPath(
-					"/logs" ); //$NON-NLS-1$
+			logDirectory = ParameterAccessor.getRealPath( servletConfig
+					.getServletContext( ), "/logs" ); //$NON-NLS-1$
 		}
 
 		// Prepare log level.
@@ -220,8 +220,8 @@ public class ReportEngineService
 		if ( scriptLibDir == null || scriptLibDir.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( scriptLibDir ) )
 		{
-			scriptLibDir = servletConfig.getServletContext( ).getRealPath(
-					"/scriptlib" ); //$NON-NLS-1$
+			scriptLibDir = ParameterAccessor.getRealPath( servletConfig
+					.getServletContext( ), "/scriptlib" ); //$NON-NLS-1$
 		}
 
 		ArrayList jarFileList = new ArrayList( );
