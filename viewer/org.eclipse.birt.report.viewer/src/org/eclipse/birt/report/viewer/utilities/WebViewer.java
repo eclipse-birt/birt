@@ -145,6 +145,20 @@ public class WebViewer
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
 		String format = (String) params.get( FORMAT_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
+		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
+		if ( PDF.equalsIgnoreCase( format ) )
+		{
+			return createURL( "run", report, format, true, resourceFolder ); //$NON-NLS-1$
+		}
+		if ( servletName == null || servletName.trim( ).length( ) <= 0 )
+		{
+			if ( allowPage == null )
+				servletName = "frameset"; //$NON-NLS-1$
+			else
+			{
+				servletName = allowPage.booleanValue( ) ? "frameset" : "run"; //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		}
 		return createURL( servletName, report, format, true, resourceFolder );
 	}
 
@@ -376,6 +390,28 @@ public class WebViewer
 	public static void display( String report, Browser browser, Map params )
 	{
 		browser.setUrl( createURL( report, params ) );
+	}
+
+	/**
+	 * Displays the specified url using eclipse SWT browser.
+	 * 
+	 * @param report
+	 *            report report
+	 * @param params
+	 *            the parameter map to set
+	 */
+
+	public static void display( String report, Map params )
+	{
+		try
+		{
+			BrowserAccessor.getPreviewBrowser( false ).displayURL(
+					createURL( report, params ) );
+		}
+		catch ( Exception e )
+		{
+			// Do nothing
+		}
 	}
 
 }
