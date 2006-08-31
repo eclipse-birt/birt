@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
@@ -42,7 +43,7 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/08/12 08:45:35 $
+ * @version $Revision: 1.3 $ $Date: 2006/08/28 04:25:10 $
  */
 public class ReportContentReaderV3
 {
@@ -52,6 +53,13 @@ public class ReportContentReaderV3
 
 	protected ReportContent reportContent;
 	protected RAInputStream stream;
+	protected int version = -1;
+	
+	protected final static int INDEX_ENTRY_SIZE_V0 = 40;
+	protected final static int INDEX_ENTRY_SIZE_V1 = 24;
+	
+	protected final static int VERSION_0 = 0;
+	protected final static int VERSION_1 = 1;
 
 	/**
 	 * the current offset of the stream.
@@ -59,10 +67,27 @@ public class ReportContentReaderV3
 	protected long offset;
 
 	public ReportContentReaderV3( ReportContent reportContent,
-			RAInputStream stream )
+			RAInputStream stream ) throws IOException
 	{
 		this.reportContent = reportContent;
 		this.stream = stream;
+		if( this.stream.length( ) >= 4 )
+		{
+			stream.seek( 0 );
+			int iVersion = stream.readInt( );
+			if( -1 == iVersion)
+			{
+				version = VERSION_0;
+			}
+			else
+			{
+				version = iVersion;
+			}
+		}
+		else
+		{
+			throw new IOException("unrecognized stream version!");
+		}
 	}
 
 	public void close( )
@@ -190,6 +215,10 @@ public class ReportContentReaderV3
 				throw new IOException("Found invalid contentType" +
 						contentType + " at object offset " + offset);
 		}
+		if( object instanceof AbstractContent )
+		{
+			( ( AbstractContent ) object ).setVersion( version );
+		}
 		return object;		
 	}
 
@@ -244,12 +273,44 @@ public class ReportContentReaderV3
 
 	public IContent readContent( long index ) throws IOException
 	{
+
+		if( VERSION_0 == version )
+		{
+			return readContentV0( index );
+		}
+		else if( VERSION_1 == version )
+		{
+			return readContentV1( index );
+		}
+		else
+		{
+			throw new IOException("unrecognized stream version!");
+		}
+	}
+	
+	private IContent readContentV0( long index ) throws IOException
+	{
 		if ( index >= stream.length( )  || index < 0)
 		{
 			throw new IOException("Invalid content offset:" + index);
 		}
-		DocumentExtension docExt  = readDocumentExtension( index );
-		IContent content = readObject( index + ReportContentWriterV3.INDEX_ENTRY_SIZE);
+		DocumentExtension docExt  = readDocumentExtensionV0( index );
+		IContent content = readObject( index + INDEX_ENTRY_SIZE_V0 );
+		if (content != null)
+		{
+			content.setExtension(IContent.DOCUMENT_EXTENSION, docExt);
+		}
+		return content;
+	}
+	
+	private IContent readContentV1( long index ) throws IOException
+	{
+		if ( index >= stream.length( )  || index < 0)
+		{
+			throw new IOException("Invalid content offset:" + index);
+		}
+		DocumentExtension docExt  = readDocumentExtensionV1( index );
+		IContent content = readObject( index + INDEX_ENTRY_SIZE_V1 );
 		if (content != null)
 		{
 			content.setExtension(IContent.DOCUMENT_EXTENSION, docExt);
@@ -258,6 +319,23 @@ public class ReportContentReaderV3
 	}
 	
 	private DocumentExtension readDocumentExtension( long index )
+			throws IOException
+	{
+		if( VERSION_0 == version )
+		{
+			return readDocumentExtensionV0( index );
+		}
+		else if( VERSION_1 == version )
+		{
+			return readDocumentExtensionV1( index );
+		}
+		else
+		{
+			throw new IOException("unrecognized stream version!");
+		}
+	}
+	
+	private DocumentExtension readDocumentExtensionV0( long index )
 			throws IOException
 	{
 		if ( index >= stream.length( ) || index < 0 )
@@ -273,6 +351,28 @@ public class ReportContentReaderV3
 		DocumentExtension docExt = new DocumentExtension( index );
 		docExt.setParent( parent );
 		docExt.setPrevious( previous );
+		docExt.setNext( next );
+		docExt.setFirstChild( child );
+		return docExt;
+	}
+	
+	private DocumentExtension readDocumentExtensionV1( long index )
+			throws IOException
+	{
+		if ( index >= stream.length( ) || index < 0 )
+		{
+			return null;
+		}
+		if( 0 == index )
+		{
+			index += 4;
+		}
+		stream.seek( index );
+		long parent = stream.readLong( );
+		long next = stream.readLong( );
+		long child = stream.readLong( );
+		DocumentExtension docExt = new DocumentExtension( index );
+		docExt.setParent( parent );
 		docExt.setNext( next );
 		docExt.setFirstChild( child );
 		return docExt;

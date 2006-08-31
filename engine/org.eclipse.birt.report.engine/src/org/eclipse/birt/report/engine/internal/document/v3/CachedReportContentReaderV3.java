@@ -23,7 +23,7 @@ public class CachedReportContentReaderV3
 {
 	protected ReportContentReaderV3 reader;
 	public CachedReportContentReaderV3( ReportContent reportContent,
-			RAInputStream stream )
+			RAInputStream stream ) throws IOException
 	{
 		this.reader = new ReportContentReaderV3(reportContent, stream);
 	}

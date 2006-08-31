@@ -72,6 +72,8 @@ abstract public class AbstractContent extends AbstractElement
 	transient protected long offset = -1;
 	
 	transient protected IContent lastChild = null;
+	
+	protected int version = -1;
 
 	public AbstractContent( IReportContent report )
 	{
@@ -595,5 +597,14 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		IOUtil.writeInt( out, VERSION_1 );
 		writeFields( out );
+	}
+	
+	/**
+	 * @param iVersion
+	 *            The version of the content.
+	 */
+	public void setVersion( int iVersion )
+	{
+		this.version = iVersion;
 	}
 }
