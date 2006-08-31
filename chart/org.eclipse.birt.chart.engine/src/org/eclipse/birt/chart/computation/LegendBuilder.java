@@ -55,6 +55,8 @@ import org.eclipse.emf.common.util.EList;
 public final class LegendBuilder implements IConstants
 {
 
+	private static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
+
 	private Size sz;
 
 	/**
@@ -112,6 +114,10 @@ public final class LegendBuilder implements IConstants
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 		final double dItemHeight = itm.getFullHeight( );
+
+		la.getCaption( ).setValue( ELLIPSIS_STRING );
+		itm.reuse( la );
+		final double dEllipsisWidth = itm.getFullWidth( );
 
 		Series se;
 		List al;
@@ -420,6 +426,24 @@ public final class LegendBuilder implements IConstants
 					double dFWidth = bb.getWidth( );
 					double dFHeight = bb.getHeight( );
 
+					double dExceedingSpace = dExtraWidth
+							+ dFWidth
+							+ dHorizonalReservedSpace
+							- dAvailableWidth
+							- dSafeSpacing;
+					double[] newMetrics = checkEllipsisText( dExceedingSpace,
+							dFWidth,
+							xs,
+							itm,
+							la,
+							dEllipsisWidth,
+							maxWrappingSize );
+					if ( newMetrics != null )
+					{
+						dFWidth = newMetrics[0];
+						dFHeight = newMetrics[1];
+					}
+
 					dDeltaHeight = insCA.getTop( )
 							+ dFHeight
 							+ insCA.getBottom( );
@@ -441,6 +465,29 @@ public final class LegendBuilder implements IConstants
 							columnList.clear( );
 
 							dExtraWidth += dColumnWidth;
+
+							dExceedingSpace = dExtraWidth
+									+ dFWidth
+									+ dHorizonalReservedSpace
+									- dAvailableWidth
+									- dSafeSpacing;
+							newMetrics = checkEllipsisText( dExceedingSpace,
+									dFWidth,
+									xs,
+									itm,
+									la,
+									dEllipsisWidth,
+									maxWrappingSize );
+							if ( newMetrics != null )
+							{
+								dFWidth = newMetrics[0];
+								dFHeight = newMetrics[1];
+
+								dDeltaHeight = insCA.getTop( )
+										+ dFHeight
+										+ insCA.getBottom( );
+							}
+
 							dWidth = dFWidth;
 							dRealHeight = Math.max( dRealHeight, dHeight );
 							dHeight = dDeltaHeight;
@@ -481,6 +528,24 @@ public final class LegendBuilder implements IConstants
 					double dFWidth = bb.getWidth( );
 					double dFHeight = bb.getHeight( );
 
+					double dExceedingSpace = dExtraWidth
+							+ dFWidth
+							+ dHorizonalReservedSpace
+							- dAvailableWidth
+							- dSafeSpacing;
+					double[] newMetrics = checkEllipsisText( dExceedingSpace,
+							dFWidth,
+							xs,
+							itm,
+							la,
+							dEllipsisWidth,
+							maxWrappingSize );
+					if ( newMetrics != null )
+					{
+						dFWidth = newMetrics[0];
+						dFHeight = newMetrics[1];
+					}
+
 					dDeltaHeight = insCA.getTop( )
 							+ dFHeight
 							+ insCA.getBottom( );
@@ -504,6 +569,29 @@ public final class LegendBuilder implements IConstants
 							columnList.clear( );
 
 							dExtraWidth += dColumnWidth;
+
+							dExceedingSpace = dExtraWidth
+									+ dFWidth
+									+ dHorizonalReservedSpace
+									- dAvailableWidth
+									- dSafeSpacing;
+							newMetrics = checkEllipsisText( dExceedingSpace,
+									dFWidth,
+									xs,
+									itm,
+									la,
+									dEllipsisWidth,
+									maxWrappingSize );
+							if ( newMetrics != null )
+							{
+								dFWidth = newMetrics[0];
+								dFHeight = newMetrics[1];
+
+								dDeltaHeight = insCA.getTop( )
+										+ dFHeight
+										+ insCA.getBottom( );
+							}
+
 							dWidth = dFWidth;
 							dRealHeight = Math.max( dRealHeight, dHeight );
 							dHeight = dDeltaHeight;
@@ -613,6 +701,24 @@ public final class LegendBuilder implements IConstants
 						double dExtraHeight = 0;
 						String extraText = null;
 
+						double dExceedingSpace = dExtraWidth
+								+ dW
+								+ dHorizonalReservedSpace
+								- dAvailableWidth
+								- dSafeSpacing;
+						double[] newMetrics = checkEllipsisText( dExceedingSpace,
+								dW,
+								xs,
+								itm,
+								la,
+								dEllipsisWidth,
+								maxWrappingSize );
+						if ( newMetrics != null )
+						{
+							dW = newMetrics[0];
+							dFHeight = newMetrics[1];
+						}
+
 						dDeltaHeight = insCA.getTop( )
 								+ dFHeight
 								+ insCA.getBottom( );
@@ -681,6 +787,29 @@ public final class LegendBuilder implements IConstants
 								columnList.clear( );
 
 								dExtraWidth += dColumnWidth;
+
+								dExceedingSpace = dExtraWidth
+										+ dW
+										+ dHorizonalReservedSpace
+										- dAvailableWidth
+										- dSafeSpacing;
+								newMetrics = checkEllipsisText( dExceedingSpace,
+										dW,
+										xs,
+										itm,
+										la,
+										dEllipsisWidth,
+										maxWrappingSize );
+								if ( newMetrics != null )
+								{
+									dW = newMetrics[0];
+									dFHeight = newMetrics[1];
+
+									dDeltaHeight = insCA.getTop( )
+											+ dFHeight
+											+ insCA.getBottom( );
+								}
+
 								dMaxW = dW;
 								dRealHeight = Math.max( dRealHeight, dHeight );
 								dHeight = dDeltaHeight;
@@ -809,6 +938,24 @@ public final class LegendBuilder implements IConstants
 						double dExtraHeight = 0;
 						String extraText = null;
 
+						double dExceedingSpace = dExtraWidth
+								+ dW
+								+ dHorizonalReservedSpace
+								- dAvailableWidth
+								- dSafeSpacing;
+						double[] newMetrics = checkEllipsisText( dExceedingSpace,
+								dW,
+								xs,
+								itm,
+								la,
+								dEllipsisWidth,
+								maxWrappingSize );
+						if ( newMetrics != null )
+						{
+							dW = newMetrics[0];
+							dFHeight = newMetrics[1];
+						}
+
 						dDeltaHeight = insCA.getTop( )
 								+ dFHeight
 								+ insCA.getBottom( );
@@ -879,6 +1026,29 @@ public final class LegendBuilder implements IConstants
 								columnList.clear( );
 
 								dExtraWidth += dColumnWidth;
+
+								dExceedingSpace = dExtraWidth
+										+ dW
+										+ dHorizonalReservedSpace
+										- dAvailableWidth
+										- dSafeSpacing;
+								newMetrics = checkEllipsisText( dExceedingSpace,
+										dW,
+										xs,
+										itm,
+										la,
+										dEllipsisWidth,
+										maxWrappingSize );
+								if ( newMetrics != null )
+								{
+									dW = newMetrics[0];
+									dFHeight = newMetrics[1];
+
+									dDeltaHeight = insCA.getTop( )
+											+ dFHeight
+											+ insCA.getBottom( );
+								}
+
 								dMaxW = dW;
 								dRealHeight = Math.max( dRealHeight, dHeight );
 								dHeight = dDeltaHeight;
@@ -1758,5 +1928,78 @@ public final class LegendBuilder implements IConstants
 	public final Size getSize( )
 	{
 		return sz;
+	}
+
+	/**
+	 * Checks if current label text should use ellipsis to shorten the length.
+	 * 
+	 * @return a double array contains the new string width and height metrics,
+	 *         e.g. [dNewWidth, dNewHeight]
+	 * @throws ChartException
+	 */
+	private double[] checkEllipsisText( double dExceedingSpace,
+			double dOriginalTextWidth, IDisplayServer xs, ITextMetrics itm,
+			Label la, double dEllipsisWidth, double maxWrappingSize )
+			throws ChartException
+	{
+		// only check when original text length exceeds the bounds.
+		if ( dExceedingSpace > 0 )
+		{
+			String firstRowText = itm.getLine( 0 );
+
+			int nchars = (int) Math.round( 3
+					* ( dExceedingSpace + dEllipsisWidth )
+					/ dEllipsisWidth );
+
+			// check available text length
+			if ( firstRowText.length( ) >= nchars )
+			{
+				double dReducedSpace = 0;
+				int idx = 0;
+				BoundingBox bb = null;
+				String newText;
+
+				// incrementally reduce the text length
+				while ( dReducedSpace < dExceedingSpace )
+				{
+					if ( firstRowText.length( ) >= nchars + idx )
+					{
+						newText = firstRowText.substring( 0,
+								firstRowText.length( ) - nchars - idx )
+								+ ELLIPSIS_STRING;
+					}
+					else
+					{
+						break;
+					}
+
+					la.getCaption( ).setValue( newText );
+					itm.reuse( la, maxWrappingSize );
+
+					try
+					{
+						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+					}
+					catch ( IllegalArgumentException uiex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								uiex );
+					}
+
+					dReducedSpace = dOriginalTextWidth - bb.getWidth( );
+					idx++;
+				}
+
+				if ( bb != null )
+				{
+					return new double[]{
+							bb.getWidth( ), bb.getHeight( )
+					};
+				}
+			}
+		}
+
+		return null;
 	}
 }
