@@ -393,6 +393,11 @@ public class Utility
 
 		return value == null ? "" : value;
 	}
+	
+	public static String getNonNullString( String value )
+	{
+		return value == null ? "" : value;
+	}
 
 	/**
 	 * 
