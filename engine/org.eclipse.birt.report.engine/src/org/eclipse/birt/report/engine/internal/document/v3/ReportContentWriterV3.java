@@ -65,7 +65,9 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	{
 		IDocArchiveWriter archive = document.getArchive( );
 		cntStream = archive.createRandomAccessStream( name );
-		cntOffset = 0;
+		//write the version information
+		cntStream.writeInt( VERSION_1 );
+		cntOffset = 4;
 		rootOffset = -1;
 	}
 
@@ -167,27 +169,21 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	}
 
 	/**
-	 * save the offset of the index, always equals to getOffset();
-	 */
-	final static long OFFSET_INDEX = 0;
-	/**
 	 * parent index
 	 */
-	final static long OFFSET_PARENT = 8;
-	/**
-	 * previous index
-	 */
-	final static long OFFSET_PREVIOUS = 16;
+	final static long OFFSET_PARENT = 0;
 	/**
 	 * next index
 	 */
-	final static long OFFSET_NEXT = 24;
+	final static long OFFSET_NEXT = 8;
 	/**
 	 * first child index
 	 */
-	final static long OFFSET_CHILD = 32;
+	final static long OFFSET_CHILD = 16;
 	
-	final static int INDEX_ENTRY_SIZE = 40;
+	final static int INDEX_ENTRY_SIZE = 24;
+	
+	protected final static int VERSION_1 = 1;
 	
 	/**
 	 * There is a content start from the offset, which parent start from
@@ -237,9 +233,7 @@ public class ReportContentWriterV3 implements IReportContentWriter
 		content.setExtension( IContent.DOCUMENT_EXTENSION, docExt);
 
 		cntStream.seek( index );
-		cntStream.writeLong(index);		//index
 		cntStream.writeLong(parent);	//parent
-		cntStream.writeLong( previous );//previous
 		cntStream.writeLong(-1);		//next
 		cntStream.writeLong(-1);		//first child
 		cntOffset += INDEX_ENTRY_SIZE;
