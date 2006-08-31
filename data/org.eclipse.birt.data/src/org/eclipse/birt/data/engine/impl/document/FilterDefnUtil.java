@@ -105,6 +105,31 @@ public class FilterDefnUtil
 	}
 	
 	/**
+	 * 
+	 * @param filters1
+	 * @param filters2
+	 * @return
+	 */
+	public static boolean isEqualFilter( List filters1, List filters2 )
+	{
+		if ( filters1 == null && filters2 == null )
+			return true;
+		if ( filters1 == null && filters2 != null )
+			return false;
+		if ( filters1 != null && filters2 == null )
+			return false;
+		if ( filters1.size( ) != filters2.size( ) )
+			return false;
+		for ( int i = 0; i < filters1.size( ); i++ )
+		{
+			if ( !isEqualFilter( (IFilterDefinition) filters1.get( i ),
+					(IFilterDefinition) filters2.get( i ) ) )
+				return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * @param oldFilterList
 	 * @param newFilterList
 	 * @return
