@@ -1,8 +1,18 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
+
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
@@ -19,30 +29,65 @@ import org.eclipse.birt.report.soapengine.api.TOC;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 
+/**
+ * Abstract action handler for GetToc event.
+ * <P>
+ * In current implementation, toc entries are found from a document object.
+ * <p>
+ */
 public abstract class AbstractGetTOCActionHandler
 		extends
 			AbstractBaseActionHandler
 {
 
+	/*
+	 * Attribute Bean from request scope
+	 */
 	protected BaseAttributeBean __bean;
 
+	/*
+	 * Existed document file
+	 */
 	protected String __docName;
 
+	/*
+	 * TOC tree
+	 */
 	protected ToC __node = null;
 
 	/**
+	 * Get document file path
 	 * 
-	 * @param bean
-	 * @return
+	 * @return String
 	 */
 	abstract protected String __getReportDocument( );
 
+	/**
+	 * Check if document file exists.
+	 * 
+	 * @throws Exception
+	 */
+	abstract protected void __checkDocumentExists( ) throws Exception;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param context
+	 * @param operation
+	 * @param response
+	 */
 	public AbstractGetTOCActionHandler( IContext context, Operation operation,
 			GetUpdatedObjectsResponse response )
 	{
 		super( context, operation, response );
 	}
 
+	/**
+	 * Execute action handler.
+	 * 
+	 * @exception RemoteException
+	 * @return
+	 */
 	protected void __execute( ) throws Exception
 	{
 		prepareParameters( );
@@ -50,13 +95,25 @@ public abstract class AbstractGetTOCActionHandler
 		prepareResponse( );
 	}
 
-	protected void prepareParameters( ) throws ReportServiceException,
-			RemoteException
+	/**
+	 * Prepare required parameters
+	 * 
+	 * @throws ReportServiceException
+	 * @throws RemoteException
+	 */
+	protected void prepareParameters( ) throws Exception
 	{
 		__bean = context.getBean( );
 		__docName = __getReportDocument( );
+		__checkDocumentExists( );
 	}
 
+	/**
+	 * Process action hander execution
+	 * 
+	 * @throws ReportServiceException
+	 * @throws RemoteException
+	 */
 	protected void doExecution( ) throws ReportServiceException,
 			RemoteException
 	{
@@ -82,6 +139,12 @@ public abstract class AbstractGetTOCActionHandler
 		}
 	}
 
+	/**
+	 * Prepare response
+	 * 
+	 * @throws ReportServiceException
+	 * @throws RemoteException
+	 */
 	protected void prepareResponse( ) throws ReportServiceException,
 			RemoteException
 	{

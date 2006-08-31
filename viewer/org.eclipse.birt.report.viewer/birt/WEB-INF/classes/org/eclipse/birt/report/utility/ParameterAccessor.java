@@ -181,7 +181,7 @@ public class ParameterAccessor
 	 * Indentify the display text of select parameter
 	 */
 
-	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__";
+	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name to indicate the resource folder of all the report
@@ -1818,7 +1818,8 @@ public class ParameterAccessor
 			try
 			{
 				URL url = context.getResource( path );
-				resourcePath = url.getFile( );
+				if ( url != null )
+					resourcePath = url.getFile( );
 			}
 			catch ( Exception e )
 			{

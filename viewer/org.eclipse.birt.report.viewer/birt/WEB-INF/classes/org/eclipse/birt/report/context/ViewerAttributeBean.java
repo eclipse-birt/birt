@@ -544,17 +544,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 							url = request.getSession( ).getServletContext( )
 									.getResource( reportPath );
-							is = url.openStream( );
+							if ( url != null )
+								is = url.openStream( );
+
+							if ( is != null )
+								reportRunnable = ReportEngineService
+										.getInstance( )
+										.openReportDesign( url.toString( ), is,
+												this.getModuleOptions( request ) );
+
 						}
 						catch ( Exception e )
 						{
-
 						}
-						reportRunnable = ReportEngineService.getInstance( )
-								.openReportDesign( url.toString( ), is,
-										this.getModuleOptions( request ) );
 					}
-					else
+
+					if ( reportRunnable == null )
 					{
 						this.exception = new ViewerException(
 								ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
