@@ -563,6 +563,9 @@ public abstract class EngineCase extends TestCase
 		HashMap appContext = new HashMap( );
 		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
+		appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				EngineCase.class.getClassLoader( ) );
+		
 		task.setAppContext( appContext );
 		task.setRenderOption( options );
 

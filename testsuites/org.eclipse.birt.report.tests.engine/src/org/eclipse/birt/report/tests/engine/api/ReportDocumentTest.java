@@ -16,8 +16,11 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import com.ibm.icu.util.ULocale;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -71,7 +74,9 @@ public class ReportDocumentTest extends EngineCase
 
 			// checkTOC(done)
 			TOCNode root, tableNode, headerNode, groupNode, detailNode, footerNode;
-			root = reportDoc.findTOC( "/" );
+			ITOCTree tree=null;
+			tree=reportDoc.getTOCTree( null, ULocale.ENGLISH );
+			root = tree.findTOC( "/" );
 			assertNotNull( "get root toc", root );
 			assertNotNull( "root contain no children toc", root.getChildren( ) );
 			tableNode = (TOCNode) root.getChildren( ).get( 0 );
