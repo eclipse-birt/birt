@@ -40,42 +40,6 @@ import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSess
  */
 public class SQLUtility
 {
-
-	/**
-	 * Get a unique name for dataset parameter
-	 * @param parameters
-	 * @return
-	 */
-	public static final String getUniqueName( DataSetParameters parameters )
-	{
-		int n = 1;
-		String prefix = "param"; //$NON-NLS-1$
-		StringBuffer buf = new StringBuffer( );
-		while ( buf.length( ) == 0 )
-		{
-			buf.append( prefix ).append( n++ );
-			if ( parameters != null )
-			{
-				Iterator iter = parameters.getParameterDefinitions( )
-						.iterator( );
-				if ( iter != null )
-				{
-					while ( iter.hasNext( ) && buf.length( ) > 0 )
-					{
-						ParameterDefinition parameter = (ParameterDefinition) iter.next( );
-						if ( buf.toString( )
-								.equalsIgnoreCase( parameter.getAttributes( )
-										.getName( ) ) )
-						{
-							buf.setLength( 0 );
-						}
-					}
-				}
-			}
-		}
-		return buf.toString( );
-	}
-
 	/**
 	 * save the dataset design's metadata info
 	 * 
@@ -343,10 +307,6 @@ public class SQLUtility
 	private static void proccessParamDefn( ParameterDefinition defn,
 			DataSetParameters parameters )
 	{
-		if ( defn.getAttributes( ).getName( ) == null
-				|| defn.getAttributes( ).getName( ).trim( ).equals( "" ) )
-			defn.getAttributes( )
-					.setName( SQLUtility.getUniqueName( parameters ) );
 		if ( defn.getAttributes( ).getNativeDataTypeCode( ) == Types.NULL )
 		{
 			defn.getAttributes( ).setNativeDataTypeCode( Types.CHAR );
