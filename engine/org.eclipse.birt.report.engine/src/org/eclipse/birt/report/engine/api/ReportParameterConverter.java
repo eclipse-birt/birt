@@ -218,7 +218,7 @@ public class ReportParameterConverter
 	
 						if ( num != null )
 						{
-							parameterValueObj = new Double( num.doubleValue( ) );
+							parameterValueObj = new Double( num.toString( ) );
 						}
 					}
 					catch ( ParseException e )
@@ -231,7 +231,7 @@ public class ReportParameterConverter
 	
 							if ( num != null )
 							{
-								parameterValueObj = new Double( num.doubleValue( ) );
+								parameterValueObj = new Double( num.toString( ) );
 							}
 						}
 						catch ( ParseException ex )
@@ -258,7 +258,7 @@ public class ReportParameterConverter
 	
 						if ( num != null )
 						{
-							parameterValueObj = new BigDecimal( num.doubleValue( ) );
+							parameterValueObj = new BigDecimal( num.toString( ) );
 						}
 					}
 					catch ( ParseException e )
@@ -271,7 +271,7 @@ public class ReportParameterConverter
 	
 							if ( num != null )
 							{
-								parameterValueObj = new Double( num.doubleValue( ) );
+								parameterValueObj = new Double( num.toString( ) );
 							}
 						}
 						catch ( ParseException ex )
