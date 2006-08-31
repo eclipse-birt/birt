@@ -304,9 +304,7 @@ class ExpressionParserUtility
 							&& ( refNode.getType( ) == Token.GETELEM || refNode.getType( ) == Token.SETELEM ) )
 					{
 						ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
-								DATASETROW_INDICATOR
-										+ "[\"" + rowColumn.getString( )
-										+ "\"]",
+								ExpressionUtil.createJSDataSetRowExpression( rowColumn.getString( ) ),
 								1 );
 						columnExprList.add( binding );;
 					}
@@ -367,8 +365,7 @@ class ExpressionParserUtility
 				return;
 			}
 			ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
-					DATASETROW_INDICATOR
-							+ "[\"" + rowColumn.getString( ) + "\"]" );
+					ExpressionUtil.createDataSetRowExpression( rowColumn.getString( ) ) );
 			columnExprList.add( binding );
 		}
 
@@ -387,8 +384,7 @@ class ExpressionParserUtility
 				if ( "_rownum".equals( rowColumn.getString( ) ) )
 					return;
 				ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
-						DATASETROW_INDICATOR
-								+ "[\"" + rowColumn.getString( ) + "\"]" );
+						ExpressionUtil.createJSDataSetRowExpression( rowColumn.getString( ) ) );
 				columnExprList.add( binding );
 			}
 		}

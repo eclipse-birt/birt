@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
@@ -533,8 +534,7 @@ public class Utility
 		{
 			return null;
 		}
-		return BINDING_COLUMN_PREFIX
-				+ "[\"" + escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		return ExpressionUtil.createJSRowExpression( columnName );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	/**

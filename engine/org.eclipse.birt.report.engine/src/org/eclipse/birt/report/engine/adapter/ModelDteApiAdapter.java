@@ -576,7 +576,7 @@ public class ModelDteApiAdapter
 					if ( modelParam instanceof OdaDataSetParameterHandle
 							&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
 					{
-						defaultValueExpr = ExpressionUtil.createParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) );
+						defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) );
 					}
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );

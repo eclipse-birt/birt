@@ -64,16 +64,50 @@ public final class ExpressionUtil
 	}
 	
 	/**
-	 * Return a parameter expression text according to given row name.
+	 * Return a JS row expression text according to given row name.
 	 * 
 	 * @param rowName
 	 * @return
 	 */
-	public static String createParameterExpression( String parameterName )
+	public static String createJSRowExpression( String rowName )
+	{
+		return ROW_INDICATOR
+				+ "[\""
+				+ ( rowName == null
+						? ""
+						: JavascriptEvalUtil.transformToJsConstants( rowName.trim( ) ) )
+				+ "\"]";
+	}
+
+	/**
+	 * Return a JS dataSetRow expression text according to given row name.
+	 * 
+	 * @param rowName
+	 * @return
+	 */
+	public static String createJSDataSetRowExpression( String rowName )
+	{
+		return DATASET_ROW_INDICATOR
+				+ "[\""
+				+ ( rowName == null
+						? ""
+						: JavascriptEvalUtil.transformToJsConstants( rowName.trim( ) ) )
+				+ "\"]";
+	}
+	
+	/**
+	 * Return a JS parameter expression text according to given row name.
+	 * 
+	 * @param rowName
+	 * @return
+	 */
+	public static String createJSParameterExpression( String parameterName )
 	{
 		return PARAMETER_INDICATOR
 				+ "[\""
-				+ JavascriptEvalUtil.transformToJsConstants( parameterName )
+				+ ( parameterName == null
+						? ""
+						: JavascriptEvalUtil.transformToJsConstants( parameterName.trim( ) ) )
 				+ "\"]";
 	}
 

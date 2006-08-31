@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -137,9 +136,7 @@ public final class ExpressionUtil
 		
 		result.addColumnBindings( allColumnBindings );
 		
-		result.addNewExpression( "row[\""
-						+ JavascriptEvalUtil.transformToJsConstants( bindingName )
-						+ "\"]" );
+		result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( bindingName ) );
 	}
 
 	/**
@@ -240,7 +237,8 @@ public final class ExpressionUtil
 							}
 							
 							String newExpression = firstPart
-									+ "row[\"" + name + "\"]" + secondPart;
+									+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( name )
+									+ secondPart;
 
 							return newExpression;
 						}
