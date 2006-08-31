@@ -40,17 +40,36 @@ class CacheMapManager
 	/**
 	 * @return
 	 */
-	synchronized boolean doesSaveToCache( DataSourceAndDataSet dsAndDs )
+	boolean doesSaveToCache( DataSourceAndDataSet dsAndDs )
 	{
-		String cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+		String cacheDirStr = null;
+		
+		synchronized ( this.cacheMap )
+		{
+			cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+		}
+		
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 		{
 			return false;
 		}
 		else
 		{
-			this.cacheMap.put( dsAndDs, folderUtil.createSessionTempDir( ) );
-			return true;
+			synchronized ( this.cacheMap )
+			{
+				cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+				if ( cacheDirStr != null
+						&& new File( cacheDirStr ).exists( ) == true )
+				{
+					return false;					
+				}
+				else
+				{
+					this.cacheMap.put( dsAndDs,
+							folderUtil.createSessionTempDir( ) );
+					return true;
+				}
+			}
 		}
 	}
 	
@@ -58,13 +77,18 @@ class CacheMapManager
 	 * @param dsAndDs
 	 * @return
 	 */
-	synchronized boolean doesLoadFromCache( DataSourceAndDataSet dsAndDs )
+	boolean doesLoadFromCache( DataSourceAndDataSet dsAndDs )
 	{
-		String cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+		String cacheDirStr = null;
+		synchronized ( this.cacheMap )
+		{
+			cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+		}
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 			return true;
 		else
 			return false;
+
 	}
 	
 	/**
@@ -87,23 +111,31 @@ class CacheMapManager
 	 * @param dataSourceDesign2
 	 * @param dataSetDesign2
 	 */
-	synchronized void clearCache( DataSourceAndDataSet dsAndDs )
+	void clearCache( DataSourceAndDataSet dsAndDs )
 	{
-		Object cacheDir = cacheMap.get( dsAndDs );
+		Object cacheDir = null;
+		synchronized ( this.cacheMap )
+		{
+			cacheDir = cacheMap.remove( dsAndDs );
+		}
 		if ( cacheDir != null )
 		{
-			cacheMap.remove( dsAndDs );
+			// assume the following statement is thread-safe
 			folderUtil.deleteDir( (String) cacheDir );
 		}
+
 	}
 	
 	/**
 	 * Reset for test case
 	 */
-	synchronized void resetForTest( )
+	void resetForTest( )
 	{
-		cacheMap = new HashMap( );
-		folderUtil = new FolderUtil( );
+		synchronized ( this )
+		{
+			cacheMap = new HashMap( );
+			folderUtil = new FolderUtil( );
+		}
 	}
 	
 	/**
