@@ -41,7 +41,7 @@ public class URIUtil
 	 */
 
 	public static final String HTTP_SCHEMA = "http"; //$NON-NLS-1$
-	
+
 	/**
 	 * URL with JAR protocol.
 	 */
@@ -49,7 +49,7 @@ public class URIUtil
 	public static final String FTP_SCHEMA = "ftp"; //$NON-NLS-1$
 
 	/**
-	 * URL with bundleresource protocol.
+	 * URL with bundle resource protocol.
 	 */
 
 	public static final String BUNDLE_RESOURCE_SCHEMA = "bundle"; //$NON-NLS-1$
@@ -59,6 +59,12 @@ public class URIUtil
 	 */
 
 	public static final String JAR_EXTENTION = ".jar"; //$NON-NLS-1$
+
+	/**
+	 * The defautl separator for url schema.
+	 */
+
+	private static final String URL_SEPARATOR = "/"; //$NON-NLS-1$
 
 	/**
 	 * Checks <code>uri</code> is file path. If <code>uri</code> is an
@@ -138,6 +144,18 @@ public class URIUtil
 
 	private static boolean isFileProtocol( String filePath )
 	{
+		try
+		{
+			URL fileUrl = new URL( filePath );
+			if ( FILE_SCHEMA.equalsIgnoreCase( fileUrl.getProtocol( ) ) )
+				return true;
+
+			return false;
+		}
+		catch ( MalformedURLException e )
+		{
+			// ignore the error since this string is not in URL format
+		}
 		File file = new File( filePath );
 		if ( file.toURI( ).getScheme( ).equalsIgnoreCase( FILE_SCHEMA ) )
 		{
@@ -394,9 +412,7 @@ public class URIUtil
 
 	/**
 	 * Return the relative path for the given <code>resource</code> according
-	 * to <code>base</code>. Only handle file system. Network protocols such
-	 * as http, ftp, etc. are not supported. If such cases happens,
-	 * <code>resource</code> is returned.
+	 * to <code>base</code>. Only handle file system and valid url syntax.
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT
 	 * contain file name and the format can be:
@@ -418,8 +434,29 @@ public class URIUtil
 
 	public static String getRelativePath( String base, String resource )
 	{
-		// make sure that must be file protocol
+		if ( base == null || resource == null )
+			return resource;
 
+		if ( isFileProtocol( resource ) && isFileProtocol( base ) )
+			return createRelativePathFromFilePath( base, resource );
+
+		return createRelativePathFromString( base, resource, URL_SEPARATOR );
+	}
+
+	/**
+	 * Return the relative path for the given file path <code>resource</code>
+	 * according to <code>base</code>. Only handle file system.
+	 * 
+	 * @param base
+	 *            the base directory
+	 * @param resource
+	 *            the full path
+	 * @return the relative path.
+	 */
+
+	private static String createRelativePathFromFilePath( String base,
+			String resource )
+	{
 		String baseDir = getLocalPath( base );
 		String resourceDir = getLocalPath( resource );
 
@@ -433,6 +470,26 @@ public class URIUtil
 
 		baseDir = baseFile.getAbsolutePath( );
 		resourceDir = resourceFile.getAbsolutePath( );
+
+		return createRelativePathFromString( baseDir, resourceDir,
+				File.separator );
+	}
+
+	/**
+	 * Return the relative path for the given string <code>resource</code>
+	 * according to <code>base</code>. This method purely works on character
+	 * level.
+	 * 
+	 * @param baseDir
+	 *            the base directory
+	 * @param resourceDir
+	 *            the full path
+	 * @return the relative path.
+	 */
+
+	private static String createRelativePathFromString( String baseDir,
+			String resourceDir, String separator )
+	{
 
 		// do the string match to get the location of same prefix
 
@@ -457,7 +514,10 @@ public class URIUtil
 				|| isLastDirectoryMatched( resourceDir, baseDir, matchedPos ) )
 			;
 		else
-			matchedPos = baseDir.lastIndexOf( File.separator, matchedPos );
+		{
+			int oldMatchedPos = matchedPos;
+			matchedPos = baseDir.lastIndexOf( separator, oldMatchedPos );
+		}
 
 		// saves the matched position
 
@@ -469,7 +529,7 @@ public class URIUtil
 
 		while ( matchedPos < baseDir.length( ) && matchedPos >= 0 )
 		{
-			matchedPos = baseDir.indexOf( File.separator, matchedPos + 1 );
+			matchedPos = baseDir.indexOf( separator, matchedPos + 1 );
 			upDirs++;
 		}
 
@@ -526,7 +586,38 @@ public class URIUtil
 
 	public static String resolveAbsolutePath( String base, String relativePath )
 	{
-		// make sure that must be file protocol
+		if ( base == null || relativePath == null )
+			return relativePath;
+
+		if ( isFileProtocol( base ) && isFileProtocol( relativePath ) )
+			return resolveAbsolutePathFromFilePath( base, relativePath );
+
+		return resolveAbsolutePathFromString( base, relativePath );
+	}
+
+	/**
+	 * Return the relative path for the given <code>resource</code> according
+	 * to <code>base</code>. Only handle file system.
+	 * <p>
+	 * The <code>base</code> value should be directory ONLY and does NOT
+	 * contain file name and the format can be:
+	 * <ul>
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
+	 * </ul>
+	 * The spearator in the return path is platform-depedent.
+	 * 
+	 * @param base
+	 *            the base directory
+	 * @param relativePath
+	 *            the relative path
+	 * @return the absolute path
+	 */
+
+	private static String resolveAbsolutePathFromFilePath( String base,
+			String relativePath )
+	{
 
 		File file = new File( relativePath );
 		if ( file.isAbsolute( ) )
@@ -542,6 +633,51 @@ public class URIUtil
 		File resourceFile = new File( baseFile, relativeDir );
 
 		return resourceFile.getPath( );
+	}
+
+	/**
+	 * Return the relative path for the given <code>resource</code> according
+	 * to <code>base</code>. Only handle file system. Network protocols such
+	 * as http, ftp, etc. are not supported.
+	 * <p>
+	 * The <code>base</code> value should be directory ONLY and does NOT
+	 * contain file name and the format can be:
+	 * <ul>
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/
+	 * </ul>
+	 * The spearator in the return path is platform-depedent.
+	 * 
+	 * @param base
+	 *            the base directory
+	 * @param relativePath
+	 *            the relative path
+	 * @return the absolute path
+	 */
+
+	private static String resolveAbsolutePathFromString( String base,
+			String relativePath )
+	{
+		if ( base == null || relativePath == null )
+			return relativePath;
+
+		boolean appendDirectorySeparator = false;
+		if ( base.length( ) > 0 && relativePath.length( ) > 0 )
+		{
+			char lastBaseChar = base.charAt( base.length( ) - 1 );
+			char firstRelativeChar = relativePath.charAt( 0 );
+
+			if ( lastBaseChar != '/' && lastBaseChar != File.separatorChar
+					&& firstRelativeChar != '/'
+					&& firstRelativeChar != File.separatorChar )
+				appendDirectorySeparator = true;
+		}
+
+		if ( appendDirectorySeparator )
+			return base + '/' + relativePath;
+
+		return base + relativePath;
 	}
 
 	/**
@@ -561,9 +697,10 @@ public class URIUtil
 			String resourceDir, int matchedPos )
 	{
 		if ( matchedPos == baseDir.length( )
-				&& ( ( matchedPos < resourceDir.length( ) && resourceDir
-						.charAt( matchedPos ) == File.separatorChar ) || matchedPos == resourceDir
-						.length( ) ) )
+				&& ( ( matchedPos < resourceDir.length( )
+						&& ( resourceDir.charAt( matchedPos ) == File.separatorChar || resourceDir
+								.charAt( matchedPos ) == '/' ) || matchedPos == resourceDir
+						.length( ) ) ) )
 			return true;
 
 		return false;
