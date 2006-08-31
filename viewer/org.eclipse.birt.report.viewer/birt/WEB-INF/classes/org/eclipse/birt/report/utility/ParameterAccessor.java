@@ -13,6 +13,7 @@ package org.eclipse.birt.report.utility;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -180,7 +181,7 @@ public class ParameterAccessor
 	 * Indentify the display text of select parameter
 	 */
 
-	protected static final String PREFIX_DISPLAY_TEXT = "__isdisplay__";
+	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__";
 
 	/**
 	 * URL parameter name to indicate the resource folder of all the report
@@ -335,7 +336,7 @@ public class ParameterAccessor
 	 * File package name to store the documents.
 	 */
 
-	protected static final String DOCUMENTS_DIR = "documents";//$NON-NLS-1$
+	public static final String DOCUMENTS_DIR = "documents";//$NON-NLS-1$
 
 	/**
 	 * Report working folder.
@@ -1082,7 +1083,7 @@ public class ParameterAccessor
 		if ( workingFolder == null || workingFolder.trim( ).length( ) <= 0 )
 		{
 			// Use birt dir as default report root.
-			workingFolder = context.getRealPath( "/" ); //$NON-NLS-1$
+			workingFolder = getRealPath( context, "/" ); //$NON-NLS-1$
 		}
 
 		// Report root could be empty. .WAR
@@ -1121,7 +1122,6 @@ public class ParameterAccessor
 		}
 
 		// get the default resource path
-
 		birtResourceFolder = context
 				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH );
 
@@ -1774,7 +1774,7 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Gets the resource folder.
+	 * Get the resource folder.
 	 * 
 	 * @param request
 	 *            the request to retrieve
@@ -1795,5 +1795,36 @@ public class ParameterAccessor
 		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
 			resourceFolder = birtResourceFolder;
 		return resourceFolder;
+	}
+
+	/**
+	 * Get the resource real path
+	 * 
+	 * @param context
+	 *            ServletContext
+	 * @param path
+	 *            String
+	 * 
+	 * @return String
+	 */
+	public static String getRealPath( ServletContext context, String path )
+	{
+		// Get real path
+		String resourcePath = context.getRealPath( path );
+
+		// If null, use getResource method to get path
+		if ( resourcePath == null )
+		{
+			try
+			{
+				URL url = context.getResource( path );
+				resourcePath = url.getFile( );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		return resourcePath;
 	}
 }
