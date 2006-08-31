@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
+import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -123,6 +124,25 @@ public class ResourceFileLabelProvider extends LabelProvider
 			else
 			{
 				return ( (File) element ).getName( );
+			}
+		}
+		if ( element instanceof ResourceEntry )
+		{
+			URL url = ( (ResourceEntry) element ).getURL( );
+			if ( url != null )
+			{
+				if ( url.getPath( ).indexOf( "/" ) == 0 ) //$NON-NLS-1$
+				{
+					return url.getPath( ).substring( 1 );
+				}
+				else
+				{
+					return url.getPath( );
+				}
+			}
+			else
+			{
+				return ""; //$NON-NLS-1$
 			}
 		}
 		return super.getText( element );
