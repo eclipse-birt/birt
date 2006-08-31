@@ -322,23 +322,9 @@ public class FormatCharts
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
 				"New York", "Boston", "Chicago", "San Francisco", "Dallas"} );//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
 
-		double data[] = {
+		NumberDataSet seriesValues = NumberDataSetImpl.create( new double[] {
 				54.65, 21, 75.95, 91.28, 37.43
-		};
-
-		double value = 0;
-		for ( int i = 0; i < data.length; i++ )
-		{
-			value += data[i];
-		}
-
-		double values[] = new double[data.length];
-		for ( int i = 0; i < data.length; i++ )
-		{
-			values[i] += ( data[i] / value ) * 100;
-		}
-
-		NumberDataSet seriesValues = NumberDataSetImpl.create( values );
+		} );
 
 		// Base Series
 		Series seCategory = (Series) SeriesImpl.create( );
@@ -359,8 +345,8 @@ public class FormatCharts
 		sd.getSeriesDefinitions( ).add( sdCity );
 		sdCity.getSeries( ).add( sePie );
 
-		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
-				JavaNumberFormatSpecifierImpl.create( "0'%'" ) );//$NON-NLS-1$
+		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,
+				JavaNumberFormatSpecifierImpl.create( "##.##%" )); //$NON-NLS-1$
 		sePie.getDataPoint( ).getComponents( ).clear( );
 		sePie.getDataPoint( ).getComponents( ).add( dpc );
 
