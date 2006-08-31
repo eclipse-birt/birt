@@ -1,0 +1,159 @@
+<Primitive Charts>
+	<Side By Side Bar>
+		Side-by-side Bar charts show bars from each series one besides the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.
+	</Side By Side Bar>
+	<Stacked Bar>
+		Stacked Bar charts show bars stacked one above the other. The positive and negative values are stacked separately above and below the origin.
+	</Stacked Bar>
+	<Percent Stacked Bar>
+		Percent Stacked Bar charts show bars stacked one over the other in such a way that the total height of the stacked bar (from its lowest point to its highest) is 100.
+	</Percent Stacked Bar>
+	<Overlay Line>
+		Overlay Line charts show lines from each series independent of the others. The lines are shown joining the values for the series.
+	</Overlay Line>
+	<Stacked Line>
+		Stacked Line charts show lines stacked one above the other. The positive and negative values are stacked separately above and below the origin.
+	</Stacked Line>
+	<Percent Stacked Line>
+		Percent Stacked Line charts show lines stacked one over the other in such a way that the total height of the stacked lines (from the lowest point to the highest in each unit) is 100.
+	</Percent Stacked Line>
+	<Overlay Area>
+		Overlay Area charts show areas from each series independent of the others. The areas are shown joining the values for the series.
+	</Overlay Area>
+	<Stacked Area>
+		Stacked Area charts show areas stacked one above the other. The positive and negative values are stacked separately above and below the origin.
+	</Stacked Area>
+	<Percent Stacked Area>
+		Percent Stacked Area charts show areas stacked one over the other in such a way that the total height of the stacked areas (from the lowest point to the highest in each unit) is 100.
+	</Percent Stacked Area>
+	<Pie>
+		Pie charts show values as slices of a pie. The size of each slice is proportional to the value it represents. Pie charts for multiple series are plotted as multiple pies, one for each series.
+	</Pie>
+	<Standard Meter>
+		Standard Meter charts contain a single dial with region(s). The background of the dial can be divided into regions with different colors.
+	</Standard Meter>
+	<Super Imposed Meter>
+		Super imposed Meter charts contain multiple dials with identical regions. The dials overlap together so that it can represent multiple needles within a single region.
+	</Super Imposed Meter>
+	<Scatter>
+		Scatter charts show the values arranged on the plot using the category and value data as co-ordinates. Each data value is indicated by a marker.
+	</Scatter>
+	<Bar Stick Stock>
+		A bar-stick stock chart contains a vertical line with two horizontal lines sticking to it. The upper and lower points of the vertical line are the stock open and close values. The two horizontal lines are the high and low values.
+	</Bar Stick Stock>
+	<Candle Stick Stock>
+		A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values. 
+	</Candle Stick Stock>
+</Primitive Charts>
+<3D Charts>
+	<Bar>
+		3 Dimension Side-by-side Bar Chart.
+	</Bar>
+	<Line>
+		3 Dimension Overlay Line Chart.
+	</Line>
+	<Area>
+		3 Dimension Overlay Area Chart.
+	</Area>
+</3D Charts>
+<Combination Charts>
+	<Bar And Line>
+		Bar and Line combination charts contains 2 series. They share the same category value.
+	</Bar And Line>
+</Combination Charts>
+<Formatted Charts>
+	<Axis Label Format>
+		Specify the format for axis labels: Y-Axis($###,###) and X-Axis(MM/dd/yyyy). Also the users could set the label color, font, outline and other attributes.
+	</Axis Label Format>
+	<Axis Title Format>
+		All the label attributes can be applied to Axis Title.
+	</Axis Title Format>
+	<Colored By Category Series>
+		Set Legend Item Type as category.
+	</Colored By Category Series>
+	<Colored By Value Series>
+		Set Legend Item Type as series.
+	</Colored By Value Series>
+	<Curve Fitting Area>
+		Enable the curve fitting attribute of area series.
+	</Curve Fitting Area>
+	<Curve Fitting Bar>
+		Create a curve fitting line for bar series.
+	</Curve Fitting Bar>
+	<Curve Fitting Line>
+		Enable the curve fitting attribute of area series.
+	</Curve Fitting Line>
+	<Curve Fitting Stock>
+		Create a curve fitting line for stock series.
+	</Curve Fitting Stock>
+	<Legend Format>
+		Legend can be placed on Left, Right, Top and Bottom and Inside. Client Area is located within Legend. It contains the legend items.
+	</Legend Format>
+	<Marker Line>
+		MarkerLine can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
+	</Marker Line>
+	<Marker Range>
+		MarkerRange can be created for both X-Axis and Y-Axis (only for ChartWithAxes type).
+	</Marker Range>
+	<Multiple Pie>
+		An individual pie chart contains several pie series. They can constitute a pie group to present the value comparison.
+	</Multiple Pie>
+	<M Dial S Region Meter>
+		Multiple needle in an individual dial board.
+	</M Dial S Region Meter>
+	<S Dial S Region Meter>
+		A needle in an individual dial board.
+	</S Dial S Region Meter>
+	<Percentage Value Format>
+		Present the series value as percentage figure.
+	</Percentage Value Format>
+	<Plot Format>
+		Specify the appearance for plot and client area.
+	</Plot Format>
+	<Series Value Format>
+		Specify the format for value data ($###,###.00) and category data (MM/dd/yyyy).
+	</Series Value Format>
+</Formatted Charts>
+<Scripted Charts>
+	<Axis Label Script>
+		beforeDrawAxisLabel() allows the users to manipulate Axis and Label(Axis.getLabel()) attributes.
+	</Axis Label Script>
+	<Axis Title Script>
+		beforeDrawAxisTitle() allows the users to manipulate Axis and Label(Axis.getTitle()) attributes.
+	</Axis Title Script>
+	<Block Script>
+		beforeDrawBlock() allows the users to manipulate Block (E.g. Plot, Title, Legend) attributes.
+	</Block Script>
+	<Curve Fitting Script>
+		beforeDrawFittingCurve() allows the users to manipulate CurveFitting attributes.
+	</Curve Fitting Script>
+	<Data Point Label Script>
+		beforeDrawDataPointLabel() allows the users to manipulate DataPointHints and Label attributes.
+	</Data Point Label Script>
+	<Legend Script>
+		beforeDrawLegendEntry() allows the users to manipulate Label(for each legend) attributes.
+	</Legend Script>
+	<Marker Line Script>
+		beforeDrawMarkerLine() allows the users to manipulate Axis and MarkerLine attributes.
+	</Marker Line Script>
+	<Marker Range Script>
+		beforeDrawMarkerRange() allows the users to manipulate Axis and MarkerRange attributes.
+	</Marker Range Script>
+	<Series Script>
+		beforeDrawSeries() allows the users to manipulate Series and ISeriesRenderer(BaseRenderer or AxesRenderer) attributes.
+	</Series Script>
+	<Series Title Script>
+		beforeDrawSeriesTitle() allows the users to manipulate Series and Label(Series.getTitle()) attributes. It is only applied to Pie Chart.
+	</Series Title Script>
+</Scripted Charts>
+<Data Operations>
+	<Min Slice>
+		The user has the ability to specify the minimum value (absolute or percentage) for a slice. Pie chart slice can be exploded by setting expression to explosion attribute.
+	</Min Slice>
+	<Multiple Y Axes>
+		A chart can contain more than a Y Axis.
+	</Multiple Y Axes>
+	<Multiple Y Series>
+		A chart can contain more than a Y (Value) Series. 
+	</Multiple Y Series>
+</Data Operations>

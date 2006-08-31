@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-
-    <extension
-         point="org.eclipse.birt.chart.engine.displayservers">
-      <displayserver
-            server="org.eclipse.birt.chart.device.svg.SVGDisplayServer"
-            name="ds.SVG"/>
+    <extension point="org.eclipse.ui.views">
+      <category 
+           id = "org.eclipse.birt.chart.examples.view.category"
+           name = "Charting Examples">
+      </category>
+     
+      <view 
+      	id = "org.eclipse.birt.chart.examples.view.examplesview"
+      	name = "Examples View"
+      	category = "org.eclipse.birt.chart.examples.view.category"
+      	class = "org.eclipse.birt.chart.examples.view.ChartExamplesView"
+        icon = "icons\obj16\chartselector.gif"/>
    </extension>
 </plugin>
