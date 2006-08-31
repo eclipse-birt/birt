@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.report.model.adapter.oda.util;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 
 /**
  * The utility class to create a unique name for result set column.
@@ -36,7 +41,7 @@ public class IdentifierUtility
 	 *            the index
 	 * @return the unique column name
 	 */
-	
+
 	public static String getUniqueColumnName( Set orgColumnNameSet,
 			Set newColumnNameSet, String columnNativeName, int index )
 	{
@@ -49,11 +54,11 @@ public class IdentifierUtility
 
 			if ( columnNativeName == null
 					|| columnNativeName.trim( ).length( ) == 0 )
-				newColumnName = UNNAME_PREFIX + RENAME_SEPARATOR
-						+ String.valueOf( index + 1 );
+				newColumnName = UNNAME_PREFIX
+						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
 			else
-				newColumnName = columnNativeName + RENAME_SEPARATOR
-						+ String.valueOf( index + 1 );
+				newColumnName = columnNativeName
+						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
 
 			int i = 1;
 			while ( orgColumnNameSet.contains( newColumnName )
@@ -68,5 +73,55 @@ public class IdentifierUtility
 			newColumnName = columnNativeName;
 		}
 		return newColumnName;
+	}
+
+	/**
+	 * Get a unique name for dataset parameter
+	 * 
+	 * @param parameters
+	 * @return
+	 */
+	public static final String getParamUniqueName( Iterator parametersIter, List retList, int position )
+	{
+		int n = 1;
+		String prefix = "param"; //$NON-NLS-1$
+		StringBuffer buf = new StringBuffer( );
+		while ( buf.length( ) == 0 )
+		{
+			buf.append( prefix ).append( n++ );
+			if ( parametersIter != null )
+			{
+				Iterator iter = parametersIter;
+				if ( iter != null )
+				{
+					while ( iter.hasNext( ) && buf.length( ) > 0 )
+					{
+						DataSetParameterHandle parameter = (DataSetParameterHandle) iter.next( );
+						if ( buf.toString( )
+								.equalsIgnoreCase( parameter.getName( ) ) )
+						{
+							if ( parameter.getPosition( ) != null
+									&& parameter.getPosition( ).intValue( ) == position )
+								break;
+							buf.setLength( 0 );
+						}
+					}
+				}
+				iter = retList.iterator( );
+				while ( iter.hasNext( ) && buf.length( ) > 0 )
+				{
+					DataSetParameter parameter = (DataSetParameter) iter.next( );
+					if ( buf.toString( )
+							.equalsIgnoreCase( parameter.getName( ) ) )
+					{
+						if ( parameter.getPosition( ) != null
+								&& parameter.getPosition( ).intValue( ) == position )
+							break;
+						buf.setLength( 0 );
+					}
+				}
+			}
+		}
+		return buf.toString( );
 	}
 }

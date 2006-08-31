@@ -40,6 +40,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
+import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
@@ -49,6 +50,7 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Converts values between a report parameter and ODA Design Session Request.
@@ -85,43 +87,123 @@ public class ReportParameterAdapter
 	 *         <code>false</code>.
 	 */
 
-	public static boolean isUpdatedReportParameter(
-			ScalarParameterHandle reportParam, OdaDataSetParameterHandle param,
-			DataSetDesign dataSetDesign )
+	boolean isUpdatedReportParameter( ScalarParameterHandle reportParam,
+			ParameterDefinition odaParam, String newDataType )
 	{
-		if ( reportParam == null || param == null || dataSetDesign == null )
+		if ( reportParam == null || odaParam == null )
 			return true;
 
-		ParameterDefinition matchedParam = getValidParameterDefinition( param,
-				dataSetDesign.getParameters( ) );
-		if ( matchedParam == null )
+		DataElementAttributes dataAttrs = odaParam.getAttributes( );
+		boolean allowNull = reportParam.allowNull( );
+		Boolean odaAllowNull = getROMNullability( dataAttrs.getNullability( ) );
+		if ( odaAllowNull != null && allowNull != odaAllowNull.booleanValue( ) )
+			return false;
+
+		if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+				.equalsIgnoreCase( newDataType ) )
+		{
+			if ( !isEquals( newDataType, reportParam.getDataType( ) ) )
+				return false;
+		}
+
+		DataElementUIHints dataUiHints = dataAttrs.getUiHints( );
+		if ( dataUiHints != null )
+		{
+			String newPromptText = dataUiHints.getDisplayName( );
+			String newHelpText = dataUiHints.getDescription( );
+
+			if ( !isEquals( newPromptText, reportParam.getPromptText( ) ) )
+				return false;
+
+			if ( !isEquals( newHelpText, reportParam.getHelpText( ) ) )
+				return false;
+		}
+
+		InputParameterAttributes paramAttrs = odaParam.getInputAttributes( );
+		InputParameterAttributes tmpParamDefn = (InputParameterAttributes) EcoreUtil
+				.copy( paramAttrs );
+
+		DynamicValuesQuery tmpDynamicQuery = tmpParamDefn
+				.getElementAttributes( ).getDynamicValueChoices( );
+		String tmpDataSetName = null;
+		if ( tmpDynamicQuery != null )
+		{
+			tmpDataSetName = tmpDynamicQuery.getDataSetDesign( ).getName( );
+			tmpDynamicQuery.setDataSetDesign( null );
+		}
+
+		if ( tmpParamDefn.getUiHints( ) != null )
+		{
+			tmpParamDefn.setUiHints( null );
+		}
+
+		InputParameterAttributes tmpParamDefn1 = DesignFactory.eINSTANCE
+				.createInputParameterAttributes( );
+
+		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
+		if ( tmpParamDefn1.getUiHints( ) != null )
+		{
+			tmpParamDefn1.setUiHints( null );
+		}
+		DynamicValuesQuery tmpDynamicQuery1 = tmpParamDefn1
+				.getElementAttributes( ).getDynamicValueChoices( );
+		String tmpDataSetName1 = null;
+		if ( tmpDynamicQuery1 != null )
+		{
+			tmpDataSetName1 = tmpDynamicQuery1.getDataSetDesign( ).getName( );
+			tmpDynamicQuery1.setDataSetDesign( null );
+		}
+
+		if ( !isEquals( tmpDataSetName, tmpDataSetName1 ) )
+			return false;
+
+		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
+	}
+
+	private static boolean isEquals( String value1, String value2 )
+	{
+		// may be same string or both null.
+
+		if ( value1 == value2 )
 			return true;
 
-		ParameterDefinition reportParamDefn = DesignFactory.eINSTANCE
-				.createParameterDefinition( );
-		DataElementAttributes dataAttrs = DesignFactory.eINSTANCE
-				.createDataElementAttributes( );
-		dataAttrs.setName( param.getNativeName( ) );
+		if ( value1 != null && value2 == null )
+			return false;
 
-		Integer position = param.getPosition( );
-		if ( position != null )
-			dataAttrs.setPosition( position.intValue( ) );
+		if ( value1 == null && value2 != null )
+			return false;
 
-		reportParamDefn.setAttributes( dataAttrs );
+		if ( !value1.equals( value2 ) )
+			return false;
 
-		reportParamDefn = new ReportParameterAdapter( )
-				.updateParameterDefinitionFromReportParam( reportParamDefn,
-						reportParam, dataSetDesign );
+		return true;
+	}
 
-		String reportParamString = DesignObjectSerializer
-				.toExternalForm( reportParamDefn );
-		String matchedParamString = DesignObjectSerializer
-				.toExternalForm( matchedParam );
+	/**
+	 * Updates allowNull property for the given data set parameter definition.
+	 * 
+	 * @param romParamDefn
+	 *            the data set parameter definition.
+	 * @param nullability
+	 *            the ODA object indicates nullability.
+	 */
 
-		if ( reportParamString.equals( matchedParamString ) )
-			return true;
+	static Boolean getROMNullability( ElementNullability nullability )
+	{
+		if ( nullability == null )
+			return null;
 
-		return false;
+		switch ( nullability.getValue( ) )
+		{
+			case ElementNullability.NULLABLE :
+				return Boolean.TRUE;
+			case ElementNullability.NOT_NULLABLE :
+				return Boolean.FALSE;
+			case ElementNullability.UNKNOWN :
+				return null;
+		}
+
+		return null;
 	}
 
 	/**
@@ -314,6 +396,10 @@ public class ReportParameterAdapter
 		if ( paramDefn == null )
 			return;
 
+		if ( isUpdatedReportParameter( reportParam, paramDefn, dataType ) )
+		{
+			return;
+		}
 		CommandStack cmdStack = reportParam.getModuleHandle( )
 				.getCommandStack( );
 		try
@@ -802,11 +888,21 @@ public class ReportParameterAdapter
 		{
 			DynamicValuesQuery valueQuery = DesignFactory.eINSTANCE
 					.createDynamicValuesQuery( );
-			DataSetDesign targetDataSetDesign = dataSetDesign;
-			if ( !setHandle.getName( ).equals( dataSetDesign.getName( ) ) )
-				targetDataSetDesign = new ModelOdaAdapter( )
+			if ( dataSetDesign != null )
+			{
+				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil
+						.copy( dataSetDesign );
+				if ( !setHandle.getName( ).equals( dataSetDesign.getName( ) ) )
+					targetDataSetDesign = new ModelOdaAdapter( )
+							.createDataSetDesign( (OdaDataSetHandle) setHandle );
+				valueQuery.setDataSetDesign( targetDataSetDesign );
+			}
+			else
+			{
+				DataSetDesign targetDataSetDesign = new ModelOdaAdapter( )
 						.createDataSetDesign( (OdaDataSetHandle) setHandle );
-			valueQuery.setDataSetDesign( targetDataSetDesign );
+				valueQuery.setDataSetDesign( targetDataSetDesign );
+			}
 			valueQuery.setDisplayNameColumn( labelExpr );
 			valueQuery.setValueColumn( valueExpr );
 			valueQuery.setEnabled( true );
