@@ -121,26 +121,26 @@ public class LabelContent extends TextContent implements ILabelContent
 		return visitor.visitLabel( this, value );
 	}
 
-	static final protected int FIELD_HELPTEXTKEY = 600;
-	static final protected int FIELD_LABELTEXT = 601;
-	static final protected int FIELD_LABELTEXTKEY = 602;
+	static final protected short FIELD_HELPTEXTKEY = 600;
+	static final protected short FIELD_LABELTEXT = 601;
+	static final protected short FIELD_LABELTEXTKEY = 602;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( helpTextKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_HELPTEXTKEY );
+			IOUtil.writeShort( out, FIELD_HELPTEXTKEY );
 			IOUtil.writeString( out, helpTextKey );
 		}
 		if ( labelText != null )
 		{
-			IOUtil.writeInt( out, FIELD_LABELTEXT );
+			IOUtil.writeShort( out, FIELD_LABELTEXT );
 			IOUtil.writeString( out, labelText );
 		}
 		if ( labelTextKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_LABELTEXTKEY );
+			IOUtil.writeShort( out, FIELD_LABELTEXTKEY );
 			IOUtil.writeString( out, labelTextKey );
 		}
 	}

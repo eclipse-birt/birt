@@ -29,7 +29,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.14 $ $Date: 2006/05/25 08:10:12 $
+ * @version $Revision: 1.15 $ $Date: 2006/06/13 15:37:19 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {
@@ -175,17 +175,17 @@ public class TableContent extends AbstractContent implements ITableContent
 		return null;
 	}
 
-	static final protected int FIELD_COLUMNS = 1000;
-	static final protected int FIELD_CAPTION = 1001;
-	static final protected int FIELD_CAPTIONKEY = 1002;
-	static final protected int FIELD_HEADERREPEAT = 1003;
+	static final protected short FIELD_COLUMNS = 1000;
+	static final protected short FIELD_CAPTION = 1001;
+	static final protected short FIELD_CAPTIONKEY = 1002;
+	static final protected short FIELD_HEADERREPEAT = 1003;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
 		if ( columns != null )
 		{
-			IOUtil.writeInt( out, FIELD_COLUMNS );
+			IOUtil.writeShort( out, FIELD_COLUMNS );
 			Column column;
 			IOUtil.writeInt( out, columns.size( ) );
 			for ( int i = 0; i < columns.size( ); i++ )
@@ -196,17 +196,17 @@ public class TableContent extends AbstractContent implements ITableContent
 		}
 		if ( caption != null )
 		{
-			IOUtil.writeInt( out, FIELD_CAPTION );
+			IOUtil.writeShort( out, FIELD_CAPTION );
 			IOUtil.writeString( out, caption );
 		}
 		if ( captionKey != null )
 		{
-			IOUtil.writeInt( out, FIELD_CAPTIONKEY );
+			IOUtil.writeShort( out, FIELD_CAPTIONKEY );
 			IOUtil.writeString( out, captionKey );
 		}
 		if ( headerRepeat != null )
 		{
-			IOUtil.writeInt( out, FIELD_HEADERREPEAT );
+			IOUtil.writeShort( out, FIELD_HEADERREPEAT );
 			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
 		}
 	}
