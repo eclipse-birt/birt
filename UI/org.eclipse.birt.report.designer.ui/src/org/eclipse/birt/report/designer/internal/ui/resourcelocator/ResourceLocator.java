@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -53,7 +54,7 @@ public class ResourceLocator
 			try
 			{
 				return new File( ReportPlugin.getDefault( ).getResourceFolder( ) ).toURI( )
-						.relativize( url.toURI( ) )
+						.relativize( new URI( url.toString( ) ) )
 						.getPath( );
 			}
 			catch ( URISyntaxException e )
