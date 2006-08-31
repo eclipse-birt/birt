@@ -55,8 +55,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class Utility
 {
-	private static final String BINDING_COLUMN_PREFIX = "row";
-
 	/**
 	 * get image descriptor
 	 * 
@@ -393,6 +391,11 @@ public class Utility
 		String value = (String) ( (Structure) structure ).getProperty( null,
 				memberName );
 
+		return value == null ? "" : value;
+	}
+	
+	public static String getNonNullString( String value )
+	{
 		return value == null ? "" : value;
 	}
 
