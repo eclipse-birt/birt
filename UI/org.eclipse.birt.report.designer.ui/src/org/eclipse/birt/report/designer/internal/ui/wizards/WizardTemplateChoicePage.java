@@ -48,6 +48,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Supplies template selection page of new report wizard
@@ -395,6 +396,9 @@ public class WizardTemplateChoicePage extends WizardPage
 	public void createControl( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
+		UIUtil.bindHelp( composite,IHelpContextIds.NEW_REPORT_COPY_WIZARD_ID );
+
+		
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.numColumns = 2;
 		gridLayout.marginHeight = 10;
@@ -481,9 +485,9 @@ public class WizardTemplateChoicePage extends WizardPage
 		hookListeners( );
 		templateList.select( 0 );
 		templateListener.handleEvent( new Event( ) );
+		
 		setControl( composite );
 		
-		UIUtil.bindHelp( getControl(),IHelpContextIds.NEW_REPORT_COPY_WIZARD_ID );
 	}
 
 	private void createCustomTemplateList( )
@@ -621,5 +625,15 @@ public class WizardTemplateChoicePage extends WizardPage
 			}
 		}
 	}
+	
+    /*
+     * @see DialogPage.setVisible(boolean)
+     */
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        if (visible) {
+			getControl().setFocus();
+		}
+    }
 
 }
