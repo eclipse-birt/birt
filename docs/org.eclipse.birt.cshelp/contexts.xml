@@ -415,7 +415,7 @@ The Text element displays a multi-line block of text defined within the report. 
 The Text item allows the report developer to provide the text as part of the report design. Text can be in HTML or plain text format and can be localized. HTML text can contain placeholders for data and expressions, much like the mail merge feature of a word processing program.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-6-1.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-06-1.html" label="A related topic"/>
 </context>
 <context id="GroupDialog_ID" title="New Group">
 <description>Use this dialog box to define and configure groups.
@@ -646,5 +646,19 @@ Select the one that you need to get the event handling behavior that you desire.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-21-1.html" label="Using scripting in a report design"/>
+</context>
+<context id="NewResourceFileDialog_ID" title="Browse Resource Files">
+<description>This dialog shows the available resource files in the BIRT resource folder.
+
+Select the one that you need to access the localized string values that you need.
+
+</description>
+</context>
+<context id="AddJarResourceFileFolderSelectionDialog_ID" title="Browse Resource Files">
+<description>This dialog shows the available resource JAR files in the BIRT resource folder.
+
+Select the one that you need to access the set of localized string values that you need.
+
+</description>
 </context>
 </contexts>

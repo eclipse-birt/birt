@@ -94,7 +94,7 @@ You can either type in the complete expression, or use the controls in the dialo
 
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-20-01.html" label="A related topic"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-20-1.html" label="A related topic"/>
 </context>
 <context id="FormatChartArea_ID" title="Edit Chart and New Chart: Chart Area">
 <description>Use this page to define the appearance of the area surrounding the chart, and to enable interactive linking for the chart area and the chart title.

@@ -119,11 +119,6 @@
 	  <copy todir="${export.dir}/${plugin.package}">
 	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html,about.ini,eclipse32.gif"/>
 	  </copy>
-	  <!-- Copy the BIRT example plugin.
-	   -->
-    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
-      <fileset dir="${rotatedtextitem.dir}"/>
-    </copy>
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMddHHmm" />
 		</tstamp>
