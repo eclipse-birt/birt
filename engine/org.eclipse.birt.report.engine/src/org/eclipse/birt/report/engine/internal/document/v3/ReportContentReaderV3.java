@@ -43,11 +43,10 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.3 $ $Date: 2006/08/28 04:25:10 $
+ * @version $Revision: 1.5 $ $Date: 2006/09/01 05:48:11 $
  */
 public class ReportContentReaderV3
 {
-
 	protected static Logger logger = Logger
 			.getLogger( ReportContentReaderV3.class.getName( ) );
 
@@ -115,7 +114,7 @@ public class ReportContentReaderV3
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	protected IContent readObject(long offset) throws IOException
+	protected IContent readObject( long offset ) throws IOException
 	{
 		stream.seek( offset );
 		int size = stream.readInt( );
@@ -123,103 +122,66 @@ public class ReportContentReaderV3
 		stream.readFully( buffer, 0, size );
 		DataInputStream oi = new DataInputStream( new ByteArrayInputStream(
 				buffer ) );
-		IContent object = null;
+		AbstractContent object = null;
 		int contentType = IOUtil.readInt( oi );
 		switch ( contentType )
 		{
 			case IContent.CELL_CONTENT :
-				CellContent cellContent = new CellContent( reportContent );
-				cellContent.readContent( oi );
-				object = cellContent;
+				object = new CellContent( reportContent );
 				break;
 			case IContent.CONTAINER_CONTENT :
-				ContainerContent containerContent = new ContainerContent(
-						reportContent );
-				containerContent.readContent( oi );
-				object = containerContent;
+				object = new ContainerContent( reportContent );
 				break;
 			case IContent.DATA_CONTENT :
-				DataContent dataContent = new DataContent( reportContent );
-				dataContent.readContent( oi );
-				object = dataContent;
+				object = new DataContent( reportContent );
 				break;
 			case IContent.FOREIGN_CONTENT :
-				ForeignContent foreignContent = new ForeignContent(
-						reportContent );
-				foreignContent.readContent( oi );
-				object = foreignContent;
+				object = new ForeignContent( reportContent );
 				break;
 			case IContent.IMAGE_CONTENT :
-				ImageContent imageContent = new ImageContent( reportContent );
-				imageContent.readContent( oi );
-				object = imageContent;
+				object = new ImageContent( reportContent );
 				break;
 			case IContent.LABEL_CONTENT :
-				LabelContent labelContent = new LabelContent( reportContent );
-				labelContent.readContent( oi );
-				object = labelContent;
+				object = new LabelContent( reportContent );
 				break;
 			case IContent.PAGE_CONTENT :
-				PageContent pageContent = new PageContent( reportContent );
-				pageContent.readContent( oi );
-				object = pageContent;
+				object = new PageContent( reportContent );
 				break;
 			case IContent.ROW_CONTENT :
-				RowContent rowContent = new RowContent( reportContent );
-				rowContent.readContent( oi );
-				object = rowContent;
+				object = new RowContent( reportContent );
 				break;
 			case IContent.TABLE_BAND_CONTENT :
-				TableBandContent tableBandContent = new TableBandContent(
-						reportContent );
-				tableBandContent.readContent( oi );
-				object = tableBandContent;
+				object = new TableBandContent( reportContent );
 				break;
 			case IContent.TABLE_CONTENT :
-				TableContent tableContent = new TableContent( reportContent );
-				tableContent.readContent( oi );
-				object = tableContent;
+				object = new TableContent( reportContent );
 				break;
 			case IContent.TEXT_CONTENT :
-				TextContent textContent = new TextContent( reportContent );
-				textContent.readContent( oi );
-				object = textContent;
+				object = new TextContent( reportContent );
 				break;
 			case IContent.AUTOTEXT_CONTENT :
-				AutoTextContent autoText = new AutoTextContent( reportContent );
-				autoText.readContent( oi );
-				object = autoText;
+				object = new AutoTextContent( reportContent );
 				break;
 			case IContent.LIST_CONTENT :
-				ListContent list = new ListContent( reportContent );
-				list.readContent( oi );
-				object = list;
+				object = new ListContent( reportContent );
 				break;
 			case IContent.LIST_BAND_CONTENT :
-				ListBandContent listBand = new ListBandContent( reportContent );
-				listBand.readContent( oi );
-				object = listBand;
+				object = new ListBandContent( reportContent );
 				break;
 			case IContent.LIST_GROUP_CONTENT :
-				ListGroupContent listGroup = new ListGroupContent( reportContent );
-				listGroup.readContent( oi );
-				object = listGroup;
+				object = new ListGroupContent( reportContent );
 				break;
 			case IContent.TABLE_GROUP_CONTENT :
-				TableGroupContent tableGroup = new TableGroupContent( reportContent );
-				tableGroup.readContent( oi );
-				object = tableGroup;
+				object = new TableGroupContent( reportContent );
 				break;
-			default:
+			default :
 				// Not expected
-				throw new IOException("Found invalid contentType" +
-						contentType + " at object offset " + offset);
+				throw new IOException( "Found invalid contentType"
+						+ contentType + " at object offset " + offset );
 		}
-		if( object instanceof AbstractContent )
-		{
-			( ( AbstractContent ) object ).setVersion( version );
-		}
-		return object;		
+		object.setVersion( version );
+		object.readContent( oi );
+		return object;
 	}
 
 	/**
