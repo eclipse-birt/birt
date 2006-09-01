@@ -243,6 +243,14 @@ class RDSaveUtil
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
 			QueryDefnUtil.saveBaseQueryDefn( outputStream, queryDefn );
+			try
+			{
+				outputStream.close( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+			}
 		}
 
 		outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
