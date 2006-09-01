@@ -109,7 +109,7 @@ public class ImportLibraryAction extends Action
 	{
 		File orgFile = new File( filename );
 		File resourceFolder = new File( ReportPlugin.getDefault( )
-				.getResourcePreference( ) );
+				.getResourceFolder( ) );
 		if ( resourceFolder.exists( ) )
 		{
 			File targetFile = new File( resourceFolder, orgFile.getName( ) );
@@ -126,6 +126,8 @@ public class ImportLibraryAction extends Action
 									targetFile.getName( )
 								} ) ) )
 					coypFile( orgFile, targetFile );
+			}else{
+				coypFile( orgFile, targetFile );
 			}
 			return targetFile.getAbsolutePath( );
 		}

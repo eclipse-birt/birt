@@ -91,7 +91,7 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 
 			PublishLibraryWizard publishLibrary = new PublishLibraryWizard( (LibraryHandle) handle,
 					fileName,
-					ReportPlugin.getDefault( ).getResourcePreference( ) );
+					ReportPlugin.getDefault( ).getResourceFolder( ) );
 
 			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 					publishLibrary );

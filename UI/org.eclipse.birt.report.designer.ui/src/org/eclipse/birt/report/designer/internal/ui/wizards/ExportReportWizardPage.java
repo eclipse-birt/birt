@@ -105,7 +105,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener
 
 		new Label( container, SWT.NONE ).setText( LABEL_FOLDER );
 		folderText = createText( container, 1 );
-		folderText.setText( ReportPlugin.getDefault( ).getResourcePreference( ) );
+		folderText.setText( ReportPlugin.getDefault( ).getResourceFolder( ) );
 		folderText.addListener( SWT.Modify, this );
 
 		browserButton = new Button( container, SWT.PUSH );

@@ -84,7 +84,7 @@ public class PublishLibraryToResourceFolderAction extends AbstractViewAction
 		PublishLibraryWizard publishLibrary = new PublishLibraryWizard( (LibraryHandle) SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ),
 				fileName,
-				ReportPlugin.getDefault( ).getResourcePreference( ) );
+				ReportPlugin.getDefault( ).getResourceFolder( ) );
 
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 				publishLibrary );
