@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.model.adapter.oda;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.adapter.oda.DataSetParameterAdapter.ParameterValueUtil;
-import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
-import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -120,22 +117,31 @@ public class ReportParameterAdapter
 		}
 
 		InputParameterAttributes paramAttrs = odaParam.getInputAttributes( );
-		InputParameterAttributes tmpParamDefn = (InputParameterAttributes) EcoreUtil
-				.copy( paramAttrs );
-
-		DynamicValuesQuery tmpDynamicQuery = tmpParamDefn
-				.getElementAttributes( ).getDynamicValueChoices( );
+		InputParameterAttributes tmpParamDefn = null;
 		String tmpDataSetName = null;
-		if ( tmpDynamicQuery != null )
+		
+		if ( paramAttrs != null )
 		{
-			tmpDataSetName = tmpDynamicQuery.getDataSetDesign( ).getName( );
-			tmpDynamicQuery.setDataSetDesign( null );
-		}
+			tmpParamDefn = (InputParameterAttributes) EcoreUtil
+					.copy( paramAttrs );
 
-		if ( tmpParamDefn.getUiHints( ) != null )
-		{
-			tmpParamDefn.setUiHints( null );
+			DynamicValuesQuery tmpDynamicQuery = tmpParamDefn
+					.getElementAttributes( ).getDynamicValueChoices( );
+
+			if ( tmpDynamicQuery != null )
+			{
+				tmpDataSetName = tmpDynamicQuery.getDataSetDesign( ).getName( );
+				tmpDynamicQuery.setDataSetDesign( null );
+			}
+
+			if ( tmpParamDefn.getUiHints( ) != null )
+			{
+				tmpParamDefn.setUiHints( null );
+			}
 		}
+		else
+			tmpParamDefn = DesignFactory.eINSTANCE
+					.createInputParameterAttributes( );
 
 		InputParameterAttributes tmpParamDefn1 = DesignFactory.eINSTANCE
 				.createInputParameterAttributes( );
@@ -230,44 +236,26 @@ public class ReportParameterAdapter
 			OdaDataSetParameterHandle dataSetParam, DataSetDesign dataSetDesign )
 			throws SemanticException
 	{
-		if ( reportParam == null || dataSetParam == null
-				|| dataSetDesign == null )
+		if ( reportParam == null || dataSetParam == null )
 			return;
 
-		ParameterDefinition matchedParam = getValidParameterDefinition(
-				dataSetParam, dataSetDesign.getParameters( ) );
-		if ( matchedParam == null )
-			return;
-
-		ParameterDefinition cachedParam = null;
+		ParameterDefinition matchedParam = null;
+		String dataType = null;
 
 		OdaDataSetHandle setHandle = (OdaDataSetHandle) dataSetParam
 				.getElementHandle( );
-		if ( setHandle != null )
+
+		if ( dataSetDesign != null )
 		{
-			DesignValues values = null;
+			matchedParam = getValidParameterDefinition( dataSetParam,
+					dataSetDesign.getParameters( ) );
 
-			try
-			{
-				values = SerializerImpl.instance( ).read(
-						setHandle.getDesignerValues( ) );
-			}
-			catch ( IOException e )
-			{
-			}
-
-			if ( values != null )
-				cachedParam = DataSetParameterAdapter.findParameterDefinition(
-						values.getDataSetParameters( ), matchedParam
-								.getAttributes( ).getName( ), new Integer(
-								matchedParam.getAttributes( ).getPosition( ) ) );
+			dataType = DataSetParameterAdapter.getROMDataType( dataSetDesign
+					.getOdaExtensionDataSourceId( ), dataSetDesign
+					.getOdaExtensionDataSetId( ),
+					(OdaDataSetParameter) dataSetParam.getStructure( ),
+					setHandle == null ? null : setHandle.parametersIterator( ) );
 		}
-
-		String dataType = DataSetParameterAdapter.getROMDataType( dataSetDesign
-				.getOdaExtensionDataSourceId( ), dataSetDesign
-				.getOdaExtensionDataSetId( ),
-				(OdaDataSetParameter) dataSetParam.getStructure( ),
-				setHandle == null ? null : setHandle.parametersIterator( ) );
 
 		CommandStack cmdStack = reportParam.getModuleHandle( )
 				.getCommandStack( );
@@ -279,8 +267,9 @@ public class ReportParameterAdapter
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam );
 
-			updateLinkedReportParameter( reportParam, matchedParam,
-					cachedParam, dataType );
+			if ( matchedParam != null )
+				updateLinkedReportParameter( reportParam, matchedParam, null,
+						dataType );
 		}
 		catch ( SemanticException e )
 		{
@@ -474,8 +463,8 @@ public class ReportParameterAdapter
 			return null;
 
 		ParameterDefinition matchedParam = DataSetParameterAdapter
-				.findParameterDefinition( odaParams, param.getName( ), param
-						.getPosition( ) );
+				.findParameterDefinition( odaParams, param.getNativeName( ),
+						param.getPosition( ) );
 		return matchedParam;
 	}
 
