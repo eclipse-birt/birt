@@ -95,9 +95,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	private Map displayTexts = null;
 
 	/**
-	 * 
+	 * Module Options
 	 */
+
 	private Map moduleOptions = null;
+
+	/**
+	 * If document generated completely
+	 */
+
+	private boolean isDocumentProcessing = false;
 
 	/**
 	 * Constructor.
@@ -503,6 +510,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				if ( ParameterAccessor.getParameter( request,
 						ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
 					this.documentInUrl = true;
+
+				// if generating document from report isn't completed
+				if ( !reportDocumentInstance.isComplete( )
+						&& ParameterAccessor.isReportParameterExist( request,
+								ParameterAccessor.PARAM_REPORT ) )
+					this.isDocumentProcessing = true;
 
 				reportDocumentInstance.close( );
 			}
@@ -1013,5 +1026,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	public Map getModuleOptions( )
 	{
 		return moduleOptions;
+	}
+
+	/**
+	 * @return the isDocumentProcessing
+	 */
+	public boolean isDocumentProcessing( )
+	{
+		return isDocumentProcessing;
 	}
 }
