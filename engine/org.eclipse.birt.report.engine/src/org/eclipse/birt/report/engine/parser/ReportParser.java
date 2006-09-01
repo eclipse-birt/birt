@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
@@ -38,7 +39,7 @@ import com.ibm.icu.util.ULocale;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.16 $ $Date: 2006/05/11 03:39:21 $
+ * @version $Revision: 1.17.2.1 $ $Date: 2006/08/29 05:47:17 $
  */
 public class ReportParser
 {
@@ -143,6 +144,15 @@ public class ReportParser
 		// Create new design session
 		SessionHandle sessionHandle = DesignEngine.newSession( ULocale
 				.getDefault( ) );
+
+		// get the resource locator form the options and set it to the session
+		// handle
+		IResourceLocator locator = (IResourceLocator) options
+				.get( ModuleOption.RESOURCE_LOCATOR_KEY );
+		if ( locator != null )
+		{
+			sessionHandle.setResourceLocator( locator );
+		}
 
 		// Obtain design handle
 		ReportDesignHandle designHandle = null;

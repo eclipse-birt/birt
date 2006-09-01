@@ -116,7 +116,6 @@ public class FileArchiveReader implements IDocArchiveReader
 		finally
 		{
 			lockManager.unlock( lock );
-			new File( lockFileName ).delete( );
 		}
 
 		readFileTable( );
@@ -172,7 +171,6 @@ public class FileArchiveReader implements IDocArchiveReader
 			finally
 			{
 				lockManager.unlock( lock );
-				new File( lockFileName ).delete( );
 			}
 		}
 		if ( file != null )

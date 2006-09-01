@@ -14,8 +14,6 @@ package org.eclipse.birt.core.archive;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 public class FileArchiveWriter implements IDocArchiveWriter
 {
@@ -24,7 +22,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	private String lockFileName;
 	private String countFileName;
 	private FolderArchiveWriter folderWriter; 			
-	private LinkedList openStreams = new LinkedList( );
 
 	/**
 	 * @param absolute fileName the archive file name
@@ -94,7 +91,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		finally
 		{
 			lockManager.unlock( lock );
-			new File( lockFileName ).delete( );
 		}
 	}
 	
@@ -105,7 +101,10 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public void initialize() 
 	{
-		// Do nothing
+		if (folderWriter != null)
+		{
+			folderWriter.initialize( );
+		}
 	}
 
 	/* (non-Javadoc)
@@ -113,13 +112,11 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public RAOutputStream createRandomAccessStream( String relativePath ) throws IOException
 	{
-		RAOutputStream raOutputStream = folderWriter
-				.createRandomAccessStream( relativePath );
-		synchronized ( openStreams )
+		if ( folderWriter != null )
 		{
-			openStreams.add( raOutputStream );
+			return folderWriter.createRandomAccessStream( relativePath );
 		}
-		return raOutputStream;
+		throw new IOException( "the wrapped folder writer is null");
 	}
 	
 	/**
@@ -130,6 +127,10 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public boolean dropStream( String relativePath )
 	{
+		if (folderWriter != null)
+		{
+			return folderWriter.dropStream( relativePath );
+		}
 		return false;
 	}
 	
@@ -146,12 +147,19 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public boolean exists( String relativePath ) 
 	{
-		return folderWriter.exists( relativePath );
+		if (folderWriter != null)
+		{
+			return folderWriter.exists( relativePath );
+		}
+		return false;
 	}	
 
 	public void setStreamSorter( IStreamSorter streamSorter )
 	{
-		folderWriter.setStreamSorter( streamSorter );
+		if (folderWriter != null)
+		{
+			folderWriter.setStreamSorter( streamSorter );
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -165,7 +173,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 			RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );
 			try
 			{
-				closeAllStream( );
 				folderWriter.finish( );
 				folderWriter.toFileArchive( rf );
 				folderWriter = null;
@@ -196,7 +203,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 			finally
 			{
 				lockManager.unlock( lock );
-				new File( lockFileName ).delete( );
 			}
 		}
 	}
@@ -208,54 +214,9 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public void flush( ) throws IOException
 	{
-		IOException ioex = null;
-		synchronized ( openStreams )
+		if (folderWriter != null)
 		{
-			Iterator iter = openStreams.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				RAFolderOutputStream stream = (RAFolderOutputStream) iter
-						.next( );
-				if ( stream != null )
-				{
-					try
-					{
-						stream.flush( );
-					}
-					catch ( IOException ex )
-					{
-						ioex = ex;
-					}
-				}
-			}
-		}
-		if ( ioex != null )
-		{
-			throw ioex;
-		}
-	}
-	
-	protected void closeAllStream()
-	{
-		synchronized ( openStreams )
-		{
-			Iterator iter = openStreams.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				RAFolderOutputStream stream = (RAFolderOutputStream) iter
-						.next( );
-				if ( stream != null )
-				{
-					try
-					{
-						stream.close( );
-					}
-					catch ( IOException ex )
-					{
-					}
-				}
-			}
-			openStreams.clear( );
+			folderWriter.flush( );
 		}
 	}
 	
