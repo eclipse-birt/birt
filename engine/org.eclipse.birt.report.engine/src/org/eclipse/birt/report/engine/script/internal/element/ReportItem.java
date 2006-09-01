@@ -388,6 +388,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 		PropertyHandle propHandle = ( (ReportItemHandle) handle )
 				.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		List structureList = new ArrayList( );
 		Iterator iterator = propHandle.iterator( );
 
 		while ( iterator.hasNext( ) )
@@ -396,16 +397,16 @@ public class ReportItem extends ReportElement implements IReportItem
 					.next( );
 			if ( bindingName.equals( columnHandle.getName( ) ) )
 			{
-				try
-				{
-					propHandle.removeItem( columnHandle );
-					break;
-				}
-				catch ( SemanticException e )
-				{
-					throw new ScriptException( e.getLocalizedMessage( ) );
-				}
+				structureList.add( columnHandle );
 			}
+		}
+		try
+		{
+			propHandle.removeItems( structureList );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -430,27 +431,28 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void removeHideRule( String formatType ) throws ScriptException
 	{
-		if( formatType == null )
+		if ( formatType == null )
 			return;
 		PropertyHandle propHandle = handle
 				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		List structureList = new ArrayList( );
 		Iterator iterator = propHandle.iterator( );
 		while ( iterator.hasNext( ) )
 		{
 			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
-			if ( formatType.equals( ruleHandle.getFormat( )  ) )
+			if ( formatType.equals( ruleHandle.getFormat( ) ) )
 			{
-				try
-				{
-					propHandle.removeItem( ruleHandle );
-					break;
-				}
-				catch ( SemanticException e )
-				{
-					throw new ScriptException( e.getLocalizedMessage( ) );
-				}
+				structureList.add( ruleHandle );
 			}
 		}
 
+		try
+		{
+			propHandle.removeItems( structureList );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 }
