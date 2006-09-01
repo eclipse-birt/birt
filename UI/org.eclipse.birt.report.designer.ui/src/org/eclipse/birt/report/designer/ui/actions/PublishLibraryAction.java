@@ -113,7 +113,7 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 
 		PublishLibraryWizard publishLibrary = new PublishLibraryWizard( libHandle,
 				fileName,
-				ReportPlugin.getDefault( ).getResourcePreference( ) );
+				ReportPlugin.getDefault( ).getResourceFolder( ) );
 
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 				publishLibrary );
