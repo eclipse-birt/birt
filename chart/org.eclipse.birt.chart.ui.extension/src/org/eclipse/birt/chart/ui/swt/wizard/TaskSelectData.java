@@ -36,8 +36,10 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -61,6 +63,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * 
@@ -512,6 +515,8 @@ public class TaskSelectData extends SimpleTask
 	{
 		if ( e.getSource( ).equals( btnUseReportData ) )
 		{
+			ColorPalette.getInstance( ).restore( );
+			
 			// Skip when selection is false
 			if ( !btnUseReportData.getSelection( ) )
 			{
@@ -744,9 +749,6 @@ public class TaskSelectData extends SimpleTask
 					.getDataDefinition( )
 					.get( 0 ) );
 			manageColorAndQuery( query );
-			refreshBottomArea( );
-			// Refresh all data definition text
-			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
 
@@ -770,9 +772,6 @@ public class TaskSelectData extends SimpleTask
 			ChartAdapter.endIgnoreNotifications( );
 
 			manageColorAndQuery( query );
-			refreshRightArea( );
-			// Refresh all data definition text
-			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
 
@@ -790,9 +789,6 @@ public class TaskSelectData extends SimpleTask
 		public void run( )
 		{
 			manageColorAndQuery( query );
-			refreshLeftArea( );
-			// Refresh all data definition text
-			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 	}
 
@@ -814,7 +810,7 @@ public class TaskSelectData extends SimpleTask
 			if ( event.widget instanceof Button )
 			{
 				Button header = (Button) event.widget;
-				
+
 				// Bind context menu to each header button
 				if ( header.getMenu( ) == null )
 				{
@@ -828,7 +824,7 @@ public class TaskSelectData extends SimpleTask
 					header.getMenu( ).setVisible( true );
 				}
 			}
-			
+
 		}
 	}
 
@@ -999,6 +995,11 @@ public class TaskSelectData extends SimpleTask
 	{
 		if ( previewPainter != null )
 		{
+			if ( notification.getNotifier( ) instanceof Query )
+			{
+				checkDataType( (Query) notification.getNotifier( ) );
+			}
+
 			// Query and series change need to update Live Preview
 			if ( notification.getNotifier( ) instanceof Query
 					|| notification.getNotifier( ) instanceof Axis
@@ -1021,20 +1022,59 @@ public class TaskSelectData extends SimpleTask
 		}
 	}
 
+	private void checkDataType( Query query )
+	{
+		String expression = query.getDefinition( );
+		Axis axis = null;
+		for ( EObject o = query; o != null; )
+		{
+			o = o.eContainer( );
+			if ( o instanceof Axis )
+			{
+				axis = (Axis) o;
+				break;
+			}
+		}
+
+		if ( expression.trim( ).length( ) > 0 && axis != null )
+		{
+			boolean b = getDataServiceProvider( ).checkDataType( expression,
+					axis.getType( ) );
+			if ( !b )
+			{
+				Text text = DataDefinitionTextManager.getInstance( )
+						.findText( query );
+				if ( text != null )
+				{
+					// Display the text even if it's useless and will be changed
+					text.setText( query.getDefinition( ) );
+				}
+				WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+						new String[]{
+								expression, axis.getType( ).getName( )
+						} ) ) );
+				query.setDefinition( "" ); //$NON-NLS-1$
+				DataDefinitionTextManager.getInstance( ).updateText( query );
+			}
+		}
+	}
+
 	private void manageColorAndQuery( Query query )
 	{
-		// If it's last element, remove color binding
+		// If it's not used any more, remove color binding
 		if ( DataDefinitionTextManager.getInstance( )
-				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 1 )
+				.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 0 )
 		{
 			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
 		}
 		query.setDefinition( ChartUIUtil.getExpressionString( tablePreview.getCurrentColumnHeading( ) ) );
-		ColorPalette.getInstance( ).putColor( query.getDefinition( ) );
+		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
+		// Refresh all data definition text
+		DataDefinitionTextManager.getInstance( ).refreshAll( );
 	}
-	
+
 	private void updateApplyButton( )
 	{
 		( (ChartWizard) container ).updateApplayButton( );

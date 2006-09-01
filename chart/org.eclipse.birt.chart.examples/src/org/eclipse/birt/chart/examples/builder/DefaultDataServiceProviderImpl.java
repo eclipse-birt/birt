@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.examples.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.jface.window.Window;
 
 /**
  * Provides a basic implementation for simulated data service. Used in launcher.
@@ -119,8 +121,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	 */
 	public int invoke( int command )
 	{
-		return 1;// Window.CANCEL;
-
+		return Window.CANCEL;
 	}
 
 	/*
@@ -196,37 +197,9 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#commitDataBinding()
-	 */
-	public void commitDataBinding( )
+	public boolean checkDataType( String expression, AxisType axisType )
 	{
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#rollbackDataBinding()
-	 */
-	public void rollbackDataBinding( )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#startDataBinding()
-	 */
-	public void startDataBinding( )
-	{
-		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 }

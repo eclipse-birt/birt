@@ -190,7 +190,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			target.addDropListener( new DataTextDropListener( txtDefinition ) );
 			// Add color manager
 			DataDefinitionTextManager.getInstance( )
-					.addDataDefinitionText( txtDefinition );
+					.addDataDefinitionText( txtDefinition, query );
 		}
 
 		btnBuilder = new Button( cmpTop, SWT.PUSH );
@@ -249,6 +249,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
 			txtDefinition.setText( query.getDefinition( ) );
+			DataDefinitionTextManager.getInstance( ).addDataDefinitionText( txtDefinition, query );
 		}
 		setColor( );
 	}

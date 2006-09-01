@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -54,6 +55,7 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.jface.action.IAction;
@@ -437,8 +439,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected int invokeDataBinding( )
 	{
 		Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-				| SWT.RESIZE
-				| SWT.APPLICATION_MODAL );
+				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		ChartUIUtil.bindHelp( shell,
 				ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
 		ColumnBindingDialog page = new ColumnBindingDialog( shell, false ) {
@@ -469,9 +470,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			protected void setShellStyle( int newShellStyle )
 			{
 				super.setShellStyle( newShellStyle
-						| SWT.DIALOG_TRIM
-						| SWT.RESIZE
-						| SWT.APPLICATION_MODAL );
+						| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
 			}
 		};
 		page.setInput( itemHandle );
@@ -664,6 +663,50 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return new URLClassLoader( urls, parent );
+	}
+
+	public boolean checkDataType( String expression, AxisType axisType )
+	{
+		if ( expression == null || expression.trim( ).length( ) == 0 )
+		{
+			return true;
+		}
+		Iterator iterator = itemHandle.columnBindingsIterator( );
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
+			if ( ChartUIUtil.getExpressionString( cc.getName( ) )
+					.equals( expression ) )
+			{
+				return checkType( cc.getDataType( ), axisType );
+			}
+		}
+		return true;
+	}
+
+	static boolean checkType( String dataType, AxisType axisType )
+	{
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+		{
+			return true;
+		}
+
+		if ( axisType == AxisType.TEXT_LITERAL )
+		{
+			return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
+		}
+		else if ( axisType == AxisType.LINEAR_LITERAL
+				|| axisType == AxisType.LOGARITHMIC_LITERAL )
+		{
+			return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
+					|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
+					|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
+		}
+		else if ( axisType == AxisType.DATE_TIME_LITERAL )
+		{
+			return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+		}
+		return false;
 	}
 
 }

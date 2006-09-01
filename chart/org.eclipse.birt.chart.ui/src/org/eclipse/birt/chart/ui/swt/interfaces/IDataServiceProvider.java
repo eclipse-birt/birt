@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 
 /**
  * Data service provider for chart wizard, to provide all necessary data.
@@ -62,9 +63,9 @@ public interface IDataServiceProvider
 	public String getCurrentStyle( );
 
 	/**
-	 * Returns the prevew data header, e.g. column display names.
+	 * Returns the preview data header, e.g. column display names.
 	 * 
-	 * @return
+	 * @return meta data in form of string
 	 * @throws ChartException
 	 */
 	public String[] getPreviewHeader( ) throws ChartException;
@@ -72,7 +73,7 @@ public interface IDataServiceProvider
 	/**
 	 * Returns the preview data
 	 * 
-	 * @return
+	 * @return data list which includes string array as an element
 	 * @throws ChartException
 	 */
 	public List getPreviewData( ) throws ChartException;
@@ -148,5 +149,7 @@ public interface IDataServiceProvider
 	 * @since 2.1
 	 */
 	public boolean isInvokingSupported( );
+	
+	public boolean checkDataType(String expression, AxisType axisType);
 
 }
