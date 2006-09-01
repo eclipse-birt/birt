@@ -243,8 +243,10 @@ class PropertyState extends AbstractPropertyState
 
 		if ( ( element instanceof ListingElement || element instanceof GroupElement ) )
 		{
+			// now 'pageBreakInterval' is supported on table/list
 			if ( IListingElementModel.PAGE_BREAK_INTERVAL_PROP
-					.equalsIgnoreCase( name ) )
+					.equalsIgnoreCase( name )
+					&& element instanceof GroupElement )
 				return new CompatibleIgnorePropertyState( handler, element );
 
 			if ( name.equalsIgnoreCase( "onStart" ) || name //$NON-NLS-1$

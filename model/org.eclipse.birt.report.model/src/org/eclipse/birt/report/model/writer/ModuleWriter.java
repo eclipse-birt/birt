@@ -2652,6 +2652,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitListing( obj );
 
 		property( obj, ListingElement.REPEAT_HEADER_PROP );
+		property( obj, ListingElement.PAGE_BREAK_INTERVAL_PROP );
 
 		writeStructureList( obj, ListingElement.SORT_PROP );
 		writeStructureList( obj, ListingElement.FILTER_PROP );
