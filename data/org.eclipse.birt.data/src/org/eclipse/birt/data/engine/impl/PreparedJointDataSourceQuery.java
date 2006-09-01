@@ -468,12 +468,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @param dataSetDesignName
 	 * @param isLeftDataSet
 	 * @param queryDefinition
+	 * @throws DataException 
 	 */
-	private void setParameterBindings( DataEngineImpl dataEngine, String dataSetDesignName, boolean isLeftDataSet, QueryDefinition queryDefinition )
+	private void setParameterBindings( DataEngineImpl dataEngine, String dataSetDesignName, boolean isLeftDataSet, QueryDefinition queryDefinition ) throws DataException
 	{
-		Iterator it = dataEngine.getDataSetDesign( dataSetDesignName )
-				.getParameters( )
-				.iterator( );
+		IBaseDataSetDesign dataSetDesign = dataEngine.getDataSetDesign( dataSetDesignName );
+		if( dataSetDesign == null )
+		{
+			throw new DataException( ResourceConstants.UNDEFINED_DATA_SET, dataSetDesignName );
+		}
+		Iterator it = dataSetDesign.getParameters( ).iterator( );
 		if ( it.hasNext( ) )
 		{
 			Iterator bindingIt = parameterBindings.iterator( );
