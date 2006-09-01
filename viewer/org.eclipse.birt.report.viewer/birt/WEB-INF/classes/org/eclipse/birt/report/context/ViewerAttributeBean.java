@@ -297,35 +297,37 @@ public class ViewerAttributeBean extends BaseAttributeBean
 									.findConfigVariable( typeVarName );
 
 							// get cached parameter type
-							String dataType = null;
+							String dataType = parameter.getDataType( );
+							String cachedDateType = null;
 							if ( typeVar != null )
-								dataType = typeVar.getValue( );
+								cachedDateType = typeVar.getValue( );
 
 							// if null or data type changed, skip it
-							if ( dataType == null
-									|| !dataType.equalsIgnoreCase( parameter
-											.getDataType( ) ) )
+							if ( cachedDateType == null
+									|| !cachedDateType
+											.equalsIgnoreCase( dataType ) )
 							{
 								continue;
 							}
 
 							try
 							{
+								// if parameter type isn't String or DateTime,
+								// convert it
 								if ( !DesignChoiceConstants.PARAM_TYPE_STRING
-										.equalsIgnoreCase( parameter
-												.getDataType( ) ) )
+										.equalsIgnoreCase( dataType )
+										&& !DesignChoiceConstants.PARAM_TYPE_DATETIME
+												.equalsIgnoreCase( dataType ) )
 								{
+									String pattern = parameter.getPattern( );
 									Object paramValueObj = ParameterValidationUtil
-											.validate(
-													parameter.getDataType( ),
-													parameter.getPattern( ),
+											.validate( dataType, pattern,
 													paramValue, ULocale.US );
 
 									paramValue = ParameterValidationUtil
-											.getDisplayValue( parameter
-													.getDataType( ), parameter
-													.getPattern( ),
-													paramValueObj, locale );
+											.getDisplayValue( dataType,
+													pattern, paramValueObj,
+													locale );
 								}
 							}
 							catch ( Exception err )
@@ -386,8 +388,27 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		// convert default value object to locale format
 		if ( defaultValueObj != null && parameter != null )
 		{
-			defalutValue = ParameterValidationUtil.getDisplayValue( null,
-					parameter.getPattern( ), defaultValueObj, locale );
+			String dataType = parameter.getDataType( );
+			String pattern = parameter.getPattern( );
+
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+					.equalsIgnoreCase( dataType ) )
+			{
+				defalutValue = ParameterValidationUtil
+						.getDisplayValue( defaultValueObj );
+			}
+			else
+			{
+				if ( DesignChoiceConstants.PARAM_TYPE_STRING
+						.equalsIgnoreCase( dataType ) )
+				{
+					pattern = null;
+				}
+
+				defalutValue = ParameterValidationUtil.getDisplayValue( null,
+						pattern, defaultValueObj, locale );
+			}
+
 		}
 
 		// get parameter default value as string

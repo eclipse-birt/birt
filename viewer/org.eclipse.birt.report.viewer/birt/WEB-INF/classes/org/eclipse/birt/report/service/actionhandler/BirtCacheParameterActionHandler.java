@@ -156,6 +156,11 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						{
 							pattern = null;
 						}
+						else if( DesignChoiceConstants.PARAM_TYPE_DATETIME
+								.equalsIgnoreCase( dataType ) )
+						{
+							pattern = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
+						}
 
 						paramValue = ParameterValidationUtil.getDisplayValue(
 								dataType, pattern, paramValueObj, ULocale.US );
