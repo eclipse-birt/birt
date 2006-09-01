@@ -32,6 +32,7 @@ public interface ResourceConstants
 	public static final String GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR = "birt.viewer.generalException.DOCUMENT_ACCESS_ERROR"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_REPORT_FILE_ERROR = "birt.viewer.generalException.REPORT_FILE_ERROR"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_REPORT_ACCESS_ERROR = "birt.viewer.generalException.REPORT_ACCESS_ERROR";	 //$NON-NLS-1$	
+	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING = "birt.viewer.generalException.DOCUMENT_FILE_PROCESSING";	 //$NON-NLS-1$
 	
 	// report service exception
 
