@@ -981,7 +981,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
 				formatValueToSet.setCategory( valueToSet );
-			else if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( memberName ) )
+			else if ( FormatValue.PATTERN_MEMBER.equalsIgnoreCase( memberName ) )
 				formatValueToSet.setPattern( valueToSet );
 			else
 				assert false;
