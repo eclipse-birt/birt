@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -169,14 +170,15 @@ public class MetadataEmitter
 	private boolean needColumnFilter( ICellContent cell )
 	{
 		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
-		if ( cell.getColumnInstance( ) == null )
+		IColumn columnInstance = cell.getColumnInstance( );
+		if ( columnInstance == null )
 		{
 			return false;
 		}
 		return state.isStartOfDetail
-				&& cell.getColumnInstance( ).hasDataItemsInDetail( )
+				&& columnInstance.hasDataItemsInDetail( )
 				&& displayFilterIcon
-				&& HTMLUtil.getFilterConditions( cell ).size( ) > 0;
+				&& HTMLUtil.getFilterConditions( cell ).size() > 0;
 	}
 
 	private boolean needGroupIcon( ICellContent cell )
@@ -419,7 +421,7 @@ public class MetadataEmitter
 				{
 					
 					IElement bandParent = bandContent.getParent( );
-					if ( bandParent instanceof IGroupContent )
+					while ( bandParent instanceof IGroupContent )
 					{
 						bandParent = bandParent.getParent( );
 					}

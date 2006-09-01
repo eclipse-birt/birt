@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.engine.internal.util;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -93,23 +93,25 @@ public class HTMLUtil
 	 * 
 	 * @param cell
 	 *            the cell.
-	 * @return the column filter conditions.
+	 * @return the column filter conditions. Empty list is returned when the
+	 *         column has no filter conditions.
 	 */
 	public static List getFilterConditions( ICellContent cell )
 	{
-		IRowContent row = ( IRowContent )cell.getParent( );
-		IBandContent band = ( IBandContent ) row.getParent( );
-		IElement parentOfBand = band.getParent( );
-		while ( !( parentOfBand instanceof ITableContent )
-				&& parentOfBand != null )
+		IRowContent row = (IRowContent) cell.getParent( );
+		ITableContent table = row.getTable( );
+		List filters = null;
+		if ( table != null )
 		{
-			parentOfBand = parentOfBand.getParent( );
+			Object genBy = table.getGenerateBy( );
+			if ( genBy instanceof TableItemDesign )
+			{
+				TableHandle tableHandle = (TableHandle) ( (TableItemDesign) genBy )
+						.getHandle( );
+				filters = tableHandle.getFilters( cell.getColumn( ) );
+			}
 		}
-		
-		ITableContent tableContent = ( ITableContent ) parentOfBand;
-		TableHandle tableHandle = (TableHandle) ( (TableItemDesign) tableContent
-				.getGenerateBy( ) ).getHandle( );
-		return ( tableHandle.getFilters( cell.getColumn( ) ) );
+		return filters == null ? Collections.EMPTY_LIST : filters;
 	}
 
 	/**
