@@ -110,11 +110,6 @@
 	  <copy todir="${export.dir}/${plugin.package}">
 	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html,about.ini,eclipse32.gif"/>
 	  </copy>
-	  <!-- Copy the BIRT chart examples plugin.
-	   -->
-    <copy todir="${export.dir}/${plugin.package}/Samples/org.eclipse.birt.chart.examples" failonerror="false">
-      <fileset dir="${chartexamples.dir}"/>
-    </copy>
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMddHHmm" />
 		</tstamp>
