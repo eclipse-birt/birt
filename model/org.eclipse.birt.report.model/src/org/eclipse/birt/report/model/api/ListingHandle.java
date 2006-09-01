@@ -144,7 +144,6 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * Returns the page break interval value
 	 * 
 	 * @return the page break interval value
-	 * @deprecated
 	 */
 
 	public int getPageBreakInterval( )
@@ -159,14 +158,14 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *            the page break interval
 	 * @throws SemanticException
 	 *             if the parameter is not a valid integer
-	 * @deprecated
 	 */
 
 	public void setPageBreakInterval( int pageBreakInterval )
 			throws SemanticException
 	{
+		setProperty( PAGE_BREAK_INTERVAL_PROP, new Integer( pageBreakInterval ) );
 	}
-	
+
 	/**
 	 * Tests whether to repeat the headings at the top of each page.
 	 * 

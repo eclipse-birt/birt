@@ -243,6 +243,8 @@
     <Choice displayNameID="Choices.mapOperator.match" name="match"/>
     <Choice displayNameID="Choices.mapOperator.top-n" name="top-n" />
     <Choice displayNameID="Choices.mapOperator.bottom-n" name="bottom-n" />   
+    <Choice displayNameID="Choices.mapOperator.top-percent" name="top-percent"/>
+    <Choice displayNameID="Choices.mapOperator.bottom-percent" name="bottom-percent"/>
     <Choice displayNameID="Choices.mapOperator.not-like" name="not-like"/>
     <Choice displayNameID="Choices.mapOperator.not-match" name="not-match"/>    
   </ChoiceType>
@@ -2900,7 +2902,7 @@
       <Default>auto</Default>
     </Property>
     <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.ListingGroup.pageBreakBefore" name="pageBreakBefore" runtimeSettable="false" since="2.1" type="choice">
-      <Default>auto</Default>
+      <Default>always-excluding-first</Default>
     </Property>
 	<PropertyGroup displayNameID="Element.ListingGroup.Interval">
 		<Property displayNameID="Element.ListingGroup.intervalBase" name="intervalBase" runtimeSettable="false" since="1.0" type="string" />
@@ -2928,6 +2930,9 @@
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
     <Property displayNameID="Element.Listing.repeatHeader" name="repeatHeader" runtimeSettable="false" since="2.1" type="boolean">
       <Default>true</Default>
+    </Property>
+    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="integer">
+      <Default>0</Default>
     </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">

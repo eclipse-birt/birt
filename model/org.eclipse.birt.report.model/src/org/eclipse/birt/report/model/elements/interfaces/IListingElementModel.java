@@ -59,8 +59,6 @@ public interface IListingElementModel
 	
 	/**
 	 * Name of the pageBreakInterval property. 
-	 * 
-	 * @deprecated
 	 */
 
 	public static final String PAGE_BREAK_INTERVAL_PROP = "pageBreakInterval"; //$NON-NLS-1$
