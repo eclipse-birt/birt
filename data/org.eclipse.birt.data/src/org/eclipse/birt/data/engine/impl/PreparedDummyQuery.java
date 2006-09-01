@@ -817,7 +817,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 				isBasicSaved = true;
 				this.getRdSave( ).saveResultIterator( new DummyCachedResult( ),
 						-1,
-						null );
+						new int[]{
+								0, 1
+						} );
 			}
 
 			this.getRdSave( ).saveFinish( 0 );
