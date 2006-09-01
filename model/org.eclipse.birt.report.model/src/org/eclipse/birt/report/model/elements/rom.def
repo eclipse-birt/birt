@@ -1764,7 +1764,7 @@
   <Structure displayNameID="Structure.OdaDataSetParam" name="OdaDataSetParam" since="2.1.1">
     <Member displayNameID="Structure.OdaDataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.OdaDataSetParam.paramName" isIntrinsic="true" name="paramName" runtimeSettable="true" since="2.1.1" type="string"/>
-	<Member displayNameID="Structure.OdaDataSetParam.nativeName" isIntrinsic="true" name="nativeName " runtimeSettable="true" since="2.1.1" type="string"/>
+	<Member displayNameID="Structure.OdaDataSetParam.nativeName" isIntrinsic="true" name="nativeName " runtimeSettable="true" since="2.1.1" type="literalString"/>
     <Member detailType="paramType" displayNameID="Structure.OdaDataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
         <Default>any</Default>
         <Allowed>string,any,float,decimal,dateTime,integer,any</Allowed>
@@ -1800,7 +1800,7 @@
   <Structure displayNameID="Structure.OdaResultSetColumn" name="OdaResultSetColumn" since="2.1.1">
     <Member displayNameID="Structure.OdaResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
     <Member displayNameID="Structure.OdaResultSetColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.1.1" type="string" valueRequired="true"/>
-    <Member displayNameID="Structure.OdaResultSetColumn.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.1.1" type="string" valueRequired="false"/>   
+    <Member displayNameID="Structure.OdaResultSetColumn.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.1.1" type="literalString" valueRequired="false"/>   
     <Member detailType="columnDataType" displayNameID="Structure.ResultSetColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
 		<Default>any</Default>
 	</Member>
