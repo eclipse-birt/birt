@@ -28,10 +28,10 @@ public interface ResourceConstants
 	public static final String BIRT_VIEWER_TITLE = "birt.viewer.title"; //$NON-NLS-1$
 
 	// general exception
-	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR = "birt.viewer.generalException.DOCUMENT_FILE_ERROR";
-	public static final String GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR = "birt.viewer.generalException.DOCUMENT_ACCESS_ERROR";
-	public static final String GENERAL_EXCEPTION_REPORT_FILE_ERROR = "birt.viewer.generalException.REPORT_FILE_ERROR";
-	public static final String GENERAL_EXCEPTION_REPORT_ACCESS_ERROR = "birt.viewer.generalException.REPORT_ACCESS_ERROR";	
+	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR = "birt.viewer.generalException.DOCUMENT_FILE_ERROR"; //$NON-NLS-1$
+	public static final String GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR = "birt.viewer.generalException.DOCUMENT_ACCESS_ERROR"; //$NON-NLS-1$
+	public static final String GENERAL_EXCEPTION_REPORT_FILE_ERROR = "birt.viewer.generalException.REPORT_FILE_ERROR"; //$NON-NLS-1$
+	public static final String GENERAL_EXCEPTION_REPORT_ACCESS_ERROR = "birt.viewer.generalException.REPORT_ACCESS_ERROR";	 //$NON-NLS-1$	
 	
 	// report service exception
 
@@ -46,7 +46,8 @@ public interface ResourceConstants
 	public static final String ACTION_EXCEPTION_INVALID_BOOKMARK = "birt.viewer.actionException.INVALID_BOOKMARK"; //$NON-NLS-1$
 	public static final String ACTION_EXCEPTION_INVALID_PAGE_NUMBER = "birt.viewer.actionException.INVALID_PAGE_NUMBER"; //$NON-NLS-1$
 	public static final String ACTION_EXCEPTION_INVALID_ID_FORMAT = "birt.viewer.actionException.INVALID_ID_FORMAT"; //$NON-NLS-1$
-
+	public static final String ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST = "birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST";	 //$NON-NLS-1$
+	
 	// birt soap binding exception
 
 	public static final String SOAP_BINDING_EXCEPTION_NO_HANDLER_FOR_TARGET = "birt.viewer.soapBindingException.NO_HANDLER_FOR_TARGET"; //$NON-NLS-1$
