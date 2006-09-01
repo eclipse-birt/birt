@@ -386,7 +386,7 @@ In you are inserting an linked image, select the <b>Linked image</b> button. Und
 
 In you are inserting an embedded image, select the <b>Embedded image</b> button, then click <b>Add Image</b> to select the image that you want to embed.
 
-Typically, you insert data source images in the detail row of a table to display all the pictures stored in the data source. If you are entering an image that is stored in a data source, select the <b>Dynamic image</b> button, then click <b>Binding</b> to specify the data source.
+Typically, you insert data source images in the detail row of a table to display all the pictures stored in the data source. If you are entering an image that is stored in a data source, select the <b>Dynamic image</b> button, then click <b>Expression Builder</b> to specify the field in the data set.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="A related topic"/>
@@ -425,13 +425,12 @@ Grouping data in a report can make the data easier to interpret and use. For exa
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-08-1.html" label="A related topic"/>
 </context>
-<context id="DataBindingDialog_ID" title="Data Binding">
-<description>Use this dialog box to bind a data set to a report item.
+<context id="DataBindingDialog_ID" title="Select Data Binding">
+<description>Use this dialog box to bind data columns or expressions to names.
 
-As well as selecting the appropriate data set, you can define calculated fields that items inside a list or table can use.
+As well as selecting the appropriate data set and column, you can define calculated fields that items inside a list or table can use.
 
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="A related topic"/>
 </context>
 <context id="HighlightRuleBuilder_ID" title="New Highlight">
 <description>Use this dialog box specify the condition, or rule, for applying a particular format to the report element.
@@ -631,13 +630,25 @@ Use the "Value" column to check or change the report parameter to which the data
 
 </description>
 </context>
-<context id="DimensionBuilderDialog_ID" title="Reference Found">
-<description>To confirm deletion of the BIRT Report Designer data source, click Yes.
+<context id="DeleteWarningDialog_ID" title="Reference Found">
+<description>BIRT Report Designer has analyzed your report design. Some report elements are using a report element that you have selected to delete. This dialog lists the elements that other elements use. If you confirm that you want to delete them, you will need to modify the elements that used them for your report to run.
+
+To confirm deletion of the report element, click Yes.
 
 
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-02-1.html" label="Connecting to a data source"/>
+</context>
+<context id="DimensionBuilderDialog_ID" title="Dimension Builder">
+<description>In Measure, type the size of the property that you have selected to edit.
+In Units, select the unit of measure for the size.
+
+To set these values, click OK.
+
+
+
+</description>
 </context>
 <context id="HandlerClassSelectionDialog_ID" title="Class Selection">
 <description>This dialog shows the available event handlers that are appropriate to the report item that you have currently selected in your report design.
@@ -660,5 +671,26 @@ Select the one that you need to access the localized string values that you need
 Select the one that you need to access the set of localized string values that you need.
 
 </description>
+</context>
+<context id="DataColumnBindingDialog_ID" title="Data Binding">
+<description>Use this dialog box to bind a data expression to a name.
+Data items use the name to display the result of the expression in a report.
+
+The data expression can be a simple reference to a data field or a more complex calculation. To build an expression or access data fields, click the builder button beside the expression field.
+You also use this dialog to set the data type that the expression returns.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="Laying out a report"/>
+</context>
+<context id="DataItemBindingDialog_ID" title="Data Item">
+<description>Use this dialog box to set the data expression for a data item.
+The data expression can be a simple reference to a data field or a more complex calculation.
+
+In Name, type a name for the expression. This name must be unique within a data set.
+In Data Type, select the data type that the expression returns.
+In Expression, type an expression. Alternatively, to build an expression or access data fields, click the builder button beside the expression field.
+
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="Laying out a report"/>
 </context>
 </contexts>
