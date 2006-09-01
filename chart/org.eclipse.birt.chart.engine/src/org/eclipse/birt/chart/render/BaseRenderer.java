@@ -70,6 +70,7 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -117,8 +118,17 @@ import org.eclipse.emf.common.util.EList;
 public abstract class BaseRenderer implements ISeriesRenderer
 {
 
+	/**
+	 * This key is to reference the location array of last stacked series.
+	 */
+	protected final static String STACKED_SERIES_LOCATION_KEY = "stacked_series_location_key"; //$NON-NLS-1$
+	/**
+	 * This key is to reference the fixed location array of last stacked series.
+	 */
 	protected final static String FIXED_STACKED_SERIES_LOCATION_KEY = "fixed_stacked_series_location_key"; //$NON-NLS-1$
-
+	/**
+	 * This key is to reference the fixed index value of last stacked series.
+	 */
 	protected final static String FIXED_STACKED_SERIES_INDEX_KEY = "fixed_stacked_series_index_key"; //$NON-NLS-1$
 
 	protected static final String TIMER = "T"; //$NON-NLS-1$
@@ -3136,12 +3146,21 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	public void updateTranslucency( Fill fill, Series se )
 	{
-		if ( se != null
-				&& se.isTranslucent( )
-				&& ( fill instanceof ColorDefinition ) )
+		if ( se != null && se.isTranslucent( ) )
 		{
-			( (ColorDefinition) fill ).setTransparency( (int) ( OVERRIDE_TRANSPARENCY * 255d / 100d ) );
+			if ( fill instanceof ColorDefinition )
+			{
+				( (ColorDefinition) fill ).setTransparency( (int) ( OVERRIDE_TRANSPARENCY * 255d / 100d ) );
+			}
+			else if ( fill instanceof MultipleFill )
+			{
+				for ( int i = 0; i < ( (MultipleFill) fill ).getFills( ).size( ); i++ )
+				{
+					updateTranslucency( (Fill) ( (MultipleFill) fill ).getFills( )
+							.get( i ),
+							se );
+				}
+			}
 		}
 	}
-
 }

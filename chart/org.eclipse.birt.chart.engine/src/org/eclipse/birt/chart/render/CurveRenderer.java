@@ -36,7 +36,6 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
@@ -96,6 +95,7 @@ public final class CurveRenderer
 	private final boolean bRendering3D;
 
 	/**
+	 * The constructor.
 	 * 
 	 * @param _render
 	 * @param _lia
@@ -126,6 +126,8 @@ public final class CurveRenderer
 	}
 
 	/**
+	 * The constructor.
+	 * 
 	 * @param _cwa
 	 * @param _render
 	 * @param _lia
@@ -523,7 +525,9 @@ public final class CurveRenderer
 							- dTapeWidth );
 					if ( cwa.isTransposed( ) )
 					{
-						loa[2].set( zeroLocation + dTapeWidth, y2 + kError - dTapeWidth );
+						loa[2].set( zeroLocation + dTapeWidth, y2
+								+ kError
+								- dTapeWidth );
 						loa[3].set( zeroLocation, y2 + kError );
 					}
 					else
@@ -685,7 +689,8 @@ public final class CurveRenderer
 				}
 			}
 
-			obj = iRender.getRunTimeContext( ).getState( AreaSeries.class );
+			obj = iRender.getRunTimeContext( )
+					.getState( BaseRenderer.STACKED_SERIES_LOCATION_KEY );
 			double[] lastX = null;
 			double[] lastY = null;
 
@@ -1046,12 +1051,15 @@ public final class CurveRenderer
 					&& ( (AxesRenderer) iRender ).isLastRuntimeSeriesInAxis( ) )
 			{
 				// clean up last state.
-				iRender.getRunTimeContext( ).putState( AreaSeries.class, null );
+				iRender.getRunTimeContext( )
+						.putState( BaseRenderer.STACKED_SERIES_LOCATION_KEY,
+								null );
 			}
 			else
 			{
-				iRender.getRunTimeContext( ).putState( AreaSeries.class,
-						stateList );
+				iRender.getRunTimeContext( )
+						.putState( BaseRenderer.STACKED_SERIES_LOCATION_KEY,
+								stateList );
 			}
 		}
 	}
