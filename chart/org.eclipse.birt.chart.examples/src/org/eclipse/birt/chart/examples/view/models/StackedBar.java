@@ -57,7 +57,7 @@ public class StackedBar
 
 		// Legend
 		Legend lg = cwaBar.getLegend( );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		lg.setItemType( LegendItemType.SERIES_LITERAL );
 
 		// X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
@@ -74,12 +74,12 @@ public class StackedBar
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
+				25, 35, 15, 5, 20
 		} );
 		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
-				5, 10, 25
+				5, 10, 25, 10, 5
 		} );
 
 		// X-Series
@@ -87,7 +87,6 @@ public class StackedBar
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -105,6 +104,7 @@ public class StackedBar
 		bs2.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( 0 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs1 );
 		sdY.getSeries( ).add( bs2 );

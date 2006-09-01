@@ -64,6 +64,7 @@ public class SeriesTitleScript
 		// Orthogonal Series
 		PieSeries sePie = (PieSeries) PieSeriesImpl.create( );
 		sePie.setDataSet( seriesOneValues );
+		sePie.setExplosion( 5 );
 
 		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
 		sd.getSeriesDefinitions( ).add( sdCity );

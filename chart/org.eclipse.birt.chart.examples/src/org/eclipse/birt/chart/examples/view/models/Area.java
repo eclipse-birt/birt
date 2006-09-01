@@ -100,7 +100,9 @@ public class Area
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
 				14.32, -19.5, 8.38, 0.34, 9.22
 		} );
-
+		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
+				4.55, 2.61, -3.18, 14.2, 10.22
+		} );
 		// X-Series
 		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
@@ -110,19 +112,26 @@ public class Area
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
-		// Y-Series
+		// Y-Series (2)
 		AreaSeries as1 = (AreaSeries) AreaSeriesImpl.create( );
 		as1.setSeriesIdentifier( "Series 1" );//$NON-NLS-1$
-		as1.setDataSet( orthoValues1 );
-		as1.setTranslucent( true );
-		as1.getLineAttributes( ).setColor( ColorDefinitionImpl.PINK( ) );
-		as1.getLineAttributes( ).setThickness( 5 );
+		as1.setDataSet( orthoValues1 );;
+		as1.getLineAttributes( ).setVisible( false );
 		as1.getLabel( ).setVisible( true );
+		
+		// Y-Series (2)
+		AreaSeries as2 = (AreaSeries) AreaSeriesImpl.create( );
+		as2.setSeriesIdentifier( "Series 2" );//$NON-NLS-1$
+		as2.setDataSet( orthoValues2 );
+		as2.getLineAttributes( ).setVisible( false );
+		as2.getLabel( ).setVisible( true );
+
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( as1 );
+		sdY.getSeries( ).add( as2 );
 
 		// Z-Series
 		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );

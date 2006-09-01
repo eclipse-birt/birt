@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -45,13 +44,9 @@ public class MultipleYSeries
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		Plot p = cwaBar.getPlot( );
-		p.getClientArea( )
-				.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-						225,
-						255 ),
-						ColorDefinitionImpl.create( 255, 255, 225 ),
-						-35,
-						false ) );
+		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
+				255,
+				225 ) );
 		p.getOutline( ).setVisible( true );
 
 		// Title
@@ -79,7 +74,7 @@ public class MultipleYSeries
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Europe", "Asia", "North America"} );//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				"Europe", "Asia", "North America"} );//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$  
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
 				26.17, 34.21, 21.5
 		} );

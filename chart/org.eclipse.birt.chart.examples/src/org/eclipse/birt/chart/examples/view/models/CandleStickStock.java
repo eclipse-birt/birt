@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -50,6 +51,9 @@ public class CandleStickStock
 				.getLabel( )
 				.getCaption( )
 				.setValue( "Candle-stick Stock Chart" );//$NON-NLS-1$
+		cwaStock.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
 
 		// Legend
 		cwaStock.getLegend( ).setVisible( false );
@@ -74,7 +78,7 @@ public class CandleStickStock
 				.getLineAttributes( )
 				.setStyle( LineStyle.DOTTED_LITERAL );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 		xAxisPrimary.setCategoryAxis( true );
 
 		// Y-Axis

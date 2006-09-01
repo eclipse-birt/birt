@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
@@ -66,6 +67,7 @@ public class CurveFittingStock
 		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 		xAxisPrimary.setCategoryAxis( true );
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis( xAxisPrimary );

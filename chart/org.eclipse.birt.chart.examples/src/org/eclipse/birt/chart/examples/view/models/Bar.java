@@ -79,9 +79,12 @@ public class Bar
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} );//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
+				25, 35, 15, 5, 20
+		} );
+		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
+				5, 10, 25, 10, 5
 		} );
 
 		// X-Series
@@ -93,17 +96,23 @@ public class Bar
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
-		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setDataSet( orthoValues );
-		bs.getLabel( ).setVisible( true );
-		bs.setTranslucent( true );
-		bs.setLabelPosition( Position.OUTSIDE_LITERAL );
+		// Y-Series (1)
+		BarSeries bs1 = (BarSeries) BarSeriesImpl.create( );
+		bs1.setDataSet( orthoValues1 );
+		bs1.getLabel( ).setVisible( true );
+		bs1.setLabelPosition( Position.OUTSIDE_LITERAL );
+		
+		// Y-Series (2)
+		BarSeries bs2 = (BarSeries) BarSeriesImpl.create( );
+		bs2.setDataSet( orthoValues2 );
+		bs2.getLabel( ).setVisible( true );
+		bs2.setLabelPosition( Position.OUTSIDE_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		sdY.getSeries( ).add( bs1 );
+		sdY.getSeries( ).add( bs2 );
 
 		// Z-Series
 		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );

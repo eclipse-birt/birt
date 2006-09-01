@@ -37,12 +37,12 @@ public class MinSlice
 	public static final Chart createMinSlice( )
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
-		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.PINK( ) );
+		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ));
 
 		// Plot
 		cwoaPie.getPlot( )
 				.getClientArea( )
-				.setBackground( ColorDefinitionImpl.PINK( ) );
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
 
 		// Legend
 		Legend lg = cwoaPie.getLegend( );
@@ -101,7 +101,7 @@ public class MinSlice
 		sePie.setLabelPosition( Position.INSIDE_LITERAL );
 
 		// Explosion
-		sePie.setExplosion( 30 );
+		sePie.setExplosion( 10 );
 		sePie.setExplosionExpression( "valueData<20 ||valueData>50" );//$NON-NLS-1$
 
 		sdCity.getSeries( ).add( sePie );

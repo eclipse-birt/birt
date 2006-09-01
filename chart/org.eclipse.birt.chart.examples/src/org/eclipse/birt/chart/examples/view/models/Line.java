@@ -83,8 +83,11 @@ public class Line
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
 				"Item 1", "Item 2", "Item 3"} );//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
 				25, 35, 15
+		} );
+		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
+				15, 10, 25
 		} );
 
 		// X-Series
@@ -95,21 +98,34 @@ public class Line
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
-		// Y-Sereis
-		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
-		ls.setDataSet( orthoValues );
-		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
-		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
+		// Y-Series
+		LineSeries ls1 = (LineSeries) LineSeriesImpl.create( );
+		ls1.setDataSet( orthoValues1 );
+		ls1.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
+		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL );
+			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL );
 		}
-		ls.getLabel( ).setVisible( true );
-		ls.setPaletteLineColor( true );
+		ls1.getLabel( ).setVisible( true );
+		ls1.setPaletteLineColor( true );
+		
+		// Y-Series
+		LineSeries ls2 = (LineSeries) LineSeriesImpl.create( );
+		ls2.setDataSet( orthoValues2 );
+		ls2.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
+		for ( int i = 0; i < ls2.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls2.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL );
+		}
+		ls2.getLabel( ).setVisible( true );
+		ls2.setPaletteLineColor( true );
+
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( ls );
+		sdY.getSeries( ).add( ls1 );
+		sdY.getSeries( ).add( ls2 );
 
 		// Z-Series
 		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );

@@ -105,6 +105,7 @@ public class ChartExamples implements SelectionListener
 				.getSystemColor( SWT.COLOR_WHITE ) );
 		preview = new ChartPreview( );
 		paintCanvas.addPaintListener( preview );
+		paintCanvas.addControlListener( preview );
 		preview.setPreview( paintCanvas );
 
 		// description

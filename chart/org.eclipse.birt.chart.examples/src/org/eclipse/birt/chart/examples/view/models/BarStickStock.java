@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.examples.view.models;
 
 import org.eclipse.birt.chart.datafeed.StockEntry;
@@ -19,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -36,18 +38,24 @@ import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.util.Calendar;
 
-
 public class BarStickStock
 {
+
 	public final static Chart createBarStickStock( )
 	{
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create( );
 		cwaStock.setSubType( "Bar Stick Stock Chart" ); //$NON-NLS-1$
 
 		// Title
-		cwaStock.getTitle( ).getLabel( ).getCaption( ).setValue( "Bar-stick Stock Chart" );//$NON-NLS-1$
+		cwaStock.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( "Bar-stick Stock Chart" );//$NON-NLS-1$
+		cwaStock.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
 
-		//Legend
+		// Legend
 		cwaStock.getLegend( ).setVisible( false );
 
 		// X-Axis
@@ -70,7 +78,7 @@ public class BarStickStock
 				.getLineAttributes( )
 				.setStyle( LineStyle.DOTTED_LITERAL );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-
+		xAxisPrimary.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
 		xAxisPrimary.setCategoryAxis( true );
 
 		// Y-Axis

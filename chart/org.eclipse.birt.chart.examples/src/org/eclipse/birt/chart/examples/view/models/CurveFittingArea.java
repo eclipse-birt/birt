@@ -77,8 +77,7 @@ public class CurveFittingArea
 		// Y-Series
 		AreaSeries as = (AreaSeries) AreaSeriesImpl.create( );
 		as.setDataSet( orthoValues );
-		as.getLineAttributes( ).setColor( ColorDefinitionImpl.PINK( ) );
-		as.getLineAttributes( ).setThickness( 5 );
+		as.getLineAttributes( ).setVisible( false );
 		as.getLabel( ).setVisible( true );
 		as.setTranslucent( true );
 		as.setCurve( true );

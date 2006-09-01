@@ -59,7 +59,7 @@ public class BlockScript
 
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
 		// Y-Axis
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
@@ -68,9 +68,9 @@ public class BlockScript
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				8, 18, -15
+				8, 18, -15, -8, 10
 		} );
 
 		// X-Series

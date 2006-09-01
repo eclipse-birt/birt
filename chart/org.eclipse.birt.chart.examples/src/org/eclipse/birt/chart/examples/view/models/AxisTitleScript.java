@@ -46,7 +46,7 @@ public class AxisTitleScript
 		// X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
 
 		// Y-Axis
@@ -57,9 +57,9 @@ public class AxisTitleScript
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				8, 18, -15
+				8, 18, -15, -8, 10
 		} );
 
 		// X-Series

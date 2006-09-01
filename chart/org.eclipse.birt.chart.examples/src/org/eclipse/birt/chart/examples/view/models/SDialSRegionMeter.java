@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.examples.view.models;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -37,9 +38,9 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 
-
 public class SDialSRegionMeter
 {
+
 	public static final Chart createSDialSRegionMeter( )
 	{
 		DialChart dChart = (DialChart) DialChartImpl.create( );
@@ -49,9 +50,14 @@ public class SDialSRegionMeter
 
 		// Title/Plot
 		dChart.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		dChart.getPlot( ).getClientArea( ).setBackground( ColorDefinitionImpl.CREAM( ) );
-		
-		dChart.getTitle( ).getLabel( ).getCaption( ).setValue( "Single Dial Single Region Meter Chart" );//$NON-NLS-1$
+		dChart.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
+
+		dChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( "Single Dial Single Region Meter Chart" );//$NON-NLS-1$
 		dChart.getTitle( ).getOutline( ).setVisible( false );
 
 		// Legend
@@ -151,6 +157,5 @@ public class SDialSRegionMeter
 
 		return dChart;
 	}
-
 
 }

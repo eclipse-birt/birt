@@ -51,7 +51,7 @@ public class MDialSRegionMeter
 		dChart.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		dChart.getPlot( )
 				.getClientArea( )
-				.setBackground( ColorDefinitionImpl.CREAM( ) );
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
 
 		dChart.getTitle( )
 				.getLabel( )

@@ -74,12 +74,12 @@ public class SideBySideBar
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
+				25, 35, 15, 5, 20
 		} );
 		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
-				5, 10, 25
+				5, 10, 25, 10, 5
 		} );
 
 		// X-Series

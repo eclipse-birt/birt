@@ -65,7 +65,8 @@ public class Pie
 		PieSeries sePie = (PieSeries) PieSeriesImpl.create( );
 		sePie.setDataSet( seriesOneValues );
 		sePie.setSeriesIdentifier( "Cities" );//$NON-NLS-1$ 
-
+		sePie.setExplosion( 5 );
+		
 		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
 		sd.getSeriesDefinitions( ).add( sdCity );
 		sdCity.getSeries( ).add( sePie );

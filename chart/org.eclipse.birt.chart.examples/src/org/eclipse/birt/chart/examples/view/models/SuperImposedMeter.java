@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
-import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 
@@ -48,8 +47,9 @@ public class SuperImposedMeter
 
 		// Title/Plot
 		dChart.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		Plot p = dChart.getPlot( );
-		p.getClientArea( ).setBackground( ColorDefinitionImpl.CREAM( ) );
+		dChart.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
 
 		dChart.getTitle( )
 				.getLabel( )

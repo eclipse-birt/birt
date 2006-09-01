@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.examples.view.models;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -37,18 +38,18 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 
-
 public class MultipleYAxes
 {
+
 	public static final Chart createMultipleYAxes( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaBar.getPlot( ).getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
-				245,
-				255 ) );
+		cwaBar.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
 
 		// Title
 		cwaBar.getTitle( )

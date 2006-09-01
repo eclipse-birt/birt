@@ -20,6 +20,8 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -28,7 +30,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 
-public class ChartPreview implements PaintListener
+public class ChartPreview implements PaintListener, ControlListener
 {
 
 	private transient Canvas preview = null;
@@ -202,5 +204,26 @@ public class ChartPreview implements PaintListener
 	public void setPreview( Canvas paintCanvas )
 	{
 		this.preview = paintCanvas;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.ControlEvent)
+	 */
+	public void controlMoved( ControlEvent e )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.ControlEvent)
+	 */
+	public void controlResized( ControlEvent e )
+	{
+		if ( preview != null && !preview.isDisposed( ) )
+		{
+			updateBuffer( );
+			preview.redraw( );
+		}
 	}
 }

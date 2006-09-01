@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -50,13 +49,9 @@ public class AxisLabelFormat
 		// Plot
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		Plot p = cwaBar.getPlot( );
-		p.getClientArea( )
-				.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-						225,
-						255 ),
-						ColorDefinitionImpl.create( 255, 255, 225 ),
-						-35,
-						false ) );
+		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
+				255,
+				225 ) );
 		p.getOutline( ).setVisible( true );
 
 		// Title
@@ -93,10 +88,12 @@ public class AxisLabelFormat
 		DateTimeDataSet categoryValues = DateTimeDataSetImpl.create( new Calendar[]{
 				new CDateTime( 2001, 5, 1 ),
 				new CDateTime( 2001, 4, 11 ),
+				new CDateTime( 2001, 7, 21 ),
+				new CDateTime( 2001, 8, 1 ),
 				new CDateTime( 2001, 8, 23 )
 		} );
 		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				16170, 24210, -4300
+				16170, 24210, -4300, 5500, 8988
 		} );
 
 		// X-Series

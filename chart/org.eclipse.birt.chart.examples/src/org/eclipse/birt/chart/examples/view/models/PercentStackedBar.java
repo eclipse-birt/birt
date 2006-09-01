@@ -57,7 +57,7 @@ public class PercentStackedBar
 
 		// Legend
 		Legend lg = cwaBar.getLegend( );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		lg.setItemType( LegendItemType.SERIES_LITERAL );
 
 		// X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
@@ -75,12 +75,12 @@ public class PercentStackedBar
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
+				25, 35, 15, 5, 20
 		} );
 		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
-				5, 10, 25
+				5, 10, 25, 10, 5
 		} );
 
 		// X-Series
@@ -88,24 +88,26 @@ public class PercentStackedBar
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
 		// Y-Series
 		BarSeries bs1 = (BarSeries) BarSeriesImpl.create( );
+		bs1.setSeriesIdentifier( "Series 1" ); //$NON-NLS-1$
 		bs1.setDataSet( orthoValues1 );
 		bs1.setStacked( true );
 		bs1.getLabel( ).setVisible( true );
 		bs1.setLabelPosition( Position.INSIDE_LITERAL );
 
 		BarSeries bs2 = (BarSeries) BarSeriesImpl.create( );
+		bs2.setSeriesIdentifier( "Series 2" ); //$NON-NLS-1$
 		bs2.setDataSet( orthoValues2 );
 		bs2.setStacked( true );
 		bs2.getLabel( ).setVisible( true );
 		bs2.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( 0 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs1 );
 		sdY.getSeries( ).add( bs2 );
