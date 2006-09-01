@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
@@ -124,6 +126,7 @@ public class DataItemBindingDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		final Composite composite = (Composite) super.createDialogArea( parent );
+		UIUtil.bindHelp(composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG);
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
 
 		new Label( composite, SWT.NONE ).setText( NAME );
