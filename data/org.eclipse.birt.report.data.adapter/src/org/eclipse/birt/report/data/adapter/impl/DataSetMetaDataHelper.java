@@ -150,7 +150,8 @@ public class DataSetMetaDataHelper
 					modelAdaptor,
 					sessionContext,
 					false ).executeQuery( query ).getResultMetaData( );
-			addResultSetColumn( dataSetHandle, metaData );
+			if ( dataSetHandle.canEdit( ) )
+				addResultSetColumn( dataSetHandle, metaData );
 		}
 		
 		if ( needsUseResultHint( dataSetHandle, metaData ) )
