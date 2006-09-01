@@ -73,7 +73,7 @@ abstract public class AbstractContent extends AbstractElement
 	
 	transient protected IContent lastChild = null;
 	
-	protected int version = -1;
+	transient protected int version = -1;
 
 	public AbstractContent( IReportContent report )
 	{
@@ -559,12 +559,11 @@ abstract public class AbstractContent extends AbstractElement
 
 	public void readContent( DataInputStream in ) throws IOException
 	{
-		int version = IOUtil.readInt( in );
-		if ( version == VERSION_1 )
+		if ( this.version == VERSION_1 )
 		{
 			readContentV1( in );
 		}
-		else if ( version == VERSION_0 )
+		else if ( this.version == VERSION_0 )
 		{
 			readContentV0( in );
 		}
@@ -576,6 +575,7 @@ abstract public class AbstractContent extends AbstractElement
 
 	protected void readContentV0( DataInputStream in ) throws IOException
 	{
+		int version = IOUtil.readInt( in );
 		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
@@ -595,7 +595,6 @@ abstract public class AbstractContent extends AbstractElement
 
 	public void writeContent( DataOutputStream out ) throws IOException
 	{
-		IOUtil.writeInt( out, VERSION_1 );
 		writeFields( out );
 	}
 	
@@ -603,8 +602,8 @@ abstract public class AbstractContent extends AbstractElement
 	 * @param iVersion
 	 *            The version of the content.
 	 */
-	public void setVersion( int iVersion )
+	public void setVersion( int version )
 	{
-		this.version = iVersion;
+		this.version = version;
 	}
 }
