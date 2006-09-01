@@ -179,6 +179,12 @@ public interface IHelpContextIds
 
 	public static final String HANDLER_CLASS_SELECTION_DIALOG = PREFIX
 			+ "HandlerClassSelectionDialog_ID";
+	
+	public static final String DATA_COLUMN_BINDING_DIALOG = PREFIX
+	+ "DataColumnBindingDialog_ID";
+	
+	public static final String DATA_ITEM_BINDING_DIALOG = PREFIX
+	+ "DataItemBindingDialog_ID";
 
 	/*----------Control: Preference----------*/
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX
