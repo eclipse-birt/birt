@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.39 $ $Date: 2006/06/22 08:38:23 $
+ * @version $Revision: 1.40 $ $Date: 2006/08/25 03:24:02 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -99,5 +99,16 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		finishTOCEntry( );
 		closeQuery( );
+	}
+
+	public IReportItemExecutor getNextChild( )
+	{
+		IReportItemExecutor executor = super.getNextChild( );
+		if ( executor instanceof ListBandExecutor )
+		{
+			ListBandExecutor bandExecutor = (ListBandExecutor) executor;
+			bandExecutor.setListingExecutor( this );
+		}
+		return executor;
 	}
 }

@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
+import org.w3c.dom.css.CSSValue;
 
 public abstract class HTMLAbstractLM implements ILayoutManager
 {
@@ -248,11 +249,11 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		boolean ret = hasMasterPageChanged( );
 
 		IStyle style = content.getStyle( );
-		String pageBreak = style.getPageBreakBefore( );
-		if ( IStyle.CSS_ALWAYS_VALUE == pageBreak
-				|| IStyle.CSS_LEFT_VALUE == pageBreak
-				|| IStyle.CSS_RIGHT_VALUE == pageBreak
-				|| IStyle.BIRT_SOFT_VALUE == pageBreak )
+		CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
+		if ( IStyle.ALWAYS_VALUE.equals( pageBreak )
+				|| IStyle.RIGHT_VALUE.equals( pageBreak )
+				|| IStyle.LEFT_VALUE.equals( pageBreak )
+				|| IStyle.SOFT_VALUE.equals( pageBreak ) )
 		{
 			//style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
 			return true;
@@ -268,12 +269,12 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			return false;
 		}
 		IStyle style = content.getStyle( );
-		String pageBreak = style.getPageBreakAfter( );
-		if ( IStyle.CSS_ALWAYS_VALUE == pageBreak
-				|| IStyle.CSS_LEFT_VALUE == pageBreak
-				|| IStyle.CSS_RIGHT_VALUE == pageBreak )
+		CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER);
+		if ( IStyle.ALWAYS_VALUE.equals( pageBreak )
+				|| IStyle.RIGHT_VALUE.equals( pageBreak )
+				|| IStyle.LEFT_VALUE.equals( pageBreak ))
 		{
-			//style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.AUTO_VALUE );
+			//style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
 			return true;
 		}
 		return false;

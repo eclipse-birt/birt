@@ -5,9 +5,12 @@ import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.w3c.dom.css.CSSValue;
 
 public class ListBandExecutor extends StyledItemExecutor
 {
@@ -33,6 +36,12 @@ public class ListBandExecutor extends StyledItemExecutor
 		return null;
 	}
 
+	ListingElementExecutor listExecutor;
+	
+	void setListingExecutor(ListingElementExecutor listExecutor)
+	{
+		this.listExecutor = listExecutor;
+	}
 	public IContent execute( )
 	{
 		ListBandDesign bandDesign = (ListBandDesign) getDesign();
@@ -44,6 +53,21 @@ public class ListBandExecutor extends StyledItemExecutor
 		
 		initializeContent( bandDesign, bandContent );
 
+		int type = bandDesign.getBandType( );
+		if((type == BandDesign.BAND_DETAIL || type == BandDesign.GROUP_HEADER )&& listExecutor.needSoftBreakBefore( ))
+		{
+			IStyle style = content.getStyle( );
+			if(style!=null)
+			{
+				CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+				if(pageBreak==null || IStyle.AUTO_VALUE.equals( pageBreak ))
+				{
+					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE );
+					listExecutor.clearSoftBreak( );
+				}
+			}
+		}
+		
 		startTOCEntry(bandContent);
 		if (emitter != null)
 		{
