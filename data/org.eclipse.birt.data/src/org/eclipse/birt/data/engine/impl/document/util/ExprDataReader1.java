@@ -13,7 +13,9 @@ package org.eclipse.birt.data.engine.impl.document.util;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
@@ -41,6 +43,8 @@ class ExprDataReader1 implements IExprDataReader
 	
 	private int version;
 	private Map exprValueMap;
+	private List exprKeys;
+	private int metaOffset;
 
 	/**
 	 * @param rowExprsRAIs
@@ -50,9 +54,20 @@ class ExprDataReader1 implements IExprDataReader
 	ExprDataReader1( RAInputStream rowExprsRAIs, RAInputStream rowLenRAIs,
 			int version ) throws DataException
 	{
+		this.INT_LENGTH = IOUtil.INT_LENGTH;
+		
 		try
 		{
-			rowCount = IOUtil.readInt( rowExprsRAIs );
+			this.rowCount = IOUtil.readInt( rowExprsRAIs );
+			int exprCount = IOUtil.readInt( rowExprsRAIs );
+			this.exprKeys = new ArrayList();
+			this.rowExprsDis = new DataInputStream( rowExprsRAIs );
+			for( int i = 0; i < exprCount; i++ )
+			{
+				this.exprKeys.add( IOUtil.readString( this.rowExprsDis ) );
+			}
+			this.metaOffset = INT_LENGTH + IOUtil.readInt( this.rowExprsDis ) + INT_LENGTH;
+			
 		}
 		catch ( IOException e )
 		{
@@ -61,7 +76,7 @@ class ExprDataReader1 implements IExprDataReader
 					"Result Data" );
 		}
 		
-		this.rowExprsDis = new DataInputStream( rowExprsRAIs );
+		
 		this.rowExprsRAIs = rowExprsRAIs;
 		this.rowLenRAIs = rowLenRAIs;
 				
@@ -70,7 +85,7 @@ class ExprDataReader1 implements IExprDataReader
 		this.currReadIndex = 0;
 		this.currRowIndex = -1;
 		
-		this.INT_LENGTH = IOUtil.INT_LENGTH;
+		
 	}
 	
 	/*
@@ -157,7 +172,7 @@ class ExprDataReader1 implements IExprDataReader
 				exprCount = IOUtil.readInt( rowExprsDis );
 				for ( int i = 0; i < exprCount; i++ )
 				{
-					IOUtil.readString( rowExprsDis );
+				//	IOUtil.readString( rowExprsDis );
 					IOUtil.readObject( rowExprsDis );
 				}
 			}
@@ -166,8 +181,8 @@ class ExprDataReader1 implements IExprDataReader
 		{
 			rowLenRAIs.seek( absoluteRowIndex * INT_LENGTH );
 			int rowOffsetAbsolute = IOUtil.readInt( rowLenRAIs );
-			// 4 is the first bytes of row length
-			rowExprsRAIs.seek( rowOffsetAbsolute + 4 ); 
+			// metaOffset is the first bytes of row length + expr name string length.
+			rowExprsRAIs.seek( rowOffsetAbsolute + this.metaOffset ); 
 			rowExprsDis = new DataInputStream( rowExprsRAIs );
 		}
 	}
@@ -182,7 +197,7 @@ class ExprDataReader1 implements IExprDataReader
 		int exprCount = IOUtil.readInt( rowExprsDis );
 		for ( int i = 0; i < exprCount; i++ )
 		{
-			String exprID = IOUtil.readString( rowExprsDis );
+			String exprID = this.exprKeys.get( i ).toString( );
 			Object exprValue = IOUtil.readObject( rowExprsDis );
 			valueMap.put( exprID, exprValue );
 		}

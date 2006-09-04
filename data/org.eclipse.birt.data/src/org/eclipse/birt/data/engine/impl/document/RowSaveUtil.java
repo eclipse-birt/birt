@@ -16,11 +16,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -43,14 +43,14 @@ class RowSaveUtil
 	private boolean inited;
 
 	private Set exprNameSet;
-
+	
 	/**
 	 * @param rowCount
 	 * @param rowExprsOs
 	 * @param rowLenOs
 	 */
 	RowSaveUtil( int rowCount, OutputStream rowExprsOs,
-			OutputStream rowLenOs )
+			OutputStream rowLenOs, Set exprNameSet )
 	{
 		this.rowCount = rowCount;
 		this.exprNameSet = new HashSet( );
@@ -58,6 +58,8 @@ class RowSaveUtil
 		this.rowExprsDos = new DataOutputStream( rowExprsOs );
 		this.rowLenDos = new DataOutputStream( rowLenOs );
 		this.lastRowIndex = -1;
+		
+		this.exprNameSet = exprNameSet;
 	}
 
 	/**
@@ -103,15 +105,12 @@ class RowSaveUtil
 		try
 		{
 			IOUtil.writeInt( tempDos, valueMap.size( ) );
-			Iterator it = valueMap.entrySet( ).iterator( );
+			Iterator it = valueMap.keySet( ).iterator( );
 			while ( it.hasNext( ) )
 			{
-				Map.Entry entry = (Entry) it.next( );
-				String exprID = (String) entry.getKey( );
-				Object value = entry.getValue( );
-				IOUtil.writeString( tempDos, exprID );
+				Object key = it.next( );
+				Object value = valueMap.get( key );
 				IOUtil.writeObject( tempDos, value );
-				exprNameSet.add( exprID );
 			}
 
 			tempDos.flush( );
@@ -186,6 +185,16 @@ class RowSaveUtil
 
 			// TODO: enhance me
 			IOUtil.writeInt( this.rowExprsDos, totalRowCount );
+			
+			Map map = new HashMap();
+			Iterator it = exprNameSet.iterator( );
+			while(it.hasNext( ))
+			{
+				Object value = it.next( );
+				map.put( value, value );
+			}
+			int rowBytes = this.saveExprValue( map );
+			IOUtil.writeInt( this.rowExprsDos, rowBytes );
 		}
 		catch ( IOException e )
 		{

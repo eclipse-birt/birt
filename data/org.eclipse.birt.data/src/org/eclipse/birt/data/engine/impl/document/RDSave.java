@@ -97,7 +97,7 @@ class RDSave implements IRDSave
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
 
-		this.rowSaveUtil = new RowSaveUtil( rowCount, rowExprsOs, rowLenOs );
+		this.rowSaveUtil = new RowSaveUtil( rowCount, rowExprsOs, rowLenOs, this.getExprNameSet( ) );
 	}
 	
 	/*

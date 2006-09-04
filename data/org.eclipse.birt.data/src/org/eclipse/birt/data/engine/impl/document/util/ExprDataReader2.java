@@ -12,7 +12,9 @@ package org.eclipse.birt.data.engine.impl.document.util;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
@@ -47,13 +49,39 @@ class ExprDataReader2 implements IExprDataReader
 	
 	private Map exprValueMap;	
 	private Map rowIDMap;
+	private List exprKeys;
+	private int metaOffset;
 	
 	/**
 	 * @param rowExprsIs
 	 * @param rowLenIs
+	 * @throws DataException 
 	 */
-	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs )
+	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs ) throws DataException
 	{
+		try
+		{
+			//Skip row count.
+			IOUtil.readInt( rowExprsIs );
+			
+			int exprCount = IOUtil.readInt( rowExprsIs );
+			this.exprKeys = new ArrayList();
+			this.rowExprsDis = new DataInputStream( rowExprsIs );
+			for( int i = 0; i < exprCount; i++ )
+			{
+				this.exprKeys.add( IOUtil.readString( this.rowExprsDis ) );
+			}
+			this.metaOffset = IOUtil.INT_LENGTH
+					+ IOUtil.readInt( this.rowExprsDis ) + IOUtil.INT_LENGTH;
+			
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Result Data" );
+		}
+		
 		this.rowExprsIs = rowExprsIs;
 		this.rowLenIs = rowLenIs;
 		
@@ -179,7 +207,7 @@ class ExprDataReader2 implements IExprDataReader
 		
 		rowLenIs.seek( absoluteIndex * 4 );
 		
-		rowExprsIs.seek( IOUtil.readInt( rowLenIs ) + 4 );
+		rowExprsIs.seek( IOUtil.readInt( rowLenIs ) + this.metaOffset );
 		rowExprsDis = new DataInputStream( rowExprsIs );
 	}
 
@@ -193,7 +221,7 @@ class ExprDataReader2 implements IExprDataReader
 		int exprCount = IOUtil.readInt( rowExprsDis );
 		for ( int i = 0; i < exprCount; i++ )
 		{
-			String exprID = IOUtil.readString( rowExprsDis );
+			String exprID = this.exprKeys.get( i ).toString( );
 			Object exprValue = IOUtil.readObject( rowExprsDis );
 			valueMap.put( exprID, exprValue );
 		}
