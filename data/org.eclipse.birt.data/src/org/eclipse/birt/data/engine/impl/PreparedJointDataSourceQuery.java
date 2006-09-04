@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -201,8 +202,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		}
 		try
 		{
-			String leftPrefix = dataSet.getLeftDataSetDesignName( );
-			String rightPrefix = dataSet.getRightDataSetDesignName( );
+			String leftPrefix = getDataSetName(dataSet.getLeftDataSetDesignName( ));
+			String rightPrefix = getDataSetName(dataSet.getRightDataSetDesignName( ));
 			if ( leftPrefix.equals( rightPrefix ) )
 			{
 				leftPrefix = leftPrefix + "1";
@@ -223,6 +224,18 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		}
 	}
 
+	/**
+	 * Get the data set name with out library name prefix. This fix
+	 * is for bugzilla bug 155848. 
+	 * 
+	 * @param qualifiedName
+	 * @return
+	 */
+	private String getDataSetName( String qualifiedName )
+	{
+		return ExpressionUtil.getDataSetNameWithoutPrefix( qualifiedName );
+	}
+	
 	/**
 	 * Gets the Java class used to represent the specified data type.
 	 * 
