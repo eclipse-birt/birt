@@ -469,31 +469,33 @@ public final class ExpressionUtil
 	}
 	
 	/**
-	 * Extracts the name from the given qualified data set name. A qualified 
-	 * data set name is a name with library namespace. 
+	 * Gets the data set name with the given full name. The full name may 
+	 * contain the library namespace.
 	 * 
 	 * <p>
 	 * For example,
 	 * <ul>
-	 * <li>"dataSet1" is extracted from "LibA.dataSet1"
-	 * <li>"dataSet1" is returned from "dataSet1"
+	 * <li>"dataSet1" is extracted from "new_library.dataSet1"
 	 * </ul>
 	 * 
-	 * @param qualifiedName
-	 *            the qualified reference value
+	 * @param fullDataSetName
+	 *            the data set
 	 * @return the name
 	 */
 	
-	public static String getDataSetName(String qualifiedName)
+	public static String getDataSetNameWithoutPrefix(String fullDataSetName)
 	{
-		if ( qualifiedName == null || qualifiedName.length( ) == 0)
+		if (fullDataSetName == null)
 			return null;
-
-		String temp[] = qualifiedName.split( "\\Q.\\E" );  //$NON-NLS-1$
+							
+		String dataSetName = fullDataSetName;			
+		String temp[] = fullDataSetName.split( "\\Q.\\E" );  //$NON-NLS-1$
 		if( temp.length >= 2 )
-			return temp[1].trim( );
-		
-		return  qualifiedName.trim( );
+		{
+			dataSetName = temp[1].trim( );
+		}
+
+		return dataSetName;
 	}
 }
 
