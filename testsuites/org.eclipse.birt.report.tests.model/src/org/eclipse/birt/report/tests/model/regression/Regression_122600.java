@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
 
@@ -41,9 +38,28 @@ public class Regression_122600 extends BaseTestCase
 
 		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
 
-		assertEquals( "top-n", naturedSortedChoices[17].getName( ) ); //$NON-NLS-1$
-		assertEquals( "bottom-n", naturedSortedChoices[1].getName( ) ); //$NON-NLS-1$
-		assertEquals( "like", naturedSortedChoices[10].getName( ) ); //$NON-NLS-1$
-		assertEquals( "match", naturedSortedChoices[12].getName( ) ); //$NON-NLS-1$
+		boolean topN = false;
+		boolean bottomN = false;
+		boolean like = false;
+		boolean match = false;
+
+		for ( int i = 0; i < naturedSortedChoices.length; i++ )
+		{
+			IChoice choice = (IChoice) naturedSortedChoices[i];
+
+			if ( "top-n".equals( choice.getName( ) ) ) //$NON-NLS-1$
+				topN = true;
+			else if ( "bottom-n".equals( choice.getName( ) ) ) //$NON-NLS-1$
+				bottomN = true;
+			else if ( "like".equals( choice.getName( ) ) ) //$NON-NLS-1$
+				like = true;
+			else if ( "match".equals( choice.getName( ) ) ) //$NON-NLS-1$
+				match = true;
+
+		}
+		assertTrue( topN );
+		assertTrue( bottomN );
+		assertTrue( like );
+		assertTrue( match );
 	}
 }
