@@ -32,7 +32,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Prefix that identify the parameter is to set Display Text for "select" parameter
 	 */
 	__isdisplay : '__isdisplay__',
- 	
+
+    /**
+	 *	Event handler closures.
+	 */
+	 __neh_change_cascade_text_closure : null,
+	  	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
@@ -47,6 +52,9 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			var paramDialogTitleBar = $( id + 'dialogTitleBar' );
 			paramDialogTitleBar.style.display = 'none';			
 		}
+
+		// Change event for Cascading parameter text field
+		this.__neh_change_cascade_text_closure = this.__neh_change_cascade_text.bindAsEventListener( this );
 			    
 	    this.initializeBase( id );
 	    this.__local_installEventHandlers_extend( id );
@@ -122,6 +130,21 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				if ( i < oTRC.length - 1 )
 				{
 					Event.observe( oSelect[0], 'change', this.__neh_click_select_closure, false );
+					
+					// find text item to instanll event listener
+					var oText;
+					for( var j = 0; j < oInput.length; j++ )
+					{
+						if( oInput[j].type == "text" )
+						{
+							oText = oInput[j];
+							break;
+						}
+					}
+					if( oText )
+					{
+						Event.observe( oText, 'change', this.__neh_change_cascade_text_closure, false );
+					}
 				}
 				
 				if( !matrix[m] )
@@ -395,7 +418,39 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		}
 		return true;
 	},
-	
+
+	/**
+	 *	Handle changing on cascading parameter text field.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_change_cascade_text : function( event )
+	{						
+	    var matrix = new Array( );
+	    var m = 0;
+        for( var i = 0; i < this.__cascadingParameter.length; i++ )
+        {
+            for( var j = 0; j < this.__cascadingParameter[i].length; j++ )
+            {
+                if( this.__cascadingParameter[i][j].name == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 6 ) )
+                {
+                    this.__cascadingParameter[i][j].value = Event.element( event ).value;
+                    for( var m = 0; m <= j; m++ )
+                    {
+					    if( !matrix[m] )
+				        {
+				            matrix[m] = {};
+				        }
+				        matrix[m].name = this.__cascadingParameter[i][m].name;
+				        matrix[m].value = this.__cascadingParameter[i][m].value;
+				    }                    
+                    birtEventDispatcher.broadcastEvent( birtEvent.__E_CASCADING_PARAMETER, matrix );
+                }
+            }
+        }
+	},
+		
 	/**
 	 *	Handle press "Enter" key.
 	 *

@@ -385,11 +385,13 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
 				{
 					oInput[i+1].disabled = false;
+					oInput[i+1].value = "";
 					oInput[i+1].focus( );
 				}
 				else if( oSelect[0] )
 				{
 					oSelect[0].disabled = false;
+					oSelect[0].selectedIndex = -1;
 					oSelect[0].focus( );
 				}
 			}
