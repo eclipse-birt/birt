@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
@@ -87,7 +88,9 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
 		composite.setLayout( new GridLayout( 2, false ) );
-
+	
+		UIUtil.bindHelp( composite, IHelpContextIds.DATA_SET_PARAMETER_BINDING_DIALOG );
+		
 		new Label( composite, SWT.NONE ).setText( LABEL_NAME );
 		nameLabel = new Label( composite, SWT.NONE );
 		nameLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
