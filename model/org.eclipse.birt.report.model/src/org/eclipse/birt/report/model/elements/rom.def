@@ -2902,7 +2902,7 @@
       <Default>auto</Default>
     </Property>
     <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.ListingGroup.pageBreakBefore" name="pageBreakBefore" runtimeSettable="false" since="2.1" type="choice">
-      <Default>always-excluding-first</Default>
+      <Default>auto</Default>
     </Property>
 	<PropertyGroup displayNameID="Element.ListingGroup.Interval">
 		<Property displayNameID="Element.ListingGroup.intervalBase" name="intervalBase" runtimeSettable="false" since="1.0" type="string" />
