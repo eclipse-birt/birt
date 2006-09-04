@@ -11,13 +11,12 @@
 
 package org.eclipse.birt.report.utility;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
-
-import com.ibm.icu.math.BigDecimal;
 
 /**
  * Provides data convert and format services
@@ -106,7 +105,8 @@ public class DataUtil
 			return null;
 
 		if ( value instanceof Float || value instanceof Double
-				|| value instanceof BigDecimal )
+				|| value instanceof BigDecimal
+				|| value instanceof com.ibm.icu.math.BigDecimal )
 		{
 			return value.toString( );
 		}
