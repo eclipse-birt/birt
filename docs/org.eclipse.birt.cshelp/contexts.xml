@@ -673,7 +673,7 @@ Select the one that you need to access the set of localized string values that y
 </description>
 </context>
 <context id="DataColumnBindingDialog_ID" title="Data Binding">
-<description>Use this dialog box to bind a data expression to a name.
+<description>Use this dialog to bind a data expression to a name.
 Data items use the name to display the result of the expression in a report.
 
 The data expression can be a simple reference to a data field or a more complex calculation. To build an expression or access data fields, click the builder button beside the expression field.
@@ -683,14 +683,29 @@ You also use this dialog to set the data type that the expression returns.
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="Laying out a report"/>
 </context>
 <context id="DataItemBindingDialog_ID" title="Data Item">
-<description>Use this dialog box to set the data expression for a data item.
+<description>Use this dialog to set the data expression for a data item.
 The data expression can be a simple reference to a data field or a more complex calculation.
 
 In Name, type a name for the expression. This name must be unique within a data set.
 In Data Type, select the data type that the expression returns.
-In Expression, type an expression. Alternatively, to build an expression or access data fields, click the builder button beside the expression field.
+In Expression, type an expression. Alternatively, to build an expression or access data fields, click the builder button beside the Expression field.
 
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-05-1.html" label="Laying out a report"/>
+</context>
+<context id="Dialog_PropertyHandle_ID" title="Computed Column/Filter/Parameter">
+<description>Use this dialog to set or modify a property of a data set.
+To create a computed column, provide a name, data type, and expression. The column will be available to all report items that use this data set.
+
+To create a filter, provide an expression to test, the test operator, and an expression that filters the test expression. Use this type of filter when the data source does not support the filtering in the query.
+
+To create a parameter to filter the result set in a query, provide a name, data type, and direction. Direction can be Input, Output, or Input/Output. Only stored procedures support Output and Input/Output parameters. Provide a default value for the parameter or link it to a report parameter.
+</description>
+</context>
+<context id="DataSetParameterBindingInputDialog_ID" title="Data Set Parameter Binding">
+<description>Use this dialog to modify the value that a data set parameter uses for this report item. For example, if a data set parameter takes its value from a report parameter that the user supplies, you can override that value in this dialog.
+
+Type a new expression in Value. Alternatively, to build an expression or access data fields, click the builder button beside the Value field.
+</description>
 </context>
 </contexts>
