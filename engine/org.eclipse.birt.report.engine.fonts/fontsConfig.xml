@@ -55,10 +55,10 @@
 
 	<all-fonts>
 		<block name="Basic Latin" range-start="0" range-end="7f" index="0">
-			<mapping name="all-fonts" font-family="Symbol"/>
+			<mapping name="all-fonts" font-family="Times-Roman"/>
 		</block>
 		<block name="Latin-1 Supplement" range-start="80" range-end="ff" index="1">
-			<mapping name="all-fonts" font-family="Symbol"/>
+			<mapping name="all-fonts" font-family="Times-Roman"/>
 		</block>
 		<block name="Latin Extended-A" range-start="100" range-end="17f" index="2">
 			<mapping name="all-fonts" font-family="HeiseiKakuGo-W5"/>
