@@ -693,7 +693,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		if ( axisType == AxisType.TEXT_LITERAL )
 		{
-			return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
+			// Text type is unlimited since toString() can be called instead
+			return true;
 		}
 		else if ( axisType == AxisType.LINEAR_LITERAL
 				|| axisType == AxisType.LOGARITHMIC_LITERAL )
