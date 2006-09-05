@@ -17,14 +17,15 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Implementation of BirtException in DtE project.
  */
 public class DataException extends BirtException
 {
-	/** static ResourceHandle */
-	private static ResourceBundle resourceBundle = DataResourceHandle.getInstance( )
-			.getResourceBundle( );
+
+	private static ULocale currentLocale;
 	
 	/** pluginId, probably this value should be obtained externally */
 	private final static String _pluginId = "org.eclipse.birt.data";
@@ -32,12 +33,14 @@ public class DataException extends BirtException
 	/** serialVersionUID */
 	private static final long serialVersionUID = 8571109940669957243L;
 	
+	private static ResourceBundle resourceBundle;
+	
 	/*
 	 * @see BirtException(errorCode)
 	 */
 	public DataException( String errorCode )
 	{
-		super( _pluginId, errorCode, resourceBundle );
+		super( _pluginId, errorCode, getResourceBundle( ) );
 	}
 	
 	/**
@@ -47,7 +50,7 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode, Object argv )
 	{
-		super( _pluginId, errorCode, argv, resourceBundle );
+		super( _pluginId, errorCode, argv, getResourceBundle( ) );
 	}
 	
 	/**
@@ -57,7 +60,8 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode, Object argv[] )
 	{
-		super( _pluginId, errorCode, argv, resourceBundle );
+		super( _pluginId, errorCode, argv, getResourceBundle( ) );
+		
 	}
     
     /*
@@ -65,17 +69,17 @@ public class DataException extends BirtException
      */
     public DataException( String errorCode, Throwable cause )
     {
-    	super( _pluginId, errorCode, resourceBundle, cause );
+    	super( _pluginId, errorCode, getResourceBundle( ), cause );
     }
     
     public DataException( String errorCode, Throwable cause, Object argv )
     {
-    	super( _pluginId, errorCode, argv, resourceBundle, cause);
+    	super( _pluginId, errorCode, argv, getResourceBundle( ), cause);
     }
     
     public DataException( String errorCode, Throwable cause, Object argv[] )
     {
-    	super( _pluginId, errorCode, argv, resourceBundle, cause );
+    	super( _pluginId, errorCode, argv, getResourceBundle( ), cause );
     }
     /*
 	 * @see java.lang.Throwable#getLocalizedMessage()
@@ -113,5 +117,45 @@ public class DataException extends BirtException
 			return (DataException) e;
 		return new DataException( ResourceConstants.WRAPPED_BIRT_EXCEPTION,  
 				e, e.getMessage() );
+	}
+	
+	/**
+	 * Set the locale info
+	 * 
+	 * @param locale
+	 */
+	public static void setLocale( ULocale locale )
+	{
+		currentLocale = locale;
+		if ( resourceBundle != null )
+		{
+			if ( ( locale == null && !ULocale.getDefault( )
+					.toLocale( )
+					.equals( resourceBundle.getLocale( ) ) )
+					|| ( locale != null && !locale.toLocale( )
+							.equals( resourceBundle.getLocale( ) ) ) )
+			{
+				resourceBundle = null;
+			}
+		}
+	}
+	
+	/**
+	 * Get resourceBundle based on given locale
+	 * 
+	 * @return
+	 */
+	private static ResourceBundle getResourceBundle( )
+	{
+		if ( resourceBundle == null )
+		{
+			if ( currentLocale != null )
+				resourceBundle = DataResourceHandle.getInstance( currentLocale )
+						.getUResourceBundle( );
+			else
+				resourceBundle = DataResourceHandle.getInstance( )
+						.getUResourceBundle( );
+		}
+		return resourceBundle;
 	}
 }

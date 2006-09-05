@@ -53,9 +53,12 @@ public class DataPresentationEngine extends AbstractDataEngine
 		try
 		{
 			// create the DteData engine.
-			DataEngineContext dteContext = DataEngineContext.newInstance(
-					DataEngineContext.MODE_PRESENTATION, context.getSharedScope( ),
-					reader, null );
+			DataEngineContext dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+					context.getSharedScope( ),
+					reader,
+					null );
+			dteContext.setLocale( context.getLocale( ) );
+			
 			dteEngine = DataEngine.newDataEngine( dteContext );
 
 		}
