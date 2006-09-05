@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.13 $ $Date: 2005/12/27 09:07:29 $
+ * @version $Revision: 1.14 $ $Date: 2006/02/22 06:44:15 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -212,11 +212,15 @@ public class NumberFormatter
 		{
 			if ( hexFlag == true )
 			{
-				return Long.toHexString( bigDecimal.longValue());
+				return Long.toHexString( bigDecimal.longValue( ) );
+			}
+
+			if ( this.formatPattern == null )
+			{
+				return bigDecimal.toString( );
 			}
 
 			return numberFormat.format( bigDecimal );
-
 		}
 		catch ( Exception e )
 		{
