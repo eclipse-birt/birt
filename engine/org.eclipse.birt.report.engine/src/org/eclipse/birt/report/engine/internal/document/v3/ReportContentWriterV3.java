@@ -67,7 +67,7 @@ public class ReportContentWriterV3 implements IReportContentWriter
 		cntStream = archive.createRandomAccessStream( name );
 		//write the version information
 		cntStream.writeInt( VERSION_1 );
-		cntOffset = 4;
+		cntOffset = 0;
 		rootOffset = -1;
 	}
 
@@ -134,7 +134,7 @@ public class ReportContentWriterV3 implements IReportContentWriter
 		bufferStream.flush( );
 		byte[] values = buffer.toByteArray( );
 		// write the content out as: length, data
-		cntStream.seek( cntOffset );
+		cntStream.seek( cntOffset + VERSION_SIZE );
 		cntStream.writeInt( values.length );
 		cntStream.write( values );
 		cntOffset = cntOffset + 4 + values.length;
@@ -182,6 +182,8 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	final static long OFFSET_CHILD = 16;
 	
 	final static int INDEX_ENTRY_SIZE = 24;
+	
+	final static int VERSION_SIZE = 4;
 	
 	protected final static int VERSION_1 = 1;
 	
@@ -232,7 +234,7 @@ public class ReportContentWriterV3 implements IReportContentWriter
 		docExt.setPrevious(previous);
 		content.setExtension( IContent.DOCUMENT_EXTENSION, docExt);
 
-		cntStream.seek( index );
+		cntStream.seek( VERSION_SIZE + index );
 		cntStream.writeLong(parent);	//parent
 		cntStream.writeLong(-1);		//next
 		cntStream.writeLong(-1);		//first child
@@ -245,14 +247,14 @@ public class ReportContentWriterV3 implements IReportContentWriter
 			// element of its parent
 			if ( parent != -1 )
 			{
-				cntStream.seek( parent + OFFSET_CHILD );
+				cntStream.seek( VERSION_SIZE + parent + OFFSET_CHILD );
 				cntStream.writeLong( index );
 			}
 		}
 		else
 		{
 			// update the previou's link
-			cntStream.seek( previous + OFFSET_NEXT );
+			cntStream.seek( VERSION_SIZE + previous + OFFSET_NEXT );
 			cntStream.writeLong( index );
 		}
 	}

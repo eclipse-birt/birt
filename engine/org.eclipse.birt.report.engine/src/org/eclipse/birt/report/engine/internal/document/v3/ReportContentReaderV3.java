@@ -43,7 +43,7 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/08/31 08:16:12 $
+ * @version $Revision: 1.5 $ $Date: 2006/09/01 05:48:11 $
  */
 public class ReportContentReaderV3
 {
@@ -59,6 +59,7 @@ public class ReportContentReaderV3
 	
 	protected final static int VERSION_0 = 0;
 	protected final static int VERSION_1 = 1;
+	protected final static int VERSION_SIZE = 4;
 
 	/**
 	 * the current offset of the stream.
@@ -116,7 +117,19 @@ public class ReportContentReaderV3
 	 */
 	protected IContent readObject( long offset ) throws IOException
 	{
-		stream.seek( offset );
+		if( VERSION_0 == version )
+		{
+			stream.seek( offset );
+		}
+		else if( VERSION_1 == version )
+		{
+			stream.seek( VERSION_SIZE + offset );
+		}
+		else
+		{
+			throw new IOException("unrecognized stream version!");
+		}
+		
 		int size = stream.readInt( );
 		byte[] buffer = new byte[size];
 		stream.readFully( buffer, 0, size );
@@ -325,11 +338,7 @@ public class ReportContentReaderV3
 		{
 			return null;
 		}
-		if( 0 == index )
-		{
-			index += 4;
-		}
-		stream.seek( index );
+		stream.seek( VERSION_SIZE + index );
 		long parent = stream.readLong( );
 		long next = stream.readLong( );
 		long child = stream.readLong( );
