@@ -6,22 +6,15 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.tests.data.engine.acceptance.ColumnAliasTest;
-import org.eclipse.birt.tests.data.engine.acceptance.ComputedColumnTest;
 import org.eclipse.birt.tests.data.engine.acceptance.DataSourceTest;
 import org.eclipse.birt.tests.data.engine.acceptance.FilterTest;
 import org.eclipse.birt.tests.data.engine.acceptance.InputParameterTest;
 import org.eclipse.birt.tests.data.engine.acceptance.ParameterInt;
-import org.eclipse.birt.tests.data.engine.acceptance.testPassThruContext;
 import org.eclipse.birt.tests.data.engine.api.FeaturesTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPassTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_FilterTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_NestedQueryTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_SortTest;
-import org.eclipse.birt.tests.data.engine.api.ReportDoc_ComputedColumnTest;
-import org.eclipse.birt.tests.data.engine.api.ReportDoc_FilterTest;
-import org.eclipse.birt.tests.data.engine.api.ReportDoc_Gen_PreModeTest;
-import org.eclipse.birt.tests.data.engine.api.ReportDoc_GroupTest;
-import org.eclipse.birt.tests.data.engine.api.ReportDoc_ParameterTest;
 import org.eclipse.birt.tests.data.engine.regression.Reg_101568;
 import org.eclipse.birt.tests.data.engine.regression.Reg_101810;
 import org.eclipse.birt.tests.data.engine.regression.Reg_101856;
@@ -89,10 +82,6 @@ import org.eclipse.birt.tests.data.engine.regression.Regression_96025;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119999;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_120036;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_123157;
-import org.eclipse.birt.tests.data.engine.smoke.DsAggregationTest;
-import org.eclipse.birt.tests.data.engine.smoke.DsCombinationTest;
-import org.eclipse.birt.tests.data.engine.smoke.DsComputeColumnTest;
-import org.eclipse.birt.tests.data.engine.smoke.DsFilterTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsGroupTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsParameterTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsSortTest;
@@ -114,33 +103,33 @@ public class AllTests extends TestCase
 		suite.addTestSuite( MultiPass_NestedQueryTest.class );
 		suite.addTestSuite( MultiPass_SortTest.class );
 		suite.addTestSuite( MultiPassTest.class );
-		suite.addTestSuite( ReportDoc_ComputedColumnTest.class );
-		suite.addTestSuite( ReportDoc_FilterTest.class );
-		suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
-		suite.addTestSuite( ReportDoc_GroupTest.class );
-		suite.addTestSuite( ReportDoc_ParameterTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_ComputedColumnTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_FilterTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_GroupTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_ParameterTest.class );
 		suite.addTestSuite( Reg_145508.class );
 
 		// Acceptance
 		suite.addTestSuite( ColumnAliasTest.class );
-		suite.addTestSuite( ComputedColumnTest.class );
+		// TODO:suite.addTestSuite( ComputedColumnTest.class );
 		suite.addTestSuite( DataSourceTest.class );
 		suite.addTestSuite( FilterTest.class );
 		suite.addTestSuite( InputParameterTest.class );
 		suite.addTestSuite( ParameterInt.class );
-		suite.addTestSuite( testPassThruContext.class );
+		// TODO:suite.addTestSuite( testPassThruContext.class );
 
 		// Smoke
-		suite.addTestSuite( DsAggregationTest.class );
-		suite.addTestSuite( DsCombinationTest.class );
-		suite.addTestSuite( DsComputeColumnTest.class );
-		suite.addTestSuite( DsFilterTest.class );
+		// TODO:suite.addTestSuite( DsAggregationTest.class );
+		// TODO:suite.addTestSuite( DsCombinationTest.class );
+		// TODO:suite.addTestSuite( DsComputeColumnTest.class );
+		// TODO:suite.addTestSuite( DsFilterTest.class );
 		suite.addTestSuite( DsGroupTest.class );
 		suite.addTestSuite( DsParameterTest.class );
 		suite.addTestSuite( DsSortTest.class );
-		
-		//Regression
-		
+
+		// Regression
+
 		suite.addTestSuite( Reg_101568.class );
 		suite.addTestSuite( Reg_101810.class );
 		suite.addTestSuite( Reg_101864.class );
@@ -172,47 +161,45 @@ public class AllTests extends TestCase
 		suite.addTestSuite( Reg_122066.class );
 		suite.addTestSuite( Reg_122309.class );
 		suite.addTestSuite( Reg_79505.class );
-		
 
 		suite.addTestSuite( Regression_141600.class );
 		suite.addTestSuite( Regression_137080.class );
-	  //suite.addTestSuite( Regression_136542.class );
+		// TODO: suite.addTestSuite( Regression_136542.class );
 		suite.addTestSuite( Regression_103152.class );
 		suite.addTestSuite( Regression_145508.class );
-		
+
 		suite.addTestSuite( Regression_123930.class );
 		suite.addTestSuite( Regression_124065.class );
 		suite.addTestSuite( Regression_131668.class );
-		suite.addTestSuite( Regression_132519.class );		
+		suite.addTestSuite( Regression_132519.class );
 		suite.addTestSuite( Regression_136551.class );
-		suite.addTestSuite( Regression_138273.class );		
+		suite.addTestSuite( Regression_138273.class );
 		suite.addTestSuite( Regression_138777.class );
 		suite.addTestSuite( Regression_139365.class );
 		suite.addTestSuite( Regression_142122.class );
 		suite.addTestSuite( Regression_142939.class );
 		suite.addTestSuite( Regression_137149.class );
-		
-		
+
 		suite.addTestSuite( Regression_112288.class );
 		suite.addTestSuite( Regression_136966.class );
 		suite.addTestSuite( Regression_136296.class );
-		suite.addTestSuite( Regression_135490.class );		
+		suite.addTestSuite( Regression_135490.class );
 		suite.addTestSuite( Regression_136259.class );
-		suite.addTestSuite( Regression_132805.class );		
+		suite.addTestSuite( Regression_132805.class );
 		suite.addTestSuite( Regression_124593.class );
 		suite.addTestSuite( Regression_128354.class );
 		suite.addTestSuite( Regression_117686.class );
 		suite.addTestSuite( Regression_123153.class );
 		suite.addTestSuite( Regression_96025.class );
 		suite.addTestSuite( Regression_121166.class );
-		
+
 		suite.addTestSuite( Regression_143105.class );
 		suite.addTestSuite( Regression_143105.class );
 		suite.addTestSuite( Regression_143816.class );
 		suite.addTestSuite( Regression_144179.class );
 		suite.addTestSuite( Regression_124448.class );
 		suite.addTestSuite( Regression_134948.class );
-		//xml package
+		// xml package
 		suite.addTestSuite( Regression_119999.class );
 		suite.addTestSuite( Regression_120036.class );
 		suite.addTestSuite( Regression_123157.class );
