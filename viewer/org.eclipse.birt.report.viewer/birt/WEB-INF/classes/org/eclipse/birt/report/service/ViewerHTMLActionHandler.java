@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -422,8 +421,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 				try
 				{
-					// In RUN mode, don't support bookmark as parameter
-					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
+					// In RUN mode or pdf format, don't support bookmark as parameter
+					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0
+							|| IBirtConstants.PDF_RENDER_FORMAT
+									.equalsIgnoreCase( format ) )
 					{
 						link.append( "#" ); //$NON-NLS-1$
 					}
