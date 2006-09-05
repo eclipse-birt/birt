@@ -391,6 +391,7 @@ class AggregateCalculator
 		private IAggregation aggregation;
 		private int cursor;
 		private List cachedAcc;
+		private Accumulator accumulator;
 		
 		/**
 		 * Constructor.
@@ -400,7 +401,14 @@ class AggregateCalculator
 		{
 			this.aggregation = aggregation;
 			this.cursor = -1;
-			cachedAcc = new ArrayList();
+			
+			int passNum = 0;
+			if( aggregation instanceof Aggregation )
+				passNum = ((Aggregation)aggregation).getNumberOfPasses( );
+			if( passNum < 2 )
+				this.accumulator = aggregation.newAccumulator();
+			else
+				this.cachedAcc = new ArrayList();	
 		}
 		
 		/**
@@ -409,6 +417,8 @@ class AggregateCalculator
 		 */
 		Accumulator getCurrentAccumulator( )
 		{
+			if( this.accumulator!= null )
+				return this.accumulator;
 			if( cachedAcc.size() == 0 )
 			{
 				cachedAcc.add( aggregation.newAccumulator() );
@@ -422,6 +432,8 @@ class AggregateCalculator
 		 */
 		Accumulator next( )
 		{
+			if( this.accumulator!= null )
+				return this.accumulator;
 			cursor++;
 			if( cachedAcc.size() > cursor )
 			{
