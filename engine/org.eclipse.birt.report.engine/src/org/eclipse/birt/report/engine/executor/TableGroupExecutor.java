@@ -15,6 +15,7 @@ public class TableGroupExecutor extends GroupExecutor
 	public void close( )
 	{
 		handlePageBreakAfterExclusingLast( );
+		handlePageBreakAfter( );
 		ITableGroupContent groupContent = (ITableGroupContent) getContent( );
 		if ( emitter != null )
 		{
@@ -38,6 +39,7 @@ public class TableGroupExecutor extends GroupExecutor
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );
 		handlePageBreakAfterOfPreviousGroup( );
+		handlePageBreakBefore( );
 
 		startGroupTOCEntry( groupContent );
 		if ( emitter != null )

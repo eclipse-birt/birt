@@ -15,7 +15,9 @@ public class ListGroupExecutor extends GroupExecutor
 
 	public void close( )
 	{
+		
 		handlePageBreakAfterExclusingLast( );
+		handlePageBreakAfter();
 		IListGroupContent groupContent = (IListGroupContent) getContent( );
 		if ( emitter != null )
 		{
@@ -39,7 +41,7 @@ public class ListGroupExecutor extends GroupExecutor
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );		
 		handlePageBreakAfterOfPreviousGroup( );
-
+		handlePageBreakBefore();
 		startGroupTOCEntry( groupContent );
 		if ( emitter != null )
 		{
@@ -50,5 +52,19 @@ public class ListGroupExecutor extends GroupExecutor
 		prepareToExecuteChildren( );
 
 		return groupContent;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.executor.GroupExecutor#getNextChild()
+	 */
+	public IReportItemExecutor getNextChild( )
+	{
+		IReportItemExecutor executor = super.getNextChild( );
+		if ( executor instanceof ListBandExecutor )
+		{
+			ListBandExecutor bandExecutor = (ListBandExecutor) executor;
+			bandExecutor.setListingExecutor(  listingExecutor );
+		}
+		return executor;
 	}
 }

@@ -18,10 +18,12 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
+import org.w3c.dom.css.CSSValue;
 
 public class HTMLListingBandLM extends HTMLBlockStackingLM
 {
@@ -124,4 +126,37 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 		}
 		return true;
 	}
+	
+	protected boolean canPageBreak( )
+	{
+		if(!allowPageBreak())
+		{
+			return false;
+		}
+		 return super.canPageBreak( );
+	}
+
+	protected boolean isPageBreakBefore( )
+	{
+		if( super.isPageBreakBefore( ))
+		{
+			return true;
+		}
+		else
+		{
+			int bandType = ( (IBandContent) content ).getBandType( );
+			if(bandType==IBandContent.BAND_GROUP_HEADER)
+			{
+				IStyle style = content.getStyle( );
+				CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE);
+				if ( IStyle.SOFT_VALUE.equals( pageBreak ))
+				{
+					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

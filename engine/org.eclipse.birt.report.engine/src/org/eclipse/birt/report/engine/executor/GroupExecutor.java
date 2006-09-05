@@ -90,6 +90,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			}
 			if ( rset.next( ) )
 			{
+				listingExecutor.nextRow( );
 				collectExecutableElements( );
 				if ( currentElement < totalElements )
 				{
@@ -259,6 +260,22 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
 						IStyle.ALWAYS_VALUE );
 			}
+		}
+	}
+	
+	protected void handlePageBreakAfter( )
+	{
+		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER) ))
+		{
+			listingExecutor.clearSoftBreak( );
+		}
+	}
+	
+	protected void handlePageBreakBefore()
+	{
+		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE) ))
+		{
+			listingExecutor.clearSoftBreak( );
 		}
 	}
 	

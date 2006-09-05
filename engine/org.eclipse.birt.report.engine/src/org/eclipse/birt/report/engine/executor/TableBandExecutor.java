@@ -4,10 +4,12 @@ package org.eclipse.birt.report.engine.executor;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.w3c.dom.css.CSSValue;
 
 public class TableBandExecutor extends StyledItemExecutor
 {
@@ -44,7 +46,20 @@ public class TableBandExecutor extends StyledItemExecutor
 		restoreResultSet( );
 		
 		initializeContent( bandDesign, bandContent );
-		
+		int type = bandDesign.getBandType( );
+		if((type == TableBandDesign.BAND_DETAIL || type == TableBandDesign.GROUP_HEADER )&& tableExecutor.needSoftBreakBefore( ))
+		{
+			IStyle style = content.getStyle( );
+			if(style!=null)
+			{
+				CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+				if(pageBreak==null || IStyle.AUTO_VALUE.equals( pageBreak ))
+				{
+					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE );
+					tableExecutor.clearSoftBreak( );
+				}
+			}
+		}
 		startTOCEntry( bandContent );
 		if (emitter != null)
 		{

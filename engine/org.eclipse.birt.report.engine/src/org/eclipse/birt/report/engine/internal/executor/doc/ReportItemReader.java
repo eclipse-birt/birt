@@ -194,7 +194,11 @@ public class ReportItemReader implements IReportItemExecutor
 		assert content != null;
 		reader.initializeContent( content );
 
-		if ( fragment != null )
+		/**
+		 * filter emtpy group content, a special case is the group content is the ending of page hint.
+		 * if not filter it, group header will diplay at this page.
+		 */
+		if ( fragment != null && hasNextChild())
 		{
 			Object genBy = content.getGenerateBy( );
 			if ( content instanceof ITableContent )

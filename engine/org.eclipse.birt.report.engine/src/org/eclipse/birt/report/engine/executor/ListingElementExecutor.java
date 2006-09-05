@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 
@@ -36,7 +38,11 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	protected int rsetCursor;
 
 	protected boolean needPageBreak;
-
+	
+	protected int pageRowCount = 0;
+	
+	protected int pageBreakInterval = -1;
+	
 	/**
 	 * @param context
 	 *            execution context
@@ -46,6 +52,34 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	protected ListingElementExecutor( ExecutorManager manager )
 	{
 		super( manager );
+	}
+	
+	
+
+	protected void initializeContent( ReportElementDesign design, IContent content )
+	{
+		super.initializeContent( design, content );
+		if(isPageBreakIntervalValid((ListingDesign)design))
+		{
+			pageBreakInterval = ((ListingDesign)design).getPageBreakInterval( );
+		}
+	}
+
+	boolean isPageBreakIntervalValid(ListingDesign design)
+	{
+		BandDesign detailBand = design.getDetail( );
+		if(detailBand==null || detailBand.getContentCount( )==0)
+		{
+			return false;
+		}
+		for(int i=0; i<design.getGroupCount( ); i++)
+		{
+			if(design.getGroup( i ).getHideDetail( ))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -68,8 +102,29 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	{
 		rsetCursor = -1;
 		needPageBreak = false;
+		pageRowCount = 0;
+		pageBreakInterval = -1;
 		super.reset( );
 	}
+	
+	void clearSoftBreak()
+	{
+		pageRowCount = 0;
+	}
+	
+	void nextRow()
+	{
+		if(pageBreakInterval>0)
+		{
+			pageRowCount++;
+		}
+	}
+	
+	boolean needSoftBreakBefore()
+	{
+		return (pageBreakInterval>0) && (pageBreakInterval<=pageRowCount);
+	}
+	
 
 	/**
 	 * clear the execution state of the elements
@@ -217,6 +272,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			}
 			if ( rset.next( ) )
 			{
+				nextRow( );
 				collectExecutableElements( );
 				if( currentElement < totalElements )
 				{
@@ -322,4 +378,5 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 
 	}
+
 }
