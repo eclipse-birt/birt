@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
     <property name="author">Bertie the Platypus</property>
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
     <property name="units">in</property>
@@ -13,7 +13,7 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="sample">
+        <scalar-parameter name="sample" id="2">
             <text-property name="displayName">Sample Parameter</text-property>
             <property name="hidden">false</property>
             <property name="dataType">string</property>
@@ -26,17 +26,17 @@
         </scalar-parameter>
     </parameters>
     <page-setup>
-        <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="3">
             <page-header>
-                <grid>
+                <grid id="4">
                     <property name="width">100%</property>
-                    <column/>
-                    <row>
-                        <cell>
+                    <column id="5"/>
+                    <row id="6">
+                        <cell id="7">
                             <property name="fontSize">xx-large</property>
                             <property name="fontWeight">bold</property>
                             <property name="textAlign">center</property>
-                            <text>
+                            <text id="8">
                                 <text-property name="content"><![CDATA[Title]]></text-property>
                             </text>
                         </cell>
@@ -44,22 +44,22 @@
                 </grid>
             </page-header>
             <page-footer>
-                <grid>
+                <grid id="9">
                     <property name="width">100%</property>
-                    <column/>
-                    <column/>
-                    <row>
-                        <cell>
-                            <text>
+                    <column id="10"/>
+                    <column id="11"/>
+                    <row id="12">
+                        <cell id="13">
+                            <text id="14">
                                 <property name="contentType">html</property>
                                 <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                             </text>
                         </cell>
-                        <cell>
+                        <cell id="15">
                             <property name="textAlign">right</property>
-                            <text>
-                                <text-property name="content"><![CDATA[Page:]]></text-property>
-                            </text>
+                            <auto-text id="26">
+                                <property name="type">page-number</property>
+                            </auto-text>
                         </cell>
                     </row>
                 </grid>
@@ -67,30 +67,36 @@
         </simple-master-page>
     </page-setup>
     <body>
-        <text>
+        <text id="17">
             <property name="contentType">html</property>
             <text-property name="content"><![CDATA[<b>Congratulations!</b>
 <br><br>
 If you can see this report, it means that the BIRT viewer is installed correctly.
 <br><br>]]></text-property>
         </text>
-        <grid>
+        <grid id="18">
             <property name="width">100%</property>
-            <column>
+            <column id="19">
                 <property name="width">1.354in</property>
             </column>
-            <column>
+            <column id="20">
                 <property name="width">5.083in</property>
             </column>
-            <row>
-                <cell>
-                    <label>
+            <row id="21">
+                <cell id="22">
+                    <label id="23">
                         <text-property name="text">Sample Parameter:</text-property>
                     </label>
                 </cell>
-                <cell>
-                    <data>
-                        <expression name="valueExpr">params["sample"]</expression>
+                <cell id="24">
+                    <data id="25">
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">params["sample"]</property>
+                                <expression name="expression">params["sample"]</expression>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">params["sample"]</property>
                     </data>
                 </cell>
             </row>
