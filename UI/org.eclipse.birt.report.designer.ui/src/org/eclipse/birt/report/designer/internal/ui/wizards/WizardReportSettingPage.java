@@ -16,6 +16,7 @@ import java.io.File;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IStatus;
@@ -47,7 +48,8 @@ public class WizardReportSettingPage extends WizardPage
 	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
 	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
 	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
-	//private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError";
+	// private static final String IMAGE_ERROR =
+	// "PublishTemplateAction.wizard.page.imageError";
 
 	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
 	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishTemplateWizard";
@@ -60,35 +62,39 @@ public class WizardReportSettingPage extends WizardPage
 	private Text nameText;
 
 	private Status nameStatus;
-	
+
 	private Status previewImageStatus;
-	
+
 	private static final String[] IMAGE_TYPES = new String[]{
-		".bmp",
-		".jpg",
-		".jpeg",
-		".jpe",
-		".jfif",
-		".gif",
-		".png",
-		".tif",
-		".tiff",
-		".ico",
-		".svg"
-};
-	
+			".bmp",
+			".jpg",
+			".jpeg",
+			".jpe",
+			".jfif",
+			".gif",
+			".png",
+			".tif",
+			".tiff",
+			".ico",
+			".svg"
+	};
+
 	private static final String[] IMAGE_FILEFILTERS = new String[]{
 		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"
 	};
-	
+
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
 		super( "" );
 		module = handle;
-		
-		nameStatus = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);
-		
-		previewImageStatus = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);
+
+		nameStatus = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null );
+
+		previewImageStatus = new Status( IStatus.OK,
+				PLUGIN_ID,
+				0,
+				PAGE_DESC,
+				null );
 	}
 
 	/*
@@ -113,10 +119,10 @@ public class WizardReportSettingPage extends WizardPage
 
 			public void modifyText( ModifyEvent e )
 			{
-				checkStatus();				
+				checkStatus( );
 			}
 		} );
-		
+
 		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
 		descText = createText( container, 2, 5 );
 		if ( module != null
@@ -126,10 +132,10 @@ public class WizardReportSettingPage extends WizardPage
 
 			public void modifyText( ModifyEvent e )
 			{
-				checkStatus();
+				checkStatus( );
 			}
 		} );
-		
+
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
 		previewImageText = createText( container, 1, 1 );
 		if ( module != null && module.getIconFile( ) != null )
@@ -138,7 +144,7 @@ public class WizardReportSettingPage extends WizardPage
 
 			public void modifyText( ModifyEvent e )
 			{
-				checkStatus();
+				checkStatus( );
 				validate( );
 			}
 		} );
@@ -154,7 +160,38 @@ public class WizardReportSettingPage extends WizardPage
 						.getActiveShell( ) );
 				dialog.setText( BROWSE_TITLE );
 				dialog.setFilterExtensions( IMAGE_FILEFILTERS );
-				String fileName = dialog.open( );
+
+				String fileName = previewImageText.getText( ).trim( );
+				if(fileName.length( ) != 0)
+				{
+					File file = new File( fileName );
+					if ( fileName.indexOf( '/' ) < 0
+							&& fileName.indexOf( '\\' ) < 0 )
+					{
+						if ( ReportPlugin.getDefault( ).getTemplatePreference( ) != null
+								&& ReportPlugin.getDefault( )
+										.getTemplatePreference( )
+										.trim( )
+										.length( ) != 0 )
+						{
+							String path = ReportPlugin.getDefault( )
+									.getTemplatePreference( )
+									.trim( );
+							file = new File( path, fileName );
+							if ( file.exists( ) && file.isFile( ) )
+							{
+								dialog.setFileName( file.getPath( ) );
+							}
+						}
+					}
+					else if ( file.exists( ) && file.isFile( ) )
+					{
+						dialog.setFileName( fileName );
+					}
+				}
+
+
+				fileName = dialog.open( );
 				if ( fileName == null )
 				{
 					return;
@@ -171,7 +208,8 @@ public class WizardReportSettingPage extends WizardPage
 		nameText.forceFocus( );
 		setControl( container );
 
-		UIUtil.bindHelp( getControl(),IHelpContextIds.PUBLISH_TEMPLATE_WIZARD_ID );  
+		UIUtil.bindHelp( getControl( ),
+				IHelpContextIds.PUBLISH_TEMPLATE_WIZARD_ID );
 	}
 
 	public String getDisplayName( )
@@ -189,7 +227,7 @@ public class WizardReportSettingPage extends WizardPage
 	public String getPreviewImagePath( )
 	{
 		return previewImageText.getText( ) == null ? STR_EMPTY
-				:  previewImageText.getText( ).trim( );
+				: getFullPath( previewImageText.getText( ).trim( ) );
 	}
 
 	private Text createText( Composite container, int column, int row )
@@ -212,141 +250,191 @@ public class WizardReportSettingPage extends WizardPage
 
 	private void validate( )
 	{
-		if(previewImageStatus.getSeverity( ) != IStatus.OK)
+		if ( previewImageStatus.getSeverity( ) != IStatus.OK )
 		{
-			setErrorMessage( previewImageStatus.getMessage( ) );			
-		}		
+			setErrorMessage( previewImageStatus.getMessage( ) );
+		}
 
 		setPageComplete( previewImageStatus.getSeverity( ) != IStatus.ERROR );
 	}
-	
 
 	public void checkStatus( )
 	{
 		String imageFileName = previewImageText.getText( ).trim( );
-	    // Initialize a variable with the no error status
-	    Status status = new Status(IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null);	   
-	    nameStatus = status;
-	    previewImageStatus = status;
-	    
-		if(isTextEmpty(nameText))
+		// Initialize a variable with the no error status
+		Status status = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC, null );
+		nameStatus = status;
+		previewImageStatus = status;
+
+		if ( isTextEmpty( nameText ) )
 		{
-            status = new Status(IStatus.ERROR, 	PLUGIN_ID, 0, 
-	                Messages.getString( "PublishTemplateAction.wizard.page.nameInfo" ), null);    
-            nameStatus = status;
-		}else		
-		// If preview image file is not empty, then need to check whether it exist or it's an iamge.
-		if(!isTextEmpty(previewImageText))
+			status = new Status( IStatus.ERROR,
+					PLUGIN_ID,
+					0,
+					Messages.getString( "PublishTemplateAction.wizard.page.nameInfo" ),
+					null );
+			nameStatus = status;
+		}
+		else
+		// If preview image file is not empty, then need to check whether it
+		// exist or it's an iamge.
+		if ( !isTextEmpty( previewImageText ) )
 		{
-			
-			if ( !( new File( imageFileName ).exists( ) ) )
+
+			if ( getFullPath( imageFileName ).trim( ).length( ) == 0 )
 			{
-	            status = new Status(IStatus.ERROR, 	PLUGIN_ID, 0, 
-		                Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotExist" ), null); 				
-	            previewImageStatus = status;
-			}else
-			if(! checkExtensions(imageFileName))
+				status = new Status( IStatus.ERROR,
+						PLUGIN_ID,
+						0,
+						Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotExist" ),
+						null );
+				previewImageStatus = status;
+			}
+			else if ( !checkExtensions( imageFileName ) )
 			{
-	            status = new Status(IStatus.ERROR, 	PLUGIN_ID, 0, 
-		                Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotValid" ), null); 				
-	            previewImageStatus = status;
+				status = new Status( IStatus.ERROR,
+						PLUGIN_ID,
+						0,
+						Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotValid" ),
+						null );
+				previewImageStatus = status;
 			}
 
 		}
-		
-	    // Show the most serious error
-	    applyToStatusLine(findMostSevere());
-		getWizard().getContainer().updateButtons();
-		
+
+		// Show the most serious error
+		applyToStatusLine( findMostSevere( ) );
+		getWizard( ).getContainer( ).updateButtons( );
+
 	}
-	
-	private static boolean isTextEmpty(Text text)
+
+	private String getFullPath( String fileName )
 	{
-		String s = text.getText();
-		if ((s!=null) && (s.trim().length() >0)) return false;
+		if ( fileName == null || fileName.trim( ).length( ) == 0 )
+		{
+			return STR_EMPTY;
+		}
+		
+		File file = new File( fileName );
+		if ( fileName.indexOf( '/' ) < 0 && fileName.indexOf( '\\' ) < 0 )
+		{
+			if ( ReportPlugin.getDefault( ).getTemplatePreference( ) != null
+					&& ReportPlugin.getDefault( )
+							.getTemplatePreference( )
+							.trim( )
+							.length( ) != 0 )
+			{
+				String path = ReportPlugin.getDefault( )
+						.getTemplatePreference( )
+						.trim( );
+				file = new File( path, fileName );
+				if ( file.exists( ) && file.isFile( ) )
+				{
+					return file.getPath( );
+				}
+			}
+		}
+		else if ( file.exists( ) )
+		{
+			return file.getPath( );
+		}
+
+		return STR_EMPTY;
+	}
+
+	private static boolean isTextEmpty( Text text )
+	{
+		String s = text.getText( );
+		if ( ( s != null ) && ( s.trim( ).length( ) > 0 ) )
+			return false;
 		return true;
-	}	
-	
-	private IStatus findMostSevere()
+	}
+
+	private IStatus findMostSevere( )
 	{
-		if(nameStatus.getSeverity() == IStatus.ERROR)
+		if ( nameStatus.getSeverity( ) == IStatus.ERROR )
 		{
 			return nameStatus;
-		}else
-		if(previewImageStatus.getSeverity( ) == IStatus.ERROR)
-		{
-			return previewImageStatus;
-		}else
-		if(nameStatus.getSeverity() == IStatus.WARNING)
-		{
-			return nameStatus;
-		}else
+		}
+		else if ( previewImageStatus.getSeverity( ) == IStatus.ERROR )
 		{
 			return previewImageStatus;
 		}
-		
+		else if ( nameStatus.getSeverity( ) == IStatus.WARNING )
+		{
+			return nameStatus;
+		}
+		else
+		{
+			return previewImageStatus;
+		}
+
 	}
-	
+
 	/**
 	 * Applies the status to the status line of a dialog page.
 	 */
-	private void applyToStatusLine(IStatus status) {
-		String message= status.getMessage();
-		if (message.length() == 0) message= PAGE_DESC;
-		switch (status.getSeverity()) {
-			case IStatus.OK:
-				setErrorMessage(null);
-				setMessage(message);
+	private void applyToStatusLine( IStatus status )
+	{
+		String message = status.getMessage( );
+		if ( message.length( ) == 0 )
+			message = PAGE_DESC;
+		switch ( status.getSeverity( ) )
+		{
+			case IStatus.OK :
+				setErrorMessage( null );
+				setMessage( message );
 				break;
-			case IStatus.ERROR:
-				setErrorMessage(message);
-				setMessage(message,WizardPage.ERROR);
+			case IStatus.ERROR :
+				setErrorMessage( message );
+				setMessage( message, WizardPage.ERROR );
 				break;
-			case IStatus.WARNING:
-				setErrorMessage(null);
-				setMessage(message, WizardPage.WARNING);
-				break;				
-			case IStatus.INFO:
-				setErrorMessage(null);
-				setMessage(message, WizardPage.INFORMATION);
-				break;			
-			default:
-				setErrorMessage(message);
-				setMessage(null);
-				break;		
+			case IStatus.WARNING :
+				setErrorMessage( null );
+				setMessage( message, WizardPage.WARNING );
+				break;
+			case IStatus.INFO :
+				setErrorMessage( null );
+				setMessage( message, WizardPage.INFORMATION );
+				break;
+			default :
+				setErrorMessage( message );
+				setMessage( null );
+				break;
 		}
 	}
-	
+
 	/**
 	 * @see IWizardPage#canFinish()
 	 */
-	public boolean canFinish()
-	{	
-		if(isTextEmpty(nameText))
+	public boolean canFinish( )
+	{
+		if ( isTextEmpty( nameText ) )
 		{
 			return false;
 		}
-		
-		if(!isTextEmpty(previewImageText))
+
+		if ( !isTextEmpty( previewImageText ) )
 		{
 			String imageFileName = previewImageText.getText( ).trim( );
-			if ( !( new File( imageFileName ).exists( ) ) )
+			if ( getFullPath( imageFileName ).trim( ).length( ) == 0 )
 			{
 				return false;
-			}else
-			if(! checkExtensions(imageFileName))
+			}
+			else if ( !checkExtensions( imageFileName ) )
 			{
 				return false;
 			}
 
 		}
-		if(nameStatus.getSeverity( ) == IStatus.ERROR || previewImageStatus.getSeverity( ) == IStatus.ERROR)
+		if ( nameStatus.getSeverity( ) == IStatus.ERROR
+				|| previewImageStatus.getSeverity( ) == IStatus.ERROR )
 		{
 			return false;
 		}
 		return true;
 	}
-	
+
 	private boolean checkExtensions( String fileName )
 	{
 		for ( int i = 0; i < IMAGE_TYPES.length; i++ )
@@ -358,15 +446,17 @@ public class WizardReportSettingPage extends WizardPage
 		}
 		return false;
 	}
-	
-    /*
-     * @see DialogPage.setVisible(boolean)
-     */
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-        if (visible) {
-			getControl().setFocus();
+
+	/*
+	 * @see DialogPage.setVisible(boolean)
+	 */
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
+		if ( visible )
+		{
+			getControl( ).setFocus( );
 		}
-    }
-    
+	}
+
 }

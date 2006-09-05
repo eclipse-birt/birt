@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.wizards;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
@@ -109,6 +110,8 @@ public class WizardTemplateChoicePage extends WizardPage
 	private Button chkBox;
 
 	private Label description;
+	
+	Image thumbnailImage;
 
 	public class Template
 	{
@@ -124,6 +127,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			this.reportName = reportName;
 			this.pictureName = pictureName;
 			this.cheatSheetId = cheatSheetId;
+			this.thumbnail = null;
 		}
 
 		public Template( String root,String reportName ) throws DesignFileException
@@ -152,6 +156,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 			pictureName = reportDesign.getIconFile( ) == null ? "" : reportDesign.getIconFile( );//$NON-NLS-1$
 			cheatSheetId = reportDesign.getCheatSheet( ) == null ? "" : reportDesign.getCheatSheet( );//$NON-NLS-1$
+			thumbnail = reportDesign.getThumbnail( );
 			this.reportName = reportName;
 
 		}
@@ -168,7 +173,14 @@ public class WizardTemplateChoicePage extends WizardPage
 		private String cheatSheetId;
 
 		private ReportDesignHandle reportDesign;
+		
+		private byte[] thumbnail;
 
+		public byte[] getThumbnail( )
+		{
+			return thumbnail;
+		}
+		
 		public String getCheatSheetId( )
 		{
 			return cheatSheetId;
@@ -396,7 +408,8 @@ public class WizardTemplateChoicePage extends WizardPage
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		UIUtil.bindHelp( composite,IHelpContextIds.NEW_REPORT_COPY_WIZARD_ID );
-	
+
+		
 		GridLayout gridLayout = new GridLayout( );
 		gridLayout.numColumns = 2;
 		gridLayout.marginHeight = 10;
@@ -540,23 +553,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			Template selTemplate = (Template) templates.get( selectedIndex );
 			String key = selTemplate.getPictureName( );
 			Object img = null;
-			if ( key == null || "".equals( key.trim( ) ) ) //$NON-NLS-1$
-			{
-				previewCanvas.setVisible( false );
-				previewThumbnail.setVisible( true );
-
-				Control[] children = previewThumbnail.getChildren( );
-				for ( int i = 0; i < children.length; i++ )
-				{
-					children[i].dispose( );
-				}
-				ReportGraphicsViewComposite thumbnail = new ReportGraphicsViewComposite( previewThumbnail,
-						SWT.NULL,
-						( (Template) templates.get( selectedIndex ) ).getReportDesignHandle( ) );
-
-				previewThumbnail.layout( );
-			}
-			else
+			if ( (key != null) && (!"".equals( key.trim( ) )) ) //$NON-NLS-1$
 			{
 				key = selTemplate.getPictureFullName( );
 				img = imageMap.get( key );
@@ -574,6 +571,40 @@ public class WizardTemplateChoicePage extends WizardPage
 				previewCanvas.clear( );
 				previewCanvas.loadImage( ( (Image) img ) );
 				previewCanvas.showOriginal( );
+				
+			}else
+			if(selTemplate.getThumbnail( ) != null && selTemplate.getThumbnail( ).length != 0)
+			{
+				previewCanvas.setVisible( true );
+				previewThumbnail.setVisible( false );
+				
+				byte[] thumbnailData = selTemplate.getThumbnail( );
+				ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
+				if(thumbnailImage != null)
+				{
+					thumbnailImage.dispose( );
+					thumbnailImage = null;
+				}
+				thumbnailImage = new Image( null, inputStream );
+				
+				previewCanvas.clear( );
+				previewCanvas.loadImage( ( (Image) thumbnailImage ) );
+			}
+			else
+			{
+				previewCanvas.setVisible( false );
+				previewThumbnail.setVisible( true );
+
+				Control[] children = previewThumbnail.getChildren( );
+				for ( int i = 0; i < children.length; i++ )
+				{
+					children[i].dispose( );
+				}
+				ReportGraphicsViewComposite thumbnail = new ReportGraphicsViewComposite( previewThumbnail,
+						SWT.NULL,
+						( (Template) templates.get( selectedIndex ) ).getReportDesignHandle( ) );
+
+				previewThumbnail.layout( );
 			}
 
 			chkBox.setEnabled( !( ( (Template) templates.get( selectedIndex ) ).getCheatSheetId( )
@@ -621,6 +652,12 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				( (Template) item ).dispose( );
 			}
+			
+		}
+		if(thumbnailImage != null)
+		{
+			thumbnailImage.dispose( );
+			thumbnailImage = null;
 		}
 	}
 	
