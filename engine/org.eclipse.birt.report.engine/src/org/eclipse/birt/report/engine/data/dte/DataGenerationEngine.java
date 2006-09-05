@@ -51,9 +51,11 @@ public class DataGenerationEngine extends AbstractDataEngine
 		try
 		{
 			// create the DteData engine.
-			DataEngineContext dteContext = DataEngineContext.newInstance(
-					DataEngineContext.MODE_GENERATION, context.getSharedScope( ),
-					null, writer );
+			DataEngineContext dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+					context.getSharedScope( ),
+					null,
+					writer );
+			dteContext.setLocale( context.getLocale( ) );
 
 			dteEngine = DataEngine.newDataEngine( dteContext );
 		}

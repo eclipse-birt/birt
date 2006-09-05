@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.api;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -21,6 +22,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Define in which context Data Engine is running. The context can be divided
@@ -64,6 +67,7 @@ public class DataEngineContext
 	private Scriptable scope;	
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
+	private ULocale currentLocale;
 	
 	/** cacheCount field */
 	private int cacheOption;
@@ -329,6 +333,25 @@ public class DataEngineContext
 		{
 			throw new DataException( ResourceConstants.RD_LOAD_STREAM_ERROR, e );
 		}
+	}
+	
+	/**
+	 * @param locale
+	 *            The current task's locale
+	 */
+	public void setLocale( Locale locale )
+	{
+		currentLocale = ULocale.forLocale( locale );
+		DataException.setLocale( currentLocale );
+
+	}
+
+	/**
+	 * @return The current locale
+	 */
+	public ULocale getLocale( )
+	{
+		return currentLocale;
 	}
 
 	/**

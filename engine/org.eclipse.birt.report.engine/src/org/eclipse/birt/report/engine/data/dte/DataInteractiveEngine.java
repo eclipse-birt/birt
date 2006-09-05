@@ -85,6 +85,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 						DataEngineContext.MODE_UPDATE, context.getSharedScope( ),
 						reader, writer );
 			}
+			dteContext.setLocale( context.getLocale( ) );
 		
 			dteEngine = DataEngine.newDataEngine( dteContext );
 		}
