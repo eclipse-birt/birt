@@ -215,11 +215,13 @@ public class PDFLayoutManagerFactory
 			boolean isInline = parent instanceof PDFLineAreaLM;
 			if ( isInline )
 			{
-				assert ( parent instanceof PDFLineAreaLM );
+				return new PDFTextLM( context, parent, content, 
+						executor );
+				/*assert ( parent instanceof PDFLineAreaLM );
 				DimensionType width = content.getWidth( );
 				// if text contains line break or width is specified, this text
 				// will be regard as a inline-block area
-				if ( width != null /* || text.indexOf( '\n' )>=0 */)
+				if ( width != null  || text.indexOf( '\n' )>=0 )
 				{
 					return new PDFTextInlineBlockLM( context, parent, content,
 							executor );
@@ -228,7 +230,7 @@ public class PDFLayoutManagerFactory
 				{
 					return new PDFTextLM( context, parent, content, 
 							executor );
-				}
+				}*/
 			}
 			else
 			{
