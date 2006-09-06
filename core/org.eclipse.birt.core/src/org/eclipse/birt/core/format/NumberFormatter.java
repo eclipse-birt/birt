@@ -241,6 +241,10 @@ public class NumberFormatter
 			{
 				return Long.toHexString( number.longValue());
 			}
+			if ( this.formatPattern == null && number instanceof BigDecimal )
+			{
+				return number.toString( );
+			}
 
 			return numberFormat.format( number );
 
