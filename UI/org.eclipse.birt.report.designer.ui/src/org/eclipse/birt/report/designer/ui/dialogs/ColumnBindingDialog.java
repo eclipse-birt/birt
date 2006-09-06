@@ -595,6 +595,9 @@ public class ColumnBindingDialog extends BaseDialog
 							}
 							generateBindingColumns( );
 							setHihtLightColumn( );
+							selectedColumnName = null;
+							updateSelection( );
+							updateButtons( );
 						}
 						catch ( SemanticException e )
 						{
@@ -872,7 +875,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected void handleAddEvent( )
 	{
-		DataColumnBindingDialog dialog = new DataColumnBindingDialog( );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
 		dialog.setInput( inputElement );
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
@@ -898,8 +901,9 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		if ( bindingHandle == null )
 			return;
+		
 		String bindingName = bindingHandle.getName( );
-		DataColumnBindingDialog dialog = new DataColumnBindingDialog( );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
 		dialog.setInput( (ReportItemHandle) inputElement, bindingHandle );
 		dialog.setExpressionProvider( expressionProvider );
 		if ( dialog.open( ) == Dialog.OK )
@@ -908,7 +912,7 @@ public class ColumnBindingDialog extends BaseDialog
 				bindingTable.getTable( ).setSelection( pos );
 			if ( selectedColumnName != null
 					&& selectedColumnName.equals( bindingName ) )
-				selectedColumnName = ( (DataItemHandle) inputElement ).getResultSetColumn( );
+				selectedColumnName = bindingHandle.getName( );
 		}
 	}
 

@@ -18,11 +18,9 @@ import org.eclipse.swt.widgets.Control;
 public class DataColumnBindingDialog extends DataItemBindingDialog
 {
 
-	private boolean isResultSetColumn = false;
-
-	public DataColumnBindingDialog( )
+	public DataColumnBindingDialog( boolean isCreateNew)
 	{
-		super( NEW_DATAITEM_TITLE );
+		super( isCreateNew==true?NEW_DATAITEM_TITLE:EDIT_DATAITEM_TITLE );
 	}
 
 	public void setInput( ReportItemHandle input )
@@ -41,12 +39,10 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 		this.input = input;
 		setAggregateOns( DEUtil.getGroups( input ) );
 		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
-		if ( bindingHandle != null )
-			setTitle( EDIT_DATAITEM_TITLE );
 		bindingColumn = bindingHandle;
 		try
 		{
-			if ( bindingColumn == null )
+			if ( isCreateNew || bindingColumn == null)
 			{
 				createColumnName( input, DEFAULT_ITEM_NAME );
 				setTypeSelect( dataTypes[0] );
@@ -60,13 +56,6 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );
 				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
-				if ( input instanceof DataItemHandle )
-				{
-					String resultSetName = ( (DataItemHandle) input ).getResultSetColumn( );
-					if ( resultSetName != null
-							&& bindingColumn.getName( ).equals( resultSetName ) )
-						isResultSetColumn = true;
-				}
 			}
 
 		}
@@ -74,13 +63,6 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 		{
 			ExceptionHandler.handle( e );
 		}
-	}
-
-	protected void save( ) throws SemanticException
-	{
-		setValue( );
-		if ( isResultSetColumn )
-			setResultSetColumn( );
 	}
 
 	protected boolean isForceBinding( )

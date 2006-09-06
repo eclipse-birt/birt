@@ -101,9 +101,11 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected ComputedColumnHandle bindingColumn;
 
-	public DataItemBindingDialog( )
+	protected boolean isCreateNew;
+	public DataItemBindingDialog( boolean isCreateNew)
 	{
-		super( NEW_DATAITEM_TITLE );
+		super( isCreateNew==true?NEW_DATAITEM_TITLE:EDIT_DATAITEM_TITLE );
+		this.isCreateNew = isCreateNew;
 	}
 
 	public DataItemBindingDialog( String title )
@@ -309,7 +311,7 @@ public class DataItemBindingDialog extends BaseDialog
 			itemName.setText( name );
 	}
 
-	protected void setValue( ) throws SemanticException
+	protected void save( ) throws SemanticException
 	{
 		if ( itemName.getText( ) != null
 				&& itemName.getText( ).trim( ).length( ) > 0 )
@@ -399,11 +401,6 @@ public class DataItemBindingDialog extends BaseDialog
 		super.okPressed( );
 	}
 
-	protected void save( ) throws SemanticException
-	{
-		setValue( );
-		setResultSetColumn( );
-	}
 
 	public void setAggregateOns( List aggregateOnList )
 	{
@@ -491,14 +488,11 @@ public class DataItemBindingDialog extends BaseDialog
 		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		try
 		{
-			String bindingName = ( (DataItemHandle) input ).getResultSetColumn( );
-			setTitle( bindingName == null ? NEW_DATAITEM_TITLE
-					: EDIT_DATAITEM_TITLE );
-			if ( bindingName != null )
+			if ( !isCreateNew )
 			{
-				bindingColumn = getInputBinding( input, bindingName );
+				bindingColumn = getInputBinding( input, ( (DataItemHandle) input ).getResultSetColumn( ) );
 			}
-			if ( bindingColumn == null )
+			if ( isCreateNew )
 			{
 				createColumnName( input, DEFAULT_ITEM_NAME );
 				setTypeSelect( dataTypes[0] );
@@ -567,5 +561,11 @@ public class DataItemBindingDialog extends BaseDialog
 	public void setExpressionProvider( ExpressionProvider provider )
 	{
 		expressionProvider = provider;
+	}
+
+	
+	public ComputedColumnHandle getBindingColumn( )
+	{
+		return bindingColumn;
 	}
 }
