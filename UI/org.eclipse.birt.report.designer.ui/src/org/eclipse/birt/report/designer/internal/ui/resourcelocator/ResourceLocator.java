@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 
 /**
  * 
@@ -51,15 +52,12 @@ public class ResourceLocator
 	{
 		if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
-			try
-			{
-				return new File( ReportPlugin.getDefault( ).getResourceFolder( ) ).toURI( )
-						.relativize( new URI( url.toString( ) ) )
-						.getPath( );
-			}
-			catch ( URISyntaxException e )
-			{
-			}
+			// return new File( ReportPlugin.getDefault( ).getResourceFolder( )
+			// ).toURI( )
+			// .relativize( new File( url.getPath( ) ).toURI( ) )
+			// .getPath( );
+			return URIUtil.getRelativePath( ReportPlugin.getDefault( )
+					.getResourceFolder( ), url.getPath( ) );
 		}
 		return url.getPath( );
 	}
