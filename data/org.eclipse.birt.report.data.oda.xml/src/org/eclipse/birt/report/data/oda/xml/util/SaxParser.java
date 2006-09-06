@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.data.oda.xml.util;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -131,6 +132,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 	public void endDocument( )
 	{
 		this.alive = false;
+		this.cleanUp( );
 		this.spConsumer.wakeup();
 	}
 
@@ -274,6 +276,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 	 */
 	public void stopParsing()
 	{
+		this.cleanUp( );
 		this.stopCurrentThread = true;
 	}
 
@@ -297,7 +300,26 @@ public class SaxParser extends DefaultHandler implements Runnable
 	}
 	
 	/**
-	 * This class wrapps a RuntimeException. It is used to stop the execution of current thread.
+	 * Prepare for the stop execution of parsing.
+	 *
+	 */
+	private void cleanUp( )
+	{
+		try
+		{
+			if ( this.inputStream != null )
+
+				this.inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			//Simply ignore this.
+		}
+	}
+	
+	/**
+	 * This class wrapps a RuntimeException. It is used to stop the execution of
+	 * current thread.
 	 */
 	private class ThreadStopException extends RuntimeException
 	{
