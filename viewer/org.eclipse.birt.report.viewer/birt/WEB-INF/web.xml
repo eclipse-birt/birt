@@ -65,6 +65,12 @@
 		<param-value></param-value>
 	</context-param>
 
+	<!-- If always overwrite generated document file. Defalult to true -->
+	<context-param>
+		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
 	<!-- Viewer Servlet Context Listener -->
 	<listener>
 		<listener-class>org.eclipse.birt.report.listener.ViewerServletContextListener</listener-class>

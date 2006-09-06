@@ -297,6 +297,12 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_VIEWER_MAXROWS = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
 
 	/**
+	 * Servlet parameter name that if always overwrite generated document file.
+	 */
+
+	public static final String INIT_PARAM_OVERWRITE_DOCUMENT = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
+
+	/**
 	 * UTF-8 encode constants.
 	 */
 
@@ -379,6 +385,11 @@ public class ParameterAccessor
 	 */
 
 	protected static boolean isInitContext = false;
+
+	/**
+	 * Overwrite flag
+	 */
+	public static boolean isOverWrite;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1125,6 +1136,18 @@ public class ParameterAccessor
 		birtResourceFolder = context
 				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH );
 
+		// get the overwrite flag
+		String s_overwrite = context
+				.getInitParameter( INIT_PARAM_OVERWRITE_DOCUMENT );
+		if ( "true".equalsIgnoreCase( s_overwrite ) ) //$NON-NLS-1$
+		{
+			isOverWrite = true;
+		}
+		else
+		{
+			isOverWrite = false;
+		}
+
 		clearDocuments( );
 
 		// Finish init context
@@ -1241,11 +1264,16 @@ public class ParameterAccessor
 
 	public static boolean isOverwrite( HttpServletRequest request )
 	{
-		boolean overwrite = false;
+		boolean overwrite = isOverWrite;
 
-		if ( "true".equalsIgnoreCase( getParameter( request, PARAM_OVERWRITE ) ) ) //$NON-NLS-1$
+		String urlParam = getParameter( request, PARAM_OVERWRITE );
+		if ( "true".equalsIgnoreCase( urlParam ) ) //$NON-NLS-1$
 		{
 			overwrite = true;
+		}
+		else if ( "false".equalsIgnoreCase( urlParam ) ) //$NON-NLS-1$
+		{
+			overwrite = false;
 		}
 
 		return overwrite;
