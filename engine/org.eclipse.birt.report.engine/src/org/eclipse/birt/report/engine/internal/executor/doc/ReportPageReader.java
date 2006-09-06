@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
+import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
@@ -28,16 +29,16 @@ public class ReportPageReader extends ReportReader
 	ArrayList outputPages = new ArrayList( );
 	ArrayList pageHints = new ArrayList( );
 	Fragment fragment = new Fragment( );
-	boolean keepPaginate;
+	int paginationType;
 	PageHintReaderV2 hintReader;
 	CachedReportContentReaderV3 pageReader;
 
 	public ReportPageReader( ExecutionContext context, long pageNumber,
-			boolean keepPaginate )
+			int paginationType )
 	{
 		super( context );
 		outputPages.add( new long[]{pageNumber, pageNumber} );
-		this.keepPaginate = keepPaginate;
+		this.paginationType = paginationType;
 	}
 
 	/**
@@ -60,11 +61,15 @@ public class ReportPageReader extends ReportReader
 	 *            should the output keep pagianted.
 	 */
 	public ReportPageReader( ExecutionContext context, List pages,
-			boolean keepPaginate )
+			int paginationType )
 	{
 		super( context );
 		outputPages.addAll( pages );
-		this.keepPaginate = keepPaginate;
+		this.paginationType = paginationType;
+		if ( paginationType == IReportContentLoader.SINGLE_PAGE )
+		{
+			nextPage = 1;
+		}
 	}
 
 	protected void openReaders( ) throws IOException
@@ -175,7 +180,7 @@ public class ReportPageReader extends ReportReader
 	{
 		IReportContent content = super.execute( );
 
-		if ( !keepPaginate )
+		if ( paginationType == IReportContentLoader.NO_PAGE )
 		{
 			loadPageHints( );
 			nextElement = getFirstElementOffset( );
@@ -191,7 +196,8 @@ public class ReportPageReader extends ReportReader
 	 */
 	public IReportItemExecutor getNextChild( )
 	{
-		if ( keepPaginate )
+		if ( paginationType == IReportContentLoader.MULTI_PAGE
+				|| paginationType == IReportContentLoader.SINGLE_PAGE )
 		{
 			return getNextPage( );
 		}
@@ -200,7 +206,8 @@ public class ReportPageReader extends ReportReader
 
 	public boolean hasNextChild( )
 	{
-		if ( keepPaginate )
+		if ( paginationType == IReportContentLoader.MULTI_PAGE
+				|| paginationType == IReportContentLoader.SINGLE_PAGE )
 		{
 			return hasNextPage( );
 		}
@@ -224,9 +231,21 @@ public class ReportPageReader extends ReportReader
 		if ( hasNextPage( ) )
 		{
 			assert nextPage != -1;
-			IReportItemExecutor pageExecutor = new PageReader( this, nextPage );
-			nextPage = getNextPageNumber( );
-			return pageExecutor;
+			if ( paginationType == IReportContentLoader.SINGLE_PAGE )
+			{
+				loadPageHints( );
+				IReportItemExecutor pageExecutor = new PageReader( this, 1,
+						fragment );
+				nextPage = -1;
+				return pageExecutor;
+			}
+			else
+			{
+				IReportItemExecutor pageExecutor = new PageReader( this,
+						nextPage, loadPageFragment( nextPage ) );
+				nextPage = getNextPageNumber( );
+				return pageExecutor;
+			}
 		}
 		return null;
 	}
@@ -234,6 +253,10 @@ public class ReportPageReader extends ReportReader
 	private long getNextPageNumber( )
 	{
 		// return the first page of the first range
+		if ( paginationType == IReportContentLoader.SINGLE_PAGE )
+		{
+			return -1;
+		}
 		if ( curPageRange == -1 )
 		{
 			if (outputPages.size( ) > 0)

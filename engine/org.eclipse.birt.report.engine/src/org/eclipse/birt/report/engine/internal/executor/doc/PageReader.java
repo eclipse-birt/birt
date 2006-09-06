@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 
 class PageReader extends ReportItemReader
 {
@@ -10,12 +9,12 @@ class PageReader extends ReportItemReader
 	ReportPageReader pageReader;
 	long pageNumber;
 
-	PageReader( ReportPageReader pageReader, long pageNumber )
+	PageReader( ReportPageReader pageReader, long pageNumber, Fragment fragment )
 	{
 		super( pageReader.manager );
 		this.pageReader = pageReader;
 		this.pageNumber = pageNumber;
-		this.fragment = pageReader.loadPageFragment( pageNumber );
+		this.fragment = fragment;
 	}
 
 	public IContent execute( )
@@ -44,17 +43,4 @@ class PageReader extends ReportItemReader
 	public void close( )
 	{
 	}
-
-	public IReportItemExecutor getNextChild( )
-	{
-		// TODO Auto-generated method stub
-		return super.getNextChild( );
-	}
-
-	public boolean hasNextChild( )
-	{
-		// TODO Auto-generated method stub
-		return super.hasNextChild( );
-	}
-
 }
