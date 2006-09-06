@@ -25,7 +25,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.18 $ $Date: 2005/10/19 11:00:34 $
+ * @version $Revision: 1.19 $ $Date: 2005/12/28 09:08:28 $
  */
 public class ScriptContext
 {
@@ -234,27 +234,7 @@ public class ScriptContext
 	 */
 	public Object jsToJava( Object jsValue )
 	{
-		if ( jsValue instanceof Scriptable )
-		{
-			String className = ( (Scriptable) jsValue ).getClassName( );
-			if ( "Date".equals( className ) )
-			{
-				return Context.toType( jsValue, java.util.Date.class );
-			}
-			else if ( "Boolean".equals( className ) )
-			{
-				return Boolean.valueOf( Context.toString( jsValue ) );
-			}
-			else if ( "String".equals( className ) )
-			{
-				return Context.toString( jsValue );
-			}
-		}
-		if ( jsValue instanceof Integer )
-		{
-			return jsValue;
-		}
-		return Context.toType( jsValue, Object.class );
+		return JavascriptEvalUtil.convertJavascriptValue( jsValue );
 	}
 
 	public Object javaToJs( Object value )
