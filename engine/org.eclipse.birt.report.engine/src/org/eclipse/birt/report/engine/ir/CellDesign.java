@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Cell type is used by Row, which is the base element of the table item and
  * grid item.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/17 16:50:43 $
  */
 public class CellDesign extends ReportItemDesign
 {
@@ -44,6 +44,10 @@ public class CellDesign extends ReportItemDesign
 	 * content in this cell
 	 */
 	protected ArrayList contents = new ArrayList( );
+	/**
+	 * If group icon should be displayed in this cell.
+	 */
+	private boolean displayGroupIcon = false;
 
 	/**
 	 * @return Returns the colSpan.
@@ -151,5 +155,15 @@ public class CellDesign extends ReportItemDesign
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
 		return visitor.visitCell(this, value);
+	}
+
+	public void setDisplayGroupIcon( boolean displayGroupIcon )
+	{
+		this.displayGroupIcon = displayGroupIcon;
+	}
+	
+	public boolean getDisplayGroupIcon( )
+	{
+		return displayGroupIcon;
 	}
 }

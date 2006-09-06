@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.118.2.3 $ $Date: 2006/09/04 08:26:38 $
+ * @version $Revision: 1.121 $ $Date: 2006/09/05 06:28:52 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -938,6 +938,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				GroupDesign group = (GroupDesign) currentElement;
 				group.setGroupLevel( i );
+				locateGroupIcon( group );
 				table.addGroup( group );
 			}
 		}
@@ -1005,6 +1006,40 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		
 		currentElement = table;
+	}
+
+	private void locateGroupIcon( GroupDesign group )
+	{
+		GroupHandle groupHandle = (GroupHandle)group.getHandle( );
+		String keyExpression = groupHandle.getKeyExpr();
+		if ( keyExpression == null )
+		{
+			return;
+		}
+		keyExpression = keyExpression.trim( );
+		BandDesign groupHeader = group.getHeader( );
+		for ( int i = 0; i < groupHeader.getContentCount( ); i++ )
+		{
+			RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+			for ( int j = 0; j < row.getCellCount( ); j++)
+			{
+				CellDesign cell = row.getCell( j );
+				for ( int k = 0; k < cell.getContentCount( ); k++ )
+				{
+					ReportItemDesign item = cell.getContent( k );
+					if ( item instanceof DataItemDesign )
+					{
+						DataItemDesign data = (DataItemDesign) item;
+						String value = data.getValue( );
+						if ( value != null && keyExpression.equals( value.trim( ) ))
+						{
+							cell.setDisplayGroupIcon( true );
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private void applyColumnHighlight( TableItemDesign table )

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Provides the interfaces for Cell Content
  * 
- * @version $Revision: 1.8 $ $Date: 2006/06/08 12:55:35 $
+ * @version $Revision: 1.9 $ $Date: 2006/06/13 15:37:17 $
  */
 public interface ICellContent extends IContainerContent
 {
@@ -52,8 +52,7 @@ public interface ICellContent extends IContainerContent
 
 	public void setColSpan( int colSpan );
 
-	public boolean isStartOfGroup( );
-
-	public void setStartOfGroup( boolean isStartOfGroup );
+	public void setDisplayGroupIcon( boolean displayGroupIcon );
 	
+	public boolean getDisplayGroupIcon( );
 }

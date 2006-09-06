@@ -15,12 +15,10 @@ public class CellExecutor extends QueryItemExecutor
 	}
 	
 	int cellId;
-	boolean startOfGroup;
 	
 	public void reset( )
 	{
 		super.reset( );
-		this.startOfGroup = false;
 		this.cellId = 0;
 	}
 
@@ -43,7 +41,7 @@ public class CellExecutor extends QueryItemExecutor
 		processStyle( cellDesign, cellContent );
 		processVisibility( cellDesign, cellContent );
 
-		cellContent.setStartOfGroup( startOfGroup );
+		cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
 		
 		if ( context.isInFactory( ) )
 		{
@@ -93,10 +91,5 @@ public class CellExecutor extends QueryItemExecutor
 			return executor;
 		}
 		return null;
-	}
-
-	public void setStartOfGroup( boolean startOfGroup )
-	{
-		this.startOfGroup = startOfGroup;
 	}
 }
