@@ -20,6 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
 class StringGroupCalculator extends GroupCalculator
 {
 
+	private int interval;
 	/**
 	 * 
 	 * @param intervalStart
@@ -30,6 +31,7 @@ class StringGroupCalculator extends GroupCalculator
 			throws BirtException
 	{
 		super( intervalStart, intervalRange );
+		interval = (int) ( Math.round( intervalRange ) );
 	}
 
 	/*
@@ -43,7 +45,10 @@ class StringGroupCalculator extends GroupCalculator
 		{
 			return value;
 		}
-		return value.toString( ).substring( 0,
-				(int) ( Math.round( intervalRange ) ) );
+		
+		if( value.toString( ).length( ) <= interval )
+			return value;
+		
+		return value.toString( ).substring( 0, interval );
 	}
 }
