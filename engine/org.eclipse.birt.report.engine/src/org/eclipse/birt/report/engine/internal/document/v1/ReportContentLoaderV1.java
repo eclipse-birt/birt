@@ -159,9 +159,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * @param pageNumber
 	 * @param emitter
 	 */
-	public void loadPage( long pageNumber, boolean bodyOnly,
+	public void loadPage( long pageNumber, int paginationType,
 			IContentEmitter emitter )
 	{
+		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
+				|| paginationType == IReportContentLoader.SINGLE_PAGE; 
 		emitter.start( reportContent );
 		this.emitter = emitter;
 		try
@@ -281,9 +283,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * @param pageNumber
 	 * @param emitter
 	 */
-	public void loadPageRange( List pageList, boolean bodyOnly,
+	public void loadPageRange( List pageList, int paginationType,
 			IContentEmitter emitter )
 	{
+		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
+				|| paginationType == IReportContentLoader.SINGLE_PAGE; 
 		emitter.start( reportContent );
 		this.emitter = emitter;
 		try
@@ -574,7 +578,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.9 $ $Date: 2006/06/19 05:03:02 $
+	 * @version $Revision: 1.11 $ $Date: 2006/09/06 03:22:16 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{

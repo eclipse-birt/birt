@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.internal.document.ReportContentLoader;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportPageReader;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
@@ -48,7 +49,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 {
 	IReportDocument reportDoc;
 	String emitterID;
-	boolean bodyOnly;
+	int paginationType;
 
 	private InnerRender innerRender;
 
@@ -116,11 +117,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		
 		if ("html".equalsIgnoreCase( format ))
 		{
-			bodyOnly = false;
+			paginationType = IReportContentLoader.MULTI_PAGE;
 		}
 		else
 		{
-			bodyOnly = true;
+			paginationType = IReportContentLoader.NO_PAGE;
 		}
 
 		ExtensionManager extManager = ExtensionManager.getInstance( );
@@ -167,7 +168,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		
 		//the output will be paginate.
-		if ( !bodyOnly )
+		if ( paginationType == IReportContentLoader.NO_PAGE )
 		{
 			emitter = new HTMLTableLayoutEmitter( emitter, true );
 		}
@@ -211,7 +212,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
 				IReportExecutor executor = new ReportPageReader(
-						executionContext, pageNumber, false );
+						executionContext, pageNumber, paginationType );
 				executor = new LocalizedReportExecutor( executionContext,
 						executor );
 				executionContext.setExecutor( executor );
@@ -244,7 +245,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				ReportContentLoader loader = new ReportContentLoader(
 						executionContext );
 				startRender( );
-				loader.loadPage( pageNumber, bodyOnly, emitter );
+				loader.loadPage( pageNumber, paginationType, emitter );
 				closeRender( );
 				executor.close( );
 			}
@@ -291,7 +292,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
 				IReportExecutor executor = new ReportPageReader(
-						executionContext, pageSequences, false );
+						executionContext, pageSequences, paginationType );
 				executor = new LocalizedReportExecutor( executionContext,
 						executor );
 				executionContext.setExecutor( executor );
@@ -329,9 +330,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 				{
 					boolean htmlPagination = ( (HTMLRenderOption) renderOption )
 							.getHtmlPagination( );
-					bodyOnly = !htmlPagination;
+					if ( !htmlPagination )
+					{
+						paginationType = IReportContentLoader.SINGLE_PAGE;
+					}
 				}
-				loader.loadPageRange( pageSequences, bodyOnly, emitter );
+				loader.loadPageRange( pageSequences, paginationType, emitter );
 				closeRender( );
 				executor.close( );
 			}

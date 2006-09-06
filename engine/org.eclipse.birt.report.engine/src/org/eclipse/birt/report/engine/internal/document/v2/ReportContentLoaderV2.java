@@ -157,9 +157,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @param pageNumber
 	 * @param emitter
 	 */
-	public void loadPage( long pageNumber, boolean bodyOnly,
+	public void loadPage( long pageNumber, int paginationType,
 			IContentEmitter emitter )
 	{
+		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
+				|| paginationType == IReportContentLoader.SINGLE_PAGE; 
 		emitter.start( reportContent );
 		this.emitter = emitter;
 		try
@@ -485,9 +487,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	 * @param pageNumber
 	 * @param emitter
 	 */
-	public void loadPageRange( List pageList, boolean bodyOnly,
+	public void loadPageRange( List pageList, int paginationType,
 			IContentEmitter emitter )
 	{
+		boolean bodyOnly = paginationType == IReportContentLoader.NO_PAGE
+				|| paginationType == IReportContentLoader.SINGLE_PAGE;
 		emitter.start( reportContent );
 		this.emitter = emitter;
 		try
