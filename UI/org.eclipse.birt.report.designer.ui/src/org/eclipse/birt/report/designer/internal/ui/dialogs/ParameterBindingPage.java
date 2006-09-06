@@ -97,7 +97,7 @@ public class ParameterBindingPage extends AttributePage
 			.getStructure( DataSetParameter.STRUCT_NAME )
 			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
-	
+
 	private static final String DEFAULT_VALUE_LABEL = Messages.getString( "label.defaultValue" ); //$NON-NLS-1$
 
 	private static final String DATA_SET_LABEL = Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
@@ -310,9 +310,9 @@ public class ParameterBindingPage extends AttributePage
 					}
 					break;
 				case 1 :
-					if ( parameter.getDataType( ) != null )
+					if ( parameter.getParameterDataType( ) != null )
 					{
-						text = ChoiceSetFactory.getDisplayNameFromChoiceSet( parameter.getDataType( ),
+						text = ChoiceSetFactory.getDisplayNameFromChoiceSet( parameter.getParameterDataType( ),
 								DATA_TYPE_CHOICE_SET );
 					}
 					break;
