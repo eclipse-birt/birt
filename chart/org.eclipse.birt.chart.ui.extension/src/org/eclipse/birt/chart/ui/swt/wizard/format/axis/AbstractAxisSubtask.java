@@ -405,9 +405,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					.getName( ) ) );
 		}
 
-		if ( getAxisForProcessing( ).getOrigin( )
-				.getType( )
-				.equals( IntersectionType.VALUE_LITERAL ) )
+		if ( txtValue != null
+				&& !txtValue.isDisposed( )
+				&& getAxisForProcessing( ).getOrigin( )
+						.getType( )
+						.equals( IntersectionType.VALUE_LITERAL ) )
 		{
 			txtValue.setText( getValue( getAxisForProcessing( ).getOrigin( )
 					.getValue( ) ) );
