@@ -90,9 +90,8 @@ public class MultiPass_SortTest extends APITestCase
 		String testSQL = "select COUNTRY, AMOUNT from " + getTestTableName( );
 		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
 
-		IBaseExpression[] bindingExprGroup = new IBaseExpression[]{
-				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
-				};
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[]{new ScriptExpression(
+				"dataSetRow.COUNTRY", 0 ),};
 
 		String names[] = {"GROUP_COUNTRY"};
 
@@ -100,45 +99,23 @@ public class MultiPass_SortTest extends APITestCase
 		sortDefn.setExpression( "Total.sum( dataSetRow.AMOUNT )" );
 		sortDefn.setSortDirection( sortDefn.SORT_DESC );
 
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0")};
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition(
+				"group0" )};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[0].addSort( sortDefn );
-		
-		
-		
+
 		String[] bindingNameRow = new String[2];
-		bindingNameRow[0]="country";
-		bindingNameRow[1]="amount";
-		
+		bindingNameRow[0] = "country";
+		bindingNameRow[1] = "amount";
+
 		IBaseExpression[] bindingExprRow = new IBaseExpression[2];
-		bindingExprRow[0]= new ScriptExpression("dataSetRow.COUNTRY");
-		bindingExprRow[1]= new ScriptExpression("dataSetRow.AMOUNT");
-		
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
+
 		createAndRunQuery( names, bindingExprGroup, groupDefn, null, null,
 				null, null, null, null, bindingNameRow, bindingExprRow );
 
-		// define a query design
-//		QueryDefinition queryDefn = newReportQuery( );
-//		queryDefn.setDataSetName( this.dataSet.getName( ) );
-//		queryDefn.addGroup( groupDefn[0] );
-//
-//		for ( int i = 0; i < expressions.length; i++ )
-//		{
-//			queryDefn.addResultSetExpression( names[i], expressions[i] );
-//
-//		}
-//
-//		// queryDefn.addGroup( groupDefn[0]);
-//
-//		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-//		IQueryResults queryResults = preparedQuery.execute( null );
-//		IResultIterator resultIt = queryResults.getResultIterator( );
-//		assertTrue( resultIt.next( ) );
-//		System.out.print( resultIt.getValue( names[0] ) );
-//		System.out.print( resultIt.getValue( names[1] ) );
-//
-//		outputQueryResult(resultIt, names );
-		checkOutputFile();
+		checkOutputFile( );
 
 	}
 

@@ -43,6 +43,7 @@ import testutil.TestDataSource;
  */
 abstract public class APITestCase extends BaseTestCase
 {
+
 	/** connection property */
 	protected String DriverClass;
 	protected String URL;
@@ -52,30 +53,28 @@ abstract public class APITestCase extends BaseTestCase
 	/** test table and util */
 	private String tableName;
 	protected TestDataSource dataSourceInstance;
-	
+
 	/** instance of DataEngine */
-	protected DataEngine dataEngine;	
+	protected DataEngine dataEngine;
 	/**
 	 * Every test case might have one datasource and dataset. They are defined
 	 * in base class for convinience to use.
 	 */
 	protected BaseDataSourceDesign dataSource;
 	protected BaseDataSetDesign dataSet;
-	
+
 	/*
 	 * @see TestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		
-		dataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				jsScope,
-				null,
-				null ) );
+
+		dataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance(
+				DataEngineContext.DIRECT_PRESENTATION, jsScope, null, null ) );
 		prepareDataSource( );
 	}
-	
+
 	/*
 	 * @see TestCase#tearDown()
 	 */
@@ -83,10 +82,10 @@ abstract public class APITestCase extends BaseTestCase
 	{
 		dataEngine.shutdown( );
 		closeDataSource( );
-		
+
 		super.tearDown( );
 	}
-	
+
 	/**
 	 * Prepare test table and oda data source and data set design. In most case,
 	 * only one data source needs to be defined.
@@ -96,7 +95,7 @@ abstract public class APITestCase extends BaseTestCase
 	private void prepareDataSource( ) throws Exception
 	{
 		prepareDataSourceProperty( );
-		
+
 		DataSourceInfo dataSourceInfo = getDataSourceInfo( );
 		if ( dataSourceInfo != null )
 		{
@@ -111,12 +110,12 @@ abstract public class APITestCase extends BaseTestCase
 			dataEngine.defineDataSet( this.dataSet );
 		}
 	}
-	
+
 	/**
 	 * Prepare data source connection property, these properties will be used in
 	 * test table preparation and oda data source preparation.
 	 */
-	private void prepareDataSourceProperty()
+	private void prepareDataSourceProperty( )
 	{
 		if ( DriverClass == null )
 			DriverClass = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -125,13 +124,13 @@ abstract public class APITestCase extends BaseTestCase
 		if ( User == null )
 			User = "user";
 		if ( Password == null )
-			Password = "password";		
-		System.setProperty( "DTETest.driver", DriverClass );		
+			Password = "password";
+		System.setProperty( "DTETest.driver", DriverClass );
 		System.setProperty( "DTETest.url", URL );
-		System.setProperty( "DTETest.user",User);
-		System.setProperty( "DTETest.password",Password);	
+		System.setProperty( "DTETest.user", User );
+		System.setProperty( "DTETest.password", Password );
 	}
-	
+
 	/**
 	 * Prepare test table. This method is defined separatelly since in some test
 	 * cases, they might use more than one data set, although they share the
@@ -143,19 +142,17 @@ abstract public class APITestCase extends BaseTestCase
 	protected void prepareDataSet( DataSourceInfo dataSourceInfo )
 			throws Exception
 	{
-		if ( dataSourceInfo != null
-				&& dataSourceInfo.tableName != null
+		if ( dataSourceInfo != null && dataSourceInfo.tableName != null
 				&& dataSourceInfo.createSql != null
 				&& dataSourceInfo.dataFileName != null )
 		{
 			this.tableName = dataSourceInfo.tableName;
-			
+
 			this.prepareTestTable( dataSourceInfo.tableName,
-					dataSourceInfo.createSql,
-					dataSourceInfo.dataFileName );
+					dataSourceInfo.createSql, dataSourceInfo.dataFileName );
 		}
 	}
-	
+
 	/**
 	 * Create test table and populate data into table, currently only derby data
 	 * base is used.
@@ -167,20 +164,18 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	private void prepareTestTable( String tableName, String createSql,
 			String dataFileName ) throws Exception
-	{		
+	{
 		if ( dataSourceInstance == null )
 			dataSourceInstance = JDBCDataSource.newInstance( );
-		
+
 		// create table
-		this.dataSourceInstance.createTable( tableName,
-				createSql,
-				true );
-		
+		this.dataSourceInstance.createTable( tableName, createSql, true );
+
 		// insert data into table
-		this.dataSourceInstance.populateTable( tableName,
-				new File( getInputFolder(), dataFileName) );
+		this.dataSourceInstance.populateTable( tableName, new File(
+				getInputFolder( ), dataFileName ) );
 	}
-	
+
 	/**
 	 * Normally, an API test case will be based on a particular data source, so
 	 * before test begins, test case provides which data source will be used and
@@ -192,7 +187,7 @@ abstract public class APITestCase extends BaseTestCase
 	 * @return which data source will be used in this test case
 	 */
 	protected abstract DataSourceInfo getDataSourceInfo( );
-	
+
 	/**
 	 * Wrap the info for the preparation of data source, when derby is used, it
 	 * needs to provide the createSql and dataFileName to create a table for
@@ -200,14 +195,18 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	public class DataSourceInfo
 	{
+
 		private String tableName;
 		private String createSql;
 		private String dataFileName;
 
 		/**
-		 * @param tableName, used table name
-		 * @param createSql, sql to create table
-		 * @param dataFileName, data to insert table
+		 * @param tableName,
+		 *            used table name
+		 * @param createSql,
+		 *            sql to create table
+		 * @param dataFileName,
+		 *            data to insert table
 		 */
 		public DataSourceInfo( String tableName, String createSql,
 				String dataFileName )
@@ -217,7 +216,7 @@ abstract public class APITestCase extends BaseTestCase
 			this.dataFileName = dataFileName;
 		}
 	}
-	
+
 	/**
 	 * @throws Exception
 	 */
@@ -231,15 +230,15 @@ abstract public class APITestCase extends BaseTestCase
 			this.dataSourceInstance = null;
 		}
 	}
-	
+
 	/**
 	 * @return test table name
 	 */
-	protected String getTestTableName()
+	protected String getTestTableName( )
 	{
 		return this.tableName;
 	}
-	
+
 	/**
 	 * new a JDBC dataset with specified datasetname and querytext
 	 * 
@@ -256,10 +255,10 @@ abstract public class APITestCase extends BaseTestCase
 		dset.setQueryText( queryText );
 		dset.setExtensionID( JDBCOdaDataSource.DATA_SET_TYPE );
 		dataEngine.defineDataSet( dset );
-		
+
 		return dset;
 	}
-	
+
 	/**
 	 * new a default query, which only has data set information
 	 * 
@@ -269,10 +268,10 @@ abstract public class APITestCase extends BaseTestCase
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( this.dataSet.getName( ) );
-		
+
 		return queryDefn;
 	}
-	
+
 	/**
 	 * new a simple query with specified dataset
 	 * 
@@ -285,10 +284,10 @@ abstract public class APITestCase extends BaseTestCase
 			queryDefn.setDataSetName( this.dataSet.getName( ) );
 		else
 			queryDefn.setDataSetName( dataset.getName( ) );
-		
+
 		return queryDefn;
 	}
-	
+
 	/**
 	 * Execute query definition
 	 * 
@@ -303,7 +302,7 @@ abstract public class APITestCase extends BaseTestCase
 		IQueryResults queryResults = preparedQuery.execute( null );
 		return queryResults.getResultIterator( );
 	}
-	
+
 	/**
 	 * Output result of executing query defintion
 	 * 
@@ -314,7 +313,7 @@ abstract public class APITestCase extends BaseTestCase
 	protected void outputQueryResult( IResultIterator resultIt,
 			String[] expressions ) throws Exception
 	{
-		assert testOut!= null;
+		assert testOut != null;
 
 		// output result
 		testPrintln( "*****A new Report Start!*****" );
@@ -334,7 +333,7 @@ abstract public class APITestCase extends BaseTestCase
 		}
 		testPrintln( "" );
 	}
-	
+
 	/**
 	 * @param queryDefn
 	 * @param exprName
@@ -361,7 +360,7 @@ abstract public class APITestCase extends BaseTestCase
 		}
 		testPrintln( "" );
 	}
-	
+
 	/**
 	 * @param name
 	 * @param result
@@ -384,7 +383,7 @@ abstract public class APITestCase extends BaseTestCase
 			return "<EXCEPTION>";
 		}
 	}
-	
+
 	/**
 	 * Return default query definition
 	 * 
@@ -395,9 +394,10 @@ abstract public class APITestCase extends BaseTestCase
 	{
 		return Util.instance.getDefaultQueryDefn( dataSetName );
 	}
-	
+
 	/**
 	 * Return default query definition with subquery
+	 * 
 	 * @param dataSetName
 	 * @return default query definition with subquery
 	 */
@@ -406,43 +406,48 @@ abstract public class APITestCase extends BaseTestCase
 	{
 		return Util.instance.getDefaultQueryDefnWithSubQuery( dataSetName );
 	}
-	
+
 	/**
 	 * Return expression of default query
+	 * 
 	 * @return expression of default query
 	 */
 	protected BaseExpression[] getExpressionsOfDefaultQuery( )
 	{
 		return Util.instance.getExpressionsOfDefaultQuery( );
 	}
-	
+
 	protected String[] getBindingExpressionName( )
 	{
 		return Util.instance.getBindingExpressionName( );
 	}
-	
-	protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) 
+
+	protected void populateQueryExprMapping( SubqueryDefinition subqueryDefn )
 	{
-		Util.instance.populateQueryExprMapping(subqueryDefn);
+		Util.instance.populateQueryExprMapping( subqueryDefn );
 	}
+
 	/**
 	 * Utility
 	 */
 	private static class Util
 	{
+
 		private static Util instance = new Util( );
-		
+
 		private static BaseExpression[] expressions;
-		
+
 		private static String[] bindingNameRow;
+
 		/**
 		 * Create a general Query with groups,sorts and subquery
+		 * 
 		 * @param dataSetName
 		 * @return queryDefn
 		 */
-		protected IQueryDefinition getDefaultQueryDefn( String dataSetName ) 
-		{	
-			
+		protected IQueryDefinition getDefaultQueryDefn( String dataSetName )
+		{
+
 			String[] bindingNameGroup = new String[3];
 			bindingNameGroup[0] = "GROUP_COL0";
 			bindingNameGroup[1] = "GROUP_COL1";
@@ -452,8 +457,9 @@ abstract public class APITestCase extends BaseTestCase
 			bindingExprGroup[1] = new ScriptExpression( "dataSetRow.COL1" );
 			bindingExprGroup[2] = new ScriptExpression( "dataSetRow.COL2" );
 			GroupDefinition[] groupDefn = new GroupDefinition[]{
-					new GroupDefinition( "group1" ), new GroupDefinition( "group2" ),new GroupDefinition( "group3" )
-			};
+					new GroupDefinition( "group1" ),
+					new GroupDefinition( "group2" ),
+					new GroupDefinition( "group3" )};
 			groupDefn[0].setKeyExpression( "row.GROUP_COL0" );
 			groupDefn[1].setKeyExpression( "row.GROUP_COL1" );
 			groupDefn[2].setKeyExpression( "row.GROUP_COL2" );
@@ -462,9 +468,7 @@ abstract public class APITestCase extends BaseTestCase
 			bindingNameSort[0] = "SORT_COL3";
 			IBaseExpression[] bindingExprSort = new IBaseExpression[1];
 			bindingExprSort[0] = new ScriptExpression( "dataSetRow.COL3" );
-			SortDefinition[] sortDefn = new SortDefinition[]{
-				new SortDefinition( )
-			};
+			SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
 			sortDefn[0].setColumn( "SORT_COL3" );
 			sortDefn[0].setSortDirection( ISortDefinition.SORT_ASC );
 
@@ -478,24 +482,24 @@ abstract public class APITestCase extends BaseTestCase
 					new ScriptExpression( "dataSetRow.COL0", 0 ),
 					new ScriptExpression( "dataSetRow.COL1", 0 ),
 					new ScriptExpression( "dataSetRow.COL2", 0 ),
-					new ScriptExpression( "dataSetRow.COL3", 0 )
-			};
-			
-            return this.getQueryDefinition(bindingNameGroup, bindingExprGroup,
+					new ScriptExpression( "dataSetRow.COL3", 0 )};
+
+			return this.getQueryDefinition( bindingNameGroup, bindingExprGroup,
 					groupDefn, bindingNameSort, bindingExprSort, sortDefn,
-					null,null,null,
-					bindingNameRow, expressions, dataSetName);
+					null, null, null, bindingNameRow, expressions, dataSetName );
 		}
-		
-		private QueryDefinition getQueryDefinition(String[] bindingNameGroup,
-				IBaseExpression[] bindingExprGroup, GroupDefinition[] groupDefn,
-				String[] bindingNameSort, IBaseExpression[] bindingExprSort,
-				SortDefinition[] sortDefn, String[] bindingNameFilter,
-				IBaseExpression[] bindingExprFilter, FilterDefinition[] filterDefn,
-				String[] bindingNameRow, IBaseExpression[] bindingExprRow, String dataSetName )
+
+		private QueryDefinition getQueryDefinition( String[] bindingNameGroup,
+				IBaseExpression[] bindingExprGroup,
+				GroupDefinition[] groupDefn, String[] bindingNameSort,
+				IBaseExpression[] bindingExprSort, SortDefinition[] sortDefn,
+				String[] bindingNameFilter,
+				IBaseExpression[] bindingExprFilter,
+				FilterDefinition[] filterDefn, String[] bindingNameRow,
+				IBaseExpression[] bindingExprRow, String dataSetName )
 		{
-			QueryDefinition queryDefn = new QueryDefinition();
-			queryDefn.setDataSetName(dataSetName);
+			QueryDefinition queryDefn = new QueryDefinition( );
+			queryDefn.setDataSetName( dataSetName );
 
 			// add transformation definition
 			if ( groupDefn != null )
@@ -519,102 +523,110 @@ abstract public class APITestCase extends BaseTestCase
 			}
 
 			// add value retrive tansformation
-			if (bindingNameRow != null)
-				for (int i = 0; i < bindingNameRow.length; i++)
-					queryDefn.addResultSetExpression(bindingNameRow[i],
-							expressions[i]);
+			if ( bindingNameRow != null )
+				for ( int i = 0; i < bindingNameRow.length; i++ )
+					queryDefn.addResultSetExpression( bindingNameRow[i],
+							expressions[i] );
 			return queryDefn;
 
 		}
-		
+
 		/**
 		 * Get query definition with sub query
+		 * 
 		 * @return queryDefn
 		 */
-		protected IQueryDefinition getDefaultQueryDefnWithSubQuery( String dataSetName )
+		protected IQueryDefinition getDefaultQueryDefnWithSubQuery(
+				String dataSetName )
 		{
 			IQueryDefinition queryDefn = getDefaultQueryDefn( dataSetName );
-			
+
 			// row.Col1
-			GroupDefinition groupDefn = (GroupDefinition) queryDefn.getGroups().get(1);
-			
+			GroupDefinition groupDefn = (GroupDefinition) queryDefn.getGroups( )
+					.get( 1 );
+
 			// ---------- begin sub query ----------
 			SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
 			groupDefn.addSubquery( subqueryDefn );
-			
+
 			String[] bindingNameGroup = new String[1];
 			bindingNameGroup[0] = "GROUP_COL2";
 			IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
-			bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL2");
-			GroupDefinition[] subGroupDefn = new GroupDefinition[] { new GroupDefinition(
-					"group2") };
-			//subGroupDefn[0].setKeyExpression( "row.GROUP_COL2" );
+			bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COL2" );
+			GroupDefinition[] subGroupDefn = new GroupDefinition[]{new GroupDefinition(
+					"group2" )};
+			// subGroupDefn[0].setKeyExpression( "row.GROUP_COL2" );
 			subGroupDefn[0].setKeyExpression( "row.GROUP_COL2" );
-			
-			for (int k = 0; k < subGroupDefn.length; k++) {
-				if (bindingNameGroup != null)
-					for (int i = 0; i < bindingNameGroup.length; i++)
-						subqueryDefn.addResultSetExpression(
-								bindingNameGroup[i], bindingExprGroup[i]);
-				
-				for (int i = 0; i < subGroupDefn.length; i++)
-					subqueryDefn.addGroup(subGroupDefn[i]);
-			}
-			populateQueryExprMapping(subqueryDefn);
-			
-				// --- sub query of sub query
-				SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2" );
-				subGroupDefn[0].addSubquery( subSubqueryDefn );
-				
-				bindingNameGroup = new String[1];
-				bindingNameGroup[0] = "GROUP_COL3";
-			    bindingExprGroup = new IBaseExpression[1];
-				bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL3");
-				GroupDefinition[] subSubGroupDefn = new GroupDefinition[] { new GroupDefinition(
-						"group3") };
-				//subSubGroupDefn[0].setKeyExpression( "row.GROUP_COL3" );
-				subSubGroupDefn[0].setKeyExpression( "row.GROUP_COL3" );
-				
-				for ( int k = 0; k < subSubGroupDefn.length; k++ )
-				{
-					if ( bindingNameGroup != null )
-						for ( int i = 0; i < bindingNameGroup.length; i++ )
-							subSubqueryDefn.addResultSetExpression( bindingNameGroup[i],
-								bindingExprGroup[i] );
 
-					for ( int i = 0; i < subSubGroupDefn.length; i++ )
-						subSubqueryDefn.addGroup( subSubGroupDefn[i] );
-				}
-				populateQueryExprMapping(subSubqueryDefn);
-				// --- sub query of sub query
-			
+			for ( int k = 0; k < subGroupDefn.length; k++ )
+			{
+				if ( bindingNameGroup != null )
+					for ( int i = 0; i < bindingNameGroup.length; i++ )
+						subqueryDefn.addResultSetExpression(
+								bindingNameGroup[i], bindingExprGroup[i] );
+
+				for ( int i = 0; i < subGroupDefn.length; i++ )
+					subqueryDefn.addGroup( subGroupDefn[i] );
+			}
+			populateQueryExprMapping( subqueryDefn );
+
+			// --- sub query of sub query
+			SubqueryDefinition subSubqueryDefn = new SubqueryDefinition(
+					"IAMTEST2" );
+			subGroupDefn[0].addSubquery( subSubqueryDefn );
+
+			bindingNameGroup = new String[1];
+			bindingNameGroup[0] = "GROUP_COL3";
+			bindingExprGroup = new IBaseExpression[1];
+			bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COL3" );
+			GroupDefinition[] subSubGroupDefn = new GroupDefinition[]{new GroupDefinition(
+					"group3" )};
+			// subSubGroupDefn[0].setKeyExpression( "row.GROUP_COL3" );
+			subSubGroupDefn[0].setKeyExpression( "row.GROUP_COL3" );
+
+			for ( int k = 0; k < subSubGroupDefn.length; k++ )
+			{
+				if ( bindingNameGroup != null )
+					for ( int i = 0; i < bindingNameGroup.length; i++ )
+						subSubqueryDefn.addResultSetExpression(
+								bindingNameGroup[i], bindingExprGroup[i] );
+
+				for ( int i = 0; i < subSubGroupDefn.length; i++ )
+					subSubqueryDefn.addGroup( subSubGroupDefn[i] );
+			}
+			populateQueryExprMapping( subSubqueryDefn );
+			// --- sub query of sub query
+
 			// ---------- end sub query ----------
-			
+
 			return queryDefn;
 		}
 
-		protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) {
-			/////TODO remove in future
+		protected void populateQueryExprMapping( SubqueryDefinition subqueryDefn )
+		{
+			// ///TODO remove in future
 			for ( int i = 0; i < bindingNameRow.length; i++ )
 				subqueryDefn.addResultSetExpression( bindingNameRow[i],
 						expressions[i] );
-			/////////////////////////
+			// ///////////////////////
 		}
-		
+
 		/**
 		 * Get default query expressions
+		 * 
 		 * @return expressions BaseExpression[]
 		 */
-		protected BaseExpression[] getExpressionsOfDefaultQuery() {
+		protected BaseExpression[] getExpressionsOfDefaultQuery( )
+		{
 			return expressions;
 		}
-		
-		protected String[] getBindingExpressionName()
+
+		protected String[] getBindingExpressionName( )
 		{
 			return bindingNameRow;
 		}
 	}
-	
+
 	/**
 	 * @param bindingNameGroup
 	 * @param bindingExprGroup
@@ -637,19 +649,12 @@ abstract public class APITestCase extends BaseTestCase
 			String[] bindingNameRow, IBaseExpression[] bindingExprRow )
 			throws Exception
 	{
-		executeQuery( createQuery( bindingNameGroup,
-				bindingExprGroup,
-				groupDefn,
-				bindingNameSort,
-				bindingExprSort,
-				sortDefn,
-				bindingNameFilter,
-				bindingExprFilter,
-				filterDefn,
-				bindingNameRow,
-				bindingExprRow ), bindingNameRow );
+		executeQuery( createQuery( bindingNameGroup, bindingExprGroup,
+				groupDefn, bindingNameSort, bindingExprSort, sortDefn,
+				bindingNameFilter, bindingExprFilter, filterDefn,
+				bindingNameRow, bindingExprRow ), bindingNameRow );
 	}
-	
+
 	/**
 	 * @param bindingNameGroup
 	 * @param bindingExprGroup
@@ -714,5 +719,86 @@ abstract public class APITestCase extends BaseTestCase
 
 		return queryDefn;
 	}
-	
+
+	public String getOutputStrForGroupTest( int expectedLen,
+			QueryDefinition qd, int groupDefCount, String[] beArray,
+			String[] columStr ) throws Exception
+	{
+		StringBuffer sBuffer = new StringBuffer( );
+
+		// execute query
+		IResultIterator ri = this.executeQuery( qd );
+
+		String metaData = "";
+		for ( int i = 0; i < columStr.length; i++ )
+		{
+			metaData += formatStr( columStr[i], expectedLen );
+		}
+		sBuffer.append( metaData );
+		sBuffer.append( "\n" );
+
+		int groupCount = groupDefCount;
+		while ( ri.next( ) )
+		{
+			String rowData = "";
+
+			int startLevel = ri.getStartingGroupLevel( );
+			if ( startLevel <= groupCount )
+			{
+				if ( startLevel == 0 )
+					startLevel = 1;
+
+				for ( int j = 0; j < startLevel - 1; j++ )
+				{
+					rowData += formatStr( "", expectedLen );
+				}
+				for ( int j = startLevel - 1; j < beArray.length; j++ )
+				{
+					String value;
+					if ( ri.getValue( beArray[j] ) != null )
+						value = ri.getValue( beArray[j] ).toString( );
+					else
+						value = "null";
+
+					rowData += formatStr( value, expectedLen );
+				}
+			}
+			else
+			{
+				for ( int j = 0; j < groupCount; j++ )
+				{
+					rowData += formatStr( "", expectedLen );;
+				}
+				for ( int j = groupCount; j < beArray.length; j++ )
+				{
+					String value = ri.getValue( beArray[j] ).toString( );
+					rowData += formatStr( value, expectedLen );
+				}
+			}
+			sBuffer.append( rowData );
+			sBuffer.append( "\n" );
+		}
+
+		return new String( sBuffer );
+	}
+
+	private static String formatStr( String inputStr, int length )
+	{
+		if ( inputStr == null )
+			return null;
+
+		int inputLen = inputStr.length( );
+		if ( inputLen >= length )
+			return inputStr;
+
+		int appendLen = length - inputLen;
+		char[] appendChar = new char[appendLen];
+		for ( int i = 0; i < appendLen; i++ )
+		{
+			appendChar[i] = ' ';
+		}
+		String result = inputStr + new String( appendChar );
+
+		return result;
+	}
 }
