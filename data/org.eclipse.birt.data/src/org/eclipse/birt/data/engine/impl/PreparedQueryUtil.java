@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -317,16 +318,105 @@ class PreparedQueryUtil
 	 */
 	private static boolean isCompatibleRSMap( Map oldMap, Map newMap )
 	{
-		if ( oldMap == newMap )
-			return true;
-		else if ( oldMap == null )
+		if ( oldMap == null )
 			return newMap.size( ) == 0;
 		else if ( newMap == null )
 			return oldMap.size( ) == 0;
 
-		return oldMap.size( ) >= newMap.size( );
+		if ( newMap.size( ) > oldMap.size( ) )
+			return false;
+		
+		Iterator it = newMap.keySet( ).iterator( );
+		while( it.hasNext( ) )
+		{
+			Object key = it.next( );
+			Object oldObj = oldMap.get( key );
+			Object newObj = newMap.get( key );
+			if ( oldObj != null )
+			{
+				if( isTwoExpressionEqual((IBaseExpression)newObj, (IBaseExpression)oldObj) )
+					return false;
+			}else
+			{
+				return false;
+			}
+ 		}
+		return true;
 	}
 
+	/**
+	 * 
+	 * @param obj1
+	 * @param obj2
+	 * @return
+	 */
+	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2 )
+	{
+		if( obj1 == null || obj2!= null )
+			return false;
+		if( obj1 != null || obj2 == null )
+			return false;
+		if( !obj1.getClass( ).equals( obj2.getClass( ) ))
+			return false;
+		
+		if( obj1 instanceof IScriptExpression )
+		{
+			return isTwoExpressionEqual( (IScriptExpression)obj1, (IScriptExpression)obj2 );
+		}else if ( obj1 instanceof IConditionalExpression )
+		{
+			return isTwoExpressionEqual( (IConditionalExpression)obj1, (IConditionalExpression)obj2 );
+		}
+		return false;
+	}
+	
+	/**
+	 * Return whether two IScriptExpression instance equals.
+	 * @param obj1
+	 * @param obj2
+	 * @return
+	 */
+	private static boolean isTwoExpressionEqual( IScriptExpression obj1, IScriptExpression obj2 )
+	{
+		return isTwoStringEqual( obj1.getText( ), obj2.getText( ) )
+				&& isTwoStringEqual( obj1.getGroupName( ), obj2.getGroupName( ))
+				&& isTwoStringEqual( obj1.getText( ), obj2.getText( ))
+				&& obj1.getDataType( ) == obj2.getDataType( );
+	}
+	
+	/**
+	 * 
+	 * @param obj1
+	 * @param obj2
+	 * @return
+	 */
+	private static boolean isTwoExpressionEqual( IConditionalExpression obj1, IConditionalExpression obj2 )
+	{
+		if( obj1.getOperator( ) != obj2.getOperator( ) )
+			return false;
+		
+		return isTwoStringEqual( obj1.getGroupName( ), obj2.getGroupName( ))
+			 	&& isTwoExpressionEqual( obj1.getExpression( ), obj2.getExpression( ))
+			 	&& isTwoExpressionEqual( obj1.getOperand1( ), obj2.getOperand1( ))
+			 	&& isTwoExpressionEqual( obj1.getOperand2( ), obj2.getOperand2( ));
+	}
+	
+	/**
+	 * 
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	private static boolean isTwoStringEqual( String s1, String s2 )
+	{
+		if( s1 == null && s2 != null )
+			return false;
+		
+		if( s1 != null && s2 == null )
+			return false;
+		
+		return s1.equals( s2 );
+	}
+	
 	/**
 	 * @param oldSubQuery
 	 * @param newSubQuery
