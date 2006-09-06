@@ -8,13 +8,17 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 public class DataColumnBindingDialog extends DataItemBindingDialog
 {
+
+	private boolean isResultSetColumn = false;
 
 	public DataColumnBindingDialog( )
 	{
@@ -56,6 +60,13 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );
 				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+				if ( input instanceof DataItemHandle )
+				{
+					String resultSetName = ( (DataItemHandle) input ).getResultSetColumn( );
+					if ( resultSetName != null
+							&& bindingColumn.getName( ).equals( resultSetName ) )
+						isResultSetColumn = true;
+				}
 			}
 
 		}
@@ -63,6 +74,13 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+
+	protected void save( ) throws SemanticException
+	{
+		setValue( );
+		if ( isResultSetColumn )
+			setResultSetColumn( );
 	}
 
 	protected boolean isForceBinding( )
@@ -73,7 +91,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Control control = super.createDialogArea( parent );
-		UIUtil.bindHelp(control, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG);
+		UIUtil.bindHelp( control, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
 		return control;
 	}
 	protected static final String DEFAULT_ITEM_NAME = "data column";

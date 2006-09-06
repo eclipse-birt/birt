@@ -126,7 +126,7 @@ public class DataItemBindingDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		final Composite composite = (Composite) super.createDialogArea( parent );
-		UIUtil.bindHelp(composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG);
+		UIUtil.bindHelp( composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG );
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
 
 		new Label( composite, SWT.NONE ).setText( NAME );
@@ -388,8 +388,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		try
 		{
-			setValue( );
-			setResultSetColumn( );
+			save( );
 		}
 		catch ( Exception e )
 		{
@@ -398,6 +397,12 @@ public class DataItemBindingDialog extends BaseDialog
 		}
 
 		super.okPressed( );
+	}
+
+	protected void save( ) throws SemanticException
+	{
+		setValue( );
+		setResultSetColumn( );
 	}
 
 	public void setAggregateOns( List aggregateOnList )

@@ -898,6 +898,7 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		if ( bindingHandle == null )
 			return;
+		String bindingName = bindingHandle.getName( );
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( );
 		dialog.setInput( (ReportItemHandle) inputElement, bindingHandle );
 		dialog.setExpressionProvider( expressionProvider );
@@ -905,6 +906,9 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			if ( bindingTable != null )
 				bindingTable.getTable( ).setSelection( pos );
+			if ( selectedColumnName != null
+					&& selectedColumnName.equals( bindingName ) )
+				selectedColumnName = ( (DataItemHandle) inputElement ).getResultSetColumn( );
 		}
 	}
 
