@@ -49,7 +49,7 @@ class WeekGroupCalculator extends DateGroupCalculator
 		{
 			return new Double( Math.floor( DateTimeUtil.diffWeek( defaultStart,
 					(Date) value )
-					/ intervalRange ) );
+					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -61,7 +61,7 @@ class WeekGroupCalculator extends DateGroupCalculator
 			{
 				return new Double( Math.floor( DateTimeUtil.diffWeek( (Date) intervalStart,
 						(Date) value )
-						/ intervalRange ) );
+						/ getDateIntervalRange( ) ) );
 			}
 		}
 	}

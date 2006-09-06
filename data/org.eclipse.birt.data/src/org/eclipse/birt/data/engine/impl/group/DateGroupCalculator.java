@@ -37,4 +37,13 @@ abstract class DateGroupCalculator extends GroupCalculator
 		if ( intervalStart != null )
 			this.intervalStart = DataTypeUtil.toDate( intervalStart );
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected int getDateIntervalRange()
+	{
+		return (int)Math.round( intervalRange );
+	}
 }

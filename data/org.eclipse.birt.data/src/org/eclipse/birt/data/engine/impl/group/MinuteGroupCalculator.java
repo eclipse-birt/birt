@@ -50,7 +50,7 @@ class MinuteGroupCalculator extends DateGroupCalculator
 		{
 			return new Double( Math.floor( DateTimeUtil.diffMinute( defaultStart,
 					(Date) value )
-					/ intervalRange ) );
+					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -62,7 +62,7 @@ class MinuteGroupCalculator extends DateGroupCalculator
 			{
 				return new Double( Math.floor( DateTimeUtil.diffMinute( (Date) intervalStart,
 						(Date) value )
-						/ intervalRange ) );
+						/ getDateIntervalRange( ) ) );
 			}
 		}
 	}

@@ -50,7 +50,7 @@ class SecondGroupCalculator extends DateGroupCalculator
 		{
 			return new Double( Math.floor( DateTimeUtil.diffSecond( defaultStart,
 					(Date) value )
-					/ intervalRange ) );
+					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -62,7 +62,7 @@ class SecondGroupCalculator extends DateGroupCalculator
 			{
 				return new Double( Math.floor( DateTimeUtil.diffSecond( (Date) intervalStart,
 						(Date) value )
-						/ intervalRange ) );
+						/ getDateIntervalRange( ) ) );
 			}
 		}
 	}
