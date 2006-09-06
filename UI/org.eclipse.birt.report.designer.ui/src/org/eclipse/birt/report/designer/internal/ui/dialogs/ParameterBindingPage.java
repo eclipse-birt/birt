@@ -310,9 +310,9 @@ public class ParameterBindingPage extends AttributePage
 					}
 					break;
 				case 1 :
-					if ( parameter.getDataType( ) != null )
+					if ( parameter.getParameterDataType( ) != null )
 					{
-						text = ChoiceSetFactory.getDisplayNameFromChoiceSet( parameter.getDataType( ),
+						text = ChoiceSetFactory.getDisplayNameFromChoiceSet( parameter.getParameterDataType( ),
 								DATA_TYPE_CHOICE_SET );
 					}
 					break;

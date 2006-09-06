@@ -74,7 +74,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	protected boolean initDialog( )
 	{
 		nameLabel.setText( handle.getName( ) );
-		typeLabel.setText( DATA_TYPE_CHOICE_SET.findChoice( handle.getDataType( ) )
+		typeLabel.setText( DATA_TYPE_CHOICE_SET.findChoice( handle.getParameterDataType( ) )
 				.getDisplayName( ) );
 		if ( value == null )
 		{
