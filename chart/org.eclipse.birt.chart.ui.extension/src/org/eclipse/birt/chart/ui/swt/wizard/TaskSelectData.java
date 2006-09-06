@@ -444,7 +444,8 @@ public class TaskSelectData extends SimpleTask
 		}
 		catch ( ChartException e )
 		{
-			ChartWizard.displayException( e );
+
+			// Switch to sample data slicently
 		}
 
 	}
