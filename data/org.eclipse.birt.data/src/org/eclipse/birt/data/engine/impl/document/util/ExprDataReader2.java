@@ -21,6 +21,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.viewing.RowIndexUtil;
 
 /**
@@ -223,6 +224,8 @@ class ExprDataReader2 implements IExprDataReader
 		{
 			String exprID = this.exprKeys.get( i ).toString( );
 			Object exprValue = IOUtil.readObject( rowExprsDis );
+			if( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ))
+				continue;
 			valueMap.put( exprID, exprValue );
 		}
 

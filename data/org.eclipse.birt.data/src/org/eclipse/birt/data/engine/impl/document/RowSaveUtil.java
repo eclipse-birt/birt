@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.HashSet;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -29,8 +29,9 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 /**
  * Save util class
  */
-class RowSaveUtil
+public class RowSaveUtil
 {
+	public static Integer EXCEPTION_INDICATOR = new Integer(Integer.MAX_VALUE - 100);
 	private int lastRowIndex;
 	private int currentOffset;
 
@@ -53,7 +54,6 @@ class RowSaveUtil
 			OutputStream rowLenOs, Set exprNameSet )
 	{
 		this.rowCount = rowCount;
-		this.exprNameSet = new HashSet( );
 
 		this.rowExprsDos = new DataOutputStream( rowExprsOs );
 		this.rowLenDos = new DataOutputStream( rowLenOs );
@@ -105,11 +105,13 @@ class RowSaveUtil
 		try
 		{
 			IOUtil.writeInt( tempDos, valueMap.size( ) );
-			Iterator it = valueMap.keySet( ).iterator( );
+			Iterator it = exprNameSet.iterator( );
 			while ( it.hasNext( ) )
 			{
 				Object key = it.next( );
 				Object value = valueMap.get( key );
+				if( value instanceof DataException )
+					value = EXCEPTION_INDICATOR;
 				IOUtil.writeObject( tempDos, value );
 			}
 
