@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -137,7 +139,7 @@ public class WizardReportSettingPage extends WizardPage
 		} );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
-		previewImageText = createText( container, 1, 1 );
+		previewImageText = createText( container, 1, 1, SWT.BORDER | SWT.READ_ONLY );
 		if ( module != null && module.getIconFile( ) != null )
 			previewImageText.setText( module.getIconFile( ) );
 		previewImageText.addModifyListener( new ModifyListener( ) {
@@ -155,48 +157,15 @@ public class WizardReportSettingPage extends WizardPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ) );
-				dialog.setText( BROWSE_TITLE );
-				dialog.setFilterExtensions( IMAGE_FILEFILTERS );
 
-				String fileName = previewImageText.getText( ).trim( );
-				if(fileName.length( ) != 0)
+				String fileName = null;
+				AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog();
+				if ( dlg.open( ) == Window.OK )
 				{
-					File file = new File( fileName );
-					if ( fileName.indexOf( '/' ) < 0
-							&& fileName.indexOf( '\\' ) < 0 )
-					{
-						if ( ReportPlugin.getDefault( ).getTemplatePreference( ) != null
-								&& ReportPlugin.getDefault( )
-										.getTemplatePreference( )
-										.trim( )
-										.length( ) != 0 )
-						{
-							String path = ReportPlugin.getDefault( )
-									.getTemplatePreference( )
-									.trim( );
-							file = new File( path, fileName );
-							if ( file.exists( ) && file.isFile( ) )
-							{
-								dialog.setFileName( file.getPath( ) );
-							}
-						}
-					}
-					else if ( file.exists( ) && file.isFile( ) )
-					{
-						dialog.setFileName( fileName );
-					}
+					fileName = dlg.getPath( );
+					previewImageText.setText( fileName );
 				}
-
-
-				fileName = dialog.open( );
-				if ( fileName == null )
-				{
-					return;
-				}
-				previewImageText.setText( fileName );
+				
 			}
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -227,10 +196,15 @@ public class WizardReportSettingPage extends WizardPage
 	public String getPreviewImagePath( )
 	{
 		return previewImageText.getText( ) == null ? STR_EMPTY
-				: getFullPath( previewImageText.getText( ).trim( ) );
+				: previewImageText.getText( ).trim( );
 	}
 
 	private Text createText( Composite container, int column, int row )
+	{
+		return createText(container, column, row, SWT.BORDER);
+	}
+
+	private Text createText( Composite container, int column, int row , int style)
 	{
 		Text text;
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
@@ -239,15 +213,15 @@ public class WizardReportSettingPage extends WizardPage
 
 		if ( row > 1 )
 		{
-			text = new Text( container, SWT.BORDER | SWT.MULTI | SWT.WRAP );
+			text = new Text( container, style | SWT.MULTI | SWT.WRAP );
 			gridData.heightHint = row * 20;
 		}
 		else
-			text = new Text( container, SWT.BORDER | SWT.SINGLE );
+			text = new Text( container, style | SWT.SINGLE );
 		text.setLayoutData( gridData );
 		return text;
 	}
-
+	
 	private void validate( )
 	{
 		if ( previewImageStatus.getSeverity( ) != IStatus.OK )
@@ -281,7 +255,7 @@ public class WizardReportSettingPage extends WizardPage
 		if ( !isTextEmpty( previewImageText ) )
 		{
 
-			if ( getFullPath( imageFileName ).trim( ).length( ) == 0 )
+			if (   ( ! new File(imageFileName).exists( )) && (! new File(ReportPlugin.getDefault( ).getResourceFolder( ),imageFileName).exists( )) )
 			{
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
@@ -306,40 +280,6 @@ public class WizardReportSettingPage extends WizardPage
 		applyToStatusLine( findMostSevere( ) );
 		getWizard( ).getContainer( ).updateButtons( );
 
-	}
-
-	private String getFullPath( String fileName )
-	{
-		if ( fileName == null || fileName.trim( ).length( ) == 0 )
-		{
-			return STR_EMPTY;
-		}
-		
-		File file = new File( fileName );
-		if ( fileName.indexOf( '/' ) < 0 && fileName.indexOf( '\\' ) < 0 )
-		{
-			if ( ReportPlugin.getDefault( ).getTemplatePreference( ) != null
-					&& ReportPlugin.getDefault( )
-							.getTemplatePreference( )
-							.trim( )
-							.length( ) != 0 )
-			{
-				String path = ReportPlugin.getDefault( )
-						.getTemplatePreference( )
-						.trim( );
-				file = new File( path, fileName );
-				if ( file.exists( ) && file.isFile( ) )
-				{
-					return file.getPath( );
-				}
-			}
-		}
-		else if ( file.exists( ) )
-		{
-			return file.getPath( );
-		}
-
-		return STR_EMPTY;
 	}
 
 	private static boolean isTextEmpty( Text text )
@@ -417,7 +357,7 @@ public class WizardReportSettingPage extends WizardPage
 		if ( !isTextEmpty( previewImageText ) )
 		{
 			String imageFileName = previewImageText.getText( ).trim( );
-			if ( getFullPath( imageFileName ).trim( ).length( ) == 0 )
+			if (  ( ! new File(imageFileName).exists( )) && (! new File(ReportPlugin.getDefault( ).getResourceFolder( ),imageFileName).exists( )) )
 			{
 				return false;
 			}

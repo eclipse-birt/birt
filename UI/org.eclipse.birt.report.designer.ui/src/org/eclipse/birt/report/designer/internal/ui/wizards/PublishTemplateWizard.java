@@ -176,82 +176,9 @@ public class PublishTemplateWizard extends Wizard
 			ExceptionHandler.handle( e );
 		}
 
-		if ( overwrite == Window.OK )
-		{
-			if ( page.getPreviewImagePath( ) != null
-					&& page.getPreviewImagePath( ).trim( ).length( ) != 0 )
-			{
-				copyIconFile( page.getPreviewImagePath( ).trim( ) );
-			}
-
-		}
 		return overwrite != 1;
 	}
 
-	private int copyIconFile( String filePath )
-	{
-		String templateFolderPath = ReportPlugin.getDefault( )
-				.getTemplatePreference( );
-
-		if ( !( new File( filePath ).exists( ) ) )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotExist" ) ); //$NON-NLS-1$
-			return 1;
-		}
-
-		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
-		File targetFolder = new File( templateFolderPath );
-		String targetFileName = fileName;
-		if ( !checkExtensions( fileName ) )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotValid" ) ); //$NON-NLS-1$
-			return 1;
-		}
-		File targetFile = new File( targetFolder, targetFileName );
-		if ( new File( filePath ).compareTo( targetFile ) == 0 )
-		{
-			// if the two files are the same one , then do nothing.
-			return 0;
-		}
-
-		int overwrite = Window.OK;
-		try
-		{
-			if ( targetFile.exists( ) )
-			{
-				String[] buttons = new String[]{
-						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL
-				};
-				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
-						new Object[]{
-							targetFile.getAbsolutePath( )
-						} );
-				MessageDialog d = new MessageDialog( getShell( ),
-						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
-						null,
-						question,
-						MessageDialog.QUESTION,
-						buttons,
-						0 );
-				overwrite = d.open( );
-			}
-			if ( overwrite == Window.OK
-					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
-			{
-				copyFile( filePath, targetFile );
-			}
-		}
-		catch ( IOException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return overwrite;
-
-	}
 
 	/**
 	 * 
@@ -276,8 +203,7 @@ public class PublishTemplateWizard extends Wizard
 
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
 		{
-			String shortName =  UIUtil.getSimpleFileName(page.getPreviewImagePath( ));
-			handle.setIconFile( shortName );
+			handle.setIconFile( page.getPreviewImagePath( ) );
 		}
 		else
 		{

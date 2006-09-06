@@ -132,7 +132,6 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		public Template( String root,String reportName ) throws DesignFileException
 		{			
-		//	String fullName = convertFileName2Absolute(isPredefined,reportName);
 			this.root = root;
 			this.reportName = reportName;
 			String fullName = getReportFullName( );
@@ -251,37 +250,64 @@ public class WizardTemplateChoicePage extends WizardPage
 		private String getFullPath(String root, String fileName)
 		{
 			Assert.isLegal( root != null );
-			Assert.isLegal( fileName != null);
+			Assert.isLegal( fileName != null );
 			String fullPath = new String(root);
-			if(fullPath.indexOf( "\\" ) < 0 )
+			String tmpFileName = new String(fileName);
+			
+			 fullPath = fullPath.replace( '\\', '/' );
+			if ( !fullPath.endsWith( "/" ) ) //$NON-NLS-1$
 			{
-				if(!fullPath.endsWith( "/" ))
-				{
-					fullPath = fullPath + "/";
-				}
-				
-			}else // > 0
-			{
-				if(!fullPath.endsWith( "\\" ))
-				{
-					fullPath = fullPath + "\\";
-				}
+				fullPath = fullPath + "/"; //$NON-NLS-1$
 			}
 			
-			fullPath = fullPath + fileName;
-			fullPath = fullPath.replaceAll( "\\\\", "\\" );
-			fullPath = fullPath.replaceAll( "//", "/" );
+			tmpFileName = tmpFileName.replace( '\\', '/' );		
+			if ( tmpFileName.startsWith(  "/"  )) //$NON-NLS-1$
+			{
+				tmpFileName = tmpFileName.substring( 1 );
+			}
+			
+			fullPath = fullPath + tmpFileName;
+			
+			File file = new File(fullPath);
+			if((file.exists( ) && file.isFile( )))
+			{
+				return fullPath;
+			}else
+			{
+				file = new File(fileName);
+				if((file.exists( ) && file.isFile( )))
+				{
+					return fileName;
+				}
+			}
+
 			return fullPath;
 		}
 		
 		public String getReportFullName()
 		{
-			return getFullPath(root, reportName);
+			File file = new File(reportName);
+			if(file.exists( ) && file.isFile( ))
+			{
+				return file.getAbsolutePath( );
+			}else
+			{
+				return getFullPath(root, reportName);
+			}
+			
 		}
 		
 		public String getPictureFullName()
 		{
-			return getFullPath(root, pictureName);
+			File file = new File(pictureName);
+			if(file.exists( ) && file.isFile( ))
+			{
+				return file.getAbsolutePath( );
+			}else
+			{
+				return getFullPath(root, pictureName);
+			}		
+			
 		}
 	}
 
@@ -503,10 +529,15 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	private void createCustomTemplateList( )
 	{
-		String root = ReportPlugin.getDefault( )
-				.getTemplatePreference( );
 
-		File templateDirectory = new File( root, File.separator );
+		String templateRoot = ReportPlugin.getDefault( ).getTemplatePreference( );
+
+		if(templateRoot == null || templateRoot.trim( ).length( ) == 0)
+		{
+			return;
+		}
+		
+		File templateDirectory = new File( templateRoot, File.separator );
 
 		if ( templateDirectory.isDirectory( ) )
 		{
@@ -521,12 +552,13 @@ public class WizardTemplateChoicePage extends WizardPage
 					return name.endsWith( ".rpttemplate" );//$NON-NLS-1$
 				}
 			} );
-
+			
+			String root = ReportPlugin.getDefault( ).getResourceFolder( );
 			for ( int i = 0; i < filesArray.length; i++ )
 			{
 				try
 				{
-					templates.add( new Template( root,filesArray[i].getName( ) ) );
+					templates.add( new Template( root,filesArray[i].getAbsolutePath( ) ) );
 				}
 				catch ( Exception e )
 				{

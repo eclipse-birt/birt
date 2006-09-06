@@ -150,6 +150,9 @@ public interface IHelpContextIds
 	public static final String ADD_JAR_FILES_DIALOG_ID = PREFIX
 	+ "AddJarResourceFileFolderSelectionDialog_ID";
 	
+	public static final String ADD_IMAGE_FILES_DIALOG_ID = PREFIX
+	+ "AddImageResourceFileFolderSelectionDialog_ID";
+	
 	public static final String NEW_ADD_RESOURCE_FILES_DIALOG_ID = PREFIX
 	+ "NewResourceFileDialog_ID";
 
