@@ -31,7 +31,8 @@ public class SaveReportAsWizard extends Wizard
 	private static final String SaveAsWizardWindowTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardWindowTitle" ); //$NON-NLS-1$
 	private static final String SaveAsWizardPageTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageTitle" ); //$NON-NLS-1$
 	private static final String SaveAsWizardPageDesc = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageDesc" ); //$NON-NLS-1$
-	private static final String ReportSettingPageTitle = Messages.getString( "SaveReportAsWizard.SettingPage.message" ); //$NON-NLS-1$
+	private static final String ReportSettingPageTitle = Messages.getString( "SaveReportAsWizard.SettingPageTitle" ); //$NON-NLS-1$
+	private static final String ReportSettingPageMessage = Messages.getString( "SaveReportAsWizard.SettingPage.message" ); //$NON-NLS-1$
 
 	private ModuleHandle model;
 	private IEditorInput orginalFile;
@@ -67,7 +68,7 @@ public class SaveReportAsWizard extends Wizard
 		{
 			settingPage = new WizardReportSettingPage( (ReportDesignHandle)model );
 			settingPage.setTitle( ReportSettingPageTitle );
-			settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
+			settingPage.setMessage( ReportSettingPageMessage );
 
 			addPage( settingPage );
 		}
