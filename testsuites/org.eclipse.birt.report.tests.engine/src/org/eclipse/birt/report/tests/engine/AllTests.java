@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.tests.engine.smoke.sampleReport.SampleReportTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -41,15 +39,17 @@ public class AllTests extends utility.BaseTestCase
 
 		classes.addAll( allTests
 				.getClasses( "org.eclipse.birt.report.tests.engine.api" ) ); //$NON-NLS-1$
+		classes.add( "org.eclipse.birt.report.tests.engine.api.script.element.ElementTest" ); //$NON-NLS-1$
+		
 		classes
 				.addAll( allTests
 						.getClasses( "org.eclipse.birt.report.tests.engine.regression" ) ); //$NON-NLS-1$
 		classes
 				.add( "org.eclipse.birt.report.tests.engine.smoke.sampleReport.SampleReportTest" ); //$NON-NLS-1$
 		classes
-				.remove( "org.eclipse.birt.report.tests.engine.api.EngineResourceLocator" );
+				.remove( "org.eclipse.birt.report.tests.engine.api.EngineResourceLocator" ); //$NON-NLS-1$
 		classes
-				.remove( "org.eclipse.birt.report.tests.engine.api.TestRenderOptionBase" );
+				.remove( "org.eclipse.birt.report.tests.engine.api.TestRenderOptionBase" ); //$NON-NLS-1$
 		Iterator iter = classes.iterator( );
 		while ( iter.hasNext( ) )
 		{
