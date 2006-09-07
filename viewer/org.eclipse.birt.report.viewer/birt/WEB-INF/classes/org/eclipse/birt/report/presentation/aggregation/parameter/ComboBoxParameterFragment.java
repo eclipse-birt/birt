@@ -121,10 +121,17 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					parameterBean.getSelectionList( ).add( label );
 					parameterBean.getSelectionTable( ).put( label, value );
 				}
-
+				
+				// If parameter value is in the selection list
 				if ( value.equals( parameterBean.getValue( ) ) )
 				{
 					parameterBean.setValueInList( true );
+				}
+
+				// If parameter default value is in the selection list
+				if ( value.equals( parameterBean.getDefaultValue( ) ) )
+				{
+					parameterBean.setDefaultValueInList( true );
 				}
 			}
 		}

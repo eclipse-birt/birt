@@ -61,9 +61,14 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	private String defaultValue = null;	
 	
 	/**
-	 * If is cascade parameter.
+	 * If it is cascade parameter.
 	 */
 	private boolean isCascade = false;	
+	
+	/**
+	 * If default value is in the selection list
+	 */
+	private boolean defaultValueInList = false;
 	
 	/**
 	 * Constructor.
@@ -293,5 +298,22 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	public void setCascade( boolean isCascade )
 	{
 		this.isCascade = isCascade;
+	}
+	
+	/**
+	 * @return the defaultValueInList
+	 */
+	public boolean isDefaultValueInList( )
+	{
+		return defaultValueInList;
+	}
+	
+	/**
+	 * @param defaultValueInList the defaultValueInList to set
+	 */
+	public void setDefaultValueInList( boolean defaultValueInList )
+	{
+		this.defaultValueInList = defaultValueInList;
 	}		
+	
 }

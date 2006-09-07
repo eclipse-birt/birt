@@ -26,6 +26,8 @@
 <%
 	ScalarParameterBean parameterBean = ( ScalarParameterBean ) attributeBean.getParameterBean( );
 	String encodedParameterName = ParameterAccessor.htmlEncode( parameterBean.getName( ) );
+	String paramValue = parameterBean.getValue( );
+	String defaultValue = parameterBean.getDefaultValue( );
 %>
 <TR>
 	<TD NOWRAP>
@@ -50,7 +52,7 @@
 		<INPUT TYPE="HIDDEN"
 			ID="<%= encodedParameterName + "_value" %>"
 			NAME="<%= encodedParameterName %>"
-			VALUE="<%= ParameterAccessor.htmlEncode( parameterBean.getValue( ) )%>">
+			VALUE="<%= ParameterAccessor.htmlEncode( paramValue )%>">
 <%
 	if (parameterBean.allowNull())
 	{
@@ -58,42 +60,50 @@
 		<INPUT TYPE="HIDDEN"
 			ID="<%= encodedParameterName + "_hidden" %>"
 			NAME="<%= ParameterAccessor.PARAM_ISNULL %>"
-			VALUE="<%= ( parameterBean.getValue( ) == null )? encodedParameterName : "" %>">
+			VALUE="<%= ( paramValue == null )? encodedParameterName : "" %>">
 <%
 	}
 	
-	boolean CHECKED = false;
+	boolean CHECKED = true;
 	if ( parameterBean.allowNewValues( ) ) // TODO: Editable
 	{
+		CHECKED = parameterBean.isValueInList( ) 
+				  || ( parameterBean.allowNull( ) && paramValue == null )
+				  || ( !parameterBean.isValueInList( ) && defaultValue != null && defaultValue.equals( paramValue ) );		
 %>
 		<LABEL FOR="<%= encodedParameterName + "_radio_selection" %>" CLASS="birtviewer_hidden_label">Select</LABEL>
 		<INPUT TYPE="RADIO"
 			NAME="<%= encodedParameterName + "_radios" %>" 
 			ID="<%= encodedParameterName + "_radio_selection" %>" 
 			VALUE="<%= encodedParameterName %>"
-			<%= ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) )? "CHECKED" : "" %>>
-
-			<% CHECKED = ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) ); %>
+			<%= CHECKED ? "CHECKED" : "" %> >
 <%
 	}
 %>
 		<SELECT ID="<%= encodedParameterName + "_selection"%>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			CLASS="birtviewer_parameter_dialog_Select" 
-			<%= ( parameterBean.allowNewValues( ) && ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null  || !CHECKED ) )? "DISABLED='true'" : "" %>
-			>
+			<%= !CHECKED ? "DISABLED='true'" : "" %> >
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
 %>
 		<OPTION></OPTION>
+<%
+		if ( defaultValue != null && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
+		{
+%>
+			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( defaultValue ) %>" 
+				<%= CHECKED && !parameterBean.isValueInList( ) ? "SELECTED" : "" %> > <%= ParameterAccessor.htmlEncode( defaultValue ) %></OPTION>
 <%	
+		}
+		
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
 			String label = ( String ) parameterBean.getSelectionList( ).get( i );
 			String value = ( String ) parameterBean.getSelectionTable( ).get( label );
 
-			if (parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) )
+			if ( paramValue != null && paramValue.equals( value ) )
 			{
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
@@ -110,7 +120,7 @@
 	if ( parameterBean.allowNull( ) )
 	{
 %>
-		<OPTION VALUE="" <%= ( parameterBean.getValue( ) == null )? "SELECTED" : ""%>>Null Value</OPTION>
+		<OPTION VALUE="" <%= ( paramValue == null )? "SELECTED" : ""%> >Null Value</OPTION>
 <%
 	}
 %>
@@ -125,16 +135,15 @@
 			NAME="<%= encodedParameterName + "_radios" %>" 
 			ID="<%= encodedParameterName + "_radio_input"%>" 
 			VALUE="<%= encodedParameterName %>"
-			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null  || !CHECKED )? "CHECKED" : "" %>>
+			<%= !CHECKED ? "CHECKED" : "" %> >
 			
 		<LABEL FOR="<%= encodedParameterName + "_input" %>" CLASS="birtviewer_hidden_label">Input text</LABEL>
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			ID="<%= encodedParameterName + "_input"%>"
-			<%= ( !parameterBean.isValueInList( ) && parameterBean.getValue( ) != null )? "VALUE=\"" + ParameterAccessor.htmlEncode( parameterBean.getValue( ) ) + "\"": "" %> 
-			<%= ( parameterBean.isValueInList( ) || ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null) )? "DISABLED='true'" : "" %> 
-			>
+			<%= !CHECKED ? "VALUE=\"" + ParameterAccessor.htmlEncode( paramValue ) + "\"": "" %> 
+			<%= CHECKED ? "DISABLED='true'" : "" %>	>
 	<%
 		if ( !parameterBean.allowBlank( ) )
 		{
@@ -145,18 +154,14 @@
 				VALUE = "true">
 	<%
 		}
-	%>     			
-<%
 	}
-%>
 
-	<%
-		if ( parameterBean.isCascade( ) )
-		{
+	if ( parameterBean.isCascade( ) )
+	{
 	%>
-			<INPUT TYPE="HIDDEN" NAME="<%=IBirtConstants.IS_CASCADE%>" VALUE="true"/>
+		<INPUT TYPE="HIDDEN" NAME="<%=IBirtConstants.IS_CASCADE%>" VALUE="true"/>
 	<%
-		}
+	}
 	%>
 	</TD>
 </TR>
