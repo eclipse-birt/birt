@@ -135,16 +135,17 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				parameter = (ScalarParameterHandle) attrBean
 						.findParameter( paramName );
 
+				if ( paramValue == null || parameter == null )
+					continue;
+
 				// convert the parameter from current locale to default
 				// locale format
-				String dataType = DesignChoiceConstants.PARAM_TYPE_STRING;
-				if ( paramValue != null && parameter != null )
+				String pattern = parameter.getPattern( );
+				String dataType = parameter.getDataType( );
+				if ( paramValue.trim( ).length( ) > 0 )
 				{
 					try
 					{
-						String pattern = parameter.getPattern( );
-						dataType = parameter.getDataType( );
-
 						Object paramValueObj = ParameterValidationUtil
 								.validate( dataType, pattern, paramValue,
 										attrBean.getLocale( ) );
@@ -156,33 +157,36 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						{
 							pattern = null;
 						}
-						else if( DesignChoiceConstants.PARAM_TYPE_DATETIME
+						// if parameter type is datetime, use the default format
+						// to format object
+						else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 								.equalsIgnoreCase( dataType ) )
 						{
 							pattern = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
 						}
 
-						paramValue = ParameterValidationUtil.getDisplayValue(
-								dataType, pattern, paramValueObj, ULocale.US );
+						if ( paramValueObj != null )
+							paramValue = ParameterValidationUtil
+									.getDisplayValue( dataType, pattern,
+											paramValueObj, ULocale.US );
 
 					}
 					catch ( Exception err )
 					{
 						paramValue = op[i].getValue( );
 					}
-
-					// add parameter to config file
-					configVar.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
-					configVar.setValue( paramValue );
-					handle.addConfigVariable( configVar );
-
-					// add parameter type
-					ConfigVariable typeVar = new ConfigVariable( );
-					typeVar.setName( paramName + "_" + parameter.getID( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-							+ IBirtConstants.PROP_TYPE );
-					typeVar.setValue( dataType );
-					handle.addConfigVariable( typeVar );
 				}
+				// add parameter to config file
+				configVar.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+				configVar.setValue( paramValue );
+				handle.addConfigVariable( configVar );
+
+				// add parameter type
+				ConfigVariable typeVar = new ConfigVariable( );
+				typeVar.setName( paramName + "_" + parameter.getID( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
+						+ IBirtConstants.PROP_TYPE );
+				typeVar.setValue( dataType );
+				handle.addConfigVariable( typeVar );
 			}
 		}
 

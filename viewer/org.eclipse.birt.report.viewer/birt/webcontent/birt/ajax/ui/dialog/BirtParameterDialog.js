@@ -193,8 +193,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			if( oSEC.length == 1 && oIEC.length <= 3 )
 			{
 				// Check if select 'Null Value' option
-				var temp = oSEC[0].options[oSEC[0].selectedIndex].text;						
-				if( temp && temp == 'Null Value' )
+				var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;						
+				if( tempText && tempText == 'Null Value' )
 				{	
 					this.__parameter[k].name = this.__isnull;
 					if ( oIEC.length > 0 )
@@ -223,7 +223,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					this.__parameter[k] = { };
 				}
 				this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-				this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].text;
+				this.__parameter[k].value = tempText;
 				k++;
 				
 				continue;
@@ -295,7 +295,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						this.__parameter[k] = { };
 					}
 					this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-					this.__parameter[k].value = displayLabel.innerHTML;
+					this.__parameter[k].value = displayLabel.title;
 					k++;			
 				}
 			}
@@ -347,26 +347,21 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						else if( oSEC[0] )
 						{
 							// deal with "select" parameter							
-							if ( oSEC[0].selectedIndex == -1 )
+							if ( oSEC[0].selectedIndex <= 0 )
 							{
 								oSEC[0].focus( );
 								alert( oIEC[j].value + " should have a value" );
 								return false;
 							}
+																					
+							var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
+							var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
 							
-							var temp = oSEC[0].options[oSEC[0].selectedIndex].text;
-							if ( !temp )
-							{
-								oSEC[0].focus( );
-								alert( oIEC[j].value + " should have a value" );
-								return false;								
-							}
-							
-							// Check if select 'Null Value' option								
-							if( temp && temp != 'Null Value' )
+							// Check if select 'Null Value' option
+							if( tempText != 'Null Value' )
 							{	
 								this.__parameter[k].name = oIEC[j].value;							
-								this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].value;
+								this.__parameter[k].value = tempValue;
 								k++;
 								
 								// set display text for the "select" parameter
@@ -375,7 +370,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 									this.__parameter[k] = { };
 								}
 								this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-								this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].text;
+								this.__parameter[k].value = tempText;
 								k++;
 							}
 							else
@@ -409,7 +404,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								this.__parameter[k] = { };
 							}
 							this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-							this.__parameter[k].value = displayLabel.innerHTML;
+							this.__parameter[k].value = displayLabel.title;
 							k++;
 						}
 					}
