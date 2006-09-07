@@ -23,7 +23,7 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 	/**
 	 * emitter used to layout the table
 	 */
-	protected HTMLTableLayoutEmitter tableEmitter;
+	protected HTMLTableLayoutNoNestEmitter tableEmitter;
 
 	public HTMLTableLM( HTMLLayoutManagerFactory factory )
 	{
@@ -40,7 +40,7 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
 	{
-		tableEmitter = new HTMLTableLayoutEmitter( emitter );
+		tableEmitter = new HTMLTableLayoutNoNestEmitter( emitter );
 		super.initialize( parent, content, executor, tableEmitter );
 		isFirstLayout = true;
 	}

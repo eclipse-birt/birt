@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
-import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter;
+import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
@@ -168,9 +168,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		
 		//the output will be paginate.
-		if ( paginationType == IReportContentLoader.NO_PAGE )
+		if ( paginationType != IReportContentLoader.NO_PAGE )
 		{
-			emitter = new HTMLTableLayoutEmitter( emitter, true );
+			emitter = new HTMLTableLayoutNestEmitter( emitter );
 		}
 		
 		return emitter;
