@@ -330,8 +330,6 @@ class ParameterUtil
 	private ParameterHint createParameterHint( IParameterDefinition paramDefn,
 			Object paramValue ) throws DataException
 	{
-		assert paramValue != null;
-		
 		ParameterHint parameterHint = new ParameterHint( paramDefn.getName( ),
 				paramDefn.isInputMode( ),
 				paramDefn.isOutputMode( ) );
@@ -350,8 +348,9 @@ class ParameterUtil
         
         parameterHint.setNativeDataType( paramDefn.getNativeType() );
 		parameterHint.setIsInputOptional( paramDefn.isInputOptional( ) );
-		parameterHint.setDefaultInputValue( getParameterValueString( dataTypeClass,
-				paramValue ) );
+		if ( parameterHint.isInputMode( ) )
+			parameterHint.setDefaultInputValue( getParameterValueString( dataTypeClass,
+					paramValue ) );
 		parameterHint.setIsNullable( paramDefn.isNullable( ) );
 		return parameterHint;
 	}
