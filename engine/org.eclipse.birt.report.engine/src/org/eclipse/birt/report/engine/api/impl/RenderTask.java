@@ -40,10 +40,10 @@ import org.eclipse.birt.report.engine.internal.document.ReportContentLoader;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportPageReader;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
@@ -207,7 +207,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
-			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			Report reportDesign = executionContext.getReport( );
 			String format = executionContext.getOutputFormat( );
 			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
@@ -286,7 +286,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		try
 		{
 			// start the render
-			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			Report reportDesign = executionContext.getReport( );
 			IContentEmitter emitter = createContentEmitter( );
 			String format = executionContext.getOutputFormat( );
 			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
@@ -376,7 +376,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				// start the render
 				
 				IContentEmitter emitter = createContentEmitter( );
-				ReportDesignHandle reportDesign = executionContext.getDesign( );
+				Report reportDesign = executionContext.getReport( );
 				String format = executionContext.getOutputFormat( );
 				if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 				{

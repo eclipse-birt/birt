@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.122 $ $Date: 2006/09/06 10:12:47 $
+ * @version $Revision: 1.118.2.4 $ $Date: 2006/09/07 02:35:23 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1578,19 +1578,17 @@ class EngineIRVisitor extends DesignVisitor
 			element.setExtends( extend.getName( ) );
 		}
 		// handle the properties
-		Iterator iter = handle.getPropertyIterator( );
-		if ( iter != null )
+		List list = handle.getUserProperties( );
+		if ( list != null )
 		{
-			PropertyHandle propHandle = (PropertyHandle) iter.next( );
-			if ( propHandle != null && propHandle.isSet( ) )
+			Iterator iter = list.iterator( );
+			while ( iter.hasNext( ) )
 			{
-				String name = propHandle.getDefn( ).getName( );
-				Object value = propHandle.getValue( );
-				assert name != null;
-				assert value != null;
-				Map properties = element.getCustomProperties( );
-				assert properties != null;
-				properties.put( name, value );
+				UserPropertyDefn propDefn = (UserPropertyDefn) iter.next( );
+				String propName = propDefn.getName( );
+				PropertyHandle propHandle = handle.getPropertyHandle( propName );
+				String propValue = propHandle.getStringValue( );
+				element.getCustomProperties( ).put( propName, propValue );
 			}
 		}
 
@@ -2428,14 +2426,6 @@ class EngineIRVisitor extends DesignVisitor
 
 		report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
 
-		if ( nonInheritableReportStyle.isEmpty( ) )
-		{
-			nonInheritableReportStyle = null;
-		}
-		else
-		{
-			report.setDefaultStyle( nonInheritableReportStyle );
-		}
 	}
 
 	/**

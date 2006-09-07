@@ -36,6 +36,8 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
+import org.eclipse.birt.report.engine.ir.EngineIRReader;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
@@ -54,7 +56,7 @@ public class ReportDocumentReader
 
 	private IReportEngine engine;
 	private IDocArchiveReader archive;
-	private IReportRunnable reportRunnable;
+	private ReportRunnable reportRunnable;
 	private Map moduleOptions;
 	/*
 	 * version, paramters, globalVariables are loaded from core stream.
@@ -381,7 +383,27 @@ public class ReportDocumentReader
 			{
 				try
 				{
-					reportRunnable = engine.openReportDesign( name, stream, moduleOptions );
+					reportRunnable = (ReportRunnable) engine.openReportDesign(
+							name, stream, moduleOptions );
+					stream.close( );
+
+					try
+					{
+						stream = archive.getStream( DESIGN_IR_STREAM );
+						if ( stream != null )
+						{
+							EngineIRReader reader = new EngineIRReader( );
+							Report reportIR = reader.read( stream );
+							reader.link( reportIR, reportRunnable.getReport( ) );
+							reportRunnable.setReportIR( reportIR );
+						}
+					}
+					catch ( IOException ioex )
+					{
+						// an error occurs in reading the engine ir
+						logger.log( Level.FINE, "Failed to load the engine IR",
+								ioex );
+					}
 				}
 				catch ( Exception ex )
 				{
@@ -393,7 +415,10 @@ public class ReportDocumentReader
 				{
 					try
 					{
-						stream.close( );
+						if ( stream != null )
+						{
+							stream.close( );
+						}
 					}
 					catch ( IOException ex )
 					{

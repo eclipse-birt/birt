@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/21 08:22:48 $
+ * @version $Revision: 1.9 $ $Date: 2006/06/13 15:37:20 $
  */
 abstract public class ListingDesign extends ReportItemDesign
 {
@@ -46,15 +46,6 @@ abstract public class ListingDesign extends ReportItemDesign
 	 */
 	protected ArrayList groups = new ArrayList( );
 
-	/**
-	 * array list store the IFilterDefn
-	 */
-	protected ArrayList filters = new ArrayList();
-	/**
-	 * array list store the ISortDefn
-	 */
-	protected ArrayList sorts = new ArrayList();
-	
 	/**
 	 * @return Returns the repeatHeader.
 	 */
@@ -136,22 +127,6 @@ abstract public class ListingDesign extends ReportItemDesign
 	public void addGroup( GroupDesign group )
 	{
 		this.groups.add( group );
-	}
-
-	
-	/**
-	 * @return Returns the filters.
-	 */
-	public ArrayList getFilters( )
-	{
-		return filters;
-	}
-	/**
-	 * @return Returns the sorts.
-	 */
-	public ArrayList getSorts( )
-	{
-		return sorts;
 	}
 	
 	public void setPageBreakInterval(int interval)

@@ -68,11 +68,10 @@ public class ReportReader extends AbstractReportReader
 
 	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
 	{
-		if(executor==null)
+		if ( executor == null )
 		{
-			executor = new ReportExecutor(context, context.getReport( ).getReportDesign( ), null);
-			executor = new LocalizedReportExecutor( context,
-					executor );
+			executor = new ReportExecutor( context, context.getReport( ), null );
+			executor = new LocalizedReportExecutor( context, executor );
 		}
 		return executor.createPage( pageNumber, pageDesign );
 	}

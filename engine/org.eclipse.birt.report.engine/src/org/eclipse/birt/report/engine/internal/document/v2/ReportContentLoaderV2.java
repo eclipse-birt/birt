@@ -63,10 +63,8 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.TOCTree;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ReportContentLoaderV2 implements IReportContentLoader
 {
@@ -96,9 +94,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	{
 		this.context = context;
 		dataEngine = context.getDataEngine( );
-		ReportDesignHandle reportDesign = context.getDesign( );
-		report = new ReportParser( context ).parse( reportDesign );
-		context.setReport( report );
+		report = context.getReport( );
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );

@@ -50,8 +50,6 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.parser.ReportParser;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Scriptable;
 
 public class DataExtractionTask extends EngineTask
@@ -130,18 +128,14 @@ public class DataExtractionTask extends EngineTask
 			IReportDocument reader ) throws EngineException
 	{
 		super( engine, runnable );
+		
+		this.report = ((ReportRunnable)runnable).getReportIR( );
 
 		// load the report
 		this.reportDocReader = reader;
 		executionContext.setReportDocument( reportDocReader );
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-
-		ReportDesignHandle reportHandle = (ReportDesignHandle) runnable
-				.getDesignHandle( );
-		report = new ReportParser( executionContext ).parse( reportHandle );
-
-		executionContext.setReport( report );
 
 		IDataEngine dataEngine = executionContext.getDataEngine( );
 		dataEngine.prepare( report, appContext );

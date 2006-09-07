@@ -673,7 +673,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.44 $ $Date: 2006/08/22 05:54:17 $
+	 * @version $Revision: 1.45 $ $Date: 2006/08/24 11:51:06 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -868,6 +868,7 @@ public abstract class EngineTask implements IEngineTask
 		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
 				reportDesign, executionContext );
 		visitor.apply( reportDesign.getRoot( ) );
+		runnable.setDesignHandle( reportDesign );
 	}
 
 	protected void startFactory( )

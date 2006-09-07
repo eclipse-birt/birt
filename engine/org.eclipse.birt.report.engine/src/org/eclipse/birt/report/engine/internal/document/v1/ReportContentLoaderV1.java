@@ -71,10 +71,8 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ReportContentLoaderV1 implements IReportContentLoader
 {
@@ -103,9 +101,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	{
 		this.context = context;
 		dataEngine = context.getDataEngine( );
-		ReportDesignHandle reportDesign = context.getDesign( );
-		Report report = new ReportParser( context ).parse( reportDesign );
-		context.setReport( report );
+		report = context.getReport( );
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );
@@ -578,7 +574,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.11 $ $Date: 2006/09/06 03:22:16 $
+	 * @version $Revision: 1.10.2.1 $ $Date: 2006/09/06 07:10:29 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{

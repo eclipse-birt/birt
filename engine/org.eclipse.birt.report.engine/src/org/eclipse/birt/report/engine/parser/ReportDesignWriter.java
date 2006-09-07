@@ -11,24 +11,36 @@
 
 package org.eclipse.birt.report.engine.parser;
 
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
+import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
-import org.eclipse.birt.report.engine.ir.GraphicMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
+import org.eclipse.birt.report.engine.ir.HighlightDesign;
+import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
-import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.ListingDesign;
+import org.eclipse.birt.report.engine.ir.MapDesign;
+import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
@@ -38,47 +50,53 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
-import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.w3c.dom.css.CSSStyleDeclaration;
+import org.eclipse.birt.report.engine.ir.VisibilityDesign;
+import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import com.ibm.icu.text.DecimalFormat;
 
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.15 $ $Date: 2006/04/06 12:35:26 $
+ * @version $Revision: 1.16 $ $Date: 2006/06/13 15:37:23 $
  */
-class ReportDesignWriter
+public class ReportDesignWriter
 {
 
-	public void write( Writer writer, Report report, boolean hasStyle )
+	public void write( OutputStream out, Report report ) throws Exception
 	{
-		new ReportDumpVisitor( writer ).writeReport( report, hasStyle );
+		Document document = DocumentBuilderFactory
+				.newInstance( ).newDocumentBuilder( ).newDocument( );
+
+		new ReportDumpVisitor( document ).createDocument( report );
+
+		Transformer tr = TransformerFactory.newInstance( ).newTransformer( );
+		tr.setOutputProperty( OutputKeys.INDENT, "yes" );
+		tr.setOutputProperty( OutputKeys.METHOD, "xml" );
+		tr.setOutputProperty( "{http://xml.apache.org/xslt}indent-amount", "3" );
+
+		tr.transform( new DOMSource( document ), new StreamResult( out ) );
 	}
 
 	private class ReportDumpVisitor extends DefaultReportItemVisitorImpl
 	{
 
-		/**
-		 * print writer used to write the IR
-		 */
-		protected PrintWriter out;
-		/**
-		 * should we write style information
-		 *  
-		 */
-		protected boolean hasStyle;
+		Document document;
+		Element element;
 
 		/**
 		 * constructor.
 		 * 
 		 * @param writer
 		 */
-		ReportDumpVisitor( Writer writer )
+		ReportDumpVisitor( Document document )
 		{
-			out = new PrintWriter( writer );
+			this.document = document;
 		}
 
 		/**
@@ -93,11 +111,13 @@ class ReportDesignWriter
 			attribute( "y", item.getY( ) ); //$NON-NLS-1$
 			attribute( "width", item.getWidth( ) ); //$NON-NLS-1$
 			attribute( "height", item.getHeight( ) ); //$NON-NLS-1$
-			/*
-			 * if ( item.getDataSet( ) != null ) { attribute( "dataset",
-			 * item.getDataSet( ).getName( ) ); }
-			 */
-
+			attribute( "bookmark", item.getBookmark( ) );
+			attribute( "toc", item.getTOC( ) );
+			attribute( "onCreate", item.getOnCreate( ) );
+			attribute( "onRender", item.getOnRender( ) );
+			attribute( "onPageBreak", item.getOnPageBreak( ) );
+			writeAction( item.getAction( ) );
+			writeVisibility( item.getVisibility( ) );
 		}
 
 		/**
@@ -108,419 +128,18 @@ class ReportDesignWriter
 		private void writeStyledElement( StyledElementDesign item )
 		{
 			writeReportElement( item );
-			if ( hasStyle )
-			{
-				if ( item.getStyleName( ) != null )
-				{
-					attribute( "style", item.getStyleName() ); //$NON-NLS-1$
-				}
-			}
-		}
-
-		/**
-		 * write report element attribute
-		 * 
-		 * @param elem
-		 *            the element to be writeed.
-		 */
-		private void writeReportElement( ReportElementDesign elem )
-		{
-			attribute( "name", elem.getName( ) ); //$NON-NLS-1$
-			attribute( "extends", elem.getExtends( ) ); //$NON-NLS-1$
-		}
-
-		/**
-		 * report contains
-		 * 
-		 * @param report
-		 */
-		public void writeReport( Report report, boolean hasStyle )
-		{
-			this.hasStyle = hasStyle;
-			out.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" ); //$NON-NLS-1$
-			pushTag( "report" ); //$NON-NLS-1$
-			attribute( "units", report.getUnit( ) ); //$NON-NLS-1$
-
-			if ( hasStyle && report.getStyleCount( ) > 0 )
-			{
-				pushTag( "styles" ); //$NON-NLS-1$
-				for ( int i = 0; i < report.getStyleCount( ); i++ )
-				{
-					writeStyle( report.getStyle( i ) );
-				}
-				popTag( );
-			}
-
-			writePageSetup( report.getPageSetup( ) );
-
-			if ( report.getContentCount( ) > 0 )
-			{
-				pushTag( "body" ); //$NON-NLS-1$
-				for ( int i = 0; i < report.getContentCount( ); i++ )
-				{
-					report.getContent( i ).accept( this , null);
-				}
-				popTag( );
-			}
-
-			popTag( );
-			out.flush( );
-		}
-
-		/**
-		 * write pagesetup
-		 * 
-		 * @param pageSetup
-		 *            pagesetup
-		 */
-		private void writePageSetup( PageSetupDesign pageSetup )
-		{
-			pushTag( "page-setup" ); //$NON-NLS-1$
-			for ( int i = 0; i < pageSetup.getMasterPageCount( ); i++ )
-			{
-				writeMasterPage( pageSetup.getMasterPage( i ) );
-			}
-			popTag( );
-		}
-
-		/**
-		 * write listband content
-		 * 
-		 * @param band
-		 *            band
-		 */
-		public Object visitListBand( ListBandDesign band, Object value )
-		{
-			pushTag( "band" );
-			for ( int i = 0; i < band.getContentCount( ); i++ )
-			{
-				band.getContent( i ).accept( this, value );
-			}
-			popTag( );
-			return value;
-		}
-
-		public Object visitTableBand( TableBandDesign band, Object value )
-		{
-			pushTag( "band" );
-			for ( int i = 0; i < band.getContentCount( ); i++ )
-			{
-				band.getContent( i ).accept( this, value );
-			}
-			popTag( );
-			return value;
-		}
-
-		/**
-		 * write master pages
-		 * 
-		 * @param page
-		 *            master page
-		 */
-		private void writeMasterPage( MasterPageDesign page )
-		{
-			if ( page instanceof GraphicMasterPageDesign )
-			{
-				writeGraphicMasterPage( (GraphicMasterPageDesign) page );
-			}
-			else if ( page instanceof SimpleMasterPageDesign )
-			{
-				writeSimpleMasterPage( (SimpleMasterPageDesign) page );
-
-			}
-		}
-
-		private void writeBaseMasterPage( MasterPageDesign page )
-		{
-			writeStyledElement( page );
-			attribute( "type", page.getPageType( ) ); //$NON-NLS-1$
-			attribute( "width", page.getPageWidth( ) ); //$NON-NLS-1$
-			attribute( "height", page.getPageHeight( ) ); //$NON-NLS-1$
-			attribute( "orientation", page.getOrientation( ) ); //$NON-NLS-1$
-			attribute( "top-margin", page.getTopMargin( ) ); //$NON-NLS-1$
-			attribute( "bottom-margin", page.getBottomMargin( ) ); //$NON-NLS-1$
-			attribute( "left-margin", page.getLeftMargin( ) ); //$NON-NLS-1$
-			attribute( "right-margin", page.getRightMargin( ) ); //$NON-NLS-1$
-		}
-
-		private void writeGraphicMasterPage( GraphicMasterPageDesign page )
-		{
-			pushTag( "graphic-master-page" ); //$NON-NLS-1$
-
-			writeBaseMasterPage( page );
-
-			attribute( "columns", page.getColumns( ) ); //$NON-NLS-1$
-			attribute( "column-spacing", page.getColumnSpacing( ) ); //$NON-NLS-1$
-
-			pushTag( "contents" ); //$NON-NLS-1$
-
-			Iterator iter = page.getContents( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				( (ReportItemDesign) iter.next( ) ).accept( this, null );
-			}
-
-			popTag( );
-			popTag( );
-		}
-
-		private void writeSimpleMasterPage( SimpleMasterPageDesign page )
-		{
-			pushTag( "simple-master-page" ); //$NON-NLS-1$
-
-			writeBaseMasterPage( page );
-
-			attribute( "show-header-on-first", page.isShowHeaderOnFirst( ) ); //$NON-NLS-1$
-			attribute( "show-footer-on-last", page.isShowFooterOnLast( ) ); //$NON-NLS-1$
-			attribute( "floating-footer", page.isFloatingFooter( ) ); //$NON-NLS-1$
-			pushTag( "header" ); //$NON-NLS-1$
-			for ( int i = 0; i < page.getHeaderCount( ); i++ )
-			{
-				page.getHeader( i ).accept( this , null);
-			}
-			popTag( );
-
-			pushTag( "footer" ); //$NON-NLS-1$
-			for ( int i = 0; i < page.getFooterCount( ); i++ )
-			{
-				page.getFooter( i ).accept( this , null);
-			}
-			popTag( );
-
-			popTag( );
-		}
-
-		/**
-		 * write styles
-		 * 
-		 * @param style
-		 *            style
-		 */
-		private void writeStyle( CSSStyleDeclaration style )
-		{
-			if ( style != null )
-			{
-				pushTag( "style" ); //$NON-NLS-1$
-				text(style.getCssText());
-				popTag( );
-			}
-		}
-
-		public Object visitGroup( GroupDesign group, Object value )
-		{
-			pushTag( "group" ); //$NON-NLS-1$
-
-			if ( group.getHeader( ) != null )
-			{
-				group.getHeader().accept(this, value);
-			}
-			if ( group.getFooter( ) != null )
-			{
-				group.getFooter().accept(this, value);
-			}
-			popTag( );
-			return value;
-		}
-
-		public Object visitTextItem( TextItemDesign text, Object value )
-		{
-			pushTag( "text" ); //$NON-NLS-1$
-			writeReportItem( text );
-			attribute( "content-type", text.getTextType( ) ); //$NON-NLS-1$
-			attribute( "resource-key", text.getTextKey( ) ); //$NON-NLS-1$
-			text( text.getText( ) );
-			popTag( );
-			return value;
-		}
-
-		public Object visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
-		{
-			pushTag( "multi-line" ); //$NON-NLS-1$
-			writeReportItem( multiLine );
-			pushTag( "content-type" ); //$NON-NLS-1$
-			text( multiLine.getContentType( ) );
-			popTag( );
-			pushTag( "content" ); //$NON-NLS-1$
-			text( multiLine.getContent( ) );
-			popTag( );
-			popTag( );
-			return value;
-
-		}
-
-		public Object visitListItem( ListItemDesign list, Object value )
-		{
-			pushTag( "list" ); //$NON-NLS-1$
-			writeReportItem( list );
-			if ( list.getHeader( ) != null )
-			{
-				list.getHeader( ).accept( this, value );
-			}
-			for ( int i = 0; i < list.getGroupCount( ); i++ )
-			{
-				list.getGroup( i ).accept( this, value );
-			}
-			if ( list.getDetail( ) != null )
-			{
-				list.getDetail( ).accept( this, value );
-			}
-			if ( list.getFooter( ) != null )
-			{
-				list.getFooter( ).accept( this, value );
-			}
-			popTag( );
-			return value;
-		}
-
-		public Object visitDataItem( DataItemDesign data, Object value )
-		{
-			pushTag( "data" ); //$NON-NLS-1$
-			writeReportItem( data );
-			text( data.getValue( ) );
-			popTag( );
-			return value;
-		}
-
-		public Object visitLabelItem( LabelItemDesign label, Object value )
-		{
-			pushTag( "label" ); //$NON-NLS-1$
-			writeReportItem( label );
-			attribute( "resource-key", label.getTextKey( ) ); //$NON-NLS-1$
-			text( label.getText( ) );
-			popTag( );
-			return value;
-		}
-
-		public Object visitGridItem( GridItemDesign grid, Object value )
-		{
-			pushTag( "grid" ); //$NON-NLS-1$
-			writeReportItem( grid );
-			for ( int i = 0; i < grid.getColumnCount( ); i++ )
-			{
-				writeColumn( grid.getColumn( i ) );
-			}
-			for ( int i = 0; i < grid.getRowCount( ); i++ )
-			{
-				writeRow( grid.getRow( i ) );
-			}
-			popTag( );
-			return value;
-		}
-
-		protected void writeColumn( ColumnDesign column )
-		{
-			pushTag( "column" ); //$NON-NLS-1$
-			writeStyledElement( column );
-			attribute( "width", column.getWidth( ) ); //$NON-NLS-1$
-			popTag( );
-		}
-
-		protected void writeRow( RowDesign row )
-		{
-			pushTag( "row" ); //$NON-NLS-1$
-			writeStyledElement( row );
-			attribute( "height", row.getHeight( ) ); //$NON-NLS-1$
-			for ( int i = 0; i < row.getCellCount( ); i++ )
-			{
-				writeCell( row.getCell( i ) );
-			}
-			popTag( );
-		}
-
-		protected void writeCell( CellDesign cell )
-		{
-			pushTag( "cell" ); //$NON-NLS-1$
-			writeStyledElement( cell );
-			attribute( "column", cell.getColumn( ) ); //$NON-NLS-1$
-			attribute( "col-span", cell.getColSpan( ), 1.0 ); //$NON-NLS-1$
-			attribute( "row-span", cell.getRowSpan( ), 1.0 ); //$NON-NLS-1$
-			attribute( "height", cell.getHeight( ) ); //$NON-NLS-1$
-			attribute( "width", cell.getWidth( ) ); //$NON-NLS-1$
-			attribute( "drop", cell.getDrop( ) ); //$NON-NLS-1$
-			for ( int i = 0; i < cell.getContentCount( ); i++ )
-			{
-				cell.getContent( i ).accept( this , null);
-			}
-			popTag( );
-		}
-
-		public Object visitTableItem( TableItemDesign table, Object value )
-		{
-			pushTag( "table" ); //$NON-NLS-1$
-			writeReportItem( table );
-
-			if ( table.getCaption( ) != null || table.getCaptionKey( ) != null )
-			{
-				pushTag( "caption" ); //$NON-NLS-1$
-				attribute( "resource-key", table.getCaptionKey( ) ); //$NON-NLS-1$
-				text( table.getCaption( ) );
-				popTag( );
-			}
-
-			for ( int i = 0; i < table.getColumnCount( ); i++ )
-			{
-				writeColumn( table.getColumn( i ) );
-			}
-
-			if ( table.getHeader( ) != null )
-			{
-				table.getHeader( ).accept( this, value );
-			}
-			for ( int i = 0; i < table.getGroupCount( ); i++ )
-			{
-				table.getGroup( i ).accept( this, value );
-			}
-			if ( table.getDetail( ) != null )
-			{
-				table.getDetail( ).accept( this, value );
-			}
-			if ( table.getFooter( ) != null )
-			{
-				table.getFooter( ).accept( this, value );
-			}
-			popTag( );
-			
-			return value;
-
-		}
-
-		public Object visitImageItem( ImageItemDesign image , Object value)
-		{
-			pushTag( "image" ); //$NON-NLS-1$
-			writeReportItem( image );
-			switch ( image.getImageSource( ) )
-			{
-				case ImageItemDesign.IMAGE_NAME :
-					pushTag( "image-name" ); //$NON-NLS-1$
-					text( image.getImageName( ) );
-					popTag( );
-					break;
-				case ImageItemDesign.IMAGE_URI :
-					pushTag( "uri" ); //$NON-NLS-1$
-					text( image.getImageUri( ) );
-					popTag( );
-					break;
-				case ImageItemDesign.IMAGE_FILE :
-					pushTag( "uri" ); //$NON-NLS-1$
-					text( image.getImageUri() );
-					popTag( );
-					break;
-				case ImageItemDesign.IMAGE_EXPRESSION :
-				default :
-					assert false;
-			}
-
-			if ( image.getAction( ) != null )
-			{
-				writeAction( image.getAction( ) );
-			}
-			popTag( );
-			return value;
+			attribute( "style", item.getStyleName( ) ); //$NON-NLS-1$
+			writeMap( item.getMap( ) );
+			writeHighlight( item.getHighlight( ) );
 		}
 
 		protected void writeAction( ActionDesign action )
 		{
+			if ( action == null )
+				return;
 			pushTag( "action" ); //$NON-NLS-1$
+			attribute( "target-window", action.getTargetWindow( ) );
+			attribute( "bookmark-type", action.isBookmark( ) );
 			switch ( action.getActionType( ) )
 			{
 				case ActionDesign.ACTION_BOOKMARK :
@@ -534,10 +153,419 @@ class ReportDesignWriter
 					popTag( );
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :
+					pushTag( "drill-though" );
+					DrillThroughActionDesign drillThrough = action
+							.getDrillThrough( );
+					attribute( "report-name", drillThrough.getReportName( ) );
+					attribute( "bookmark", drillThrough.getBookmark( ) );
+					attribute( "bookmark-type", drillThrough.isBookmark( ) );
+					attribute( "paramters", drillThrough.getParameters( ) );
+					attribute( "search", drillThrough.getSearch( ) );
+					attribute( "format", drillThrough.getFormat( ) );
+
+					popTag( );
 				default :
 					assert false;
 			}
 			popTag( );
+		}
+
+		void writeVisibility( VisibilityDesign visibility )
+		{
+			if ( visibility == null )
+				return;
+			pushTag( "visibility" );
+			for ( int i = 0; i < visibility.count( ); i++ )
+			{
+				VisibilityRuleDesign rule = visibility.getRule( i );
+				pushTag( "rule" );
+				attribute( "format", rule.getExpression( ) );
+				text( rule.getExpression( ) );
+				popTag( );
+			}
+			popTag( );
+
+		}
+
+		void writeMap( MapDesign map )
+		{
+			if ( map == null )
+				return;
+			pushTag( "map" );
+			for ( int i = 0; i < map.getRuleCount( ); i++ )
+			{
+				MapRuleDesign rule = map.getRule( i );
+				pushTag( "rule" );
+				attribute( "expression", rule.getTestExpression( ) );
+				attribute( "operator", rule.getOperator( ) );
+				attribute( "value1", rule.getValue1( ) );
+				attribute( "value2", rule.getValue2( ) );
+				text( rule.getDisplayText( ) );
+				popTag( );
+			}
+			popTag( );
+
+		}
+
+		void writeHighlight( HighlightDesign highlight )
+		{
+			if ( highlight == null )
+				return;
+			pushTag( "map" );
+			for ( int i = 0; i < highlight.getRuleCount( ); i++ )
+			{
+				HighlightRuleDesign rule = highlight.getRule( i );
+				pushTag( "rule" );
+				attribute( "expression", rule.getTestExpression( ) );
+				attribute( "operator", rule.getOperator( ) );
+				attribute( "value1", rule.getValue1( ) );
+				attribute( "value2", rule.getValue2( ) );
+				text( rule.getStyle( ).getCssText( ) );
+				popTag( );
+			}
+			popTag( );
+		}
+
+		/**
+		 * write report element attribute
+		 * 
+		 * @param elem
+		 *            the element to be writeed.
+		 */
+		private void writeReportElement( ReportElementDesign elem )
+		{
+			attribute( "id", elem.getID( ) );
+			attribute( "name", elem.getName( ) ); //$NON-NLS-1$
+			attribute( "extends", elem.getExtends( ) ); //$NON-NLS-1$
+			attribute( "javaClass", elem.getJavaClass( ) );
+			attribute( "properties", elem.getCustomProperties( ) );
+			attribute( "expressions", elem.getNamedExpressions( ) );
+		}
+
+		/**
+		 * report contains
+		 * 
+		 * @param report
+		 */
+		public void createDocument( Report report )
+		{
+			pushTag( "report" ); //$NON-NLS-1$
+			attribute( "units", report.getUnit( ) ); //$NON-NLS-1$
+
+			if ( report.getStyleCount( ) > 0 )
+			{
+				pushTag( "styles" ); //$NON-NLS-1$
+				for ( int i = 0; i < report.getStyleCount( ); i++ )
+				{
+					pushTag( "style" );
+					attribute( "name", "style_" + i );
+					attribute( "css-text", report.getStyle( i ).getCssText( ) );
+					popTag( );
+				}
+				popTag( );
+			}
+
+			pushTag( "page-setup" ); //$NON-NLS-1$
+			PageSetupDesign pageSetup = report.getPageSetup( );
+			for ( int i = 0; i < pageSetup.getMasterPageCount( ); i++ )
+			{
+				writeSimpleMasterPage( (SimpleMasterPageDesign) pageSetup
+						.getMasterPage( i ) );
+			}
+			popTag( );
+
+			if ( report.getContentCount( ) > 0 )
+			{
+				pushTag( "body" ); //$NON-NLS-1$
+				for ( int i = 0; i < report.getContentCount( ); i++ )
+				{
+					report.getContent( i ).accept( this, null );
+				}
+				popTag( );
+			}
+
+			popTag( );
+		}
+
+		/**
+		 * write listband content
+		 * 
+		 * @param band
+		 *            band
+		 */
+		public Object visitBand( BandDesign band, Object value )
+		{
+			pushTag( "band" );
+			writeReportItem( band );
+
+			for ( int i = 0; i < band.getContentCount( ); i++ )
+			{
+				band.getContent( i ).accept( this, value );
+			}
+			popTag( );
+
+			return value;
+		}
+
+		private void writeMasterPage( MasterPageDesign page )
+		{
+			writeStyledElement( page );
+			attribute( "type", page.getPageType( ) ); //$NON-NLS-1$
+			attribute( "width", page.getPageWidth( ) ); //$NON-NLS-1$
+			attribute( "height", page.getPageHeight( ) ); //$NON-NLS-1$
+			attribute( "orientation", page.getOrientation( ) ); //$NON-NLS-1$
+			attribute( "top-margin", page.getTopMargin( ) ); //$NON-NLS-1$
+			attribute( "bottom-margin", page.getBottomMargin( ) ); //$NON-NLS-1$
+			attribute( "left-margin", page.getLeftMargin( ) ); //$NON-NLS-1$
+			attribute( "right-margin", page.getRightMargin( ) ); //$NON-NLS-1$
+		}
+
+		private void writeSimpleMasterPage( SimpleMasterPageDesign page )
+		{
+			pushTag( "simple-master-page" ); //$NON-NLS-1$
+
+			writeMasterPage( page );
+
+			attribute( "show-header-on-first", page.isShowHeaderOnFirst( ) ); //$NON-NLS-1$
+			attribute( "show-footer-on-last", page.isShowFooterOnLast( ) ); //$NON-NLS-1$
+			attribute( "floating-footer", page.isFloatingFooter( ) ); //$NON-NLS-1$
+			pushTag( "header" ); //$NON-NLS-1$
+			for ( int i = 0; i < page.getHeaderCount( ); i++ )
+			{
+				page.getHeader( i ).accept( this, null );
+			}
+			popTag( );
+
+			pushTag( "footer" ); //$NON-NLS-1$
+			for ( int i = 0; i < page.getFooterCount( ); i++ )
+			{
+				page.getFooter( i ).accept( this, null );
+			}
+			popTag( );
+
+			popTag( );
+		}
+
+		protected void writeListing( ListingDesign listing )
+		{
+
+			attribute( "repeat-header", listing.isRepeatHeader( ) );
+			attribute( "page-break-interval", listing.getPageBreakInterval( ) );
+
+			BandDesign header = listing.getHeader( );
+			if ( header != null )
+			{
+				header.accept( this, null );
+			}
+
+			for ( int i = 0; i < listing.getGroupCount( ); i++ )
+			{
+				listing.getGroup( i ).accept( this, null );
+			}
+
+			BandDesign detail = listing.getDetail( );
+			if ( detail != null )
+			{
+				detail.accept( this, null );
+			}
+
+			BandDesign footer = listing.getFooter( );
+			if ( footer != null )
+			{
+				footer.accept( this, null );
+			}
+		}
+
+		public Object visitGroup( GroupDesign group, Object value )
+		{
+			pushTag( "group" ); //$NON-NLS-1$
+			writeReportItem( group );
+
+			if ( group.getHeader( ) != null )
+			{
+				group.getHeader( ).accept( this, value );
+			}
+			if ( group.getFooter( ) != null )
+			{
+				group.getFooter( ).accept( this, value );
+			}
+			popTag( );
+			return value;
+		}
+
+		public Object visitTextItem( TextItemDesign text, Object value )
+		{
+			pushTag( "text" ); //$NON-NLS-1$
+
+			writeReportItem( text );
+
+			attribute( "type", text.getTextType( ) );
+			attribute( "text-key", text.getTextKey( ) );
+			text( text.getText( ) );
+			popTag( );
+			return value;
+		}
+
+		public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+				Object value )
+		{
+			pushTag( "multi-line" ); //$NON-NLS-1$
+			writeReportItem( multiLine );
+			attribute( "content-type", multiLine.getContentType( ) );
+			text( multiLine.getContent( ) );
+
+			popTag( );
+			return value;
+
+		}
+
+		public Object visitListItem( ListItemDesign list, Object value )
+		{
+			pushTag( "list" ); //$NON-NLS-1$
+
+			writeListing( list );
+
+			popTag( );
+			return value;
+		}
+
+		public Object visitDataItem( DataItemDesign data, Object value )
+		{
+			pushTag( "data" ); //$NON-NLS-1$
+			writeReportItem( data );
+			attribute( "supress-duplicate", data.getSuppressDuplicate( ) );
+			attribute( "help-text", data.getHelpText( ) );
+			attribute( "help-text-key", data.getHelpTextKey( ) );
+			text( data.getValue( ) );
+			popTag( );
+			return value;
+		}
+
+		public Object visitLabelItem( LabelItemDesign label, Object value )
+		{
+			pushTag( "label" ); //$NON-NLS-1$
+			writeReportItem( label );
+			attribute( "help-text", label.getHelpText( ) );
+			attribute( "help-text-key", label.getHelpTextKey( ) );
+			attribute( "text-key", label.getTextKey( ) );
+			text( label.getText( ) );
+			popTag( );
+			return value;
+		}
+
+		public Object visitGridItem( GridItemDesign grid, Object value )
+		{
+			pushTag( "grid" ); //$NON-NLS-1$
+			writeReportItem( grid );
+
+			pushTag( "columns" );
+			for ( int i = 0; i < grid.getColumnCount( ); i++ )
+			{
+				writeColumn( grid.getColumn( i ) );
+			}
+			popTag( );
+			for ( int i = 0; i < grid.getRowCount( ); i++ )
+			{
+				grid.getRow( i ).accept( this, value );
+			}
+			popTag( );
+			return value;
+		}
+
+		protected void writeColumn( ColumnDesign column )
+		{
+			pushTag( "column" ); //$NON-NLS-1$
+			writeStyledElement( column );
+			attribute( "width", column.getWidth( ) ); //$NON-NLS-1$
+			attribute( "supress-duplicate", column.getSuppressDuplicate( ) );
+			attribute( "has-data-in-detail", column.hasDataItemsInDetail( ) );
+			attribute( "visibility", column.getVisibility( ) );
+
+			popTag( );
+		}
+
+		public Object visitRow( RowDesign row, Object value )
+		{
+			pushTag( "row" ); //$NON-NLS-1$
+			writeReportItem( row );
+			attribute( "start-of-group", row.isStartOfGroup( ) );
+			for ( int i = 0; i < row.getCellCount( ); i++ )
+			{
+				row.getCell( i ).accept( this, value );
+			}
+			popTag( );
+			return value;
+		}
+
+		public Object visitCell( CellDesign cell, Object value )
+		{
+			pushTag( "cell" ); //$NON-NLS-1$
+			writeReportItem( cell );
+			attribute( "column", cell.getColumn( ) ); //$NON-NLS-1$
+			attribute( "col-span", cell.getColSpan( ), 1.0 ); //$NON-NLS-1$
+			attribute( "row-span", cell.getRowSpan( ), 1.0 ); //$NON-NLS-1$
+			attribute( "drop", cell.getDrop( ) ); //$NON-NLS-1$
+			attribute( "display-group-icon", cell.getDisplayGroupIcon( ) ); //$NON-NLS-1$
+			for ( int i = 0; i < cell.getContentCount( ); i++ )
+			{
+				cell.getContent( i ).accept( this, null );
+			}
+			popTag( );
+			return value;
+		}
+
+		public Object visitTableItem( TableItemDesign table, Object value )
+		{
+			pushTag( "table" ); //$NON-NLS-1$
+
+			pushTag( "columns" );
+			for ( int i = 0; i < table.getColumnCount( ); i++ )
+			{
+				writeColumn( table.getColumn( i ) );
+			}
+			popTag( );
+
+			writeListing( table );
+			attribute( "caption", table.getCaption( ) );
+			attribute( "caption-key", table.getCaptionKey( ) );
+
+			popTag( );
+
+			return value;
+		}
+
+		public Object visitImageItem( ImageItemDesign image, Object value )
+		{
+			pushTag( "image" ); //$NON-NLS-1$
+			writeReportItem( image );
+
+			switch ( image.getImageSource( ) )
+			{
+				case ImageItemDesign.IMAGE_NAME :
+					attribute( "image-name", image.getImageName( ) );
+
+					break;
+				case ImageItemDesign.IMAGE_URI :
+					attribute( "image-uri", image.getImageUri( ) );
+
+					break;
+				case ImageItemDesign.IMAGE_FILE :
+					attribute( "image-file", image.getImageUri( ) );
+					popTag( );
+					break;
+				case ImageItemDesign.IMAGE_EXPRESSION :
+					attribute( "image-type", image.getImageFormat( ) );
+					attribute( "image-expr", image.getImageExpression( ) );
+				default :
+					assert false;
+			}
+			attribute( "help-text", image.getHelpText( ) );
+			attribute( "help-text-key", image.getHelpTextKey( ) );
+			attribute( "alt-text", image.getAltText( ) );
+			attribute( "alt-text-key", image.getAltTextKey( ) );
+
+			popTag( );
+			return value;
 		}
 
 		public Object visitFreeFormItem( FreeFormItemDesign free, Object value )
@@ -546,20 +574,39 @@ class ReportDesignWriter
 			writeReportItem( free );
 			for ( int i = 0; i < free.getItemCount( ); i++ )
 			{
-				free.getItem( i ).accept( this , null);
+				free.getItem( i ).accept( this, null );
 			}
 			popTag( );
 			return value;
 		}
 
-		protected boolean endTag = true;
-
 		protected void attribute( String name, String value )
 		{
-			assert ( endTag == false );
 			if ( value != null && !"".equals( value ) ) //$NON-NLS-1$
 			{
-				out.print( " " + name + "=\"" + value + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				element.setAttribute( name, value );
+			}
+		}
+
+		protected void attribute( String name, Map map )
+		{
+			if ( map != null && !map.isEmpty( ) )
+			{
+				StringBuffer buffer = new StringBuffer( );
+				Iterator iter = map.entrySet( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Map.Entry entry = (Map.Entry) iter.next( );
+					buffer.append( entry.getKey( ) );
+					buffer.append( ":" );
+					buffer.append( entry.getValue( ) );
+					buffer.append( ";" );
+				}
+				if ( buffer.length( ) != 0 )
+				{
+					buffer.setLength( buffer.length( ) - 1 );
+				}
+				attribute( name, buffer.toString( ) );
 			}
 		}
 
@@ -574,7 +621,7 @@ class ReportDesignWriter
 		{
 			if ( value != omitValue )
 			{
-				attribute( name, doubleFmt.format( value ) );
+				attribute( name, doubleFmt.format( value ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 
@@ -590,18 +637,22 @@ class ReportDesignWriter
 				attribute( name, value.toString( ) );
 			}
 		}
-		protected Stack tagStack = new Stack( );
+
+		protected Stack elements = new Stack( );
 
 		protected void pushTag( String tag )
 		{
-			if ( endTag == false )
+			elements.push( element );
+			Element child = document.createElement( tag );
+			if (element != null)
 			{
-				out.println( ">" ); //$NON-NLS-1$
+				element.appendChild( child );
 			}
-			indent( );
-			out.print( "<" + tag ); //$NON-NLS-1$
-			endTag = false;
-			tagStack.push( tag );
+			else
+			{
+				document.appendChild( child );
+			}
+			element = child;
 		}
 
 		protected void text( String text )
@@ -610,38 +661,13 @@ class ReportDesignWriter
 			{
 				return;
 			}
-			if ( endTag == false )
-			{
-				out.println( ">" ); //$NON-NLS-1$
-			}
-			endTag = true;
-			indent( );
-			out.println( text );
+			Text textNode = document.createTextNode( text );
+			element.appendChild( textNode );
 		}
 
 		protected void popTag( )
 		{
-			String tag = (String) tagStack.pop( );
-			if ( endTag == false )
-			{
-				endTag = true;
-				out.print( ">" ); //$NON-NLS-1$
-			}
-			else
-			{
-				indent( );
-			}
-			out.println( "</" + tag + ">" ); //$NON-NLS-1$ //$NON-NLS-2$
-
+			element = (Element) elements.pop( );
 		}
-
-		protected void indent( )
-		{
-			for ( int i = 0; i < tagStack.size( ); i++ )
-			{
-				out.print( "    " ); //$NON-NLS-1$
-			}
-		}
-
 	}
 }
