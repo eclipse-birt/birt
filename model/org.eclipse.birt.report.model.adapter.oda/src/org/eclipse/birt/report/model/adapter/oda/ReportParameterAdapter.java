@@ -119,7 +119,7 @@ public class ReportParameterAdapter
 		InputParameterAttributes paramAttrs = odaParam.getInputAttributes( );
 		InputParameterAttributes tmpParamDefn = null;
 		String tmpDataSetName = null;
-		
+
 		if ( paramAttrs != null )
 		{
 			tmpParamDefn = (InputParameterAttributes) EcoreUtil
@@ -166,7 +166,7 @@ public class ReportParameterAdapter
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
 	}
 
-	private static boolean isEquals( String value1, String value2 )
+	static boolean isEquals( String value1, String value2 )
 	{
 		// may be same string or both null.
 
