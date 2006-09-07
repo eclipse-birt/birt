@@ -334,7 +334,7 @@ public class ModelDteApiAdapter
 				}
 
 				if ( this.context != null
-						&& ( this.context.getDataEngine( ) instanceof DataGenerationEngine || this.context.getEngine( ) instanceof DteDataEngine ) )
+						&& ( this.context.getDataEngine( ) instanceof DataGenerationEngine || this.context.getDataEngine( ) instanceof DteDataEngine ) )
 				{
 					/**
 					 * Here is a temp solution to adapt relative path to xml
