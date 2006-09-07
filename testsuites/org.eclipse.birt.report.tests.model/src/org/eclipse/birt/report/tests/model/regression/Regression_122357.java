@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -58,11 +57,10 @@ public class Regression_122357 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws IOException
-	 * @throws MetaDataParserException
 	 */
 
 	public void test_122357( ) throws DesignFileException, SemanticException,
-			IOException, MetaDataParserException
+			IOException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
@@ -71,9 +69,9 @@ public class Regression_122357 extends BaseTestCase
 
 		String output = getClassFolder( ) + OUTPUT_FOLDER + LIB;
 		File outputFile = new File( output );
-		if( outputFile.exists( ) )
+		if ( outputFile.exists( ) )
 			outputFile.delete( );
-		
+
 		ElementExportUtil.exportDesign( design, output, true, true );
 
 		LibraryHandle lib = session.openLibrary( this.getClassFolder( )
