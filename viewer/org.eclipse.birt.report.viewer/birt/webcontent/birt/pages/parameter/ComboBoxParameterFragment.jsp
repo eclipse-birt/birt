@@ -142,7 +142,7 @@
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			ID="<%= encodedParameterName + "_input"%>"
-			<%= !CHECKED ? "VALUE=\"" + ParameterAccessor.htmlEncode( paramValue ) + "\"": "" %> 
+			<%= !CHECKED && paramValue != null ? "VALUE=\"" + ParameterAccessor.htmlEncode( paramValue ) + "\"": "" %> 
 			<%= CHECKED ? "DISABLED='true'" : "" %>	>
 	<%
 		if ( !parameterBean.allowBlank( ) )
