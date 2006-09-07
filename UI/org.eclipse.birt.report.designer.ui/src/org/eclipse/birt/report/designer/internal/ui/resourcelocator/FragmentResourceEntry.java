@@ -49,6 +49,8 @@ class FragmentResourceEntry extends BaseResourceEntity
 
 	private boolean isRoot;
 
+	private boolean isFile;
+
 	public FragmentResourceEntry( )
 	{
 		this( null );
@@ -56,7 +58,7 @@ class FragmentResourceEntry extends BaseResourceEntity
 
 	public FragmentResourceEntry( String[] filePattern )
 	{
-		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null ); //$NON-NLS-1$//$NON-NLS-2$
+		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null, false ); //$NON-NLS-1$//$NON-NLS-2$
 		this.isRoot = true;
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
 		if ( bundle != null )
@@ -88,7 +90,8 @@ class FragmentResourceEntry extends BaseResourceEntity
 											( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
 													: parent.path ) + "/" //$NON-NLS-1$
 													+ path[m],
-											parent );
+											parent,
+											m == path.length - 1 );
 								}
 								parent = child;
 							}
@@ -112,7 +115,8 @@ class FragmentResourceEntry extends BaseResourceEntity
 						if ( child == null )
 							child = new FragmentResourceEntry( path[i],
 									path[i],
-									parent );
+									parent,
+									i == path.length - 1 );
 						parent = child;
 					}
 				}
@@ -121,13 +125,14 @@ class FragmentResourceEntry extends BaseResourceEntity
 	}
 
 	private FragmentResourceEntry( String name, String path,
-			FragmentResourceEntry parent )
+			FragmentResourceEntry parent, boolean isFile )
 	{
 		this.name = name;
 		this.path = path;
 		this.parent = parent;
 		if ( parent != null )
 			parent.addChild( this );
+		this.isFile = isFile;
 	}
 
 	private void addChild( FragmentResourceEntry entry )
@@ -175,6 +180,11 @@ class FragmentResourceEntry extends BaseResourceEntity
 		if ( bundle != null )
 			return bundle.getResource( this.path );
 		return null;
+	}
+
+	public boolean isFile( )
+	{
+		return this.isFile;
 	}
 
 	public void dispose( )

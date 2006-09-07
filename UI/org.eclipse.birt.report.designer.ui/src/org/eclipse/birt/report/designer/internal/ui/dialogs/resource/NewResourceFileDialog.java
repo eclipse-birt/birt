@@ -80,7 +80,7 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 				return ErrorStatus;
 			}
 			else if ( selection[0] instanceof ResourceEntry
-					&& ( (ResourceEntry) selection[0] ).getChildren( ).length == 0 )
+					&& ( (ResourceEntry) selection[0] ).isFile( ) )
 			{
 				return OKStatus;
 			}
@@ -183,7 +183,7 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 	{
 		super.okPressed( );
 		Object[] selected = getResult( );
-		if ( selected.length > 0 )
+		if ( selected.length > 0 && !newFileName.equals( "" )) //$NON-NLS-1$
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
 			File file = new File( entry.getURL( ).getPath( ) );
@@ -207,12 +207,14 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 	{
 		if ( !newFileName.equals( "" ) ) //$NON-NLS-1$
 		{
-			return super.getPath( ) + newFileName;
+			String path = super.getPath( );
+			return super.getPath( )
+					+ ( path.endsWith( "/" ) ? "" : "/" )   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+					+ newFileName;
 		}
 		else
 		{
 			return super.getPath( );
 		}
 	}
-
 }

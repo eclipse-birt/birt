@@ -42,6 +42,7 @@ class PathResourceEntry extends BaseResourceEntity
 	private boolean isRoot;
 	private LibraryHandle library;
 	private ArrayList childrenList;
+	private boolean isFile;
 
 	public PathResourceEntry( )
 	{
@@ -115,6 +116,7 @@ class PathResourceEntry extends BaseResourceEntity
 			File file = new File( this.path );
 			this.isFolder = file.isDirectory( );
 			this.url = file.toURL( );
+			this.isFile = file.isFile( );
 		}
 		catch ( Exception e )
 		{
@@ -191,6 +193,11 @@ class PathResourceEntry extends BaseResourceEntity
 	public URL getURL( )
 	{
 		return this.url;
+	}
+
+	public boolean isFile( )
+	{
+		return this.isFile;
 	}
 
 	public void dispose( )

@@ -137,8 +137,7 @@ public class ResourceSelectionValidator implements ISelectionStatusValidator
 			if ( curr instanceof ResourceEntry )
 			{
 				ResourceEntry resource = (ResourceEntry) curr;
-				if ( acceptFolders == false
-						&& resource.getChildren( ).length > 0 )
+				if ( acceptFolders == false && !resource.isFile( ) )
 				{
 					return EmptyStatus;
 				}
