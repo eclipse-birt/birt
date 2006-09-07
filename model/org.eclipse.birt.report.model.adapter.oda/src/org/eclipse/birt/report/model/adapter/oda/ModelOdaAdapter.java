@@ -359,9 +359,29 @@ public class ModelOdaAdapter
 			setDesign
 					.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
 
-		setDesign.setParameters( new DataSetParameterAdapter( )
-				.newOdaDataSetParams( setHandle.parametersIterator( ),
-						setDesign ) );
+		String strDesignValues = setHandle.getDesignerValues( );
+
+		DesignValues designerValues = null;
+
+		try
+		{
+			designerValues = SerializerImpl.instance( ).read( strDesignValues );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		if ( designerValues != null )
+		{
+			setDesign.setParameters( designerValues.getDataSetParameters( ) );
+		}
+
+		if ( setDesign.getParameters( ) == null )
+		{
+			setDesign.setParameters( new DataSetParameterAdapter( )
+					.newOdaDataSetParams( setHandle.parametersIterator( ),
+							setDesign ) );
+		}
 
 		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
 				.newOdaResultSetDefinition( setHandle ) );
