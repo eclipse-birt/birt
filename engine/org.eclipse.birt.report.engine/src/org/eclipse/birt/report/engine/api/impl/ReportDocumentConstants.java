@@ -24,6 +24,10 @@ public interface ReportDocumentConstants
 	 */
 	static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
 	/**
+	 * stream used to save the engine IR of the design 
+	 */
+	static final String DESIGN_IR_STREAM = "/design.ir"; //$NON-NLS-1$
+	/**
 	 * stream saves the bookmark->page mapping.
 	 * It will be mutiple copyies for different layout.
 	 */

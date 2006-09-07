@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * 
  * @see GridItemDesign
  * @see TableItemDesign
- * @version $Revision: 1.9 $ $Date: 2006/05/18 09:10:26 $
+ * @version $Revision: 1.10.6.1 $ $Date: 2006/09/07 12:56:52 $
  */
 ///TODO: RowDesign is not a realy styled element. It only has a style, but has
 // no other attributes.
@@ -28,11 +28,6 @@ public class RowDesign extends ReportItemDesign
 	 * cells in this row.
 	 */
 	protected ArrayList cells = new ArrayList( );
-
-	/**
-	 * is this row should be visible 
-	 */
-	protected Expression hideExpr;
 
 	//TODO: this field should be removed
 	protected boolean isStartOfGroup = false;
@@ -98,21 +93,6 @@ public class RowDesign extends ReportItemDesign
 	{
 		this.cells.clear();
 	}
-	/**
-	 * @return Returns the hideExpr.
-	 */
-	public Expression getHideExpr( )
-	{
-		return hideExpr;
-	}
-	/**
-	 * @param hideExpr The hideExpr to set.
-	 */
-	public void setHideExpr( Expression hideExpr )
-	{
-		this.hideExpr = hideExpr;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */

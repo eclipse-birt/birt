@@ -31,9 +31,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * A task for running a report design to get a report document
@@ -176,7 +174,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	protected void doRun( ) throws EngineException
 	{
 		setRunningFlag( true );
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		ReportRunnable report = executionContext.getRunnable( );
 
 		// using paramters
 		if ( !validateParameters( ) )
@@ -192,7 +190,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		openReportDocument( );
 		try
 		{
-			writer.saveDesign( reportDesign );
+			writer.saveDesign( report );
 			writer.saveParamters( inputValues );
 
 			executionContext.openDataEngine( );
@@ -215,7 +213,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 				IContentEmitter emitter = documentBuilder.getContentEmitter( );
 				ReportExecutor executor = new ReportExecutor( executionContext,
-						reportDesign,
+						report.getReportIR( ),
 						emitter );
 //				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
 //						executor );

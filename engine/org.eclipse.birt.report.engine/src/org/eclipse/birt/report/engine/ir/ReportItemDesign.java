@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 
 /**
  * Report Item
  * 
- * @version $Revision: 1.13 $ $Date: 2006/06/13 15:37:20 $
+ * @version $Revision: 1.14.6.1 $ $Date: 2006/09/07 12:56:40 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -39,10 +37,6 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 */
 	protected DimensionType height;
 
-	/**
-	 * query used to create the data set.
-	 */
-	protected IBaseQueryDefinition query;
 	/**
 	 * book-mark associated with this element.
 	 */
@@ -68,15 +62,19 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	protected String onPageBreak;	
 
 	/**
-	 * parameter bindings associated with this item
-	 */
-	protected ArrayList paramBindings = new ArrayList();
-	
-	/**
 	 * Visibility property.
 	 */
 	protected VisibilityDesign visibility;
 	
+	/**
+	 * Action associated with this DataItem.
+	 */
+	protected ActionDesign action;
+	
+	/**
+	 * query used to create the data set.
+	 */
+	transient protected IBaseQueryDefinition query;
 	/**
 	 * execution state associated with this design
 	 */
@@ -199,15 +197,6 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	
 	
 	/**
-	 * @return Returns the paramBindings.
-	 */
-	public ArrayList getParamBindings( )
-	{
-		return paramBindings;
-	}
-	
-	
-	/**
 	 * @return Returns the onCreate.
 	 */
 	public String getOnCreate( )
@@ -264,10 +253,6 @@ abstract public class ReportItemDesign extends StyledElementDesign
 		this.visibility = visibility;
 	}
 	
-	/**
-	 * Action associated with this DataItem.
-	 */
-	protected ActionDesign action;
 	/**
 	 * @return Returns the action.
 	 */

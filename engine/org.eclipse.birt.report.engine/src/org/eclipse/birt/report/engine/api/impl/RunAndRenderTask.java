@@ -31,9 +31,9 @@ import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -138,7 +138,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public void run( ) throws EngineException
 	{
 		setRunningFlag( true );
-		ReportDesignHandle reportDesign = executionContext.getDesign( );
+		Report reportDesign = executionContext.getReport( );
 
 		// register default parameters and validate
 		if ( !validateParameters( ) )

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Label.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
+ * @version $Revision: 1.8.14.1 $ $Date: 2006/09/07 12:56:51 $
  */
 public class LabelItemDesign extends ReportItemDesign
 {
@@ -39,11 +39,6 @@ public class LabelItemDesign extends ReportItemDesign
 	protected String helpTextKey;
 
 	
-	/**
-	 * Action associated with this item.
-	 */
-	protected ActionDesign action;
-
 	public LabelItemDesign( )
 	{
 	}
@@ -83,23 +78,6 @@ public class LabelItemDesign extends ReportItemDesign
 		return textKey;
 	}
 
-	/**
-	 * @return Returns the action.
-	 */
-	public ActionDesign getAction( )
-	{
-		return action;
-	}
-
-	/**
-	 * @param action
-	 *            The action to set.
-	 */
-	public void setAction( ActionDesign action )
-	{
-		this.action = action;
-	}
-	
 	/**
 	 * set the help info.
 	 * 

@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -50,7 +49,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.39 $ $Date: 2006/07/06 06:30:36 $
+ * @version $Revision: 1.40.2.1 $ $Date: 2006/09/07 12:56:55 $
  */
 public class ReportExecutor implements IReportExecutor
 {
@@ -66,8 +65,6 @@ public class ReportExecutor implements IReportExecutor
 	
 	private IContentEmitter emitter;
 	
-	private ReportDesignHandle design;
-	
 	private Report report;
 	
 	private ReportContent reportContent;
@@ -81,22 +78,20 @@ public class ReportExecutor implements IReportExecutor
 	 *            the report emitter
 	 * 
 	 */
-	public ReportExecutor( ExecutionContext context, ReportDesignHandle design, IContentEmitter emitter )
+	public ReportExecutor( ExecutionContext context, Report report, IContentEmitter emitter )
 	{
 		this.context = context;
 		this.manager = new ExecutorManager(context, emitter);
-		this.design = design;
+		this.report = report;
 		this.emitter = emitter;
 	}
 	
 	public IReportContent execute( )
 	{
-		report = new ReportParser( context ).parse( design );
-		context.setReport( report );
 		reportContent = new ReportContent( report );
+		context.setReportContent( reportContent );
 		TOCTree tocTree = new TOCTree( );
 		reportContent.setTOCTree( tocTree );
-		context.setReportContent( reportContent );
 		TOCBuilder tocBuilder = new TOCBuilder( tocTree );
 		context.setTOCBuilder( tocBuilder );
 

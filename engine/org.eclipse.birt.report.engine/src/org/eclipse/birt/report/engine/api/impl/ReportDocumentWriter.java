@@ -25,6 +25,8 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.ir.EngineIRWriter;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
@@ -39,7 +41,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	static private Logger logger = Logger.getLogger( ReportDocumentWriter.class
 			.getName( ) );
 	
-	private IReportEngine engine;
+	protected IReportEngine engine;
 	private IDocArchiveWriter archive;
 	private String designName;
 	private HashMap paramters = new HashMap( );
@@ -238,11 +240,12 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 * @param design
 	 *            design handler
 	 */
-	public void saveDesign( ReportDesignHandle design )
+	public void saveDesign( ReportRunnable runnable )
 	{
 		RAOutputStream out = null;
 		try
 		{
+			ReportDesignHandle design = runnable.getReport( );
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
 			//design.serialize( out );
 			DocumentUtil.serialize(design, out);
@@ -251,6 +254,31 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to save design!", ex );
+		}
+		finally
+		{
+			if ( out != null )
+			{
+				try
+				{
+					out.close( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+			out = null;
+		}
+
+		try
+		{
+			Report reportIR = runnable.getReportIR( );
+			out = archive.createRandomAccessStream( DESIGN_IR_STREAM );
+			new EngineIRWriter().write(out, reportIR);
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to save design IR!", ex );
 		}
 		finally
 		{

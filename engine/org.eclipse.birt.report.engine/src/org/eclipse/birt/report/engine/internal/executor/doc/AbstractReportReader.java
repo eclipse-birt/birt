@@ -47,7 +47,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -76,12 +75,6 @@ public abstract class AbstractReportReader implements IReportExecutor
 		this.context = context;
 
 		report = context.getReport( );
-		if ( report == null )
-		{
-			ReportDesignHandle reportDesign = context.getDesign( );
-			report = new ReportParser( context ).parse( reportDesign );
-			context.setReport( report );
-		}
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );

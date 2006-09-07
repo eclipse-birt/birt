@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.10 $ $Date: 2006/04/06 12:35:25 $
+ * @version $Revision: 1.11.2.1 $ $Date: 2006/09/07 12:56:51 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {
@@ -59,10 +59,6 @@ public class ImageItemDesign extends ReportItemDesign
 	 */
 	protected String imageFormat;
 
-	/**
-	 * Action associated with this item.
-	 */
-	protected ActionDesign action;
 	/**
 	 * Text associated with this image, used for default locale.
 	 */
@@ -175,23 +171,6 @@ public class ImageItemDesign extends ReportItemDesign
 	{
 		imageSource = IMAGE_FILE;
 		imageUri = file;
-	}
-
-	/**
-	 * @return Returns the action.
-	 */
-	public ActionDesign getAction( )
-	{
-		return action;
-	}
-
-	/**
-	 * @param action
-	 *            The action to set.
-	 */
-	public void setAction( ActionDesign action )
-	{
-		this.action = action;
 	}
 
 	/**

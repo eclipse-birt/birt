@@ -17,7 +17,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/03/27 11:15:41 $
+ * @version $Revision: 1.9.6.1 $ $Date: 2006/09/07 12:56:45 $
  */
 public abstract class GroupDesign extends ReportItemDesign
 {
@@ -25,10 +25,6 @@ public abstract class GroupDesign extends ReportItemDesign
 	 * group level, start from 0
 	 */
 	protected int groupLevel;
-	/**
-	 * group expression
-	 */
-	protected String name;
 
 	/**
 	 * the page break before property 
@@ -59,21 +55,6 @@ public abstract class GroupDesign extends ReportItemDesign
 	 */
 	protected BandDesign footer;
 
-	
-	/**
-	 * @return Returns the name.
-	 */
-	public String getName( )
-	{
-		return name;
-	}
-	/**
-	 * @param name The name to set.
-	 */
-	public void setName( String name )
-	{
-		this.name = name;
-	}
 	
 	/**
 	 * @param hide

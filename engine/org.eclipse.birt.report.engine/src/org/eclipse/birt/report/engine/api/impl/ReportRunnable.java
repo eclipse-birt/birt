@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -34,6 +35,11 @@ public class ReportRunnable implements IReportRunnable
 	 * the report
 	 */
 	protected ReportDesignHandle designHandle;
+	
+	/**
+	 * the cached engine IR object
+	 */
+	protected Report reportIR;
 
 	/**
 	 * report file name
@@ -185,6 +191,7 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public void setDesignHandle(ReportDesignHandle handle) {
 		this.designHandle = handle;
+		this.reportIR = null;
 	}
 	
 	/**
@@ -197,5 +204,19 @@ public class ReportRunnable implements IReportRunnable
 	{
 		ReportDesign design = new ReportDesign( designHandle );
 		return design;
+	}
+	
+	public Report getReportIR( )
+	{
+		if ( reportIR == null )
+		{
+			reportIR = new ReportParser( ).parse( designHandle );
+		}
+		return reportIR;
+	}
+	
+	public void setReportIR( Report reportIR )
+	{
+		this.reportIR = reportIR;
 	}
 }

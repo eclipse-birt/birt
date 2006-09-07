@@ -56,6 +56,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
+import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -85,7 +86,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.83 $ $Date: 2006/08/25 03:24:02 $
+ * @version $Revision: 1.84.2.1 $ $Date: 2006/09/07 12:56:55 $
  */
 public class ExecutionContext
 {
@@ -141,12 +142,7 @@ public class ExecutionContext
 	/**
 	 * report runnable used to create the report content
 	 */
-	private IReportRunnable runnable;
-
-	/**
-	 * the report design contained in the report runnable
-	 */
-	private Report report;
+	private ReportRunnable runnable;
 
 	/**
 	 * Global configuration variables
@@ -253,11 +249,6 @@ public class ExecutionContext
 	 */
 	private IDocArchiveReader dataSource;
 	
-	/**
-	 * A list of reportItems which are current openning. 
-	 */
-	private List openningContents = new ArrayList( );
-
 	public ExecutionContext()
 	{
 		this(null, -1);
@@ -537,16 +528,6 @@ public class ExecutionContext
 	}
 
 	/**
-	 * @param jsValue
-	 *            a Javascript object
-	 * @return A Java object
-	 */
-	public Object jsToJava( Object jsValue )
-	{
-		return scriptContext.jsToJava( jsValue );
-	}
-
-	/**
 	 * Evaluate a BIRT expression
 	 * 
 	 * @param expr
@@ -686,16 +667,11 @@ public class ExecutionContext
 	 */
 	public Report getReport( )
 	{
-		return report;
-	}
-
-	/**
-	 * @param report
-	 *            The report to set.
-	 */
-	public void setReport( Report report )
-	{
-		this.report = report;
+		if ( runnable != null )
+		{
+			return runnable.getReportIR( );
+		}
+		return null;
 	}
 
 	public void openDataEngine( )
@@ -1066,7 +1042,7 @@ public class ExecutionContext
 	/**
 	 * @return Returns the runnable.
 	 */
-	public IReportRunnable getRunnable( )
+	public ReportRunnable getRunnable( )
 	{
 		return runnable;
 	}
@@ -1077,8 +1053,7 @@ public class ExecutionContext
 	 */
 	public void setRunnable( IReportRunnable runnable )
 	{
-		this.runnable = runnable;
-
+		this.runnable = (ReportRunnable)runnable;
 		ReportDesignHandle reportDesign = (ReportDesignHandle) runnable
 				.getDesignHandle( );
 		scriptContext.registerBean( "design", new ReportDesign( reportDesign ) );
