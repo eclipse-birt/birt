@@ -2,7 +2,9 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -59,6 +61,7 @@ public class TableContentLayout
 		fillEmptyCells( 0, 0, rowBufferSize, colBufferSize );
 		rowCount = 0;
 		hiddenRowCount = 0;
+		currentRowID = 0;
 	}
 
 	public int getRowCount( )
@@ -435,7 +438,7 @@ public class TableContentLayout
 		return false;
 	}
 	
-	protected boolean isRowHidden(Object rowContent)
+	public boolean isRowHidden(Object rowContent)
 	{
 		if(rowContent!=null && rowContent instanceof IRowContent)
 		{
@@ -485,6 +488,30 @@ public class TableContentLayout
 				}
 			}
 		}
+	}
+	
+	public int getCurrentRowID( )
+	{
+		return currentRowID - 1;
+	}
+	
+	public boolean isVisible( ICellContent cell )
+	{
+		IElement parent = cell.getParent( );
+		if ( parent instanceof IRowContent )
+		{
+			if( isRowHidden( ( IRowContent )parent ) )
+			{
+				return false;
+			}
+		}
+		IColumn column = cell.getColumnInstance( );
+		if ( isColumnHidden( column ) )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 }
