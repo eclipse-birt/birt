@@ -271,7 +271,7 @@ public class ReportParameterConverter
 	
 							if ( num != null )
 							{
-								parameterValueObj = new Double( num.toString( ) );
+								parameterValueObj = new BigDecimal( num.toString( ) );
 							}
 						}
 						catch ( ParseException ex )
