@@ -17,12 +17,10 @@ public class RowExecutor extends QueryItemExecutor
 	}
 
 	int rowId;
-	boolean startOfGroup;
 
 	public void reset( )
 	{
 		super.reset( );
-		this.startOfGroup = false;
 		this.rowId = 0;
 	}
 
@@ -127,7 +125,6 @@ public class RowExecutor extends QueryItemExecutor
 			CellDesign cellDesign = rowDesign.getCell( currentCell++ );
 			CellExecutor executor = (CellExecutor) manager.createExecutor(
 					this, cellDesign );
-			executor.setStartOfGroup( startOfGroup && currentCell == 1 );
 			return executor;
 		}
 		return null;

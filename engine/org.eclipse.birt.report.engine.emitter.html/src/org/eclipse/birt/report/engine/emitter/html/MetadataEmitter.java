@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -104,21 +103,6 @@ public class MetadataEmitter
 		}
 	}
 
-	private boolean isRowInDetailBand( IRowContent row )
-	{
-		IElement parent = row.getParent( );
-		if ( !( parent instanceof IBandContent ) )
-		{
-			return false;
-		}
-		IBandContent band = (IBandContent) parent;
-		if ( band.getBandType( ) == IBandContent.BAND_DETAIL )
-		{
-			return true;
-		}
-		return false;
-	}
-
 	public void endRow( IRowContent row )
 	{
 		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
@@ -135,16 +119,6 @@ public class MetadataEmitter
 			writer.openTag( HTMLTags.TAG_TABLE );
 			writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
 			writer.attribute( HTMLTags.ATTR_WIDTH, "100%" );
-			if ( needGroupIcon( cell ) )
-			{
-				writer.openTag( HTMLTags.TAG_COL );
-				writer.attribute( "style", "width:" + getRowIndent( cell ) );
-				writer.closeNoEndTag( );
-				writer.openTag( HTMLTags.TAG_COL );
-				writer.closeNoEndTag( );
-				writer.openTag( HTMLTags.TAG_COL );
-				writer.closeNoEndTag( );
-			}
 			writer.openTag( HTMLTags.TAG_TR );
 			writer.openTag( HTMLTags.TAG_TD );
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
@@ -154,6 +128,8 @@ public class MetadataEmitter
 			// include select handle table
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top"
 					+ ";text-align:right" );
+			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
+			writer.attribute( HTMLTags.ATTR_WIDTH, "16px" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			writer.attribute( HTMLTags.ATTR_SRC, "iv/images/collapsexpand.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
@@ -166,37 +142,7 @@ public class MetadataEmitter
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 		}
 	}
-
-	private boolean needColumnFilter( ICellContent cell )
-	{
-		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
-		IColumn columnInstance = cell.getColumnInstance( );
-		if ( columnInstance == null )
-		{
-			return false;
-		}
-		return state.isStartOfDetail
-				&& columnInstance.hasDataItemsInDetail( )
-				&& displayFilterIcon
-				&& HTMLUtil.getFilterConditions( cell ).size() > 0;
-	}
-
-	private boolean needGroupIcon( ICellContent cell )
-	{
-		return cell.isStartOfGroup( ) && displayGroupIcon;
-	}
 	
-	private String getRowIndent( ICellContent cell )
-	{
-		IRowContent row = ( RowContent )cell.getParent( );
-		int groupLevel = HTMLUtil.getGroupLevel( row );
-		if ( groupLevel >= 0 )
-		{
-			return String.valueOf( HTMLUtil.getGroupLevel( row ) * 16 ) + "px";
-		}
-		return "0px";
-	}
-
 	public void endCell( ICellContent cell )
 	{
 		if ( needColumnFilter( cell ) )
@@ -376,6 +322,21 @@ public class MetadataEmitter
 		return false;
 	}
 
+	private boolean isRowInDetailBand( IRowContent row )
+	{
+		IElement parent = row.getParent( );
+		if ( !( parent instanceof IBandContent ) )
+		{
+			return false;
+		}
+		IBandContent band = (IBandContent) parent;
+		if ( band.getBandType( ) == IBandContent.BAND_DETAIL )
+		{
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Checks if the text is a data content in table header/footer or table
 	 * group header/footer and uses the query of the table.
@@ -454,6 +415,25 @@ public class MetadataEmitter
 			styleName = "birt-label-design";
 		}
 		return styleName;
+	}
+
+	private boolean needColumnFilter( ICellContent cell )
+	{
+		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
+		IColumn columnInstance = cell.getColumnInstance( );
+		if ( columnInstance == null )
+		{
+			return false;
+		}
+		return state.isStartOfDetail
+				&& columnInstance.hasDataItemsInDetail( )
+				&& displayFilterIcon
+				&& HTMLUtil.getFilterConditions( cell ).size() > 0;
+	}
+
+	private boolean needGroupIcon( ICellContent cell )
+	{
+		return cell.getDisplayGroupIcon( ) && displayGroupIcon;
 	}
 }
 

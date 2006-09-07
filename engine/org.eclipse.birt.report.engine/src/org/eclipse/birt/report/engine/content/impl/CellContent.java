@@ -25,14 +25,13 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 /**
  * 
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.18 $ $Date: 2006/08/31 02:19:27 $
+ * @version $Revision: 1.19 $ $Date: 2006/09/06 10:12:46 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {
@@ -55,7 +54,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	/**
 	 * Flag indicading if this cell is the start of a group.
 	 */
-	protected boolean isStartOfGroup = false;
+	protected boolean displayGroupIcon = false;
 
 	public int getContentType( )
 	{
@@ -172,6 +171,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_COL_SPAN = 101;
 	static final protected short FIELD_COLUMN = 102;
 	static final protected short FIELD_START_OF_GROUP = 103;
+	static final protected short FIELD_DISPLAY_GROUP_ICON = 104;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -191,10 +191,10 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_COLUMN );
 			IOUtil.writeInt( out, column );
 		}
-		if ( isStartOfGroup )
+		if ( displayGroupIcon )
 		{
-			IOUtil.writeShort( out, FIELD_START_OF_GROUP );
-			IOUtil.writeBool( out, isStartOfGroup );
+			IOUtil.writeShort( out, FIELD_DISPLAY_GROUP_ICON );
+			IOUtil.writeBool( out, displayGroupIcon );
 		}
 	}
 
@@ -213,21 +213,24 @@ public class CellContent extends AbstractContent implements ICellContent
 				column = IOUtil.readInt( in );
 				break;
 			case FIELD_START_OF_GROUP :
-				isStartOfGroup = IOUtil.readBool( in );
+				IOUtil.readBool( in );
+				break;
+			case FIELD_DISPLAY_GROUP_ICON :
+				displayGroupIcon = IOUtil.readBool( in );
 				break;
 			default :
 				super.readField( version, filedId, in );
 		}
 	}
 
-	public boolean isStartOfGroup( )
+	public boolean getDisplayGroupIcon( )
 	{
-		return isStartOfGroup;
+		return displayGroupIcon;
 	}
 
-	public void setStartOfGroup( boolean isStartOfGroup )
+	public void setDisplayGroupIcon( boolean displayGroupIcon )
 	{
-		this.isStartOfGroup = isStartOfGroup;
+		this.displayGroupIcon = displayGroupIcon;
 	}
 
 	public IColumn getColumnInstance( )
