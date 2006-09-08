@@ -60,7 +60,7 @@ public class DesignerWorkbenchMessages extends NLS
 	public static String SaveAsWizardPageTitle;
 	public static String SaveAsWizardPageDesc;
 	public static String ReportSettingPageTitle;
-	public static String ReportSettingPageDesc;
+	// public static String ReportSettingPageDesc;
 	
 	
 }
