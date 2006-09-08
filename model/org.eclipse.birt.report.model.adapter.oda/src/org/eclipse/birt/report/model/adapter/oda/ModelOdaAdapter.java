@@ -371,16 +371,19 @@ public class ModelOdaAdapter
 		{
 		}
 
-		if ( designerValues != null )
+		if ( designerValues != null
+				&& designerValues.getDataSetParameters( ) != null )
 		{
-			setDesign.setParameters( designerValues.getDataSetParameters( ) );
+			setDesign.setParameters( (DataSetParameters) EcoreUtil
+					.copy( designerValues.getDataSetParameters( ) ) );
 		}
 
 		if ( setDesign.getParameters( ) == null )
 		{
 			setDesign.setParameters( new DataSetParameterAdapter( )
 					.newOdaDataSetParams( setHandle.parametersIterator( ),
-							setDesign ) );
+							designerValues == null ? null : designerValues
+									.getDataSetParameters( ), setDesign ) );
 		}
 
 		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
@@ -451,9 +454,33 @@ public class ModelOdaAdapter
 
 		else if ( OdaDataSetHandle.PARAMETERS_PROP
 				.equalsIgnoreCase( propertyName ) )
+		{
+
+			String strDesignValues = setHandle.getDesignerValues( );
+
+			DesignValues designerValues = null;
+
+			try
+			{
+				designerValues = SerializerImpl.instance( ).read(
+						strDesignValues );
+			}
+			catch ( IOException e )
+			{
+			}
+
+			if ( designerValues != null
+					&& designerValues.getDataSetParameters( ) != null )
+			{
+				setDesign.setParameters( (DataSetParameters) EcoreUtil
+						.copy( designerValues.getDataSetParameters( ) ) );
+			}
+
 			setDesign.setParameters( new DataSetParameterAdapter( )
 					.newOdaDataSetParams( setHandle.parametersIterator( ),
-							setDesign ) );
+							designerValues == null ? null : designerValues
+									.getDataSetParameters( ), setDesign ) );
+		}
 
 		else if ( OdaDataSetHandle.RESULT_SET_PROP
 				.equalsIgnoreCase( propertyName ) )
