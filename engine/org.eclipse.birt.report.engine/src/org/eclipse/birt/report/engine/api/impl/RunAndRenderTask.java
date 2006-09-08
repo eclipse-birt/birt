@@ -138,8 +138,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public void run( ) throws EngineException
 	{
 		setRunningFlag( true );
-		Report reportDesign = executionContext.getReport( );
-
 		// register default parameters and validate
 		if ( !validateParameters( ) )
 		{
@@ -155,6 +153,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
+			Report reportDesign = executionContext.getReport( );
 			ReportExecutor executor = new ReportExecutor( executionContext,
 					reportDesign, null );
 			IReportExecutor lExecutor = new LocalizedReportExecutor(

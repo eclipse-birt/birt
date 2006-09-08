@@ -174,8 +174,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	protected void doRun( ) throws EngineException
 	{
 		setRunningFlag( true );
-		ReportRunnable report = executionContext.getRunnable( );
-
 		// using paramters
 		if ( !validateParameters( ) )
 		{
@@ -190,6 +188,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		openReportDocument( );
 		try
 		{
+			ReportRunnable report = executionContext.getRunnable( );
+
 			writer.saveDesign( report );
 			writer.saveParamters( inputValues );
 
