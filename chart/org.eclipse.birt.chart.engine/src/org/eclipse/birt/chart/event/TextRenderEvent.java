@@ -276,7 +276,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
 		{
-			tre.setLabel( LabelImpl.copyInstance( _la ) );
+			tre.setLabel( LabelImpl.copyCompactInstance( _la ) );
 		}
 		if ( _lo != null )
 		{

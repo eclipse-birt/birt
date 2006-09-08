@@ -2218,18 +2218,6 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		if ( getSeries( ) != null )
 		{
-			ISeriesRenderingHints srh = null;
-			try
-			{
-				srh = ( (PlotWithAxes) getComputations( ) ).getSeriesRenderingHints( getSeriesDefinition( ),
-						getSeries( ) );
-			}
-			catch ( Exception ex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.RENDERING,
-						ex );
-			}
 
 			// try
 			// {
