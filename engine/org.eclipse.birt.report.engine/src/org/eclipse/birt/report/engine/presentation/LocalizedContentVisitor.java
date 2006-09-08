@@ -54,6 +54,7 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
@@ -388,7 +389,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.HTML_TYPE.equals( rawFormat ) )
 		{
-			TextItemScriptExecutor.handleOnRender( foreignContent, context );
+			Object genBy = foreignContent.getGenerateBy( );
+			if ( genBy instanceof MultiLineItemDesign )
+			{
+				DynamicTextScriptExecutor.handleOnRender( foreignContent, context );
+			}
+			else if ( genBy instanceof TextItemDesign )
+			{			
+				TextItemScriptExecutor.handleOnRender( foreignContent, context );
+			}
 			String key = foreignContent.getRawKey( );
 			if (key != null)
 			{

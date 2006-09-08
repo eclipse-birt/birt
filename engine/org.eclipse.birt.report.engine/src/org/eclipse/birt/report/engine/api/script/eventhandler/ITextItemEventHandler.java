@@ -40,8 +40,6 @@ public interface ITextItemEventHandler
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ITextItemInstance text, IReportContext reportContext );
-	
-	void onPageBreak( ILabelInstance text, IReportContext reportContext );
+	void onPageBreak( ITextItemInstance text, IReportContext reportContext );	
 
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -35,8 +34,8 @@ import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
-import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
@@ -242,6 +241,11 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 					if ( design instanceof MultiLineItemDesign )
 					{
 						DynamicTextScriptExecutor.handleOnPageBreak(
+								(IForeignContent) content, executionContext );
+					}
+					else if ( design instanceof TextItemDesign )
+					{
+						TextItemScriptExecutor.handleOnPageBreak(
 								(IForeignContent) content, executionContext );
 					}
 					break;

@@ -42,10 +42,5 @@ public class TextItemEventAdapter implements ITextItemEventHandler
 	{
 		
 	}
-	
-	public void onPageBreak( ILabelInstance text, IReportContext reportContext )
-	{
-		
-	}
 
 }
