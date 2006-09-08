@@ -152,7 +152,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.118.2.5 $ $Date: 2006/09/07 12:56:56 $
+ * @version $Revision: 1.123 $ $Date: 2006/09/07 13:35:20 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1027,19 +1027,55 @@ class EngineIRVisitor extends DesignVisitor
 				for ( int k = 0; k < cell.getContentCount( ); k++ )
 				{
 					ReportItemDesign item = cell.getContent( k );
-					if ( item instanceof DataItemDesign )
+					if ( hasExpression( item, keyExpression ) )
 					{
-						DataItemDesign data = (DataItemDesign) item;
-						String value = data.getValue( );
-						if ( value != null && keyExpression.equals( value.trim( ) ))
+						cell.setDisplayGroupIcon( true );
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	private boolean hasExpression( ReportItemDesign item, String keyExpression )
+	{
+		assert keyExpression != null;
+		if ( item instanceof DataItemDesign )
+		{
+			DataItemDesign data = (DataItemDesign) item;
+			String value = data.getValue( );
+			if ( value != null && keyExpression.equals( value.trim( ) ))
+			{
+				return true;
+			}
+		}
+		if ( item instanceof GridItemDesign )
+		{
+			GridItemDesign grid = (GridItemDesign) item;
+			GridHandle gridHandle = (GridHandle) grid.getHandle( );
+			PropertyHandle columnBindings = gridHandle.getColumnBindings( );
+			if ( columnBindings != null && columnBindings.iterator( ).hasNext( ) )
+			{
+				return false;
+			}
+			for ( int i = 0; i < grid.getRowCount( ); i++ )
+			{
+				RowDesign row = grid.getRow( i );
+				for ( int j = 0; j < row.getCellCount( ); j++ )
+				{
+					CellDesign cell = row.getCell( j );
+					for ( int k = 0; k < cell.getContentCount( ); k++ )
+					{
+						ReportItemDesign reportItem = cell.getContent( k );
+						if ( hasExpression( reportItem, keyExpression ))
 						{
-							cell.setDisplayGroupIcon( true );
-							return;
+							return true;
 						}
 					}
 				}
 			}
 		}
+		return false;
 	}
 
 	private void applyColumnHighlight( TableItemDesign table )
