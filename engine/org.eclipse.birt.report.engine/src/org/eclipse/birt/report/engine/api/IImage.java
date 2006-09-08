@@ -67,4 +67,15 @@ public interface IImage extends IReportPart {
 	 * return the image postfix, such as jpg, png
 	 */
 	public String getExtension();
+	
+	/**
+	 * @return the mime type of the image
+	 */
+	public String getMimeType();
+	
+	/**
+	 * The image map is used in HTML output.
+	 * @return the image map associate with this image.
+	 */
+	public String getImageMap();
 }

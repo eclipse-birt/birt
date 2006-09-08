@@ -70,5 +70,21 @@ public interface IHTMLImageHandler {
 	 */
 	public abstract String onCustomImage(IImage image, Object context);
 	public abstract String onCustomImage(IImage image, IReportContext context);
+	
+	/**
+	 * get the cached image for that id.
+	 * 
+	 * The CachedImage object contains:
+	 * URL: the absolute file path of the image.  
+	 * MIMETYPE: the mimetype of the image
+	 * IMAGEMAP: the image map of the image.
+	 * 
+	 * @param id id of the image
+	 * @param type type of the image, one defined in the IImage
+	 * @param context script context
+	 * @return CachedImage object if find, otherwise, return null.
+	 */
+	public abstract CachedImage getCachedImage( String id, int type,
+			IReportContext context );
 
 }

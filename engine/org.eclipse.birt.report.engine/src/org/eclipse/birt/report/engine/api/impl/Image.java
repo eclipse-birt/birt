@@ -55,6 +55,10 @@ public class Image extends ReportPart implements IImage
 	 * Comment for <code>data</code>
 	 */
 	protected byte[] data = null;
+	
+	protected String mimeType;
+	
+	protected String imageMap;
 
 
 	/**
@@ -253,6 +257,25 @@ public class Image extends ReportPart implements IImage
 		}
 	}
 
+	public String getMimeType( )
+	{
+		return mimeType;
+	}
+
+	public void setMimeType( String mimeType )
+	{
+		this.mimeType = mimeType;
+	}
+
+	public String getImageMap( )
+	{
+		return imageMap;
+	}
+
+	public void setImageMap( String imageMap )
+	{
+		this.imageMap = imageMap;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

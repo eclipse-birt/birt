@@ -21,8 +21,11 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
+import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -524,6 +527,32 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				.getGenerateBy( );
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
 		String tagName = handle.getExtensionName( );
+		
+		if ( "Chart".equals( tagName ) )
+		{
+			IHTMLImageHandler imageHandler = context.getImageHandler( );
+			if ( imageHandler != null )
+			{
+				String imageId = content.getInstanceID( ).toString( );
+				CachedImage cachedImage = imageHandler.getCachedImage( imageId,
+						IImage.CUSTOM_IMAGE, context.getReportContext( ) );
+				if ( cachedImage != null )
+				{
+					IImageContent imageObj = getReportContent( )
+							.createImageContent( content );
+					imageObj.setParent( content.getParent( ) );
+					// Set image map
+					imageObj.setImageSource( IImageContent.IMAGE_FILE );
+					imageObj.setURI( cachedImage.getURL( ) );
+					imageObj.setMIMEType( cachedImage.getMIMEType( ) );
+					imageObj.setImageMap( cachedImage.getImageMap( ) );
+					imageObj.setAltText( content.getAltText( ) );
+					imageObj.setAltTextKey( content.getAltTextKey( ) );
+					processImage( imageObj );
+					return imageObj;
+				}
+			}
+		}
 
 		// call the presentation peer to create the content object
 		IReportItemPresentation itemPresentation = ExtensionManager

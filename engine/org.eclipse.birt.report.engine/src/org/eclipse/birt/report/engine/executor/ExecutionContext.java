@@ -50,6 +50,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -86,7 +87,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.84.2.1 $ $Date: 2006/09/07 12:56:55 $
+ * @version $Revision: 1.85 $ $Date: 2006/09/07 13:35:19 $
  */
 public class ExecutionContext
 {
@@ -1415,6 +1416,30 @@ public class ExecutionContext
 		}
 		return null;
 	}
+	
+	/**
+	 * @return Returns the action handler.
+	 */
+	public IHTMLImageHandler getImageHandler( )
+	{
+		EngineConfig config = engine.getConfig( );
+		if ( config != null )
+		{
+			HashMap emitterConfigs = config.getEmitterConfigs( );
+			if ( emitterConfigs != null )
+			{
+				Object htmlEmitterConfig = emitterConfigs.get( "html" );
+				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
+				{
+					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
+					return htmlConfig.getImageHandler( );
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 
 	/**
 	 * return application class loader.
