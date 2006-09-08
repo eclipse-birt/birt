@@ -13,17 +13,13 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler;
-import org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.instance.LabelInstance;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
 
 public class LabelScriptExecutor extends ScriptExecutor
 {
@@ -96,21 +92,10 @@ public class LabelScriptExecutor extends ScriptExecutor
 			if ( handleJS( label, labelDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
-			if ( labelDesign instanceof LabelItemDesign )
-			{
+
 				ILabelEventHandler eh = getEventHandler( labelDesign, context );
 				if ( eh != null )
 					eh.onPageBreak( label, context.getReportContext( ) );
-			}
-			else if ( labelDesign instanceof TextItemDesign )
-			{
-				ITextItemEventHandler eh = getEventHandler( labelDesign, context, true );
-				if ( eh != null )
-				{
-					eh.onPageBreak( label, context.getReportContext( ) );
-				}
-			}
-			
 		} catch ( Exception e )
 		{
 			addException( context, e );
@@ -137,34 +122,6 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					ILabelEventHandler.class );
-		}
-		return eh;
-	}
-	
-	private static ITextItemEventHandler getEventHandler(
-			ReportItemDesign design, ExecutionContext context, boolean isTextItem )
-	{
-		if (design.getHandle() instanceof TextItemHandle)
-		{
-			TextItemHandle handle = ( TextItemHandle ) design.getHandle( );
-			if ( handle == null )
-				return null;
-			return getEventHandler( handle, context );
-		}
-		return null;
-	}
-	
-	private static ITextItemEventHandler getEventHandler(
-			TextItemHandle handle, ExecutionContext context )
-	{
-		ITextItemEventHandler eh = null;
-		try
-		{
-			eh = ( ITextItemEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
-		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
-					ITextItemEventHandler.class );
 		}
 		return eh;
 	}

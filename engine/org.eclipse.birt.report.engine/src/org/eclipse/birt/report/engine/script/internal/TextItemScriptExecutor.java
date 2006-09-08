@@ -74,6 +74,12 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	{
 		internalOnRender( content, context );
 	}
+	
+	public static void handleOnPageBreak( IForeignContent content,
+			ExecutionContext context )
+	{
+		internalOnPageBreak( content, context );
+	}
 
 	private static void internalOnCreate( IContent content,
 			ExecutionContext context )
