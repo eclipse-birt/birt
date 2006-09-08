@@ -67,6 +67,8 @@ public class HTMLImageHandler implements IHTMLImageHandler
 	{
 		return onURLImage( image, getRenderContext( context ) );
 	}
+	
+	
 
 	protected Object getRenderContext( IReportContext context )
 	{
@@ -85,6 +87,12 @@ public class HTMLImageHandler implements IHTMLImageHandler
 			}
 			return appContext.get( renderContextKey );
 		}
+		return null;
+	}
+	
+	public CachedImage getCachedImage( String id, int type,
+			IReportContext context )
+	{
 		return null;
 	}
 }
