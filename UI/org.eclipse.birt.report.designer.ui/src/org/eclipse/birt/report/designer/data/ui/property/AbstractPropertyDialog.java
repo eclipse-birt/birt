@@ -56,7 +56,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/24 10:09:50 $
+ * @version $Revision: 1.3 $ $Date: 2006/06/15 07:40:09 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -429,8 +429,8 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	{
 		if ( currentNode != null )
 		{
-			//First check whether we can change the page.
-			if ( !currentNode.getPage( ).canLeave( ) )
+			// First check whether we can change the page.
+			if ( node == currentNode || !currentNode.getPage( ).canLeave( ) )
 			{
 				return false;
 			}
