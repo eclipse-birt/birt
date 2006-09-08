@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.82.2.1 $ $Date: 2006/09/07 12:56:57 $
+ * @version $Revision: 1.83 $ $Date: 2006/09/07 13:35:20 $
  */
 public class ReportQueryBuilder
 {
@@ -1515,7 +1515,6 @@ public class ReportQueryBuilder
 								while ( ite.hasNext( ) )
 								{
 									Map.Entry entry = (Map.Entry) ite.next( );
-									assert entry.getValue( ) instanceof String;
 									entry.setValue( ( String ) newExpressions.get( expressionIndex++ ) );
 								}
 							}
@@ -1603,7 +1602,6 @@ public class ReportQueryBuilder
 								while ( ite.hasNext( ) )
 								{
 									Map.Entry entry = (Map.Entry) ite.next( );
-									assert entry.getValue( ) instanceof String;
 									expressions.add( entry.getValue( ) );
 								}
 							}
