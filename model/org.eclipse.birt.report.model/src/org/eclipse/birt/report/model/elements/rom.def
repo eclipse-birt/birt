@@ -2211,7 +2211,7 @@
       <Default>false</Default>
     </Property>
     <Property displayNameID="Element.ScalarParameter.allowBlank" name="allowBlank" runtimeSettable="false" since="1.0" type="boolean">
-      <Default>true</Default>
+      <Default>false</Default>
     </Property>
     <Property detailType="ParameterFormatValue" displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
