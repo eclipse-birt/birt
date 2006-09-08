@@ -17,17 +17,15 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
-import org.eclipse.birt.report.engine.api.script.element.IHighLightRule;
+import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
-import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
@@ -41,6 +39,7 @@ public class ReportItem extends ReportElement implements IReportItem
 	public ReportItem( ReportItemHandle handle )
 	{
 		super( handle );
+
 	}
 
 	/*
@@ -349,35 +348,12 @@ public class ReportItem extends ReportElement implements IReportItem
 		{
 			ComputedColumnHandle columnHandle = (ComputedColumnHandle) iterator
 					.next( );
-			DataBindingImpl d = new DataBindingImpl( columnHandle,
-					(ReportItemHandle) handle );
+			DataBindingImpl d = new DataBindingImpl( columnHandle );
 			rList.add( d );
 			++count;
 		}
 
 		return (IDataBinding[]) rList.toArray( new IDataBinding[count] );
-	}
-
-	public IHighLightRule[] getHighLightRule( )
-	{
-		PropertyHandle propHandle = ( (ReportItemHandle) handle )
-				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
-		Iterator iterator = propHandle.iterator( );
-
-		List rList = new ArrayList( );
-		int count = 0;
-
-		while ( iterator.hasNext( ) )
-		{
-			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
-					.next( );
-			HighLightRuleImpl h = new HighLightRuleImpl( ruleHandle,
-					(ReportItemHandle) handle );
-			rList.add( h );
-			++count;
-		}
-
-		return (IHighLightRule[]) rList.toArray( new IHighLightRule[count] );
 	}
 
 	public void removeColumnBinding( String bindingName )
@@ -455,4 +431,54 @@ public class ReportItem extends ReportElement implements IReportItem
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
+
+	/**
+	 * Add ComputedColumn.
+	 * 
+	 * @param binding
+	 * @throws ScriptException
+	 */
+
+	public void addColumnBinding( IDataBinding binding ) throws ScriptException
+	{
+		if ( binding == null )
+			return;
+
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		try
+		{
+			propHandle.addItem( binding.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
+
+	/**
+	 * Add HideRule
+	 * 
+	 * @param rule
+	 * @throws ScriptException
+	 */
+
+	public void addHideRule( IHideRule rule ) throws ScriptException
+	{
+		if ( rule == null )
+			return;
+
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		try
+		{
+			propHandle.addItem( rule.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
 }

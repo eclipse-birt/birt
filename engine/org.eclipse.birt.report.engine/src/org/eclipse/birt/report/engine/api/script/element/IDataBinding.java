@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Represents the design of an DataBinding in the scripting environment
  * 
  */
+
 public interface IDataBinding
 {
 
@@ -36,7 +38,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setName( String name ) throws ScriptException;
+	public void setName( String name );
 
 	/**
 	 * Returns expression of column binding
@@ -54,7 +56,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setExpression( String expression ) throws ScriptException;
+	public void setExpression( String expression );
 
 	/**
 	 * Returns data type of column binding.
@@ -72,6 +74,7 @@ public interface IDataBinding
 	 * 
 	 * @return data type of column binding
 	 */
+	
 	public String getDataType( );
 
 	/**
@@ -80,13 +83,15 @@ public interface IDataBinding
 	 * @param dataType
 	 * @exception ScriptException
 	 */
-	public void setDataType( String dataType ) throws ScriptException;
+	
+	public void setDataType( String dataType );
 
 	/**
 	 * Returns aggregateOn of column binding
 	 * 
 	 * @return aggregateOn of column binding
 	 */
+	
 	public String getAggregateOn( );
 
 	/**
@@ -96,5 +101,14 @@ public interface IDataBinding
 	 *            aggregateOn of column binding.
 	 * @exception ScriptException
 	 */
-	public void setAggregateOn( String on ) throws ScriptException;
+	
+	public void setAggregateOn( String on );
+
+	/**
+	 * Returns structure.
+	 * 
+	 * @return structure
+	 */
+
+	public IStructure getStructure( );
 }

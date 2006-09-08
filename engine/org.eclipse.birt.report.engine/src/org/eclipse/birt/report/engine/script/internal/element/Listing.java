@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IFilterCondition;
 import org.eclipse.birt.report.engine.api.script.element.IListing;
 import org.eclipse.birt.report.engine.api.script.element.ISortCondition;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
@@ -31,6 +33,11 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 public class Listing extends ReportItem implements IListing
 {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param listing
+	 */
 	public Listing( ListingHandle listing )
 	{
 		super( listing );
@@ -49,8 +56,7 @@ public class Listing extends ReportItem implements IListing
 		{
 			FilterConditionHandle conditionHandle = (FilterConditionHandle) iterator
 					.next( );
-			FilterConditionImpl f = new FilterConditionImpl( conditionHandle,
-					(ListingHandle) handle );
+			FilterConditionImpl f = new FilterConditionImpl( conditionHandle );
 			rList.add( f );
 			++count;
 		}
@@ -70,12 +76,60 @@ public class Listing extends ReportItem implements IListing
 		while ( iterator.hasNext( ) )
 		{
 			SortKeyHandle sortHandle = (SortKeyHandle) iterator.next( );
-			SortConditionImpl s = new SortConditionImpl( sortHandle, handle );
+			SortConditionImpl s = new SortConditionImpl( sortHandle );
 			rList.add( s );
 			++count;
 		}
 
 		return (ISortCondition[]) rList.toArray( new ISortCondition[count] );
+	}
+
+	/**
+	 * Add FilterCondition
+	 * 
+	 * @param condition
+	 * @throws ScriptException
+	 */
+
+	public void addFilterCondition( IFilterCondition condition )
+			throws ScriptException
+	{
+		if ( condition == null )
+			return;
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+		try
+		{
+			propHandle.addItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/**
+	 * Add SortCondition
+	 * 
+	 * @param condition
+	 * @throws ScriptException
+	 */
+
+	public void addSortCondition( ISortCondition condition )
+			throws ScriptException
+	{
+		if ( condition == null )
+			return;
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IListingElementModel.SORT_PROP );
+		try
+		{
+			propHandle.addItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
 	}
 
 }

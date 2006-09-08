@@ -12,55 +12,88 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Represents the design of an FilterCondition in the scripting environment
- *
+ * 
  */
+
 public interface IFilterCondition
 {
+
 	/**
 	 * Returns operator
+	 * 
 	 * @return operator
 	 */
-	
-	public String getOperator();
-	
+
+	public String getOperator( );
+
 	/**
 	 * Sets operator
+	 * 
 	 * @param operator
 	 * @throws ScriptException
 	 */
-	
-	public void setOperator( String operator ) throws ScriptException;
-	
+
+	public void setOperator( String operator );
+
 	/**
 	 * Returns value1
+	 * 
 	 * @return value1
 	 */
-	
-	public String getValue1();
-	
+
+	public String getValue1( );
+
 	/**
 	 * Sets value1
+	 * 
 	 * @param value1
 	 * @throws ScriptException
 	 */
-	
-	public void setValue1(String value1) throws ScriptException;
-	
+
+	public void setValue1( String value1 );
+
 	/**
 	 * Returns value2
+	 * 
 	 * @return value2
 	 */
-	
-	public String getValue2();
-	
+
+	public String getValue2( );
+
 	/**
 	 * Sets value2
+	 * 
 	 * @param value2
 	 * @throws ScriptException
 	 */
-	
-	public void setValue2(String value2) throws ScriptException;
+
+	public void setValue2( String value2 );
+
+	/**
+	 * Returns structure.
+	 * 
+	 * @return structure
+	 */
+
+	public IStructure getStructure( );
+
+	/**
+	 * Sets expr
+	 * 
+	 * @param expr
+	 */
+
+	public void setExpr( String expr );
+
+	/**
+	 * Returns expr
+	 * 
+	 * @return expr
+	 */
+
+	public String getExpr( );
 }

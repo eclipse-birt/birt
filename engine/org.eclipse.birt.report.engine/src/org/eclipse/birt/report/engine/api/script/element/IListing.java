@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.script.element;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
  * Represents the design of an Listing in the scripting environment
@@ -29,10 +30,12 @@ public interface IListing extends IReportItem
 	/**
 	 * Adds filter condition
 	 * 
-	 * @param filter
+	 * @param condition
 	 * @throws ScriptException
 	 */
-	//void addFilterConditin( IFilterCondition filter ) throws ScriptException;
+
+	void addFilterCondition( IFilterCondition condition )
+			throws ScriptException;
 
 	/**
 	 * Returns all sort conditions.
@@ -44,8 +47,9 @@ public interface IListing extends IReportItem
 	/**
 	 * Adds sort condition
 	 * 
-	 * @param sort
+	 * @param condition
 	 * @throws ScriptException
 	 */
-	//void addSortCondition( ISortCondition sort ) throws ScriptException;
+
+	void addSortCondition( ISortCondition condition ) throws ScriptException;
 }

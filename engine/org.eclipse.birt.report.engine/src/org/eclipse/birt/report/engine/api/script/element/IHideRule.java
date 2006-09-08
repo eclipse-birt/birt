@@ -9,10 +9,10 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Represents the design of an HighRule in the scripting environment
@@ -21,30 +21,42 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 public interface IHideRule
 {
-	
+
 	/**
-	 * Returns format 
+	 * Returns format
+	 * 
 	 * @return format
 	 */
-	public String getFormat();
-	
+	public String getFormat( );
+
 	/**
 	 * Sets format
+	 * 
 	 * @param format
 	 * @throws ScriptException
 	 */
-	public void setFormat( String format ) throws ScriptException;
-	
+	public void setFormat( String format );
+
 	/**
 	 * Returns value expression
+	 * 
 	 * @return value expression
 	 */
-	public String getValueExpr();
-	
+	public String getValueExpr( );
+
 	/**
 	 * Sets value expression.
+	 * 
 	 * @param valueExpr
 	 * @throws ScriptException
 	 */
-	public void setValueExpr(String valueExpr ) throws ScriptException;
+	public void setValueExpr( String valueExpr );
+
+	/**
+	 * Returns structure.
+	 * 
+	 * @return structure
+	 */
+
+	public IStructure getStructure( );
 }

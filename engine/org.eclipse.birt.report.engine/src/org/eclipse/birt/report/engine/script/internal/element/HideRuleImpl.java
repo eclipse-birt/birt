@@ -11,14 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * Implements of Hide Rule.
@@ -27,14 +23,52 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 public class HideRuleImpl implements IHideRule
 {
 
-	private HideRuleHandle rule;
+	private HideRule rule;
 
-	private ReportItemHandle handle;
-
-	public HideRuleImpl( HideRuleHandle rule, ReportItemHandle handle )
+	/**
+	 * Constructor
+	 * 
+	 * @param ruleHandle
+	 */
+	public HideRuleImpl( HideRuleHandle ruleHandle )
 	{
-		this.handle = handle;
-		this.rule = rule;
+
+		if ( ruleHandle == null )
+		{
+			rule = createHideRule( );
+		}
+		else
+		{
+			rule = (HideRule) ruleHandle.getStructure( );
+		}
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param rule
+	 */
+	public HideRuleImpl( HideRule rule )
+	{
+		if ( rule == null )
+		{
+			rule = createHideRule( );
+		}
+		else
+		{
+			this.rule = rule;
+		}
+	}
+
+	/**
+	 * Create instance of <code>HideRule</code>
+	 * 
+	 * @return instance
+	 */
+	private HideRule createHideRule( )
+	{
+		HideRule r = new HideRule( );
+		return r;
 	}
 
 	public String getFormat( )
@@ -47,43 +81,19 @@ public class HideRuleImpl implements IHideRule
 		return rule.getExpression( );
 	}
 
-	public void setFormat( String format ) throws ScriptException
+	public void setFormat( String format )
 	{
-		checkHandle( );
-		try
-		{
-			rule.setFormat( format );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		rule.setFormat( format );
 	}
 
-	public void setValueExpr( String valueExpr ) throws ScriptException
+	public void setValueExpr( String valueExpr )
 	{
-		checkHandle( );
 		rule.setExpression( valueExpr );
 	}
 
-	private void checkHandle( ) throws ScriptException
+	public IStructure getStructure( )
 	{
-		if ( rule != null )
-			return;
-
-		HideRule r = new HideRule( );
-
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			rule = (HideRuleHandle) propHandle.addItem( r );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		return rule;
 	}
 
 }

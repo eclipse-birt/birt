@@ -12,21 +12,24 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Represents the design of an SortCondition in the scripting environment
- *
+ * 
  */
 
 public interface ISortCondition
 {
+
 	/**
 	 * Returns sort direction.
+	 * 
 	 * @return sort direction.
 	 */
-	
+
 	public String getDirection( );
-	
+
 	/**
 	 * Sets sort direction.
 	 * <ul>
@@ -37,21 +40,31 @@ public interface ISortCondition
 	 * @param direction
 	 * @throws ScriptException
 	 */
-	
-	public void setDirection( String direction ) throws ScriptException;;
-	
+
+	public void setDirection( String direction );
+
 	/**
 	 * Returns sort key
+	 * 
 	 * @return sort key
 	 */
-	
+
 	public String getKey( );
 
 	/**
 	 * Sets sort key.
+	 * 
 	 * @param key
 	 * @throws ScriptException
 	 */
-	
-	public void setKey( String key ) throws ScriptException;;
+
+	public void setKey( String key );
+
+	/**
+	 * Returns structure.
+	 * 
+	 * @return structure
+	 */
+
+	public IStructure getStructure( );
 }

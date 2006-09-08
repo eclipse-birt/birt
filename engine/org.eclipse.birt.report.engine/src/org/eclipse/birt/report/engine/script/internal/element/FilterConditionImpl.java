@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IFilterCondition;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 
 /**
  * Implements of FilterCondition.
@@ -25,15 +24,47 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 public class FilterConditionImpl implements IFilterCondition
 {
 
-	private FilterConditionHandle condition;
+	private FilterCondition condition;
 
-	private DesignElementHandle handle;
-
-	public FilterConditionImpl( FilterConditionHandle condition,
-			DesignElementHandle handle )
+	/**
+	 * Constructor
+	 * 
+	 * @param condition
+	 */
+	public FilterConditionImpl( FilterCondition condition )
 	{
-		this.condition = condition;
-		this.handle = handle;
+		if ( condition == null )
+		{
+			condition = createFilterCondition( );
+		}
+		else
+		{
+
+			this.condition = condition;
+		}
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param conditionHandle
+	 */
+	public FilterConditionImpl( FilterConditionHandle conditionHandle )
+	{
+		if ( conditionHandle == null )
+		{
+			condition = createFilterCondition( );
+		}
+		else
+		{
+			condition = (FilterCondition) conditionHandle.getStructure( );
+		}
+	}
+
+	private FilterCondition createFilterCondition( )
+	{
+		FilterCondition f = new FilterCondition( );
+		return f;
 	}
 
 	public String getOperator( )
@@ -51,38 +82,34 @@ public class FilterConditionImpl implements IFilterCondition
 		return condition.getValue2( );
 	}
 
-	public void setOperator( String operator ) throws ScriptException
+	public void setOperator( String operator )
 	{
-		checkHandle( );
-		try
-		{
-			condition.setOperator( operator );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		condition.setOperator( operator );
 	}
 
-	public void setValue1( String value1 ) throws ScriptException
+	public void setValue1( String value1 )
 	{
-		checkHandle( );
 		condition.setValue1( value1 );
 	}
 
-	public void setValue2( String value2 ) throws ScriptException
+	public void setValue2( String value2 )
 	{
-		checkHandle( );
 		condition.setValue2( value2 );
 	}
 
-	private void checkHandle( ) throws ScriptException
+	public IStructure getStructure( )
 	{
-		if ( condition != null )
-			return;
-		
-		throw new ScriptException( "FilterConditionHandle is null" ); //$NON-NLS-1$
-		
+		return condition;
+	}
+
+	public String getExpr( )
+	{
+		return condition.getExpr( );
+	}
+
+	public void setExpr( String expr )
+	{
+		condition.setExpr( expr );
 	}
 
 }

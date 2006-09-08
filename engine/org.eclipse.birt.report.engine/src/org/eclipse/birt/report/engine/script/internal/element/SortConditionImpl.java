@@ -11,17 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ISortCondition;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
  * Implements of Sort Condition 
@@ -30,14 +23,45 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 public class SortConditionImpl implements ISortCondition
 {
-	private SortKeyHandle sort;
+	private SortKey sort;
 	
-	private DesignElementHandle handle;
-	
-	public SortConditionImpl( SortKeyHandle sort , DesignElementHandle handle )
+	/**
+	 * Constructor
+	 * @param sortHandle
+	 */
+	public SortConditionImpl( SortKeyHandle sortHandle )
 	{
-		this.handle = handle ;
-		this.sort = sort;
+		if( sortHandle == null )
+		{
+			sort = createSortCondition();
+		}
+		else{
+			sort = (SortKey)sortHandle.getStructure( );
+		}
+	}
+	
+	/**
+	 * Constructor
+	 * @param sort
+	 */
+	public SortConditionImpl( SortKey sort )
+	{
+		if( sort == null )
+		{
+			sort = createSortCondition();
+		}else{
+			this.sort = sort;
+		}
+	}
+	
+	/**
+	 * Create instance of <code>HideRule</code>
+	 * @return instance
+	 */
+	private SortKey createSortCondition()
+	{
+		SortKey s = new SortKey();
+		return s;
 	}
 	
 	public String getDirection( )
@@ -50,75 +74,22 @@ public class SortConditionImpl implements ISortCondition
 		return sort.getKey( );
 	}
 
-	public void setDirection( String direction ) throws ScriptException
+	public void setDirection( String direction )
 	{
-		checkHandle();
-		try
-		{
-			sort.setDirection( direction );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		sort.setDirection( direction );
 	}
 	
 
-	public void setKey( String key ) throws ScriptException
+	public void setKey( String key ) 
 	{
-		
 		//key is required
 		
-		checkKey( key );
-		try
-		{
-			sort.setKey( key );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		sort.setKey( key );
 	}
-	
-	private void checkHandle() throws ScriptException
+
+	public IStructure getStructure( )
 	{
-		if( sort != null )
-			return;
-		throw new ScriptException( "SortKeyHandle is null " ); //$NON-NLS-1$
-	}
-	
-	private void checkKey( String key ) throws ScriptException
-	{
-		if( sort != null )
-			return;
-		
-		SortKey c = new SortKey();
-		c.setKey( key );
-		
-		if( handle instanceof ListGroupHandle )
-		{
-			PropertyHandle propHandle = handle.getPropertyHandle( IGroupElementModel.SORT_PROP );
-			try
-			{
-				sort = (SortKeyHandle) propHandle.addItem( c );
-			}
-			catch ( SemanticException e )
-			{
-				throw new ScriptException( e.getLocalizedMessage( ) );
-			}
-		}
-		else if( handle instanceof ListingHandle  )
-		{
-			PropertyHandle propHandle = handle.getPropertyHandle( IListingElementModel.SORT_PROP );
-			try
-			{
-				sort = (SortKeyHandle) propHandle.addItem( c );
-			}
-			catch ( SemanticException e )
-			{
-				throw new ScriptException( e.getLocalizedMessage( ) );
-			}
-		}
+		return sort;
 	}
 
 }

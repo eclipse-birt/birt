@@ -223,29 +223,38 @@ public interface IReportItem extends IReportElement
 	void removeColumnBinding( String bindingName ) throws ScriptException;;
 
 	/**
-	 * Returns all highlightrule
+	 * Removes all hide rules that matches formatType.
 	 * 
-	 * @return all highlightrule
+	 * @param formatType
+	 * @exception ScriptException
 	 */
-	IHighLightRule[] getHighLightRule( );
 
+	void removeHideRule( String formatType ) throws ScriptException;
 
+	/**
+	 * Returns array of hide rule expression
+	 * 
+	 * @param formatType
+	 * @return array of hide rule expression
+	 */
+	String[] getHideRuleExpression( String formatType );
 
-	 /**
-	  * Removes all hide rules that matches formatType.
-	  * @param formatType 
-	  * @exception ScriptException
-	  */
-	
-     void removeHideRule(String formatType) throws ScriptException;;
-     
-     /**
-      * Returns array of hide rule expression 
-      * @param formatType
-      * @return array of hide rule expression
-      */
-     String[] getHideRuleExpression(String formatType);
+	/**
+	 * Add ComputedColumn
+	 * 
+	 * @param binding
+	 * @throws ScriptException
+	 */
 
+	void addColumnBinding( IDataBinding binding ) throws ScriptException;
 
+	/**
+	 * Add HideRule
+	 * 
+	 * @param rule
+	 * @throws ScriptException
+	 */
+
+	void addHideRule( IHideRule rule ) throws ScriptException;
 
 }

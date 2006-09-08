@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
  * Implements of DataBinding.
@@ -25,21 +24,54 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 public class DataBindingImpl implements IDataBinding
 {
 
-	private ComputedColumnHandle column;
+	private ComputedColumn column;
 
-	private ReportItemHandle handle;
+	/**
+	 * Constructor
+	 * 
+	 * @param columnHandle
+	 */
+
+	public DataBindingImpl( ComputedColumnHandle columnHandle )
+	{
+		if ( columnHandle == null )
+		{
+			column = createComputedColumn( );
+		}
+		else
+		{
+			column = (ComputedColumn) columnHandle.getStructure( );
+		}
+	}
 
 	/**
 	 * Constructor
 	 * 
 	 * @param column
-	 * @param handle
 	 */
 
-	public DataBindingImpl( ComputedColumnHandle column, ReportItemHandle handle )
+	public DataBindingImpl( ComputedColumn column )
 	{
-		this.column = column;
-		this.handle = handle;
+		if ( column == null )
+		{
+			column = createComputedColumn( );
+		}
+		else
+		{
+
+			this.column = column;
+		}
+	}
+
+	/**
+	 * Create computed column.
+	 * 
+	 * @return instance of <code>ComputedColumn</code>
+	 */
+	private ComputedColumn createComputedColumn( )
+	{
+		ComputedColumn c = new ComputedColumn( );
+		return c;
 	}
 
 	public String getAggregateOn( )
@@ -62,65 +94,31 @@ public class DataBindingImpl implements IDataBinding
 		return column.getName( );
 	}
 
-	public void setAggregateOn( String on ) throws ScriptException
+	public void setAggregateOn( String on )
 	{
-		checkHandle( );
 		column.setAggregateOn( on );
 	}
 
-	public void setDataType( String dataType ) throws ScriptException
+	public void setDataType( String dataType )
 	{
-		checkHandle( );
-		try
-		{
-			column.setDataType( dataType );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		column.setDataType( dataType );
 	}
 
-	public void setExpression( String expression ) throws ScriptException
+	public void setExpression( String expression )
 	{
-		//expression is required.
-		
-		checkHandle( );
-		try
-		{
-			column.setExpression( expression );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		// expression is required.
+		column.setExpression( expression );
 	}
 
-	public void setName( String name ) throws ScriptException
+	public void setName( String name )
 	{
-		//name is required.
-		
-		checkHandle( );
-		try
-		{
-			column.setName( name );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		// name is required.
+		column.setName( name );
 	}
 
-	private void checkHandle( ) throws ScriptException
+	public IStructure getStructure( )
 	{
-		if ( column != null )
-			return;
-		
-		throw new ScriptException( "ComputedColumnHandle is null" ); //$NON-NLS-1$
-	
+		return column;
 	}
 
 }
