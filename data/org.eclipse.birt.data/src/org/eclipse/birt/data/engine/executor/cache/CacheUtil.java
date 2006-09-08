@@ -12,7 +12,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
@@ -309,47 +308,18 @@ public class CacheUtil
 
 		final String prefix = "session_";
 
-		// second create the seesion temp folder
-		String[] filesName = new File( tempRootDirStr ).list( );
-		Arrays.sort( filesName, new Comparator( ) {
-
-			public int compare( Object o1, Object o2 )
-			{
-				String f1 = (String) o1;
-				String f2 = (String) o2;
-
-				int index1 = f1.indexOf( prefix );
-				int index2 = f2.indexOf( prefix );
-
-				if ( index1 < 0 || index2 < 0 )
-					return 0;
-
-				Integer i1 = Integer.valueOf( f1.substring( index1
-						+ prefix.length( ) ) );
-				Integer i2 = Integer.valueOf( f2.substring( index2
-						+ prefix.length( ) ) );
-				return i1.compareTo( i2 );
-			}
-		} );
-
-		// find which extension should be used
-		int maxIndex = -1;
-		for ( int i = filesName.length - 1; i >= 0; i-- )
-		{
-			int index = filesName[i].indexOf( prefix );
-			if ( index == 0 )
-			{
-				maxIndex = Integer.valueOf( filesName[i].substring( index
-						+ prefix.length( ) ) ).intValue( );
-				break;
-			}
-		}
-		maxIndex++;
-
-		sessionTempDirStr = tempRootDirStr + File.separator + prefix + maxIndex;
+		sessionTempDirStr = tempRootDirStr + File.separator + prefix + System.currentTimeMillis( );
 		File file = new File( sessionTempDirStr );
-		file.mkdir( );
-
+		synchronized ( CacheUtil.class )
+		{
+			while ( file.exists( ) )
+			{
+				sessionTempDirStr = tempRootDirStr
+						+ File.separator + prefix + System.currentTimeMillis( );
+				file = new File( sessionTempDirStr );
+			}
+			file.mkdir( );
+		}
 		return sessionTempDirStr;
 	}
 		
