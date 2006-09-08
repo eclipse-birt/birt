@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
@@ -60,7 +59,6 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -1086,11 +1084,11 @@ public class DNDUtil
 		if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
-			if ( targetHandle.getElementHandle( ) instanceof LibraryHandle
-					&& childHandle instanceof ThemeHandle )
-			{
-				return CONTAIN_NO;
-			}
+//			if ( targetHandle.getElementHandle( ) instanceof LibraryHandle
+//					&& childHandle instanceof ThemeHandle )
+//			{
+//				return CONTAIN_NO;
+//			}
 			return targetHandle.getElementHandle( )
 					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
