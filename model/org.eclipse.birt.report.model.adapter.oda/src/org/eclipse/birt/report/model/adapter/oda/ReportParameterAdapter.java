@@ -352,15 +352,16 @@ public class ReportParameterAdapter
 			return;
 		}
 
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase( setParam
+		if ( DataSetParameterAdapter.needsQuoteDelimiters( setParam
 				.getDataType( ) ) )
-		{
+		{			
 			if ( ParameterValueUtil.isQuoted( value ) )
-			{
-				literalValue = ParameterValueUtil.toLiteralValue( value );
-				setParam.setDefaultValue( literalValue );
+			{			
+				literalValue = ParameterValueUtil.toLiteralValue( value );				
 			}
 		}
+		
+		setParam.setDefaultValue( literalValue );
 	}
 
 	/**
