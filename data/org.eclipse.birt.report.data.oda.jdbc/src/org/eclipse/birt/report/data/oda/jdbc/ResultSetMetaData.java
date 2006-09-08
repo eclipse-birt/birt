@@ -266,7 +266,11 @@ public class ResultSetMetaData implements IResultSetMetaData
 			throw new JDBCException( ResourceConstants.RESULTSET_METADATA_PRECISION_CANNOT_GET,
 					e );
 		}
-
+		catch ( RuntimeException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_METADATA_PRECISION_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 	}
 
 	/*
@@ -289,7 +293,11 @@ public class ResultSetMetaData implements IResultSetMetaData
 			throw new JDBCException( ResourceConstants.RESULTSET_MEATADATA_SCALE_CANNOT_GET,
 					e );
 		}
-
+		catch ( RuntimeException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_MEATADATA_SCALE_CANNOT_GET,
+					new SQLException( e.getMessage( ) ) );
+		}
 	}
 
 	/*
