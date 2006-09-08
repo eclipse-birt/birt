@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.14.10.1 $ $Date: 2006/09/05 06:01:21 $
+ * @version $Revision: 1.14.10.2 $ $Date: 2006/09/06 05:32:53 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -54,6 +54,7 @@ public class NumberFormatter
 	 * createNumberFormat() and format() methods
 	 */
 	protected NumberFormat numberFormat;
+	protected NumberFormat decimalFormat;
 
 	/**
 	 * Do we use hex pattern?
@@ -147,6 +148,9 @@ public class NumberFormatter
 			{
 				numberFormat = NumberFormat.getInstance( locale );
 				numberFormat.setGroupingUsed( false );
+				decimalFormat = new DecimalFormat( "", //$NON-NLS-1$
+						new DecimalFormatSymbols( locale ) );
+				decimalFormat.setGroupingUsed( false );
 				return;
 			}
 
@@ -217,7 +221,7 @@ public class NumberFormatter
 
 			if ( this.formatPattern == null )
 			{
-				return bigDecimal.toString( );
+				return decimalFormat.format( bigDecimal );
 			}
 
 			return numberFormat.format( bigDecimal );
@@ -243,7 +247,7 @@ public class NumberFormatter
 			}
 			if ( this.formatPattern == null && number instanceof BigDecimal )
 			{
-				return number.toString( );
+				return decimalFormat.format( number );
 			}
 
 			return numberFormat.format( number );
