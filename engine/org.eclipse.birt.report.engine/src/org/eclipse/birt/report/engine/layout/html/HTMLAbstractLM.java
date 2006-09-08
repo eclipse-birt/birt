@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -359,6 +361,22 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
 		{
 			return true;
+		}
+		if ( content.getContentType( ) == IContent.CELL_CONTENT )
+		{
+			ICellContent cell = (ICellContent) content;
+			IColumn column = cell.getColumnInstance( );
+			if ( column != null )
+			{
+				formats = column.getVisibleFormat( );
+				if ( formats != null
+						&& ( formats
+								.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
+								.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
+				{
+					return true;
+				}
+			}
 		}
 		return false;
 	}
