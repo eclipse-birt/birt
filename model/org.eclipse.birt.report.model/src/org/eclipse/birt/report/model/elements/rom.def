@@ -3544,7 +3544,43 @@
   <Style displayNameID="Style.Data" name="data" reference="Data item" />
   <Style displayNameID="Style.Image" name="image" reference="Image item" />
   <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
-			
+  <Style displayNameID="Style.TableGroupHeader1" name="table-group-header-1" reference="Table Group Header 1" />
+  <Style displayNameID="Style.TableGroupHeader2" name="table-group-header-2" reference="Table Group Header 2" />
+  <Style displayNameID="Style.TableGroupHeader3" name="table-group-header-3" reference="Table Group Header 3" />
+  <Style displayNameID="Style.TableGroupHeader4" name="table-group-header-4" reference="Table Group Header 4" />
+  <Style displayNameID="Style.TableGroupHeader5" name="table-group-header-5" reference="Table Group Header 5" />
+  <Style displayNameID="Style.TableGroupHeader6" name="table-group-header-6" reference="Table Group Header 6" />
+  <Style displayNameID="Style.TableGroupHeader7" name="table-group-header-7" reference="Table Group Header 7" />
+  <Style displayNameID="Style.TableGroupHeader8" name="table-group-header-8" reference="Table Group Header 8" />
+  <Style displayNameID="Style.TableGroupHeader9" name="table-group-header-9" reference="Table Group Header 9" />
+  <Style displayNameID="Style.TableGroupFooter1" name="table-group-footer-1" reference="Table Group Footer 1" />
+  <Style displayNameID="Style.TableGroupFooter2" name="table-group-footer-2" reference="Table Group Footer 2" />
+  <Style displayNameID="Style.TableGroupFooter3" name="table-group-footer-3" reference="Table Group Footer 3" />
+  <Style displayNameID="Style.TableGroupFooter4" name="table-group-footer-4" reference="Table Group Footer 4" />
+  <Style displayNameID="Style.TableGroupFooter5" name="table-group-footer-5" reference="Table Group Footer 5" />
+  <Style displayNameID="Style.TableGroupFooter6" name="table-group-footer-6" reference="Table Group Footer 6" />
+  <Style displayNameID="Style.TableGroupFooter7" name="table-group-footer-7" reference="Table Group Footer 7" />
+  <Style displayNameID="Style.TableGroupFooter8" name="table-group-footer-8" reference="Table Group Footer 8" />
+  <Style displayNameID="Style.TableGroupFooter9" name="table-group-footer-9" reference="Table Group Footer 9" />
+  <Style displayNameID="Style.ListGroupHeader1" name="list-group-header-1" reference="List group header for level 1" />
+  <Style displayNameID="Style.ListGroupHeader2" name="list-group-header-2" reference="List group header for level 2" />
+  <Style displayNameID="Style.ListGroupHeader3" name="list-group-header-3" reference="List group header for level 3" />
+  <Style displayNameID="Style.ListGroupHeader4" name="list-group-header-4" reference="List group header for level 4" />
+  <Style displayNameID="Style.ListGroupHeader5" name="list-group-header-5" reference="List group header for level 5" />
+  <Style displayNameID="Style.ListGroupHeader6" name="list-group-header-6" reference="List group header for level 6" />
+  <Style displayNameID="Style.ListGroupHeader7" name="list-group-header-7" reference="List group header for level 7" />
+  <Style displayNameID="Style.ListGroupHeader8" name="list-group-header-8" reference="List group header for level 8" />
+  <Style displayNameID="Style.ListGroupHeader9" name="list-group-header-9" reference="List group header for level 9" />
+  <Style displayNameID="Style.ListGroupFooter1" name="list-group-footer-1" reference="List group footer for level 1" />
+  <Style displayNameID="Style.ListGroupFooter2" name="list-group-footer-2" reference="List group footer for level 2" />
+  <Style displayNameID="Style.ListGroupFooter3" name="list-group-footer-3" reference="List group footer for level 3" />
+  <Style displayNameID="Style.ListGroupFooter4" name="list-group-footer-4" reference="List group footer for level 4" />
+  <Style displayNameID="Style.ListGroupFooter5" name="list-group-footer-5" reference="List group footer for level 5" />
+  <Style displayNameID="Style.ListGroupFooter6" name="list-group-footer-6" reference="List group footer for level 6" />
+  <Style displayNameID="Style.ListGroupFooter7" name="list-group-footer-7" reference="List group footer for level 7" />
+  <Style displayNameID="Style.ListGroupFooter8" name="list-group-footer-8" reference="List group footer for level 8" />
+  <Style displayNameID="Style.ListGroupFooter9" name="list-group-footer-9" reference="List group footer for level 9" />
+
   <!--
   <Style displayNameID="Style.Chart" name="chart" reference="Chart" />
   <Style displayNameID="Style.ChartTitle" name="chart-title" reference="Chart Title" />
@@ -3606,42 +3642,6 @@
   <Style displayNameID="Style.Rectangle" name="rectangle" reference="Rectangel item" />
   <Style displayNameID="Style.ExtendedItem" name="extended-item" reference="Extended item" />
   <Style displayNameID="Style.Page" name="page" reference="Master page" />
-  <Style displayNameID="Style.TableGroupHeader1" name="table-group-header-1" reference="Table Group Header 1" />
-  <Style displayNameID="Style.TableGroupHeader2" name="table-group-header-2" reference="Table Group Header 2" />
-  <Style displayNameID="Style.TableGroupHeader3" name="table-group-header-3" reference="Table Group Header 3" />
-  <Style displayNameID="Style.TableGroupHeader4" name="table-group-header-4" reference="Table Group Header 4" />
-  <Style displayNameID="Style.TableGroupHeader5" name="table-group-header-5" reference="Table Group Header 5" />
-  <Style displayNameID="Style.TableGroupHeader6" name="table-group-header-6" reference="Table Group Header 6" />
-  <Style displayNameID="Style.TableGroupHeader7" name="table-group-header-7" reference="Table Group Header 7" />
-  <Style displayNameID="Style.TableGroupHeader8" name="table-group-header-8" reference="Table Group Header 8" />
-  <Style displayNameID="Style.TableGroupHeader9" name="table-group-header-9" reference="Table Group Header 9" />
-  <Style displayNameID="Style.TableGroupFooter1" name="table-group-footer-1" reference="Table Group Footer 1" />
-  <Style displayNameID="Style.TableGroupFooter2" name="table-group-footer-2" reference="Table Group Footer 2" />
-  <Style displayNameID="Style.TableGroupFooter3" name="table-group-footer-3" reference="Table Group Footer 3" />
-  <Style displayNameID="Style.TableGroupFooter4" name="table-group-footer-4" reference="Table Group Footer 4" />
-  <Style displayNameID="Style.TableGroupFooter5" name="table-group-footer-5" reference="Table Group Footer 5" />
-  <Style displayNameID="Style.TableGroupFooter6" name="table-group-footer-6" reference="Table Group Footer 6" />
-  <Style displayNameID="Style.TableGroupFooter7" name="table-group-footer-7" reference="Table Group Footer 7" />
-  <Style displayNameID="Style.TableGroupFooter8" name="table-group-footer-8" reference="Table Group Footer 8" />
-  <Style displayNameID="Style.TableGroupFooter9" name="table-group-footer-9" reference="Table Group Footer 9" />
-  <Style displayNameID="Style.ListGroupHeader1" name="list-group-header-1" reference="List group header for level 1" />
-  <Style displayNameID="Style.ListGroupHeader2" name="list-group-header-2" reference="List group header for level 2" />
-  <Style displayNameID="Style.ListGroupHeader3" name="list-group-header-3" reference="List group header for level 3" />
-  <Style displayNameID="Style.ListGroupHeader4" name="list-group-header-4" reference="List group header for level 4" />
-  <Style displayNameID="Style.ListGroupHeader5" name="list-group-header-5" reference="List group header for level 5" />
-  <Style displayNameID="Style.ListGroupHeader6" name="list-group-header-6" reference="List group header for level 6" />
-  <Style displayNameID="Style.ListGroupHeader7" name="list-group-header-7" reference="List group header for level 7" />
-  <Style displayNameID="Style.ListGroupHeader8"name="list-group-header-8"  reference="List group header for level 8" />
-  <Style displayNameID="Style.ListGroupHeader9" name="list-group-header-9" reference="List group header for level 9" />
-  <Style displayNameID="Style.ListGroupFooter1" name="list-group-footer-1" reference="List group footer for level 1" />
-  <Style displayNameID="Style.ListGroupFooter2" name="list-group-footer-2" reference="List group footer for level 2" />
-  <Style displayNameID="Style.ListGroupFooter3" name="list-group-footer-3" reference="List group footer for level 3" />
-  <Style displayNameID="Style.ListGroupFooter4" name="list-group-footer-4" reference="List group footer for level 4" />
-  <Style displayNameID="Style.ListGroupFooter5" name="list-group-footer-5" reference="List group footer for level 5" />
-  <Style displayNameID="Style.ListGroupFooter6" name="list-group-footer-6" reference="List group footer for level 6" />
-  <Style displayNameID="Style.ListGroupFooter7" name="list-group-footer-7" reference="List group footer for level 7" />
-  <Style displayNameID="Style.ListGroupFooter8" name="list-group-footer-8" reference="List group footer for level 8" />
-  <Style displayNameID="Style.ListGroupFooter9" name="list-group-footer-9" reference="List group footer for level 9" />
   <Style displayNameID="Style.GroupHeader1" name="group-header-1" reference="List or table group header for level 1" />
   <Style displayNameID="Style.GroupHeader2" name="group-header-2" reference="List or table group header for level 2" />
   <Style displayNameID="Style.GroupHeader3" name="group-header-3" reference="List or table group header for level 3" />
