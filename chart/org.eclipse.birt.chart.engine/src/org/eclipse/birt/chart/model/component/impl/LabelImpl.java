@@ -779,4 +779,40 @@ public class LabelImpl extends EObjectImpl implements Label
 		return lb;
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * Note this method only copies those working properties of the label. e.g.
+	 * which could affect renderer. This is different with the copyInstance()
+	 * method, which copis all attribuetes.
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Label copyCompactInstance( Label src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+		LabelImpl lb = new LabelImpl( );
+		lb.visible = src.isVisible( );
+		lb.visibleESet = src.isSetVisible( );
+
+		// TODO remove more unused attrbutes.
+		if ( src.getBackground( ) != null )
+		{
+			lb.background = (Fill) EcoreUtil.copy( src.getBackground( ) );
+		}
+		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
+		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );
+		if ( src.getOutline( ) != null && src.getOutline( ).isVisible( ) )
+		{
+			lb.outline = LineAttributesImpl.copyInstance( src.getOutline( ) );
+		}
+		lb.shadowColor = ColorDefinitionImpl.copyInstance( src.getShadowColor( ) );
+		return lb;
+	}
+
 } // LabelImpl
