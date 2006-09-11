@@ -13,9 +13,6 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.validators.ColumnBindingNameValidator;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -24,7 +21,6 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Base class for all report items. Represents anything that can be placed in a
@@ -107,30 +103,4 @@ public abstract class ReportItem extends StyledElement
 		return ReportItemPropSearchStrategy.getInstance( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkStructureList(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn, java.util.List,
-	 *      org.eclipse.birt.report.model.api.core.IStructure)
-	 */
-
-	public void checkStructureList( Module module, PropertyDefn propDefn,
-			List list, IStructure toAdd ) throws PropertyValueException
-	{
-
-		String propName = propDefn.getName( );
-		if ( BOUND_DATA_COLUMNS_PROP.equals( propName ) )
-		{
-			List errorList = ColumnBindingNameValidator.getInstance( )
-					.validateForAdding( getHandle( module ), propDefn, toAdd );
-
-			if ( errorList.size( ) > 0 )
-			{
-				throw (PropertyValueException) errorList.get( 0 );
-			}
-		}
-
-		super.checkStructureList( module, propDefn, list, toAdd );
-	}
 }
