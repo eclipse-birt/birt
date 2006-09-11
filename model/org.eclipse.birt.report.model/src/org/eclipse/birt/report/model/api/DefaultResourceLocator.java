@@ -86,13 +86,13 @@ public class DefaultResourceLocator implements IResourceLocator
 		if ( moduleHandle == null )
 			return tryFragmentSearch( fileName );
 
-		// try file search based on resource path, value set on this module
-		// takes the higher priority than that in the session
+		// try file search based on resource path, value set on the session
+		// takes the higher priority than that in the module itself
 
-		String resourcePath = moduleHandle.getResourceFolder( );
+		String resourcePath = moduleHandle.getModule( ).getSession( )
+				.getResourceFolder( );
 		if ( resourcePath == null )
-			resourcePath = moduleHandle.getModule( ).getSession( )
-					.getResourceFolder( );
+			resourcePath = moduleHandle.getResourceFolder( );
 		if ( resourcePath != null )
 		{
 			File f = new File( resourcePath, fileName );
