@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.data.adapter.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -64,9 +62,6 @@ public class DataSetMetaDataHelper
 	private DataEngine dataEngine;
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
-
-	private static final char RENAME_SEPARATOR = '_';//$NON-NLS-1$
-	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -152,14 +147,13 @@ public class DataSetMetaDataHelper
 					false ).executeQuery( query ).getResultMetaData( );
 			if ( dataSetHandle.canEdit( ) )
 				addResultSetColumn( dataSetHandle, metaData );
-		}
-		
-		if ( needsUseResultHint( dataSetHandle, metaData ) )
-		{
-			metaData = new QueryExecutionHelper( dataEngine,
-					modelAdaptor,
-					sessionContext,
-					true ).executeQuery( query ).getResultMetaData( );
+			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
+			{
+				metaData = new QueryExecutionHelper( dataEngine,
+						modelAdaptor,
+						sessionContext,
+						true ).executeQuery( query ).getResultMetaData( );
+			}
 		}
 		
 		if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
@@ -223,9 +217,9 @@ public class DataSetMetaDataHelper
 	{
 
 		PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
-		ArrayList list = handle.getListValue( );
-		if ( list != null )
+		if ( handle != null && handle.getListValue( ) != null )
 		{
+			ArrayList list = handle.getListValue( );
 			int count = list.size( );
 			for ( int n = count - 1; n >= 0; n-- )
 			{
@@ -432,163 +426,8 @@ public class DataSetMetaDataHelper
 
 		return false;
 	}
-	
-	/**
-	 * Whether need to use resultHint, which stands for resultSetHint,
-	 * columnHint or both
-	 * 
-	 * @param dataSetHandle
-	 * @return
-	 * @throws BirtException
-	 */
-	private boolean needsUseResultHint( DataSetHandle dataSetHandle,
-			IResultMetaData metaData ) throws BirtException
-	{
-		int columnCount = 0;
-		boolean hasResultSetHint = false;
-		boolean hasColumnHint = dataSetHandle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( )
-				.hasNext( );
-		HashSet orgColumnNameSet = new HashSet( );
-		HashSet uniqueColumnNameSet = new HashSet( );
 
-		if ( metaData != null )
-		{
-			columnCount = metaData.getColumnCount( );
-			for ( int n = 0; n < columnCount; n++ )
-			{
-				orgColumnNameSet.add( metaData.getColumnName( n + 1 ) );
-			}
-		}
-		for ( int i = 0; i < columnCount; i++ )
-		{
-			String columnName = metaData.getColumnName( i + 1 );
-			String uniqueColumnName = getUniqueName( orgColumnNameSet,
-					uniqueColumnNameSet,
-					columnName,
-					i );
-			uniqueColumnNameSet.add( uniqueColumnName );
 
-			if ( !uniqueColumnName.equals( columnName ) )
-			{
-				updateModelColumn( dataSetHandle, uniqueColumnName, i + 1 );
-
-				if ( hasResultSetHint != true )
-					hasResultSetHint = true;
-			}
-		}
-
-		if ( !hasResultSetHint )
-		{
-			hasResultSetHint = checkHandleType( dataSetHandle );
-		}
-		return hasResultSetHint || hasColumnHint;
-	}
-	
-	/**
-	 * whether need to use result hint
-	 * 
-	 * @param dataSetHandle
-	 * @return
-	 */
-	private boolean checkHandleType( DataSetHandle dataSetHandle )
-	{
-		if ( dataSetHandle instanceof ScriptDataSetHandle )
-			return true;
-		else if ( dataSetHandle instanceof JointDataSetHandle )
-		{
-			List dataSets = ( (JointDataSetHandle) dataSetHandle ).getDataSetNames( );
-			for ( int i = 0; i < dataSets.size( ); i++ )
-			{
-				DataSetHandle dsHandle = ( (JointDataSetHandle) dataSetHandle ).getModuleHandle( )
-						.findDataSet( dataSets.get( i ).toString( ) );
-				if ( dsHandle != null
-						&& dsHandle instanceof ScriptDataSetHandle )
-				{
-					return true;
-				}
-				else if ( dsHandle instanceof JointDataSetHandle )
-				{
-					if ( checkHandleType( dsHandle ) )
-						return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * 
-	 * @param orgColumnNameSet
-	 * @param newColumnNameSet
-	 * @param columnName
-	 * @param index
-	 * @return
-	 */
-	private String getUniqueName( HashSet orgColumnNameSet,
-			HashSet newColumnNameSet, String columnName, int index )
-	{
-		String newColumnName;
-		if ( columnName == null
-				|| columnName.trim( ).length( ) == 0
-				|| newColumnNameSet.contains( columnName ) )
-		{
-			// name conflict or no name,give this column a unique name
-			if ( columnName == null || columnName.trim( ).length( ) == 0 )
-				newColumnName = UNNAME_PREFIX
-						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
-			else
-				newColumnName = columnName
-						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
-
-			int i = 1;
-			while ( orgColumnNameSet.contains( newColumnName )
-					|| newColumnNameSet.contains( newColumnName ) )
-			{
-				newColumnName += String.valueOf( RENAME_SEPARATOR ) + i;
-				i++;
-			}
-		}
-		else
-		{
-			newColumnName = columnName;
-		}
-		return newColumnName;
-	}
-	
-	/**
-	 * 
-	 * @param ds
-	 * @param uniqueColumnName
-	 * @param index
-	 * @throws BirtException
-	 */
-	private void updateModelColumn( DataSetHandle ds, String uniqueColumnName,
-			int index ) throws BirtException
-	{
-		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
-		if ( resultSetColumns == null )
-			return;
-
-		// update result set columns
-		Iterator iterator = resultSetColumns.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			ResultSetColumnHandle rsColumnHandle = (ResultSetColumnHandle) iterator.next( );
-			assert rsColumnHandle.getPosition( ) != null;
-			if ( rsColumnHandle.getPosition( ).intValue( ) == index )
-			{
-				if ( rsColumnHandle.getColumnName( ) != null
-						&& !rsColumnHandle.getColumnName( )
-								.equals( uniqueColumnName ) )
-				{
-					rsColumnHandle.setColumnName( uniqueColumnName );
-				}
-				break;
-			}
-		}
-	}
-	
 	/**
 	 * 
 	 * @param rsMeta
