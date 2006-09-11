@@ -62,7 +62,7 @@ public class CellInstance extends ReportElementInstance
 	 */
 	public int getRowSpan( )
 	{
-		return cell.getColSpan( );
+		return cell.getRowSpan( );
 	}
 
 	/*
