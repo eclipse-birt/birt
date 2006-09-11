@@ -60,7 +60,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 	private Compositor comp = null;
 
 	private ITextContent textContent = null;
-
+	
 	public PDFTextLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
 	{
@@ -299,6 +299,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					{
 						currentPos = chunk.getText().length();
 						PDFTextLM.this.newLine();
+						vestigeIndex = -1;
 						return;
 					}
 					currentPos = 0;
