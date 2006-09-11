@@ -59,8 +59,6 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.data.dte.DataGenerationEngine;
-import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.script.internal.DataSetScriptExecutor;
@@ -74,7 +72,6 @@ import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -333,23 +330,6 @@ public class ModelDteApiAdapter
 					propValue = ( String ) staticProps.get( propName );
 				}
 
-				if ( this.context != null
-						&& ( this.context.getDataEngine( ) instanceof DataGenerationEngine || this.context.getDataEngine( ) instanceof DteDataEngine ) )
-				{
-					/**
-					 * Here is a temp solution to adapt relative path to xml
-					 * driver. TODO Enhance me.
-					 */
-					if ( "org.eclipse.birt.report.data.oda.xml".equals( driverName )
-							&& ( propName.equals( "FILELIST" ) || propName.equals( " " ) )
-							&& propValue != null )
-					{
-						Object url = source.getModuleHandle( )
-								.findResource( (String) propValue,
-										IResourceLocator.LIBRARY );
-						propValue = url == null ? propValue : url.toString( );
-					}
-				}
 				dteSource.addPublicProperty( propName, propValue );
 			}
 		}
