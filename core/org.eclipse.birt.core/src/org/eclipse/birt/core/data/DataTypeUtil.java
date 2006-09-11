@@ -51,40 +51,12 @@ public final class DataTypeUtil
 	// cache DateFormatter of ICU
 	private static Map dfMap = DateFormatUtil.getAllDateFormatter();
 
-	//all SimpleDateFormatter of ICU
-	private static SimpleDateFormat[] simpleDateFormatter = null;
-
 	// resource bundle for exception messages 
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getResourceBundle( );
 
 	public static long count = 0;
 	private final static String pluginId = "org.eclipse.birt.core";
 
-	static
-	{
-		// date format pattern defined in ISO8601
-		// notice the order is significant.
-		String[] dateFormatPattern = {
-				"yyyy-MM-dd HH:mm:ss.S z",
-				"yyyy-MM-dd HH:mm:ss.Sz",
-				"yyyy-MM-dd HH:mm:ss.S",
-				"yyyy-MM-dd HH:mm:ss z",
-				"yyyy-MM-dd HH:mm:ssz",
-				"yyyy-MM-dd HH:mm:ss",
-				"yyyy-MM-dd HH:mm z",
-				"yyyy-MM-dd HH:mmz",
-				"yyyy-MM-dd HH:mm",
-				"yyyy-MM-dd",
-				"yyyy-MM",
-				"yyyy"	
-		};
-		simpleDateFormatter = new SimpleDateFormat[dateFormatPattern.length];
-		for ( int i = 0; i < dateFormatPattern.length; i++ )
-		{
-			simpleDateFormatter[i] = new SimpleDateFormat( dateFormatPattern[i] );
-			simpleDateFormatter[i].setLenient( false );
-		}
-	}
 
 	/**
 	 * convert an object to given type
@@ -981,33 +953,12 @@ public final class DataTypeUtil
 	{
 		Date resultDate = null;
 
-		source = source.replaceFirst( "T", " " );
-		
-		for ( int i = 0; i < simpleDateFormatter.length - 1; i++ )
+		try
 		{
-			try
-			{
-				resultDate = simpleDateFormatter[i].parse( source );
-				return resultDate;
-			}
-			catch ( ParseException e1 )
-			{
-			}
+			resultDate = DateFormatISO8601.parse( source );
+			return resultDate;
 		}
-		//Only string matching "[0-9]+" can be applied to simpleDateFormatter.
-		if ( source.length( ) <= 4 && source.matches( "[0-9]+" ) )
-		{
-			try
-			{
-				resultDate = simpleDateFormatter[simpleDateFormatter.length - 1].parse( source );
-				return resultDate;
-			}
-			catch ( ParseException e1 )
-			{
-			}
-		}
-		// for the String can not be parsed, throws a BirtException
-		if ( resultDate == null )
+		catch ( ParseException e1 )
 		{
 			throw new BirtException( pluginId,
 					ResourceConstants.CONVERT_FAILS,
@@ -1016,13 +967,11 @@ public final class DataTypeUtil
 					},
 					resourceBundle );
 		}
-
-		// never access here
-		return resultDate;
 	}
 
 	/**
 	 * Call org.eclipse.birt.core.format.DateFormatter
+	 * 
 	 * @param source
 	 * @return
 	 */
