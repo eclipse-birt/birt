@@ -17,7 +17,7 @@ public interface IReportItemInstance extends IReportElementInstance
 	String getName( );
 
 	/**
-	 * Get the name
+	 * Set the name
 	 */
 	void setName( String name );
 
@@ -27,7 +27,7 @@ public interface IReportItemInstance extends IReportElementInstance
 	String getHelpText( );
 
 	/**
-	 * Get the help text
+	 * Set the help text
 	 */
 	void setHelpText( String helpText );
 
