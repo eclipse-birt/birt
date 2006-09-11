@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -811,7 +812,10 @@ public class LabelImpl extends EObjectImpl implements Label
 		{
 			lb.outline = LineAttributesImpl.copyInstance( src.getOutline( ) );
 		}
-		lb.shadowColor = ColorDefinitionImpl.copyInstance( src.getShadowColor( ) );
+		if ( ChartUtil.isShadowDefined( src ) )
+		{
+			lb.shadowColor = ColorDefinitionImpl.copyInstance( src.getShadowColor( ) );
+		}
 		return lb;
 	}
 

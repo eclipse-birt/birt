@@ -51,48 +51,22 @@ import org.eclipse.swt.graphics.Region;
 final class SwtTextRenderer implements IConstants
 {
 
-	/**
-	 * 
-	 */
 	private static final PaletteData PALETTE_DATA = new PaletteData( 0xFF0000,
 			0xFF00,
 			0xFF );
 
-	/**
-	 * 
-	 */
 	private static final int TRANSPARENT_COLOR = 0x123456;
-
-	/**
-	 * 
-	 */
-	private static SwtTextRenderer _tr = null;
-
-	private SwtDisplayServer _sxs = null;
 
 	private static final int SHADOW_THICKNESS = 3;
 
-	/**
-	 * 
-	 */
-	private SwtTextRenderer( )
-	{
-
-	}
+	private SwtDisplayServer _sxs = null;
 
 	/**
-	 * 
-	 * @return
+	 * The constructor.
 	 */
-	public synchronized static final SwtTextRenderer instance(
-			SwtDisplayServer sxs )
+	SwtTextRenderer( SwtDisplayServer sxs )
 	{
-		if ( _tr == null )
-		{
-			_tr = new SwtTextRenderer( );
-			_tr._sxs = sxs;
-		}
-		return _tr;
+		_sxs = sxs;
 	}
 
 	/**
@@ -201,6 +175,7 @@ final class SwtTextRenderer implements IConstants
 
 		final double dAngleInDegrees = fd.getRotation( );
 		final double dAngleInRadians = Math.toRadians( dAngleInDegrees );
+
 		final Color clrBackground = (Color) _sxs.getColor( la.getShadowColor( ) );
 
 		final ITextMetrics itm = new SwtTextMetrics( _sxs, la );
@@ -617,13 +592,13 @@ final class SwtTextRenderer implements IConstants
 			int iLineStyle = SWT.LINE_SOLID;
 			switch ( lia.getStyle( ).getValue( ) )
 			{
-				case ( LineStyle.DOTTED                     ) :
+				case ( LineStyle.DOTTED                      ) :
 					iLineStyle = SWT.LINE_DOT;
 					break;
-				case ( LineStyle.DASH_DOTTED                     ) :
+				case ( LineStyle.DASH_DOTTED                      ) :
 					iLineStyle = SWT.LINE_DASHDOT;
 					break;
-				case ( LineStyle.DASHED                     ) :
+				case ( LineStyle.DASHED                      ) :
 					iLineStyle = SWT.LINE_DASH;
 					break;
 			}

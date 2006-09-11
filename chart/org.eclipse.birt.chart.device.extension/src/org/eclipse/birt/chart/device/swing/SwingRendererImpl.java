@@ -104,6 +104,8 @@ public class SwingRendererImpl extends DeviceAdapter
 
 	protected IDisplayServer _ids;
 
+	private SwingTextRenderer _tr = null;
+
 	private IUpdateNotifier _iun = null;
 
 	private SwingEventHandler _eh = null;
@@ -119,6 +121,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.SWING" ); //$NON-NLS-1$
+
+			_tr = new SwingTextRenderer( (SwingDisplayServer) _ids );
 		}
 		catch ( ChartException pex )
 		{
@@ -1489,7 +1493,6 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
-		SwingTextRenderer tr = SwingTextRenderer.instance( (SwingDisplayServer) _ids );
 		switch ( tre.getAction( ) )
 		{
 			case TextRenderEvent.UNDEFINED :
@@ -1499,21 +1502,21 @@ public class SwingRendererImpl extends DeviceAdapter
 						Messages.getResourceBundle( getULocale( ) ) );
 
 			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
-				tr.renderShadowAtLocation( this,
+				_tr.renderShadowAtLocation( this,
 						tre.getTextPosition( ),
 						tre.getLocation( ),
 						tre.getLabel( ) );
 				break;
 
 			case TextRenderEvent.RENDER_TEXT_AT_LOCATION :
-				tr.renderTextAtLocation( this,
+				_tr.renderTextAtLocation( this,
 						tre.getTextPosition( ),
 						tre.getLocation( ),
 						tre.getLabel( ) );
 				break;
 
 			case TextRenderEvent.RENDER_TEXT_IN_BLOCK :
-				tr.renderTextInBlock( this,
+				_tr.renderTextInBlock( this,
 						tre.getBlockBounds( ),
 						tre.getBlockAlignment( ),
 						tre.getLabel( ) );

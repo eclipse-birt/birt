@@ -51,37 +51,14 @@ import org.eclipse.birt.chart.util.ChartUtil;
 final class SwingTextRenderer implements IConstants
 {
 
-	/**
-	 * 
-	 */
-	private static SwingTextRenderer _tr = null;
-
-	/**
-	 * 
-	 */
 	private SwingDisplayServer _sxs = null;
 
 	/**
-	 * 
+	 * The constructor.
 	 */
-	private SwingTextRenderer( )
+	SwingTextRenderer( SwingDisplayServer sxs )
 	{
-
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized static final SwingTextRenderer instance(
-			SwingDisplayServer sxs )
-	{
-		if ( _tr == null )
-		{
-			_tr = new SwingTextRenderer( );
-		}
-		_tr._sxs = sxs;
-		return _tr;
+		_sxs = sxs;
 	}
 
 	/**
@@ -102,6 +79,11 @@ final class SwingTextRenderer implements IConstants
 	public final void renderShadowAtLocation( IPrimitiveRenderer idr,
 			int iLabelPosition, Location lo, Label la ) throws ChartException
 	{
+		if ( !ChartUtil.isShadowDefined( la ) )
+		{
+			return;
+		}
+
 		final ColorDefinition cdShadow = la.getShadowColor( );
 		if ( cdShadow == null )
 		{
@@ -195,7 +177,7 @@ final class SwingTextRenderer implements IConstants
 				}
 				showRightValue( ipr, lo, la, false );
 				break;
-				
+
 			case INSIDE :
 				if ( ChartUtil.isShadowDefined( la ) )
 				{
