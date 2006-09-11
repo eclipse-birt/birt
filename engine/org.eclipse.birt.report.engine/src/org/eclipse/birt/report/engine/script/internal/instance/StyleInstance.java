@@ -191,6 +191,8 @@ public class StyleInstance implements IScriptStyle
 
 	/**
 	 * Get the attachement type (either SCROLL or FIXED)
+	 * @deprecated
+	 * replaced by getBackgroundAttachment()
 	 */
 	public String getBackgroundAttachement( )
 	{
@@ -199,10 +201,28 @@ public class StyleInstance implements IScriptStyle
 
 	/**
 	 * Set the attachement type (either SCROLL or FIXED)
+	 * @deprecated
+	 * replaced by setBackgroundAttachment( String attachment )
 	 */
 	public void setBackgroundAttachement( String attachement )
 	{
 		style.setBackgroundAttachment( attachement );
+	}
+
+	/**
+	 * Get the attachment type (either SCROLL or FIXED)
+	 */
+	public String getBackgroundAttachment( )
+	{
+		return style.getBackgroundAttachment( );
+	}
+
+	/**
+	 * Set the attachment type (either SCROLL or FIXED)
+	 */
+	public void setBackgroundAttachment( String attachment )
+	{
+		style.setBackgroundAttachment( attachment );
 	}
 
 	/**

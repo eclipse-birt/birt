@@ -137,13 +137,27 @@ public interface IScriptStyle
 
 	/**
 	 * Get the attachement type (either SCROLL or FIXED)
+	 * @deprecated
+	 * replaced by getBackgroundAttachment()
 	 */
 	String getBackgroundAttachement( );
 
 	/**
 	 * Set the attachement type (either SCROLL or FIXED)
+	 * @deprecated
+	 * replaced by setBackgroundAttachment( String attachment )
 	 */
 	void setBackgroundAttachement( String attachement );
+
+	/**
+	 * Get the attachment type (either SCROLL or FIXED)
+	 */
+	String getBackgroundAttachment( );
+
+	/**
+	 * Set the attachment type (either SCROLL or FIXED)
+	 */
+	void setBackgroundAttachment( String attachment );
 
 	/**
 	 * Get the background color
