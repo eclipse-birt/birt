@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -141,7 +142,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.144 $ $Date: 2006/08/22 05:58:39 $
+ * @version $Revision: 1.145 $ $Date: 2006/08/22 08:31:55 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -625,11 +626,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	private void appendErrorMessage( int index, ElementExceptionInfo info )
+	private void appendErrorMessage(EngineResourceHandle rc, int index, ElementExceptionInfo info )
 	{
-		
-
-		EngineResourceHandle rc = EngineResourceHandle.getInstance( );
 		writer.writeCode( "			<div>" );
 		writer.writeCode( "				<div  id=\"error_title\" style=\"text-decoration:underline\">" );
 		String name = info.getName( );
@@ -715,7 +713,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.writeCode( "	<hr style=\"color:red\"/>" );
 			writer.writeCode( "	<div style=\"color:red\">" );
 			writer.writeCode( "		<div>" );
-			writer.text( EngineResourceHandle.getInstance( ).getMessage(
+			Locale locale = reportContext.getLocale( );
+			if(locale==null)
+			{
+				locale = Locale.getDefault();
+			}
+			EngineResourceHandle rc = new EngineResourceHandle(locale);
+			writer.text( rc.getMessage(
 					MessageConstants.ERRORS_ON_REPORT_PAGE ), false );
 			
 			writer.writeCode( "</div>" );//$NON-NLS-1$
@@ -724,7 +728,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			int index = 0;
 			while ( it.hasNext( ) )
 			{
-				appendErrorMessage( index++, (ElementExceptionInfo) it.next( ) );
+				appendErrorMessage(rc, index++, (ElementExceptionInfo) it.next( ) );
 			}
 			writer.writeCode( "</div>" );
 			return true;
