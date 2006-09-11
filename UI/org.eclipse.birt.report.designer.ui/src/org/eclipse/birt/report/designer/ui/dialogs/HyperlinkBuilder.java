@@ -720,18 +720,7 @@ public class HyperlinkBuilder extends BaseDialog
 		for ( int i = 0; i < supportedFormats.length; i++ )
 		{
 			Button btn = new Button( group, SWT.RADIO );
-			if ( supportedFormats.equals( "html" ) )
-			{
-				btn.setText( Messages.getString( "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
-			}
-			else if ( supportedFormats.equals( "pdf" ) )
-			{
-				btn.setText( Messages.getString( "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
-			}
-			else
-			{
-				btn.setText( supportedFormats[i] ); //$NON-NLS-1$
-			}
+			btn.setText( supportedFormats[i] ); //$NON-NLS-1$
 			formatCheckBtns.put( supportedFormats[i], btn );
 			// select format affects getting TOCTree from ReportDocument
 			btn.addSelectionListener( new SelectionListener( ) {
