@@ -16,8 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.core.BundleHelper;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The default file search algorithm. It searches for a given file in the 'base'
@@ -50,8 +54,67 @@ public class DefaultResourceLocator implements IResourceLocator
 	public URL findResource( ModuleHandle moduleHandle, String fileName,
 			int type )
 	{
+		URL u = null;
+
 		if ( fileName == null )
+			return u;
+
+		switch ( type )
+		{
+			case IResourceLocator.MESSAGE_FILE :
+				u = getMessageFile( moduleHandle, fileName );
+				break;
+			default :
+				u = getResource( moduleHandle, fileName );
+				break;
+		}
+		return u;
+
+	}
+
+	/**
+	 * Gets message file URL.
+	 * 
+	 * @param moduleHandle
+	 *            module handle
+	 * @param fileName
+	 *            file name
+	 * @return message file URL.
+	 */
+
+	private URL getMessageFile( ModuleHandle moduleHandle, String fileName )
+	{
+		if ( moduleHandle == null )
 			return null;
+
+		ULocale locale = moduleHandle.getModule( ).getSession( ).getLocale( );
+
+		List possibleFiles = BundleHelper.getHelper( moduleHandle.getModule( ),
+				fileName ).getMessageFilenames( locale );
+
+		for ( int i = 0; i < possibleFiles.size( ); i++ )
+		{
+			String filename = (String) possibleFiles.get( i );
+			URL url = getResource( moduleHandle, filename );
+			if ( url != null )
+				return url;
+		}
+		return null;
+	}
+
+	/**
+	 * Gets resource url. Now support <code>IMAGE</code>,<code>LIBRARY</code> ,
+	 * <code>CASCADING_STYLE_SHEET</code>
+	 * 
+	 * @param moduleHandle
+	 *            module handle
+	 * @param fileName
+	 *            file name
+	 * @return resource url
+	 */
+
+	private URL getResource( ModuleHandle moduleHandle, String fileName )
+	{
 
 		// try absolute path search
 

@@ -1482,6 +1482,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            <ul>
 	 *            <li><code>IResourceLocator.IMAGE</code>
 	 *            <li><code>IResourceLocator.LIBRARY</code>
+	 *            <li><code>IResourceLocator.MESSAGEFILE</code>
 	 *            </ul>
 	 *            Any invalid value will be treated as
 	 *            <code>IResourceLocator.IMAGE</code>.
