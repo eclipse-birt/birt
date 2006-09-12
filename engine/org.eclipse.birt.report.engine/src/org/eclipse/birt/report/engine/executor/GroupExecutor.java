@@ -222,19 +222,6 @@ abstract public class GroupExecutor extends ReportItemExecutor
 					needPageBreak = true;
 				}
 			}
-			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_AUTO
-					.equals( pageBreakBefore )
-					&& groupLevel == 0 )
-			{
-				if ( isTopLevelListing( ) )
-				{
-					int startGroupLevel = rset.getStartingGroupLevel( );
-					if ( startGroupLevel > 0 )
-					{
-						needPageBreak = true;
-					}
-				}
-			}
 			if ( needPageBreak )
 			{
 				content.getStyle( ).setProperty(
@@ -333,22 +320,5 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			pList.needPageBreak = true;
 		}
 	}
-	
-	boolean isTopLevelListing( )
-	{
-		DesignElementHandle listing = listingExecutor.getDesign( ).getHandle( );
-		if ( listing != null )
-		{
-			DesignElementHandle parent = listing.getContainer( );
-			while ( parent != null )
-			{
-				if ( parent instanceof ListingHandle )
-				{
-					return false;
-				}
-				parent = parent.getContainer( );
-			}
-		}
-		return true;
-	}
+		
 }
