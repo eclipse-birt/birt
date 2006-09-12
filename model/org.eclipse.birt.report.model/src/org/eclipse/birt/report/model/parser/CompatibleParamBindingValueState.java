@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
@@ -63,7 +62,7 @@ public class CompatibleParamBindingValueState
 
 		doEnd( value, true );
 
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) >= 0 ) //$NON-NLS-1$
+		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.0" ) >= 0 ) //$NON-NLS-1$
 			return;
 
 		List newExprs = null;

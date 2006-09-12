@@ -1056,10 +1056,10 @@ public class ModelUtil
 	{
 		List rtnList = new ArrayList( );
 
-		if ( StringUtil.compareVersion( version,
+		VersionUtil util = new VersionUtil( );
+		if ( util.compareVersion( version,
 				VersionInfo.COLUMN_BINDING_FROM_VERSION ) < 1
-				&& StringUtil.compareVersion(
-						DesignSchemaConstants.REPORT_VERSION,
+				&& util.compareVersion( DesignSchemaConstants.REPORT_VERSION,
 						VersionInfo.COLUMN_BINDING_FROM_VERSION ) > 0 )
 			rtnList.add( new VersionInfo( version,
 					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );

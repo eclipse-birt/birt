@@ -292,14 +292,11 @@ public class StructureState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
 	 */
 
-	public AbstractParseState jumpTo( )
+	protected AbstractParseState generalJumpTo( )
 	{
-		if ( !valid )
-			return new AnyElementState( getHandler( ) );
-
 		if ( element instanceof Label
 				&& Label.ACTION_PROP.equalsIgnoreCase( name )
 				|| element instanceof ImageItem
@@ -316,7 +313,7 @@ public class StructureState extends AbstractPropertyState
 		String propName = propDefn == null ? null : propDefn.getName( );
 
 		if ( ( element instanceof DataSet ) )
-		{	
+		{
 			if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
@@ -326,8 +323,7 @@ public class StructureState extends AbstractPropertyState
 				return state;
 			}
 		}
-
-		return super.jumpTo( );
+		return super.generalJumpTo( );
 	}
 
 	/**

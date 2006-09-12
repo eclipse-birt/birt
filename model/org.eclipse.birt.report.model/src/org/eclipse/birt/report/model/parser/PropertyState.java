@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -44,7 +43,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.AnyElementState;
 import org.xml.sax.SAXException;
 
 /**
@@ -154,30 +152,14 @@ class PropertyState extends AbstractPropertyState
 
 	}
 
-	public AbstractParseState jumpTo( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 */
+
+	protected AbstractParseState generalJumpTo( )
 	{
-		if ( !valid )
-			return new AnyElementState( getHandler( ) );
-
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) //$NON-NLS-1$
-				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
-		{
-			CompatibleVerticalAlignState state = new CompatibleVerticalAlignState(
-					handler, element );
-			state.setName( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN );
-			return state;
-		}
-
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 ) //$NON-NLS-1$
-				&& ( element instanceof ScalarParameter )
-				&& ( ScalarParameter.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
-		{
-			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
-					handler, element );
-			state.setName( ScalarParameter.DEFAULT_VALUE_PROP );
-			return state;
-		}
-
 		IPropertyDefn jmpDefn = null;
 		if ( struct != null )
 			jmpDefn = struct.getDefn( ).getMember( name );
@@ -260,7 +242,6 @@ class PropertyState extends AbstractPropertyState
 			if ( "onRow".equalsIgnoreCase( name ) )//$NON-NLS-1$
 				return new CompatibleOnRowPropertyState( handler, element );
 		}
-
 		if ( element instanceof GroupElement )
 		{
 			if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
@@ -275,48 +256,6 @@ class PropertyState extends AbstractPropertyState
 			CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
 					handler, element );
 			state.setName( name );
-			return state;
-		}
-
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) <= 0 //$NON-NLS-1$
-				&& struct instanceof DataSetParameter
-				&& "isNullable".equals( name ) ) //$NON-NLS-1$
-		{
-			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, propDefn, struct, "isNullable" ); //$NON-NLS-1$
-			state.setName( DataSetParameter.ALLOW_NULL_MEMBER );
-			return state;
-		}
-
-		if ( ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name )
-				|| ITableRowModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) || IReportItemModel.ON_CREATE_METHOD
-				.equalsIgnoreCase( name ) )
-				&& StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ) //$NON-NLS-1$
-		{
-			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
-					handler, element );
-			state.setName( name );
-			return state;
-		}
-
-		if ( struct instanceof ComputedColumn
-				&& "aggregrateOn".equalsIgnoreCase( name ) //$NON-NLS-1$
-				&& ( element instanceof ScalarParameter || element instanceof ReportItem )
-				& StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) <= 0 ) //$NON-NLS-1$
-		{
-			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$
-			state.setName( ComputedColumn.AGGREGATEON_MEMBER );
-			return state;
-		}
-
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
-				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
-				&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase( name ) )
-		{
-			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
-					handler, element, propDefn, struct );
-			state.setName( DataSetParameter.DATA_TYPE_MEMBER );
 			return state;
 		}
 
@@ -347,7 +286,91 @@ class PropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
+		if ( ( ICellModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) || ITableRowModel.ON_CREATE_METHOD
+				.equalsIgnoreCase( name ) ) )
+		{
+			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
 
-		return super.jumpTo( );
+		return super.generalJumpTo( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#versionConditionalJumpTo()
+	 */
+
+	protected AbstractParseState versionConditionalJumpTo( )
+	{
+		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
+				"3.2.2" ) < 0 ) //$NON-NLS-1$
+				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
+		{
+			CompatibleVerticalAlignState state = new CompatibleVerticalAlignState(
+					handler, element );
+			state.setName( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN );
+			return state;
+		}
+
+		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
+				"3.2.4" ) < 0 ) //$NON-NLS-1$
+				&& ( element instanceof ScalarParameter )
+				&& ( ScalarParameter.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
+		{
+			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
+					handler, element );
+			state.setName( ScalarParameter.DEFAULT_VALUE_PROP );
+			return state;
+		}
+		if ( handler.versionUtil
+				.compareVersion( handler.getVersion( ), "3.2.0" ) <= 0 //$NON-NLS-1$
+				&& struct instanceof DataSetParameter
+				&& "isNullable".equals( name ) ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, propDefn, struct, "isNullable" ); //$NON-NLS-1$
+			state.setName( DataSetParameter.ALLOW_NULL_MEMBER );
+			return state;
+		}
+
+		if ( ( IReportItemModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) )
+				&& handler.versionUtil.compareVersion( handler.getVersion( ),
+						"3.2.0" ) < 0 ) //$NON-NLS-1$
+		{
+			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		if ( struct instanceof ComputedColumn
+				&& "aggregrateOn".equalsIgnoreCase( name ) //$NON-NLS-1$
+				&& ( element instanceof ScalarParameter || element instanceof ReportItem )
+				& handler.versionUtil.compareVersion( handler.getVersion( ),
+						"3.2.2" ) <= 0 ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$
+			state.setName( ComputedColumn.AGGREGATEON_MEMBER );
+			return state;
+		}
+
+		if ( handler.versionUtil
+				.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
+				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
+				&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase( name ) )
+		{
+			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
+					handler, element, propDefn, struct );
+			state.setName( DataSetParameter.DATA_TYPE_MEMBER );
+			return state;
+		}
+
+		return super.versionConditionalJumpTo( );
+	}
+
 }

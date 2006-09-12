@@ -88,8 +88,8 @@ class CompatibleMiscExpressionState extends ExpressionState
 		// require to create bound columns.
 
 		if ( target != null )
-			setupBoundDataColumns( target, value, StringUtil.compareVersion(
-					handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
+			setupBoundDataColumns( target, value, handler.versionUtil
+					.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
 
 		// keep the expression as same.
 
@@ -158,7 +158,7 @@ class CompatibleMiscExpressionState extends ExpressionState
 		}
 		catch ( BirtException e )
 		{
-			newExprs = null;
+			// do nothing
 		}
 
 		if ( newExprs == null || newExprs.isEmpty( ) )

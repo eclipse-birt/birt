@@ -253,76 +253,7 @@ public class StringUtil
 		}
 
 		return value;
-	}
-
-	/**
-	 * Compares the given two versions. The version is the string containing
-	 * numbers and periods. For example:
-	 * <p>
-	 * <ul>
-	 * <li>12
-	 * <li>1.2.3
-	 * <li>3.5.0
-	 * </ul>
-	 * <p>
-	 * Note:This implementation treats "1.0.0" and "1" are same version.The
-	 * result is unexpectable if the version string contains alphabetic
-	 * character.
-	 * 
-	 * @param versionA
-	 *            the given version string
-	 * @param versionB
-	 *            the given version string
-	 * @return <code>-1</code> if <code>versionA</code> is lower than
-	 *         <code>versionB</code>;<code>0</code> if
-	 *         <code>versionA</code> is equal to <code>versionB</code>;
-	 *         otherwise, return <code>1</code>.
-	 */
-
-	public static int compareVersion( String versionA, String versionB )
-	{
-		if ( versionA == null && versionB == null )
-			return 0;
-
-		if ( versionA == null && versionB != null )
-			return -1;
-
-		if ( versionA != null && versionB == null )
-			return 1;
-
-		String[] stringsA = versionA.split( "\\." ); //$NON-NLS-1$
-		String[] stringsB = versionB.split( "\\." ); //$NON-NLS-1$
-
-		int i = 0;
-		for ( ; i < stringsA.length; i++ )
-		{
-			int numberA = Integer.parseInt( stringsA[i] );
-
-			if ( i < stringsB.length )
-			{
-				int numberB = Integer.parseInt( stringsB[i] );
-				int result = numberA - numberB;
-				if ( result > 0 )
-					return 1;
-				else if ( result < 0 )
-					return -1;
-			}
-			else if ( numberA > 0 )
-				return 1;
-		}
-
-		if ( i < stringsB.length )
-		{
-			for ( ; i < stringsB.length; i++ )
-			{
-				int numberB = Integer.parseInt( stringsB[i] );
-				if ( numberB > 0 )
-					return -1;
-			}
-		}
-
-		return 0;
-	}
+	}	
 
 	/**
 	 * Extract file name (without path and suffix) from file name with path and

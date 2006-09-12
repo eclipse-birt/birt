@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
@@ -90,7 +89,8 @@ public class ExtendedItemState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) >= 0 ) //$NON-NLS-1$
+		if ( handler.versionUtil
+				.compareVersion( handler.getVersion( ), "3.2.1" ) >= 0 ) //$NON-NLS-1$
 		{
 			super.end( );
 			return;
