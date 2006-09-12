@@ -45,7 +45,7 @@ public class Regression_74987 extends BaseTestCase
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public void test( ) throws DesignFileException, StyleException,
+	public void test_74987( ) throws DesignFileException, StyleException,
 			ContentException, NameException
 	{
 		openDesign( filename );

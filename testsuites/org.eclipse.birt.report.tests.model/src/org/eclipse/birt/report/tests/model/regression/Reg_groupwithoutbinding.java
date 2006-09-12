@@ -38,7 +38,7 @@ public class Reg_groupwithoutbinding extends BaseTestCase
 	 * @throws SemanticException
 	 */
 	
-	public void test( ) throws DesignFileException, SemanticException
+	public void test_groupwithoutbinding( ) throws DesignFileException, SemanticException
 	{
 		openDesign( INPUT );
 		TextItemHandle text1 = (TextItemHandle) designHandle
