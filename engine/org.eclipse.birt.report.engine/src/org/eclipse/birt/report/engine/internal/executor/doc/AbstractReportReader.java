@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -85,8 +86,8 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 		reportDoc = context.getReportDocument( );
 
-		TOCTree tocTree = (TOCTree) reportDoc.getTOCTree( null, null );
-		reportContent.setTOCTree( tocTree );
+		TOCTree tocTree = new DocumentTOCTree(reportDoc);
+		reportContent.setTOCTree(tocTree);
 		
 		long totalPage = reportDoc.getPageCount( );
 		context.setTotalPage( totalPage );
