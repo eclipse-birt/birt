@@ -628,11 +628,11 @@ public class EngineIRReader implements IOConstants
 				String pageBreakAfter = IOUtil.readString( in );
 				group.setPageBreakAfter( pageBreakAfter );
 				break;
-			case FIELD_HEADER_REPEAT :
+			case FIELD_HIDE_DETAIL :
 				boolean hideDetail = IOUtil.readBool( in );
 				group.setHideDetail( hideDetail );
 				break;
-			case FIELD_HIDE_DETAIL :
+			case FIELD_HEADER_REPEAT :
 				boolean headerRepeat = IOUtil.readBool( in );
 				group.setHeaderRepeat( headerRepeat );
 				break;
