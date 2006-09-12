@@ -18,7 +18,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.PropertyResourceBundle;
@@ -101,11 +100,9 @@ public class BundleHelper
 	public Collection getMessageKeys( ULocale locale )
 	{
 		Set keys = new LinkedHashSet( );
-		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
-		while ( bundleIter.hasNext( ) )
+		PropertyResourceBundle bundle = gatherMessageBundles( locale );
+		if ( bundle != null )
 		{
-			PropertyResourceBundle bundle = (PropertyResourceBundle) bundleIter
-					.next( );
 			Enumeration enumeration = bundle.getKeys( );
 			while ( enumeration.hasMoreElements( ) )
 			{
@@ -134,15 +131,14 @@ public class BundleHelper
 
 	public String getMessage( String resourceKey, ULocale locale )
 	{
-		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
-		while ( bundleIter.hasNext( ) )
+		PropertyResourceBundle bundle = gatherMessageBundles( locale );
+		if ( bundle != null )
 		{
-			String translation = (String) ( (PropertyResourceBundle) bundleIter
-					.next( ) ).handleGetObject( resourceKey );
+			String translation = (String) bundle.handleGetObject( resourceKey );
+
 			if ( translation != null )
 				return translation;
 		}
-
 		return null;
 	}
 
@@ -161,20 +157,22 @@ public class BundleHelper
 	 * @return a message file list for the given locale.
 	 */
 
-	private List gatherMessageBundles( ULocale locale )
+	private PropertyResourceBundle gatherMessageBundles( ULocale locale )
 	{
-		List bundleHierarchy = new ArrayList( );
 
 		List bundleNames = getMessageFilenames( locale );
 		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
 			String bundleName = (String) bundleNames.get( i );
 			PropertyResourceBundle bundle = populateBundle( bundleName );
+
 			if ( bundle != null )
-				bundleHierarchy.add( bundle );
+			{
+				return bundle;
+			}
 		}
 
-		return bundleHierarchy;
+		return null;
 	}
 
 	/**
