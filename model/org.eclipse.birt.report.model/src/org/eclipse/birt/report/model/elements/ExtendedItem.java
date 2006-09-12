@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -293,10 +294,8 @@ public class ExtendedItem extends ReportItem
 		if ( provider != null )
 			provider.initializeReportItem( module );
 		else
-			throw new ExtendedElementException( this,
-					ExtendedElementException.PLUGIN_ID,
+			throw new ExtendedElementException( this, ModelException.PLUGIN_ID,
 					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null );
-
 	}
 
 	/**

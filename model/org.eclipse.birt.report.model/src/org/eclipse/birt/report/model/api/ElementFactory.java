@@ -50,6 +50,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -986,7 +987,7 @@ public class ElementFactory
 		if ( baseElement instanceof ExtendedItemHandle )
 		{
 			String extensionName = baseElement
-					.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
+					.getStringProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
 			childElement = newExtendedItem( name, extensionName,
 					(ExtendedItemHandle) baseElement );
 			childElement.getElement( ).refreshStructureFromParent( module );

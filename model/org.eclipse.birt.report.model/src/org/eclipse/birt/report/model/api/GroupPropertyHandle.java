@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -293,7 +294,79 @@ public class GroupPropertyHandle
 
 	public void clearValue( ) throws SemanticException
 	{
-		setValue( null );
+		if ( isExtensionModelProperty( ) )
+		{
+			ActivityStack actStack = handle.getModule( ).getActivityStack( );
+			actStack.startTrans( );
+
+			try
+			{
+				for ( Iterator iter = handle.getElements( ).iterator( ); iter
+						.hasNext( ); )
+				{
+					DesignElementHandle elemHandle = (DesignElementHandle) iter
+							.next( );
+					if ( elemHandle instanceof ExtendedItemHandle )
+					{
+						ExtendedItem parent = (ExtendedItem) elemHandle
+								.getElement( ).getExtendsElement( );
+						parent.initializeReportItem( parent.getRoot( ) );
+						elemHandle.setProperty( propDefn.getName( ), parent
+								.getLocalProperty( parent.getRoot( ),
+										propDefn ) );
+					}
+				}
+			}
+			catch ( SemanticException e )
+			{
+				actStack.rollback( );
+				throw e;
+			}
+
+			actStack.commit( );
+		}
+		else
+			setValue( null );
+	}
+
+	/**
+	 * Tests if this property is an extension defined property.
+	 * 
+	 * @return <code>true</code> if this property is an extension defined
+	 *         property, <code>false</code> otherwise.
+	 */
+
+	boolean isExtensionModelProperty( )
+	{
+		for ( Iterator iter = handle.getElements( ).iterator( ); iter.hasNext( ); )
+		{
+			DesignElementHandle elemHandle = (DesignElementHandle) iter.next( );
+			if ( elemHandle instanceof ExtendedItemHandle
+					&& ( (ExtendedItem) elemHandle.getElement( ) )
+							.isExtensionModelProperty( propDefn.getName( ) ) )
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Tests if this property is an extension defined xml property.
+	 * 
+	 * @return <code>true</code> if this property is an extension defined
+	 *         xml property, <code>false</code> otherwise.
+	 */
+
+	boolean isExtensionXMLProperty( )
+	{
+		for ( Iterator iter = handle.getElements( ).iterator( ); iter.hasNext( ); )
+		{
+			DesignElementHandle elemHandle = (DesignElementHandle) iter.next( );
+			if ( elemHandle instanceof ExtendedItemHandle
+					&& ( (ExtendedItem) elemHandle.getElement( ) )
+							.isExtensionXMLProperty( propDefn.getName( ) ) )
+				return true;
+		}
+		return false;
 	}
 
 	/**

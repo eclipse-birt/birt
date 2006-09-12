@@ -20,9 +20,12 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -109,6 +112,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	public List getCommonProperties( )
 	{
+		if ( elements.size( ) == 1 )
+			return Collections
+					.unmodifiableList( ( (DesignElementHandle) elements.get( 0 ) )
+							.getElement( ).getPropertyDefns( ) );
+
 		List minProps = getMinPropDefns( );
 		List commonProps = new ArrayList( minProps );
 
@@ -118,8 +126,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 			PropertyDefn propDefn = (PropertyDefn) iter.next( );
 			for ( int i = 0; i < elements.size( ); i++ )
 			{
-				if ( !( (DesignElementHandle) elements.get( i ) ).getElement( )
-						.getPropertyDefns( ).contains( propDefn ) )
+				if ( ( (DesignElementHandle) elements.get( i ) ).getElement( )
+						.getPropertyDefn( propDefn.getName( ) ) == null )
 				{
 					commonProps.remove( propDefn );
 					break;
@@ -264,15 +272,15 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 				String propName = propHandle.getPropertyDefn( ).getName( );
 
-				if ( DesignElement.EXTENDS_PROP.equals( propName )
-						|| DesignElement.NAME_PROP.equals( propName )
+				if ( IDesignElementModel.EXTENDS_PROP.equals( propName )
+						|| IDesignElementModel.NAME_PROP.equals( propName )
 						|| IExtendedItemModel.EXTENSION_NAME_PROP
-								.equals( propName ) )
+								.equals( propName )
+						|| propHandle.isExtensionXMLProperty( ) )
 				{
 					// ignore name, extends, extension id property.
 					continue;
 				}
-
 				Object localValue = propHandle.getLocalValue( );
 
 				if ( localValue != null )
@@ -393,10 +401,10 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	private boolean needHide( String propName )
 	{
-		if ( !( ReportItemHandle.BOOKMARK_PROP.equals( propName )
-				|| ReportItemHandle.TOC_PROP.equals( propName )
-				|| StyleHandle.PAGE_BREAK_AFTER_PROP.equals( propName )
-				|| StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( propName ) || CellHandle.DROP_PROP
+		if ( !( IReportItemModel.BOOKMARK_PROP.equals( propName )
+				|| IReportItemModel.TOC_PROP.equals( propName )
+				|| IStyleModel.PAGE_BREAK_AFTER_PROP.equals( propName )
+				|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equals( propName ) || ICellModel.DROP_PROP
 				.equals( propName ) ) )
 			return false;
 
@@ -408,11 +416,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 			// hide "drop" property for all cells except cells in group
 			// element
-			if ( CellHandle.DROP_PROP.equals( propName ) )
+			if ( ICellModel.DROP_PROP.equals( propName ) )
 			{
 				if ( current instanceof CellHandle )
 				{
-					if (container == null)
+					if ( container == null )
 					{
 						continue;
 					}

@@ -20,12 +20,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -375,7 +377,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 		if ( extDefn == null )
 			throw new ExtendedElementException( element,
-					ExtendedElementException.PLUGIN_ID,
+					ModelException.PLUGIN_ID,
 					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null );
 
 		IReportItemFactory elementFactory = extDefn.getReportItemFactory( );
@@ -390,7 +392,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					.get( i );
 
 			assert propDefn.isExtended( );
-			if ( propDefn.getTypeCode( ) != PropertyType.XML_TYPE
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
 					|| !propDefn.canInherit( ) )
 				continue;
 
@@ -438,7 +440,6 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 						new ByteArrayInputStream( raw ) );
 			}
 		}
-
 	}
 
 	/**

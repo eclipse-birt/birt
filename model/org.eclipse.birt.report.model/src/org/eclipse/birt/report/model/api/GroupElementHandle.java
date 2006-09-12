@@ -16,7 +16,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -214,8 +216,31 @@ abstract public class GroupElementHandle
 						.next( );
 				String name = propertyHandle.getDefn( ).getName( );
 				if ( ( IDesignElementModel.NAME_PROP.equals( name ) )
-						|| ( IDesignElementModel.EXTENDS_PROP.equals( name ) ) )
+						|| ( IDesignElementModel.EXTENDS_PROP.equals( name ) )
+						|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( name ) )
 					continue;
+
+				if ( elementHandle instanceof ExtendedItemHandle )
+				{
+					ExtendedItem elem = (ExtendedItem) elementHandle
+							.getElement( );
+
+					if ( elem.isExtensionXMLProperty( name ) )
+						continue;
+
+					if ( elem.isExtensionModelProperty( name ) )
+					{
+						ExtendedItem parent = (ExtendedItem) elem
+								.getExtendsElement( );
+						if ( !elem.getLocalProperty(
+								elementHandle.getModule( ), name ).equals(
+								parent.getLocalProperty( parent.getRoot( ),
+										name ) ) )
+							return true;
+						else
+							continue;
+					}
+				}
 
 				if ( elementHandle.getElement( ).getLocalProperty(
 						elementHandle.getModule( ), name ) != null )
@@ -229,8 +254,8 @@ abstract public class GroupElementHandle
 	/**
 	 * Checks if all elements have extends parents or virtual parents.
 	 * 
-	 * @return <code>true</code> If all elements have extend parents or virtual
-	 *         parents. Otherwise <code>false</code>;
+	 * @return <code>true</code> If all elements have extend parents or
+	 *         virtual parents. Otherwise <code>false</code>;
 	 */
 
 	protected abstract boolean allExtendedElements( );

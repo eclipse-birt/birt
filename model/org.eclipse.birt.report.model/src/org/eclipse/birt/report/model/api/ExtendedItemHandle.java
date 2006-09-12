@@ -66,7 +66,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public String getExtensionName( )
 	{
-		return getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
+		return getStringProperty( EXTENSION_NAME_PROP );
 	}
 
 	/*
@@ -165,7 +165,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public Iterator filtersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ExtendedItem.FILTER_PROP );
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -237,9 +237,9 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void setAltText( String altText ) throws SemanticException
 	{
-		setStringProperty( ALT_TEXT_PROP , altText );
+		setStringProperty( ALT_TEXT_PROP, altText );
 	}
-	
+
 	/**
 	 * Sets the alt text id of this extended item.
 	 * 
@@ -252,8 +252,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void setAltTextKey( String altTextKey ) throws SemanticException
 	{
-		setStringProperty( ALT_TEXT_KEY_PROP , altTextKey );
+		setStringProperty( ALT_TEXT_KEY_PROP, altTextKey );
 	}
-
 
 }
