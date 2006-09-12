@@ -93,6 +93,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 			xr.setContentHandler( this );
 			xr.setErrorHandler( this );
 
+			this.inputStream.init( );
 			try{
 				xr.parse( new InputSource( this.inputStream ) );
 			}catch ( ThreadStopException tsE )
@@ -102,7 +103,7 @@ public class SaxParser extends DefaultHandler implements Runnable
 				tsE.printStackTrace();
 			}
 
-			this.inputStream.reStart();
+		//	this.inputStream.reStart();
 		}
 		catch ( Exception e )
 		{
@@ -308,7 +309,6 @@ public class SaxParser extends DefaultHandler implements Runnable
 		try
 		{
 			if ( this.inputStream != null )
-
 				this.inputStream.close( );
 		}
 		catch ( IOException e )
