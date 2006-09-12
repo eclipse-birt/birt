@@ -106,7 +106,7 @@ public class MetaDataPopulator
 				if ( findColumnHint( dataSetHandle, uniqueColumnName ) != null )
 				{
 					ColumnHintHandle columnHint = findColumnHint( dataSetHandle,
-							resultSetColumn.getColumnName( ) );
+							uniqueColumnName );
 					columnDef.setAlias( columnHint.getAlias( ) );
 					columnDef.setLableName( columnHint.getDisplayName( ) );
 				}
@@ -146,8 +146,7 @@ public class MetaDataPopulator
 
 					columnDef.setDataTypeName( computedColumn.getDataType( ) );
 					columnDef.setDataType( ModelAdapter.adaptModelDataType( computedColumn.getDataType( ) ) );
-					if ( findColumnHint( dataSetHandle,
-							computedColumn.getName( ) ) != null )
+					if ( findColumnHint( dataSetHandle, uniqueColumnName ) != null )
 					{
 						ColumnHintHandle columnHint = findColumnHint( dataSetHandle,
 								uniqueColumnName );
