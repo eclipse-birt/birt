@@ -108,52 +108,42 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 	{
 		IBandContent band = (IBandContent) content;
 		int type = band.getBandType( );
-		if(type==IBandContent.BAND_HEADER)
+		if ( type == IBandContent.BAND_HEADER )
 		{
 			IElement listContent = band.getParent( );
-			if(listContent instanceof IListContent)
+			if ( listContent instanceof IListContent )
 			{
-				return !((IListContent)listContent).isHeaderRepeat( );
+				return !( (IListContent) listContent ).isHeaderRepeat( );
 			}
 		}
-		else if( type==IBandContent.BAND_GROUP_HEADER)
+		else if ( type == IBandContent.BAND_GROUP_HEADER )
 		{
 			IElement groupContent = band.getParent( );
-			if(groupContent instanceof IGroupContent)
+			if ( groupContent instanceof IGroupContent )
 			{
-				return !((IGroupContent)groupContent).isHeaderRepeat( );
+				return !( (IGroupContent) groupContent ).isHeaderRepeat( );
 			}
 		}
 		return true;
 	}
-	
-	protected boolean canPageBreak( )
-	{
-		if(!allowPageBreak())
-		{
-			return false;
-		}
-		 return super.canPageBreak( );
-	}
 
-	protected boolean isPageBreakBefore( )
+	protected boolean needPageBreakBefore( )
 	{
-		if( super.isPageBreakBefore( ))
+		if ( super.needPageBreakBefore( ) )
 		{
 			return true;
 		}
-		else
+		int bandType = ( (IBandContent) content ).getBandType( );
+		if ( bandType == IBandContent.BAND_GROUP_HEADER )
 		{
-			int bandType = ( (IBandContent) content ).getBandType( );
-			if(bandType==IBandContent.BAND_GROUP_HEADER)
+			IStyle style = content.getStyle( );
+			CSSValue pageBreak = style
+					.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
+			if ( IStyle.SOFT_VALUE.equals( pageBreak ) )
 			{
-				IStyle style = content.getStyle( );
-				CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE);
-				if ( IStyle.SOFT_VALUE.equals( pageBreak ))
-				{
-					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
-					return true;
-				}
+				style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+						IStyle.AUTO_VALUE );
+				return true;
 			}
 		}
 		return false;

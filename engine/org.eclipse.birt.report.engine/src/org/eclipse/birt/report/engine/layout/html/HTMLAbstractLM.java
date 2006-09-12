@@ -223,13 +223,22 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return true;
 	}
 
+	
 	protected boolean canPageBreak( )
 	{
+		//if the context disable the page-break, return directly
 		if ( !context.allowPageBreak( ) )
 		{
 			return false;
 		}
 
+		//test if it allow page break.
+		if ( !allowPageBreak( ) )
+		{
+			return false;
+		}
+		
+		//then test it's parent
 		HTMLAbstractLM p = parent;
 		while ( p != null )
 		{
