@@ -43,57 +43,57 @@ public class RunTaskTest extends EngineCase
 	 * Test two Run method with different argument.
 	 * 
 	 */
-	public void test1( )
+	public void testRunTask1( )
 	{
 		runReport( "case1" );
 	}
 
-	public void test2( )
+	public void testRunTask2( )
 	{
 		runReport( "long_text" );
 	}
 
-	public void test3( )
+	public void testRunTask3( )
 	{
 		runReport( "master_page" );
 	}
 
-	public void test4( )
+	public void testRunTask4( )
 	{
 		runReport( "multiple_datasets" );
 	}
 
-	public void test5( )
+	public void testRunTask5( )
 	{
 		runReport( "pages9" );
 	}
 
-	public void test6( )
+	public void testRunTask6( )
 	{
 		runReport( "table_nest_pages" );
 	}
 
-	public void test7( )
+	public void testRunTask7( )
 	{
 		runReport( "chart" );
 	}
 
-	public void test8( )
+	public void testRunTask8( )
 	{
 		runReport( "complex_report" );
 	}
 
-	public void test9( )
+	public void testRunTask9( )
 	{
 		runReport( "area3dChart" );
 	}
 
-	public void test10( )
+	public void testRunTask10( )
 	{
 		runReport( "image_in_DB" );
 	}
 
-	public void test11( )
+	public void testRunTask11( )
 	{
 		runReport( "MeterChart" );
 	}
