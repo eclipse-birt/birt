@@ -41,6 +41,7 @@ class ExpressionParserUtility
 	
 	private static ExpressionParserUtility instance = new ExpressionParserUtility( );
 	private static boolean hasAggregation = false;
+	private static boolean isDirectColumnRef = false;
 	
 	/**
 	 * compile the expression
@@ -118,6 +119,13 @@ class ExpressionParserUtility
 		return hasAggregation;
 	}
 	
+	static boolean isDirectColumnRef( String expression, boolean mode )
+			throws BirtException
+	{
+		isDirectColumnRef = false;
+		compileColumnExpression( expression, mode );
+		return isDirectColumnRef;
+	}
 	
 	/**
 	 * compile the expression from a script tree
@@ -364,6 +372,11 @@ class ExpressionParserUtility
 				columnExprList.add( info );
 				return;
 			}
+			if ( tree.getFirstChild( ).getFirstChild( ) == refNode
+					&& refNode.getNext( ) == null )
+			{
+				isDirectColumnRef = true;
+			}
 			ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
 					ExpressionUtil.createDataSetRowExpression( rowColumn.getString( ) ) );
 			columnExprList.add( binding );
@@ -383,6 +396,11 @@ class ExpressionParserUtility
 			{
 				if ( "_rownum".equals( rowColumn.getString( ) ) )
 					return;
+				if ( tree.getFirstChild( ).getFirstChild( ) == refNode
+						&& refNode.getNext( ) == null )
+				{
+					isDirectColumnRef = true;
+				}
 				ColumnBinding binding = new ColumnBinding( rowColumn.getString( ),
 						ExpressionUtil.createJSDataSetRowExpression( rowColumn.getString( ) ) );
 				columnExprList.add( binding );

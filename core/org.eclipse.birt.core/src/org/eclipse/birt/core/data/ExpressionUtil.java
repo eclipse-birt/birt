@@ -138,6 +138,25 @@ public final class ExpressionUtil
 	}
 	
 	/**
+	 * Get the simplest column binding name. Such as row["col1"] pattern, we
+	 * will return the column name "col1"
+	 * 
+	 * @param oldExpression
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String getColumnBindingName( String oldExpression )
+			throws BirtException
+	{
+		List columnsLists = extractColumnExpressions( oldExpression, true );
+		if ( columnsLists.size( ) != 1
+				|| !ExpressionParserUtility.isDirectColumnRef( oldExpression,
+						true ) )
+			return null;
+		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
+	}
+	
+	/**
 	 * Extract all column expression info
 	 * 
 	 * @param oldExpression
