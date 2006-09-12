@@ -93,6 +93,12 @@ public class WebViewer
 	public final static String RESOURCE_FOLDER_KEY = "RESOURCE_FOLDER_KEY"; //$NON-NLS-1$
 
 	/**
+	 * Key to indicate the 'maxRows'
+	 */
+
+	public final static String MAX_ROWS_KEY = "MAX_ROWS_KEY"; //$NON-NLS-1$
+
+	/**
 	 * locale mapping. Save some time.
 	 */
 	public static TreeMap LocaleTable = null;
@@ -141,25 +147,34 @@ public class WebViewer
 	private static String createURL( String report, Map params )
 	{
 		if ( params == null || params.isEmpty( ) )
-			return createURL( null, report, null, true, null );
+			return createURL( null, report, null, true, null, null );
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
 		String format = (String) params.get( FORMAT_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
 		Boolean allowPage = (Boolean) params.get( ALLOW_PAGE_KEY );
 		if ( PDF.equalsIgnoreCase( format ) )
 		{
-			return createURL( "run", report, format, true, resourceFolder ); //$NON-NLS-1$
+			servletName = "run"; //$NON-NLS-1$
 		}
-		if ( servletName == null || servletName.trim( ).length( ) <= 0 )
+		else
 		{
-			if ( allowPage == null )
-				servletName = "frameset"; //$NON-NLS-1$
-			else
+			if ( servletName == null || servletName.trim( ).length( ) <= 0 )
 			{
-				servletName = allowPage.booleanValue( ) ? "frameset" : "run"; //$NON-NLS-1$ //$NON-NLS-2$
+				if ( allowPage == null )
+					servletName = "frameset"; //$NON-NLS-1$
+				else
+				{
+					servletName = allowPage.booleanValue( )
+							? "frameset" : "run"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
 			}
 		}
-		return createURL( servletName, report, format, true, resourceFolder );
+		String maxrows = null;
+		if ( params.get( MAX_ROWS_KEY ) != null )
+			maxrows = (String) params.get( MAX_ROWS_KEY );
+
+		return createURL( servletName, report, format, true, resourceFolder,
+				maxrows );
 	}
 
 	/**
@@ -173,10 +188,13 @@ public class WebViewer
 	 *            report format
 	 * @param resourceFolder
 	 *            the resource folder
+	 * @param maxrows
+	 *            max rows limited
 	 * @return valid web viewer url
 	 */
 	private static String createURL( String servletName, String report,
-			String format, boolean inDesigner, String resourceFolder )
+			String format, boolean inDesigner, String resourceFolder,
+			String maxrows )
 	{
 		String encodedReportName = null;
 
@@ -196,14 +214,7 @@ public class WebViewer
 				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
 
-		// Get maxrows preference
-		String maxrows = ViewerPlugin.getDefault( ).getPluginPreferences( )
-				.getString( PREVIEW_MAXROW );
-		if ( maxrows == null )
-			maxrows = ""; //$NON-NLS-1$
-
 		// get -dir rtl option
-
 		boolean rtl = false;
 		String eclipseCommands = System.getProperty( "eclipse.commands" ); //$NON-NLS-1$
 		if ( eclipseCommands != null )
@@ -265,7 +276,8 @@ public class WebViewer
 				+ String.valueOf( inDesigner )
 				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
 				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
-				+ "&__maxrows=" + maxrows //$NON-NLS-1$
+				+ ( maxrows != null && maxrows.trim( ).length( ) > 0
+						? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__resourceFolder=" + encodedResourceFolder; //$NON-NLS-1$
 	}
 
@@ -321,12 +333,12 @@ public class WebViewer
 
 		if ( WebViewer.PDF.equalsIgnoreCase( format ) )
 		{
-			root = createURL( "run", report, format, true, null ); //$NON-NLS-1$
+			root = createURL( "run", report, format, true, null, null ); //$NON-NLS-1$
 		}
 		else
 		{
 			root = createURL(
-					allowPage ? "frameset" : "run", report, format, true, null ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					allowPage ? "frameset" : "run", report, format, true, null, null ) + "&" + new Random( ).nextInt( ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		try
@@ -353,7 +365,7 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		browser
-				.setUrl( createURL( "run", report, format, true, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				.setUrl( createURL( "run", report, format, true, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -372,7 +384,8 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser,
 			String servletName )
 	{
-		browser.setUrl( createURL( servletName, report, format, true, null )
+		browser.setUrl( createURL( servletName, report, format, true, null,
+				null )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 	}
 
@@ -390,7 +403,7 @@ public class WebViewer
 	public static void display( String report, Browser browser, Map params )
 	{
 		browser.setUrl( createURL( report, params )
-				+ "&" + new Random( ).nextInt( )); //$NON-NLS-1$
+				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -406,8 +419,10 @@ public class WebViewer
 	{
 		try
 		{
-			BrowserAccessor.getPreviewBrowser( false ).displayURL(
-					createURL( report, params ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
+			BrowserAccessor.getPreviewBrowser( false )
+					.displayURL(
+							createURL( report, params )
+									+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
