@@ -4,6 +4,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -18,9 +19,8 @@ import org.mozilla.javascript.Scriptable;
  */
 public abstract class NEvaluator
 {
-	private static int MAX_N_VALUE = 1000000;
-	private Object[] valueList; 
-	private int[] rowIdList;
+	private BasicCachedArray valueList; 
+	private BasicCachedArray rowIdList;
 	private int firstPassRowNumberCounter = 0;
 	private int secondPassRowNumberCounter = 0;
 	private int qualifiedRowCounter = 0;
@@ -136,9 +136,6 @@ public abstract class NEvaluator
 				N = (int)n_value;
 			}
 			
-			if ( N > MAX_N_VALUE )
-				throw new DataException( ResourceConstants.INVALID_TOP_BOTTOM_N,
-						new Integer( MAX_N_VALUE ) );
 		}
 		
 		// Evaluate operand expression
@@ -167,8 +164,9 @@ public abstract class NEvaluator
 		firstPassRowNumberCounter++;
 		if ( valueList == null )
 		{
-			valueList = new Object[N];
-			rowIdList = new int[N];
+			valueList = new BasicCachedArray( N );
+			rowIdList = new BasicCachedArray( N );
+			
 		}
 		populateValueListAndRowIdList( value, N );
 		return true;
@@ -186,10 +184,10 @@ public abstract class NEvaluator
 		{
 			if( value == null )
 				value = nullValueReplacer;
-			if( valueList[i] == null )
+			if( valueList.get( i ) == null )
 			{
-				valueList[i] = value;
-				rowIdList[i] = firstPassRowNumberCounter;
+				valueList.set( i, value);
+				rowIdList.set( i, new Integer( firstPassRowNumberCounter ) );
 				break;
 			}
 			else 
@@ -197,11 +195,11 @@ public abstract class NEvaluator
 				Object result;
 				
 				if( value.equals(nullValueReplacer) )
-					result = this.doCompare( null, valueList[i]);
-				else if ( valueList[i].equals(nullValueReplacer))
+					result = this.doCompare( null, valueList.get( i ));
+				else if ( valueList.get( i ).equals(nullValueReplacer))
 					result = this.doCompare( value, null );
 				else
-					result = this.doCompare( value, valueList[i] );
+					result = this.doCompare( value, valueList.get( i ) );
 				
 				try
 				{
@@ -210,11 +208,12 @@ public abstract class NEvaluator
 					{
 						for( int j = N - 1; j > i; j--)
 						{
-							valueList[j] = valueList[j-1];
-							rowIdList[j] = rowIdList[j-1];
+							valueList.set( j, valueList.get( j - 1 ) );
+							rowIdList.set( j, rowIdList.get( j - 1 ) );
 						}
-						valueList[i] = value;
-						rowIdList[i] = firstPassRowNumberCounter;
+						valueList.set( i, value );
+						rowIdList.set( i,
+								new Integer( firstPassRowNumberCounter ) );
 						break;
 					}
 				}
@@ -243,7 +242,12 @@ public abstract class NEvaluator
 		{
 			for ( int i = 0; i < N; i++ )
 			{
-				if ( rowIdList[i] == secondPassRowNumberCounter )
+				int rowId = 0;
+				if( rowIdList.get( i )!=null)
+				{
+					rowId = ((Integer)rowIdList.get( i )).intValue( );
+				}
+				if ( rowId == secondPassRowNumberCounter )
 				{
 					qualifiedRowCounter++;
 					reset( );

@@ -56,7 +56,7 @@ public class CachedList extends BasicCachedList
 	{
 		if(object == null)
 		{
-			IOUtil.writeInt( oos, INT_NULL );
+			IOUtil.writeInt( oos, NULL_VALUE );
 			return;
 		}
 		ICachedObject cachedObject = (ICachedObject) object;
@@ -76,7 +76,7 @@ public class CachedList extends BasicCachedList
 	protected Object readObject(DataInputStream dis) throws IOException
 	{
 		int fieldCount = IOUtil.readInt( dis );
-		if ( fieldCount == INT_NULL )
+		if ( fieldCount == NULL_VALUE )
 		{
 			return null;
 		}
