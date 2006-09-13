@@ -42,14 +42,14 @@ import org.xml.sax.Attributes;
  * Parses the abstract property. The XML file is like:
  * 
  * <pre>
- *    
- *     
- *      
- *        
- *        &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
- *       
- *      
- *     
+ *         
+ *          
+ *           
+ *             
+ *             &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *            
+ *           
+ *          
  * </pre>
  * 
  * The supported tags are:
@@ -392,7 +392,7 @@ public class AbstractPropertyState extends AbstractParseState
 					|| Style.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( propDefn
 							.getName( ) ) )
 				return true;
-			
+
 			ObjectDefn objDefn = ( (PropertyDefn) propDefn ).definedBy( );
 			if ( objDefn instanceof StructureDefn )
 			{
@@ -460,8 +460,48 @@ public class AbstractPropertyState extends AbstractParseState
 		// ignored.
 
 		if ( !valid )
-			return new AnyElementState( getHandler( ) );
+			return new AnyElementState( handler );
 
+		AbstractParseState state = null;
+
+		// general jump to
+		state = generalJumpTo( );
+		if ( state != null )
+			return state;
+
+		// version conditional jump to
+		if ( handler.versionUtil.compareVersion( handler.getVersion( ),
+				DesignSchemaConstants.REPORT_VERSION ) < 0 )
+		{
+			state = versionConditionalJumpTo( );
+			if ( state != null )
+				return state;
+		}
+
+		// super jump to
 		return super.jumpTo( );
+	}
+
+	/**
+	 * Jumps to the specified state that the current state needs to go.
+	 * 
+	 * @return the other state.
+	 */
+
+	protected AbstractParseState versionConditionalJumpTo( )
+	{
+		return null;
+	}
+
+	/**
+	 * Jumps to the specified state that the current state needs to go when some
+	 * version controlled condition is satisfied.
+	 * 
+	 * @return the other state.
+	 */
+
+	protected AbstractParseState generalJumpTo( )
+	{
+		return null;
 	}
 }
