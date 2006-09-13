@@ -269,6 +269,10 @@ public class ModelDteApiAdapter
 		{
 			return IJointDataSetDesign.RIGHT_OUTER_JOIN;
 		}
+		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_FULL_OUT ))
+		{
+			return IJointDataSetDesign.FULL_OUTER_JOIN;
+		}
 		return -1;
 	}
 	
