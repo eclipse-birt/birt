@@ -3,33 +3,36 @@ package org.eclipse.birt.report.engine.api.script.instance;
 
 public interface IRowInstance extends IReportElementInstance
 {
-
+	/**
+	 * Get the style of the row
+	 * @return style of the row
+	 */
 	IScriptStyle getStyle( );
 
 	/**
-	 * @return the Bookmark value
+	 * Get the value of bookmark
+	 * @return value of bookmark
 	 */
 	String getBookmarkValue( );
 
 	/**
-	 * @return the Bookmark value
+	 * Set the bookmark
+	 * @param bookmark
 	 */
 	void setBookmark( String bookmark );
 
 	/**
-	 * @return Returns the height.
+	 * Get the height of the row
+	 * @return the height of the row
 	 */
 	String getHeight( );
 
 	/**
-	 * @return Returns the height.
+	 * Set the height of the row
+	 * @param height
 	 */
 	void setHeight( String height );
 
-	/**
-	 * Get the evaluated expressions for this row
-	 * 
-	 */
 	/*
 	IRowData getRowData( );
 	*/
