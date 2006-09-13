@@ -727,7 +727,7 @@ public class ParameterAccessor
 
 		filePath = preProcess( filePath );
 
-		if ( "".equals( filePath ) ) //$NON-NLS-1$
+		if ( filePath == null || filePath.trim( ).length( ) <= 0 )
 		{
 			filePath = generateDocumentFromReport( request );
 			filePath = createDocumentPath( filePath, request );
@@ -811,11 +811,11 @@ public class ParameterAccessor
 		if ( projectName == null )
 			return projectName;
 
-		if ( projectName.indexOf( ":" ) != -1 )
-			projectName = projectName.substring( 0, projectName.indexOf( ":" ) );
+		if ( projectName.indexOf( ":" ) != -1 ) //$NON-NLS-1$
+			projectName = projectName.substring( 0, projectName.indexOf( ":" ) ); //$NON-NLS-1$
 
-		if ( !"\\".equals( projectName.substring( 0, 1 ) )
-				&& !"/".equals( projectName.substring( 0, 1 ) ) )
+		if ( !"\\".equals( projectName.substring( 0, 1 ) ) //$NON-NLS-1$
+				&& !"/".equals( projectName.substring( 0, 1 ) ) ) //$NON-NLS-1$
 		{
 			projectName = File.separator + projectName;
 		}
@@ -1214,8 +1214,8 @@ public class ParameterAccessor
 	 */
 	public static boolean isBookmarkReportlet( HttpServletRequest request )
 	{
-		if ( "true"
-				.equalsIgnoreCase( getParameter( request, PARAM_ISREPORTLET ) ) )
+		if ( "true" //$NON-NLS-1$
+		.equalsIgnoreCase( getParameter( request, PARAM_ISREPORTLET ) ) )
 		{
 			String bookmark = getParameter( request, PARAM_BOOKMARK );
 			return bookmark != null && bookmark.length( ) > 0;
@@ -1343,7 +1343,8 @@ public class ParameterAccessor
 
 	protected static String createAbsolutePath( String filePath )
 	{
-		if ( isRelativePath( filePath ) )
+		if ( filePath != null && filePath.trim( ).length( ) > 0
+				&& isRelativePath( filePath ) )
 		{
 			return documentFolder + File.separator + filePath;
 		}
