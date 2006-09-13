@@ -235,7 +235,7 @@ public class DataCharts
 		return cwaBar;
 	}
 
-	protected static final Chart createMulitYSeriesChart( )
+	protected static final Chart createMultiYSeriesChart( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 

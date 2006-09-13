@@ -480,7 +480,7 @@ public final class DataChartsViewer extends JPanel implements
 					cm = DataCharts.createMinSliceChart( );
 					break;
 				case 1 :
-					cm = DataCharts.createMulitYSeriesChart( );
+					cm = DataCharts.createMultiYSeriesChart( );
 					break;
 				case 2 :
 					cm = DataCharts.createMultiYAxisChart( );
