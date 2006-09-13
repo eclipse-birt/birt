@@ -16,9 +16,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.impl.CascadingParameterGroupDefn;
@@ -74,6 +77,7 @@ import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -152,7 +156,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.124 $ $Date: 2006/09/08 08:57:02 $
+ * @version $Revision: 1.125 $ $Date: 2006/09/08 10:02:14 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -936,7 +940,7 @@ class EngineIRVisitor extends DesignVisitor
 			apply( groupSlot.get( i ) );
 			if ( currentElement != null )
 			{
-				GroupDesign group = (GroupDesign) currentElement;
+				TableGroupDesign group = (TableGroupDesign) currentElement;
 				group.setGroupLevel( i );
 				locateGroupIcon( group );
 				table.addGroup( group );
@@ -1008,9 +1012,10 @@ class EngineIRVisitor extends DesignVisitor
 		currentElement = table;
 	}
 
-	private void locateGroupIcon( GroupDesign group )
+	private void locateGroupIcon( TableGroupDesign group )
 	{
 		GroupHandle groupHandle = (GroupHandle)group.getHandle( );
+		TableHandle tableHandle = (TableHandle) groupHandle.getContainer( );
 		String keyExpression = groupHandle.getKeyExpr();
 		if ( keyExpression == null )
 		{
@@ -1018,6 +1023,8 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		keyExpression = keyExpression.trim( );
 		BandDesign groupHeader = group.getHeader( );
+		String columnBindingExpression = getColumnBinding( tableHandle,
+				keyExpression );
 		for ( int i = 0; i < groupHeader.getContentCount( ); i++ )
 		{
 			RowDesign row = (RowDesign) groupHeader.getContent( 0 );
@@ -1027,7 +1034,8 @@ class EngineIRVisitor extends DesignVisitor
 				for ( int k = 0; k < cell.getContentCount( ); k++ )
 				{
 					ReportItemDesign item = cell.getContent( k );
-					if ( hasExpression( item, keyExpression ) )
+					if ( hasExpression( tableHandle, item, keyExpression,
+							columnBindingExpression ) )
 					{
 						cell.setDisplayGroupIcon( true );
 						return;
@@ -1037,7 +1045,9 @@ class EngineIRVisitor extends DesignVisitor
 		}
 	}
 
-	private boolean hasExpression( ReportItemDesign item, String keyExpression )
+	private boolean hasExpression( TableHandle tableHandle,
+			ReportItemDesign item, String keyExpression,
+			String columnBindingExpression )
 	{
 		assert keyExpression != null;
 		if ( item instanceof DataItemDesign )
@@ -1045,6 +1055,13 @@ class EngineIRVisitor extends DesignVisitor
 			DataItemDesign data = (DataItemDesign) item;
 			String value = data.getValue( );
 			if ( value != null && keyExpression.equals( value.trim( ) ))
+			{
+				return true;
+			}
+			String columnBinding = getColumnBinding( tableHandle,
+					value );
+			if ( columnBinding != null && columnBindingExpression != null
+					&& columnBindingExpression.equals( columnBinding ) )
 			{
 				return true;
 			}
@@ -1067,7 +1084,8 @@ class EngineIRVisitor extends DesignVisitor
 					for ( int k = 0; k < cell.getContentCount( ); k++ )
 					{
 						ReportItemDesign reportItem = cell.getContent( k );
-						if ( hasExpression( reportItem, keyExpression ))
+						if ( hasExpression( tableHandle, reportItem,
+								keyExpression, columnBindingExpression ) )
 						{
 							return true;
 						}
@@ -1076,6 +1094,39 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		return false;
+	}
+
+	private String getColumnBinding( TableHandle tableHandle, String keyExpression )
+	{
+		String columnBindingName = null;
+		try
+		{
+			columnBindingName = ExpressionUtil.getColumnBindingName( keyExpression);
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.FINE, e.getMessage( ), e );
+			return null;
+		}
+		return getColumnBindingByName( tableHandle, columnBindingName );
+	}
+
+	private String getColumnBindingByName( TableHandle tableHandle, String columnBindingName )
+	{
+		if ( columnBindingName == null )
+		{
+			return null;
+		}
+		Iterator iterator = tableHandle.columnBindingsIterator( );
+		while( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle columnBinding = (ComputedColumnHandle)iterator.next( );
+			if ( columnBindingName.equals( columnBinding.getName( )) )
+			{
+				return columnBinding.getExpression( );
+			}
+		}
+		return null;
 	}
 
 	private void applyColumnHighlight( TableItemDesign table )
