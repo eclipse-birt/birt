@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.JointDataSet;
@@ -81,7 +80,8 @@ public class JointDataSetState extends ReportElementState
 
 	public void end( ) throws SAXException
 	{
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
+		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
+				"3.2.2" ) < 0 ) ) //$NON-NLS-1$
 		{
 			List dataSetColumns = (List) element.getLocalProperty(
 					handler.module, IDataSetModel.RESULT_SET_PROP );

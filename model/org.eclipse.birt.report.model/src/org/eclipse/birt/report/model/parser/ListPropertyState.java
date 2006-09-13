@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -239,14 +238,15 @@ public class ListPropertyState extends AbstractPropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
+
 	public AbstractParseState jumpTo( )
 	{
 
 		// the property has been removed. It must be handled before checking the
 		// validation of <code>valid</code>.
 
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3" ) > 0 ) && //$NON-NLS-1$
-				( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) <= 0 ) //$NON-NLS-1$
+		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ), "3" ) > 0 ) && //$NON-NLS-1$
+				( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.1" ) <= 0 ) //$NON-NLS-1$
 				&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
 				&& ( element instanceof GroupElement ) )
 		{
@@ -258,9 +258,17 @@ public class ListPropertyState extends AbstractPropertyState
 
 		}
 
-		if ( !valid )
-			return new AnyElementState( getHandler( ) );
+		return super.jumpTo( );
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 */
+
+	protected AbstractParseState generalJumpTo( )
+	{
 		if ( DesignElement.USER_PROPERTIES_PROP.equalsIgnoreCase( name ) )
 		{
 			AbstractPropertyState state = new UserPropertyListState( handler,
@@ -268,7 +276,6 @@ public class ListPropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-
 		if ( element instanceof Module )
 		{
 			if ( Module.INCLUDE_SCRIPTS_PROP.equalsIgnoreCase( name ) )
@@ -290,7 +297,28 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 
 		}
-		else if ( element instanceof OdaDataSource )
+		if ( ScalarParameter.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+				|| "boundDataColumns" //$NON-NLS-1$
+				.equalsIgnoreCase( name ) )
+		{
+			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		return super.generalJumpTo( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#versionConditionalJumpTo()
+	 */
+
+	protected AbstractParseState versionConditionalJumpTo( )
+	{
+		if ( element instanceof OdaDataSource )
 		{
 			if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
 					.equalsIgnoreCase( name )
@@ -306,11 +334,8 @@ public class ListPropertyState extends AbstractPropertyState
 				}
 			}
 		}
-		else if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
-				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
-						|| ScalarParameter.BOUND_DATA_COLUMNS_PROP
-								.equalsIgnoreCase( name ) || "boundDataColumns" //$NON-NLS-1$
-				.equalsIgnoreCase( name ) ) )
+		else if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
+				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) ) )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
 					handler, element );
@@ -318,7 +343,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 //$NON-NLS-1$
+		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 //$NON-NLS-1$
 				&& element instanceof ScriptDataSet
 				&& "resultSet".equals( name ) ) //$NON-NLS-1$
 		{
@@ -328,7 +353,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
+		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
 				&& element instanceof OdaDataSet && struct == null )
 		{
 			AbstractParseState state = null;
@@ -342,7 +367,6 @@ public class ListPropertyState extends AbstractPropertyState
 				return state;
 			}
 		}
-
-		return super.jumpTo( );
+		return super.versionConditionalJumpTo( );
 	}
 }

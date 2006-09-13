@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -58,6 +59,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	String version = "0"; //$NON-NLS-1$
+	
+	/**
+	 * Version utility class.
+	 */
+	
+	VersionUtil versionUtil = new VersionUtil( );
 
 	/**
 	 * The temperate value for parser compatible.
@@ -129,7 +136,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		assert toCompare != null;
 
-		return version.equals( toCompare );
+		return versionUtil.compareVersion( version, toCompare ) == 0;
 	}
 
 	/**

@@ -96,7 +96,8 @@ public abstract class ListingItemState extends ReportItemState
 			if ( !elements.contains( group ) )
 				continue;
 
-			if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) >= 0 ) //$NON-NLS-1$
+			if ( handler.versionUtil.compareVersion( handler.getVersion( ),
+					"3.2.2" ) >= 0 ) //$NON-NLS-1$
 			{
 				continue;
 			}
@@ -115,7 +116,8 @@ public abstract class ListingItemState extends ReportItemState
 						tmpList );
 			}
 
-			if ( StringUtil.compareVersion( handler.getVersion( ), "3" ) <= 0 ) //$NON-NLS-1$
+			if ( handler.versionUtil
+					.compareVersion( handler.getVersion( ), "3" ) <= 0 ) //$NON-NLS-1$
 			{
 				addCachedListWithAggregateOnToListing( columns, tmpList, group,
 						groupName );

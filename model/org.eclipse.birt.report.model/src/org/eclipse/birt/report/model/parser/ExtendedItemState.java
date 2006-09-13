@@ -90,7 +90,8 @@ public class ExtendedItemState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3.2.1" ) >= 0 ) //$NON-NLS-1$
+		if ( handler.versionUtil
+				.compareVersion( handler.getVersion( ), "3.2.1" ) >= 0 ) //$NON-NLS-1$
 		{
 			super.end( );
 			return;

@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
@@ -65,7 +64,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		}
 		catch ( BirtException e )
 		{
-			newExprs = null;
+			// do nothing
 		}
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
@@ -100,14 +99,14 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 				return;
 			}
 
-			setupBoundDataColumns( target, value, StringUtil.compareVersion(
-					handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
+			setupBoundDataColumns( target, value, handler.versionUtil
+					.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
 		}
 
 		if ( newExprs != null && newExprs.size( ) > 1 )
 		{
-			setupBoundDataColumns( target, value, StringUtil.compareVersion(
-					handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
+			setupBoundDataColumns( target, value, handler.versionUtil
+					.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
 		}
 
 		String trimmedValue = value.trim( );

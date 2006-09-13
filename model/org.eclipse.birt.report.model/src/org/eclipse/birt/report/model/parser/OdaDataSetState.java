@@ -194,7 +194,7 @@ public class OdaDataSetState extends SimpleDataSetState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			return;
 		}
-		if ( StringUtil.compareVersion( handler.getVersion( ), "3" ) < 0 ) //$NON-NLS-1$
+		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3" ) < 0 ) //$NON-NLS-1$
 		{
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;
@@ -261,7 +261,8 @@ public class OdaDataSetState extends SimpleDataSetState
 
 		assert dataSet instanceof OdaDataSet;
 
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
+		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
+				"3.2.2" ) < 0 ) ) //$NON-NLS-1$
 		{
 			List dataSetColumns = (List) dataSet.getLocalProperty(
 					handler.module, IDataSetModel.RESULT_SET_PROP );
@@ -297,8 +298,10 @@ public class OdaDataSetState extends SimpleDataSetState
 
 	private void mergeResultSetAndResultSetHints( OdaDataSet dataSet )
 	{
-		if ( ( StringUtil.compareVersion( handler.getVersion( ), "3.2.6" ) >= 0 ) //$NON-NLS-1$
-				|| StringUtil.compareVersion( handler.getVersion( ), "3.2.2" ) < 0 ) //$NON-NLS-1$ 
+		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
+				"3.2.6" ) >= 0 ) //$NON-NLS-1$
+				|| handler.versionUtil.compareVersion( handler.getVersion( ),
+						"3.2.2" ) < 0 ) //$NON-NLS-1$ 
 		{
 			return;
 		}

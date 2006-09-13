@@ -74,7 +74,7 @@ public abstract class ModuleState extends DesignParseState
 			int result;
 			try
 			{
-				result = StringUtil.compareVersion(
+				result = handler.versionUtil.compareVersion(
 						DesignSchemaConstants.REPORT_VERSION, version );
 			}
 			catch ( NumberFormatException ex )
@@ -99,7 +99,7 @@ public abstract class ModuleState extends DesignParseState
 		}
 
 		module.getVersionManager( ).setVersion( handler.getVersion( ) );
-		
+
 		super.parseAttrs( attrs );
 	}
 
