@@ -500,11 +500,19 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 			else
 			{
-				setName( bindingColumn.getName( ) );
-				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
-						.getDisplayName( ) );
-				setExpression( bindingColumn.getExpression( ) );
-				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+				if ( bindingColumn != null )
+				{
+					setName( bindingColumn.getName( ) );
+					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
+							.getDisplayName( ) );
+					setExpression( bindingColumn.getExpression( ) );
+					setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+				}
+				else
+				{
+					createColumnName( input,  ( (DataItemHandle) input ).getResultSetColumn( ) );
+					setTypeSelect( dataTypes[0] );
+				}
 			}
 
 		}
