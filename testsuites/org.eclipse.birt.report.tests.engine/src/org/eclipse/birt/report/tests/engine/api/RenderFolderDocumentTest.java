@@ -72,14 +72,14 @@ public class RenderFolderDocumentTest extends EngineCase
 
 	}
 
-	public void testRenderFolderDocument3_masterpage( )
+	public void testRenderFolderDocument_masterpage( )
 	{
 		String renderDoc = "folderdocument_master_page";
 		renderFolderDocument( renderDoc );
 
 	}
 
-	public void testRenderFolderDocument_multiple_datasets( )
+	public void testRenderFolderDocument_multidatasets( )
 	{
 		String renderDoc = "folderdocument_multiple_datasets";
 		renderFolderDocument( renderDoc );
@@ -130,13 +130,13 @@ public class RenderFolderDocumentTest extends EngineCase
 		dropFolder( report_design, "design" );
 	}
 
-	public void testDropDocumentFolder_abnormal_1( )
+	public void testDropDocumentFolder_blank( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "" );
 	}
 
-	public void testDropDocumentFolder_abnormal_2( )
+	public void testDropDocumentFolder_nonexist( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "nonexist" );

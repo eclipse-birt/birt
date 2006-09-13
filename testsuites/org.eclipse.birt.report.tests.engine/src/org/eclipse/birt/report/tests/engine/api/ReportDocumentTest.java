@@ -201,7 +201,7 @@ public class ReportDocumentTest extends EngineCase
 	/**
 	 * test abnormal input arguments
 	 */
-	public void testReportDocumentAbnormal( )
+	public void testReportDocument_abnormal( )
 	{
 		String report_design = path + INPUT_FOLDER
 				+ System.getProperty( "file.separator" )
