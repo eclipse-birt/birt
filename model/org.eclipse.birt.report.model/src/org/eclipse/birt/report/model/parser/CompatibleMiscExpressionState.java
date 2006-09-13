@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -88,8 +89,8 @@ class CompatibleMiscExpressionState extends ExpressionState
 		// require to create bound columns.
 
 		if ( target != null )
-			setupBoundDataColumns( target, value, handler.versionUtil
-					.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
+			setupBoundDataColumns( target, value,
+					handler.versionNumber < VersionUtil.VERSION_3_2_0 );
 
 		// keep the expression as same.
 

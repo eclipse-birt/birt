@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -42,14 +43,14 @@ import org.xml.sax.Attributes;
  * Parses the abstract property. The XML file is like:
  * 
  * <pre>
- *         
- *          
  *           
- *             
- *             &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *            
- *           
- *          
+ *             
+ *               
+ *               &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *              
+ *             
+ *            
  * </pre>
  * 
  * The supported tags are:
@@ -470,8 +471,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return state;
 
 		// version conditional jump to
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				DesignSchemaConstants.REPORT_VERSION ) < 0 )
+		if ( !handler.isCurrentVersion )
 		{
 			state = versionConditionalJumpTo( );
 			if ( state != null )

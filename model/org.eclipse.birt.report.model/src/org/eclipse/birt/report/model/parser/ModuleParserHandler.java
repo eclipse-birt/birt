@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
-import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -55,16 +54,17 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	protected String fileName = null;
 
 	/**
-	 * The version of the module file this handle is parsing.
+	 * Number value for the version string.
 	 */
 
-	String version = "0"; //$NON-NLS-1$
-	
+	int versionNumber = 0;
+
 	/**
-	 * Version utility class.
+	 * Status identify whether the design file verion is the current supported
+	 * version.
 	 */
-	
-	VersionUtil versionUtil = new VersionUtil( );
+
+	boolean isCurrentVersion = false;
 
 	/**
 	 * The temperate value for parser compatible.
@@ -100,29 +100,6 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	}
 
 	/**
-	 * Returns the version of the module file this handler is parsing.
-	 * 
-	 * @return version of module file.
-	 */
-
-	String getVersion( )
-	{
-		return version;
-	}
-
-	/**
-	 * Sets the version of the module file this handler is parsing.
-	 * 
-	 * @param version
-	 *            The version to set.
-	 */
-
-	protected void setVersion( String version )
-	{
-		this.version = version;
-	}
-
-	/**
 	 * Returns <code>true</code> if the version of the module file this
 	 * handler is parsing equals the given version.
 	 * 
@@ -132,11 +109,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *         handler is parsing equals <code>toCompare</code>.
 	 */
 
-	public boolean isVersion( String toCompare )
+	public boolean isVersion( int toCompare )
 	{
-		assert toCompare != null;
-
-		return versionUtil.compareVersion( version, toCompare ) == 0;
+		return versionNumber == toCompare;
 	}
 
 	/**
@@ -257,4 +232,14 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			module.getAllExceptions( ).addAll( errorHandler.getWarnings( ) );
 		}
 	}
+
+	/**
+	 * @param versionNumber
+	 *            the versionNumber to set
+	 */
+	public void setVersionNumber( int versionNumber )
+	{
+		this.versionNumber = versionNumber;
+	}
+
 }

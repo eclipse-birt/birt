@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -101,15 +102,15 @@ class ExpressionState extends PropertyState
 	{
 		if ( "highlightTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 		{
-			if ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) //$NON-NLS-1$//$NON-NLS-2$
+			if ( handler.isVersion( VersionUtil.VERSION_0 )
+					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
 				return new CompatibleTestExpreState( handler, element,
 						Style.HIGHLIGHT_RULES_PROP );
 		}
 		if ( element instanceof DataItem
 				&& ( "valueExpr" ).equalsIgnoreCase( name ) //$NON-NLS-1$
 				&& struct == null
-				&& handler.versionUtil.compareVersion( handler.getVersion( ),
-						"3.1.0" ) < 0 ) //$NON-NLS-1$
+				&& handler.versionNumber < VersionUtil.VERSION_3_1_0 )
 
 		{
 			CompatibleDataValueExprState state = new CompatibleDataValueExprState(
@@ -120,10 +121,8 @@ class ExpressionState extends PropertyState
 		if ( propDefn == null )
 			propDefn = element.getPropertyDefn( name );
 
-		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				"3.2.1" ) < 0 ) //$NON-NLS-1$
-				&& element instanceof ImageItem
-				&& struct == null
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
+				&& element instanceof ImageItem && struct == null
 				&& ImageItem.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
 		{
 			PropertyState state = new PropertyState( handler, element );
@@ -132,8 +131,7 @@ class ExpressionState extends PropertyState
 		}
 
 		if ( struct instanceof ParamBinding
-				&& handler.versionUtil.compareVersion( handler.getVersion( ),
-						"3.2.3" ) < 0 ) //$NON-NLS-1$
+				&& handler.versionNumber < VersionUtil.VERSION_3_2_3 )
 		{
 			CompatibleParamBindingValueState state = new CompatibleParamBindingValueState(
 					handler, element, propDefn, struct );
@@ -141,8 +139,7 @@ class ExpressionState extends PropertyState
 			return state;
 		}
 
-		if ( handler.versionUtil
-				.compareVersion( handler.getVersion( ), "3.2.3" ) < 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_3 )
 		{
 			if ( struct instanceof ComputedColumn
 					&& element instanceof ReportItem

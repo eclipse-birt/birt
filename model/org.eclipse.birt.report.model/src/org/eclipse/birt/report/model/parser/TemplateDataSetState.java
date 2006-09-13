@@ -101,8 +101,7 @@ public class TemplateDataSetState extends ReportElementState
 			}
 			else
 			{
-				if ( ( handler.versionUtil.compareVersion(
-						handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
+				if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
 				{
 					List dataSetColumns = (List) element.getProperty(
 							handler.module, IDataSetModel.RESULT_SET_PROP );

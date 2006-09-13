@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
@@ -23,18 +20,29 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 public class VersionUtil
 {
 
-	protected Map parsedVersions = new HashMap( );
+	private static final int SUPPORTED_VERSION_TOKEN_LENGTH = 4;
 
-	private static final int SUPPORTED_VERSION_TOKEN_LENGTH = 3;
+	private static final int[] expoArray = new int[]{1000000, 10000, 100, 1};
 
-	/**
-	 * Default constructor.
-	 */
-	
-	public VersionUtil( )
-	{
-		
-	}
+	public final static int VERSION_0 = 0;
+
+	public final static int VERSION_1_0_0 = 1000000;
+
+	public final static int VERSION_3_0_0 = 3000000;
+
+	public final static int VERSION_3_1_0 = 3010000;
+
+	public final static int VERSION_3_2_0 = 3020000;
+
+	public final static int VERSION_3_2_1 = 3020100;
+
+	public final static int VERSION_3_2_2 = 3020200;
+
+	public final static int VERSION_3_2_3 = 3020300;
+
+	public final static int VERSION_3_2_4 = 3020400;
+
+	public final static int VERSION_3_2_6 = 3020600;
 	
 	/**
 	 * 
@@ -42,66 +50,31 @@ public class VersionUtil
 	 * @return the parsed version number
 	 */
 
-	public Integer parseVersion( String version )
+	public static int parseVersion( String version )
 	{
 		if ( StringUtil.isBlank( version ) )
-			return new Integer( 0 );
+			return 0;
 
-		// read the version number from the cached map first
-
-		Integer cacheNumber = (Integer) parsedVersions.get( version );
-		if ( cacheNumber != null )
-			return cacheNumber;
-
-		// parse the version string and cache it
+		// parse the version string, for example
+		// 3.1.2(.0) -- 3010200, two biye for one version token
 
 		String[] versionTokers = version.split( "\\." ); //$NON-NLS-1$
 		int parsedVersionNumber = 0;
-		for ( int i = 0, j = SUPPORTED_VERSION_TOKEN_LENGTH - 1; i < versionTokers.length; i++, j-- )
+		for ( int i = 0; i < versionTokers.length; i++ )
 		{
 			if ( i > SUPPORTED_VERSION_TOKEN_LENGTH )
 				break;
 
 			byte versionShort = Byte.parseByte( versionTokers[i] );
-			parsedVersionNumber += versionShort << ( 8 * j );
+			if ( versionShort > 99 )
+				throw new IllegalArgumentException(
+						"the version string is wrong!" ); //$NON-NLS-1$
+			parsedVersionNumber += versionShort * expoArray[i];
 		}
 		// add the parsed version to the cache map
 
-		Integer versionInteger = new Integer( parsedVersionNumber );
-		parsedVersions.put( version, versionInteger );
-
-		return versionInteger;
+		return parsedVersionNumber;
 	}
 
-	/**
-	 * Compares the given two versions. The version is the string containing
-	 * numbers and periods. For example:
-	 * <p>
-	 * <ul>
-	 * <li>12
-	 * <li>1.2.3
-	 * <li>3.5.0
-	 * </ul>
-	 * <p>
-	 * Note:This implementation treats "1.0.0" and "1" are same version.The
-	 * result is unexpectable if the version string contains alphabetic
-	 * character.
-	 * 
-	 * @param versionA
-	 *            the given version string
-	 * @param versionB
-	 *            the given version string
-	 * @return <code>-1</code> if <code>versionA</code> is lower than
-	 *         <code>versionB</code>;<code>0</code> if
-	 *         <code>versionA</code> is equal to <code>versionB</code>;
-	 *         otherwise, return <code>1</code>.
-	 */
-
-	public int compareVersion( String versionA, String versionB )
-	{
-		Integer versionNumberA = parseVersion( versionA );
-		Integer versionNumberB = parseVersion( versionB );
-		assert versionNumberA != null;
-		return versionNumberA.compareTo( versionNumberB );
-	}
+	
 }

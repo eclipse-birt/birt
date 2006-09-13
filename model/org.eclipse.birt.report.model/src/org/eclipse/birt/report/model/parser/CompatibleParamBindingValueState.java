@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -62,7 +63,7 @@ public class CompatibleParamBindingValueState
 
 		doEnd( value, true );
 
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.0" ) >= 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_0 )
 			return;
 
 		List newExprs = null;
@@ -73,7 +74,7 @@ public class CompatibleParamBindingValueState
 		}
 		catch ( BirtException e )
 		{
-			newExprs = null;
+			// do nothing
 		}
 
 		if ( newExprs == null || newExprs.isEmpty( ) )

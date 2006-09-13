@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -306,8 +307,7 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
-		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				"3.2.2" ) < 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2
 				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
 		{
 			CompatibleVerticalAlignState state = new CompatibleVerticalAlignState(
@@ -316,8 +316,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				"3.2.4" ) < 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& ( element instanceof ScalarParameter )
 				&& ( ScalarParameter.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
 		{
@@ -326,8 +325,7 @@ class PropertyState extends AbstractPropertyState
 			state.setName( ScalarParameter.DEFAULT_VALUE_PROP );
 			return state;
 		}
-		if ( handler.versionUtil
-				.compareVersion( handler.getVersion( ), "3.2.0" ) <= 0 //$NON-NLS-1$
+		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_0
 				&& struct instanceof DataSetParameter
 				&& "isNullable".equals( name ) ) //$NON-NLS-1$
 		{
@@ -338,8 +336,7 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		if ( ( IReportItemModel.ON_CREATE_METHOD.equalsIgnoreCase( name ) )
-				&& handler.versionUtil.compareVersion( handler.getVersion( ),
-						"3.2.0" ) < 0 ) //$NON-NLS-1$
+				&& handler.versionNumber < VersionUtil.VERSION_3_2_0 )
 		{
 			CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
 					handler, element );
@@ -350,8 +347,7 @@ class PropertyState extends AbstractPropertyState
 		if ( struct instanceof ComputedColumn
 				&& "aggregrateOn".equalsIgnoreCase( name ) //$NON-NLS-1$
 				&& ( element instanceof ScalarParameter || element instanceof ReportItem )
-				& handler.versionUtil.compareVersion( handler.getVersion( ),
-						"3.2.2" ) <= 0 ) //$NON-NLS-1$
+				& handler.versionNumber <= VersionUtil.VERSION_3_2_2 )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, propDefn, struct, "aggregrateOn" ); //$NON-NLS-1$
@@ -359,8 +355,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( handler.versionUtil
-				.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_6
 				&& ( struct instanceof DataSetParameter || struct instanceof OdaDataSetParameter )
 				&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase( name ) )
 		{
@@ -372,5 +367,4 @@ class PropertyState extends AbstractPropertyState
 
 		return super.versionConditionalJumpTo( );
 	}
-
 }
