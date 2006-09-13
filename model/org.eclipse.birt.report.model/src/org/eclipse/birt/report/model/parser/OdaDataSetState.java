@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
-import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -62,10 +61,10 @@ public class OdaDataSetState extends SimpleDataSetState
 	private boolean isValidExtensionId = true;
 
 	/**
-	 * The dummy provider of the element.
+	 * The provider of the element.
 	 */
 
-	private OdaDummyProvider provider = null;
+	private ODAProvider provider = null;
 
 	/**
 	 * Constructs the oda data set with the design file parser handler.
@@ -164,7 +163,8 @@ public class OdaDataSetState extends SimpleDataSetState
 				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName )
 				|| DesignSchemaConstants.EXPRESSION_TAG
 						.equalsIgnoreCase( tagName ) )
-			return new DummyPropertyState( handler, getElement( ), provider );
+			return new DummyPropertyState( handler, getElement( ),
+					(OdaDummyProvider) provider );
 
 		return super.startElement( tagName );
 	}
@@ -200,13 +200,14 @@ public class OdaDataSetState extends SimpleDataSetState
 				extensionID = NEW_FLAT_FILE_ID;
 		}
 
-		ODAProvider tmpProvider = ODAProviderFactory.getInstance( )
-				.createODAProvider( element, extensionID );
+		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
-		if ( tmpProvider == null )
+		provider = ( (OdaDataSet) element ).getProvider( );
+
+		if ( provider == null )
 			return;
 
-		if ( !tmpProvider.isValidODADataSetExtensionID( extensionID ) )
+		if ( provider instanceof OdaDummyProvider )
 		{
 			SemanticError e = new SemanticError( element,
 					new String[]{extensionID},
@@ -214,12 +215,6 @@ public class OdaDataSetState extends SimpleDataSetState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
 		}
-
-		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
-
-		if ( !isValidExtensionId )
-			provider = (OdaDummyProvider) ( (OdaDataSet) element )
-					.getProvider( );
 	}
 
 	/*
