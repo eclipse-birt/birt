@@ -368,7 +368,6 @@ public abstract class ReportElementState extends DesignParseState
 
 		try
 		{
-			assert parent != null;
 			element.checkExtends( parent );
 		}
 		catch ( ExtendsException ex )

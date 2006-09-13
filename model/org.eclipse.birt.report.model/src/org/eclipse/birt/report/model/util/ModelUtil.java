@@ -1056,11 +1056,8 @@ public class ModelUtil
 	{
 		List rtnList = new ArrayList( );
 
-		VersionUtil util = new VersionUtil( );
-		if ( util.compareVersion( version,
-				VersionInfo.COLUMN_BINDING_FROM_VERSION ) < 1
-				&& util.compareVersion( DesignSchemaConstants.REPORT_VERSION,
-						VersionInfo.COLUMN_BINDING_FROM_VERSION ) > 0 )
+		if ( VersionUtil.parseVersion( version ) <= VersionInfo.COLUMN_BINDING_FROM_VERSION
+				&& DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )
 			rtnList.add( new VersionInfo( version,
 					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
 

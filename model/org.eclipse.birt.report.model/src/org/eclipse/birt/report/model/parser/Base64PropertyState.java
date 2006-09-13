@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;

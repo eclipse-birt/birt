@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -175,8 +176,7 @@ public class ActionStructureState extends StructureState
 
 		protected AbstractParseState versionConditionalJumpTo( )
 		{
-			if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
-					"3.2.1" ) < 0 ) //$NON-NLS-1$
+			if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
 					&& ( Action.URI_MEMBER.equalsIgnoreCase( name ) ) )
 			{
 				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
@@ -223,8 +223,7 @@ public class ActionStructureState extends StructureState
 
 		public void end( ) throws SAXException
 		{
-			if ( handler.versionUtil.compareVersion( handler.getVersion( ),
-					"3.2.0" ) < 0 ) //$NON-NLS-1$
+			if ( handler.versionNumber < VersionUtil.VERSION_3_2_0 )
 				super.end( );
 			else
 			{

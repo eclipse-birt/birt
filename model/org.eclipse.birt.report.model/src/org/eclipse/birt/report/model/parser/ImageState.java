@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -150,8 +151,7 @@ public class ImageState extends ReportItemState
 		Module module = handler.getModule( );
 
 		if ( image.getLocalProperty( module, ImageItem.SOURCE_PROP ) == null
-				&& handler.versionUtil.compareVersion( handler.getVersion( ),
-						"3.2.3" ) < 1 ) //$NON-NLS-1$
+				&& handler.versionNumber <= VersionUtil.VERSION_3_2_3 )
 			checkImageType( );
 
 		String refType = image

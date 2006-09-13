@@ -24,13 +24,17 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import com.sun.corba.se.internal.util.Version;
 
 /**
  * This class parses an extended data set. Note: this is temporary syntax, the
@@ -61,10 +65,10 @@ public class OdaDataSetState extends SimpleDataSetState
 	private boolean isValidExtensionId = true;
 
 	/**
-	 * The provider of the element.
+	 * The dummy provider of the element.
 	 */
 
-	private ODAProvider provider = null;
+	private OdaDummyProvider provider = null;
 
 	/**
 	 * Constructs the oda data set with the design file parser handler.
@@ -132,7 +136,8 @@ public class OdaDataSetState extends SimpleDataSetState
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 		{
-			if ( handler.isVersion( "0" ) || handler.isVersion( "1" ) )//$NON-NLS-1$//$NON-NLS-2$
+			if ( handler.isVersion( VersionUtil.VERSION_0 )
+					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
 			{
 				return new CompatibleOdaDataSetPropertyState( handler,
 						getElement( ) );
@@ -163,8 +168,7 @@ public class OdaDataSetState extends SimpleDataSetState
 				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName )
 				|| DesignSchemaConstants.EXPRESSION_TAG
 						.equalsIgnoreCase( tagName ) )
-			return new DummyPropertyState( handler, getElement( ),
-					(OdaDummyProvider) provider );
+			return new DummyPropertyState( handler, getElement( ), provider );
 
 		return super.startElement( tagName );
 	}
@@ -194,20 +198,19 @@ public class OdaDataSetState extends SimpleDataSetState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			return;
 		}
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3" ) < 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_0_0 )
 		{
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;
 		}
 
-		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+		ODAProvider tmpProvider = ODAProviderFactory.getInstance( )
+				.createODAProvider( element, extensionID );
 
-		provider = ( (OdaDataSet) element ).getProvider( );
-
-		if ( provider == null )
+		if ( tmpProvider == null )
 			return;
 
-		if ( provider instanceof OdaDummyProvider )
+		if ( !tmpProvider.isValidODADataSetExtensionID( extensionID ) )
 		{
 			SemanticError e = new SemanticError( element,
 					new String[]{extensionID},
@@ -215,6 +218,12 @@ public class OdaDataSetState extends SimpleDataSetState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
 		}
+
+		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+
+		if ( !isValidExtensionId )
+			provider = (OdaDummyProvider) ( (OdaDataSet) element )
+					.getProvider( );
 	}
 
 	/*
@@ -256,8 +265,7 @@ public class OdaDataSetState extends SimpleDataSetState
 
 		assert dataSet instanceof OdaDataSet;
 
-		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				"3.2.2" ) < 0 ) ) //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
 		{
 			List dataSetColumns = (List) dataSet.getLocalProperty(
 					handler.module, IDataSetModel.RESULT_SET_PROP );
@@ -293,10 +301,8 @@ public class OdaDataSetState extends SimpleDataSetState
 
 	private void mergeResultSetAndResultSetHints( OdaDataSet dataSet )
 	{
-		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				"3.2.6" ) >= 0 ) //$NON-NLS-1$
-				|| handler.versionUtil.compareVersion( handler.getVersion( ),
-						"3.2.2" ) < 0 ) //$NON-NLS-1$ 
+		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_6
+				|| handler.versionNumber < VersionUtil.VERSION_3_2_2 )
 		{
 			return;
 		}

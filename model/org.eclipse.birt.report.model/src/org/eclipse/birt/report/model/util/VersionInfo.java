@@ -69,7 +69,7 @@ public class VersionInfo implements IVersionInfo
 	 * BIRT version from which BIRT began to support column binding feature.
 	 */
 
-	public final static String COLUMN_BINDING_FROM_VERSION = "3"; //$NON-NLS-1$
+	public final static int COLUMN_BINDING_FROM_VERSION = 3000000;
 
 	/**
 	 * Column binding feature.

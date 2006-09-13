@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -92,7 +93,8 @@ public class OdaDataSourceState extends DataSourceState
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 		{
-			if ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) //$NON-NLS-1$//$NON-NLS-2$
+			if ( handler.isVersion( VersionUtil.VERSION_0 )
+					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
 			{
 				return new CompatibleOdaDataSourcePropertyState( handler,
 						getElement( ) );
@@ -154,7 +156,7 @@ public class OdaDataSourceState extends DataSourceState
 
 			return;
 		}
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3" ) < 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_0_0 )
 		{
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;

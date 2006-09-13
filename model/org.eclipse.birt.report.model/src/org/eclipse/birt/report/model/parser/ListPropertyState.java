@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -245,8 +246,8 @@ public class ListPropertyState extends AbstractPropertyState
 		// the property has been removed. It must be handled before checking the
 		// validation of <code>valid</code>.
 
-		if ( ( handler.versionUtil.compareVersion( handler.getVersion( ), "3" ) > 0 ) && //$NON-NLS-1$
-				( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.1" ) <= 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber > VersionUtil.VERSION_3_0_0
+				&& handler.versionNumber <= VersionUtil.VERSION_3_2_1
 				&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
 				&& ( element instanceof GroupElement ) )
 		{
@@ -325,7 +326,7 @@ public class ListPropertyState extends AbstractPropertyState
 					|| OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP
 							.equalsIgnoreCase( name ) )
 			{
-				if ( handler.isVersion( "0" ) ) //$NON-NLS-1$
+				if ( handler.isVersion( VersionUtil.VERSION_0 ) )
 				{
 					CompatibleOdaDriverPropertyStructureListState state = new CompatibleOdaDriverPropertyStructureListState(
 							handler, element );
@@ -334,7 +335,7 @@ public class ListPropertyState extends AbstractPropertyState
 				}
 			}
 		}
-		else if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 //$NON-NLS-1$
+		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
 				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) ) )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -343,7 +344,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.4" ) < 0 //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& element instanceof ScriptDataSet
 				&& "resultSet".equals( name ) ) //$NON-NLS-1$
 		{
@@ -353,7 +354,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ), "3.2.6" ) < 0 //$NON-NLS-1$
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_6
 				&& element instanceof OdaDataSet && struct == null )
 		{
 			AbstractParseState state = null;

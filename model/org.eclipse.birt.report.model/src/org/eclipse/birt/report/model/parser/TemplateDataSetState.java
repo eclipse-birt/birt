@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TemplateDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -100,8 +101,7 @@ public class TemplateDataSetState extends ReportElementState
 			}
 			else
 			{
-				if ( ( handler.versionUtil.compareVersion(
-						handler.getVersion( ), "3.2.2" ) < 0 ) ) //$NON-NLS-1$
+				if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
 				{
 					List dataSetColumns = (List) element.getProperty(
 							handler.module, IDataSetModel.RESULT_SET_PROP );

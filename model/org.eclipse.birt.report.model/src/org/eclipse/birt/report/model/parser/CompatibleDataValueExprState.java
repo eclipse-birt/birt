@@ -19,6 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -99,14 +100,14 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 				return;
 			}
 
-			setupBoundDataColumns( target, value, handler.versionUtil
-					.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
+			setupBoundDataColumns( target, value,
+					handler.versionNumber < VersionUtil.VERSION_3_2_0 );
 		}
 
 		if ( newExprs != null && newExprs.size( ) > 1 )
 		{
-			setupBoundDataColumns( target, value, handler.versionUtil
-					.compareVersion( handler.getVersion( ), "3.2.0" ) < 0 ); //$NON-NLS-1$
+			setupBoundDataColumns( target, value,
+					handler.versionNumber < VersionUtil.VERSION_3_2_0 );
 		}
 
 		String trimmedValue = value.trim( );

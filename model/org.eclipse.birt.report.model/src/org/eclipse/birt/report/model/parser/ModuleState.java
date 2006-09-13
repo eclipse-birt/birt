@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -74,10 +75,23 @@ public abstract class ModuleState extends DesignParseState
 			int result;
 			try
 			{
-				result = handler.versionUtil.compareVersion(
-						DesignSchemaConstants.REPORT_VERSION, version );
+				handler.versionNumber = VersionUtil.parseVersion( version );
+				result = ( DesignSchemaConstants.REPORT_VERSION_NUMBER < handler.versionNumber
+						? -1
+						: ( DesignSchemaConstants.REPORT_VERSION_NUMBER == handler.versionNumber
+								? 0
+								: 1 ) );
 			}
 			catch ( NumberFormatException ex )
+			{
+				// The format of version string is invalid.
+
+				DesignParserException e = new DesignParserException(
+						new String[]{version},
+						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION );
+				throw new XMLParserException( e );
+			}
+			catch ( IllegalArgumentException ex )
 			{
 				// The format of version string is invalid.
 
@@ -95,10 +109,11 @@ public abstract class ModuleState extends DesignParseState
 				throw new XMLParserException( e );
 			}
 
-			handler.setVersion( version );
+			if ( result == 0 )
+				handler.isCurrentVersion = true;
 		}
 
-		module.getVersionManager( ).setVersion( handler.getVersion( ) );
+		module.getVersionManager( ).setVersion( version );
 
 		super.parseAttrs( attrs );
 	}

@@ -470,8 +470,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return state;
 
 		// version conditional jump to
-		if ( handler.versionUtil.compareVersion( handler.getVersion( ),
-				DesignSchemaConstants.REPORT_VERSION ) < 0 )
+		if ( !handler.isCurrentVersion )
 		{
 			state = versionConditionalJumpTo( );
 			if ( state != null )

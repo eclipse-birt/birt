@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -96,8 +97,7 @@ public abstract class ListingItemState extends ReportItemState
 			if ( !elements.contains( group ) )
 				continue;
 
-			if ( handler.versionUtil.compareVersion( handler.getVersion( ),
-					"3.2.2" ) >= 0 ) //$NON-NLS-1$
+			if ( handler.versionNumber >= VersionUtil.VERSION_3_2_2 )
 			{
 				continue;
 			}
@@ -116,8 +116,7 @@ public abstract class ListingItemState extends ReportItemState
 						tmpList );
 			}
 
-			if ( handler.versionUtil
-					.compareVersion( handler.getVersion( ), "3" ) <= 0 ) //$NON-NLS-1$
+			if ( handler.versionNumber <= VersionUtil.VERSION_3_0_0 )
 			{
 				addCachedListWithAggregateOnToListing( columns, tmpList, group,
 						groupName );

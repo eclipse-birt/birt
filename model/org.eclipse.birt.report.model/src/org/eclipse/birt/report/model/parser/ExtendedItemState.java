@@ -16,10 +16,10 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -90,8 +90,7 @@ public class ExtendedItemState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
-		if ( handler.versionUtil
-				.compareVersion( handler.getVersion( ), "3.2.1" ) >= 0 ) //$NON-NLS-1$
+		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_1 )
 		{
 			super.end( );
 			return;
