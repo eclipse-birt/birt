@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.14.10.3 $ $Date: 2006/09/08 10:11:20 $
+ * @version $Revision: 1.14.10.4 $ $Date: 2006/09/11 03:12:25 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -379,10 +379,6 @@ public class NumberFormatter
 	
 	public Number parse( String number ) throws ParseException
 	{
-		if ( number != null )
-		{
-			number = number.toUpperCase( );
-		}
 		return numberFormat.parse( number );
 	}
 }
