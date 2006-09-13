@@ -2224,12 +2224,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Returns the <code>URL</code> object if the file with
 	 * <code>fileName</code> exists. This method takes the following search
 	 * steps:
+	 * 
 	 * <ul>
+	 * If file type is MESSAGEFILE ,
+	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
+	 * in session. And Now just deal with relative file name.
+	 * 
+	 * <ul>
+	 * If file type isnot MESSAGEFILE,
 	 * <li>Search file taking <code>fileName</code> as absolute file name;
 	 * <li>Search file taking <code>fileName</code> as relative file name and
 	 * basing "base" property of report design;
 	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
-	 * in session.
+	 * in session
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -2692,14 +2699,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Shifts jar file from source position to destination position. For
 	 * example, if a list has A, B, C scriptLib in order, when move A scriptLib
-	 * to <code>newPosn</code> with the value 2, the sequence becomes B, A, C.
+	 * to <code>newPosn</code> with the value 1, the sequence becomes B, A, C.
 	 * 
 	 * @param sourceIndex
 	 *            source position. The range is
-	 *            <code>sourceIndex &lt; 0 || sourceIndex &gt;= list.size()</code>
+	 *            <code>sourceIndex &gt;= 0 && sourceIndex &lt; list.size()</code>
 	 * @param destIndex
 	 *            destination position.The range is
-	 *            <code> destIndex &lt; 0 || destIndex &gt;= list.size()</code>
+	 *            <code> destIndex &gt;= 0 && destIndex &lt; list.size()</code>
 	 * @throws SemanticException
 	 */
 
