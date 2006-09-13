@@ -74,8 +74,8 @@ public class ReportDocumentTest extends EngineCase
 
 			// checkTOC(done)
 			TOCNode root, tableNode, headerNode, groupNode, detailNode, footerNode;
-			ITOCTree tree=null;
-			tree=reportDoc.getTOCTree( null, ULocale.ENGLISH );
+			ITOCTree tree = null;
+			tree = reportDoc.getTOCTree( null, ULocale.ENGLISH );
 			root = tree.findTOC( "/" );
 			assertNotNull( "get root toc", root );
 			assertNotNull( "root contain no children toc", root.getChildren( ) );
@@ -150,12 +150,12 @@ public class ReportDocumentTest extends EngineCase
 			assertNotNull( designStream );
 			// generate design file through designStream.
 			int length = designStream.available( );
-			assertTrue(length>0);
+			assertTrue( length > 0 );
 			designStream.close( );
 			designFile.close( );
 
 			// check page count(done)
-			assertEquals( "return wrong page count", 5, reportDoc
+			assertEquals( "return wrong page count", 2, reportDoc
 					.getPageCount( ) );
 
 			// check getPageNumber(InstanceID)

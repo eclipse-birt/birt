@@ -85,7 +85,7 @@ public class RenderUnfinishedReportDoc extends EngineCase
 		}
 	}
 
-	public void test( )
+	public void testRender_unfinished_Document( )
 	{
 		try
 		{

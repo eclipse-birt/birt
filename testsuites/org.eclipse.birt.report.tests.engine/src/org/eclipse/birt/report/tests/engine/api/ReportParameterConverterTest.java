@@ -100,12 +100,24 @@ public class ReportParameterConverterTest extends EngineCase
 				"(@@)", Locale.US );
 		assertTrue( "parse string fail", converter.parse( str1,
 				IScalarParameterDefn.TYPE_STRING ) instanceof String );
+		assertEquals( "str", converter.parse( str1,
+				IScalarParameterDefn.TYPE_STRING ).toString( ) );
 		assertTrue( "parse datetime fail", converter.parse( date1,
 				IScalarParameterDefn.TYPE_DATE_TIME ) instanceof Date );
+		assertEquals( "Tue Jan 05 00:00:00 GMT+08:00 2173", converter.parse(
+				date1, IScalarParameterDefn.TYPE_DATE_TIME ).toString( ) );
 		assertTrue( "parse boolean fail", converter.parse( bool1,
 				IScalarParameterDefn.TYPE_BOOLEAN ) instanceof Boolean );
+		assertEquals( "true", converter.parse( bool1,
+				IScalarParameterDefn.TYPE_BOOLEAN ).toString( ) );
 		assertTrue( "parse float fail", converter.parse( float1,
 				IScalarParameterDefn.TYPE_FLOAT ) instanceof Double );
+		float1 = "2.3E02";
+		assertEquals( "230.0", converter.parse( float1,
+				IScalarParameterDefn.TYPE_FLOAT ).toString( ) );
+		float1 = "2.3e02";
+		assertEquals( "230.0", converter.parse( float1,
+				IScalarParameterDefn.TYPE_FLOAT ).toString( ) );
 		assertTrue( "parse integer fail", converter.parse( int1,
 				IScalarParameterDefn.TYPE_INTEGER ) instanceof Integer );
 	}
