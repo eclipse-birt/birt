@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
-import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -53,10 +52,10 @@ public class OdaDataSourceState extends DataSourceState
 	private boolean isValidExtensionId = true;
 
 	/**
-	 * The dummy provider of the element.
+	 * The provider of the element.
 	 */
 
-	private OdaDummyProvider provider = null;
+	private ODAProvider provider = null;
 
 	/**
 	 * Constructs the oda data source state with the design parser handler, the
@@ -124,7 +123,8 @@ public class OdaDataSourceState extends DataSourceState
 				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName )
 				|| DesignSchemaConstants.EXPRESSION_TAG
 						.equalsIgnoreCase( tagName ) )
-			return new DummyPropertyState( handler, getElement( ), provider );
+			return new DummyPropertyState( handler, getElement( ),
+					(OdaDummyProvider) provider );
 
 		return super.startElement( tagName );
 	}
@@ -161,13 +161,18 @@ public class OdaDataSourceState extends DataSourceState
 				extensionID = NEW_FLAT_FILE_ID;
 		}
 
-		ODAProvider tmpProvider = ODAProviderFactory.getInstance( )
-				.createODAProvider( element, extensionID );
+		// set the extension id to the element first.
 
-		if ( tmpProvider == null )
+		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+
+		// get the provider to check whether this is a valid oda extension
+
+		provider = ( (OdaDataSource) element ).getProvider( );
+
+		if ( provider == null )
 			return;
 
-		if ( !tmpProvider.isValidODADataSourceExtensionID( extensionID ) )
+		if ( provider instanceof OdaDummyProvider )
 		{
 			SemanticError e = new SemanticError( element,
 					new String[]{extensionID},
@@ -175,12 +180,6 @@ public class OdaDataSourceState extends DataSourceState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
 		}
-
-		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
-
-		if ( !isValidExtensionId )
-			provider = (OdaDummyProvider) ( (OdaDataSource) element )
-					.getProvider( );
 	}
 
 	/**
