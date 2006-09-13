@@ -102,9 +102,10 @@ public class DataItemBindingDialog extends BaseDialog
 	protected ComputedColumnHandle bindingColumn;
 
 	protected boolean isCreateNew;
-	public DataItemBindingDialog( boolean isCreateNew)
+
+	public DataItemBindingDialog( boolean isCreateNew )
 	{
-		super( isCreateNew==true?NEW_DATAITEM_TITLE:EDIT_DATAITEM_TITLE );
+		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
 		this.isCreateNew = isCreateNew;
 	}
 
@@ -401,7 +402,6 @@ public class DataItemBindingDialog extends BaseDialog
 		super.okPressed( );
 	}
 
-
 	public void setAggregateOns( List aggregateOnList )
 	{
 		if ( aggregateOnList == null )
@@ -490,7 +490,8 @@ public class DataItemBindingDialog extends BaseDialog
 		{
 			if ( !isCreateNew )
 			{
-				bindingColumn = getInputBinding( input, ( (DataItemHandle) input ).getResultSetColumn( ) );
+				bindingColumn = getInputBinding( input,
+						( (DataItemHandle) input ).getResultSetColumn( ) );
 			}
 			if ( isCreateNew )
 			{
@@ -499,11 +500,19 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 			else
 			{
-				setName( bindingColumn.getName( ) );
-				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
-						.getDisplayName( ) );
-				setExpression( bindingColumn.getExpression( ) );
-				setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+				if ( bindingColumn != null )
+				{
+					setName( bindingColumn.getName( ) );
+					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
+							.getDisplayName( ) );
+					setExpression( bindingColumn.getExpression( ) );
+					setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+				}
+				else
+				{
+					createColumnName( input,  ( (DataItemHandle) input ).getResultSetColumn( ) );
+					setTypeSelect( dataTypes[0] );
+				}
 			}
 
 		}
@@ -563,7 +572,6 @@ public class DataItemBindingDialog extends BaseDialog
 		expressionProvider = provider;
 	}
 
-	
 	public ComputedColumnHandle getBindingColumn( )
 	{
 		return bindingColumn;
