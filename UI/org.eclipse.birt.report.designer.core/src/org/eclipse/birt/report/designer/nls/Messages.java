@@ -36,6 +36,13 @@ public class Messages
 	{
 	}
 
+	/**Gets the report ResourceBundle
+	 * @return
+	 */
+	public static ResourceBundle getReportResourceBundle()
+	{
+		return RESOURCE_BUNDLE;
+	}
 	/**
 	 * Gets common translation for current local
 	 * 

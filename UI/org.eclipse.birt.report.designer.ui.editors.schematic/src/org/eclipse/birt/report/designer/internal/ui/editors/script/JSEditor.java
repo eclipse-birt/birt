@@ -337,7 +337,7 @@ public class JSEditor extends StatusTextEditor implements
 	protected void createActions( )
 	{
 		super.createActions( );
-		IAction contentAssistAction = new TextOperationAction(Messages.RESOURCE_BUNDLE, "ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true);//$NON-NLS-1$
+		IAction contentAssistAction = new TextOperationAction(Messages.getReportResourceBundle( ), "ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true);//$NON-NLS-1$
 		contentAssistAction.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
 		setAction("ContentAssistProposal", contentAssistAction);//$NON-NLS-1$
 		// TODO: rewirte those actions
