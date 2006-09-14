@@ -140,7 +140,7 @@ public class Regression_121954 extends ChartTestCase{
 		}
 	}
 
-	public void test( ) throws Exception
+	public void testRegression_121954( ) throws Exception
 	{
 		Regression_121954 st = new Regression_121954( );
 	}	
