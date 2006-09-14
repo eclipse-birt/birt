@@ -74,7 +74,8 @@ public class PropertyUtil
     			//BUG 147861: we return *0* as the default value of the *lineLight*
     			return 0;
     		}
-    		return Integer.parseInt(lineHeight);
+    		
+    		return (int)Float.parseFloat( lineHeight );
     	}
     	catch(NumberFormatException ex)
     	{
