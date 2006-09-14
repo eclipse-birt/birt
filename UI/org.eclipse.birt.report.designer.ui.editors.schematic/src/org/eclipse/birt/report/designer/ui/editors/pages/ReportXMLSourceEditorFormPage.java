@@ -362,7 +362,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	// else
 	// super.firePropertyChange( type );
 	// }
-	public boolean onBroughtToTop( IReportEditorPage prePage )
+	public boolean onBroughtToTop( IReportEditorPage prePage ) 
 	{
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
