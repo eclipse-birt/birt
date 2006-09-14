@@ -299,13 +299,13 @@ public final class ChartReportItemPresentationImpl extends
 				// Set back the cm into the handle from the engine, so that the
 				// chart inside the
 				// reportdesignhandle is the same as the one used during
-				// presentation. 
+				// presentation.
 				// No command should be executed, since it's a runtime operation
 				// Set the model directly through setModel and not setProperty
 				if ( cm != null && handle != null )
 				{
 					IReportItem item = handle.getReportItem( );
-					((ChartReportItemImpl)item).setModel( cm );
+					( (ChartReportItemImpl) item ).setModel( cm );
 				}
 			}
 			ois.close( );
@@ -385,6 +385,12 @@ public final class ChartReportItemPresentationImpl extends
 
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsStart" ) ); //$NON-NLS-1$
+
+		// catch unwanted null handle case
+		if ( handle == null )
+		{
+			return null;
+		}
 
 		try
 		{
@@ -495,15 +501,15 @@ public final class ChartReportItemPresentationImpl extends
 		catch ( BirtException birtException )
 		{
 			Throwable ex = birtException;
-			while ( ex.getCause() != null )
+			while ( ex.getCause( ) != null )
 			{
 				ex = ex.getCause( );
 			}
-			 
+
 			if ( ex instanceof ChartException
 					&& ( (ChartException) ex ).getType( ) == ChartException.ZERO_DATASET )
 			{
-				// if the Data set has zero lines, just 
+				// if the Data set has zero lines, just
 				// returns null gracefully.
 				return null;
 			}
@@ -511,7 +517,7 @@ public final class ChartReportItemPresentationImpl extends
 			if ( ex instanceof ChartException
 					&& ( (ChartException) ex ).getType( ) == ChartException.ALL_NULL_DATASET )
 			{
-				// if the Data set contains all null values, just 
+				// if the Data set contains all null values, just
 				// returns null gracefully and render nothing.
 				return null;
 			}

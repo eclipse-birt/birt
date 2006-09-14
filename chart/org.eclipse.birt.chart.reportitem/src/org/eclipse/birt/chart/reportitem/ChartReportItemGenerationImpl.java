@@ -126,6 +126,12 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	 */
 	public void onRowSets( IRowSet[] rowSets ) throws BirtException
 	{
+		// catch unwanted null handle case
+		if ( handle == null )
+		{
+			return;
+		}
+
 		String javaHandlerClass = handle.getEventHandlerClass( );
 		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
 		{
@@ -156,13 +162,10 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		Map expressions = queries[0].getResultSetExpressions( );
 		while ( rowSet.next( ) )
 		{
-			for ( Iterator iter = expressions.keySet( ).iterator( ); iter
-					.hasNext( ); )
+			for ( Iterator iter = expressions.keySet( ).iterator( ); iter.hasNext( ); )
 			{
 				String colName = (String) iter.next( );
-				String expr = ExpressionUtil
-						.createRowExpression( JavascriptEvalUtil
-								.transformToJsConstants( colName ) );
+				String expr = ExpressionUtil.createRowExpression( JavascriptEvalUtil.transformToJsConstants( colName ) );
 				rowSet.evaluate( expr );
 			}
 		}
