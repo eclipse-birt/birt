@@ -967,7 +967,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				tableWidth = avaWidth - marginWidth;
 			}
-			return new TableLayoutInfo(columnWidthResolver.resolve( tableWidth, tableWidth ));
+			return new TableLayoutInfo(handleColummVisibity(columnWidthResolver.resolve( tableWidth, tableWidth )));
 		}
 		else
 		{
