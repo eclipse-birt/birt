@@ -368,8 +368,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if ( prePage.isDirty( )
-				|| prePage.getStaleType( ) != IPageStaleType.NONE )
+		if ( prePage!=this && (prePage.isDirty( )
+				|| prePage.getStaleType( ) != IPageStaleType.NONE ))
 		{
 			prePage.doSave( null );
 			prePage.markPageStale( IPageStaleType.NONE );
