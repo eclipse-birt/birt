@@ -39,6 +39,7 @@ import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -71,7 +72,9 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.StatusTextEditor;
+import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
@@ -334,6 +337,9 @@ public class JSEditor extends StatusTextEditor implements
 	protected void createActions( )
 	{
 		super.createActions( );
+		IAction contentAssistAction = new TextOperationAction(Messages.RESOURCE_BUNDLE, "ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true);//$NON-NLS-1$
+		contentAssistAction.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+		setAction("ContentAssistProposal", contentAssistAction);//$NON-NLS-1$
 		// TODO: rewirte those actions
 		// Add page actions
 		// Action action = LayoutPageAction.getInstance( );
