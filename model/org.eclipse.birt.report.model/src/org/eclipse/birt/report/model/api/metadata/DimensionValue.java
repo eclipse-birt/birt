@@ -369,7 +369,7 @@ public class DimensionValue
 		// ".0", ".00" or ".000" that tacks onto the end of integers is
 		// eliminate.
 
-		String value = StringUtil.doubleToString( measure, 3 );
+		String value = StringUtil.doubleToString( measure, 10 );
 
 		return value + units;
 	}
