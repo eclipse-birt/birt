@@ -36,6 +36,7 @@ public class CacheUtil
 	 */
 	public final static String MEMCACHE_ROWNUMBER = "org.eclipse.birt.data.engine.memcache.rownumber";
 	
+	private static Integer cacheCounter = new Integer(0);
 	//--------------------service for SmartCache----------------------
 	
 	/**
@@ -308,14 +309,21 @@ public class CacheUtil
 
 		final String prefix = "session_";
 
-		sessionTempDirStr = tempRootDirStr + File.separator + prefix + System.currentTimeMillis( );
-		File file = new File( sessionTempDirStr );
-		synchronized ( CacheUtil.class )
+		synchronized ( cacheCounter )
 		{
+			//Here we use complex algorithm so that to avoid the repeating of 
+			//dir names in 1.same jvm but different threads 2.different jvm.
+			sessionTempDirStr = tempRootDirStr
+					+ File.separator + prefix + System.currentTimeMillis( )
+					+ cacheCounter.intValue( );
+			cacheCounter = new Integer(cacheCounter.intValue( )+1);
+			File file = new File( sessionTempDirStr );
+			
+			int i = 0;
 			while ( file.exists( ) )
 			{
-				sessionTempDirStr = tempRootDirStr
-						+ File.separator + prefix + System.currentTimeMillis( );
+				i++;
+				sessionTempDirStr = sessionTempDirStr + "_" + i;
 				file = new File( sessionTempDirStr );
 			}
 			file.mkdir( );
