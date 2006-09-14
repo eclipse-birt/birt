@@ -53,8 +53,8 @@
 						</TABLE>
 						<!-- Content area -->
 						<p>Thank you for your choosing BIRT (Business Intelligence Reporting Tool).</p>
-						<p>Viewer Version : 2.1.0</p>
-						<p>Engine Version: 2.1.0</p>
+						<p>Viewer Version : 2.1.1</p>
+						<p>Engine Version: 2.1.1</p>
 						<p><a href="<%= request.getContextPath( ) + "/frameset?__report=test.rptdesign&sample=my+parameter" %>">View Example</a>
 					</TD>
 				</TR>
