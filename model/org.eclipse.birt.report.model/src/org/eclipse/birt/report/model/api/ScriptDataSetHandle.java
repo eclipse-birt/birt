@@ -171,4 +171,19 @@ public class ScriptDataSetHandle extends DataSetHandle
 		return super.resultSetHintsIterator( );
 	}
 
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DataSetHandle#getPropertyHandle(java.lang.String)
+	 */
+
+	public PropertyHandle getPropertyHandle( String propName )
+	{
+		if ( RESULT_SET_PROP.equalsIgnoreCase( propName ) )
+			return super.getPropertyHandle( RESULT_SET_HINTS_PROP );
+
+		return super.getPropertyHandle( propName );
+	}
+
 }
