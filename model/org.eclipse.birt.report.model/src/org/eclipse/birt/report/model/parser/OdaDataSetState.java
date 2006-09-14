@@ -34,8 +34,6 @@ import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import com.sun.corba.se.internal.util.Version;
-
 /**
  * This class parses an extended data set. Note: this is temporary syntax, the
  * structure of a data set will be defined by a different team later.
