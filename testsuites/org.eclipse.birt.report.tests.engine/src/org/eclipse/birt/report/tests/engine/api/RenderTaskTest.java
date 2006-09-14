@@ -58,7 +58,7 @@ public class RenderTaskTest extends EngineCase
 		super.setUp( );
 	}
 
-	public void testRender0( )
+	public void testRender_orderreport( )
 	{
 		renderReport( "OrderReport", "All" );
 	}
@@ -66,83 +66,83 @@ public class RenderTaskTest extends EngineCase
 	/**
 	 * Test RenderTask with different input design files
 	 */
-	public void testRender1( )
+	public void testRender_simple( )
 	{
 		renderReport( "case1", "All" );
 	}
 
-	public void testRender2( )
+	public void testRender_table( )
 	{
 		renderReport( "table_pages", "All" );
 	}
 
-	public void testRender3( )
+	public void testRender_longtext( )
 	{
 		renderReport( "long_text", "All" );
 	}
 
-	public void testRender4( )
+	public void testRender_multiple_datasets( )
 	{
 
 		renderReport( "multiple_datasets", "All" );
 	}
 
-	public void testRender5( )
+	public void testRender_nesttable( )
 	{
 		renderReport( "table_nest_pages", "All" );
 	}
 
-	public void testRender6( )
+	public void testRender_oncreate( )
 	{
 		renderReport( "oncreate-style-label", "All" );
 	}
 
-	public void testRender7( )
+	public void testRender_script( )
 	{
 		renderReport( "javascript-support-data", "All" );
 	}
 
-	public void testRender8( )
+	public void testRender_masterpage( )
 	{
 		renderReport( "master_page", "All" );
 	}
 
-	public void testRender9( )
+	public void testRender_chart( )
 	{
 		renderReport( "chart", "All" );
 	}
 
-	public void testRender10( )
+	public void testRender_complex( )
 	{
 		renderReport( "complex_report", "All" );
 	}
 
-	public void testRender11( )
+	public void testRender_areachart( )
 	{
 		renderReport( "area3dChart", "All" );
 	}
 
-	public void testRender12( )
+	public void testRender_meterchart( )
 	{
 		renderReport( "MeterChart", "All" );
 	}
 
-	public void testRender13( )
+	public void testRender_dynamic_image( )
 	{
 		renderReport( "image_in_DB", "All" );
 	}
 
-	public void testRender14( )
+	public void testRender_multiple_masterpage( )
 	{
 		renderReport( "multiple_masterpage", "All" );
 	}
 
-	public void testRender15( )
+	public void testRender_data( )
 	{
 		renderReport( "smoke_data", "All" );
 	}
 
-	public void testRender16( )
+	public void testRender_library( )
 	{
 		renderReport( "report_from_library1", "All" );
 	}
@@ -150,47 +150,47 @@ public class RenderTaskTest extends EngineCase
 	/*
 	 * Test RenderTask when set page range
 	 */
-	public void testRenderPageRange1( )
+	public void testRenderPageRange_all( )
 	{
 		renderReport( "pages9", "All" );
 	}
 
-	public void testRenderPageRange2( )
+	public void testRenderPageRange_null( )
 	{
 		renderReport( "pages9", null );
 	}
 
-	public void testRenderPageRange3( )
+	public void testRenderPageRange_blank( )
 	{
 		renderReport( "pages9", "" );
 	}
 
-	public void testRenderPageRange4( )
+	public void testRenderPageRange_number( )
 	{
 		renderReport( "pages9", "2" );
 	}
 
-	public void testRenderPageRange5( )
+	public void testRenderPageRange_comma( )
 	{
 		renderReport( "pages9", "3,5" );
 	}
 
-	public void testRenderPageRange6( )
+	public void testRenderPageRange_dash1( )
 	{
 		renderReport( "pages9", "2-9" );
 	}
 
-	public void testRenderPageRange7( )
+	public void testRenderPageRange_dash2( )
 	{
 		renderReport( "pages9", "0-100" );
 	}
 
-	public void testRenderPageRange8( )
+	public void testRenderPageRange_0( )
 	{
 		renderReport( "pages9", "0" );
 	}
 
-	public void testRenderPageRange9( )
+	public void testRenderPageRange_invalid( )
 	{
 		renderReport( "pages9", "abc" );
 	}

@@ -59,48 +59,48 @@ public class RenderFolderDocumentTest extends EngineCase
 		htmlOption.setOutputFormat( HTMLRenderOption.HTML );
 	}
 
-	public void testRenderFolderDocument1( )
+	public void testRenderFolderDocument_simple( )
 	{
 		String renderDoc = "folderdocument_case1";
 		renderFolderDocument( renderDoc );
 	}
 
-	public void testRenderFolderDocument2( )
+	public void testRenderFolderDocument_longtext( )
 	{
 		String renderDoc = "folderdocument_long_text";
 		renderFolderDocument( renderDoc );
 
 	}
 
-	public void testRenderFolderDocument3( )
+	public void testRenderFolderDocument_masterpage( )
 	{
 		String renderDoc = "folderdocument_master_page";
 		renderFolderDocument( renderDoc );
 
 	}
 
-	public void testRenderFolderDocument4( )
+	public void testRenderFolderDocument_multidatasets( )
 	{
 		String renderDoc = "folderdocument_multiple_datasets";
 		renderFolderDocument( renderDoc );
 
 	}
 
-	public void testRenderFolderDocument5( )
+	public void testRenderFolderDocument_multipages( )
 	{
 		String renderDoc = "folderdocument_pages9";
 		renderFolderDocument( renderDoc );
 
 	}
 
-	public void testRenderFolderDocument6( )
+	public void testRenderFolderDocument_nesttable( )
 	{
 		String renderDoc = "folderdocument_table_nest_pages";
 		renderFolderDocument( renderDoc );
 
 	}
 
-	public void testRenderFolderDocument7( )
+	public void testRenderFolderDocument_chart( )
 	{
 		String renderDoc = "folderdocument_chart";
 		renderFolderDocument( renderDoc );
@@ -112,31 +112,31 @@ public class RenderFolderDocumentTest extends EngineCase
 	 * folder-based report document Test Method: FolderArchiveWriter.dropStream(
 	 * String relativePath )
 	 */
-	public void testDropDocumentFolder1( )
+	public void testDropDocumentFolder_content( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "content" );
 	}
 
-	public void testDropDocumentFolder2( )
+	public void testDropDocumentFolder_data( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "Data" );
 	}
 
-	public void testDropDocumentFolder3( )
+	public void testDropDocumentFolder_design( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "design" );
 	}
 
-	public void testDropDocumentFolder4( )
+	public void testDropDocumentFolder_blank( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "" );
 	}
 
-	public void testDropDocumentFolder5( )
+	public void testDropDocumentFolder_nonexist( )
 	{
 		String report_design = "report_document";
 		dropFolder( report_design, "nonexist" );
