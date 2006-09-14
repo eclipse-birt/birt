@@ -156,6 +156,7 @@ public class ResourceConstants
 	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";	
 	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "data.engine.NullDefaultInParamValue";
 	public final static String INVALID_GROUP_EXPR = "data.engine.BadGroupKeyExpr";
+	public final static String GROUP_NOT_EXIST = "data.engine.GroupNotExist";
 	public final static String INVALID_SORT_EXPR = "data.engine.BadSortKeyExpr";
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "data.engine.NoParamMetaForDataSource";
 	public final static String UNEXPECTED_ERROR = "data.engine.UnexpectedError";

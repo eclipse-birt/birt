@@ -17,9 +17,11 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,6 +130,7 @@ final class PreparedQuery
 			}
 			
 			List groups = baseQueryDefn.getGroups( );
+			Set groupNameSet = new HashSet( );
 			IGroupDefinition group;
 			for ( int i = 0; i < groups.size( ); i++ )
 			{
@@ -144,15 +147,37 @@ final class PreparedQuery
 							&& j != i )
 						throw new DataException( ResourceConstants.DUPLICATE_GROUP_NAME );
 				}
+				groupNameSet.add( group.getName( ) );
 			}
-			
+
+			// The latest column binding (AggregateOn introduced)
+			Map map = baseQueryDefn.getResultSetExpressions( );
+			if ( map != null )
+			{
+				Iterator it = map.keySet( ).iterator( );
+				while ( it.hasNext( ) )
+				{
+					Object key = it.next( );
+					IBaseExpression icbe = (IBaseExpression) map.get( key );
+					if ( ( !icbe.getGroupName( )
+							.equals( IBaseExpression.GROUP_OVERALL ) )
+							&& !groupNameSet.contains( icbe.getGroupName( ) ) )
+					{
+						throw new DataException( ResourceConstants.GROUP_NOT_EXIST,
+								new Object[]{
+										icbe.getGroupName( ), key
+								} );
+					}
+				}
+			}
+
 			for ( int i = 0; i <= groups.size( ); i++ )
 			{
 				prepareGroup( baseQueryDefn, i, cx );
 			}
 		}
 		finally
-		{
+		{			
 		    Context.exit();
 		}
 	}
@@ -163,12 +188,12 @@ final class PreparedQuery
 	 * @param cx
 	 * @throws DataException
 	 */
-	private void prepareGroup( IBaseQueryDefinition baseQuery, int groupLevel, Context cx )
-			throws DataException
+	private void prepareGroup( IBaseQueryDefinition baseQuery, int groupLevel,
+			Context cx ) throws DataException
 	{
 		IBaseTransform trans = baseQuery;
 		String groupName = IBaseExpression.GROUP_OVERALL;
-		
+			
 		// Group 0
 		if ( groupLevel != 0 )
 		{	
@@ -176,7 +201,7 @@ final class PreparedQuery
 					.get( groupLevel - 1 );
 			trans = igd;
 			groupName = igd.getName();
-		}
+		}		
 		
 		Collection exprCol = new ArrayList( );
 		Map resultSetExpressions = new HashMap();
