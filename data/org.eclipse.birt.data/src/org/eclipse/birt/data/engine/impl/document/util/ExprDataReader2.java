@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
@@ -49,7 +50,7 @@ class ExprDataReader2 implements IExprDataReader
 	private int nextDestIndex; // TODO: enhanceme
 	
 	private Map exprValueMap;	
-	private Map rowIDMap;
+	private BasicCachedArray rowIDMap;
 	private List exprKeys;
 	private int metaOffset;
 	
@@ -58,7 +59,42 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowLenIs
 	 * @throws DataException 
 	 */
-	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs ) throws DataException
+	protected ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount ) throws DataException
+	{
+		initialize( rowExprsIs, rowLenIs, rowCount );
+	}
+
+	/**
+	 * @param rowExprsIs
+	 * @param rowLenIs
+	 * @param rowInfoIs
+	 * @throws DataException
+	 */
+	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs,
+			RAInputStream rowInfoIs ) throws DataException
+	{
+		this.rowIndexUtil = new RowIndexUtil( rowInfoIs );
+		
+		try
+		{
+			int rowCount = (int) ( rowInfoIs.length( ) / 4 );
+			initialize( rowExprsIs, rowLenIs, rowCount );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+					e,
+					"Result Data" );
+		}		
+	}
+	
+	/**
+	 * 
+	 * @param rowExprsIs
+	 * @param rowLenIs
+	 * @throws DataException
+	 */
+	private void initialize( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount ) throws DataException
 	{
 		try
 		{
@@ -89,32 +125,8 @@ class ExprDataReader2 implements IExprDataReader
 		this.currRowIndex = -1;
 		this.lastRowIndex = -1;
 		this.currRowLenReadIndex = -1;
-		
-		this.rowIDMap = new HashMap();
-	}
-	
-	/**
-	 * @param rowExprsIs
-	 * @param rowLenIs
-	 * @param rowInfoIs
-	 * @throws DataException
-	 */
-	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs,
-			RAInputStream rowInfoIs ) throws DataException
-	{
-		this( rowExprsIs, rowLenIs );
-		this.rowIndexUtil = new RowIndexUtil( rowInfoIs );
-		
-		try
-		{
-			this.rowCount = (int) ( rowInfoIs.length( ) / 4 );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Result Data" );
-		}		
+		this.rowCount = rowCount;
+		this.rowIDMap = new BasicCachedArray( rowCount );
 	}
 	
 	/*
@@ -130,7 +142,7 @@ class ExprDataReader2 implements IExprDataReader
 	 */
 	public int getRowId( )
 	{
-		int destIndex = ( (Integer) rowIDMap.get( new Integer( currRowIndex ) ) ).intValue( );
+		int destIndex = ( (Integer) rowIDMap.get( currRowIndex ) ).intValue( );
 		return destIndex;
 	}
 	
@@ -156,8 +168,7 @@ class ExprDataReader2 implements IExprDataReader
 		if ( hasNext )
 		{
 			this.nextDestIndex = getNextDestIndex( currRowIndex );
-			this.rowIDMap.put( new Integer( currRowIndex ),
-					new Integer( nextDestIndex ) );
+			this.rowIDMap.set( currRowIndex, new Integer( nextDestIndex ) );
 		}
 		return hasNext;
 	}
