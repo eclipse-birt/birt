@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import org.eclipse.birt.core.format.NumberFormatter;
+
+import com.ibm.icu.util.ULocale;
+
 /**
  * Collection of string utilities.
  * 
@@ -180,77 +184,29 @@ public class StringUtil
 
 	public static String doubleToString( double d, int fNumber )
 	{
-
 		if ( fNumber < 0 )
 			fNumber = 0;
 
-		String value = Double.toString( d );
-		int ePos = value.indexOf( 'E' );
-		int dotPos = value.indexOf( '.' );
-
-		// Convert the double like "1234567890000000.56789" to string, which
-		// will be converted to
-		// "1.23456789000E15" by Double.toString().
-
-		if ( ePos != -1 )
+		String pattern = null;
+		switch( fNumber )
 		{
-			// Get the exponent of this double
-
-			String e = value.substring( ePos + 1 );
-			int exp = Integer.parseInt( e );
-
-			// Move the dot position according to the exponent
-
-			StringBuffer sb = new StringBuffer( value.substring( 0, dotPos ) );
-			if ( ePos - dotPos - 1 > exp )
-			{
-				// "1.23456789000E4"
-
-				sb.append( value.substring( dotPos + 1, dotPos + 1 + exp ) );
-				sb.append( '.' );
-				sb.append( value.substring( dotPos + 1 + exp, ePos ) );
-
-				// "12345.6789000"
-			}
-			else
-			{
-				// "1.23400E8"
-
-				sb.append( value.substring( dotPos + 1, ePos ) );
-				for ( int i = 0; i < exp - ( ePos - dotPos - 1 ); i++ )
-					sb.append( '0' );
-
-				// "123400000"
-			}
-
-			// "1234567890000000" will be the final one
-
-			value = sb.toString( );
+			case 0:
+				pattern = "#0"; //$NON-NLS-1$
+				break;			
+			default:
+				pattern = "#0."; //$NON-NLS-1$
+			    StringBuffer b = new StringBuffer( pattern);
+				for ( int i = 0; i < fNumber; i++ )
+				{
+					b.append( '#' );					
+				}
+				pattern = b.toString( );
+				break;
+				
 		}
-
-		// Limit the fractional number to maximum fractional number
-
-		int pos = value.indexOf( '.' );
-		if ( pos != -1 )
-		{
-			if ( value.length( ) - pos - 1 > fNumber )
-				value = value.substring( 0, pos + fNumber + 1 );
-
-			// Remove the ending '0'.
-
-			int i = 0;
-			for ( ; i < fNumber; i++ )
-			{
-				if ( value.charAt( value.length( ) - i - 1 ) != '0' )
-					break;
-			}
-			value = value.substring( 0, value.length( ) - i );
-
-			// Remove the last dot
-
-			if ( value.charAt( value.length( ) - 1 ) == '.' )
-				value = value.substring( 0, value.length( ) - 1 );
-		}
+		NumberFormatter formatter = new NumberFormatter( ULocale.ENGLISH );
+		formatter.applyPattern( pattern );
+		String value = formatter.format( d );
 
 		return value;
 	}
