@@ -1602,7 +1602,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				la );
 
 		final Bounds bo = lirh.getLegendGraphicBounds( );
-		
+
 		if ( isRightToLeft( ) )
 		{
 			bo.setLeft( dX
@@ -1620,7 +1620,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		bo.setTop( dY + 1 + ( dFullHeight - dItemHeight ) / 2 );
 		bo.setWidth( 3 * dItemHeight / 2 );
 		bo.setHeight( dItemHeight - 2 );
-		
+
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ITEM,
 				lerh,
@@ -1628,10 +1628,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_LEGEND_ITEM,
 				lerh );
-	
+
 		final BaseRenderer br = lirh.getRenderer( );
 		br.renderLegendGraphic( ipr, lg, fPaletteEntry, bo );
-		
+
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
 
@@ -1839,7 +1839,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				ipr.enableInteraction( iev );
 			}
 		}
-		
+
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.AFTER_DRAW_LEGEND_ITEM,
 				lerh,
@@ -2751,8 +2751,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				// BUILD THE VALUE
 				String toolText = ( (TooltipValue) tg.getAction( ).getValue( ) ).getText( );
 
-				// if blank, then use DataPoint label.
-				if ( toolText == null || toolText.length( ) == 0 )
+				// if it's null, then use DataPoint label automatically.
+				// !!! DON'T check zero length string here, since this has a
+				// particular meaning to avoid the tooltip.
+				if ( toolText == null )// || toolText.length( ) == 0 )
 				{
 					( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
 				}

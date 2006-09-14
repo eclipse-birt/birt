@@ -289,8 +289,17 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					return false;
 				case ActionType.SHOW_TOOLTIP :
 					TooltipValue tv = (TooltipValue) ac.getValue( );
-					tag.addAttribute( HTMLAttribute.TITLE, eval( tv.getText( ) ) );
-					return true;
+					// only add valid tooltip
+					if ( tv.getText( ) != null && tv.getText( ).length( ) > 0 )
+					{
+						tag.addAttribute( HTMLAttribute.TITLE,
+								eval( tv.getText( ) ) );
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				case ActionType.INVOKE_SCRIPT :
 					// not for onmouseover.
 					return false;
