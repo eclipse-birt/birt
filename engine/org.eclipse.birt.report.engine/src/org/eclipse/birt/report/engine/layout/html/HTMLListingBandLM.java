@@ -110,6 +110,10 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 		int type = band.getBandType( );
 		if ( type == IBandContent.BAND_HEADER )
 		{
+			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
+			{
+				return true;
+			}
 			IElement listContent = band.getParent( );
 			if ( listContent instanceof IListContent )
 			{
@@ -118,6 +122,10 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 		}
 		else if ( type == IBandContent.BAND_GROUP_HEADER )
 		{
+			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
+			{
+				return true;
+			}
 			IElement groupContent = band.getParent( );
 			if ( groupContent instanceof IGroupContent )
 			{

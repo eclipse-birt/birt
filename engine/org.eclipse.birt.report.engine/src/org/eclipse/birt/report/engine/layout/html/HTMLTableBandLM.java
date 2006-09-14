@@ -75,25 +75,5 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 		return hasNext;
 	}
 	
-	protected boolean allowPageBreak( )
-	{
-		IContent band =  (IBandContent) content; 
-		if(bandType==IBandContent.BAND_HEADER)
-		{
-			IElement tableContent = band.getParent( );
-			if(tableContent instanceof ITableContent)
-			{
-				return !((ITableContent)tableContent).isHeaderRepeat( );
-			}
-		}
-		else if( bandType==IBandContent.BAND_GROUP_HEADER)
-		{
-			IElement groupContent = band.getParent( );
-			if(groupContent instanceof IGroupContent)
-			{
-				return !((IGroupContent)groupContent).isHeaderRepeat( );
-			}
-		}
-		return true;
-	}
+
 }

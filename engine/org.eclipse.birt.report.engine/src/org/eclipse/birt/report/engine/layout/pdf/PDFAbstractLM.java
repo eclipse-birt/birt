@@ -200,13 +200,13 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return false;
 	}
 
-	private boolean canPageBreak( )
+	protected boolean canPageBreak( )
 	{
 		if ( !context.allowPageBreak( ) )
 		{
 			return false;
 		}
-
+		
 		PDFAbstractLM p = parent;
 		while ( p != null )
 		{
