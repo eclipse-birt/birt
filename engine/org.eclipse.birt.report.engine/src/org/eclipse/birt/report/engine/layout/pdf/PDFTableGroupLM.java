@@ -22,6 +22,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 {
 
 	protected PDFTableLM tableLM = null;
+	protected boolean firstRow = true;
 
 	public PDFTableGroupLM( PDFLayoutEngineContext context,
 			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
@@ -79,9 +80,6 @@ public class PDFTableGroupLM extends PDFGroupLM
 		if ( isFirst )
 		{
 			isFirst = false;
-			IArea tocAnchor = AreaFactory.createTableGroupArea( (IGroupContent) content );
-			tableLM.addArea( tocAnchor );
-			tableLM.setRepeatCount( tableLM.getRepeatCount( ) + 1 );
 			return;
 		}
 		ITableBandContent header = (ITableBandContent) groupContent.getHeader( );
@@ -210,6 +208,13 @@ public class PDFTableGroupLM extends PDFGroupLM
 
 	public boolean addArea( IArea area )
 	{
+		if(firstRow)
+		{
+			firstRow = false;
+			IArea tocAnchor = AreaFactory.createTableGroupArea( (IGroupContent) content );
+			tableLM.addArea( tocAnchor );
+			tableLM.setRepeatCount( tableLM.getRepeatCount( ) + 1 );
+		}
 		return parent.addArea( area );
 	}
 

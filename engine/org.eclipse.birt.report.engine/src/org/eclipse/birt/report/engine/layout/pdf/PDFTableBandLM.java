@@ -15,12 +15,14 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IGroupContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.w3c.dom.css.CSSValue;
 
 public class PDFTableBandLM extends PDFBlockStackingLM
 		implements
@@ -187,13 +189,54 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		return executor;
 	}
 
+	protected boolean canPageBreak( )
+	{
+		if(!allowPageBreak())
+		{
+			return false;
+		}
+		return super.canPageBreak( );
+	}
+	
 	protected boolean allowPageBreak( )
 	{
 		if( type == IBandContent.BAND_GROUP_HEADER || type== IBandContent.BAND_HEADER)
 		{
-			return !repeatHeader;
+			if(!repeatHeader)
+			{
+				return true;
+			}
+			else
+			{
+				if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
+				{
+					return true;
+				}
+				return false;
+			}
 		}
 		return true;
+	}
+	
+	protected boolean needPageBreakBefore( )
+	{
+		if ( super.needPageBreakBefore( ) )
+		{
+			return true;
+		}
+		if ( type == IBandContent.BAND_GROUP_HEADER )
+		{
+			IStyle style = content.getStyle( );
+			CSSValue pageBreak = style
+					.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
+			if ( IStyle.SOFT_VALUE.equals( pageBreak ) )
+			{
+				style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+						IStyle.AUTO_VALUE );
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
