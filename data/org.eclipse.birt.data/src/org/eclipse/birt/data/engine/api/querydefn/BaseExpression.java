@@ -93,7 +93,7 @@ public abstract class BaseExpression implements IBaseExpression
 
 	public void setGroupName( String name )
 	{
-		if( name!= null )
+		if ( name != null && name.trim( ).length( ) != 0 )
 			this.groupName = name;
 		else
 			this.groupName = GROUP_OVERALL;
