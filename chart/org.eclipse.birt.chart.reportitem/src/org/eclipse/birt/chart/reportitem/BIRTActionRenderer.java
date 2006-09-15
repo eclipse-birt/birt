@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,13 +27,10 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -66,21 +62,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		this.eih = eih;
 		this.handler = handler;
 		this.evaluator = evaluator;
-
-		// TODO !!!This is only a temp solution to resovle bugzilla#152948 due
-		// to implementation limitation for other api team.
-		// The correct way should be that just pass IReportContext directly to
-		// ActionHandler and let handler find any render context it concerns.
-		if ( "html".equals( ( (IReportContext) context ).getOutputFormat( ) ) ) //$NON-NLS-1$
-		{
-			this.context = ( (IReportContext) context ).getAppContext( )
-					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
-		}
-		else
-		{
-			this.context = ( (IReportContext) context ).getAppContext( )
-					.get( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT );
-		}
+		this.context = context;
 	}
 
 	/*
