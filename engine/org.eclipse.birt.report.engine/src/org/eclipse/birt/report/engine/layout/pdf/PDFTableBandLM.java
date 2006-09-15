@@ -202,42 +202,9 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 	{
 		if( type == IBandContent.BAND_GROUP_HEADER || type== IBandContent.BAND_HEADER)
 		{
-			if(!repeatHeader)
-			{
-				return true;
-			}
-			else
-			{
-				if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
-				{
-					return true;
-				}
-				return false;
-			}
+			return !repeatHeader;
 		}
 		return true;
 	}
-	
-	protected boolean needPageBreakBefore( )
-	{
-		if ( super.needPageBreakBefore( ) )
-		{
-			return true;
-		}
-		if ( type == IBandContent.BAND_GROUP_HEADER )
-		{
-			IStyle style = content.getStyle( );
-			CSSValue pageBreak = style
-					.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-			if ( IStyle.SOFT_VALUE.equals( pageBreak ) )
-			{
-				style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-						IStyle.AUTO_VALUE );
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	
 }
