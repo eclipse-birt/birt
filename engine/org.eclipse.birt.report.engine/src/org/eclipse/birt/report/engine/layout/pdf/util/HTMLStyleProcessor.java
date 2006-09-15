@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.util;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,8 @@ import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.URIValue;
 import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.css.CSSValue;
@@ -36,8 +39,7 @@ public class HTMLStyleProcessor
 	/** the logger */
 	private static Logger logger = Logger.getLogger( HTMLStyleProcessor.class.getName() );
 	
-	/** the execution context */
-	String rootPath;;
+	private ReportDesignHandle report;
 
 	/** the CSS2.0 Parser */
 	private CSSEngine cssEngine;
@@ -54,12 +56,12 @@ public class HTMLStyleProcessor
 	 * @param context
 	 *            the execution context
 	 */
-	public HTMLStyleProcessor( String rootPath)
+	public HTMLStyleProcessor( ReportDesignHandle report)
 	{
 		//Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
 		cssEngine = new BIRTCSSEngine();
-		this.rootPath = rootPath;
+		this.report = report;
 	}
 		
 
@@ -147,9 +149,25 @@ public class HTMLStyleProcessor
 				String bgi = ((URIValue)value).getStringValue();
 				if((null!=bgi )&&( !"".equals(bgi))) //$NON-NLS-1$
 				{
-					if ( FileUtil.isLocalResource( bgi ) )
+					if ( report != null )
 					{
-						bgi = FileUtil.getAbsolutePath( rootPath, bgi );
+						if( FileUtil.isLocalResource( bgi ) )
+						{
+							URL url = report.findResource( bgi,
+									IResourceLocator.IMAGE );
+							if ( url != null )
+							{
+								String fileName = url.getFile( );
+								if ( fileName != null )
+								{
+									bgi = fileName;
+								}
+							}
+						}
+						else
+						{
+							bgi = "url(" + bgi + ")";
+						}
 					}
 					if ( bgi != null )
 					{
@@ -176,7 +194,7 @@ public class HTMLStyleProcessor
 			Node child = ele.getChildNodes( ).item( i );
 			if ( child.getNodeType( ) == Node.ELEMENT_NODE )
 			{
-				execute( (Element) child, styles );
+				execute( (Element) child, styles);
 			}
 		}
 	}
