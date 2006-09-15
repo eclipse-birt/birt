@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's FontWeightManager.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
@@ -26,7 +26,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides a manager for the 'font-weight' property values.
  * 
- * @version $Id: FontWeightManager.java,v 1.2 2005/11/22 09:59:56 wyan Exp $
+ * @version $Id: FontWeightManager.java,v 1.2.14.1 2006/09/15 05:33:33 lyu Exp $
  */
 public class FontWeightManager extends IdentifierManager {
 

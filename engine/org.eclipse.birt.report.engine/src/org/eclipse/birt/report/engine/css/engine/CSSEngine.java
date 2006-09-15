@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's CSSEngine.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This is the base class for all the CSS engines.
  *
- * @version $Id: CSSEngine.java,v 1.5 2006/06/06 09:40:41 wyan Exp $
+ * @version $Id: CSSEngine.java,v 1.5.6.1 2006/09/15 05:33:32 lyu Exp $
  */
 public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
 

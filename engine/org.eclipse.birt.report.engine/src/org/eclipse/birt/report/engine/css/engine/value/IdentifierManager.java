@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's IdentifierManager.java to support BIRT's CSS rules
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine.value;
@@ -22,7 +22,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * This class provides a manager for the property with support for identifier
  * values.
  * 
- * @version $Id: IdentifierManager.java,v 1.2 2005/11/21 08:22:49 wyan Exp $
+ * @version $Id: IdentifierManager.java,v 1.2.14.1 2006/09/15 05:33:32 lyu Exp $
  */
 public abstract class IdentifierManager extends AbstractValueManager
 {

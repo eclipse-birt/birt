@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's RectValue.java to support BIRT's CSS rules
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine.value;
@@ -18,7 +18,7 @@ import org.w3c.dom.css.Rect;
 /**
  * This class represents CSS rect values.
  * 
- * @version $Id: RectValue.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: RectValue.java,v 1.2.14.1 2006/09/15 05:33:32 lyu Exp $
  */
 public class RectValue extends Value implements Rect
 {

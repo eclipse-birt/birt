@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's RGBColorValue.java to support BIRT's CSS rules
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine.value;
@@ -18,7 +18,7 @@ import org.w3c.dom.css.RGBColor;
 /**
  * This class represents RGB colors.
  * 
- * @version $Id: RGBColorValue.java,v 1.4 2005/12/06 03:12:42 gliu Exp $
+ * @version $Id: RGBColorValue.java,v 1.4.12.1 2006/09/15 05:33:32 lyu Exp $
  */
 public class RGBColorValue extends Value implements RGBColor
 {

@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's FontVariantManager.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
@@ -17,7 +17,7 @@ import org.eclipse.birt.report.engine.css.engine.value.Value;
 /**
  * This class provides a manager for the 'font-variant' property values.
  *
- * @version $Id: FontVariantManager.java,v 1.2 2005/11/22 09:59:56 wyan Exp $
+ * @version $Id: FontVariantManager.java,v 1.2.14.1 2006/09/15 05:33:33 lyu Exp $
  */
 public class FontVariantManager extends IdentifierManager {
     
