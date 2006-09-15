@@ -26,8 +26,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides a manager for the 'font-weight' property values.
  * 
- * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: FontWeightManager.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
+ * @version $Id: FontWeightManager.java,v 1.2 2005/11/22 09:59:56 wyan Exp $
  */
 public class FontWeightManager extends IdentifierManager {
 

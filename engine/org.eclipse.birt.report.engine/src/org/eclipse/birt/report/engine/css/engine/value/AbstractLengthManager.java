@@ -25,8 +25,7 @@ import org.w3c.dom.css.CSSValue;
  * This class provides a manager for the property with support for length
  * values.
  * 
- * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: AbstractLengthManager.java,v 1.2 2005/11/14 03:27:18 gliu Exp $
+ * @version $Id: AbstractLengthManager.java,v 1.3 2005/11/22 09:59:57 wyan Exp $
  */
 public abstract class AbstractLengthManager extends AbstractValueManager
 {

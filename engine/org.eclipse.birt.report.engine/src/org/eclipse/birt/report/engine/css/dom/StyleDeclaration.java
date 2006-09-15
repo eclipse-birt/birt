@@ -15,10 +15,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.css.CSSValue;
 
-/**
- * @author yanwei
- * 
- */
 public class StyleDeclaration extends AbstractStyle implements IStyle
 {
 	protected CSSValue[] values;

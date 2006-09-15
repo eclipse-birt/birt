@@ -1,16 +1,13 @@
-/*
- * ExecutorManager.java Created on 2004-11-4
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Copyright (c) 2004 Actuate Corp.
- * 701 Gateway Blvd, South San Francisco, CA 94080, U.S.A.
- * All rights reserved.
- *
- * This software is confidential and proprietary information of 
- * Actuate Corp. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered
- * into with Actuate.
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.executor;
 
@@ -42,9 +39,8 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * 
  * report item executor manager
- * 
- * @author liugang
- * @version $Revision: 1.10 $ $Date: 2006/04/27 09:52:26 $
+ *
+ * @version $Revision: 1.11 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ExecutorManager
 {

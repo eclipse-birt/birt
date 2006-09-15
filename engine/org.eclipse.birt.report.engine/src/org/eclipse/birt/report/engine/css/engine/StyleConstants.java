@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine;
 
-/**
- * @author wyan
- */
 public interface StyleConstants {
 	final int STYLE_TEXT_INDENT = 0 ;
 	final int STYLE_VISIBLE_FORMAT = 1 ;

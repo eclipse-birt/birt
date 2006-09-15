@@ -28,8 +28,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides a manager for the 'font-size' property values.
  * 
- * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: FontSizeManager.java,v 1.2 2005/11/21 09:32:35 thuang Exp $
+ * @version $Id: FontSizeManager.java,v 1.3 2005/11/22 09:59:56 wyan Exp $
  */
 public class FontSizeManager extends AbstractLengthManager {
 
