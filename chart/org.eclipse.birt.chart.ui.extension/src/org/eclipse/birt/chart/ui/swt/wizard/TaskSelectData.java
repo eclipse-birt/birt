@@ -996,7 +996,9 @@ public class TaskSelectData extends SimpleTask
 	{
 		if ( previewPainter != null )
 		{
-			if ( notification.getNotifier( ) instanceof Query )
+			// Only data definition query (not group query) will be validated
+			if ( notification.getNotifier( ) instanceof Query
+					&& ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series )
 			{
 				checkDataType( (Query) notification.getNotifier( ) );
 			}
