@@ -50,7 +50,6 @@ import org.eclipse.birt.report.engine.css.engine.value.css.WhiteSpaceManager;
 /**
  * provide engine a utilitis to parser the styles.
  * 
- * @author yanwei
  * 
  */
 public class BIRTPropertyManagerFactory implements PropertyManagerFactory

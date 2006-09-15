@@ -21,8 +21,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides an abstract implementation of the ValueManager interface.
  * 
- * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: AbstractValueManager.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * @version $Id: AbstractValueManager.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public abstract class AbstractValueManager extends AbstractValueFactory
 		implements

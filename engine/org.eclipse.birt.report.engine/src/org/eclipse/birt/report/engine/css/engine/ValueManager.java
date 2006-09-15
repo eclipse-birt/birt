@@ -20,8 +20,7 @@ import org.w3c.dom.DOMException;
  * This interface is implemented by objects which manage the values associated
  * with a property.
  *
- * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
- * @version $Id: ValueManager.java,v 1.1 2005/11/11 06:26:48 wyan Exp $
+ * @version $Id: ValueManager.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public interface ValueManager {
 

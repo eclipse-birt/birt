@@ -27,8 +27,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * 
  * Complete Class Desc
  * 
- * @author <a href="mailto:deweese@apache.org">l449433</a>
- * @version $Id: URIManager.java,v 1.3 2005/11/22 09:59:56 wyan Exp $
+ * @version $Id: URIManager.java,v 1.4 2005/12/23 01:34:02 wyan Exp $
  */
 public class URIManager extends IdentifierManager
 {

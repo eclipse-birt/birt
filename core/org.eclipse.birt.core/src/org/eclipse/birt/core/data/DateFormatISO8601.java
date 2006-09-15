@@ -181,7 +181,6 @@ public class DateFormatISO8601
 
 /**
  * A class used as hash key of date format pattern.
- * @author Administrator
  *
  */
 class PatternKey
