@@ -364,6 +364,7 @@ public final class ResultSetWrapper
 			boolean bFirst = true, bGroupBreak = false;
 			double dBaseReference = baseReference.getValue( );
 			List trashList = new ArrayList( );
+			double dLastReference = dBaseReference;
 
 			for ( int j = iStartIndex; j < iEndIndex; j++ )
 			{
@@ -373,19 +374,27 @@ public final class ResultSetWrapper
 				{
 					if ( iGroupingInterval == 0 )
 					{
-						iGroupIndex++;
+						if ( ( (Number) oaTuple[iBaseColumnIndex] ).doubleValue( ) != dLastReference )
+						{
+							iGroupIndex++;
+						}
 					}
 					else
 					{
 						iGroupIndex = (int) Math.floor( Math.abs( ( ( (Number) oaTuple[iBaseColumnIndex] ).doubleValue( ) - dBaseReference )
 								/ iGroupingInterval ) );
 					}
+
+					dLastReference = ( (Number) oaTuple[iBaseColumnIndex] ).doubleValue( );
 				}
 				else
 				{
 					if ( iGroupingInterval == 0 )
 					{
-						iGroupIndex++;
+						if ( !Double.isNaN( dLastReference ) )
+						{
+							iGroupIndex++;
+						}
 					}
 					else
 					{
@@ -393,6 +402,8 @@ public final class ResultSetWrapper
 						iGroupIndex = (int) Math.floor( Math.abs( dBaseReference
 								/ iGroupingInterval ) );
 					}
+
+					dLastReference = Double.NaN;
 				}
 
 				if ( !bFirst )
@@ -415,6 +426,7 @@ public final class ResultSetWrapper
 						baseReference = NumberDataElementImpl.create( obj == null ? 0
 								: obj.doubleValue( ) );
 						dBaseReference = baseReference.getValue( );
+						dLastReference = dBaseReference;
 						iGroupIndex = 0;
 					}
 					else
@@ -522,6 +534,8 @@ public final class ResultSetWrapper
 		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
 		int totalRowCount = resultSet.size( );
 
+		CDateTime lastReference;
+
 		for ( int k = 0; k < totalGroupCount; k++ )
 		{
 			if ( k == totalGroupCount - 1 )
@@ -559,7 +573,12 @@ public final class ResultSetWrapper
 				}
 			}
 
-			baseReference.clearBelow( cunit );
+			if ( iGroupingInterval != 0 )
+			{
+				// keep original date value if grouping interval=0
+				baseReference.clearBelow( cunit );
+			}
+			lastReference = (CDateTime) baseReference.clone( );
 
 			Object[] oaTuple, oaSummarizedTuple = null;
 			int iGroupIndex = 0, iLastGroupIndex = 0;
@@ -572,35 +591,41 @@ public final class ResultSetWrapper
 
 				if ( oaTuple[iBaseColumnIndex] != null )
 				{
-					if ( iGroupingInterval == 0 )
+					CDateTime dCurrentValue = null;
+
+					Object obj = oaTuple[iBaseColumnIndex];
+
+					// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+					if ( obj instanceof CDateTime )
 					{
-						iGroupIndex++;
+						dCurrentValue = (CDateTime) obj;
+					}
+					else if ( obj instanceof Calendar )
+					{
+						dCurrentValue = new CDateTime( (Calendar) obj );
+					}
+					else if ( obj instanceof Date )
+					{
+						dCurrentValue = new CDateTime( (Date) obj );
 					}
 					else
 					{
-						CDateTime dBaseValue = null;
+						dCurrentValue = new CDateTime( 0 );
+					}
 
-						Object obj = oaTuple[iBaseColumnIndex];
+					if ( iGroupingInterval == 0 )
+					{
+						if ( !lastReference.equals( dCurrentValue ) )
+						{
+							iGroupIndex++;
+						}
+					}
+					else
+					{
+						// keep original date value if grouping interval=0
+						dCurrentValue.clearBelow( cunit );
 
-						// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
-						if ( obj instanceof CDateTime )
-						{
-							dBaseValue = (CDateTime) obj;
-						}
-						else if ( obj instanceof Calendar )
-						{
-							dBaseValue = new CDateTime( (Calendar) obj );
-						}
-						else if ( obj instanceof Date )
-						{
-							dBaseValue = new CDateTime( (Date) obj );
-						}
-						else
-						{
-							dBaseValue = new CDateTime( );
-						}
-
-						double diff = CDateTime.computeDifference( dBaseValue,
+						double diff = CDateTime.computeDifference( dCurrentValue,
 								baseReference,
 								cunit,
 								true );
@@ -608,19 +633,27 @@ public final class ResultSetWrapper
 						iGroupIndex = (int) Math.floor( Math.abs( diff
 								/ iGroupingInterval ) );
 					}
+
+					lastReference = (CDateTime) dCurrentValue.clone( );
 				}
 				else
 				{
+					// Treat null value as the smallest date.
+					CDateTime dCurrentValue = new CDateTime( 0 );
+
 					if ( iGroupingInterval == 0 )
 					{
-						iGroupIndex++;
+						if ( !lastReference.equals( dCurrentValue ) )
+						{
+							iGroupIndex++;
+						}
 					}
 					else
 					{
-						// Treat null value as the smallest date.
-						CDateTime dBaseValue = new CDateTime( 0 );
+						// keep original date value if grouping interval=0
+						dCurrentValue.clearBelow( cunit );
 
-						double diff = CDateTime.computeDifference( dBaseValue,
+						double diff = CDateTime.computeDifference( dCurrentValue,
 								baseReference,
 								cunit,
 								true );
@@ -628,6 +661,8 @@ public final class ResultSetWrapper
 						iGroupIndex = (int) Math.floor( Math.abs( diff
 								/ iGroupingInterval ) );
 					}
+
+					lastReference = (CDateTime) dCurrentValue.clone( );
 				}
 
 				if ( !bFirst )
@@ -667,7 +702,12 @@ public final class ResultSetWrapper
 							baseReference = new CDateTime( 0 );
 						}
 
-						baseReference.clearBelow( cunit );
+						if ( iGroupingInterval != 0 )
+						{
+							// keep original date value if grouping interval=0
+							baseReference.clearBelow( cunit );
+						}
+						lastReference = (CDateTime) baseReference.clone( );
 						iGroupIndex = 0;
 					}
 					else

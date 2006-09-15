@@ -79,6 +79,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 	private Bounds cachedAdjustedBounds;
 
+	protected double dZAxisPlotSpacing = 0;
+	
 	/**
 	 * @param _ids
 	 * @param _cwa

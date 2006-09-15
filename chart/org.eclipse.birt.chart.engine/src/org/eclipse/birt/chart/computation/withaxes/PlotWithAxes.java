@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -38,7 +37,6 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -68,12 +66,6 @@ public abstract class PlotWithAxes extends Methods
 	protected double dXAxisPlotSpacing = 0;
 
 	protected double dYAxisPlotSpacing = 0;
-
-	protected double dZAxisPlotSpacing = 0;
-
-	protected ColorDefinition cdShadow = ColorDefinitionImpl.GREY( );
-
-	protected LineAttributes laPlot = null;
 
 	/**
 	 * All axes defined in the model are maintained in a fast data structure
