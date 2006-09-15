@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -19,9 +22,9 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
-import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.DecimalFormatSymbols;
-import com.ibm.icu.text.NumberFormat;
+
+
+
 
 /**
  * Represents a double-precision floating point property type. Float property
@@ -40,11 +43,11 @@ public class FloatPropertyType extends PropertyType
 
 	/**
 	 * The decimal formatter for locale independent string.
-	 */	
-	
+	 */
+
 	private static final DecimalFormat formatter = new DecimalFormat(
 			"#0.0#", new DecimalFormatSymbols( DEFAULT_LOCALE ) ); //$NON-NLS-1$
-		
+
 	/**
 	 * Constructor.
 	 */
@@ -200,8 +203,7 @@ public class FloatPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ) );
+		NumberFormat formatter = NumberFormat.getNumberInstance( 				ThreadResources.getLocale( ).toLocale() );
 		return formatter.format( ( (Double) value ).doubleValue( ) );
 	}
 
@@ -225,7 +227,7 @@ public class FloatPropertyType extends PropertyType
 			return null;
 
 		NumberFormat localeFormatter = NumberFormat
-				.getNumberInstance( ThreadResources.getLocale( ) );
+				.getNumberInstance(  ThreadResources.getLocale( ).toLocale());
 		Number number = null;
 		try
 		{

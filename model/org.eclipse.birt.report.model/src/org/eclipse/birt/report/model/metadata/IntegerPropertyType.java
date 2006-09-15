@@ -12,13 +12,12 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-
-import com.ibm.icu.text.NumberFormat;
 
 /**
  * Represents the integer property type. Integer property values are stored as
@@ -33,7 +32,7 @@ public class IntegerPropertyType extends PropertyType
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.integer"; //$NON-NLS-1$
-	
+
 	/**
 	 * Constructor.
 	 */
@@ -60,8 +59,8 @@ public class IntegerPropertyType extends PropertyType
 	 * @return object of type Integer or null if value is null..
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -75,7 +74,7 @@ public class IntegerPropertyType extends PropertyType
 		{
 			if ( StringUtil.trimString( (String) value ) == null )
 				return null;
-				
+
 			return parseInteger( ( (String) value ).trim( ) );
 		}
 		if ( value instanceof BigDecimal )
@@ -123,7 +122,7 @@ public class IntegerPropertyType extends PropertyType
 
 		return ( (Integer) value ).toString( );
 	}
-	
+
 	/**
 	 * Returns the localized string representation of the input integer property
 	 * value. The integer property value is represented by a
@@ -141,7 +140,7 @@ public class IntegerPropertyType extends PropertyType
 			return null;
 
 		NumberFormat formatter = NumberFormat
-				.getIntegerInstance( ThreadResources.getLocale( ) );
+				.getIntegerInstance( ThreadResources.getLocale( ).toLocale( ) );
 		return formatter.format( ( (Integer) value ).doubleValue( ) );
 	}
 
