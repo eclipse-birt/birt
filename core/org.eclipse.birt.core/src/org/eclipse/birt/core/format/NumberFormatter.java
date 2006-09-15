@@ -12,27 +12,28 @@
 package org.eclipse.birt.core.format;
 
 import java.math.BigDecimal;
-import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.DecimalFormatSymbols;
-import com.ibm.icu.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
-import com.ibm.icu.util.ULocale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
- * @version $Revision: 1.18 $ $Date: 2006/09/11 04:03:51 $
+ * @version $Revision: 1.19 $ $Date: 2006/09/13 06:41:42 $
  * 
- * Defines a number formatting class. It does the following:
- * 1. In constructor, convert format string to Java format string. 
- * 2. Expose a format function, which does the following: 
- * 		a. Format number using Java format string 
- *      b. Do some post-processing, i.e., e or E, minus sign handling, etc.
+ * Defines a number formatting class. It does the following: 1. In constructor,
+ * convert format string to Java format string. 2. Expose a format function,
+ * which does the following: a. Format number using Java format string b. Do
+ * some post-processing, i.e., e or E, minus sign handling, etc.
  */
 public class NumberFormatter
 {
+
 	/**
 	 * logger used to log syntax errors.
 	 */
@@ -96,7 +97,7 @@ public class NumberFormatter
 	 */
 	public NumberFormatter( Locale locale )
 	{
-		this(ULocale.forLocale(locale));
+		this( ULocale.forLocale( locale ) );
 	}
 
 	/**
@@ -112,14 +113,14 @@ public class NumberFormatter
 		this.locale = locale;
 		applyPattern( pattern );
 	}
-	
+
 	/**
 	 * @deprecated since 2.1
 	 * @return
 	 */
 	public NumberFormatter( String pattern, Locale locale )
 	{
-		this(pattern, ULocale.forLocale(locale));
+		this( pattern, ULocale.forLocale( locale ) );
 	}
 
 	/**
@@ -146,10 +147,10 @@ public class NumberFormatter
 			// null format String
 			if ( this.formatPattern == null )
 			{
-				numberFormat = NumberFormat.getInstance( locale );
+				numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 				numberFormat.setGroupingUsed( false );
 				decimalFormat = new DecimalFormat( "", //$NON-NLS-1$
-						new DecimalFormatSymbols( locale ) );
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				decimalFormat.setGroupingUsed( false );
 				return;
 			}
@@ -186,7 +187,7 @@ public class NumberFormatter
 
 			if ( hexFlag == true )
 			{
-				return Long.toHexString( new Double( num ).longValue());
+				return Long.toHexString( new Double( num ).longValue( ) );
 			}
 
 			return numberFormat.format( num );
@@ -232,7 +233,7 @@ public class NumberFormatter
 			return null;
 		}
 	}
-	
+
 	public String format( Number number )
 	{
 		try
@@ -243,7 +244,7 @@ public class NumberFormatter
 			}
 			if ( hexFlag == true )
 			{
-				return Long.toHexString( number.longValue());
+				return Long.toHexString( number.longValue( ) );
 			}
 			if ( this.formatPattern == null && number instanceof BigDecimal )
 			{
@@ -259,7 +260,6 @@ public class NumberFormatter
 			return null;
 		}
 	}
-	
 
 	/**
 	 * formats a long integer
@@ -285,31 +285,31 @@ public class NumberFormatter
 			case 'g' :
 			case 'D' :
 			case 'd' :
-				numberFormat = NumberFormat.getInstance( locale );
+				numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 				return;
 			case 'C' :
 			case 'c' :
-				numberFormat = NumberFormat.getCurrencyInstance( locale );
+				numberFormat = NumberFormat.getCurrencyInstance( locale.toLocale( ) );
 				return;
 			case 'F' :
 			case 'f' :
 				numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
-						new DecimalFormatSymbols( locale ) );
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'N' :
 			case 'n' :
 				numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
-						new DecimalFormatSymbols( locale ) );
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'P' :
 			case 'p' :
 				numberFormat = new DecimalFormat( "###,##0.00 %", //$NON-NLS-1$
-						new DecimalFormatSymbols( locale ) );
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'E' :
 			case 'e' :
 				numberFormat = new DecimalFormat( "0.000000E00", //$NON-NLS-1$
-						new DecimalFormatSymbols( locale ) );
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'X' :
 			case 'x' :
@@ -322,7 +322,7 @@ public class NumberFormatter
 				String str = new String( data );
 
 				numberFormat = new DecimalFormat( str,
-						new DecimalFormatSymbols( locale ) );
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			}
 		}
@@ -332,41 +332,41 @@ public class NumberFormatter
 	{
 		if ( patternStr.equals( "General Number" ) || patternStr.equals( "Unformatted" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
-			numberFormat = NumberFormat.getInstance( locale );
+			numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 			numberFormat.setGroupingUsed( false );
 			return;
 		}
 		if ( patternStr.equals( "Fixed" ) ) //$NON-NLS-1$
 		{
 			numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
-					new DecimalFormatSymbols( locale ) );
+					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 
 		}
 		if ( patternStr.equals( "Percent" ) ) //$NON-NLS-1$
 		{
 			numberFormat = new DecimalFormat( "0.00%", //$NON-NLS-1$
-					new DecimalFormatSymbols( locale ) );
+					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 		}
 		if ( patternStr.equals( "Scientific" ) ) //$NON-NLS-1$
 		{
 			numberFormat = new DecimalFormat( "0.00E00", //$NON-NLS-1$
-					new DecimalFormatSymbols( locale ) );
+					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 
 		}
 		if ( patternStr.equals( "Standard" ) ) //$NON-NLS-1$
 		{
 			numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
-					new DecimalFormatSymbols( locale ) );
+					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 
 		}
 		numberFormat = new DecimalFormat( patternStr, new DecimalFormatSymbols(
-				locale ) );
+				locale.toLocale( ) ) );
 	}
-	
+
 	/**
 	 * Parses the input string into a formatted date type.
 	 * 
@@ -376,7 +376,7 @@ public class NumberFormatter
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
 	 */
-	
+
 	public Number parse( String number ) throws ParseException
 	{
 		return numberFormat.parse( number );

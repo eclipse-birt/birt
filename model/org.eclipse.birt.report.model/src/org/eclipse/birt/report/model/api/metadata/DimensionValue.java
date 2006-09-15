@@ -12,14 +12,13 @@
 package org.eclipse.birt.report.model.api.metadata;
 
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-
-import com.ibm.icu.text.NumberFormat;
 
 /**
  * Representation of a dimension property value. A dimension has two parts: the
@@ -224,10 +223,14 @@ public class DimensionValue
 			{
 				// Parse in locale-dependent way.
 				// Use the decimal separator from the locale.
+
 				validateDecimalValue( value );
+
 				Number number = NumberFormat.getNumberInstance(
-						ThreadResources.getLocale( ) ).parse( value );
+						ThreadResources.getLocale( ).toLocale( ) )
+						.parse( value );
 				measure = number.doubleValue( );
+
 			}
 			else
 			{
@@ -384,7 +387,7 @@ public class DimensionValue
 	public String toDisplayString( )
 	{
 		NumberFormat nf = NumberFormat.getNumberInstance( ThreadResources
-				.getLocale( ) );
+				.getLocale( ).toLocale( ) );
 		String value = nf.format( measure );
 
 		return value + units;
