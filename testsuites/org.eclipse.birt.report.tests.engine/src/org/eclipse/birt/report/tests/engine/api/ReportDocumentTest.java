@@ -1,9 +1,7 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,7 +161,7 @@ public class ReportDocumentTest extends EngineCase
 
 			// check getPageNumber(bookmark)
 			assertEquals( "return wrong page number which contains bookmark",
-					5, reportDoc.getPageNumber( pMark ) );
+					2, reportDoc.getPageNumber( pMark ) );
 
 			// check parameters(done)
 			HashMap params = (HashMap) reportDoc.getParameterValues( );
