@@ -35,7 +35,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -171,7 +170,7 @@ public class PDFLayoutManagerFactory
 				if ( converter == null )
 				{
 					converter = new HTML2Content( foreign.getReportContent( )
-							.getDesign( ).getBasePath( ) );
+							.getDesign( ).getReportDesign( ) );
 				}
 				// build content DOM tree for HTML text
 				converter.html2Content( foreign );

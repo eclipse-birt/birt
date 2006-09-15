@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.pdf.util;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +33,8 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -50,10 +53,9 @@ public class HTML2Content
 	
 	protected ActionContent action = null;
 	
-	protected String rootPath;
-	
 	protected Stack inlineContainerStack = new Stack();
 
+	protected ReportDesignHandle report;
 	
 	static
 	{
@@ -170,25 +172,26 @@ public class HTML2Content
 
 	}
 	
-	public HTML2Content( String rootPath)
+	public HTML2Content(ReportDesignHandle report)
 	{
-		this.rootPath = rootPath;
+		this.report = report;
 	}
-	
 	
 	public void html2Content( IForeignContent foreign)
 	{
 		processForeignData(foreign);
 	}
 	
-	protected void processForeignData( IForeignContent foreign )
+	protected void processForeignData( IForeignContent foreign)
 	{
+		
 		if(foreign.getChildren( )!=null && foreign.getChildren( ).size( )>0)
 		{
 			return;
 		}
+		
 		HashMap styleMap = new HashMap( );
-		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor( this.rootPath );
+		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor( report );
 		Object rawValue = foreign.getRawValue();
 		Document doc = null;
 		if ( null != rawValue )
@@ -551,7 +554,12 @@ public class HTML2Content
 			}
 			else
 			{
-				src = FileUtil.getAbsolutePath(rootPath, src);
+				ReportDesignHandle handle = content.getReportContent( ).getDesign( ).getReportDesign( );
+				URL url = handle.findResource( src, IResourceLocator.IMAGE );
+				if(url!=null)
+				{
+					src = url.getFile( );
+				}
 				image.setImageSource(IImageContent.IMAGE_FILE);
 				image.setURI(src);
 			}
