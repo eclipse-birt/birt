@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's ValueManager.java to support BIRT's CSS rules
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine;
@@ -20,7 +20,7 @@ import org.w3c.dom.DOMException;
  * This interface is implemented by objects which manage the values associated
  * with a property.
  *
- * @version $Id: ValueManager.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: ValueManager.java,v 1.3 2006/09/15 05:31:46 lyu Exp $
  */
 public interface ValueManager {
 

@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's FontSizeManager.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
@@ -28,7 +28,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides a manager for the 'font-size' property values.
  * 
- * @version $Id: FontSizeManager.java,v 1.3 2005/11/22 09:59:56 wyan Exp $
+ * @version $Id: FontSizeManager.java,v 1.4 2006/09/15 05:31:47 lyu Exp $
  */
 public class FontSizeManager extends AbstractLengthManager {
 

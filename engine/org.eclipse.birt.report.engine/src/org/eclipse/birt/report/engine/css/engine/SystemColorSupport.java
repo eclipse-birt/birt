@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's SystemColorSupport.java to support BIRT's CSS rules
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine;
@@ -24,7 +24,7 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides support for AWT system colors.
  *
- * @version $Id: SystemColorSupport.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: SystemColorSupport.java,v 1.3 2006/09/15 05:31:46 lyu Exp $
  */
 public class SystemColorSupport implements CSSConstants {
     

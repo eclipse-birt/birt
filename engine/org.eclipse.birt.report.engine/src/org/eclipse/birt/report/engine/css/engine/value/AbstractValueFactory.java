@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation  - modification of Batik's AbstractValueFactory.java to support BIRT's CSS rules
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.engine.value;
@@ -18,7 +18,7 @@ import org.w3c.dom.DOMException;
 /**
  * This class provides a base implementation for the value factories.
  * 
- * @version $Id: AbstractValueFactory.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: AbstractValueFactory.java,v 1.3 2006/09/15 05:31:47 lyu Exp $
  */
 public abstract class AbstractValueFactory
 {
