@@ -43,7 +43,7 @@ public class Regression_150347 extends BaseTestCase
 		InputStream is = Regression_150347.class
 				.getResourceAsStream( "input/worm.jpg" ); //$NON-NLS-1$
 
-		byte[] imageBytes = streamToTytes( is );
+		byte[] imageBytes = streamToBytes( is );
 
 		designHandle.setThumbnail( imageBytes );
 		byte[] data = designHandle.getThumbnail( );

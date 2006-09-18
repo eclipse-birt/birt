@@ -902,7 +902,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws IOException
 	 */
 
-	protected byte[] streamToTytes( InputStream is ) throws IOException
+	protected byte[] streamToBytes( InputStream is ) throws IOException
 	{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream( );
 		byte[] buffer = new byte[100];
