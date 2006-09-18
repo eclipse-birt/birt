@@ -1933,6 +1933,17 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Returns names of properties that have local values.
+	 * 
+	 * @return an iterator for property names.
+	 */
+
+	public Iterator propertyWithLocalValueIterator( )
+	{
+		return propValues.keySet( ).iterator( );
+	}
+
+	/**
 	 * Returns the container interface for this element if this element is a
 	 * container. Derived classes that represent containers must override this.
 	 * <p>
