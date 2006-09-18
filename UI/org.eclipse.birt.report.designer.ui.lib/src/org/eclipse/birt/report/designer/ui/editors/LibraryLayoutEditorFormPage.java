@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.GraphicalViewer;
@@ -165,6 +167,24 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public boolean onBroughtToTop( IReportEditorPage page )
 	{
+		//the three classes has the logic to rebuild the model, should be refactor. 
+		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		
+		if ( model != null && getModel( ) != model )
+		{
+			Object oldModel = getModel( );
+
+			setModel( model );
+			
+			rebuildReportDesign( oldModel );
+			if ( getModel( ) != null )
+			{
+				this.getGraphicalViewer( ).setContents( getModel( ) );
+				hookModelEventManager(getModel( ) );
+				markPageStale( IPageStaleType.NONE );
+			}
+			updateStackActions( );
+		}
 //		reselect the selection
 		GraphicalViewer view = getGraphicalViewer( );
 
@@ -173,6 +193,31 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			UIUtil.resetViewSelection( view, true );
 		}
 		return true;
+	}
+	
+	/**
+	 * Rebuild report design model.
+	 * 
+	 * @param oldModel
+	 */
+	protected void rebuildReportDesign( Object oldModel )
+	{
+		// Initializes command stack
+		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
+		if ( stack != null )
+		{
+			stack.removeCommandStackListener( getCommandStackListener( ) );
+			stack.setActivityStack( getModel( ).getCommandStack( ) );
+			stack.addCommandStackListener( getCommandStackListener( ) );
+		}
+
+		// Resets the mediator
+		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
+				getModel( ) );
+
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle(
+				getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+
 	}
 
 	public void dispose( )
