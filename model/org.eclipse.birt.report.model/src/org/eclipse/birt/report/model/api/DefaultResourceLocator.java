@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 
 /**
@@ -91,7 +92,7 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		String resourcePath = moduleHandle.getModule( ).getSession( )
 				.getResourceFolder( );
-		if ( resourcePath == null )
+		if ( StringUtil.isBlank( resourcePath ) )
 			resourcePath = moduleHandle.getResourceFolder( );
 		if ( resourcePath != null )
 		{
