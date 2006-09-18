@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model;
@@ -12,6 +11,7 @@ package org.eclipse.birt.report.tests.model;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,7 +26,6 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.Iterator;
 import java.util.List;
-import com.ibm.icu.util.ULocale;
 
 import junit.framework.TestCase;
 
@@ -44,14 +43,13 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
-import org.eclipse.core.runtime.Platform;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * This class is abstract class used for tests, which contains the design file
  * name and report design handle, and provides the basic design file reading
- * methods.
- * 
- * This class performs mainly the following functionalities:
+ * methods. This class performs mainly the following functionalities:
  * <p>
  * <ul>
  * <li>In Setup(), initialize the meda data and store information about meta
@@ -72,7 +70,6 @@ import org.eclipse.core.runtime.Platform;
  * name; but, when printing out the error list, to make the file name appear in
  * the message, you can call 'design.setfileName( fileName )' in the child test
  * case.</li>
- * 
  */
 public abstract class BaseTestCase extends TestCase
 {
@@ -125,11 +122,19 @@ public abstract class BaseTestCase extends TestCase
 
 	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
 
+	/**
+	 * Default constructor.
+	 */
 	public BaseTestCase( )
 	{
 		this( null );
 	}
 
+	/**
+	 * Constructor with a case name.
+	 * 
+	 * @param name
+	 */
 	public BaseTestCase( String name )
 	{
 		super( name );
@@ -282,7 +287,8 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( URL systemId, InputStream is )
 			throws DesignFileException
 	{
-		sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 		libraryHandle = sessionHandle.openLibrary( systemId, is );
 	}
@@ -309,7 +315,8 @@ public abstract class BaseTestCase extends TestCase
 	{
 		fileName = PLUGIN_PATH + getFullQualifiedClassName( ) + INPUT_FOLDER
 				+ fileName;
-		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
 		InputStream stream = theClass.getResourceAsStream( fileName );
@@ -349,7 +356,8 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesign( String fileName, InputStream is, ULocale locale )
 			throws DesignFileException
 	{
-		sessionHandle = DesignEngine.newSession( locale );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.openDesign( fileName, is );
 		design = (ReportDesign) designHandle.getModule( );
 	}
@@ -421,7 +429,6 @@ public abstract class BaseTestCase extends TestCase
 	 * @param outputFileName
 	 *            the output file name. The output file should be in temperary
 	 *            directory of Java VM.
-	 * 
 	 * @return true if two text files are same line by line
 	 * @throws Exception
 	 *             if any exception.
@@ -885,6 +892,28 @@ public abstract class BaseTestCase extends TestCase
 		className = "/" + className.replace( '.', '/' ); //$NON-NLS-1$
 
 		return className;
+	}
+
+	/**
+	 * Convert input stream to a byte array.
+	 * 
+	 * @param is
+	 * @return byte array
+	 * @throws IOException
+	 */
+
+	protected byte[] streamToTytes( InputStream is ) throws IOException
+	{
+		ByteArrayOutputStream bos = new ByteArrayOutputStream( );
+		byte[] buffer = new byte[100];
+		int len;
+		while ( ( len = is.read( buffer ) ) > 0 )
+		{
+			bos.write( buffer, 0, len );
+		}
+
+		byte[] bytes = bos.toByteArray( );
+		return bytes;
 	}
 
 	/**
