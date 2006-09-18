@@ -183,7 +183,7 @@ public class BirtViewerReportService implements IViewerReportService
 		long pageNum = getPageNumberByBookmark( docName, bookmark,
 				renderOptions );
 		// TODO: Why String and not long in getPage?
-		return getPage( docName, pageNum + "", renderOptions, activeIds );
+		return getPage( docName, pageNum + "", renderOptions, activeIds ); //$NON-NLS-1$
 	}
 
 	public ByteArrayOutputStream getPageByObjectId( String docName,
@@ -444,10 +444,23 @@ public class BirtViewerReportService implements IViewerReportService
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			boolean includeGroups ) throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
-				runOptions );
-		return convertEngineParameters( task.getParameterDefns( true ), task,
-				includeGroups );
+		IGetParameterDefinitionTask task = null;
+		try
+		{
+			task = getParameterDefinitionTask( design, runOptions );
+			if ( task != null )
+			{
+				Collection params = task.getParameterDefns( true );
+				return convertEngineParameters( params, includeGroups );
+			}
+		}
+		finally
+		{
+			if ( task != null )
+				task.close( );
+		}
+
+		return null;
 	}
 
 	public Map getParameterValues( String docName, InputOptions options )
@@ -466,29 +479,57 @@ public class BirtViewerReportService implements IViewerReportService
 			Object[] groupKeys, InputOptions options )
 			throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
-				options );
-		ViewerAttributeBean bean = getViewerAttrBean( options );
-		if ( bean != null )
-			task.setParameterValues( bean.getParameters( ) );
-		task.evaluateQuery( groupName );
-		Collection selectionList = task.getSelectionListForCascadingGroup(
-				groupName, groupKeys );
-		return convertEngineParameterSelectionChoice( selectionList );
+		IGetParameterDefinitionTask task = null;
+		try
+		{
+			task = getParameterDefinitionTask( design, options );
+			if ( task != null )
+			{
+				ViewerAttributeBean bean = getViewerAttrBean( options );
+				if ( bean != null )
+					task.setParameterValues( bean.getParameters( ) );
+				task.evaluateQuery( groupName );
+				Collection selectionList = task
+						.getSelectionListForCascadingGroup( groupName,
+								groupKeys );
+				return convertEngineParameterSelectionChoice( selectionList );
+			}
+
+		}
+		finally
+		{
+			if ( task != null )
+				task.close( );
+		}
+
+		return null;
 	}
 
 	public Collection getParameterSelectionList(
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			String paramName ) throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
-				runOptions );
-		ViewerAttributeBean bean = getViewerAttrBean( runOptions );
-		if ( bean != null )
-			task.setParameterValues( bean.getParameters( ) );
+		IGetParameterDefinitionTask task = null;
+		try
+		{
+			task = getParameterDefinitionTask( design, runOptions );
+			if ( task != null )
+			{
+				ViewerAttributeBean bean = getViewerAttrBean( runOptions );
+				if ( bean != null )
+					task.setParameterValues( bean.getParameters( ) );
 
-		Collection selectionList = task.getSelectionList( paramName );
-		return convertEngineParameterSelectionChoice( selectionList );
+				Collection selectionList = task.getSelectionList( paramName );
+				return convertEngineParameterSelectionChoice( selectionList );
+			}
+		}
+		finally
+		{
+			if ( task != null )
+				task.close( );
+		}
+
+		return null;
 	}
 
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
@@ -586,9 +627,21 @@ public class BirtViewerReportService implements IViewerReportService
 			String parameterName, InputOptions options )
 			throws ReportServiceException
 	{
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
-				options );
-		return task.getDefaultValue( parameterName );
+		IGetParameterDefinitionTask task = null;
+		Object defaultValue = null;
+		try
+		{
+			task = getParameterDefinitionTask( design, options );
+			if ( task != null )
+				defaultValue = task.getDefaultValue( parameterName );
+		}
+		finally
+		{
+			if ( task != null )
+				task.close( );
+		}
+
+		return defaultValue;
 	}
 
 	public void setContext( Object context, InputOptions options )
@@ -613,8 +666,6 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean isDesigner = ( isDesignerBoolean != null ? isDesignerBoolean
 				.booleanValue( ) : false );
 
-		IGetParameterDefinitionTask task = getParameterDefinitionTask( design,
-				options );
 		IReportRunnable runnable = getReportRunnable( design,
 				getModuleOptions( options ) );
 		Map configMap = runnable.getTestConfig( );
@@ -668,8 +719,8 @@ public class BirtViewerReportService implements IViewerReportService
 				else if ( !found )
 				{
 					// Get default value from task
-					paramValueObj = task.getDefaultValue( parameterObj
-							.getName( ) );
+					paramValueObj = getParameterDefaultValue( design,
+							parameterObj.getName( ), options );
 				}
 			}
 		}
@@ -804,22 +855,24 @@ public class BirtViewerReportService implements IViewerReportService
 		return reportDesignName;
 	}
 
-	/*
+	/**
 	 * Convert engine parameters (IScalarParameterDefn and IParameterGroupDefn)
 	 * into service api parameters (ParameterDefinition and
 	 * ParameterGroupDefinition)
 	 * 
-	 * @param params a Collection of IScalarParameterDefn or IParameterGroupDefn
-	 * @param task the task to use to get selection list for a parameter @param
-	 * includeGroups if true, include groups (ParameterGroupDefinition) in the
-	 * result, otherwise flatten the result (i.e. include the contents of the
-	 * groups in the result)
+	 * @param params
+	 *            a Collection of IScalarParameterDefn or IParameterGroupDefn
+	 * @param includeGroups
+	 *            if true, include groups (ParameterGroupDefinition) in the
+	 *            result, otherwise flatten the result (i.e. include the
+	 *            contents of the groups in the result)
 	 * 
 	 * @return a Collection of ParameterDefinition and ParameterGroupDefinition,
-	 * or a Collection of only ParameterDefinition if includeGroups == false
+	 *         or a Collection of only ParameterDefinition if includeGroups ==
+	 *         false
 	 */
 	private static Collection convertEngineParameters( Collection params,
-			IGetParameterDefinitionTask task, boolean includeGroups )
+			boolean includeGroups )
 	{
 		if ( params == null )
 			return Collections.EMPTY_LIST;
@@ -832,15 +885,14 @@ public class BirtViewerReportService implements IViewerReportService
 				IScalarParameterDefn engineParam = (IScalarParameterDefn) o;
 				ParameterGroupDefinition group = null;
 				ParameterDefinition param = convertScalarParameter(
-						engineParam, group, task );
+						engineParam, group );
 
 				ret.add( param );
 			}
 			else if ( o instanceof IParameterGroupDefn )
 			{
 				IParameterGroupDefn engineParam = (IParameterGroupDefn) o;
-				ParameterGroupDefinition paramGroup = convertParameterGroup(
-						engineParam, task );
+				ParameterGroupDefinition paramGroup = convertParameterGroup( engineParam );
 				ret.add( paramGroup );
 			}
 		}
@@ -873,7 +925,7 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	private static List convertParametersInGroup( Collection scalarParameters,
-			ParameterGroupDefinition group, IGetParameterDefinitionTask task )
+			ParameterGroupDefinition group )
 	{
 		if ( scalarParameters == null )
 			return null;
@@ -882,14 +934,14 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			IScalarParameterDefn engineParam = (IScalarParameterDefn) it.next( );
 			ParameterDefinition param = convertScalarParameter( engineParam,
-					group, task );
+					group );
 			ret.add( param );
 		}
 		return ret;
 	}
 
 	private static ParameterGroupDefinition convertParameterGroup(
-			IParameterGroupDefn engineParam, IGetParameterDefinitionTask task )
+			IParameterGroupDefn engineParam )
 	{
 		boolean cascade = engineParam instanceof ICascadingParameterGroup;
 		String name = engineParam.getName( );
@@ -899,15 +951,14 @@ public class BirtViewerReportService implements IViewerReportService
 		ParameterGroupDefinition paramGroup = new ParameterGroupDefinition(
 				name, displayName, promptText, null, cascade, helpText );
 		List contents = convertParametersInGroup( engineParam.getContents( ),
-				paramGroup, task );
+				paramGroup );
 		paramGroup.setParameters( contents );
 
 		return paramGroup;
 	}
 
 	private static ParameterDefinition convertScalarParameter(
-			IScalarParameterDefn engineParam, ParameterGroupDefinition group,
-			IGetParameterDefinitionTask task )
+			IScalarParameterDefn engineParam, ParameterGroupDefinition group )
 	{
 		Object handle = engineParam.getHandle( );
 		ScalarParameterHandle scalarParamHandle = null;
