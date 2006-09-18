@@ -38,7 +38,7 @@ import org.eclipse.birt.core.framework.Platform;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.25 $ $Date: 2006/06/22 10:01:58 $
+ * @version $Revision: 1.26 $ $Date: 2006/08/08 09:59:09 $
  */
 public class ReportRunner
 {
@@ -446,7 +446,7 @@ public class ReportRunner
 
 	protected void parseRenderOptions( ) throws Exception
 	{
-		assert ( mode.equals( "Run" ) );
+		assert ( mode.equalsIgnoreCase( "Render" ) );
 
 		if ( results.hasOption( 'f' ) )
 		{
@@ -481,7 +481,7 @@ public class ReportRunner
 
 	protected void parseRunAndRenderOptions( ) throws Exception
 	{
-		assert ( mode.equals( "RunAndRender" ) );
+		assert ( mode.equalsIgnoreCase( "RunAndRender" ) );
 
 		if ( results.hasOption( 'f' ) )
 		{
