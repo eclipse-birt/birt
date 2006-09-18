@@ -254,8 +254,16 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 							(IImageContent) content, executionContext );
 					break;
 				case IContent.LABEL_CONTENT :
-					LabelScriptExecutor.handleOnPageBreak(
-							(ILabelContent) content, executionContext );
+					if ( design instanceof TextItemDesign )
+					{
+						TextItemScriptExecutor.handleOnPageBreak(
+								(ITextContent) content, executionContext );
+					}
+					else
+					{
+						LabelScriptExecutor.handleOnPageBreak(
+								(ILabelContent) content, executionContext );
+					}
 					break;
 				case IContent.ROW_CONTENT :
 					RowScriptExecutor.handleOnPageBreak( (IRowContent) content,
