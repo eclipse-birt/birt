@@ -332,10 +332,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		removeGuideFeedBack( );
 
 		super.deactivate( );
-		if (isDelete( ))
-		{
-			HandleAdapterFactory.getInstance( ).remove( getModel( ) );
-		}
+		
+		HandleAdapterFactory.getInstance( ).remove( getModel( ) );
 	}
 
 	/*
