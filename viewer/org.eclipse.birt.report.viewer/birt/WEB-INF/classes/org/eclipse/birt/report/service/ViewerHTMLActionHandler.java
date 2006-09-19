@@ -156,6 +156,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse.birt.report.engine.api.IAction,
+	 *      java.lang.Object)
+	 */
+	public String getURL( IAction actionDefn, Object context )
+	{
+		if ( actionDefn == null )
+			return null;
+		if ( context instanceof IReportContext )
+			return getURL( actionDefn, (IReportContext) context );
+
+		throw new IllegalArgumentException( "The context is of wrong type." ); //$NON-NLS-1$
+	}
+
 	/**
 	 * Build URL for bookmark.
 	 * 
@@ -421,7 +437,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 				try
 				{
-					// In RUN mode or pdf format, don't support bookmark as parameter
+					// In RUN mode or pdf format, don't support bookmark as
+					// parameter
 					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0
 							|| IBirtConstants.PDF_RENDER_FORMAT
 									.equalsIgnoreCase( format ) )
