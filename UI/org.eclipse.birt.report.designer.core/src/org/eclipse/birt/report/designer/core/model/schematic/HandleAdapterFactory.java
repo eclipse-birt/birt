@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
@@ -273,7 +274,7 @@ public class HandleAdapterFactory
 				.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new ReportDesignHandleAdapter( (ReportDesignHandle)obj );
+			retValue = new ReportDesignHandleAdapter( (ModuleHandle)obj );
 			map.put( obj, retValue );
 		}
 		return retValue;
@@ -300,7 +301,7 @@ public class HandleAdapterFactory
 				.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new LibraryHandleAdapter( (LibraryHandle)obj );
+			retValue = new LibraryHandleAdapter( (ModuleHandle)obj );
 			map.put( obj, retValue );
 		}
 		return retValue;

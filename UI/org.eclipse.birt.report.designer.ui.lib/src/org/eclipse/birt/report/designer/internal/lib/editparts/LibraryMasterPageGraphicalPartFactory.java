@@ -14,7 +14,9 @@ package org.eclipse.birt.report.designer.internal.lib.editparts;
 import org.eclipse.birt.report.designer.core.model.LibRootModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicalPartFactory;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MasterPageEditPart;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.gef.EditPart;
 
 /**
@@ -47,7 +49,10 @@ public class LibraryMasterPageGraphicalPartFactory extends GraphicalPartFactory
 				}
 			};
 		}
-		
+		else if ( model instanceof MasterPageHandle )
+		{
+			return new MasterPageEditPart( model );
+		}
 
 //		if ( ignoreModel( model ) )
 //		{
