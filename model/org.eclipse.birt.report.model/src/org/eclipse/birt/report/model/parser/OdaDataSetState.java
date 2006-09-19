@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
-import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -230,19 +229,60 @@ public class OdaDataSetState extends SimpleDataSetState
 	{
 		super.end( );
 
-		DesignElement tmpElement = getElement( );
+		OdaDataSet tmpElement = (OdaDataSet)getElement( );
 		doCompatibleDataSetProperty( tmpElement );
-		mergeResultSetAndResultSetHints( (OdaDataSet) tmpElement );
+		mergeResultSetAndResultSetHints( tmpElement );
+		doCompatibleRemoveResultSetProperty( tmpElement );
+		doCompatibleRemoveResultSetHitProperty( tmpElement );
 
 		TemplateParameterDefinition refTemplateParam = tmpElement
 				.getTemplateParameterElement( handler.getModule( ) );
 		if ( refTemplateParam == null )
 			return;
 
-		doCompatibleDataSetProperty( refTemplateParam.getDefaultElement( ) );
+		OdaDataSet refDefaultElement = (OdaDataSet)refTemplateParam.getDefaultElement( );
+		doCompatibleDataSetProperty( refDefaultElement );
+		mergeResultSetAndResultSetHints( refDefaultElement );
+		doCompatibleRemoveResultSetProperty( refDefaultElement );
+		doCompatibleRemoveResultSetHitProperty( refDefaultElement );
 
-		mergeResultSetAndResultSetHints( (OdaDataSet) refTemplateParam
-				.getDefaultElement( ) );
+	}
+
+	/**
+	 * Removes 'resultSet' property if version is earlier than 3.2.2.
+	 * 
+	 * @param dataSet
+	 *            the data set element
+	 */
+
+	private void doCompatibleRemoveResultSetProperty( OdaDataSet dataSet )
+	{
+		if ( dataSet == null )
+			return;
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
+		{
+			dataSet.setProperty( IDataSetModel.RESULT_SET_PROP, null );
+		}
+	}
+
+	/**
+	 * Removes 'resultSetHit' property if version is between 3.2.2 and 3.2.6 .
+	 * 
+	 * @param dataSet
+	 *            the data set element
+	 */
+
+	private void doCompatibleRemoveResultSetHitProperty( OdaDataSet dataSet )
+	{
+		if ( dataSet == null )
+			return;
+
+		if ( ( handler.versionNumber > VersionUtil.VERSION_3_2_2 )
+				&& ( handler.versionNumber < VersionUtil.VERSION_3_2_6 ) )
+		{
+			dataSet.setProperty( IDataSetModel.RESULT_SET_HINTS_PROP, null );
+		}
 	}
 
 	/**
@@ -252,12 +292,10 @@ public class OdaDataSetState extends SimpleDataSetState
 	 *            the data set element
 	 */
 
-	private void doCompatibleDataSetProperty( DesignElement dataSet )
+	private void doCompatibleDataSetProperty( OdaDataSet dataSet )
 	{
 		if ( dataSet == null )
 			return;
-
-		assert dataSet instanceof OdaDataSet;
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
 		{

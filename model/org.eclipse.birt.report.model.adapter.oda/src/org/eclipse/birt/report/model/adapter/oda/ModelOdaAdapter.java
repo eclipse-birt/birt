@@ -808,6 +808,53 @@ public class ModelOdaAdapter
 	}
 
 	/**
+	 * Updates values of <code>DataSetHandle</code> with the given
+	 * <code>sourceDesign</code>. New rule is if parameter only defined in
+	 * DataSetHandle , hold it.
+	 * 
+	 * @param setDesign
+	 *            the ODA data source design
+	 * @param setHandle
+	 *            the Model handle
+	 * @param isSourceChanged
+	 *            <code>true</code> if the data set of the given design has
+	 *            been changed. Otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             if any of <code>sourceDesign</code> property values is not
+	 *             valid.
+	 */
+
+	public void mergeDataSetHandleAndDataSetDesign( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, boolean isSourceChanged )
+			throws SemanticException
+	{
+		updateDataSetHandle( setDesign, setHandle, isSourceChanged, true );
+	}
+
+	/**
+	 * Updates values of <code>DataSetHandle</code> with the given
+	 * <code>sourceDesign</code>.
+	 * 
+	 * @param setDesign
+	 *            the ODA data source design
+	 * @param setHandle
+	 *            the Model handle
+	 * @param isSourceChanged
+	 *            <code>true</code> if the data set of the given design has
+	 *            been changed. Otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             if any of <code>sourceDesign</code> property values is not
+	 *             valid.
+	 */
+
+	public void updateDataSetHandle( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, boolean isSourceChanged )
+			throws SemanticException
+	{
+		updateDataSetHandle( setDesign, setHandle, isSourceChanged, false );
+	}
+
+	/**
 	 * Updates values of <code>sourceHandle</code> with the given
 	 * <code>sourceDesign</code>.
 	 * 
@@ -818,13 +865,18 @@ public class ModelOdaAdapter
 	 * @param isSourceChanged
 	 *            <code>true</code> if the data source of the given design has
 	 *            been changed. Otherwise <code>false</code>.
+	 * @param newRule
+	 *            <code>true</code> new rule is that if parameter only defined
+	 *            in DataSetHandle , hold it. <code>false</code> old rule that
+	 *            override all parameters in DataSetHandle.
+	 * 
 	 * @throws SemanticException
 	 *             if any of <code>sourceDesign</code> property values is not
 	 *             valid.
 	 */
 
 	public void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged )
+			OdaDataSetHandle setHandle, boolean isSourceChanged, boolean newRule )
 			throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
@@ -884,11 +936,24 @@ public class ModelOdaAdapter
 			{
 			}
 
-			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
-					.newROMSetParams( setDesign, setHandle,
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ) ) );
-
+			if ( newRule )
+			{
+				List retList = new DataSetParameterAdapter( )
+						.mergeParamDefnOfDataSetAndDataSetDesign( setHandle,
+								setDesign );
+				updateROMDataSetParamList( setHandle, retList );
+			}
+			else
+			{
+				updateROMDataSetParamList(
+						setHandle,
+						new DataSetParameterAdapter( )
+								.newROMSetParams( setDesign, setHandle,
+										designerValues == null
+												? null
+												: designerValues
+														.getDataSetParameters( ) ) );
+			}
 			ResultSets cachedResultSets = designerValues == null
 					? null
 					: designerValues.getResultSets( );
