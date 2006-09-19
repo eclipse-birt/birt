@@ -1055,9 +1055,21 @@ public class TableEditPart extends ReportElementEditPart implements
 			for ( int j = 0; j < chList.size( ); j++ )
 			{
 				DesignElementHandle contentHandle = (DesignElementHandle) chList.get( j );
-				handle.getSlot( CellHandle.CONTENT_SLOT ).move( contentHandle,
-						cellHandle,
-						CellHandle.CONTENT_SLOT );
+//				handle.getSlot( CellHandle.CONTENT_SLOT ).move( contentHandle,
+//						cellHandle,
+//						CellHandle.CONTENT_SLOT );
+				
+				try
+				{
+					DesignElementHandle copy = contentHandle.copy( ).getHandle( cellHandle.getModule( ) );
+					handle.getSlot( CellHandle.CONTENT_SLOT ).drop( contentHandle );
+					cellHandle.getModuleHandle( ).rename( copy );
+					cellHandle.getSlot( CellHandle.CONTENT_SLOT ).add( copy );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 		}
 	}
