@@ -15,48 +15,71 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
-import org.xml.sax.SAXException;
 
 /**
- * Parsed column data type choices to parameter type choices.
- * <p>
- * The conversion is done from the file version 3.2.5. It is a part of automatic
- * conversion for BIRT 2.1.1.
+ * The compatible parser for parsing element expression properties.
+ * This is the base class for all compatible expression parser.
+ * 
  */
 
-public class CompatibleColumnDataTypeState extends CompatiblePropertyState
+abstract class CompatibleExpressionState extends ExpressionState
 {
 
 	/**
-	 * Default constructor.
+	 * Constructs the compatible state for parsing the given structure member
+	 * property value.
 	 * 
 	 * @param theHandler
 	 *            the parser handler
 	 * @param element
-	 *            the element to parse
+	 *            the design element
 	 * @param propDefn
 	 *            the property definition
 	 * @param struct
-	 *            the structure of OdaDataSetParameter
+	 *            the structure that has this property
 	 */
 
-	CompatibleColumnDataTypeState( ModuleParserHandler theHandler,
+	public CompatibleExpressionState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element, propDefn, struct );
 	}
 
+	/**
+	 * Constructs the compatible state for parsing the given element property
+	 * value.
+	 * 
+	 * @param theHandler
+	 *            the parser handler
+	 * @param element
+	 *            the design element
+	 */
+
+	public CompatibleExpressionState( ModuleParserHandler theHandler,
+			DesignElement element )
+	{
+		super( theHandler, element );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
+	 * @see org.eclipse.birt.report.model.parser.PropertyState#generalJumpTo()
 	 */
 
-	public void end( ) throws SAXException
+	protected AbstractParseState generalJumpTo( )
 	{
-		String value = text.toString( );
+		return null;
+	}
 
-		doEnd( DataTypeConversionUtil.converToParamType( value ) );
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo()
+	 */
+
+	protected AbstractParseState versionConditionalJumpTo( )
+	{
+		return null;
 	}
 }

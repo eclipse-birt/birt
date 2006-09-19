@@ -189,7 +189,7 @@ public class OdaDataSourceState extends DataSourceState
 	 * not require any validation. All treated as literal string type.
 	 */
 
-	static class DummyPropertyState extends PropertyState
+	static class DummyPropertyState extends CompatiblePropertyState
 	{
 
 		private OdaDummyProvider provider = null;

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 
-public class CompatibleRenameListPropertyState extends ListPropertyState
+public class CompatibleRenameListPropertyState extends CompatibleListPropertyState
 {
 
 	/**

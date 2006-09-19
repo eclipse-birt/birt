@@ -18,7 +18,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * If the property is removed from element, when parser reads the old design
  * file, this state will be return to ignore the removed property.
  */
-public class CompatibleIgnorePropertyState extends PropertyState
+
+public class CompatibleIgnorePropertyState extends CompatiblePropertyState
 {
 
 	/**

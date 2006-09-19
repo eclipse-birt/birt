@@ -61,7 +61,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class ActionStructureState extends StructureState
+public class ActionStructureState extends CompatibleStructureState
 {
 
 	final static String DRILLTHROUGH_REPORT_NAME_MEMBER = "drillThroughReportName"; //$NON-NLS-1$
@@ -111,7 +111,7 @@ public class ActionStructureState extends StructureState
 	 * <li>drillThroughParamBindings =>paramBindings
 	 */
 
-	static class CompatibleActionListPropertyState extends ListPropertyState
+	static class CompatibleActionListPropertyState extends CompatibleListPropertyState
 	{
 
 		CompatibleActionListPropertyState( ModuleParserHandler theHandler,
@@ -127,7 +127,7 @@ public class ActionStructureState extends StructureState
 	 * <li>drillThroughReportName => reportName
 	 */
 
-	static class CompatibleActionPropertyState extends PropertyState
+	static class CompatibleActionPropertyState extends CompatiblePropertyState
 	{
 
 		CompatibleActionPropertyState( ModuleParserHandler theHandler,

@@ -29,26 +29,26 @@ import org.xml.sax.SAXException;
  * The compatible version is 0 and 1.
  * 
  * <pre>
- * 
- *  Old design file:
  *  
- *  &lt;list-property name=&quot;computedColumns&quot;&gt;
- *    &lt;structure&gt;
- *      &lt;property name=&quot;columnName&quot;&gt;column1&lt;/property&gt;
- *    &lt;/structure&gt;
- *  &lt;/list-property&gt;
- * 
- *  New design file:
+ *   Old design file:
+ *   
+ *   &lt;list-property name=&quot;computedColumns&quot;&gt;
+ *     &lt;structure&gt;
+ *       &lt;property name=&quot;columnName&quot;&gt;column1&lt;/property&gt;
+ *     &lt;/structure&gt;
+ *   &lt;/list-property&gt;
  *  
- *  &lt;list-property name=&quot;computedColumns&quot;&gt;
- *    &lt;structure&gt;
- *      &lt;property name=&quot;name&quot;&gt;column1&lt;/property&gt;
- *    &lt;/structure&gt;
- *  &lt;/list-property&gt;
+ *   New design file:
+ *   
+ *   &lt;list-property name=&quot;computedColumns&quot;&gt;
+ *     &lt;structure&gt;
+ *       &lt;property name=&quot;name&quot;&gt;column1&lt;/property&gt;
+ *     &lt;/structure&gt;
+ *   &lt;/list-property&gt;
  * </pre>
  */
 
-public class CompatibleComputedColumnStructureState extends StructureState
+public class CompatibleComputedColumnStructureState extends CompatibleStructureState
 {
 
 	CompatibleComputedColumnStructureState( ModuleParserHandler theHandler,
@@ -71,7 +71,7 @@ public class CompatibleComputedColumnStructureState extends StructureState
 		return super.startElement( tagName );
 	}
 
-	class CompatibleComputedColumnPropertyState extends PropertyState
+	class CompatibleComputedColumnPropertyState extends CompatiblePropertyState
 	{
 
 		CompatibleComputedColumnPropertyState( ModuleParserHandler theHandler,

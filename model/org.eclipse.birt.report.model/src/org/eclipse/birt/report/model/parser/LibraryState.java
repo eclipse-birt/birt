@@ -113,7 +113,7 @@ public class LibraryState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COMPONENTS_TAG ) )
 			return new SlotState( ReportDesign.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-			return new CompatibleReportPropertyState( handler, getElement( ) );
+			return new PropertyState( handler, getElement( ) );
 		return super.startElement( tagName );
 	}
 

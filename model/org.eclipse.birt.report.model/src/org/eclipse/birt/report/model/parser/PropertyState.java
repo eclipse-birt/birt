@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
@@ -182,6 +183,14 @@ class PropertyState extends AbstractPropertyState
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, "cheetSheet" ); //$NON-NLS-1$
 			state.setName( ReportDesign.CHEAT_SHEET_PROP );
+			return state;
+		}
+
+		if ( element instanceof Module && "msgBaseName".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, "msgBaseName" ); //$NON-NLS-1$
+			state.setName( ReportDesign.INCLUDE_RESOURCE_PROP );
 			return state;
 		}
 

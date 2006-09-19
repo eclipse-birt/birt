@@ -23,10 +23,10 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.xml.sax.SAXException;
 
 /**
- * TODO:javadoc
+ * Parses the property that is encoded with base 64.
  */
 
-public class Base64PropertyState extends PropertyState
+public class Base64PropertyState extends CompatiblePropertyState
 {
 
 	/**

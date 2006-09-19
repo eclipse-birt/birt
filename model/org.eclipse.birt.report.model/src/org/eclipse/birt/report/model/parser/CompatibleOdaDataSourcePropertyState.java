@@ -61,7 +61,7 @@ import org.xml.sax.SAXException;
  * </pre>
  */
 
-public class CompatibleOdaDataSourcePropertyState extends PropertyState
+public class CompatibleOdaDataSourcePropertyState extends CompatiblePropertyState
 {
 
 	final static String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
  * Parses the bound data structure list if the version is 3.1.0.
  */
 
-final class CompatibleBoundColumnState extends ListPropertyState
+final class CompatibleBoundColumnState extends CompatibleListPropertyState
 {
 
 	/**

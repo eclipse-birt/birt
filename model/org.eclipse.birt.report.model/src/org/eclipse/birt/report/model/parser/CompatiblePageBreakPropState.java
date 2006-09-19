@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
  * page breaks properties to group, otherwise, ignore these properties.
  */
 
-public class CompatiblePageBreakPropState extends PropertyState
+public class CompatiblePageBreakPropState extends CompatiblePropertyState
 {
 
 	/**

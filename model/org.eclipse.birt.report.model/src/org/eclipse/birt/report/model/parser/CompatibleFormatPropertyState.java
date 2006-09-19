@@ -53,7 +53,7 @@ import org.xml.sax.SAXException;
  * </pre>
  */
 
-public class CompatibleFormatPropertyState extends PropertyState
+public class CompatibleFormatPropertyState extends CompatiblePropertyState
 {
 
 	/**
@@ -167,5 +167,4 @@ public class CompatibleFormatPropertyState extends PropertyState
 				.getStructDefn( ) );
 
 	}
-
 }

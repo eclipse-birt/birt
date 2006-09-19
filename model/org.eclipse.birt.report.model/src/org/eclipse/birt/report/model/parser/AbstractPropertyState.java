@@ -454,7 +454,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
 
-	public AbstractParseState jumpTo( )
+	public final AbstractParseState jumpTo( )
 	{
 		// If this state can not be parsed properly, any states in it are
 		// ignored.

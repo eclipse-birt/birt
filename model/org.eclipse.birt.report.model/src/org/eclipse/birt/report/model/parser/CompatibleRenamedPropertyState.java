@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * </ul>
  */
 
-class CompatibleRenamedPropertyState extends PropertyState
+class CompatibleRenamedPropertyState extends CompatiblePropertyState
 {
 
 	/**

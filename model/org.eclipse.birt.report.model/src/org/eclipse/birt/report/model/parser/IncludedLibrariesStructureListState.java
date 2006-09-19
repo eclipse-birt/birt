@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
  * which has only one member. So it also can be considered as String List.
  */
 
-public class IncludedLibrariesStructureListState extends ListPropertyState
+public class IncludedLibrariesStructureListState extends CompatibleListPropertyState
 {
 
 	IncludedLibrariesStructureListState( ModuleParserHandler theHandler,
@@ -52,7 +52,7 @@ public class IncludedLibrariesStructureListState extends ListPropertyState
 		return super.startElement( tagName );
 	}
 
-	class IncludedLibraryStructureState extends StructureState
+	class IncludedLibraryStructureState extends CompatibleStructureState
 	{
 
 		IncludedLibraryStructureState( ModuleParserHandler theHandler,

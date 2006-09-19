@@ -19,26 +19,26 @@ import org.xml.sax.SAXException;
  * Represents the property state for OdaDataSet.
  * 
  * <pre>
- * 
  *  
- *    
- *   Old design file:
  *   
- *     &lt;oda-data-set name=&quot;myDataSet1&quot;&gt;
- *       &lt;property name=&quot;type&quot;&gt;JdbcSelectDataSet&lt;/property&gt;
- *     &lt;/oda-data-set&gt;
- *   
- *    New design file:
- *    
- *     &lt;oda-data-set extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSet1&quot;&gt;
- *     &lt;/oda-data-set&gt;
  *     
+ *    Old design file:
+ *    
+ *      &lt;oda-data-set name=&quot;myDataSet1&quot;&gt;
+ *        &lt;property name=&quot;type&quot;&gt;JdbcSelectDataSet&lt;/property&gt;
+ *      &lt;/oda-data-set&gt;
+ *    
+ *     New design file:
+ *     
+ *      &lt;oda-data-set extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSet1&quot;&gt;
+ *      &lt;/oda-data-set&gt;
+ *      
+ *    
  *   
- *  
  * </pre>
  */
 
-public class CompatibleOdaDataSetPropertyState extends PropertyState
+public class CompatibleOdaDataSetPropertyState extends CompatiblePropertyState
 {
 
 	final static String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
@@ -52,10 +52,12 @@ public class CompatibleOdaDataSetPropertyState extends PropertyState
 		assert element instanceof OdaDataSet;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	 
+
 	public void end( ) throws SAXException
 	{
 		if ( "type".equals( name ) ) //$NON-NLS-1$ 
@@ -63,13 +65,13 @@ public class CompatibleOdaDataSetPropertyState extends PropertyState
 			String convertedValue = convertToExtensionID( text.toString( ) );
 
 			setProperty( OdaDataSet.EXTENSION_ID_PROP, convertedValue );
-			
+
 			return;
 		}
 
 		super.end( );
 	}
-	
+
 	/**
 	 * Convert type name to extension ID.
 	 * 

@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * "onRow" property value of table/list should be set to rows in detail slot.
  */
 
-public class CompatibleOnRowPropertyState extends PropertyState
+public class CompatibleOnRowPropertyState extends CompatiblePropertyState
 {
 
 	/**

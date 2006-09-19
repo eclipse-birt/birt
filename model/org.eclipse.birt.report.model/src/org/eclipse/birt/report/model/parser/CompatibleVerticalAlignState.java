@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class CompatibleVerticalAlignState extends PropertyState
+public class CompatibleVerticalAlignState extends CompatiblePropertyState
 {
 
 	CompatibleVerticalAlignState( ModuleParserHandler theHandler,
@@ -52,5 +52,4 @@ public class CompatibleVerticalAlignState extends PropertyState
 		}
 
 	}
-
 }

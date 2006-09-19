@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
  * The compatible version is equals or less than 3.2.1.
  * 
  */
-public class CompatibleGroupBoundColumnsState extends ListPropertyState
+public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyState
 {
 
 	/**

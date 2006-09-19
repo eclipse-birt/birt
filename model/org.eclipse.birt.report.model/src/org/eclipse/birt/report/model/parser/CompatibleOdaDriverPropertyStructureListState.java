@@ -72,7 +72,7 @@ import org.xml.sax.SAXException;
 
 public class CompatibleOdaDriverPropertyStructureListState
 		extends
-			ListPropertyState
+		CompatibleListPropertyState
 {
 
 	CompatibleOdaDriverPropertyStructureListState(
@@ -107,7 +107,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 	{
 	}
 
-	class CompatibleOdaDriverPropertyStructureState extends StructureState
+	class CompatibleOdaDriverPropertyStructureState extends CompatibleStructureState
 	{
 
 		String propertyName = null;

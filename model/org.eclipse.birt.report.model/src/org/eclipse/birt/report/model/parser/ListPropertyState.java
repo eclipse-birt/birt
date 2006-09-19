@@ -174,6 +174,16 @@ public class ListPropertyState extends AbstractPropertyState
 						&& "resultSet".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 					return;
 
+				// the property has been removed. It must be handled before
+				// checking the
+				// validation of <code>valid</code>.
+
+				if ( handler.versionNumber > VersionUtil.VERSION_3_0_0
+						&& handler.versionNumber <= VersionUtil.VERSION_3_2_1
+						&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
+						&& ( element instanceof GroupElement ) )
+					return;
+
 				// If the property name is invalid, no error will be reported.
 
 				DesignParserException e = new DesignParserException(
@@ -237,34 +247,6 @@ public class ListPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
-	 */
-
-	public AbstractParseState jumpTo( )
-	{
-
-		// the property has been removed. It must be handled before checking the
-		// validation of <code>valid</code>.
-
-		if ( handler.versionNumber > VersionUtil.VERSION_3_0_0
-				&& handler.versionNumber <= VersionUtil.VERSION_3_2_1
-				&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
-				&& ( element instanceof GroupElement ) )
-		{
-
-			CompatibleGroupBoundColumnsState state = new CompatibleGroupBoundColumnsState(
-					handler, element.getContainer( ), (GroupElement) element );
-			state.setName( name );
-			return state;
-
-		}
-
-		return super.jumpTo( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
 	 */
 
@@ -299,8 +281,16 @@ public class ListPropertyState extends AbstractPropertyState
 
 		}
 		if ( ScalarParameter.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
-				|| "boundDataColumns" //$NON-NLS-1$
-				.equalsIgnoreCase( name ) )
+				&& element instanceof ScalarParameter )
+		{
+			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+		
+		if ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
 					handler, element );
@@ -336,12 +326,29 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
-				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) ) )
+				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) )
+				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
 					handler, element );
 			state.setName( name );
 			return state;
+		}
+
+		// the property has been removed. It must be handled before checking the
+		// validation of <code>valid</code>.
+
+		if ( handler.versionNumber > VersionUtil.VERSION_3_0_0
+				&& handler.versionNumber <= VersionUtil.VERSION_3_2_1
+				&& ( "boundDataColumns".equals( name ) ) //$NON-NLS-1$ 
+				&& ( element instanceof GroupElement ) )
+		{
+
+			CompatibleGroupBoundColumnsState state = new CompatibleGroupBoundColumnsState(
+					handler, element.getContainer( ), (GroupElement) element );
+			state.setName( name );
+			return state;
+
 		}
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4

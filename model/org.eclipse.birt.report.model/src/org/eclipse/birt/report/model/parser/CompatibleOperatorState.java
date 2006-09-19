@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-class CompatibleOperatorState extends PropertyState
+class CompatibleOperatorState extends CompatiblePropertyState
 {
 
 	private static final String NULL_VALUE = "null"; //$NON-NLS-1$

@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
@@ -36,7 +37,7 @@ import org.xml.sax.SAXException;
  * This is a part of backward compatibility work from BIRT 2.1M5 to BIRT 2.1.0.
  */
 
-class CompatibleMiscExpressionState extends ExpressionState
+class CompatibleMiscExpressionState extends CompatibleExpressionState
 {
 
 	/**

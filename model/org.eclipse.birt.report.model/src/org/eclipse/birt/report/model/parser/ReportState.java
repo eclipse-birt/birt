@@ -62,7 +62,7 @@ public class ReportState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
 			return new SlotState( ReportDesign.SCRATCH_PAD_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-			return new CompatibleReportPropertyState( handler, getElement( ) );
+			return new PropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG ) )
 			return new TemplateParameterDefinitionsState( );
 		return super.startElement( tagName );
