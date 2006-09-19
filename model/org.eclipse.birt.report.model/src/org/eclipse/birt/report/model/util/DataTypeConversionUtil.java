@@ -53,7 +53,7 @@ public class DataTypeConversionUtil
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( columnType ) )
 			return DesignChoiceConstants.PARAM_TYPE_STRING;
 
-		return null;
+		return columnType;
 	}
 
 	/**
@@ -85,6 +85,6 @@ public class DataTypeConversionUtil
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( paramType ) )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 
-		return null;
+		return paramType;
 	}
 }
