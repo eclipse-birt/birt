@@ -17,8 +17,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Represents a handle of condition used for joint dataset. The joint dataset is
@@ -257,21 +258,6 @@ public class JoinConditionHandle extends StructureHandle
 	}
 
 	/**
-	 * Checks whether the data set is an extended joint data set.
-	 * 
-	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
-	 */
-
-	private boolean isExtendedJointDataSet( )
-	{
-		if ( elementHandle instanceof JointDataSetHandle
-				&& elementHandle.getExtends( ) != null )
-			return true;
-
-		return false;
-	}
-
-	/**
 	 * Returns the property value where a library name space is required.
 	 * 
 	 * @param memberName
@@ -287,21 +273,16 @@ public class JoinConditionHandle extends StructureHandle
 						.equalsIgnoreCase( memberName ) )
 			return super.getStringProperty( memberName );
 
-		if ( !isExtendedJointDataSet( ) )
-			return super.getStringProperty( memberName );
-
 		String dataSetName = super.getStringProperty( memberName );
 		if ( StringUtil.isBlank( dataSetName ) )
 			return dataSetName;
 
 		List dataSetRefs = elementHandle
-				.getListProperty( JointDataSetHandle.DATA_SETS_PROP );
+				.getListProperty( IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetRefs == null || dataSetRefs.isEmpty( ) )
 			return dataSetName;
 
 		Module tmpRoot = null;
-
-		ElementRefValue refValue = null;
 		for ( int j = 0; j < dataSetRefs.size( ); j++ )
 		{
 			ElementRefValue tmpRefValue = (ElementRefValue) dataSetRefs.get( j );
@@ -309,16 +290,14 @@ public class JoinConditionHandle extends StructureHandle
 					&& tmpRefValue.getElement( ) != null )
 			{
 				tmpRoot = tmpRefValue.getElement( ).getRoot( );
-				refValue = tmpRefValue;
 				break;
 			}
 		}
 
-		if ( tmpRoot == null )
-			return dataSetName;
+		if ( tmpRoot instanceof Library )
+			return StringUtil.buildQualifiedReference( ( (Library) tmpRoot )
+					.getNamespace( ), dataSetName );
 
-		return ReferenceValueUtil.needTheNamespacePrefix( refValue,
-				getModule( ), getModule( ) );
+		return dataSetName;
 	}
-
 }

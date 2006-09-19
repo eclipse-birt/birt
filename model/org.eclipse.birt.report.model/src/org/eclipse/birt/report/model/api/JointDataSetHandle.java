@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -18,9 +19,11 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Provides API to operate a joint data set.
@@ -59,6 +62,32 @@ public class JointDataSetHandle extends DataSetHandle
 	public List getDataSetNames( )
 	{
 		return ( (JointDataSet) getElement( ) ).getDataSetNames( module );
+	}
+
+	/**
+	 * Gets data sets in this joint data set.
+	 * 
+	 * @return a list of data sets in this joint data set.
+	 */
+
+	public Iterator dataSetsIterator( )
+	{
+		List rtnList = new ArrayList( );
+
+		List dataSetRefs = (List) getProperty( DATA_SETS_PROP );
+		for ( int i = 0; i < dataSetRefs.size( ); i++ )
+		{
+			ElementRefValue dataSetRef = (ElementRefValue) dataSetRefs.get( i );
+			if ( dataSetRef != null )
+			{
+				DataSet ds = (DataSet) dataSetRef.getElement( );
+				if ( ds == null )
+					continue;
+				rtnList.add( ds.getHandle( ds.getRoot( ) ) );
+			}
+		}
+
+		return rtnList.iterator( );
 	}
 
 	/**
@@ -134,13 +163,13 @@ public class JointDataSetHandle extends DataSetHandle
 			throws SemanticException
 	{
 		if ( !( PARAM_BINDINGS_PROP.equalsIgnoreCase( propName )
-				|| CACHED_ROW_COUNT_PROP.equalsIgnoreCase( propName ) 
-				|| AFTER_CLOSE_METHOD.equalsIgnoreCase( propName ) )
+				|| CACHED_ROW_COUNT_PROP.equalsIgnoreCase( propName ) || AFTER_CLOSE_METHOD
+				.equalsIgnoreCase( propName ) )
 				|| AFTER_OPEN_METHOD.equalsIgnoreCase( propName )
 				|| BEFORE_CLOSE_METHOD.equalsIgnoreCase( propName )
-				|| BEFORE_OPEN_METHOD.equalsIgnoreCase( propName ) 
+				|| BEFORE_OPEN_METHOD.equalsIgnoreCase( propName )
 				|| DATA_SOURCE_PROP.equalsIgnoreCase( propName )
-				|| ON_FETCH_METHOD.equalsIgnoreCase( propName ))
+				|| ON_FETCH_METHOD.equalsIgnoreCase( propName ) )
 			super.setProperty( propName, value );
 	}
 }
