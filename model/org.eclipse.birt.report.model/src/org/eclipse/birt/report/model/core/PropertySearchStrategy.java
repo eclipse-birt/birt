@@ -253,28 +253,14 @@ public class PropertySearchStrategy
 				// If we can find the value here, return it.
 
 				value = getPropertyFromSelf( currentRoot, e, prop );
-				if ( value != null )
-				{
-					setModuleOfValue( currentRoot );
+				if ( value != null )			
 					return value;
-				}
+				
 			}
 
 		} while ( e != null );
 
 		return value;
-	}
-
-	/**
-	 * Sets the root of the element has the local value.
-	 * 
-	 * @param module
-	 *            the root of the design element.
-	 */
-
-	protected void setModuleOfValue( Module module )
-	{
-		// the default beahvior does nothing.
 	}
 
 	/**

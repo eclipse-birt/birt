@@ -11,14 +11,14 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy;
-import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.strategy.LibraryNamespaceSearchStrategy;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Represents a handle of condition used for joint dataset. The joint dataset is
@@ -230,37 +230,6 @@ public class JoinConditionHandle extends StructureHandle
 		return getStringProperty( JoinCondition.RIGHT_EXPRESSION_MEMBER );
 	}
 
-	/**
-	 * Returns the property value where a library name space is required.
-	 * 
-	 * @param memberName
-	 *            the structure name
-	 * @return the property value. If this value is not defined in the current
-	 *         module, the library namespace is added.
-	 */
-
-	private String getPrefixStringProperty( String memberName )
-	{
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) getPropertyDefn( );
-		assert propDefn != null;
-
-		PropertySearchStrategy strategy = getElement( ).getStrategy( );
-
-		strategy.getPropertyFromElement( getModule( ), getElement( ), propDefn );
-		Module moduleOfValue = ( (LibraryNamespaceSearchStrategy) strategy )
-				.getModuleOfValue( );
-
-		String value = super.getStringProperty( memberName );
-		if ( moduleOfValue == null )
-			return value;
-
-		if ( moduleOfValue == getModule( ) )
-			return value;
-
-		return ( (Library) moduleOfValue ).getNamespace( )
-				+ ReferenceValue.NAMESPACE_DELIMITER + value;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -284,10 +253,72 @@ public class JoinConditionHandle extends StructureHandle
 
 	protected String getStringProperty( String memberName )
 	{
-		if ( !JoinCondition.LEFT_DATASET_MEMBER.equals( memberName )
-				&& !JoinCondition.RIGHT_DATASET_MEMBER.equals( memberName ) )
-			return super.getStringProperty( memberName );
-
 		return getPrefixStringProperty( memberName );
 	}
+
+	/**
+	 * Checks whether the data set is an extended joint data set.
+	 * 
+	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
+	 */
+
+	private boolean isExtendedJointDataSet( )
+	{
+		if ( elementHandle instanceof JointDataSetHandle
+				&& elementHandle.getExtends( ) != null )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Returns the property value where a library name space is required.
+	 * 
+	 * @param memberName
+	 *            the structure name
+	 * @return the property value. If this value is not defined in the current
+	 *         module, the library namespace is added.
+	 */
+
+	private String getPrefixStringProperty( String memberName )
+	{
+		if ( !JoinCondition.LEFT_DATASET_MEMBER.equalsIgnoreCase( memberName )
+				&& !JoinCondition.RIGHT_DATASET_MEMBER
+						.equalsIgnoreCase( memberName ) )
+			return super.getStringProperty( memberName );
+
+		if ( !isExtendedJointDataSet( ) )
+			return super.getStringProperty( memberName );
+
+		String dataSetName = super.getStringProperty( memberName );
+		if ( StringUtil.isBlank( dataSetName ) )
+			return dataSetName;
+
+		List dataSetRefs = elementHandle
+				.getListProperty( JointDataSetHandle.DATA_SETS_PROP );
+		if ( dataSetRefs == null || dataSetRefs.isEmpty( ) )
+			return dataSetName;
+
+		Module tmpRoot = null;
+
+		ElementRefValue refValue = null;
+		for ( int j = 0; j < dataSetRefs.size( ); j++ )
+		{
+			ElementRefValue tmpRefValue = (ElementRefValue) dataSetRefs.get( j );
+			if ( tmpRefValue.getName( ).equalsIgnoreCase( dataSetName )
+					&& tmpRefValue.getElement( ) != null )
+			{
+				tmpRoot = tmpRefValue.getElement( ).getRoot( );
+				refValue = tmpRefValue;
+				break;
+			}
+		}
+
+		if ( tmpRoot == null )
+			return dataSetName;
+
+		return ReferenceValueUtil.needTheNamespacePrefix( refValue,
+				getModule( ), getModule( ) );
+	}
+
 }
