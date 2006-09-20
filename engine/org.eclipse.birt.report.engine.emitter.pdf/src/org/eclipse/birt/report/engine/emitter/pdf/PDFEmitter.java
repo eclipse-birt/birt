@@ -473,7 +473,7 @@ public class PDFEmitter implements IContentEmitter
 			TOCHandler tocHandler = new TOCHandler( rc.getTOCTree( "pdf",
 					ULocale.getDefault( ) ).getRoot( ) );
 			TOCNode tocRoot = tocHandler.getTOCRoot();
-			if (true == tocRoot.getChildren().isEmpty())
+			if (tocRoot == null || tocRoot.getChildren().isEmpty())
 			{
 				writer.setViewerPreferences(PdfWriter.PageModeUseNone);
 			}
