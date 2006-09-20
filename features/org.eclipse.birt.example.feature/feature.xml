@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.example"
       label="%featureName"
-      version="2.1.1.qualifier"
+      version="2.2.0.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.birt.example">
 

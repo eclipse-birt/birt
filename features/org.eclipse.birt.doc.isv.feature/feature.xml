@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.doc.isv"
       label="Eclipse BIRT ISV Doc"
-      version="2.1.1.qualifier"
+      version="2.2.0.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.birt.doc.isv">
 
