@@ -220,7 +220,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			log.log( Level.SEVERE,
 					"Error happened while running the report.", t ); //$NON-NLS-1$
-			new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
+			throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
 		}
 		finally
 		{
