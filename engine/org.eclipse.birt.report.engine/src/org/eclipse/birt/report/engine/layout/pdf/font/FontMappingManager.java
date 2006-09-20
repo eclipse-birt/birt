@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.w3c.dom.css.CSSValueList;
 
@@ -56,6 +58,9 @@ public class FontMappingManager
 	
 	/** The encoding for the fonts */
 	private HashMap fontEncoding = null;
+	
+	protected static Logger logger = Logger.getLogger( FontMappingManager.class
+			.getName( ) );
 
 	/** 
 	 * The array maintaining the font list which can display the character
@@ -247,10 +252,22 @@ public class FontMappingManager
 			if ( font == null )
 			{
 				String encoding = getEncoding( ffn );
-				Font f = FontFactory.getFont( ffn, encoding,
+				Font f = null;
+				try
+				{
+					f = FontFactory.getFont( ffn, encoding,
 						BaseFont.NOT_EMBEDDED, 14, fontStyle );
+				}
+				catch(Throwable de)
+				{
+					logger.log( Level.WARNING, de.getLocalizedMessage( ) );
+					return null;
+				}
 				font = f.getBaseFont( );
-				baseFonts.put( key, font );
+				if(font!=null)
+				{
+					baseFonts.put( key, font );
+				}
 			}
 			return font;
 		}
