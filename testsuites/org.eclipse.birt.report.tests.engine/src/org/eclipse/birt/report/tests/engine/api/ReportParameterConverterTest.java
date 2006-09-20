@@ -115,9 +115,7 @@ public class ReportParameterConverterTest extends EngineCase
 		float1 = "2.3E02";
 		assertEquals( "230.0", converter.parse( float1,
 				IScalarParameterDefn.TYPE_FLOAT ).toString( ) );
-		float1 = "2.3e02";
-		assertEquals( "230.0", converter.parse( float1,
-				IScalarParameterDefn.TYPE_FLOAT ).toString( ) );
+
 		assertTrue( "parse integer fail", converter.parse( int1,
 				IScalarParameterDefn.TYPE_INTEGER ) instanceof Integer );
 	}
