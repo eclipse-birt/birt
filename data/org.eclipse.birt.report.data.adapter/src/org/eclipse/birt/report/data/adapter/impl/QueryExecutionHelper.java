@@ -250,10 +250,10 @@ class QueryExecutionHelper
 	private void defineSourceDataSets( JointDataSetHandle jointDataSetHandle )
 			throws BirtException
 	{
-		List dataSets = jointDataSetHandle.getDataSetNames( );
-		for( int i = 0; i < dataSets.size( ); i++ )
+		Iterator iter = ( (JointDataSetHandle) jointDataSetHandle ).dataSetsIterator();
+		while (iter.hasNext( ))
 		{
-			DataSetHandle dsHandle = jointDataSetHandle.getModuleHandle( ).findDataSet( dataSets.get( i ).toString( ) ); 
+			DataSetHandle dsHandle = (DataSetHandle) iter.next( ); 
 			if ( dsHandle != null )
 			{
 				defineDataSet( dsHandle );

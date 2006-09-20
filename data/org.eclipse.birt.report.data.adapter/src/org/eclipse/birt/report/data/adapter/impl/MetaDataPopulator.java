@@ -307,11 +307,10 @@ public class MetaDataPopulator
 			return true;
 		else if ( dataSetHandle instanceof JointDataSetHandle )
 		{
-			List dataSets = ( (JointDataSetHandle) dataSetHandle ).getDataSetNames( );
-			for ( int i = 0; i < dataSets.size( ); i++ )
+			Iterator iter = ( (JointDataSetHandle) dataSetHandle ).dataSetsIterator();
+			while (iter.hasNext( ))
 			{
-				DataSetHandle dsHandle = ( (JointDataSetHandle) dataSetHandle ).getModuleHandle( )
-						.findDataSet( dataSets.get( i ).toString( ) );
+				DataSetHandle dsHandle = (DataSetHandle)iter.next( );
 				if ( dsHandle != null
 						&& dsHandle instanceof ScriptDataSetHandle )
 				{
