@@ -25,6 +25,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -103,6 +104,8 @@ public class ModelDteApiAdapter
 	private ExecutionContext context;
 
 	private Scriptable jsScope;
+	
+	private DataEngine dteEngine;
 
 	/**
 	 * @deprecated Construct an instance of this class directly
@@ -208,6 +211,67 @@ public class ModelDteApiAdapter
 		// any other types are not supported
 		assert false;
 		return null;
+	}
+	
+	/**
+	 * Define data set and data source in DataEngine
+	 * @param dataSet
+	 * @param dteEngine
+	 * @throws BirtException
+	 */
+	public void defineDataSet( DataSetHandle dataSet, DataEngine dteEngine )
+			throws BirtException
+	{
+		if ( dataSet == null || dteEngine == null )
+			return;
+		this.dteEngine = dteEngine;
+		DataSourceHandle dataSource = dataSet.getDataSource( );
+		if ( dataSource != null )
+		{
+			doDefineDataSource( dataSource );
+		}
+		doDefineDataSet( dataSet );
+	}
+	
+	/**
+	 * 
+	 * @param dataSource
+	 * @throws BirtException
+	 */
+	private void doDefineDataSource( DataSourceHandle dataSource )
+			throws BirtException
+	{
+		dteEngine.defineDataSource( createDataSourceDesign( dataSource ) );
+	}
+
+	/**
+	 * 
+	 * @param dataSet
+	 * @throws BirtException
+	 */
+	private void doDefineDataSet( DataSetHandle dataSet )
+			throws BirtException
+	{
+		if ( dataSet instanceof JointDataSetHandle )
+		{
+			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
+			Iterator iter = ( (JointDataSetHandle) jointDataSet ).dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
+				if ( childDataSet != null )
+				{
+					DataSourceHandle childDataSource = childDataSet.getDataSource( );
+					if ( childDataSource != null )
+					{
+						doDefineDataSource( childDataSource );
+					}
+					doDefineDataSet( childDataSet );
+				}
+			}
+
+		}
+		dteEngine.defineDataSet( createDataSetDesign( dataSet ) );
 	}
 
 	/**

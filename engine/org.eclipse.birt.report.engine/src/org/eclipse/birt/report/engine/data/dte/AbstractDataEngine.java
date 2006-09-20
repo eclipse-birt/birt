@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,9 +32,6 @@ import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.mozilla.javascript.Scriptable;
 
@@ -51,6 +47,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	//protected LinkedList rsets = new LinkedList( );
 
 	protected String reportArchName = null;
+	
+	private ModelDteApiAdapter adapter = null;
 
 	/**
 	 * the logger
@@ -61,6 +59,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public AbstractDataEngine( ExecutionContext context )
 	{
 		this.context = context;
+		this.adapter = new ModelDteApiAdapter( context,
+				context.getSharedScope( ) );
 		try
 		{
 			Scriptable scope = context.getScope( );
@@ -75,89 +75,27 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 	}
 	
+	/*
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#defineDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
+	 */
 	public void defineDataSet( DataSetHandle dataSet )
 	{
-		// Define data source and data set
-		DataSourceHandle dataSource = dataSet.getDataSource( );
-		ModelDteApiAdapter adaptor = new ModelDteApiAdapter( context, context
-				.getSharedScope( ) );
 		try
 		{
-			if ( dataSource != null )
-			{
-				doDefineDataSource( adaptor, dataSource );
-			}
-			doDefineDataSet( adaptor, dataSet );
+			adapter.defineDataSet( dataSet, dteEngine );
 		}
 		catch ( BirtException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ) );
 		}
 	}
-
-	protected void doDefineDataSource( ModelDteApiAdapter adaptor,
-			DataSourceHandle dataSource ) throws BirtException
-	{
-		dteEngine
-				.defineDataSource( adaptor.createDataSourceDesign( dataSource ) );
-	}
-
-	protected void doDefineDataSet( ModelDteApiAdapter adaptor,
-			DataSetHandle dataSet ) throws BirtException
-	{
-		if ( dataSet instanceof JointDataSetHandle )
-		{
-			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
-			List dataSetNames = jointDataSet.getDataSetNames( );
-			ModuleHandle report = dataSet.getModuleHandle( );
-			Iterator iter = dataSetNames.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				String dataSetName = (String) iter.next( );
-				DataSetHandle childDataSet = report.findDataSet( dataSetName );
-				if ( childDataSet != null )
-				{
-					DataSourceHandle childDataSource = childDataSet
-							.getDataSource( );
-					if (childDataSource != null)
-					{
-						doDefineDataSource( adaptor, childDataSource );
-					}
-					doDefineDataSet( adaptor, childDataSet );
-				}
-			}
-
-		}
-		dteEngine.defineDataSet( adaptor.createDataSetDesign( dataSet ) );
-	}
 	
-	/**
-	 * prepare the queries defined in the report.
+	/*
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt.report.engine.ir.Report, java.util.Map)
 	 */
 	public void prepare( Report report, Map appContext )
 	{
 		ReportDesignHandle rptHandle = report.getReportDesign( );
-
-		ModelDteApiAdapter adaptor = new ModelDteApiAdapter( context, context
-				.getSharedScope( ) );
-
-		// Handling data sources
-		List dataSourceList = rptHandle.getAllDataSources( );
-		for ( int i = 0; i < dataSourceList.size( ); i++ )
-		{
-			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList
-					.get( i );
-			try
-			{
-				dteEngine.defineDataSource( adaptor
-						.createDataSourceDesign( dataSource ) );
-			}
-			catch ( BirtException be )
-			{
-				logger.log( Level.SEVERE, be.getMessage( ), be );
-				context.addException( dataSource, be );
-			}
-		}
 
 		// Handling data sets
 		List dataSetList = rptHandle.getAllDataSets( );
@@ -166,8 +104,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i );
 			try
 			{
-				dteEngine
-						.defineDataSet( adaptor.createDataSetDesign( dataset ) );
+				adapter.defineDataSet( dataset, dteEngine );
 			}
 			catch ( BirtException be )
 			{
@@ -179,7 +116,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 		// build report queries
 		new ReportQueryBuilder( ).build( report, context );
 
-		// 
 		doPrepareQuery( report, appContext );
 	}
 
@@ -190,16 +126,16 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	abstract protected void doPrepareQuery( Report report, Map appContext );
 
-	/**
-	 * 
+	/*
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IResultSet execute( IBaseQueryDefinition query )
 	{
 		return execute( null, query );
 	}
-	
-	/**
-	 * 
+
+	/*
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.report.engine.data.IResultSet, org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IResultSet execute( IResultSet parent, IBaseQueryDefinition query )
 	{
@@ -214,7 +150,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 		return null;
 	}
 	
-
 	abstract protected IResultSet doExecuteQuery( DteResultSet parent, IQueryDefinition query );
 
 	/**
@@ -249,10 +184,16 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 	}
 
+	/*
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#close(org.eclipse.birt.report.engine.data.IResultSet)
+	 */
 	public void close( IResultSet rs )
 	{
 	}
 
+	/*
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#shutdown()
+	 */
 	public void shutdown( )
 	{
 		dteEngine.shutdown( );
