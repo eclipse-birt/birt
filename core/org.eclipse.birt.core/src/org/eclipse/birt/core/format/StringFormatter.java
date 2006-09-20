@@ -13,12 +13,14 @@ package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
 import java.util.Locale;
+
+import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.util.ULocale;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/20 15:11:13 $
+ * @version $Revision: 1.12 $ $Date: 2006/02/22 06:44:15 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -232,9 +234,9 @@ public class StringFormatter
 	private String handleCase( String val, char option )
 	{
 		if ( option == '<' )
-			return val.toLowerCase( );
+			return UCharacter.toLowerCase( locale, val );
 		else if ( option == '>' )
-			return val.toUpperCase( );
+			return UCharacter.toUpperCase( locale, val );
 		else
 			return val;
 
