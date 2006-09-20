@@ -25,9 +25,9 @@ public class FileArchiveReader implements IDocArchiveReader
 {
 
 	private String fileName;
-//	private String tempFolderName;
-//	private String lockFileName;
-//	private String readerCountFileName;
+	private String tempFolderName;
+	private String lockFileName;
+	private String readerCountFileName;
 	private RandomAccessFile file = null;
 	private FolderArchiveReader folderReader = null;
 	private HashMap lookupMap = new HashMap( );
@@ -47,10 +47,10 @@ public class FileArchiveReader implements IDocArchiveReader
 					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
 
 		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
-//		this.tempFolderName = fileName + ".tmpfolder";
-//		this.lockFileName = fileName + ".lck";
-//		this.readerCountFileName = ArchiveUtil.generateFullPath( tempFolderName,
-//				FolderArchiveWriter.READER_COUNT_FILE_NAME );
+		this.tempFolderName = fileName + ".tmpfolder";
+		this.lockFileName = fileName + ".lck";
+		this.readerCountFileName = ArchiveUtil.generateFullPath( tempFolderName,
+				FolderArchiveWriter.READER_COUNT_FILE_NAME );
 	}
 
 	/*
@@ -85,38 +85,38 @@ public class FileArchiveReader implements IDocArchiveReader
 			throw new IOException( "The specified file do not exist." );
 		}
 
-//		DocArchiveLockManager lockManager = DocArchiveLockManager.getInstance( );
-//		Object lock = lockManager.lock( lockFileName );
-//		try
-//		{
-//			File tmpFolder = new File( tempFolderName );
-//			if ( tmpFolder.exists( ) )
-//			{
-//				// it is the folder archive now
-//				RandomAccessFile rf = new RandomAccessFile(
-//						readerCountFileName, "rw" );
-//				// open the refernce count, increase 1
-//				try
-//				{
-//					int refCount = rf.readInt( );
-//					refCount++;
-//					rf.seek( 0 );
-//					rf.writeInt( refCount );
-//				}
-//				finally
-//				{
-//					rf.close( );
-//				}
-//				// read it as a folder
-//				folderReader = new FolderArchiveReader( tempFolderName );
-//				folderReader.open( );
-//				return;
-//			}
-//		}
-//		finally
-//		{
-//			lockManager.unlock( lock );
-//		}
+		DocArchiveLockManager lockManager = DocArchiveLockManager.getInstance( );
+		Object lock = lockManager.lock( lockFileName );
+		try
+		{
+			File tmpFolder = new File( tempFolderName );
+			if ( tmpFolder.exists( ) )
+			{
+				// it is the folder archive now
+				RandomAccessFile rf = new RandomAccessFile(
+						readerCountFileName, "rw" );
+				// open the refernce count, increase 1
+				try
+				{
+					int refCount = rf.readInt( );
+					refCount++;
+					rf.seek( 0 );
+					rf.writeInt( refCount );
+				}
+				finally
+				{
+					rf.close( );
+				}
+				// read it as a folder
+				folderReader = new FolderArchiveReader( tempFolderName );
+				folderReader.open( );
+				return;
+			}
+		}
+		finally
+		{
+			lockManager.unlock( lock );
+		}
 
 		readFileTable( );
 	}
@@ -145,34 +145,34 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public void close( ) throws IOException
 	{
-//		if ( folderReader != null )
-//		{
-//			folderReader.close( );
-//			folderReader = null;
-//
-//			DocArchiveLockManager lockManager = DocArchiveLockManager
-//					.getInstance( );
-//			Object lock = lockManager.lock( lockFileName );
-//			try
-//			{
-//				// open the refernce count, increase 1
-//				RandomAccessFile rf = new RandomAccessFile(
-//						readerCountFileName, "rw" );
-//				int refCount = rf.readInt( );
-//				refCount--;
-//				rf.seek( 0 );
-//				rf.writeInt( refCount );
-//				rf.close( );
-//				if ( refCount == 0 )
-//				{
-//					ArchiveUtil.DeleteAllFiles( new File( tempFolderName ) );
-//				}
-//			}
-//			finally
-//			{
-//				lockManager.unlock( lock );
-//			}
-//		}
+		if ( folderReader != null )
+		{
+			folderReader.close( );
+			folderReader = null;
+
+			DocArchiveLockManager lockManager = DocArchiveLockManager
+					.getInstance( );
+			Object lock = lockManager.lock( lockFileName );
+			try
+			{
+				// open the refernce count, increase 1
+				RandomAccessFile rf = new RandomAccessFile(
+						readerCountFileName, "rw" );
+				int refCount = rf.readInt( );
+				refCount--;
+				rf.seek( 0 );
+				rf.writeInt( refCount );
+				rf.close( );
+				if ( refCount == 0 )
+				{
+					ArchiveUtil.DeleteAllFiles( new File( tempFolderName ) );
+				}
+			}
+			finally
+			{
+				lockManager.unlock( lock );
+			}
+		}
 		if ( file != null )
 		{
 			file.close( );
@@ -182,10 +182,10 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
-//		if ( folderReader != null )
-//		{
-//			return folderReader.getStream( relativePath );
-//		}
+		if ( folderReader != null )
+		{
+			return folderReader.getStream( relativePath );
+		}
 		
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
@@ -204,10 +204,10 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
-//		if ( folderReader != null )
-//		{
-//			return folderReader.exists( relativePath );
-//		}
+		if ( folderReader != null )
+		{
+			return folderReader.exists( relativePath );
+		}
 		
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
@@ -220,10 +220,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public List listStreams( String relativeStoragePath ) throws IOException
 	{
-//		if ( folderReader != null )
-//		{
-//			return folderReader.listStreams( relativeStoragePath );
-//		}
+		if ( folderReader != null )
+		{
+			return folderReader.listStreams( relativeStoragePath );
+		}
 		ArrayList streamList = new ArrayList( );
 		if ( !relativeStoragePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativeStoragePath = ArchiveUtil.UNIX_SEPERATOR
@@ -322,10 +322,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	
 	public Object lock( String stream ) throws IOException
 	{
-//		if (folderReader != null)
-//		{
-//			return folderReader.lock( stream );
-//		}
+		if (folderReader != null)
+		{
+			return folderReader.lock( stream );
+		}
 		return stream.toString( );
 	}
 
@@ -336,10 +336,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void unlock( Object lock )
 	{
-//		if (folderReader != null)
-//		{
-//			folderReader.unlock( lock );
-//		}
+		if (folderReader != null)
+		{
+			folderReader.unlock( lock );
+		}
 	}
 
 }
