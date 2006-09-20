@@ -380,6 +380,10 @@ public final class RDGroupUtil
 	public int getCurrentGroupIndex( int groupLevel ) throws DataException
 	{
 		checkHasCurrentRow( );
+		
+		if( groupLevel == 0 )
+			return 0;
+		
 		if ( groupLevel < 0 || groupLevel > groups.length )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
 					new Integer( groupLevel ) );
