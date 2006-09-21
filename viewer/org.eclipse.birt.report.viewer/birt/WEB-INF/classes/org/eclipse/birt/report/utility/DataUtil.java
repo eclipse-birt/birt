@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.utility;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Locale;
 
+import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -99,7 +101,7 @@ public class DataUtil
 	 * @return the formatted string
 	 */
 
-	static public String getDisplayValue( Object value )
+	public static String getDisplayValue( Object value )
 	{
 		if ( value == null )
 			return null;
@@ -111,5 +113,41 @@ public class DataUtil
 			return value.toString( );
 		}
 		return ParameterValidationUtil.getDisplayValue( value );
+	}
+
+	/**
+	 * Change default value format from design file.
+	 * <p>
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then convert
+	 * old ISO8601 datetime format to standard format.</li>
+	 * </li>
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the parameter data type
+	 * @param defaultValue
+	 *            the default value from design file
+	 * @return
+	 */
+	public static String getDefaultValue( String dataType, String defaultValue )
+	{
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+				.equalsIgnoreCase( dataType ) )
+		{
+			Date obj = null;
+			try
+			{
+				// Current datetime format is ISO8601
+				obj = DateFormatISO8601.parse( defaultValue );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( );
+			}
+			return getDisplayValue( obj );
+		}
+
+		return defaultValue;
 	}
 }
