@@ -156,7 +156,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.125 $ $Date: 2006/09/08 10:02:14 $
+ * @version $Revision: 1.126 $ $Date: 2006/09/13 03:11:54 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1596,7 +1596,12 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
 		rule.setExpression( createExpression( handle.getExpression( ) ) );
-		rule.setFormat( handle.getFormat( ) );
+		String format = handle.getFormat( );
+		if ( "html".equalsIgnoreCase( format ) )
+		{
+			format = EngineIRConstants.FORMAT_TYPE_VIEWER;
+		}
+		rule.setFormat( format );
 		return rule;
 	}
 
