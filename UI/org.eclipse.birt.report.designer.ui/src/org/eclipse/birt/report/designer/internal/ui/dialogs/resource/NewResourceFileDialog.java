@@ -20,7 +20,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -64,6 +66,11 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			IStatus.ERROR,
 			Messages.getString( "" ), //$NON-NLS-1$
 			null );
+	private Status ErrorStatusInvalid = new Status( IStatus.ERROR,
+			ReportPlugin.REPORT_UI,
+			IStatus.ERROR,
+			Messages.getString( "NewResourceFileDialog.ErrorMessageInvalid" ), //$NON-NLS-1$
+			null );
 
 	private class Validator implements ISelectionStatusValidator
 	{
@@ -89,6 +96,11 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 							.endsWith( ext.toLowerCase( ) ) )
 			{
 				return ErrorStatus;
+			}
+			else if ( newFileName == null
+					|| newFileName.toLowerCase( ).equals( ext.toLowerCase( ) ) )
+			{
+				return ErrorStatusInvalid;
 			}
 			return OKStatus;
 		}
