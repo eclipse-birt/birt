@@ -217,31 +217,10 @@ public class BubbleChart extends DefaultChartTypeImpl
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
 		oSample.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
-		// oSample.setDataSetRepresentation( "H5.3 L1.3 O4.5 C3.4,H4.2 L3.1 O3.4
-		// C4.1" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
 
 		newChart.setSampleData( sd );
-		// SampleData sd = DataFactory.eINSTANCE.createSampleData( );
-		// sd.getBaseSampleData( ).clear( );
-		// sd.getOrthogonalSampleData( ).clear( );
-		//
-		// // Create Base Sample Data
-		// BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData(
-		// );
-		// sdBase.setDataSetRepresentation( "3,9,-2" ); //$NON-NLS-1$
-		// sd.getBaseSampleData( ).add( sdBase );
-		//
-		// // Create Orthogonal Sample Data (with simulation count of 2)
-		// OrthogonalSampleData oSample =
-		// DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		// oSample.setDataSetRepresentation( "Y15 S4,Y20 S2,Y25 S2" );
-		// //$NON-NLS-1$
-		// oSample.setSeriesDefinitionIndex( 0 );
-		// sd.getOrthogonalSampleData( ).add( oSample );
-		//
-		// newChart.setSampleData( sd );
 	}
 
 	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
