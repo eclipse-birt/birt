@@ -87,7 +87,9 @@ public abstract class EngineCase extends TestCase
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
-	private boolean pagination = false; 
+
+	private boolean pagination = false;
+	private Locale locale = Locale.ENGLISH;
 
 	/*
 	 * @see TestCase#setUp()
@@ -106,8 +108,9 @@ public abstract class EngineCase extends TestCase
 
 	/**
 	 * Create a report engine instance.
-	 * @param config 
-	 * @return 
+	 * 
+	 * @param config
+	 * @return
 	 * 
 	 * @throws BirtException
 	 */
@@ -437,7 +440,7 @@ public abstract class EngineCase extends TestCase
 			}
 		}
 
-		task.setLocale( Locale.ENGLISH );
+		task.setLocale( locale );
 
 		IRenderOption options = null;
 		if ( "pdf".equals( format ) ) //$NON-NLS-1$
@@ -485,7 +488,7 @@ public abstract class EngineCase extends TestCase
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
 		IRunTask task = engine.createRunTask( runnable );
 		task.setAppContext( new HashMap( ) );
-		task.setLocale( Locale.ENGLISH );
+		task.setLocale( locale );
 		IDocArchiveWriter archive = null;
 		try
 		{
@@ -547,7 +550,7 @@ public abstract class EngineCase extends TestCase
 
 		IReportDocument document = engine.openReportDocument( inputFile );
 		IRenderTask task = engine.createRenderTask( document );
-		task.setLocale( Locale.ENGLISH );
+		task.setLocale( locale );
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFileName( outputFile );
@@ -565,7 +568,7 @@ public abstract class EngineCase extends TestCase
 				renderContext );
 		appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				EngineCase.class.getClassLoader( ) );
-		
+
 		task.setAppContext( appContext );
 		task.setRenderOption( options );
 
@@ -737,8 +740,6 @@ public abstract class EngineCase extends TestCase
 	// Sample: .style_1 { background-image: url('image%5cfile24.jpg');}
 	private final static Pattern PATTERN_BG_IMAGE2 = Pattern
 			.compile( "background-image[\\s]*:[\\s]*url[(]'image.*'[)]" ); //$NON-NLS-1$
-	
-	
 
 	// Sample: src="image/design31"
 	// src="image\file31.jpg"
@@ -810,6 +811,17 @@ public abstract class EngineCase extends TestCase
 		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY, this
 				.getClassFolder( )
 				+ "/input/scripts" );
+	}
+
+	/**
+	 * Set locale for run/render report
+	 * 
+	 * @param loc
+	 *            location used to run report
+	 */
+	protected void setLocale( Locale loc )
+	{
+		this.locale = loc;
 	}
 
 }
