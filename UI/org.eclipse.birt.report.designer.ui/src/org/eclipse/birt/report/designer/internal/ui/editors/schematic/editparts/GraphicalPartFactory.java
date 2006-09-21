@@ -57,7 +57,7 @@ public class GraphicalPartFactory implements EditPartFactory
 	public EditPart createEditPart( EditPart context, Object model )
 	{
 		EditPart editPart = new DummyEditpart( model );
-		if (model instanceof ReportItemHandle && !((ReportItemHandle)model).isValidReferenceForCompoundElement())
+		if (model instanceof ReportItemHandle && !((ReportItemHandle)model).isValidLayoutForCompoundElement( ))
 		{
 			return new DestroyEditPart(model);
 		}
