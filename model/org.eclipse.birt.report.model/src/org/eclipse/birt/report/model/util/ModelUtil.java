@@ -834,7 +834,8 @@ public class ModelUtil
 			DesignElement content, IElementPropertyDefn propDefn,
 			String nameSpace )
 	{
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getTypeCode( ) != IPropertyType.EXTENDS_TYPE )
 			return;
 
 		Object value = content.getLocalProperty( module,
@@ -1185,8 +1186,8 @@ public class ModelUtil
 	{
 		if ( !( element instanceof ReportItem ) )
 			return true;
-		
-		if ( !element.getDefn().isContainer() )
+
+		if ( !element.getDefn( ).isContainer( ) )
 			return true;
 
 		if ( element instanceof TableItem )
