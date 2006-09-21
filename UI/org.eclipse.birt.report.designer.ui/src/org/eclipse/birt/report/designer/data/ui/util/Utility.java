@@ -366,34 +366,12 @@ public class Utility
             }
         }
     }
-    
-    /**
-	 * 
-	 * @param structure
-	 * @param propName
-	 * @param value
-	 */
-	public static void setStructureProperty( IStructure structure,
-			String propName, Object value )
-	{
-		( (Structure) structure ).setProperty( propName, value );
-	}
 
 	/**
 	 * 
-	 * @param structure
-	 * @param memberName
+	 * @param value
 	 * @return
 	 */
-	public static String getStructureProperty( IStructure structure,
-			String memberName )
-	{
-		String value = (String) ( (Structure) structure ).getProperty( null,
-				memberName );
-
-		return value == null ? "" : value;
-	}
-	
 	public static String getNonNullString( String value )
 	{
 		return value == null ? "" : value;

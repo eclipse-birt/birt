@@ -263,13 +263,12 @@ public class ReportParameterAdapter
 		cmdStack.startTrans( null );
 		try
 		{
-
-			updateLinkedReportParameterFromROMParameter( reportParam,
-					dataSetParam );
-
 			if ( matchedParam != null )
 				updateLinkedReportParameter( reportParam, matchedParam, null,
 						dataType );
+			
+			updateLinkedReportParameterFromROMParameter( reportParam,
+					dataSetParam );
 		}
 		catch ( SemanticException e )
 		{
