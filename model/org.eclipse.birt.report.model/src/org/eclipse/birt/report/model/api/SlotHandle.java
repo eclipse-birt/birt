@@ -251,8 +251,11 @@ public class SlotHandle extends ElementDetailHandle
 		if ( currentModule != null && currentModule instanceof Library )
 			nameSpace = ( (Library) currentModule ).getNamespace( );
 
-		ModelUtil.reviseNameSpace( getElementHandle( ).getModule( ), content,
+		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
+				.getDefn( ).getProperty( DesignElement.EXTENDS_PROP ),
 				nameSpace );
+
+		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
 
 		List exceptionList = content.validateWithContents( getModule( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );

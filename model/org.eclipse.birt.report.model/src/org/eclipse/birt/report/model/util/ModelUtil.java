@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -53,9 +54,11 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -793,33 +796,54 @@ public class ModelUtil
 	public static void reviseNameSpace( Module module, DesignElement content,
 			String nameSpace )
 	{
-
-		List propDefns = content.getPropertyDefns( );
-		for ( int i = 0; i < propDefns.size( ); i++ )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) propDefns
-					.get( i );
-			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
-				continue;
-
-			Object value = content.getLocalProperty( module, propDefn );
-			if ( value == null )
-				continue;
-
-			ReferenceValue refValue = (ReferenceValue) value;
-			refValue.setLibraryNamespace( nameSpace );
-		}
-
+		Iterator propNames = content.propertyWithLocalValueIterator( );
 		IElementDefn defn = content.getDefn( );
+
+		while ( propNames.hasNext( ) )
+		{
+			String propName = (String) propNames.next( );
+
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) defn
+					.getProperty( propName );
+			revisePropertyNameSpace( module, content, propDefn, nameSpace );
+		}
 
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
 			ContainerSlot slot = content.getSlot( i );
-
-			if ( slot != null )
-				for ( int pos = 0; pos < slot.getCount( ); pos++ )
-					reviseNameSpace( module, slot.getContent( pos ), nameSpace );
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+				reviseNameSpace( module, slot.getContent( pos ), nameSpace );
 		}
+	}
+
+	/**
+	 * Uses the new name space of the current module for reference property
+	 * values of the given element. This method checks the <code>content</code>
+	 * and nested elements in it.
+	 * 
+	 * @param module
+	 *            the module that <code>content</code> attaches.
+	 * @param content
+	 *            the element to revise
+	 * @param propDefn
+	 * @param nameSpace
+	 *            the new name space
+	 */
+
+	public static void revisePropertyNameSpace( Module module,
+			DesignElement content, IElementPropertyDefn propDefn,
+			String nameSpace )
+	{
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+			return;
+
+		Object value = content.getLocalProperty( module,
+				(ElementPropertyDefn) propDefn );
+		if ( value == null )
+			return;
+
+		ReferenceValue refValue = (ReferenceValue) value;
+		refValue.setLibraryNamespace( nameSpace );
 	}
 
 	/**
@@ -1113,6 +1137,8 @@ public class ModelUtil
 	 * 
 	 * @return <code>true</code> if the compound element is valid. Otherwise
 	 *         <code>false</code>.
+	 * 
+	 * @deprecated
 	 */
 
 	public static boolean isValidReferenceForCompoundElement( Module module,
@@ -1138,6 +1164,40 @@ public class ModelUtil
 			parent = parent.getExtendsElement( );
 		}
 
+		return true;
+	}
+
+	/**
+	 * Checks whether the compound element is valid.
+	 * <p>
+	 * If the table/grid has no rows and columns, its layout is invalid.
+	 * 
+	 * @param module
+	 *            the root module of the element
+	 * @param element
+	 *            the element to check
+	 * 
+	 * @return <code>true</code> if the compound element is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public static boolean isValidLayout( Module module, DesignElement element )
+	{
+		if ( !( element instanceof ReportItem ) )
+			return true;
+		
+		if ( !element.getDefn().isContainer() )
+			return true;
+
+		if ( element instanceof TableItem )
+			return LayoutUtil.isValidLayout( (TableItem) element, module );
+
+		if ( element instanceof GridItem )
+		{
+			int columnCount = ( (GridItem) element ).getColumnCount( module );
+			if ( columnCount == 0 )
+				return false;
+		}
 		return true;
 	}
 }

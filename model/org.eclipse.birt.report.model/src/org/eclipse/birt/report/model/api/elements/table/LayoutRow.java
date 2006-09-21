@@ -219,6 +219,23 @@ public class LayoutRow
 	}
 
 	/**
+	 * Returns the count of columns that has cell elements in the row.
+	 * 
+	 * @return the column count
+	 */
+
+	protected int getOccupiedColumnCount( )
+	{
+		int retCount = 0;
+		for ( int i = 0; i < cells.size( ); i++ )
+		{
+			if ( getLayoutCell( i ).isUsed( ) )
+				retCount++;
+		}
+		return retCount;
+	}
+
+	/**
 	 * Returns the string that shows the layout. Mainly for the debug.
 	 * 
 	 * @return the string that shows the layout
