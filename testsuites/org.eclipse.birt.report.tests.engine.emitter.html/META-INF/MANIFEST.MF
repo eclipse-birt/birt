@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Emitter Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.tests.engine.emitter;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.report.engine

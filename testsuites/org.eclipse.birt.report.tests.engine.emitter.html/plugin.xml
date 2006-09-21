@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+    <extension
+           id="org.eclipse.birt.report.tests.engine.emitter.html"
+           name="Engine Test Emitter"
+           point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter
+              class="org.eclipse.birt.report.tests.engine.emitter.html.HTMLEmitter"
+              format="emitter_html"
+              id="org.eclipse.birt.report.tests.engine.emitter.html"
+              mimeType="text/html"/>
+    </extension>
+</plugin>
