@@ -29,6 +29,7 @@ import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -198,8 +199,9 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		parameterBean.setValue( parameterValue );
 
 		// Set parameter default value
-		parameterBean.setDefaultValue( parameterHandle.getDefaultValue( ) );
-
+		parameterBean.setDefaultValue( DataUtil.getDefaultValue(
+				parameterHandle.getDataType( ), parameterHandle
+						.getDefaultValue( ) ) );
 	}
 
 	protected void prepareParameterBean( HttpServletRequest request,
