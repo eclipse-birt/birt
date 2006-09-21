@@ -39,6 +39,7 @@ public class MetaDataErrorHandler extends ErrorHandler
 
 	public XMLParserException semanticError( XMLParserException e )
 	{
+		assert locator != null;
 		e.setLineNumber( locator.getLineNumber( ) );
 		MetaLogManager.log( e.getMessage( ), e );
 		logger.log( Level.SEVERE, e.getMessage( ) );

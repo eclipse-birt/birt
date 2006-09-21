@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.util.XMLParserException;
 
 public class ModuleParserErrorHandler extends ErrorHandler
 {
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -28,7 +29,10 @@ public class ModuleParserErrorHandler extends ErrorHandler
 
 	public XMLParserException semanticError( XMLParserException e )
 	{
-		e.setLineNumber( locator.getLineNumber( ) );
+		if ( locator != null )
+			e.setLineNumber( locator.getLineNumber( ) );
+		else
+			e.setLineNumber( 1 );
 		e.setTag( currentElement );
 		errors.add( e );
 		return e;
