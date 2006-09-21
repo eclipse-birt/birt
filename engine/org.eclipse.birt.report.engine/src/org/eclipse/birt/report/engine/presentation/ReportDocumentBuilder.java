@@ -142,7 +142,7 @@ public class ReportDocumentBuilder
 	{
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory
-				.createLayoutEngine( ExtensionManager.HTML_PAGINATION );
+				.createLayoutEngine( ExtensionManager.PAGE_BREAK_PAGINATION );
 		engine.setPageHandler( layoutPageHandler );
 		engine.layout( executor, outputEmitters, true );
 		engine = null;
@@ -164,7 +164,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
+	 * @version $Revision: 1.14 $ $Date: 2006/09/21 06:15:53 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -263,7 +263,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
+	 * @version $Revision: 1.14 $ $Date: 2006/09/21 06:15:53 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

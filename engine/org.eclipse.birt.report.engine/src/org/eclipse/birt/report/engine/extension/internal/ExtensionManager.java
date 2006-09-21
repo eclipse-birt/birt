@@ -73,12 +73,12 @@ public class ExtensionManager
 	/**
 	 * HTML pagination.
 	 */
-	public static final String HTML_PAGINATION = "html-pagination";
+	public static final String PAGE_BREAK_PAGINATION = "page-break-pagination";
 
 	/**
 	 * Pdf pagination.
 	 */
-	public static final String PDF_PAGINATION = "pdf-pagination";
+	public static final String PAPER_SIZE_PAGINATION = "paper-size-pagination";
 
 	/**
 	 * No pagination.
@@ -405,7 +405,7 @@ public class ExtensionManager
 		{
 			return ( (EmitterInfo) formats.get( format ) ).pagination;
 		}
-		return HTML_PAGINATION;
+		return PAGE_BREAK_PAGINATION;
 	}
 	
 	protected class EmitterInfo

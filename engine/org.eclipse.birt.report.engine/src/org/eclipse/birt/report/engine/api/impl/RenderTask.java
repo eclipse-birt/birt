@@ -158,7 +158,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		
 		initializePagination( format, extManager );
 		//the output will be paginate.
-		if ( pagination != ExtensionManager.PDF_PAGINATION )
+		if ( pagination != ExtensionManager.PAPER_SIZE_PAGINATION )
 		{
 			emitter = new HTMLTableLayoutNestEmitter( emitter );
 		}
@@ -402,7 +402,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			IContentEmitter emitter = createContentEmitter( );
 			Report reportDesign = executionContext.getReport( );
 			String format = executionContext.getOutputFormat( );
-			if ( ExtensionManager.PDF_PAGINATION.equals( pagination ) ) //$NON-NLS-1$
+			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) ) //$NON-NLS-1$
 			{
 				IReportExecutor executor = createReader( );
 				executor = new LocalizedReportExecutor( executionContext,

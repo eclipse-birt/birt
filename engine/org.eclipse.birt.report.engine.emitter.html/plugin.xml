@@ -9,7 +9,7 @@
 	  		id="org.eclipse.birt.report.engine.emitter.html"
 	  		class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter"
 	  		format="html"
-	  		pagination="html-pagination"
+	  		pagination="page-break-pagination"
 	  		mimeType="text/html" >
 	 	</emitter>
    </extension>

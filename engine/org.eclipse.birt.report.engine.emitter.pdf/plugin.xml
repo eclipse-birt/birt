@@ -9,7 +9,7 @@
         <emitter
               class="org.eclipse.birt.report.engine.emitter.pdf.PDFEmitter"
               format="pdf"
-              pagination="pdf-pagination"
+              pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.pdf"
               mimeType="application/pdf"/>
   </extension>  
