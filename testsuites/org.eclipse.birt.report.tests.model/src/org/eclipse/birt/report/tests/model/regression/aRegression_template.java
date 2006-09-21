@@ -32,7 +32,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class aRegression_template extends BaseTestCase
 {
-	private final static String INPUT = "";
+	private final static String REPORT = "";
 	
 	
 	public void test_()

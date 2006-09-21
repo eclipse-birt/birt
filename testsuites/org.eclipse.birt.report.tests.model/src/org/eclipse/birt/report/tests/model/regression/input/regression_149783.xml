@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.v20060920-0630 Build &lt;20060921-0630></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">regression_149783_lib.xml</property>
+            <property name="namespace">regression_149783_lib</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="4" extends="regression_149783_lib.NewSimpleMasterPage">
+            <overridden-values>
+                <ref-entry baseId="4" name="NewText"/>
+            </overridden-values>
+        </simple-master-page>
+    </page-setup>
+</report>

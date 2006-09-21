@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
+    <body>
+        <image name="img1" id="2">
+            <property name="source">file</property>
+            <expression name="uri">"images/pic1.jpg"</expression>
+        </image>
+        <image name="img11" id="3">
+            <property name="source">url</property>
+            <expression name="uri">"http://www.google.com/intl/en/images/logo.gif"</expression>
+        </image>
+    </body>
+</report>
