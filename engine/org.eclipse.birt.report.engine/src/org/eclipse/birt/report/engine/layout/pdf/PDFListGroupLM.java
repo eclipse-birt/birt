@@ -1,7 +1,9 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
@@ -37,6 +39,10 @@ public class PDFListGroupLM extends PDFGroupLM
 		if ( isFirst )
 		{
 			isFirst = false;
+			return;
+		}
+		if(!isCurrentDetailBand())
+		{
 			return;
 		}
 		if ( !isRepeatHeader( ) )
@@ -79,4 +85,34 @@ public class PDFListGroupLM extends PDFGroupLM
 		repeatCount = 0;
 	}
 
+	protected boolean isCurrentDetailBand()
+	{
+		if(child!=null)
+		{
+			IContent c = child.getContent( );
+			if(c!=null)
+			{
+				if(c instanceof IGroupContent)
+				{
+					return true;
+				}
+				IElement p = c.getParent( );
+				if(p instanceof IBandContent)
+				{
+					IBandContent band = (IBandContent)p;
+					if(band.getBandType( )==IBandContent.BAND_DETAIL)
+					{
+						return true;
+					}
+				}
+				
+					
+			}
+		}
+		else
+		{
+			return true;
+		}
+		return false;
+	}
 }

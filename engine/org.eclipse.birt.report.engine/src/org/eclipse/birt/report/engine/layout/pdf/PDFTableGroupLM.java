@@ -82,6 +82,10 @@ public class PDFTableGroupLM extends PDFGroupLM
 			isFirst = false;
 			return;
 		}
+		if(!isCurrentDetailBand())
+		{
+			return;
+		}
 		ITableBandContent header = (ITableBandContent) groupContent.getHeader( );
 		if ( !isRepeatHeader( ) || header == null )
 		{
@@ -233,4 +237,31 @@ public class PDFTableGroupLM extends PDFGroupLM
 		return executor;
 	}
 
+	protected boolean isCurrentDetailBand()
+	{
+		if(child!=null)
+		{
+			IContent c = child.getContent( );
+			if(c!=null)
+			{
+				if(c instanceof IGroupContent)
+				{
+					return true;
+				}
+				else if(c instanceof IBandContent)
+				{
+					IBandContent band = (IBandContent)c;
+					if(band.getBandType( )==IBandContent.BAND_DETAIL)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		else
+		{
+			return true;
+		}
+		return false;
+	}
 }
