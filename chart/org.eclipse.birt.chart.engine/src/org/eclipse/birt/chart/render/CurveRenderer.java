@@ -218,7 +218,7 @@ public final class CurveRenderer
 		}
 	}
 
-	private Location[] filterNull( Location[] ll )
+	private static Location[] filterNull( Location[] ll )
 	{
 		ArrayList al = new ArrayList( );
 		for ( int i = 0; i < ll.length; i++ )
@@ -235,10 +235,7 @@ public final class CurveRenderer
 		{
 			return (Location3D[]) al.toArray( new Location3D[al.size( )] );
 		}
-		else
-		{
-			return (Location[]) al.toArray( new Location[al.size( )] );
-		}
+		return (Location[]) al.toArray( new Location[al.size( )] );
 	}
 
 	/**
@@ -501,13 +498,11 @@ public final class CurveRenderer
 				{
 					loa[0].set( x1 + kError, y1 + kError );
 					loa[1].set( x1 + kError + dTapeWidth, y1
-							+ kError
-							- dTapeWidth );
+							+ kError - dTapeWidth );
 					if ( cwa.isTransposed( ) )
 					{
 						loa[2].set( zeroLocation + dTapeWidth, y1
-								+ kError
-								- dTapeWidth );
+								+ kError - dTapeWidth );
 						loa[3].set( zeroLocation, y1 + kError );
 					}
 					else
@@ -521,13 +516,11 @@ public final class CurveRenderer
 				{
 					loa[0].set( x2 + kError, y2 + kError );
 					loa[1].set( x2 + kError + dTapeWidth, y2
-							+ kError
-							- dTapeWidth );
+							+ kError - dTapeWidth );
 					if ( cwa.isTransposed( ) )
 					{
 						loa[2].set( zeroLocation + dTapeWidth, y2
-								+ kError
-								- dTapeWidth );
+								+ kError - dTapeWidth );
 						loa[3].set( zeroLocation, y2 + kError );
 					}
 					else
@@ -631,12 +624,13 @@ public final class CurveRenderer
 				Line3DRenderEvent.class );
 		lre3d.setLineAttributes( lia );
 
-		final PolygonRenderEvent pre = bRendering3D ? null
+		final PolygonRenderEvent pre = bRendering3D
+				? null
 				: (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 						PolygonRenderEvent.class );
-		final Polygon3DRenderEvent pre3d = bRendering3D ? (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
-				Polygon3DRenderEvent.class )
-				: null;
+		final Polygon3DRenderEvent pre3d = bRendering3D
+				? (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+						Polygon3DRenderEvent.class ) : null;
 
 		if ( bUseLastState )
 		{
@@ -956,8 +950,7 @@ public final class CurveRenderer
 			for ( int j = 0; j < iNumberOfDivisions; j++ )
 			{
 				fT = fa[i]
-						+ ( fa[i + 1] - fa[i] )
-						* ( j + 1 )
+						+ ( fa[i + 1] - fa[i] ) * ( j + 1 )
 						/ iNumberOfDivisions;
 				if ( !computeSpline( fT, faXY2 ) )
 				{
@@ -967,8 +960,7 @@ public final class CurveRenderer
 				{
 					boolean drawLeftSide = ( i == 0 ) && ( j == 0 )
 					// && bKeepState
-							&& bRendering3D
-							&& bFillArea;
+					&& bRendering3D && bFillArea;
 
 					if ( drawLeftSide )
 					{
@@ -1165,5 +1157,186 @@ public final class CurveRenderer
 			final double t = ( x - i );
 			return faA[i] * t * t * t + faB[i] * t * t + faC[i] * t + fa[i];
 		}
+	}
+
+	private static boolean computeSpline( double t, double[] faXY, Spline spx,
+			Spline spy )
+	{
+		if ( spx == null || spy == null )
+		{
+			return false;
+		}
+		faXY[0] = spx.computeValue( t );
+		faXY[1] = spy.computeValue( t );
+		return true;
+	}
+
+	/**
+	 * Generates the points of curve line.
+	 * 
+	 * @param loPoints
+	 * @param connectMissingValue
+	 * @param fXOffset
+	 * @param fYOffset
+	 * @return points list in the form of double array
+	 */
+	public static List generateCurvePoints( Location[] loPoints,
+			boolean connectMissingValue, double fXOffset, double fYOffset )
+	{
+		final double[] faKnotXY1 = new double[2];
+		final double[] faKnotXY2 = new double[2];
+
+		int iNumberOfPoints = 0;
+		Location[] tempPoints = loPoints;
+		double[] fa = null, faX, faY;
+		Spline spX = null, spY = null;
+
+		if ( !connectMissingValue )
+		{
+			for ( int i = 0; i < loPoints.length; i++ )
+			{
+				if ( Double.isNaN( loPoints[i].getX( ) )
+						|| Double.isNaN( loPoints[i].getY( ) ) )
+				{
+					continue;
+				}
+
+				ArrayList al = new ArrayList( );
+				while ( ( i < loPoints.length )
+						&& !( Double.isNaN( loPoints[i].getX( ) ) || Double.isNaN( loPoints[i].getY( ) ) ) )
+				{
+					al.add( loPoints[i] );
+					i += 1;
+				}
+				i -= 1;
+
+				// if ( loPoints instanceof Location3D[] )
+				// {
+				// tempPoints = (Location3D[]) al.toArray( new
+				// Location3D[al.size( )] );
+				// }
+				// else
+				{
+					tempPoints = (Location[]) al.toArray( new Location[al.size( )] );
+				}
+				faX = LocationImpl.getXArray( tempPoints );
+				faY = LocationImpl.getYArray( tempPoints );
+
+				iNumberOfPoints = faX.length;
+
+				if ( iNumberOfPoints > 1 )
+				{
+					// X-CORDINATES
+					spX = new Spline( faX ); // X-SPLINE
+
+					// Y-CORDINATES
+					spY = new Spline( faY ); // Y-SPLINE
+
+					fa = new double[iNumberOfPoints];
+					for ( int j = 0; j < iNumberOfPoints; j++ )
+					{
+						fa[j] = j;
+					}
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}
+		else
+		{
+			tempPoints = filterNull( loPoints );
+			faX = LocationImpl.getXArray( tempPoints );
+			faY = LocationImpl.getYArray( tempPoints );
+
+			iNumberOfPoints = faX.length;
+
+			if ( iNumberOfPoints <= 1 )
+			{
+				return null;
+			}
+
+			// X-CORDINATES
+			spX = new Spline( faX ); // X-SPLINE
+
+			// Y-CORDINATES
+			spY = new Spline( faY ); // Y-SPLINE
+
+			fa = new double[iNumberOfPoints];
+			for ( int i = 0; i < iNumberOfPoints; i++ )
+			{
+				fa[i] = i;
+			}
+		}
+
+		if ( !computeSpline( fa[0], faKnotXY1, spX, spY ) )
+		{
+			return null;
+		}
+
+		int iNumberOfDivisions;
+		double fX, fY;
+		double[] faXY1, faXY2;
+		double fT;
+
+		final ArrayList stateList = new ArrayList( );
+
+		for ( int i = 0; i < iNumberOfPoints - 1; i++ )
+		{
+			if ( !computeSpline( fa[i + 1], faKnotXY2, spX, spY ) )
+			{
+				continue;
+			}
+			fX = faKnotXY2[0] - faKnotXY1[0];
+			fY = faKnotXY2[1] - faKnotXY1[1];
+			iNumberOfDivisions = (int) ( Math.sqrt( fX * fX + fY * fY ) / 5.0f ) + 1;
+
+			faXY1 = new double[2];
+			faXY2 = new double[2];
+			if ( !computeSpline( fa[i], faXY1, spX, spY ) )
+			{
+				continue;
+			}
+
+			for ( int j = 0; j < iNumberOfDivisions; j++ )
+			{
+				fT = fa[i]
+						+ ( fa[i + 1] - fa[i] ) * ( j + 1 )
+						/ iNumberOfDivisions;
+				if ( !computeSpline( fT, faXY2, spX, spY ) )
+				{
+					continue;
+				}
+
+				// TODO remove the duplicate points.
+				// if ( bRendering3D )
+				// {
+				// stateList.add( new double[]{
+				// faXY1[0] + fXOffset, faXY1[1] + fYOffset, faZ[i]
+				// } );
+				// stateList.add( new double[]{
+				// faXY2[0] + fXOffset, faXY2[1] + fYOffset, faZ[i]
+				// } );
+				// }
+				// else
+				{
+					stateList.add( new double[]{
+							faXY1[0] + fXOffset, faXY1[1] + fYOffset
+					} );
+					stateList.add( new double[]{
+							faXY2[0] + fXOffset, faXY2[1] + fYOffset
+					} );
+				}
+
+				faXY1[0] = faXY2[0];
+				faXY1[1] = faXY2[1];
+			}
+
+			faKnotXY1[0] = faKnotXY2[0];
+			faKnotXY1[1] = faKnotXY2[1];
+		}
+
+		return stateList;
 	}
 }

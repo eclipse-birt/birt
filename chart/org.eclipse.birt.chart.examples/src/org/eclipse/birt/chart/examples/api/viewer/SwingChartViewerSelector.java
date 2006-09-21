@@ -27,6 +27,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -430,7 +433,8 @@ public final class SwingChartViewerSelector extends JPanel implements
 			jcbModels.addItem( "Scatter Chart" );//$NON-NLS-1$
 			jcbModels.addItem( "Stock Chart" );//$NON-NLS-1$
 			jcbModels.addItem( "Area Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Open Chart File" ); //$NON-NLS-1$
+			jcbModels.addItem( "Difference Chart" );//$NON-NLS-1$
+//			jcbModels.addItem( "Open Chart File" ); //$NON-NLS-1$
 
 			jcbModels.setSelectedIndex( 0 );
 			jp1.add( jcbModels );
@@ -545,8 +549,11 @@ public final class SwingChartViewerSelector extends JPanel implements
 					cm = PrimitiveCharts.createAreaChart( );
 					break;
 				case 9 :
-					cm = PrimitiveCharts.openChart( );
+					cm = PrimitiveCharts.createDifferenceChart( );
 					break;
+//					case 9 :
+//					cm = PrimitiveCharts.openChart( );
+//					break;
 			}
 
 			if ( cm instanceof ChartWithAxes )

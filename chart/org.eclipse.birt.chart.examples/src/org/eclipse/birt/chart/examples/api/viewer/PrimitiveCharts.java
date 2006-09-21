@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+import org.eclipse.birt.chart.datafeed.DifferenceEntry;
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -37,6 +38,7 @@ import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -50,6 +52,7 @@ import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -62,11 +65,13 @@ import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
 import org.eclipse.birt.chart.model.component.impl.MarkerLineImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
+import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.DifferenceDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
@@ -82,6 +87,7 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
@@ -89,6 +95,7 @@ import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
@@ -332,6 +339,83 @@ public final class PrimitiveCharts
 
 		return cwaLine;
 	}
+	
+	/**
+	 * Creates a difference chart model as a reference implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createDifferenceChart( )
+	{
+		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
+
+		// Plot
+		cwaLine.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		Plot p = cwaLine.getPlot( );
+		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
+				255,
+				225 ) );
+
+		// Title
+		cwaLine.getTitle( ).getLabel( ).getCaption( ).setValue( "Difference Chart" );//$NON-NLS-1$
+
+		// Legend
+		cwaLine.getLegend( ).setVisible( false );
+
+		// X-Axis
+		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes( )[0];
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		xAxisPrimary.getTitle( ).setVisible( true );
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
+				"Item 1", "Item 2", "Item 3", "Item 4"} );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		DifferenceDataSet orthoValues = DifferenceDataSetImpl.create( new DifferenceEntry[]{
+//				new DifferenceEntry( 30, 50 ),
+				new DifferenceEntry( 50, 60 ),
+				new DifferenceEntry( 70, 70 ),
+				new DifferenceEntry( 15, 30 ),
+				new DifferenceEntry( 65, 20 )
+		} );
+
+		// X-Series
+		Series seCategory = SeriesImpl.create( );
+		seCategory.setDataSet( categoryValues );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seCategory );
+
+		// Y-Sereis
+		DifferenceSeries ls = (DifferenceSeries) DifferenceSeriesImpl.create( );
+		ls.setDataSet( orthoValues );
+		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
+		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+		}
+		ls.getLabel( ).setVisible( true );
+		ls.setCurve( true );
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		sdY.getSeriesPalette( ).update( -2 );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		MultipleFill fill = MultipleFillImpl.create( );
+		fill.getFills( ).add( ColorDefinitionImpl.CYAN( ) );
+		fill.getFills( ).add( ColorDefinitionImpl.RED( ) );
+		sdY.getSeriesPalette( ).getEntries( ).add( 0, fill );
+		sdY.getSeries( ).add( ls );
+
+		return cwaLine;
+	}
+
 
 	/**
 	 * Creates a pie chart model as a reference implementation
