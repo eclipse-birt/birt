@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.utility;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Locale;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -130,7 +132,6 @@ public class DataUtil
 	 */
 	public static String getDefaultValue( String dataType, String defaultValue )
 	{
-		/*
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equalsIgnoreCase( dataType ) )
 		{
@@ -138,7 +139,7 @@ public class DataUtil
 			try
 			{
 				// Current datetime format is ISO8601
-				obj = DateFormatISO8601.parse( defaultValue );
+				obj = DataTypeUtil.toDate( defaultValue );
 			}
 			catch ( Exception e )
 			{
@@ -146,7 +147,6 @@ public class DataUtil
 			}
 			return getDisplayValue( obj );
 		}
-		*/
 		return defaultValue;
 	}
 }
