@@ -18,7 +18,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 /**
  * used to load the contents from the report document.
  *
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
+ * @version $Revision: 1.2 $ $Date: 2006/09/06 03:22:15 $
  */
 public interface IReportContentLoader
 {
@@ -32,7 +32,7 @@ public interface IReportContentLoader
 	 * HTML multi pages. This flag is set when output format is "html" and
 	 * HTMLPagintion is set to true.
 	 */
-	public static final int MULTI_PAGE = 1;
+	public static final int MULTI_PAGES = 1;
 	/**
 	 * Pagination type when output format is "pdf".
 	 */

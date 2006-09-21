@@ -82,6 +82,26 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="pagination">
+            <annotation>
+               <documentation>
+                  Pagination of output.
+&lt;br&gt;When &quot;html-pagination&quot; is set, pagination is based on page break configuration.It is the default value of pagination.
+&lt;br&gt;When &quot;no-pagination&quot; is set, content in the report is output as they are in one page.
+&lt;br&gt;When &quot;pdf-pagination&quot; is set, pagination is created based on contents size.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="no-pagination">
+                  </enumeration>
+                  <enumeration value="html-pagination">
+                  </enumeration>
+                  <enumeration value="pdf-pagination">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
       </complexType>
    </element>
 
@@ -121,7 +141,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         2.0
+         2.2.0
       </documentation>
    </annotation>
 
@@ -150,6 +170,7 @@
  &lt;emitter 
   format=&quot;FO&quot; 
   mimeType=&quot;text/html&quot;
+  pagination=&quot;no-page&quot;
   id=&quot;org.eclipse.birt.report.engine.emitter.fo&quot;
   class=&quot;org.eclipse.birt.report.engine.emitter.html.FOReportEmitter&quot;&gt;
   &lt;reportItem name=&quot;chart&quot;

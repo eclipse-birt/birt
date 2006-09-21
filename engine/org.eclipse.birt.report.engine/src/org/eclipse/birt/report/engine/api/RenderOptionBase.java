@@ -126,4 +126,11 @@ public class RenderOptionBase implements IRenderOption
 	{
 		options.put( OUTPUT_FILE_NAME, outputFileName );
 	}
+	/**
+	 * Check if an option is defined.
+	 */
+	public boolean hasOption( String propertyName )
+	{
+		return options.containsKey( propertyName );
+	}
 }

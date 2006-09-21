@@ -196,7 +196,7 @@ public class ReportPageReader extends ReportReader
 	 */
 	public IReportItemExecutor getNextChild( )
 	{
-		if ( paginationType == IReportContentLoader.MULTI_PAGE
+		if ( paginationType == IReportContentLoader.MULTI_PAGES
 				|| paginationType == IReportContentLoader.SINGLE_PAGE )
 		{
 			return getNextPage( );
@@ -206,7 +206,7 @@ public class ReportPageReader extends ReportReader
 
 	public boolean hasNextChild( )
 	{
-		if ( paginationType == IReportContentLoader.MULTI_PAGE
+		if ( paginationType == IReportContentLoader.MULTI_PAGES
 				|| paginationType == IReportContentLoader.SINGLE_PAGE )
 		{
 			return hasNextPage( );

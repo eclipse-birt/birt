@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -33,8 +34,10 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
+import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintWriterV2;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
@@ -138,7 +141,8 @@ public class ReportDocumentBuilder
 	public void build( )
 	{
 		IReportExecutor executor = executionContext.getExecutor( );
-		engine = LayoutEngineFactory.createLayoutEngine( "html" );
+		engine = LayoutEngineFactory
+				.createLayoutEngine( ExtensionManager.HTML_PAGINATION );
 		engine.setPageHandler( layoutPageHandler );
 		engine.layout( executor, outputEmitters, true );
 		engine = null;
@@ -160,7 +164,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2006/08/23 16:10:56 $
+	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -259,7 +263,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2006/08/23 16:10:56 $
+	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

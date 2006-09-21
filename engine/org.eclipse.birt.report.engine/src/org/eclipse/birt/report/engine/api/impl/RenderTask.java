@@ -49,8 +49,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 {
 	IReportDocument reportDoc;
 	String emitterID;
-	int paginationType;
-
 	private InnerRender innerRender;
 
 	/**
@@ -115,15 +113,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		String format = executionContext.getOutputFormat( );
 		
-		if ("html".equalsIgnoreCase( format ))
-		{
-			paginationType = IReportContentLoader.MULTI_PAGE;
-		}
-		else
-		{
-			paginationType = IReportContentLoader.NO_PAGE;
-		}
-
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		boolean supported = false;
 		Collection supportedFormats = extManager.getSupportedFormat( );
@@ -167,8 +156,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
 		}
 		
+		initializePagination( format, extManager );
 		//the output will be paginate.
-		if ( paginationType != IReportContentLoader.NO_PAGE )
+		if ( pagination != ExtensionManager.PDF_PAGINATION )
 		{
 			emitter = new HTMLTableLayoutNestEmitter( emitter );
 		}
@@ -195,251 +185,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// emitter is not null
 		emitter.initialize( services );
 	}
-
-	/**
-	 * @param pageNumber
-	 *            the page to be rendered
-	 * @throws EngineException
-	 *             throws exception if there is a rendering error
-	 */
-	protected void doRender( long pageNumber ) throws EngineException
-	{
-		try
-		{
-			IContentEmitter emitter = createContentEmitter( );
-			Report reportDesign = executionContext.getReport( );
-			String format = executionContext.getOutputFormat( );
-			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
-			{
-				IReportExecutor executor = new ReportPageReader(
-						executionContext, pageNumber, paginationType );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				IReportLayoutEngine layoutEngine = LayoutEngineFactory
-						.createLayoutEngine( format );
-				
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-						executionContext );
-				layoutEngine.setPageHandler( handle );
-				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
-				outputEmitters.addEmitter( emitter );
-				outputEmitters.addEmitter( handle.getEmitter( ) );
-				
-				startRender( );
-				layoutEngine.layout( executor, outputEmitters, false );
-				closeRender( );
-				executor.close( );
-			}
-			else
-			{
-				IReportExecutor executor = new ReportExecutor(
-						executionContext, reportDesign, null );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				// start the render
-				ReportContentLoader loader = new ReportContentLoader(
-						executionContext );
-				startRender( );
-				loader.loadPage( pageNumber, paginationType, emitter );
-				closeRender( );
-				executor.close( );
-			}
-		}
-		catch ( EngineException e )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-			throw e;
-		}
-		catch ( Exception ex )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
-			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
-		}
-		catch ( OutOfMemoryError err )
-		{
-			log.log( Level.SEVERE,
-					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
-			throw err;
-		}
-	}
-
-	/**
-	 * @param pageNumber
-	 *            the page to be rendered
-	 * @throws EngineException
-	 *             throws exception if there is a rendering error
-	 */
-	protected void doRender( List pageSequences ) throws EngineException
-	{
-		if ( pageSequences.size( ) == 0 )
-		{
-			return;
-		}
-		try
-		{
-			// start the render
-			Report reportDesign = executionContext.getReport( );
-			IContentEmitter emitter = createContentEmitter( );
-			String format = executionContext.getOutputFormat( );
-			if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
-			{
-				IReportExecutor executor = new ReportPageReader(
-						executionContext, pageSequences, paginationType );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				
-				IReportLayoutEngine layoutEngine = LayoutEngineFactory
-						.createLayoutEngine( format );
-				
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-						executionContext );
-				layoutEngine.setPageHandler( handle );
-				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(format);
-				outputEmitters.addEmitter( emitter );
-				outputEmitters.addEmitter( handle.getEmitter( ) );
-				
-				startRender( );
-				layoutEngine.layout( executor, outputEmitters, true );
-				closeRender( );
-				executor.close( );
-			}
-			else
-			{
-				IReportExecutor executor = new ReportExecutor(
-						executionContext, reportDesign, null );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				ReportContentLoader loader = new ReportContentLoader(
-						executionContext );
-				startRender( );
-				IRenderOption renderOption = executionContext.getRenderOption( );
-				if ( renderOption instanceof HTMLRenderOption )
-				{
-					boolean htmlPagination = ( (HTMLRenderOption) renderOption )
-							.getHtmlPagination( );
-					if ( !htmlPagination )
-					{
-						paginationType = IReportContentLoader.SINGLE_PAGE;
-					}
-				}
-				loader.loadPageRange( pageSequences, paginationType, emitter );
-				closeRender( );
-				executor.close( );
-			}
-		}
-		catch ( EngineException e )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-			throw e;
-		}
-		catch ( Exception ex )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
-			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
-		}
-		catch ( OutOfMemoryError err )
-		{
-			log.log( Level.SEVERE,
-					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
-			throw err;
-		}
-	}
-	
-	/**
-	 * @param offset
-	 *            the offset of the reportlet to be rendered
-	 * @throws EngineException
-	 *             throws exception if there is a rendering error
-	 */
-	protected void doRenderReportlet( long offset ) throws EngineException
-	{
-		try
-		{
-			if (offset != -1)
-			{
-				// start the render
-				
-				IContentEmitter emitter = createContentEmitter( );
-				Report reportDesign = executionContext.getReport( );
-				String format = executionContext.getOutputFormat( );
-				if ( "pdf".equalsIgnoreCase( format ) ) //$NON-NLS-1$
-				{
-					IReportExecutor executor = new ReportletReader(
-							executionContext, offset );
-					executor = new LocalizedReportExecutor( executionContext,
-							executor );
-					executionContext.setExecutor( executor );
-					initializeContentEmitter( emitter, executor );
-					IReportLayoutEngine layoutEngine = LayoutEngineFactory
-							.createLayoutEngine( format );
-					
-					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-							executionContext );
-					layoutEngine.setPageHandler( handle );
-
-					CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
-					outputEmitters.addEmitter( emitter );
-					outputEmitters.addEmitter( handle.getEmitter( ) );
-					
-					startRender( );
-					layoutEngine.layout( executor, outputEmitters, false );
-					closeRender( );
-					executor.close( );
-				}
-				else
-				{
-					ReportContentLoader loader = new ReportContentLoader(
-							executionContext );
-					IReportExecutor executor = new ReportExecutor(
-							executionContext, reportDesign, null );
-					executor = new LocalizedReportExecutor( executionContext,
-							executor );
-					executionContext.setExecutor( executor );
-
-					initializeContentEmitter( emitter, executor );
-					startRender( );
-					loader.loadReportlet( offset, emitter );
-					closeRender( );
-					executor.close( );
-				}
-			}
-		}
-		catch ( EngineException e )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-			throw e;
-		}
-		catch ( Exception ex )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
-			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
-		}
-		catch ( OutOfMemoryError err )
-		{
-			log.log( Level.SEVERE,
-					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
-			throw err;
-		}
-	}	
 
 	/*
 	 * (non-Javadoc)
@@ -648,15 +393,86 @@ public class RenderTask extends EngineTask implements IRenderTask
 		innerRender = new ReportletRender( bookmark ); 
 	}
 
-	private interface InnerRender
+	private abstract class InnerRender
 	{
-		void render() throws EngineException;
+		void render() throws EngineException
+		{
+		try
+		{
+			IContentEmitter emitter = createContentEmitter( );
+			Report reportDesign = executionContext.getReport( );
+			String format = executionContext.getOutputFormat( );
+			if ( ExtensionManager.PDF_PAGINATION.equals( pagination ) ) //$NON-NLS-1$
+			{
+				IReportExecutor executor = createReader( );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				IReportLayoutEngine layoutEngine = LayoutEngineFactory
+						.createLayoutEngine( pagination );
+				
+				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+						executionContext );
+				layoutEngine.setPageHandler( handle );
+				
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
+				outputEmitters.addEmitter( emitter );
+				outputEmitters.addEmitter( handle.getEmitter( ) );
+				
+				startRender( );
+				layoutEngine.layout( executor, outputEmitters, false );
+				closeRender( );
+				executor.close( );
+			}
+			else
+			{
+				IReportExecutor executor = new ReportExecutor(
+						executionContext, reportDesign, null );
+				executor = new LocalizedReportExecutor( executionContext,
+						executor );
+				executionContext.setExecutor( executor );
+				initializeContentEmitter( emitter, executor );
+				// start the render
+				ReportContentLoader loader = new ReportContentLoader(
+						executionContext );
+				startRender( );
+				load( loader, emitter );
+				closeRender( );
+				executor.close( );
+			}
+		}
+		catch ( EngineException e )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+			throw e;
+		}
+		catch ( Exception ex )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+			throw new EngineException(
+					"Error happened while running the report", ex ); //$NON-NLS-1$
+		}
+		catch ( OutOfMemoryError err )
+		{
+			log.log( Level.SEVERE,
+					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
+			throw err;
+		}
+		}
+		
+		protected abstract IReportExecutor createReader( );
+		
+		protected abstract void load( ReportContentLoader loader,
+				IContentEmitter emitter );
 	}
 
 	/**
 	 * Renders a page with a page number. 
 	 */
-	private class PageRender implements InnerRender
+	private class PageRender extends InnerRender
 	{
 		private long pageNumber;
 
@@ -665,16 +481,23 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.pageNumber = pageNumber;
 		}
 
-		public void render( ) throws EngineException
+		protected IReportExecutor createReader( )
 		{
-			RenderTask.this.doRender( pageNumber );
+			return new ReportPageReader( executionContext, pageNumber,
+					IReportContentLoader.NO_PAGE );
+		}
+
+		protected void load( ReportContentLoader loader, IContentEmitter emitter )
+		{
+			loader.loadPage( pageNumber, IReportContentLoader.MULTI_PAGES,
+					emitter );
 		}
 	}
 
 	/**
 	 * Renders a range of pages. 
 	 */
-	private class PageRangeRender implements InnerRender
+	private class PageRangeRender extends InnerRender
 	{
 		private List pageRange;
 
@@ -691,11 +514,41 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		public void render( ) throws EngineException
 		{
-			RenderTask.this.doRender( pageRange );
+			if ( pageRange.size( ) != 0 )
+			{
+				super.render( );
+			}
+		}
+
+		protected IReportExecutor createReader( )
+		{
+			return new ReportPageReader( executionContext, pageRange,
+					IReportContentLoader.NO_PAGE );
+		}
+
+		protected void load( ReportContentLoader loader, IContentEmitter emitter )
+		{
+			IRenderOption renderOption = executionContext.getRenderOption( );
+			int pageType = IReportContentLoader.MULTI_PAGES;
+			if ( renderOption instanceof HTMLRenderOption )
+			{
+				HTMLRenderOption htmlRenderOption = ( (HTMLRenderOption) renderOption );
+				if ( htmlRenderOption
+						.hasOption( HTMLRenderOption.HTML_PAGINATION ) )
+				{
+					boolean htmlPagination = htmlRenderOption
+							.getHtmlPagination( );
+					if ( !htmlPagination )
+					{
+						pageType = IReportContentLoader.SINGLE_PAGE;
+					}
+				}
+			}
+			loader.loadPageRange( pageRange, pageType, emitter );
 		}
 	}
 	
-	private class ReportletRender implements InnerRender
+	private class ReportletRender extends InnerRender
 	{
 		private long offset;
 
@@ -719,9 +572,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 			}
 		}
 
-		public void render( ) throws EngineException
+		protected IReportExecutor createReader( )
 		{
-			RenderTask.this.doRenderReportlet( offset );
+			return new ReportletReader( executionContext, offset );
+		}
+
+		protected void load( ReportContentLoader loader, IContentEmitter emitter )
+		{
+			loader.loadReportlet( offset, emitter );
 		}
 	}
 

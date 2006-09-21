@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExec
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
+import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -87,6 +88,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
+		initializePagination( format, extManager );
 		IContentEmitter emitter = null;
 		try
 		{
@@ -162,38 +164,49 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			initializeContentEmitter( emitter, executor );
 
 			// if we need do the paginate, do the paginate.
-			String format = executionContext.getOutputFormat( );
-			boolean paginate = true;
-			if ( "html".equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			if ( ExtensionManager.NO_PAGINATION.equals( pagination ))
 			{
-				if ( renderOptions instanceof HTMLRenderOption )
+				HTMLTableLayoutNestEmitter tableLayoutEmitter = new HTMLTableLayoutNestEmitter(
+						emitter );
+				lExecutor.execute( reportDesign.getReportDesign( ),
+						tableLayoutEmitter );
+			}
+			else
+			{
+				String format = executionContext.getOutputFormat( );
+				boolean paginate = true;
+				if ( FORMAT_HTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
 				{
-					HTMLRenderOption htmlOption = (HTMLRenderOption) renderOptions;
-					paginate = htmlOption.getHtmlPagination( );
+					if ( renderOptions instanceof HTMLRenderOption )
+					{
+						HTMLRenderOption htmlOption = (HTMLRenderOption) renderOptions;
+						paginate = htmlOption.getHtmlPagination( );
+					}
+				}
+
+				synchronized ( this )
+				{
+					if ( !executionContext.isCanceled( ) )
+					{
+						layoutEngine = LayoutEngineFactory
+								.createLayoutEngine( pagination );
+					}
+				}
+
+				if ( layoutEngine != null )
+				{
+					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+							executionContext );
+					layoutEngine.setPageHandler( handle );
+
+					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
+							format );
+					outputEmitters.addEmitter( emitter );
+					outputEmitters.addEmitter( handle.getEmitter( ) );
+
+					layoutEngine.layout( lExecutor, outputEmitters, paginate );
 				}
 			}
-
-			synchronized ( this )
-			{
-				if ( !executionContext.isCanceled( ) )
-				{
-					layoutEngine = LayoutEngineFactory.createLayoutEngine( emitter.getOutputFormat( ) );
-				}
-			}
-			
-			if( layoutEngine != null )
-			{
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-						executionContext );
-				layoutEngine.setPageHandler( handle );
-
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format);
-				outputEmitters.addEmitter( emitter );
-				outputEmitters.addEmitter( handle.getEmitter( ) );
-
-				layoutEngine.layout( lExecutor, outputEmitters, paginate );
-			}
-
 			closeRender( );
 			closeFactory( );
 		}

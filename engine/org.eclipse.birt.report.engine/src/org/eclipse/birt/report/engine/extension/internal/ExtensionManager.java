@@ -68,7 +68,22 @@ public class ExtensionManager
 	/**
 	 * stores all the mime types that are supported
 	 */
-	protected HashMap mimeTypes = new HashMap();
+	protected HashMap formats = new HashMap();
+
+	/**
+	 * HTML pagination.
+	 */
+	public static final String HTML_PAGINATION = "html-pagination";
+
+	/**
+	 * Pdf pagination.
+	 */
+	public static final String PDF_PAGINATION = "pdf-pagination";
+
+	/**
+	 * No pagination.
+	 */
+	public static final String NO_PAGINATION = "no-pagination";
 	
 	
 	/**
@@ -228,7 +243,7 @@ public class ExtensionManager
 	 */
 	public Collection getSupportedFormat()
 	{
-		return mimeTypes.keySet();
+		return formats.keySet();
 	}
 	
 	/**
@@ -348,8 +363,12 @@ public class ExtensionManager
 				String format = configs[j].getAttribute("format");	//$NON-NLS-1$
 				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
 				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
-				emitterExtensions.add(new EmitterInfo(format, id, configs[j]));
-				mimeTypes.put(format, mimeType);
+				String pagination = configs[j].getAttribute("pagination");
+				EmitterInfo emitterInfo = new EmitterInfo( format, id,
+						pagination, mimeType, configs[j] );
+				emitterExtensions.add(emitterInfo);
+				assert( format != null );
+				formats.put(format.toLowerCase( ), emitterInfo);
 				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
 			}
 		}
@@ -359,26 +378,51 @@ public class ExtensionManager
 	 * @param format the output format
 	 * @return the mime type for the specific format
 	 */
-	public String getMIMEType(String format)
+	public String getMIMEType( String format )
 	{
-		if(mimeTypes.containsKey(format))
+		if ( format != null )
 		{
-			return (String)mimeTypes.get(format);
+			format = format.toLowerCase( );
+		}
+		if ( formats.containsKey( format ) )
+		{
+			return ( (EmitterInfo) formats.get( format ) ).mimeType;
 		}
 		return null;
+	}
+	
+	/**
+	 * @param format the output format
+	 * @return the pagination for the specific format
+	 */
+	public String getPagination( String format )
+	{
+		if ( format != null )
+		{
+			format = format.toLowerCase( );
+		}
+		if ( formats.containsKey( format ) )
+		{
+			return ( (EmitterInfo) formats.get( format ) ).pagination;
+		}
+		return HTML_PAGINATION;
 	}
 	
 	protected class EmitterInfo
 	{
 		String format;
 		String id;
+		String pagination;
+		String mimeType;
 		IConfigurationElement emitter;
-		public EmitterInfo(String format, String id, IConfigurationElement emitter)
+		public EmitterInfo( String format, String id, String pagination,
+				String mimeType, IConfigurationElement emitter )
 		{
 			this.format = format;
 			this.id = id;
 			this.emitter = emitter;
+			this.pagination = pagination;
+			this.mimeType = mimeType;
 		}
-		
 	}
 }

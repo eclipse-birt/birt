@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -59,6 +60,9 @@ public abstract class EngineTask implements IEngineTask
 
 	protected static int id = 0;
 	
+	protected String pagination;
+
+	protected final static String FORMAT_HTML = "html";
 	/**
 	 * is the task running or not.
 	 */
@@ -142,6 +146,11 @@ public abstract class EngineTask implements IEngineTask
 		setReportRunnable( runnable );
 		// set the default app context
 		setAppContext( new HashMap( ) );
+	}
+
+	protected void initializePagination( String format, ExtensionManager extManager )
+	{
+		pagination = extManager.getPagination( format );
 	}
 
 	/**
@@ -673,7 +682,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.45.2.1 $ $Date: 2006/09/07 12:56:55 $
+	 * @version $Revision: 1.46 $ $Date: 2006/09/07 13:35:19 $
 	 */
 	static abstract class ParameterVisitor
 	{

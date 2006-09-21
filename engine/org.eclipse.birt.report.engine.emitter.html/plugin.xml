@@ -2,13 +2,14 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-     <extension 
+   <extension 
 	 	point="org.eclipse.birt.report.engine.emitters"
 	 	name = "Engine html Emitters">
 	 	<emitter 
 	  		id="org.eclipse.birt.report.engine.emitter.html"
 	  		class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter"
 	  		format="html"
+	  		pagination="html-pagination"
 	  		mimeType="text/html" >
 	 	</emitter>
    </extension>
