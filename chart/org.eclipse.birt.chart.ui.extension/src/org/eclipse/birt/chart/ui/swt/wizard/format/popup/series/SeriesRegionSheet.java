@@ -114,8 +114,9 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_METER_REGION );
-		
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.POPUP_SERIES_METER_REGION );
+
 		// Layout for the main composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
@@ -603,7 +604,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtInnerRadius.setEnabled( bState );
 		lblOuterRadius.setEnabled( bState );
 		txtOuterRadius.setEnabled( bState );
-		liacMarkerRange.setEnabled( bState );
+		liacMarkerRange.setAttributesEnabled( bState );
 		// lacLabel.setEnabled( bState );
 		lblRangeFill.setEnabled( bState );
 		fccRange.setEnabled( bState );

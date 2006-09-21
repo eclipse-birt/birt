@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.i18n.Messages;
@@ -95,12 +96,12 @@ public class ChartUIUtil
 			logger.log( e );
 		}
 	}
-	
+
 	public static IDisplayServer getDisplayServer( )
 	{
 		return swtDisplayServer;
 	}
-	
+
 	public static void setBackgroundColor( Control control, boolean selected,
 			Color color )
 	{
@@ -286,6 +287,47 @@ public class ChartUIUtil
 				return Messages.getString( "ChartUIUtil.StockExp.Open" ); //$NON-NLS-1$
 			case 3 :
 				return Messages.getString( "ChartUIUtil.StockExp.Close" ); //$NON-NLS-1$
+			default :
+				return ""; //$NON-NLS-1$
+		}
+	}
+
+	public static String getGanttTitle( int index )
+	{
+		switch ( index )
+		{
+			case 0 :
+				return Messages.getString( "ChartUIUtil.GanttExp.Label" ); //$NON-NLS-1$
+			case 1 :
+				return Messages.getString( "ChartUIUtil.GanttExp.Start" ); //$NON-NLS-1$
+			case 2 :
+				return Messages.getString( "ChartUIUtil.GanttExp.End" ); //$NON-NLS-1$
+			default :
+				return ""; //$NON-NLS-1$
+		}
+	}
+
+	public static String getBubbleTitle( int index )
+	{
+		switch ( index )
+		{
+			case 0 :
+				return Messages.getString( "ChartUIUtil.BubbleExp.Label" ); //$NON-NLS-1$
+			case 1 :
+				return Messages.getString( "ChartUIUtil.BubbleExp.Size" ); //$NON-NLS-1$
+			default :
+				return ""; //$NON-NLS-1$
+		}
+	}
+
+	public static String getDifferenceTitle( int index )
+	{
+		switch ( index )
+		{
+			case 0 :
+				return Messages.getString( "ChartUIUtil.DifferenceExp.Postive" ); //$NON-NLS-1$
+			case 1 :
+				return Messages.getString( "ChartUIUtil.DifferenceExp.Negative" ); //$NON-NLS-1$
 			default :
 				return ""; //$NON-NLS-1$
 		}
@@ -1015,6 +1057,23 @@ public class ChartUIUtil
 					newSeries.getDataDefinition( )
 							.add( EcoreUtil.copy( (Query) query ) );
 					// For Close value
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+				}
+				else
+				{
+					newSeries.getDataDefinition( )
+							.addAll( oldSeries.getDataDefinition( ) );
+				}
+			}
+			else if ( newSeries instanceof BubbleSeries )
+			{
+				if ( oldSeries.getDataDefinition( ).size( ) != 2 )
+				{
+					//For value
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+					//For Size
 					newSeries.getDataDefinition( )
 							.add( EcoreUtil.copy( (Query) query ) );
 				}

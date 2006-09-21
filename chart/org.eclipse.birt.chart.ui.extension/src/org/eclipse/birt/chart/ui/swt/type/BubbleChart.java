@@ -1,18 +1,20 @@
 /*******************************************************************************
- * Copyright (c) Oct 22, 2004 Actuate Corporation {ADD OTHER COPYRIGHT OWNERS}.
- * All rights reserved. This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License v1.0 which
- * accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation {ADD
- * SUBSEQUENT AUTHOR & CONTRIBUTION}
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.type;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -32,8 +34,8 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.StockSeries;
-import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
@@ -50,44 +52,31 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
-import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.StringTokenizer;
-
-/**
- * StockChart
- */
-public class StockChart extends DefaultChartTypeImpl
+public class BubbleChart extends DefaultChartTypeImpl
 {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Stock Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = "Bubble Chart"; //$NON-NLS-1$
 
-	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Stock Chart"; //$NON-NLS-1$
+	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Bubble Chart"; //$NON-NLS-1$
 
-	private static final String BAR_STICK_SUBTYPE_LITERAL = "Bar Stick Stock Chart"; //$NON-NLS-1$
+	public static final String CHART_TITLE = Messages.getString( "BubbleChart.Txt.DefaultBubbleChartTitle" ); //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "StockChart.Txt.DefaultStockChartTitle" ); //$NON-NLS-1$
-
-	private static final String sCandleStickDescription = Messages.getString( "StockChart.Txt.CandleStickDescription" ); //$NON-NLS-1$
-
-	private static final String sBarStickDescription = Messages.getString( "StockChart.Txt.BarStickDescription" ); //$NON-NLS-1$
+	private static final String sStandardDescription = Messages.getString( "BubbleChart.Txt.Description" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
-	private transient Image img2DCandleStick = null;
-
-	private transient Image img2DBarlStick = null;
+	private transient Image img2D = null;
 
 	private static final String[] saDimensions = new String[]{
 		TWO_DIMENSION_TYPE
 	};
 
-	public StockChart( )
+	public BubbleChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/obj16/stockcharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/bubblecharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -118,7 +107,7 @@ public class StockChart extends DefaultChartTypeImpl
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( TYPE_LITERAL,
-				Messages.getString( "StockChart.Txt.HelpText" ) ); //$NON-NLS-1$
+				Messages.getString( "BubbleChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -135,22 +124,17 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				img2DCandleStick = UIHelper.getImage( "icons/wizban/stockchartimage.gif" ); //$NON-NLS-1$
-				img2DBarlStick = UIHelper.getImage( "icons/wizban/stockchartbarstickimage.gif" ); //$NON-NLS-1$
+				img2D = UIHelper.getImage( "icons/wizban/bubblechartimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				img2DCandleStick = UIHelper.getImage( "icons/wizban/horizontalstockchartimage.gif" ); //$NON-NLS-1$
-				img2DBarlStick = UIHelper.getImage( "icons/wizban/horizontalstockchartbarstickimage.gif" ); //$NON-NLS-1$
+				img2D = UIHelper.getImage( "icons/wizban/horizontalbubblechartimage.gif" ); //$NON-NLS-1$
 			}
+
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
-					img2DCandleStick,
-					sCandleStickDescription,
-					Messages.getString( "StockChart.SubType.CandleStick" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( BAR_STICK_SUBTYPE_LITERAL,
-					img2DBarlStick,
-					sBarStickDescription,
-					Messages.getString( "StockChart.SubType.BarStick" ) ) ); //$NON-NLS-1$
+					img2D,
+					sStandardDescription,
+					Messages.getString( "BubbleChart.SubType.Standard" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -171,6 +155,7 @@ public class StockChart extends DefaultChartTypeImpl
 					sSubType,
 					orientation,
 					sDimension );
+
 			if ( newChart != null )
 			{
 				return newChart;
@@ -183,18 +168,18 @@ public class StockChart extends DefaultChartTypeImpl
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
-
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setCategoryAxis( true );
+		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+		( (Axis) newChart.getAxes( ).get( 0 ) ).setCategoryAxis( false );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
-		sdX.getSeries( ).add( categorySeries );
+		Series baseSeries = SeriesImpl.create( );
+		sdX.getSeries( ).add( baseSeries );
 		sdX.getSeriesPalette( ).update( 0 );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
+
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -203,16 +188,17 @@ public class StockChart extends DefaultChartTypeImpl
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
-		Series valueSeries = StockSeriesImpl.create( );
-		valueSeries.getLabel( ).setVisible( true );
-		if ( BAR_STICK_SUBTYPE_LITERAL.equals( sSubType ) )
-		{
-			( (StockSeries) valueSeries ).setShowAsBarStick( true );
-		}
-		sdY.getSeries( ).add( valueSeries );
+		Series orthogonalSeries = BubbleSeriesImpl.create( );
+		orthogonalSeries.getLabel( ).setVisible( true );
+		( (BubbleSeries) orthogonalSeries ).setStacked( false );
+		sdY.getSeries( ).add( orthogonalSeries );
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 
+		if ( sSubType.equalsIgnoreCase( STANDARD_SUBTYPE_LITERAL ) )
+		{
+			newChart.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+		}
 		addSampleData( newChart );
 		return newChart;
 	}
@@ -225,7 +211,7 @@ public class StockChart extends DefaultChartTypeImpl
 
 		// Create Base Sample Data
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "01/25/2005,01/26/2005" ); //$NON-NLS-1$
+		sdBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
@@ -237,21 +223,38 @@ public class StockChart extends DefaultChartTypeImpl
 		sd.getOrthogonalSampleData( ).add( oSample );
 
 		newChart.setSampleData( sd );
+		// SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		// sd.getBaseSampleData( ).clear( );
+		// sd.getOrthogonalSampleData( ).clear( );
+		//
+		// // Create Base Sample Data
+		// BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData(
+		// );
+		// sdBase.setDataSetRepresentation( "3,9,-2" ); //$NON-NLS-1$
+		// sd.getBaseSampleData( ).add( sdBase );
+		//
+		// // Create Orthogonal Sample Data (with simulation count of 2)
+		// OrthogonalSampleData oSample =
+		// DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		// oSample.setDataSetRepresentation( "Y15 S4,Y20 S2,Y25 S2" );
+		// //$NON-NLS-1$
+		// oSample.setSeriesDefinitionIndex( 0 );
+		// sd.getOrthogonalSampleData( ).add( oSample );
+		//
+		// newChart.setSampleData( sd );
 	}
 
 	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
-		// Cache series to keep attributes during conversion
+		//Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			// Original chart is of this type (StockChart)
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
-				// Original chart is of the required subtype
 				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 				{
 					currentChart.setSubType( sNewSubType );
@@ -265,43 +268,35 @@ public class StockChart extends DefaultChartTypeImpl
 						{
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 							series.setStacked( false );
-							if ( series instanceof StockSeries )
-							{
-								( (StockSeries) series ).setShowAsBarStick( BAR_STICK_SUBTYPE_LITERAL.equals( currentChart.getSubType( ) ) );
-							}
 						}
 					}
 				}
 			}
-			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( BubbleChart.TYPE_LITERAL ) )
+							.equals( ScatterChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-							false ) );
+					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
 				}
 				currentChart.setType( TYPE_LITERAL );
+				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
+
+				currentChart.setSubType( sNewSubType );
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
 						.setValue( CHART_TITLE );
-				// !Keep the original axis type now.
-				// ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 )
-				// ).setType( AxisType.DATE_TIME_LITERAL );
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
-				currentChart.setSubType( sNewSubType );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 					( (Axis) axes.get( i ) ).setPercent( false );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
@@ -309,18 +304,20 @@ public class StockChart extends DefaultChartTypeImpl
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
 						series.setStacked( false );
+
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.clear( );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.add( series );
 					}
 				}
+				( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
+				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 			}
 			else
 			{
 				return null;
 			}
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 		}
 		else
 		{
@@ -332,9 +329,18 @@ public class StockChart extends DefaultChartTypeImpl
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
+			if ( helperModel.getInteractivity( ) != null )
+			{
+				currentChart.getInteractivity( )
+						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
+				currentChart.getInteractivity( )
+						.setLegendBehavior( helperModel.getInteractivity( )
+								.getLegendBehavior( ) );
+			}
+
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
+			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
 
 			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -345,20 +351,10 @@ public class StockChart extends DefaultChartTypeImpl
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
-					true ) );
+			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
-
-			if ( helperModel.getInteractivity( ) != null )
-			{
-				currentChart.getInteractivity( )
-						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
-				currentChart.getInteractivity( )
-						.setLegendBehavior( helperModel.getInteractivity( )
-								.getLegendBehavior( ) );
-			}
 
 			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
@@ -386,7 +382,6 @@ public class StockChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -447,36 +442,33 @@ public class StockChart extends DefaultChartTypeImpl
 			return series;
 		}
 
-		StockSeries stockseries = (StockSeries) ChartCacheManager.getInstance( )
-				.findSeries( StockSeriesImpl.class.getName( ), seriesIndex );
-		if ( stockseries == null )
+		BubbleSeries bubbleSeries = (BubbleSeries) ChartCacheManager.getInstance( )
+				.findSeries( BubbleSeriesImpl.class.getName( ), seriesIndex );
+		if ( bubbleSeries == null )
 		{
-			stockseries = (StockSeries) StockSeriesImpl.create( );
+			bubbleSeries = (BubbleSeries) BubbleSeriesImpl.create( );
 		}
 
 		// Copy generic series properties
-		ChartUIUtil.copyGeneralSeriesAttributes( series, stockseries );
+		ChartUIUtil.copyGeneralSeriesAttributes( series, bubbleSeries );
 
-		return stockseries;
+		return bubbleSeries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData,
-			boolean convertBaseToDate )
+	private SampleData getConvertedSampleData( SampleData currentSampleData )
 	{
-		if ( convertBaseToDate )
+		// Convert base sample data
+		EList bsdList = currentSampleData.getBaseSampleData( );
+		Vector vNewBaseSampleData = new Vector( );
+		for ( int i = 0; i < bsdList.size( ); i++ )
 		{
-			// Convert base sample data to dateTime type.
-			EList bsdList = currentSampleData.getBaseSampleData( );
-			Vector vNewBaseSampleData = new Vector( );
-			for ( int i = 0; i < bsdList.size( ); i++ )
-			{
-				BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-				bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
-				vNewBaseSampleData.add( bsd );
-			}
-			currentSampleData.getBaseSampleData( ).clear( );
-			currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
+			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
+			bsd.setDataSetRepresentation( getConvertedSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) ); // Special
+			// handling for stock series only needed for orthogonal values
+			vNewBaseSampleData.add( bsd );
 		}
+		currentSampleData.getBaseSampleData( ).clear( );
+		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 
 		// Convert orthogonal sample data
 		EList osdList = currentSampleData.getOrthogonalSampleData( );
@@ -484,7 +476,7 @@ public class StockChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
+			osd.setDataSetRepresentation( getConvertedSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );
@@ -493,93 +485,35 @@ public class StockChart extends DefaultChartTypeImpl
 		return currentSampleData;
 	}
 
-	private String getConvertedBaseSampleDataRepresentation(
+	private String getConvertedSampleDataRepresentation(
 			String sOldRepresentation )
 	{
 		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
+		NumberFormat nf = NumberFormat.getNumberInstance( );
 		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
 		int iValueCount = 0;
 		while ( strtok.hasMoreTokens( ) )
 		{
 			String sElement = strtok.nextToken( ).trim( );
-			if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
-			{
-				Calendar cal = Calendar.getInstance( );
-				// Increment the date once for each entry so that you get a
-				// sequence of dates
-				cal.set( Calendar.DATE, cal.get( Calendar.DATE ) + iValueCount );
-				sbNewRepresentation.append( sdf.format( cal.getTime( ) ) );
-				iValueCount++;
-			}
-			else
+			if ( sElement.startsWith( "'" ) ) //$NON-NLS-1$
 			{
 				sElement = sElement.substring( 1, sElement.length( ) - 1 );
-				try
-				{
-					sdf.parse( sElement );
-					sbNewRepresentation.append( sElement );
-				}
-				catch ( ParseException e )
-				{
-					Calendar cal = Calendar.getInstance( );
-					// Increment the date once for each entry so that you get a
-					// sequence of dates
-					cal.set( Calendar.DATE, cal.get( Calendar.DATE )
-							+ iValueCount );
-					sbNewRepresentation.append( sdf.format( cal.getTime( ) ) );
-					iValueCount++;
-				}
 			}
+			try
+			{
+				double dbl = nf.parse( sElement ).doubleValue( );
+				sElement = String.valueOf( dbl );
+			}
+			catch ( ParseException e )
+			{
+				sElement = String.valueOf( 6.0 + iValueCount );
+				iValueCount++;
+			}
+			sbNewRepresentation.append( sElement );
 			sbNewRepresentation.append( "," ); //$NON-NLS-1$
 		}
 		return sbNewRepresentation.toString( ).substring( 0,
 				sbNewRepresentation.length( ) - 1 );
-	}
-
-	private String getConvertedOrthogonalSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		// Use general sample data instead. No need to convert
-		return sOldRepresentation;
-		// StringTokenizer strtok = new StringTokenizer( sOldRepresentation, ","
-		// ); //$NON-NLS-1$
-		// NumberFormat nf = NumberFormat.getNumberInstance( );
-		// StringBuffer sbNewRepresentation = new StringBuffer( "" );
-		// //$NON-NLS-1$
-		// int iValueCount = 0;
-		// while ( strtok.hasMoreTokens( ) )
-		// {
-		// String sElement = strtok.nextToken( ).trim( );
-		// double value;
-		// try
-		// {
-		// value = nf.parse( sElement ).doubleValue( );
-		// }
-		// catch ( ParseException e )
-		// {
-		// value = 4.0 + iValueCount;
-		// iValueCount++;
-		// }
-		//
-		// sbNewRepresentation.append( "H" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value ) );
-		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
-		//
-		// sbNewRepresentation.append( " L" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value - 3 ) );
-		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
-		//
-		// sbNewRepresentation.append( " O" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value - 2 ) );
-		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
-		//
-		// sbNewRepresentation.append( " C" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value - 1 ) );
-		// sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		// }
-		// return sbNewRepresentation.toString( ).substring( 0,
-		// sbNewRepresentation.length( ) - 1 );
 	}
 
 	/*
@@ -635,7 +569,7 @@ public class StockChart extends DefaultChartTypeImpl
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "StockChart.Txt.DisplayName" ); //$NON-NLS-1$
+		return Messages.getString( "BubbleChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
 }

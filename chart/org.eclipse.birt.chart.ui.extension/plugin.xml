@@ -30,6 +30,9 @@
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.StockChart"
             name="Stock Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.BubbleChart"
+            name="Bubble Chart"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.ui.uisheets">
@@ -121,6 +124,9 @@
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.StockSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.BubbleSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
    </extension>
    
    <extension

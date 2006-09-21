@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -84,7 +85,7 @@ class FillCanvas extends Canvas implements PaintListener
 			GC gc = pe.gc;
 			if ( !this.isEnabled( ) )
 			{
-				//Disabled control
+				// Disabled control
 				gc.setBackground( Display.getCurrent( )
 						.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
 				Color cFore = Display.getCurrent( )
@@ -122,7 +123,7 @@ class FillCanvas extends Canvas implements PaintListener
 			}
 			else
 			{
-				//Enabled control
+				// Enabled control
 				if ( fCurrent == null
 						|| fCurrent instanceof ColorDefinition
 						&& ( (ColorDefinition) fCurrent ).getTransparency( ) == 0 )
@@ -203,14 +204,55 @@ class FillCanvas extends Canvas implements PaintListener
 								this.getSize( ).y - 4,
 								false );
 					}
+					else if ( fCurrent instanceof MultipleFill )
+					{
+						if ( ( (MultipleFill) fCurrent ).getFills( ) == null )
+						{
+							return;
+						}
+						Color clr1 = null;
+						Color clr2 = null;
+						if ( ( (MultipleFill) fCurrent ).getFills( ).get( 0 ) != null )
+						{
+							ColorDefinition cd1 = (ColorDefinition) ( (MultipleFill) fCurrent ).getFills( )
+									.get( 0 );
+							clr1 = new Color( Display.getDefault( ),
+									cd1.getRed( ),
+									cd1.getGreen( ),
+									cd1.getBlue( ) );
+							gc.setBackground( clr1 );
+							gc.fillRectangle( 2,
+									2,
+									( this.getSize( ).x ) / 2 - 2,
+									this.getSize( ).y - 4 );
+						}
+						if ( ( (MultipleFill) fCurrent ).getFills( ).get( 1 ) != null )
+						{
+							ColorDefinition cd2 = (ColorDefinition) ( (MultipleFill) fCurrent ).getFills( )
+									.get( 1 );
+							clr2 = new Color( Display.getDefault( ),
+									cd2.getRed( ),
+									cd2.getGreen( ),
+									cd2.getBlue( ) );
+							gc.setBackground( clr2 );
+							gc.fillRectangle( ( this.getSize( ).x ) / 2,
+									2,
+									this.getSize( ).x / 2 - 2,
+									this.getSize( ).y - 4 );
+						}
+					}
 				}
-				
-				//Render a boundary line to indicate focus
-				if(isFocusControl( ))
+
+				// Render a boundary line to indicate focus
+				if ( isFocusControl( ) )
 				{
 					gc.setLineStyle( SWT.LINE_DOT );
-					gc.setForeground( Display.getCurrent( ).getSystemColor( SWT.COLOR_BLACK ) );
-					gc.drawRectangle( 1, 1, getSize( ).x - 3, this.getSize( ).y - 3 );
+					gc.setForeground( Display.getCurrent( )
+							.getSystemColor( SWT.COLOR_BLACK ) );
+					gc.drawRectangle( 1,
+							1,
+							getSize( ).x - 3,
+							this.getSize( ).y - 3 );
 				}
 			}
 		}

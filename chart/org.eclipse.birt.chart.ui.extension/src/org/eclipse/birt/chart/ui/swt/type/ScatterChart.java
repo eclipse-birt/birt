@@ -243,18 +243,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-			// chart is
-			// of this type
-			// (LineChart)
+			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getSubType( ).equals( sNewSubType ) ) // Original
-				// chart
-				// is
-				// of
-				// the
-				// required
-				// subtype
+				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 				{
 					currentChart.setSubType( sNewSubType );
 					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -274,7 +265,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL ) )
+					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( BubbleChart.TYPE_LITERAL ) )
 			{
 				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
 						currentChart.getType( )
@@ -557,7 +550,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle )
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle )
 	{
 		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),

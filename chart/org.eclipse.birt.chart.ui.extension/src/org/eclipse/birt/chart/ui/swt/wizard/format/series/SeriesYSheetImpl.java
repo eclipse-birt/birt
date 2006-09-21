@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -31,6 +32,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DecorationSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialScaleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialTickSheet;
@@ -56,10 +58,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class SeriesYSheetImpl extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+public class SeriesYSheetImpl extends SubtaskSheetImpl implements
+		Listener,
+		SelectionListener
 {
 
 	private transient Button btnShowLine;
@@ -200,6 +201,18 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnLineMarker.addSelectionListener( this );
 		}
 
+		// Decoration Label for Gantt series
+		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof GanttSeries )
+		{
+			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
+					getContext( ),
+					(GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
+			Button btnDecoration = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
+					popup );
+			btnDecoration.addSelectionListener( this );
+		}
+
 		// Trendline
 		if ( isTrendlineAvailable( ) )
 		{
@@ -221,7 +234,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
 				popup );
 		btnPalette.addSelectionListener( this );
-		
+
 		// Interactivity
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
@@ -377,12 +390,18 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	private boolean isTrendlineAvailable( )
 	{
 		return ( getChart( ) instanceof ChartWithAxes )
+				&& ( !isGanttSeries( ) )
 				&& ( getChart( ).getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL );
 	}
 
 	private boolean isMeterSeries( )
 	{
 		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof DialSeries;
+	}
+
+	private boolean isGanttSeries( )
+	{
+		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof GanttSeries;
 	}
 
 }

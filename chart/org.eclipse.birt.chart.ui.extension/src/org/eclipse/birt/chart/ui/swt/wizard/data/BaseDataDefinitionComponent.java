@@ -53,16 +53,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * 
- */
 
-public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
-		implements
-			SelectionListener,
-			ModifyListener,
-			FocusListener,
-			KeyListener
+public class BaseDataDefinitionComponent extends DefaultSelectDataComponent implements
+		SelectionListener,
+		ModifyListener,
+		FocusListener,
+		KeyListener
 {
 
 	private transient Composite cmpTop;
@@ -125,8 +121,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		this.query = query;
 		this.seriesdefinition = seriesdefinition;
 		this.context = context;
-		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
-				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
+		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 ) ? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
 		this.style = style;
 	}
@@ -225,10 +220,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			btnGroup = new Button( cmpTop, SWT.PUSH );
 			GridData gdBTNFormatEditor = new GridData( );
-//			gdBTNFormatEditor.heightHint = 20;
-//			gdBTNFormatEditor.widthHint = 20;
+			// gdBTNFormatEditor.heightHint = 20;
+			// gdBTNFormatEditor.widthHint = 20;
 			btnGroup.setLayoutData( gdBTNFormatEditor );
-			btnGroup.setText( "Grouping..." );
+			btnGroup.setText( "Grouping..." ); //$NON-NLS-1$
 			// btnGroup.setImage( UIHelper.getImage(
 			// "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 			btnGroup.addSelectionListener( this );
@@ -249,7 +244,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
 			txtDefinition.setText( query.getDefinition( ) );
-			DataDefinitionTextManager.getInstance( ).addDataDefinitionText( txtDefinition, query );
+			DataDefinitionTextManager.getInstance( )
+					.addDataDefinitionText( txtDefinition, query );
 		}
 		setColor( );
 	}

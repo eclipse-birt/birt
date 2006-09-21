@@ -99,14 +99,14 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			grpAreaIncluding.setLayoutData( gd );
 			grpAreaIncluding.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		
+
 		Composite leftComp = new Composite( grpAreaIncluding, SWT.NONE );
 		GridData gdL = new GridData( GridData.FILL_HORIZONTAL );
-		leftComp.setLayout( new GridLayout( 2, false) );
+		leftComp.setLayout( new GridLayout( 2, false ) );
 		leftComp.setLayoutData( gdL );
 		Composite rightComp = new Composite( grpAreaIncluding, SWT.NONE );
 		GridData gdR = new GridData( GridData.FILL_HORIZONTAL );
-		rightComp.setLayout( new GridLayout( 1, false) );
+		rightComp.setLayout( new GridLayout( 1, false ) );
 		rightComp.setLayoutData( gdR );
 
 		Label lblAnchor = new Label( leftComp, SWT.NONE );
@@ -118,7 +118,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
-		
+
 		Label lblStretch = new Label( leftComp, SWT.NONE );
 		{
 			GridData gd = new GridData( );
@@ -155,8 +155,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
-		txtHeight = new LocalizedNumberEditorComposite( leftComp,
-				SWT.BORDER );
+		txtHeight = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
 		{
 			txtHeight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			if ( getBlockForProcessing( ).isSetHeightHint( ) )
@@ -172,8 +171,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
-		txtWidth = new LocalizedNumberEditorComposite( leftComp,
-				SWT.BORDER );
+		txtWidth = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
 		{
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			if ( getBlockForProcessing( ).isSetWidthHint( ) )
@@ -202,7 +200,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				true,
 				false );
 		outlineIncluding.addListener( this );
-		
+
 		icIncluding = new InsetsComposite( rightComp,
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
@@ -268,7 +266,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				false );
 		{
 			outlineWithin.addListener( this );
-			outlineWithin.setEnabled( ChartUIUtil.is3DWallFloorSet( getChart( ) ) );
+			outlineWithin.setAttributesEnabled( ChartUIUtil.is3DWallFloorSet( getChart( ) ) );
 		}
 
 		icWithin = new InsetsComposite( grpAreaWithin,

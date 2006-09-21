@@ -409,7 +409,9 @@ public class LineChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL ) )
+							.equals( ScatterChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( BubbleChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
 				{
@@ -626,8 +628,9 @@ public class LineChart extends DefaultChartTypeImpl
 						.getAncillarySampleData( )
 						.add( sdAncillary );
 			}
-			
-			EList seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart, 0 );
+
+			EList seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart,
+					0 );
 			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 			{
 				Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
@@ -787,7 +790,8 @@ public class LineChart extends DefaultChartTypeImpl
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle )
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle )
 	{
 		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),

@@ -51,10 +51,9 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class SeriesTrendlineSheet extends AbstractPopupSheet
-		implements
-			Listener,
-			SelectionListener
+public class SeriesTrendlineSheet extends AbstractPopupSheet implements
+		Listener,
+		SelectionListener
 {
 
 	private transient SeriesDefinition seriesDefn = null;
@@ -86,8 +85,9 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_CURVE_FITTING );
-		
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.POPUP_SERIES_CURVE_FITTING );
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glMain = new GridLayout( );
@@ -298,7 +298,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet
 		lblFont.setEnabled( bEnableUI );
 		// lblPosition.setEnabled( bEnableUI );
 		// cmbPosition.setEnabled( bEnableUI );
-		outlineText.setEnabled( bEnableUI );
+		outlineText.setAttributesEnabled( bEnableUI );
 		icLabel.setEnabled( bEnableUI );
 		lblValue.setEnabled( bEnableUI );
 		txtValue.setEnabled( bEnableUI );

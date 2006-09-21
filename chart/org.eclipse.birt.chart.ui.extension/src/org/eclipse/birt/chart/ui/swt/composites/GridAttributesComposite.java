@@ -36,14 +36,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-/**
- * @author Actuate Corporation
- * 
- */
-public class GridAttributesComposite extends Composite
-		implements
-			SelectionListener,
-			Listener
+public class GridAttributesComposite extends Composite implements
+		SelectionListener,
+		Listener
 {
 
 	private transient LineAttributesComposite liacLines = null;
@@ -174,7 +169,7 @@ public class GridAttributesComposite extends Composite
 					true,
 					true );
 			liacLines.addListener( this );
-			liacLines.setEnabled( ChartUIUtil.is3DWallFloorSet( context.getModel( ) ) );
+			liacLines.setAttributesEnabled( ChartUIUtil.is3DWallFloorSet( context.getModel( ) ) );
 		}
 
 		// Ticks group (unsupported in 3D)

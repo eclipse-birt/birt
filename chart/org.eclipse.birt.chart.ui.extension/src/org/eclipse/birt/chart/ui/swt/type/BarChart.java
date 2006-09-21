@@ -265,7 +265,7 @@ public class BarChart extends DefaultChartTypeImpl
 				.add( sdX );
 
 		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
-		
+
 		newChart.setUnitSpacing( 50 );
 
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
@@ -398,18 +398,9 @@ public class BarChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-			// chart is
-			// of this type
-			// (BarChart)
+			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getSubType( ).equals( sNewSubType ) ) // Original
-				// chart
-				// is
-				// of
-				// the
-				// required
-				// subtype
+				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 				{
 					currentChart.setSubType( sNewSubType );
 					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -444,7 +435,9 @@ public class BarChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL ) )
+							.equals( ScatterChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( BubbleChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL ) )
 				{
@@ -660,14 +653,15 @@ public class BarChart extends DefaultChartTypeImpl
 						.add( sdAncillary );
 			}
 
-			EList seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart, 0 );
+			EList seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart,
+					0 );
 			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 			{
 				Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 				series.setStacked( false );// Stacked is unsupported in 3D
 				if ( ( series instanceof BarSeries )
 						&& ( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
-				{					
+				{
 					series.setLabelPosition( Position.OUTSIDE_LITERAL );
 				}
 			}
@@ -836,7 +830,8 @@ public class BarChart extends DefaultChartTypeImpl
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle )
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle )
 	{
 		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),

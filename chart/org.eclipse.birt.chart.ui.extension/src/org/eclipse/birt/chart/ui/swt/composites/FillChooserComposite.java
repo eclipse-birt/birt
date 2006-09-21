@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -61,11 +62,10 @@ import org.eclipse.swt.widgets.Slider;
 /**
  * FillChooserComposite
  */
-public class FillChooserComposite extends Composite
-		implements
-			SelectionListener,
-			DisposeListener,
-			Listener
+public class FillChooserComposite extends Composite implements
+		SelectionListener,
+		DisposeListener,
+		Listener
 {
 
 	private transient Composite cmpContentInner = null;
@@ -89,6 +89,8 @@ public class FillChooserComposite extends Composite
 	private transient Button btnGradient = null;
 
 	private transient Button btnImage = null;
+
+	private transient Button btnPN = null;
 
 	private transient Button btnReset = null;
 
@@ -125,8 +127,8 @@ public class FillChooserComposite extends Composite
 	private transient ChartWizardContext wizardContext;
 
 	// Indicates the last operation is fired by keyboard or not
-	boolean isPressingKey = false;	
-	
+	boolean isPressingKey = false;
+
 	// Save the index of selected color
 	private int selectedIndex = -1;
 
@@ -291,7 +293,8 @@ public class FillChooserComposite extends Composite
 			case SWT.KeyDown :
 			{
 				if ( event.keyCode == SWT.KEYPAD_CR
-						|| event.keyCode == SWT.CR || event.keyCode == ' ' )
+						|| event.keyCode == SWT.CR
+						|| event.keyCode == ' ' )
 				{
 					event.doit = true;
 					toggleDropDown( );
@@ -310,7 +313,7 @@ public class FillChooserComposite extends Composite
 			{
 				switch ( event.detail )
 				{
-					case SWT.TRAVERSE_ESCAPE:
+					case SWT.TRAVERSE_ESCAPE :
 						getShell( ).close( );
 						break;
 					case SWT.TRAVERSE_RETURN :
@@ -404,6 +407,8 @@ public class FillChooserComposite extends Composite
 		{
 			iShellHeight += 30;
 		}
+		iShellHeight += 30;
+
 		Shell shell = new Shell( this.getShell( ), SWT.NO_FOCUS );
 		shell.setLayout( new FillLayout( ) );
 		shell.setSize( iShellWidth, iShellHeight );
@@ -588,6 +593,18 @@ public class FillChooserComposite extends Composite
 			btnImage.addListener( SWT.KeyDown, this );
 			btnImage.addListener( SWT.Traverse, this );
 		}
+
+		btnPN = new Button( cmpButtons, SWT.NONE );
+		GridData gdImage = new GridData( GridData.FILL_BOTH );
+		gdImage.heightHint = 26;
+		gdImage.horizontalSpan = 2;
+		btnPN.setLayoutData( gdImage );
+		btnPN.setText( Messages.getString( "FillChooserComposite.Lbl.PositiveNegative" ) ); //$NON-NLS-1$
+		btnPN.addSelectionListener( this );
+		btnPN.addListener( SWT.FocusOut, this );
+		btnPN.addListener( SWT.KeyDown, this );
+		btnPN.addListener( SWT.Traverse, this );
+
 		shell.layout( );
 		shell.open( );
 	}
@@ -638,11 +655,13 @@ public class FillChooserComposite extends Composite
 		}
 
 		if ( cmpDropDown == null
-				|| cmpDropDown.isDisposed( ) || !cmpDropDown.isVisible( ) )
+				|| cmpDropDown.isDisposed( )
+				|| !cmpDropDown.isVisible( ) )
 		{
 			Point pLoc = UIHelper.getScreenLocation( cnvSelection );
 			createDropDownComponent( pLoc.x, pLoc.y
-					+ cnvSelection.getSize( ).y + 1 );
+					+ cnvSelection.getSize( ).y
+					+ 1 );
 
 			cmpDropDown.setFocus( );
 		}
@@ -659,7 +678,7 @@ public class FillChooserComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		Object oSource = e.getSource( );		
+		Object oSource = e.getSource( );
 		if ( oSource.equals( btnDown ) )
 		{
 			fireHandleEvent( MOUSE_CLICKED_EVENT );
@@ -677,6 +696,43 @@ public class FillChooserComposite extends Composite
 				{
 					addAdapters( imgFill );
 					this.setFill( imgFill );
+					fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
+				}
+			}
+		}
+		else if ( oSource.equals( this.btnPN ) )
+		{
+			PositiveNegativeColorDialog pncd = null;
+			cmpDropDown.getShell( ).close( );
+
+			if ( fCurrent instanceof MultipleFill )
+			{
+				pncd = new PositiveNegativeColorDialog( this.getShell( ),
+						wizardContext,
+						(MultipleFill) fCurrent );
+			}
+			else if ( fCurrent instanceof ColorDefinition )
+			{
+				ColorDefinition newCD = (ColorDefinition) EcoreUtil.copy( fCurrent );
+				newCD.eAdapters( ).addAll( fCurrent.eAdapters( ) );
+				pncd = new PositiveNegativeColorDialog( this.getShell( ),
+						wizardContext,
+						null,
+						newCD );
+			}
+			else
+			{
+				pncd = new PositiveNegativeColorDialog( this.getShell( ),
+						wizardContext,
+						null );
+			}
+			if ( pncd.open( ) == Window.OK )
+			{
+				Fill fTmp = pncd.getMultipleColor( );
+				addAdapters( fTmp );
+				if ( fCurrent == null || !( fCurrent.equals( fTmp ) ) )
+				{
+					this.setFill( fTmp );
 					fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 				}
 			}
@@ -713,8 +769,8 @@ public class FillChooserComposite extends Composite
 			{
 				ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition( );
 				cdNew.set( rgb.red, rgb.green, rgb.blue );
-				cdNew.setTransparency( bTransparencyChanged
-						? this.iTransparency : iTrans );
+				cdNew.setTransparency( bTransparencyChanged ? this.iTransparency
+						: iTrans );
 				addAdapters( cdNew );
 				this.setFill( cdNew );
 				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
@@ -890,8 +946,7 @@ public class FillChooserComposite extends Composite
 				}
 				if ( isPopupControl( event.widget ) )
 				{
-					Control cTmp = isPressingKey
-							? getDisplay( ).getFocusControl( )
+					Control cTmp = isPressingKey ? getDisplay( ).getFocusControl( )
 							: getDisplay( ).getCursorControl( );
 					// Set default value back
 					isPressingKey = false;
@@ -953,7 +1008,7 @@ public class FillChooserComposite extends Composite
 		}
 
 	}
-	
+
 	private void setColorToModel( Color clrTmp )
 	{
 		ColorDefinition cTmp = AttributeFactory.eINSTANCE.createColorDefinition( );
@@ -974,7 +1029,7 @@ public class FillChooserComposite extends Composite
 	{
 		selectedIndex = -1;
 	}
-	
+
 	private class ColorSelectionCanvas extends Canvas implements Listener
 	{
 
@@ -1033,9 +1088,11 @@ public class FillChooserComposite extends Composite
 							iR * iCellHeight,
 							iCellWidth,
 							iCellHeight );
-					// Highlight currently selected color if it exists in this list
+					// Highlight currently selected color if it exists in this
+					// list
 					if ( selectedIndex == index
-							|| !isFound && colorSelection != null
+							|| !isFound
+							&& colorSelection != null
 							&& colorSelection.equals( colorMap[index] ) )
 					{
 						isFound = true;
@@ -1044,7 +1101,7 @@ public class FillChooserComposite extends Composite
 						{
 							colorSelection = colorMap[index];
 						}
-						
+
 						if ( isFocusControl( ) )
 						{
 							gc.setLineStyle( SWT.LINE_DOT );
@@ -1054,10 +1111,9 @@ public class FillChooserComposite extends Composite
 								iCellWidth - 2,
 								iCellHeight - 2 );
 						gc.setForeground( cWhite );
-						gc.drawRectangle( iC * iCellWidth + 1,
-								iR * iCellHeight + 1,
-								iCellWidth - 3,
-								iCellHeight - 3 );
+						gc.drawRectangle( iC * iCellWidth + 1, iR
+								* iCellHeight
+								+ 1, iCellWidth - 3, iCellHeight - 3 );
 						gc.setForeground( cBlack );
 					}
 				}
@@ -1072,8 +1128,8 @@ public class FillChooserComposite extends Composite
 		}
 
 		/**
-		 * This method assumes a color array of 40 color arranged with equal sizes
-		 * in a 8x5 grid.
+		 * This method assumes a color array of 40 color arranged with equal
+		 * sizes in a 8x5 grid.
 		 * 
 		 * @param x
 		 * @param y
@@ -1095,12 +1151,12 @@ public class FillChooserComposite extends Composite
 				case SWT.Paint :
 					paintControl( new PaintEvent( event ) );
 					break;
-				case SWT.FocusIn:
+				case SWT.FocusIn :
 					redraw( );
 					break;
 				case SWT.KeyDown :
 					keyDown( event );
-					break;					
+					break;
 				case SWT.MouseDown :
 					if ( !bEnabled )
 					{
@@ -1113,7 +1169,7 @@ public class FillChooserComposite extends Composite
 			}
 
 		}
-		
+
 		void keyDown( Event event )
 		{
 			if ( event.keyCode == SWT.ESC )
