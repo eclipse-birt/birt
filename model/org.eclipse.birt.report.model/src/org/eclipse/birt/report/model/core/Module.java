@@ -2225,7 +2225,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 							.getID( ) ) != element ) )
 			{
 				element.setID( getNextID( ) );
-				assert getElementByID( element.getID( ) ) == null;
 			}
 
 			if ( getElementByID( element.getID( ) ) == null )

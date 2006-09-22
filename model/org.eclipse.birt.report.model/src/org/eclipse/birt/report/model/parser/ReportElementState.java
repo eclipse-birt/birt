@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -289,7 +290,7 @@ public abstract class ReportElementState extends DesignParseState
 				// if the id is not null, parse it
 
 				long id = Long.parseLong( theID );
-				if ( id < 0 )
+				if ( id <= 0 )
 				{
 					handler
 							.getErrorHandler( )
@@ -302,6 +303,11 @@ public abstract class ReportElementState extends DesignParseState
 											DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
 				}
 				element.setID( id );
+			}
+			else
+			{
+				// id is empty or null, then add it to the unhandle element list
+				handler.unhandleIDElements.add( element );
 			}
 		}
 		catch ( NumberFormatException e )
@@ -376,8 +382,7 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		element.setExtendsElement( parent );
-		element.refreshStructureFromParent( module );
-		
+		ElementStructureUtil.duplicateStructure( parent, element );
 	}
 
 	/**
@@ -448,7 +453,7 @@ public abstract class ReportElementState extends DesignParseState
 	 *            the element contains virtual elements inside.
 	 */
 
-	private void addTheVirualElementsToNamesapce( DesignElement element )
+	private void addTheVirualElements2Map( DesignElement element )
 	{
 		Iterator contentIter = new ContentIterator( element );
 		Module module = handler.getModule( );
@@ -587,9 +592,12 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		super.end( );
 		// if the element is a container and has extends
-		if ( getElement( ).getExtendsElement( ) != null && getElement().getDefn( ).isContainer( ) )
+		if ( getElement( ).getExtendsElement( ) != null
+				&& getElement( ).getDefn( ).isContainer( ) )
 		{
-			addTheVirualElementsToNamesapce( getElement( ) );
+			addTheVirualElements2Map( getElement( ) );
+			if ( !handler.unhandleIDElements.contains( getElement( ) ) )
+				handler.unhandleIDElements.add( getElement( ) );
 		}
 	}
 

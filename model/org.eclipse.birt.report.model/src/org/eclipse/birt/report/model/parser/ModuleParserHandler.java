@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -71,6 +72,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	protected HashMap tempValue = new HashMap( );
+
+	/**
+	 * Cached element list whose id is not handle and added to the id map.
+	 */
+
+	protected List unhandleIDElements = new ArrayList( );
 
 	/**
 	 * Constructs the module parser handler with the design session.
@@ -164,6 +171,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		super.endDocument( );
 
+		this.tempValue = null;
+
 		// add all the exceptions to the module
 
 		module.getAllExceptions( ).addAll( getErrorHandler( ).getErrors( ) );
@@ -216,7 +225,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		// the module is ok, then allocate the id for it and its contents
 
-		module.manageId( module, true );
+		if ( !unhandleIDElements.isEmpty( ) )
+		{
+			handleID( );
+			unhandleIDElements = null;
+		}
 
 		// if module options not set the parser-semantic check options or set it
 		// to true, then perform semantic check. Semantic error is recoverable.
@@ -242,4 +255,28 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		this.versionNumber = versionNumber;
 	}
 
+	/**
+	 * Allocates a unique id for all the unhandle elements.
+	 */
+
+	private void handleID( )
+	{
+		for ( int i = 0; i < unhandleIDElements.size( ); i++ )
+		{
+			DesignElement element = (DesignElement) unhandleIDElements.get( i );
+
+			if ( element.getExtendsElement( ) == null )
+			{
+				if ( element.getRoot( ) == module )
+				{
+					assert element.getID( ) == DesignElement.NO_ID;
+					element.setID( module.getNextID( ) );
+					module.addElementID( element );
+				}
+			}
+			else
+			// TODO only need for the compound element
+				module.manageId( element, true );
+		}
+	}
 }

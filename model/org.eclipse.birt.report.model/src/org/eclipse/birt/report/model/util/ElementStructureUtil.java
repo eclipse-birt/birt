@@ -12,18 +12,25 @@
 package org.eclipse.birt.report.model.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
@@ -157,8 +164,10 @@ public class ElementStructureUtil
 
 	public static Map collectPropertyValues( DesignElement element )
 	{
-		Map map = new HashMap( );
+		if ( element == null )
+			return Collections.EMPTY_MAP;
 
+		Map map = new HashMap( );
 		Module root = element.getRoot( );
 
 		ContentIterator contentIterator = new ContentIterator( element );
@@ -230,69 +239,73 @@ public class ElementStructureUtil
 	 * 
 	 */
 
-	private static boolean duplicateStructure( DesignElement source,
+	public static boolean duplicateStructure( DesignElement source,
 			DesignElement target )
 	{
-		assert source != null;
-		assert target != null;
-		assert source.getDefn( ) == target.getDefn( );
+		if ( source == null || target == null )
+			throw new IllegalArgumentException( "Element can not be null." ); //$NON-NLS-1$
 
-		if ( source.getDefn( ).getSlotCount( ) == 0 )
+		IElementDefn defn = source.getDefn( );
+		if ( defn != target.getDefn( ) )
+			throw new IllegalArgumentException(
+					"Two element are not the same type." ); //$NON-NLS-1$
+
+		if ( !defn.isContainer( ) )
 			return true;
-
-		DesignElement cloned = null;
-		try
-		{
-			cloned = (DesignElement) source.clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
-			assert false;
-			return false;
-		}
-
-		// Parent element and the cloned one must have the same structures.
-		// Clear all children's properties and set base id reference.
-
-		Iterator sourceIter = new ContentIterator( source );
-		Iterator clonedIter = new ContentIterator( cloned );
-		while ( clonedIter.hasNext( ) )
-		{
-			DesignElement virtualParent = (DesignElement) sourceIter.next( );
-			DesignElement virtualChild = (DesignElement) clonedIter.next( );
-
-			String name = virtualChild.getName( );
-			virtualChild.clearAllProperties( );
-
-			if ( name != null )
-				virtualChild.setName( name );
-
-			virtualChild.setBaseId( virtualParent.getID( ) );
-		}
 
 		// Copies top level slots from cloned element to the target element.
 
-		for ( int i = 0; i < source.getDefn( ).getSlotCount( ); i++ )
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
-			ContainerSlot sourceSlot = cloned.getSlot( i );
+			ContainerSlot sourceSlot = source.getSlot( i );
 			ContainerSlot targetSlot = target.getSlot( i );
 
 			// clear the slot contents of the this element.
 
-			int count = targetSlot.getCount( );
-			while ( --count >= 0 )
-			{
-				targetSlot.remove( count );
-			}
+			targetSlot.clear( );
 
 			for ( int j = 0; j < sourceSlot.getCount( ); j++ )
 			{
-				DesignElement content = sourceSlot.getContent( j );
+				DesignElement sourceContent = sourceSlot.getContent( j );
 
-				// setup the containment relationship
+				// create an element of the same type
 
-				targetSlot.add( content );
-				content.setContainer( target, i );
+				DesignElement targetContent = null;
+				if ( sourceContent instanceof ExtendedItem )
+				{
+					ExtendedItem extendedItem = (ExtendedItem) sourceContent;
+					targetContent = new ExtendedItem( sourceContent.getName( ) );
+					targetContent.setProperty(
+							ExtendedItem.EXTENSION_NAME_PROP, extendedItem
+									.getProperty( extendedItem.getRoot( ),
+											ExtendedItem.EXTENSION_NAME_PROP ) );
+				}
+				else if ( sourceContent instanceof OdaDataSet )
+				{
+
+				}
+				else if ( sourceContent instanceof OdaDataSource )
+				{
+
+				}
+				else
+					targetContent = ModelUtil.newElement( sourceContent
+							.getElementName( ), sourceContent.getName( ) );
+
+				if ( targetContent != null )
+				{
+					// set up the element id and base id
+					targetContent.setID( sourceContent.getID( ) );
+					targetContent.setBaseId( sourceContent.getID( ) );
+
+					// setup the containment relationship
+					targetSlot.add( targetContent );
+					targetContent.setContainer( target, i );
+
+					// recusively duplicates the slots of the content
+
+					duplicateStructure( sourceContent, targetContent );
+				}
 			}
 		}
 
@@ -347,11 +360,10 @@ public class ElementStructureUtil
 
 			// try to resolve extends
 
-			content.getLocalProperty( module, DesignElement.EXTENDS_PROP );
 			if ( content.getExtendsElement( ) != null )
-				content.refreshStructureFromParent( module );
+				refreshStructureFromParent( module, content );
 			else
-				ElementStructureUtil.clearStructure( content );
+				clearStructure( content );
 		}
 	}
 
@@ -384,6 +396,171 @@ public class ElementStructureUtil
 			NameSpace ns = module.getNameSpace( id );
 			ns.insert( virtualElement );
 
+		}
+	}
+
+	/**
+	 * Copied the structure from the parent element to the element itself. Local
+	 * properties of the contents will all be cleared.Please note that the
+	 * containment relationship is kept while property values of the content
+	 * elements are not copied.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the parent element
+	 * 
+	 * @return <code>true</code> if the refresh action is successful.
+	 *         <code>false</code> othersize.
+	 * 
+	 */
+
+	public static boolean refreshStructureFromParent( Module module,
+			DesignElement element )
+	{
+		if ( element == null )
+			throw new IllegalArgumentException(
+					"Parent element can not be null." ); //$NON-NLS-1$
+		DesignElement parent = element.getExtendsElement( );
+		if ( parent == null )
+			return false;
+
+		// Copies top level slots from cloned element to the target element.
+
+		boolean result = ElementStructureUtil.updateStructureFromParent(
+				element, parent );
+		if ( element instanceof TableItem )
+		{
+			( (TableItem) element ).refreshRenderModel( module );
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the id reference relationship between the parent element and the
+	 * child element.
+	 * <p>
+	 * Notice: the element and its parent should have the same structure when
+	 * calling this method. That is the child structure has already been
+	 * refreshed from parent.
+	 * 
+	 * @param element
+	 *            the element to setup the id reference
+	 * @return a map to store the base id and the corresponding child element.
+	 */
+
+	public static Map getIdMap( DesignElement element )
+	{
+		assert element != null;
+
+		// Parent and the child must have the same structures.
+
+		DesignElement parent = element.getExtendsElement( );
+		if ( parent == null )
+			return Collections.EMPTY_MAP;
+
+		Map idMap = new HashMap( );
+
+		Iterator parentIter = new ContentIterator( parent );
+		Iterator childIter = new ContentIterator( element );
+		while ( childIter.hasNext( ) )
+		{
+			DesignElement virtualParent = (DesignElement) parentIter.next( );
+			DesignElement virtualChild = (DesignElement) childIter.next( );
+
+			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
+					.getName( );
+			assert virtualParent.getID( ) > 0;
+
+			idMap.put( new Long( virtualParent.getID( ) ), virtualChild );
+		}
+
+		return idMap;
+	}
+
+	/**
+	 * Break the relationship between the given element to its parent.Set all
+	 * properties values of the given element on the element locally. The
+	 * following properties will be set:
+	 * <ul>
+	 * <li>Properties set on element itself
+	 * <li>Inherited from style or element's selector style
+	 * <li>Inherited from parent
+	 * </ul>
+	 * 
+	 * @param element
+	 *            the element to be localized.
+	 */
+
+	public static void localizeElement( DesignElement element )
+	{
+		assert element != null;
+		DesignElement parent = element.getExtendsElement( );
+		if ( parent == null )
+			return;
+
+		duplicateProperties( parent, element );
+
+		ContentIterator iter1 = new ContentIterator( parent );
+		ContentIterator iter2 = new ContentIterator( element );
+
+		while ( iter1.hasNext( ) )
+		{
+			DesignElement virtualParent = (DesignElement) iter1.next( );
+			DesignElement virtualChild = (DesignElement) iter2.next( );
+
+			duplicateProperties( virtualParent, virtualChild );
+		}
+	}
+
+	/**
+	 * Duplicates some properties in a design element when to export it.
+	 * 
+	 * @param from
+	 *            the from element to get the property values
+	 * @param to
+	 *            the to element to duplicate the property values
+	 */
+
+	private static void duplicateProperties( DesignElement from,
+			DesignElement to )
+	{
+		if ( from.getDefn( ).allowsUserProperties( ) )
+		{
+			Iterator iter = from.getUserProperties( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				UserPropertyDefn userPropDefn = (UserPropertyDefn) iter.next( );
+				to.addUserPropertyDefn( userPropDefn );
+			}
+		}
+
+		Iterator iter = from.getDefn( ).getProperties( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
+			String propName = propDefn.getName( );
+
+			// Style property and extends property will be removed.
+			// The properties inherited from style or parent will be
+			// flatten to new element.
+
+			if ( StyledElement.STYLE_PROP.equals( propName )
+					|| DesignElement.EXTENDS_PROP.equals( propName )
+					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
+					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
+							.equals( propName ) )
+				continue;
+
+			Object localValue = to.getLocalProperty( from.getRoot( ), propDefn );
+			Object parentValue = from.getStrategy( ).getPropertyFromElement(
+					from.getRoot( ), from, propDefn );
+
+			if ( localValue == null && parentValue != null )
+			{
+				Object valueToSet = ModelUtil.copyValue( propDefn, parentValue );
+				to.setProperty( propDefn, valueToSet );
+			}
 		}
 	}
 }

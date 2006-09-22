@@ -206,7 +206,8 @@ class LibraryRecord extends AbstractLibraryRecord
 			if ( tmpElement.getDefn( ).getSlotCount( ) <= 0 )
 				continue;
 
-			tmpElement.refreshStructureFromParent( module );
+			ElementStructureUtil
+					.refreshStructureFromParent( module, tmpElement );
 
 			if ( overriddenValues == null )
 				return;

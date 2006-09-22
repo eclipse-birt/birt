@@ -11,17 +11,15 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
-import org.eclipse.birt.report.model.util.ContentIterator;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -62,7 +60,7 @@ class OverriddenValuesState extends AbstractParseState
 		this.handler = handler;
 
 		assert element.getExtendsElement( ) != null;
-		baseIdMap = ModelUtil.getIdMap( element );
+		baseIdMap = ElementStructureUtil.getIdMap( element );
 	}
 
 	/*
@@ -183,6 +181,65 @@ class OverriddenValuesState extends AbstractParseState
 			{
 				virtualChild.setName( name );
 			}
+
+			// handle id
+			try
+			{
+				String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
+
+				if ( !StringUtil.isBlank( theID ) )
+				{
+					// if the id is not null, parse it
+
+					long id = Long.parseLong( theID );
+					if ( id <= 0 )
+					{
+						handler
+								.getErrorHandler( )
+								.semanticError(
+										new DesignParserException(
+												new String[]{
+														virtualChild
+																.getIdentifier( ),
+														attrs
+																.getValue( DesignSchemaConstants.ID_ATTRIB )},
+												DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
+					}
+					else
+					{
+						DesignElement theElement = handler.module
+								.getElementByID( id );
+
+						if ( theElement != null
+								&& handler.versionNumber >= VersionUtil.VERSION_3_2_7
+								&& theElement != virtualChild )
+							handler
+									.getErrorHandler( )
+									.semanticError(
+											new DesignParserException(
+													new String[]{
+															theElement
+																	.getIdentifier( ),
+															virtualChild
+																	.getIdentifier( )},
+													DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
+						virtualChild.setID( id );
+					}
+				}
+			}
+			catch ( NumberFormatException e )
+			{
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										new String[]{
+												virtualChild.getIdentifier( ),
+												attrs
+														.getValue( DesignSchemaConstants.ID_ATTRIB )},
+										DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
+			}
+
 		}
 
 		/*

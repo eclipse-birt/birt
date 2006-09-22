@@ -129,6 +129,21 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		addExternalElements( );
 		addExternalStructures( );
+		
+		// do some memory release
+		release( );
+	}
+	
+	/**
+	 * Releases some memory instantly.
+	 */
+	
+	private void release( )
+	{
+		elements = null;
+		externalElements = null;
+		externalStructs = null;
+		currentNewElement = null;
 	}
 
 	/*

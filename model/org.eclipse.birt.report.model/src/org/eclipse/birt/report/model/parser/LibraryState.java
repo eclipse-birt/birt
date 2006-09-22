@@ -78,7 +78,7 @@ public class LibraryState extends ModuleState
 			theme = new Theme( ModelMessages
 					.getMessage( Theme.DEFAULT_THEME_NAME ) );
 			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
-
+			handler.unhandleIDElements.add( theme );
 		}
 
 		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
