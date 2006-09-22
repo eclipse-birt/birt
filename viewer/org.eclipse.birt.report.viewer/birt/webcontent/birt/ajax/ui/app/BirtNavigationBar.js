@@ -141,9 +141,9 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : oGotoPage.value } );
 		}
 		else
-		{
-			oGotoPage.focus( );
+		{			
 			alert( Constants.error.invalidPageNumber );
+			oGotoPage.focus( );
 		}
 	},
 	
