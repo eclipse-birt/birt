@@ -88,13 +88,13 @@ abstract public class BaseTestCase extends TestCase
 	}
 	
 	/** return output folder */
-	private File getOutputFolder()
+	protected File getOutputFolder()
 	{
 		return new File( getBaseFolder(), OUTPUT_FOLDER );
 	}
 	
 	/** return golder folder */
-	private File getGoldenFolder( )
+	protected File getGoldenFolder( )
 	{
 		return new File( getBaseFolder( ), GOLDEN_FOLDER );
 	}

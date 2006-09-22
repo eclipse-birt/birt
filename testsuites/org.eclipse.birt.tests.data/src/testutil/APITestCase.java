@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
 
 import testutil.BaseTestCase;
 import testutil.JDBCDataSource;
@@ -779,6 +780,37 @@ abstract public class APITestCase extends BaseTestCase
 			sBuffer.append( "\n" );
 		}
 
+		return new String( sBuffer );
+	}
+
+	public String getOutputStrForFlatfileTest( int expectedLen,
+			IResultSet result, int ColumnCount, String[] columnStr )
+			throws Exception
+	{
+
+		StringBuffer sBuffer = new StringBuffer( );
+		String metaData = "";
+		for ( int i = 0; i < ColumnCount; i++ )
+		{
+			metaData += formatStr( columnStr[i], expectedLen );
+		}
+		sBuffer.append( metaData );
+		sBuffer.append( "\n" );
+		while ( result.next( ) )
+		{
+			String rowData = "";
+			for ( int i = 1; i <= ColumnCount; i++ )
+			{
+				String value;
+				if ( result.getString( i ) != null )
+					value = result.getString( i );
+				else
+					value = "";
+				rowData += formatStr( value, expectedLen );
+			}
+			sBuffer.append( rowData );
+			sBuffer.append( "\n" );
+		}
 		return new String( sBuffer );
 	}
 
