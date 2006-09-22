@@ -33,14 +33,14 @@ public class Regression_155509 extends BaseTestCase
 {
 
 	private String filename = "Regression_155509.xml"; //$NON-NLS-1$
-	private String propfile = "Regression_155509"; //$NON-NLS-1$
+	// private String propfile = "Regression_155509"; //$NON-NLS-1$
 	private String jarfile = "input/Regression_155509.jar"; //$NON-NLS-1$
 	private DefaultResourceLocator rl;
 
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_155509( ) throws DesignFileException
+	public void test_regression_155509( ) throws DesignFileException
 	{
 		openDesign( filename );
 		rl = new DefaultResourceLocator( );
