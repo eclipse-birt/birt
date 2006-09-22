@@ -35,7 +35,7 @@ public class Regression_118590 extends BaseTestCase
 	 * 
 	 */
 	
-	public void test_118590( )
+	public void test_regression_118590( )
 	{
 		ChoiceSet choiceSet = new ChoiceSet( );
 		Choice[] choices = new Choice[3];

@@ -40,7 +40,7 @@ public class Regression_121154 extends BaseTestCase
 	 * Float type.
 	 */
 
-	public void test_121154( )
+	public void test_regression_121154( )
 	{
 		assertTrue( UserPropertyDefn.getAllowedTypes( ).contains(
 				new StringPropertyType( ) ) );

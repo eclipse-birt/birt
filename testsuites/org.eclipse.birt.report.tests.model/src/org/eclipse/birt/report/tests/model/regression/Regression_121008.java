@@ -57,7 +57,7 @@ public class Regression_121008 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void test_121008( ) throws ContentException, NameException,
+	public void test_regression_121008( ) throws ContentException, NameException,
 			DesignFileException
 	{
 		openDesign( TEMPLATE );

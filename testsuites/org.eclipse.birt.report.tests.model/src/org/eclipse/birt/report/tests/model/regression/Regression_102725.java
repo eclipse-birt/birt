@@ -50,7 +50,7 @@ public class Regression_102725 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_102725( ) throws DesignFileException, SemanticException
+	public void test_regression_102725( ) throws DesignFileException, SemanticException
 	{
 		openDesign( INPUT, ULocale.ENGLISH );
 

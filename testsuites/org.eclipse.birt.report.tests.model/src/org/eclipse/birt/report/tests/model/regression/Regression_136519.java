@@ -50,7 +50,7 @@ public class Regression_136519 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void test_136519( ) throws DesignFileException
+	public void test_regression_136519( ) throws DesignFileException
 	{
 		openDesign( INPUT );
 		LabelHandle label = (LabelHandle) designHandle.findElement( "l1" ); //$NON-NLS-1$

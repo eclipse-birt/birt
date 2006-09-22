@@ -46,7 +46,7 @@ public class Regression_137653 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void test_137653( ) throws DesignFileException
+	public void test_regression_137653( ) throws DesignFileException
 	{
 		openDesign( filename );
 		OdaDataSourceHandle source = (OdaDataSourceHandle) designHandle

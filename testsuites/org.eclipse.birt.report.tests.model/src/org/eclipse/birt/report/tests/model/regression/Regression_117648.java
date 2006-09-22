@@ -52,7 +52,7 @@ public class Regression_117648 extends BaseTestCase
 	 * @throws UserPropertyException
 	 */
 	
-	public void test_117648( ) throws UserPropertyException
+	public void test_regression_117648( ) throws UserPropertyException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );

@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -48,7 +47,7 @@ public class Regression_152704 extends BaseTestCase
 	 * @throws NameException
 	 * @throws ContentException
 	 */
-	public void test_112910( ) throws NameException, ContentException
+	public void test_regression_112910( ) throws NameException, ContentException
 	{
 		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );

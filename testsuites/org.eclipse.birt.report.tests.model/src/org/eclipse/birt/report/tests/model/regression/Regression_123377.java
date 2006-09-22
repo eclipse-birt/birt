@@ -51,7 +51,7 @@ public class Regression_123377 extends BaseTestCase
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
-	public void test_123377( ) throws DesignFileException, SemanticException,
+	public void test_regression_123377( ) throws DesignFileException, SemanticException,
 			IOException
 	{
 		String lib1Input = getClassFolder( ) + INPUT_FOLDER

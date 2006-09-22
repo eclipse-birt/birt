@@ -38,7 +38,7 @@ public class Regression_131624 extends BaseTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void test_131624( ) throws Exception
+	public void test_regression_131624( ) throws Exception
 	{
 
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );

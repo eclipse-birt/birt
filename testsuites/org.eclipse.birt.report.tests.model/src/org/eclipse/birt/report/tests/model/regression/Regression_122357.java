@@ -44,14 +44,7 @@ public class Regression_122357 extends BaseTestCase
 	private static String INPUT = "Regression_122357.xml"; //$NON-NLS-1$
 	private static String LIB = "regression_122357_exportlib.xml"; //$NON-NLS-1$
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.tests.model.BaseTestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-	}
+
 
 	/**
 	 * @throws DesignFileException
@@ -59,7 +52,7 @@ public class Regression_122357 extends BaseTestCase
 	 * @throws IOException
 	 */
 
-	public void test_122357( ) throws DesignFileException, SemanticException,
+	public void test_regression_122357( ) throws DesignFileException, SemanticException,
 			IOException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );

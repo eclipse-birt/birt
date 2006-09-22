@@ -40,7 +40,7 @@ public class Regression_75405 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_75405( ) throws DesignFileException, SemanticException
+	public void test_regression_75405( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 		GridHandle grid = (GridHandle) designHandle.findElement( "grid" ); //$NON-NLS-1$

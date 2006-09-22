@@ -38,7 +38,7 @@ public class Regression_78796 extends BaseTestCase
 	 * 
 	 */
 	
-	public void test_78796( )
+	public void test_regression_78796( )
 	{
 		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
 

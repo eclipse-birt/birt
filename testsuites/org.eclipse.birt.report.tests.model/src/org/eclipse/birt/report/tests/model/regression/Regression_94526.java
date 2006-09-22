@@ -40,7 +40,7 @@ public class Regression_94526 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_94526( ) throws DesignFileException
+	public void test_regression_94526( ) throws DesignFileException
 	{
 		openDesign( INPUT );
 

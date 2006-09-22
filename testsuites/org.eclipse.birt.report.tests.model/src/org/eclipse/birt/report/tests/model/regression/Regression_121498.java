@@ -37,7 +37,7 @@ public class Regression_121498 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_121498( ) throws DesignFileException, SemanticException
+	public void test_regression_121498( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 		DataSourceHandle datasource = designHandle.findDataSource( "dsource" ); //$NON-NLS-1$

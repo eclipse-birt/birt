@@ -30,7 +30,7 @@ public class Regression_142690 extends BaseTestCase
 	/**
 	 * 
 	 */
-	public void test_142690( )
+	public void test_regression_142690( )
 	{
 		// Same root
 		assertEquals( "../lib/lib1.rptlibrary", URIUtil.getRelativePath( //$NON-NLS-1$

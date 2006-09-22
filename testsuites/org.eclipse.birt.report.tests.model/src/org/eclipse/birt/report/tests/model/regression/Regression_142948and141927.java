@@ -43,7 +43,7 @@ public class Regression_142948and141927 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */
-	public void test_142948and141927( ) throws DesignFileException, IOException
+	public void test_regression_142948and141927( ) throws DesignFileException, IOException
 	{
 		openDesign( filename );
 

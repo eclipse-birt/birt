@@ -46,7 +46,7 @@ public class Regression_121276 extends BaseTestCase
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public void test_121276( ) throws ContentException, NameException
+	public void test_regression_121276( ) throws ContentException, NameException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );

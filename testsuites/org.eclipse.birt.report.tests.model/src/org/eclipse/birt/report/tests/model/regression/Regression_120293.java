@@ -35,7 +35,7 @@ public class Regression_120293 extends BaseTestCase
 	 * @throws Exception
 	 */
 	
-	public void testCreateImageFrom( ) throws Exception
+	public void test_regression_120293( ) throws Exception
 	{
 		openLibrary( "Library_1.xml" ); //$NON-NLS-1$
 

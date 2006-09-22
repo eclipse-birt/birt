@@ -41,7 +41,7 @@ public class Regression_130278 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void test_130278( ) throws SemanticException, DesignFileException
+	public void test_regression_130278( ) throws SemanticException, DesignFileException
 	{
 		openDesign( INPUT );
 		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$

@@ -61,7 +61,7 @@ public class Regression_134018 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_134018( ) throws DesignFileException, SemanticException
+	public void test_regression_134018( ) throws DesignFileException, SemanticException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );

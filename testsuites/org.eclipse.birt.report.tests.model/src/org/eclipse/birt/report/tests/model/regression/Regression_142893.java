@@ -52,7 +52,7 @@ public class Regression_142893 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_142893( ) throws DesignFileException
+	public void test_regression_142893( ) throws DesignFileException
 	{
 		openDesign( filename );
 

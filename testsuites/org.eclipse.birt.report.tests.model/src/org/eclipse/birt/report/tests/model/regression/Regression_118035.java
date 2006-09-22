@@ -43,7 +43,7 @@ public class Regression_118035 extends BaseTestCase
 	 * 
 	 */
 	
-	public void test_118035( )
+	public void test_regression_118035( )
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );

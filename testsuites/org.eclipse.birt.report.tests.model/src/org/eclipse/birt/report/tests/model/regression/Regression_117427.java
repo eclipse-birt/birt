@@ -54,7 +54,7 @@ public class Regression_117427 extends BaseTestCase
 	 * 
 	 */
 	
-	public void test_117427( ) throws DesignFileException, SemanticException, IOException
+	public void test_regression_117427( ) throws DesignFileException, SemanticException, IOException
 	{
 		openDesign( REPORT );
 		LibraryHandle lib = designHandle.getLibrary( "regression_117427_lib" ); //$NON-NLS-1$

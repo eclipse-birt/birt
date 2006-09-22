@@ -42,7 +42,7 @@ public class Regression_79135 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void test_79135( ) throws DesignFileException
+	public void test_regression_79135( ) throws DesignFileException
 	{
 		openDesign( filename );
 		ImageHandle image = (ImageHandle) designHandle.findElement( "image" ); //$NON-NLS-1$

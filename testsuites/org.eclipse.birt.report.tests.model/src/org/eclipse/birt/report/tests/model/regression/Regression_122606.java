@@ -59,7 +59,7 @@ public class Regression_122606 extends BaseTestCase
 	 * @throws NameException
 	 * @throws ContentException
 	 */
-	public void test_122606( ) throws DesignFileException, ExtendsException,
+	public void test_regression_122606( ) throws DesignFileException, ExtendsException,
 			ContentException, NameException
 	{
 		openDesign( INPUT );

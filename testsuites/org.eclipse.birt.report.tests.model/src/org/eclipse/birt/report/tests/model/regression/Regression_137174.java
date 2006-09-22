@@ -35,7 +35,7 @@ public class Regression_137174 extends BaseTestCase
 	/**
 	 * 
 	 */
-	public void test_137174( )
+	public void test_regression_137174( )
 	{
 		List infos = ModuleUtil.checkVersion( getClassFolder( ) + INPUT_FOLDER
 				+ filename );

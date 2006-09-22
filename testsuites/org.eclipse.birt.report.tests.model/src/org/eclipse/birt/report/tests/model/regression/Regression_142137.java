@@ -37,7 +37,7 @@ public class Regression_142137 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_142137( ) throws DesignFileException, SemanticException
+	public void test_regression_142137( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 		SharedStyleHandle style = designHandle.findStyle( "s1" ); //$NON-NLS-1$

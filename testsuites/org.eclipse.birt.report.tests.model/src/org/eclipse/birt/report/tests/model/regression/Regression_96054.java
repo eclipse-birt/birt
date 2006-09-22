@@ -31,7 +31,7 @@ public class Regression_96054 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_96054( ) throws DesignFileException
+	public void test_regression_96054( ) throws DesignFileException
 	{
 		openDesign( INPUT );
 		assertNotNull( designHandle );

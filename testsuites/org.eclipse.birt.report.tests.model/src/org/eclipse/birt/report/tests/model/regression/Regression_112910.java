@@ -39,7 +39,7 @@ public class Regression_112910 extends BaseTestCase
 	/**
 	 * @throws NameException
 	 */
-	public void test_112910( ) throws NameException
+	public void test_regression_112910( ) throws NameException
 	{
 		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );

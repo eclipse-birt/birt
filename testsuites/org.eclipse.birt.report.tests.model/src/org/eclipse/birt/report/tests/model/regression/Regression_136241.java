@@ -68,7 +68,7 @@ public class Regression_136241 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void test_136241( ) throws SemanticException, FileNotFoundException,
+	public void test_regression_136241( ) throws SemanticException, FileNotFoundException,
 			IOException, DesignFileException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );

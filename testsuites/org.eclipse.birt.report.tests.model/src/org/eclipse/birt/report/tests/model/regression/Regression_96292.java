@@ -33,7 +33,7 @@ public class Regression_96292 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_96292( ) throws DesignFileException
+	public void test_regression_96292( ) throws DesignFileException
 	{
 		openDesign( INPUT );
 		List errors = designHandle.getErrorList( );

@@ -60,7 +60,7 @@ public class Regression_118006 extends BaseTestCase
 	 * 
 	 */
 	
-	public void test_118006( ) throws ContentException, NameException
+	public void test_regression_118006( ) throws ContentException, NameException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );

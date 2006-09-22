@@ -44,7 +44,7 @@ public class Regression_142432 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_142432( ) throws DesignFileException, SemanticException
+	public void test_regression_142432( ) throws DesignFileException, SemanticException
 	{
 		openLibrary( libraryname );
 		MasterPageHandle masterpage = libraryHandle

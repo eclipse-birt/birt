@@ -34,7 +34,7 @@ public class Regression_136279 extends BaseTestCase
 	/**
 	 * 
 	 */
-	public void test_136279( )
+	public void test_regression_136279( )
 	{
 		IMetaDataDictionary dict = MetaDataDictionary.getInstance( );
 		IChoiceSet datatypes = dict.getChoiceSet( "columnDataType" ); //$NON-NLS-1$

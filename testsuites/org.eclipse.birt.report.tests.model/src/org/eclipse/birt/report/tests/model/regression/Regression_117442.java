@@ -49,7 +49,7 @@ public class Regression_117442 extends BaseTestCase
 	 * @throws SemanticException
 	 * 
 	 */
-	public void test_117442( ) throws DesignFileException, SemanticException,
+	public void test_regression_117442( ) throws DesignFileException, SemanticException,
 			IOException
 	{
 		openDesign( INPUT );

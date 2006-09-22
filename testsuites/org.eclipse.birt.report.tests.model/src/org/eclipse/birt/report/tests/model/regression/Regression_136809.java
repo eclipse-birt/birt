@@ -53,7 +53,7 @@ public class Regression_136809 extends BaseTestCase
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_136809( ) throws SemanticException
+	public void test_regression_136809( ) throws SemanticException
 	{
 		SessionHandle session = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );

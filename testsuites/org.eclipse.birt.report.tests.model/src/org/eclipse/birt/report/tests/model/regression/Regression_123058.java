@@ -38,7 +38,7 @@ public class Regression_123058 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_123058( ) throws DesignFileException, SemanticException
+	public void test_regression_123058( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 

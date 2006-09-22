@@ -35,7 +35,7 @@ public class Regression_73182 extends BaseTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void test_73182( ) throws Exception
+	public void test_regression_73182( ) throws Exception
 	{
 		openDesign( INPUT );
 

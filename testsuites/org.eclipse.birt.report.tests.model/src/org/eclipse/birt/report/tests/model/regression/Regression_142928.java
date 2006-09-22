@@ -42,7 +42,7 @@ public class Regression_142928 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_142928( ) throws DesignFileException, SemanticException
+	public void test_regression_142928( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 		LabelHandle label = (LabelHandle) designHandle.findElement( "NewLabel" ); //$NON-NLS-1$

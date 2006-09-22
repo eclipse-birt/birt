@@ -38,7 +38,7 @@ public class Regression_75539 extends BaseTestCase
 	 * 
 	 */
 
-	public void test_75539( ) throws Exception
+	public void test_regression_75539( ) throws Exception
 	{
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );

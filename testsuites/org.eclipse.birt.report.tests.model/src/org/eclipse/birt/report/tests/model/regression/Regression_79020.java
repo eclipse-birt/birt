@@ -38,7 +38,7 @@ public class Regression_79020 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_79020( ) throws DesignFileException, SemanticException
+	public void test_regression_79020( ) throws DesignFileException, SemanticException
 	{
 		openDesign( INPUT );
 		GridHandle grid1Handle = (GridHandle) designHandle

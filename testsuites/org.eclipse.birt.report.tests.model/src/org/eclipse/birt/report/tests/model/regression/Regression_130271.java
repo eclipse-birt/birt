@@ -40,7 +40,7 @@ public class Regression_130271 extends BaseTestCase
 	 * @throws Exception
 	 */
 	
-	public void test_130271( ) throws Exception
+	public void test_regression_130271( ) throws Exception
 	{
 		openLibrary( INPUT );
 		DataSourceHandle datasource = libraryHandle

@@ -40,7 +40,7 @@ public class Regression_75680and76063 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 	
-	public void test_75680and76063( ) throws DesignFileException, SemanticException
+	public void test_regression_75680and76063( ) throws DesignFileException, SemanticException
 	{
         openDesign(filename);
        

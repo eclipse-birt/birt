@@ -40,7 +40,7 @@ public class Regression_128356 extends BaseTestCase
 	 * @throws NameException
 	 */
 	
-	public void test_128356( ) throws DesignFileException, NameException
+	public void test_regression_128356( ) throws DesignFileException, NameException
 	{
 		openDesign( INPUT );
 		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$

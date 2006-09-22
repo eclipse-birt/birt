@@ -32,7 +32,7 @@ public class Regression_79002 extends BaseTestCase
 	/**
 	 * 
 	 */
-	public void test_79002( )
+	public void test_regression_79002( )
 	{
 		IMetaDataDictionary meta = MetaDataDictionary.getInstance( );
 		IClassInfo classInfo = meta.getClass( "Global" ); //$NON-NLS-1$

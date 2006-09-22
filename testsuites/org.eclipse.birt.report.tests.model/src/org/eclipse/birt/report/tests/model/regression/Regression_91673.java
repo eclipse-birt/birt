@@ -52,7 +52,7 @@ public class Regression_91673 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_91673( ) throws DesignFileException
+	public void test_regression_91673( ) throws DesignFileException
 	{
 		String f1 = getClassFolder( ) + INPUT_FOLDER + INPUT;
 		String f2 = getClassFolder( ) + INPUT_FOLDER + INPUT2;

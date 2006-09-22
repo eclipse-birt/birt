@@ -55,7 +55,7 @@ public class Regression_117978 extends BaseTestCase
 	 * @throws SemanticException 
 	 * 
 	 */
-	public void test_117978( ) throws IOException,
+	public void test_regression_117978( ) throws IOException,
 			DesignFileException, SemanticException
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );

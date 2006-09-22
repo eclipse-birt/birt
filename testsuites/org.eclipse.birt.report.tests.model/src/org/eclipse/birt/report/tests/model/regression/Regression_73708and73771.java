@@ -33,10 +33,11 @@ public class Regression_73708and73771 extends BaseTestCase
 	private String filename = "Regression_73708and73771.xml"; //$NON-NLS-1$
 
 	/**
+	 * SpecialCharacter
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void testSpecialCharacter( ) throws DesignFileException,
+	public void test_regression_73708( ) throws DesignFileException,
 			SemanticException
 	{
 		openDesign( filename );
@@ -90,10 +91,11 @@ public class Regression_73708and73771 extends BaseTestCase
 	}
 
 	/**
+	 * NegativeValue
 	 * @throws DesignFileException
 	 */
 	
-	public void testNegativeValue( ) throws DesignFileException
+	public void test_regression_73771( ) throws DesignFileException
 	{
 		openDesign( filename );
 		TextItemHandle text = (TextItemHandle) designHandle

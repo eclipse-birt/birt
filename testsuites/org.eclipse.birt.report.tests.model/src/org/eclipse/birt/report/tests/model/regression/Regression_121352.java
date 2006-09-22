@@ -50,7 +50,7 @@ public class Regression_121352 extends BaseTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void test_121352( ) throws Exception
+	public void test_regression_121352( ) throws Exception
 	{
 		openDesign( filename );
 		List bindingList = designHandle.getListProperty( Module.PROPERTY_BINDINGS_PROP );

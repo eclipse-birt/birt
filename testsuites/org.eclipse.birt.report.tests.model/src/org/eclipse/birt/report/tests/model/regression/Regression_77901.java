@@ -39,7 +39,7 @@ public class Regression_77901 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_77901( ) throws DesignFileException, SemanticException
+	public void test_regression_77901( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 		MasterPageHandle masterpage = designHandle

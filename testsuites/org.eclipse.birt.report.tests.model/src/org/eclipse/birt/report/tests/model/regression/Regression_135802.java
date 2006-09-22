@@ -54,7 +54,7 @@ public class Regression_135802 extends BaseTestCase
 	 * 
 	 */
 
-	public void test_135802( ) throws DesignFileException, SemanticException
+	public void test_regression_135802( ) throws DesignFileException, SemanticException
 	{
 		// open a report which include a library.
 

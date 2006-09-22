@@ -60,7 +60,7 @@ public class Regression_134213 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_134213( ) throws DesignFileException
+	public void test_regression_134213( ) throws DesignFileException
 	{
 		openDesign( INPUT );
 		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle

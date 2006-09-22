@@ -54,7 +54,7 @@ public class Regression_142158 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_142158( ) throws DesignFileException, SemanticException
+	public void test_regression_142158( ) throws DesignFileException, SemanticException
 	{
 		openLibrary( libraryname );
 		ImageHandle libImage = (ImageHandle) libraryHandle

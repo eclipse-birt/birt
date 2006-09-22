@@ -41,7 +41,7 @@ public class Regression_78837 extends BaseTestCase
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public void test_78837( ) throws DesignFileException, ContentException, NameException
+	public void test_regression_78837( ) throws DesignFileException, ContentException, NameException
 	{
 		openDesign( filename );
 		ElementFactory factory = designHandle.getElementFactory( );

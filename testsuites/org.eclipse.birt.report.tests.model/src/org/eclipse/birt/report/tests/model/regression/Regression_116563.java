@@ -52,7 +52,7 @@ public class Regression_116563 extends BaseTestCase
 	 * @throws DesignFileException
 	 * 
 	 */
-	public void test_116563( ) throws DesignFileException, SemanticException
+	public void test_regression_116563( ) throws DesignFileException, SemanticException
 	{
 		openDesign( REPORT );
 		designHandle.includeLibrary(

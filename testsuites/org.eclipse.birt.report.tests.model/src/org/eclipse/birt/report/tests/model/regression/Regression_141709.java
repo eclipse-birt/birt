@@ -37,7 +37,7 @@ public class Regression_141709 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_141709( ) throws DesignFileException, SemanticException
+	public void test_regression_141709( ) throws DesignFileException, SemanticException
 	{
 		openDesign( filename );
 		ScalarParameterHandle param = (ScalarParameterHandle) designHandle

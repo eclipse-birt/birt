@@ -39,7 +39,7 @@ public class Regression_116425 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_116425( ) throws DesignFileException
+	public void test_regression_116425( ) throws DesignFileException
 	{
 		openDesign( INPUT );
 		List datasets = designHandle.getAllDataSets( );
