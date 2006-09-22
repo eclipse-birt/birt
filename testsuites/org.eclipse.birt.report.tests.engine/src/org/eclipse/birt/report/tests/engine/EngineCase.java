@@ -86,7 +86,7 @@ public abstract class EngineCase extends TestCase
 
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
-	private static final String IMAGE_DIR = "image"; //$NON-NLS-1$
+	private static String IMAGE_DIR = "image"; //$NON-NLS-1$
 
 	private boolean pagination = false;
 	private Locale locale = Locale.ENGLISH;
@@ -822,6 +822,16 @@ public abstract class EngineCase extends TestCase
 	protected void setLocale( Locale loc )
 	{
 		this.locale = loc;
+	}
+	
+	/**
+	 * Set image folder to save rendered temp image file
+	 * 
+	 * @param imageDir
+	 *            folder to save temp image.
+	 */
+	protected void setImageDir(String imageDir){
+		IMAGE_DIR=imageDir;
 	}
 
 }
