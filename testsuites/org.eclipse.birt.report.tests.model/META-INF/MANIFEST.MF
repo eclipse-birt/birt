@@ -17,4 +17,6 @@ Require-Bundle: org.eclipse.birt.report.model,
  org.junit,
  com.ibm.icu,
  org.eclipse.birt.core,
- org.eclipse.birt.tests.core
+ org.eclipse.birt.tests.core,
+ org.eclipse.birt.report.model.adapter.oda,
+ org.eclipse.datatools.connectivity.oda.design
