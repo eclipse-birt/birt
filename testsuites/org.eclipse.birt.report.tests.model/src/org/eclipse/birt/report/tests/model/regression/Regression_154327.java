@@ -1,0 +1,67 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.tests.model.regression;
+
+import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
+
+/**
+ * <b>Bug description:</b>
+ * </p>
+ * When open a library/report design, the semantic check always performs. It
+ * cost extra time. In some cases, this check is not necessary.
+ * <p>
+ * Need an option for disabling semantic-check when opens files.
+ * <p>
+ * <b>Test Description:</b>
+ * <p>
+ * Enable/disable semantic check optino, and open design file with semantic
+ * error, check its error
+ */
+public class Regression_154327 extends BaseTestCase
+{
+
+	private String filename = "Regression_154327.xml"; //$NON-NLS-1$
+
+	/**
+	 * @throws DesignFileException
+	 */
+	public void test_regression_154327( ) throws DesignFileException
+	{
+		ModuleOption options = new ModuleOption( );
+		options.setSemanticCheck( false );
+		
+		// open design without semantic check
+		
+		DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
+		sessionHandle = designEngine.newSessionHandle( (ULocale) null );
+
+		designHandle = sessionHandle.openDesign( getClassFolder( )
+				+ INPUT_FOLDER + filename, options );
+		assertEquals( 0, designHandle.getModule( ).getAllErrors( ).size( ) );
+		designHandle.close( );
+		
+		
+		// open design with semantic check
+
+		options = null;
+		designHandle = sessionHandle.openDesign( getClassFolder( )
+				+ INPUT_FOLDER + filename, options );
+		assertEquals( 1, designHandle.getModule( ).getAllErrors( ).size( ) );
+
+	}
+}
