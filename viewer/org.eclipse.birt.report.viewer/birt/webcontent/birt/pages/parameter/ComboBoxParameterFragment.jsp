@@ -65,10 +65,14 @@
 	}
 	
 	boolean CHECKED = true;
+	int selectionLen = 0;
+	if( parameterBean.getSelectionList( ) != null )
+		selectionLen = parameterBean.getSelectionList( ).size( );
+		
 	if ( parameterBean.allowNewValues( ) ) // TODO: Editable
 	{
 		CHECKED = parameterBean.isValueInList( ) 
-				  || ( parameterBean.allowNull( ) && paramValue == null )
+				  || (paramValue == null && selectionLen > 0 )
 				  || ( !parameterBean.isValueInList( ) && defaultValue != null && defaultValue.equals( paramValue ) );		
 %>
 		<LABEL FOR="<%= encodedParameterName + "_radio_selection" %>" CLASS="birtviewer_hidden_label">Select</LABEL>
@@ -87,9 +91,13 @@
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
+		if( parameterBean.isCascade( ) )
+		{
 %>
 		<OPTION></OPTION>
 <%
+		}
+		
 		if ( defaultValue != null && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
 		{
 %>

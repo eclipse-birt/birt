@@ -37,7 +37,17 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Event handler closures.
 	 */
 	 __neh_change_cascade_text_closure : null,
-	  	
+
+    /**
+	 *	Check if parameter isnot allowBlank.
+	 */
+	__is_parameter_not_allowblank : null,
+	
+    /**
+	 *	if previous is visible.
+	 */	 
+	 preVisible: null, 
+	 
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
@@ -45,6 +55,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	initialize : function( id, mode )
 	{
 		this.__mode = mode;
+		this.preVisible = false;
 		
 		if ( this.__mode == 'parameter' )
 		{
@@ -189,9 +200,26 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			{
 				continue;
 			}
-			
+						
 			if( oSEC.length == 1 && oIEC.length <= 3 )
 			{
+				// deal with "select" parameter		
+				if( oIEC.length > 0 )
+				{
+					this.__parameter[k].name = oIEC[0].name;
+				}
+				else
+				{
+					this.__parameter[k].name = oSEC[0].name;
+				}	
+									
+				if ( oSEC[0].selectedIndex < 0 )
+				{
+					oSEC[0].focus( );
+					alert( this.__parameter[k].name + " should have a value" );
+					return false;
+				}
+				
 				// Check if select 'Null Value' option
 				var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;						
 				if( tempText && tempText == 'Null Value' )
@@ -203,18 +231,18 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						this.__parameter[k].value = oSEC[0].name;
 					k++;
 					continue;
+				}														
+				
+				// check if value is blank, don't allow new value
+				var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
+				if ( birtUtility.trim( tempValue ) == '' )
+				{
+					oSEC[0].focus( );
+					alert( this.__parameter[k].name + " cannot be blank" );
+					return false;
 				}
 							
-				// deal with "select" parameter
-				if( oIEC.length > 0 )
-				{
-					this.__parameter[k].name = oIEC[0].name;
-				}
-				else
-				{
-					this.__parameter[k].name = oSEC[0].name;
-				}				
-				this.__parameter[k].value = oSEC[0].options[oSEC[0].selectedIndex].value;				
+				this.__parameter[k].value = tempValue;				
 				k++;
 				
 				// set display text for the "select" parameter
@@ -347,7 +375,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						else if( oSEC[0] )
 						{
 							// deal with "select" parameter							
-							if ( oSEC[0].selectedIndex <= 0 )
+							if ( oSEC[0].selectedIndex < 0 )
 							{
 								oSEC[0].focus( );
 								alert( oIEC[j].value + " should have a value" );
@@ -356,6 +384,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 																					
 							var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
 							var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
+
+							if ( this.__is_parameter_not_allowblank( oIEC ) && birtUtility.trim( tempValue ) == '' )
+							{
+								oSEC[0].focus( );
+								alert( oIEC[j].value + " cannot be blank" );
+								return false;
+							}
 							
 							// Check if select 'Null Value' option
 							if( tempText != 'Null Value' )
@@ -412,6 +447,31 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 		}
 		return true;
+	},
+
+	/**
+	 *	Check if current parameter isnot allowBlank.
+	 *
+	 *	@oInputs, Input control collection 
+	 *	@return, true or false
+	 */
+	__is_parameter_not_allowblank : function( oInputs )
+	{
+		if( !oInputs || oInputs.length <= 0 )
+			return false;
+		
+		var flag = false;		
+		for( var i = 0; i< oInputs.length; i++ )
+		{
+			// if find defined input control
+			if( oInputs[i].id == 'isNotBlank' && oInputs[i].value == 'true' )
+			{
+				flag = true;
+				break;		
+			}
+		}
+		
+		return flag;
 	},
 
 	/**
@@ -590,13 +650,20 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		
 		// disable the Navigation Bar buttons
 		birtUtility.setButtonsDisabled ( "navigationBar", true );
+		
+		// set preVisible
+		this.preVisible = this.visible;
 	},
 
 	/**
 	Called after element is shown
 	*/
 	__postShow: function()
-	{
+	{	
+		// if previous is visible, return directly
+		if( this.preVisible )	
+			return;
+			
 		// focus on the first input text/password or button control
 		var oITCs = this.__instance.getElementsByTagName( "input" );
 		for( var i = 0; i < oITCs.length; i++ )
@@ -610,7 +677,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					break;
 				}
 			}			
-		}		
+		}
 	},
 		
 	/**
