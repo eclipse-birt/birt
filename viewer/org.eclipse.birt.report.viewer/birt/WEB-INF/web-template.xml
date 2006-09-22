@@ -65,7 +65,7 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!-- If always overwrite generated document file. Defalult to true -->
+	<!-- If always overwrite generated document file.For designer,defalult to false -->
 	<context-param>
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
 		<param-value>false</param-value>

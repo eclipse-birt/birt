@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.viewer.browsers.embedded;
 
 import org.eclipse.help.browser.IBrowser;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -63,6 +64,9 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 */
 	private void uiDisplayURL( final String url )
 	{
+		// Clear sessions
+		Browser.clearSessions( );
+		
 		uiClose( );
 
 		getBrowser( ).displayUrl( url );
