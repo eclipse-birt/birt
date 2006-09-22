@@ -46,7 +46,7 @@ public class PlatformConfig implements IPlatformConfig
 		return null;
 	}
 
-	public void getBIRTHome( String birtHome )
+	public void setBIRTHome( String birtHome )
 	{
 		properties.put( BIRT_HOME, birtHome );
 	}
