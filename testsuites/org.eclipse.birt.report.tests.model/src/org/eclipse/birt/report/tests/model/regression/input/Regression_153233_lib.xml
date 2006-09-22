@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.5" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="includeResource">testResource</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="8">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+            <encrypted-property name="odaPassword">  </encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="3"/>
+    </page-setup>
+</library>

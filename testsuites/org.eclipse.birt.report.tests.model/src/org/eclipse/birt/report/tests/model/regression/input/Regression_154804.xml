@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.v20060920-0630 Build &lt;20060920-0630></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <label name="label" id="105">
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">pdf</property>
+                    <expression name="valueExpr">true</expression>
+                </structure>
+            </list-property>
+            <structure name="action">
+                <property name="formatType">html</property>
+                <property name="linkType">drill-through</property>
+                <property name="reportName">test.rptdesign</property>
+                <property name="targetWindow">_blank</property>
+                <property name="targetFileType">report-design</property>
+            </structure>
+        </label>
+    </body>
+</report>

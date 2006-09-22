@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.v20060915-0630 Build &lt;20060915-0630></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <table name="table" id="130">
+            <property name="width">100%</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">a</property>
+                    <expression name="expression">a</expression>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
+            <column id="143"/>
+            <column id="144"/>
+            <column id="145"/>
+            <header>
+                <row id="131">
+                    <cell id="132"/>
+                    <cell id="133"/>
+                    <cell id="134"/>
+                </row>
+            </header>
+            <detail>
+                <row id="135">
+                    <cell id="136">
+                        <data name="data" id="146"/>
+                    </cell>
+                    <cell id="137"/>
+                    <cell id="138"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="139">
+                    <cell id="140"/>
+                    <cell id="141"/>
+                    <cell id="142"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
