@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
@@ -26,6 +27,8 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -34,6 +37,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -58,6 +62,10 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	private transient Group grpAccLine = null;
 
 	private transient LineAttributesComposite liacAccLine = null;
+	
+	private transient Label lblOrientation = null;
+
+	private transient Combo cmbOrientation;
 
 	private transient Series series = null;
 
@@ -91,7 +99,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		this.context = context;
 		init( );
 		placeComponents( );
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_BUBBLE );
+		ChartUIUtil.bindHelp( parent,
+				ChartHelpContextIds.SUBTASK_YSERIES_BUBBLE );
 	}
 
 	private void init( )
@@ -109,11 +118,12 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 
 		// Main content composite
 		this.setLayout( glContent );
-		
+
 		grpAccLine = new Group( this, SWT.NONE );
 		GridData gdGRPAccLine = new GridData( GridData.FILL_BOTH );
 		gdGRPAccLine.horizontalSpan = 1;
-		grpAccLine.setLayout( new FillLayout( ) );
+		GridLayout glGRPAccline = new GridLayout( 2, false );
+		grpAccLine.setLayout( glGRPAccline );
 		grpAccLine.setLayoutData( gdGRPAccLine );
 		grpAccLine.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.AccLine" ) ); //$NON-NLS-1$
 
@@ -124,7 +134,18 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				true,
 				true,
 				true );
+		GridData gdLIACAccLine = new GridData( GridData.FILL_BOTH );
+		gdLIACAccLine.horizontalSpan = 2;
+		liacAccLine.setLayoutData( gdLIACAccLine );
 		liacAccLine.addListener( this );
+		
+		lblOrientation = new Label( grpAccLine, SWT.NONE );
+		lblOrientation.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
+
+		cmbOrientation = new Combo( grpAccLine, SWT.DROP_DOWN | SWT.READ_ONLY );
+		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
+		cmbOrientation.setLayoutData( gdCMBOrientation );
+		cmbOrientation.addSelectionListener( this );
 
 		grpLine = new Group( this, SWT.NONE );
 		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
@@ -141,7 +162,7 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				true,
 				true );
 		liacLine.addListener( this );
-		
+
 		Composite cmp = new Composite( this, SWT.NONE );
 		cmp.setLayout( new GridLayout( ) );
 		cmp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -185,9 +206,22 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 			btnPalette.setLayoutData( gdBTNCurve );
 			btnCurve.addSelectionListener( this );
 		}
-		
+
 		enableLineSettings( ( (BubbleSeries) series ).getLineAttributes( )
 				.isVisible( ) );
+		
+		enableAccLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
+				.isVisible( ) );
+
+		populateLists( );
+	}
+
+	private void populateLists( )
+	{
+		NameSet ns = LiteralHelper.orientationSet;
+		cmbOrientation.setItems( ns.getDisplayNames( ) );
+		cmbOrientation.select( ns.getSafeNameIndex( ( (BubbleSeries) series ).getAccOrientation( )
+				.getName( ) ) );
 	}
 
 	public Point getPreferredSize( )
@@ -209,6 +243,10 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
 			( (BubbleSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( cmbOrientation ) )
+		{
+			( (BubbleSeries) series ).setAccOrientation( Orientation.getByName( LiteralHelper.orientationSet.getNameByDisplayName( cmbOrientation.getText( ) ) ) );
 		}
 	}
 
@@ -259,6 +297,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 			{
 				( (BubbleSeries) series ).getAccLineAttributes( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				enableLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
+						.isVisible( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
@@ -293,6 +333,19 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 			btnPalette.setEnabled( isEnabled );
 		}
 		btnCurve.setEnabled( isEnabled );
+	}
+	
+	private void enableAccLineSettings( boolean isEnabled )
+	{
+		if ( cmbOrientation != null )
+		{
+			cmbOrientation.setEnabled( isEnabled );
+		}
+		if ( lblOrientation != null )
+		{
+			lblOrientation.setEnabled( isEnabled );
+		}
+		
 	}
 
 }

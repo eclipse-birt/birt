@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
@@ -54,6 +55,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 	private transient Group grpLine2 = null;
 
 	private transient LineAttributesComposite liacLine2 = null;
+
+	private transient Button btnPalette = null;
 
 	private transient Series series = null;
 
@@ -148,6 +151,16 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true,
 				true );
 		liacLine2.addListener( this );
+		
+		btnPalette = new Button( this, SWT.CHECK );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnPalette.setLayoutData( gd );
+			btnPalette.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
+			btnPalette.addSelectionListener( this );
+		}
 
 		btnCurve = new Button( this, SWT.CHECK );
 		{
@@ -180,6 +193,10 @@ public class DifferenceSeriesAttributeComposite extends Composite
 		if ( e.getSource( ).equals( btnCurve ) )
 		{
 			( (DifferenceSeries) series ).setCurve( btnCurve.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( btnPalette ) )
+		{
+			( (DifferenceSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
 		}
 	}
 
@@ -257,6 +274,10 @@ public class DifferenceSeriesAttributeComposite extends Composite
 
 	private void enableLineSettings( boolean isEnabled )
 	{
+		if ( btnPalette != null )
+		{
+			btnPalette.setEnabled( isEnabled );
+		}
 		btnCurve.setEnabled( isEnabled );
 	}
 
