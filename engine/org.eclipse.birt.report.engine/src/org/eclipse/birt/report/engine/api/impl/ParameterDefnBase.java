@@ -43,8 +43,6 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	
 	protected Map customProperties = new HashMap();
 	
-	protected String 		typeName;
-	
 	protected ReportDesignHandle	reportDesignHandle;
 	protected Locale 		locale = null;
 	
@@ -81,25 +79,6 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	public void setParameterType(int parameterType)
 	{
 		this.parameterType = parameterType;
-		switch (parameterType)
-		{
-			case IParameterDefnBase.FILTER_PARAMETER:
-				this.typeName = FILTER;
-				break;
-			case IParameterDefnBase.LIST_PARAMETER:
-				this.typeName = LIST;
-				break;				
-			case IParameterDefnBase.TABLE_PARAMETER:
-				this.typeName = TABLE;
-				break;
-			case IParameterDefnBase.PARAMETER_GROUP:
-				this.typeName = GROUP;
-				break;
-			case IParameterDefnBase.SCALAR_PARAMETER:
-			default:
-				this.typeName = SCALAR;
-				break;
-		}
 	}
 	
 	/* (non-Javadoc)
@@ -214,8 +193,28 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IParameterDefnBase#getTypeName()
 	 */
-	public String getTypeName()
-	{
+	public String getTypeName( )
+	{	
+		String typeName;
+		switch (parameterType)
+		{
+			case IParameterDefnBase.FILTER_PARAMETER:
+				typeName = FILTER;
+				break;
+			case IParameterDefnBase.LIST_PARAMETER:
+				typeName = LIST;
+				break;				
+			case IParameterDefnBase.TABLE_PARAMETER:
+				typeName = TABLE;
+				break;
+			case IParameterDefnBase.PARAMETER_GROUP:
+				typeName = GROUP;
+				break;
+			case IParameterDefnBase.SCALAR_PARAMETER:
+			default:
+				typeName = SCALAR;
+				break;
+		}
 		return typeName;
 	}
 	
