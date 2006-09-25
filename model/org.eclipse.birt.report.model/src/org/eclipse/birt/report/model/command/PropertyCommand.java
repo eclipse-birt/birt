@@ -45,6 +45,8 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -194,8 +196,61 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 		else
 		{
-			doSetProperty( prop, value );
+			if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
+					.getName( ) )
+					&& value == null )
+				clearRefTemplateParameterProp( prop, value );
+			else
+				doSetProperty( prop, value );
 		}
+	}
+
+	/**
+	 * Remove template definition from module if the definition is no longer
+	 * refferenced when setting
+	 * <code>IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP</code> null.
+	 * 
+	 * @param prop
+	 *            should be
+	 *            <code>IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP</code>.
+	 * @param value
+	 *            should be null;
+	 * @throws SemanticException
+	 *             if any semantic exception is thrown.
+	 */
+
+	private void clearRefTemplateParameterProp( ElementPropertyDefn prop,
+			Object value ) throws SemanticException
+	{
+		assert prop != null;
+		assert prop.getName( ) == IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP;
+
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( );
+
+		try
+		{
+			ElementRefValue templateParam = (ElementRefValue) element
+					.getProperty( module, prop );
+			TemplateParameterDefinition definition = (TemplateParameterDefinition) templateParam
+					.getElement( );
+
+			doSetProperty( prop, value );
+
+			if ( definition != null && !definition.hasReferences( ) )
+			{
+				ContentCommand cmd = new ContentCommand( definition.getRoot( ),
+						definition.getContainer( ) );
+				cmd.remove( definition, definition.getContainerSlot( ) );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 
 	/**
