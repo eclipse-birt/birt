@@ -35,7 +35,7 @@ public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
 	public Composite getSeriesAttributeSheet( Composite parent, Series series,
 			ChartWizardContext context )
 	{
-		return new LineSeriesAttributeComposite( parent,
+		return new DifferenceSeriesAttributeComposite( parent,
 				SWT.NONE,
 				context,
 				series );

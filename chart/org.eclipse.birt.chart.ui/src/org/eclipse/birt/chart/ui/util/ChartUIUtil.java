@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.i18n.Messages;
@@ -297,11 +298,11 @@ public class ChartUIUtil
 		switch ( index )
 		{
 			case 0 :
-				return Messages.getString( "ChartUIUtil.GanttExp.Label" ); //$NON-NLS-1$
-			case 1 :
 				return Messages.getString( "ChartUIUtil.GanttExp.Start" ); //$NON-NLS-1$
-			case 2 :
+			case 1 :
 				return Messages.getString( "ChartUIUtil.GanttExp.End" ); //$NON-NLS-1$
+			case 2 :
+				return Messages.getString( "ChartUIUtil.GanttExp.Label" ); //$NON-NLS-1$
 			default :
 				return ""; //$NON-NLS-1$
 		}
@@ -1070,10 +1071,25 @@ public class ChartUIUtil
 			{
 				if ( oldSeries.getDataDefinition( ).size( ) != 2 )
 				{
-					//For value
+					// For value
 					newSeries.getDataDefinition( )
 							.add( EcoreUtil.copy( (Query) query ) );
-					//For Size
+					// For Size
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+				}
+				else
+				{
+					newSeries.getDataDefinition( )
+							.addAll( oldSeries.getDataDefinition( ) );
+				}
+			}
+			else if ( newSeries instanceof DifferenceSeries )
+			{
+				if ( oldSeries.getDataDefinition( ).size( ) != 2 )
+				{
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
 					newSeries.getDataDefinition( )
 							.add( EcoreUtil.copy( (Query) query ) );
 				}

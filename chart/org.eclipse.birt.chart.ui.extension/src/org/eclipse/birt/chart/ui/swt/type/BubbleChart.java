@@ -256,7 +256,9 @@ public class BubbleChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL ) )
+							.equals( ScatterChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( DifferenceChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 				{

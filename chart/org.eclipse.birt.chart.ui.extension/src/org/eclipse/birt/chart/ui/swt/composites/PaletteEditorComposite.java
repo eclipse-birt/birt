@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -176,6 +177,9 @@ public final class PaletteEditorComposite extends Composite implements
 				wizardContext,
 				ColorDefinitionImpl.WHITE( ),
 				true,
+				true,
+				false,
+				false,
 				true );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		fccNewEntry.setLayoutData( gd );
@@ -232,6 +236,9 @@ public final class PaletteEditorComposite extends Composite implements
 					wizardContext,
 					null,
 					true,
+					true,
+					false,
+					false,
 					true );
 			coEditor.setBounds( 3, 3, rCA.width - 6, iItemHeight - 6 );
 			( (FillChooserComposite) coEditor ).addListener( this );
@@ -271,17 +278,61 @@ public final class PaletteEditorComposite extends Composite implements
 		for ( int i = iStartIndex; i < iStartIndex + iAvailableItems; i++ )
 		{
 			fi = (Fill) elPaletteEntries.get( i );
-			bo.set( 3, iY + 3, rCA.width - 6, iItemHeight - 6 );
-			rre.setBackground( fi );
-			try
+
+			if ( fi instanceof MultipleFill )
 			{
-				idrSWT.fillRectangle( rre );
-				idrSWT.drawRectangle( rre );
+				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
+						.get( 0 ) );
+				bo.set( 3, iY + 3, ( rCA.width - 6 ) / 2, iItemHeight - 6 );
+				try
+				{
+					idrSWT.fillRectangle( rre );
+				}
+				catch ( ChartException rex )
+				{
+					logger.log( rex );
+				}
+
+				bo.set( rCA.width / 2,
+						iY + 3,
+						( rCA.width - 6 ) / 2,
+						iItemHeight - 6 );
+				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
+						.get( 1 ) );
+				try
+				{
+					idrSWT.fillRectangle( rre );
+				}
+				catch ( ChartException rex )
+				{
+					logger.log( rex );
+				}
+
+				bo.set( 3, iY + 3, rCA.width - 6, iItemHeight - 6 );
+				try
+				{
+					idrSWT.drawRectangle( rre );
+				}
+				catch ( ChartException rex )
+				{
+					logger.log( rex );
+				}
 			}
-			catch ( ChartException rex )
+			else
 			{
-				logger.log( rex );
+				rre.setBackground( fi );
+				bo.set( 3, iY + 3, rCA.width - 6, iItemHeight - 6 );
+				try
+				{
+					idrSWT.fillRectangle( rre );
+					idrSWT.drawRectangle( rre );
+				}
+				catch ( ChartException rex )
+				{
+					logger.log( rex );
+				}
 			}
+			
 			if ( i == iSelectedIndex )
 			{
 				// WITHIN RANGE; SHOW EDITOR AND UPDATE POSITION

@@ -363,18 +363,9 @@ public class LineChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-			// chart is
-			// of this type
-			// (LineChart)
+			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) 
 			{
-				if ( !currentChart.getSubType( ).equals( sNewSubType ) ) // Original
-				// chart
-				// is
-				// of
-				// the
-				// required
-				// subtype
+				if ( !currentChart.getSubType( ).equals( sNewSubType ) ) 
 				{
 					currentChart.setSubType( sNewSubType );
 					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -411,7 +402,9 @@ public class LineChart extends DefaultChartTypeImpl
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( BubbleChart.TYPE_LITERAL ) )
+							.equals( BubbleChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( DifferenceChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
 				{

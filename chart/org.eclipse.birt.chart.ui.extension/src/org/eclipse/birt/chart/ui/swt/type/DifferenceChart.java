@@ -215,16 +215,9 @@ public class DifferenceChart extends DefaultChartTypeImpl
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		oSample.setDataSetRepresentation( "5,14,10" ); //$NON-NLS-1$
+		oSample.setDataSetRepresentation( "5, 4, 10" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
-
-		if ( newChart.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
-		{
-			BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
-			sdAncillary.setDataSetRepresentation( "Series 1" ); //$NON-NLS-1$
-			sd.getAncillarySampleData( ).add( sdAncillary );
-		}
 
 		newChart.setSampleData( sd );
 	}
@@ -262,7 +255,8 @@ public class DifferenceChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
+					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( BubbleChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
 				{
@@ -363,7 +357,6 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -490,34 +483,11 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		return sbNewRepresentation.toString( ).substring( 0,
 				sbNewRepresentation.length( ) - 1 );
 	}
-
+	
 	private String getConvertedOrthogonalSampleDataRepresentation(
 			String sOldRepresentation )
 	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( sElement.startsWith( "H" ) ) //$NON-NLS-1$ 
-			// Orthogonal sample data is for
-			// a stock chart (Orthogonal
-			// sample data CANNOT
-			// be text
-			{
-				StringTokenizer strStockTokenizer = new StringTokenizer( sElement );
-				sbNewRepresentation.append( strStockTokenizer.nextToken( )
-						.trim( )
-						.substring( 1 ) );
-			}
-			else
-			{
-				sbNewRepresentation.append( sElement );
-			}
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
+		return sOldRepresentation;
 	}
 
 	/*

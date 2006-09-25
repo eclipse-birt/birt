@@ -65,6 +65,12 @@ public class ChartHelpContextIds
 
 	public static final String SUBTASK_YSERIES_METER = PREFIX
 			+ "FormatMeterChartYSeries_ID"; //$NON-NLS-1$
+	
+	public static final String SUBTASK_YSERIES_BUBBLE = PREFIX
+			+ "FormatBubbleChartYSeries_ID"; //$NON-NLS-1$
+
+	public static final String SUBTASK_YSERIES_DIFFERENCE = PREFIX
+			+ "FormatDifferenceChartYSeries_ID"; //$NON-NLS-1$
 
 	/*----------POPUP----------*/
 	public static final String POPUP_CHART_TITLE_FORMAT = PREFIX

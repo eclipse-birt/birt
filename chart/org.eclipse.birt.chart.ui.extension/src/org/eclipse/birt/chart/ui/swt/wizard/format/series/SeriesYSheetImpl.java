@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -190,7 +191,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// Markers for Line/Area/Scatter series
-		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof LineSeries )
+		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof LineSeries 
+				&& !isDifferenceSeries( ) )
 		{
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
@@ -199,6 +201,28 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					Messages.getString( "SeriesYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
 					popup );
 			btnLineMarker.addSelectionListener( this );
+		}
+		
+		// Markers for Difference series
+		if ( isDifferenceSeries( ) )
+		{
+			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers" ), //$NON-NLS-1$
+					getContext( ),
+					(DifferenceSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
+					true );
+			Button btnPLineMarker = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers&" ), //$NON-NLS-1$
+					popup );
+			btnPLineMarker.addSelectionListener( this );
+
+			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers" ), //$NON-NLS-1$
+					getContext( ),
+					(DifferenceSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
+					false );
+			Button btnNLineMarker = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers&" ), //$NON-NLS-1$
+					popup );
+			btnNLineMarker.addSelectionListener( this );
 		}
 
 		// Decoration Label for Gantt series
@@ -391,6 +415,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 	{
 		return ( getChart( ) instanceof ChartWithAxes )
 				&& ( !isGanttSeries( ) )
+				&& ( !isDifferenceSeries( ) )
 				&& ( getChart( ).getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL );
 	}
 
@@ -402,6 +427,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 	private boolean isGanttSeries( )
 	{
 		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof GanttSeries;
+	}
+	
+	private boolean isDifferenceSeries( )
+	{
+		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof DifferenceSeries;
 	}
 
 }

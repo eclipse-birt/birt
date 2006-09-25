@@ -267,7 +267,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( BubbleChart.TYPE_LITERAL ) )
+							.equals( BubbleChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( DifferenceChart.TYPE_LITERAL ) )
 			{
 				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
 						currentChart.getType( )

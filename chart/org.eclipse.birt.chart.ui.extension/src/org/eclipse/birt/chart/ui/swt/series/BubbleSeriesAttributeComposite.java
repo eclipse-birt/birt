@@ -91,7 +91,7 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		this.context = context;
 		init( );
 		placeComponents( );
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_BAR );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_BUBBLE );
 	}
 
 	private void init( )

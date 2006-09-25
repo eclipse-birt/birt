@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -90,6 +91,8 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	private transient MarkerEditorComposite newMarkerEditor;
 
 	private transient MarkerEditorComposite currentMarkerEditor;
+	
+	private transient boolean bPositive = true;
 
 	/** Holds the selected index of marker */
 	private transient int iSelectedIndex = 0;
@@ -102,6 +105,14 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	{
 		super( title, context, false );
 		this.series = series;
+	}
+	
+	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
+			LineSeries series, boolean bPositive )
+	{
+		super( title, context, false );
+		this.series = series;
+		this.bPositive = bPositive;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -441,7 +452,15 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 	private EList getMarkers( )
 	{
-		return series.getMarkers( );
+		if ( bPositive )
+		{
+			return series.getMarkers( );
+		}
+		else
+		{
+			return ( (DifferenceSeries) series ).getNegativeMarkers( );
+		}
+		
 	}
 
 	private void updateScrollBar( )

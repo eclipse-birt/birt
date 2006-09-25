@@ -109,6 +109,8 @@ public class FillChooserComposite extends Composite implements
 	private transient Fill fCurrent = null;
 
 	private transient boolean bTransparencyChanged = false;
+	
+	private transient boolean bPositiveNegativeEnabled = false;
 
 	private transient int iTransparency = 0;
 
@@ -181,6 +183,40 @@ public class FillChooserComposite extends Composite implements
 		this.fCurrent = fCurrent;
 		this.bGradientEnabled = bEnableGradient;
 		this.bImageEnabled = bEnableImage;
+		this.wizardContext = wizardContext;
+		init( );
+		placeComponents( );
+		initAccessible( );
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param wizardContext
+	 * @param fCurrent
+	 *            If null, create a Fill using adapters from wizard context
+	 * @param bEnableGradient
+	 * @param bEnableImage
+	 * @param bEnableAuto
+	 *            Indicates whether auto button will be displayed.
+	 * @param bEnableTransparent
+	 *            Indicates whether transparent button will be displayed.
+	 * @param bPositiveNegative 
+	 * 			  Indicates whether positive/negative button will be displayed.
+	 */
+	public FillChooserComposite( Composite parent, int style,
+			ChartWizardContext wizardContext, Fill fCurrent,
+			boolean bEnableGradient, boolean bEnableImage, boolean bEnableAuto,
+			boolean bEnableTransparent, boolean bPositiveNegative )
+	{
+		super( parent, style );
+		this.fCurrent = fCurrent;
+		this.bGradientEnabled = bEnableGradient;
+		this.bImageEnabled = bEnableImage;
+		this.bAutoEnabled = bEnableAuto;
+		this.bTransparentEnabled = bEnableTransparent;
+		this.bPositiveNegativeEnabled = bPositiveNegative;
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
@@ -407,7 +443,10 @@ public class FillChooserComposite extends Composite implements
 		{
 			iShellHeight += 30;
 		}
-		iShellHeight += 30;
+		if ( bPositiveNegativeEnabled )
+		{
+			iShellHeight += 30;
+		}
 
 		Shell shell = new Shell( this.getShell( ), SWT.NO_FOCUS );
 		shell.setLayout( new FillLayout( ) );
@@ -594,16 +633,19 @@ public class FillChooserComposite extends Composite implements
 			btnImage.addListener( SWT.Traverse, this );
 		}
 
-		btnPN = new Button( cmpButtons, SWT.NONE );
-		GridData gdImage = new GridData( GridData.FILL_BOTH );
-		gdImage.heightHint = 26;
-		gdImage.horizontalSpan = 2;
-		btnPN.setLayoutData( gdImage );
-		btnPN.setText( Messages.getString( "FillChooserComposite.Lbl.PositiveNegative" ) ); //$NON-NLS-1$
-		btnPN.addSelectionListener( this );
-		btnPN.addListener( SWT.FocusOut, this );
-		btnPN.addListener( SWT.KeyDown, this );
-		btnPN.addListener( SWT.Traverse, this );
+		if ( this.bPositiveNegativeEnabled )
+		{
+			btnPN = new Button( cmpButtons, SWT.NONE );
+			GridData gdPN = new GridData( GridData.FILL_BOTH );
+			gdPN.heightHint = 26;
+			gdPN.horizontalSpan = 2;
+			btnPN.setLayoutData( gdPN );
+			btnPN.setText( Messages.getString( "FillChooserComposite.Lbl.PositiveNegative" ) ); //$NON-NLS-1$
+			btnPN.addSelectionListener( this );
+			btnPN.addListener( SWT.FocusOut, this );
+			btnPN.addListener( SWT.KeyDown, this );
+			btnPN.addListener( SWT.Traverse, this );
+		}
 
 		shell.layout( );
 		shell.open( );

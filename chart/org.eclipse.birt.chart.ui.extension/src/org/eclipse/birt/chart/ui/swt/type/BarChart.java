@@ -437,7 +437,9 @@ public class BarChart extends DefaultChartTypeImpl
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( BubbleChart.TYPE_LITERAL ) )
+							.equals( BubbleChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( DifferenceChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL ) )
 				{

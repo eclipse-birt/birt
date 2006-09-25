@@ -264,7 +264,11 @@ public class GanttChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL ) )
+							.equals( ScatterChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( BubbleChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( DifferenceChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 				{
