@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.text.Bidi;
 import java.util.HashSet;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -38,6 +39,9 @@ import org.eclipse.birt.report.engine.layout.pdf.hyphen.Word;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+
+import com.ibm.icu.text.ArabicShaping;
+import com.ibm.icu.text.ArabicShapingException;
 
 /**
  * 
@@ -135,6 +139,17 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		else if ( transformType.equalsIgnoreCase( "capitalize" ) ) //$NON-NLS-1$
 		{
 			textContent.setText( capitalize( textContent.getText( ) ) );
+		}
+		
+		ArabicShaping shaping = new ArabicShaping(ArabicShaping.LETTERS_SHAPE);
+		try
+		{
+			String shapingText =  shaping.shape( textContent.getText( ));
+			textContent.setText(shapingText);
+		}
+		catch ( ArabicShapingException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
 
