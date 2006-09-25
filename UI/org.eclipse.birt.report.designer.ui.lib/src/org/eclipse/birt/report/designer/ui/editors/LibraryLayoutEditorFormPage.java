@@ -37,7 +37,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		IReportEditorPage
 {
 
-	private static final String ID = "org.eclipse.birt.report.designer.ui.editors.library.layout"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.library.layout"; //$NON-NLS-1$
 
 	private int index;
 
