@@ -88,6 +88,12 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	 */
 	protected void __doGet( IContext context ) throws ServletException, IOException, BirtException
 	{
+		// Don't cache page
+		context.getResponse( ).setHeader("Pragma","No-cache");   //$NON-NLS-1$//$NON-NLS-2$
+		context.getResponse( ).setHeader("Cache-Control","no-cache");  //$NON-NLS-1$ //$NON-NLS-2$
+		context.getResponse( ).setHeader("Cache-Control","no-store"); //$NON-NLS-1$ //$NON-NLS-2$
+		context.getResponse( ).setDateHeader("Expires", 0);  //$NON-NLS-1$
+		
 		ViewerAttributeBean bean = ( ViewerAttributeBean ) context.getBean( );
 		if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(
 				context.getRequest( ).getServletPath( ) )
