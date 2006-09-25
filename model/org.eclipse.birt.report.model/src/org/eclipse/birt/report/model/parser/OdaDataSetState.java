@@ -278,7 +278,7 @@ public class OdaDataSetState extends SimpleDataSetState
 		if ( dataSet == null )
 			return;
 
-		if ( ( handler.versionNumber > VersionUtil.VERSION_3_2_2 )
+		if ( ( handler.versionNumber >= VersionUtil.VERSION_3_2_2 )
 				&& ( handler.versionNumber < VersionUtil.VERSION_3_2_6 ) )
 		{
 			dataSet.setProperty( IDataSetModel.RESULT_SET_HINTS_PROP, null );
