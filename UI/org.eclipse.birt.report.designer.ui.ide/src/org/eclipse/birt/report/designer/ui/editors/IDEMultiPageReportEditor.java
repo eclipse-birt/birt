@@ -358,58 +358,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		int errorListSize = list.size( );
 		list.addAll( reportDesignHandle.getWarningList( ) );
 
-		// test code begin
-		if ( reportDesignHandle instanceof LibraryHandle
-				&& reportDesignHandle.getFileName( )
-						.endsWith( "new_library_1.rptlibrary" ) )
-		{
-			for ( int i = 0; i < 4; i++ )
-			{
-				IMarker marker = file.createMarker( IMarker.PROBLEM );
-				marker.setAttribute( IMarker.LINE_NUMBER, 1 );
-				marker.setAttribute( IMarker.CHAR_START, 6 );
-				marker.setAttribute( IMarker.CHAR_END, 50 );
-				marker.setAttribute( IMarker.SEVERITY, IMarker.SEVERITY_WARNING );
-				switch ( i )
-				{
-					case 0 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Library Test:Goto Layout:Label 4" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 4 ) );
-						break;
-					case 1 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Library Test:Goto MasterPage:Label 38" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 38 ) );
-						break;
-					case 2 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Library Test:Goto MsterPage: AutoText 56" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 56 ) );
-						break;
-					case 3 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Library Test:Goto XMLSource" );
-						marker.setAttribute( IMarker.LINE_NUMBER, 2 );
-						// marker.setAttribute( IReportMarker.ELEMENT_ID, new
-						// Integer(0));
-						break;
-					// case 4 :
-					// marker.setAttribute( IMarker.MESSAGE,
-					// "Library Test:Goto Layout:Table Row, 23" );
-					// marker.setAttribute( IReportMarker.ELEMENT_ID, new
-					// Integer(23));
-					// break;
-
-					default :
-				}
-
-			}
-			return;
-
-		}
-		// test code end
-
 		for ( int i = 0, m = list.size( ); i < m; i++ )
 		{
 			ErrorDetail errorDetail = (ErrorDetail) list.get( i );
@@ -420,7 +368,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 				marker.setAttribute( IMarker.SEVERITY, IMarker.SEVERITY_ERROR );
 			else
 				marker.setAttribute( IMarker.SEVERITY, IMarker.SEVERITY_WARNING );
-
 			marker.setAttribute( IMarker.MESSAGE, errorDetail.getMessage( ) );
 			marker.setAttribute( IMarker.LINE_NUMBER, errorDetail.getLineNo( ) );
 			marker.setAttribute( IMarker.LOCATION, errorDetail.getTagName( ) );
@@ -432,48 +379,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 						new Integer( (int) errorDetail.getElement( ).getID( ) ) );
 			}
 
-			// test code begin
-			if ( reportDesignHandle instanceof ReportDesignHandle
-					&& reportDesignHandle.getFileName( )
-							.endsWith( "new_report.rptdesign" ) )
-			{
-
-				switch ( i )
-				{
-					case 0 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Report Test:Goto Layout:Table 24" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 24 ) );
-						break;
-					case 1 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Report Test:Goto MasterPage:DataItem 112" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 112 ) );
-						break;
-					case 2 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Report Test:Goto MsterPage: Dynamic Text 145" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 145 ) );
-						break;
-					case 3 :
-						marker.setAttribute( IMarker.MESSAGE,
-								"Report Test:Goto MsterPage: MasterPage 2" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 2 ) );
-						break;
-					case 4 :
-						marker.setAttribute( IMarker.LINE_NUMBER, 2 );
-						marker.setAttribute( IMarker.LOCATION,
-								errorDetail.getTagName( ) );
-						marker.setAttribute( IMarker.CHAR_START, 49 );
-						marker.setAttribute( IMarker.CHAR_END, 56 );
-						marker.setAttribute( IMarker.MESSAGE,
-								"Report Test:Goto XMLSource" );
-						marker.setAttribute( ELEMENT_ID, new Integer( 0 ) );
-						break;
-					default :
-				}
-			}
-			// test code end
 
 		}
 	}
