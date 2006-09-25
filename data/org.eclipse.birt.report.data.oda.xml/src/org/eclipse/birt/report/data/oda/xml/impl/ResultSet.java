@@ -349,26 +349,19 @@ public class ResultSet implements IResultSet
     private Date stringToDate( String stringValue ) throws OdaException
     {
     	testClosed();
-    	if( stringValue != null )
-        {
-            try
-            {
-                return Date.valueOf( stringValue );
-            }
-            catch( IllegalArgumentException e )
-            {
-            	try
-        		{
-        			java.util.Date date = DateUtil.toDate( stringValue );
-        			return new Date( date.getTime( ) );
-        		}
-        		catch ( OdaException oe )
-        		{
-        			this.wasNull = true;
-        			return null;
-        		}
-            }
-        }
+    	if ( stringValue != null )
+		{
+			try
+			{
+				java.util.Date date = DateUtil.toDate( stringValue );
+				return new Date( date.getTime( ) );
+			}
+			catch ( OdaException oe )
+			{
+				this.wasNull = true;
+				return null;
+			}
+		}
         return null;
     }
 	
@@ -400,24 +393,17 @@ public class ResultSet implements IResultSet
     private Time stringToTime( String stringValue ) throws OdaException
     {
     	testClosed();
-    	if( stringValue != null )
-        {
-            try
-            {
-                return Time.valueOf( stringValue );
-            }
-            catch( IllegalArgumentException e )
-            {
-				try
-				{
-					java.util.Date date = DateUtil.toDate( stringValue );
-					return new Time( date.getTime( ) );
-				}
-				catch ( OdaException oe )
-				{
-					this.wasNull = true;
-					return null;
-				}
+    	if ( stringValue != null )
+		{
+			try
+			{
+				java.util.Date date = DateUtil.toDate( stringValue );
+				return new Time( date.getTime( ) );
+			}
+			catch ( OdaException oe )
+			{
+				this.wasNull = true;
+				return null;
 			}
 		}
 		this.wasNull = true;
@@ -450,36 +436,29 @@ public class ResultSet implements IResultSet
     private Timestamp stringToTimestamp( String stringValue ) throws OdaException
     {
     	testClosed();
-    	if( stringValue != null )
-        {
-            try
-            {
-            	stringValue = stringValue.replaceAll("\\QT\\E"," ").split("\\QZ\\E")[0];
-            	return Timestamp.valueOf( stringValue );
-            }
-            catch( IllegalArgumentException e )
-            {
-            	try{
-            		long timeMills = new Long(stringValue).longValue();
-            		return new Timestamp( timeMills );
-            	}catch ( NumberFormatException e1)
-            	{
-            		try
-					{
-						java.util.Date date = DateUtil.toDate( stringValue );
-						Timestamp timeStamp = new Timestamp( date.getTime( ) );
+    	if ( stringValue != null )
+		{
+			try
+			{
+				long timeMills = new Long( stringValue ).longValue( );
+				return new Timestamp( timeMills );
+			}
+			catch ( NumberFormatException e1 )
+			{
+				try
+				{
+					java.util.Date date = DateUtil.toDate( stringValue );
+					Timestamp timeStamp = new Timestamp( date.getTime( ) );
 
-						return timeStamp;
-					}
-					catch ( OdaException oe )
-					{
-						this.wasNull = true;
-						return null;
-					}
-            	}
-            	
-            }
-        }
+					return timeStamp;
+				}
+				catch ( OdaException oe )
+				{
+					this.wasNull = true;
+					return null;
+				}
+			}
+		}
     	this.wasNull = true;
         return null;
     }

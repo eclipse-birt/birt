@@ -19,6 +19,8 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 
 import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * DateFormatISO8601 is a utility class for formatting and parsing dates
@@ -58,6 +60,7 @@ public class DateFormatISO8601
 			patterKey = getPatterKey( dateFormatPattern[i] );
 			simpleDateFormatter = new SimpleDateFormat( dateFormatPattern[i] );
 			simpleDateFormatter.setLenient( false );
+			simpleDateFormatter.setCalendar( Calendar.getInstance( TimeZone.getTimeZone( "GMT" ) ) );
 			simpleDateFormatterMap.put( patterKey, simpleDateFormatter );
 		}
 	}
@@ -72,8 +75,7 @@ public class DateFormatISO8601
 			ParseException
 	{
 		Date resultDate = null;
-		source = source.trim( );
-		source = source.replaceFirst( "T", " " );
+		source = cleanDate( source );
 		Object simpleDateFormatter = simpleDateFormatterMap.get( getPatterKey( source ) );
 		if ( simpleDateFormatter != null )
 		{
@@ -95,6 +97,27 @@ public class DateFormatISO8601
 
 		// never access here
 		return resultDate;
+	}
+	
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private static String cleanDate( String s )
+	{
+		s = s.trim( );
+		if ( s.indexOf( 'T' ) < 12 )
+		{
+			s = s.replaceFirst( "T", " " );
+		}
+		int zoneIndex = s.indexOf( 'Z' );
+		if ( zoneIndex == s.length( ) - 1 )
+		{
+			return s.substring( 0, zoneIndex );
+		}
+		
+		return s;
 	}
 
 	/**
