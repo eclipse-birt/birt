@@ -173,13 +173,13 @@ public class DataSetMetaDataHelper
 			return;
 
 		List columnList = new ArrayList( );
+		HashSet orgColumnNameSet = new HashSet( );
+		HashSet uniqueColumnNameSet = new HashSet( );
 		for ( int i = 1; i <= meta.getColumnCount( ); i++ )
 		{
 			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
 
 			String uniqueName;
-			HashSet orgColumnNameSet = new HashSet( );
-    		HashSet uniqueColumnNameSet = new HashSet( );
 			if ( !meta.isComputedColumn( i ) )
 			{
 				uniqueName = MetaDataPopulator.getUniqueName( orgColumnNameSet,
