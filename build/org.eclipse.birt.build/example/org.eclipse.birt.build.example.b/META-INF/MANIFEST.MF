@@ -1,4 +1,3 @@
-Bundle-Version: 2.2.0.qualifier
 Bundle-SymbolicName: org.eclipse.birt.build.example.b
 Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Eclipse.org
