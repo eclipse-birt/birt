@@ -29,9 +29,14 @@ public interface ISVGConstants {
 	public static final String JAVASCRIPT_CODE_LIST = "javascript.code.list"; //$NON-NLS-1$
 	
 	/**
-	 * A property name that determins if the generated SVG should change its dimension to 
+	 * A property name that determines if the generated SVG should change its dimension to 
 	 * the containing element's width and height upon loading the SVG. 
 	 */
 	public static final String RESIZE_SVG = "resize.svg"; //$NON-NLS-1$
+	
+	/**
+	 * A property name that determines if the generated SVG should contain embedded javascript code.
+	 */
+	public static final String ENABLE_SCRIPT = "enable.scriptable"; //$NON-NLS-1$
 	
 }

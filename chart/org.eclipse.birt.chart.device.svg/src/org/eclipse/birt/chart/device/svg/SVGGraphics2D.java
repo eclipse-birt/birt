@@ -80,15 +80,20 @@ public class SVGGraphics2D extends Graphics2D
 	protected Element deferStrokColor = null;	
 	protected String primitiveId = null;
 	private RenderingHints renderingHints = new RenderingHints(null);
+	protected boolean scriptable = true;
 
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 
-	public SVGGraphics2D( Document dom )
+	public SVGGraphics2D( Document dom ){
+		this(dom, true);
+	}
+	public SVGGraphics2D( Document dom, boolean scriptable)
 	{
 		this.dom = dom;
+		this.scriptable = scriptable;
 		fontRenderContext = new FontRenderContext( new AffineTransform( ),
 				true,
 				false );
@@ -1521,7 +1526,9 @@ public class SVGGraphics2D extends Graphics2D
 	protected void initializeScriptStyles( )
 	{
 		codeScript = dom.createElement( "script" ); //$NON-NLS-1$
-		appendChild( codeScript );
+		
+		if (scriptable)
+			appendChild( codeScript );
 		styles = dom.createElement( "style" ); //$NON-NLS-1$
 		styles.setAttribute( "type", "text/css" ); //$NON-NLS-1$ //$NON-NLS-2$
 		appendChild( styles );
@@ -1598,7 +1605,8 @@ public class SVGGraphics2D extends Graphics2D
 	public void addScriptRef(String ref){
 		Element rootElem = dom.getDocumentElement( );
 		Element scriptElem = dom.createElement( "script" ); //$NON-NLS-1$
-		rootElem.appendChild( scriptElem );
+		if (scriptable)
+			rootElem.appendChild( scriptElem );
 		scriptElem.setAttribute( "language", "JavaScript" ); //$NON-NLS-1$ //$NON-NLS-2$
 		scriptElem.setAttribute( "xlink:href", ref ); //$NON-NLS-1$		
 	}
@@ -1643,6 +1651,22 @@ public class SVGGraphics2D extends Graphics2D
 	 */
 	public void setPrimitiveId(String primitiveId) {
 		this.primitiveId = primitiveId;
+	}
+
+	/**
+	 * Returns whether the generated output should contain javascript code.
+	 * @return true if the generated output should contain javascript code, false otherwise
+	 */
+	public boolean isScriptable() {
+		return scriptable;
+	}
+
+	/**
+	 * Sets the flag to determine if the output should contain javascript code
+	 * @param scriptable
+	 */
+	public void setScriptable(boolean scriptable) {
+		this.scriptable = scriptable;
 	}
 		
 	

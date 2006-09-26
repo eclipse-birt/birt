@@ -139,10 +139,15 @@ public class SVGRendererImpl extends SwingRendererImpl
 	protected SVGGraphics2D svggc;
 
 	/**
-	 * Property that determins if the SVG should resize to the containing
+	 * Property that determines if the SVG should resize to the containing
 	 * element dimensions.
 	 */
 	protected boolean _resizeSVG = false;
+	
+	/**
+	 * Property that determines if the generated SVG output should contain embedded javascript code.
+	 */
+	public boolean _enableScript = true;
 
 	/*
 	 * (non-Javadoc)
@@ -165,7 +170,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			try
 			{
 				dom = createSvgDocument( bo.getWidth( ), bo.getHeight( ) );
-				svggc = new SVGGraphics2D( dom );
+				svggc = new SVGGraphics2D( dom , _enableScript);
 				ivRenderer.setSVG2D( svggc );
 				// Create the hotspot layer
 				ivRenderer.createHotspotLayer( dom );
@@ -191,6 +196,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 		else if ( sProperty.equals( ISVGConstants.RESIZE_SVG ) )
 		{
 			_resizeSVG = ( (Boolean) oValue ).booleanValue( );
+		}
+		else if ( sProperty.equals( ISVGConstants.ENABLE_SCRIPT ) )
+		{
+			_enableScript = ( (Boolean) oValue ).booleanValue( );
 		}
 	}
 
