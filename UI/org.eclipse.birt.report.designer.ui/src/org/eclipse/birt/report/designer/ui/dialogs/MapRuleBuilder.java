@@ -253,7 +253,6 @@ public class MapRuleBuilder extends BaseDialog
 		condition.setLayout( glayout );
 
 		expression = new Combo( condition, SWT.NONE );
-		expression.add( VALUE_OF_THIS_DATA_ITEM );
 		gdata = new GridData( );
 		gdata.widthHint = 100;
 		expression.setLayoutData( gdata );
