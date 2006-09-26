@@ -658,20 +658,6 @@ public class ContentCommand extends AbstractElementCommand
 							PropertyCommand cmd = new PropertyCommand( module,
 									element );
 							cmd.setProperty( propDefn.getName( ), null );
-
-							// drop the useless template definition
-
-							if ( definition != null
-									&& !definition.hasReferences( ) )
-							{
-								assert definition.getRoot( ) == module;
-								ContentCommand contentCmd = new ContentCommand(
-										module, module );
-								contentCmd
-										.remove(
-												definition,
-												ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
-							}
 						}
 						catch ( SemanticException e )
 						{

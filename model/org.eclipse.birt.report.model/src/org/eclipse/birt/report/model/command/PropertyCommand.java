@@ -223,7 +223,7 @@ public class PropertyCommand extends AbstractElementCommand
 			Object value ) throws SemanticException
 	{
 		assert prop != null;
-		assert prop.getName( ) == IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP;
+		assert IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop.getName( ) );
 
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( );
