@@ -14,7 +14,10 @@ package org.eclipse.birt.chart.util;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -34,7 +37,7 @@ public class ChartUtil
 	 * transparency==0.
 	 * 
 	 * @param cdef
-	 * @return
+	 * @return if the given color definition is totally transparent
 	 */
 	public static final boolean isColorTransparent( ColorDefinition cdef )
 	{
@@ -46,7 +49,7 @@ public class ChartUtil
 	 * Returns if the given label has defined a shadow.
 	 * 
 	 * @param la
-	 * @return
+	 * @return if the given label has defined a shadow.
 	 */
 	public static final boolean isShadowDefined( Label la )
 	{
@@ -59,7 +62,6 @@ public class ChartUtil
 	 * 
 	 * @param v1
 	 * @param v2
-	 * @return
 	 */
 	public static final boolean mathEqual( double v1, double v2 )
 	{
@@ -72,7 +74,6 @@ public class ChartUtil
 	 * 
 	 * @param v1
 	 * @param v2
-	 * @return
 	 */
 	public static final boolean mathNE( double v1, double v2 )
 	{
@@ -85,7 +86,6 @@ public class ChartUtil
 	 * 
 	 * @param v1
 	 * @param v2
-	 * @return
 	 */
 	public static final boolean mathLT( double lv, double rv )
 	{
@@ -98,7 +98,6 @@ public class ChartUtil
 	 * 
 	 * @param v1
 	 * @param v2
-	 * @return
 	 */
 	public static final boolean mathLE( double lv, double rv )
 	{
@@ -111,7 +110,6 @@ public class ChartUtil
 	 * 
 	 * @param v1
 	 * @param v2
-	 * @return
 	 */
 	public static final boolean mathGT( double lv, double rv )
 	{
@@ -124,7 +122,6 @@ public class ChartUtil
 	 * 
 	 * @param lv
 	 * @param rv
-	 * @return
 	 */
 	public static final boolean mathGE( double lv, double rv )
 	{
@@ -136,7 +133,7 @@ public class ChartUtil
 	 * 
 	 * @param idsSWT
 	 * @param dOriginalHeight
-	 * @return
+	 * @return points value
 	 */
 	public static final double convertPixelsToPoints(
 			final IDisplayServer idsSWT, double dOriginalHeight )
@@ -150,7 +147,7 @@ public class ChartUtil
 	 * degree.
 	 * 
 	 * @param dAngle
-	 * @return
+	 * @return quadrant
 	 */
 	public static final int getQuadrant( double dAngle )
 	{
@@ -188,10 +185,7 @@ public class ChartUtil
 		{
 			return 3;
 		}
-		else
-		{
-			return 4;
-		}
+		return 4;
 	}
 
 	/**
@@ -199,7 +193,7 @@ public class ChartUtil
 	 * 
 	 * @param pg1
 	 * @param pg2
-	 * @return
+	 * @return if two polygons intersect each other
 	 */
 	public static boolean intersects( Polygon pg1, Polygon pg2 )
 	{
@@ -217,7 +211,6 @@ public class ChartUtil
 	 * 
 	 * @param original
 	 * @param source
-	 * @return
 	 */
 	public static void mergeFont( FontDefinition original, FontDefinition source )
 	{
@@ -273,7 +266,7 @@ public class ChartUtil
 	 * Returns the string representation for given object. null for null object.
 	 * 
 	 * @param value
-	 * @return
+	 * @return string value
 	 */
 	public static String stringValue( Object value )
 	{
@@ -283,5 +276,32 @@ public class ChartUtil
 		}
 
 		return String.valueOf( value );
+	}
+
+	/**
+	 * Converts Fill if possible. If Fill is MultipleFill type, convert to
+	 * positive/negative Color according to the value
+	 * 
+	 * @param fill
+	 *            Fill to convert
+	 * @param dValue
+	 *            numeric value
+	 */
+	public static Fill convertFill( Fill fill, double dValue )
+	{
+		if ( fill instanceof MultipleFill )
+		{
+			if ( dValue >= 0 )
+			{
+				fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 0 ) );
+			}
+			else
+			{
+				fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 1 ) );
+			}
+		}
+		return fill;
 	}
 }

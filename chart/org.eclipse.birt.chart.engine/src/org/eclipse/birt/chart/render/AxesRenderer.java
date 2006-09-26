@@ -2401,6 +2401,13 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			return;
 		}
+		
+		// Convert Fill for negative value
+		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
+		{
+			fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
+					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ) );
+		}
 
 		Series se = getSeries( );
 
