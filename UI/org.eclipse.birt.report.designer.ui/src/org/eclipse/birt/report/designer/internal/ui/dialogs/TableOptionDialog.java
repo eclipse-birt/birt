@@ -17,30 +17,15 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.accessibility.ACC;
-import org.eclipse.swt.accessibility.AccessibleAdapter;
-import org.eclipse.swt.accessibility.AccessibleControlAdapter;
-import org.eclipse.swt.accessibility.AccessibleControlEvent;
-import org.eclipse.swt.accessibility.AccessibleEvent;
-import org.eclipse.swt.accessibility.AccessibleTextAdapter;
-import org.eclipse.swt.accessibility.AccessibleTextEvent;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * Dialog to choose the table/grid row/column number when create a table/grid.
@@ -97,9 +82,9 @@ public class TableOptionDialog extends BaseDialog
 	 */
 	public static final String DEFAULT_GRID_COLUMN_COUNT_KEY = "Default grid column count"; //$NON-NLS-1$
 
-	private SimpleSpinner rowEditor;
+	private Spinner rowEditor;
 
-	private SimpleSpinner columnEditor;
+	private Spinner columnEditor;
 
 	private Button chkbox;
 
@@ -204,14 +189,20 @@ public class TableOptionDialog extends BaseDialog
 		innerPane.setLayout( glayout );
 
 		new Label( innerPane, SWT.NONE ).setText( MSG_NUMBER_OF_COLUMNS );
-		columnEditor = new SimpleSpinner( innerPane, 0 );
-		columnEditor.setText( String.valueOf( columnCount ) );
+		columnEditor = new Spinner( innerPane, SWT.BORDER );
+		columnEditor.setMinimum( 1 );
+		columnEditor.setMaximum( Integer.MAX_VALUE );
+		columnEditor.setIncrement( 1 );
+		columnEditor.setSelection( columnCount );
 		columnEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		new Label( innerPane, SWT.NONE ).setText( insertTable ? MSG_NUMBER_OF_TABLE_ROWS
 				: MSG_NUMBER_OF_GRID_ROWS );
-		rowEditor = new SimpleSpinner( innerPane, 0 );
-		rowEditor.setText( String.valueOf( rowCount ) );
+		rowEditor = new Spinner( innerPane, SWT.BORDER );
+		rowEditor.setMinimum( 1 );
+		rowEditor.setMaximum( Integer.MAX_VALUE );
+		rowEditor.setIncrement( 1 );
+		rowEditor.setSelection( rowCount );
 		rowEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		if ( insertTable )
@@ -262,24 +253,8 @@ public class TableOptionDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		try
-		{
-			rowCount = Integer.parseInt( rowEditor.getText( ) );
-		}
-		catch ( NumberFormatException e )
-		{
-			rowCount = insertTable ? DEFAULT_TABLE_ROW_COUNT
-					: DEFAULT_ROW_COUNT;
-		}
-
-		try
-		{
-			columnCount = Integer.parseInt( columnEditor.getText( ) );
-		}
-		catch ( NumberFormatException e )
-		{
-			columnCount = DEFAULT_COLUMN_COUNT;
-		}
+		rowCount = rowEditor.getSelection( );
+		columnCount = columnEditor.getSelection( );
 
 		if ( columnCount <= 0 )
 		{
@@ -312,256 +287,4 @@ public class TableOptionDialog extends BaseDialog
 
 		super.okPressed( );
 	}
-
-	/**
-	 * SimpleSpinner
-	 */
-	static class SimpleSpinner extends Composite
-	{
-
-		private static final int BUTTON_WIDTH = 16;
-
-		private Text text;
-
-		private Button up;
-
-		private Button down;
-
-		/**
-		 * The constructor.
-		 * 
-		 * @param parent
-		 * @param style
-		 */
-		public SimpleSpinner( Composite parent, int style )
-		{
-			super( parent, style );
-
-			text = new Text( this, SWT.BORDER | SWT.SINGLE );
-			text.addVerifyListener( new VerifyListener( ) {
-
-				public void verifyText( VerifyEvent e )
-				{
-					if ( e.keyCode == 8 || e.keyCode == 127 )
-					{
-						e.doit = true;
-						return;
-					}
-
-					try
-					{
-						if ( e.text.length( ) != 0 )
-						{
-							Integer.parseInt( e.text );
-						}
-						e.doit = true;
-					}
-					catch ( Exception _ )
-					{
-						e.doit = false;
-					}
-				}
-			} );
-			text.addFocusListener( new FocusAdapter( ) {
-
-				public void focusGained( FocusEvent e )
-				{
-					text.selectAll( );
-				}
-			} );
-
-			up = new Button( this, style | SWT.ARROW | SWT.UP );
-			down = new Button( this, style | SWT.ARROW | SWT.DOWN );
-
-			up.addListener( SWT.Selection, new Listener( ) {
-
-				public void handleEvent( Event e )
-				{
-					up( );
-				}
-			} );
-
-			down.addListener( SWT.Selection, new Listener( ) {
-
-				public void handleEvent( Event e )
-				{
-					down( );
-				}
-			} );
-
-			addListener( SWT.Resize, new Listener( ) {
-
-				public void handleEvent( Event e )
-				{
-					resize( );
-				}
-			} );
-
-			addListener( SWT.FocusIn, new Listener( ) {
-
-				public void handleEvent( Event e )
-				{
-					focusIn( );
-				}
-			} );
-			initAccessible( );
-		}
-
-		void initAccessible( )
-		{
-			AccessibleAdapter accessibleAdapter = new AccessibleAdapter( ) {
-
-				public void getName( AccessibleEvent e )
-				{
-					getHelp( e );
-				}
-
-				public void getHelp( AccessibleEvent e )
-				{
-					e.result = getToolTipText( );
-				}
-			};
-			getAccessible( ).addAccessibleListener( accessibleAdapter );
-			up.getAccessible( ).addAccessibleListener( accessibleAdapter );
-			down.getAccessible( ).addAccessibleListener( accessibleAdapter );
-
-			getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
-
-				public void getCaretOffset( AccessibleTextEvent e )
-				{
-					e.offset = text.getCaretPosition( );
-				}
-			} );
-
-			getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
-
-				public void getChildAtPoint( AccessibleControlEvent e )
-				{
-					Point pt = toControl( new Point( e.x, e.y ) );
-					e.childID = ( getBounds( ).contains( pt ) ) ? ACC.CHILDID_SELF
-							: ACC.CHILDID_NONE;
-				}
-
-				public void getLocation( AccessibleControlEvent e )
-				{
-					Rectangle location = getBounds( );
-					Point pt = toDisplay( location.x, location.y );
-					e.x = pt.x;
-					e.y = pt.y;
-					e.width = location.width;
-					e.height = location.height;
-				}
-
-				public void getChildCount( AccessibleControlEvent e )
-				{
-					e.detail = 0;
-				}
-
-				public void getRole( AccessibleControlEvent e )
-				{
-					e.detail = ACC.ROLE_COMBOBOX;
-				}
-
-				public void getState( AccessibleControlEvent e )
-				{
-					e.detail = ACC.STATE_NORMAL;
-				}
-			} );
-
-		}
-
-		void setText( String val )
-		{
-			if ( text != null )
-			{
-				text.setText( val );
-			}
-		}
-
-		String getText( )
-		{
-			if ( text != null )
-			{
-				return text.getText( );
-			}
-
-			return null;
-		}
-
-		void up( )
-		{
-			if ( text != null )
-			{
-				try
-				{
-					int v = Integer.parseInt( text.getText( ) );
-					text.setText( String.valueOf( v + 1 ) );
-				}
-				catch ( NumberFormatException e )
-				{
-					text.setText( String.valueOf( 1 ) );
-				}
-			}
-		}
-
-		/**
-		 * Processes down action
-		 */
-		void down( )
-		{
-			if ( text != null )
-			{
-				try
-				{
-					int v = Integer.parseInt( text.getText( ) );
-					if ( v < 2 )
-					{
-						v = 2;
-					}
-					text.setText( String.valueOf( v - 1 ) );
-				}
-				catch ( NumberFormatException e )
-				{
-					text.setText( String.valueOf( 1 ) );
-				}
-			}
-		}
-
-		void focusIn( )
-		{
-			if ( text != null )
-			{
-				text.setFocus( );
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.swt.widgets.Control#computeSize(int, int, boolean)
-		 */
-		public Point computeSize( int wHint, int hHint, boolean changed )
-		{
-			return new Point( 80, 20 );
-		}
-
-		void resize( )
-		{
-			Point pt = computeSize( -1, -1 );
-
-			setSize( pt );
-
-			int textWidth = pt.x - BUTTON_WIDTH;
-			text.setBounds( 0, 0, textWidth, pt.y );
-
-			int buttonHeight = pt.y / 2;
-			up.setBounds( textWidth, 0, BUTTON_WIDTH, buttonHeight );
-			down.setBounds( textWidth,
-					pt.y - buttonHeight,
-					BUTTON_WIDTH,
-					buttonHeight );
-		}
-
-	}
-
 }

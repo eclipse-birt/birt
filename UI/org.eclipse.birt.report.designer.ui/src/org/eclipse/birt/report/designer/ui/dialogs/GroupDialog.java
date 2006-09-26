@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -22,19 +23,16 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-// import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Spinner;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -68,6 +66,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
@@ -102,7 +101,7 @@ public class GroupDialog extends BaseDialog
 	// private static final String GROUP_DLG_INCLUDE_HEADER_LABEL =
 	// Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
 
-	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
+	//private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
 	private static final String GROUP_DLG_INTERVAL_BASE_LABEL = Messages.getString( "GroupDialog.Label.IntervalBase" ); //$NON-NLS-1$
 
@@ -145,15 +144,15 @@ public class GroupDialog extends BaseDialog
 
 	private Text tocEditor;
 
-	final private static IChoice[] intervalChoicesAll = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] intervalChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL )
 			.getChoices( );
 
-	final private static IChoice sortByAscending = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice sortByAscending = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_SORT_DIRECTION )
 			.findChoice( DesignChoiceConstants.SORT_DIRECTION_ASC );
 
-	final private static IChoice sortByDescending = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice sortByDescending = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_SORT_DIRECTION )
 			.findChoice( DesignChoiceConstants.SORT_DIRECTION_DESC );
 
@@ -161,10 +160,10 @@ public class GroupDialog extends BaseDialog
 			GroupHandle.SORT_DIRECTION_PROP )
 			.getDisplayName( );
 
-	final private static IChoice[] pagebreakBeforeChoicesAll = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] pagebreakBeforeChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE )
 			.getChoices( );
-	final private static IChoice[] pagebreakAfterChoicesAll = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] pagebreakAfterChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER )
 			.getChoices( );
 
@@ -396,11 +395,11 @@ public class GroupDialog extends BaseDialog
 			}
 		} );
 		// Creates intervalRange range chooser
-		intervalRange = new Spinner( intervalRangeArea, SWT.NONE );
+		intervalRange = new Spinner( intervalRangeArea, SWT.BORDER );
 		intervalRange.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
 		intervalRange.setMinimum( 0 );
 		intervalRange.setMaximum( Integer.MAX_VALUE );
-		intervalRange.setStep( 1 );
+		intervalRange.setIncrement( 1 );
 
 		// Creates interval base editor
 		intervalBaseButton = new Button( composite, SWT.CHECK );
@@ -568,7 +567,13 @@ public class GroupDialog extends BaseDialog
 		else
 		{
 			intervalRange.setEnabled( true );
-			intervalRange.setSelection( inputGroup.getIntervalRange( ) );
+
+			BigDecimal value = new BigDecimal( inputGroup.getIntervalRange( ) );
+
+			value = value.movePointRight( intervalRange.getDigits( ) );
+
+			intervalRange.setSelection( value.intValue( ) );
+			
 			if ( getColumnType( ) == String.class )
 			{
 				intervalBaseButton.setEnabled( false );
