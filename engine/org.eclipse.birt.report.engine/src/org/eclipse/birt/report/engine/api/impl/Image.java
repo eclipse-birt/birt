@@ -125,14 +125,18 @@ public class Image extends ReportPart implements IImage
 				extension = FileUtil.getExtFromType( mimeType );
 			}
 		}
+		if ( content.getImageMap( ) != null )
+		{
+			this.imageMap = (String) content.getImageMap( );
+		}
 		switch ( content.getImageSource( ) )
 		{
 			case IImageContent.IMAGE_FILE :
 				if ( imgUri != null )
 				{
-						this.id = imgUri;
-						this.source = IImage.FILE_IMAGE;
-					}
+					this.id = imgUri;
+					this.source = IImage.FILE_IMAGE;
+				}
 				break;
 			case IImageContent.IMAGE_NAME :
 				if ( imgData != null )
@@ -318,9 +322,9 @@ public class Image extends ReportPart implements IImage
 			{
 				try
 				{
-				input.close( );
+					input.close( );
 				}
-				catch (IOException e)
+				catch ( IOException e )
 				{
 					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
@@ -329,9 +333,9 @@ public class Image extends ReportPart implements IImage
 			{
 				try
 				{
-				output.close( );
+					output.close( );
 				}
-				catch (IOException e)
+				catch ( IOException e )
 				{
 					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
