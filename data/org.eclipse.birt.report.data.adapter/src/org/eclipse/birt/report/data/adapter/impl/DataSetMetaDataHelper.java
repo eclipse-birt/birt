@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.adapter.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -145,8 +146,7 @@ public class DataSetMetaDataHelper
 					modelAdaptor,
 					sessionContext,
 					false ).executeQuery( query ).getResultMetaData( );
-			if ( dataSetHandle.canEdit( ) )
-				addResultSetColumn( dataSetHandle, metaData );
+			addResultSetColumn( dataSetHandle, metaData );
 			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
 			{
 				metaData = new QueryExecutionHelper( dataEngine,
@@ -177,14 +177,23 @@ public class DataSetMetaDataHelper
 		{
 			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
 
+			String uniqueName;
+			HashSet orgColumnNameSet = new HashSet( );
+    		HashSet uniqueColumnNameSet = new HashSet( );
 			if ( !meta.isComputedColumn( i ) )
 			{
-				rsColumn.setColumnName( meta.getColumnName( i ) );
+				uniqueName = MetaDataPopulator.getUniqueName( orgColumnNameSet,
+						uniqueColumnNameSet,
+						meta.getColumnName( i ),
+						i );
+				rsColumn.setColumnName( uniqueName );
 				rsColumn.setDataType( toModelDataType( meta.getColumnType( i ) ) );
 				rsColumn.setNativeName( meta.getColumnName( i ) );
 				rsColumn.setPosition( new Integer( i ) );
 
 				columnList.add( rsColumn );
+
+				uniqueColumnNameSet.add( uniqueName );
 			}
 		}
 
@@ -202,7 +211,6 @@ public class DataSetMetaDataHelper
 			IResultMetaData metaData ) throws BirtException
 	{
 		clearUnusedColumnHints( dataSetHandle, metaData );
-		clearUnusedResultSetColumns( dataSetHandle, metaData );
 	}
     
     /**
@@ -222,7 +230,7 @@ public class DataSetMetaDataHelper
 			for ( int n = count - 1; n >= 0; n-- )
 			{
 				ColumnHint hint = (ColumnHint) list.get( n );
-				String columnName = (String) hint.getProperty( handle.getDesign( ),
+				String columnName = (String) hint.getProperty( handle.getModule( ),
 						ColumnHint.COLUMN_NAME_MEMBER );
 				boolean found = false;
 				if ( !isEmpty( hint, handle.getModule( ).getModuleHandle( ) ) )
@@ -265,52 +273,6 @@ public class DataSetMetaDataHelper
                 && (helpText == null || helpText.trim().length() == 0)
                 );
     }
-    
-    /**
-     * 
-     * @param dataSetHandle
-     * @param metaData
-     * @throws BirtException 
-     */
-    private final void clearUnusedResultSetColumns(
-			DataSetHandle dataSetHandle, IResultMetaData metaData ) throws BirtException
-	{
-
-		PropertyHandle resultSetHintsPropertyHandle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
-
-		ArrayList list = null;
-
-		if ( resultSetHintsPropertyHandle != null )
-			list = resultSetHintsPropertyHandle.getListValue( );
-
-		if ( list != null )
-		{
-			int count = list.size( );
-			for ( int n = count - 1; n >= 0; n-- )
-			{
-				ResultSetColumn column = (ResultSetColumn) list.get( n );
-				boolean found = false;
-				for ( int m = 0; m < metaData.getColumnCount( ) && !found; m++ )
-				{
-					found = ( m + 1 == column.getPosition( ).intValue( ) )
-							&& ( column.getColumnName( ) == null || ( column.getColumnName( ).equals( metaData.getColumnName( m + 1 ) ) ) );
-				}
-
-				if ( !found )
-				{
-					try
-					{
-						// remove the item
-						if ( resultSetHintsPropertyHandle != null )
-							resultSetHintsPropertyHandle.removeItem( column );
-					}
-					catch ( PropertyValueException e )
-					{
-					}
-				}
-			}
-		}
-	}
     
     /**
 	 * 
@@ -361,7 +323,7 @@ public class DataSetMetaDataHelper
 				}
 			}
 
-			if ( holdEvent )
+			if ( holdEvent || !dataSetHandle.canEdit( ) )
 			{
 				CompaibilityUtil.updateResultSetinCachedMetaData( dataSetHandle,
 						columnList );

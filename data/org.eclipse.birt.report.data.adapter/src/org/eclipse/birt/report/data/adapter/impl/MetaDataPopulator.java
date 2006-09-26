@@ -263,7 +263,7 @@ public class MetaDataPopulator
 	 * @param index
 	 * @return
 	 */
-	private static String getUniqueName( HashSet orgColumnNameSet,
+	public static String getUniqueName( HashSet orgColumnNameSet,
 			HashSet newColumnNameSet, String columnName, int index )
 	{
 		String newColumnName;
