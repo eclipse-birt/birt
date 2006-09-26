@@ -185,7 +185,7 @@ public class DataSetMetaDataHelper
 				uniqueName = MetaDataPopulator.getUniqueName( orgColumnNameSet,
 						uniqueColumnNameSet,
 						meta.getColumnName( i ),
-						i );
+						i - 1 );
 				rsColumn.setColumnName( uniqueName );
 				rsColumn.setDataType( toModelDataType( meta.getColumnType( i ) ) );
 				rsColumn.setNativeName( meta.getColumnName( i ) );
