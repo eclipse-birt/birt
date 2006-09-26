@@ -749,6 +749,9 @@ public class ReportEngineService
 									.getServletPath( ) ) );
 		}
 
+		// Push user-defined application context
+		ParameterAccessor.pushAppContext( context, request );
+		
 		runAndRenderTask.setAppContext( context );
 
 		try
@@ -838,6 +841,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
+		
+		// Push user-defined application context
+		ParameterAccessor.pushAppContext( context, request );
+		
 		runTask.setAppContext( context );
 
 		// Run report.
@@ -935,6 +942,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
+		
+		// Push user-defined application context
+		ParameterAccessor.pushAppContext( context, request );
+		
 		renderTask.setAppContext( context );
 
 		// Render option
@@ -1049,6 +1060,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
+		
+		// Push user-defined application context
+		ParameterAccessor.pushAppContext( context, request );
+		
 		renderTask.setAppContext( context );
 
 		// Render option

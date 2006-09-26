@@ -18,6 +18,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
@@ -390,6 +391,16 @@ public class ParameterAccessor
 	 * Overwrite flag
 	 */
 	public static boolean isOverWrite;
+
+	/**
+	 * Application Context Attribute Name
+	 */
+	public static final String ATTR_APPCONTEXT_KEY = "AppContextKey"; //$NON-NLS-1$
+
+	/**
+	 * Application Context Attribute value
+	 */
+	public static final String ATTR_APPCONTEXT_VALUE = "AppContextValue"; //$NON-NLS-1$
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1856,5 +1867,29 @@ public class ParameterAccessor
 		}
 
 		return resourcePath;
+	}
+
+	/**
+	 * Push User-defined application context object into engine context map.
+	 * 
+	 * @param map
+	 * @param request
+	 * @return
+	 */
+	public static Map pushAppContext( Map map, HttpServletRequest request )
+	{
+		if ( map == null )
+			map = new HashMap( );
+
+		// Get application context key from request
+		String appContextKey = (String) request
+				.getAttribute( ATTR_APPCONTEXT_KEY );
+
+		// Put application context object
+		if ( appContextKey != null )
+			map.put( appContextKey, request
+					.getAttribute( ATTR_APPCONTEXT_VALUE ) );
+
+		return map;
 	}
 }
