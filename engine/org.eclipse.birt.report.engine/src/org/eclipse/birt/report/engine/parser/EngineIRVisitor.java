@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
@@ -156,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.126 $ $Date: 2006/09/13 03:11:54 $
+ * @version $Revision: 1.127 $ $Date: 2006/09/21 10:11:48 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1340,7 +1339,10 @@ class EngineIRVisitor extends DesignVisitor
 		cell.setColumn( columnId );
 		// cell.setRowSpan( LayoutUtil.getEffectiveRowSpan( handle ) );
 		cell.setRowSpan( handle.getRowSpan( ) );
-		cell.setDrop( handle.getDrop( ) );
+		if ( isCellInGroupHeader( handle ) )
+		{
+			cell.setDrop( handle.getDrop( ) );
+		}
 
 		String onCreate = handle.getOnCreate( );
 		cell.setOnCreate( createExpression( onCreate ) );
@@ -1353,6 +1355,27 @@ class EngineIRVisitor extends DesignVisitor
 		*/
 		
 		currentElement = cell;
+	}
+	
+	private boolean isCellInGroupHeader( CellHandle cellHandle )
+	{
+		DesignElementHandle rowHandle = cellHandle.getContainer( );
+		if ( rowHandle instanceof RowHandle )
+		{
+			DesignElementHandle groupHandle = rowHandle.getContainer( );
+			if ( groupHandle instanceof TableGroupHandle )
+			{
+				SlotHandle slot = rowHandle.getContainerSlotHandle( );
+				if ( slot != null )
+				{
+					if( slot.getSlotID( ) == GroupHandle.HEADER_SLOT )
+					{
+						return true;
+					}
+				}
+			}
+		}		
+		return false;
 	}
 
 	/**
