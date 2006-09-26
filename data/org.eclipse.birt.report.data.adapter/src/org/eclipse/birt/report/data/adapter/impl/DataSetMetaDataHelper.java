@@ -171,27 +171,25 @@ public class DataSetMetaDataHelper
 	{
 		if ( meta == null || !( dataSetHandle instanceof OdaDataSetHandle ) )
 			return;
-		PropertyHandle resultSetColumnHandle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+
+		List columnList = new ArrayList( );
 		for ( int i = 1; i <= meta.getColumnCount( ); i++ )
 		{
 			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
 
 			if ( !meta.isComputedColumn( i ) )
 			{
-				try
-				{
-					rsColumn.setColumnName( meta.getColumnName( i ) );
-					rsColumn.setDataType( toModelDataType( meta.getColumnType( i ) ) );
-					rsColumn.setNativeName( meta.getColumnName( i ) );
-					rsColumn.setPosition( new Integer( i ) );
-					resultSetColumnHandle.addItem( rsColumn );
-				}
-				catch ( BirtException e )
-				{
-					e.printStackTrace( );
-				}
+				rsColumn.setColumnName( meta.getColumnName( i ) );
+				rsColumn.setDataType( toModelDataType( meta.getColumnType( i ) ) );
+				rsColumn.setNativeName( meta.getColumnName( i ) );
+				rsColumn.setPosition( new Integer( i ) );
+
+				columnList.add( rsColumn );
 			}
 		}
+
+		// holdEvent
+		CompaibilityUtil.addResultSetColumn( dataSetHandle, columnList );
 	}
 	
 	/**
