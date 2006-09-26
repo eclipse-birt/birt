@@ -5,7 +5,7 @@
          point="org.eclipse.ui.actionSets">         
          <actionSet
             label="%ActionSet.Preview"
-            visible="true"
+            visible="false"
             id="org.eclipse.birt.report.designer.ui.previewActionSet">
          <action
                class="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenuAction"
@@ -123,6 +123,13 @@
 	      </visibility>
 	   </viewerContribution>
 	 
-	</extension>	 
+	</extension>
+ <extension
+       point="org.eclipse.ui.actionSetPartAssociations">
+    <actionSetPartAssociation targetID="org.eclipse.birt.report.designer.ui.previewActionSet">
+       <part id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"/>
+       <part id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"/>
+    </actionSetPartAssociation>
+ </extension>	 
    
 </plugin>

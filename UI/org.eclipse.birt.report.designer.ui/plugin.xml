@@ -151,10 +151,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.actionSetPartAssociations">
-      <actionSetPartAssociation targetID="org.eclipse.birt.report.designer.ui.previewActionSet">
-         <part id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"/>
-         <part id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"/>
-      </actionSetPartAssociation>
       <actionSetPartAssociation targetID="org.eclipse.birt.report.designer.ui.publishActionSet">
          <part id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"/>
          <part id="org.eclipse.birt.report.designer.ui.editors.LibraryEditor"/>
