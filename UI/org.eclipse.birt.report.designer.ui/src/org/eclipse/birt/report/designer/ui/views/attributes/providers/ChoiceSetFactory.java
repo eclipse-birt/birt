@@ -579,7 +579,7 @@ public class ChoiceSetFactory
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getQualifiedName() );
+				list.add( elementHandle.getQualifiedName( ) );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
@@ -601,8 +601,8 @@ public class ChoiceSetFactory
 		{
 			while ( iterator.hasNext( ) )
 			{
-				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getDisplayLabel() );
+				StyleHandle styleHandle = (StyleHandle) iterator.next( );
+				list.add( styleHandle.getName( ) );
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
@@ -620,7 +620,8 @@ public class ChoiceSetFactory
 
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		Iterator iterator = handle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL ).iterator( );
+		Iterator iterator = handle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL )
+				.iterator( );
 
 		if ( iterator != null )
 		{
