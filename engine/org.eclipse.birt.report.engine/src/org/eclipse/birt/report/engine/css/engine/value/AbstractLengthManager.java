@@ -25,7 +25,7 @@ import org.w3c.dom.css.CSSValue;
  * This class provides a manager for the property with support for length
  * values.
  * 
- * @version $Id: AbstractLengthManager.java,v 1.3 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: AbstractLengthManager.java,v 1.4 2006/09/15 05:31:47 lyu Exp $
  */
 public abstract class AbstractLengthManager extends AbstractValueManager
 {
@@ -152,7 +152,7 @@ public abstract class AbstractLengthManager extends AbstractValueManager
 				case CSSPrimitiveValue.CSS_PC :
 					v = value.getFloatValue( );
 					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v / 12.0f * 1000.0f );
+							v * 12.0f * 1000.0f );
 
 				case CSSPrimitiveValue.CSS_EMS :
 					v = value.getFloatValue( );
