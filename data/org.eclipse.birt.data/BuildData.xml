@@ -55,8 +55,7 @@
 -->
 
 <project name="BIRT Data Engine Project" default="Jar" basedir=".">
-    <description>BIRT Data Engine Project.</description>
-	<property file="build.properties"/>		
+    <description>BIRT Data Engine Project.</description>	
 	
 	<!-- set global properties for this build -->
     <!-- Public properties, used by public targets, top level build script will pass on the value 
@@ -90,6 +89,36 @@
 	<property name="testOdaDriver.plugin.name" value="org.eclipse.birt.data.engine.odaconsumer.testdriver" />
 	<property name="testBirtOdaDriver.dir" location="test/org\eclipse\birt\data\engine\odaconsumer\birtdriver" />
 	<property name="testBirtOdaDriver.plugin.name" value="org.eclipse.birt.data.engine.odaconsumer.birtdriver" />
+	
+	<property name="testDataSource" value="JDBC" />
+	<property name="src" value="src" />
+	<property name="core.dir" location="../org.eclipse.birt.core" />
+	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
+	<property name="oda.flatfile.dir" location="../org.eclipse.birt.report.data.oda.flatfile" />
+	<property name="dtp.oda-flatfile.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda.flatfile" />
+	<property name="dtp.oda.adapter.dir" location="../org.eclipse.birt.data.oda.adapter.dtp" />
+	<property name="birt.oda.dir" location="../org.eclipse.birt.data.oda" />
+	<property name="dtp.home" location="../" />
+	<property name="bin" value="bin" />
+	<property name="doc" value="doc" />
+	<property name="test_src" value="test" />
+	<property name="def_logdir" value="log" />
+	<property name="def_user" value="user" />
+	<property name="def_password" value="password" />
+	<property name="def_host" value="localhost" />
+	<property name="def_url" value="jdbc:derby:${def_database}" />
+	<property name="def_database" value="DTETest" />
+	<property name="lib" value="lib" />
+	<property name="java_encoding" value="utf-8" />
+	<property name="sourceVer" value="1.4" />
+	<property name="driverLoc" value="test" />
+	<property name="dte.jar" value="dte.jar" />
+	<property name="oda.jar" value="oda.jar" />
+	<property name="core.jar" value="core.jar" />
+	<property name="dtp.oda.adapter.jar" value="oda-adapter.jar" />
+	<property name="oda.jdbc.jar" value="oda-jdbc.jar" />
+	<property name="oda.flatfile.jar" value="oda-flatfile.jar" />
+	<property name="birt.oda.jar" value="oda.jar" />
 	
 	<path id="class.path">
 		<pathelement path="${bin}" />

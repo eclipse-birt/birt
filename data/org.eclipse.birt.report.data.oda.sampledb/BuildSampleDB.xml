@@ -60,12 +60,23 @@
 		     javadoc.dir
 		     plugin.version 
 	-->
-	<property file="build.properties" />
 	<property file="../birt-build.properties" />
 
 	<!-- ===== Default value for public properties ============= -->
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.sampledb"/>
 	<property name="core.dir" location="../org.eclipse.birt.core" />
+	
+	<property name="export.dir" value="exports" />
+	<property name="dir.bin" value="bin" />
+	<property name="dir.src" value="src" />
+	<property name="dir.utest" value="utest" />
+	<property name="dtp.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />
+	<property name="dtp.oda.jar" value="oda.jar" />
+	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
+	<property name="oda.jdbc.jar" value="oda-jdbc.jar" />
+	<property name="plugin.jar" value="sampledb.jar" />
+	<property name="db.dir" value="db" />
+	<property name="db.name" value="BirtSample" />
 
 	<path id="class.path">
 

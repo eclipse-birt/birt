@@ -60,13 +60,27 @@
 		     javadoc.dir
 		     plugin.version 
 	-->
-	<property file="build.properties" />
 	<property file="../birt-build.properties" />
 	<property name="dtp.home" location=".." />
 
 	<!-- ===== Default value for public properties ============= -->
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.jdbc.ui"/>
-
+	
+	<property name="export.dir" value="exports"/>
+	<property name="dir.bin" value="bin"/>
+	<property name="dir.src" value="src"/>
+	<property name="dir.utest" value="utest"/>
+	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc"/>
+	<property name="oda.jdbc.jar" value="oda-jdbc.jar"/>
+	<property name="org.apache.commons.codec.dir" location="../org.apache.commons.codec"/>
+	<property name="oda.connectivity.ui.dir" location="../org.eclipse.datatools.connectivity.ui"/>
+	<property name="oda.connectivity.ui.jar" value="connectivityui.jar"/>
+	<property name="oda.designer.dir" location="../org.eclipse.datatools.connectivity.oda.design"/>
+	<property name="oda.designer.jar" value="odadesign.jar"/>
+	<property name="oda.designer.ui.dir" location="../org.eclipse.datatools.connectivity.oda.design.ui"/>
+	<property name="oda.designer.ui.jar" value="odadesignui.jar"/>
+	<property name="plugin.jar" value="jdbcui.jar"/>
+		
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
 		<fileset dir="${oda.jdbc.dir}">
