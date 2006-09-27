@@ -61,7 +61,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		super( engine, runnable );
 	}
 
-	private IContentEmitter createContentEmitter( ) throws EngineException
+	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{
 
 		String format = executionContext.getOutputFormat( );
