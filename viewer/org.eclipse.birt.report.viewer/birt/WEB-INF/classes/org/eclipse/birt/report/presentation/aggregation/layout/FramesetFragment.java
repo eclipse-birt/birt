@@ -151,15 +151,16 @@ public class FramesetFragment extends BirtBaseFragment
 		IContext context = new BirtContext( request, response );
 		GetUpdatedObjectsResponse upResponse = new GetUpdatedObjectsResponse( );
 		Operation op = null;
-		File file = new File( attrBean.getReportDocumentName( ) );
-		if ( !file.exists( ) )
-		{
-			BirtRunReportActionHandler runReport = new BirtRunReportActionHandler(
-					context, op, upResponse );
-			runReport.execute( );
-		}
 		try
 		{
+			File file = new File( attrBean.getReportDocumentName( ) );
+			if ( !file.exists( ) )
+			{
+				BirtRunReportActionHandler runReport = new BirtRunReportActionHandler(
+						context, op, upResponse );
+				runReport.execute( );
+			}
+
 			BirtRenderReportActionHandler renderReport = new BirtRenderReportActionHandler(
 					context, op, upResponse, out );
 			renderReport.execute( );
@@ -167,10 +168,13 @@ public class FramesetFragment extends BirtBaseFragment
 		catch ( RemoteException e )
 		{
 			AxisFault fault = (AxisFault) e;
+			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
 			String message = "<html><body><font color=\"red\">" //$NON-NLS-1$ 
 					+ ParameterAccessor.htmlEncode( fault.getFaultString( ) )
 					+ "</font></body></html>"; //$NON-NLS-1$
 			out.write( message.getBytes( ) );
+			out.flush( );
+			out.close( );
 		}
 
 	}
