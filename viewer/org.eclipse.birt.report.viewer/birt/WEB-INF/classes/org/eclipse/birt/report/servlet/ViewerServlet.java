@@ -160,12 +160,6 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 		{
 			activeFragment = viewer;
 		}
-
-		// Don't cache page
-		context.getResponse( ).setHeader("Pragma","No-cache");   //$NON-NLS-1$//$NON-NLS-2$
-		context.getResponse( ).setHeader("Cache-Control","no-cache");  //$NON-NLS-1$ //$NON-NLS-2$
-		context.getResponse( ).setHeader("Cache-Control","no-store"); //$NON-NLS-1$ //$NON-NLS-2$
-		context.getResponse( ).setDateHeader("Expires", 0);  //$NON-NLS-1$
 		
 		activeFragment.service( context.getRequest( ), context.getResponse( ) );
 	}
