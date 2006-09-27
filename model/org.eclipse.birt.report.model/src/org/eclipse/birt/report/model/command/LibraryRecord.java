@@ -21,7 +21,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
 
@@ -195,29 +197,34 @@ class LibraryRecord extends AbstractLibraryRecord
 		{
 			DesignElement tmpElement = (DesignElement) contentIter.next( );
 			ElementDefn elementDefn = (ElementDefn) tmpElement.getDefn( );
-			if ( !elementDefn.canExtend( ) )
+			if ( !elementDefn.canExtend( ) || !elementDefn.isContainer( ) )
 				continue;
 
 			String name = tmpElement.getExtendsName( );
 			if ( StringUtil.isBlank( name ) )
 				continue;
 
-			tmpElement.resolveExtends( module );
-			if ( tmpElement.getDefn( ).getSlotCount( ) <= 0 )
+			// only handle the added library related inheritance
+
+			ElementRefValue extendRef = (ElementRefValue) tmpElement
+					.getLocalProperty( module, IDesignElementModel.EXTENDS_PROP );
+			if ( !library.getNamespace( ).equalsIgnoreCase(
+					extendRef.getLibraryNamespace( ) ) )
 				continue;
 
+			// refresh the structure and add children to name space and id-map
 			ElementStructureUtil
 					.refreshStructureFromParent( module, tmpElement );
+			ElementStructureUtil.addTheVirualElementsToNamesapce( tmpElement,
+					module );
+			module.manageId( tmpElement, true );
 
 			if ( overriddenValues == null )
 				return;
-
+			
 			Long idObj = new Long( tmpElement.getID( ) );
 			Map values = (Map) overriddenValues.get( idObj );
-			ElementStructureUtil.distributeValues( tmpElement, values );
-
-			ElementStructureUtil.addTheVirualElementsToNamesapce( tmpElement,
-					module );
+			ElementStructureUtil.distributeValues( tmpElement, values );			
 		}
 	}
 
