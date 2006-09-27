@@ -100,16 +100,6 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#setImageSource(int)
-	 */
-	public void setImageSource( int source )
-	{
-		( ( IImageContent ) content ).setImageSource( source );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IImageInstance#getImageName()
 	 */
 	public String getImageName( )
