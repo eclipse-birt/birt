@@ -59,13 +59,6 @@ public interface IReportContext
 	 * @param value
 	 */
 	void setParameterDisplayText( String name, String value );
-	/**
-	 * always return NULL as 125963
-	 * @param varName
-	 * @return
-	 * @deprecated 2.1
-	 */
-	Object getConfigVariableValue( String varName );
 
 	/**
 	 * 
