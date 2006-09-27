@@ -39,7 +39,7 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
-import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
@@ -69,10 +69,6 @@ import org.eclipse.ui.actions.RetargetAction;
 public class DesignerActionBarContributor extends
 		org.eclipse.gef.ui.actions.ActionBarContributor
 {
-
-	public static final String PAGE_SET_GROUP_END = "pageSetGroupEnd"; //$NON-NLS-1$
-
-	public static final String PAGE_SET_GROUP = "pageSetGroup"; //$NON-NLS-1$
 
 	static class RegisterActions
 	{
@@ -158,6 +154,21 @@ public class DesignerActionBarContributor extends
 
 	};
 
+	/**
+	 * The name of the insert menu
+	 */
+	public static final String M_INSERT = "birtInsert"; //$NON-NLS-1$
+
+	/**
+	 * The name of the element menu
+	 */
+	public static final String M_ELEMENT = "birtElement"; //$NON-NLS-1$
+
+	/**
+	 * The name of the data menu
+	 */
+	public static final String M_DATA = "birtData"; //$NON-NLS-1$
+
 	/*
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
 	 */
@@ -184,7 +195,7 @@ public class DesignerActionBarContributor extends
 		addRetargetAction( new RetargetAction( EditStyleMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( EditGroupMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( InsertGroupMenuAction.ID, null ) );
-		
+
 		registerActions( new RegisterActions[]{
 			new RegisterActions( GEFActionConstants.TOGGLE_RULER_VISIBILITY,
 					Messages.getString( "DesignerActionBarContributor.menu.element-showRuler" ), //$NON-NLS-1$
@@ -227,7 +238,7 @@ public class DesignerActionBarContributor extends
 				for ( int k = 0; k < extensionPoints.size( ); k++ )
 				{
 					ExtendedElementUIPoint point = (ExtendedElementUIPoint) extensionPoints.get( k );
-					IElementDefn extension = DesignEngine.getMetaDataDictionary( )
+					IElementDefn extension = DEUtil.getMetaDataDictionary( )
 							.getExtension( point.getExtensionName( ) );
 					String displayName = new String( );
 					displayName = extension.getDisplayName( );
@@ -287,35 +298,29 @@ public class DesignerActionBarContributor extends
 	{
 		super.contributeToMenu( menubar );
 		updateEditMenu( menubar );
-
-		// Data Menu
-		MenuManager newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ) ); //$NON-NLS-1$
-		newMenu.add( getAction( dataActions[0].id ) );
-		newMenu.add( getAction( dataActions[1].id ) );
-		MenuManager editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) ); //$NON-NLS-1$
-		contributeActionsToMenu( editGroupMenu, parameterActions );
-
-		// Add new parameter action
-
-		newMenu.add( editGroupMenu );
-
-		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
+		// Insert Menu
+		MenuManager insertMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.insert" ), M_INSERT ); //$NON-NLS-1$
+		contributeActionsToMenu( insertMenu, getInsertElementActions( ) );
+		insertMenu.add( new Separator( ) );
+		insertMenu.add( getAction( ImportLibraryAction.ID ) );
+		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );
 
 		// Element Menu
-		newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element" ) ); //$NON-NLS-1$
-		contributeActionsToMenu( newMenu, elementActions );
-		
-		MenuManager InsertGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.element.group" ),InsertGroupMenuAction.ID ); //$NON-NLS-1$
-		InsertGroupMenu.add( NoneAction.getInstance( ) );
-		InsertGroupMenu.addMenuListener( new IMenuListener( ) {
+		MenuManager elementMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element" ), M_ELEMENT ); //$NON-NLS-1$
+		contributeActionsToMenu( elementMenu, elementActions );
+
+		MenuManager insertGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.element.group" ), InsertGroupMenuAction.ID ); //$NON-NLS-1$
+		insertGroupMenu.add( NoneAction.getInstance( ) );
+		insertGroupMenu.addMenuListener( new IMenuListener( ) {
+
 			public void menuAboutToShow( IMenuManager manager )
 			{
 				updateInsertGroupMenu( InsertGroupMenuAction.ID, manager );
 			}
 		} );
-		newMenu.add( InsertGroupMenu );		
-		
-		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element-EditGroup" ) ); //$NON-NLS-1$
+		elementMenu.add( insertGroupMenu );
+
+		MenuManager editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element-EditGroup" ) ); //$NON-NLS-1$
 		editGroupMenu.add( NoneAction.getInstance( ) );
 		editGroupMenu.addMenuListener( new IMenuListener( ) {
 
@@ -324,16 +329,17 @@ public class DesignerActionBarContributor extends
 				updateDynamicItems( EditGroupMenuAction.ID, manager );
 			}
 		} );
-		newMenu.add( editGroupMenu );
-		newMenu.add( new Separator( ) );
-		contributeStyleMenu( newMenu );
-		newMenu.addMenuListener( new IMenuListener( ) {
+		elementMenu.add( editGroupMenu );
+		elementMenu.add( new Separator( ) );
+		contributeStyleMenu( elementMenu );
+		elementMenu.addMenuListener( new IMenuListener( ) {
+
 			public void menuAboutToShow( IMenuManager manager )
 			{
 				IContributionItem addGroupMenu = manager.findUsingPath( AddGroupAction.ID );
-				IContributionItem insertGroupMenus = manager.findUsingPath( InsertGroupMenuAction.ID );		
+				IContributionItem insertGroupMenus = manager.findUsingPath( InsertGroupMenuAction.ID );
 
-				if(addGroupMenu == null || insertGroupMenus == null)
+				if ( addGroupMenu == null || insertGroupMenus == null )
 				{
 					return;
 				}
@@ -341,62 +347,53 @@ public class DesignerActionBarContributor extends
 				if ( action != null
 						&& action.getActionHandler( ) instanceof AddGroupAction )
 				{
-					if(action.getActionHandler( ).isEnabled( ))
-					{						
+					if ( action.getActionHandler( ).isEnabled( ) )
+					{
 						addGroupMenu.setVisible( true );
 						insertGroupMenus.setVisible( false );
-					}else
+					}
+					else
 					{
 						addGroupMenu.setVisible( false );
-						insertGroupMenus.setVisible( true );												
+						insertGroupMenus.setVisible( true );
 					}
 					manager.update( true );
 				}
 			}
 		} );
 
-		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
+		menubar.insertAfter( M_INSERT, elementMenu );
 
-		// Page Menu
-		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, createPageMenu( ) );
+		// Data Menu
+		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
+		dataMenu.add( getAction( dataActions[0].id ) );
+		dataMenu.add( getAction( dataActions[1].id ) );
+		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) ); //$NON-NLS-1$
+		contributeActionsToMenu( editGroupMenu, parameterActions );
 
-		// Insert Menu
-		newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.insert" ) ); //$NON-NLS-1$
-		contributeActionsToMenu( newMenu, getInsertElementActions( ) );
-		newMenu.add( new Separator( ) );
-		newMenu.add( getAction( ImportLibraryAction.ID ) );
-		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, newMenu );
+		// Add new parameter action
+
+		dataMenu.add( editGroupMenu );
+
+		menubar.insertAfter( M_ELEMENT, dataMenu );
 
 		menubar.update( );
 	}
 
-	
 	private void contributeActionsToMenu( MenuManager menu,
 			RegisterActions[] actions )
 	{
 		for ( int i = 0; i < actions.length; i++ )
 		{
 			if ( actions[i] != null )
+			{
 				menu.add( getAction( actions[i].id ) );
+			}
 			else
+			{
 				menu.add( new Separator( ) );
+			}
 		}
-	}
-
-	/**
-	 * Creates the page menu
-	 * 
-	 * @return the page menu
-	 */
-	protected IMenuManager createPageMenu( )
-	{
-		MenuManager newMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.page" ), "birtPage" ); //$NON-NLS-1$ //$NON-NLS-2$
-		newMenu.add( new Separator( PAGE_SET_GROUP ) );
-		newMenu.add( new Separator( PAGE_SET_GROUP_END ) );
-//		newMenu.add( getAction( GEFActionConstants.ZOOM_IN ) );
-//		newMenu.add( getAction( GEFActionConstants.ZOOM_OUT ) );
-		newMenu.add( new Separator( ) );
-		return newMenu;
 	}
 
 	private void contributeStyleMenu( MenuManager newMenu )
@@ -440,7 +437,7 @@ public class DesignerActionBarContributor extends
 			( (MenuUpdateAction) action.getActionHandler( ) ).updateMenu( (MenuManager) menu );
 		}
 	}
-	
+
 	private void updateInsertGroupMenu( String actionId, IMenuManager menu )
 	{
 		RetargetAction action = (RetargetAction) getAction( actionId );
@@ -450,7 +447,6 @@ public class DesignerActionBarContributor extends
 			( (InsertGroupMenuAction) action.getActionHandler( ) ).updateMenu( (MenuManager) menu );
 		}
 	}
-	
 
 	private void updateEditMenu( IContributionManager menubar )
 	{
@@ -483,56 +479,4 @@ public class DesignerActionBarContributor extends
 			} );
 		}
 	}
-	
-//	/**
-//	 * @param menuManager
-//	 */
-//	private void createInsertGroupMenu( IMenuManager menuManager,
-//			String group_name )
-//	{
-//		if ( getFirstElement( ) instanceof CellHandle
-//				|| getFirstElement( ) instanceof RowHandle )
-//		{
-//			RowHandle row;
-//			if ( getFirstElement( ) instanceof CellHandle )
-//			{
-//				row = (RowHandle) ( (CellHandle) getFirstElement( ) ).getContainer( );
-//			}
-//			else
-//			{
-//				row = (RowHandle) getFirstElement( );
-//			}
-//			if ( !( row.getContainer( ) instanceof TableGroupHandle ) )
-//			{
-//				int slotID = row.getContainerSlotHandle( ).getSlotID( );
-//				menuManager.appendToGroup( group_name,
-//						InsertGroupActionFactory.createInsertGroupAction( slotID,
-//								getSelectedObjects( ) ) );
-//				return;
-//			}
-//
-//		}
-//
-//		if ( getFirstElement( ) instanceof SlotHandle )
-//		{
-//			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
-//			if ( !( container instanceof ListGroupHandle ) )
-//			{
-//				int slotID = ( (SlotHandle) getFirstElement( ) ).getSlotID( );
-//				menuManager.appendToGroup( group_name,
-//						InsertGroupActionFactory.createInsertGroupAction( slotID,
-//								getSelectedObjects( ) ) );
-//				return;
-//			}
-//		}
-//
-//		MenuManager subMenu = new MenuManager( Messages.getString( "InsertGroupAction.actionMsg.group" ) ); //$NON-NLS-1$
-//		Action[] actions = InsertGroupActionFactory.getInsertGroupActions( getSelectedObjects( ) );
-//		for ( int i = 0; i < actions.length; i++ )
-//		{
-//			subMenu.add( actions[i] );
-//		}
-//		menuManager.appendToGroup( group_name, subMenu );
-//		return;
-//	}
 }

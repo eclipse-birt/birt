@@ -58,13 +58,13 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.birt.report.designer.ui.views.INodeProvider"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.ui.forms.editor.IFormPage"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -122,6 +122,16 @@
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.jface.action.IAction"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="actionBarContributor" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.ui.IEditorActionBarContributor"/>
                </appInfo>
             </annotation>
          </attribute>

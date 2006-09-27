@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IEditorActionBarContributor;
 import org.eclipse.ui.forms.editor.FormEditor;
-
+import org.eclipse.ui.forms.editor.IFormPage;
 
 /**
  * 
@@ -22,9 +21,37 @@ import org.eclipse.ui.forms.editor.FormEditor;
 
 public abstract class AbstractMultiPageEditor extends FormEditor
 {
-	protected IEditorSite createSite( IEditorPart editor )
+
+	protected void pageChange( int newPageIndex )
 	{
-		return super.createSite( editor );
-		// return new ReportMultiPageEditorSite(this, editor);
+		// TODO Auto-generated method stub
+		super.pageChange( newPageIndex );
+		updateActionBarContributor( newPageIndex );
 	}
+
+	/**
+	 * Notifies action bar contributor about page change.
+	 * 
+	 * @param pageIndex
+	 *            the index of the new page
+	 */
+	protected void updateActionBarContributor( int pageIndex )
+	{
+		super.updateActionBarContributor( pageIndex );
+		// Overwrite this method to implement multi-editor action bar
+		// contributor
+		IEditorActionBarContributor contributor = getEditorSite( ).getActionBarContributor( );
+		if ( contributor instanceof IMultiPageEditorActionBarContributor
+				&& pageIndex >= 0
+				&& pageIndex < pages.size( ) )
+		{
+			Object page = pages.get( pageIndex );
+			if ( page instanceof IFormPage )
+			{
+				( (IMultiPageEditorActionBarContributor) contributor ).setActivePage( (IFormPage) page );
+			}
+		}
+
+	}
+
 }

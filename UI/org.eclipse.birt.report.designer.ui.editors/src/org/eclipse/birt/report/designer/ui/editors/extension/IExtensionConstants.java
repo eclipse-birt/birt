@@ -37,5 +37,6 @@ public interface IExtensionConstants
 	String ATTRIBUTE_POSITION = "position"; //$NON-NLS-1$
 	String ATTRIBUTE_RELATIVE = "relative"; //$NON-NLS-1$
 	String ATTRIBUTE_PAGE_ACTION = "pageAction"; //$NON-NLS-1$
+	String ATTRIBUTE_ACTION_BAR_CONTRIBUTOR = "actionBarContributor"; //$NON-NLS-1$
 
 }

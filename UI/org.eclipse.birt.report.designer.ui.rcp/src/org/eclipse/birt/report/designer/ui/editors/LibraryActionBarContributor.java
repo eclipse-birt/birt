@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-import org.eclipse.birt.report.designer.ui.editors.actions.EditorsActionBarContributor;
+import org.eclipse.birt.report.designer.ui.editors.actions.MultiPageEditorActionBarContributor;
 
 /**
  * Action bar contributor for library editor
  */
 
-public class LibraryActionBarContributor extends EditorsActionBarContributor
+public class LibraryActionBarContributor extends MultiPageEditorActionBarContributor
 {
 
 	/*

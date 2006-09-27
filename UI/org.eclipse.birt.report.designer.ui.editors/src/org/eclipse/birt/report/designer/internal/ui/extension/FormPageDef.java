@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.ui.editors.extension.IExtensionConstants
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.ui.IEditorActionBarContributor;
 
 /**
  * 
@@ -36,6 +37,7 @@ public class FormPageDef implements IExtensionConstants
 	public String relative;
 	public int position;
 	public IAction pageAction;
+	public IEditorActionBarContributor actionBarContributor;
 
 	FormPageDef( IConfigurationElement element )
 	{
@@ -54,6 +56,8 @@ public class FormPageDef implements IExtensionConstants
 		{
 			pageAction = new PageSetAction( displayName, id );
 		}
+		actionBarContributor = (IEditorActionBarContributor) loadClass( element,
+				ATTRIBUTE_ACTION_BAR_CONTRIBUTOR );
 	}
 
 	private int loadPosition( IConfigurationElement element,
@@ -98,7 +102,10 @@ public class FormPageDef implements IExtensionConstants
 		Object clazz = null;
 		try
 		{
-			clazz = element.createExecutableExtension( attributeName );
+			if ( element.getAttribute( attributeName ) != null )
+			{
+				clazz = element.createExecutableExtension( attributeName );
+			}
 		}
 		catch ( CoreException e )
 		{
