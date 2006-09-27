@@ -158,7 +158,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		
 		initializePagination( format, extManager );
 		//the output will be paginate.
-		if ( pagination != ExtensionManager.PAPER_SIZE_PAGINATION )
+		if ( !ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 		{
 			emitter = new HTMLTableLayoutNestEmitter( emitter );
 		}
@@ -397,70 +397,82 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		void render() throws EngineException
 		{
-		try
-		{
-			IContentEmitter emitter = createContentEmitter( );
-			Report reportDesign = executionContext.getReport( );
-			String format = executionContext.getOutputFormat( );
-			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) ) //$NON-NLS-1$
+			try
 			{
-				IReportExecutor executor = createReader( );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				IReportLayoutEngine layoutEngine = LayoutEngineFactory
-						.createLayoutEngine( pagination );
-				
-				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-						executionContext );
-				layoutEngine.setPageHandler( handle );
-				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
-				outputEmitters.addEmitter( emitter );
-				outputEmitters.addEmitter( handle.getEmitter( ) );
-				
-				startRender( );
-				layoutEngine.layout( executor, outputEmitters, false );
-				closeRender( );
-				executor.close( );
+				IContentEmitter emitter = createContentEmitter( );
+				Report reportDesign = executionContext.getReport( );
+				String format = executionContext.getOutputFormat( );
+				if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) ) //$NON-NLS-1$
+				{
+					IReportExecutor executor = createReader( );
+					executor = new LocalizedReportExecutor( executionContext,
+							executor );
+					executionContext.setExecutor( executor );
+					initializeContentEmitter( emitter, executor );
+					IReportLayoutEngine layoutEngine = LayoutEngineFactory
+							.createLayoutEngine( pagination );
+
+					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
+							executionContext );
+					layoutEngine.setPageHandler( handle );
+
+					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
+							format );
+					outputEmitters.addEmitter( emitter );
+					outputEmitters.addEmitter( handle.getEmitter( ) );
+
+					startRender( );
+					layoutEngine.layout( executor, outputEmitters,
+							allowPageBreak( ) );
+					closeRender( );
+					executor.close( );
+				}
+				else
+				{
+					IReportExecutor executor = new ReportExecutor(
+							executionContext, reportDesign, null );
+					executor = new LocalizedReportExecutor( executionContext,
+							executor );
+					executionContext.setExecutor( executor );
+					initializeContentEmitter( emitter, executor );
+					// start the render
+					ReportContentLoader loader = new ReportContentLoader(
+							executionContext );
+					startRender( );
+					load( loader, emitter );
+					closeRender( );
+					executor.close( );
+				}
 			}
-			else
+			catch ( EngineException e )
 			{
-				IReportExecutor executor = new ReportExecutor(
-						executionContext, reportDesign, null );
-				executor = new LocalizedReportExecutor( executionContext,
-						executor );
-				executionContext.setExecutor( executor );
-				initializeContentEmitter( emitter, executor );
-				// start the render
-				ReportContentLoader loader = new ReportContentLoader(
-						executionContext );
-				startRender( );
-				load( loader, emitter );
-				closeRender( );
-				executor.close( );
+				log
+						.log(
+								Level.SEVERE,
+								"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+				throw e;
+			}
+			catch ( Exception ex )
+			{
+				log
+						.log(
+								Level.SEVERE,
+								"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
+				throw new EngineException(
+						"Error happened while running the report", ex ); //$NON-NLS-1$
+			}
+			catch ( OutOfMemoryError err )
+			{
+				log
+						.log( Level.SEVERE,
+								"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
+				throw err;
 			}
 		}
-		catch ( EngineException e )
+
+		protected boolean allowPageBreak( )
 		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
-			throw e;
-		}
-		catch ( Exception ex )
-		{
-			log.log( Level.SEVERE,
-					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
-			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
-		}
-		catch ( OutOfMemoryError err )
-		{
-			log.log( Level.SEVERE,
-					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
-			throw err;
-		}
+			return false;
 		}
 		
 		protected abstract IReportExecutor createReader( );
@@ -520,6 +532,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 			}
 		}
 
+		protected boolean allowPageBreak( )
+		{
+			return true;
+		}
+		
 		protected IReportExecutor createReader( )
 		{
 			return new ReportPageReader( executionContext, pageRange,
