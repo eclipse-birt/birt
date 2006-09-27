@@ -35,7 +35,10 @@ public class DataID
 	
 	public void append( StringBuffer buffer )
 	{
-		dataSet.append( buffer );
+		if( dataSet != null )
+		{
+			dataSet.append( buffer );
+		}
 		buffer.append( ":" );
 		buffer.append( rowId );
 	}
