@@ -436,7 +436,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				4,
+				new Integer( 4 ),
 				null,
 				false,
 				false );
@@ -456,11 +456,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		{
 			return series.getMarkers( );
 		}
-		else
-		{
-			return ( (DifferenceSeries) series ).getNegativeMarkers( );
-		}
-		
+		return ( (DifferenceSeries) series ).getNegativeMarkers( );		
 	}
 
 	private void updateScrollBar( )

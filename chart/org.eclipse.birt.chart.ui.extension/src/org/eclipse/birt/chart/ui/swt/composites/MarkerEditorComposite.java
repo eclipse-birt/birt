@@ -309,7 +309,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				4,
+				new Integer( 4 ),
 				null,
 				false,
 				false );

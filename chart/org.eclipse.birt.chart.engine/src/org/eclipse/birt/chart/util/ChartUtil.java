@@ -280,26 +280,38 @@ public class ChartUtil
 
 	/**
 	 * Converts Fill if possible. If Fill is MultipleFill type, convert to
-	 * positive/negative Color according to the value
+	 * positive/negative Color according to the value. If not MultipleFill type,
+	 * return original fill for positive value, or negative fill for negative
+	 * value.
 	 * 
 	 * @param fill
 	 *            Fill to convert
 	 * @param dValue
 	 *            numeric value
+	 * @param fNegative
+	 *            Fill for negative value. Useless for positive value or
+	 *            MultipleFill
 	 */
-	public static Fill convertFill( Fill fill, double dValue )
+	public static Fill convertFill( Fill fill, double dValue, Fill fNegative )
 	{
-		if ( fill instanceof MultipleFill )
+		if ( dValue >= 0 )
 		{
-			if ( dValue >= 0 )
+			if ( fill instanceof MultipleFill )
 			{
 				fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
 						.get( 0 ) );
 			}
-			else
+		}
+		else
+		{
+			if ( fill instanceof MultipleFill )
 			{
 				fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
 						.get( 1 ) );
+			}
+			else if ( fNegative != null )
+			{
+				fill = fNegative;
 			}
 		}
 		return fill;

@@ -2394,7 +2394,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 */
 	protected final void renderMarker( Object oParent, IPrimitiveRenderer ipr,
 			Marker m, Location lo, LineAttributes lia, Fill fPaletteEntry,
-			DataPointHints dph, int markerSize, boolean bDeferred,
+			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
 		if ( dph != null && isNaN( dph.getOrthogonalValue( ) ) )
@@ -2406,7 +2406,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
 		{
 			fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
-					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ) );
+					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
+					ColorDefinitionImpl.TRANSPARENT( ) );
 		}
 
 		Series se = getSeries( );

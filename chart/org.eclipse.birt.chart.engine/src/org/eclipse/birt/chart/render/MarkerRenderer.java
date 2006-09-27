@@ -41,7 +41,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
-import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -95,13 +94,14 @@ public final class MarkerRenderer
 	 * @param _paletteEntry
 	 * @param _m
 	 * @param _markerSize
+	 *            Null means auto size
 	 * @param _dc
 	 * @param _bDeferred
 	 * @param _bTransposed
 	 */
 	public MarkerRenderer( IDeviceRenderer _render, Object _oSource,
 			Location _lo, LineAttributes _la, Fill _paletteEntry, Marker _m,
-			int _markerSize, DeferredCache _dc, boolean _bDeferred,
+			Integer _markerSize, DeferredCache _dc, boolean _bDeferred,
 			boolean _bTransposed )
 	{
 		this.iRender = _render;
@@ -112,22 +112,11 @@ public final class MarkerRenderer
 		m = _m;
 		bTransposed = _bTransposed;
 		
-		paletteEntry = ChartUtil.convertFill( _paletteEntry, _markerSize );
-		if ( _markerSize < 0 )
-		{
-			if ( _paletteEntry instanceof MultipleFill )
-			{
-				// Use MultipleFill render negative marker
-				_markerSize = Math.abs( _markerSize );
-			}
-			else
-			{
-				// Set a default size for negative marker
-				_markerSize = m.getSize( );
-			}
-		}
-
-		iSize = _markerSize
+		iSize = _markerSize == null ? _m.getSize( ) : _markerSize.intValue( );
+		paletteEntry = ChartUtil.convertFill( _paletteEntry,
+				iSize,
+				ColorDefinitionImpl.TRANSPARENT( ) );
+		iSize = Math.abs( iSize )
 				* iRender.getDisplayServer( ).getDpiResolution( ) / 72d;		
 
 		bRendering3D = _lo instanceof Location3D;
