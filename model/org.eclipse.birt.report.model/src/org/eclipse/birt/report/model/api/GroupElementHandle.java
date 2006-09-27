@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -232,8 +233,17 @@ abstract public class GroupElementHandle
 					{
 						ExtendedItem parent = (ExtendedItem) elem
 								.getExtendsElement( );
-						if ( !elem.getLocalProperty(
-								elementHandle.getModule( ), name ).equals(
+						try
+						{
+							parent.initializeReportItem( parent.getRoot( ) );
+						}
+						catch ( ExtendedElementException e )
+						{
+						}
+						
+						Object value = elem.getLocalProperty(
+								elementHandle.getModule( ), name );
+						if ( value != null && !value.equals(
 								parent.getLocalProperty( parent.getRoot( ),
 										name ) ) )
 							return true;
