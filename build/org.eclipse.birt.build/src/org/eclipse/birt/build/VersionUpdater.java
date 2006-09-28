@@ -228,26 +228,7 @@ public class VersionUpdater extends Task
 			this.handleErrorOutput( "Can not find Bundle-SymbolicName for manifest under " + this.projectPath ); //$NON-NLS-1$
 		else if ( pluginVersion == null )
 			this.handleErrorOutput( "Can not identify Bundle-Version for manifest under " + this.projectPath ); //$NON-NLS-1$
-		else
-		{
-			if ( dtpPlugins.contains( pluginId ) )
-			{
-				// one dtp plugin.
 
-				// "3.0.0.200602271" to "3.0.0${timestamp}"
-
-				int lastDot = pluginVersion.lastIndexOf( (int) '.' );
-				String newPluginVersion = pluginVersion.substring( 0, lastDot )
-						+ suffix;
-
-				replace = new Replace( );
-				replace.setProject( getProject( ) );
-				replace.setFile( manifest );
-				replace.setToken( pluginVersion );
-				replace.setValue( newPluginVersion );
-				replace.execute( );
-			}
-		}
 	}
 	
 	
