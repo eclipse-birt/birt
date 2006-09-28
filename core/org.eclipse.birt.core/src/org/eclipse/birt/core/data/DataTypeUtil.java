@@ -45,9 +45,6 @@ public final class DataTypeUtil
 	// we will try to parse it for Locale.US
 	private static ULocale DEFAULT_LOCALE = ULocale.US;
 
-	// Default Date/Time Style 
-	private static int DEFAULT_DATE_STYLE = DateFormat.MEDIUM;
-
 	// cache DateFormatter of ICU
 	private static Map dfMap = DateFormatUtil.getAllDateFormatter();
 
@@ -477,9 +474,9 @@ public final class DataTypeUtil
 		boolean existTime = source.matches( ".*[0-9]+:[0-9]+:[0-9]+.*" )
 				|| source.matches( ".*[0-9]+:[0-9]+.*" );
 
-		for ( int i = DEFAULT_DATE_STYLE; i <= DateFormat.SHORT; i++ )
+		for ( int i = DateFormatUtil.DEFAULT_DATE_STYLE; i <= DateFormat.SHORT; i++ )
 		{
-			for ( int j = DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
+			for ( int j = DateFormatUtil.DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
 			{
 				dateFormat = DateFormatHolder.getDateTimeInstance( i, j, locale );
 				try
