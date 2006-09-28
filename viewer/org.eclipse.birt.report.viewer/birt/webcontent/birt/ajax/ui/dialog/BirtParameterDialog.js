@@ -29,6 +29,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__isnull : '__isnull',
 
 	/**
+	 *	Identify display text for a null value.
+	 */
+	__display_null : 'Null Value',
+	
+	/**
 	 *	Prefix that identify the parameter is to set Display Text for "select" parameter
 	 */
 	__isdisplay : '__isdisplay__',
@@ -222,7 +227,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				
 				// Check if select 'Null Value' option
 				var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;						
-				if( tempText && tempText == 'Null Value' )
+				if( tempText && tempText == this.__display_null )
 				{	
 					this.__parameter[k].name = this.__isnull;
 					if ( oIEC.length > 0 )
@@ -384,6 +389,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 																					
 							var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
 							var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
+							
+							// Check if select 'Null Value' option
+							if( tempText == this.__display_null )
+							{
+								this.__parameter[k].name = this.__isnull;
+								this.__parameter[k].value = oIEC[j].value;
+								k++;	
+								continue;
+							}
 
 							if ( this.__is_parameter_not_allowblank( oIEC ) && birtUtility.trim( tempValue ) == '' )
 							{
@@ -392,28 +406,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								return false;
 							}
 							
-							// Check if select 'Null Value' option
-							if( tempText != 'Null Value' )
-							{	
-								this.__parameter[k].name = oIEC[j].value;							
-								this.__parameter[k].value = tempValue;
-								k++;
-								
-								// set display text for the "select" parameter
-								if( !this.__parameter[k] )
-								{
-									this.__parameter[k] = { };
-								}
-								this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-								this.__parameter[k].value = tempText;
-								k++;
-							}
-							else
+							
+							this.__parameter[k].name = oIEC[j].value;							
+							this.__parameter[k].value = tempValue;
+							k++;
+							
+							// set display text for the "select" parameter
+							if( !this.__parameter[k] )
 							{
-								this.__parameter[k].name = this.__isnull;
-								this.__parameter[k].value = oIEC[j].value;
-								k++;								
+								this.__parameter[k] = { };
 							}
+							this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
+							this.__parameter[k].value = tempText;
+							k++;
 						}
 						else if( !oIEC[j+1] && !oIEC[j].name )
 						{
