@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060411-2230 Build &lt;20060411-2230></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <text-property name="displayName">Data Set</text-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">SELECT CLASSICMODELS.CUSTOMERS.CUSTOMERNUMBER,
+       CLASSICMODELS.CUSTOMERS.CUSTOMERNAME,
+       CLASSICMODELS.CUSTOMERS.COUNTRY,
+       CLASSICMODELS.CUSTOMERS.SALESREPEMPLOYEENUMBER
+ FROM  CLASSICMODELS.CUSTOMERS,
+       CLASSICMODELS.EMPLOYEES
+ WHERE CLASSICMODELS.EMPLOYEES.EMPLOYEENUMBER=CLASSICMODELS.CUSTOMERS.SALESREPEMPLOYEENUMBER</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="6">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_10</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <column id="19"/>
+            <column id="20"/>
+            <column id="21"/>
+            <detail>
+                <row id="11">
+                    <cell id="12">
+                        <data id="22">
+                            <property name="resultSetColumn">COLUMN_10</property>
+                        </data>
+                    </cell>
+                    <cell id="13">
+                        <table name="innerTable" id="23">
+                            <property name="width">100%</property>
+                            <property name="dataSet">Data Set</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">ss</property>
+                                    <expression name="expression">rows[0]["COLUMN_10"]</expression>
+                                </structure>
+                            </list-property>
+                            <column id="33"/>
+                            <column id="34"/>
+                            <detail>
+                                <row id="27">
+                                    <cell id="28"/>
+                                    <cell id="29">
+                                        <data id="35">
+                                            <property name="resultSetColumn">ss</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </detail>
+                            <footer>
+                                <row id="30">
+                                    <cell id="31"/>
+                                    <cell id="32"/>
+                                </row>
+                            </footer>
+                        </table>
+                    </cell>
+                    <cell id="14"/>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>
