@@ -115,7 +115,7 @@
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.datatools.connectivity*.jar"/>
             <include name="org.eclipse.datatools.connectivity*/*.jar"/>
-			<include name="org.eclipse.datatools.enablement.xml*.jar"/>
+			<include name="org.eclipse.datatools.enablement.oda.xml*.jar"/>
 		</fileset>
 
 	</path>
