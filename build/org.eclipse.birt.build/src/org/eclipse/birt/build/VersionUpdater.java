@@ -125,33 +125,6 @@ public class VersionUpdater extends Task
 		this.cvsControlPath = cvsControlPath;	
 	}
 
-	synchronized void buildDTP( )
-	{
-		dtpPlugins = new HashSet( );
-
-		Properties configs = new Properties( );
-		try
-		{
-			configs.load( VersionUpdater.class
-					.getResourceAsStream( "config.properties" ) ); //$NON-NLS-1$
-
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
-			throw new BuildException( "Error in reading config.properties", e ); //$NON-NLS-1$
-		}
-
-		String line = configs.getProperty( "DTP.plugins" ); //$NON-NLS-1$
-		if ( line != null )
-		{
-			String[] dtps = line.split( "," ); //$NON-NLS-1$
-			for ( int i = 0; i < dtps.length; i++ )
-			{
-				dtpPlugins.add( StringUtil.trimString( dtps[i] ) );
-			}
-		}
-	}
 
 	/**
 	 * For OSGI plugins,
@@ -164,11 +137,6 @@ public class VersionUpdater extends Task
 			throw new BuildException( "Please specify the correct projectPath." ); //$NON-NLS-1$
 		}
 
-		// read in DTP plugin list.
-
-		if ( dtpPlugins == null )
-			this.buildDTP( );
-
 		// read in plugin version and id.
 
 		File manifestFile = new File(
@@ -176,7 +144,6 @@ public class VersionUpdater extends Task
 
 		if ( manifestFile.exists( ) )
 			this.updateManifest( manifestFile );
-		this.updatePluginXML( new File( projectPath, "plugin.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -285,122 +252,6 @@ public class VersionUpdater extends Task
 	
 	
 	
-	/**
-	 * Update the version number of plugin.xml.
-	 * 
-	 * @param pluginXML
-	 * @throws IOException
-	 */
-
-	private void updatePluginXML( File pluginXML )
-	{
-		if ( !pluginXML.exists( ) )
-		{
-			handleErrorOutput( "plugin.xml doesn't exist under " + this.projectPath ); //$NON-NLS-1$
-			return;
-		}	
-
-		PluginWrapper pluginModel = new PluginWrapper( pluginXML );
-
-		if ( null == this.pluginId )
-			this.pluginId = StringUtil.trimString( pluginModel.getPluginID( ) );
-
-		if ( null == this.pluginVersion )
-			this.pluginVersion = StringUtil.trimString( pluginModel
-					.getPluginVersion( ) );
-
-		if ( null == this.pluginVersion )
-		{
-			handleErrorOutput( "Can not identify plugin.version for plugin.xml under " + this.projectPath ); //$NON-NLS-1$
-			return;
-		}
-
-		try
-		{
-			BufferedReader reader = new BufferedReader( new FileReader(
-					pluginXML ) );
-
-			String updated = ""; //$NON-NLS-1$
-			String line = null;
-			while ( ( line = reader.readLine( ) ) != null )
-			{
-				String newLine = updateLineOfPlugin( line );
-				updated = updated + newLine + "\n"; //$NON-NLS-1$
-			}
-
-			reader.close( );
-
-			BufferedWriter writer = new BufferedWriter( new FileWriter(
-					pluginXML ) );
-			writer.write( updated );
-			writer.close( );
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
-			throw new BuildException( e );
-		}
-	}
-
-	/**
-	 * Update a line within an "plugin.xml" versoin with criterias, if its BIRT
-	 * plugin, lines that contain version="2.0.0" will be updated to
-	 * "version="2.0.0N20060307", suppose "suffix" is set to "N20060307".
-	 * <p>
-	 * For the other DTP plugins, lines that contains version="3.0.0.200602271"
-	 * are converted to "3.0.0${timestamp}
-	 * <p>
-	 * Otherwise, the orginal line is returned.
-	 * 
-	 * @param line
-	 * @return
-	 */
-
-	String updateLineOfPlugin( String line )
-	{
-		int index = line.indexOf( "plugin" ); //$NON-NLS-1$
-		if ( pluginTagStart == false && index != -1 )
-			pluginTagStart = true;
-
-		if ( !pluginTagStart )
-			return line;
-
-		// locate line that contains version="2.0.0"
-		boolean match = line.matches( ".*version[\\s]*=[\\s]*\".+\".*" ); //$NON-NLS-1$
-
-		if ( !match )
-			return line;
-		else
-		{
-			int quote = (int) '\"';
-
-			int firstQuote = line
-					.indexOf( quote, line.indexOf( "version" ) + 1 ); //$NON-NLS-1$
-			assert firstQuote > 0;
-
-			int secondQuote = line.indexOf( quote, firstQuote + 1 );
-
-			String newPluginVersion = null;
-
-			if ( dtpPlugins.contains( pluginId ) )
-			{
-				// version = "3.0.0.200602271" => version = "3.0.0${timestamp}"
-
-				int lastDot = pluginVersion.lastIndexOf( (int) '.' );
-				newPluginVersion = pluginVersion.substring( 0, lastDot )
-						+ suffix;
-			}
-			else
-			{
-				// version="2.0.0" => version="2.0.0${timestamp}"
-				newPluginVersion = pluginVersion + suffix;
-			}
-
-			return line.substring( 0, firstQuote + 1 ) + newPluginVersion
-					+ line.substring( secondQuote );
-
-		}
-	}
 	
 	public void setCheckFlag( String checkFlag )
 	{
