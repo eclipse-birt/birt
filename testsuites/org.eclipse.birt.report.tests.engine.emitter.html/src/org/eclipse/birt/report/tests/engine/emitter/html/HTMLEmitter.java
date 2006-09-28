@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
  * <b>HTMLEmitter is an extended emitter for test</b>
  * <p>
  * Format: emitter_html
- * 
  */
 public class HTMLEmitter implements IContentEmitter
 {
@@ -141,25 +140,21 @@ public class HTMLEmitter implements IContentEmitter
 	public void startData( IDataContent data )
 	{
 		emitter.startData( data );
-
 	}
 
 	public void startForeign( IForeignContent foreign )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startForeign( foreign );
 	}
 
 	public void startGroup( IGroupContent group )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startGroup( group );
 	}
 
 	public void startImage( IImageContent image )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startImage( image );
 	}
 
 	public void startLabel( ILabelContent label )
@@ -169,56 +164,47 @@ public class HTMLEmitter implements IContentEmitter
 
 	public void startList( IListContent list )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startList( list );
 	}
 
 	public void startListBand( IListBandContent listBand )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startListBand( listBand );
 	}
 
 	public void startListGroup( IListGroupContent group )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startListGroup( group );
 	}
 
 	public void startPage( IPageContent page )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startPage( page );
 	}
 
 	public void startRow( IRowContent row )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startRow( row );
 	}
 
 	public void startTable( ITableContent table )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startTable( table );
 	}
 
 	public void startTableBand( ITableBandContent band )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startTableBand( band );
 	}
 
 	public void startTableGroup( ITableGroupContent group )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startTableGroup( group );
 	}
 
 	public void startText( ITextContent text )
 	{
-		// TODO Auto-generated method stub
-
+		emitter.startText( text );
 	}
 
 }
