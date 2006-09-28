@@ -11,33 +11,19 @@
 
 package org.eclipse.birt.report.data.oda.xml.i18n;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 /**
- * 
+ * @deprecated Please use DTP xml driver
  */
 public class Messages
 {
 
-	private static final String BUNDLE_NAME = "org.eclipse.birt.report.data.oda.xml.i18n.messages"; //$NON-NLS-1$
-
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
-
-	private Messages( )
-	{
-	}
-
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
 	public static String getString( String key )
 	{
-		// TODO Auto-generated method stub
-		try
-		{
-			return RESOURCE_BUNDLE.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
-			return '!' + key + '!';
-		}
+		return org.eclipse.datatools.enablement.oda.xml.i18n.Messages.getString( key );
 	}
 }

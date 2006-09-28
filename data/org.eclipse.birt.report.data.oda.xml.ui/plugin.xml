@@ -32,7 +32,7 @@
       <page
             id="%oda.data.source.id"
             name="%profile.propertypage.name"
-            class="org.eclipse.birt.report.data.oda.xml.ui.wizards.XMLPropertyPage"
+            class="org.eclipse.datatools.enablement.oda.xml.ui.wizards.XMLPropertyPage"
             objectClass="org.eclipse.datatools.connectivity.IConnectionProfile">
          <filter
                name="org.eclipse.datatools.profile.property.id"
@@ -45,40 +45,40 @@
       <dataSourceUI id="%oda.data.source.id">
          <newDataSourceWizard
                includesProgressMonitor="false"
-               pageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XMLSelectionWizardPage"
+               pageClass="org.eclipse.datatools.enablement.oda.xml.ui.wizards.XMLSelectionWizardPage"
                pageTitle="%wizard.data.source.page.title"
                windowTitle="%wizard.window.title"/>
       </dataSourceUI>
       <dataSetUI
             id="org.eclipse.birt.report.data.oda.xml.dataSet"
-            initialPageId="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui1"
+            initialPageId="org.eclipse.datatools.connectivity.oda.xml.ui.dataset.ui1"
             supportsInParameters="false"
             supportsOutParameters="false">
             <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
             <dataSetPage
-                  id="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui1"
-                  wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XmlDataSetSelectionPage"
+                  id="org.eclipse.datatools.connectivity.oda.xml.ui.dataset.ui1"
+                  wizardPageClass="org.eclipse.datatools.enablement.oda.xml.ui.wizards.XmlDataSetSelectionPage"
                   path="/"
                   displayName="%oda.xml.dataset"/>
             <dataSetPage
-                  id="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui2"
-                  wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.XPathChoosePage"
+                  id="org.eclipse.datatools.connectivity.oda.xml.ui.dataset.ui2"
+                  wizardPageClass="org.eclipse.datatools.enablement.oda.xml.ui.wizards.XPathChoosePage"
                   path="/"
                   displayName="%oda.xml.tablemapping"/>
             <dataSetPage
-                  id="org.eclipse.birt.report.data.oda.xml.ui.dataset.ui3"
-                  wizardPageClass="org.eclipse.birt.report.data.oda.xml.ui.wizards.ColumnMappingPage"
+                  id="org.eclipse.datatools.connectivity.oda.xml.ui.dataset.ui3"
+                  wizardPageClass="org.eclipse.datatools.enablement.oda.xml.ui.wizards.ColumnMappingPage"
                   path="/"
                   displayName="%oda.xml.columnmapping"/>     
                
        </dataSetUI>
    </extension>
-   <extension
+   <!--extension
          point="org.eclipse.ui.preferencePages">
          <page
-            class="org.eclipse.birt.report.data.oda.xml.ui.preference.DateSetPreferencePage"
+            class="org.eclipse.datatools.enablement.oda.xml.ui.preference.DataSetPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage"
             name="%preference.datasetpreview"
-            id="org.eclipse.birt.report.data.oda.xml.ui.preference.DateSetPreferencePage"/>
-   </extension>
+            id="org.eclipse.datatools.enablement.oda.xml.ui.preference.DataSetPreferencePage"/>
+   </extension-->
 </plugin>

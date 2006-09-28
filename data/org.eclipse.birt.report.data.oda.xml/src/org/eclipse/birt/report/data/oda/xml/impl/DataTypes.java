@@ -19,6 +19,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * This class hosts the information of data types that are supported by flat
  * file driver
+ * @deprecated Please use DTP xml driver
  */
 public final class DataTypes
 {
