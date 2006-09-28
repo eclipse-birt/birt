@@ -51,7 +51,7 @@
 			suffix=".v${timestamp.BUILD_ID}" 
 			cvsLogPath="${example.a.plugin}-changelog.xml"
 			logPath="NewVersionControl/" 
-			plugId="${example.plugin}" 
+			plugId="${example.a.plugin}" 
 			checkFlag="Y" 
 			cvsControlPath="${example.a.plugin}_DayInPast.xml"/>
 		<versionUpdate 
@@ -59,7 +59,7 @@
 			suffix=".v${timestamp.BUILD_ID}" 
 			cvsLogPath="${example.b.plugin}-changelog.xml"
 			logPath="NewVersionControl/" 
-			plugId="${example.plugin}" 
+			plugId="${example.b.plugin}" 
 			checkFlag="Y" 
 			cvsControlPath="${example.b.plugin}_DayInPast.xml"/>
 	</target>
