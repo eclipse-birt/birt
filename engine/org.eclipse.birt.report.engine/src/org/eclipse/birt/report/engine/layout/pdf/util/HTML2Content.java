@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.css.CSSValue;
 
 
 
@@ -339,19 +341,28 @@ public class HTML2Content
 			addChild(content, container);
 			handleStyle(ele, cssStyles, container);
 			
-			TextContent text = new TextContent((ReportContent)content.getReportContent());
-			addChild(container, text);
-			if(ele.getParentNode().getNodeName().equals("ol")) //$NON-NLS-1$
-			{
-				text.setText(new Integer(index).toString()+".  "); //$NON-NLS-1$
-			}
-			else if(ele.getParentNode().getNodeName().equals("ul")) //$NON-NLS-1$
-			{
-				text.setText("  •  " ); //$NON-NLS-1$
-			}
+			//fix scr  157259In PDF <li> effect is incorrect when page break happens.
+			//add a container to number serial, keep consistent page-break
 			style = new StyleDeclaration(content.getCSSEngine());
 			style.setProperty( IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE );
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE );
+			
+			IContainerContent orderContainer = new ContainerContent((ReportContent)content.getReportContent());
+			CSSValue fontSizeValue = content.getComputedStyle( ).getProperty( IStyle.STYLE_FONT_SIZE ); 
+			orderContainer.setWidth( new DimensionType(2.1*PropertyUtil.getDimensionValue( fontSizeValue )/1000.0, EngineIRConstants.UNITS_PT) );
+			orderContainer.setInlineStyle( style );
+			addChild(container, orderContainer);
+			TextContent text = new TextContent((ReportContent)content.getReportContent());
+			addChild(orderContainer, text);
+			if(ele.getParentNode().getNodeName().equals("ol")) //$NON-NLS-1$
+			{
+				text.setText(new Integer(index).toString()+"."); //$NON-NLS-1$
+			}
+			else if(ele.getParentNode().getNodeName().equals("ul")) //$NON-NLS-1$
+			{
+				text.setText("•" ); //$NON-NLS-1$
+			}
+
 			text.setInlineStyle(style);
 			
 			IContainerContent childContainer = new ContainerContent((ReportContent)content.getReportContent());
