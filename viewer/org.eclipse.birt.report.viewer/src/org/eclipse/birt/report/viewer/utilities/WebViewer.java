@@ -42,6 +42,11 @@ public class WebViewer
 	 * PDF format name
 	 */
 	final public static String PDF = "pdf"; //$NON-NLS-1$
+	
+	/**
+	 * DOC format name
+	 */	
+	final public static String DOC = "doc";
 
 	/**
 	 * Birt web viewer plugin id
