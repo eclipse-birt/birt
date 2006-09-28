@@ -20,6 +20,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -75,7 +77,7 @@ public class UserPropertyBuilder extends BaseDialog
 	static
 	{
 		List typeList = new ArrayList( UserPropertyDefn.getAllowedTypes( ) );
-		EXPRESSION_TYPE = DesignEngine.getMetaDataDictionary( )
+		EXPRESSION_TYPE = DEUtil.getMetaDataDictionary( )
 				.getPropertyType( PropertyType.EXPRESSION_TYPE );
 		typeList.remove( EXPRESSION_TYPE );
 		PROPERTY_TYPES = (PropertyType[]) typeList.toArray( new PropertyType[0] );

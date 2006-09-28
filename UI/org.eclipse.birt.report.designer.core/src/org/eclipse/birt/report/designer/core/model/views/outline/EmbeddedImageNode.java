@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.model.views.outline;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.ModuleHandle;
 

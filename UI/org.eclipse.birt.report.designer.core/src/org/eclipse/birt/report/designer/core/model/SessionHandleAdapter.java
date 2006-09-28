@@ -17,7 +17,9 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -119,8 +121,9 @@ public class SessionHandleAdapter
 	{
 		if ( sessionHandle == null )
 		{
-			sessionHandle = DesignEngine.newSession( ULocale.getDefault( ) );
-			IMetaDataDictionary metadata = DesignEngine.getMetaDataDictionary( );
+			sessionHandle = new DesignEngine( new DesignConfig( ) )
+			.newSessionHandle( ULocale.getDefault( ) );
+			IMetaDataDictionary metadata = DEUtil.getMetaDataDictionary( );
 			metadata.enableElementID( );
 		}
 		sessionHandle.activate( );

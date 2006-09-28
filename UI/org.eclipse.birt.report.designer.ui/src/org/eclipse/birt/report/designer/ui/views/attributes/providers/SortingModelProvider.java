@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -66,7 +67,7 @@ public class SortingModelProvider
 		String[] columnNames = new String[keys.length];
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			IStructureDefn structure = DesignEngine.getMetaDataDictionary( )
+			IStructureDefn structure = DEUtil.getMetaDataDictionary( )
 					.getStructure( SortKey.SORT_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}

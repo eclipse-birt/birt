@@ -87,7 +87,7 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 
 				if ( obj instanceof DataItemHandle )
 				{
-					( (DataItemHandle) obj ).setValueExpr( expressionBuilder.getResult( ) );
+					( (DataItemHandle) obj ).setResultSetColumn( expressionBuilder.getResult( ) );
 				}
 
 				stack.commit( );

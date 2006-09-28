@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -749,7 +750,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private void createObjects( TreeItem topItem, String objectType )
 	{
-		for ( Iterator itor = DesignEngine.getMetaDataDictionary( )
+		for ( Iterator itor = DEUtil.getMetaDataDictionary( )
 				.getClasses( )
 				.iterator( ); itor.hasNext( ); )
 		{

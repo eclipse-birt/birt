@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -127,11 +128,11 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER;
 		}
-		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
-		{
-			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
-		}
-		return DesignEngine.getMetaDataDictionary( ).getChoiceSet( unitKey );
+//		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
+//		{
+//			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
+//		}
+		return DEUtil.getMetaDataDictionary( ).getChoiceSet( unitKey );
 
 	}
 
@@ -148,7 +149,7 @@ public class ChoiceSetFactory
 	public static IChoiceSet getElementChoiceSet( String elementName,
 			String property )
 	{
-		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
+		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE
@@ -172,7 +173,7 @@ public class ChoiceSetFactory
 	public static IChoiceSet getDimensionChoiceSet( String elementName,
 			String property )
 	{
-		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
+		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
@@ -195,7 +196,7 @@ public class ChoiceSetFactory
 	public static IChoiceSet getStructChoiceSet( String structName,
 			String property )
 	{
-		IPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
+		IPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getStructure( structName )
 				.findProperty( property );
 		return propertyDefn.getChoices( );
@@ -527,7 +528,7 @@ public class ChoiceSetFactory
 	private static Object[] getUnitChoiceSet( String unitKey )
 	{
 		ArrayList list = new ArrayList( );
-		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
+		IChoiceSet choiceSet = DEUtil.getMetaDataDictionary( )
 				.getChoiceSet( unitKey );
 		if ( choiceSet != null )
 		{
@@ -645,7 +646,7 @@ public class ChoiceSetFactory
 	public static String[] getDefaultFormatValue( String structName )
 	{
 		String[] formatValue = new String[2];
-		IStructureDefn def = DesignEngine.getMetaDataDictionary( )
+		IStructureDefn def = DEUtil.getMetaDataDictionary( )
 				.getStructure( structName );
 		formatValue[0] = (String) def.getMember( FormatValue.CATEGORY_MEMBER )
 				.getDefault( );

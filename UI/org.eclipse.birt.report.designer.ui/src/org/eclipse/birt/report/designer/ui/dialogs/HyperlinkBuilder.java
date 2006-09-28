@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -132,10 +133,10 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private static final String REQUIED_MARK = "*"; //$NON-NLS-1$
 
-	private static final IChoiceSet CHOICESET_TARGET = DesignEngine.getMetaDataDictionary( )
+	private static final IChoiceSet CHOICESET_TARGET = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
 
-	private static final IChoiceSet CHOICESET_FORMAT = DesignEngine.getMetaDataDictionary( )
+	private static final IChoiceSet CHOICESET_FORMAT = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_ACTION_FORMAT_TYPE );
 
 	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );

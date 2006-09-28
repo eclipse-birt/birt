@@ -44,8 +44,6 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.elements.ListGroup;
-import org.eclipse.birt.report.model.elements.TableGroup;
 
 /**
  * This class is a heritor of ElementFactory,which is used to new elements
@@ -507,15 +505,13 @@ public class DesignElementFactory extends ElementFactory
 	 * @param name
 	 *            the required oda data source name.
 	 * @return a handle to oda data source
-	 * @deprecated see
-	 *             <code>newOdaDataSource( String name, String extensionID )</code>
 	 */
 
 	public OdaDataSourceHandle newOdaDataSource( String name )
 	{
 		String newName = getNewName( ReportDesignConstants.ODA_DATA_SOURCE,
 				name );
-		return factory.newOdaDataSource( newName );
+		return factory.newOdaDataSource( newName, null );
 	}
 
 	/**
@@ -547,14 +543,12 @@ public class DesignElementFactory extends ElementFactory
 	 * @param name
 	 *            the required oda data set name.
 	 * @return a handle to oda data set
-	 * @deprecated see
-	 *             <code>newOdaDataSet( String name, String extensionID )</code>
 	 */
 
 	public OdaDataSetHandle newOdaDataSet( String name )
 	{
 		String newName = getNewName( ReportDesignConstants.ODA_DATA_SET, name );
-		return factory.newOdaDataSet( newName );
+		return factory.newOdaDataSet( newName, null );
 	}
 
 	/**

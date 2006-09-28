@@ -27,6 +27,8 @@ import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.DefaultPageGenerator;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
@@ -211,7 +213,7 @@ public class GuiExtensionManager
 					continue;
 				}
 			}
-			String displayName = DesignEngine.getMetaDataDictionary( )
+			String displayName = DEUtil.getMetaDataDictionary( )
 					.getExtension( point.getExtensionName( ) )
 					.getDisplayName( );
 			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( displayName,

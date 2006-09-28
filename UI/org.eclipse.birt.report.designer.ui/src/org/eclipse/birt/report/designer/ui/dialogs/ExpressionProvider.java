@@ -393,7 +393,7 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			else
 			{
-				iter = ( (GroupHandle) parent ).columnBindingsIterator( );
+				iter = Collections.EMPTY_LIST.iterator( );
 			}
 			while ( iter.hasNext( ) )
 			{

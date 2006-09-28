@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.CSSUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -437,7 +438,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	 */
 	private String[][] getChoiceArray( String key, Comparator comparator )
 	{
-		IChoice[] choices = DesignEngine.getMetaDataDictionary( )
+		IChoice[] choices = DEUtil.getMetaDataDictionary( )
 				.getChoiceSet( key )
 				.getChoices( comparator );
 

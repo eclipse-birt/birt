@@ -68,8 +68,10 @@ import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -596,7 +598,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
 
-			IElementDefn extension = DesignEngine.getMetaDataDictionary( )
+			IElementDefn extension = DEUtil.getMetaDataDictionary( )
 					.getExtension( point.getExtensionName( ) );
 			String displayName = new String( );
 			displayName = extension.getDisplayName( );

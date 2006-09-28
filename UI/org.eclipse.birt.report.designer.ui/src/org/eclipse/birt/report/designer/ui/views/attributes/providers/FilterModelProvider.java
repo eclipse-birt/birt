@@ -17,9 +17,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -63,7 +63,7 @@ public class FilterModelProvider
 		String[] columnNames = new String[keys.length];
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			IStructureDefn structure = DesignEngine.getMetaDataDictionary( )
+			IStructureDefn structure = DEUtil.getMetaDataDictionary( )
 					.getStructure( FilterCondition.FILTER_COND_STRUCT );
 			columnNames[i] = structure.getMember( keys[i] ).getDisplayName( );
 		}

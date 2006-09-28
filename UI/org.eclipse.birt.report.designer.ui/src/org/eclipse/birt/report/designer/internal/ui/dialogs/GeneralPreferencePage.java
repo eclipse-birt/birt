@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -166,7 +167,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private String[] getPredefinedStyeNames( )
 	{
-		List preStyles = DesignEngine.getMetaDataDictionary( )
+		List preStyles = DEUtil.getMetaDataDictionary( )
 				.getPredefinedStyles( );
 		if ( preStyles == null )
 		{

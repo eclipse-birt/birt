@@ -119,10 +119,10 @@ public class DataUtil
 				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 				{
 					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						column.setAggregrateOn( ( (GroupHandle) groupList
+						column.setAggregateOn( ( (GroupHandle) groupList
 								.get( 0 ) ).getName( ) );
 					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						column.setAggregrateOn( null );
+						column.setAggregateOn( null );
 				}
 				columnList.add( column );
 			}

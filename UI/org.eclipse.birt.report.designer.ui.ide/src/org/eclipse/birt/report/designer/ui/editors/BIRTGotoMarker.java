@@ -217,7 +217,7 @@ class BIRTGotoMarker implements IGotoMarker
 		Integer elementId = new Integer( 0 );
 		try
 		{
-			elementId = (Integer) marker.getAttribute( editorPart.ELEMENT_ID );
+			elementId = (Integer) marker.getAttribute( IDEMultiPageReportEditor.ELEMENT_ID );
 		}
 		catch ( CoreException e )
 		{

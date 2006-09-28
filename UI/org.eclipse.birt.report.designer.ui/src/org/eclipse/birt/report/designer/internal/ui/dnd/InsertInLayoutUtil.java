@@ -564,10 +564,10 @@ public class InsertInLayoutUtil
 				{
 					String groupType = DEUtil.getGroupControlType( (DesignElementHandle) target );
 					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
+						bindingColumn.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
 								.get( 0 ) ).getName( ) );
 					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						bindingColumn.setAggregrateOn( null );
+						bindingColumn.setAggregateOn( null );
 				}
 			}
 			DataSetHandle containerDataSet = DEUtil.getFirstDataSet( container );
@@ -658,10 +658,10 @@ public class InsertInLayoutUtil
 				{
 					String groupType = DEUtil.getGroupControlType( (DesignElementHandle) target );
 					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						bindingColumn.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
+						bindingColumn.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( (DesignElementHandle) target )
 								.get( 0 ) ).getName( ) );
 					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						bindingColumn.setAggregrateOn( null );
+						bindingColumn.setAggregateOn( null );
 				}
 			}
 			dataHandle.addColumnBinding( bindingColumn, false );

@@ -95,7 +95,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public ReportDesignHandle getReportDesignHandle( )
 	{
-		return elementHandle.getDesignHandle( );
+		return (ReportDesignHandle)elementHandle.getModuleHandle( );
 	}
 
 	/**

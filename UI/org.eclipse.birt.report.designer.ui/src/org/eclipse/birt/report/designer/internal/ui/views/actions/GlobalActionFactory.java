@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.IAction;
@@ -171,7 +172,7 @@ public class GlobalActionFactory
 		}
 		else
 		{
-			if ( DesignEngine.getMetaDataDictionary( ).getExtension( id ) != null )
+			if ( DEUtil.getMetaDataDictionary( ).getExtension( id ) != null )
 			{
 				elementType = id;
 			}

@@ -26,6 +26,8 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.IProviderFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -263,7 +265,7 @@ public class ExtensionPointManager
 			}
 
 		}
-		if ( DesignEngine.getMetaDataDictionary( )
+		if ( DEUtil.getMetaDataDictionary( )
 				.getExtension( newPoint.getExtensionName( ) ) == null )
 		{
 			// Non-defined element. Ignore

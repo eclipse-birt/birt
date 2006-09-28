@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -415,7 +416,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 						String unit = getDefaultUnit( );
 						if ( !StringUtil.isBlank( unit ) )
 						{
-							unit = DesignEngine.getMetaDataDictionary( )
+							unit = DEUtil.getMetaDataDictionary( )
 									.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
 									.findChoice( unit )
 									.getDisplayName( );
@@ -477,7 +478,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 							String unit = getDefaultUnit( );
 							if ( !StringUtil.isBlank( unit ) )
 							{
-								unit = DesignEngine.getMetaDataDictionary( )
+								unit = DEUtil.getMetaDataDictionary( )
 										.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
 										.findChoice( unit )
 										.getDisplayName( );

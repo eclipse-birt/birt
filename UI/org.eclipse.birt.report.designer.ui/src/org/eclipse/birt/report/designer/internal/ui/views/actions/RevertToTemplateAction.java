@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 

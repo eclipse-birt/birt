@@ -17,7 +17,9 @@ import java.util.Iterator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -170,7 +172,7 @@ public class NewSectionDialog extends SelectionDialog
 		this.contents = cons;
 
 		//Temporarily disabled
-		contents.remove( DesignEngine.getMetaDataDictionary( )
+		contents.remove( DEUtil.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.EXTENDED_ITEM ) );
 	}
 }

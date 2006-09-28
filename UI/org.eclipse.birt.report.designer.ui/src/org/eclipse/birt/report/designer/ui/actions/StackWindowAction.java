@@ -32,7 +32,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.editor.FormEditor;
 
 /**
  * Undo/Redo action for contribution of toolbar or menu.

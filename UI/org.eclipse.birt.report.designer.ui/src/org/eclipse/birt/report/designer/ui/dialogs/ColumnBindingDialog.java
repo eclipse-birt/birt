@@ -204,7 +204,7 @@ public class ColumnBindingDialog extends BaseDialog
 					text = handle.getExpression( );
 					break;
 				case 4 :
-					String value = handle.getAggregrateOn( );
+					String value = handle.getAggregateOn( );
 					String groupType = DEUtil.getGroupControlType( inputElement );
 					if ( value == null )
 					{
@@ -292,15 +292,15 @@ public class ColumnBindingDialog extends BaseDialog
 				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 				{
 					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-						column.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
+						column.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
 								.get( 0 ) ).getName( ) );
 					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-						column.setAggregrateOn( null );
+						column.setAggregateOn( null );
 				}
 				if ( !ExpressionUtil.hasAggregation( column.getExpression( ) )
 						|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
 				{
-					column.setAggregrateOn( null );
+					column.setAggregateOn( null );
 				}
 				addBinding( column );
 				highLightName = column.getName( );
@@ -333,7 +333,7 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 			else if ( COLUMN_AGGREGATEON.equals( property ) )
 			{
-				value = handle.getAggregrateOn( );;
+				value = handle.getAggregateOn( );;
 				if ( value != null )
 				{
 					for ( int i = 1; i < groups.length; i++ )
@@ -425,24 +425,24 @@ public class ColumnBindingDialog extends BaseDialog
 							if ( ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) ) )
 							{
 								if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
-									bindingHandle.setAggregrateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
+									bindingHandle.setAggregateOn( ( (GroupHandle) DEUtil.getGroups( inputElement )
 											.get( 0 ) ).getName( ) );
 								else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
-									bindingHandle.setAggregrateOn( null );
+									bindingHandle.setAggregateOn( null );
 							}
 							if ( !ExpressionUtil.hasAggregation( bindingHandle.getExpression( ) )
 									|| groupType.equals( DEUtil.TYPE_GROUP_NONE ) )
 							{
-								bindingHandle.setAggregrateOn( null );
+								bindingHandle.setAggregateOn( null );
 							}
 						}
 					}
 					else if ( COLUMN_AGGREGATEON.equals( property ) )
 					{
 						if ( ( (Integer) value ).intValue( ) == 0 )
-							bindingHandle.setAggregrateOn( null );
+							bindingHandle.setAggregateOn( null );
 						else
-							bindingHandle.setAggregrateOn( groups[( (Integer) value ).intValue( )] );
+							bindingHandle.setAggregateOn( groups[( (Integer) value ).intValue( )] );
 					}
 				}
 			}

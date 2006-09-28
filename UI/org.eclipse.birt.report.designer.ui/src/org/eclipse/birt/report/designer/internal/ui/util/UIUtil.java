@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -1066,6 +1067,24 @@ public class UIUtil
 		return home;
 	}
 
+	/**
+	 * @return Report Designer UI plugin installation directory as OS string.
+	 */
+	public static String getPredifinedTemplateDirectory( )
+	{
+		URL url = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ).getEntry( "/" ); //$NON-NLS-1$
+		String directory = null;
+		try
+		{
+			directory = Platform.resolve( url ).getPath( );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace( );
+		}
+		return directory;
+	}
+	
 	/**
 	 * Creates a blank label under the given parent.
 	 * 

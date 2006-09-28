@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
-import java.util.Iterator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -20,10 +19,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.jface.util.Assert;
