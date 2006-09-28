@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
@@ -869,8 +870,9 @@ public class DEUtil
 	{
 		if ( model instanceof ParameterHandle )
 		{
-			return IReportElementConstants.PARAMETER_PREFIX
-					+ "[\"" + escape( ( (ParameterHandle) model ).getQualifiedName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+//			return IReportElementConstants.PARAMETER_PREFIX
+//					+ "[\"" + escape( ( (ParameterHandle) model ).getQualifiedName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+			return ExpressionUtil.createJSParameterExpression( ( (ParameterHandle) model ).getQualifiedName( ) );
 		}
 		if ( model instanceof DataSetItemModel )
 		{
@@ -1500,8 +1502,9 @@ public class DEUtil
 		{
 			return null;
 		}
-		return IReportElementConstants.BINDING_COLUMN_PREFIX
-				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+//		return IReportElementConstants.BINDING_COLUMN_PREFIX
+//				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		return ExpressionUtil.createJSRowExpression( columnName );
 	}
 
 	/**
@@ -1518,8 +1521,9 @@ public class DEUtil
 		{
 			return null;
 		}
-		return IReportElementConstants.RESULTSET_COLUMN_PREFIX
-				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+//		return IReportElementConstants.RESULTSET_COLUMN_PREFIX
+//				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		return ExpressionUtil.createJSDataSetRowExpression( columnName );
 	}
 
 	/**
