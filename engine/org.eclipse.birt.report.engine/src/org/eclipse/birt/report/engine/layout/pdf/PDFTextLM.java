@@ -262,12 +262,15 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		
 		public boolean compose()
 		{
-			boolean hasMore;
-			while ( (hasMore = hasMore()) &&  ! PDFTextLM.this.needPause() )
+			while ( hasMore() )
 			{
 				handleNext();
+				if(PDFTextLM.this.needPause())
+				{
+					return true;
+				}
 			}
-			return hasMore;
+			return false;
 		}
 
 		private boolean hasMore()
