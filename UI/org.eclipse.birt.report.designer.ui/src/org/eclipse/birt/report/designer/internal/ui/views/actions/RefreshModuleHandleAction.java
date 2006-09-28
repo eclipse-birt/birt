@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -74,41 +75,19 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
 		{
 			ModuleHandle moduleHandle = (ModuleHandle) obj;
-			// IEditorPart editor = UIUtil.getActiveEditor( true );
-			// ILibraryProvider provider = (ILibraryProvider) editor.getAdapter(
-			// ILibraryProvider.class );
-			// LibraryHandle[] libraries = provider.getLibraries( );
-			// for ( int i = 0; i < libraries.length; i++ )
-			// {
-			// try
-			// {
-			// if(moduleHandle.isInclude( libraries[i]))
-			// {
-			// moduleHandle.reloadLibrary( libraries[i] );
-			// }
-			// }
-			// catch ( SemanticException e )
-			// {
-			// e.printStackTrace( );
-			// }
-			// catch ( DesignFileException e )
-			// {
-			// e.printStackTrace( );
-			// }
-			// }
-			for ( Iterator iter = moduleHandle.getLibraries( ).iterator( ); iter.hasNext( ); )
+
+			try
 			{
-				LibraryHandle library = (LibraryHandle) iter.next( );
-				try
-				{
-					moduleHandle.reloadLibrary( library );
-				}
-				catch ( SemanticException e )
-				{
-				}
-				catch ( DesignFileException e )
-				{
-				}
+				moduleHandle.reloadLibraries( );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+			catch ( DesignFileException e )
+			{
+				// TODO Auto-generated catch block
+				ExceptionHandler.handle( e );
 			}
 
 		}
