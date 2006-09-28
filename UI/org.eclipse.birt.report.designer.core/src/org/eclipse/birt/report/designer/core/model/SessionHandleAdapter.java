@@ -123,9 +123,7 @@ public class SessionHandleAdapter
 		{
 			sessionHandle = new DesignEngine( new DesignConfig( ) )
 			.newSessionHandle( ULocale.getDefault( ) );
-			IMetaDataDictionary metadata = DEUtil.getMetaDataDictionary( );
 		}
-		sessionHandle.activate( );
 		return sessionHandle;
 	}
 
