@@ -13,6 +13,7 @@
 	<property name="feature.b.name" value="org.eclipse.birt.build.example.b.feature"/>
 	<property name="birt.version" value="2.2.0"/>
 	<property name="checkout.dir" value="."/>
+	<property name="projectPath" value="."/>
 	
 
 	<target name="nodefault">
@@ -43,24 +44,26 @@
 	</target>
 	
 	<target name="UpdatePluginVersion" description="Generate cvs change log for plugins" >
-		<echo message="Staring to update Bundle-Version of ${example.plugin}..."/>
+		<echo message="Staring to update Bundle-Version of ${example.a.plugin}..."/>
 		<mkdir dir="NewVersionControl"/>
 		<typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpath="../bin"/>
 		<versionUpdate 
-			projectPath="${projectPath}" 
+			projectPath="${projectPath}/${example.a.plugin}" 
 			suffix=".v${timestamp.BUILD_ID}" 
 			cvsLogPath="${example.a.plugin}-changelog.xml"
 			logPath="NewVersionControl/" 
 			plugId="${example.a.plugin}" 
 			checkFlag="Y" 
 			cvsControlPath="${example.a.plugin}_DayInPast.xml"/>
+		
+		<echo message="Staring to update Bundle-Version of ${example.b.plugin}..."/>
 		<versionUpdate 
-			projectPath="${projectPath}" 
+			projectPath="${projectPath}/${example.b.plugin}" 
 			suffix=".v${timestamp.BUILD_ID}" 
 			cvsLogPath="${example.b.plugin}-changelog.xml"
 			logPath="NewVersionControl/" 
 			plugId="${example.b.plugin}" 
-			checkFlag="Y" 
+			checkFlag="N" 
 			cvsControlPath="${example.b.plugin}_DayInPast.xml"/>
 	</target>
 
