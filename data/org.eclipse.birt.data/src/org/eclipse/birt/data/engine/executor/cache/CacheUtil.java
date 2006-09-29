@@ -36,7 +36,9 @@ public class CacheUtil
 	 */
 	public final static String MEMCACHE_ROWNUMBER = "org.eclipse.birt.data.engine.memcache.rownumber";
 	
-	private static Integer cacheCounter = new Integer(0);
+	private static Integer cacheCounter1 = new Integer(0);
+	private static Integer cacheCounter2 = new Integer(0);
+	
 	//--------------------service for SmartCache----------------------
 	
 	/**
@@ -254,39 +256,24 @@ public class CacheUtil
 		String rootDirStr = null;
 
 		// system default temp dir is used
-		String tempDirStr = System.getProperty( "java.io.tmpdir" );
-		File tempDtEDir = new File( tempDirStr, "BirtDataTemp" );
-		if ( tempDtEDir.exists( ) == false )
+		File tempDtEDir = null;
+		synchronized ( cacheCounter1 )
 		{
-			tempDtEDir.mkdir( );
-		}
-		else
-		{
-			File[] sessionsFolder = tempDtEDir.listFiles( );
-			for ( int i = 0; i < sessionsFolder.length; i++ )
+			String tempDirStr = System.getProperty( "java.io.tmpdir" );
+			tempDtEDir = new File( tempDirStr, "BirtDataTemp"
+					+ System.currentTimeMillis( ) + cacheCounter1 );
+			cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
+			int x = 0;
+			while ( tempDtEDir.exists( ) )
 			{
-				File[] oneSessionFolder = sessionsFolder[i].listFiles( );
-				for ( int j = 0; j < oneSessionFolder.length; j++ )
-				{
-					// temp files
-					if ( oneSessionFolder[j].isDirectory( ) )
-					{
-						File[] oneSessionTempFiles = oneSessionFolder[j].listFiles( );
-						for ( int k = 0; k < oneSessionTempFiles.length; k++ )
-						{
-							oneSessionTempFiles[k].delete( );
-						}
-						oneSessionFolder[j].delete( );
-					}
-					// goal file
-					else
-					{
-						oneSessionFolder[j].delete( );
-					}
-				}
-				sessionsFolder[i].delete( );
+				x++;
+				tempDtEDir = new File( tempDirStr, "BirtDataTemp"
+						+ System.currentTimeMillis( ) + cacheCounter1 + "_" + x );
 			}
+			tempDtEDir.mkdir( );
+			tempDtEDir.deleteOnExit( );
 		}
+		
 		try
 		{
 			rootDirStr = tempDtEDir.getCanonicalPath( );
@@ -309,26 +296,26 @@ public class CacheUtil
 
 		final String prefix = "session_";
 
-		synchronized ( cacheCounter )
+		synchronized ( cacheCounter2 )
 		{
 			//Here we use complex algorithm so that to avoid the repeating of 
 			//dir names in 1.same jvm but different threads 2.different jvm.
 			sessionTempDirStr = tempRootDirStr
 					+ File.separator + prefix + System.currentTimeMillis( )
-					+ cacheCounter.intValue( );
-			cacheCounter = new Integer(cacheCounter.intValue( )+1);
+					+ cacheCounter2.intValue( );
+			cacheCounter2 = new Integer(cacheCounter2.intValue( )+1);
 			File file = new File( sessionTempDirStr );
 			
 			int i = 0;
-			while ( file.exists( ) )
+			while ( file.exists( ) || !file.mkdir( ) )
 			{
 				i++;
 				sessionTempDirStr = sessionTempDirStr + "_" + i;
 				file = new File( sessionTempDirStr );
-			}
-			file.mkdir( );
+			}	
 		}
 		return sessionTempDirStr;
+
 	}
 		
 	/**

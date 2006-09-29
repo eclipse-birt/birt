@@ -43,7 +43,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	/**
 	 * the available aggregate list in expression processor
 	 */
-	private static List availabeAggrList;
+	private List availabeAggrList;
 	/**
 	 * data set runtime
 	 */
