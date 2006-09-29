@@ -95,6 +95,7 @@
 		<pathelement path="${data.oda.dir}\oda.jar" />		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*.jar"/>
+			<include name="org.eclipse.equinox.*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>

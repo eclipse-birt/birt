@@ -55,7 +55,7 @@
 -->
 
 <project name="BIRT Data Engine Project" default="Jar" basedir=".">
-    <description>BIRT Data Engine Project.</description>	
+    <description>BIRT Data Engine Project.</description>
 	
 	<!-- set global properties for this build -->
     <!-- Public properties, used by public targets, top level build script will pass on the value 
@@ -149,9 +149,8 @@
 
 		<!-- Dependent on Eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
-			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
-			<include name="org.eclipse.osgi_*/*.jar"/>
 			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.equinox.*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="org.junit_*/*.jar"/>
 			<include name="com.ibm.icu*.jar"/>
