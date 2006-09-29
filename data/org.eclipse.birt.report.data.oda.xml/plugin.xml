@@ -111,7 +111,7 @@
             driverClass="org.eclipse.birt.report.data.oda.xml.impl.Driver"
             defaultDisplayName="%datasource.name"
             id="org.eclipse.birt.report.data.oda.xml"
-            setThreadContextClassLoader="false">
+            setThreadContextClassLoader="true">
          <properties>
          <propertyGroup
                defaultDisplayName="Connection Properties"
