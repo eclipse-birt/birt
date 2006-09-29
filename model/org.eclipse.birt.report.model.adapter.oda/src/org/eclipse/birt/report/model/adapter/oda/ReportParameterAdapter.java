@@ -358,6 +358,8 @@ public class ReportParameterAdapter
 			{			
 				literalValue = ParameterValueUtil.toLiteralValue( value );				
 			}
+			else 
+				return;
 		}
 		
 		setParam.setDefaultValue( literalValue );
