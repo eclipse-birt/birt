@@ -85,6 +85,13 @@ public class DataInteractiveEngine extends AbstractDataEngine
 						DataEngineContext.MODE_UPDATE, context.getSharedScope( ),
 						reader, writer );
 			}
+			
+			String tempDir = getTempDir( context );
+			if ( tempDir != null )
+			{
+				dteContext.setTmpdir( tempDir );
+			}
+			
 			dteContext.setLocale( context.getLocale( ) );
 		
 			dteEngine = DataEngine.newDataEngine( dteContext );

@@ -28,6 +28,8 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -301,5 +303,22 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public DataEngine getDTEEngine( )
 	{
 		return dteEngine;
+	}
+	
+	/**
+	 * get the tempDir which be set in EngineConfig.
+	 */
+	protected String getTempDir( ExecutionContext context )
+	{
+		IReportEngine engine = context.getEngine( );
+		if ( engine != null )
+		{
+			EngineConfig config = engine.getConfig( );
+			if ( config != null )
+			{
+				return config.getTempDir( );				
+			}
+		}
+		return null;
 	}
 }

@@ -31,7 +31,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.45 $ $Date: 2006/08/22 08:15:38 $
+ * @version $Revision: 1.45.2.1 $ $Date: 2006/09/05 03:10:58 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {
@@ -65,6 +65,12 @@ public class DteDataEngine extends AbstractDataEngine
 					null );
 			dteContext.setLocale( context.getLocale( ) );
 
+			String tempDir = getTempDir( context );
+			if ( tempDir != null )
+			{
+				dteContext.setTmpdir( tempDir );
+			}
+			
 			dteEngine = DataEngine.newDataEngine( dteContext );
 		}
 		catch ( Exception ex )
