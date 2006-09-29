@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
+import org.eclipse.birt.report.model.api.TemplateParameterDefinitionHandle;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -87,7 +88,8 @@ class BIRTGotoMarker implements IGotoMarker
 		ModuleHandle moduleHandle = editorPart.getModel( );
 		ReportElementHandle reportElementHandle = null;
 		reportElementHandle = getReportElementHandle( moduleHandle, marker );
-		if ( reportElementHandle == null )
+		if ( reportElementHandle == null 
+		|| ( reportElementHandle != null && isElementTemplateParameterDefinition(reportElementHandle)))
 		{
 			gotoXMLSourcePage( moduleHandle, marker );
 		}
@@ -386,6 +388,22 @@ class BIRTGotoMarker implements IGotoMarker
 		while ( container != null && container != root )
 		{
 			if ( container instanceof MasterPageHandle )
+			{
+				return true;
+			}
+			container = container.getContainer( );
+		}
+
+		return false;
+	}
+	
+	protected boolean isElementTemplateParameterDefinition( DesignElementHandle elementHandle )
+	{
+		ModuleHandle root = elementHandle.getRoot( );
+		DesignElementHandle container = elementHandle;
+		while ( container != null && container != root )
+		{
+			if ( container instanceof TemplateParameterDefinitionHandle )
 			{
 				return true;
 			}
