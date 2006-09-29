@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
  * This class implemented visitor pattern, to flatten the report deisgn.
@@ -129,15 +130,20 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		addExternalElements( );
 		addExternalStructures( );
-		
+
 		// do some memory release
 		release( );
+
+		// copy version number from source to the target
+
+		targetDesign.getVersionManager( ).setVersion(
+				sourceDesign.getVersionManager( ).getVersion( ) );
 	}
-	
+
 	/**
 	 * Releases some memory instantly.
 	 */
-	
+
 	private void release( )
 	{
 		elements = null;

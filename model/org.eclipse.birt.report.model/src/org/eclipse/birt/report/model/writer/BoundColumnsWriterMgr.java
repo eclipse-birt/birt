@@ -507,8 +507,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		processedElement.add( element );
 
 		super.dealTable( element, module );
-		
-		appendCachedBoundColumns( element, module );		
+
+		appendCachedBoundColumns( element, module );
 	}
 
 	/*
@@ -662,11 +662,15 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(
 					columns, resultSetColumn );
 
-			assert foundColumn != null;
+			if ( foundColumn == null )
+				continue;
 
 			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
 					.getExpression( ), (String) group.getLocalProperty( module,
 					GroupElement.GROUP_NAME_PROP ) );
+
+			if ( foundColumn == null )
+				continue;
 
 			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
 					.getName( ) );
