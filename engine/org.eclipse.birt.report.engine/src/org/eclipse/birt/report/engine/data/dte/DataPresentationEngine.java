@@ -57,6 +57,12 @@ public class DataPresentationEngine extends AbstractDataEngine
 					DataEngineContext.MODE_PRESENTATION, context.getSharedScope( ),
 					reader, null );
 			dteContext.setLocale( context.getLocale( ) );
+
+			String tempDir = getTempDir( context );
+			if ( tempDir != null )
+			{
+				dteContext.setTmpdir( tempDir );
+			}			
 			
 			dteEngine = DataEngine.newDataEngine( dteContext );
 

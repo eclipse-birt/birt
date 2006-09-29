@@ -57,6 +57,12 @@ public class DataGenerationEngine extends AbstractDataEngine
 					writer );
 			dteContext.setLocale( context.getLocale( ) );
 
+			String tempDir = getTempDir( context );
+			if ( tempDir != null )
+			{
+				dteContext.setTmpdir( tempDir );
+			}
+			
 			dteEngine = DataEngine.newDataEngine( dteContext );
 		}
 		catch ( Exception ex )
