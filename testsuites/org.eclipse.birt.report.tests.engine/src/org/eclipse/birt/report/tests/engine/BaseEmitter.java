@@ -1,10 +1,14 @@
 
 package org.eclipse.birt.report.tests.engine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IRenderTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
@@ -34,25 +38,60 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 {
 
 	private String inPath = getClassFolder( ) + "/" + INPUT_FOLDER + "/";
+	private String outPath = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/";
 
 	protected final static String EMITTER_HTML = "emitter_html";
 	protected final static String EMITTER_PDF = "emitter_pdf";
 
 	protected abstract String getReportName( );
 
-	protected void runandrender_emitter( String format ) throws EngineException
+	/**
+	 * @param format
+	 *            render format
+	 * @param pagination
+	 *            For html output only, decide whether generate report with page
+	 *            break or not.
+	 * @throws EngineException
+	 */
+	protected ArrayList runandrender_emitter( String format, boolean pagination )
+			throws EngineException
 	{
 		IReportRunnable reportRunnable = engine.openReportDesign( inPath
 				+ getReportName( ) );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
 		RenderOptionBase options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
+		if ( format.equals( EMITTER_HTML ) )
+		{
+			( (HTMLRenderOption) options ).setHtmlPagination( pagination );
+		}
 		HashMap appContext = new HashMap( );
 		appContext.put( "emitter_class", this );
 		task.setAppContext( appContext );
 		task.setRenderOption( options );
 		task.run( );
+		ArrayList errors = (ArrayList) task.getErrors( );
 		task.close( );
+		return errors;
+	}
+
+	protected ArrayList runandthenrender_emitter(String format) throws EngineException
+	{
+		ArrayList errors=new ArrayList();
+		run( getReportName(), getReportName()+".rptdocument" );
+		IReportDocument document=engine.openReportDocument( outPath+getReportName()+".rptdocument" );
+		IRenderTask task=engine.createRenderTask( document );
+		RenderOptionBase options = new HTMLRenderOption( );
+		options.setOutputFormat( format );
+		HashMap appContext=new HashMap();
+		appContext.put( "emitter_class", this );
+		task.setAppContext( appContext );
+		task.setRenderOption( options );
+		task.render( );
+		errors= (ArrayList)task.getErrors( );
+		task.close( );
+		return errors;
+		
 	}
 
 	public void end( IReportContent report )

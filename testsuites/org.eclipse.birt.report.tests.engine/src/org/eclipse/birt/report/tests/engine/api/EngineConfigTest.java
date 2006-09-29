@@ -1,29 +1,27 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.DefaultStatusHandler;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 
 /**
  * <b>EngineConfig test</b>
  * <p>
  * This case tests public methods in EngineConfig API.
- * 
  */
 
 public class EngineConfigTest extends EngineCase
@@ -33,6 +31,16 @@ public class EngineConfigTest extends EngineCase
 	{
 
 		return new TestSuite( EngineConfigTest.class );
+	}
+
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+	}
+
+	protected void tearDown( ) throws Exception
+	{
+		super.tearDown( );
 	}
 
 	/**
@@ -59,7 +67,8 @@ public class EngineConfigTest extends EngineCase
 		HTMLEmitterConfig eConfig = new HTMLEmitterConfig( );
 		engineConfig.setEmitterConfiguration( "pdf", eConfig );
 		HTMLEmitterConfig eConfigNew = (HTMLEmitterConfig) engineConfig
-				.getEmitterConfigs( ).get( "pdf" );
+				.getEmitterConfigs( )
+				.get( "pdf" );
 		assertEquals( "Not identical", eConfig, eConfigNew );
 
 	}
@@ -67,7 +76,6 @@ public class EngineConfigTest extends EngineCase
 	/**
 	 * Test addScriptableJavaObject(java.lang.String jsName, java.lang.Object
 	 * obj) method
-	 * 
 	 */
 	public void testGetScriptObjects( )
 	{
@@ -80,18 +88,17 @@ public class EngineConfigTest extends EngineCase
 	/**
 	 * test setConfigurationVariable(java.lang.String name, java.lang.String
 	 * value) method
-	 * 
 	 */
 	public void testGetConfigMap( )
 	{
 		engineConfig.setConfigurationVariable( "config_var1", "config_value" );
-		assertEquals( engineConfig.getConfigMap( ).get( "config_var1" ),
+		assertEquals(
+				engineConfig.getConfigMap( ).get( "config_var1" ),
 				"config_value" );
 	}
 
 	/**
 	 * Test GetStatusHandler() method
-	 * 
 	 */
 	public void testGetStatusHandler( )
 	{
@@ -105,7 +112,6 @@ public class EngineConfigTest extends EngineCase
 
 	/**
 	 * Test GetTmpDir() method
-	 * 
 	 */
 	public void testGetTmpDir( )
 	{
@@ -116,7 +122,6 @@ public class EngineConfigTest extends EngineCase
 
 	/**
 	 * Test SetEngineHome(java.lang.String birtHome) method
-	 * 
 	 */
 	public void testSetEngineHome( )
 	{
@@ -128,19 +133,45 @@ public class EngineConfigTest extends EngineCase
 	/**
 	 * Test setLogConfig(java.lang.String directoryName, java.util.logging.Level
 	 * level) method
-	 * 
+	 * getLogLevel() method
 	 */
 	public void testSetLogConfig( )
 	{
-		/*
-		 * fail("notfinishedyet");
-		 * engineConfig.setLogConfig("directory",Level.ALL); assertEquals("Not
-		 * identical",engineConfig.getConfigMap().get("LOG_DESTINATION"),"directory");
-		 */
+		engineConfig.setLogConfig( "DirectoryName", Level.parse( "WARNING" ) );
+		assertNotNull( engineConfig.getLogLevel( ) );
+		assertEquals( Level.parse( "WARNING" ), engineConfig.getLogLevel( ) );
+
 	}
 
-	protected void setUp( ) throws Exception
+	/**
+	 * Test getLogDirectory() method
+	 */
+	public void testGetLogDirectory( )
 	{
-		super.setUp( );
+
+		System.out.println( "LogDirctory" + engineConfig.getLogDirectory( ) );
 	}
+
+	/**
+	 * Test setMaxRowsPerQuery(int MaxRows) getMaxRowsPerQuery()
+	 */
+	public void testGetMaxRowsPerQuery( )
+	{
+		engineConfig.setMaxRowsPerQuery( 200 );
+		assertEquals( 200, engineConfig.getMaxRowsPerQuery( ) );
+	}
+
+	/**
+	 * Test
+	 * setResourceLocator(org.eclipse.birt.report.model.api.IResourceLocator
+	 * resourceLocator) getResourceLocator()
+	 */
+	public void testGetResourceLocator( )
+	{
+		DefaultResourceLocator resource = new DefaultResourceLocator( );
+		engineConfig.setResourceLocator( resource );
+		assertNotNull( engineConfig.getResourceLocator( ) );
+
+	}
+
 }

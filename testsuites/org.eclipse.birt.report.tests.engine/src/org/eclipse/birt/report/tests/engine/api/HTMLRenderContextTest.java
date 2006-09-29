@@ -1,27 +1,27 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import java.util.*;
 
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.RenderOptionBase;
 
 /**
  * <b>HTMLRenderContext test</b>
  * <p>
  * This case tests methods in HTMLRenderContext API.
- * 
  */
 public class HTMLRenderContextTest extends EngineCase
 {
@@ -42,6 +42,17 @@ public class HTMLRenderContextTest extends EngineCase
 	public static Test suite( )
 	{
 		return new TestSuite( HTMLRenderContextTest.class );
+	}
+
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+
+	}
+
+	protected void tearDown( ) throws Exception
+	{
+		super.tearDown( );
 	}
 
 	/**
@@ -80,6 +91,56 @@ public class HTMLRenderContextTest extends EngineCase
 		context.setImageDirectory( dir );
 		dirGet = context.getImageDirectory( );
 		assertEquals( "getBaseURL() fail", dir, dirGet );
+		
+		String separator="/";
+		dir="image"+separator+"doc";
+		context.setImageDirectory( dir );
+		assertEquals("image/doc",context.getImageDirectory( ));
+		
 	}
-
+	
+	/**
+	 * Test setRenderOption(IRenderOption) method Test
+	 * getRenderOption() method
+	 */
+	
+	public void testGetRenderOption()
+	{
+		RenderOptionBase rendop=new RenderOptionBase();
+		rendop.setOutputFormat( "fo" );
+		rendop.setOutputFileName( "outputfile" );
+		
+		HTMLRenderContext context = new HTMLRenderContext( );
+		context.SetRenderOption( rendop );
+		
+		RenderOptionBase ropb=(RenderOptionBase)(context.getRenderOption( ));
+			
+		assertEquals("fo",ropb.getOutputFormat( ));
+		HashMap outsetting=new HashMap();
+		outsetting = ropb.getOutputSetting( );
+		
+		assertFalse(outsetting.isEmpty( ));
+		assertEquals(2,outsetting.size( ));
+		
+		ropb.getOutputSetting( ).put(
+				HTMLRenderOption.URL_ENCODING, "UTF-8" );
+		assertEquals(3,outsetting.size( ));
+		
+	}
+	
+	/**
+	 * Test setSupportedImageFormats(java.lang.String formats) method Test
+	 * getSupportedImageFormats() method
+	 */
+	
+	public void testGetSupportedImageFormats()
+	{
+		HTMLRenderContext context = new HTMLRenderContext( );
+		String baseURL = "Format", baseURLGet;
+		context.setBaseImageURL( baseURL );
+		baseURLGet = context.getBaseImageURL( );
+		assertEquals( "getBaseImageURL() fail", baseURL, baseURLGet );
+	}
+	
 }
+

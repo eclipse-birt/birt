@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20060928-1328 Build &lt;20060928-1328></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <page-setup>
+        <simple-master-page name="mp1" id="2">
+            <page-header>
+                <auto-text name="pagenumber" id="4">
+                    <property name="type">page-number</property>
+                </auto-text>
+            </page-header>
+            <page-footer>
+                <auto-text name="totalpage" id="27">
+                    <property name="type">total-page</property>
+                </auto-text>
+            </page-footer>
+        </simple-master-page>
+        <simple-master-page name="mp2" id="28">
+            <page-header>
+                <grid name="gridpage" id="29">
+                    <property name="width">100%</property>
+                    <column id="30"/>
+                    <column id="31"/>
+                    <column id="32"/>
+                    <row id="33">
+                        <cell id="34">
+                            <auto-text id="35">
+                                <property name="type">page-number</property>
+                            </auto-text>
+                        </cell>
+                        <cell id="36">
+                            <text id="37">
+                                <property name="contentType">plain</property>
+                                <text-property name="content"><![CDATA[/]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="38">
+                            <auto-text id="39">
+                                <property name="type">total-page</property>
+                            </auto-text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="40">
+            <property name="masterPage">mp1</property>
+            <text-property name="text">1</text-property>
+        </label>
+        <label id="41">
+            <property name="masterPage">mp2</property>
+            <text-property name="text">2</text-property>
+        </label>
+    </body>
+</report>

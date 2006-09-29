@@ -7,6 +7,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.tests.engine.EngineCase;
@@ -15,12 +16,10 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>IRunTask test</b>
  * <p>
  * This case tests methods in IRunTask API.
- * 
  */
 public class RunTaskTest extends EngineCase
 {
-
-	private Boolean cancelSignal = new Boolean( false );
+	private Boolean signal = new Boolean( false);
 	private String separator = System.getProperty( "file.separator" );
 	private String INPUT = getClassFolder( ) + separator + INPUT_FOLDER
 			+ separator;
@@ -41,7 +40,6 @@ public class RunTaskTest extends EngineCase
 
 	/**
 	 * Test two Run method with different argument.
-	 * 
 	 */
 	public void testRunTask_simple( )
 	{
@@ -116,16 +114,6 @@ public class RunTaskTest extends EngineCase
 			timeSpan1 = eTime - bTime;
 
 			task = engine.createRunTask( runnable );
-			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
-					"cancelWithFlagTask", task );
-			cancelWithFlagTask.start( );
-			bTime = System.currentTimeMillis( );
-			task.run( fileDocument );
-			eTime = System.currentTimeMillis( );
-			task.close( );
-			timeSpan2 = eTime - bTime;
-
-			task = engine.createRunTask( runnable );
 			bTime = System.currentTimeMillis( );
 			task.run( fileDocument );
 			eTime = System.currentTimeMillis( );
@@ -135,9 +123,6 @@ public class RunTaskTest extends EngineCase
 			removeFile( fileDocument );
 
 			assertTrue( "RunTask.cancel() failed!", ( timeSpan3 > timeSpan1 ) );
-			assertTrue( "RunTask.cancel(signal) failed!",
-					( timeSpan3 > timeSpan2 ) );
-
 		}
 		catch ( EngineException ee )
 		{
@@ -145,6 +130,49 @@ public class RunTaskTest extends EngineCase
 			fail( "RunTask.cancel() failed!" );
 		}
 	}
+
+//	public void testCancelSignal( ) throws InterruptedException
+//	{
+//		report_design = INPUT + "pages9.rptdesign";
+//		long bTime, eTime, timeSpan;
+//		String fileDocument = OUTPUT + "cancel_pages9.rptdocument";
+//		try
+//		{
+//			runnable = engine.openReportDesign( report_design );
+//			IRunTask task = engine.createRunTask( runnable );
+//
+//			SignalRunTask signalRunTask = new SignalRunTask(
+//					"runTask", 
+//					engine,
+//					runnable,
+//					task,
+//					fileDocument );
+//			signalRunTask.start( );
+//			
+//			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
+//					"cancelWithFlagTask",
+//					task,
+//					signal );
+//			cancelWithFlagTask.start( );
+//			
+//			bTime=System.currentTimeMillis( );
+//			signal.wait( 100000000 );
+//			eTime=System.currentTimeMillis( );
+//			timeSpan=eTime-bTime;
+//			
+//			task.close( );
+//
+//			removeFile( fileDocument );
+//			assertTrue(timeSpan<120000000);
+//			assertTrue( signal.booleanValue( ) );
+//		}
+//		catch ( EngineException ee )
+//		{
+//			ee.printStackTrace( );
+//			fail( "RunTask.cancel() failed!" );
+//		}
+//
+//	}
 
 	public void testGetErrors( )
 	{
@@ -159,7 +187,8 @@ public class RunTaskTest extends EngineCase
 
 			if ( task != null )
 			{
-				assertTrue( "IRunTask.getErrors() fails!",
+				assertTrue(
+						"IRunTask.getErrors() fails!",
 						task.getErrors( ) != null );
 				assertTrue(
 						"IRunTask.getErrors() returns wrong exception",
@@ -193,9 +222,11 @@ public class RunTaskTest extends EngineCase
 			task.run( folderDocument );
 			task.close( );
 
-			assertTrue( "Fail to generate file archive for " + report,
+			assertTrue(
+					"Fail to generate file archive for " + report,
 					new File( fileDocument ).exists( ) );
-			assertTrue( "Fail to generate folder archive for " + report,
+			assertTrue(
+					"Fail to generate folder archive for " + report,
 					new File( folderDocument ).exists( ) );
 		}
 		catch ( EngineException ee )
@@ -211,7 +242,7 @@ public class RunTaskTest extends EngineCase
 		super.setUp( );
 	}
 
-	/*
+	/**
 	 * A new thread to cancel existed runTask
 	 */
 	private class CancelTask extends Thread
@@ -244,33 +275,39 @@ public class RunTaskTest extends EngineCase
 
 	}
 
-	/*
-	 * A new thread to cancel existed runTask which return a flag
-	 */
-	private class CancelWithFlagTask extends Thread
-	{
 
-		private IRunTask runTask;
-
-		public CancelWithFlagTask( String threadName, IRunTask task )
-		{
-			super( threadName );
-			runTask = task;
-		}
-
-		public void run( )
-		{
-			try
-			{
-				Thread.currentThread( ).sleep( 100 );
-				runTask.cancel( cancelSignal );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( );
-				fail( "RunTask.cancel(signal) failed" );
-			}
-		}
-
-	}
+//	/**
+//	 * A new thread to let signal object to wait, then set it's value if it's
+//	 * awakened by notifier.
+//	 */
+//	private class SignalRunTask extends Thread
+//	{
+//
+//		private IRunTask task;
+//		private IReportEngine reportEngine;
+//		private IReportRunnable reportRunnable;
+//		private String doc;
+//
+//		public SignalRunTask( String threadName, IReportEngine reportEngine, IReportRunnable runnable, IRunTask task, String document )
+//		{
+//			super( threadName );
+//			this.task = task;
+//			this.reportEngine = reportEngine;
+//			this.reportRunnable = runnable;
+//			this.doc = document;
+//		}
+//
+//		public void run( )
+//		{
+//			try
+//			{
+//				task.run( doc );
+//			}
+//			catch ( EngineException e )
+//			{
+//				e.printStackTrace( );
+//				fail( );
+//			}
+//		}
+//	}
 }

@@ -17,6 +17,7 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
@@ -47,6 +48,17 @@ public class HTMLEmitterConfigTest extends EngineCase
 	public static Test suite( )
 	{
 		return new TestSuite( HTMLEmitterConfigTest.class );
+	}
+
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+	}
+
+	protected void tearDown( ) throws Exception
+	{
+
+		super.tearDown( );
 	}
 
 	/**
