@@ -28,6 +28,7 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
 
 /**
  * A List class providing the service of reading/writing objects from one file
@@ -273,7 +274,7 @@ public class BasicCachedList implements List
 	 */
 	private File getCacheFile( int cacheIndex )
 	{
-		String tempDirStr = System.getProperty( "java.io.tmpdir" )
+		String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( )
 				+ File.separatorChar + this.fileNamePrefix;
 		if ( dir == null )
 		{
