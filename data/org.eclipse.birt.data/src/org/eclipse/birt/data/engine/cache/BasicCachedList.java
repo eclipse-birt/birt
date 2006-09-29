@@ -28,6 +28,7 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
 
 /**
  * A List class providing the service of reading/writing objects from one file
@@ -36,16 +37,15 @@ import org.eclipse.birt.core.util.IOUtil;
 
 public class BasicCachedList implements List
 {
-	protected static final int INT_NULL = Integer.MAX_VALUE;
+	protected static final int NULL_VALUE = Integer.MAX_VALUE;
+	protected static final int OBJECT_VALUE = 1;
 	protected static final int CACHESIZE = 4000;
 	private static Logger logger = Logger.getLogger( BasicCachedList.class.getName( ) );
 
 	private int currentCacheNo;
-	private int totalCacheNo;
 	private List currentCache;
 	private String fileNamePrefix;
-	private int listSize;
-	private List lastCache;
+	private int size;
 
 	private List fileList = new ArrayList( );
 	private File dir;
@@ -57,13 +57,11 @@ public class BasicCachedList implements List
 	public BasicCachedList( )
 	{
 		this.currentCacheNo = 0;
-		this.totalCacheNo = 0;
-		this.listSize = 0;
+		this.size = 0;
 		setFileNamePrefix( );
 		this.currentCache = new ArrayList( );
-		this.lastCache = this.currentCache;
 	}
-
+	
 	/**
 	 * populate the name prefix of cached file
 	 * 
@@ -102,9 +100,10 @@ public class BasicCachedList implements List
 		{
 			saveToDisk( );
 			this.currentCache.clear( );
+			this.currentCacheNo++;
 		}
 		this.currentCache.add( o );
-		this.listSize++;
+		this.size++;
 		return true;
 	}
 
@@ -118,14 +117,21 @@ public class BasicCachedList implements List
 	{
 		try
 		{
-			File cacheFile = getCacheFile( this.totalCacheNo );
-			fileList.add( cacheFile );
+			File cacheFile = null;
+			if ( currentCacheNo < fileList.size( ) )
+			{
+				cacheFile = (File) ( fileList.get( currentCacheNo ) );
+			}
+			else
+			{
+				cacheFile = getCacheFile( this.currentCacheNo );
+				fileList.add( cacheFile );
+			}
+			
 			FileOutputStream fos = new FileOutputStream( cacheFile );
 			DataOutputStream oos = new DataOutputStream( new BufferedOutputStream( fos ) );
 			writeList( oos, currentCache );
 			oos.close( );
-			this.totalCacheNo++;
-			this.currentCacheNo = this.totalCacheNo;
 		}
 		catch ( FileNotFoundException e )
 		{
@@ -172,10 +178,10 @@ public class BasicCachedList implements List
 	{
 		if ( object == null )
 		{
-			IOUtil.writeInt( oos, INT_NULL );
+			IOUtil.writeInt( oos, NULL_VALUE );
 			return;
 		}
-		IOUtil.writeInt( oos, 1 );
+		IOUtil.writeInt( oos, OBJECT_VALUE );
 		IOUtil.writeObject( oos, object );
 	}
 
@@ -186,21 +192,12 @@ public class BasicCachedList implements List
 	 */
 	public Object get( int index )
 	{
-		// If there are no cache
-		if ( this.totalCacheNo == 0 )
-		{
-			return this.currentCache.get( index );
-		}
-
+		RangeCheck( index );
 		if ( index / CACHESIZE != this.currentCacheNo )
 		{
+			saveToDisk( );
 			this.currentCacheNo = index / CACHESIZE;
-			if ( this.currentCacheNo >= this.totalCacheNo )
-				this.currentCache = this.lastCache;
-			else
-			{
-				LoadFromDisk( );
-			}
+			loadFromDisk( );
 		}
 		return this.currentCache.get( index - this.currentCacheNo * CACHESIZE );
 
@@ -210,7 +207,7 @@ public class BasicCachedList implements List
 	 * Load the data of currect no from disk.
 	 * 
 	 */
-	private void LoadFromDisk( )
+	private void loadFromDisk( )
 	{
 		try
 		{
@@ -262,7 +259,7 @@ public class BasicCachedList implements List
 	protected Object readObject( DataInputStream dis ) throws IOException
 	{
 		int fieldCount = IOUtil.readInt( dis );
-		if ( fieldCount == INT_NULL )
+		if ( fieldCount == NULL_VALUE )
 		{
 			return null;
 		}
@@ -277,9 +274,9 @@ public class BasicCachedList implements List
 	 */
 	private File getCacheFile( int cacheIndex )
 	{
-		String tempDirStr = System.getProperty( "java.io.tmpdir" )
+		String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( )
 				+ File.separatorChar + this.fileNamePrefix;
-		if ( this.totalCacheNo == 0 )
+		if ( dir == null )
 		{
 			dir = new File( tempDirStr );
 			dir.mkdir( );
@@ -295,7 +292,7 @@ public class BasicCachedList implements List
 	 */
 	public int size( )
 	{
-		return this.listSize;
+		return this.size;
 	}
 
 	/*
@@ -340,11 +337,9 @@ public class BasicCachedList implements List
 	{
 		clearTempDir( );
 		this.currentCacheNo = 0;
-		this.totalCacheNo = 0;
-		this.listSize = 0;
+		this.size = 0;
 		setFileNamePrefix( );
 		this.currentCache = new ArrayList( );
-		this.lastCache = this.currentCache;
 	}
 
 	/*
@@ -475,9 +470,25 @@ public class BasicCachedList implements List
 	 */
 	public Object set( int index, Object element )
 	{
-		throw new UnsupportedOperationException( "the set( int index, Object element ) method in CacheList is not supported!" );
+		RangeCheck( index );
+		Object oldValue = get( index );
+		this.currentCache.set( index - this.currentCacheNo * CACHESIZE, element );
+		return oldValue;
 	}
 
+	/**
+	 * Check if the given index is in range. If not, throw an appropriate
+	 * runtime exception. This method does *not* check if the index is negative:
+	 * It is always used immediately prior to an array access, which throws an
+	 * ArrayIndexOutOfBoundsException if index is negative.
+	 */
+	private void RangeCheck( int index )
+	{
+		if ( index >= size )
+			throw new IndexOutOfBoundsException( "Index: "
+					+ index + ", Size: " + size );
+	}
+    
 	/*
 	 * (non-Javadoc)
 	 * 

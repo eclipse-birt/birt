@@ -17,6 +17,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
+
 /**
  * Manage the cache map
  */
@@ -156,7 +158,7 @@ class CacheMapManager
 				return;
 			
 			// system default temp dir is used
-			String tempDirStr = System.getProperty( "java.io.tmpdir" );
+			String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( );
 			File tempDtEDir = new File( tempDirStr, "BirtDataCache" );
 			if ( tempDtEDir.exists( ) == false )
 			{

@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -259,7 +260,7 @@ public class CacheUtil
 		File tempDtEDir = null;
 		synchronized ( cacheCounter1 )
 		{
-			String tempDirStr = System.getProperty( "java.io.tmpdir" );
+			String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( );
 			tempDtEDir = new File( tempDirStr, "BirtDataTemp"
 					+ System.currentTimeMillis( ) + cacheCounter1 );
 			cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
