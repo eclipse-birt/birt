@@ -58,10 +58,8 @@ import org.eclipse.swt.widgets.Text;
 public class MapRuleBuilder extends BaseDialog
 {
 
-	public static final String DLG_TITLE_NEW = Messages
-			.getString( "MapRuleBuilder.DialogTitle.New" ); //$NON-NLS-1$
-	public static final String DLG_TITLE_EDIT = Messages
-			.getString( "MapRuleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_NEW = Messages.getString( "MapRuleBuilder.DialogTitle.New" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_EDIT = Messages.getString( "MapRuleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
 	/**
 	 * Usable operators for building map rule conditions.
@@ -70,8 +68,8 @@ public class MapRuleBuilder extends BaseDialog
 
 	static
 	{
-		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet(
-				MapRule.STRUCTURE_NAME, MapRule.OPERATOR_MEMBER );
+		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( MapRule.STRUCTURE_NAME,
+				MapRule.OPERATOR_MEMBER );
 		IChoice[] chs = chset.getChoices( );
 		OPERATOR = new String[chs.length][2];
 
@@ -108,14 +106,10 @@ public class MapRuleBuilder extends BaseDialog
 	public static int determineValueVisible( String operatorValue )
 	{
 		if ( DesignChoiceConstants.MAP_OPERATOR_ANY.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_FALSE
-						.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_TRUE
-						.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_NULL
-						.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_NOT_NULL
-						.equals( operatorValue ) )
+				|| DesignChoiceConstants.MAP_OPERATOR_FALSE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_TRUE.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NULL.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NOT_NULL.equals( operatorValue ) )
 		{
 			return 0;
 		}
@@ -125,15 +119,12 @@ public class MapRuleBuilder extends BaseDialog
 				|| DesignChoiceConstants.MAP_OPERATOR_NE.equals( operatorValue )
 				|| DesignChoiceConstants.MAP_OPERATOR_GE.equals( operatorValue )
 				|| DesignChoiceConstants.MAP_OPERATOR_GT.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_LIKE
-						.equals( operatorValue ) )
+				|| DesignChoiceConstants.MAP_OPERATOR_LIKE.equals( operatorValue ) )
 		{
 			return 1;
 		}
-		else if ( DesignChoiceConstants.MAP_OPERATOR_BETWEEN
-				.equals( operatorValue )
-				|| DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN
-						.equals( operatorValue ) )
+		else if ( DesignChoiceConstants.MAP_OPERATOR_BETWEEN.equals( operatorValue )
+				|| DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN.equals( operatorValue ) )
 		{
 			return 2;
 		}
@@ -193,8 +184,7 @@ public class MapRuleBuilder extends BaseDialog
 
 	private DesignElementHandle designHandle;
 
-	private static final String VALUE_OF_THIS_DATA_ITEM = Messages
-			.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
@@ -219,13 +209,13 @@ public class MapRuleBuilder extends BaseDialog
 	 */
 	protected Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp(parent,IHelpContextIds.INSERT_EDIT_MAP_RULE_DIALOG_ID);
+		UIUtil.bindHelp( parent, IHelpContextIds.INSERT_EDIT_MAP_RULE_DIALOG_ID );
 
 		GridData gdata;
 		GridLayout glayout;
 		Composite contents = new Composite( parent, SWT.NONE );
 		contents.setLayout( new GridLayout( ) );
-		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );		
+		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		createTitleArea( contents );
 
@@ -243,9 +233,7 @@ public class MapRuleBuilder extends BaseDialog
 		createButtonBar( composite );
 
 		Label lb = new Label( innerParent, SWT.NONE );
-		lb
-				.setText( Messages
-						.getString( "MapRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
+		lb.setText( Messages.getString( "MapRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
 		condition.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -264,10 +252,7 @@ public class MapRuleBuilder extends BaseDialog
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 						&& designHandle instanceof DataItemHandle )
 				{
-					expression
-							.setText( DEUtil
-									.getColumnExpression( ( (DataItemHandle) designHandle )
-											.getResultSetColumn( ) ) );
+					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
 				updateButtons( );
 			}
@@ -286,8 +271,7 @@ public class MapRuleBuilder extends BaseDialog
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		expBuilder.setLayoutData( gdata );
-		expBuilder.setToolTipText( Messages
-				.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -352,8 +336,7 @@ public class MapRuleBuilder extends BaseDialog
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		valBuilder1.setLayoutData( gdata );
-		valBuilder1.setToolTipText( Messages
-				.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		valBuilder1.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		valBuilder1.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -365,8 +348,7 @@ public class MapRuleBuilder extends BaseDialog
 		createDummy( condition, 3 );
 
 		andLable = new Label( condition, SWT.NONE );
-		andLable.setText( Messages
-				.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
+		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
 		andLable.setVisible( false );
 
 		createDummy( condition, 1 );
@@ -388,8 +370,7 @@ public class MapRuleBuilder extends BaseDialog
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		valBuilder2.setLayoutData( gdata );
-		valBuilder2.setToolTipText( Messages
-				.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		valBuilder2.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		valBuilder2.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -439,7 +420,7 @@ public class MapRuleBuilder extends BaseDialog
 	{
 		int heightMargins = 3;
 		int widthMargins = 8;
-		final Composite titleArea = new Composite( parent, SWT.NONE );		
+		final Composite titleArea = new Composite( parent, SWT.NONE );
 		FormLayout layout = new FormLayout( );
 		layout.marginHeight = heightMargins;
 		layout.marginWidth = widthMargins;
@@ -456,8 +437,8 @@ public class MapRuleBuilder extends BaseDialog
 
 			public void paintControl( PaintEvent e )
 			{
-				e.gc.setForeground( titleArea.getDisplay( ).getSystemColor(
-						SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+				e.gc.setForeground( titleArea.getDisplay( )
+						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
 				Rectangle bounds = titleArea.getClientArea( );
 				bounds.height = bounds.height - 2;
 				bounds.width = bounds.width - 1;
@@ -467,7 +448,8 @@ public class MapRuleBuilder extends BaseDialog
 
 		Label label = new Label( titleArea, SWT.NONE );
 		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ), 10,
+		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
+				10,
 				SWT.BOLD ) );
 		label.setText( getTitle( ) ); //$NON-NLS-1$
 
@@ -533,8 +515,9 @@ public class MapRuleBuilder extends BaseDialog
 		// String te = provider.getTestExpression( );
 
 		if ( designHandle instanceof DataItemHandle
-				&& ( (DataItemHandle) designHandle ).getColumnBindings( )
-						.iterator( ).hasNext( ) )
+				&& ( ( (DataItemHandle) designHandle ).getColumnBindings( )
+						.iterator( )
+						.hasNext( ) || ( ( (DataItemHandle) designHandle ).getResultSetColumn( ) != null ) ) )
 		{
 			control.add( VALUE_OF_THIS_DATA_ITEM );
 		}
@@ -689,36 +672,30 @@ public class MapRuleBuilder extends BaseDialog
 				MapRule rule = StructureFactory.createMapRule( );
 
 				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
-						DEUtil.resolveNull( getValueForOperator( operator
-								.getText( ) ) ) );
-				rule.setProperty( HighlightRule.VALUE1_MEMBER, DEUtil
-						.resolveNull( value1.getText( ) ) );
-				rule.setProperty( HighlightRule.VALUE2_MEMBER, DEUtil
-						.resolveNull( value2.getText( ) ) );
+						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+				rule.setProperty( HighlightRule.VALUE1_MEMBER,
+						DEUtil.resolveNull( value1.getText( ) ) );
+				rule.setProperty( HighlightRule.VALUE2_MEMBER,
+						DEUtil.resolveNull( value2.getText( ) ) );
 
-				rule.setProperty( MapRule.DISPLAY_MEMBER, DEUtil
-						.resolveNull( display.getText( ) ) );
+				rule.setProperty( MapRule.DISPLAY_MEMBER,
+						DEUtil.resolveNull( display.getText( ) ) );
 
 				// set test expression for new map rule
-				rule.setTestExpression( DEUtil.resolveNull( expression
-						.getText( ) ) );
+				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 
 				handle = provider.doAddItem( rule, handleCount );
 			}
 			else
 			{
-				handle
-						.setOperator( DEUtil
-								.resolveNull( getValueForOperator( operator
-										.getText( ) ) ) );
+				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
 				handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
 				handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 
 				handle.setDisplay( DEUtil.resolveNull( display.getText( ) ) );
 
-				handle.setTestExpression( DEUtil.resolveNull( expression
-						.getText( ) ) );
+				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 			}
 		}
 		catch ( Exception e )
@@ -740,13 +717,12 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			initValue = ( (Combo) control ).getText( );
 		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder(
-				getShell( ), initValue );
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
+				initValue );
 
 		if ( designHandle != null )
 		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider(
-					designHandle ) );
+			expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
 		}
 
 		if ( expressionBuilder.open( ) == OK )
