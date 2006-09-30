@@ -75,6 +75,8 @@ public class DataEngineContext
 	private int cacheOption;
 	private int cacheCount;
 	
+	private String tmpDir = null;
+	
 	/** stream id for internal use, don't use it externally */
 	public final static int VERSION_INFO_STREAM = 11;
 	
@@ -362,7 +364,7 @@ public class DataEngineContext
 	 */
 	public String getTmpdir( )
 	{
-		return DataEngineContextExt.getInstance( ).getTmpdir( );
+		return tmpDir;
 	}
 
 	/**
@@ -371,7 +373,7 @@ public class DataEngineContext
 	 */
 	public void setTmpdir( String tmpdir )
 	{
-		DataEngineContextExt.getInstance( ).setTmpdir( tmpdir );
+		this.tmpDir = tmpdir;
 	}
 
 	/**
