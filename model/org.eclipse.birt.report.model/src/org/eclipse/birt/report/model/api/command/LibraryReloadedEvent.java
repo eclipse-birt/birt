@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 
 /**
@@ -30,13 +31,16 @@ public class LibraryReloadedEvent extends NotificationEvent
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
+	 * @param host
+	 *            the host module in which the library lies in
+	 * 
+	 * @param library
 	 *            the element that is to reload library.
 	 */
 
-	public LibraryReloadedEvent( Library library )
+	public LibraryReloadedEvent( Module host, Library library )
 	{
-		super( library.getHost( ) );
+		super( host );
 		this.library = library;
 	}
 
@@ -52,9 +56,12 @@ public class LibraryReloadedEvent extends NotificationEvent
 	}
 
 	/**
-	 * Returns the library causing this event.
+	 * Returns the library causing this event. If the library is
+	 * <code>null</code>, it means that the library is not found during the
+	 * reload-action.
 	 * 
-	 * @return the library causing this event
+	 * @return the library causing this event, or null if the library is not
+	 *         found
 	 */
 
 	public Library getLibrary( )

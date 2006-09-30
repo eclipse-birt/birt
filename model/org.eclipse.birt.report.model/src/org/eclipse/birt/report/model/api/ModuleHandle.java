@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
@@ -63,6 +64,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -2003,11 +2005,26 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibraries( ) throws SemanticException,
 			DesignFileException
 	{
-		for ( Iterator iter = getLibraries( ).iterator( ); iter.hasNext( ); )
+		List libs = getListProperty( ReportDesign.LIBRARIES_PROP );
+		if ( libs == null || libs.isEmpty( ) )
+			return;
+		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			LibraryHandle library = (LibraryHandle) iter.next( );
-			reloadLibrary( library );
+			IncludedLibrary lib = (IncludedLibrary) libs.get( i );
+			Library includeLib = module.getLibraryWithNamespace( lib
+					.getNamespace( ) );
+			if ( includeLib != null )
+				reloadLibrary( includeLib.handle( ) );
+			else
+			{
+				LibraryCommand cmd = new LibraryCommand( module );
+				cmd
+						.reloadLibrary( lib.getFileName( ), lib
+								.getNamespace( ) );
+			}
+
 		}
+
 	}
 
 	/**

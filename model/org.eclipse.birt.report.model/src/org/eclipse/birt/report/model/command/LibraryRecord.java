@@ -220,7 +220,7 @@ class LibraryRecord extends AbstractLibraryRecord
 			module.manageId( tmpElement, true );
 
 			if ( overriddenValues == null )
-				return;
+				continue;
 			
 			Long idObj = new Long( tmpElement.getID( ) );
 			Map values = (Map) overriddenValues.get( idObj );

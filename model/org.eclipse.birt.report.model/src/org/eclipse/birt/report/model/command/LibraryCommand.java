@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 
@@ -329,7 +328,7 @@ public class LibraryCommand extends AbstractElementCommand
 		Library library = module.getLibraryByLocation( location,
 				IAccessControl.ARBITARY_LEVEL );
 		if ( library == null )
-			throw new LibraryException( library, null,
+			throw new LibraryException( library, new String[]{location},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 
 		// find the right library to reload.
@@ -341,21 +340,11 @@ public class LibraryCommand extends AbstractElementCommand
 
 			library = (Library) library.getHost( );
 		}
-
+		assert library != null;
 		String namespace = library.getNamespace( );
 		IncludedLibrary includedItem = module.findIncludedLibrary( namespace );
 
 		String path = includedItem.getFileName( );
-		URL url = module.findResource( path, IResourceLocator.LIBRARY );
-		if ( url == null )
-		{
-			DesignParserException ex = new DesignParserException(
-					new String[]{path},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
-			exceptionList.add( ex );
-			throw new DesignFileException( path, exceptionList );
-		}
 
 		Map overriddenValues = null;
 
@@ -386,23 +375,82 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// send the libraryreloadedevent first, and then commit transaction
 
-		LibraryReloadedEvent event = new LibraryReloadedEvent( module
-				.getLibraryByLocation( url.toExternalForm( ) ) );
+		URL url = module.findResource( path, IResourceLocator.LIBRARY );
+		Library lib = null;
+		if ( url != null )
+			lib = module.getLibraryByLocation( url.toExternalForm( ) );
+		doPostReloadAction( lib );
 
+	}
+
+	/**
+	 * Adds new library file to report design.
+	 * 
+	 * @param libraryFileName
+	 *            library file name
+	 * @param namespace
+	 *            library namespace
+	 * @throws DesignFileException
+	 *             if the library file is not found or has fatal errors.
+	 * @throws SemanticException
+	 *             if failed to add <code>IncludeLibrary</code> strcutre
+	 */
+
+	public void reloadLibrary( String libraryFileName, String namespace )
+			throws DesignFileException, SemanticException
+	{
+		if ( StringUtil.isBlank( namespace ) )
+			namespace = StringUtil.extractFileName( libraryFileName );
+
+		ActivityStack stack = module.getActivityStack( );
+		stack.startSilentTrans( true );
+		try
+		{
+			doAddLibrary( libraryFileName, namespace, RELOAD_ACTION, null );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		catch ( DesignFileException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		// do post reload actions
+
+		Library lib = module.getLibraryWithNamespace( namespace );
+		doPostReloadAction( lib );
+
+	}
+
+	/**
+	 * Does some post actions after library is reloaded. It includes sending out
+	 * the LibraryReloadEvent, commit the stack and flush the stack and send out
+	 * the ActivityStackEvent.
+	 * 
+	 * @param lib
+	 */
+
+	private void doPostReloadAction( Library lib )
+	{
+		LibraryReloadedEvent event = new LibraryReloadedEvent( module, lib );
 		module.broadcast( event );
 
 		// clear save state mark.
 
+		ActivityStack activityStack = module.getActivityStack( );
 		activityStack.commit( );
-		
+
 		// clear all common stack.
 
 		activityStack.flush( );
-		
+
 		module.setSaveState( 0 );
 		activityStack.sendNotifcations( new ActivityStackEvent( activityStack,
-					ActivityStackEvent.DONE ) );
-		
+				ActivityStackEvent.DONE ) );
 	}
 
 	/**
@@ -462,6 +510,17 @@ public class LibraryCommand extends AbstractElementCommand
 			int action, Map overriddenValues ) throws SemanticException,
 			DesignFileException
 	{
+		URL url = module.findResource( libraryFileName,
+				IResourceLocator.LIBRARY );
+		if ( action == RELOAD_ACTION )
+		{
+			if ( url == null )
+			{
+				if ( module.findIncludedLibrary( namespace ) == null )
+					addLibraryStructure( libraryFileName, namespace );
+				return;
+			}
+		}
 		Library library = module.loadLibrary( libraryFileName, namespace );
 
 		library.setReadOnly( );
@@ -480,6 +539,24 @@ public class LibraryCommand extends AbstractElementCommand
 		getActivityStack( ).execute( record );
 
 		// Add includedLibraries
+		if ( module.findIncludedLibrary( namespace ) == null )
+			addLibraryStructure( libraryFileName, namespace );
+
+		activityStack.commit( );
+	}
+
+	/**
+	 * Adds an include library structure in the module.
+	 * 
+	 * @param libraryFileName
+	 * @param namespace
+	 * @throws SemanticException
+	 */
+
+	private void addLibraryStructure( String libraryFileName, String namespace )
+			throws SemanticException
+	{
+		// Add includedLibraries
 
 		IncludedLibrary includeLibrary = StructureFactory
 				.createIncludeLibrary( );
@@ -490,8 +567,6 @@ public class LibraryCommand extends AbstractElementCommand
 				.getPropertyDefn( Module.LIBRARIES_PROP );
 		PropertyCommand propCommand = new PropertyCommand( module, module );
 		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
-
-		activityStack.commit( );
 	}
 
 	/**
