@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
+import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.mozilla.javascript.Context;
 
 /**
@@ -223,6 +224,52 @@ public class ExpressionCompilerUtil
 	}
 
 	/**
+	 * Check whether filter in query contains aggregation. If aggregation is
+	 * TOPN,BOTTOMN,TOPPERCENT,BOTTMEPERCENT return true. else return false;
+	 * 
+	 * @return
+	 */
+	public static boolean isValidExpressionInQueryFilter(
+			IBaseExpression expression )
+	{
+		if ( expression instanceof IScriptExpression )
+		{
+			String text = ( (IScriptExpression) expression ).getText( );
+			Context context = Context.enter( );
+
+			// fake a registry to register the aggragation.
+			AggregateRegistry aggrReg = new AggregateRegistry( ) {
+
+				public int register( AggregateExpression aggregationExpr )
+				{
+					return -1;
+				}
+			};
+			try
+			{
+				CompiledExpression expr = expressionCompiler.compile( text,
+						aggrReg,
+						context );
+				return flattenFilterExpression( expr );
+			}
+			finally
+			{
+				Context.exit( );
+			}
+		}
+		else if ( expression instanceof IConditionalExpression )
+		{
+			IScriptExpression expr = ( (IConditionalExpression) expression ).getExpression( );
+			IScriptExpression oprand1 = ( (IConditionalExpression) expression ).getOperand1( );
+			IScriptExpression oprand2 = ( (IConditionalExpression) expression ).getOperand2( );
+			return isValidExpressionInQueryFilter( expr )
+					&& isValidExpressionInQueryFilter( oprand1 )
+					&& isValidExpressionInQueryFilter( oprand2 );
+		}
+		return true;
+	}
+	
+	/**
 	 * 
 	 * @param expr
 	 * @return
@@ -322,6 +369,64 @@ public class ExpressionCompilerUtil
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private static boolean flattenFilterExpression( CompiledExpression expr )
+	{
+		int type = expr.getType( );
+		switch ( type )
+		{
+			case CompiledExpression.TYPE_COMPLEX_EXPR :
+			{
+				Iterator col = ( (ComplexExpression) expr ).getSubExpressions( )
+						.iterator( );
+				while ( col.hasNext( ) )
+				{
+					if ( !flattenFilterExpression( (CompiledExpression) col.next( ) ) )
+						return false;
+				}
+				break;
+			}
+			case CompiledExpression.TYPE_DIRECT_COL_REF :
+			{
+				break;
+			}
+			case CompiledExpression.TYPE_SINGLE_AGGREGATE :
+			{
+				String aggName = ( (AggregateExpression) expr ).getAggregation( )
+						.getName( );
+				if ( !isTopBottomN( aggName ) )
+					return false;
+				break;
+			}
+			case CompiledExpression.TYPE_CONSTANT_EXPR :
+			case CompiledExpression.TYPE_INVALID_EXPR :
+			{
+				break;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @param aggName
+	 * @return
+	 */
+	private static boolean isTopBottomN( String aggName )
+	{
+		if ( BuiltInAggregationFactory.TOTAL_BOTTOM_N_FUNC.equals( aggName )
+				|| BuiltInAggregationFactory.TOTAL_BOTTOM_PERCENT_FUNC.equals( aggName )
+				|| BuiltInAggregationFactory.TOTAL_TOP_N_FUNC.equals( aggName )
+				|| BuiltInAggregationFactory.TOTAL_TOP_PERCENT_FUNC.equals( aggName ) )
+			return true;
+		else
+			return false;
+	}
+	
 	/**
 	 * 
 	 * @param list

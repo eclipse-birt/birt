@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
@@ -601,9 +602,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param queryFilters
 	 * @param temporaryComputedColumns
 	 * @return
+	 * @throws DataException 
 	 */
 	private List prepareFilters( Context cx, List dataSetFilters,
-			List queryFilters, List temporaryComputedColumns )
+			List queryFilters, List temporaryComputedColumns ) throws DataException
 	{
 		List result = new ArrayList( );
 		prepareFilter( cx, dataSetFilters, temporaryComputedColumns, result );
@@ -617,9 +619,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param dataSetFilters
 	 * @param temporaryComputedColumns
 	 * @param result
+	 * @throws DataException 
 	 */
 	private void prepareFilter( Context cx, List dataSetFilters,
-			List temporaryComputedColumns, List result )
+			List temporaryComputedColumns, List result ) throws DataException
 	{
 		if ( dataSetFilters != null && !dataSetFilters.isEmpty( ) )
 		{
@@ -665,19 +668,25 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * 
 	 * @param filter
 	 * @return
+	 * @throws DataException 
 	 */
-	private boolean isGroupFilter( IFilterDefinition filter )
+	private boolean isGroupFilter( IFilterDefinition filter ) throws DataException
 	{
 		IBaseExpression expr = filter.getExpression( );
 
 		if ( expr instanceof IConditionalExpression )
 		{
+			if ( !ExpressionCompilerUtil.isValidExpressionInQueryFilter( expr ) )
+				throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
+						new Object[]{
+							( (IConditionalExpression) expr ).getExpression( ).getText( )
+						} );
 			try
 			{
 				if ( odiQuery instanceof BaseQuery )
 				{
 					return ( (BaseQuery) odiQuery ).getExprProcessor( )
-							.hasAggregation( expr );
+								.hasAggregation( expr );
 				}
 			}
 			catch ( DataException e )
