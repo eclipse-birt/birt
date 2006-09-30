@@ -84,6 +84,10 @@ public class DataEngineImpl extends DataEngine
 		
 		this.context = context;
 		this.sharedScope = context.getJavaScriptScope( );
+		
+		if(context.getTmpdir( )!=null)
+			DataEngineContextExt.getInstance( ).setTmpdir( context.getTmpdir( ) );
+		
 		Context cx = Context.enter( );
 		if ( this.sharedScope == null )
 		{
