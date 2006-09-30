@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
 
@@ -33,29 +30,32 @@ public class Regression_155509 extends BaseTestCase
 {
 
 	private String filename = "Regression_155509.xml"; //$NON-NLS-1$
-	// private String propfile = "Regression_155509"; //$NON-NLS-1$
+	private String propfile = "Regression_155509"; //$NON-NLS-1$
 	private String jarfile = "input/Regression_155509.jar"; //$NON-NLS-1$
 	private DefaultResourceLocator rl;
 
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_regression_155509( ) throws DesignFileException
+	public void test_155509( ) throws DesignFileException
 	{
 		openDesign( filename );
 		rl = new DefaultResourceLocator( );
 		sessionHandle.setResourceFolder( getClassFolder( ) );
 
-		URL jarrsc = rl.findResource( designHandle, jarfile,
+		URL jarrsc = rl.findResource(
+				designHandle,
+				jarfile,
 				IResourceLocator.JAR_FILE );
 		assertNotNull( jarrsc );
 
 		sessionHandle.setResourceFolder( getClassFolder( ) + INPUT_FOLDER );
 
-		//TODO: source are not update in branch2.1.1. 
-		// URL messagersc = rl.findResource( designHandle,propfile,
-		// IResourceLocator.MESSAGE_FILE );
-		// assertNotNull(messagersc);
+		URL messagersc = rl.findResource(
+				designHandle,
+				propfile,
+				IResourceLocator.MESSAGE_FILE );
+		assertNotNull( messagersc );
 
 	}
 
