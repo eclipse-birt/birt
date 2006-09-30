@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.5" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20060922-1058 Build &lt;20060926-0630></property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+    </themes>
+    <components>
+         <image name="NewImage" id="4">
+            <property name="source">embed</property>
+            <property name="imageName">logo.jpg</property>
+        </image>
+    </components>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+    <list-property name="images">
+        <structure>
+            <property name="name">logo.jpg</property>
+            <property name="data">12345</property>
+        </structure>
+    </list-property>
+</library>
