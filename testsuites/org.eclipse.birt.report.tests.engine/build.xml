@@ -10,6 +10,7 @@
 	<property name="engine.dir" location="../org.eclipse.birt.report.engine"/>
 	<property name="tests.core.dir" location="../org.eclipse.birt.tests.core"/>
 	<property name="module.name" value="org.eclipse.birt.report.tests.engine"/>
+	<property name="emitter.dir" value="org.eclipse.birt.report.tests.engine.emitter.html"/>
 	
 	<!-- classPath -->
 	
@@ -20,6 +21,7 @@
 		<pathelement path="${model.dir}/bin"/>
 		<pathelement path="${engine.dir}/bin"/>
 		<pathelement path="${tests.core.dir}/bin"/>
+		<pathelement path="${emitter.dir}/bin"/>
 		<fileset dir="../org.mozilla.rhino">
 			<include name="lib/*.jar"/>
 		</fileset>
