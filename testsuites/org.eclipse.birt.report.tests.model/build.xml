@@ -22,6 +22,8 @@
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="core.dir" location="../org.eclipse.birt.core" />
 	<property name="model.dir" location="../org.eclipse.birt.report.model" />
+	<property name="adapter.dir" location="../org.eclipse.birt.report.model.adapter.oda" />
+	
 	<property name="tests.core.dir" location="../org.eclipse.birt.tests.core"/>
 	<property name="module.name" value="org.eclipse.birt.report.tests.model" />
 
@@ -41,8 +43,11 @@
 
 		<pathelement path="${core.dir}/core.jar" />
 		<pathelement path="${model.dir}/model.jar" />
+	    
 
 		<pathelement path="${tests.core.dir}/bin"/>
+		<pathelement path="${adapter.dir}/bin"/>
+	
 		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar" />
@@ -51,6 +56,7 @@
 			<include name="org.eclipse.osgi*.jar" />
 			<include name="org.junit_*/*.jar" />
 			<include name="com.ibm.icu*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.design*.jar" />
 		</fileset>
 	</path>
 
