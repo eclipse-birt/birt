@@ -50,6 +50,7 @@ import org.eclipse.birt.tests.data.engine.regression.Regression_124448;
 import org.eclipse.birt.tests.data.engine.regression.Regression_124593;
 import org.eclipse.birt.tests.data.engine.regression.Regression_128354;
 import org.eclipse.birt.tests.data.engine.regression.Regression_131668;
+import org.eclipse.birt.tests.data.engine.regression.Regression_132515;
 import org.eclipse.birt.tests.data.engine.regression.Regression_132519;
 import org.eclipse.birt.tests.data.engine.regression.Regression_132805;
 import org.eclipse.birt.tests.data.engine.regression.Regression_133079;
@@ -76,7 +77,14 @@ import org.eclipse.birt.tests.data.engine.regression.Regression_142939;
 import org.eclipse.birt.tests.data.engine.regression.Regression_143105;
 import org.eclipse.birt.tests.data.engine.regression.Regression_143816;
 import org.eclipse.birt.tests.data.engine.regression.Regression_144179;
+import org.eclipse.birt.tests.data.engine.regression.Regression_144847;
 import org.eclipse.birt.tests.data.engine.regression.Regression_145508;
+import org.eclipse.birt.tests.data.engine.regression.Regression_146165;
+import org.eclipse.birt.tests.data.engine.regression.Regression_146548;
+import org.eclipse.birt.tests.data.engine.regression.Regression_146967;
+import org.eclipse.birt.tests.data.engine.regression.Regression_147403;
+import org.eclipse.birt.tests.data.engine.regression.Regression_147496;
+import org.eclipse.birt.tests.data.engine.regression.Regression_147703;
 import org.eclipse.birt.tests.data.engine.regression.Regression_76549;
 import org.eclipse.birt.tests.data.engine.regression.Regression_78978;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79009;
@@ -90,6 +98,7 @@ import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119127;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119999;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_120036;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_123157;
+import org.eclipse.birt.tests.data.engine.regression.xml.Regression_146769;
 import org.eclipse.birt.tests.data.engine.smoke.DsGroupTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsParameterTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsSortTest;
@@ -208,14 +217,24 @@ public class AllTests extends TestCase
 		suite.addTestSuite( Regression_78978.class );
 		suite.addTestSuite( Regression_140705.class );
 		suite.addTestSuite( Regression_142091.class );
+		suite.addTestSuite( Regression_132515.class );
+		suite.addTestSuite( Regression_146165.class );
+		suite.addTestSuite( Regression_146548.class );
+		suite.addTestSuite( Regression_147403.class );
+		suite.addTestSuite( Regression_147496.class );
+		suite.addTestSuite( Regression_147703.class );
+		suite.addTestSuite( Regression_144847.class );
 
 		// xml package
 		suite.addTestSuite( Regression_119999.class );
 		suite.addTestSuite( Regression_120036.class );
 		suite.addTestSuite( Regression_123157.class );
-
 		suite.addTestSuite( Regression_117447.class );
 		suite.addTestSuite( Regression_119127.class );
+		suite.addTestSuite( Regression_146967.class );
+		suite.addTestSuite( Regression_120036.class );
+		suite.addTestSuite( Regression_146769.class );
+
 		// flatfile package
 		// suite.addTestSuite( Regression_135199.class );
 		return suite;
