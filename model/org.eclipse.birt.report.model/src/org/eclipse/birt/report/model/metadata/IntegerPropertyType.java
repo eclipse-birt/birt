@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.text.ParseException;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -40,6 +41,17 @@ public class IntegerPropertyType extends PropertyType
 	public IntegerPropertyType( )
 	{
 		super( DISPLAY_NAME_KEY );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 */
+
+	public int getTypeCode( )
+	{
+		return INTEGER_TYPE;
 	}
 
 	/**
@@ -75,7 +87,7 @@ public class IntegerPropertyType extends PropertyType
 			if ( StringUtil.trimString( (String) value ) == null )
 				return null;
 
-			return parseInteger( ( (String) value ).trim( ) );
+			return validateInputString( module, defn, ( (String) value ).trim( ) );
 		}
 		if ( value instanceof BigDecimal )
 			return new Integer( ( (BigDecimal) value ).intValue( ) );
@@ -87,15 +99,58 @@ public class IntegerPropertyType extends PropertyType
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				INTEGER_TYPE );
-	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
-		 */
+	}
 
-	public int getTypeCode( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateInputString(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 *      java.lang.String)
+	 */
+
+	public Object validateInputString( Module module, PropertyDefn defn,
+			String value ) throws PropertyValueException
 	{
-		return INTEGER_TYPE;
+		value = StringUtil.trimString( value );
+		if ( value == null )
+			return null;
+
+		NumberFormat localeFormatter = NumberFormat
+				.getIntegerInstance( ThreadResources.getLocale( ).toLocale( ) );
+		Number number = null;
+		try
+		{
+			// Parse in locale-dependent way.
+			// Use the decimal separator from the locale.
+			number = localeFormatter.parse( value );
+		}
+		catch ( ParseException e )
+		{
+			throw new PropertyValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					INTEGER_TYPE );
+		}
+
+		return new Integer( number.intValue( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 *      java.lang.String)
+	 */
+
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
+	{
+		value = StringUtil.trimString( value );
+		if ( value == null )
+			return null;
+
+		return parseInteger( value );
 	}
 
 	/*

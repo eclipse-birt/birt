@@ -38,9 +38,13 @@ public class NumberPropertyType extends PropertyType
 	/**
 	 * A default fixed-locale number formatter.
 	 */
-
+	
 	private static final NumberFormat formatter = NumberFormat
 			.getNumberInstance( DEFAULT_LOCALE );
+	static
+	{
+		formatter.setGroupingUsed( false );
+	}
 
 	/**
 	 * Constructor.

@@ -22,10 +22,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
-
-
-
-
 /**
  * Represents a double-precision floating point property type. Float property
  * values are stored as <code>java.lang.Double</code>.
@@ -203,7 +199,8 @@ public class FloatPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat.getNumberInstance( 				ThreadResources.getLocale( ).toLocale() );
+		NumberFormat formatter = NumberFormat
+				.getNumberInstance( ThreadResources.getLocale( ).toLocale( ) );
 		return formatter.format( ( (Double) value ).doubleValue( ) );
 	}
 
@@ -227,7 +224,7 @@ public class FloatPropertyType extends PropertyType
 			return null;
 
 		NumberFormat localeFormatter = NumberFormat
-				.getNumberInstance(  ThreadResources.getLocale( ).toLocale());
+				.getNumberInstance( ThreadResources.getLocale( ).toLocale( ) );
 		Number number = null;
 		try
 		{
