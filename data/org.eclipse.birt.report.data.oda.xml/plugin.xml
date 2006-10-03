@@ -129,6 +129,9 @@
          </propertyGroup>
          </properties>
       </dataSource>
+   <relationship
+         relatedDataSourceId="org.eclipse.datatools.enablement.oda.xml"
+         type="replacedBy"/>
    </extension>
 </plugin>
 
