@@ -51,11 +51,11 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -142,17 +142,13 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Create a row expression base on column name.
+	 * Create a row expression based on column name.
 	 * 
 	 * @param colName
 	 */
 	public static String getExpressionString( String colName )
 	{
-		if ( colName == null )
-		{
-			return ""; //$NON-NLS-1$
-		}
-		return "row[\"" + escape( colName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		return ExpressionUtil.createJSRowExpression( colName );
 	}
 
 	/**
@@ -167,29 +163,6 @@ public class ChartUIUtil
 		// default. ?100 is enough.
 		numberFormat.setMaximumFractionDigits( 100 );
 		return numberFormat;
-	}
-
-	/**
-	 * Escapes \ and " following standard of Javascript
-	 * 
-	 * @param str
-	 * @return new string after escape special character
-	 */
-	public static String escape( String str )
-	{
-		String[][] chars = {
-				{
-						"\\\\", "\"", "\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				}, {
-						"\\\\\\\\", "\\\\\"", "\\\\\'", //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-				}
-		};
-		String result = str;
-		for ( int i = 0; i < chars[0].length; i++ )
-		{
-			result = result.replaceAll( chars[0][i], chars[1][i] );
-		}
-		return result;
 	}
 
 	public static EList getBaseSeriesDefinitions( Chart chart )
@@ -782,63 +755,60 @@ public class ChartUIUtil
 	public static void addAxis( final ChartWithAxes chartModel )
 	{
 		// Prevent notifications rendering preview
-		Object overlayAxis = ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
+		ChartAdapter.beginIgnoreNotifications( );
+		// --------------------------Begin
+		
+		// Create a clone of the existing Y Axis
+		Axis yAxis = (Axis) ( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+				.get( 0 );
+		Axis overlayAxis = (Axis) EcoreUtil.copy( yAxis );
+		// Now update overlay axis to set the properties that are
+		// different from
+		// the original
+		overlayAxis.setPrimaryAxis( false );
+		overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
+				null ) );
+		overlayAxis.setLabelPosition( Position.RIGHT_LITERAL );
+		overlayAxis.setTitlePosition( Position.RIGHT_LITERAL );
+		overlayAxis.getTitle( )
+				.getCaption( )
+				.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
+		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
 
-			public Object run( )
+		// Retain the first series of the axis. Remove others
+		if ( overlayAxis.getSeriesDefinitions( ).size( ) > 1 )
+		{
+			EList list = overlayAxis.getSeriesDefinitions( );
+			for ( int i = list.size( ) - 1; i > 0; i-- )
 			{
-				// Create a clone of the existing Y Axis
-				Axis yAxis = (Axis) ( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-						.get( 0 );
-				Axis overlayAxis = (Axis) EcoreUtil.copy( yAxis );
-				// Now update overlay axis to set the properties that are
-				// different from
-				// the original
-				overlayAxis.setPrimaryAxis( false );
-				overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
-						null ) );
-				overlayAxis.setLabelPosition( Position.RIGHT_LITERAL );
-				overlayAxis.setTitlePosition( Position.RIGHT_LITERAL );
-				overlayAxis.getTitle( )
-						.getCaption( )
-						.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
-				overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
-
-				// Retain the first series of the axis. Remove others
-				if ( overlayAxis.getSeriesDefinitions( ).size( ) > 1 )
-				{
-					EList list = overlayAxis.getSeriesDefinitions( );
-					for ( int i = list.size( ) - 1; i > 0; i-- )
-					{
-						list.remove( i );
-					}
-				}
-
-				// Update overlay series definition(retain the group query,
-				// clean the data query)
-				SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-						.get( 0 );
-				EList dds = sdOverlay.getDesignTimeSeries( )
-						.getDataDefinition( );
-				for ( int i = 0; i < dds.size( ); i++ )
-				{
-					( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
-				}
-
-				// Update the sample values for the new overlay series
-				SampleData sd = chartModel.getSampleData( );
-				// Create a new OrthogonalSampleData instance from the existing
-				// one
-				int currentSize = sd.getOrthogonalSampleData( ).size( );
-				OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
-						.getOrthogonalSampleData( )
-						.get( 0 ) );
-				sdOrthogonal.setDataSetRepresentation( ChartUIUtil.getNewSampleData( overlayAxis.getType( ) ) );
-				sdOrthogonal.setSeriesDefinitionIndex( currentSize );
-				sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
-				sd.getOrthogonalSampleData( ).add( sdOrthogonal );
-				return overlayAxis;
+				list.remove( i );
 			}
-		} );
+		}
+
+		// Update overlay series definition(retain the group query,
+		// clean the data query)
+		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+				.get( 0 );
+		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
+		for ( int i = 0; i < dds.size( ); i++ )
+		{
+			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
+		}
+
+		// Update the sample values for the new overlay series
+		SampleData sd = chartModel.getSampleData( );
+		// Create a new OrthogonalSampleData instance from the existing
+		// one
+		int currentSize = sd.getOrthogonalSampleData( ).size( );
+		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
+				.getOrthogonalSampleData( )
+				.get( 0 ) );
+		sdOrthogonal.setDataSetRepresentation( ChartUIUtil.getNewSampleData( overlayAxis.getType( ) ) );
+		sdOrthogonal.setSeriesDefinitionIndex( currentSize );
+		sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
+		// ------------------End
+		ChartAdapter.endIgnoreNotifications( );
 
 		( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.add( overlayAxis );
@@ -888,36 +858,31 @@ public class ChartUIUtil
 			return;
 		}
 
-		ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-			public Object run( )
+		ChartAdapter.beginIgnoreNotifications( );
+		// Ensure one primary axis existent
+		Axis oldPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
+				axisIndex );
+		if ( oldPrimaryAxis.isPrimaryAxis( ) )
+		{
+			int yAxisSize = getOrthogonalAxisNumber( chartModel );
+			Axis newPrimaryAxis = null;
+			if ( axisIndex + 1 < yAxisSize )
 			{
-				// Ensure one primary axis existent
-				Axis oldPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
-						axisIndex );
-				if ( oldPrimaryAxis.isPrimaryAxis( ) )
-				{
-					int yAxisSize = getOrthogonalAxisNumber( chartModel );
-					Axis newPrimaryAxis = null;
-					if ( axisIndex + 1 < yAxisSize )
-					{
-						newPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
-								axisIndex + 1 );
-					}
-					else
-					{
-						newPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
-								0 );
-					}
-					// Retain the properties of primary axis
-					newPrimaryAxis.setPrimaryAxis( true );
-					newPrimaryAxis.setOrigin( oldPrimaryAxis.getOrigin( ) );
-					newPrimaryAxis.setLabelPosition( oldPrimaryAxis.getLabelPosition( ) );
-					newPrimaryAxis.setTitlePosition( oldPrimaryAxis.getTitlePosition( ) );
-				}
-				return null;
+				newPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
+						axisIndex + 1 );
 			}
-		} );
+			else
+			{
+				newPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
+						0 );
+			}
+			// Retain the properties of primary axis
+			newPrimaryAxis.setPrimaryAxis( true );
+			newPrimaryAxis.setOrigin( oldPrimaryAxis.getOrigin( ) );
+			newPrimaryAxis.setLabelPosition( oldPrimaryAxis.getLabelPosition( ) );
+			newPrimaryAxis.setTitlePosition( oldPrimaryAxis.getTitlePosition( ) );
+		}
+		ChartAdapter.endIgnoreNotifications( );
 
 		// Remove the orthogonal axis
 		getAxisXForProcessing( (ChartWithAxes) chartModel ).getAssociatedAxes( )
