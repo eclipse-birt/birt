@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -586,8 +586,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private String getColumnRefExpression( String expr )
 	{
-		return "row[\""
-				+ JavascriptEvalUtil.transformToJsConstants( expr ) + "\"]";
+		return ExpressionUtil.createJSRowExpression( expr );
 	}
 
 	void setParentExecutorHelper( IExecutorHelper helper )
