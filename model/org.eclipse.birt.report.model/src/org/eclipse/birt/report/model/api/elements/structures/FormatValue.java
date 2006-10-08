@@ -11,34 +11,35 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Structure;
 
 public abstract class FormatValue extends Structure
 {
 
 	/**
-	 * Name of the config variable name member.
+	 * Name of the config variable category member.
 	 */
 
 	public static final String CATEGORY_MEMBER = "category"; //$NON-NLS-1$
 
 	/**
-	 * Name of the config variable value member.
+	 * Name of the config variable pattern member.
 	 */
 
 	public static final String PATTERN_MEMBER = "pattern"; //$NON-NLS-1$
 
 	/**
-	 * The config variable name.
+	 * The config variable category.
 	 */
 
-	private String name = null;
+	private String category = null;
 
 	/**
-	 * The config variable value.
+	 * The config variable pattern.
 	 */
 
-	private String value = null;
+	private String pattern = null;
 
 	/*
 	 * (non-Javadoc)
@@ -49,9 +50,9 @@ public abstract class FormatValue extends Structure
 	protected Object getIntrinsicProperty( String memberName )
 	{
 		if ( CATEGORY_MEMBER.equals( memberName ) )
-			return name;
+			return category;
 		if ( PATTERN_MEMBER.equals( memberName ) )
-			return value;
+			return pattern;
 
 		assert false;
 		return null;
@@ -67,9 +68,9 @@ public abstract class FormatValue extends Structure
 	protected void setIntrinsicProperty( String memberName, Object value )
 	{
 		if ( CATEGORY_MEMBER.equals( memberName ) )
-			name = (String) value;
+			category = (String) value;
 		else if ( PATTERN_MEMBER.equals( memberName ) )
-			this.value = (String) value;
+			this.pattern = (String) value;
 		else
 			assert false;
 	}
@@ -119,5 +120,21 @@ public abstract class FormatValue extends Structure
 	{
 		setProperty( PATTERN_MEMBER, value );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+
+	public String toString( )
+	{
+		if ( ! StringUtil.isEmpty( pattern ) )
+			return pattern;
+		if( ! StringUtil.isEmpty( category ) )
+			return category;
+		return ""; //$NON-NLS-1$
+	}
+
 
 }
