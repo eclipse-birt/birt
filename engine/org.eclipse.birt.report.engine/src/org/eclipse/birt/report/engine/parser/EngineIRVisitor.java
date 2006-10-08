@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.127 $ $Date: 2006/09/21 10:11:48 $
+ * @version $Revision: 1.128 $ $Date: 2006/09/26 10:15:18 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -2541,6 +2541,11 @@ class EngineIRVisitor extends DesignVisitor
 		addReportDefaultPropertyValue( Style.PADDING_BOTTOM_PROP, handle );
 		addReportDefaultPropertyValue( Style.PADDING_RIGHT_PROP, handle );
 
+		//Format
+		addReportDefaultPropertyValue( Style.STRING_FORMAT_PROP, handle );
+		addReportDefaultPropertyValue( Style.NUMBER_FORMAT_PROP, handle );
+		addReportDefaultPropertyValue( Style.DATE_TIME_FORMAT_PROP, handle );
+		
 		report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
 
 	}
