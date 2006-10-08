@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -30,7 +31,6 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -46,7 +46,10 @@ public final class DataTypeUtil
 	private static ULocale DEFAULT_LOCALE = ULocale.US;
 
 	// cache DateFormatter of ICU
-	private static Map dfMap = DateFormatUtil.getAllDateFormatter();
+	private static Map dfMap = new HashMap( );
+	
+	// Default Date/Time Style
+	private static int DEFAULT_DATE_STYLE = DateFormat.FULL;
 
 	// resource bundle for exception messages 
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getResourceBundle( );
@@ -474,9 +477,9 @@ public final class DataTypeUtil
 		boolean existTime = source.matches( ".*[0-9]+:[0-9]+:[0-9]+.*" )
 				|| source.matches( ".*[0-9]+:[0-9]+.*" );
 
-		for ( int i = DateFormatUtil.DEFAULT_DATE_STYLE; i <= DateFormat.SHORT; i++ )
+		for ( int i = DEFAULT_DATE_STYLE; i <= DateFormat.SHORT; i++ )
 		{
-			for ( int j = DateFormatUtil.DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
+			for ( int j = DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
 			{
 				dateFormat = DateFormatHolder.getDateTimeInstance( i, j, locale );
 				try
@@ -1131,8 +1134,8 @@ public final class DataTypeUtil
 class DateFormatHolder
 {
 	//
-	private static Map dateTimeFormatholder = DateFormatUtil.getAllDateTimeFormat( );
-	private static Map dateFormatHolder = DateFormatUtil.getAllDateFormat( );
+	private static Map dateTimeFormatholder = new HashMap( );
+	private static Map dateFormatHolder =  new HashMap( );
 
 	/**
 	 * 
@@ -1152,10 +1155,16 @@ class DateFormatHolder
 	public static DateFormat getDateTimeInstance( int dateStyle, int timeStyle,
 			ULocale locale )
 	{
-		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,timeStyle,locale) ;
-		String key = String.valueOf( dateStyle )
-				+ ":" + String.valueOf( timeStyle ) + ":" + locale.getName( );
-		DateFormat result = (DateFormat) dateTimeFormatholder.get( key );
+		Integer key = new Integer( locale.getName( ).hashCode( ) * 25 + dateStyle * 5 + timeStyle );
+		DateFormat result = null;
+		try
+		{
+			result = (DateFormat) dateTimeFormatholder.get( key );
+		}
+		catch ( Exception e )
+		{
+			result = null;
+		}
 		
 		//This code block is added to solve the problem that the uncached datetimeformatter being used	
 		if ( result == null )
@@ -1185,9 +1194,16 @@ class DateFormatHolder
 	 */
 	public static DateFormat getDateInstance( int dateStyle, ULocale locale )
 	{
-		String key = String.valueOf( dateStyle ) + ":" + locale.getName( );
-		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,0,locale) ;
-		DateFormat result = (DateFormat) dateFormatHolder.get( key );
+		Integer key = new Integer( locale.getName( ).hashCode( ) * 5 + dateStyle );
+		DateFormat result = null;
+		try
+		{
+			result = (DateFormat) dateFormatHolder.get( key );
+		}
+		catch ( Exception e )
+		{
+			result = null;
+		}
 		
 		//This code block is added to solve the problem that the uncached datetimeformatter being used	
 		if ( result == null )
