@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart;
@@ -21,7 +20,6 @@ import junit.framework.TestCase;
 
 /**
  * Base chart test case.
- * 
  */
 public class ChartTestCase extends TestCase
 {
@@ -41,7 +39,7 @@ public class ChartTestCase extends TestCase
 		super.setUp( );
 
 		// make the output directory.
-		
+
 		File outputFolder = new File( this.getClassFolder( ) + OUTPUT_FOLDER );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -155,4 +153,20 @@ public class ChartTestCase extends TestCase
 		return className;
 	}
 
+	/**
+	 * Locates the folder where the unit test java source file is saved, used
+	 * in standalone test case.
+	 * 
+	 * @return the path name where the test java source file locates.
+	 */
+
+	protected String getClassFolder2( )
+	{
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+		className = TEST_FOLDER + className.replace( '.', '/' );
+
+		return className;
+	}
 }
