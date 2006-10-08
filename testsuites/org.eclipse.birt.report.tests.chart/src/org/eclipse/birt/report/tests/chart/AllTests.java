@@ -169,6 +169,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_144511.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_76914.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_78746.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_148393.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150475.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_152127.class );
 		
 		return suite;
 		/*
