@@ -13,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,6 +33,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  * Update Birt feature.xml during nightly build, specify a directory that
  * contains a "feature.xml" under it, also specify the directory of the plugin
@@ -80,15 +81,27 @@ public class FeatureUpdater extends Task
 {
 
 	File featureDir = null;
-
+	
+	File featureHome = null;
+	
 	File pluginDir = null;
-
+	
 	String timeStamp = null;
 
 	String packageId = null;
 
 	File featureXML = null;
-
+	
+	Date maxBuildId = null;
+	
+	Date tmpBuildId = null;
+	
+	String tmpBuildIdStr = null;
+	
+	String maxBuildIdStr = null;
+	
+	SimpleDateFormat fullfmt = new SimpleDateFormat("'.v'yyyyMMdd-hhmm");
+	
 	final static String VERSION_PLACEHOLDER = "0.0.0"; //$NON-NLS-1$
 
 	/**
@@ -135,7 +148,11 @@ public class FeatureUpdater extends Task
 	{
 		this.pluginDir = pluginDir;
 	}
-
+	
+	public void setFeatureDir( File featureDir )
+	{
+		this.featureHome = featureDir;
+	}
 	/**
 	 * Set the timestamp, feature.xml will be updated with the given time stamp.
 	 * 
@@ -173,11 +190,16 @@ public class FeatureUpdater extends Task
 		this.parseFeature( featureXML );
 
 		// build a map that maps plugin id to the new version number.
-
+		
 		this.buildVersions( );
 
 		// finally, we use the new version map to update the feature.xml.
-
+		try{
+			this.maxBuildId = fullfmt.parse(".v20060101-0000");
+		}
+		catch(Exception e){
+			throw new BuildException("Init maxBuildId fail" ); //$NON-NLS-1$
+		}
 		this.updateFeature( );
 		this.sanityCheck( );
 	}
@@ -341,9 +363,69 @@ public class FeatureUpdater extends Task
 		}
 
 	}
+	void setMaxBuildId(String buildId,String id){
+		
+		System.out.println("max build id:" + maxBuildId);
+		int QualiPos;
+		QualiPos = buildId.lastIndexOf(".");
+		tmpBuildIdStr = buildId.substring(QualiPos);
+		System.out.println("tmpBuildIdStr:" + tmpBuildIdStr);
+		try{
+			tmpBuildId = fullfmt.parse( tmpBuildIdStr );
+		}
+		catch(Exception e){
+			throw new BuildException( "Error timestamp format in plugin" + id ); //$NON-NLS-1$
+		}
+		if(tmpBuildId.after(maxBuildId)){
+			maxBuildId = tmpBuildId;
+			maxBuildIdStr = tmpBuildIdStr;
+			handleErrorOutput( "Newest Build Id is " + tmpBuildId ); //$NON-NLS-1$
+		}
+	}
+	
 
-	void updateFeature( )
-	{
+	private String getIncludedFeatureVersion( String featureId ){
+		String filename = "feature.xml";
+		String featurePath = featureHome.getAbsolutePath() + File.separator + featureId
+			+ File.separator + filename;
+		System.out.println("feature path:" + "[" + featurePath + "]");
+		File fFeature = new File(featurePath);
+		DocumentBuilder builder = null;
+		Document doc = null;
+		
+		try
+		{
+			builder = DocumentBuilderFactory.newInstance( )
+					.newDocumentBuilder( );
+			doc = builder.parse( fFeature );
+		}
+		catch ( Exception e )
+		{
+			handleErrorOutput( "Error occur when parsing feature file: " + fFeature ); //$NON-NLS-1$
+			e.printStackTrace( );
+
+			throw new BuildException( e );
+		}
+		
+		List matchingNodes = new ArrayList( );
+		NodeList features = doc.getElementsByTagName( "feature" ); //$NON-NLS-1$
+		if ( null == features || features.getLength( ) != 1 ){
+			handleOutput( "Wrong feature.xml files, not feature tag or more than one feature tag includes." ); //$NON-NLS-1$
+		}
+		if ( features == null ){
+			return "";
+		}
+		Node featureNode = features.item( 0 ); // get the first node.
+		
+		String version = featureNode.getAttributes().getNamedItem( "version" ).getNodeValue( ); 
+		if ( version != null && !version.equals("")) {
+			return version;
+		}
+		return "";
+	}
+	
+	private void updateFeature(){
+		
 		StringBuffer sb = new StringBuffer( );
 		BufferedReader reader = null;
 		String line = null;
@@ -377,7 +459,8 @@ public class FeatureUpdater extends Task
 		sb = new StringBuffer( );
 		while ( qualifierMatcher.find( ) )
 		{
-			qualifierMatcher.appendReplacement( sb, this.timeStamp );
+			//qualifierMatcher.appendReplacement( sb, this.timeStamp );
+			qualifierMatcher.appendReplacement( sb, ".qualifier" );
 		}
 		qualifierMatcher.appendTail( sb );
 
@@ -443,22 +526,35 @@ public class FeatureUpdater extends Task
 			String tmpTimeStamp = tmpPrefix.concat( timeStamp);
 			
 			if( value.indexOf("<includes")!=-1){
-					sb.replace( version_start, version_end, "version=\"" + tmpTimeStamp
+					String includeID = getIncludedFeatureVersion(id);
+					sb.replace( version_start, version_end, "version=\"" + includeID
 					+ "\"" );
+					setMaxBuildId(includeID,id);
 			} else{
 					sb.replace( version_start, version_end, "version=\"" + version
 					+ "\"" );
+					setMaxBuildId(version,id);
 
 			}
 			handleOutput( "Update [" + id + "]  with: " + "version=\""
 					+ version + "\"" );
 		}
-
+		/*
+		Matcher qualifierMatcher1 = Pattern.compile( ".qualifier" ).matcher( sb );
+		sb = new StringBuffer( );
+		while ( qualifierMatcher1.find( ) )
+		{
+			//qualifierMatcher.appendReplacement( sb, this.timeStamp );
+			System.out.println("qualifier was replaced to " + maxBuildIdStr);
+			
+		}
+		*/
 		BufferedWriter writer = null;
 		try
 		{
 			writer = new BufferedWriter( new FileWriter( featureXML ) );
-			writer.write( sb.toString( ) );
+			String resultXML = sb.toString();
+			writer.write( resultXML.replaceAll(".qualifier", maxBuildIdStr) );
 		}
 		catch ( IOException e )
 		{
