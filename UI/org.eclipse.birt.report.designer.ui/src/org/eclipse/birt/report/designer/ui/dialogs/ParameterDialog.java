@@ -103,7 +103,9 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_NAME = Messages.getString( "ParameterDialog.Label.Name" ); //$NON-NLS-1$
 
-	private static final String LABEL_DATETIME_PROMPT = Messages.getString( "ParameterDialog.Label.DateTImePrompt" ); //$NON-NLS-1$
+	// private static final String LABEL_DATETIME_PROMPT = Messages.getString( "ParameterDialog.Label.DateTImePrompt" ); //$NON-NLS-1$
+	
+	private static final String LABEL_DATETIME_PROMPT = "Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM"; //$NON-NLS-1$
 
 	private static final String LABEL_PROMPT_TEXT = Messages.getString( "ParameterDialog.Label.PromptText" ); //$NON-NLS-1$
 
