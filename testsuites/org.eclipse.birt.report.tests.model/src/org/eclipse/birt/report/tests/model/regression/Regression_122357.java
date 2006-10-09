@@ -44,7 +44,9 @@ public class Regression_122357 extends BaseTestCase
 	private static String INPUT = "Regression_122357.xml"; //$NON-NLS-1$
 	private static String LIB = "regression_122357_exportlib.xml"; //$NON-NLS-1$
 
-
+	protected void setUp( ) throws Exception
+	{
+	}
 
 	/**
 	 * @throws DesignFileException
