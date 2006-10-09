@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -229,7 +230,7 @@ public class OdaDataSetState extends SimpleDataSetState
 	{
 		super.end( );
 
-		OdaDataSet tmpElement = (OdaDataSet)getElement( );
+		OdaDataSet tmpElement = (OdaDataSet) getElement( );
 		doCompatibleDataSetProperty( tmpElement );
 		mergeResultSetAndResultSetHints( tmpElement );
 		doCompatibleRemoveResultSetProperty( tmpElement );
@@ -240,7 +241,8 @@ public class OdaDataSetState extends SimpleDataSetState
 		if ( refTemplateParam == null )
 			return;
 
-		OdaDataSet refDefaultElement = (OdaDataSet)refTemplateParam.getDefaultElement( );
+		OdaDataSet refDefaultElement = (OdaDataSet) refTemplateParam
+				.getDefaultElement( );
 		doCompatibleDataSetProperty( refDefaultElement );
 		mergeResultSetAndResultSetHints( refDefaultElement );
 		doCompatibleRemoveResultSetProperty( refDefaultElement );
@@ -357,11 +359,22 @@ public class OdaDataSetState extends SimpleDataSetState
 			// use both position and name to match, this can avoid position was
 			// not matched and the column name existed already.
 
-			OdaResultSetColumn currentColumn = findResultSet( resultSets, hint
-					.getColumnName( ), hint.getPosition( ) );
+			OdaResultSetColumn currentColumn = null;
+
+			if ( resultSets != null )
+				currentColumn = findResultSet( resultSets,
+						hint.getColumnName( ), hint.getPosition( ) );
+
 			if ( currentColumn == null )
 			{
 				currentColumn = convertResultSetColumnToOdaResultSetColumn( hint );
+
+				if ( resultSets == null )
+				{
+					resultSets = new ArrayList( );
+					dataSet.setProperty( IDataSetModel.RESULT_SET_PROP,
+							resultSets );
+				}
 				resultSets.add( currentColumn );
 			}
 			else
