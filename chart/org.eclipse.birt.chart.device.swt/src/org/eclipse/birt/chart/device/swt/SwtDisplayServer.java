@@ -70,7 +70,8 @@ public final class SwtDisplayServer extends DisplayAdapter
 						new Object[]{
 								SWT.getPlatform( ),
 								new Integer( SWT.getVersion( ) )
-						}, getULocale( ) ) );
+						},
+						getULocale( ) ) );
 	}
 
 	/*
@@ -112,7 +113,13 @@ public final class SwtDisplayServer extends DisplayAdapter
 	{
 		if ( iDpiResolution == 0 )
 		{
-			iDpiResolution =_d.getDPI( ).x; 
+			( (Display) _d ).syncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					iDpiResolution = _d.getDPI( ).x;
+				}
+			} );
 		}
 		return iDpiResolution;
 	}
@@ -121,6 +128,7 @@ public final class SwtDisplayServer extends DisplayAdapter
 	{
 		iDpiResolution = dpi;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
