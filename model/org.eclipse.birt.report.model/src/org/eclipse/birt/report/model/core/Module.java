@@ -1482,6 +1482,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            <ul>
 	 *            <li><code>IResourceLocator.IMAGE</code>
 	 *            <li><code>IResourceLocator.LIBRARY</code>
+	 *            <li><code>IResourceLocator.MESSAGEFILE</code>
 	 *            </ul>
 	 *            Any invalid value will be treated as
 	 *            <code>IResourceLocator.IMAGE</code>.
@@ -1982,8 +1983,10 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getIncludedLibraries( )
 	{
-		return Collections.unmodifiableList( (List) getLocalProperty( this,
-				LIBRARIES_PROP ) );
+		List libs = (List) getLocalProperty( this, LIBRARIES_PROP );
+		if ( libs == null )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( libs );
 	}
 
 	/**
@@ -2224,7 +2227,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 							.getID( ) ) != element ) )
 			{
 				element.setID( getNextID( ) );
-				assert getElementByID( element.getID( ) ) == null;
 			}
 
 			if ( getElementByID( element.getID( ) ) == null )
@@ -2273,6 +2275,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public IncludedLibrary findIncludedLibrary( String namespace )
 	{
 		List libs = getIncludedLibraries( );
+		if ( libs == null )
+			return null;
 
 		IncludedLibrary includedItem = null;
 		for ( int i = 0; i < libs.size( ); i++ )

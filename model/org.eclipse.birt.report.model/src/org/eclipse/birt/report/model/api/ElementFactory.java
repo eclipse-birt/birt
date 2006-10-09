@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.lang.reflect.Constructor;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -50,6 +49,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -58,6 +58,8 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Creates a new report elements and returns handles to it. Use this to create
@@ -115,40 +117,11 @@ public class ElementFactory
 			return newExtensionElement( elementTypeName, name );
 		}
 
-		String javaClass = elemDefn.getJavaClass( );
-		if ( javaClass == null )
+		DesignElement element = ModelUtil.newElement( module, elementTypeName,
+				name );
+		if ( element == null )
 			return null;
-
-		try
-		{
-			Class c = Class.forName( javaClass );
-			DesignElement element = null;
-
-			try
-			{
-				Constructor constructor = c
-						.getConstructor( new Class[]{String.class} );
-				element = (DesignElement) constructor
-						.newInstance( new String[]{name} );
-				module.makeUniqueName( element );
-
-				return element.getHandle( module );
-			}
-			catch ( NoSuchMethodException e1 )
-			{
-				element = (DesignElement) c.newInstance( );
-				return element.getHandle( module );
-			}
-
-		}
-		catch ( Exception e )
-		{
-			// Impossible.
-
-			assert false;
-		}
-
-		return null;
+		return element.getHandle( module );
 	}
 
 	/**
@@ -223,7 +196,7 @@ public class ElementFactory
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}
-	
+
 	/**
 	 * Creates a new specialfield item.
 	 * 
@@ -940,7 +913,9 @@ public class ElementFactory
 			Library lib = module.getLibraryByLocation( root.getLocation( ) );
 			if ( lib == null )
 			{
-				throw new InvalidParentException( null, baseElement.getElement( ),
+				throw new InvalidParentException(
+						null,
+						baseElement.getElement( ),
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE );
 			}
 
@@ -952,7 +927,9 @@ public class ElementFactory
 			if ( base == null
 					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
 			{
-				throw new InvalidParentException( null, baseElement.getName( ),
+				throw new InvalidParentException(
+						null,
+						baseElement.getName( ),
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
@@ -986,10 +963,11 @@ public class ElementFactory
 		if ( baseElement instanceof ExtendedItemHandle )
 		{
 			String extensionName = baseElement
-					.getStringProperty( ExtendedItem.EXTENSION_NAME_PROP );
+					.getStringProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
 			childElement = newExtendedItem( name, extensionName,
 					(ExtendedItemHandle) baseElement );
-			childElement.getElement( ).refreshStructureFromParent( module );
+			ElementStructureUtil.refreshStructureFromParent( module,
+					childElement.getElement( ) );
 		}
 		else
 		{
@@ -1009,7 +987,8 @@ public class ElementFactory
 						extensionId );
 			}
 			childElement.setExtends( baseElement );
-			childElement.getElement( ).refreshStructureFromParent( module );
+			ElementStructureUtil.refreshStructureFromParent( module,
+					childElement.getElement( ) );
 			renameForVirtualElements( childElement.getElement( ) );
 		}
 

@@ -382,4 +382,18 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		return ModelUtil.isValidReferenceForCompoundElement( getModule( ),
 				element );
 	}
+
+	/**
+	 * Checks whether the compound element is valid. If a table/grid has no
+	 * rows/columns, it is invalid. If the table has overlapped areas, it is
+	 * invalid.
+	 * 
+	 * @return <code>true</code> if the compound element is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isValidLayoutForCompoundElement( )
+	{
+		return ModelUtil.isValidLayout( getModule( ), element );
+	}
 }

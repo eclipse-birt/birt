@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -151,7 +152,7 @@ public class LayoutUtil
 
 		int rowId = cell.getContainer( ).getContainerSlotHandle( ).findPosn(
 				cell.getContainer( ) );
-		LayoutRow layoutRow = (LayoutRow) layoutSlot.getLayoutRow( rowId );
+		LayoutRow layoutRow = layoutSlot.getLayoutRow( rowId );
 
 		int columnPosn = layoutRow
 				.findCellColumnPos( (Cell) cell.getElement( ) );
@@ -196,7 +197,7 @@ public class LayoutUtil
 
 		for ( int i = rowId; i < layoutSlot.getRowCount( ); i++ )
 		{
-			LayoutRow layoutRow = (LayoutRow) layoutSlot.getLayoutRow( i );
+			LayoutRow layoutRow = layoutSlot.getLayoutRow( i );
 			LayoutCell layoutCell = layoutRow.getLayoutCell( cell );
 			if ( layoutCell == null )
 				break;
@@ -246,4 +247,50 @@ public class LayoutUtil
 		return null;
 	}
 
+	/**
+	 * Checks whether the layout table is valid or not. The invalid table has
+	 * following cases:
+	 * <ul>
+	 * <li>has overlapped area.
+	 * <li>column counts in rows are different.
+	 * <li>empty rows and columns.
+	 * </ul>
+	 * 
+	 * @param table
+	 *            the table
+	 * @param module
+	 *            the root of the table
+	 * @return <code>true</code> if the table is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public static boolean isValidLayout( TableItem table, Module module )
+	{
+		LayoutTable layout = table.getLayoutModel( module );
+		assert layout != null;
+
+		int columnCount = layout.getColumnCount( );
+
+		if ( columnCount == 0 )
+			return false;
+
+		if ( layout.hasOverlappedArea( ) )
+			return false;
+
+		List slots = getFlattenedLayoutSlots( layout );
+		for ( int i = 0; i < slots.size( ); i++ )
+		{
+			LayoutSlot slot = (LayoutSlot) slots.get( i );
+			for ( int j = 0; j < slot.getRowCount( ); j++ )
+			{
+				LayoutRow row = slot.getLayoutRow( j );
+				if ( row == null )
+					continue;
+
+				if ( row.getOccupiedColumnCount( ) != columnCount )
+					return false;
+			}
+		}
+		return true;
+	}
 }

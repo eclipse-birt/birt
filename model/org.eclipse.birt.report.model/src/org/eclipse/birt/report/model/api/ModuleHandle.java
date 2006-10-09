@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
@@ -63,6 +64,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -2003,11 +2005,26 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibraries( ) throws SemanticException,
 			DesignFileException
 	{
-		for ( Iterator iter = getLibraries( ).iterator( ); iter.hasNext( ); )
+		List libs = getListProperty( ReportDesign.LIBRARIES_PROP );
+		if ( libs == null || libs.isEmpty( ) )
+			return;
+		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			LibraryHandle library = (LibraryHandle) iter.next( );
-			reloadLibrary( library );
+			IncludedLibrary lib = (IncludedLibrary) libs.get( i );
+			Library includeLib = module.getLibraryWithNamespace( lib
+					.getNamespace( ) );
+			if ( includeLib != null )
+				reloadLibrary( includeLib.handle( ) );
+			else
+			{
+				LibraryCommand cmd = new LibraryCommand( module );
+				cmd
+						.reloadLibrary( lib.getFileName( ), lib
+								.getNamespace( ) );
+			}
+
 		}
+
 	}
 
 	/**
@@ -2224,12 +2241,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Returns the <code>URL</code> object if the file with
 	 * <code>fileName</code> exists. This method takes the following search
 	 * steps:
+	 * 
 	 * <ul>
+	 * If file type is MESSAGEFILE ,
+	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
+	 * in session. And Now just deal with relative file name.
+	 * 
+	 * <ul>
+	 * If file type isnot MESSAGEFILE,
 	 * <li>Search file taking <code>fileName</code> as absolute file name;
 	 * <li>Search file taking <code>fileName</code> as relative file name and
 	 * basing "base" property of report design;
 	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
-	 * in session.
+	 * in session
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -2239,6 +2263,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            <ul>
 	 *            <li><code>IResourceLocator.IMAGE</code>
 	 *            <li><code>IResourceLocator.LIBRARY</code>
+	 *            <li><code>IResourceLocator.MESSAGEFILE</code>
 	 *            </ul>
 	 *            Any invalid value will be treated as
 	 *            <code>IResourceLocator.IMAGE</code>.
@@ -2691,14 +2716,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Shifts jar file from source position to destination position. For
 	 * example, if a list has A, B, C scriptLib in order, when move A scriptLib
-	 * to <code>newPosn</code> with the value 2, the sequence becomes B, A, C.
+	 * to <code>newPosn</code> with the value 1, the sequence becomes B, A, C.
 	 * 
 	 * @param sourceIndex
 	 *            source position. The range is
-	 *            <code>sourceIndex &lt; 0 || sourceIndex &gt;= list.size()</code>
+	 *            <code>sourceIndex &gt;= 0 && sourceIndex &lt; list.size()</code>
 	 * @param destIndex
 	 *            destination position.The range is
-	 *            <code> destIndex &lt; 0 || destIndex &gt;= list.size()</code>
+	 *            <code> destIndex &gt;= 0 && destIndex &lt; list.size()</code>
 	 * @throws SemanticException
 	 */
 

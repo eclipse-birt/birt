@@ -68,7 +68,6 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ContentIterator;
-import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
@@ -843,31 +842,6 @@ public abstract class DesignElement
 	public final boolean isVirtualElement( )
 	{
 		return baseId != NO_BASE_ID;
-	}
-
-	/**
-	 * Copied the structure from the parent element to the element itself. Local
-	 * properties of the contents will all be cleared.Please note that the
-	 * containment relationship is kept while property values of the content
-	 * elements are not copied.
-	 * 
-	 * @param module
-	 *            the module
-	 * 
-	 * @return <code>true</code> if the refresh action is successful.
-	 *         <code>false</code> othersize.
-	 * 
-	 */
-
-	public boolean refreshStructureFromParent( Module module )
-	{
-		DesignElement parent = getExtendsElement( );
-		if ( parent == null )
-			return false;
-
-		// Copies top level slots from cloned element to the target element.
-
-		return ElementStructureUtil.updateStructureFromParent( this, parent );
 	}
 
 	/**
@@ -1930,6 +1904,17 @@ public abstract class DesignElement
 	public boolean hasLocalPropertyValues( )
 	{
 		return !propValues.isEmpty( );
+	}
+
+	/**
+	 * Returns names of properties that have local values.
+	 * 
+	 * @return an iterator for property names.
+	 */
+
+	public Iterator propertyWithLocalValueIterator( )
+	{
+		return propValues.keySet( ).iterator( );
 	}
 
 	/**

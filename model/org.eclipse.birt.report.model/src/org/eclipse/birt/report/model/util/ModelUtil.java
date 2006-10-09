@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -53,9 +55,11 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -64,6 +68,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -84,134 +89,6 @@ import com.ibm.icu.util.ULocale;
 
 public class ModelUtil
 {
-
-	/**
-	 * Returns the id reference relationship between the parent element and the
-	 * child element.
-	 * <p>
-	 * Notice: the element and its parent should have the same structure when
-	 * calling this method. That is the child structure has already been
-	 * refreshed from parent.
-	 * 
-	 * @param element
-	 *            the element to setup the id reference
-	 * @return a map to store the base id and the corresponding child element.
-	 */
-
-	public static Map getIdMap( DesignElement element )
-	{
-		assert element != null;
-
-		// Parent and the child must have the same structures.
-
-		DesignElement parent = element.getExtendsElement( );
-		if ( parent == null )
-			return Collections.EMPTY_MAP;
-
-		Map idMap = new HashMap( );
-
-		Iterator parentIter = new ContentIterator( parent );
-		Iterator childIter = new ContentIterator( element );
-		while ( childIter.hasNext( ) )
-		{
-			DesignElement virtualParent = (DesignElement) parentIter.next( );
-			DesignElement virtualChild = (DesignElement) childIter.next( );
-
-			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
-					.getName( );
-			assert virtualParent.getID( ) > 0;
-
-			idMap.put( new Long( virtualParent.getID( ) ), virtualChild );
-		}
-
-		return idMap;
-	}
-
-	/**
-	 * Break the relationship between the given element to its parent.Set all
-	 * properties values of the given element on the element locally. The
-	 * following properties will be set:
-	 * <ul>
-	 * <li>Properties set on element itself
-	 * <li>Inherited from style or element's selector style
-	 * <li>Inherited from parent
-	 * </ul>
-	 * 
-	 * @param element
-	 *            the element to be localized.
-	 */
-
-	public static void localizeElement( DesignElement element )
-	{
-		assert element != null;
-		DesignElement parent = element.getExtendsElement( );
-		if ( parent == null )
-			return;
-
-		duplicateProperties( parent, element );
-
-		ContentIterator iter1 = new ContentIterator( parent );
-		ContentIterator iter2 = new ContentIterator( element );
-
-		while ( iter1.hasNext( ) )
-		{
-			DesignElement virtualParent = (DesignElement) iter1.next( );
-			DesignElement virtualChild = (DesignElement) iter2.next( );
-
-			duplicateProperties( virtualParent, virtualChild );
-		}
-	}
-
-	/**
-	 * Duplicates some properties in a design element when to export it.
-	 * 
-	 * @param from
-	 *            the from element to get the property values
-	 * @param to
-	 *            the to element to duplicate the property values
-	 */
-
-	private static void duplicateProperties( DesignElement from,
-			DesignElement to )
-	{
-		if ( from.getDefn( ).allowsUserProperties( ) )
-		{
-			Iterator iter = from.getUserProperties( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				UserPropertyDefn userPropDefn = (UserPropertyDefn) iter.next( );
-				to.addUserPropertyDefn( userPropDefn );
-			}
-		}
-
-		Iterator iter = from.getDefn( ).getProperties( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
-			String propName = propDefn.getName( );
-
-			// Style property and extends property will be removed.
-			// The properties inherited from style or parent will be
-			// flatten to new element.
-
-			if ( StyledElement.STYLE_PROP.equals( propName )
-					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
-					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
-							.equals( propName ) )
-				continue;
-
-			Object localValue = to.getLocalProperty( from.getRoot( ), propDefn );
-			Object parentValue = from.getStrategy( ).getPropertyFromElement(
-					from.getRoot( ), from, propDefn );
-
-			if ( localValue == null && parentValue != null )
-			{
-				Object valueToSet = ModelUtil.copyValue( propDefn, parentValue );
-				to.setProperty( propDefn, valueToSet );
-			}
-		}
-	}
 
 	/**
 	 * Duplicates the properties from source element to destination element.
@@ -793,33 +670,55 @@ public class ModelUtil
 	public static void reviseNameSpace( Module module, DesignElement content,
 			String nameSpace )
 	{
-
-		List propDefns = content.getPropertyDefns( );
-		for ( int i = 0; i < propDefns.size( ); i++ )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) propDefns
-					.get( i );
-			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
-				continue;
-
-			Object value = content.getLocalProperty( module, propDefn );
-			if ( value == null )
-				continue;
-
-			ReferenceValue refValue = (ReferenceValue) value;
-			refValue.setLibraryNamespace( nameSpace );
-		}
-
+		Iterator propNames = content.propertyWithLocalValueIterator( );
 		IElementDefn defn = content.getDefn( );
+
+		while ( propNames.hasNext( ) )
+		{
+			String propName = (String) propNames.next( );
+
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) defn
+					.getProperty( propName );
+			revisePropertyNameSpace( module, content, propDefn, nameSpace );
+		}
 
 		for ( int i = 0; i < defn.getSlotCount( ); i++ )
 		{
 			ContainerSlot slot = content.getSlot( i );
-
-			if ( slot != null )
-				for ( int pos = 0; pos < slot.getCount( ); pos++ )
-					reviseNameSpace( module, slot.getContent( pos ), nameSpace );
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+				reviseNameSpace( module, slot.getContent( pos ), nameSpace );
 		}
+	}
+
+	/**
+	 * Uses the new name space of the current module for reference property
+	 * values of the given element. This method checks the <code>content</code>
+	 * and nested elements in it.
+	 * 
+	 * @param module
+	 *            the module that <code>content</code> attaches.
+	 * @param content
+	 *            the element to revise
+	 * @param propDefn
+	 * @param nameSpace
+	 *            the new name space
+	 */
+
+	public static void revisePropertyNameSpace( Module module,
+			DesignElement content, IElementPropertyDefn propDefn,
+			String nameSpace )
+	{
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getTypeCode( ) != IPropertyType.EXTENDS_TYPE )
+			return;
+
+		Object value = content.getLocalProperty( module,
+				(ElementPropertyDefn) propDefn );
+		if ( value == null )
+			return;
+
+		ReferenceValue refValue = (ReferenceValue) value;
+		refValue.setLibraryNamespace( nameSpace );
 	}
 
 	/**
@@ -1113,6 +1012,8 @@ public class ModelUtil
 	 * 
 	 * @return <code>true</code> if the compound element is valid. Otherwise
 	 *         <code>false</code>.
+	 * 
+	 * @deprecated
 	 */
 
 	public static boolean isValidReferenceForCompoundElement( Module module,
@@ -1139,5 +1040,121 @@ public class ModelUtil
 		}
 
 		return true;
+	}
+
+	/**
+	 * Checks whether the compound element is valid.
+	 * <p>
+	 * If the table/grid has no rows and columns, its layout is invalid.
+	 * 
+	 * @param module
+	 *            the root module of the element
+	 * @param element
+	 *            the element to check
+	 * 
+	 * @return <code>true</code> if the compound element is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public static boolean isValidLayout( Module module, DesignElement element )
+	{
+		if ( !( element instanceof ReportItem ) )
+			return true;
+
+		if ( !element.getDefn( ).isContainer( ) )
+			return true;
+
+		if ( element instanceof TableItem )
+			return LayoutUtil.isValidLayout( (TableItem) element, module );
+
+		if ( element instanceof GridItem )
+		{
+			int columnCount = ( (GridItem) element ).getColumnCount( module );
+			if ( columnCount == 0 )
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Creates a design element specified by the element type name. Element type
+	 * names are defined in rom.def or extension elements. They are managed by
+	 * the meta-data system.
+	 * 
+	 * @param module
+	 *            the module to create an element
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * 
+	 * @return design element, <code>null</code> returned if the element
+	 *         definition name is not a valid element type name.
+	 */
+
+	public static DesignElement newElement( Module module,
+			String elementTypeName, String name )
+	{
+
+		DesignElement element = newElement( elementTypeName, name );
+		if ( element != null && module != null )
+			module.makeUniqueName( element );
+		return element;
+	}
+
+	/**
+	 * Creates a design element specified by the element type name. Element type
+	 * names are defined in rom.def or extension elements. They are managed by
+	 * the meta-data system.
+	 * 
+	 * @param module
+	 *            the module to create an element
+	 * @param elementTypeName
+	 *            the element type name
+	 * @param name
+	 *            the optional element name
+	 * 
+	 * @return design element, <code>null</code> returned if the element
+	 *         definition name is not a valid element type name.
+	 */
+
+	public static DesignElement newElement( String elementTypeName, String name )
+	{
+
+		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( elementTypeName );
+
+		String javaClass = elemDefn.getJavaClass( );
+		if ( javaClass == null )
+			return null;
+
+		try
+		{
+			Class c = Class.forName( javaClass );
+			DesignElement element = null;
+
+			try
+			{
+				Constructor constructor = c
+						.getConstructor( new Class[]{String.class} );
+				element = (DesignElement) constructor
+						.newInstance( new String[]{name} );
+				return element;
+			}
+			catch ( NoSuchMethodException e1 )
+			{
+				element = (DesignElement) c.newInstance( );
+				return element;
+			}
+
+		}
+		catch ( Exception e )
+		{
+			// Impossible.
+
+			assert false;
+		}
+
+		return null;
 	}
 }

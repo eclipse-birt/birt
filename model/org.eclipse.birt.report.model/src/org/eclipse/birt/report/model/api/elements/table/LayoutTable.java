@@ -173,7 +173,7 @@ public class LayoutTable
 		LayoutRow row = slot.getLayoutRow( rowId - 1 );
 		if ( row == null )
 			return null;
-		
+
 		LayoutCell cell = row.getLayoutCell( colId - 1 );
 
 		if ( cell == null )
@@ -610,6 +610,17 @@ public class LayoutTable
 	{
 		overlappedCells.add( new OverlappedArea( cell, slot, rowPosn, colPosn,
 				rowSpanOffset, colSpanOffset ) );
+	}
+
+	/**
+	 * Checks whether the table has overlapped areas.
+	 * 
+	 * @return <code>true</code> if not have. Otherwise <code>false</code>.
+	 */
+
+	protected boolean hasOverlappedArea( )
+	{
+		return !overlappedCells.isEmpty( );
 	}
 
 	/**

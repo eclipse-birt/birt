@@ -11,17 +11,14 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
-import org.eclipse.birt.report.model.util.ContentIterator;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -62,7 +59,7 @@ class OverriddenValuesState extends AbstractParseState
 		this.handler = handler;
 
 		assert element.getExtendsElement( ) != null;
-		baseIdMap = ModelUtil.getIdMap( element );
+		baseIdMap = ElementStructureUtil.getIdMap( element );
 	}
 
 	/*

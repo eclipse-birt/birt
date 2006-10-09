@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -368,7 +369,6 @@ public abstract class ReportElementState extends DesignParseState
 
 		try
 		{
-			assert parent != null;
 			element.checkExtends( parent );
 		}
 		catch ( ExtendsException ex )
@@ -377,8 +377,8 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		element.setExtendsElement( parent );
-		element.refreshStructureFromParent( module );
-		
+		ElementStructureUtil.refreshStructureFromParent( module, element );
+
 	}
 
 	/**
@@ -588,7 +588,8 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		super.end( );
 		// if the element is a container and has extends
-		if ( getElement( ).getExtendsElement( ) != null && getElement().getDefn( ).isContainer( ) )
+		if ( getElement( ).getExtendsElement( ) != null
+				&& getElement( ).getDefn( ).isContainer( ) )
 		{
 			addTheVirualElementsToNamesapce( getElement( ) );
 		}
