@@ -579,20 +579,36 @@ public class DesignSession
 	}
 
 	/**
-	 * Creates a new design based on a template. The template name can be null
+	 * Creates a new design based on a file name. The template name can be null
 	 * if no template is desired.
 	 * 
-	 * @param templateName
-	 *            The name of the template for the design, or null if no
-	 *            template is needed.
+	 * @param fileName
+	 *            file name.
 	 * @return A handle to the report design.
 	 */
 
-	public ReportDesign createDesign( String templateName )
+	public ReportDesign createDesign( String fileName )
 	{
 		ReportDesign design = new ReportDesign( this );
 		design.setValid( true );
 		designs.add( design );
+		return design;
+	}
+
+	/**
+	 * Creates a new design based on a template file name.
+	 * 
+	 * @param templateName
+	 *            The name of the template for the design.
+	 * @return A handle to the report design.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesign createDesignFromTemplate( String templateName )
+			throws DesignFileException
+	{
+		ReportDesign design = openDesign( templateName );
 		return design;
 	}
 
