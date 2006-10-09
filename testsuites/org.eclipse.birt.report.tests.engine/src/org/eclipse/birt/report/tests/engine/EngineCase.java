@@ -111,7 +111,6 @@ public abstract class EngineCase extends TestCase
 	 * 
 	 * @param config
 	 * @return
-	 * 
 	 * @throws BirtException
 	 */
 	public IReportEngine createReportEngine( EngineConfig config )
@@ -456,13 +455,15 @@ public abstract class EngineCase extends TestCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( IMAGE_DIR );
 			HashMap appContext = new HashMap( );
-			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put(
+					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			task.setAppContext( appContext );
 		}
 
 		options.setOutputFormat( format );
-		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
+		options.getOutputSetting( ).put(
+				HTMLRenderOption.URL_ENCODING,
 				ENCODING_UTF8 );
 		task.setRenderOption( options );
 		task.run( );
@@ -555,7 +556,8 @@ public abstract class EngineCase extends TestCase
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFileName( outputFile );
 		options.setOutputFormat( format );
-		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
+		options.getOutputSetting( ).put(
+				HTMLRenderOption.URL_ENCODING,
 				encoding );
 		if ( !format.equalsIgnoreCase( "pdf" ) )
 		{
@@ -564,9 +566,11 @@ public abstract class EngineCase extends TestCase
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
-		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+		appContext.put(
+				EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
-		appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+		appContext.put(
+				EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				EngineCase.class.getClassLoader( ) );
 
 		task.setAppContext( appContext );
@@ -823,15 +827,22 @@ public abstract class EngineCase extends TestCase
 	{
 		this.locale = loc;
 	}
-	
+
 	/**
 	 * Set image folder to save rendered temp image file
 	 * 
 	 * @param imageDir
 	 *            folder to save temp image.
 	 */
-	protected void setImageDir(String imageDir){
-		IMAGE_DIR=imageDir;
+	protected void setImageDir( String imageDir )
+	{
+		IMAGE_DIR = imageDir;
+	}
+
+	protected void tearDown( ) throws Exception
+	{
+		this.engine.destroy( );
+		super.tearDown( );
 	}
 
 }
