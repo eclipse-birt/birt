@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.TextLayout;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * 
@@ -51,9 +52,17 @@ public final class SwtTextMetrics extends TextAdapter
 	 * @param _ids
 	 * @param _la
 	 */
-	public SwtTextMetrics( IDisplayServer _ids, Label _la )
+	public SwtTextMetrics( final IDisplayServer _ids, Label _la )
 	{
-		gc = new GC( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		final Display display = (Display) ( (SwtDisplayServer) _ids ).getDevice( );
+		display.syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				gc = new GC( display );
+
+			}
+		} );
 		ids = _ids;
 		la = _la;
 
