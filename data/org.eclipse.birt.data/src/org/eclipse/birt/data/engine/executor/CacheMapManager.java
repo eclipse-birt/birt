@@ -30,6 +30,8 @@ class CacheMapManager
 	// folder util instance
 	private FolderUtil folderUtil;
 	
+	private static Integer cacheCounter1 = new Integer(0);
+
 	/**
 	 * construction
 	 */
@@ -156,42 +158,28 @@ class CacheMapManager
 			if ( tempRootDirStr != null
 					&& new File( tempRootDirStr ).exists( ) == true )
 				return;
-			
+					
+			File tempDtEDir = null;
 			// system default temp dir is used
-			String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( );
-			File tempDtEDir = new File( tempDirStr, "BirtDataCache" );
-			if ( tempDtEDir.exists( ) == false )
+			synchronized ( cacheCounter1 )
 			{
-				tempDtEDir.mkdir( );
-			}
-			else
-			{
-				File[] sessionsFolder = tempDtEDir.listFiles( );
-				for ( int i = 0; i < sessionsFolder.length; i++ )
+				String tempDirStr = DataEngineContextExt.getInstance( )
+						.getTmpdir( );
+				tempDtEDir = new File( tempDirStr, "BirtDataCache"
+						+ System.currentTimeMillis( ) + cacheCounter1 );
+				cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
+				int x = 0;
+				while ( tempDtEDir.exists( ) )
 				{
-					File[] oneSessionFolder = sessionsFolder[i].listFiles( );
-					for ( int j = 0; j < oneSessionFolder.length; j++ )
-					{
-						// temp files
-						if ( oneSessionFolder[j].isDirectory( ) )
-						{
-							File[] oneSessionTempFiles = oneSessionFolder[j].listFiles( );
-							for ( int k = 0; k < oneSessionTempFiles.length; k++ )
-							{
-								oneSessionTempFiles[k].delete( );
-							}
-							oneSessionFolder[j].delete( );
-						}
-						// goal file
-						else
-						{
-							oneSessionFolder[j].delete( );
-						}
-					}
-					sessionsFolder[i].delete( );
+					x++;
+					tempDtEDir = new File( tempDirStr, "BirtDataCache"
+							+ System.currentTimeMillis( ) + cacheCounter1 + "_"
+							+ x );
 				}
+				tempDtEDir.mkdir( );
+				tempDtEDir.deleteOnExit( );
 			}
-
+			
 			try
 			{
 				tempRootDirStr = tempDtEDir.getCanonicalPath( );
