@@ -138,7 +138,7 @@ public class Regression_78433 extends ChartTestCase
 		}
 	}
 
-	public void testRegression_78433( ) throws Exception
+	public void test_regression_78433( ) throws Exception
 	{
 		Regression_78433 st = new Regression_78433( );
 	}
