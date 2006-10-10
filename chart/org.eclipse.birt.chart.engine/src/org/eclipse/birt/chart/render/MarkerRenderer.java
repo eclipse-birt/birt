@@ -116,6 +116,13 @@ public final class MarkerRenderer
 		paletteEntry = ChartUtil.convertFill( _paletteEntry,
 				iSize,
 				ColorDefinitionImpl.TRANSPARENT( ) );
+		if ( paletteEntry instanceof ColorDefinition
+				&& ChartUtil.isColorTransparent( (ColorDefinition) paletteEntry )
+				&& ( !_la.isVisible( ) || ChartUtil.isColorTransparent( _la.getColor( ) ) ) )
+		{
+			// Avoid marker is invisible if all colors are transparent
+			paletteEntry = ColorDefinitionImpl.create( 0, 0, 0, 15 );
+		}
 		iSize = Math.abs( iSize )
 				* iRender.getDisplayServer( ).getDpiResolution( ) / 72d;		
 
@@ -190,7 +197,6 @@ public final class MarkerRenderer
 
 	private void drawCrosshair( IPrimitiveRenderer ipr ) throws ChartException
 	{
-
 		if ( paletteEntry instanceof Gradient )
 		{
 			paletteEntry = ( (Gradient) paletteEntry ).getStartColor( );
@@ -205,6 +211,11 @@ public final class MarkerRenderer
 						paletteEntry
 					},
 					Messages.getResourceBundle( iRender.getULocale( ) ) );
+		}
+		if ( ChartUtil.isColorTransparent( (ColorDefinition) paletteEntry ) )
+		{
+			// Avoid marker is invisible
+			paletteEntry = ColorDefinitionImpl.create( 0, 0, 0, 15 );
 		}
 		final ColorDefinition cd = (ColorDefinition) paletteEntry;
 		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.copyInstance( cd ),

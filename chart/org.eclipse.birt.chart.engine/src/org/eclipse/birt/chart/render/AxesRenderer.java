@@ -2407,7 +2407,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
 					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
-					ColorDefinitionImpl.TRANSPARENT( ) );
+					null );
 		}
 
 		Series se = getSeries( );
