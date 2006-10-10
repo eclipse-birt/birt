@@ -8,11 +8,14 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -36,20 +39,57 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 					context );
 			if ( eh != null )
 				eh.onPrepare( text, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
 			addException( context, e );
 		}
 	}
 
+	public static void handleOnCreate( IDataContent content,
+			ExecutionContext context )
+	{
+		internalOnCreate( content, context );
+	}
+
+	public static void handleOnRender( IDataContent content,
+			ExecutionContext context )
+	{
+		internalOnRender( content, context );
+	}
+
+	public static void handleOnPageBreak( IDataContent content,
+			ExecutionContext context )
+	{
+		internalOnPageBreak( content, context );
+	}
+
 	public static void handleOnCreate( IForeignContent content,
+			ExecutionContext context )
+	{
+		internalOnCreate( content, context );
+	}
+
+	public static void handleOnRender( IForeignContent content,
+			ExecutionContext context )
+	{
+		internalOnRender( content, context );
+	}
+
+	public static void handleOnPageBreak( IForeignContent content,
+			ExecutionContext context )
+	{
+		internalOnPageBreak( content, context );
+	}
+
+	public static void internalOnCreate( IContent content,
 			ExecutionContext context )
 	{
 		try
 		{
-			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
+			ReportItemDesign textItemDesign = (ReportItemDesign) content
 					.getGenerateBy( );
-			IDynamicTextInstance text = new DynamicTextInstance( content,
+			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context );
 			if ( handleJS( text, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -58,20 +98,21 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 					context );
 			if ( eh != null )
 				eh.onCreate( text, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
 			addException( context, e );
 		}
 	}
 
-	public static void handleOnRender( IForeignContent content,
+	public static void internalOnRender( IContent content,
 			ExecutionContext context )
 	{
 		try
 		{
-			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
+			ReportItemDesign textItemDesign = (ReportItemDesign) content
 					.getGenerateBy( );
-			IDynamicTextInstance text = new DynamicTextInstance( content,
+			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context );
 			if ( handleJS( text, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -80,20 +121,21 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 					context );
 			if ( eh != null )
 				eh.onRender( text, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
 			addException( context, e );
 		}
 	}
 
-	public static void handleOnPageBreak( IForeignContent content,
+	public static void internalOnPageBreak( IContent content,
 			ExecutionContext context )
 	{
 		try
 		{
-			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
+			ReportItemDesign textItemDesign = (ReportItemDesign) content
 					.getGenerateBy( );
-			IDynamicTextInstance text = new DynamicTextInstance( content,
+			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context );
 			if ( handleJS( text, textItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -102,16 +144,23 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 					context );
 			if ( eh != null )
 				eh.onPageBreak( text, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
 			addException( context, e );
 		}
 	}
 
+	private static IDynamicTextInstance createDynamicTextInstance(
+			IContent content, ExecutionContext context )
+	{
+		return new DynamicTextInstance( content, context );
+	}
+
 	private static IDynamicTextEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )
 	{
-		TextDataHandle handle = ( TextDataHandle ) design.getHandle( );
+		TextDataHandle handle = (TextDataHandle) design.getHandle( );
 		if ( handle == null )
 			return null;
 		return getEventHandler( handle, context );
@@ -123,8 +172,9 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		IDynamicTextEventHandler eh = null;
 		try
 		{
-			eh = ( IDynamicTextEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			eh = (IDynamicTextEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IDynamicTextEventHandler.class );
