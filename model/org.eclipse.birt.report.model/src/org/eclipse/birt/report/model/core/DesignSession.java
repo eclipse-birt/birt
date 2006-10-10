@@ -579,8 +579,7 @@ public class DesignSession
 	}
 
 	/**
-	 * Creates a new design based on a file name. The template name can be null
-	 * if no template is desired.
+	 * Creates a new design based on a file name.
 	 * 
 	 * @param fileName
 	 *            file name.

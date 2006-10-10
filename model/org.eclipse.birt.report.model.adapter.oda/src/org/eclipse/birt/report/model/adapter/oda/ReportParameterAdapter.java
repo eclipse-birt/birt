@@ -266,7 +266,7 @@ public class ReportParameterAdapter
 			if ( matchedParam != null )
 				updateLinkedReportParameter( reportParam, matchedParam, null,
 						dataType );
-			
+
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam );
 		}
@@ -304,8 +304,19 @@ public class ReportParameterAdapter
 
 		String dataType = dataSetParam.getParameterDataType( );
 		if ( !StringUtil.isBlank( dataType ) )
-			reportParam.setDataType( dataType );
+		{
 
+			if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+					.equalsIgnoreCase( dataType ) )
+			{
+				reportParam.setDataType( dataType );
+			}
+			else
+			{
+				reportParam
+						.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+			}
+		}
 		String defaultValue = dataSetParam.getDefaultValue( );
 		String paramName = dataSetParam.getParamName( );
 
@@ -353,15 +364,15 @@ public class ReportParameterAdapter
 
 		if ( DataSetParameterAdapter.needsQuoteDelimiters( setParam
 				.getDataType( ) ) )
-		{			
+		{
 			if ( ParameterValueUtil.isQuoted( value ) )
-			{			
-				literalValue = ParameterValueUtil.toLiteralValue( value );				
+			{
+				literalValue = ParameterValueUtil.toLiteralValue( value );
 			}
-			else 
+			else
 				return;
 		}
-		
+
 		setParam.setDefaultValue( literalValue );
 	}
 
@@ -399,10 +410,19 @@ public class ReportParameterAdapter
 
 			// any type is not support in report parameter data type.
 
-			if ( dataType == null
-					|| !DesignChoiceConstants.PARAM_TYPE_ANY
-							.equalsIgnoreCase( dataType ) )
-				reportParam.setDataType( dataType );
+			if ( dataType == null )
+			{
+				if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+						.equalsIgnoreCase( dataType ) )
+				{
+					reportParam.setDataType( dataType );
+				}
+				else
+				{
+					reportParam
+							.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+				}
+			}
 
 			updateDataElementAttrsToReportParam( paramDefn.getAttributes( ),
 					cachedParamDefn == null ? null : cachedParamDefn

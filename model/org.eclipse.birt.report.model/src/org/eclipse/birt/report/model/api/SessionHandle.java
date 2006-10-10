@@ -464,18 +464,32 @@ public class SessionHandle
 	}
 
 	/**
-	 * Creates a new design based on a template. The template name can be
-	 * <code>null</code> if no template is desired.
+	 * Creates a new design based on a file name.
 	 * 
-	 * @param templateName
-	 *            The name of the template for the design, or <code>null</code>
-	 *            if no template is needed.
+	 * @param fileName
+	 *            file name.
 	 * @return A handle to the report design.
 	 */
 
-	public ReportDesignHandle createDesign( String templateName )
+	public ReportDesignHandle createDesign( String fileName )
 	{
-		return session.createDesign( templateName ).handle( );
+		return session.createDesign( fileName ).handle( );
+	}
+
+	/**
+	 * Creates a new design based on a template file.
+	 * 
+	 * @param templateName
+	 *            The name of the template for the design.
+	 * @return A handle to the report design.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesignHandle createDesignFromTempalte( String templateName )
+			throws DesignFileException
+	{
+		return session.createDesignFromTemplate( templateName ).handle( );
 	}
 
 	/**
