@@ -708,6 +708,9 @@ public class ModelUtil
 			DesignElement content, IElementPropertyDefn propDefn,
 			String nameSpace )
 	{
+		if ( propDefn == null || content == null )
+			return;
+
 		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
 				&& propDefn.getTypeCode( ) != IPropertyType.EXTENDS_TYPE )
 			return;
