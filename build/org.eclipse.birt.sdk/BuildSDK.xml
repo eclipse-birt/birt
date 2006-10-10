@@ -117,7 +117,7 @@
 			<fileset dir="${basedir}">
 	   			<include name="${manifest}"/>				
 				<include name="plugin.xml"/>
-				<include name="eclipse32.gif"/>
+				<include name="eclipse32.png"/>
 				<include name="about.html"/>
 				<include name="about.ini"/>
 			</fileset>
