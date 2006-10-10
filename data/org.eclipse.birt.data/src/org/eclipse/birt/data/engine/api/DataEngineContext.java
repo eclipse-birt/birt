@@ -25,8 +25,6 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
 
-import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
-
 /**
  * Define in which context Data Engine is running. The context can be divided
  * into three types: generation, presentation and direct presentation. 

@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
-import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 
