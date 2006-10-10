@@ -77,6 +77,7 @@ abstract public class AbstractContent extends AbstractElement
 
 	public AbstractContent( IReportContent report )
 	{
+		assert report != null;
 		this.report = report;
 		this.parent = report.getRoot();
 		this.cssEngine = report.getCSSEngine( );
@@ -84,13 +85,18 @@ abstract public class AbstractContent extends AbstractElement
 
 	public void setReportContent( IReportContent report )
 	{
+		assert report != null;
 		this.report = report;
 		this.cssEngine = report.getCSSEngine( );
 	}
 
 	public AbstractContent( IContent content )
 	{
-		this( content.getReportContent( ) );
+		assert content != null;
+		this.report = content.getReportContent( );
+		this.parent = content.getReportContent( ).getRoot( );
+		this.cssEngine = content.getReportContent( ).getCSSEngine( );
+		
 		this.name = content.getName( );
 		this.x = content.getX( );
 		this.y = content.getY( );
