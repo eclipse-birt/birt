@@ -82,10 +82,12 @@
 		<property file="META-INF/MANIFEST.MF" />
 		<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
 			<fileset dir=".">
-				<exclude name="build.xml" />
-				<exclude name=".project" />
-				<exclude name="CVS/*" />
-				<exclude name="build.properties" />
+				<include name="about.html"/>
+				<include name="about.ini"/>
+				<include name="eclipse32.png"/>
+				<include name="META-INF/**"/>
+				<include name="lib/**"/>
+				<include name="about_files/**"/>
 			</fileset>
 		</copy>
 		<tstamp>
