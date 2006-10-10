@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
     <property name="theme">defaultTheme</property>
     <list-property name="libraries">
         <structure>
@@ -9,7 +9,7 @@
         </structure>
     </list-property>
     <parameters>
-        <scalar-parameter name="Parameter1" id="4">
+        <scalar-parameter name="Parameter1" id="2">
             <property name="dataType">string</property>
             <property name="controlType">text-box</property>
             <property name="defaultValue">"abc"</property>
@@ -20,7 +20,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d" id="5">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d" id="3">
             <property name="odaDriverClass">com.ibm.db2.jcc.DB2Driver</property>
             <property name="odaURL">jdbc:db2://spmdb:1527/gui</property>
             <property name="odaUser">root</property>
@@ -29,7 +29,7 @@
         <oda-data-source name="mysql" id="33"/>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds" id="6">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds" id="4">
             <property name="dataSource">db2d</property>
             <property name="queryText">select *
 from ROOT.SAMPLEDATA</property>
@@ -37,9 +37,9 @@ from ROOT.SAMPLEDATA</property>
         <oda-data-set name="mysqlds" id="34"/>
     </data-sets>
     <themes>
-        <theme name="defaultTheme" id="2">
+        <theme name="defaultTheme" id="5">
             <styles>
-                <style name="myStyle" id="3">
+                <style name="myStyle" id="6">
                     <property name="backgroundColor">#8080FF</property>
                     <property name="color">#FF0000</property>
                 </style>
@@ -71,92 +71,92 @@ from ROOT.SAMPLEDATA</property>
                     <expression name="expression">dataSetRow["VALUE2"]</expression>
                 </structure>
             </list-property>
-            <column id="28">
+            <column id="10">
                 <property name="repeat">1</property>
             </column>
-            <column id="29">
+            <column id="11">
                 <property name="repeat">1</property>
             </column>
-            <column id="30">
+            <column id="12">
                 <property name="repeat">1</property>
             </column>
             <header>
-                <row id="10">
-                    <cell id="11">
+                <row id="13">
+                    <cell id="14">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
-                        <label id="12">
+                        <label id="15">
                             <text-property name="text">CATEGORY</text-property>
                         </label>
                     </cell>
-                    <cell id="13">
+                    <cell id="16">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
-                        <label id="14">
+                        <label id="17">
                             <text-property name="text">VALUE1</text-property>
                         </label>
                     </cell>
-                    <cell id="15">
+                    <cell id="18">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
-                        <label id="16">
+                        <label id="19">
                             <text-property name="text">VALUE2</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="17">
-                    <cell id="18">
+                <row id="20">
+                    <cell id="21">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
-                        <data id="19">
+                        <data id="22">
                             <property name="resultSetColumn">CATEGORY</property>
                         </data>
                     </cell>
-                    <cell id="20">
+                    <cell id="23">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
-                        <data id="21">
+                        <data id="24">
                             <property name="resultSetColumn">VALUE1</property>
                         </data>
                     </cell>
-                    <cell id="22">
+                    <cell id="25">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
-                        <data id="23">
+                        <data id="26">
                             <property name="resultSetColumn">VALUE2</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row id="24">
-                    <cell id="25">
+                <row id="27">
+                    <cell id="28">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                     </cell>
-                    <cell id="26">
+                    <cell id="29">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                     </cell>
-                    <cell id="27">
+                    <cell id="30">
                         <property name="column">0</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
