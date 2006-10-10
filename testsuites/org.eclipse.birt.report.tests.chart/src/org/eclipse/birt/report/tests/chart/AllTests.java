@@ -169,9 +169,32 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_144511.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_76914.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_78746.class );
+		
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_148393.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150475.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_152127.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_144845.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_145473.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_145710.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_145715.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_146308.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_148308.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_149936.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150240.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150778.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150779_Count.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150779_DistinctCount.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150779_First.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150779_Last.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150779_Max.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_150779_Min.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_152545.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_153979.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_155185.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_155587.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_156650.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_157575.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_157608.class );
 		
 		return suite;
 		/*
