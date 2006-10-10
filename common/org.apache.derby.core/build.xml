@@ -78,10 +78,11 @@
 		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
 		<copy todir="${export.dir}/${module.name.version}">
 			<fileset dir=".">
-				<exclude name="build.xml" />
-				<exclude name=".project" />
-				<exclude name="CVS/*" />
-				<exclude name="build.properties" />
+				<include name="about.html"/>
+				<include name="asl-v20.txt"/>
+				<include name="META-INF/**"/>
+				<include name="*.jar"/>
+				<include name="about_files/**" />
 			</fileset>
 		</copy>
 	</target>
