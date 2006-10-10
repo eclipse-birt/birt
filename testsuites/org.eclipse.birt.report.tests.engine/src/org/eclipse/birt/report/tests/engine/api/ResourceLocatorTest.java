@@ -44,6 +44,7 @@ public class ResourceLocatorTest extends EngineCase
 
 	protected void setUp( ) throws Exception
 	{
+		super.setUp( );
 		root_path = this.getClassFolder( ) + separator;
 	}
 
@@ -111,7 +112,7 @@ public class ResourceLocatorTest extends EngineCase
 	private void renderReport( String reportName, IResourceLocator locator )
 			throws BirtException
 	{
-		IReportEngine engine = null;
+		IReportEngine engine_locator = null;
 		EngineConfig config = null;
 		String input = root_path + INPUT_FOLDER + separator + reportName
 				+ ".rptdesign";
@@ -125,10 +126,10 @@ public class ResourceLocatorTest extends EngineCase
 		// assume we has in the platform
 		Object factory = Platform
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
-		engine = ( (IReportEngineFactory) factory ).createReportEngine( config );
+		engine_locator = ( (IReportEngineFactory) factory ).createReportEngine( config );
 
-		IReportRunnable runnable = engine.openReportDesign( input );
-		IRunAndRenderTask rrTask = engine.createRunAndRenderTask( runnable );
+		IReportRunnable runnable = engine_locator.openReportDesign( input );
+		IRunAndRenderTask rrTask = engine_locator.createRunAndRenderTask( runnable );
 
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFileName( output );
@@ -138,6 +139,8 @@ public class ResourceLocatorTest extends EngineCase
 
 		rrTask.run( );
 		rrTask.close( );
+		
+		engine_locator.destroy( );
 
 	}
 }
