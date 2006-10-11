@@ -480,6 +480,50 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	},
 
 	/**
+	 *	Handle clicking on select.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_click_select : function( event )
+	{
+	    var matrix = new Array( );
+	    var m = 0;
+        for( var i = 0; i < this.__cascadingParameter.length; i++ )
+        {
+            for( var j = 0; j < this.__cascadingParameter[i].length; j++ )
+            {
+                if( this.__cascadingParameter[i][j].name == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 10 ) )
+                {
+                	var tempText = this.__cascadingParameter[i][j].value = Event.element( event ).options[Event.element( event ).selectedIndex].text;
+
+                	// Null Value Parameter
+                	if( tempText == this.__display_null )
+                	{
+                		this.__cascadingParameter[i][j].value = this.__cascadingParameter[i][j].name;
+						this.__cascadingParameter[i][j].name = this.__isnull;
+                	}
+                	else
+                	{
+                	    this.__cascadingParameter[i][j].value = Event.element( event ).options[Event.element( event ).selectedIndex].value;
+                	}
+                	
+                    for( var m = 0; m <= j; m++ )
+                    {
+					    if( !matrix[m] )
+				        {
+				            matrix[m] = {};
+				        }
+				        matrix[m].name = this.__cascadingParameter[i][m].name;
+				        matrix[m].value = this.__cascadingParameter[i][m].value;
+				    }                    
+                    birtEventDispatcher.broadcastEvent( birtEvent.__E_CASCADING_PARAMETER, matrix );
+                }
+            }
+        }
+	},
+	
+	/**
 	 *	Handle changing on cascading parameter text field.
 	 *
 	 *	@event, incoming browser native event

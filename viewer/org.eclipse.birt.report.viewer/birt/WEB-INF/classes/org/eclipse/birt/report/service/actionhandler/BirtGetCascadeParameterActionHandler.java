@@ -46,6 +46,7 @@ import org.eclipse.birt.report.soapengine.api.SelectionList;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.DataUtil;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtGetCascadeParameterActionHandler
 		extends
@@ -84,6 +85,14 @@ public class BirtGetCascadeParameterActionHandler
 			Oprand param = params[i];
 
 			String paramName = param.getName( );
+
+			// if Null Value Parameter
+			if ( ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase( paramName ) )
+			{
+				paramMap.put( param.getValue( ), null );
+				continue;
+			}
+			
 			// convert parameter using standard format
 			// Get Scalar parameter handle
 			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
