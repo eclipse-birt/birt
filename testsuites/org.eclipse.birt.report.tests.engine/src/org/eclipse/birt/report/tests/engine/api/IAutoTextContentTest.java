@@ -7,6 +7,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.tests.engine.BaseEmitter;
 
 /**
@@ -28,8 +29,7 @@ public class IAutoTextContentTest extends BaseEmitter
 	 */
 	public void testGetType( )
 	{
-		IContent content = null;
-		IAutoTextContent autoTextContent = new AutoTextContent( content );
+		IAutoTextContent autoTextContent = new AutoTextContent( new ReportContent() );
 		autoTextContent.setType( 1 );
 		assertEquals( 1, autoTextContent.getType( ) );
 	}
@@ -37,7 +37,6 @@ public class IAutoTextContentTest extends BaseEmitter
 	public void testAutoTextContentFromReport( ) throws Exception
 	{
 		this.runandthenrender_emitter( EMITTER_HTML );
-		// TODO: bug 159244
 	}
 
 	public void startPage( IPageContent page )
