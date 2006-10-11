@@ -12,14 +12,13 @@
 package org.eclipse.birt.report.engine.content;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * column definition used by table content.
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2006/06/13 06:31:10 $
+ * @version $Revision: 1.6 $ $Date: 2006/10/11 02:57:36 $
  */
 public interface IColumn
 {
