@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * column definition used by table content.
  * 
  * 
- * @version $Revision: 1.4 $ $Date: 2006/06/07 09:52:02 $
+ * @version $Revision: 1.5 $ $Date: 2006/06/13 06:31:10 $
  */
 public interface IColumn
 {
@@ -48,11 +48,6 @@ public interface IColumn
 	IStyle getStyle( );
 
 	void setInlineStyle( IStyle style );
-	
-	/**
-	 * @return the cssEngine
-	 */
-	public CSSEngine getCssEngine( );
 	
 	public void setGenerateBy( Object generateBy );
 	
