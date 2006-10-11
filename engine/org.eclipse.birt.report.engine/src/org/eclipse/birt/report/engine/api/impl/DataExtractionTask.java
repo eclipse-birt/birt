@@ -136,9 +136,6 @@ public class DataExtractionTask extends EngineTask
 		executionContext.setReportDocument( reportDocReader );
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-
-		IDataEngine dataEngine = executionContext.getDataEngine( );
-		dataEngine.prepare( report, appContext );
 	}
 
 	/*
@@ -149,6 +146,9 @@ public class DataExtractionTask extends EngineTask
 		if ( isMetaDataPrepared == true )
 			return;
 
+		IDataEngine dataEngine = executionContext.getDataEngine( );
+		dataEngine.prepare( report, appContext );
+		
 		HashMap queryIds = report.getQueryIDs( );
 		HashMap query2itemMapping = report.getReportItemToQueryMap( );
 		Iterator iter = queryIds.entrySet( ).iterator( );
