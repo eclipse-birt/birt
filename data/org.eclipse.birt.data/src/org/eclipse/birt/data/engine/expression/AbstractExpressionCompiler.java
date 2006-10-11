@@ -180,9 +180,14 @@ abstract class AbstractExpressionCompiler
 	 * @param expression
 	 * @param cx
 	 * @return
+	 * @throws DataException
 	 */
 	protected ScriptOrFnNode parse( String expression, Context cx )
-	{ 
+			throws DataException
+	{
+		if ( expression == null )
+			throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+
 		CompilerEnvirons compilerEnv = getCompilerEnv( cx );
 		Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
 		return p.parse( expression, null, 0 );
