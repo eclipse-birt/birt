@@ -74,6 +74,10 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module.setSystemId( systemID );
 				module.setFileName( fileName );
 				module.setOptions( options );
+				initLineNumberMarker( options );
+				if ( markLineNumber )
+					tempLineNumbers.put( module, new Integer( locator
+							.getLineNumber( ) ) );
 				return new ReportState( GenericModuleParserHandler.this );
 			}
 			else if ( DesignSchemaConstants.LIBRARY_TAG
@@ -83,6 +87,10 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 				module.setSystemId( systemID );
 				module.setFileName( fileName );
 				module.setOptions( options );
+				initLineNumberMarker( options );
+				if ( markLineNumber )
+					tempLineNumbers.put( module, new Integer( locator
+							.getLineNumber( ) ) );
 				return new LibraryState( GenericModuleParserHandler.this );
 			}
 

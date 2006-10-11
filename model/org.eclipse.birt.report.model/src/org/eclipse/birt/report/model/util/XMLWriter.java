@@ -34,6 +34,18 @@ public class XMLWriter
 {
 
 	/**
+	 * Line counter.
+	 */
+
+	private int lineCounter = 1;
+
+	/**
+	 * Control flag indicating whether need mark line number when writing.
+	 */
+
+	private boolean markLineNumber = true;
+
+	/**
 	 * The default output encoding is UTF-8.
 	 */
 
@@ -103,6 +115,28 @@ public class XMLWriter
 	/**
 	 * Constructor.
 	 * 
+	 * @param outputFile
+	 *            the file to write
+	 * @param signature
+	 *            the UTF signature
+	 * @param needMarkLineNumber
+	 *            control flag, whether need mark line number
+	 * @throws java.io.IOException
+	 *             if write error occurs
+	 */
+
+	public XMLWriter( File outputFile, String signature,
+			boolean needMarkLineNumber ) throws java.io.IOException
+	{
+		FileOutputStream stream = new FileOutputStream( outputFile );
+		out = new PrintStream( stream, false, OUTPUT_ENCODING );
+		init( signature );
+		markLineNumber = needMarkLineNumber;
+	}
+
+	/**
+	 * Constructor.
+	 * 
 	 * @param os
 	 *            the output stream to which the design file is written.
 	 * @param signature
@@ -117,6 +151,24 @@ public class XMLWriter
 
 		init( signature );
 	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param os
+	 *            the output stream to which the design file is written.
+	 * @param signature
+	 *            the UTF signature
+	 * @throws IOException
+	 *             if write error occurs
+	 */
+
+	public XMLWriter( OutputStream os, String signature, boolean needMarkLineNumber ) throws IOException
+	{
+		out = new PrintStream( os, false, OUTPUT_ENCODING );
+		markLineNumber = needMarkLineNumber;
+		init( signature );
+	}
 
 	/**
 	 * Write the header line for the XML file.
@@ -128,8 +180,9 @@ public class XMLWriter
 	private void init( String signature )
 	{
 		writeUTFSignature( signature );
-		out.println( "<?xml version=\"1.0\" encoding=\"" //$NON-NLS-1$
+		out.print( "<?xml version=\"1.0\" encoding=\"" //$NON-NLS-1$
 				+ OUTPUT_ENCODING + "\"?>" ); //$NON-NLS-1$ 
+		printLine( );
 	}
 
 	/**
@@ -169,7 +222,7 @@ public class XMLWriter
 			out.write( 0xFF );
 		}
 
-		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) ) 
+		if ( UnicodeUtil.SIGNATURE_UNICODE_LITTLE.equals( signature ) )
 		{
 			out.write( 0x00 );
 			out.write( 0x00 );
@@ -236,7 +289,7 @@ public class XMLWriter
 
 		if ( attrCount++ == 3 )
 		{
-			out.print( '\n' );
+			printLine( );
 			attrCount = 0;
 		}
 	}
@@ -289,11 +342,15 @@ public class XMLWriter
 				out.print( "&lt;" ); //$NON-NLS-1$ 
 			else if ( c == '"' )
 				out.print( "&quot;" ); //$NON-NLS-1$
-			else if ( c < 0x20 )  
+			else if ( c < 0x20 )
 			{
 				out.print( "&#x" ); //$NON-NLS-1$ 
 				out.print( Integer.toHexString( c ) );
-				out.print( ';' );  
+				out.print( ';' );
+			}
+			else if ( c == '\n' )
+			{
+				printLine( );
 			}
 			else
 				out.print( c );
@@ -383,13 +440,15 @@ public class XMLWriter
 		String tagName = (String) elementStack.pop( );
 		if ( elementActive )
 		{
-			out.println( "/>" ); //$NON-NLS-1$ 
+			out.print( "/>" ); //$NON-NLS-1$ 
+			printLine( );
 		}
 		else
 		{
 			out.print( "</" ); //$NON-NLS-1$ 
 			out.print( tagName );
-			out.println( ">" ); //$NON-NLS-1$ 
+			out.print( ">" ); //$NON-NLS-1$ 
+			printLine( );
 		}
 		elementActive = false;
 	}
@@ -417,6 +476,10 @@ public class XMLWriter
 				out.print( "&amp;" ); //$NON-NLS-1$ 
 			else if ( c == '<' )
 				out.print( "&lt;" ); //$NON-NLS-1$ 
+			else if ( c == '\n' )
+			{
+				printLine( );
+			}
 			else
 				out.print( c );
 		}
@@ -437,7 +500,22 @@ public class XMLWriter
 
 		// Write the text character-by-character to encode special characters.
 		out.print( "<![CDATA[" ); //$NON-NLS-1$		
-		out.print( text );
+
+		if ( !markLineNumber )
+			out.print( text );
+		else
+		{
+			int len = text.length( );
+			for ( int i = 0; i < len; i++ )
+			{
+				char c = text.charAt( i );
+				if ( c == '\n' )
+					printLine( );
+				else
+					out.print( c );
+			}
+		}
+
 		out.print( "]]>" ); //$NON-NLS-1$
 	}
 
@@ -450,7 +528,21 @@ public class XMLWriter
 
 	public void literal( String text )
 	{
-		out.print( text );
+		if ( !markLineNumber )
+		{
+			out.print( text );
+			return;
+		}
+
+		int len = text.length( );
+		for ( int i = 0; i < len; i++ )
+		{
+			char c = text.charAt( i );
+			if ( c == '\n' )
+				printLine( );
+			else
+				out.print( c );
+		}
 	}
 
 	/**
@@ -462,7 +554,8 @@ public class XMLWriter
 		if ( !elementActive )
 			return;
 		elementActive = false;
-		out.println( ">" ); //$NON-NLS-1$ 
+		out.print( ">" ); //$NON-NLS-1$ 
+		printLine( );
 	}
 
 	/**
@@ -529,6 +622,28 @@ public class XMLWriter
 		out.print( "=\"" ); //$NON-NLS-1$ 
 		out.print( StringUtil.toRgbText( rgb ) );
 		out.print( "\"" ); //$NON-NLS-1$ 
+	}
+
+	/**
+	 * Returns the line number.
+	 * 
+	 * @return the line number
+	 */
+
+	public int getLineCounter( )
+	{
+		return lineCounter;
+	}
+
+	/**
+	 * Prints '\n', and plus the line conter.
+	 */
+
+	private void printLine( )
+	{
+		out.print( '\n' );
+		if ( markLineNumber )
+			lineCounter++;
 	}
 
 }

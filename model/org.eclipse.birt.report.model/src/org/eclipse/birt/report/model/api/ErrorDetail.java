@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.SAXException;
@@ -375,6 +376,8 @@ public final class ErrorDetail
 		description.append( e.getMessage( ) );
 		description.append( ")" ); //$NON-NLS-1$
 
+		lineNo = e.getLineNumber( );
+
 		if ( e.getCause( ) != null && e.getCause( ) instanceof RuntimeException )
 		{
 			translateRuntimeException( (RuntimeException) e.getCause( ) );
@@ -537,7 +540,16 @@ public final class ErrorDetail
 
 	public int getLineNo( )
 	{
-		return lineNo;
+		if ( lineNo == 0 )
+		{
+			Module root = element.getRoot( );
+			if ( root != null )
+				return root.getLineNoByID( element.getID( ) );
+			else
+				return 1;
+		}
+		else
+			return lineNo;
 	}
 
 	/**

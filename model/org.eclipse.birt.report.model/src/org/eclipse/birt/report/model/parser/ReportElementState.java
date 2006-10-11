@@ -218,6 +218,7 @@ public abstract class ReportElementState extends DesignParseState
 	protected void initElement( Attributes attrs, boolean nameRequired )
 	{
 		DesignElement element = getElement( );
+		
 		String name = attrs.getValue( DesignElement.NAME_PROP );
 		if ( StringUtil.isBlank( name ) )
 		{
@@ -278,6 +279,9 @@ public abstract class ReportElementState extends DesignParseState
 	protected final void initSimpleElement( Attributes attrs )
 	{
 		DesignElement element = getElement( );
+		if ( handler.markLineNumber )
+			handler.tempLineNumbers.put( element, new Integer( handler
+					.getCurrentLineNo( ) ) );
 
 		// get the "id" of the element
 

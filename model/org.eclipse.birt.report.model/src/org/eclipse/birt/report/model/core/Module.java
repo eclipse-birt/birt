@@ -172,6 +172,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected HashMap idMap = new HashMap( );
 
 	/**
+	 * The hash map for the id-to-lineNumber lookup.
+	 */
+
+	protected HashMap lineNoMap = null;
+
+	/**
 	 * The undo/redo stack for operations on this module.
 	 */
 
@@ -518,6 +524,21 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Adds an element to the id-to-elementLineNumber map.
+	 * 
+	 * @param elementId
+	 *            The element id.
+	 * @param lineNo
+	 *            the line number of the element in xml source.
+	 */
+
+	public void addElementLineNo( long elementId, int lineNo )
+	{
+		assert lineNoMap != null;
+		lineNoMap.put( new Long( elementId ), new Integer( lineNo ) );
+	}
+
+	/**
 	 * Drops an element from the id-to-element map. Does nothing if IDs are not
 	 * enabled. Should be called only from the
 	 * {@link org.eclipse.birt.report.model.command.ContentCommand ContentCommand}.
@@ -534,6 +555,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 		Long idObj = new Long( element.getID( ) );
 		assert idMap.containsKey( idObj );
 		idMap.remove( idObj );
+	}
+
+	/**
+	 * Initializes the line number hash map.
+	 */
+
+	public void initLineNoMap( )
+	{
+		lineNoMap = new HashMap( );
 	}
 
 	/**
@@ -555,6 +585,23 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( idMap == null )
 			return null;
 		return (DesignElement) idMap.get( new Long( id ) );
+	}
+
+	/**
+	 * Looks up line number of the element in xml source given an element ID.
+	 * Returns 1 if no line number of the element exists with the given ID.
+	 * 
+	 * @param id
+	 *            The id of the element to find.
+	 * @return The line number of the element given the element id, or 1 if the
+	 *         element can't be found or if IDs are not enabled.
+	 */
+
+	 final public int getLineNoByID( long id )
+	{
+		if ( lineNoMap == null )
+			return 1;
+		return ( (Integer) lineNoMap.get( new Long( id ) ) ).intValue( );
 	}
 
 	/**
@@ -662,6 +709,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.elementIDCounter = 1;
 		module.fatalException = null;
 		module.idMap = new HashMap( );
+		module.lineNoMap = null;
 		module.moduleNameSpaces = new IModuleNameScope[NAME_SPACE_COUNT];
 		module.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
 		module.nameManager = new NameManager( module );

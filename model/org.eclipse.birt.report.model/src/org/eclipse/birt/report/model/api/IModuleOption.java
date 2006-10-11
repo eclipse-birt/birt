@@ -37,4 +37,12 @@ public interface IModuleOption
 	 */
 
 	static final String RESOURCE_LOCATOR_KEY = "resourceLocator"; //$NON-NLS-1$	
+
+	/**
+	 * Key to control whether to mark line number of the element in xml source.
+	 * True if user wants to mark them during parsing and saving, false
+	 * otherwise. Default value is true.
+	 */
+
+	static final String MARK_LINE_NUMBER_KEY = "markLineNumber"; //$NON-NLS-1$	
 }

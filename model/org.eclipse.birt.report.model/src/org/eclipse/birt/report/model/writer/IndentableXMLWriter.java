@@ -76,6 +76,25 @@ public class IndentableXMLWriter extends XMLWriter
 	/**
 	 * Constructor.
 	 * 
+	 * @param outputFile
+	 *            the file to write
+	 * @param signature
+	 *            the unicode signature of the design file
+	 * @param needMarkLineNumber
+	 *            control flag, whether need mark line number
+	 * @throws java.io.IOException
+	 *             if write error occurs
+	 */
+
+	public IndentableXMLWriter( File outputFile, String signature,
+			boolean needMarkLineNumber ) throws IOException
+	{
+		super( outputFile, signature, needMarkLineNumber );
+	}
+
+	/**
+	 * Constructor.
+	 * 
 	 * @param os
 	 *            the output stream to which the design file is written.
 	 * @param signature
@@ -88,6 +107,25 @@ public class IndentableXMLWriter extends XMLWriter
 			throws IOException
 	{
 		super( os, signature );
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param os
+	 *            the output stream to which the design file is written.
+	 * @param signature
+	 *            the unicode signature of the design file
+	 * @param signature
+	 *            the unicode signature of the design file
+	 * @throws IOException
+	 *             if write error occurs
+	 */
+
+	public IndentableXMLWriter( OutputStream os, String signature,
+			boolean needMarkLineNumber ) throws IOException
+	{
+		super( os, signature, needMarkLineNumber );
 	}
 
 	/*

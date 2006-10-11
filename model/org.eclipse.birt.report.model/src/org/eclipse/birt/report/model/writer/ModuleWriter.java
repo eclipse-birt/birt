@@ -16,11 +16,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -144,6 +146,12 @@ public abstract class ModuleWriter extends ElementVisitor
 	protected BoundColumnsWriterMgr boundColumnsMgr = null;
 
 	/**
+	 * Control flag indicating whether need mark line number.
+	 */
+
+	protected boolean markLineNumber = true;
+
+	/**
 	 * Returns the module to write.
 	 * 
 	 * @return the module to write
@@ -163,8 +171,13 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void write( File outputFile ) throws IOException
 	{
+		// initialize control flag
+		ModuleOption options = getModule( ).getOptions( );
+		if ( options != null )
+			markLineNumber = options.markLineNumber( );
+
 		writer = new IndentableXMLWriter( outputFile, getModule( )
-				.getUTFSignature( ) );
+				.getUTFSignature( ), markLineNumber );
 		writeFile( );
 		writer.close( );
 	}
@@ -180,7 +193,13 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void write( OutputStream os ) throws IOException
 	{
-		writer = new IndentableXMLWriter( os, getModule( ).getUTFSignature( ) );
+		// initialize control flag
+		ModuleOption options = getModule( ).getOptions( );
+		if ( options != null )
+			markLineNumber = options.markLineNumber( );
+
+		writer = new IndentableXMLWriter( os, getModule( ).getUTFSignature( ),
+				markLineNumber );
 		writeFile( );
 	}
 
@@ -1033,6 +1052,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitModule( Module obj )
 	{
+
+		if ( markLineNumber )
+			obj.initLineNoMap( );
+
 		writer.attribute( DesignSchemaConstants.XMLNS_ATTRIB,
 				DEFAULT_NAME_SPACE );
 		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
@@ -2433,6 +2456,15 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitDesignElement( DesignElement obj )
 	{
 		super.visitDesignElement( obj );
+
+		if ( markLineNumber )
+		{
+			Module module = getModule( );
+			if ( module != null )
+				module
+						.addElementLineNo( obj.getID( ), writer
+								.getLineCounter( ) );
+		}
 
 		// The element name, id and extends should be written in the tag.
 

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -26,25 +27,25 @@ import org.xml.sax.SAXException;
  * <p>
  * 
  * <pre>
- *             &lt;styles&gt;
- *             &lt;style name=&quot;label&quot;&gt;
- *             &lt;property name=&quot;color&quot;&gt;red&lt;/property&gt;											
- *             &lt;/style&gt;			
- *             &lt;/styles&gt;
+ *               &lt;styles&gt;
+ *               &lt;style name=&quot;label&quot;&gt;
+ *               &lt;property name=&quot;color&quot;&gt;red&lt;/property&gt;											
+ *               &lt;/style&gt;			
+ *               &lt;/styles&gt;
  * </pre>
  * 
  * to
  * 
  * <pre>
- *             &lt;themes&gt;
- *             &lt;theme name=&quot;defaultTheme&quot;&gt;
- *             &lt;styles&gt;
- *             &lt;style name=&quot;label&quot;&gt;
- *             &lt;property name=&quot;color&quot;&gt;red&lt;/property&gt;											
- *             &lt;/style&gt;			
- *             &lt;/styles&gt;
- *             &lt;/theme&gt;
- *             &lt;/themes&gt;
+ *               &lt;themes&gt;
+ *               &lt;theme name=&quot;defaultTheme&quot;&gt;
+ *               &lt;styles&gt;
+ *               &lt;style name=&quot;label&quot;&gt;
+ *               &lt;property name=&quot;color&quot;&gt;red&lt;/property&gt;											
+ *               &lt;/style&gt;			
+ *               &lt;/styles&gt;
+ *               &lt;/theme&gt;
+ *               &lt;/themes&gt;
  * </pre>
  */
 
@@ -73,7 +74,11 @@ class CompatibleLibraryStylesState extends ReportElementState
 	{
 		super( handler, theContainer, slot );
 
-		theme = new Theme( ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME ) );
+		theme = new Theme( ModelMessages
+				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
+		if ( handler.markLineNumber )
+			handler.tempLineNumbers.put( theme, new Integer( handler
+					.getCurrentLineNo( ) ) );
 		addToSlot( container, slotID, theme );
 		handler.unhandleIDElements.add( theme );
 	}

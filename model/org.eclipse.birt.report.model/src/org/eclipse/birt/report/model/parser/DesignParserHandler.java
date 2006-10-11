@@ -48,6 +48,8 @@ public class DesignParserHandler extends ModuleParserHandler
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
 		module.setOptions( options );
+
+		initLineNumberMarker( options );
 	}
 
 	/*
@@ -77,7 +79,13 @@ public class DesignParserHandler extends ModuleParserHandler
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.REPORT_TAG ) )
+			{
+				if ( markLineNumber )
+					tempLineNumbers.put( module, new Integer( locator
+							.getLineNumber( ) ) );
+
 				return new ReportState( DesignParserHandler.this );
+			}
 			return super.startElement( tagName );
 		}
 	}

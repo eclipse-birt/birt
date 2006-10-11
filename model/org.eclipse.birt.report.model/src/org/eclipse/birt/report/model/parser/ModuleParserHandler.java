@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
@@ -68,7 +69,21 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	boolean isCurrentVersion = false;
 
 	/**
-	 * The temperate value for parser compatible.
+	 * Control flag identify whether need mark line number of the design
+	 * element.
+	 */
+
+	protected boolean markLineNumber = true;
+
+	/**
+	 * Temporary variable to cache line number information of the design
+	 * elements.
+	 */
+
+	protected HashMap tempLineNumbers = null;
+
+	/**
+	 * The temporary value for parser compatible.
 	 */
 
 	protected HashMap tempValue = new HashMap( );
@@ -231,6 +246,20 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			unhandleIDElements = null;
 		}
 
+		// build the line number information of design elements if needed.
+
+		if ( markLineNumber && tempLineNumbers != null )
+		{
+			Iterator iter = tempLineNumbers.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+				module.addElementLineNo( ( (DesignElement) entry.getKey( ) )
+						.getID( ), ( (Integer) entry.getValue( ) ).intValue( ) );
+			}
+			tempLineNumbers = null;
+		}
+
 		// if module options not set the parser-semantic check options or set it
 		// to true, then perform semantic check. Semantic error is recoverable.
 
@@ -275,8 +304,29 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 				}
 			}
 			else
-			// TODO only need for the compound element
+				// TODO only need for the compound element
 				module.manageId( element, true );
 		}
+	}
+
+	/**
+	 * Initializes line number mark flag if needed.
+	 * 
+	 * @param options
+	 *            the options set for this module
+	 */
+
+	final protected void initLineNumberMarker( ModuleOption options )
+	{
+		assert module != null;
+		if ( options == null || options.markLineNumber( ) )
+		{
+			// lazy initialization.
+			markLineNumber = true;
+			module.initLineNoMap( );
+			tempLineNumbers = new HashMap( );
+		}
+		else
+			markLineNumber = false;
 	}
 }

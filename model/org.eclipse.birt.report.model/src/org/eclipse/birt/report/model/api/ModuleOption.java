@@ -128,4 +128,40 @@ public class ModuleOption implements IModuleOption
 		return options.get( key );
 	}
 
+	/**
+	 * Determines whether to mark line number of element when opening/saving a
+	 * module.
+	 * 
+	 * Note: if user switch semantic check off, this method will also return
+	 * false.
+	 * 
+	 * @return true if user wants to mark line number of element and user switch
+	 *         semantic check on, otherwise false
+	 */
+
+	public boolean markLineNumber( )
+	{
+		if ( !useSemanticCheck( ) )
+			return false;
+		
+		Object markLineNumber = options.get( MARK_LINE_NUMBER_KEY );
+		if ( markLineNumber != null )
+			return ( (Boolean) markLineNumber ).booleanValue( );
+		
+		return true;
+	}
+
+	/**
+	 * Sets the marking line number control status. True if user wants to mark
+	 * the line number of the element in xml source when opening/saving a
+	 * module, otherwise false.
+	 * 
+	 * @param markLineNumber
+	 *            the control status
+	 */
+
+	public void setMarkLineNumber( boolean markLineNumber )
+	{
+		options.put( MARK_LINE_NUMBER_KEY, Boolean.valueOf( markLineNumber ) );
+	}
 }

@@ -35,6 +35,8 @@ public class LibraryParserHandler extends ModuleParserHandler
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
 		module.setOptions( options );
+		
+		initLineNumberMarker( options );
 	}
 
 	/*
@@ -63,7 +65,12 @@ public class LibraryParserHandler extends ModuleParserHandler
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIBRARY_TAG ) )
+			{
+				if ( markLineNumber )
+					tempLineNumbers.put( module, new Integer( locator
+							.getLineNumber( ) ) );
 				return new LibraryState( LibraryParserHandler.this );
+			}
 			return super.startElement( tagName );
 		}
 	}

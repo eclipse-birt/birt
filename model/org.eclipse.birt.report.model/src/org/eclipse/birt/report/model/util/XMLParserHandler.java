@@ -36,6 +36,12 @@ public abstract class XMLParserHandler extends DefaultHandler
 {
 
 	/**
+	 * SAX <code>Locator</code> for reporting errors.
+	 */
+
+	protected Locator locator = null;
+
+	/**
 	 * Stack of active parse states. Corresponds to the stack of currently
 	 * active elements.
 	 */
@@ -243,6 +249,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 	public void setDocumentLocator( Locator theLocator )
 	{
 		super.setDocumentLocator( theLocator );
+		locator = theLocator;
 		errorHandler.setDocumentLocator( theLocator );
 	}
 
@@ -277,5 +284,27 @@ public abstract class XMLParserHandler extends DefaultHandler
 	public void fatalError( SAXParseException e ) throws SAXException
 	{
 		errorHandler.semanticError( new XMLParserException( e ) );
+	}
+
+	/**
+	 * Gets the document locator.
+	 * 
+	 * @return the document locator.
+	 */
+
+	final public Locator getLocator( )
+	{
+		return locator;
+	}
+	
+	/**
+	 * Gets current line number.
+	 * 
+	 * @return current line number.
+	 */
+
+	final public int getCurrentLineNo( )
+	{
+		return locator.getLineNumber( );
 	}
 }
