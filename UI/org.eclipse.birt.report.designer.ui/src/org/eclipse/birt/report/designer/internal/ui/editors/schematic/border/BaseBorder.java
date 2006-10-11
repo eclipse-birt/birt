@@ -39,7 +39,7 @@ public abstract class BaseBorder extends AbstractBorder
 	/**
 	 * Bottom border color.
 	 */
-	public String bottomColor;
+	public int bottomColor;
 	/**
 	 * Top border width.
 	 */
@@ -51,7 +51,7 @@ public abstract class BaseBorder extends AbstractBorder
 	/**
 	 * Top border color.
 	 */
-	public String topColor;
+	public int topColor;
 	/**
 	 * Left border width.
 	 */
@@ -63,7 +63,7 @@ public abstract class BaseBorder extends AbstractBorder
 	/**
 	 * Left border color.
 	 */
-	public String leftColor;
+	public int leftColor;
 	/**
 	 * Right border width.
 	 */
@@ -75,7 +75,7 @@ public abstract class BaseBorder extends AbstractBorder
 	/**
 	 * Right border color.
 	 */
-	public String rightColor;
+	public int rightColor;
 
 	protected int i_bottom_style, i_bottom_width = 1;
 	protected int i_top_style, i_top_width = 1;
@@ -271,7 +271,8 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	public int getLeftBorderColor( )
 	{
-		return ColorUtil.parseColor( leftColor );
+		// return ColorUtil.parseColor( leftColor );
+		return leftColor;
 	}
 
 	/**
@@ -281,7 +282,8 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	public int getRightBorderColor( )
 	{
-		return ColorUtil.parseColor( rightColor );
+		// return ColorUtil.parseColor( rightColor );
+		return rightColor;
 	}
 
 	/**
@@ -291,7 +293,8 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	public int getTopBorderColor( )
 	{
-		return ColorUtil.parseColor( topColor );
+		// return ColorUtil.parseColor( topColor );
+		return topColor;
 	}
 
 	/**
@@ -301,7 +304,8 @@ public abstract class BaseBorder extends AbstractBorder
 	 */
 	public int getBottomBorderColor( )
 	{
-		return ColorUtil.parseColor( bottomColor );
+		// return ColorUtil.parseColor( bottomColor );
+		return bottomColor;
 	}
 
 }

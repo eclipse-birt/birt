@@ -425,14 +425,15 @@ public class TableGridLayer extends GridLayer
 		if ( obj != null )
 		{
 			int color = 0xFFFFFF;
-			if ( obj instanceof String )
-			{
-				color = ColorUtil.parseColor( (String) obj );
-			}
-			else
-			{
-				color = ( (Integer) obj ).intValue( );
-			}
+//			if ( obj instanceof String )
+//			{
+//				color = ColorUtil.parseColor( (String) obj );
+//			}
+//			else
+//			{
+//				color = ( (Integer) obj ).intValue( );
+//			}
+			color = handle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( );
 			g.setBackgroundColor( ColorManager.getColor( color ) );
 			g.fillRectangle( rect );
 		}

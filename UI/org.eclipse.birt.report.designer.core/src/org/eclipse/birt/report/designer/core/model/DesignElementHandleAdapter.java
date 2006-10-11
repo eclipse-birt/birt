@@ -289,18 +289,20 @@ public abstract class DesignElementHandleAdapter
 	public int getForegroundColor( DesignElementHandle handle )
 	{
 		Object obj = handle.getProperty( StyleHandle.COLOR_PROP );
+		int color = handle.getPropertyHandle( StyleHandle.COLOR_PROP ).getIntValue( );
 
 		if ( obj == null )
 		{
 			return 0x0;
 		}
 
-		if ( obj instanceof String )
-		{
-			return ColorUtil.parseColor( (String) obj );
-		}
-
-		return ( (Integer) obj ).intValue( );
+//		if ( obj instanceof String )
+//		{
+//			return ColorUtil.parseColor( (String) obj );
+//		}
+//
+//		return ( (Integer) obj ).intValue( );
+		return color;
 	}
 
 	/**
@@ -313,18 +315,20 @@ public abstract class DesignElementHandleAdapter
 	public int getBackgroundColor( DesignElementHandle handle )
 	{
 		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
-
+		int color = handle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( );
+		
 		if ( obj == null )
 		{
 			return 0xFFFFFF;
 		}
 
-		if ( obj instanceof String )
-		{
-			return ColorUtil.parseColor( (String) obj );
-		}
-
-		return ( (Integer) obj ).intValue( );
+//		if ( obj instanceof String )
+//		{
+//			return ColorUtil.parseColor( (String) obj );
+//		}
+//
+//		return ( (Integer) obj ).intValue( );
+	    return color;
 	}
 
 	/**

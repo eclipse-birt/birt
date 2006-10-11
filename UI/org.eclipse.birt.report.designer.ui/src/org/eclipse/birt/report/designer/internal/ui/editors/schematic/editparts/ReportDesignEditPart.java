@@ -167,7 +167,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		// getFigure( ).setBounds( bounds );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) );
-		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
+		// reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
+		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( ) );
 		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		int color = getBackgroundColor( masterPageHandle );

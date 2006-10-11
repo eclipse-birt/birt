@@ -259,7 +259,8 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) );
-		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
+		// reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
+		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( ) );
 		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		refreshBackground( (MasterPageHandle) getModel( ) );

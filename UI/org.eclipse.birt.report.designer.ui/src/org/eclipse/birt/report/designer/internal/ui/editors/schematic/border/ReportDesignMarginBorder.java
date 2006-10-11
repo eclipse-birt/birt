@@ -86,18 +86,26 @@ public class ReportDesignMarginBorder extends MarginBorder
 		graphics.setForegroundColor( oldForegroundColor );
 	}
 
-	public void setBackgroundColor( Object obj )
+//	public void setBackgroundColor( Object obj )
+//	{
+//		if ( obj != null )
+//		{
+//			if ( obj instanceof String )
+//			{
+//				backgroundColor = ColorUtil.parseColor( (String) obj );
+//			}
+//			else
+//			{
+//				backgroundColor = ( (Integer) obj ).intValue( );
+//			}
+//		}
+//	}
+	
+	public void setBackgroundColor( int color )
 	{
-		if ( obj != null )
+		if ( color != 0 )
 		{
-			if ( obj instanceof String )
-			{
-				backgroundColor = ColorUtil.parseColor( (String) obj );
-			}
-			else
-			{
-				backgroundColor = ( (Integer) obj ).intValue( );
-			}
+			backgroundColor = color;
 		}
 	}
 }

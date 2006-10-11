@@ -170,14 +170,14 @@ public class LineBorder extends BaseBorder
 	 * @param insets
 	 */
 	protected void drawBorder( IFigure figure, Graphics g, int side, int style,
-			int[] width, String color, Insets insets )
+			int[] width, int color, Insets insets )
 	{
 		Rectangle r = figure.getBounds( ).getCopy( ).crop( insets );
 
 		if ( style != 0 )
 		{
 			//set ForegroundColor with the given color
-			g.setForegroundColor( ColorManager.getColor( ColorUtil.parseColor( color ) ) );
+			g.setForegroundColor( ColorManager.getColor( color ) );
 
 			//if the border style is set to "double",
 			//draw a double line with the given width and style of "solid"

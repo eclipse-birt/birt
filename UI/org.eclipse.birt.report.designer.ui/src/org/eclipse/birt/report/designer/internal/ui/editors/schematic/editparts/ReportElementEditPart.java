@@ -91,31 +91,29 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		if ( Policy.TRACING_EDITPART_CREATE )
 		{
 			String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
-			System.out.println( result[result.length - 1]
-					+ " >> Created for " //$NON-NLS-1$
+			System.out.println( result[result.length - 1] + " >> Created for " //$NON-NLS-1$
 					+ model );
 		}
 		setModel( model );
-		peer = creatDesignElementHandleAdapter();
+		peer = creatDesignElementHandleAdapter( );
 	}
-	
-	public DesignElementHandleAdapter creatDesignElementHandleAdapter()
+
+	public DesignElementHandleAdapter creatDesignElementHandleAdapter( )
 	{
 		HandleAdapterFactory.getInstance( ).remove( getModel( ) );
 		return HandleAdapterFactory.getInstance( )
 				.getDesignElementHandleAdapter( getModel( ), this );
 	}
 
-	
 	/**
 	 * perform edit directly when the request is the corresponding type.
 	 */
 	public void performRequest( Request request )
 	{
 		if ( RequestConstants.REQ_OPEN.equals( request.getType( ) )
-				|| ReportRequest.CREATE_ELEMENT.equals( request.getType( )))
+				|| ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
-			if (isEdited( ))
+			if ( isEdited( ) )
 			{
 				return;
 			}
@@ -124,22 +122,22 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			setEdited( false );
 		}
 	}
-	
+
 	public void performDirectEdit( )
 	{
-		//do nothing
+		// do nothing
 	}
-	
+
 	protected boolean isEdited( )
 	{
 		return isEdited;
 	}
 
-	
 	protected void setEdited( boolean isEdited )
 	{
 		this.isEdited = isEdited;
 	}
+
 	/**
 	 * Creates the guide handle, default get from parent.
 	 * 
@@ -286,7 +284,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( isActive( ) )
 			return;
-		
+
 		super.activate( );
 
 		refreshPageClip( );
@@ -319,7 +317,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		getFigure( ).setFocusTraversable( true );
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -332,7 +329,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		removeGuideFeedBack( );
 
 		super.deactivate( );
-		
+
 		HandleAdapterFactory.getInstance( ).remove( getModel( ) );
 	}
 
@@ -342,7 +339,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected abstract void createEditPolicies( );
-
 
 	/*
 	 * (non-Javadoc)
@@ -452,12 +448,12 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 * 
 	 * @return The current font family
 	 */
-	protected Font getFont(ReportItemHandle handle )
+	protected Font getFont( ReportItemHandle handle )
 	{
-		StyleHandle styleHandle =  handle.getPrivateStyle( );
+		StyleHandle styleHandle = handle.getPrivateStyle( );
 
 		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
-		//some font not defined in model is encolsed with quote.
+		// some font not defined in model is encolsed with quote.
 		family = DEUtil.RemoveQuote( family );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
 
@@ -466,7 +462,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			FontFamily = family;
 		}
 
-		int fontSize = DEUtil.getFontSizeIntValue(handle);
+		int fontSize = DEUtil.getFontSizeIntValue( handle );
 
 		int fontStyle = 0;
 		String fontWeight = styleHandle.getFontWeight( );
@@ -493,10 +489,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 		return font;
 	}
-	
-	protected Font getFont()
+
+	protected Font getFont( )
 	{
-		return getFont((ReportItemHandle) getModel());
+		return getFont( (ReportItemHandle) getModel( ) );
 	}
 
 	/**
@@ -512,13 +508,15 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	public final void refreshVisuals( )
 	{
 		super.refreshVisuals( );
-		refreshFigure();
-		refreshReportChildren(this);
-		//added for must repaint
+		refreshFigure( );
+		refreshReportChildren( this );
+		// added for must repaint
 		getFigure( ).repaint( );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
 	public void refreshChildren( )
@@ -526,20 +524,20 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		super.refreshChildren( );
 	}
 
-	public void refreshReportChildren(ReportElementEditPart parent)
+	public void refreshReportChildren( ReportElementEditPart parent )
 	{
 		List list = parent.getChildren( );
-		for (int i=0; i<list.size( ); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
 			Object part = list.get( i );
-			if (part instanceof ReportElementEditPart)
+			if ( part instanceof ReportElementEditPart )
 			{
-				if (((ReportElementEditPart)part).isDelete( ))
+				if ( ( (ReportElementEditPart) part ).isDelete( ) )
 				{
 					continue;
 				}
-				((ReportElementEditPart)part).refreshFigure( );
-				refreshReportChildren((ReportElementEditPart)part);
+				( (ReportElementEditPart) part ).refreshFigure( );
+				refreshReportChildren( (ReportElementEditPart) part );
 			}
 		}
 	}
@@ -666,18 +664,16 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 	}
 
-	
 	/**
 	 * Marks edit part dirty
 	 * 
 	 * @param bool
 	 * @param notifyParent
 	 */
-	public void markDirty( boolean bool)
+	public void markDirty( boolean bool )
 	{
-		this.isDirty = bool;	
+		this.isDirty = bool;
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -737,28 +733,28 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			BaseBorder border )
 	{
 		border.bottomColor = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
-				.getStringValue( );
+				.getIntValue( );
 		border.bottomStyle = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
 				.getStringValue( );
 		border.bottomWidth = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
 				.getStringValue( );
 
 		border.topColor = handle.getPropertyHandle( StyleHandle.BORDER_TOP_COLOR_PROP )
-				.getStringValue( );
+				.getIntValue( );
 		border.topStyle = handle.getPropertyHandle( StyleHandle.BORDER_TOP_STYLE_PROP )
 				.getStringValue( );
 		border.topWidth = handle.getPropertyHandle( StyleHandle.BORDER_TOP_WIDTH_PROP )
 				.getStringValue( );
 
 		border.leftColor = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_COLOR_PROP )
-				.getStringValue( );
+				.getIntValue( );
 		border.leftStyle = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_STYLE_PROP )
 				.getStringValue( );
 		border.leftWidth = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_WIDTH_PROP )
 				.getStringValue( );
 
 		border.rightColor = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_COLOR_PROP )
-				.getStringValue( );
+				.getIntValue( );
 		border.rightStyle = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_STYLE_PROP )
 				.getStringValue( );
 		border.rightWidth = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_WIDTH_PROP )
@@ -835,43 +831,44 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		{
 			if ( !( getModel( ) instanceof ModuleHandle ) )
 			{
-				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null || ( (DesignElementHandle) getModel( ) ).getRoot( ) == null;
+				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null
+						|| ( (DesignElementHandle) getModel( ) ).getRoot( ) == null;
 			}
 		}
 		return bool;
 	}
-	
+
 	public void notifyModelChange( )
 	{
-		if (getParent()!= null && getParent( ) instanceof ReportElementEditPart)
+		if ( getParent( ) != null
+				&& getParent( ) instanceof ReportElementEditPart )
 		{
-			((ReportElementEditPart)getParent( )).notifyModelChange( );
+			( (ReportElementEditPart) getParent( ) ).notifyModelChange( );
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
-	protected void contentChange(Map info )
+	protected void contentChange( Map info )
 	{
 		markDirty( true );
 		refresh( );
 	}
-	
+
 	/**
 	 * @param focus
 	 */
-	protected void propertyChange(Map info )
+	protected void propertyChange( Map info )
 	{
 		refreshVisuals( );
 	}
-	
-	
+
 	/**
 	 * @param model
 	 * @return
 	 */
-	public boolean isinterest(Object model)
+	public boolean isinterest( Object model )
 	{
 		return getModel( ).equals( model );
 	}

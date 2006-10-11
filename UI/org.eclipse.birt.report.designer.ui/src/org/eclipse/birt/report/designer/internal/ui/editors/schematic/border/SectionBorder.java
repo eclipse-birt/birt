@@ -192,7 +192,7 @@ public class SectionBorder extends BaseBorder
 	 * @param color
 	 */
 	private void drawBorder( IFigure figure, Graphics g, Insets in, int side,
-			int style, int[] width, String color )
+			int style, int[] width, int color )
 	{
 		Rectangle r = figure.getBounds( ).getCropped( in );
 
@@ -204,7 +204,7 @@ public class SectionBorder extends BaseBorder
 		if ( style != 0 )
 		{
 			//set foreground color
-			g.setForegroundColor( ColorManager.getColor( ColorUtil.parseColor( color ) ) );
+			g.setForegroundColor( ColorManager.getColor( color ) );
 			if ( style == -2 )
 			{
 				//drawDouble line
