@@ -461,12 +461,20 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
-			if ( (int) _bo.getWidth( ) <= 0 || (int) _bo.getHeight( ) <= 0 )
+			if ( (int) _bo.getWidth( ) < 0 || (int) _bo.getHeight( ) < 0 )
 			{
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.INVALID_IMAGE_SIZE,
 						"JavaxImageIOWriter.exception.invalid.image.size", //$NON-NLS-1$
 						Messages.getResourceBundle( getULocale( ) ) );
+			}
+			
+			if ( (int) _bo.getWidth( ) == 0 || (int) _bo.getHeight( ) == 0 )
+			{
+				// Zero size is forbidden in BufferedImage, so replace the size
+				// with 1 to make it seem invisible
+				_bo.setWidth( 1 );
+				_bo.setHeight( 1 );
 			}
 
 			// CREATE THE IMAGE INSTANCE
