@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.chart.ui.swt.series;
 
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.widgets.Composite;
@@ -58,4 +60,18 @@ public class SeriesUIProvider extends DefaultSeriesUIProvider
 	{
 		return new DefaultSelectDataComponent( );
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
+	 */
+	public AxisType[] getCompatibleAxisType( Series series )
+	{
+		return new AxisType[]{
+				AxisType.DATE_TIME_LITERAL,
+				AxisType.LINEAR_LITERAL,
+				AxisType.LOGARITHMIC_LITERAL,
+				AxisType.TEXT_LITERAL
+		};
+	}
+
 }

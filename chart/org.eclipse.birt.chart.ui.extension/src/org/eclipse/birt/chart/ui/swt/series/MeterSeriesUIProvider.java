@@ -11,10 +11,17 @@
 
 package org.eclipse.birt.chart.ui.swt.series;
 
+import java.util.Iterator;
+
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -80,4 +87,25 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		return new DefaultSelectDataComponent( );
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series, org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 */
+	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	{
+		Iterator iterEntries = series.getDataDefinition( ).iterator( );
+		while ( iterEntries.hasNext( ) )
+		{
+			Query query = (Query) iterEntries.next( );
+			DataType dataType = idsp.getDataType( query.getDefinition( ) );
+			if ( dataType == DataType.TEXT_LITERAL
+					|| dataType == DataType.DATE_TIME_LITERAL )
+			{
+				throw new ChartException( ChartUIExtensionPlugin.ID,
+						ChartException.DATA_BINDING,
+						"" ); //$NON-NLS-1$
+			}
+		}
+	}
+
 }

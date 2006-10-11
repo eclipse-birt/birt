@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -74,4 +76,22 @@ public interface ISeriesUIProvider
 	public ISelectDataComponent getSeriesDataComponent( int seriesType,
 			SeriesDefinition seriesDefn, ChartWizardContext context,
 			String sTitle );
+
+	/**
+	 * Validate whether the series can contain the data type.
+	 * 
+	 * @param series
+	 * @param idsp
+	 * @since 2.2
+	 */
+	public void validateSeriesBindingType( Series series,
+			IDataServiceProvider idsp ) throws ChartException;
+	
+	/**
+	 * 
+	 * @param series
+	 * @return 
+	 * @since 2.2
+	 */
+	public AxisType[] getCompatibleAxisType( Series series );
 }

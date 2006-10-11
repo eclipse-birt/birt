@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -57,4 +60,19 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series, org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 */
+	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	{
+		//Do not validate series binding type by default.
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
+	 */
+	public AxisType[] getCompatibleAxisType( Series series )
+	{
+		return null;
+	}
 }

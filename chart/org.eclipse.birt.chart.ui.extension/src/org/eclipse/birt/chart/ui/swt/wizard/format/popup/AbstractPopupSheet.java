@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.JFaceResources;
@@ -117,7 +118,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 			}
 		} );
 		ToolItem item = new ToolItem( toolBar, SWT.NONE );
-		item.setText( "<<" ); //$NON-NLS-1$
+		item.setImage( UIHelper.getImage( "icons/obj16/arrow.gif" ) ); //$NON-NLS-1$
 		item.setToolTipText( Messages.getString( "AbstractPopupSheet.Label.Close" ) ); //$NON-NLS-1$
 		item.addSelectionListener( new SelectionAdapter( ) {
 

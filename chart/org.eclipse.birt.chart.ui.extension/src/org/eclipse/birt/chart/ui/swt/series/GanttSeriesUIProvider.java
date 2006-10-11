@@ -11,10 +11,19 @@
 
 package org.eclipse.birt.chart.ui.swt.series;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -76,4 +85,41 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		return new DefaultSelectDataComponent( );
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series )
+	 */
+	public AxisType[] getCompatibleAxisType( Series series )
+	{
+		return new AxisType[]{
+			AxisType.DATE_TIME_LITERAL
+		};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 */
+	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	{
+		ArrayList al = new ArrayList( );
+		al.addAll( (Collection) series.getDataDefinition( ) );
+		for ( int i = 0; i < al.size( ); i++ )
+		{
+			Query query = (Query) al.get( i );
+			DataType dataType = idsp.getDataType( query.getDefinition( ) );
+
+			if ( ( i != 2 )
+					&& ( dataType == DataType.TEXT_LITERAL || dataType == DataType.NUMERIC_LITERAL ) )
+			{
+				throw new ChartException( ChartUIExtensionPlugin.ID,
+						ChartException.DATA_BINDING,
+						"" ); //$NON-NLS-1$
+			}
+		}
+	}
+
+
 }

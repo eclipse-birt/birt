@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.examples.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.jface.window.Window;
 
@@ -197,9 +197,12 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return false;
 	}
 
-	public boolean checkDataType( String expression, AxisType axisType )
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(java.lang.String)
+	 */
+	public DataType getDataType( String expression )
 	{
-		return true;
+		return DataType.NUMERIC_LITERAL;
 	}
 
 }

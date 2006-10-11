@@ -36,6 +36,9 @@
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.DifferenceChart"
             name="Difference Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.GanttChart"
+            name="Gantt Chart"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.ui.uisheets">
@@ -133,6 +136,9 @@
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.DifferenceSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.GanttSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
    </extension>
    
    <extension

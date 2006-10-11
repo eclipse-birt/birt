@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
 
@@ -44,14 +45,13 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
-
-import com.ibm.icu.util.StringTokenizer;
 
 public class DifferenceChart extends DefaultChartTypeImpl
 {
@@ -208,12 +208,12 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		sd.getBaseSampleData( ).clear( );
 		sd.getOrthogonalSampleData( ).clear( );
 
-		// Create Base Sample Data
+		//Create Base Sample Data
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
 		sdBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
-
-		// Create Orthogonal Sample Data (with simulation count of 2)
+		
+		//Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
 		oSample.setDataSetRepresentation( "5, 4, 10" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
@@ -256,24 +256,27 @@ public class DifferenceChart extends DefaultChartTypeImpl
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( BubbleChart.TYPE_LITERAL ) )
-			{
-				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
-				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
-					( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-							.get( 0 ) ).setType( AxisType.TEXT_LITERAL );
-				}
+					|| currentChart.getType( ).equals( BubbleChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( GanttChart.TYPE_LITERAL ) )
+			{			
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
 						.setValue( CHART_TITLE );
+				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
+				
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
+				ArrayList axisTypes = new ArrayList( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
+					if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
+					{
+						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+					}
+					axisTypes.add( ( (Axis) axes.get( i ) ).getType( ) );
 					( (Axis) axes.get( i ) ).setPercent( false );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
@@ -287,6 +290,10 @@ public class DifferenceChart extends DefaultChartTypeImpl
 								.add( series );
 					}
 				}
+				
+				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 ) ).getType( ), axisTypes ) );
 			}
 			else
 			{
@@ -431,63 +438,49 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		return diffseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData )
+	private SampleData getConvertedSampleData( SampleData currentSampleData, AxisType xAxisType, ArrayList axisTypes )
 	{
 		// Convert base sample data
 		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
-			vNewBaseSampleData.add( bsd );
-		}
+		Vector vNewBaseSampleData =  getConvertedBaseSampleDataRepresentation( bsdList, xAxisType );
 		currentSampleData.getBaseSampleData( ).clear( );
 		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 
 		// Convert orthogonal sample data
 		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = new Vector( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
+		Vector vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList, axisTypes );
 		currentSampleData.getOrthogonalSampleData( ).clear( );
 		currentSampleData.getOrthogonalSampleData( )
 				.addAll( vNewOrthogonalSampleData );
 		return currentSampleData;
 	}
 
-	private String getConvertedBaseSampleDataRepresentation(
-			String sOldRepresentation )
+	private Vector getConvertedBaseSampleDataRepresentation(
+			EList bsdList, AxisType xAxisType )
 	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		while ( strtok.hasMoreTokens( ) )
+		Vector vNewBaseSampleData = new Vector( );
+		for ( int i = 0; i < bsdList.size( ); i++ )
 		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
-			{
-				sbNewRepresentation.append( "'" ); //$NON-NLS-1$
-				sbNewRepresentation.append( sElement );
-				sbNewRepresentation.append( "'" ); //$NON-NLS-1$
-			}
-			else
-			{
-				sbNewRepresentation.append( sElement );
-			}
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
+			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
+					bsd.getDataSetRepresentation( ) ) );
+			vNewBaseSampleData.add( bsd );
 		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
+		return vNewBaseSampleData;
 	}
 	
-	private String getConvertedOrthogonalSampleDataRepresentation(
-			String sOldRepresentation )
+	private Vector getConvertedOrthogonalSampleDataRepresentation(
+			EList osdList, ArrayList axisTypes )
 	{
-		return sOldRepresentation;
+		Vector vNewOrthogonalSampleData = new Vector( );
+		for ( int i = 0; i < osdList.size( ); i++ )
+		{
+			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
+			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( (AxisType) axisTypes.get( i ),
+					osd.getDataSetRepresentation( ) ) );
+			vNewOrthogonalSampleData.add( osd );
+		}
+		return vNewOrthogonalSampleData;
 	}
 
 	/*

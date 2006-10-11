@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -42,14 +43,13 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
-
-import com.ibm.icu.util.StringTokenizer;
 
 /**
  * MeterChart
@@ -209,12 +209,12 @@ public class MeterChart extends DefaultChartTypeImpl
 
 		// Create Base Sample Data
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "A" ); //$NON-NLS-1$
+		sdBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		oSample.setDataSetRepresentation( "5" ); //$NON-NLS-1$
+		oSample.setDataSetRepresentation( "5, 4, 12" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
 
@@ -230,6 +230,13 @@ public class MeterChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( currentChart instanceof ChartWithAxes )
 		{
+			if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
+			{
+				helperModel.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
+						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 ) ).getType( ) ) );
+			}	
+			
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = DialChartImpl.create( );
@@ -251,13 +258,8 @@ public class MeterChart extends DefaultChartTypeImpl
 								.getLegendBehavior( ) );
 			}
 
-			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
-					&& !currentChart.getType( ).equals( PieChart.TYPE_LITERAL )
-					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
-					&& !currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
-			{
-				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
-			}
+			currentChart.setSampleData( helperModel.getSampleData( ) );
+			
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 			if ( helperModel.getGridColumnCount( ) > 0 )
@@ -402,7 +404,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		return dialseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData )
+	private SampleData getConvertedSampleData( SampleData currentSampleData, AxisType axisType )
 	{
 		// Convert base sample data
 		EList bsdList = currentSampleData.getBaseSampleData( );
@@ -410,7 +412,8 @@ public class MeterChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < bsdList.size( ); i++ )
 		{
 			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+					bsd.getDataSetRepresentation( ) ) );
 			vNewBaseSampleData.add( bsd );
 		}
 		currentSampleData.getBaseSampleData( ).clear( );
@@ -422,78 +425,14 @@ public class MeterChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
+			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.LINEAR_LITERAL,
+					osd.getDataSetRepresentation( ) ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );
 		currentSampleData.getOrthogonalSampleData( )
 				.addAll( vNewOrthogonalSampleData );
 		return currentSampleData;
-	}
-
-	private String getConvertedBaseSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( !sElement.startsWith( "'" ) ) //$NON-NLS-1$
-			{
-				sbNewRepresentation.append( "'" ); //$NON-NLS-1$
-				sbNewRepresentation.append( sElement );
-				sbNewRepresentation.append( "'" ); //$NON-NLS-1$
-			}
-			else
-			{
-				if ( sElement.startsWith( "-" ) ) //$NON-NLS-1$ // Negative Number
-				{
-					sElement = sElement.substring( 1 ); // Convert to positive
-					// number since negative
-					// values are not
-					// supported for pie charts
-				}
-				sbNewRepresentation.append( sElement );
-			}
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
-	}
-
-	private String getConvertedOrthogonalSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			if ( sElement.startsWith( "H" ) ) //$NON-NLS-1$ // Orthogonal sample data is for
-			// a stock chart (Orthogonal
-			// sample data CANNOT be text
-			{
-				StringTokenizer strStockTokenizer = new StringTokenizer( sElement );
-				sbNewRepresentation.append( strStockTokenizer.nextToken( )
-						.trim( )
-						.substring( 1 ) );
-			}
-			else
-			{
-				if ( sElement.startsWith( "-" ) ) //$NON-NLS-1$ // Negative Number
-				{
-					sElement = sElement.substring( 1 ); // Convert to positive
-					// number since negative
-					// values are not
-					// supported for pie charts
-				}
-				sbNewRepresentation.append( sElement );
-			}
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
 	}
 
 	/*

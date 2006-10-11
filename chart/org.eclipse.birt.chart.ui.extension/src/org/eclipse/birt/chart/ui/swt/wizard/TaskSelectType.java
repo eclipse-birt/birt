@@ -16,30 +16,42 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.MarkerLine;
+import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -60,6 +72,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * TaskSelectType
@@ -1179,6 +1192,18 @@ public class TaskSelectType extends SimpleTask
 	{
 		if ( previewPainter != null )
 		{
+			if ( chartModel instanceof ChartWithAxes )
+			{
+				List al = ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel );
+				for ( int i = 0; i < al.size( ); i++ )
+				{
+					checkDataType( ChartUIUtil.getDataQuery( (SeriesDefinition) al.get( i ),
+							0 ),
+							( (SeriesDefinition) al.get( i ) ).getDesignTimeSeries( ),
+							(SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chartModel )
+									.get( 0 ) );
+				}
+			}
 			previewPainter.renderModel( chartModel );
 		}
 	}
@@ -1226,6 +1251,170 @@ public class TaskSelectType extends SimpleTask
 	private String getSubtypeFromButton( Control button )
 	{
 		return (String) button.getData( );
+	}
+	
+	private void checkDataType( Query query, Series series, SeriesDefinition sd )
+	{
+		String expression = query.getDefinition( );
+
+		Axis axis = null;
+		for ( EObject o = query; o != null; )
+		{
+			o = o.eContainer( );
+			if ( o instanceof Axis )
+			{
+				axis = (Axis) o;
+				break;
+			}
+		}
+
+		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
+				.getSeriesUIComponents( );
+		Iterator iterEntries = cRegisteredEntries.iterator( );
+
+		String sSeries = null;
+		while ( iterEntries.hasNext( ) )
+		{
+			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
+			sSeries = provider.getSeriesClass( );
+
+			if ( sSeries.equals( series.getClass( ).getName( ) ) )
+			{
+				try
+				{
+					provider.validateSeriesBindingType( series,
+							getDataServiceProvider( ) );
+				}
+				catch ( ChartException ce )
+				{
+					if ( expression.trim( ).length( ) > 0 )
+					{
+						Text text = DataDefinitionTextManager.getInstance( )
+								.findText( query );
+						if ( text != null )
+						{
+							// Display the text even if it's useless and will be
+							// changed
+							text.setText( query.getDefinition( ) );
+						}
+						WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+								new String[]{
+										expression, sSeries
+								} ) ) );
+					}
+				}
+
+				if ( chartModel instanceof ChartWithAxes )
+				{
+					DataType dataType = getDataServiceProvider( ).getDataType( expression );
+
+					if ( sd != null )
+					{
+						if ( sd.getGrouping( ).isEnabled( )
+								&& ( sd.getGrouping( )
+										.getAggregateExpression( )
+										.equals( "Count" )//$NON-NLS-1$
+								|| sd.getGrouping( )
+										.getAggregateExpression( )
+										.equals( "DistinctCount" ) ) ) //$NON-NLS-1$
+						{
+							dataType = DataType.NUMERIC_LITERAL;
+						}
+					}
+
+					if ( isValidatedAxis( dataType, axis.getType( ) ) )
+					{
+						break;
+					}
+
+					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
+					for ( int i = 0; i < axisTypes.length; i++ )
+					{
+						if ( isValidatedAxis( dataType, axisTypes[i] ) )
+						{
+							axisNotification( axis, axisTypes[i] );
+							axis.setType( axisTypes[i] );
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
+	{
+		if ( ( dataType == DataType.DATE_TIME_LITERAL )
+				&& ( axisType == AxisType.DATE_TIME_LITERAL ) )
+		{
+			return true;
+		}
+		else if ( ( dataType == DataType.NUMERIC_LITERAL )
+				&& ( ( axisType == AxisType.LINEAR_LITERAL ) || ( axisType == AxisType.LOGARITHMIC_LITERAL ) ) )
+		{
+			return true;
+		}
+		else if ( ( dataType == DataType.TEXT_LITERAL )
+				&& ( axisType == AxisType.TEXT_LITERAL ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private void axisNotification( Axis axis, AxisType type )
+	{
+		ChartAdapter.beginIgnoreNotifications( );
+		{
+			convertSampleData( axis, type );
+			axis.setFormatSpecifier( null );
+
+			EList markerLines = axis.getMarkerLines( );
+			for ( int i = 0; i < markerLines.size( ); i++ )
+			{
+				( (MarkerLine) markerLines.get( i ) ).setFormatSpecifier( null );
+			}
+
+			EList markerRanges = axis.getMarkerRanges( );
+			for ( int i = 0; i < markerRanges.size( ); i++ )
+			{
+				( (MarkerRange) markerRanges.get( i ) ).setFormatSpecifier( null );
+			}
+		}
+		ChartAdapter.endIgnoreNotifications( );
+	}
+
+	private void convertSampleData( Axis axis, AxisType axisType )
+	{
+		if ( ( axis.getAssociatedAxes( ) != null )
+				&& ( axis.getAssociatedAxes( ).size( ) != 0 ) )
+		{
+			BaseSampleData bsd = (BaseSampleData) chartModel.getSampleData( )
+					.getBaseSampleData( )
+					.get( 0 );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+					bsd.getDataSetRepresentation( ) ) );
+		}
+		else
+		{
+			int iEndIndex = axis.getSeriesDefinitions( ).size( );
+
+			int iOSDSize = chartModel.getSampleData( )
+					.getOrthogonalSampleData( )
+					.size( );
+			for ( int i = 0; i < iOSDSize; i++ )
+			{
+				OrthogonalSampleData osd = (OrthogonalSampleData) chartModel.getSampleData( )
+						.getOrthogonalSampleData( )
+						.get( i );
+				if ( osd.getSeriesDefinitionIndex( ) >= 0
+						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+				{
+					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+							osd.getDataSetRepresentation( ) ) );
+				}
+			}
+		}
 	}
 
 }

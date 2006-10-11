@@ -219,13 +219,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
 		{
 			btnGroup = new Button( cmpTop, SWT.PUSH );
-			GridData gdBTNFormatEditor = new GridData( );
-			// gdBTNFormatEditor.heightHint = 20;
-			// gdBTNFormatEditor.widthHint = 20;
-			btnGroup.setLayoutData( gdBTNFormatEditor );
-			btnGroup.setText( "Grouping..." ); //$NON-NLS-1$
-			// btnGroup.setImage( UIHelper.getImage(
-			// "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			GridData gdBTNGroup = new GridData( );
+			gdBTNGroup.heightHint = 20;
+			gdBTNGroup.widthHint = 20;
+			btnGroup.setLayoutData( gdBTNGroup );
+			btnGroup.setImage( UIHelper.getImage( "icons/obj16/group.gif" ) ); //$NON-NLS-1$
 			btnGroup.addSelectionListener( this );
 			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
 		}

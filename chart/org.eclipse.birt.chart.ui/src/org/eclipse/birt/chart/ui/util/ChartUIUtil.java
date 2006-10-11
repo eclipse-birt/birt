@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.i18n.Messages;
@@ -1055,6 +1056,26 @@ public class ChartUIUtil
 				{
 					newSeries.getDataDefinition( )
 							.add( EcoreUtil.copy( (Query) query ) );
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+				}
+				else
+				{
+					newSeries.getDataDefinition( )
+							.addAll( oldSeries.getDataDefinition( ) );
+				}
+			}
+			else if ( newSeries instanceof GanttSeries )
+			{
+				if ( oldSeries.getDataDefinition( ).size( ) != 3 )
+				{
+					// For start
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+					// For end
+					newSeries.getDataDefinition( )
+							.add( EcoreUtil.copy( (Query) query ) );
+					// For Label
 					newSeries.getDataDefinition( )
 							.add( EcoreUtil.copy( (Query) query ) );
 				}

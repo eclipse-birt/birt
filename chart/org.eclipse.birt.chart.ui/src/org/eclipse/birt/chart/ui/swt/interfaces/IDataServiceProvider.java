@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 
 /**
  * Data service provider for chart wizard, to provide all necessary data.
@@ -150,6 +150,13 @@ public interface IDataServiceProvider
 	 */
 	public boolean isInvokingSupported( );
 	
-	public boolean checkDataType(String expression, AxisType axisType);
+
+	/**
+	 * Returns the data type according to the query expression.
+	 * 
+	 * @param expression
+	 * @return 2.2
+	 */
+	public DataType getDataType( String expression );
 
 }

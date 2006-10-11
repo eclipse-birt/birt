@@ -11,15 +11,22 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.MarkerLine;
+import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -27,6 +34,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
@@ -37,9 +45,9 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -65,15 +73,11 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * 
- */
 
-public class TaskSelectData extends SimpleTask
-		implements
-			SelectionListener,
-			ITaskChangeListener,
-			Listener
+public class TaskSelectData extends SimpleTask implements
+		SelectionListener,
+		ITaskChangeListener,
+		Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
@@ -304,7 +308,9 @@ public class TaskSelectData extends SimpleTask
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -517,7 +523,7 @@ public class TaskSelectData extends SimpleTask
 		if ( e.getSource( ).equals( btnUseReportData ) )
 		{
 			ColorPalette.getInstance( ).restore( );
-			
+
 			// Skip when selection is false
 			if ( !btnUseReportData.getSelection( ) )
 			{
@@ -957,7 +963,8 @@ public class TaskSelectData extends SimpleTask
 			}
 		}
 		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 )
+				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 
@@ -997,10 +1004,26 @@ public class TaskSelectData extends SimpleTask
 		if ( previewPainter != null )
 		{
 			// Only data definition query (not group query) will be validated
-			if ( notification.getNotifier( ) instanceof Query
-					&& ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series )
+			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
 			{
-				checkDataType( (Query) notification.getNotifier( ) );
+				checkDataType( (Query) notification.getNotifier( ),
+						(Series) ( (Query) notification.getNotifier( ) ).eContainer( ) );
+			}
+			
+			if ( notification.getNotifier( ) instanceof SeriesDefinition
+					&& getChartModel( ) instanceof ChartWithAxes )
+			{
+				Iterator axes = ((Axis)((SeriesDefinition) notification.getNotifier( )).eContainer( )).getAssociatedAxes( ).iterator( );
+				while ( axes.hasNext( ) )
+				{
+					Series[] series = ( (Axis) axes.next( ) ).getRuntimeSeries( );
+					for ( int i = 0; i < series.length; i++ )
+					{
+						checkDataType( (Query) series[i].getDataDefinition( )
+								.get( 0 ),
+								series[i] );
+					}
+				}		
 			}
 
 			// Query and series change need to update Live Preview
@@ -1025,9 +1048,10 @@ public class TaskSelectData extends SimpleTask
 		}
 	}
 
-	private void checkDataType( Query query )
+	private void checkDataType( Query query, Series series )
 	{
 		String expression = query.getDefinition( );
+
 		Axis axis = null;
 		for ( EObject o = query; o != null; )
 		{
@@ -1039,25 +1063,150 @@ public class TaskSelectData extends SimpleTask
 			}
 		}
 
-		if ( expression.trim( ).length( ) > 0 && axis != null )
+		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
+				.getSeriesUIComponents( );
+		Iterator iterEntries = cRegisteredEntries.iterator( );
+
+		String sSeries = null;
+		while ( iterEntries.hasNext( ) )
 		{
-			boolean b = getDataServiceProvider( ).checkDataType( expression,
-					axis.getType( ) );
-			if ( !b )
+			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
+			sSeries = provider.getSeriesClass( );
+
+			if ( sSeries.equals( series.getClass( ).getName( ) ) )
 			{
-				Text text = DataDefinitionTextManager.getInstance( )
-						.findText( query );
-				if ( text != null )
+				try
 				{
-					// Display the text even if it's useless and will be changed
-					text.setText( query.getDefinition( ) );
+					provider.validateSeriesBindingType( series,
+							getDataServiceProvider( ) );
 				}
-				WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
-						new String[]{
-								expression, axis.getType( ).getName( )
-						} ) ) );
-				query.setDefinition( "" ); //$NON-NLS-1$
-				DataDefinitionTextManager.getInstance( ).updateText( query );
+				catch ( ChartException ce )
+				{
+					if ( expression.trim( ).length( ) > 0 )
+					{
+						Text text = DataDefinitionTextManager.getInstance( )
+								.findText( query );
+						if ( text != null )
+						{
+							// Display the text even if it's useless and will be
+							// changed
+							text.setText( query.getDefinition( ) );
+						}
+						WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+								new String[]{
+										expression, sSeries
+								} ) ) );
+					}
+					query.setDefinition( "" ); //$NON-NLS-1$
+					DataDefinitionTextManager.getInstance( ).updateText( query );
+				}
+
+				if ( getChartModel( ) instanceof ChartWithAxes )
+				{
+					DataType dataType = getDataServiceProvider( ).getDataType( expression );
+					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
+					if ( sd!= null && sd.getGrouping( ).isEnabled( )
+							&& ( sd.getGrouping( )
+									.getAggregateExpression( )
+									.equals( "Count" )//$NON-NLS-1$
+							|| sd.getGrouping( )
+									.getAggregateExpression( )
+									.equals( "DistinctCount" ) ) ) //$NON-NLS-1$
+					{
+						dataType = DataType.NUMERIC_LITERAL;
+					}
+
+					if ( isValidatedAxis( dataType, axis.getType( ) ) )
+					{
+						break;
+					}
+
+					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
+					for ( int i = 0; i < axisTypes.length; i++ )
+					{
+						if ( isValidatedAxis( dataType, axisTypes[i] ) )
+						{
+							axisNotification( axis, axisTypes[i] );
+							axis.setType( axisTypes[i] );
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
+	{
+		if ( ( dataType == DataType.DATE_TIME_LITERAL )
+				&& ( axisType == AxisType.DATE_TIME_LITERAL ) )
+		{
+			return true;
+		}
+		else if ( ( dataType == DataType.NUMERIC_LITERAL )
+				&& ( ( axisType == AxisType.LINEAR_LITERAL ) || ( axisType == AxisType.LOGARITHMIC_LITERAL ) ) )
+		{
+			return true;
+		}
+		else if ( ( dataType == DataType.TEXT_LITERAL )
+				&& ( axisType == AxisType.TEXT_LITERAL ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private void axisNotification( Axis axis, AxisType type )
+	{
+		ChartAdapter.beginIgnoreNotifications( );
+		{
+			convertSampleData( axis, type );
+			axis.setFormatSpecifier( null );
+
+			EList markerLines = axis.getMarkerLines( );
+			for ( int i = 0; i < markerLines.size( ); i++ )
+			{
+				( (MarkerLine) markerLines.get( i ) ).setFormatSpecifier( null );
+			}
+
+			EList markerRanges = axis.getMarkerRanges( );
+			for ( int i = 0; i < markerRanges.size( ); i++ )
+			{
+				( (MarkerRange) markerRanges.get( i ) ).setFormatSpecifier( null );
+			}
+		}
+		ChartAdapter.endIgnoreNotifications( );
+	}
+
+	private void convertSampleData( Axis axis, AxisType axisType )
+	{
+		if ( ( axis.getAssociatedAxes( ) != null )
+				&& ( axis.getAssociatedAxes( ).size( ) != 0 ) )
+		{
+			BaseSampleData bsd = (BaseSampleData) getChartModel( ).getSampleData( )
+					.getBaseSampleData( )
+					.get( 0 );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+					bsd.getDataSetRepresentation( ) ) );
+		}
+		else
+		{
+			int iEndIndex = axis.getSeriesDefinitions( ).size( );
+
+			int iOSDSize = getChartModel( ).getSampleData( )
+					.getOrthogonalSampleData( )
+					.size( );
+			for ( int i = 0; i < iOSDSize; i++ )
+			{
+				OrthogonalSampleData osd = (OrthogonalSampleData) getChartModel( ).getSampleData( )
+						.getOrthogonalSampleData( )
+						.get( i );
+				if ( osd.getSeriesDefinitionIndex( ) >= 0
+						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+				{
+					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+							osd.getDataSetRepresentation( ) ) );
+				}
 			}
 		}
 	}

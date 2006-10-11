@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -664,12 +664,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return new URLClassLoader( urls, parent );
 	}
+	
+	
 
-	public boolean checkDataType( String expression, AxisType axisType )
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(java.lang.String)
+	 */
+	public DataType getDataType( String expression )
 	{
 		if ( expression == null || expression.trim( ).length( ) == 0 )
 		{
-			return true;
+			return null;
 		}
 		Iterator iterator = itemHandle.columnBindingsIterator( );
 		while ( iterator.hasNext( ) )
@@ -678,36 +683,25 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( ChartUIUtil.getExpressionString( cc.getName( ) )
 					.equals( expression ) )
 			{
-				return checkType( cc.getDataType( ), axisType );
+				String dataType = cc.getDataType( );
+				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY )
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+				{
+					return DataType.TEXT_LITERAL;
+				}
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
+				{
+					return DataType.NUMERIC_LITERAL;
+				}
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+				{
+					return DataType.DATE_TIME_LITERAL;
+				}
 			}
 		}
-		return true;
+		return null;		
 	}
-
-	static boolean checkType( String dataType, AxisType axisType )
-	{
-		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
-		{
-			return true;
-		}
-
-		if ( axisType == AxisType.TEXT_LITERAL )
-		{
-			// Text type is unlimited since toString() can be called instead
-			return true;
-		}
-		else if ( axisType == AxisType.LINEAR_LITERAL
-				|| axisType == AxisType.LOGARITHMIC_LITERAL )
-		{
-			return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
-					|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
-					|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
-		}
-		else if ( axisType == AxisType.DATE_TIME_LITERAL )
-		{
-			return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
-		}
-		return false;
-	}
-
 }

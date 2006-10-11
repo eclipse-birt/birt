@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.type;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Collection;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -22,24 +19,18 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -51,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -175,9 +167,6 @@ public class GanttChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setCategoryAxis( false );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getScale( ).setStep( 10.0 );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).getMajorGrid( )
-				.getLineAttributes( )
-				.setVisible( true );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getLabel( ).setVisible( false );
 
 		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
@@ -230,6 +219,9 @@ public class GanttChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		//Cache series to keep attributes during conversion
+		ChartCacheManager.getInstance( )
+				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) ) // Chart is
 		// ChartWithAxes
 		{
@@ -265,6 +257,7 @@ public class GanttChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( )
 							.equals( BubbleChart.TYPE_LITERAL )
 					|| currentChart.getType( )
@@ -272,18 +265,14 @@ public class GanttChart extends DefaultChartTypeImpl
 			{
 				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
+					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+									.get( 0 ) ).getType( ) ) );
 				}
+
 				currentChart.setType( TYPE_LITERAL );
 
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getScale( )
-						.setStep( 10.0 );
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getMajorGrid( )
-						.getLineAttributes( )
-						.setVisible( true );
+				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 				currentChart.setSubType( sNewSubType );
 				currentChart.getTitle( )
@@ -293,16 +282,15 @@ public class GanttChart extends DefaultChartTypeImpl
 
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					( (Axis) axes.get( i ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-					( (Axis) axes.get( i ) ).setType( AxisType.DATE_TIME_LITERAL );
 					( (Axis) axes.get( i ) ).setPercent( false );
+					( (Axis) axes.get( i ) ).setType( AxisType.DATE_TIME_LITERAL );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						series = getConvertedSeries( series );
+						series = getConvertedSeries( series, seriesIndex++ );
 						series.setStacked( false );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.clear( );
@@ -327,24 +315,27 @@ public class GanttChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
+			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
 			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
 
 			// Copy generic chart properties from the old chart
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
+			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
+					( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+							.get( 0 ) ).getType( ) ) );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL ) )
+			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
+					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
@@ -369,7 +360,6 @@ public class GanttChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -387,7 +377,7 @@ public class GanttChart extends DefaultChartTypeImpl
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-					series = getConvertedSeries( series );
+					series = getConvertedSeries( series, j );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
@@ -417,11 +407,10 @@ public class GanttChart extends DefaultChartTypeImpl
 		{
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
-		// return currentChart;
-		return null;
+		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series )
+	private Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
 		if ( series.getClass( )
@@ -430,71 +419,27 @@ public class GanttChart extends DefaultChartTypeImpl
 		{
 			return series;
 		}
-		GanttSeries ganttseries = (GanttSeries) GanttSeriesImpl.create( );
-		ganttseries.getConnectionLine( ).setVisible( true );
-		ganttseries.getConnectionLine( )
-				.setColor( ColorDefinitionImpl.BLACK( ) );
+		GanttSeries ganttseries = (GanttSeries) ChartCacheManager.getInstance( )
+				.findSeries( GanttSeriesImpl.class.getName( ), seriesIndex );
+
+		if ( ganttseries == null )
+		{
+			ganttseries = (GanttSeries) GanttSeriesImpl.create( );
+		}
 
 		// Copy generic series properties
-		ganttseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
+		ChartUIUtil.copyGeneralSeriesAttributes( series, ganttseries );
+
+		if ( ganttseries.getLabelPosition( ) == Position.OUTSIDE_LITERAL )
 		{
 			ganttseries.setLabelPosition( Position.ABOVE_LITERAL );
-		}
-		else
-		{
-			ganttseries.setLabelPosition( series.getLabelPosition( ) );
-		}
-		ganttseries.setVisible( series.isVisible( ) );
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
-		{
-			ganttseries.getTriggers( ).addAll( series.getTriggers( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
-		{
-			ganttseries.setDataPoint( series.getDataPoint( ) );
-		}
-		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
-		{
-			if ( series.getDataDefinition( ).size( ) != 3 )
-			{
-				// For Row Label value
-				ganttseries.getDataDefinition( )
-						.add( EcoreUtil.copy( (Query) series.getDataDefinition( )
-								.get( 0 ) ) );
-
-				// For Start value
-				ganttseries.getDataDefinition( )
-						.add( EcoreUtil.copy( (Query) series.getDataDefinition( )
-								.get( 0 ) ) );
-
-				// For End value
-				ganttseries.getDataDefinition( )
-						.add( series.getDataDefinition( ).get( 0 ) );
-			}
-			ganttseries.getDataDefinition( )
-					.addAll( series.getDataDefinition( ) );
-		}
-
-		// Copy series specific properties
-		if ( series instanceof BarSeries )
-		{
-			// Stock series with transparent fillCandle cannot display
-			// propertly. Fix it during conversion if needed.
-			ColorDefinition colorDefinition = ( (BarSeries) series ).getRiserOutline( );
-			if ( colorDefinition != null
-					&& ( !colorDefinition.isSetTransparency( ) || colorDefinition.getTransparency( ) != 255 ) )
-				ganttseries.getConnectionLine( ).setColor( colorDefinition );
-		}
-		else if ( series instanceof LineSeries )
-		{
-			ganttseries.setConnectionLine( ( (LineSeries) series ).getLineAttributes( ) );
 		}
 
 		return ganttseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData )
+	private SampleData getConvertedSampleData( SampleData currentSampleData,
+			AxisType axisType )
 	{
 		// Convert base sample data
 		EList bsdList = currentSampleData.getBaseSampleData( );
@@ -502,7 +447,8 @@ public class GanttChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < bsdList.size( ); i++ )
 		{
 			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( getConvertedBaseSampleDataRepresentation( bsd.getDataSetRepresentation( ) ) );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
+					bsd.getDataSetRepresentation( ) ) );
 			vNewBaseSampleData.add( bsd );
 		}
 		currentSampleData.getBaseSampleData( ).clear( );
@@ -514,74 +460,13 @@ public class GanttChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
+			osd.setDataSetRepresentation( osd.getDataSetRepresentation( ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );
 		currentSampleData.getOrthogonalSampleData( )
 				.addAll( vNewOrthogonalSampleData );
 		return currentSampleData;
-	}
-
-	private String getConvertedBaseSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		NumberFormat nf = NumberFormat.getNumberInstance( );
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		int iValueCount = 5;
-		while ( strtok.hasMoreTokens( ) )
-		{
-			String sElement = strtok.nextToken( ).trim( );
-			double value;
-			try
-			{
-				value = nf.parse( sElement ).doubleValue( );
-			}
-			catch ( ParseException e )
-			{
-				value = iValueCount;;
-				iValueCount += 10;
-			}
-
-			sbNewRepresentation.append( String.valueOf( value ) );
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
-	}
-
-	private String getConvertedOrthogonalSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-
-		String strStart, strEnd, strLabel;
-		int iValueCount = 1;
-		while ( strtok.hasMoreTokens( ) )
-		{
-			strtok.nextToken( ).trim( );
-
-			strStart = iValueCount + "/" + iValueCount + "/2006"; //$NON-NLS-1$ //$NON-NLS-2$
-			strEnd = ( iValueCount + 1 ) + "/" + ( iValueCount + 1 ) + "/2006"; //$NON-NLS-1$ //$NON-NLS-2$
-			strLabel = "Label" + iValueCount; //$NON-NLS-1$
-			iValueCount++;
-
-			sbNewRepresentation.append( "S" ); //$NON-NLS-1$
-			sbNewRepresentation.append( strStart );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( "E" ); //$NON-NLS-1$
-			sbNewRepresentation.append( strEnd );
-			sbNewRepresentation.append( " " ); //$NON-NLS-1$
-
-			sbNewRepresentation.append( strLabel );
-			sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		}
-		return sbNewRepresentation.toString( ).substring( 0,
-				sbNewRepresentation.length( ) - 1 );
 	}
 
 	/*

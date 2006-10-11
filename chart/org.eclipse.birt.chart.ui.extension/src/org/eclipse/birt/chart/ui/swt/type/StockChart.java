@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -281,7 +282,8 @@ public class StockChart extends DefaultChartTypeImpl
 					|| currentChart.getType( )
 							.equals( BubbleChart.TYPE_LITERAL )
 					|| currentChart.getType( )
-							.equals( DifferenceChart.TYPE_LITERAL ) )
+							.equals( DifferenceChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( GanttChart.TYPE_LITERAL ) )
 			{
 				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
 				{
@@ -293,9 +295,6 @@ public class StockChart extends DefaultChartTypeImpl
 						.getLabel( )
 						.getCaption( )
 						.setValue( CHART_TITLE );
-				// !Keep the original axis type now.
-				// ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 )
-				// ).setType( AxisType.DATE_TIME_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 				currentChart.setSubType( sNewSubType );
@@ -303,7 +302,10 @@ public class StockChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+					if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
+					{
+						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+					}
 					( (Axis) axes.get( i ) ).setPercent( false );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
@@ -335,7 +337,6 @@ public class StockChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -388,7 +389,6 @@ public class StockChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -486,7 +486,8 @@ public class StockChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
+			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.LINEAR_LITERAL,
+					osd.getDataSetRepresentation( ) ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );
@@ -537,51 +538,6 @@ public class StockChart extends DefaultChartTypeImpl
 		}
 		return sbNewRepresentation.toString( ).substring( 0,
 				sbNewRepresentation.length( ) - 1 );
-	}
-
-	private String getConvertedOrthogonalSampleDataRepresentation(
-			String sOldRepresentation )
-	{
-		// Use general sample data instead. No need to convert
-		return sOldRepresentation;
-		// StringTokenizer strtok = new StringTokenizer( sOldRepresentation, ","
-		// ); //$NON-NLS-1$
-		// NumberFormat nf = NumberFormat.getNumberInstance( );
-		// StringBuffer sbNewRepresentation = new StringBuffer( "" );
-		// //$NON-NLS-1$
-		// int iValueCount = 0;
-		// while ( strtok.hasMoreTokens( ) )
-		// {
-		// String sElement = strtok.nextToken( ).trim( );
-		// double value;
-		// try
-		// {
-		// value = nf.parse( sElement ).doubleValue( );
-		// }
-		// catch ( ParseException e )
-		// {
-		// value = 4.0 + iValueCount;
-		// iValueCount++;
-		// }
-		//
-		// sbNewRepresentation.append( "H" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value ) );
-		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
-		//
-		// sbNewRepresentation.append( " L" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value - 3 ) );
-		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
-		//
-		// sbNewRepresentation.append( " O" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value - 2 ) );
-		// sbNewRepresentation.append( " " ); //$NON-NLS-1$
-		//
-		// sbNewRepresentation.append( " C" ); //$NON-NLS-1$
-		// sbNewRepresentation.append( String.valueOf( value - 1 ) );
-		// sbNewRepresentation.append( "," ); //$NON-NLS-1$
-		// }
-		// return sbNewRepresentation.toString( ).substring( 0,
-		// sbNewRepresentation.length( ) - 1 );
 	}
 
 	/*
