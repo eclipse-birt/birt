@@ -34,6 +34,8 @@ public class RenderOptionBase implements IRenderOption
 	public static final String OUTPUT_FORMAT_PDF = "pdf"; //$NON-NLS-1$
 	public static final String OUTPUT_FORMAT_FO = "fo"; //$NON-NLS-1$
 
+	public static final String OUTPUT_FORMAT_DOC = "doc";
+	
 	public static final String OUTPUT_FILE_NAME = "outputFile"; //$NON-NLS-1$
 	public static final String OUTPUT_STREAM = "outputStream"; //$NON-NLS-1$
 
