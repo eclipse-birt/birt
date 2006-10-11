@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.engine.api.DOCRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
@@ -331,6 +332,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( renderContext instanceof PDFRenderContext )
 		{
 			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
+		}
+		if ( context instanceof DOCRenderContext )
+		{
+			baseURL = ( (DOCRenderContext) context ).getBaseURL( );
 		}
 
 		if ( baseURL == null )
