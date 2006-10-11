@@ -100,9 +100,9 @@ public class JavaUtilLoggerImpl implements ILogger
 	 */
 	public void log( Exception ex )
 	{
-		if ( logger.isLoggable( Level.SEVERE ) )
+		if ( logger.isLoggable( Level.WARNING ) )
 		{
-			LogRecord lr = new LogRecord( Level.SEVERE, "Exception" ); //$NON-NLS-1$
+			LogRecord lr = new LogRecord( Level.WARNING, "Exception" ); //$NON-NLS-1$
 			lr.setThrown( ex );
 			String[] rt = inferCaller( );
 			lr.setSourceClassName( rt[0] );
