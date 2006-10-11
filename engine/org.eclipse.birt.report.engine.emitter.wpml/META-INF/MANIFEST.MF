@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Word emitter
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.word; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.fonts,
+ org.eclipse.birt.core,
+ org.eclipse.birt.report.model
+Bundle-Vendor: Eclipse.org
+Eclipse-LazyStart: true
+Bundle-Activator: org.eclipse.birt.report.engine.emitter.wpml.plugin.WordemitterPlugin
