@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.26 $ $Date: 2006/06/16 09:00:07 $
+ * @version $Revision: 1.27 $ $Date: 2006/07/18 11:27:49 $
  */
 public class AttributeBuilder
 {
@@ -436,7 +436,7 @@ public class AttributeBuilder
 			{
 				//To solve the problem that IE do not support min-height.
 				//Use this way to make Firefox and IE both work well.
-				addPropName( content, HTMLTags.ATTR_HEIGHT );
+				addPropName( content, HTMLTags.ATTR_MIN_HEIGHT );
 				addPropValue( content, "auto !important" );
 				content.append( ';' );
 				addPropName( content, HTMLTags.ATTR_HEIGHT );
