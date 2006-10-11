@@ -20,8 +20,23 @@ public class DataSetID
 
 	String dataSetName;
 
+	/**
+	 * DataSetID of the subquery.
+     *
+	 * @param parent can't be null.
+	 * @param rowId
+	 * @param queryName can't be null.
+	 */
 	public DataSetID( DataSetID parent, long rowId, String queryName )
 	{
+		if( null == parent )
+		{
+			throw new IllegalArgumentException( "The parent can't be null!" );
+		}
+		if( null == queryName )
+		{
+			throw new IllegalArgumentException( "The queryName can't be null!" );
+		}
 		this.parent = parent;
 		this.rowId = rowId;
 		this.queryName = queryName;
@@ -42,8 +57,17 @@ public class DataSetID
 	{
 		return rowId;
 	}
+	
+	/**
+	 * create a dataset id of a normal query.
+	 * @param dataSetName can't be null.
+	 */
 	public DataSetID( String dataSetName )
 	{
+		if( null == dataSetName )
+		{
+			throw new IllegalArgumentException( "The dataSetName can't be null!" );
+		}
 		this.dataSetName = dataSetName;
 	}
 
