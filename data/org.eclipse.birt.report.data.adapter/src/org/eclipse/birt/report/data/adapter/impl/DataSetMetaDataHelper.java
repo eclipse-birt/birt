@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.CompaibilityUtil;
+import org.eclipse.birt.report.model.api.util.CompatibilityUtil;
 
 /**
  * One note is the relationship between resultSet, columnHints and
@@ -198,7 +198,7 @@ public class DataSetMetaDataHelper
 		}
 
 		// holdEvent
-		CompaibilityUtil.addResultSetColumn( dataSetHandle, columnList );
+		CompatibilityUtil.addResultSetColumn( dataSetHandle, columnList );
 	}
 	
 	/**
@@ -325,7 +325,7 @@ public class DataSetMetaDataHelper
 
 			if ( holdEvent || !dataSetHandle.canEdit( ) )
 			{
-				CompaibilityUtil.updateResultSetinCachedMetaData( dataSetHandle,
+				CompatibilityUtil.updateResultSetinCachedMetaData( dataSetHandle,
 						columnList );
 			}
 			else
