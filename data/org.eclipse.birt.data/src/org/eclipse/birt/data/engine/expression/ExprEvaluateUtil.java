@@ -223,6 +223,9 @@ public class ExprEvaluateUtil
 			Context cx = Context.enter( );
 			if ( dataExpr instanceof IScriptExpression )
 			{
+				if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
+					return null;
+				
 				Object value = JavascriptEvalUtil.evaluateRawScript( cx,
 						scope,
 						( (IScriptExpression) dataExpr ).getText( ),
