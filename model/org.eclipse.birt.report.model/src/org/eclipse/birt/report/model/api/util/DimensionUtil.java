@@ -248,6 +248,34 @@ public class DimensionUtil
 	}
 
 	/**
+	 * Return if the given unit is a relative unit or not. The following units
+	 * defined in <code>DesignChoiceConstants</code> are considered as
+	 * relative:
+	 * <ul>
+	 * <li>UNITS_EM
+	 * <li>UNITS_EX
+	 * <li>UNITS_PERCENTAGE
+	 * <li>UNITS_PX
+	 * </ul>
+	 * 
+	 * @param unit
+	 *            a given unit.
+	 * @return <code>true</code> if the unit is a relative unit like em, ex, %
+	 *         and px. Return <code>false</code> if the unit is not a relative
+	 *         unit.( it can be an absolute relative unit like "mm", or even an
+	 *         unrecognized unit. )
+	 */
+
+	public static final boolean isRelativeUnit( String unit )
+	{
+		return DesignChoiceConstants.UNITS_EM.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_EX.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_PERCENTAGE
+						.equalsIgnoreCase( unit )
+				|| DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( unit );
+	}
+
+	/**
 	 * Returns whether the dimension string value is absolute font size
 	 * constant. The absolute font size constants are defined in
 	 * <code>DesignChoiceConstants</code> as followed.
