@@ -64,6 +64,7 @@ import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -1070,13 +1071,13 @@ public class UIUtil
 	/**
 	 * @return Report Designer UI plugin installation directory as OS string.
 	 */
-	public static String getPredifinedTemplateDirectory( )
+	public static String getFragmentDirectory( )
 	{
 		URL url = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ).getEntry( "/" ); //$NON-NLS-1$
 		String directory = null;
 		try
 		{
-			directory = Platform.resolve( url ).getPath( );
+			directory = FileLocator.resolve( url ).getPath( );
 		}
 		catch ( IOException e )
 		{

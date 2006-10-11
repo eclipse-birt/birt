@@ -23,11 +23,14 @@ import java.net.URL;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -81,7 +84,7 @@ public class NewReportWizard extends Wizard implements
 
 	private WizardTemplateChoicePage templateChoicePage;
 
-//	/private WizardReportSettingPage settingPage;
+	// /private WizardReportSettingPage settingPage;
 
 	public NewReportWizard( )
 	{
@@ -118,13 +121,16 @@ public class NewReportWizard extends Wizard implements
 		templateChoicePage.setTitle( REPORT );
 		templateChoicePage.setDescription( SELECT_A_REPORT_TEMPLATE );
 
-//		settingPage = new WizardReportSettingPage( null );
-//		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-//				new Object[]{
-//					Messages.getString( "NewReportWizard.wizardPageTitle.report" )} ) );//$NON-NLS-1$
-//		settingPage.setMessage( Messages.getString( "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
-//
-//		addPage( settingPage );
+		// settingPage = new WizardReportSettingPage( null );
+		// settingPage.setTitle( Messages.getFormattedString(
+		// "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
+		// new Object[]{
+		// Messages.getString( "NewReportWizard.wizardPageTitle.report" )} )
+		// );//$NON-NLS-1$
+		// settingPage.setMessage( Messages.getString(
+		// "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
+		//
+		// addPage( settingPage );
 
 		// initialize new report file page.
 		newReportFileWizardPage.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
@@ -186,43 +192,16 @@ public class NewReportWizard extends Wizard implements
 		{
 			fileName = fn;
 		}
-		InputStream inputData = null;
+
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
-		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( templateChoicePage.getTemplate( ).getReportFullName( )));
-		if ( url != null )
-		{
-			try
-			{
-				inputData = url.openStream( );
-			}
-			catch ( IOException e1 )
-			{
-				return false;
-			}
-		}
-		else
-		{
-			File file = new File( templateChoicePage.getTemplate( )
-					.getReportFullName( ) );
-			if ( file.exists( ) )
-			{
-				try
-				{
-					inputData = new FileInputStream( file );
-				}
-				catch ( FileNotFoundException e )
-				{
-					return false;
-				}
-			}
-		}
 
-		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
-				.getCheatSheetId( );
+		ReportDesignHandle selTemplate = templateChoicePage.getTemplate( );
+		final String templateFileName = selTemplate.getFileName( );
+
+		cheatSheetIdFromPage = selTemplate.getCheatSheet( );
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
-		final InputStream stream = inputData;
+
 		final String cheatSheetId = cheatSheetIdFromPage;
 		final boolean showCheatSheet = showCheatSheetFromPage;
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
@@ -233,7 +212,7 @@ public class NewReportWizard extends Wizard implements
 				{
 					doFinish( locPath,
 							fileName,
-							stream,
+							templateFileName,
 							cheatSheetId,
 							showCheatSheet,
 							monitor );
@@ -275,7 +254,7 @@ public class NewReportWizard extends Wizard implements
 	 */
 
 	private void doFinish( IPath locationPath, String fileName,
-			InputStream stream, final String cheatSheetId,
+			String sourceFileName, final String cheatSheetId,
 			final boolean showCheatSheet, IProgressMonitor monitor )
 	{
 		// create a sample file
@@ -289,12 +268,31 @@ public class NewReportWizard extends Wizard implements
 			{
 				container.mkdirs( );
 			}
-			FileOutputStream out = new FileOutputStream( file );
-			byte[] buff = new byte[stream.available( )];
-			stream.read( buff );
-			out.write( buff );
-			out.close( );
-			stream.close( );
+			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.createDesignFromTemplate( sourceFileName );
+			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+			{
+				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault( ).getCommentPreference( ) );
+			}
+			if ( isPredifinedTemplate( sourceFileName ) )
+			{
+				String displayName = handle.getDisplayName( );
+				if ( displayName != null && displayName.trim( ).length( ) > 0 )
+				{
+					handle.setDisplayName( Messages.getString( displayName ) );
+				}
+
+				String description = handle.getDescription( );
+				if ( description != null && description.trim( ).length( ) > 0 )
+				{
+					handle.setDescription( Messages.getString( description ) );
+				}
+
+			}
+			handle.saveAs( file.getAbsolutePath( ) );
+			handle.close( );
 		}
 		catch ( Exception e )
 		{
@@ -320,17 +318,13 @@ public class NewReportWizard extends Wizard implements
 					}
 
 					// open the editor on the file
-					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
+					page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.DESIGN_EDITOR_ID,
 							true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-					    model.save( );
-					    editorPart.doSave( null );
-					}
-//					setReportSettings( ( (RCPReportEditor) editorPart ).getModel( ) );
-//					editorPart.doSave( null );
+
+					// setReportSettings( ( (RCPReportEditor) editorPart
+					// ).getModel( ) );
+					// editorPart.doSave( null );
 
 					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$
 					{
@@ -371,6 +365,16 @@ public class NewReportWizard extends Wizard implements
 		// TODO Auto-generated method stub
 
 	}
-
-
+	
+	private boolean isPredifinedTemplate(String sourceFileName)
+	{
+		String predifinedDir = UIUtil.getFragmentDirectory( );
+		File predifinedFile = new File(predifinedDir);
+		File sourceFile = new File(sourceFileName);
+		if(sourceFile.getAbsolutePath( ).startsWith( predifinedFile.getAbsolutePath( ) ))
+		{
+			return true;
+		}		
+		return false;
+	}
 }

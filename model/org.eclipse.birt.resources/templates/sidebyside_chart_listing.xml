@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="Creation of Side by Side Chart Listing Report">
+  <intro href="/org.eclipse.birt.doc/birt/birt-05-1.html">
+    <description>This tutorial helps you create a side by side chart listing inside a BIRT report
+    </description>
+  </intro>
+  <item href="/org.eclipse.birt.doc/birt/birt-02-1.html"
+  		title="Create a DataSource" skip="true">
+     <description>Open the Data Explorer View. Right click on Data Sources and choose "New Data Source" </description>
+     <action class="org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction"
+     pluginId="org.eclipse.birt.report.designer.ui"/>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/birt-03-01.html"
+  		title="Create a DataSet" skip="true">
+     <description>Open the Data Explorer View. Right click on Data Sets and choose "New Data Set" </description>
+     <action class="org.eclipse.birt.report.designer.ui.actions.NewDataSetAction"
+     pluginId="org.eclipse.birt.report.designer.ui"/>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/birt-05-4.html"
+  		title="Bind the data to the list" skip="true">
+     <description>
+          - Select the list element in the layout editor<br/>
+          - Go to property editor view<br/>
+          - Select the Binding tab<br/>
+          - Select the data set that you want to bind to the list<br/>
+          - Set data set parameter values if the data set contains parameter</description>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/birt-08-2.html#wp192203"
+  		title="Edit the list group" skip="true">
+  	 <description>Select the list, right click and choose "Edit Group".</description>
+  	 <action class="org.eclipse.birt.report.designer.ui.actions.cheatsheets.TemplateEditGroupAction"
+  	 pluginId="org.eclipse.birt.report.designer.ui.editors.schematic"
+  	 param1="mainlist"
+  	 param2="group"/>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/birt-14-2.html"
+  		title="Edit the chart" skip="true">
+     <description>Double click on the chart to edit its properties</description>
+  </item>
+  <item href="/org.eclipse.birt.doc/birt/birt-05-1.html"
+  		title="Edit the table" skip="true">
+  	 <description> Drag the fields you need in the group from data explorer view to the table.</description>
+  </item>
+</cheatsheet>

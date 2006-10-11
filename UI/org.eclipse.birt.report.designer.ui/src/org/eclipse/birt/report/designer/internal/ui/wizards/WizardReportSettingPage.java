@@ -139,7 +139,8 @@ public class WizardReportSettingPage extends WizardPage
 		} );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
-		previewImageText = createText( container, 1, 1, SWT.BORDER | SWT.READ_ONLY );
+		previewImageText = createText( container, 1, 1, SWT.BORDER
+				| SWT.READ_ONLY );
 		if ( module != null && module.getIconFile( ) != null )
 			previewImageText.setText( module.getIconFile( ) );
 		previewImageText.addModifyListener( new ModifyListener( ) {
@@ -159,13 +160,13 @@ public class WizardReportSettingPage extends WizardPage
 			{
 
 				String fileName = null;
-				AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog();
+				AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog( );
 				if ( dlg.open( ) == Window.OK )
 				{
 					fileName = dlg.getPath( );
 					previewImageText.setText( fileName );
 				}
-				
+
 			}
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -201,10 +202,10 @@ public class WizardReportSettingPage extends WizardPage
 
 	private Text createText( Composite container, int column, int row )
 	{
-		return createText(container, column, row, SWT.BORDER);
+		return createText( container, column, row, SWT.BORDER );
 	}
 
-	private Text createText( Composite container, int column, int row , int style)
+	private Text createText( Composite container, int column, int row, int style )
 	{
 		Text text;
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
@@ -221,7 +222,7 @@ public class WizardReportSettingPage extends WizardPage
 		text.setLayoutData( gridData );
 		return text;
 	}
-	
+
 	private void validate( )
 	{
 		if ( previewImageStatus.getSeverity( ) != IStatus.OK )
@@ -255,7 +256,11 @@ public class WizardReportSettingPage extends WizardPage
 		if ( !isTextEmpty( previewImageText ) )
 		{
 
-			if (   ( ! new File(imageFileName).exists( )) && (! new File(ReportPlugin.getDefault( ).getResourceFolder( ),imageFileName).exists( )) )
+			if ( ( !new File( imageFileName ).exists( ) )
+					&& ( !new File( ReportPlugin.getDefault( )
+							.getResourceFolder( ), imageFileName ).exists( ) )
+					&& ( !new File( UIUtil.getFragmentDirectory( ),
+							imageFileName ).exists( ) ) )
 			{
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
@@ -357,7 +362,11 @@ public class WizardReportSettingPage extends WizardPage
 		if ( !isTextEmpty( previewImageText ) )
 		{
 			String imageFileName = previewImageText.getText( ).trim( );
-			if (  ( ! new File(imageFileName).exists( )) && (! new File(ReportPlugin.getDefault( ).getResourceFolder( ),imageFileName).exists( )) )
+			if ( ( !new File( imageFileName ).exists( ) )
+					&& ( !new File( ReportPlugin.getDefault( )
+							.getResourceFolder( ), imageFileName ).exists( ) )
+					&& ( !new File( UIUtil.getFragmentDirectory( ),
+							imageFileName ).exists( ) ) )
 			{
 				return false;
 			}

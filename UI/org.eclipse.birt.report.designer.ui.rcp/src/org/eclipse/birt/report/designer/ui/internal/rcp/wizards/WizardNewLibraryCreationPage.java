@@ -22,12 +22,16 @@ import java.net.URL;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -191,30 +195,32 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		{
 			fileName = fn;
 		}
-		InputStream inputData = null;
 
-		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( TEMPLATE_FILE ) );
-		if ( url != null )
+		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
+				new Path( TEMPLATE_FILE ), null );
+
+		if(url == null)
 		{
-			try
-			{
-				inputData = url.openStream( );
-			}
-			catch ( IOException e1 )
-			{
-				// ignore.
-			}
+			return false;
 		}
 
-		final InputStream stream = inputData;
+		final String libraryFileName;
+		try
+		{
+			libraryFileName = FileLocator.resolve( url ).getPath( );
+		}
+		catch ( IOException e1 )
+		{
+			return false;
+		}
+		
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
 			{
 				try
 				{
-					doFinish( locPath, fileName, stream, monitor );
+					doFinish( locPath, fileName, libraryFileName, monitor );
 				}
 				finally
 				{
@@ -240,31 +246,62 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 	}
 
 	private void doFinish( IPath locationPath, String fileName,
-			InputStream stream, IProgressMonitor monitor )
+			String sourceFileName, IProgressMonitor monitor )
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 
-		final File file = new File( locationPath.toString( ), fileName );
+//		final File file = new File( locationPath.toString( ), fileName );
+		File container = null;
 		try
 		{
-			File container = new File( locationPath.toString( ) );
+			container = new File( locationPath.toString( ) );
 			if ( !container.exists( ) )
 			{
 				container.mkdirs( );
 			}
-			FileOutputStream out = new FileOutputStream( file );
-			byte[] buff = new byte[stream.available( )];
-			stream.read( buff );
-			out.write( buff );
-			out.close( );
-			stream.close( );	
+	
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
 
+		if(container == null)
+		{
+			return;
+		}
+		final File file = new File( locationPath.toString( ), fileName );
+		
+		try
+		{
+			ModuleHandle handle = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.openLibrary( sourceFileName );
+			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+			{
+				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault( ).getCommentPreference( ) );
+			}
+
+			if ( inPredifinedTemplateFolder( sourceFileName ) )
+			{
+
+				String description = handle.getDescription( );
+				if ( description != null && description.trim( ).length( ) > 0 )
+				{
+					handle.setDescription( Messages.getString( description ) );
+				}
+
+			}
+			handle.saveAs( file.getAbsolutePath( ) );
+			handle.close( );
+
+		}
+		catch ( Exception e )
+		{
+		}
+		
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -277,15 +314,9 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-				    	IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
+				    	page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.LIBRARY_EDITOR_ID,
 							true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
-					    model.save( );
-					    editorPart.doSave( null );
-					}
 				}
 				catch ( Exception e )
 				{
@@ -303,5 +334,18 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 	{
 		SessionHandleAdapter.getInstance( ).getSessionHandle( )
 				.fireResourceChange( new LibraryChangeEvent( fileName ) );
+	}
+	
+	protected boolean inPredifinedTemplateFolder( String sourceFileName )
+	{
+		String predifinedDir = UIUtil.getFragmentDirectory( );
+		File predifinedFile = new File( predifinedDir );
+		File sourceFile = new File( sourceFileName );
+		if ( sourceFile.getAbsolutePath( )
+				.startsWith( predifinedFile.getAbsolutePath( ) ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }

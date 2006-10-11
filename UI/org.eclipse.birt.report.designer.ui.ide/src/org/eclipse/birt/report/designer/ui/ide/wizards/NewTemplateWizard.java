@@ -7,10 +7,10 @@
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -30,6 +31,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -103,7 +105,7 @@ public class NewTemplateWizard extends NewReportWizard
 	 */
 	public boolean canFinish( )
 	{
-		return newReportFileWizardPage.isPageComplete( );
+		return newReportFileWizardPage.isPageComplete( ) && settingPage.canFinish( );
 	}
 
 	/*
@@ -124,21 +126,22 @@ public class NewTemplateWizard extends NewReportWizard
 		{
 			fileName = fn;
 		}
-		InputStream streamFromPage = null;
-		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( "/templates/blank_report.rptdesign" ) );//$NON-NLS-1$
-		if ( url != null )
+		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
+				new Path( "/templates/blank_report.rpttemplate" ), null );//$NON-NLS-1$
+
+		if ( url == null )
 		{
-			try
-			{
-				streamFromPage = url.openStream( );
-			}
-			catch ( IOException e1 )
-			{
-				// ignore.
-			}
+			return false;
 		}
-		final InputStream stream = streamFromPage;
+		final String templateFileName;
+		try
+		{
+			templateFileName = FileLocator.resolve( url ).getPath( );
+		}
+		catch ( IOException e1 )
+		{
+			return false;
+		}
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
@@ -146,7 +149,10 @@ public class NewTemplateWizard extends NewReportWizard
 			{
 				try
 				{
-					doFinish( containerName, fileName, stream, monitor );
+					doFinish( containerName,
+							fileName,
+							templateFileName,
+							monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -189,7 +195,8 @@ public class NewTemplateWizard extends NewReportWizard
 	 */
 
 	private void doFinish( IPath containerName, String fileName,
-			InputStream stream, IProgressMonitor monitor ) throws CoreException
+			String sourceFileName, IProgressMonitor monitor )
+			throws CoreException
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
@@ -210,22 +217,32 @@ public class NewTemplateWizard extends NewReportWizard
 		{
 			container = (IContainer) resource;
 		}
+
 		final IFile file = container.getFile( new Path( fileName ) );
+
 		try
 		{
-			if ( file.exists( ) )
+			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.createDesignFromTemplate( sourceFileName );
+			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
-				file.setContents( stream, true, true, monitor );
+				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
-			else
-			{
-				file.create( stream, true, monitor );
-			}
-			stream.close( );
+
+			handle.saveAs( file.getLocation( ).toOSString( ) );
+			handle.close( );
+
 		}
 		catch ( Exception e )
 		{
 		}
+
+		// to refresh this project, or file does not exist will be told, though
+		// it's created.
+		container.refreshLocal( IResource.DEPTH_INFINITE, monitor );
+
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -239,18 +256,12 @@ public class NewTemplateWizard extends NewReportWizard
 				try
 				{
 					IEditorPart editorPart = IDE.openEditor( page, file, true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( )
+					ModuleHandle handle = SessionHandleAdapter.getInstance( )
 							.getReportDesignHandle( );
-					if ( ReportPlugin.getDefault( )
-							.getEnableCommentPreference( ) )
-					{
-						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
-								ReportPlugin.getDefault( )
-										.getCommentPreference( ) );
-					}
-					setReportSettings( model );
-					editorPart.doSave( null );
+					setReportSettings( handle );
 					BasicNewProjectResourceWizard.updatePerspective( getConfigElement( ) );
+					handle.save( );
+					editorPart.doSave( null );
 				}
 				catch ( Exception e )
 				{
@@ -280,6 +291,5 @@ public class NewTemplateWizard extends NewReportWizard
 		catch ( SemanticException e )
 		{
 		}
-		handle.save( );
 	}
 }

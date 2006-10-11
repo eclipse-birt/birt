@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,10 +25,12 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingP
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
@@ -73,7 +74,7 @@ public class NewReportTemplateWizard extends Wizard implements
 
 	private static final String NEW_REPORT_FILE_EXTENSION = ".rpttemplate"; //$NON-NLS-1$
 
-	private static final String TEMPLATE_FILE = "/templates/blank_report.rptdesign"; //$NON-NLS-1$
+	private static final String TEMPLATE_FILE = "/templates/blank_report.rpttemplate"; //$NON-NLS-1$
 
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
@@ -176,30 +177,28 @@ public class NewReportTemplateWizard extends Wizard implements
 		{
 			fileName = fn;
 		}
-		InputStream inputData = null;
 
-		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( TEMPLATE_FILE ) );
-		if ( url != null )
+		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
+				new Path( TEMPLATE_FILE ), null );
+
+		final String templateFileName;
+		try
 		{
-			try
-			{
-				inputData = url.openStream( );
-			}
-			catch ( IOException e1 )
-			{
-				// ignore.
-			}
+			templateFileName = FileLocator.resolve( url ).getPath( );
 		}
+		catch ( IOException e1 )
+		{
+			return false;
+		}
+		
 
-		final InputStream stream = inputData;
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
 			{
 				try
 				{
-					doFinish( locPath, fileName, stream, monitor );
+					doFinish( locPath, fileName, templateFileName, monitor );
 				}
 				finally
 				{
@@ -236,7 +235,7 @@ public class NewReportTemplateWizard extends Wizard implements
 	 */
 
 	private void doFinish( IPath locationPath, String fileName,
-			InputStream stream, IProgressMonitor monitor )
+			String templateFileName, IProgressMonitor monitor )
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
@@ -249,18 +248,32 @@ public class NewReportTemplateWizard extends Wizard implements
 			{
 				container.mkdirs( );
 			}
-			FileOutputStream out = new FileOutputStream( file );
-			byte[] buff = new byte[stream.available( )];
-			stream.read( buff );
-			out.write( buff );
-			out.close( );
-			stream.close( );
+
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
 
+		try
+		{
+			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.createDesignFromTemplate( templateFileName );
+			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+			{
+				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault( ).getCommentPreference( ) );
+			}
+
+			handle.saveAs( file.getAbsolutePath( ) );
+			handle.close( );
+
+		}
+		catch ( Exception e )
+		{
+		}
+		
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -289,6 +302,7 @@ public class NewReportTemplateWizard extends Wizard implements
 					}
 					    
 					setReportSettings(model);
+					model.save( );
 					editorPart.doSave( null );
 
 				}
@@ -309,7 +323,7 @@ public class NewReportTemplateWizard extends Wizard implements
 
 	public boolean canFinish( )
 	{
-		return newReportFileWizardPage.isPageComplete( );
+		return newReportFileWizardPage.isPageComplete( ) && settingPage.canFinish( );
 	}
 
 	public void init( IWorkbench workbench, IStructuredSelection selection )
@@ -343,6 +357,5 @@ public class NewReportTemplateWizard extends Wizard implements
 		catch ( SemanticException e )
 		{
 		}
-		handle.save( );
 	}
 }

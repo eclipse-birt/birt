@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.resources.IContainer;
@@ -33,6 +34,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -41,7 +43,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -65,20 +66,19 @@ public class NewLibraryWizardAdapterFactory implements IAdapterFactory
 
 	public Class[] getAdapterList( )
 	{
-		return new Class[]{INewLibraryCreationPage.class};
+		return new Class[]{
+			INewLibraryCreationPage.class
+		};
 	}
 
 }
 
-class NewLibraryCreationPage extends WizardNewFileCreationPage
-		implements
-			INewLibraryCreationPage
+class NewLibraryCreationPage extends WizardNewFileCreationPage implements
+		INewLibraryCreationPage
 {
 
-	private static final String OPENING_FILE_FOR_EDITING = Messages
-			.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-	private static final String CREATING = Messages
-			.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
 
 	// private static final String NEW_REPORT_FILE_NAME_PREFIX =
 	// Messages.getString(
@@ -126,21 +126,25 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 		{
 			fileName = fn;
 		}
-		InputStream streamFromPage = null;
-		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path( "/templates/blank_library.rptlibrary" ) );
-		if ( url != null )
+
+		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
+				new Path( "/templates/blank_library.rptlibrary" ),
+				null );
+
+		if ( url == null )
 		{
-			try
-			{
-				streamFromPage = url.openStream( );
-			}
-			catch ( IOException e1 )
-			{
-				// ignore.
-			}
+			return false;
 		}
-		final InputStream stream = streamFromPage;
+		
+		final String libraryFileName;
+		try
+		{
+			libraryFileName = FileLocator.resolve( url ).getPath( );
+		}
+		catch ( IOException e1 )
+		{
+			return false;
+		}
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
@@ -148,7 +152,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 			{
 				try
 				{
-					doFinish( containerName, fileName, stream, monitor );
+					doFinish( containerName, fileName, libraryFileName, monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -178,14 +182,17 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 	}
 
 	private void doFinish( IPath containerName, String fileName,
-			InputStream stream, IProgressMonitor monitor ) throws CoreException
+			String sourceFileName, IProgressMonitor monitor )
+			throws CoreException
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
 		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
-				.getRoot( ).findMember( containerName );
+				.getRoot( )
+				.findMember( containerName );
 		IContainer container = null;
-		if ( resource == null || !resource.exists( )
+		if ( resource == null
+				|| !resource.exists( )
 				|| !( resource instanceof IContainer ) )
 		{
 			// create folder if not exist
@@ -198,21 +205,39 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 			container = (IContainer) resource;
 		}
 		final IFile file = container.getFile( new Path( fileName ) );
+
 		try
 		{
-			if ( file.exists( ) )
+			ModuleHandle handle = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.openLibrary( sourceFileName );
+			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
-				file.setContents( stream, true, true, monitor );
+				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
-			else
+
+			if ( inPredifinedTemplateFolder( sourceFileName ) )
 			{
-				file.create( stream, true, monitor );
+
+				String description = handle.getDescription( );
+				if ( description != null && description.trim( ).length( ) > 0 )
+				{
+					handle.setDescription( Messages.getString( description ) );
+				}
+
 			}
-			stream.close( );
+			handle.saveAs( file.getLocation( ).toOSString( ) );
+			handle.close( );
+
 		}
 		catch ( Exception e )
 		{
 		}
+		// to refresh this project, or file does not exist will be told, though
+		// it's created.
+		container.refreshLocal( IResource.DEPTH_INFINITE, monitor );
+
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -225,18 +250,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IEditorPart editorPart = IDE.openEditor( page, file, true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-					if ( ReportPlugin.getDefault( )
-							.getEnableCommentPreference( ) )
-					{
-						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
-								ReportPlugin.getDefault( )
-										.getCommentPreference( ) );
-						model.save( );
-						editorPart.doSave( null );
-					}
+					IDE.openEditor( page, file, true );
 					// page.openEditor( new FileEditorInput( file ),
 					// LibraryReportEditor.EDITOR_ID,
 					// true );
@@ -255,7 +269,8 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 
 	private void fireLibraryChanged( String fileName )
 	{
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
 				.fireResourceChange( new LibraryChangeEvent( fileName ) );
 	}
 
@@ -265,4 +280,18 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage
 				.getRoot( );
 		return workspaceRoot.getFolder( folderPath );
 	}
+
+	protected boolean inPredifinedTemplateFolder( String sourceFileName )
+	{
+		String predifinedDir = UIUtil.getFragmentDirectory( );
+		File predifinedFile = new File( predifinedDir );
+		File sourceFile = new File( sourceFileName );
+		if ( sourceFile.getAbsolutePath( )
+				.startsWith( predifinedFile.getAbsolutePath( ) ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
 }

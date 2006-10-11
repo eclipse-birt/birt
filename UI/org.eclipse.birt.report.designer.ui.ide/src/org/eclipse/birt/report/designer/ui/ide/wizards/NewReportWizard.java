@@ -11,12 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +22,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
-import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage.Template;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -45,9 +41,9 @@ import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -139,98 +135,17 @@ public class NewReportWizard extends Wizard implements
 		{
 			fileName = fn;
 		}
-		InputStream streamFromPage = null;
+
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
 
-		// Temporary remark the choice page for that feature is not supported in
-		// R1
-		// if ( choicePage.isBlank( ) )
-		// {
-		// // blank report
-		// URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI
-		// ),
-		// new Path( templateChoicePage.getBlankTemplate( ).reportPath ) );
-		// if ( url != null )
-		// {
-		// try
-		// {
-		// streamFromPage = url.openStream( );
-		// }
-		// catch ( IOException e1 )
-		// {
-		// //ignore.
-		// }
-		// }
-		//
-		// cheatSheetIdFromPage = templateChoicePage.getBlankTemplate(
-		// ).cheatSheetId;
-		// showCheatSheetFromPage = false;
-		// }
-		// else if ( !choicePage.isCustom( ) )
-		// {
-		// predefined template
-		Template selTemplate = templateChoicePage.getTemplate( );
-		String fullName = selTemplate.getReportFullName( );
-		URL url = Platform.find( Platform.getBundle( ReportPlugin.REPORT_UI ),
-				new Path(fullName ) );
-		if ( url != null )
-		{
-			try
-			{
-				streamFromPage = url.openStream( );
-			}
-			catch ( IOException e1 )
-			{
-				// ignore.
-			}
-		}
-		else
-		{
-			try
-			{
-				streamFromPage = new FileInputStream( fullName );
-			}
-			catch ( FileNotFoundException e )
-			{
-			}
-		}
+		ReportDesignHandle selTemplate = templateChoicePage.getTemplate( );
+		final String templateName = selTemplate.getFileName( );
 
 		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
-				.getCheatSheetId( );
+				.getCheatSheet( );
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
-		// Temporary remark the choice page for that feature is not supported in
-		// R1
-		// }
-		// else
-		// {
-		// // custom template
-		// try
-		// {
-		// streamFromPage = new FileInputStream(
-		// customTemplatePage.getReportPath( ) );
-		// String xmlPath = customTemplatePage.getReportPath( )
-		// .replaceFirst( ".rptdesign", ".xml" );
-		// File f = new File( xmlPath );
-		// if ( f.exists( ) )
-		// {
-		// cheatSheetIdFromPage = f.toURL( ).toString( );
-		// // commented out until opencheatsheetaction bug is fixed in
-		// // eclipse
-		// // https://bugs.eclipse.org/bugs/show_bug.cgi?id=88481
-		// // showCheatSheetFromPage =
-		// // customTemplatePage.getShowCheatSheet( );
-		// }
-		//
-		// }
-		// catch ( Exception e )
-		// {
-		// ExceptionHandler.handle( e );
-		// return false;
-		// }
-		// }
 
-		final InputStream stream = streamFromPage;
 		final String cheatSheetId = cheatSheetIdFromPage;
 		final boolean showCheatSheet = showCheatSheetFromPage;
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
@@ -242,7 +157,7 @@ public class NewReportWizard extends Wizard implements
 				{
 					doFinish( containerName,
 							fileName,
-							stream,
+							templateName,
 							cheatSheetId,
 							showCheatSheet,
 							monitor );
@@ -333,13 +248,7 @@ public class NewReportWizard extends Wizard implements
 				selection,
 				fileExtension );
 		addPage( newReportFileWizardPage );
-		// Temporary remark the choice page for that feature is not supported in
-		// R1
-		// choicePage = new WizardChoicePage( TEMPLATECHOICEPAGE );
-		// addPage( choicePage );
-		// customTemplatePage = new WizardCustomTemplatePage( TEMPLATECHOICEPAGE
-		// );
-		// addPage( customTemplatePage );
+
 		templateChoicePage = new WizardTemplateChoicePage( TEMPLATECHOICEPAGE );
 		addPage( templateChoicePage );
 
@@ -348,27 +257,12 @@ public class NewReportWizard extends Wizard implements
 		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
 		templateChoicePage.setTitle( REPORT );
 		templateChoicePage.setDescription( SELECT_A_REPORT_TEMPLATE );
-		// Temporary remark the choice page for that feature is not supported in
-		// R1
-		// customTemplatePage.setTitle( REPORT );
-		// customTemplatePage.setDescription( SELECT_A_REPORT_TEMPLATE );
-		// choicePage.setTitle( REPORT );
-		// choicePage.setDescription( CHOOSE_FROM_TEMPLATE );
 
 		resetUniqueCount( );
 		newReportFileWizardPage.setFileName( getUniqueReportName( NEW_REPORT_FILE_NAME_PREFIX,
 				NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 
-		// settingPage = new WizardReportSettingPage( null );
-		// settingPage.setTitle( Messages.getFormattedString(
-		// "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-		// new Object[]{
-		// Messages.getString( "NewReportWizard.wizardPageTitle.report" )} )
-		// );//$NON-NLS-1$
-		// settingPage.setMessage( Messages.getString(
-		// "SaveReportAsWizard.SettingPage.message" ) ); //$NON-NLS-1$
-		// addPage( settingPage );
 	}
 
 	/**
@@ -580,8 +474,9 @@ public class NewReportWizard extends Wizard implements
 	 */
 
 	private void doFinish( IPath containerName, String fileName,
-			InputStream stream, String cheatSheetId, boolean showCheatSheet,
-			IProgressMonitor monitor ) throws CoreException
+			final String sourceFileName, String cheatSheetId,
+			boolean showCheatSheet, IProgressMonitor monitor )
+			throws CoreException
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
@@ -602,24 +497,48 @@ public class NewReportWizard extends Wizard implements
 		{
 			container = (IContainer) resource;
 		}
+		
 		final IFile file = container.getFile( new Path( fileName ) );
 		final String cheatId = cheatSheetId;
 		final boolean showCheat = showCheatSheet;
+
 		try
 		{
-			if ( file.exists( ) )
+			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.createDesignFromTemplate( sourceFileName );
+			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
-				file.setContents( stream, true, true, monitor );
+				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
-			else
+			
+			if ( isPredifinedTemplate( sourceFileName ) )
 			{
-				file.create( stream, true, monitor );
+				String displayName = handle.getDisplayName( );
+				if ( displayName != null && displayName.trim( ).length( ) > 0 )
+				{
+					handle.setDisplayName( Messages.getString( displayName ) );
+				}
+
+				String description = handle.getDescription( );
+				if ( description != null && description.trim( ).length( ) > 0 )
+				{
+					handle.setDescription( Messages.getString( description ) );
+				}
+
 			}
-			stream.close( );
+			handle.saveAs( file.getLocation( ).toOSString( ) );
+			handle.close( );
 		}
 		catch ( Exception e )
 		{
 		}
+
+		// to refresh this project, or file does not exist will be told, though
+		// it's created.
+		container.refreshLocal( IResource.DEPTH_INFINITE, monitor );
+
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -632,38 +551,14 @@ public class NewReportWizard extends Wizard implements
 
 				try
 				{
-					IEditorPart editorPart = IDE.openEditor( page, file, true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-					if ( ReportPlugin.getDefault( )
-							.getEnableCommentPreference( ) )
-					{
-						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
-								ReportPlugin.getDefault( )
-										.getCommentPreference( ) );
-						model.save( );
-						editorPart.doSave( null );
-					}
-					// setReportSettings( ( (IDEReportEditor) editorPart
-					// ).getModel( ) );
-					// editorPart.doSave( null );
+					IDE.openEditor( page, file, true );
 
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
 						OpenCheatSheetAction action = null;
-						// Temporary remark the choice page for that feature is
-						// not supported in R1
-						// if ( choicePage.isCustom( ) )
-						// {
-						// action = new OpenCheatSheetAction( file.getName( ),
-						// file.getName( ),
-						// new URL( cheatId ) ); //$NON-NLS-1$
-						// }
-						// else
-						// {
 						action = new OpenCheatSheetAction( cheatId );
-						// }
+
 						action.run( );
 					}
 				}
@@ -677,55 +572,6 @@ public class NewReportWizard extends Wizard implements
 		monitor.worked( 1 );
 
 	}
-
-	// private void throwCoreException( String message ) throws CoreException
-	// {
-	// IStatus status = new Status( IStatus.ERROR,
-	// REPORT_WIZARD,
-	// IStatus.OK,
-	// message,
-	// null );
-	// throw new CoreException( status );
-	// }
-
-	// Temporary remark the choice page for that feature is not supported in R1
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// org.eclipse.jface.wizard.IWizard#getNextPage(org.eclipse.jface.wizard.IWizardPage)
-	// */
-	// public IWizardPage getNextPage( IWizardPage page )
-	// {
-	//
-	// if ( page instanceof WizardChoicePage )
-	// {
-	// if ( choicePage.isCustom( ) )
-	// {
-	// return customTemplatePage;
-	// }
-	// else if ( choicePage.isBlank( ) )
-	// {
-	// return null;
-	// }
-	// else
-	// {
-	// return templateChoicePage;
-	// }
-	//
-	// }
-	// else
-	// {
-	// if ( page instanceof WizardCustomTemplatePage )
-	// {
-	// return null;
-	// }
-	// else
-	// {
-	// return super.getNextPage( page );
-	// }
-	// }
-	// }
 
 	/*
 	 * (non-Javadoc)
@@ -766,6 +612,7 @@ public class NewReportWizard extends Wizard implements
 
 	/**
 	 * Report design file extension
+	 * 
 	 * @return file extension
 	 */
 	public String getFileExtension( )
@@ -785,6 +632,7 @@ public class NewReportWizard extends Wizard implements
 
 	/**
 	 * Get the selection
+	 * 
 	 * @return The selection
 	 */
 	public IStructuredSelection getSelection( )
@@ -794,6 +642,7 @@ public class NewReportWizard extends Wizard implements
 
 	/**
 	 * Get configuration element
+	 * 
 	 * @return
 	 */
 	public IConfigurationElement getConfigElement( )
@@ -801,24 +650,22 @@ public class NewReportWizard extends Wizard implements
 		return configElement;
 	}
 
-	/**
-	 * Set report basic settings.
-	 * 
-	 * @param model
-	 * @throws IOException
-	 */
-	// void setReportSettings( Object model ) throws IOException
-	// {
-	// ReportDesignHandle handle = (ReportDesignHandle) model;
-	// try
-	// {
-	// handle.setDisplayName( settingPage.getDisplayName( ) );
-	// handle.setDescription( settingPage.getDescription( ) );
-	// handle.setIconFile( settingPage.getPreviewImagePath( ) );
-	// }
-	// catch ( SemanticException e )
-	// {
-	// }
-	// handle.save( );
-	// }
+	protected boolean isPredifinedTemplate( String sourceFileName )
+	{
+		if(sourceFileName == null || sourceFileName.trim( ).length( ) == 0)
+		{
+			return false;
+		}
+		
+		String predifinedDir = UIUtil.getFragmentDirectory( );
+		Assert.isNotNull( predifinedDir );
+		File predifinedFile = new File( predifinedDir );
+		File sourceFile = new File( sourceFileName );
+		if ( sourceFile.getAbsolutePath( )
+				.startsWith( predifinedFile.getAbsolutePath( ) ) )
+		{
+			return true;
+		}
+		return false;
+	}
 }
