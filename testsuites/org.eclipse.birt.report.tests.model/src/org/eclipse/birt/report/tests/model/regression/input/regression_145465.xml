@@ -24,5 +24,9 @@
         <label name="NewLabel" id="4" extends="regression_145465_lib.NewLabel"/>
         <label name="extendsLabel" id="5" extends="regression_145465_lib.NewLabel"/>
         <label name="extendsLabel1" id="6" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel2" id="7" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel3" id="8" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel4" id="9" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel5" id="10" extends="regression_145465_lib.NewLabel"/>
     </body>
 </report>

@@ -37,7 +37,7 @@ public class Regression_155509 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_155509( ) throws DesignFileException
+	public void test_regression_155509( ) throws DesignFileException
 	{
 		openDesign( filename );
 		rl = new DefaultResourceLocator( );
