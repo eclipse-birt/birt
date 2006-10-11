@@ -436,6 +436,7 @@ public interface DesignChoiceConstants
 	public static final String FORMAT_TYPE_EXCEL = "excel"; //$NON-NLS-1$
 	public static final String FORMAT_TYPE_WORD = "word"; //$NON-NLS-1$
 	public static final String FORMAT_TYPE_POWERPOINT = "powerpoint"; //$NON-NLS-1$
+	public static final String FORMAT_TYPE_DOC = "doc";//$NON-NLS-1$
 
 	/**
 	 * ImageRefType -- The image reference type. The first constant is the name
