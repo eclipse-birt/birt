@@ -75,6 +75,10 @@ abstract public class AbstractContent extends AbstractElement
 	
 	transient protected int version = -1;
 
+	/**
+	 * Constructor of the AbstractContent
+	 * @param report report can't be null
+	 */
 	public AbstractContent( IReportContent report )
 	{
 		assert report != null;
@@ -83,6 +87,10 @@ abstract public class AbstractContent extends AbstractElement
 		this.cssEngine = report.getCSSEngine( );
 	}
 
+	/**
+	 * Set the report content, and the content can not be null
+	 * @param report report can't be null
+	 */
 	public void setReportContent( IReportContent report )
 	{
 		assert report != null;
@@ -90,6 +98,10 @@ abstract public class AbstractContent extends AbstractElement
 		this.cssEngine = report.getCSSEngine( );
 	}
 
+	/**
+	 * Constructor of the AbstractContent
+	 * @param content content can't be null
+	 */
 	public AbstractContent( IContent content )
 	{
 		assert content != null;
