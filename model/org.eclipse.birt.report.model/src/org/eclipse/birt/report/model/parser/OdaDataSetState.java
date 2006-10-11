@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -24,7 +25,6 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
-import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -230,19 +230,19 @@ public class OdaDataSetState extends SimpleDataSetState
 	{
 		super.end( );
 
-		DesignElement tmpElement = getElement( );
+		OdaDataSet tmpElement = (OdaDataSet) getElement( );
 		doCompatibleDataSetProperty( tmpElement );
-		mergeResultSetAndResultSetHints( (OdaDataSet) tmpElement );
+		mergeResultSetAndResultSetHints( tmpElement );
 
 		TemplateParameterDefinition refTemplateParam = tmpElement
 				.getTemplateParameterElement( handler.getModule( ) );
 		if ( refTemplateParam == null )
 			return;
 
-		doCompatibleDataSetProperty( refTemplateParam.getDefaultElement( ) );
-
-		mergeResultSetAndResultSetHints( (OdaDataSet) refTemplateParam
-				.getDefaultElement( ) );
+		OdaDataSet refDefaultElement = (OdaDataSet) refTemplateParam
+				.getDefaultElement( );
+		doCompatibleDataSetProperty( refDefaultElement );
+		mergeResultSetAndResultSetHints( refDefaultElement );
 	}
 
 	/**
@@ -252,12 +252,10 @@ public class OdaDataSetState extends SimpleDataSetState
 	 *            the data set element
 	 */
 
-	private void doCompatibleDataSetProperty( DesignElement dataSet )
+	private void doCompatibleDataSetProperty( OdaDataSet dataSet )
 	{
 		if ( dataSet == null )
 			return;
-
-		assert dataSet instanceof OdaDataSet;
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
 		{
@@ -319,11 +317,22 @@ public class OdaDataSetState extends SimpleDataSetState
 			// use both position and name to match, this can avoid position was
 			// not matched and the column name existed already.
 
-			OdaResultSetColumn currentColumn = findResultSet( resultSets, hint
-					.getColumnName( ), hint.getPosition( ) );
+			OdaResultSetColumn currentColumn = null;
+
+			if ( resultSets != null )
+				currentColumn = findResultSet( resultSets,
+						hint.getColumnName( ), hint.getPosition( ) );
+
 			if ( currentColumn == null )
 			{
 				currentColumn = convertResultSetColumnToOdaResultSetColumn( hint );
+
+				if ( resultSets == null )
+				{
+					resultSets = new ArrayList( );
+					dataSet.setProperty( IDataSetModel.RESULT_SET_PROP,
+							resultSets );
+				}
 				resultSets.add( currentColumn );
 			}
 			else
