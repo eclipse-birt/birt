@@ -86,7 +86,7 @@ public abstract class EngineCase extends TestCase
 
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
-	private static String IMAGE_DIR = "image"; //$NON-NLS-1$
+	private String IMAGE_DIR = "image"; //$NON-NLS-1$
 
 	private boolean pagination = false;
 	private Locale locale = Locale.ENGLISH;
