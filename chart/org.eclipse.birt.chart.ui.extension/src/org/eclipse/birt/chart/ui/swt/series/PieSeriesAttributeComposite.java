@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -34,8 +33,6 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -47,6 +44,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
@@ -55,7 +53,6 @@ import org.eclipse.swt.widgets.Spinner;
  */
 public class PieSeriesAttributeComposite extends Composite implements
 		Listener,
-		ModifyListener,
 		SelectionListener
 {
 
@@ -82,8 +79,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 	private transient Label lblExpDistance;
 	private transient Label lblRatio;
 	private transient Spinner iscExplosion;
-	private transient LocalizedNumberEditorComposite txtRatio;
 
+	private transient Slider sRatio;
+	
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
 	private final static String TOOLTIP_RATIO = Messages.getString( "PieBottomAreaComponent.Label.TheRatioOfTheChart" ); //$NON-NLS-1$
@@ -278,16 +276,25 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblRatio.setText( Messages.getString( "PieBottomAreaComponent.Label.Ratio" ) ); //$NON-NLS-1$
 			lblRatio.setToolTipText( TOOLTIP_RATIO );
 		}
-
-		txtRatio = new LocalizedNumberEditorComposite( cmpBottomBindingArea,
-				SWT.BORDER );
+		
+		sRatio = new Slider( cmpBottomBindingArea, SWT.HORIZONTAL
+				| SWT.NO_FOCUS  );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
-			txtRatio.setLayoutData( gridData );
-			txtRatio.setToolTipText( TOOLTIP_RATIO );
-			txtRatio.setValue( series.getRatio( ) );
-			txtRatio.addModifyListener( this );
+			sRatio.setLayoutData( gridData );
+			sRatio.setValues( (int) ( series.getRatio( ) * 10 ),
+					1,
+					101,
+					1,
+					1,
+					10 );
+			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
+			sRatio.setEnabled( true );
+			sRatio.addSelectionListener( this );
+			sRatio.addListener( SWT.FocusOut, this );
+			sRatio.addListener( SWT.KeyDown, this );
+			sRatio.addListener( SWT.Traverse, this );
 		}
 
 	}
@@ -298,19 +305,6 @@ public class PieSeriesAttributeComposite extends Composite implements
 		cmbLeaderLine.setItems( ns.getDisplayNames( ) );
 		cmbLeaderLine.select( ns.getSafeNameIndex( series.getLeaderLineStyle( )
 				.getName( ) ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-	 */
-	public void modifyText( ModifyEvent e )
-	{
-		if ( e.widget.equals( txtRatio ) )
-		{
-			series.setRatio( txtRatio.getValue( ) );
-		}
 	}
 
 	/*
@@ -389,6 +383,11 @@ public class PieSeriesAttributeComposite extends Composite implements
 			{
 				WizardBase.displayException( e1 );
 			}
+		}
+		if ( e.widget.equals( sRatio ) )
+		{
+			series.setRatio( ( (double) sRatio.getSelection( ) ) / 10 );
+			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
 		}
 	}
 
