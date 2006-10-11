@@ -224,7 +224,7 @@ public class ExprEvaluateUtil
 			if ( dataExpr instanceof IScriptExpression )
 			{
 				if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
-					return null;
+					throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 				
 				Object value = JavascriptEvalUtil.evaluateRawScript( cx,
 						scope,
