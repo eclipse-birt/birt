@@ -49,6 +49,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
+import org.eclipse.birt.report.engine.api.DOCRenderContext;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -532,6 +533,24 @@ public class ReportEngineService
 	}
 
 	/**
+	 * Create DOC render context.
+	 * 
+	 * @return the DOC render context
+	 */
+
+	private DOCRenderContext createDOCrenderContext( )
+	{
+		DOCRenderContext renderContext = new DOCRenderContext( );
+
+		renderContext.setBaseURL( this.contextPath
+				+ IBirtConstants.SERVLET_PATH_RUN );
+
+		renderContext.setSupportedImageFormats( "PNG;GIF;JPG;BMP" );
+		return renderContext;
+
+	}
+
+	/**
 	 * Run and render a report,
 	 * 
 	 * @param request
@@ -736,6 +755,11 @@ public class ReportEngineService
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
 					createPDFrenderContext( request.getServletPath( ) ) );
 		}
+		else if ( ParameterAccessor.PARAM_FORMAT_DOC.equalsIgnoreCase( format ) )
+		{
+			context.put( EngineConstants.APPCONTEXT_DOC_RENDER_CONTEXT,
+					createDOCrenderContext( ) );
+		}
 		else if ( htmlRenderContext != null )
 		{
 			context.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
@@ -931,6 +955,11 @@ public class ReportEngineService
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
 					createPDFrenderContext( request.getServletPath( ) ) );
 		}
+		else if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_DOC ) )
+		{
+			context.put( EngineConstants.APPCONTEXT_DOC_RENDER_CONTEXT,
+					createDOCrenderContext( ) );
+		}
 		else
 		{
 			context
@@ -959,6 +988,14 @@ public class ReportEngineService
 							reportDocument, pageNumber, locale, false, rtl,
 							masterPage ) );
 		}
+		else if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_DOC ) )
+		{
+			setting.setOutputFormat( IBirtConstants.DOC_RENDER_FORMAT );
+			setting
+					.setActionHandle( new ViewerHTMLActionHandler(
+							reportDocument, pageNumber, locale, false, rtl,
+							masterPage ) );
+		}
 		else
 		{
 			boolean isEmbeddable = false;
@@ -981,6 +1018,8 @@ public class ReportEngineService
 		try
 		{
 			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF )
+					|| format
+							.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_DOC )
 					|| IBirtConstants.SERVLET_PATH_RUN
 							.equalsIgnoreCase( request.getServletPath( ) ) )
 				renderTask.render( );
@@ -1049,6 +1088,11 @@ public class ReportEngineService
 			context.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
 					createPDFrenderContext( request.getServletPath( ) ) );
 		}
+		else if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_DOC ) )
+		{
+			context.put( EngineConstants.APPCONTEXT_DOC_RENDER_CONTEXT,
+					createDOCrenderContext( ) );
+		}
 		else
 		{
 			context
@@ -1072,6 +1116,12 @@ public class ReportEngineService
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
 			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
+			setting.setActionHandle( new ViewerHTMLActionHandler(
+					reportDocument, -1, locale, false, rtl, masterPage ) );
+		}
+		else if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_DOC ) )
+		{
+			setting.setOutputFormat( IBirtConstants.DOC_RENDER_FORMAT );
 			setting.setActionHandle( new ViewerHTMLActionHandler(
 					reportDocument, -1, locale, false, rtl, masterPage ) );
 		}
@@ -1107,12 +1157,15 @@ public class ReportEngineService
 			{
 				renderTask.setReportlet( reportletId );
 			}
-			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
-				renderTask.render( );
-			else
-			{
-				renderTask.render( );
-			}
+			//Anyway, this render task will run, so this 'if else' statement seems no necessary.  				
+			//			if (format.equalsIgnoreCase ( ParameterAccessor.PARAM_FORMAT_PDF ))
+			//				renderTask.render ( );
+			//			else
+			//			{
+			//				renderTask.render ( );
+			//			}
+
+			renderTask.render( );
 		}
 		catch ( BirtException e )
 		{
