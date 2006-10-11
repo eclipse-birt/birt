@@ -55,7 +55,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
-import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
  * This class implemented visitor pattern, to flatten the report deisgn.
@@ -124,7 +123,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	public void visitReportDesign( ReportDesign obj )
 	{
 		sourceDesign = obj;
-		targetDesign = (ReportDesign) localize( obj );
+		targetDesign = localizeDesign( obj );
 
 		visitSlots( obj, targetDesign, ReportDesign.SLOT_COUNT );
 
@@ -641,6 +640,18 @@ public class ReportDesignSerializer extends ElementVisitor
 		DesignElement newElement = createNewElement( element );
 		localizePropertyValues( element, newElement );
 		return newElement;
+	}
+
+	/**
+	 * 
+	 * @param source
+	 * @return the localized design
+	 */
+	private ReportDesign localizeDesign( ReportDesign source )
+	{
+		ReportDesign design = new ReportDesign( source.getSession( ) );
+		localizePropertyValues( source, design );
+		return design;
 	}
 
 	/**

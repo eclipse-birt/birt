@@ -11,13 +11,14 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Utility class to do conversions between units.
- *  
+ * 
  */
 public class DimensionUtil
 {
@@ -50,7 +51,8 @@ public class DimensionUtil
 
 	/**
 	 * Convert a measure from one units to another. The conversion is between
-	 * absolute the units should be one of the absolute units(CM, IN, MM, PT).
+	 * absolute the units should be one of the absolute units(CM, IN, MM, PT,
+	 * PC).
 	 * 
 	 * @param measure
 	 *            the numeric measure of the dimension.
@@ -304,5 +306,157 @@ public class DimensionUtil
 				|| DesignChoiceConstants.FONT_SIZE_LARGER
 						.equalsIgnoreCase( value );
 	}
-}
 
+	/**
+	 * Convert a measure from one units to another. The target units must be one
+	 * of the absolute units(CM, IN, MM, PT, PC). The input dimension value must
+	 * be one of the following types:
+	 * <ul>
+	 * <li><code>String</code>. It must be a legal dimension value, such as
+	 * '10 em', '+3.5pt', '10%'.
+	 * <li><code>DimensionValue</code>
+	 * <li><code>DimensionHandle</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the input dimension value to be converted
+	 * @param appUnits
+	 *            the application units, used as default to convert from when
+	 *            units part of the input value is empty or null
+	 * @param targetUnits
+	 *            the desired units, it must be one of the absolute unit.
+	 * @param baseSize
+	 *            the base size to convert value with relative units, such as
+	 *            em, ex and %, this value must be computed in units of
+	 *            <code>DesignChoiceConstants.UNITS_PT</code>.
+	 * @param dpi
+	 *            int value that represents the pixel per inch
+	 * 
+	 * @return double value in the target unit.
+	 */
+
+	public static double convertTo( Object value, String appUnits,
+			String targetUnits, double baseSize, int dpi )
+	{
+		return convertTo( value, appUnits, targetUnits, baseSize,
+				DesignChoiceConstants.UNITS_PT, dpi );
+	}
+
+	/**
+	 * Convert a measure from one units to another. The application units,
+	 * target units and base size units must be one of the absolute units(CM,
+	 * IN, MM, PT, PC). The input dimension value must be one of the following
+	 * types:
+	 * <ul>
+	 * <li><code>String</code>. It must be a legal dimension value, measure
+	 * part and units part such as '10 em', '+3.5pt', '10%' or only measure
+	 * part, such as 10.12, 45, +4.
+	 * <li><code>DimensionValue</code>
+	 * <li><code>DimensionHandle</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the input dimension value to be converted
+	 * @param appUnits
+	 *            the application units, used as the original units to convert
+	 *            from when units part of the input value is empty or null.It
+	 *            must be one of the absolute unit(CM, IN, MM, PT, PC).
+	 * @param targetUnits
+	 *            the desired units, it must be one of the absolute unit(CM, IN,
+	 *            MM, PT, PC).
+	 * @param baseSize
+	 *            the base size to convert value with relative units, such as
+	 *            em, ex and %
+	 * @param baseSizeUnits
+	 *            the units for the base size. It must be one of the absolute
+	 *            units(CM, IN, MM, PT, PC). By default it is
+	 *            <code>DesignChoiceConstants.UNITS_PT</code>
+	 * @param dpi
+	 *            int value that represents the pixel per inch
+	 * 
+	 * @return double value in the target unit.
+	 */
+
+	public static double convertTo( Object value, String appUnits,
+			String targetUnits, double baseSize, String baseSizeUnits, int dpi )
+	{
+		if ( value == null )
+			return 0.0;
+
+		double measure = 0.0;
+		String fromUnits = ""; //$NON-NLS-1$
+
+		// get the measure and unit from the value
+
+		if ( value instanceof String )
+		{
+			try
+			{
+				DimensionValue parsedValue = DimensionValue
+						.parse( (String) value );
+				// the value can not be null
+				measure = parsedValue.getMeasure( );
+				fromUnits = parsedValue.getUnits( );
+			}
+			catch ( PropertyValueException e )
+			{
+				// TODO: support the font-size choices?
+				throw new IllegalArgumentException(
+						"Given string is not well-formatted dimension!" ); //$NON-NLS-1$
+			}
+		}
+		else if ( value instanceof DimensionValue )
+		{
+			DimensionValue parsedValue = (DimensionValue) value;
+			measure = parsedValue.getMeasure( );
+			fromUnits = parsedValue.getUnits( );
+		}
+		else if ( value instanceof DimensionHandle )
+		{
+			DimensionHandle dimensionHandle = (DimensionHandle) value;
+			measure = dimensionHandle.getMeasure( );
+			fromUnits = dimensionHandle.getUnits( );
+			if ( StringUtil.isBlank( fromUnits ) )
+				fromUnits = dimensionHandle.getDefaultUnit( );
+		}
+		// not supported value format
+		else
+			throw new IllegalArgumentException(
+					"Given dimension value is a not supported format!" ); //$NON-NLS-1$
+
+		// if units is null or empty, set it to application unit
+		if ( StringUtil.isBlank( fromUnits ) )
+			fromUnits = appUnits;
+
+		// if baseSizeUnit is empty or null, set it to 'pt'
+		if ( StringUtil.isBlank( baseSizeUnits ) )
+			baseSizeUnits = DesignChoiceConstants.UNITS_PT;
+
+		DimensionValue convertedValue = null;
+		// do some prepare for the relative units
+		if ( DesignChoiceConstants.UNITS_EM.equals( fromUnits ) )
+		{
+			convertedValue = DimensionUtil.convertTo( measure * baseSize,
+					baseSizeUnits, targetUnits );
+		}
+		else if ( DesignChoiceConstants.UNITS_EX.equals( fromUnits ) )
+		{
+			convertedValue = DimensionUtil.convertTo( measure * baseSize / 3,
+					baseSizeUnits, targetUnits );
+		}
+		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( fromUnits ) )
+		{
+			convertedValue = DimensionUtil.convertTo( measure * baseSize / 100,
+					baseSizeUnits, targetUnits );
+		}
+		else if ( DesignChoiceConstants.UNITS_PX.equals( fromUnits ) )
+		{
+			convertedValue = convertTo( measure / dpi,
+					DesignChoiceConstants.UNITS_IN, targetUnits );
+		}
+		else
+			convertedValue = convertTo( measure, fromUnits, targetUnits );
+		return convertedValue.getMeasure( );
+
+	}
+}
