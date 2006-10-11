@@ -83,6 +83,11 @@ BirtToolbar.prototype = Object.extend( new AbstractBaseToolbar( ),
 					birtEventDispatcher.broadcastEvent( birtEvent.__E_PDF );
 					break;
 				}
+				case 'doc':
+				{   
+				   birtEventDispatcher.broadcastEvent( birtEvent.__E_DOC );
+				   break; 				
+				}
 				case 'export':
 				{
 					birtEventDispatcher.fireEvent( birtEvent.__E_QUERY_EXPORT );
