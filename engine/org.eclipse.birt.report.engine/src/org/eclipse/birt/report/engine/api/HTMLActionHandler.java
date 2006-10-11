@@ -96,6 +96,10 @@ public class HTMLActionHandler implements IHTMLActionHandler
 			{
 				baseURL = ( (PDFRenderContext) context ).getBaseURL( );
 			}
+			if ( context instanceof DOCRenderContext )
+			{
+				baseURL = ( (DOCRenderContext) context ).getBaseURL( );
+			}
 		}
 
 		if ( baseURL == null )
