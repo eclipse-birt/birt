@@ -29,7 +29,7 @@ public class DataSetIDTest extends EngineCase
 	 * @throws EngineException
 	 * @throws IOException
 	 */
-	public void test_DataSetIDFromReport( ) throws EngineException, IOException
+	public void testDataSetIDFromReport( ) throws EngineException, IOException
 	{
 		String reportName = "dataSetID.rptdesign";
 		IReportRunnable reportRunnable = engine.openReportDesign( inPath
@@ -109,7 +109,7 @@ public class DataSetIDTest extends EngineCase
 	/**
 	 * Test getParentID() method
 	 */
-	public void test_getParentID( )
+	public void testGetParentID( )
 	{
 		DataSetID dsID = new DataSetID( new DataSetID( "parent" ), 1, "query" );
 		assertNotNull( dsID.getParentID( ) );
@@ -125,7 +125,7 @@ public class DataSetIDTest extends EngineCase
 	/**
 	 * Test getDataSetName() method
 	 */
-	public void test_getDataSetName( )
+	public void testGetDataSetName( )
 	{
 		DataSetID dsID = new DataSetID( "ds" );
 		assertEquals( "ds", dsID.getDataSetName( ) );
@@ -137,7 +137,7 @@ public class DataSetIDTest extends EngineCase
 	/**
 	 * Test getQueryName() method
 	 */
-	public void test_getQueryName( )
+	public void testGetQueryName( )
 	{
 		DataSetID dsID = new DataSetID( null, 0, "query" );
 		assertEquals( "query", dsID.getQueryName( ) );
@@ -158,7 +158,7 @@ public class DataSetIDTest extends EngineCase
 	/**
 	 * Test getRowID() method
 	 */
-	public void test_getRowID( )
+	public void testGetRowID( )
 	{
 		DataSetID dsID = new DataSetID( null, 0, null );
 		assertEquals( 0, dsID.getRowID( ) );
@@ -179,13 +179,10 @@ public class DataSetIDTest extends EngineCase
 	/**
 	 * Test toString() method
 	 */
-	public void test_toString( )
+	public void testToString( )
 	{
 		DataSetID dsID = new DataSetID( "ds" );
 		assertEquals( "ds", dsID.toString( ) );
-
-		dsID = new DataSetID( null, 0, null );
-		assertNull( dsID.toString( ) );
 
 		dsID = new DataSetID( new DataSetID( "parent" ), 1, "query" );
 		assertEquals( "{parent}.1.query", dsID.toString( ) );
