@@ -36,7 +36,6 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		this.__beh_cacheParameter_closure = this.__beh_cacheParameter.bind( this );
 		this.__beh_print_closure = this.__beh_print.bind( this );
 		this.__beh_pdf_closure = this.__beh_pdf.bind( this );
-		this.__beh_doc_closure = this.__beh_doc.bind( this );
 				
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
@@ -49,7 +48,6 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CACHE_PARAMETER, this.__instance.id, this.__beh_cacheParameter_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_PRINT, this.__instance.id, this.__beh_print_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_PDF, this.__instance.id, this.__beh_pdf_closure );
-		birtEventDispatcher.registerEventHandler( birtEvent.__E_DOC, this.__instance.id, this.__beh_doc_closure );
 				
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
   		
@@ -143,47 +141,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 			pwin.location.reload( );			
 		}		
 	},
-	
-	/**
-	 *	Birt event handler for "doc" event.
-	 *
-	 *	@id, document id (optional since there's only one document instance)
-	 *	@return, true indicating server call
-	 */
-	__beh_doc : function( id )
-	{		
-		var docObj = document.getElementById( "Document" );
-		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
-		{
-			alert ( "Report document should be generated first." );	
-			return;
-		}	
-		else
-		{	
-			var divObj = document.createElement( "DIV" );
-			document.body.appendChild( divObj );
-			divObj.style.display = "none";
 		
-			var formObj = document.createElement( "FORM" );
-			divObj.appendChild( formObj );
-
-			// Replace "html" to "doc"
-			var action = window.location.href;			
-			var reg = new RegExp( "&__format=html", "g" );
-			if ( action.search( reg ) > -1 )
-			{
-				action = action.replace( reg, "&__format=doc" );
-			}
-			else
-			{
-				action = action + "&__format=doc";
-			}
-
-			formObj.action = action;
-			formObj.method = "post";			
-			formObj.submit( );
-		}
-	},		
 
 	/**
 	 *	Birt event handler for "pdf" event.

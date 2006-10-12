@@ -59,12 +59,6 @@
 					   <INPUT TYPE="image" NAME='pdf' SRC="birt/images/pdf.gif"
 					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.pdf" )%>"
 					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.pdf" )%>" CLASS="birtviewer_clickable">
-					</TD>
-					<TD WIDTH="6px"/>
-					<TD WIDTH="15px">
-					   <INPUT TYPE="image" NAME='doc' SRC="birt/images/pdf.gif"
-					   		TITLE="<%= BirtResources.getString( "birt.viewer.toolbar.doc" )%>"
-					   		ALT="<%= BirtResources.getString( "birt.viewer.toolbar.doc" )%>" CLASS="birtviewer_clickable">
 					</TD>					
 					<TD ALIGN='right'>
 					<%

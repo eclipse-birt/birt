@@ -101,11 +101,6 @@ public class ParameterAccessor
 	public static final String PARAM_FORMAT_PDF = "pdf"; //$NON-NLS-1$
 
 	/**
-	 * Format parameter constants to display the report in word.
-	 */
-	
-	public static final String PARAM_FORMAT_DOC = "doc";
-	/**
 	 * URL parameter name that gives the locale.
 	 */
 
