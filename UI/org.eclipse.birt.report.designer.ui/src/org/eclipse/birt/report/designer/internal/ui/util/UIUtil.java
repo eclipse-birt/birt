@@ -1074,6 +1074,10 @@ public class UIUtil
 	public static String getFragmentDirectory( )
 	{
 		URL url = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ).getEntry( "/" ); //$NON-NLS-1$
+		if(url == null)
+		{
+			return null;
+		}
 		String directory = null;
 		try
 		{

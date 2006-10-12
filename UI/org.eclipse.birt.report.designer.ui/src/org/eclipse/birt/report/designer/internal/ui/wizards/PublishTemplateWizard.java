@@ -97,12 +97,12 @@ public class PublishTemplateWizard extends Wizard
 
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
 		File targetFolder = new File( templateFolderPath );
-		if ( !targetFolder.isDirectory( ) )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishTemplateAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
-			return true;
-		}
+//		if ( !targetFolder.isDirectory( ) )
+//		{
+//			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+//					Messages.getString( "PublishTemplateAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+//			return true;
+//		}
 		if ( !targetFolder.exists( ) )
 		{
 			targetFolder.mkdirs( );
