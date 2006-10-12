@@ -297,7 +297,7 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 			{
 				( (BubbleSeries) series ).getAccLineAttributes( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
+				enableAccLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
 						.isVisible( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
