@@ -87,7 +87,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.85 $ $Date: 2006/09/07 13:35:19 $
+ * @version $Revision: 1.86 $ $Date: 2006/09/08 08:24:40 $
  */
 public class ExecutionContext
 {
@@ -249,6 +249,11 @@ public class ExecutionContext
 	 * 
 	 */
 	private IDocArchiveReader dataSource;
+	
+	/**
+	 * All page break listeners.
+	 */
+	private List pageBreakListeners;
 	
 	public ExecutionContext()
 	{
@@ -1723,5 +1728,49 @@ public class ExecutionContext
 	public boolean isExecutingMasterPage( )
 	{
 		return isExecutingMasterPage;
+	}
+	
+	/**
+	 * Add a page break listener.
+	 * 
+	 * @param listener
+	 *            the page break listener.
+	 */
+	public void addPageBreakListener( IPageBreakListener listener )
+	{
+		if ( pageBreakListeners == null )
+		{
+			pageBreakListeners = new ArrayList( );
+		}
+		pageBreakListeners.add( listener );
+	}
+	
+	/**
+	 * Notify page break listeners that page is broken.
+	 */
+	public void firePageBreakEvent( )
+	{
+		if ( pageBreakListeners != null )
+		{
+			for ( int i = 0; i < pageBreakListeners.size( ); i++ )
+			{
+				( (IPageBreakListener) pageBreakListeners.get( i ) )
+						.onPageBreak( );
+			}
+		}
+	}
+	
+	/**
+	 * Remove a page break listener.
+	 * 
+	 * @param listener
+	 *            the page break listener.
+	 */
+	public void removePageBreakListener( IPageBreakListener listener )
+	{
+		if ( pageBreakListeners != null )
+		{
+			pageBreakListeners.remove( listener );
+		}
 	}
 }

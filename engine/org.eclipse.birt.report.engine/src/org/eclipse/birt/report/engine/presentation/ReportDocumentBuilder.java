@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -31,13 +30,13 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
-import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintWriterV2;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
@@ -129,6 +128,8 @@ public class ReportDocumentBuilder
 		layoutPageHandler = new CompositeLayoutPageHandler( );
 		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
 		layoutPageHandler.addPageHandler( onPageBreakHandler );
+		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
+				executionContext ) );
 
 		contentEmitter = new ContentEmitter( );
 	}
@@ -164,7 +165,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.14 $ $Date: 2006/09/21 06:15:53 $
+	 * @version $Revision: 1.15 $ $Date: 2006/09/21 09:39:19 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -263,7 +264,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.14 $ $Date: 2006/09/21 06:15:53 $
+	 * @version $Revision: 1.15 $ $Date: 2006/09/21 09:39:19 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

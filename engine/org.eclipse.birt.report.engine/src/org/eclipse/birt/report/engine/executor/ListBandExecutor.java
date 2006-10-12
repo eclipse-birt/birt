@@ -63,7 +63,6 @@ public class ListBandExecutor extends StyledItemExecutor
 				if(pageBreak==null || IStyle.AUTO_VALUE.equals( pageBreak ))
 				{
 					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE );
-					listExecutor.clearSoftBreak( );
 				}
 			}
 		}

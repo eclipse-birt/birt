@@ -9,8 +9,6 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 abstract public class GroupExecutor extends ReportItemExecutor
@@ -252,18 +250,18 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	
 	protected void handlePageBreakAfter( )
 	{
-		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER) ))
-		{
-			listingExecutor.clearSoftBreak( );
-		}
+//		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER) ))
+//		{
+//			listingExecutor.clearSoftBreak( );
+//		}
 	}
 	
 	protected void handlePageBreakBefore()
 	{
-		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE) ))
-		{
-			listingExecutor.clearSoftBreak( );
-		}
+//		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE) ))
+//		{
+//			listingExecutor.clearSoftBreak( );
+//		}
 	}
 	
 	protected void handlePageBreakAfterExclusingLast()

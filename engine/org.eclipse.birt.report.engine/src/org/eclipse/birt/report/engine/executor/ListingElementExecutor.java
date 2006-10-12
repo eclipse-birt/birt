@@ -30,6 +30,8 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
  * is the base element for table and list items.
  */
 public abstract class ListingElementExecutor extends QueryItemExecutor
+		implements
+			IPageBreakListener
 {
 
 	/**
@@ -54,14 +56,21 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		super( manager );
 	}
 	
+	public void close( )
+	{
+		if( pageBreakInterval != -1 )
+		{
+			context.removePageBreakListener( this );
+		}
+	}
 	
-
 	protected void initializeContent( ReportElementDesign design, IContent content )
 	{
 		super.initializeContent( design, content );
 		if(isPageBreakIntervalValid((ListingDesign)design))
 		{
 			pageBreakInterval = ((ListingDesign)design).getPageBreakInterval( );
+			context.addPageBreakListener( this );
 		}
 	}
 
@@ -105,11 +114,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		pageRowCount = 0;
 		pageBreakInterval = -1;
 		super.reset( );
-	}
-	
-	void clearSoftBreak()
-	{
-		pageRowCount = 0;
 	}
 	
 	void nextRow()
@@ -379,4 +383,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	}
 
+	public void onPageBreak( )
+	{
+		pageRowCount = 0;
+	}
 }
