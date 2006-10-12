@@ -597,11 +597,13 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *         element can't be found or if IDs are not enabled.
 	 */
 
-	 final public int getLineNoByID( long id )
+	final public int getLineNoByID( long id )
 	{
 		if ( lineNoMap == null )
 			return 1;
-		return ( (Integer) lineNoMap.get( new Long( id ) ) ).intValue( );
+		
+		Integer lineNo = (Integer) lineNoMap.get( new Long( id ) );
+		return lineNo == null ? 1 : lineNo.intValue( );
 	}
 
 	/**
