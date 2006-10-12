@@ -486,7 +486,7 @@ public class SessionHandle
 	 *             If the file is not found, or the file contains fatal errors.
 	 */
 
-	public ReportDesignHandle createDesignFromTempalte( String templateName )
+	public ReportDesignHandle createDesignFromTemplate( String templateName )
 			throws DesignFileException
 	{
 		return session.createDesignFromTemplate( templateName ).handle( );
