@@ -144,6 +144,10 @@ public class NewReportWizard extends Wizard implements
 
 		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
 				.getCheatSheet( );
+		if(cheatSheetIdFromPage == null)
+		{
+			cheatSheetIdFromPage = "";
+		}
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 
 		final String cheatSheetId = cheatSheetIdFromPage;

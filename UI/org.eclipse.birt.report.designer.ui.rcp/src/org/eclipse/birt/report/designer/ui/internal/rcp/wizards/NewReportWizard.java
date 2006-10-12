@@ -200,6 +200,10 @@ public class NewReportWizard extends Wizard implements
 		final String templateFileName = selTemplate.getFileName( );
 
 		cheatSheetIdFromPage = selTemplate.getCheatSheet( );
+		if(cheatSheetIdFromPage == null)
+		{
+			cheatSheetIdFromPage = "";
+		}
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 
 		final String cheatSheetId = cheatSheetIdFromPage;
