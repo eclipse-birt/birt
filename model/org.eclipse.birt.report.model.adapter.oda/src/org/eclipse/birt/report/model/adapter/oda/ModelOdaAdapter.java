@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
@@ -109,7 +110,9 @@ public class ModelOdaAdapter
 	 * OdaDataSetHandle.
 	 * 
 	 * @param setDesign
-	 *            the ODA dataSet design.
+	 *            the ODA dataSet design. <b>User should make sure
+	 *            <code>setDesign</code> only contains driver-defined
+	 *            parameter.It's very important! </b>
 	 * @param module
 	 *            the module where the Model handle resides.
 	 * @return a new <code>OdaDataSourceHandle</code>
@@ -216,7 +219,7 @@ public class ModelOdaAdapter
 				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
 
 		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null );
+				setDesign, setHandle, null, null );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -455,31 +458,7 @@ public class ModelOdaAdapter
 		else if ( OdaDataSetHandle.PARAMETERS_PROP
 				.equalsIgnoreCase( propertyName ) )
 		{
-
-			String strDesignValues = setHandle.getDesignerValues( );
-
-			DesignValues designerValues = null;
-
-			try
-			{
-				designerValues = SerializerImpl.instance( ).read(
-						strDesignValues );
-			}
-			catch ( IOException e )
-			{
-			}
-
-			if ( designerValues != null
-					&& designerValues.getDataSetParameters( ) != null )
-			{
-				setDesign.setParameters( (DataSetParameters) EcoreUtil
-						.copy( designerValues.getDataSetParameters( ) ) );
-			}
-
-			setDesign.setParameters( new DataSetParameterAdapter( )
-					.newOdaDataSetParams( setHandle.parametersIterator( ),
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ), setDesign ) );
+			updateDataSetDesignParams( setDesign, setHandle );
 		}
 
 		else if ( OdaDataSetHandle.RESULT_SET_PROP
@@ -809,30 +788,6 @@ public class ModelOdaAdapter
 
 	/**
 	 * Updates values of <code>DataSetHandle</code> with the given
-	 * <code>sourceDesign</code>. New rule is if parameter only defined in
-	 * DataSetHandle , hold it.
-	 * 
-	 * @param setDesign
-	 *            the ODA data source design
-	 * @param setHandle
-	 *            the Model handle
-	 * @param isSourceChanged
-	 *            <code>true</code> if the data set of the given design has
-	 *            been changed. Otherwise <code>false</code>.
-	 * @throws SemanticException
-	 *             if any of <code>sourceDesign</code> property values is not
-	 *             valid.
-	 */
-
-	public void mergeDataSetHandleAndDataSetDesign( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged )
-			throws SemanticException
-	{
-		updateDataSetHandle( setDesign, setHandle, isSourceChanged, true );
-	}
-
-	/**
-	 * Updates values of <code>DataSetHandle</code> with the given
 	 * <code>sourceDesign</code>.
 	 * 
 	 * @param setDesign
@@ -849,34 +804,6 @@ public class ModelOdaAdapter
 
 	public void updateDataSetHandle( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle, boolean isSourceChanged )
-			throws SemanticException
-	{
-		updateDataSetHandle( setDesign, setHandle, isSourceChanged, false );
-	}
-
-	/**
-	 * Updates values of <code>sourceHandle</code> with the given
-	 * <code>sourceDesign</code>.
-	 * 
-	 * @param setDesign
-	 *            the ODA data source design
-	 * @param setHandle
-	 *            the Model handle
-	 * @param isSourceChanged
-	 *            <code>true</code> if the data source of the given design has
-	 *            been changed. Otherwise <code>false</code>.
-	 * @param newRule
-	 *            <code>true</code> new rule is that if parameter only defined
-	 *            in DataSetHandle , hold it. <code>false</code> old rule that
-	 *            override all parameters in DataSetHandle.
-	 * 
-	 * @throws SemanticException
-	 *             if any of <code>sourceDesign</code> property values is not
-	 *             valid.
-	 */
-
-	public void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged, boolean newRule )
 			throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
@@ -936,24 +863,6 @@ public class ModelOdaAdapter
 			{
 			}
 
-			if ( newRule )
-			{
-				List retList = new DataSetParameterAdapter( )
-						.mergeParamDefnOfDataSetAndDataSetDesign( setHandle,
-								setDesign );
-				updateROMDataSetParamList( setHandle, retList );
-			}
-			else
-			{
-				updateROMDataSetParamList(
-						setHandle,
-						new DataSetParameterAdapter( )
-								.newROMSetParams( setDesign, setHandle,
-										designerValues == null
-												? null
-												: designerValues
-														.getDataSetParameters( ) ) );
-			}
 			ResultSets cachedResultSets = designerValues == null
 					? null
 					: designerValues.getResultSets( );
@@ -975,8 +884,67 @@ public class ModelOdaAdapter
 			// designer values must be saved after convert data set parameters
 			// and result set columns.
 
-			String odaValues = serializeOdaValues( setDesign );
-			setHandle.setDesignerValues( odaValues );
+			// Set Parameter
+			
+			// Get user-defined parameters
+
+			List userDefinedList = new DataSetParameterAdapter( )
+					.getUserDefinedParameter( designerValues, setDesign,
+							setHandle );
+
+			// update designvalues.
+			
+			if ( setDesign.getParameters( ) == null )
+			{
+				if ( designerValues != null )
+					designerValues.setDataSetParameters( null );
+			}
+			else
+			{
+				EList designDefns = setDesign.getParameters( )
+						.getParameterDefinitions( );
+				
+				List resultList = DataSetParameterAdapter.getDriverDefinedParameters(
+						designDefns, userDefinedList );
+
+				if ( resultList.size( ) > 0 )
+				{
+					if ( designerValues == null )
+					{
+						designerValues = ModelFactory.eINSTANCE
+								.createDesignValues( );
+					}
+					DataSetParameters dsParams = designerValues.getDataSetParameters( );
+					if ( dsParams == null )
+					{
+						dsParams = DesignFactory.eINSTANCE.createDataSetParameters( );
+						designerValues.setDataSetParameters( dsParams );
+					}
+					dsParams = designerValues.getDataSetParameters( );
+					dsParams.getParameterDefinitions( ).clear( );
+					dsParams.getParameterDefinitions( ).addAll( resultList );
+				}
+			}
+
+			// Set DesignerValues
+
+			try
+			{
+				if ( designerValues != null )
+				{
+					String dValue = SerializerImpl.instance( ).write(
+							designerValues );
+					setHandle.setDesignerValues( dValue );
+				}
+			}
+			catch ( IOException e )
+			{
+			}
+			
+			//Update parameters of dataset handle.
+
+			updateROMDataSetParams( setDesign, setHandle,
+					userDefinedList );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -1016,6 +984,35 @@ public class ModelOdaAdapter
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Overrides data set design's parameters with data set handle's. Totally
+	 * override.
+	 * 
+	 * @param setDesign
+	 *            data set design.
+	 * @param setHandle
+	 *            data set handle.
+	 * @throws SemanticException
+	 */
+
+	void updateDataSetDesignParams( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle )
+	{
+		DataSetParameters dsParams = new DataSetParameterAdapter( )
+				.newOdaDataSetParams( setHandle.parametersIterator( ), null,
+						setDesign );
+
+		if ( dsParams != null )
+		{
+			setDesign.setParameters( dsParams );
+		}
+		else
+		{
+			setDesign.setParameters( null );
+		}
+
 	}
 
 	/**
@@ -1215,4 +1212,62 @@ public class ModelOdaAdapter
 		DesignerStateAdapter.updateROMDesignerState( designerState,
 				sourceHandle );
 	}
+
+	/**
+	 * Update parameters in DataSetHandle with DataSetDesign's.
+	 * 
+	 * @param setDesign
+	 *            data set design contains driver-defined parameters
+	 * @param setHandle
+	 *            data set handle
+	 * @param userDefinedList
+	 *            a list contains user-defined parameters. Each item is
+	 *            <code>OdaDataSetParameter</code>.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	private void updateROMDataSetParams( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, List userDefinedList )
+			throws SemanticException
+	{
+		List resultList = new DataSetParameterAdapter( ).newROMSetParams(
+				setDesign, setHandle, null, userDefinedList );
+
+		// Merge all parameter list with data set handle.
+
+		PropertyHandle propHandle = setHandle
+				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
+
+		// If the name is the same , should rename it.
+		// when you have three driver-defined parameter in DataSetDesign,but you
+		// remove two of them
+		// in handle, then when you back to 'parameter' page, you can get three
+		// parameter and in this
+		// time it's easy to duplicate name.
+
+		List nameList = new ArrayList( );
+		List retList = new ArrayList( );
+
+		propHandle.clearValue( );
+		Iterator iterator = resultList.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			OdaDataSetParameter parameter = (OdaDataSetParameter) iterator
+					.next( );
+			String paramName = parameter.getName( );
+			if ( nameList.contains( paramName ) )
+			{
+				paramName = IdentifierUtility.getParamUniqueName( setHandle
+						.parametersIterator( ), retList, parameter
+						.getPosition( ).intValue( ) );
+				parameter.setName( paramName );
+			}
+			nameList.add( paramName );
+			retList.add( parameter );
+			propHandle.addItem( parameter );
+		}
+
+	}
+
 }
