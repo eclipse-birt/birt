@@ -27,7 +27,6 @@ public interface IBirtConstants
 	static public String MIME_TYPE = "text/xml"; //$NON-NLS-1$
 	static public String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
 	public static final String PDF_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_PDF;
-	public static final String DOC_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_DOC;
 
 	// Servlet path for parameter model.
 	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$

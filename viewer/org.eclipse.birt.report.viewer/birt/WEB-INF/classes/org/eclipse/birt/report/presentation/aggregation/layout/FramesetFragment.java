@@ -81,16 +81,6 @@ public class FramesetFragment extends BirtBaseFragment
 			this.doService( request, response );
 			this.doPostService( request, response );
 		}
-		else if (attrBean != null
-				&& !attrBean.isMissingParameter ( )
-				&& ParameterAccessor.PARAM_FORMAT_DOC
-						.equalsIgnoreCase ( attrBean.getFormat ( ) ))
-		{
-			this.doPreService ( request, response );
-			this.doService ( request, response );
-			this.doPostService ( request, response );
-
-		}
 		else
 		{
 			super.doPreService( request, response );
@@ -126,11 +116,6 @@ public class FramesetFragment extends BirtBaseFragment
 			response
 					.setHeader(
 							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-		else if (ParameterAccessor.getFormat ( request ).equalsIgnoreCase (
-				ParameterAccessor.PARAM_FORMAT_DOC ))
-		{
-			response.setContentType ( "application/msword" ); //$NON-NLS-1$
 		}
 		else
 		{

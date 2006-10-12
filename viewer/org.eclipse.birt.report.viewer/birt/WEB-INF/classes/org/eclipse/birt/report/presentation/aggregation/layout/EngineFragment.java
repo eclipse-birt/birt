@@ -74,15 +74,6 @@ public class EngineFragment extends BirtBaseFragment
 					.setHeader(
 							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
-		else if(ParameterAccessor.PARAM_FORMAT_DOC.equalsIgnoreCase ( format ))
-		{
-			response.setContentType( "application/msword" ); //$NON-NLS-1$
-			String filename = "BIRTReport" + System.currentTimeMillis( ); //$NON-NLS-1$
-			response
-					.setHeader(
-							"Content-Disposition", "inline; filename=" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			
-		}
 		else
 		{
 			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
