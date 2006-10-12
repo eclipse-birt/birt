@@ -495,7 +495,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
             {
                 if( this.__cascadingParameter[i][j].name == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 10 ) )
                 {
-                	var tempText = this.__cascadingParameter[i][j].value = Event.element( event ).options[Event.element( event ).selectedIndex].text;
+                	var tempText = Event.element( event ).options[Event.element( event ).selectedIndex].text;
 
                 	// Null Value Parameter
                 	if( tempText == this.__display_null )
