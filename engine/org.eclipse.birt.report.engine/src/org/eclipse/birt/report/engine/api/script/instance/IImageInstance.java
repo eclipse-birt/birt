@@ -45,10 +45,10 @@ public interface IImageInstance extends IReportItemInstance
 
 	/**
 	 * Returns the type of image source Can be one of the following:
-	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_URI
-	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_NAME
-	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_EXPRESSION
-	 * org.eclipse.birt.report.engine.ir.ImageItemDesign.IMAGE_FILE
+	 * org.eclipse.birt.report.engine.content.IImageContent.IMAGE_FILE
+	 * org.eclipse.birt.report.engine.content.IImageContent.IMAGE_NAME
+	 * org.eclipse.birt.report.engine.content.IImageContent.IMAGE_EXPRESSION
+	 * org.eclipse.birt.report.engine.content.IImageContent.IMAGE_URL
 	 */
 	int getImageSource( );
 
