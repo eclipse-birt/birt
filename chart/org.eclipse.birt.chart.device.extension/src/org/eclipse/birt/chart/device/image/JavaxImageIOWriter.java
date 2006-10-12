@@ -568,6 +568,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 						ChartException.RENDERING,
 						ex );
 			}
+			finally
+			{
+				iw.dispose( );
+			}
 		}
 
 		// FLUSH AND RESTORE STATE OF INTERNALLY CREATED IMAGE
