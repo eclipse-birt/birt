@@ -17,13 +17,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 
@@ -60,43 +64,69 @@ public class ImportLibraryAction extends Action
 	 */
 	public void run( )
 	{
-		FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ), SWT.OPEN );
-		dialog.setFilterExtensions( new String[]{
-			"*.rptlibrary" //$NON-NLS-1$
-		} );
-		String filename;
-		try
-		{
-			filename = dialog.open( );
-		}
-		catch ( Throwable e )
-		{
-			return;
-		}
-		if ( filename != null )
-		{
-			if ( !( new File( filename ).exists( ) ) )
-			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
-						Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound", new String[]{filename} ) ); //$NON-NLS-1$
-				return;
-			}
-			if ( !( filename.endsWith( ".rptlibrary" ) ) )
-			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
-						Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{filename, ".rptlibrary"} ) ); //$NON-NLS-1$
-				return;
-			}
+		// FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ),
+		// SWT.OPEN );
+		// dialog.setFilterExtensions( new String[]{
+		// "*.rptlibrary" //$NON-NLS-1$
+		// } );
+		// String filename;
+		// try
+		// {
+		// filename = dialog.open( );
+		// }
+		// catch ( Throwable e )
+		// {
+		// return;
+		// }
+		// if ( filename != null )
+		// {
+		// if ( !( new File( filename ).exists( ) ) )
+		// {
+		// ExceptionHandler.openErrorMessageBox( Messages.getString(
+		// "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
+		// Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound",
+		// new String[]{filename} ) ); //$NON-NLS-1$
+		// return;
+		// }
+		// if ( !( filename.endsWith( ".rptlibrary" ) ) )
+		// {
+		// ExceptionHandler.openErrorMessageBox( Messages.getString(
+		// "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
+		// Messages.getFormattedString(
+		// "AddLibraryAction.Error.FileIsNotLibrary", new String[]{filename,
+		// ".rptlibrary"} ) ); //$NON-NLS-1$
+		// return;
+		// }
+		//
+		// try
+		// {
+		// filename = copyToResourceFolder( filename );
+		// if ( filename != null )
+		// {
+		// ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( );
+		// UIUtil.includeLibrary( moduleHandle, filename );
+		// }
+		// }
+		// catch ( Exception e )
+		// {
+		// ExceptionHandler.handle( e );
+		// }
+		// }
 
+		// Bugzilla Bug 160806
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+				new String[]{
+					"*.rptlibrary" //$NON-NLS-1$
+				} );
+		if ( dialog.open( ) == Window.OK )
+		{
 			try
 			{
-				filename = copyToResourceFolder( filename );
-				if ( filename != null )
-				{
-					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-					UIUtil.includeLibrary( moduleHandle, filename );
-				}
+				String filename = dialog.getPath( );
+				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
+				UIUtil.includeLibrary( moduleHandle, filename );
 			}
 			catch ( Exception e )
 			{
@@ -115,7 +145,8 @@ public class ImportLibraryAction extends Action
 			File targetFile = new File( resourceFolder, orgFile.getName( ) );
 			if ( targetFile.exists( ) )
 			{
-				if(targetFile.getAbsolutePath( ).equals( orgFile.getAbsolutePath( ) ))
+				if ( targetFile.getAbsolutePath( )
+						.equals( orgFile.getAbsolutePath( ) ) )
 				{
 					return orgFile.getAbsolutePath( );
 				}
@@ -126,7 +157,9 @@ public class ImportLibraryAction extends Action
 									targetFile.getName( )
 								} ) ) )
 					coypFile( orgFile, targetFile );
-			}else{
+			}
+			else
+			{
 				coypFile( orgFile, targetFile );
 			}
 			return targetFile.getAbsolutePath( );

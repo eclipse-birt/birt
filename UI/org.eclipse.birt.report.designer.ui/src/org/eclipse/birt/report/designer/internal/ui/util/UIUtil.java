@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -63,6 +64,7 @@ import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -1067,6 +1069,28 @@ public class UIUtil
 	}
 
 	/**
+	 * @return Report Designer UI plugin installation directory as OS string.
+	 */
+	public static String getFragmentDirectory( )
+	{
+		URL url = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ).getEntry( "/" ); //$NON-NLS-1$
+		if(url == null)
+		{
+			return null;
+		}
+		String directory = null;
+		try
+		{
+			directory = FileLocator.resolve( url ).getPath( );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace( );
+		}
+		return directory;
+	}
+	
+	/**
 	 * Creates a blank label under the given parent.
 	 * 
 	 * @return the label created
@@ -1094,13 +1118,15 @@ public class UIUtil
 		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
 		if ( namespace != null )
 		{
-			if ( libraryPath.startsWith( "file" ) ) //$NON-NLS-1$
+			//is a filesystem file.
+			if ( libraryPath.startsWith( "file" ) || new File( libraryPath ).exists( ) ) //$NON-NLS-1$
 			{
 				moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( )
 						.getResourceFolder( ),
 						libraryPath ),
 						namespace );
 			}
+			//is a bundle resource
 			else if ( libraryPath.startsWith( "bundleresource" ) ) //$NON-NLS-1$
 			{
 				try
