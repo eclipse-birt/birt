@@ -271,7 +271,9 @@ public class BubbleChart extends DefaultChartTypeImpl
 						.setValue( CHART_TITLE );
 				
 			
-				
+				Axis xAxis = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) );
+				xAxis.setCategoryAxis( false );
+
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				ArrayList axisTypes = new ArrayList( );
@@ -422,10 +424,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
 		
-		Axis xAxis = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) );
-		xAxis.setCategoryAxis( false );
-		if (xAxis.getType() == AxisType.TEXT_LITERAL )
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+
 		addSampleData( currentChart );
 		
 		return currentChart;
