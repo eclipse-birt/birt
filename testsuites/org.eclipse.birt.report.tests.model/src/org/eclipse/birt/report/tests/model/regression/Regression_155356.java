@@ -70,7 +70,8 @@ public class Regression_155356 extends BaseTestCase
 		OdaDataSetParameterHandle p = (OdaDataSetParameterHandle) setHandle
 				.parametersIterator( )
 				.next( );
-		assertEquals( "'default value'", p.getDefaultValue( ) ); //$NON-NLS-1$
+		//user-define parameter value won't change according to the new algorithm
+		assertEquals( "expression", p.getDefaultValue( ) ); //$NON-NLS-1$
 
 	}
 
