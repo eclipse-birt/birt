@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -207,10 +208,13 @@ class PathResourceEntry extends BaseResourceEntity
 			this.library.close( );
 			this.library = null;
 		}
-		ResourceEntry[] children = getChildren( );
-		for ( int i = 0; i < children.length; i++ )
+		if ( this.childrenList != null )
 		{
-			children[i].dispose( );
+			for ( Iterator iterator = this.childrenList.iterator( ); iterator.hasNext( ); )
+			{
+				ResourceEntry entry = (ResourceEntry) iterator.next( );
+				entry.dispose( );
+			}
 		}
 	}
 
