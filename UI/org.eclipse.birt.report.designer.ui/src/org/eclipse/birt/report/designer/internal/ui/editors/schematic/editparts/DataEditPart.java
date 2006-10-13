@@ -69,11 +69,16 @@ public class DataEditPart extends LabelEditPart
 			handle.getModuleHandle( ).getCommandStack( ).commit( );
 			try
 			{
-				handle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
+				if(dialog.getBindingColumn( ) != null)
+				{
+					handle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
+				}
+
 			}
 			catch ( Exception e )
 			{
 				ExceptionHandler.handle( e );
+				handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
 			}			
 			refreshVisuals( );
 		}

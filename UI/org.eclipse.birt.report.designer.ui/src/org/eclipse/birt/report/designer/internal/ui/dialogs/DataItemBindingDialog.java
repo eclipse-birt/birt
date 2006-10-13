@@ -253,7 +253,7 @@ public class DataItemBindingDialog extends BaseDialog
 		}
 		return null;
 	}
-
+	
 	private int getItemIndex( String[] items, String item )
 	{
 		for ( int i = 0; i < items.length; i++ )
@@ -319,6 +319,10 @@ public class DataItemBindingDialog extends BaseDialog
 
 			if ( bindingColumn == null )
 			{
+				if(itemExpression.getText( ) == null || itemExpression.getText( ).length( ) == 0)
+				{
+					return;
+				}
 				newBinding.setName( itemName.getText( ) );
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
@@ -345,6 +349,20 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 			else
 			{
+				if(itemExpression.getText( ) != null && itemExpression.getText( ).length( ) == 0)
+				{
+					DataItemHandle itemHandle = (DataItemHandle)getBindingObject( );
+					String resultSetName = itemHandle.getResultSetColumn( );
+					if( bindingColumn.getName( ).equals( resultSetName ))
+					{
+						itemHandle.setResultSetColumn( null );
+					}
+					itemHandle.getColumnBindings( ).removeItem( bindingColumn.getStructure( ) );
+					bindingColumn = null;
+					return;
+				}
+
+				 
 				if ( !( bindingColumn.getName( ) != null && bindingColumn.getName( )
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
@@ -527,6 +545,11 @@ public class DataItemBindingDialog extends BaseDialog
 		initDataTypes( );
 	}
 
+	public String getName( )
+	{
+		return itemName.getText( ).trim( );
+	}
+	
 	public String getExpression( )
 	{
 		return itemExpression.getText( );
@@ -575,4 +598,6 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		return bindingColumn;
 	}
+
+	
 }
