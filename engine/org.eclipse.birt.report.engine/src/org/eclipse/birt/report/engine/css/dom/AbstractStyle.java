@@ -51,7 +51,33 @@ abstract public class AbstractStyle implements IStyle
 			{
 				sb.append( engine.getPropertyName( i ) );
 				sb.append( ": " );
-				sb.append( getCssText( value ) );
+				short type = value.getCssValueType( );
+				switch ( type )
+				{
+					case CSSValue.CSS_PRIMITIVE_VALUE :
+					{
+						CSSPrimitiveValue pv = (CSSPrimitiveValue) value;
+						short unitType = pv.getPrimitiveType( );
+						switch ( unitType )
+						{
+							case CSSPrimitiveValue.CSS_STRING :
+								sb.append( "'" );
+								sb.append( pv.getStringValue( ) );
+								sb.append( "'" );
+								break;
+							case CSSPrimitiveValue.CSS_URI :
+								sb.append( "url('" );
+								sb.append( pv.getStringValue( ) );
+								sb.append( "')" );
+								break;
+							default :
+								sb.append( value.getCssText( ) );
+						}
+					}
+						break;
+					default :
+						sb.append( value.getCssText( ) );
+				}
 				sb.append( "; " );
 			}
 		}
@@ -64,17 +90,11 @@ abstract public class AbstractStyle implements IStyle
 
 	protected String getCssText( CSSValue value )
 	{
-		String cssText = value.getCssText( );
-		if ( value.getCssValueType( ) == CSSValue.CSS_PRIMITIVE_VALUE )
+		if ( value == null )
 		{
-			CSSPrimitiveValue pvalue = (CSSPrimitiveValue) value;
-			if ( pvalue.getPrimitiveType( ) == CSSPrimitiveValue.CSS_STRING )
-			{
-				char q = ( cssText.indexOf( '"' ) != -1 ) ? '\'' : '"';
-				return q + cssText + q;
-			}
+			return null;
 		}
-		return cssText;
+		return value.getCssText( );
 	}
 
 	public void setCssText( String cssText ) throws DOMException
@@ -127,7 +147,8 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getPropertyPriority( String propertyName )
 	{
-		throw new DOMException( DOMException.NOT_SUPPORTED_ERR, "setCssText" );
+		throw new DOMException( DOMException.NOT_SUPPORTED_ERR,
+				"getPropertyPriority" );
 	}
 
 	public void setProperty( String propertyName, String value, String priority )

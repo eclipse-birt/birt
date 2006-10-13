@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.css.engine;
 
-import java.net.URI;
-
 import org.eclipse.birt.report.engine.css.engine.value.css.FontFamilyManager;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.flute.parser.Parser;
@@ -135,10 +133,5 @@ public class BIRTCSSEngine extends CSSEngine
 			}
 		}
 
-	}
-
-	public URI getCSSBaseURI( )
-	{
-		return null;
 	}
 }

@@ -36,8 +36,8 @@ import org.eclipse.birt.report.engine.css.engine.value.css.LineHeightManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.MarginManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakBeforeAfterManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakInsideManager;
-import org.eclipse.birt.report.engine.css.engine.value.css.RawStringManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.SpacingManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.StringManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextAlignManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextLineThroughManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextOverlineManager;
@@ -71,13 +71,13 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 				BIRTConstants.BIRT_NUMBER_ALIGN_PROPERTY,
 				CSSValueConstants.NONE_VALUE );
 
-		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new RawStringManager(
+		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new StringManager(
 				BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
-		vms[StyleConstants.STYLE_STRING_FORMAT] = new RawStringManager(
+		vms[StyleConstants.STYLE_STRING_FORMAT] = new StringManager(
 				BIRTConstants.BIRT_STRING_FORMAT_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
-		vms[StyleConstants.STYLE_DATE_FORMAT] = new RawStringManager(
+		vms[StyleConstants.STYLE_DATE_FORMAT] = new StringManager(
 				BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
 
@@ -149,7 +149,7 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms[StyleConstants.STYLE_ORPHANS] = new IntegerManager(
 				CSSConstants.CSS_ORPHANS_PROPERTY, true, 2 );
 		// TODO: check the masterpage default value
-		vms[StyleConstants.STYLE_MASTER_PAGE] = new RawStringManager(
+		vms[StyleConstants.STYLE_MASTER_PAGE] = new StringManager(
 				BIRTConstants.BIRT_MASTER_PAGE_PROPERTY, false, null );
 		vms[StyleConstants.STYLE_WORD_SPACING] = new SpacingManager(
 				CSSConstants.CSS_WORD_SPACING_PROPERTY );

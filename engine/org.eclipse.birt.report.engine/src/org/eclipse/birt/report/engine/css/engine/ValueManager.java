@@ -20,7 +20,7 @@ import org.w3c.dom.DOMException;
  * This interface is implemented by objects which manage the values associated
  * with a property.
  *
- * @version $Id: ValueManager.java,v 1.3 2006/09/15 05:31:46 lyu Exp $
+ * @version $Id: ValueManager.java,v 1.4 2006/09/15 08:30:27 lyu Exp $
  */
 public interface ValueManager {
 
@@ -45,25 +45,6 @@ public interface ValueManager {
      * @param engine The calling CSSEngine.
      */
     Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException;
-
-    /**
-     * Creates and returns a new float value.
-     * @param unitType    A unit code as defined above. The unit code can only 
-     *                    be a float unit type
-     * @param floatValue  The new float value. 
-     */
-    Value createFloatValue(short unitType, float floatValue)
-	throws DOMException;
-
-    /**
-     * Creates and returns a new string value.
-     * @param type   A string code as defined in CSSPrimitiveValue. The string
-     *               code can only be a string unit type.
-     * @param value  The new string value.
-     * @param engine The CSS engine.
-     */
-    Value createStringValue(short type, String value, CSSEngine engine)
-        throws DOMException;
 
     /**
      * Computes the given value.

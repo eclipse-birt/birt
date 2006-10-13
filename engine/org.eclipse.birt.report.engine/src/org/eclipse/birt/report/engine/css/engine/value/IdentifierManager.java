@@ -22,7 +22,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * This class provides a manager for the property with support for identifier
  * values.
  * 
- * @version $Id: IdentifierManager.java,v 1.3 2006/09/15 05:31:47 lyu Exp $
+ * @version $Id: IdentifierManager.java,v 1.4 2006/09/15 08:30:26 lyu Exp $
  */
 public abstract class IdentifierManager extends AbstractValueManager
 {
@@ -54,11 +54,7 @@ public abstract class IdentifierManager extends AbstractValueManager
 		}
 	}
 
-	/**
-	 * Implements {@link
-	 * ValueManager#createStringValue(short,String,CSSEngine)}.
-	 */
-	public Value createStringValue( short type, String value, CSSEngine engine )
+	protected Value createStringValue( short type, String value, CSSEngine engine )
 			throws DOMException
 	{
 		if ( type != CSSPrimitiveValue.CSS_IDENT )

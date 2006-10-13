@@ -27,7 +27,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * 
  * Complete Class Desc
  * 
- * @version $Id: URIManager.java,v 1.4 2005/12/23 01:34:02 wyan Exp $
+ * @version $Id: URIManager.java,v 1.5 2006/09/15 05:31:47 lyu Exp $
  */
 public class URIManager extends IdentifierManager
 {
@@ -82,15 +82,21 @@ public class URIManager extends IdentifierManager
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
+	public Value createValue( String value, CSSEngine engine )
+			throws DOMException
+	{
+		return new URIValue( value );
+	}
+	
+	/**
+	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
+	 */
 	public Value createValue( LexicalUnit lu, CSSEngine engine )
 			throws DOMException
 	{
-
 		if ( lu.getLexicalUnitType( ) == LexicalUnit.SAC_URI )
 		{
-			String uri = resolveURI( engine.getCSSBaseURI( ), lu
-					.getStringValue( ) );
-			return new URIValue( lu.getStringValue( ), uri );
+			return new URIValue( lu.getStringValue( ) );
 		}
 		return createStringValue( lu.getLexicalUnitType( ),
 				lu.getStringValue( ), engine );

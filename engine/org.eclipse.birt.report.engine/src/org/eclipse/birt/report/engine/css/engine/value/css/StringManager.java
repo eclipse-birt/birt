@@ -54,7 +54,6 @@ public class StringManager extends AbstractValueManager
 	public Value createValue( LexicalUnit lu, CSSEngine engine )
 			throws DOMException
 	{
-
 		switch ( lu.getLexicalUnitType( ) )
 		{
 			case LexicalUnit.SAC_INHERIT :
@@ -64,11 +63,4 @@ public class StringManager extends AbstractValueManager
 						.getStringValue( ) );
 		}
 	}
-
-	public Value createStringValue( short type, String value, CSSEngine engine )
-			throws DOMException
-	{
-		return new StringValue( CSSPrimitiveValue.CSS_STRING, value );
-	}
-
 }
