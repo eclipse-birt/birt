@@ -1118,13 +1118,15 @@ public class UIUtil
 		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
 		if ( namespace != null )
 		{
-			if ( libraryPath.startsWith( "file" ) ) //$NON-NLS-1$
+			//is a filesystem file.
+			if ( libraryPath.startsWith( "file" ) || new File( libraryPath ).exists( ) ) //$NON-NLS-1$
 			{
 				moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( )
 						.getResourceFolder( ),
 						libraryPath ),
 						namespace );
 			}
+			//is a bundle resource
 			else if ( libraryPath.startsWith( "bundleresource" ) ) //$NON-NLS-1$
 			{
 				try
