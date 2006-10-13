@@ -87,7 +87,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.86 $ $Date: 2006/09/08 08:24:40 $
+ * @version $Revision: 1.87 $ $Date: 2006/10/12 03:54:03 $
  */
 public class ExecutionContext
 {
@@ -302,7 +302,9 @@ public class ExecutionContext
 		// create script context used to execute the script statements
 		// register the global variables in the script context
 		scriptContext.registerBean( "report", new ReportObject( ) );
-		scriptContext.registerBean( "params", new ScriptableParameters( params )); //$NON-NLS-1$
+		scriptContext
+				.registerBean(
+						"params", new ScriptableParameters( params, scriptContext.getScope( ) ) ); //$NON-NLS-1$
 		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
 		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
