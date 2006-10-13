@@ -30,8 +30,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class AccessibilityValueImpl extends ActionValueImpl implements
-		AccessibilityValue
+public class AccessibilityValueImpl extends ActionValueImpl
+		implements
+			AccessibilityValue
 {
 
 	/**

@@ -126,8 +126,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 			HorizontalAlignment newHorizontalAlignment )
 	{
 		HorizontalAlignment oldHorizontalAlignment = horizontalAlignment;
-		horizontalAlignment = newHorizontalAlignment == null ? HORIZONTAL_ALIGNMENT_EDEFAULT
-				: newHorizontalAlignment;
+		horizontalAlignment = newHorizontalAlignment == null
+				? HORIZONTAL_ALIGNMENT_EDEFAULT : newHorizontalAlignment;
 		boolean oldHorizontalAlignmentESet = horizontalAlignmentESet;
 		horizontalAlignmentESet = true;
 		if ( eNotificationRequired( ) )
@@ -183,8 +183,8 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	public void setVerticalAlignment( VerticalAlignment newVerticalAlignment )
 	{
 		VerticalAlignment oldVerticalAlignment = verticalAlignment;
-		verticalAlignment = newVerticalAlignment == null ? VERTICAL_ALIGNMENT_EDEFAULT
-				: newVerticalAlignment;
+		verticalAlignment = newVerticalAlignment == null
+				? VERTICAL_ALIGNMENT_EDEFAULT : newVerticalAlignment;
 		boolean oldVerticalAlignmentESet = verticalAlignmentESet;
 		verticalAlignmentESet = true;
 		if ( eNotificationRequired( ) )

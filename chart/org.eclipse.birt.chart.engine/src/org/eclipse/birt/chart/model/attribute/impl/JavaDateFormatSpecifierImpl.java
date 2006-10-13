@@ -36,8 +36,9 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
-		JavaDateFormatSpecifier
+public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl
+		implements
+			JavaDateFormatSpecifier
 {
 
 	/**

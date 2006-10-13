@@ -32,8 +32,9 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ExtendedPropertyImpl extends EObjectImpl implements
-		ExtendedProperty
+public class ExtendedPropertyImpl extends EObjectImpl
+		implements
+			ExtendedProperty
 {
 
 	/**

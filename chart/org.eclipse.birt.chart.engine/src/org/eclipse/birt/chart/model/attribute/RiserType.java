@@ -56,6 +56,21 @@ public final class RiserType extends AbstractEnumerator
 	public static final int TRIANGLE = 1;
 
 	/**
+	 * The '<em><b>Tube</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Tube</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TUBE_LITERAL
+	 * @model name="Tube"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int TUBE = 2;
+
+	/**
 	 * The '<em><b>Rectangle</b></em>' literal object.
 	 * <!-- begin-user-doc
 	 * -->
@@ -69,7 +84,7 @@ public final class RiserType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final RiserType RECTANGLE_LITERAL = new RiserType( RECTANGLE,
-			"Rectangle", "Rectangle" ); //$NON-NLS-1$
+			"Rectangle", "Rectangle" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * The '<em><b>Triangle</b></em>' literal object.
@@ -85,7 +100,18 @@ public final class RiserType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final RiserType TRIANGLE_LITERAL = new RiserType( TRIANGLE,
-			"Triangle", "Triangle" ); //$NON-NLS-1$
+			"Triangle", "Triangle" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
+	 * The '<em><b>Tube</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #TUBE
+	 * @generated
+	 * @ordered
+	 */
+	public static final RiserType TUBE_LITERAL = new RiserType( TUBE,
+			"Tube", "Tube" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * An array of all the '<em><b>Riser Type</b></em>' enumerators. <!--
@@ -94,7 +120,7 @@ public final class RiserType extends AbstractEnumerator
 	 * @generated
 	 */
 	private static final RiserType[] VALUES_ARRAY = new RiserType[]{
-			RECTANGLE_LITERAL, TRIANGLE_LITERAL,
+			RECTANGLE_LITERAL, TRIANGLE_LITERAL, TUBE_LITERAL,
 	};
 
 	/**
@@ -154,6 +180,8 @@ public final class RiserType extends AbstractEnumerator
 				return RECTANGLE_LITERAL;
 			case TRIANGLE :
 				return TRIANGLE_LITERAL;
+			case TUBE :
+				return TUBE_LITERAL;
 		}
 		return null;
 	}

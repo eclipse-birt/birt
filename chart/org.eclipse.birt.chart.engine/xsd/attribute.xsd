@@ -353,6 +353,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="Rectangle"/>
 			<xsd:enumeration value="Triangle"/>
+			<xsd:enumeration value="Tube"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="MarkerType">

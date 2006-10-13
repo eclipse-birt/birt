@@ -38,8 +38,9 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
-		NumberFormatSpecifier
+public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
+		implements
+			NumberFormatSpecifier
 {
 
 	/**

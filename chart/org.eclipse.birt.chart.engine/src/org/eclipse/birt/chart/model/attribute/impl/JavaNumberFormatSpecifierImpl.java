@@ -36,8 +36,9 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
-		JavaNumberFormatSpecifier
+public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl
+		implements
+			JavaNumberFormatSpecifier
 {
 
 	/**

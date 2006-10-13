@@ -643,10 +643,8 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	public void adjust( Insets ins )
 	{
 		set( getLeft( ) + ins.getLeft( ), getTop( ) + ins.getTop( ), getWidth( )
-				- ins.getLeft( )
-				- ins.getRight( ), getHeight( )
-				- ins.getTop( )
-				- ins.getBottom( ) );
+				- ins.getLeft( ) - ins.getRight( ), getHeight( )
+				- ins.getTop( ) - ins.getBottom( ) );
 	}
 
 	/*

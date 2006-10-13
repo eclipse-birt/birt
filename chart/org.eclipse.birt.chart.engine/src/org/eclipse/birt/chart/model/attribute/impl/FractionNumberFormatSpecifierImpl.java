@@ -37,8 +37,9 @@ import com.ibm.icu.util.ULocale;
  *
  * @generated
  */
-public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
-		FractionNumberFormatSpecifier
+public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl
+		implements
+			FractionNumberFormatSpecifier
 {
 
 	/**

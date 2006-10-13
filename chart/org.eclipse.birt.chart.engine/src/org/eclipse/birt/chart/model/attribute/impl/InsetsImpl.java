@@ -574,8 +574,7 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	public boolean areLessThan( double dValue )
 	{
 		return getTop( ) < dValue
-				&& getBottom( ) < dValue
-				&& getLeft( ) < dValue
+				&& getBottom( ) < dValue && getLeft( ) < dValue
 				&& getRight( ) < dValue;
 	}
 

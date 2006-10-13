@@ -100,8 +100,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributeFactoryImpl extends EFactoryImpl implements
-		AttributeFactory
+public class AttributeFactoryImpl extends EFactoryImpl
+		implements
+			AttributeFactory
 {
 
 	/**

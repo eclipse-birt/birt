@@ -366,13 +366,16 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				return TARGET_EDEFAULT == null ? target != null
 						: !TARGET_EDEFAULT.equals( target );
 			case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME :
-				return BASE_PARAMETER_NAME_EDEFAULT == null ? baseParameterName != null
+				return BASE_PARAMETER_NAME_EDEFAULT == null
+						? baseParameterName != null
 						: !BASE_PARAMETER_NAME_EDEFAULT.equals( baseParameterName );
 			case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME :
-				return VALUE_PARAMETER_NAME_EDEFAULT == null ? valueParameterName != null
+				return VALUE_PARAMETER_NAME_EDEFAULT == null
+						? valueParameterName != null
 						: !VALUE_PARAMETER_NAME_EDEFAULT.equals( valueParameterName );
 			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
-				return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null
+				return SERIES_PARAMETER_NAME_EDEFAULT == null
+						? seriesParameterName != null
 						: !SERIES_PARAMETER_NAME_EDEFAULT.equals( seriesParameterName );
 		}
 		return super.eIsSet( featureID );

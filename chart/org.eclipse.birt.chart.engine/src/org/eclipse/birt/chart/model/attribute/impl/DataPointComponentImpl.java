@@ -37,8 +37,9 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class DataPointComponentImpl extends EObjectImpl implements
-		DataPointComponent
+public class DataPointComponentImpl extends EObjectImpl
+		implements
+			DataPointComponent
 {
 
 	/**

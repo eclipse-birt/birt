@@ -30,19 +30,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl#getFills <em>Fills</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl#getFills <em>Fills</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MultipleFillImpl extends FillImpl implements MultipleFill
 {
 
 	/**
-	 * The cached value of the '{@link #getFills() <em>Fills</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFills() <em>Fills</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFills()
 	 * @generated
 	 * @ordered
@@ -51,7 +50,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected MultipleFillImpl( )
@@ -61,7 +59,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -71,7 +68,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getFills( )
@@ -87,7 +83,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -104,7 +99,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -119,7 +113,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -136,7 +129,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -152,7 +144,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
