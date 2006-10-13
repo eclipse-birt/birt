@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.report.model.api.ImageHandle;
+
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.11.2.1 $ $Date: 2006/09/07 12:56:51 $
+ * @version $Revision: 1.12 $ $Date: 2006/09/07 13:35:17 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {
@@ -146,7 +148,15 @@ public class ImageItemDesign extends ReportItemDesign
 	public String getImageName( )
 	{
 		assert imageSource == IMAGE_NAME;
-		return imageName;
+		if (imageName != null)
+		{
+			return imageName;
+		}
+		if ( handle instanceof ImageHandle )
+		{
+			return ( (ImageHandle) handle ).getImageName( );
+		}
+		return null;
 	}
 
 	/**
