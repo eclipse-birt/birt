@@ -115,8 +115,8 @@ public class DataSetIDTest extends EngineCase
 		assertNotNull( dsID.getParentID( ) );
 		assertEquals( "parent", dsID.getParentID( ).getDataSetName( ) );
 
-		dsID = new DataSetID( null, 0, null );
-		assertNull( dsID.getParentID( ) );
+		// dsID = new DataSetID( null, 0, null );
+		// assertNull( dsID.getParentID( ) );
 
 		dsID = new DataSetID( "dataset" );
 		assertNull( dsID.getParentID( ) );
@@ -130,8 +130,8 @@ public class DataSetIDTest extends EngineCase
 		DataSetID dsID = new DataSetID( "ds" );
 		assertEquals( "ds", dsID.getDataSetName( ) );
 
-		dsID = new DataSetID( null );
-		assertNull( dsID.getDataSetName( ) );
+		// dsID = new DataSetID( null );
+		// assertNull( dsID.getDataSetName( ) );
 	}
 
 	/**
@@ -139,20 +139,21 @@ public class DataSetIDTest extends EngineCase
 	 */
 	public void testGetQueryName( )
 	{
-		DataSetID dsID = new DataSetID( null, 0, "query" );
+		DataSetID parent = new DataSetID( "parent" );
+		DataSetID dsID = new DataSetID( parent, 0, "query" );
 		assertEquals( "query", dsID.getQueryName( ) );
 
-		dsID = new DataSetID( null, 0, "²éÑ¯" );
+		dsID = new DataSetID( parent, 0, "²éÑ¯" );
 		assertEquals( "²éÑ¯", dsID.getQueryName( ) );
 
-		dsID = new DataSetID( null, 0, "~!@#$%^&*()_+?>:" );
+		dsID = new DataSetID( parent, 0, "~!@#$%^&*()_+?>:" );
 		assertEquals( "~!@#$%^&*()_+?>:", dsID.getQueryName( ) );
 
-		dsID = new DataSetID( null, 0, "~!@#$%^&*()_+?>:" );
+		dsID = new DataSetID( parent, 0, "~!@#$%^&*()_+?>:" );
 		assertEquals( "~!@#$%^&*()_+?>:", dsID.getQueryName( ) );
 
-		dsID = new DataSetID( null, 0, null );
-		assertNull( dsID.getQueryName( ) );
+		// dsID = new DataSetID( parent, 0, null );
+		// assertNull( dsID.getQueryName( ) );
 	}
 
 	/**
@@ -160,19 +161,22 @@ public class DataSetIDTest extends EngineCase
 	 */
 	public void testGetRowID( )
 	{
-		DataSetID dsID = new DataSetID( null, 0, null );
+		DataSetID parent = new DataSetID( "parent" );
+		String query = "query";
+
+		DataSetID dsID = new DataSetID( parent, 0, query );
 		assertEquals( 0, dsID.getRowID( ) );
 
-		dsID = new DataSetID( null, 1, null );
+		dsID = new DataSetID( parent, 1, query );
 		assertEquals( 1, dsID.getRowID( ) );
 
-		dsID = new DataSetID( null, -1, null );
+		dsID = new DataSetID( parent, -1, query );
 		assertEquals( -1, dsID.getRowID( ) );
 
-		dsID = new DataSetID( null, Long.MIN_VALUE, null );
+		dsID = new DataSetID( parent, Long.MIN_VALUE, query );
 		assertEquals( Long.MIN_VALUE, dsID.getRowID( ) );
 
-		dsID = new DataSetID( null, Long.MAX_VALUE, null );
+		dsID = new DataSetID( parent, Long.MAX_VALUE, query );
 		assertEquals( Long.MAX_VALUE, dsID.getRowID( ) );
 	}
 
@@ -187,16 +191,16 @@ public class DataSetIDTest extends EngineCase
 		dsID = new DataSetID( new DataSetID( "parent" ), 1, "query" );
 		assertEquals( "{parent}.1.query", dsID.toString( ) );
 
-		dsID = new DataSetID( null, 1, "query" );
-		assertNull( dsID.toString( ) );
+		// dsID = new DataSetID( parent, 1, "query" );
+		// assertNull( dsID.toString( ) );
 
-		dsID = new DataSetID( new DataSetID(
-				new DataSetID( "grandpa" ),
-				0,
-				null ), 1, "query" );
-		assertEquals( "{{grandpa}.0.null}.1.query", dsID.toString( ) );
+		dsID = new DataSetID(
+				new DataSetID( new DataSetID( "grandpa" ), 0, " " ),
+				1,
+				"query" );
+		assertEquals( "{{grandpa}.0. }.1.query", dsID.toString( ) );
 
-		dsID = new DataSetID( new DataSetID( "parent" ), 1, null );
-		assertEquals( "{parent}.1.null", dsID.toString( ) );
+		dsID = new DataSetID( new DataSetID( "parent" ), 1, "" );
+		assertEquals( "{parent}.1.", dsID.toString( ) );
 	}
 }

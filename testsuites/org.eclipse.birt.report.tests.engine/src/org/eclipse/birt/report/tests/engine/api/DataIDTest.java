@@ -26,11 +26,11 @@ public class DataIDTest extends EngineCase
 
 	/**
 	 * Test DataID methods with input report design
+	 * 
 	 * @throws EngineException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public void test_DataIDFromReport( ) throws EngineException,
-			IOException
+	public void testDataIDFromReport( ) throws EngineException, IOException
 	{
 		String reportName = "dataID.rptdesign";
 		IReportRunnable reportRunnable = engine.openReportDesign( inPath
@@ -93,20 +93,17 @@ public class DataIDTest extends EngineCase
 	/**
 	 * Test getDataSetID() method
 	 */
-	public void test_getDataSetID( )
+	public void testGetDataSetID( )
 	{
-		DataSetID dsID = new DataSetID( null, 0, "query0" );
+		DataSetID dsID = new DataSetID( "dsid" );
 		DataID dataID = new DataID( dsID, 1 );
 		assertEquals( dsID, dataID.getDataSetID( ) );
-
-		dataID = new DataID( null, 0 );
-		assertNull( dataID.getDataSetID( ) );
 	}
 
 	/**
 	 * Test getDataSetID() method
 	 */
-	public void test_getRowID( )
+	public void testGetRowID( )
 	{
 		DataID dataID = new DataID( null, 0 );
 		assertEquals( 0, dataID.getRowID( ) );
@@ -127,22 +124,22 @@ public class DataIDTest extends EngineCase
 	/**
 	 * Test append() method
 	 */
-	public void test_append( )
+	public void testAppend( )
 	{
 		DataSetID dsID = new DataSetID( "ds1" );
 		DataID dataID = new DataID( dsID, 0 );
 		dataID.append( new StringBuffer( "buffer" ) );
 		assertEquals( dsID, dataID.getDataSetID( ) );
 		// TODO: no enough javadoc
-		 dataID=new DataID(null,0);
-		 dataID.append( new StringBuffer("buffer") );
-		 assertNull(dataID.getDataSetID( ));
+		dataID = new DataID( null, 0 );
+		dataID.append( new StringBuffer( "buffer" ) );
+		assertNull( dataID.getDataSetID( ) );
 	}
 
 	/**
 	 * Test toString() method
 	 */
-	public void test_toString( )
+	public void testToString( )
 	{
 		DataSetID dsID = new DataSetID( "ds1" );
 		DataID dataID = new DataID( dsID, 0 );
@@ -160,12 +157,12 @@ public class DataIDTest extends EngineCase
 		dataID = new DataID( dsID, 0 );
 		assertEquals( "~!@#$%^&*()_+?>::0", dataID.toString( ) );
 
-		dsID = new DataSetID( null );
+		dsID = new DataSetID( "" );
 		dataID = new DataID( dsID, 0 );
-		assertEquals( "null:0", dataID.toString( ) );
-		
-		dataID=new DataID(dsID,Long.MAX_VALUE);
-		assertEquals("null:"+Long.MAX_VALUE,dataID.toString( ));
+		assertEquals( ":0", dataID.toString( ) );
+
+		dataID = new DataID( dsID, Long.MAX_VALUE );
+		assertEquals( ":" + Long.MAX_VALUE, dataID.toString( ) );
 		// TODO: no enough javadoc
 	}
 
