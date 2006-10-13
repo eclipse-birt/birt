@@ -13,10 +13,8 @@ package org.eclipse.birt.report.engine.css.dom;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
-import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.w3c.dom.css.CSSValue;

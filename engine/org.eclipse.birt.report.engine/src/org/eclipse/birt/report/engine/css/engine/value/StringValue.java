@@ -12,37 +12,14 @@
 package org.eclipse.birt.report.engine.css.engine.value;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
  * This class represents string values.
  * 
- * @version $Id: StringValue.java,v 1.4 2005/11/16 06:18:02 thuang Exp $
+ * @version $Id: StringValue.java,v 1.6 2006/10/13 03:36:50 wyan Exp $
  */
 public class StringValue extends Value
 {
-
-	/**
-	 * Returns the CSS text associated with the given type/value pair.
-	 */
-	public static String getCssText( short type, String value )
-	{
-		if ( value == null )
-		{
-			return null;
-		}
-
-		switch ( type )
-		{
-			case CSSPrimitiveValue.CSS_URI :
-				return "url(" + value + ")";
-
-			case CSSPrimitiveValue.CSS_STRING :
-				return value;
-		}
-		return value;
-	}
-
 	/**
 	 * The value of the string
 	 */
@@ -107,7 +84,7 @@ public class StringValue extends Value
 	 */
 	public String getCssText( )
 	{
-		return getCssText( unitType, value );
+		return value;
 	}
 
 	/**
@@ -127,6 +104,6 @@ public class StringValue extends Value
 	 */
 	public String toString( )
 	{
-		return getCssText( );
+		return value;
 	}
 }

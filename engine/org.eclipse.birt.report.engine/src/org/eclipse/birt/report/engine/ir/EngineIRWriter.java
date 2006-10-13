@@ -19,6 +19,8 @@ import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 public class EngineIRWriter implements IOConstants
@@ -1294,7 +1296,19 @@ public class EngineIRWriter implements IOConstants
 		switch ( imageSource )
 		{
 			case ImageItemDesign.IMAGE_NAME :
-				IOUtil.writeString( out, image.getImageName( ) );
+				{
+					String imageName = image.getImageName( );
+					DesignElementHandle handle = image.getHandle( );
+					if ( handle instanceof ImageHandle )
+					{
+						String designImageName = image.getImageName( );
+						if ( imageName != null && imageName.equals( designImageName ) )
+						{
+							imageName = null;
+						}
+					}
+					IOUtil.writeString( out, imageName );
+				}
 				break;
 			case ImageItemDesign.IMAGE_FILE :
 				IOUtil.writeString( out, image.getImageUri( ) );

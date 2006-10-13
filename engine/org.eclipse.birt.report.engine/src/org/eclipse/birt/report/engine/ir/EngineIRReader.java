@@ -1348,13 +1348,13 @@ public class EngineIRReader implements IOConstants
 				int count = masterPage.getHeaderCount( );
 				for ( int j = 0; j < count; j++ )
 				{
-					ReportItemDesign item = masterPage.getHeader( i );
+					ReportItemDesign item = masterPage.getHeader( j );
 					item.accept( this, null );
 				}
 				count = masterPage.getFooterCount( );
 				for ( int j = 0; j < count; j++ )
 				{
-					ReportItemDesign item = masterPage.getFooter( i );
+					ReportItemDesign item = masterPage.getFooter( j );
 					item.accept( this, null );
 				}
 			}

@@ -25,7 +25,7 @@ import org.w3c.dom.css.CSSValue;
  * This class provides a manager for the property with support for length
  * values.
  * 
- * @version $Id: AbstractLengthManager.java,v 1.3 2005/11/22 09:59:57 wyan Exp $
+ * @version $Id: AbstractLengthManager.java,v 1.6 2006/10/13 03:36:50 wyan Exp $
  */
 public abstract class AbstractLengthManager extends AbstractValueManager
 {
@@ -86,29 +86,6 @@ public abstract class AbstractLengthManager extends AbstractValueManager
 	}
 
 	/**
-	 * Implements {@link ValueManager#createFloatValue(short,float)}.
-	 */
-	public Value createFloatValue( short type, float floatValue )
-			throws DOMException
-	{
-		switch ( type )
-		{
-			case CSSPrimitiveValue.CSS_PERCENTAGE :
-			case CSSPrimitiveValue.CSS_EMS :
-			case CSSPrimitiveValue.CSS_EXS :
-			case CSSPrimitiveValue.CSS_PX :
-			case CSSPrimitiveValue.CSS_CM :
-			case CSSPrimitiveValue.CSS_MM :
-			case CSSPrimitiveValue.CSS_IN :
-			case CSSPrimitiveValue.CSS_PT :
-			case CSSPrimitiveValue.CSS_PC :
-			case CSSPrimitiveValue.CSS_NUMBER :
-				return new FloatValue( type, floatValue );
-		}
-		throw createInvalidFloatTypeDOMException( type );
-	}
-
-	/**
 	 * Implements {@link
 	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
@@ -152,7 +129,7 @@ public abstract class AbstractLengthManager extends AbstractValueManager
 				case CSSPrimitiveValue.CSS_PC :
 					v = value.getFloatValue( );
 					return new FloatValue( CSSPrimitiveValue.CSS_NUMBER,
-							v / 12.0f * 1000.0f );
+							v * 12.0f * 1000.0f );
 
 				case CSSPrimitiveValue.CSS_EMS :
 					v = value.getFloatValue( );

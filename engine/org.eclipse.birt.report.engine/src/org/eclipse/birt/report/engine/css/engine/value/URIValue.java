@@ -8,31 +8,23 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.css.engine.value;
 
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
  * This class represents uri values.
- *
- * @version $Id: URIValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
+ * 
+ * @version $Id: URIValue.java,v 1.3 2006/10/13 03:36:50 wyan Exp $
  */
-public class URIValue extends StringValue {
-
-    String cssText;
-
-    /**
-     * Creates a new StringValue.
-     */
-    public URIValue(String cssText, String uri) {
-        super(CSSPrimitiveValue.CSS_URI, uri);
-        this.cssText = cssText;
-    }
-
-    /**
-     * A string representation of the current value. 
-     */
-    public String getCssText() {
-        return "url(" + cssText + ")";
-    }
+public class URIValue extends StringValue
+{
+	/**
+	 * Creates a new StringValue.
+	 */
+	public URIValue( String uri )
+	{
+		super( CSSPrimitiveValue.CSS_URI, uri );
+	}
 }

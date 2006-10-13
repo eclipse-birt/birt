@@ -19,7 +19,7 @@ import org.w3c.dom.css.CSSValueList;
 /**
  * This class represents a list of values.
  * 
- * @version $Id: ListValue.java,v 1.3.14.1 2006/09/15 05:33:32 lyu Exp $
+ * @version $Id: ListValue.java,v 1.6 2006/10/13 03:36:50 wyan Exp $
  */
 public class ListValue extends Value implements CSSValueList
 {
@@ -75,34 +75,44 @@ public class ListValue extends Value implements CSSValueList
 	 */
 	public String getCssText( )
 	{
-		StringBuffer sb = new StringBuffer( );
-		if ( length > 0 )
+		StringBuffer sb = new StringBuffer();
+		for ( int i = 0; i < length; i++)
 		{
-			sb.append( getCssText( items[0] ) );
-		}
-		for ( int i = 1; i < length; i++ )
-		{
-			sb.append( separator );
-			sb.append( getCssText( items[i] ) );
-		}
-		return sb.toString( );
-	}
-
-	protected String getCssText( CSSValue value )
-	{
-		String cssText = value.getCssText( );
-		if ( value.getCssValueType( ) == CSSValue.CSS_PRIMITIVE_VALUE )
-		{
-			CSSPrimitiveValue pvalue = (CSSPrimitiveValue) value;
-			if ( pvalue.getPrimitiveType( ) == CSSPrimitiveValue.CSS_STRING )
+			Value value = (Value)items[i];
+			if (value == null)
 			{
-				char q = ( cssText.indexOf( '"' ) != -1 ) ? '\'' : '"';
-				return q + cssText + q;
+				continue;
 			}
+			short valueType = value.getCssValueType( );
+			if ( valueType == CSSValue.CSS_PRIMITIVE_VALUE )
+			{
+				switch ( value.getPrimitiveType( ) )
+				{
+					case CSSPrimitiveValue.CSS_STRING :
+						sb.append( value.getStringValue( ) );
+						break;
+					case CSSPrimitiveValue.CSS_URI :
+						sb.append( "url('" );
+						sb.append( value.getStringValue( ) );
+						sb.append( "')" );
+						break;
+					default :
+						sb.append( value.getCssText( ) );
+				}
+			}
+			else
+			{
+				sb.append(value.getCssText( ));
+			}
+			sb.append( separator );
 		}
-		return cssText;
+		if (sb.length( ) != 0)
+		{
+			sb.setLength( sb.length() - 1 );
+		}
+		return sb.toString();
 	}
-
+	
 	/**
 	 * Implements {@link Value#getLength()}.
 	 */

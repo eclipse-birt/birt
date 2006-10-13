@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import java.net.URI;
-
 import org.w3c.dom.DOMException;
 
 /**
  * This class provides a base implementation for the value factories.
  * 
- * @version $Id: AbstractValueFactory.java,v 1.2.14.1 2006/09/15 05:33:32 lyu Exp $
+ * @version $Id: AbstractValueFactory.java,v 1.5 2006/10/13 03:36:50 wyan Exp $
  */
 public abstract class AbstractValueFactory
 {
@@ -91,17 +89,4 @@ public abstract class AbstractValueFactory
 		String s = Messages.formatMessage( "invalid.access", p );
 		return new DOMException( DOMException.NOT_SUPPORTED_ERR, s );
 	}
-
-	protected static String resolveURI( URI base, String value )
-	{
-		try
-		{
-			return base.resolve( value ).toString( );
-		}
-		catch ( Exception ex )
-		{
-			return value;
-		}
-	}
-
 }

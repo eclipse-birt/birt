@@ -30,7 +30,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.33 $ $Date: 2006/05/11 07:43:13 $
+ * @version $Revision: 1.35 $ $Date: 2006/10/13 03:36:51 $
  */
 public class Report
 {
@@ -402,8 +402,12 @@ public class Report
 		this.reportDesign = reportDesign;
 		if ( basePath == null || basePath.equals( "" ) ) //$NON-NLS-1$
 		{
-			File file = new File( reportDesign.getFileName( ) );
-			basePath = file.getParent( );
+			String fileName = reportDesign.getFileName( );
+			if ( fileName != null )
+			{
+				File file = new File( fileName );
+				basePath = file.getParent( );
+			}
 		}
 	}
 
