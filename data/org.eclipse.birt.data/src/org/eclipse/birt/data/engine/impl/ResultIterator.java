@@ -290,7 +290,7 @@ public class ResultIterator implements IResultIterator
 	{
 		checkStarted( );
 		
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"getValue",
 				"get of value binding column: " + LogUtil.toString( exprName ) );
