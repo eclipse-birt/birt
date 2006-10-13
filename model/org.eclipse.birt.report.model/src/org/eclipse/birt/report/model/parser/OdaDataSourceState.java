@@ -19,12 +19,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -168,24 +164,14 @@ public class OdaDataSourceState extends DataSourceState
 		else
 		{
 			// after version 3.2.7 , add convert fuction.
-			//TODO in the future if needs , maybe can increase version number.
+			// TODO in the future if needs , maybe can increase version number.
+
+			String oldOdaXmlName = "org.eclipse.birt.report.data.oda.xml" ; //$NON-NLS-1$
+			String newOdaXmlName = "org.eclipse.datatools.enablement.oda.xml" ; //$NON-NLS-1$
 			
-			try
+			if( oldOdaXmlName.equals( extensionID ))
 			{
-				ExtensionManifest extension = ManifestExplorer.getInstance( )
-						.getExtensionManifest( extensionID );
-				if ( extension != null && extension.isDeprecated( ) )
-				{
-					extensionID = extension.getRelatedDataSourceId( );
-				}
-			}
-			catch ( OdaException e )
-			{
-				// do nothing.
-			}
-			catch ( IllegalArgumentException e )
-			{
-				// TODO I don't think here should meet IllegalArgumentException.
+				extensionID = newOdaXmlName;
 			}
 		}
 		
