@@ -9,8 +9,8 @@
 package org.eclipse.birt.report.tests.model.regression;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -46,9 +46,10 @@ public class Regression_145724 extends BaseTestCase
 		openDesign( REPORT );
 
 		saveAs( "test_version.out" ); //$NON-NLS-1$
-		BufferedReader br = new BufferedReader( new InputStreamReader( this
-				.getClass( )
-				.getResourceAsStream( "output/test_version.out" ) ) ); //$NON-NLS-1$
+
+		BufferedReader br = new BufferedReader( new FileReader( this
+				.getClassFolder( )
+				+ OUTPUT_FOLDER + "test_version.out" ) ); //$NON-NLS-1$
 		String line = null;
 		while ( ( line = br.readLine( ) ) != null )
 		{
