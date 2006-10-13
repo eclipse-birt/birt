@@ -116,17 +116,14 @@
 		
 		<echo message="Export BIRT Resources version = ${Bundle-Version}" />
 		
-		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar" manifest="${manifest}">
+		<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
 			<fileset dir="${basedir}">
-	   			<include name="${manifest}"/>				
+	   			<include name="${manifest}"/>
 				<include name="plugin.xml"/>
-				<include name=".options"/>
-				<include name="about.html"/>				
+				<include name="templates/**"/>
+				<include name="resources/**"/>
 			</fileset>
-			<fileset dir="${build.dir}/">
-				<include name="*/**"/>
-			</fileset>
-		</jar>			    
+		</copy>
 	</target>
 	
 	<!-- Clean the build environment -->
