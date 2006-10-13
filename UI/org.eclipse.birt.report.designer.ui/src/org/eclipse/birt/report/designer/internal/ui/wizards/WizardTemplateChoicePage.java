@@ -129,6 +129,10 @@ public class WizardTemplateChoicePage extends WizardPage
 		super( pageName );
 
 		imageMap = new HashMap( );
+		if(UIUtil.getFragmentDirectory( ) == null)
+		{
+			return;
+		}
 		ReportDesignHandle[] predefinedTemplateArray = getAllTemplates( UIUtil.getFragmentDirectory( ),
 				"/templates/" );
 		SortPredefinedTemplates( predefinedTemplateArray );
