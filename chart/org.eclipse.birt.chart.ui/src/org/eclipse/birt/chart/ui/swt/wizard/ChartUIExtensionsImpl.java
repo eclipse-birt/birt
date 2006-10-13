@@ -63,7 +63,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 			"org.eclipse.birt.chart.ui.swt.type.AreaChart", "org.eclipse.birt.chart.ui.swt.type.PieChart",//$NON-NLS-1$ //$NON-NLS-2$
 			"org.eclipse.birt.chart.ui.swt.type.MeterChart", "org.eclipse.birt.chart.ui.swt.type.ScatterChart",//$NON-NLS-1$ //$NON-NLS-2$ 
 			"org.eclipse.birt.chart.ui.swt.type.StockChart", "org.eclipse.birt.chart.ui.swt.type.GanttChart",//$NON-NLS-1$ //$NON-NLS-2$ 
-			"org.eclipse.birt.chart.ui.swt.type.BubbleChart" //$NON-NLS-1$
+			"org.eclipse.birt.chart.ui.swt.type.BubbleChart", "org.eclipse.birt.chart.ui.swt.type.DifferenceChart" //$NON-NLS-1$ //$NON-NLS-2$ 
 	};
 
 	private static final String[] saListeners = new String[]{
