@@ -1191,7 +1191,9 @@ public class TaskSelectData extends SimpleTask implements
 		}
 		else
 		{
-			int iEndIndex = axis.getSeriesDefinitions( ).size( );
+			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( axis );
+			int iEndIndex = iStartIndex
+					+ axis.getSeriesDefinitions( ).size( );
 
 			int iOSDSize = getChartModel( ).getSampleData( )
 					.getOrthogonalSampleData( )
@@ -1201,14 +1203,38 @@ public class TaskSelectData extends SimpleTask implements
 				OrthogonalSampleData osd = (OrthogonalSampleData) getChartModel( ).getSampleData( )
 						.getOrthogonalSampleData( )
 						.get( i );
-				if ( osd.getSeriesDefinitionIndex( ) >= 0
-						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
+						&& osd.getSeriesDefinitionIndex( ) < iEndIndex )
 				{
 					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
 							osd.getDataSetRepresentation( ) ) );
 				}
 			}
 		}
+	}
+	
+	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
+	{
+		List axisList = ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( )
+				.get( 0 ) ).getAssociatedAxes( );
+		int index = 0;
+		for ( int i = 0; i < axisList.size( ); i++ )
+		{
+			if ( axis.equals( (Axis) axisList.get( i ) ) )
+			{
+				index = i;
+				break;
+			}
+		}
+		int iTmp = 0;
+		for ( int i = 0; i < index; i++ )
+		{
+			iTmp += ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChartModel( ),
+					i )
+					.getSeriesDefinitions( )
+					.size( );
+		}
+		return iTmp;
 	}
 
 	private void manageColorAndQuery( Query query )

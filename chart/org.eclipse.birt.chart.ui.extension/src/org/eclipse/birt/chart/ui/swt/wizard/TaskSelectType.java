@@ -1307,7 +1307,6 @@ public class TaskSelectType extends SimpleTask
 				if ( chartModel instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
-
 					if ( sd != null )
 					{
 						if ( sd.getGrouping( ).isEnabled( )
@@ -1397,7 +1396,9 @@ public class TaskSelectType extends SimpleTask
 		}
 		else
 		{
-			int iEndIndex = axis.getSeriesDefinitions( ).size( );
+			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( axis );
+			int iEndIndex = iStartIndex
+					+ axis.getSeriesDefinitions( ).size( );
 
 			int iOSDSize = chartModel.getSampleData( )
 					.getOrthogonalSampleData( )
@@ -1407,14 +1408,38 @@ public class TaskSelectType extends SimpleTask
 				OrthogonalSampleData osd = (OrthogonalSampleData) chartModel.getSampleData( )
 						.getOrthogonalSampleData( )
 						.get( i );
-				if ( osd.getSeriesDefinitionIndex( ) >= 0
-						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
+				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
+						&& osd.getSeriesDefinitionIndex( ) < iEndIndex )
 				{
 					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
 							osd.getDataSetRepresentation( ) ) );
 				}
 			}
 		}
+	}
+	
+	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
+	{
+		List axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+				.get( 0 ) ).getAssociatedAxes( );
+		int index = 0;
+		for ( int i = 0; i < axisList.size( ); i++ )
+		{
+			if ( axis.equals( (Axis) axisList.get( i ) ) )
+			{
+				index = i;
+				break;
+			}
+		}
+		int iTmp = 0;
+		for ( int i = 0; i < index; i++ )
+		{
+			iTmp += ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) chartModel,
+					i )
+					.getSeriesDefinitions( )
+					.size( );
+		}
+		return iTmp;
 	}
 
 }

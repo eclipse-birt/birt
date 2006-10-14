@@ -424,9 +424,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
 		
-
-		addSampleData( currentChart );
-		
 		return currentChart;
 	}
 

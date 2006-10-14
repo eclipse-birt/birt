@@ -264,16 +264,36 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 		// Create a new OrthogonalSampleData instance from the existing one
 		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
-		sdOrthogonal.setSeriesDefinitionIndex( list.size( ) );
+		sdOrthogonal.setSeriesDefinitionIndex( ChartUIUtil.getLastSeriesIndexWithinAxis( getChart( ),
+				axisIndex ) + 1 );
 		sdOrthogonal.eAdapters( ).addAll( getChart( ).getSampleData( )
 				.eAdapters( ) );
 
 		// Update the Sample Data without event fired.
 		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
 		ChartAdapter.ignoreNotifications( true );
-		list.add( sdOrthogonal );
+		
+		int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
+		ArrayList al = new ArrayList( );
+		if ( sdIndex >= list.size( ) )
+		{
+			list.add( sdOrthogonal );
+		}
+		else
+		{
+			for ( int i = sdIndex; i < list.size( ); i++ )
+			{
+				al.add( list.get( i ) );
+			}
+			list.set( sdIndex, sdOrthogonal );
+			for ( int i = 0; i < al.size( ) - 1; i++ )
+			{
+				list.set( i + 1 + sdIndex, al.get( i ) );
+			}
+			list.add( al.get( al.size( ) - 1 ) );
+		}
+		
 		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
-
 		seriesDefns.add( sdTmp );
 	}
 
