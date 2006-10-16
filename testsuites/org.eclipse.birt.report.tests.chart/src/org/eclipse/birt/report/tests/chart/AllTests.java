@@ -193,7 +193,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_155185.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_155587.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_156650.class );
-		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_157575.class );
+		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_151575.class );
 		suite.addTestSuite( org.eclipse.birt.report.tests.chart.regression.Regression_157608.class );
 		
 		return suite;
