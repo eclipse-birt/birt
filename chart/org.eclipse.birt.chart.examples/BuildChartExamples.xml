@@ -62,16 +62,17 @@
 			     javadoc.dir
 			     plugin.version
 	-->
-	
+
 	<!-- ===== Default value for public properties ============= -->
-	<property name="eclipse.home" location="." />	
+	<property name="eclipse.home" location="." />
+	<property name="export.dir" location="export" />
 	<property file="META-INF/MANIFEST.MF" />
-	
+
 	<property name="dir.src" location="src"/>
 	<property name="dir.bin" location="bin"/>
 
 	<property name="module.name" value="org.eclipse.birt.chart.examples"/>
-		
+
 	<property name="chart.device.extension.dir" location="../org.eclipse.birt.chart.device.extension"/>
 	<property name="chart.device.svg.dir" location="../org.eclipse.birt.chart.device.svg"/>
 	<property name="chart.device.swt.dir" location="../org.eclipse.birt.chart.device.swt"/>
@@ -85,18 +86,18 @@
 	<property name="engine.dir" location="../org.eclipse.birt.report.engine"/>
 	<property name="model.dir" location="../org.eclipse.birt.report.model"/>
 
-	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />	
-		
+	<property name="jar.name" value="${module.name}_${Bundle-Version}.jar" />
+
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
-			<os family="windows"/>
+		<os family="windows"/>
 	</condition>
 	<condition property="basews" value="gtk">
 		<not>
 			<os family="windows"/>
 		</not>
 	</condition>
-	
+
 	<!-- set eclipse related properties -->
 	<property name="eclipse.runtime.dir" value="org.eclipse.core.runtime" />
 	<property name="eclipse.ui.workbench.dir" value="org.eclipse.ui.workbench" />
@@ -105,10 +106,10 @@
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
 	<property name="swt.dir" value="org.eclipse.swt" />
-	
+
 	<path id="class.path">
 		<pathelement path="${dir.bin}"/>
-		
+
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
 			<include name="org.eclipse.core.*.jar"/>
@@ -125,16 +126,16 @@
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 			<include name="org.eclipse.equinox.*.jar"/>
-			<include name="com.ibm.icu_*.jar"/>	
+			<include name="com.ibm.icu_*.jar"/>
 			<include name="org.eclipse.ui.workbench.texteditor_*.jar"/>
 			<include name="org.eclipse.core.filesystem.jar"/>
 			<include name="org.eclipse.core.resources.jar"/>
-			<include name="org.eclipse.ui.editors_*.jar"/>	
+			<include name="org.eclipse.ui.editors_*.jar"/>
 			<include name="org.eclipse.ui.ide_*.jar"/>
 		</fileset>
-		
+
 		<fileset dir="../org.mozilla.rhino">
-				<include name="**/*.jar"/>
+			<include name="**/*.jar"/>
 		</fileset>
 
 		<fileset file="${chart.device.extension.dir}/org.eclipse.birt.chart.device.extension_*.jar" />
@@ -150,8 +151,8 @@
 		<fileset file="${engine.dir}/*.jar"/>
 		<fileset file="${model.dir}/*.jar"/>
 	</path>
-	
-	
+
+
 	<!-- Compile source code and generate jar for this project.
 		 Input parameters:
 		 	eclipse.home
@@ -162,13 +163,13 @@
 				<include name="**/*.class" />
 				<include name="**/*.txt" />
 				<include name="**/*.xml" />
-				<include name="**/*.def" />
 				<include name="**/*.properties" />
 			</fileset>
+			<fileset dir="." includes="readme.html, about.html, plugin.xml, build.properties, lib/**, icons/**, src/**"/>
 		</jar>
 	</target>
-	
-	
+
+
 	<!-- Export the project, for instance, jar files are copied to a designated folder
 					 the dependency on Jar should implement in top level script by call sequence	
 					 Parameters:
@@ -177,21 +178,21 @@
 	-->
 	<target name="Export">
 		<copy todir="${export.dir}">
-			<fileset dir="." includes="${jar.name}, readme.html, about.html, plugin.xml, build.properties, lib/**,icons/**, src/**"/>
-	  </copy>
+			<fileset dir="." includes="${jar.name}"/>
+		</copy>
 	</target>
 
-	
+
 	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
-		<!-- Run Unit test.
+	<!-- Run Unit test.
 				 Parameters:
 				 		- ${utest.report.dir} target directory to put the unit test report
 	-->
-	<target name="UnitTest" depends="compileTest" description="run all the unit tests" />	
-	
+	<target name="UnitTest" depends="compileTest" description="run all the unit tests" />
+
 	<!-- Compile Test code -->
 	<target name="compileTest" />
-	
+
 	<!-- Clean all objects created by this script -->
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
@@ -202,7 +203,7 @@
 	<!-- Generate the JavaDoc.
 		 Parameters:
 		 		- ${javadoc.dir} target directory to put the java document
-	 -->	
+	 -->
 	<target name="Javadoc">
 		<mkdir dir="${javadoc.dir}" />
 		<javadoc destdir="${javadoc.dir}" 
@@ -213,39 +214,41 @@
 				 windowtitle="BIRT Chart Engine Project" 
 				 source="1.4"
 				 packagenames="${module.name}.*">
-				<packageset dir="${dir.src}" defaultexcludes="yes" />
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
-				<classpath refid="class.path" />
-		</javadoc>
-	</target>
-	
-	<!-- Compile Source Files -->
-	<target name="compileSource" depends="buildDependency">
-		<mkdir dir="${dir.bin}"/>
+			<packageset dir="${dir.src}" defaultexcludes="yes" />
+			<bottom>
+				<![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
+		<classpath refid="class.path" />
+	</javadoc>
+</target>
 
-		<!-- copy any resource file we needed into the bin directory-->
-		<copy todir="${dir.bin}">
-			<fileset dir="${dir.src}">
-				<include name="**/*.txt"/>
-				<include name="**/*.xml"/>
-				<include name="**/*.properties"/>
-			</fileset>
-		</copy>
-		
-		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
-		<javac srcdir="${dir.src}" 
+<!-- Compile Source Files -->
+<target name="compileSource" depends="buildDependency">
+	<mkdir dir="${dir.bin}"/>
+
+	<!-- copy any resource file we needed into the bin directory-->
+	<copy todir="${dir.bin}">
+		<fileset dir="${dir.src}">
+			<include name="**/*.txt"/>
+			<include name="**/*.xml"/>
+			<include name="**/*.properties"/>
+		</fileset>
+	</copy>
+
+	<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
+	<javac srcdir="${dir.src}" 
 			   destdir="${dir.bin}" 
 			   encoding="utf-8" 
 			   source="1.4" 
 			   debug="true">
-			
-			<classpath refid="class.path"/>
-		</javac>
-	</target>
-	
-	<!-- Build the dependent projects -->
-	<target name="buildDependency"></target>
-	
-	<target name="build" depends="Jar" description="package examples files" />
-	
+
+		<classpath refid="class.path"/>
+	</javac>
+</target>
+
+<!-- Build the dependent projects -->
+<target name="buildDependency">
+</target>
+
+<target name="build" depends="Jar" description="package examples files" />
+
 </project>
