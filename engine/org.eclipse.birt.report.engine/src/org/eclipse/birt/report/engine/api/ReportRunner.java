@@ -38,7 +38,7 @@ import org.eclipse.birt.core.framework.Platform;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.26 $ $Date: 2006/08/08 09:59:09 $
+ * @version $Revision: 1.27 $ $Date: 2006/09/18 03:08:35 $
  */
 public class ReportRunner
 {
@@ -376,7 +376,7 @@ public class ReportRunner
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
 		System.out.println( "\t --htmlType/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
-		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
+		System.out.println( "\t --parameter/-p <\"parameterName=parameterValue\">" ); //$NON-NLS-1$
 		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
 		System.out.println( "\t --encoding/-e <target encoding>" ); //$NON-NLS-1$
 
