@@ -18,25 +18,4 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 	{
 		super( factory );
 	}
-	
-	protected void start()
-	{
-		isOutput = false;
-	}
-	
-	protected void end()
-	{
-		if (isChildrenFinished())
-		{
-			if (!isOutput)
-			{
-				startContent( );
-				isOutput = true;
-			}
-		}
-		if (isOutput)
-		{
-			super.end();
-		}
-	}
 }

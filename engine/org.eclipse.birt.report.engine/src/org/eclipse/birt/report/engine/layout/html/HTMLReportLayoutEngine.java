@@ -95,11 +95,11 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		executor.close( );
 	}
 
-	public void layout( ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter )
+	public void layout( IReportItemExecutor executor, IContentEmitter emitter )
 	{
 		IContent content = executor.execute( );
-		ILayoutManager layoutManager = factory.createLayoutManager(
-				(HTMLAbstractLM) parent, content, executor, emitter );
+		ILayoutManager layoutManager = factory.createLayoutManager( null,
+				content, executor, emitter );
 		boolean hasNext = layoutManager.layout( );
 		while ( hasNext )
 		{
@@ -108,10 +108,10 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		layoutManager.close( );
 	}
 
-	public void layout( ILayoutManager parent, IContent content, IContentEmitter output )
+	public void layout( IContent content, IContentEmitter output )
 	{
 		IReportItemExecutor executor = new DOMReportItemExecutor( content );
-		layout( parent, executor, output );
+		layout( executor, output );
 		executor.close( );
 	}
 

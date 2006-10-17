@@ -55,10 +55,5 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 	{
 		return;
 	}
-	
-	protected void start()
-	{
-		startContent();
-	}
 
 }

@@ -59,7 +59,7 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 					boolean skipPageHint = context.getSkipPageHint( );
 					context.setAllowPageBreak( pageBreak );
 					context.setSkipPageHint( true );
-					engine.layout(this, header, emitter );
+					engine.layout( header, emitter );
 					context.setAllowPageBreak( pageBreak );
 					context.setSkipPageHint( skipPageHint );
 				}

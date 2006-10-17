@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
@@ -77,19 +76,19 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		executor.close( );
 	}
 
-	public void layout( ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter )
+	public void layout( IReportItemExecutor executor, IContentEmitter emitter )
 	{
 		IContent content = executor.execute( );
-		PDFAbstractLM layoutManager = factory.createLayoutManager( (PDFStackingLM) parent,
+		PDFAbstractLM layoutManager = factory.createLayoutManager( null,
 				content, executor );
 		layoutManager.layout( );
 		layoutManager.close( );
 	}
 
-	public void layout(ILayoutManager parent, IContent content, IContentEmitter output )
+	public void layout( IContent content, IContentEmitter output )
 	{
 		IReportItemExecutor executor = new DOMReportItemExecutor( content );
-		layout( parent, executor, output );
+		layout( executor, output );
 		executor.close( );
 	}
 

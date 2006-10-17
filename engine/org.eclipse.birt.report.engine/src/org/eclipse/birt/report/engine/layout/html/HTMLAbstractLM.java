@@ -66,8 +66,6 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 
 	protected int status = STATUS_INTIALIZE;
 
-	protected boolean isOutput = false;
-	
 	public HTMLAbstractLM( HTMLLayoutManagerFactory factory )
 	{
 		this.engine = factory.getLayoutEngine( );
@@ -97,22 +95,12 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	/**
 	 * output the content.
 	 */
-	protected abstract void start( );
-
-	/**
-	 * output the content.
-	 */
-	protected void startContent( )
+	protected void start( )
 	{
-		if ( parent != null && !parent.isOutput )
-		{
-			parent.startContent( );
-		}
 		if ( emitter != null )
 		{
 			ContentEmitterUtil.startContent( content, emitter );
 		}
-		isOutput = true;
 	}
 
 	/**

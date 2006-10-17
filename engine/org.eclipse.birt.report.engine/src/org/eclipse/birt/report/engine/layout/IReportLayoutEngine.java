@@ -22,9 +22,9 @@ public interface IReportLayoutEngine
 	
 	void layout(IReportExecutor executor, IContentEmitter output, boolean pagination);
 	
-	void layout(ILayoutManager parent, IContent content, IContentEmitter output);
+	void layout(IContent content, IContentEmitter output);
 	
-	void layout(ILayoutManager parent, IReportItemExecutor executor, IContentEmitter output);
+	void layout(IReportItemExecutor executor, IContentEmitter output);
 	
 	void cancel();
 }
