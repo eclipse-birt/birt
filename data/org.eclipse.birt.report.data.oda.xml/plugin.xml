@@ -105,9 +105,6 @@
                   nativeDataType="BOOLEAN"
                   nativeDataTypeCode="16"
                   odaScalarDataType="Integer"/>
-            <relationship
-                  relatedId="org.eclipse.datatools.enablement.oda.xml.dataSet"
-                  type="replacedBy"/>
       </dataSet>
 	  <dataSource
             odaVersion="3.0.0"
@@ -131,10 +128,10 @@
                   name="SCHEMAFILELIST"/>          
          </propertyGroup>
          </properties>
-         <relationship
-               relatedId="org.eclipse.datatools.enablement.oda.xml"
-               type="replacedBy"/>
       </dataSource>
+   <relationship
+         relatedDataSourceId="org.eclipse.datatools.enablement.oda.xml"
+         type="replacedBy"/>
    </extension>
 </plugin>
 
