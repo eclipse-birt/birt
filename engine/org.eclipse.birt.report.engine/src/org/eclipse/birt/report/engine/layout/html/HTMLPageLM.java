@@ -184,6 +184,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 				emitter.startPage( pageContent );
 			}
 		}
+		isOutput = true;
 	}
 
 	protected void end( )
