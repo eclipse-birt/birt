@@ -13,10 +13,8 @@ package org.eclipse.birt.report.model.adapter.oda;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.model.adapter.oda.ResultSetsAdapter.ResultSetColumnInfo;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
@@ -37,10 +35,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
-import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
@@ -235,9 +231,6 @@ public class ModelOdaAdapter
 		ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
 				columns, hints );
 
-		// create unique column names if native names is null or empty.
-
-		createUniqueResultSetColumnNames( columns );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.RESULT_SET_PROP, columns );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
@@ -1042,8 +1035,6 @@ public class ModelOdaAdapter
 
 		if ( !columns.isEmpty( ) )
 		{
-			createUniqueResultSetColumnNames( columns );
-
 			for ( int i = 0; i < columns.size( ); i++ )
 				propHandle.addItem( columns.get( i ) );
 		}
@@ -1073,73 +1064,6 @@ public class ModelOdaAdapter
 				}
 			}
 		}
-	}
-
-	/**
-	 * Creates unique result set column names if column names are
-	 * <code>null</code> or empty string.
-	 * 
-	 * @param resultSetColumn
-	 */
-
-	private void createUniqueResultSetColumnNames( List resultSetColumn )
-	{
-		if ( resultSetColumn == null || resultSetColumn.isEmpty( ) )
-			return;
-
-		Set names = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
-		{
-			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
-					.get( i );
-			String nativeName = column.getNativeName( );
-			if ( nativeName != null )
-				names.add( nativeName );
-		}
-
-		Set newNames = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
-		{
-			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
-					.get( i );
-			String nativeName = column.getNativeName( );
-			if ( !StringUtil.isBlank( nativeName ) )
-				continue;
-
-			String newName = IdentifierUtility.getUniqueColumnName( names,
-					newNames, nativeName, i );
-
-			column.setColumnName( newName );
-		}
-
-		names.clear( );
-		newNames.clear( );
-	}
-
-	/**
-	 * Updates a strucutre list with the corresponding property handle.
-	 * 
-	 * @param propHandle
-	 *            the property handle
-	 * @param structList
-	 *            the structure list
-	 * @throws SemanticException
-	 *             if any strucutre has invalid value.
-	 */
-
-	private void updateROMDataSetParamList( OdaDataSetHandle setHandle,
-			List structList ) throws SemanticException
-	{
-		setHandle.setProperty( OdaDataSetHandle.PARAMETERS_PROP, null );
-
-		if ( structList == null || structList.isEmpty( ) )
-			return;
-
-		PropertyHandle propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
-
-		for ( int i = 0; i < structList.size( ); i++ )
-			propHandle.addItem( structList.get( i ) );
 	}
 
 	/**

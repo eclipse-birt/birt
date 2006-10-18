@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.report.model.adapter.oda.DataSetParameterAdapter.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -75,10 +74,11 @@ public class ReportParameterAdapter
 	 * 
 	 * @param reportParam
 	 *            the report parameter
-	 * @param param
-	 *            the ROM data set parameter
-	 * @param dataSetDesign
-	 *            the data set design
+	 * @param odaParam
+	 *            the ODA parameter definition
+	 * @param newDataType
+	 *            the data type
+	 * 
 	 * @return <code>true</code> if the report paramter is updated or has no
 	 *         parameter definition in the data set design. Otherwise
 	 *         <code>false</code>.
@@ -192,6 +192,8 @@ public class ReportParameterAdapter
 	 *            the data set parameter definition.
 	 * @param nullability
 	 *            the ODA object indicates nullability.
+	 * @return <code>true</code> if is nullable. <code>false</code> if not
+	 *         nullable.
 	 */
 
 	static Boolean getROMNullability( ElementNullability nullability )
@@ -385,8 +387,13 @@ public class ReportParameterAdapter
 	 * 
 	 * @param reportParam
 	 *            the report parameter
-	 * @param dataSetDesign
-	 *            the data set design
+	 * @param paramDefn
+	 *            the ODA parameter definition
+	 * @param cachedParamDefn
+	 *            the cached ODA parameter definition in designerValues
+	 * @param dataType
+	 *            the updated data type
+	 * 
 	 * @throws SemanticException
 	 *             if value in the data set design is invalid
 	 */
@@ -795,6 +802,10 @@ public class ReportParameterAdapter
 	 * 
 	 * @param paramDefn
 	 *            the ROM report parameter.
+	 * @param paramHandle
+	 *            the report parameter
+	 * @param dataSetDesign
+	 *            the data set design
 	 * @return the created ParameterDefinition
 	 */
 
@@ -826,10 +837,13 @@ public class ReportParameterAdapter
 	private DataElementAttributes updateDataElementAttrs(
 			DataElementAttributes dataAttrs, ScalarParameterHandle paramHandle )
 	{
-		if ( dataAttrs == null )
-			dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+		DataElementAttributes retDataAttrs = dataAttrs;
 
-		dataAttrs.setNullability( DataSetParameterAdapter
+		if ( retDataAttrs == null )
+			retDataAttrs = DesignFactory.eINSTANCE
+					.createDataElementAttributes( );
+
+		retDataAttrs.setNullability( DataSetParameterAdapter
 				.newElementNullability( paramHandle.allowNull( ) ) );
 
 		DataElementUIHints uiHints = DesignFactory.eINSTANCE
@@ -837,9 +851,9 @@ public class ReportParameterAdapter
 		uiHints.setDisplayName( paramHandle.getPromptText( ) );
 		uiHints.setDescription( paramHandle.getHelpText( ) );
 
-		dataAttrs.setUiHints( uiHints );
+		retDataAttrs.setUiHints( uiHints );
 
-		return dataAttrs;
+		return retDataAttrs;
 
 	}
 
@@ -858,11 +872,13 @@ public class ReportParameterAdapter
 			InputParameterAttributes inputParamAttrs,
 			ScalarParameterHandle paramDefn, DataSetDesign dataSetDesign )
 	{
+		InputParameterAttributes retInputParamAttrs = inputParamAttrs;
+
 		if ( inputParamAttrs == null )
-			inputParamAttrs = DesignFactory.eINSTANCE
+			retInputParamAttrs = DesignFactory.eINSTANCE
 					.createInputParameterAttributes( );
 
-		InputElementAttributes inputAttrs = inputParamAttrs
+		InputElementAttributes inputAttrs = retInputParamAttrs
 				.getElementAttributes( );
 		if ( inputAttrs == null )
 			inputAttrs = DesignFactory.eINSTANCE.createInputElementAttributes( );
@@ -936,11 +952,11 @@ public class ReportParameterAdapter
 			paramUiHints.setGroupPromptDisplayName( groupHandle
 					.getDisplayName( ) );
 
-			inputParamAttrs.setUiHints( paramUiHints );
+			retInputParamAttrs.setUiHints( paramUiHints );
 		}
 
-		inputParamAttrs.setElementAttributes( inputAttrs );
-		return inputParamAttrs;
+		retInputParamAttrs.setElementAttributes( inputAttrs );
+		return retInputParamAttrs;
 	}
 
 	/**
