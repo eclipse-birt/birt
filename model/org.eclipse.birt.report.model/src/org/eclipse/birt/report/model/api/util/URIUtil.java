@@ -490,14 +490,18 @@ public class URIUtil
 	private static String createRelativePathFromString( String baseDir,
 			String resourceDir, String separator )
 	{
+		String newBaseDir = baseDir;
+
+		if ( newBaseDir.endsWith( "/" ) || newBaseDir.endsWith( separator ) ) //$NON-NLS-1$
+			newBaseDir = newBaseDir.substring( 0, newBaseDir.length( ) - 1 );
 
 		// do the string match to get the location of same prefix
 
 		int matchedPos = 0;
-		for ( matchedPos = 0; matchedPos < baseDir.length( )
+		for ( matchedPos = 0; matchedPos < newBaseDir.length( )
 				&& matchedPos < resourceDir.length( ); matchedPos++ )
 		{
-			if ( baseDir.charAt( matchedPos ) != resourceDir
+			if ( newBaseDir.charAt( matchedPos ) != resourceDir
 					.charAt( matchedPos ) )
 				break;
 		}
@@ -510,13 +514,13 @@ public class URIUtil
 		// then the matched position is the length of baseDir insteadof
 		// the slash before "test".
 
-		if ( isLastDirectoryMatched( baseDir, resourceDir, matchedPos )
-				|| isLastDirectoryMatched( resourceDir, baseDir, matchedPos ) )
+		if ( isLastDirectoryMatched( newBaseDir, resourceDir, matchedPos )
+				|| isLastDirectoryMatched( resourceDir, newBaseDir, matchedPos ) )
 			;
 		else
 		{
 			int oldMatchedPos = matchedPos;
-			matchedPos = baseDir.lastIndexOf( separator, oldMatchedPos );
+			matchedPos = newBaseDir.lastIndexOf( separator, oldMatchedPos );
 		}
 
 		// saves the matched position
@@ -527,9 +531,9 @@ public class URIUtil
 
 		// calcualtes out the number of up directory should have.
 
-		while ( matchedPos < baseDir.length( ) && matchedPos >= 0 )
+		while ( matchedPos < newBaseDir.length( ) && matchedPos >= 0 )
 		{
-			matchedPos = baseDir.indexOf( separator, matchedPos + 1 );
+			matchedPos = newBaseDir.indexOf( separator, matchedPos + 1 );
 			upDirs++;
 		}
 
@@ -564,9 +568,8 @@ public class URIUtil
 	}
 
 	/**
-	 * Return the relative path for the given <code>resource</code> according
-	 * to <code>base</code>. Only handle file system. Network protocols such
-	 * as http, ftp, etc. are not supported.
+	 * Gets the absolute path for the given <code>base</code> and
+	 * <code>relativePath</code>.
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT
 	 * contain file name and the format can be:
@@ -596,8 +599,8 @@ public class URIUtil
 	}
 
 	/**
-	 * Return the relative path for the given <code>resource</code> according
-	 * to <code>base</code>. Only handle file system.
+	 * Gets the absolute path for the given <code>base</code> and
+	 * <code>relativePath</code>.
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT
 	 * contain file name and the format can be:
@@ -636,9 +639,8 @@ public class URIUtil
 	}
 
 	/**
-	 * Return the relative path for the given <code>resource</code> according
-	 * to <code>base</code>. Only handle file system. Network protocols such
-	 * as http, ftp, etc. are not supported.
+	 * Gets the absolute path for the given <code>base</code> and
+	 * <code>relativePath</code>.
 	 * <p>
 	 * The <code>base</code> value should be directory ONLY and does NOT
 	 * contain file name and the format can be:

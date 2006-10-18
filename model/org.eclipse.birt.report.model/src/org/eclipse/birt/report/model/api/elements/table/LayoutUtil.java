@@ -274,8 +274,7 @@ public class LayoutUtil
 		if ( columnCount == 0 )
 			return false;
 
-		if ( layout.hasOverlappedArea( ) )
-			return false;
+		// if there is overlapped area, it is valid for "drop".
 
 		List slots = getFlattenedLayoutSlots( layout );
 		for ( int i = 0; i < slots.size( ); i++ )

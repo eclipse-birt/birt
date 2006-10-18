@@ -212,7 +212,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
 				.getVersionManager( ).getVersion( ) );
 
-		writer.literal( "<!-- Written by Eclipse BIRT 2.0 -->\r\n" ); //$NON-NLS-1$
 		getModule( ).apply( this );
 
 		getModule( ).getVersionManager( ).setVersion(

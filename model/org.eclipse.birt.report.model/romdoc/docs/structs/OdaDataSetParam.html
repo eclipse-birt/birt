@@ -6,9 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body>
-<h1>DataSetParam</h1>
+<h1>OdaDataSetParam</h1>
 
-<p>Describes an input and/or output parameter of the data 
+<p>Describes an input and/or output parameter of the ODA data 
 set query.</p>
 
 <h3>Description</h3>
@@ -128,5 +128,24 @@ true, this is an input parameter; if false, this is not an input parameter.</p>
 true, this is an output parameter; if false, this is not an output parameter.</p>
 
 <h3>See Also</h3>
+<h2 class="property">paramName</h2>
+<p>The name of the report parameter that the parameter refers to.</p>
+<h3>Description</h3>
+<p>The parameter can explicitly link to a report parameter.  Once this explicit 
+link is applied, the defaultValue is then ignored and overriden by the defaultValue 
+in the linked report parameter. </p>
+<h3>See Also</h3>
+
+<h2 class="property">nativeName</h2>
+<p>The name known to an ODA user.</p>
+<h3>Description</h3>
+<p> This is the name known to an ODA custom designer and runtime driver, and is provided by a custom ODA designer in an oda.design.ParameterDefinition. </p>
+<h3>See Also</h3>
+<h2 class="property">nativeDataType</h2>
+<p>The data type know to an ODA user.</p>
+<h3>Description</h3>
+<p> This is the data type known to an ODA custom designer and runtime driver, and is provided by a custom ODA designer in an oda.design.ParameterDefinition. </p>
+<h3>See Also</h3>
+
 </body>
 </html>
