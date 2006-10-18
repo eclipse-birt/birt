@@ -50,7 +50,7 @@ public class DisplayManager extends IdentifierManager {
 	}
 
 	public boolean isInheritedProperty() {
-		return true;
+		return false;
 	}
 
 	public Value getDefaultValue() {

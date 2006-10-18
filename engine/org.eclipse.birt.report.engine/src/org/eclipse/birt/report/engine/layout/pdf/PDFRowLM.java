@@ -149,6 +149,11 @@ public class PDFRowLM extends PDFInlineStackingLM
 		tbl.updateRow( (RowArea) root, specifiedHeight );
 	}
 
+	protected boolean isHidden( )
+	{
+		return isHiddenByVisibility( );
+	}
+
 	public boolean addArea( IArea area )
 	{
 		CellArea cArea = (CellArea) area;

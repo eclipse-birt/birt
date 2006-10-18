@@ -478,29 +478,41 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			IStyle style = content.getComputedStyle( );
 			if(!IStyle.NONE_VALUE.equals(style.getProperty( IStyle.STYLE_DISPLAY )))
 			{
-				ListValue formats = (ListValue)style.getProperty( IStyle.STYLE_VISIBLE_FORMAT );
-				if(formats.getLength( )==0)
-				{
-					return false;
-				}
-				else
-				{
-					String format = context.getFormat( );
-					for(int i=0; i<formats.getLength( ); i++)
-					{
-						String hiddenFormat = formats.item( i ).getCssText( );
-						if(format.equalsIgnoreCase( hiddenFormat ) 
-								|| BIRTConstants.BIRT_ALL_VALUE.equalsIgnoreCase(hiddenFormat) )
-						{
-							return true;
-						}
-					}
-					return false;
-				}
+				return isHiddenByVisibility( );
 			}
 			else
 			{
 				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean isHiddenByVisibility( )
+	{
+		if ( content != null )
+		{
+			IStyle style = content.getComputedStyle( );
+			ListValue formats = (ListValue) style
+					.getProperty( IStyle.STYLE_VISIBLE_FORMAT );
+			if ( formats.getLength( ) == 0 )
+			{
+				return false;
+			}
+			else
+			{
+				String format = context.getFormat( );
+				for ( int i = 0; i < formats.getLength( ); i++ )
+				{
+					String hiddenFormat = formats.item( i ).getCssText( );
+					if ( format.equalsIgnoreCase( hiddenFormat )
+							|| BIRTConstants.BIRT_ALL_VALUE
+									.equalsIgnoreCase( hiddenFormat ) )
+					{
+						return true;
+					}
+				}
+				return false;
 			}
 		}
 		return false;

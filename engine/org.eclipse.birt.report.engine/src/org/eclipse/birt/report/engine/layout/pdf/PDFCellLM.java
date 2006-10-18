@@ -125,7 +125,7 @@ public class PDFCellLM extends PDFBlockStackingLM
 		{
 			return true;
 		}
-		return super.isHidden( );
+		return isHiddenByVisibility( );
 	}
 
 	protected boolean submitRoot( boolean childBreak )
