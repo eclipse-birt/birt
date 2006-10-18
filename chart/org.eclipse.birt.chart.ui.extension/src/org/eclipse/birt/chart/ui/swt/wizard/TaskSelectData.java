@@ -1132,6 +1132,7 @@ public class TaskSelectData extends SimpleTask implements
 						}
 					}
 				}
+				break;
 			}
 		}
 	}

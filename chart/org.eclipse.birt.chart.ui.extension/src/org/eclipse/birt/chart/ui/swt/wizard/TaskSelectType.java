@@ -1337,6 +1337,7 @@ public class TaskSelectType extends SimpleTask
 						}
 					}
 				}
+				break;
 			}
 		}
 	}

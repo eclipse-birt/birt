@@ -286,11 +286,14 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 				al.add( list.get( i ) );
 			}
 			list.set( sdIndex, sdOrthogonal );
-			for ( int i = 0; i < al.size( ) - 1; i++ )
+			for ( int i = 1; i < al.size( ); i++ )
 			{
-				list.set( i + 1 + sdIndex, al.get( i ) );
+				list.set( i + sdIndex, al.get( i - 1) );
+				( ( OrthogonalSampleData ) list.get( i + sdIndex ) ).setSeriesDefinitionIndex( i
+						+ sdIndex );
 			}
 			list.add( al.get( al.size( ) - 1 ) );
+			( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
 		}
 		
 		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
