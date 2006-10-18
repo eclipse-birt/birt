@@ -198,6 +198,12 @@ public class OdaDataSource extends DataSource
 			{
 				provider = ODAProviderFactory.getInstance( ).createODAProvider(
 						this, extensionID );
+
+				// ModelPlugin is not loaded properly
+				
+				if ( provider == null )
+					return;
+
 				if ( !provider.isValidODADataSourceExtensionID( extensionID ) )
 					provider = new OdaDummyProvider( extensionID );
 			}

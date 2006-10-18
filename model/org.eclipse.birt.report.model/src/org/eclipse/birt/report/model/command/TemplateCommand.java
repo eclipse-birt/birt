@@ -461,14 +461,6 @@ public class TemplateCommand extends AbstractElementCommand
 				propertyCmd = new PropertyCommand( module, base );
 				propertyCmd.setProperty(
 						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP, null );
-
-				if ( !temp.hasReferences( ) )
-				{
-					contentCmd = new ContentCommand( module, module );
-					contentCmd.remove( temp,
-							ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
-				}
-
 			}
 
 			contentCmd = new ContentCommand( module, templateParam );
