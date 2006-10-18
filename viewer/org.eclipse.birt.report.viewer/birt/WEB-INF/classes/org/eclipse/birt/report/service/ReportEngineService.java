@@ -85,6 +85,7 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -531,7 +532,6 @@ public class ReportEngineService
 		return renderContext;
 	}
 
-
 	/**
 	 * Run and render a report,
 	 * 
@@ -719,6 +719,9 @@ public class ReportEngineService
 
 		runAndRenderTask.setRenderOption( option );
 
+		// add task into session
+		BirtUtility.addTask( request, runAndRenderTask );
+
 		HashMap context = new HashMap( );
 
 		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
@@ -817,6 +820,9 @@ public class ReportEngineService
 		runTask.setLocale( locale );
 		runTask.setParameterValues( parameters );
 
+		// add task into session
+		BirtUtility.addTask( request, runTask );
+
 		// Set display Text for select parameters
 		if ( displayTexts != null )
 		{
@@ -842,10 +848,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
-		
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
-		
+
 		runTask.setAppContext( context );
 
 		// Run report.
@@ -925,6 +931,9 @@ public class ReportEngineService
 		// Create render task.
 		IRenderTask renderTask = engine.createRenderTask( reportDocument );
 
+		// add task into session
+		BirtUtility.addTask( request, renderTask );
+
 		HashMap context = new HashMap( );
 		String format = ParameterAccessor.getFormat( request );
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
@@ -943,10 +952,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
-		
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
-		
+
 		renderTask.setAppContext( context );
 
 		// Render option
@@ -983,8 +992,12 @@ public class ReportEngineService
 		{
 			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF )
 					|| IBirtConstants.SERVLET_PATH_RUN
+							.equalsIgnoreCase( request.getServletPath( ) )
+					|| IBirtConstants.SERVLET_PATH_PREVIEW
 							.equalsIgnoreCase( request.getServletPath( ) ) )
+			{
 				renderTask.render( );
+			}
 			else
 			{
 				renderTask.setPageNumber( pageNumber );
@@ -1043,6 +1056,9 @@ public class ReportEngineService
 		// Create render task.
 		IRenderTask renderTask = engine.createRenderTask( reportDocument );
 
+		// add task into session
+		BirtUtility.addTask( request, renderTask );
+
 		HashMap context = new HashMap( );
 		String format = ParameterAccessor.getFormat( request );
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
@@ -1061,10 +1077,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
-		
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
-		
+
 		renderTask.setAppContext( context );
 
 		// Render option
@@ -1688,5 +1704,4 @@ public class ReportEngineService
 	{
 		instance = null;
 	}
-
 }

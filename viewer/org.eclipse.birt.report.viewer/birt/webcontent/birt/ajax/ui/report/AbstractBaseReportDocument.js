@@ -30,6 +30,11 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	__beh_changeParameter_closure : null,
 		
 	/**
+	 *	Task Id parameter
+	 */
+	 __task_id : "taskid",
+	 		
+	/**
 	 *	Local version of __cb_installEventHandlers.
 	 */
 	__local_installEventHandlers : function( id, children, bookmark )
@@ -88,13 +93,17 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__beh_changeParameter : function( id )
 	{
+		// set task id
+		var taskid = birtUtility.setTaskId( );
+		
 		if ( birtParameterDialog.__parameter > 0 )
 		{
 	        birtParameterDialog.__parameter.length = birtParameterDialog.__parameter.length - 1;
 		}
         birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
         							  "ChangeParameter", null, birtParameterDialog.__parameter,
-									  { name : "svg", value : this.__has_svg_support? "true" : "false" } );
+									  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+									  { name : this.__task_id, value : taskid } );
 		birtSoapRequest.setURL( document.location );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
@@ -105,7 +114,12 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__beh_cascadingParameter : function( id, object )
 	{
-	    birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "GetCascadingParameter", null, object );
+		// set task id
+		var taskid = birtUtility.setTaskId( );
+		
+	    birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+	    							 "GetCascadingParameter", null, object,
+	    							 { name : this.__task_id, value : taskid } );
 		birtSoapRequest.setURL( document.location );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
@@ -131,19 +145,24 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__beh_getPage : function( id, object )
 	{
+		// set task id
+		var taskid = birtUtility.setTaskId( );
+		
 		birtSoapRequest.setURL( document.location );
 		if ( object )
 		{
 			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
 										  "GetPage", null,
 										  object,
-										  { name : "svg", value : this.__has_svg_support? "true" : "false" } );
+										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+										  { name : this.__task_id, value : taskid } );
 		}
 		else
 		{
 			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
 										  "GetPage", null,
-										  { name : "svg", value : this.__has_svg_support? "true" : "false" } );
+										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+										  { name : this.__task_id, value : taskid } );
 		}
 
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.

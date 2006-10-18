@@ -203,9 +203,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// Get bookmark
 		String bookmark = action.getBookmark( );
 
-		// In frameset mode, use javascript function to fire Ajax request to
+		// In frameset/run mode, use javascript function to fire Ajax request to
 		// link to internal bookmark
-		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
+		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0
+				|| baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
 		{
 			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-1$//$NON-NLS-2$
 		}
@@ -437,9 +438,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 				try
 				{
-					// In RUN mode or pdf format, don't support bookmark as
+					// In PREVIEW mode or pdf format, don't support bookmark as
 					// parameter
-					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0
+					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
 							|| IBirtConstants.PDF_RENDER_FORMAT
 									.equalsIgnoreCase( format ) )
 					{

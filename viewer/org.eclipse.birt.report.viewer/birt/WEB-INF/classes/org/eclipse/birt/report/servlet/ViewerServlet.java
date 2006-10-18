@@ -29,6 +29,7 @@ import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.FramesetFragment;
+import org.eclipse.birt.report.presentation.aggregation.layout.RunFragment;
 
 /**
  * Servlet implementation of BIRT Web Viewer.
@@ -116,10 +117,16 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	protected void __init( ServletConfig config )
 	{
 		BirtReportServiceFactory.init( new BirtViewerReportService( config ) );
-		
+
+		// handle 'frameset' pattern
 		viewer = new FramesetFragment( );
 		viewer.buildComposite( );
 		viewer.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$
+
+		// handle 'run' pattern
+		run = new RunFragment( );
+		run.buildComposite( );
+		run.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$		
 	}
 
 	/**
@@ -160,8 +167,15 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 		{
 			activeFragment = viewer;
 		}
-		
-		activeFragment.service( context.getRequest( ), context.getResponse( ) );
+		else if ( IBirtConstants.SERVLET_PATH_RUN
+				.equalsIgnoreCase( servletPath ) )
+		{
+			activeFragment = run;
+		}
+
+		if ( activeFragment != null )
+			activeFragment.service( context.getRequest( ), context
+					.getResponse( ) );
 	}
 
 	/**

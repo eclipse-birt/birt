@@ -594,8 +594,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			{
 				birtEventDispatcher.broadcastEvent( birtEvent.__E_CACHE_PARAMETER );
 			}
-			else if ( this.__mode == 'run' 
-					|| ( this.__mode == 'frameset' && action.indexOf( '&__format=pdf' ) > 0 ) )
+			else if ( this.__ifSubmit( this.__mode, action ) )
 			{
 				this.__doSubmit( );
 			}
@@ -739,6 +738,52 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		
 		// enable the Navigation Bar buttons
 		birtUtility.setButtonsDisabled ( "navigationBar", false );		
+	},
+	
+	/**
+	 * Retrieve all pages
+	 */
+	__init_page_all: function( )
+	{
+		if( birtParameterDialog.collect_parameter( ) )
+		{
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_ALL );
+		}
+	},
+	
+	/**
+	 * Check if submit request
+	 * @param mode
+	 * @param url
+	 * @return, true or false
+	 */
+	__ifSubmit: function( mode, url )
+	{
+		// if use '/preview' pattern, submit anyway
+		if( mode == 'preview' )
+			return true;
+		
+		if( url )
+			url = url.toLowerCase( );
+		else
+			url = "";
+			
+		// if use '/frameset' or '/run', check format.
+		// if format is not HTML, submit request.	
+		if( mode == 'run' || mode == 'frameset' )
+		{
+			// if don't set format, default is HTML
+			if( url.indexOf( '&__format=' ) < 0 )
+				return false;
+			
+			// if format is htm/html, return false	
+			if( url.indexOf( '&__format=htm' ) > 0 || url.indexOf( '&__format=html' ) > 0 )	
+				return false;
+			
+			return true;			
+		}
+		
+		return false;
 	}
 }
 );

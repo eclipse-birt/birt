@@ -59,6 +59,7 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.service.api.ToC;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
+import org.eclipse.birt.report.utility.BirtUtility;
 
 import com.ibm.icu.util.ULocale;
 
@@ -488,6 +489,12 @@ public class BirtViewerReportService implements IViewerReportService
 				ViewerAttributeBean bean = getViewerAttrBean( options );
 				if ( bean != null )
 					task.setParameterValues( bean.getParameters( ) );
+
+				// Add task into session
+				HttpServletRequest request = (HttpServletRequest) options
+						.getOption( InputOptions.OPT_REQUEST );
+				BirtUtility.addTask( request, task );
+
 				task.evaluateQuery( groupName );
 				Collection selectionList = task
 						.getSelectionListForCascadingGroup( groupName,
@@ -518,6 +525,11 @@ public class BirtViewerReportService implements IViewerReportService
 				ViewerAttributeBean bean = getViewerAttrBean( runOptions );
 				if ( bean != null )
 					task.setParameterValues( bean.getParameters( ) );
+
+				// Add task into session
+				HttpServletRequest request = (HttpServletRequest) runOptions
+						.getOption( InputOptions.OPT_REQUEST );
+				BirtUtility.addTask( request, task );
 
 				Collection selectionList = task.getSelectionList( paramName );
 				return convertEngineParameterSelectionChoice( selectionList );

@@ -19,7 +19,6 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public abstract class AbstractChangeParameterActionHandler
 		extends

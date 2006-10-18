@@ -23,6 +23,7 @@ public interface IBirtConstants
 	static public final String OPRAND_SVG = "svg"; //$NON-NLS-1$
 	static public final String OPRAND_PARAM = "param"; //$NON-NLS-1$
 	static public final String OPRAND_IID = "iid"; //$NON-NLS-1$
+	static public final String OPRAND_TASKID = "taskid"; //$NON-NLS-1$
 	
 	static public String MIME_TYPE = "text/xml"; //$NON-NLS-1$
 	static public String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
@@ -81,4 +82,7 @@ public interface IBirtConstants
 	
 	// Property -- type
 	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
+	
+	// Task Map
+	public static final String TASK_MAP = "tasks"; //$NON-NLS-1$
 }

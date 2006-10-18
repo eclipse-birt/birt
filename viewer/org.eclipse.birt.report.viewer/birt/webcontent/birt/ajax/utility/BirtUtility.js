@@ -18,6 +18,11 @@ BirtUtility = function( ) { };
 BirtUtility.prototype =
 {
 	/**
+	 * The input control to save 'taskid'
+	 */
+	__task_id : 'taskid',
+	
+	/**
 	 * @returns true if left button was pressed
 	 */
 	isLeftButton : function( event )
@@ -369,7 +374,57 @@ BirtUtility.prototype =
 			}		
 		}
 	},
+	
+	// set current task id
+	setTaskId: function( id )
+	{
+		var taskid;
+		if( id )
+		{
+			// if pass id
+			taskid = id;
+		}
+		else
+		{
+			// use time stamp
+			var d = new Date( );
+			taskid = d.getFullYear( );
+			taskid += "-" + d.getMonth( );
+			taskid += "-" + d.getDate( );
+			taskid += "-" + d.getHours( );
+			taskid += "-" + d.getMinutes( );
+			taskid += "-" + d.getSeconds( );
+			taskid += "-" + d.getMilliseconds();
+		}
 		
+		// find taskid input control
+		var oTaskId = document.getElementById( this.__task_id );
+		if( oTaskId )
+			oTaskId.value = taskid;
+		
+		return taskid;
+	},
+	
+	// get current task id
+	getTaskId: function( )
+	{
+		// find taskid input control
+		var oTaskId = document.getElementById( this.__task_id );
+		if( oTaskId )
+			return this.trim( oTaskId.value );
+			
+		return "";	
+	},
+
+	// clear current task id
+	clearTaskId: function( )
+	{
+		// find taskid input control
+		var oTaskId = document.getElementById( this.__task_id );
+		if( oTaskId )
+			oTaskId.value = '';			
+	},
+			
 	noComma : "" //just to avoid javascript syntax errors
 }
 

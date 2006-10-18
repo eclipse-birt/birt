@@ -75,7 +75,12 @@
 	<listener>
 		<listener-class>org.eclipse.birt.report.listener.ViewerServletContextListener</listener-class>
 	</listener>
-	
+
+	<!-- Viewer HttpSession Listener -->
+	<listener>
+		<listener-class>org.eclipse.birt.report.listener.ViewerHttpSessionListener</listener-class>
+	</listener>
+		
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>
 		<servlet-class>org.eclipse.birt.report.servlet.ViewerServlet</servlet-class>
@@ -92,8 +97,13 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>EngineServlet</servlet-name>
+		<servlet-name>ViewerServlet</servlet-name>
 		<url-pattern>/run</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>EngineServlet</servlet-name>
+		<url-pattern>/preview</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

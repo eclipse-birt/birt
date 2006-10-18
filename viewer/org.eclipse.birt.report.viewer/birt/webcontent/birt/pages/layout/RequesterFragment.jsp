@@ -123,7 +123,7 @@
 		else
 		{
 		%>
-			var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'run' );
+			var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'preview' );
 		<%
 		}
 		%>

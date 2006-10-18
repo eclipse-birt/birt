@@ -206,6 +206,14 @@
 	cursor:default;
 }
 
+.birtviewer_progressbar_button
+{
+	cursor: pointer;
+	height: 24px;
+	width: 100px;
+	overflow: hidden;
+	color: black; /* Font color */ 
+}
 /******************************************************************************
  * Toc
  ******************************************************************************/

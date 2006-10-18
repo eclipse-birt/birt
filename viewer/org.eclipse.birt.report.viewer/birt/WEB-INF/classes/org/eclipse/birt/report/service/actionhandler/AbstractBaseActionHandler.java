@@ -72,6 +72,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		this.context = context;
 		this.operation = operation;
 		this.response = response;
+		this.updateTaskId( );
 	}
 
 	/**
@@ -421,4 +422,30 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		return flag;
 	}
 
+	/**
+	 * Set Current Task Id if existed
+	 * 
+	 */
+	protected void updateTaskId( )
+	{
+		if ( operation == null )
+			return;
+
+		Oprand[] oprands = operation.getOprand( );
+		if ( oprands == null )
+			return;
+
+		for ( int i = 0; i < oprands.length; i++ )
+		{
+			String paramName = oprands[i].getName( );
+			String paramValue = oprands[i].getValue( );
+
+			if ( IBirtConstants.OPRAND_TASKID.equalsIgnoreCase( paramName ) )
+			{
+				// set task id
+				context.getBean( ).setTaskId( paramValue );
+				break;
+			}
+		}
+	}
 }

@@ -37,6 +37,21 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	__cb_bind_closure : null,
 	
 	/**
+	 *	Event handler for click 'cancel' button
+	 */
+	__neh_click_closure : null,	
+	
+	/**
+	 *	'Cancel' button container
+	 */
+	__cancel_button : 'cancelTaskButton',	
+
+	/**
+	 * The input control to save 'taskid'
+	 */
+	__task_id : 'taskid',
+		
+	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
 	 */
@@ -45,6 +60,9 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 		this.__initBase( id );
 		this.__mask = this.__create_mask( );
 		this.__cb_bind_closure = this.__cb_bind.bindAsEventListener( this );
+		this.__neh_click_closure = this.__neh_click.bindAsEventListener( this );
+		
+		this.__installEventHandlers( id );
 	},
 
 	/**
@@ -74,6 +92,9 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	 */
 	__installEventHandlers : function( id )
 	{
+		var oCancel = this.__loc_cancel_button( );
+		if( oCancel )
+			Event.observe( oCancel, 'click', this.__neh_click_closure, false );
 	},
 
 	/**
@@ -84,6 +105,24 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	 */
 	__start : function( )
 	{
+		// check taskid
+		var taskid = birtUtility.getTaskId( );
+		if( taskid.length > 0 )
+		{
+			// if taskid existed, show 'Cancel' button
+			this.__l_show_cancel_button( );
+			
+			// enable 'cancel' button
+			var oCancel = this.__loc_cancel_button( );
+			if( oCancel )
+				oCancel.disabled = false;
+		}
+		else
+		{
+			// hide 'Cancel' button
+			this.__l_hide_cancel_button( );
+		}
+					
 		this.__timer = window.setTimeout( this.__cb_bind_closure, this.__interval );
 	},
 	
@@ -97,6 +136,9 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	{
 		window.clearTimeout( this.__timer );
 		this.__l_hide( );
+		
+		// clear taskid
+		birtUtility.clearTaskId( );
 	},
 
 	/**
@@ -144,5 +186,68 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	__l_hide : function( )
 	{
 		Element.hide( this.__instance, this.__mask );
+	},
+
+	/**
+	 *  Returns 'cancel' button
+	 * 	@return, INPUT
+	 */
+	__loc_cancel_button: function( )
+	{
+		var oIEC = this.__instance.getElementsByTagName( "input" );
+		var oCancel;
+		if( oIEC && oIEC.length > 0 )
+		{
+			for( var i = 0 ; i < oIEC.length; i++ )
+			{
+				if( oIEC[i].type == 'button' )
+				{
+					oCancel = oIEC[i];
+					break;
+				}
+			}
+		}
+		
+		return oCancel;
+	},
+
+	/**
+	 *	Handle click "Cancel" button.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_click: function( event )
+	{
+		var oTaskId = document.getElementById( this.__task_id );
+		if( oTaskId && window.confirm( "Do you want to cancel current task?" ) )
+		{
+			birtEventDispatcher.broadcastEvent( birtEvent.__E_CANCEL_TASK, { name : "taskid", value : oTaskId.value } );
+			Event.element( event ).disabled = true;
+		}
+	},
+
+	/**
+	 *	Show "Cancel" button.
+	 *
+	 *	@return, void
+	 */	
+	__l_show_cancel_button: function( )
+	{
+		var container = document.getElementById( this.__cancel_button );
+		if( container )
+			container.style.display = 'block';
+	},
+
+	/**
+	 *	Hide "Cancel" button.
+	 *
+	 *	@return, void
+	 */		
+	__l_hide_cancel_button: function( )
+	{
+		var container = document.getElementById( this.__cancel_button );
+		if( container )
+			container.style.display = 'none';
 	}
 } );

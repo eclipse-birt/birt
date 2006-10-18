@@ -25,7 +25,6 @@ import org.eclipse.birt.report.soapengine.api.Page;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public abstract class AbstractGetPageActionHandler
 		extends
@@ -277,41 +276,4 @@ public abstract class AbstractGetPageActionHandler
 
 		return pageNumber;
 	}
-
-	/**
-	 * Get page number by bookmark.
-	 * 
-	 * @param params
-	 * @param bean
-	 * @param document
-	 * @return
-	 * @throws RemoteException
-	 */
-	protected String getBookmark( Oprand[] params, BaseAttributeBean bean )
-	{
-		assert bean != null;
-
-		String bookmark = null;
-		if ( params != null && params.length > 0 )
-		{
-			for ( int i = 0; i < params.length; i++ )
-			{
-				if ( IBirtConstants.OPRAND_BOOKMARK.equalsIgnoreCase( params[i]
-						.getName( ) ) )
-				{
-					bookmark = params[i].getValue( );
-					break;
-				}
-			}
-		}
-
-		// Then use url bookmark.
-		if ( bookmark == null || bookmark.length( ) <= 0 )
-		{
-			bookmark = bean.getBookmark( );
-		}
-
-		return bookmark;
-	}
-
 }

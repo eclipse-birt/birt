@@ -152,6 +152,11 @@ abstract public class BaseAttributeBean
 	public boolean documentInUrl = false;
 
 	/**
+	 * current task id
+	 */
+	protected String taskId;
+	
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -494,4 +499,19 @@ abstract public class BaseAttributeBean
 		return reportletId;
 	}
 
+	/**
+	 * @return the taskId
+	 */
+	public String getTaskId( )
+	{
+		return taskId;
+	}
+	
+	/**
+	 * @param taskId the taskId to set
+	 */
+	public void setTaskId( String taskId )
+	{
+		this.taskId = taskId;
+	}	
 }

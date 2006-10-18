@@ -18,9 +18,11 @@ import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.service.actionhandler.BirtCacheParameterActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtCancelTaskActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtChangeParameterActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetCascadeParameterActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetPageActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtGetPageAllActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetTOCActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtQueryExportActionHandler;
 
@@ -29,15 +31,16 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	/**
 	 * Operator list definition.
 	 */
-	protected static String[] opList = new String[] {
-		IBirtOperators.Operator_GetPage_Literal,
-		IBirtOperators.Operator_GetToc_Literal,
-		IBirtOperators.Operator_GetCascadeParameter_Literal,
-		IBirtOperators.Operator_ChangeParameter_Literal,
-		IBirtOperators.Operator_QueryExport_Literal,
-		IBirtOperators.Operator_CacheParameter_Literal,
-	};
-	
+	protected static String[] opList = new String[]{
+			IBirtOperators.Operator_GetPage_Literal,
+			IBirtOperators.Operator_GetToc_Literal,
+			IBirtOperators.Operator_GetCascadeParameter_Literal,
+			IBirtOperators.Operator_ChangeParameter_Literal,
+			IBirtOperators.Operator_QueryExport_Literal,
+			IBirtOperators.Operator_CacheParameter_Literal,
+			IBirtOperators.Operator_CancelTask_Literal,
+			IBirtOperators.Operator_GetPageAll_Literal};
+
 	/**
 	 * Operator mapping.
 	 */
@@ -139,7 +142,7 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	}
 
 	/**
-	 * Do export data from report.
+	 * Handle export data from report.
 	 * 
 	 * @param context
 	 * @param op
@@ -150,5 +153,33 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 		throws RemoteException
 	{
 		executeAction( new BirtQueryExportActionHandler( context, op, response ), context, op, response );
+	}
+
+	/**
+	 * Handle cancel current task.
+	 * 
+	 * @param context
+	 * @param op
+	 * @param response
+	 * @throws RemoteException
+	 */
+	public void handleCancelTask( IContext context, Operation op, GetUpdatedObjectsResponse response )
+		throws RemoteException
+	{
+		executeAction( new BirtCancelTaskActionHandler( context, op, response ), context, op, response );
+	}
+
+	/**
+	 * Handle get page all.
+	 * 
+	 * @param context
+	 * @param op
+	 * @param response
+	 * @throws RemoteException
+	 */
+	public void handleGetPageAll( IContext context, Operation op, GetUpdatedObjectsResponse response )
+		throws RemoteException
+	{
+		executeAction( new BirtGetPageAllActionHandler( context, op, response ), context, op, response );
 	}
 }

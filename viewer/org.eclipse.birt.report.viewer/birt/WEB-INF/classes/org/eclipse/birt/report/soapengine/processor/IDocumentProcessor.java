@@ -83,4 +83,23 @@ public interface IDocumentProcessor
 	void handleQueryExport( IContext context, Operation op,
 			GetUpdatedObjectsResponse response ) throws RemoteException;
 
+	/**
+	 * Handle cancel task.
+	 * 
+	 * @param dsSession
+	 * @param op
+	 * @param response
+	 */
+	void handleCancelTask( IContext context, Operation op,
+			GetUpdatedObjectsResponse response ) throws RemoteException;
+	
+	/**
+	 * Handle get page all.
+	 * 
+	 * @param dsSession
+	 * @param op
+	 * @param response
+	 */
+	void handleGetPageAll( IContext context, Operation op,
+			GetUpdatedObjectsResponse response ) throws RemoteException;
 }
