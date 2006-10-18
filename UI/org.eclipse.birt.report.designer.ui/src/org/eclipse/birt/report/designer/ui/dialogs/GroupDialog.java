@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -35,6 +34,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -52,6 +53,8 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -66,7 +69,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
@@ -126,10 +128,8 @@ public class GroupDialog extends BaseDialog
 	 */
 	private Combo keyChooser, intervalType;
 
-	/**
-	 * The spinner to choose interval range;
-	 */
-	private Spinner intervalRange;
+	/** The editor to input interval range. */
+	private Text intervalRange;
 
 	/**
 	 * The include check box and sorting direction radio box
@@ -394,12 +394,50 @@ public class GroupDialog extends BaseDialog
 						&& intervalBaseButton.getSelection( ) );
 			}
 		} );
+
 		// Creates intervalRange range chooser
-		intervalRange = new Spinner( intervalRangeArea, SWT.BORDER );
+
+		intervalRange = new Text( intervalRangeArea, SWT.SINGLE | SWT.BORDER );
 		intervalRange.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
-		intervalRange.setMinimum( 0 );
-		intervalRange.setMaximum( Integer.MAX_VALUE );
-		intervalRange.setIncrement( 1 );
+		intervalRange.addVerifyListener( new VerifyListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
+			 */
+			public void verifyText( VerifyEvent event )
+			{
+				if ( event.text.length( ) <= 0 )
+				{
+					return;
+				}
+
+				int beginIndex = Math.min( event.start, event.end );
+				int endIndex = Math.max( event.start, event.end );
+				String inputtedText = intervalRange.getText( );
+				String newString = inputtedText.substring( 0, beginIndex );
+
+				newString += event.text;
+				newString += inputtedText.substring( endIndex );
+
+				event.doit = false;
+
+				try
+				{
+					double value = Double.parseDouble( newString );
+
+					if ( value >= 0 )
+					{
+						event.doit = true;
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					return;
+				}
+			}
+		});
 
 		// Creates interval base editor
 		intervalBaseButton = new Button( composite, SWT.CHECK );
@@ -568,12 +606,16 @@ public class GroupDialog extends BaseDialog
 		{
 			intervalRange.setEnabled( true );
 
-			BigDecimal value = new BigDecimal( inputGroup.getIntervalRange( ) );
+			if ( inputGroup != null )
+			{
+				PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
 
-			value = value.movePointRight( intervalRange.getDigits( ) );
+				if ( property != null )
+				{
+					intervalRange.setText( property.getStringValue( ) );
+				}
+			}
 
-			intervalRange.setSelection( value.intValue( ) );
-			
 			if ( getColumnType( ) == String.class )
 			{
 				intervalBaseButton.setEnabled( false );
@@ -782,7 +824,7 @@ public class GroupDialog extends BaseDialog
 			inputGroup.setInterval( intervalChoices[index].getName( ) );
 			if ( index != 0 )
 			{
-				inputGroup.setIntervalRange( intervalRange.getSelection( ) );
+				inputGroup.setIntervalRange( intervalRange.getText( ) );
 			}
 			else
 			{
