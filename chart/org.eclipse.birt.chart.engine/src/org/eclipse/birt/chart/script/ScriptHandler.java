@@ -132,14 +132,16 @@ public final class ScriptHandler extends ScriptableObject
 			+ "//function beforeDrawBlock( block, context ){}\n" //$NON-NLS-1$
 			+ "\n" //$NON-NLS-1$
 			+ "/**\n" //$NON-NLS-1$
-			+ " * Called before drawing each entry the legend.\n" //$NON-NLS-1$
+			+ " * Called before drawing each item in the legend.\n" //$NON-NLS-1$
 			+ " * \n" //$NON-NLS-1$
-			+ " * @param label\n" //$NON-NLS-1$
-			+ " *            Label\n" //$NON-NLS-1$
+			+ " * @param lerh\n" //$NON-NLS-1$
+			+ " *            LegendEntryRenderingHints\n" //$NON-NLS-1$
+			+ " * @param bo\n" //$NON-NLS-1$
+			+ " *            Bounds\n" //$NON-NLS-1$
 			+ " * @param context\n" //$NON-NLS-1$
 			+ " *            IChartScriptContext\n" //$NON-NLS-1$
 			+ " */\n" //$NON-NLS-1$
-			+ "//function beforeDrawLegendEntry( label, context ){}\n" //$NON-NLS-1$
+			+ "//function beforeDrawLegendItem( lerh, bo, context ){}\n" //$NON-NLS-1$
 			+ "\n" //$NON-NLS-1$
 			+ "/**\n" //$NON-NLS-1$
 			+ " * Called before rendering Series.\n" //$NON-NLS-1$
