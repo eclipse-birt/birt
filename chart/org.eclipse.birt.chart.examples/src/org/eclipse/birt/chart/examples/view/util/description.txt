@@ -1,6 +1,6 @@
 <Primitive Charts>
 	<Side By Side Bar>
-		Side-by-side Bar charts show bars from each series one besides the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.
+		Side-by-side Bar charts show bars from each series one beside the other. These bars are arranged so that they each have the same width. The width of the bars depends on the number of series being plotted.
 	</Side By Side Bar>
 	<Stacked Bar>
 		Stacked Bar charts show bars stacked one above the other. The positive and negative values are stacked separately above and below the origin.
