@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.api.IResultMetaData;
 public class ExtractionResults implements IExtractionResults
 {
 
-	protected String[] selectedColumns;
 	protected IQueryResults queryResults;
 	protected IResultMetaData metaData;
 	protected IDataIterator iterator;
@@ -29,16 +28,28 @@ public class ExtractionResults implements IExtractionResults
 
 	ExtractionResults( IQueryResults queryResults, IResultMetaData metaData, String[] selectedColumns )
 	{
-		this.selectedColumns = selectedColumns;
 		this.queryResults = queryResults;
-		this.metaData = metaData;
+		if( null == selectedColumns)
+		{
+			this.metaData = metaData;
+		}
+		else
+		{
+			this.metaData = new ResultMetaData( metaData, selectedColumns );
+		}
 	}
 
 	ExtractionResults( IResultIterator resultIterator, IResultMetaData metaData, String[] selectedColumns )
 	{
-		this.selectedColumns = selectedColumns;
 		this.resultIterator = resultIterator;
-		this.metaData = metaData;
+		if( null == selectedColumns)
+		{
+			this.metaData = metaData;
+		}
+		else
+		{
+			this.metaData = new ResultMetaData( metaData, selectedColumns );
+		}
 	}
 	
 	public IResultMetaData getResultMetaData( ) throws BirtException
@@ -54,7 +65,7 @@ public class ExtractionResults implements IExtractionResults
 			{
 				resultIterator = queryResults.getResultIterator( );
 			}
-			this.iterator = new DataIterator( this, resultIterator, selectedColumns );
+			this.iterator = new DataIterator( this, resultIterator );
 		}
 		return iterator;
 	}

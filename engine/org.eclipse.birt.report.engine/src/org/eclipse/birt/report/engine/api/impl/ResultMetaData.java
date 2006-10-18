@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.IResultMetaData;
 public class ResultMetaData implements IResultMetaData
 {
 
+	protected IResultMetaData parentMetaData;
 	protected String[] selectedColumns;
 
 	public ResultMetaData( IBaseQueryDefinition query, String[] selectedColumns )
@@ -37,6 +38,12 @@ public class ResultMetaData implements IResultMetaData
 	{
 		initializeMetaData( query );
 		this.selectedColumns = null;
+	}
+	
+	public ResultMetaData( IResultMetaData parentMetaData, String[] selectedColumns )
+	{
+		this.parentMetaData = parentMetaData;
+		this.selectedColumns = selectedColumns;
 	}
 
 	protected void initializeMetaData( IBaseQueryDefinition query )
@@ -79,14 +86,25 @@ public class ResultMetaData implements IResultMetaData
 		{
 			return selectedColumns.length;
 		}
+		if( null != parentMetaData )
+		{
+			return parentMetaData.getColumnCount( );
+		}
 		return metaEntries.size( );
 	}
 
 	public String getColumnName( int index ) throws BirtException
 	{
 		index = getColumnIndex( index );
-		MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
-		return entry.name;
+		if( null != parentMetaData )
+		{
+			return parentMetaData.getColumnName( index );
+		}
+		else
+		{
+			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
+			return entry.name;
+		}
 	}
 
 	public String getColumnAlias( int index ) throws BirtException
@@ -97,8 +115,15 @@ public class ResultMetaData implements IResultMetaData
 	public int getColumnType( int index ) throws BirtException
 	{
 		index = getColumnIndex( index );
-		MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
-		return entry.type;
+		if( null != parentMetaData )
+		{
+			return parentMetaData.getColumnType( index );
+		}
+		else
+		{
+			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
+			return entry.type;
+		}
 	}
 
 	public String getColumnTypeName( int index ) throws BirtException
@@ -120,12 +145,26 @@ public class ResultMetaData implements IResultMetaData
 		}
 
 		String name = selectedColumns[index];
-		for ( int i = 0; i < metaEntries.size( ); i++ )
+		if( null != parentMetaData )
 		{
-			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( i );
-			if ( entry.name.equals( name ) )
+			for ( int i = 0; i < parentMetaData.getColumnCount( ); i++ )
 			{
-				return i;
+				String columnName = parentMetaData.getColumnName( i );
+				if ( columnName.equals( name ) )
+				{
+					return i;
+				}
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < metaEntries.size( ); i++ )
+			{
+				MetaDataEntry entry = (MetaDataEntry) metaEntries.get( i );
+				if ( entry.name.equals( name ) )
+				{
+					return i;
+				}
 			}
 		}
 		throw new EngineException( "Invalid Column Index" );

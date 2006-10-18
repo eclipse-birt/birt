@@ -22,14 +22,11 @@ public class DataIterator implements IDataIterator
 
 	protected IExtractionResults results;
 	protected IResultIterator iterator;
-	protected String[] selectedColumns;
 
-	DataIterator( IExtractionResults results, IResultIterator iterator,
-			String[] selectedColumns )
+	DataIterator( IExtractionResults results, IResultIterator iterator )
 	{
 		this.results = results;
 		this.iterator = iterator;
-		this.selectedColumns = selectedColumns;
 	}
 
 	public IExtractionResults getQueryResults( )
