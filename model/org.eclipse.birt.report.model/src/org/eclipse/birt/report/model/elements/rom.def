@@ -2714,7 +2714,7 @@
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
   </Element>
-  <Element canExtend="true" displayNameID="Element.FreeForm" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.FreeForm" name="FreeForm" since="reserved" selector="free-form">
+  <Element canExtend="true" displayNameID="Element.FreeForm" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.FreeForm" name="FreeForm" since="reserved" selector="free-form" xmlName="free-form">
     <Slot displayNameID="Element.FreeForm.slot.reportItems" multipleCardinality="true" name="reportItems" since="reserved" xmlName="report-items">
       <Type name="FreeForm"/>
       <Type name="Label"/>
@@ -3177,19 +3177,7 @@
       <Argument name="this" tagID="Element.Row.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IRowInstance"/>
       <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
-    <PropertyVisibility name="bookmark" visibility="hide"/>      
-    <PropertyVisibility name="borderTopColor" visibility="hide"/>          
-    <PropertyVisibility name="borderTopStyle" visibility="hide"/>              
-    <PropertyVisibility name="borderTopWidth" visibility="hide"/>             
-    <PropertyVisibility name="borderLeftColor" visibility="hide"/>          
-    <PropertyVisibility name="borderLeftStyle" visibility="hide"/>              
-    <PropertyVisibility name="borderLeftWidth" visibility="hide"/>                  
-    <PropertyVisibility name="borderRightColor" visibility="hide"/>          
-    <PropertyVisibility name="borderRightStyle" visibility="hide"/>              
-    <PropertyVisibility name="borderRightWidth" visibility="hide"/>                  
-    <PropertyVisibility name="borderBottomColor" visibility="hide"/>          
-    <PropertyVisibility name="borderBottomStyle" visibility="hide"/>              
-    <PropertyVisibility name="borderBottomWidth" visibility="hide"/>
+    <PropertyVisibility name="bookmark" visibility="hide"/>
     <PropertyVisibility name="viewAction" visibility="hide"/>                                                      
     <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="cells">
       <Type name="Cell"/>
@@ -3354,7 +3342,7 @@
       <Argument name="reportContext" tagID="Element.Grid.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Line" extends="ReportItem" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.LineItem" name="Line" since="reserved" selector="line">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Line" extends="ReportItem" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.LineItem" name="Line" since="reserved" selector="line" xmlName="line">
     <Property detailType="lineOrientation" displayNameID="Element.Line.orientation" name="orientation" since="reserved" type="choice">
       <Default>horizontal</Default>
     </Property>
@@ -3377,7 +3365,7 @@
     <StyleProperty name="borderRightColor"/>
     <StyleProperty name="display"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Rectangle" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.RectangleItem" name="Rectangle" since="reserved" selector="rectangle">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Rectangle" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.RectangleItem" name="Rectangle" since="reserved" selector="rectangle" xmlName="rectangle">
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -3397,7 +3385,7 @@
     <StyleProperty name="borderRightColor"/>
     <StyleProperty name="display"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.TextData" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" name="TextData" since="1.0" selector="text-data">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.TextData" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" name="TextData" since="1.0" selector="text-data" xmlName="text-data">
     <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" since="1.0" type="choice"/>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
@@ -3467,7 +3455,7 @@
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" since="1.0" selector="extended-item">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" since="1.0" selector="extended-item" xmlName="extended-item">
     <Property displayNameID="Element.ExtendedItem.altText" name="altText" runtimeSettable="false" since="2.1" type="string"/>
     <Property displayNameID="Element.ExtendedItem.altTextID" name="altTextID" since="2.1" type="resourceKey"/>
     <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string">
