@@ -243,6 +243,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			( (DialChart) currentChart ).setDialSuperimposition( false );
 
 			// Copy generic chart properties from the old chart
 			currentChart.setBlock( helperModel.getBlock( ) );
