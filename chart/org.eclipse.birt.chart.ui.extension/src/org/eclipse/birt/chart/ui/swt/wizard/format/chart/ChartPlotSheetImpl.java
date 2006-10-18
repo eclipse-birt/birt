@@ -10,6 +10,8 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -150,10 +152,42 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					.getClientArea( )
 					.getOutline( )
 					.isVisible( ) );
-			btnWithinVisible.setEnabled( is3DWallFloorSet );
+			btnWithinVisible.setEnabled( is3DWallFloorSet && isClientAreaOutlineEnabled( ) );
+			if ( ! btnWithinVisible.getEnabled( ) )
+			{
+				btnWithinVisible.setSelection( false );
+			}
 		}
 
 		createButtonGroup( cmpContent );
+	}
+	
+	private boolean isClientAreaOutlineEnabled( )
+	{
+		if ( getChart( ) instanceof ChartWithAxes )
+		{
+			return true;
+		}
+		else 
+		{
+			if ( getChart( ) instanceof DialChart )
+			{
+				if ( ( (DialChart) getChart( ) ).isDialSuperimposition( ) )
+				{
+					return false;
+				}
+			}
+			
+			if ( ( getChart( ).getGridColumnCount( ) > 1 )
+					|| ( (ChartWithoutAxes) getChart( ) ).getRunTimeSeries( ).length > 2 )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 	private void createButtonGroup( Composite parent )
