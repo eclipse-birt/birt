@@ -360,7 +360,7 @@ public class HTML2Content
 			}
 			else if(ele.getParentNode().getNodeName().equals("ul")) //$NON-NLS-1$
 			{
-				text.setText("•" ); //$NON-NLS-1$
+				text.setText(new String(new char[]{'\u2022'}));
 			}
 
 			text.setInlineStyle(style);
