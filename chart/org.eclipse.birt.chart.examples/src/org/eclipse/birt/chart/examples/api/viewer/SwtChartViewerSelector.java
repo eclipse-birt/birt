@@ -31,6 +31,8 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -56,9 +58,10 @@ import org.eclipse.swt.widgets.Shell;
  * The selector of charts in SWT.
  * 
  */
-public final class SwtChartViewerSelector extends Composite implements
-		PaintListener,
-		SelectionListener
+public final class SwtChartViewerSelector extends Composite
+		implements
+			PaintListener,
+			SelectionListener
 {
 
 	private IDeviceRenderer idr = null;
@@ -66,7 +69,7 @@ public final class SwtChartViewerSelector extends Composite implements
 	private Chart cm = null;
 
 	private static Combo cbType = null;
-	
+
 	private static Combo cbDimension = null;
 
 	private static Button btn = null;
@@ -76,12 +79,13 @@ public final class SwtChartViewerSelector extends Composite implements
 	private boolean bNeedsGeneration = true;
 
 	private static Button cbPercent = null;
-	
+
 	private static Button cbLogarithmic = null;
-	
+
 	private static Button cbTransposed = null;
 
 	private static ILogger logger = Logger.getLogger( JavaScriptViewer.class.getName( ) );
+
 	/**
 	 * main() method for constructing the selector layout.
 	 * 
@@ -94,7 +98,8 @@ public final class SwtChartViewerSelector extends Composite implements
 		shell.setSize( 800, 600 );
 		shell.setLayout( new GridLayout( ) );
 
-		SwtChartViewerSelector scv = new SwtChartViewerSelector( shell, SWT.NO_BACKGROUND );
+		SwtChartViewerSelector scv = new SwtChartViewerSelector( shell,
+				SWT.NO_BACKGROUND );
 		scv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		scv.addPaintListener( scv );
 
@@ -106,15 +111,11 @@ public final class SwtChartViewerSelector extends Composite implements
 
 		la.setText( "Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add( "Bar Chart" );//$NON-NLS-1$
-		cbType.add( "Bar Chart(2 Series)" );//$NON-NLS-1$
-		cbType.add( "Pie Chart" );//$NON-NLS-1$
-		cbType.add( "Pie Chart(4 Series)" );//$NON-NLS-1$
-		cbType.add( "Line Chart" );//$NON-NLS-1$
-		cbType.add( "Bar/Line Stacked Chart" );//$NON-NLS-1$
-		cbType.add( "Scatter Chart" );//$NON-NLS-1$
-		cbType.add( "Stock Chart" );//$NON-NLS-1$
-		cbType.add( "Area Chart" );//$NON-NLS-1$
+		String[] models = PrimitiveCharts.getAvailableModelList( );
+		for ( int i = 0; i < models.length; i++ )
+		{
+			cbType.add( models[i] );
+		}
 		cbType.select( 0 );
 
 		cbDimension = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -130,11 +131,13 @@ public final class SwtChartViewerSelector extends Composite implements
 
 		cbLogarithmic = new Button( cBottom, SWT.CHECK );
 		cbLogarithmic.setText( "Logarithmic" );//$NON-NLS-1$
-		
+
 		btn = new Button( cBottom, SWT.NONE );
 		btn.setText( "Update" );//$NON-NLS-1$
 		btn.addSelectionListener( scv );
 
+		shell.setText( scv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
+				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
 		shell.open( );
 		while ( !shell.isDisposed( ) )
 		{
@@ -159,8 +162,19 @@ public final class SwtChartViewerSelector extends Composite implements
 		{
 			logger.log( ex );
 		}
-		cm = PrimitiveCharts.createBarChart( );
+		addControlListener( new ControlListener( ) {
 
+			public void controlMoved( ControlEvent e )
+			{
+				bNeedsGeneration = true;
+			}
+
+			public void controlResized( ControlEvent e )
+			{
+				bNeedsGeneration = true;
+			}
+		} );
+		cm = PrimitiveCharts.createBarChart( );
 	}
 
 	/*
@@ -219,101 +233,72 @@ public final class SwtChartViewerSelector extends Composite implements
 		if ( e.widget.equals( btn ) )
 		{
 			int iSelection = cbType.getSelectionIndex( );
-		switch ( iSelection )
-		{
-			case 0 :
-				cm = PrimitiveCharts.createBarChart( );
-				break;
-			case 1 :
-				cm = PrimitiveCharts.createMultiBarChart( );
-				break;
-			case 2 :
-				cm = PrimitiveCharts.createPieChart( );
-				break;
-			case 3 :
-				cm = PrimitiveCharts.createMultiPieChart( );
-				break;
-			case 4 :
-				cm = PrimitiveCharts.createLineChart( );
-				break;
-			case 5 :
-				cm = PrimitiveCharts.createStackedChart( );
-				break;
-			case 6 :
-				cm = PrimitiveCharts.createScatterChart( );
-				break;
-			case 7 :
-				cm = PrimitiveCharts.createStockChart( );
-				break;
-			case 8 :
-				cm = PrimitiveCharts.createAreaChart( );
-				break;
-		}
+			cm = PrimitiveCharts.createChart( iSelection );
 
-		if ( cm instanceof ChartWithAxes )
-		{
-
-			cbTransposed.setEnabled( true );
-			cbLogarithmic.setEnabled( true );
-			cbPercent.setEnabled( true );
-
-			ChartWithAxes cwa = ( (ChartWithAxes) cm );
-			cwa.setTransposed( cbTransposed.getSelection( ) );
-			Axis ax = cwa.getPrimaryOrthogonalAxis( cwa.getPrimaryBaseAxes( )[0] );
-
-			if ( cbLogarithmic.getSelection( ) )
+			if ( cm instanceof ChartWithAxes )
 			{
-				if ( ax.getType( ) == AxisType.LINEAR_LITERAL )
+
+				cbTransposed.setEnabled( true );
+				cbLogarithmic.setEnabled( true );
+				cbPercent.setEnabled( true );
+
+				ChartWithAxes cwa = ( (ChartWithAxes) cm );
+				cwa.setTransposed( cbTransposed.getSelection( ) );
+				Axis ax = cwa.getPrimaryOrthogonalAxis( cwa.getPrimaryBaseAxes( )[0] );
+
+				if ( cbLogarithmic.getSelection( ) )
 				{
-					ax.setType( AxisType.LOGARITHMIC_LITERAL );
+					if ( ax.getType( ) == AxisType.LINEAR_LITERAL )
+					{
+						ax.setType( AxisType.LOGARITHMIC_LITERAL );
+					}
 				}
+				else
+				{
+					if ( ax.getType( ) == AxisType.LOGARITHMIC_LITERAL )
+					{
+						ax.setType( AxisType.LINEAR_LITERAL );
+					}
+				}
+
+				if ( cbPercent.getSelection( ) == true )
+				{
+					ax.setFormatSpecifier( JavaNumberFormatSpecifierImpl.create( "0'%'" ) );//$NON-NLS-1$
+				}
+				else
+				{
+					ax.setFormatSpecifier( null );
+				}
+
+			}
+			else if ( cm instanceof ChartWithoutAxes )
+			{
+				cbTransposed.setEnabled( false );
+				cbLogarithmic.setEnabled( false );
+				cbPercent.setEnabled( false );
+			}
+
+			if ( cbType.getSelectionIndex( ) == 7 )
+			{
+				cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 			}
 			else
 			{
-				if ( ax.getType( ) == AxisType.LOGARITHMIC_LITERAL )
+				switch ( cbDimension.getSelectionIndex( ) )
 				{
-					ax.setType( AxisType.LINEAR_LITERAL );
+
+					case 0 :
+						cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+						break;
+					case 1 :
+						cm.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
+						break;
 				}
 			}
 
-			if ( cbPercent.getSelection( ) == true )
-			{
-				ax.setFormatSpecifier( JavaNumberFormatSpecifierImpl.create( "0'%'" ) );//$NON-NLS-1$
-			}
-			else
-			{
-				ax.setFormatSpecifier( null );
-			}
-
+			bNeedsGeneration = true;
+			this.redraw( );
 		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			cbTransposed.setEnabled( false );
-			cbLogarithmic.setEnabled( false );
-			cbPercent.setEnabled( false );
-		}
-
-		if ( cbType.getSelectionIndex( ) == 7 )
-		{
-			cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-		}
-		else
-		{
-			switch ( cbDimension.getSelectionIndex( ) )
-			{
-
-				case 0 :
-					cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-					break;
-				case 1 :
-					cm.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
-					break;
-			}
-		}
-
-		bNeedsGeneration = true;
-		this.redraw( );
-	}
 	}
 
 	/*

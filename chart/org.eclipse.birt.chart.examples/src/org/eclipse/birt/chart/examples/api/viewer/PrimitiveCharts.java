@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+import org.eclipse.birt.chart.datafeed.BubbleEntry;
 import org.eclipse.birt.chart.datafeed.DifferenceEntry;
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
@@ -64,12 +65,14 @@ import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
 import org.eclipse.birt.chart.model.component.impl.MarkerLineImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
+import org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.DifferenceDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
@@ -86,6 +89,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -94,6 +98,7 @@ import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
@@ -114,6 +119,78 @@ import com.ibm.icu.util.Calendar;
 
 public final class PrimitiveCharts
 {
+	/**
+	 * Returns the names of available chart models for display
+	 */
+	public static final String[] getAvailableModelList( )
+	{
+		return new String[]{
+				"Bar Chart",//$NON-NLS-1$
+				"Bar Chart(2 Series)",//$NON-NLS-1$
+				"Pie Chart",//$NON-NLS-1$
+				"Pie Chart(4 Series)",//$NON-NLS-1$
+				"Line Chart",//$NON-NLS-1$
+				"Bar/Line Stacked Chart",//$NON-NLS-1$
+				"Scatter Chart",//$NON-NLS-1$
+				"Stock Chart",//$NON-NLS-1$
+				"Area Chart",//$NON-NLS-1$
+				"Difference Chart",//$NON-NLS-1$
+				"Bubble Chart" //$NON-NLS-1$
+				// "Open Chart File" //$NON-NLS-1$
+		};
+	}
+
+	/**
+	 * Creates chart model according to the selection index of available list.
+	 * 
+	 * @param index
+	 *            selection index
+	 * @see #getAvailableModelList()
+	 */
+	public static final Chart createChart( int index )
+	{
+		Chart cm = null;
+		switch ( index )
+		{
+			case 0 :
+				cm = PrimitiveCharts.createBarChart( );
+				break;
+			case 1 :
+				cm = PrimitiveCharts.createMultiBarChart( );
+				break;
+			case 2 :
+				cm = PrimitiveCharts.createPieChart( );
+				break;
+			case 3 :
+				cm = PrimitiveCharts.createMultiPieChart( );
+				break;
+			case 4 :
+				cm = PrimitiveCharts.createLineChart( );
+				break;
+			case 5 :
+				cm = PrimitiveCharts.createStackedChart( );
+				break;
+			case 6 :
+				cm = PrimitiveCharts.createScatterChart( );
+				break;
+			case 7 :
+				cm = PrimitiveCharts.createStockChart( );
+				break;
+			case 8 :
+				cm = PrimitiveCharts.createAreaChart( );
+				break;
+			case 9 :
+				cm = PrimitiveCharts.createDifferenceChart( );
+				break;
+			case 10 :
+				cm = PrimitiveCharts.createBubbleChart( );
+				break;
+			// case 9 :
+			// cm = PrimitiveCharts.openChart( );
+			//				break;
+		}
+		return cm;
+	}
 
 	/**
 	 * Creates a simple bar chart model
@@ -453,7 +530,7 @@ public final class PrimitiveCharts
 		} );
 
 		// Base Series
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
@@ -524,7 +601,7 @@ public final class PrimitiveCharts
 		} );
 
 		// Base Sereis
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
@@ -914,6 +991,120 @@ public final class PrimitiveCharts
 
 		return cwaScatter;
 	}
+	
+	/**
+	 * Creates a numeric bubble chart instance
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createBubbleChart( )
+	{
+		ChartWithAxes cwa = ChartWithAxesImpl.create( );
+
+		// Plot
+		cwa.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwa.getPlot( ).getClientArea( ).getOutline( ).setVisible( false );
+		cwa.getPlot( )
+				.getClientArea( )
+				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
+
+		// Title
+		cwa.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( "Bubble Chart" );//$NON-NLS-1$
+
+		// X-Axis
+		Axis xAxisPrimary = cwa.getPrimaryBaseAxes( )[0];
+
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "X Axis" );//$NON-NLS-1$
+		xAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		xAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.GREEN( ).darker( ) );
+		xAxisPrimary.getTitle( ).setVisible( false );
+
+		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		xAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.GREY( ) );
+		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+
+		// Y-Axis
+		Axis yAxisPrimary = cwa.getPrimaryOrthogonalAxis( xAxisPrimary );
+
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Price Axis" );//$NON-NLS-1$
+		yAxisPrimary.getLabel( )
+				.getCaption( )
+				.setColor( ColorDefinitionImpl.BLUE( ) );
+		yAxisPrimary.getTitle( ).setVisible( true );
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+
+		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setStyle( LineStyle.DOTTED_LITERAL );
+		yAxisPrimary.getMajorGrid( )
+				.getLineAttributes( )
+				.setColor( ColorDefinitionImpl.GREY( ) );
+		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+
+		// Data Set
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create( new double[]{
+				-10, 20, 80, 90
+		} );
+		BubbleDataSet dsNumericValues2 = BubbleDataSetImpl.create( new BubbleEntry[]{
+				new BubbleEntry( 20, 10 ),
+				new BubbleEntry( 30, -10 ),
+				new BubbleEntry( Double.NaN, Double.NaN ),
+				new BubbleEntry( -20, 30 )
+		} );
+
+		// X-Series
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsNumericValues1 );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
+
+		// Y-Series
+		BubbleSeries ss = (BubbleSeries) BubbleSeriesImpl.create( );
+		ss.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
+		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL);
+		}
+		DataPoint dp = ss.getDataPoint( );
+		dp.getComponents( ).clear( );
+		dp.setPrefix( "(" );//$NON-NLS-1$
+		dp.setSuffix( ")" );//$NON-NLS-1$
+		dp.getComponents( )
+				.add( DataPointComponentImpl.create( DataPointComponentType.BASE_VALUE_LITERAL,
+						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) );//$NON-NLS-1$
+		dp.getComponents( )
+				.add( DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+						null ) );
+		ss.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+		ss.getLabel( ).setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
+		ss.getLabel( ).setVisible( true );
+		ss.setDataSet( dsNumericValues2 );
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLACK( ) );
+		sdY.getSeries( ).add( ss );
+
+		return cwa;
+	}
 
 	/**
 	 * Creates a stock chart instance
@@ -1276,7 +1467,7 @@ public final class PrimitiveCharts
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		dChart.getSeriesDefinitions( ).add( sd );
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 
 		final Fill[] fiaBase = {
 				ColorDefinitionImpl.ORANGE( ),
@@ -1434,7 +1625,7 @@ public final class PrimitiveCharts
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		dChart.getSeriesDefinitions( ).add( sd );
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 
 		seCategory.setDataSet( categoryValues );
 		sd.getSeries( ).add( seCategory );
@@ -1677,7 +1868,7 @@ public final class PrimitiveCharts
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		dChart.getSeriesDefinitions( ).add( sd );
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 
 		final Fill[] fiaBase = {
 				ColorDefinitionImpl.ORANGE( ),
@@ -1802,7 +1993,7 @@ public final class PrimitiveCharts
 		SeriesDefinition sdBase = SeriesDefinitionImpl.create( );
 		dChart.getSeriesDefinitions( ).add( sdBase );
 
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 		sdBase.getSeries( ).add( seCategory );
 

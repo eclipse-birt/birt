@@ -27,9 +27,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -424,18 +421,11 @@ public final class SwingChartViewerSelector extends JPanel implements
 			jp1.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
 			jcbModels = new JComboBox( );
 
-			jcbModels.addItem( "Bar Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Bar Chart(2 Series)" );//$NON-NLS-1$
-			jcbModels.addItem( "Pie Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Pie Chart(4 Series)" );//$NON-NLS-1$
-			jcbModels.addItem( "Line Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Bar/Line Stacked Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Scatter Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Stock Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Area Chart" );//$NON-NLS-1$
-			jcbModels.addItem( "Difference Chart" );//$NON-NLS-1$
-//			jcbModels.addItem( "Open Chart File" ); //$NON-NLS-1$
-
+			String[] models = PrimitiveCharts.getAvailableModelList( );
+			for ( int i = 0; i < models.length; i++ )
+			{
+				jcbModels.addItem( models[i] );
+			}
 			jcbModels.setSelectedIndex( 0 );
 			jp1.add( jcbModels );
 
@@ -518,43 +508,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 		public void actionPerformed( ActionEvent e )
 		{
 			int i = jcbModels.getSelectedIndex( );
-			cm = null;
-			switch ( i )
-			{
-				case 0 :
-					cm = PrimitiveCharts.createBarChart( );
-					break;
-				case 1 :
-					cm = PrimitiveCharts.createMultiBarChart( );
-					break;
-				case 2 :
-					cm = PrimitiveCharts.createPieChart( );
-					break;
-				case 3 :
-					cm = PrimitiveCharts.createMultiPieChart( );
-					break;
-				case 4 :
-					cm = PrimitiveCharts.createLineChart( );
-					break;
-				case 5 :
-					cm = PrimitiveCharts.createStackedChart( );
-					break;
-				case 6 :
-					cm = PrimitiveCharts.createScatterChart( );
-					break;
-				case 7 :
-					cm = PrimitiveCharts.createStockChart( );
-					break;
-				case 8 :
-					cm = PrimitiveCharts.createAreaChart( );
-					break;
-				case 9 :
-					cm = PrimitiveCharts.createDifferenceChart( );
-					break;
-//					case 9 :
-//					cm = PrimitiveCharts.openChart( );
-//					break;
-			}
+			cm = PrimitiveCharts.createChart(i);
 
 			if ( cm instanceof ChartWithAxes )
 			{
