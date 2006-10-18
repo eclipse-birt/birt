@@ -271,11 +271,16 @@ public class SubtaskHistory
 
 			protected void createEntries( Menu menu )
 			{
-				int limit = Math.max( 0, historyIndex - MAX_ENTRIES );
-				for ( int i = historyIndex - 1; i >= limit; i-- )
+				for ( int i = historyIndex - 1, j = 0; i >= 0
+						&& j < MAX_ENTRIES; i-- )
 				{
-					IAction action = new HistoryItemAction( i, getItemText( i ) );
-					addActionToMenu( menu, action );
+					if ( isCurrentEntryAvailable( i ) )
+					{
+						IAction action = new HistoryItemAction( i,
+								getItemText( i ) );
+						addActionToMenu( menu, action );
+						j++;
+					}
 				}
 			}
 		};
@@ -312,12 +317,16 @@ public class SubtaskHistory
 
 			protected void createEntries( Menu menu )
 			{
-				int limit = Math.min( historyList.size( ), historyIndex
-						+ MAX_ENTRIES + 1 );
-				for ( int i = historyIndex + 1; i < limit; i++ )
+				for ( int i = historyIndex + 1, j = 0; i < historyList.size( )
+						&& j < MAX_ENTRIES; i++ )
 				{
-					IAction action = new HistoryItemAction( i, getItemText( i ) );
-					addActionToMenu( menu, action );
+					if ( isCurrentEntryAvailable( i ) )
+					{
+						IAction action = new HistoryItemAction( i,
+								getItemText( i ) );
+						addActionToMenu( menu, action );
+						j++;
+					}
 				}
 			}
 		};
