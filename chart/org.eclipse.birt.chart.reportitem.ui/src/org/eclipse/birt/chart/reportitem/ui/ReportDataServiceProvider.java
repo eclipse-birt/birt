@@ -684,8 +684,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					.equals( expression ) )
 			{
 				String dataType = cc.getDataType( );
-				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+				if (  dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
 				{
 					return DataType.TEXT_LITERAL;
 				}
@@ -699,6 +698,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 				{
 					return DataType.DATE_TIME_LITERAL;
+				}
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+				{
+					return null;
 				}
 			}
 		}

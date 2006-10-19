@@ -1082,7 +1082,7 @@ public class TaskSelectData extends SimpleTask implements
 				}
 				catch ( ChartException ce )
 				{
-					if ( expression.trim( ).length( ) > 0 )
+					if ( expression != null && expression.trim( ).length( ) > 0 )
 					{
 						Text text = DataDefinitionTextManager.getInstance( )
 								.findText( query );
@@ -1139,7 +1139,11 @@ public class TaskSelectData extends SimpleTask implements
 	
 	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
 	{
-		if ( ( dataType == DataType.DATE_TIME_LITERAL )
+		if ( dataType == null )
+		{
+			return true;
+		}
+		else if ( ( dataType == DataType.DATE_TIME_LITERAL )
 				&& ( axisType == AxisType.DATE_TIME_LITERAL ) )
 		{
 			return true;
