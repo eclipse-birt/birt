@@ -24,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.9 $ $Date: 2006/06/13 15:37:17 $
+ * @version $Revision: 1.10 $ $Date: 2006/08/22 08:31:13 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {
@@ -71,6 +71,16 @@ public interface IContent extends IElement, CSSStylableElement
 	static final int DOCUMENT_EXTENSION = 0;
 	static final int LAYOUT_EXTENSION = 1;
 	Object getExtension(int extension);
+	
+	/**
+	 * Set the extension of the content.
+	 * Only 2 extension supported so far
+	 * 	<li>0: document extension</li>
+	 * 	<li>1: layout extension</li>
+	 * @param extension extension type
+	 * @param value extension value
+	 * @throws ArrayIndexOutOfBoundsException if index is outof range {0,1}
+	 */
 	void setExtension(int extension, Object value);
 	
 	/**

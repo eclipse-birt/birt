@@ -433,7 +433,6 @@ abstract public class AbstractContent extends AbstractElement
 	
 	public void setExtension(int extension, Object value)
 	{
-		assert extension < LAST_EXTENSION;
 		if (extensions == null)
 		{
 			extensions = new Object[LAST_EXTENSION];
