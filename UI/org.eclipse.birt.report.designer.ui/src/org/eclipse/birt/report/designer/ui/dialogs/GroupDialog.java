@@ -22,21 +22,19 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-// import org.eclipse.birt.report.designer.internal.ui.util.HelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Spinner;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -45,6 +43,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
@@ -54,6 +53,8 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -102,7 +103,7 @@ public class GroupDialog extends BaseDialog
 	// private static final String GROUP_DLG_INCLUDE_HEADER_LABEL =
 	// Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
 
-	private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
+	//private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
 	private static final String GROUP_DLG_INTERVAL_BASE_LABEL = Messages.getString( "GroupDialog.Label.IntervalBase" ); //$NON-NLS-1$
 
@@ -127,10 +128,8 @@ public class GroupDialog extends BaseDialog
 	 */
 	private Combo keyChooser, intervalType;
 
-	/**
-	 * The spinner to choose interval range;
-	 */
-	private Spinner intervalRange;
+	/** The editor to input interval range. */
+	private Text intervalRange;
 
 	/**
 	 * The include check box and sorting direction radio box
@@ -145,15 +144,15 @@ public class GroupDialog extends BaseDialog
 
 	private Text tocEditor;
 
-	final private static IChoice[] intervalChoicesAll = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] intervalChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL )
 			.getChoices( );
 
-	final private static IChoice sortByAscending = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice sortByAscending = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_SORT_DIRECTION )
 			.findChoice( DesignChoiceConstants.SORT_DIRECTION_ASC );
 
-	final private static IChoice sortByDescending = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice sortByDescending = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_SORT_DIRECTION )
 			.findChoice( DesignChoiceConstants.SORT_DIRECTION_DESC );
 
@@ -161,10 +160,10 @@ public class GroupDialog extends BaseDialog
 			GroupHandle.SORT_DIRECTION_PROP )
 			.getDisplayName( );
 
-	final private static IChoice[] pagebreakBeforeChoicesAll = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] pagebreakBeforeChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE )
 			.getChoices( );
-	final private static IChoice[] pagebreakAfterChoicesAll = DesignEngine.getMetaDataDictionary( )
+	final private static IChoice[] pagebreakAfterChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER )
 			.getChoices( );
 
@@ -395,12 +394,50 @@ public class GroupDialog extends BaseDialog
 						&& intervalBaseButton.getSelection( ) );
 			}
 		} );
+
 		// Creates intervalRange range chooser
-		intervalRange = new Spinner( intervalRangeArea, SWT.NONE );
+
+		intervalRange = new Text( intervalRangeArea, SWT.SINGLE | SWT.BORDER );
 		intervalRange.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
-		intervalRange.setMinimum( 0 );
-		intervalRange.setMaximum( Integer.MAX_VALUE );
-		intervalRange.setStep( 1 );
+		intervalRange.addVerifyListener( new VerifyListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
+			 */
+			public void verifyText( VerifyEvent event )
+			{
+				if ( event.text.length( ) <= 0 )
+				{
+					return;
+				}
+
+				int beginIndex = Math.min( event.start, event.end );
+				int endIndex = Math.max( event.start, event.end );
+				String inputtedText = intervalRange.getText( );
+				String newString = inputtedText.substring( 0, beginIndex );
+
+				newString += event.text;
+				newString += inputtedText.substring( endIndex );
+
+				event.doit = false;
+
+				try
+				{
+					double value = Double.parseDouble( newString );
+
+					if ( value >= 0 )
+					{
+						event.doit = true;
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					return;
+				}
+			}
+		});
 
 		// Creates interval base editor
 		intervalBaseButton = new Button( composite, SWT.CHECK );
@@ -568,7 +605,17 @@ public class GroupDialog extends BaseDialog
 		else
 		{
 			intervalRange.setEnabled( true );
-			intervalRange.setSelection( inputGroup.getIntervalRange( ) );
+
+			if ( inputGroup != null )
+			{
+				PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
+
+				if ( property != null )
+				{
+					intervalRange.setText( property.getStringValue( ) );
+				}
+			}
+
 			if ( getColumnType( ) == String.class )
 			{
 				intervalBaseButton.setEnabled( false );
@@ -777,7 +824,7 @@ public class GroupDialog extends BaseDialog
 			inputGroup.setInterval( intervalChoices[index].getName( ) );
 			if ( index != 0 )
 			{
-				inputGroup.setIntervalRange( intervalRange.getSelection( ) );
+				inputGroup.setIntervalRange( intervalRange.getText( ) );
 			}
 			else
 			{
