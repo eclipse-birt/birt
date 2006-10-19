@@ -49,7 +49,7 @@ public class Regression_142690 extends BaseTestCase
 
 		// Path with space
 		assertEquals(
-				"../spaced directory name/aa/lib.xml", URIUtil.getRelativePath( //$NON-NLS-1$
+				"spaced directory name/aa/lib.xml", URIUtil.getRelativePath( //$NON-NLS-1$
 						"D://", "D://spaced directory name//aa//lib.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }
