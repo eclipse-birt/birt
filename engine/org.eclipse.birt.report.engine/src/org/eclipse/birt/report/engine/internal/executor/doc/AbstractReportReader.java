@@ -310,12 +310,30 @@ public abstract class AbstractReportReader implements IReportExecutor
 				DataItemDesign design = (DataItemDesign) data.getGenerateBy( );
 				if ( design.getMap( ) == null )
 				{
-					String valueExpr = design.getValue( );
+					String bindingColumn = design.getBindingColumn( );
+					if ( bindingColumn != null )
+					{
+						IResultSet rset = context.getResultSet( );
+						if ( rset != null )
+						{
+							try
+							{
+								Object dataValue = rset
+										.getValue( bindingColumn );
+								data.setValue( dataValue );
+							}
+							catch ( BirtException ex )
+							{
+								context.addException( ex );
+							}
+						}
+					}
+					/*String valueExpr = design.getValue( );
 					if ( valueExpr != null )
 					{
 						Object dataValue = context.evaluate( valueExpr );
 						data.setValue( dataValue );
-					}
+					}*/
 				}
 			}
 			return value;

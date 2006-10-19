@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -965,6 +967,20 @@ public class EngineIRReader implements IOConstants
 		}
 	}
 
+	/**
+	 * FIELD_VALUE:
+	 * 	this is an old format IR, the field saves the data expressions, like row['field name']. If this 
+	 * 	field exits, that also means the FIELD_BINDING_COLUMN is not exits. so we need:
+	 * 		1. parser the value expression to get the column name, that's the 'field name' in the expr.
+	 * 		2. set the binding column.
+	 * FIELD_BOUNDING_COLUMN:
+	 * 	This is new format IR, the field saves the field name. We needn't set the value field here, as the
+	 * 	setBindingColumn will do it automatically.
+	 * @param in
+	 * @param data
+	 * @param fieldType
+	 * @throws IOException
+	 */
 	protected void readDataField( DataInputStream in, DataItemDesign data,
 			short fieldType ) throws IOException
 	{
@@ -972,7 +988,23 @@ public class EngineIRReader implements IOConstants
 		{
 			case FIELD_VALUE :
 				String value = IOUtil.readString( in );
-				data.setValue( value );
+				try
+				{
+					String columnName = ExpressionUtil
+							.getColumnBindingName( value );
+					if ( columnName != null )
+					{
+						data.setBindingColumn( columnName );
+					}
+				}
+				catch ( BirtException ex )
+				{
+					//just skip this exception
+				}
+				break;
+			case FIELD_BINDING_COLUMN:
+				String bindingColumn = IOUtil.readString( in );
+				data.setBindingColumn( bindingColumn );
 				break;
 			case FIELD_SUPPRESS_DUPLICATE :
 				boolean suppressDuplicate = IOUtil.readBool( in );
