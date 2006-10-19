@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 
 /**
@@ -38,13 +39,14 @@ class DataSetProcessUtil extends RowProcessUtil
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper,
 			FilterByRow filterByRow,
-			PassStatusController psController)
+			PassStatusController psController,
+			DataEngineSession session)
 	{
 		super( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController );
+				psController, session);
 	}
 	
 	/**
@@ -59,13 +61,14 @@ class DataSetProcessUtil extends RowProcessUtil
 	 */
 	public static void doPopulate( ResultSetPopulator populator, ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController ) throws DataException
+			PassStatusController psController, DataEngineSession session ) throws DataException
 	{
 		DataSetProcessUtil instance = new DataSetProcessUtil( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController );
+				psController,
+				session );
 		instance.populateDataSet( );
 	}
 	
@@ -114,7 +117,7 @@ class DataSetProcessUtil extends RowProcessUtil
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					false );
+					false, this.session );
 		}
 		computedColumnHelper.getComputedColumnList( ).clear( );
 		computedColumnHelper.getComputedColumnList( ).addAll( aggCCList );
@@ -127,7 +130,7 @@ class DataSetProcessUtil extends RowProcessUtil
 			ComputedColumnCalculator.populateComputedColumns( this.populator,
 					new OdiResultSetWrapper( this.populator.getResultIterator( ) ),
 					iccState,
-					computedColumnHelper );
+					computedColumnHelper, this.session );
 		}
 		computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
 	}

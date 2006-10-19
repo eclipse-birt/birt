@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -47,13 +48,13 @@ class ResultSetProcessUtil extends RowProcessUtil
 	private ResultSetProcessUtil( ResultSetPopulator populator,
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController )
+			PassStatusController psController, DataEngineSession session )
 	{
 		super( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController );
+				psController, session );
 	}
 
 	/**
@@ -69,14 +70,14 @@ class ResultSetProcessUtil extends RowProcessUtil
 	public static void doPopulate( ResultSetPopulator populator,
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, List sortList )
+			PassStatusController psController, List sortList, DataEngineSession session )
 			throws DataException
 	{
 		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController );
+				psController, session );
 		instance.cachedSort = sortList;
 		instance.populateResultSet( );
 
@@ -123,7 +124,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 			{
 				PassUtil.pass( this.populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
-						true );
+						true, session );
 			}
 
 			if ( aggCCList.size( ) != 0 )
@@ -172,7 +173,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		this.populator.getQuery( ).setOrdering( this.cachedSort );
 		PassUtil.pass( this.populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				true );
+				true, session );
 	}
 
 	/**
@@ -230,7 +231,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		// Apply group row filters (Total.isTopN, Total.isBottomN..)
 		filterByRow.setWorkingFilterSet( FilterByRow.GROUP_FILTER );
 		PassUtil.pass( this.populator,
-				new OdiResultSetWrapper( populator.getResultIterator( ) ), true );
+				new OdiResultSetWrapper( populator.getResultIterator( ) ), true, session );
 
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
 
@@ -272,7 +273,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		populator.setResultSetMetadata( rebuildResultClass( populator.getResultSetMetadata( ) ) );
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false);
+				false, session );
 
 		populator.getCache( ).reset( );
 		populator.getCache( ).next( );

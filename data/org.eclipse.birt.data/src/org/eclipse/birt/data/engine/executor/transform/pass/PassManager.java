@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 
@@ -39,15 +40,17 @@ public class PassManager
 	private ComputedColumnHelper computedColumnHelper;
 
 	private FilterByRow filterByRow;
-
+	private DataEngineSession session;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param populator
 	 */
-	private PassManager( ResultSetPopulator populator )
+	private PassManager( ResultSetPopulator populator, DataEngineSession session )
 	{
 		this.populator = populator;
+		this.session = session;
 	}
 
 	/**
@@ -57,9 +60,9 @@ public class PassManager
 	 * @throws DataException
 	 */
 	public static void populateResultSet( ResultSetPopulator populator,
-			OdiResultSetWrapper odaResultSet ) throws DataException
+			OdiResultSetWrapper odaResultSet, DataEngineSession session ) throws DataException
 	{
-		new PassManager( populator ).pass( odaResultSet );
+		new PassManager( populator, session ).pass( odaResultSet );
 	}
 	
 	/**
@@ -117,7 +120,7 @@ public class PassManager
 	{
 		if ( computedColumnHelper != null )
 			computedColumnHelper.setModel( TransformationConstants.DATA_SET_MODEL );
-		PassUtil.pass( this.populator, odaResultSet, false );
+		PassUtil.pass( this.populator, odaResultSet, false, this.session );
 		this.populator.getExpressionProcessor( ).setDataSetMode( false );
 		handleEndOfDataSetProcess( );
 	}
@@ -195,7 +198,8 @@ public class PassManager
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController );
+				psController,
+				this.session);
 	
 		handleEndOfDataSetProcess( );
 		//		
@@ -206,7 +210,8 @@ public class PassManager
 				computedColumnHelper,
 				filterByRow,
 				psController,
-				cachedSorting );
+				cachedSorting,
+				this.session);
 	}
 
 	/**
@@ -232,7 +237,7 @@ public class PassManager
 		if ( filterByRow != null )
 			this.populator.getQuery( ).setMaxRows( 0 );
 		
-		PassUtil.pass( this.populator, odaResultSet, false );
+		PassUtil.pass( this.populator, odaResultSet, false, this.session );
 
 		this.populator.getQuery( ).setMaxRows( max );
 	}

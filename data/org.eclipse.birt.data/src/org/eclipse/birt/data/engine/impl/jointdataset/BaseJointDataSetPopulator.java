@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.viewing.DummyEventHandler;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -59,6 +60,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	// joint result object
 	private boolean beSecondaryUsed = false;
 
+	private DataEngineSession session;
 	/**
 	 * Constructor.
 	 * 
@@ -73,12 +75,12 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	public BaseJointDataSetPopulator( IResultIterator left,
 			IResultIterator right, JointResultMetadata meta,
 			IJoinConditionMatcher jcm, int joinType,
-			IMatchResultObjectSeeker seeker ) throws DataException
+			IMatchResultObjectSeeker seeker, DataEngineSession session ) throws DataException
 	{
 		this.meta = meta;
 		this.joinType = joinType;
 		this.jcm = jcm;
-
+		this.session = session;
 		if ( isPrimaryLeft() )
 		{
 			this.primaryIterator = left;
@@ -308,7 +310,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 				null,
 				new DummyEventHandler( ) ),
 				new OdiAdapter( resultSet ),
-				secondaryIterator.getResultClass( ) );
+				secondaryIterator.getResultClass( ), this.session );
 		
 		beSecondaryUsed = false;
 	}

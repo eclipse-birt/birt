@@ -35,8 +35,9 @@ class ExprManagerUtil
 	/**
 	 * No external instance
 	 */
-	private ExprManagerUtil( )
+	private ExprManagerUtil( ExprManager em )
 	{
+		this.exprManager = em;
 	}
 	
 	/**
@@ -49,9 +50,8 @@ class ExprManagerUtil
 	public static void validateColumnBinding( ExprManager exprManager )
 			throws DataException
 	{
-		ExprManagerUtil util = new ExprManagerUtil( );
+		ExprManagerUtil util = new ExprManagerUtil( exprManager );
 		
-		util.exprManager = exprManager;
 		util.checkColumnBindingExpression();
 		util.checkDependencyCycle( ); 
 		util.checkGroupNameValidation( );

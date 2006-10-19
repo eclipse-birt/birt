@@ -54,8 +54,9 @@ final class PreparedQuery
 {
 	private 	IBaseQueryDefinition 	baseQueryDefn;
 	
-	private     DataEngineContext 		dataEngineContext;	
-	private     Scriptable 				sharedScope;
+	private     DataEngineContext 		dataEngineContext;
+	private 	DataEngineSession 		session;
+//	private     Scriptable 				sharedScope;
 	private     ExpressionCompiler 		expressionCompiler;
 	private 	IPreparedQueryService 	queryService;
 	
@@ -79,7 +80,7 @@ final class PreparedQuery
 	 * @param appContext
 	 * @throws DataException
 	 */
-	PreparedQuery( DataEngineContext deContext, Scriptable scope,
+	PreparedQuery( DataEngineSession session, DataEngineContext deContext,
 			IBaseQueryDefinition queryDefn, IPreparedQueryService queryService,
 			Map appContext ) throws DataException
 	{
@@ -92,8 +93,7 @@ final class PreparedQuery
 		this.expressionCompiler = new ExpressionCompiler( );
 		this.expressionCompiler.setDataSetMode( false );
 		this.dataEngineContext = deContext;
-		this.sharedScope = scope;
-
+		this.session = session;
 		this.baseQueryDefn = queryDefn;
 		this.queryService = queryService;
 		this.appContext = appContext;
@@ -101,7 +101,7 @@ final class PreparedQuery
 		this.exprManager = new ExprManager( );
 		this.subQueryMap = new HashMap( );
 		this.subQueryDefnMap = new HashMap( );
-		this.aggrTable = new AggregateTable( this.sharedScope,
+		this.aggrTable = new AggregateTable( this.session.getSharedScope( ),
 				queryDefn.getGroups( ) );
 
 		logger.fine( "Start to prepare a PreparedQuery." );
@@ -238,8 +238,7 @@ final class PreparedQuery
 		while ( subIt.hasNext( ) )
 		{
 			ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
-			PreparedSubquery pq = new PreparedSubquery( this.dataEngineContext,
-					this.sharedScope,
+			PreparedSubquery pq = new PreparedSubquery( this.session, this.dataEngineContext,
 					subquery,
 					queryService,
 					groupLevel );
@@ -481,7 +480,7 @@ final class PreparedQuery
 	 */
 	Scriptable getSharedScope( )
 	{
-		return sharedScope;
+		return this.session.getSharedScope( );
 	}
 
 	/**

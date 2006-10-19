@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.dscache;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -26,6 +27,12 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 {
 	//
 	private DataSetResultCache datasetCache;
+	private DataEngineSession session;
+	
+	public CandidateQuery( DataEngineSession session )
+	{
+		this.session = session;
+	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#getResultClass()
@@ -43,7 +50,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 		return new CachedResultSet( this,
 				getOdaCacheResultSet( ).getResultClass( ),
 				getOdaCacheResultSet( ),
-				eventHandler );
+				eventHandler, session );
 	}
 
 	/*
@@ -90,7 +97,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	private DataSetResultCache getOdaCacheResultSet( )
 	{
 		if ( datasetCache == null )
-			datasetCache = new DataSetResultCache( );
+			datasetCache = new DataSetResultCache( session );
 
 		return datasetCache;
 	}

@@ -47,7 +47,7 @@ class PreparedSubquery implements IPreparedQueryService
 	private int groupLevel;
 	private PreparedQuery preparedQuery;
 	private IPreparedQueryService queryService;
-	
+	private DataEngineSession session;
 	private boolean subQueryOnGroup;
 	
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
@@ -63,8 +63,8 @@ class PreparedSubquery implements IPreparedQueryService
 	 *            parent query. If 0, subquery is defined outside of any groups.
 	 * @throws DataException
 	 */
-	PreparedSubquery( DataEngineContext context,
-			Scriptable scope, ISubqueryDefinition subquery,
+	PreparedSubquery( DataEngineSession session, DataEngineContext context,
+			ISubqueryDefinition subquery,
 			IPreparedQueryService queryService, int groupLevel ) throws DataException
 	{
 		this.groupLevel = groupLevel;
@@ -75,9 +75,8 @@ class PreparedSubquery implements IPreparedQueryService
 				PreparedSubquery.class.getName( ),
 				"PreparedSubquery",
 				"PreparedSubquery starts up." );
-		
-		this.preparedQuery = new PreparedQuery( context,
-				scope,
+		this.session = session;
+		this.preparedQuery = new PreparedQuery( session, context,
 				subquery,
 				this,
 				null );
@@ -154,7 +153,8 @@ class PreparedSubquery implements IPreparedQueryService
 		{	
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
-					preparedQuery.getAggrTable( ) );
+					preparedQuery.getAggrTable( ),
+					session);
 			
 			this.parentIterator = parentIterator;
 			this.setParentExecutorHelper( parentIterator.getExecutorHelper( ) );
@@ -193,7 +193,7 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			// An empty odi data source is used for sub query data set
 			return DataSourceFactory.getFactory( )
-					.getEmptyDataSource( )
+					.getEmptyDataSource( session )
 					.newCandidateQuery( );
 		}
 		

@@ -74,6 +74,8 @@ public class DataSourceAndDataSet
 	public int hashCode( )
 	{
 		int hashCode = 0;
+		if ( dataSourceDesign != null )
+			hashCode += dataSourceDesign.getName( ).hashCode( );
 		if ( dataSetDesign != null )
 			hashCode += dataSetDesign.getName( ).hashCode( );
 		return hashCode;
@@ -325,6 +327,10 @@ public class DataSourceAndDataSet
 
 		if ( dataSourceDesign == null || dataSourceDesign2 == null )
 			return false;
+		
+		if ( !isEqualString( dataSourceDesign.getName( ), dataSourceDesign2.getName( )) )
+			return false;
+		
 		if ( isEqualString( dataSourceDesign.getBeforeOpenScript( ),
 				dataSourceDesign2.getBeforeOpenScript( ) ) == false
 				|| isEqualString( dataSourceDesign.getAfterOpenScript( ),
@@ -381,6 +387,9 @@ public class DataSourceAndDataSet
 		if ( dataSetDesign == null || dataSetDesign2 == null )
 			return false;
 
+		if ( !isEqualString( dataSetDesign.getName( ), dataSetDesign2.getName( )))
+			return false;
+		
 		if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
 				dataSetDesign2.getBeforeOpenScript( ) ) == false
 				|| isEqualString( dataSetDesign.getAfterOpenScript( ),

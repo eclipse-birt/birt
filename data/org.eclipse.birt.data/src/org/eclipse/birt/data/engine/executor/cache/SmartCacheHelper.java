@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.disk.DiskCache;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -45,6 +46,12 @@ class SmartCacheHelper
 	// log instance
 	private static Logger logger = Logger.getLogger( SmartCache.class.getName( ) );
 
+	private DataEngineSession session;
+	
+	SmartCacheHelper( DataEngineSession session )
+	{
+		this.session = session;
+	}
 	/**
 	 * Retrieve data from ODA, used in normal query
 	 * 
@@ -63,7 +70,7 @@ class SmartCacheHelper
 
 		if ( cacheRequest.getDistinctValueFlag( ) == true )
 		{
-			SmartCacheHelper smartCacheHelper = new SmartCacheHelper( );
+			SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
 			ResultSetCache smartCache = smartCacheHelper.getDistinctResultSetCache( cacheRequest,
 					odaResultSet,
 					rsMeta );
@@ -90,7 +97,7 @@ class SmartCacheHelper
 			CacheRequest cacheRequest, ResultSet odaResultSet,
 			IResultClass rsMeta ) throws DataException
 	{
-		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( );
+		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( this.session );
 		ResultSetCache smartCache = smartCacheHelper.getSortedResultSetCache( new CacheRequest( 0,
 				null,
 				CacheUtil.getSortSpec( rsMeta ),
@@ -300,7 +307,8 @@ class SmartCacheHelper
 						rowResultSet,
 						rsMeta,
 						CacheUtil.getComparator( sortSpec, eventHandler ),
-						memoryCacheRowCount );
+						memoryCacheRowCount,
+						this.session );
 				break;
 			}
 		}

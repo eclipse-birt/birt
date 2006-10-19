@@ -33,7 +33,7 @@ import org.mozilla.javascript.Context;
 public class ExpressionCompilerUtil
 {
 	private static final String ROWNUM = "__rownum";
-	private static ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
+	//private static ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 
 	/**
 	 * compile the expression
@@ -44,6 +44,7 @@ public class ExpressionCompilerUtil
 	 */
 	public static CompiledExpression compile( String expr, Context cx )
 	{
+		ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 		expressionCompiler.setDataSetMode( true );
 		return expressionCompiler.compile( expr, null, cx );
 	}
@@ -247,6 +248,7 @@ public class ExpressionCompilerUtil
 			};
 			try
 			{
+				ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 				CompiledExpression expr = expressionCompiler.compile( text,
 						aggrReg,
 						context );
@@ -301,6 +303,7 @@ public class ExpressionCompilerUtil
 		};
 		try
 		{
+			ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 			CompiledExpression expr = expressionCompiler.compile( expression,
 					aggrReg,
 					context );

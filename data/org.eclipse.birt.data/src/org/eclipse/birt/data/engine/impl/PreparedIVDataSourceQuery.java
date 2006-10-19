@@ -110,7 +110,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	protected QueryExecutor newExecutor( )
 	{
-		return new IVDataSourceExecutor( engine.getSharedScope( ),
+		return new IVDataSourceExecutor( engine.getSession( ).getSharedScope( ),
 				queryDefn,
 				this.preparedQuery.getAggrTable( ) );
 	}
@@ -163,7 +163,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		IVDataSourceExecutor( Scriptable sharedScope,
 				IBaseQueryDefinition baseQueryDefn, AggregateTable aggrTable )
 		{
-			super( sharedScope, baseQueryDefn, aggrTable );
+			super( sharedScope, baseQueryDefn, aggrTable, engine.getSession( ) );
 		}
 
 		/*
@@ -231,7 +231,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			IResultIterator resultIterator = new CachedResultSet( query,
 					populateResultClass( meta ),
 					dataSetResult,
-					eventHandler );
+					eventHandler, engine.getSession( ) );
 			dataSetResult.close( );
 			
 			return resultIterator;

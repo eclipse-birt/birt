@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.executor.cache.SortSpec;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -54,7 +55,7 @@ class PassUtil
 	 * @throws DataException
 	 */
 	public static void pass( ResultSetPopulator populator,
-			OdiResultSetWrapper resultSource, boolean doGroup )
+			OdiResultSetWrapper resultSource, boolean doGroup, DataEngineSession session )
 			throws DataException
 	{
 		if ( doGroup )
@@ -65,7 +66,7 @@ class PassUtil
 		populateOdiResultSet( populator, resultSource, doGroup
 				? populator.getGroupProcessorManager( )
 						.getGroupCalculationUtil( )
-						.getSortSpec( ) : null );
+						.getSortSpec( ) : null, session );
 
 		if ( doGroup )
 			populator.getGroupProcessorManager( )
@@ -84,7 +85,7 @@ class PassUtil
 	 * @throws DataException
 	 */
 	private static void populateOdiResultSet( ResultSetPopulator populator,
-			OdiResultSetWrapper rsWrapper, SortSpec sortSpec )
+			OdiResultSetWrapper rsWrapper, SortSpec sortSpec, DataEngineSession session )
 			throws DataException
 	{
 		Object resultSource = rsWrapper.getWrappedOdiResultSet( );
@@ -102,7 +103,8 @@ class PassUtil
 					populator.getEventHandler( ),
 					query.getDistinctValueFlag( ) ),
 					(ResultSet) resultSource,
-					rsMeta );
+					rsMeta,
+					session);
 		}
 		else if ( resultSource instanceof ICustomDataSet )
 		{
@@ -112,7 +114,8 @@ class PassUtil
 					populator.getEventHandler( ),
 					query.getDistinctValueFlag( ) ),
 					new OdiAdapter( (ICustomDataSet) resultSource ),
-					rsMeta );
+					rsMeta,
+					session);
 		}
 		else if ( resultSource instanceof IDataSetPopulator )
 		{
@@ -122,7 +125,8 @@ class PassUtil
 					populator.getEventHandler( ),
 					query.getDistinctValueFlag( ) ),
 					new OdiAdapter( (IDataSetPopulator) resultSource ),
-					rsMeta );
+					rsMeta,
+					session);
 		}
 		else if ( resultSource instanceof DataSetResultCache )
 		{
@@ -132,7 +136,7 @@ class PassUtil
 					populator.getEventHandler( ),
 					false ), // must be true
 					new OdiAdapter( (DataSetResultCache) resultSource ),
-					rsMeta );
+					rsMeta,session );
 		}
 		else if ( resultSource instanceof IResultIterator )
 		{
@@ -142,7 +146,7 @@ class PassUtil
 					populator.getEventHandler( ),
 					false ), // must be true
 					new OdiAdapter( (IResultIterator) resultSource ),
-					rsMeta );
+					rsMeta,session );
 		}
 		else if ( resultSource instanceof Object[] )
 		{
@@ -155,7 +159,7 @@ class PassUtil
 					(ResultSetCache) obs[0],
 					( (int[]) obs[1] )[0],
 					( (int[]) obs[1] )[1],
-					rsMeta );
+					rsMeta,session );
 		}
 
 		populator.getGroupProcessorManager( )

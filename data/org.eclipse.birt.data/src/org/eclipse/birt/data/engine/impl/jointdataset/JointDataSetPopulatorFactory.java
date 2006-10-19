@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl.jointdataset;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
@@ -30,10 +31,10 @@ public class JointDataSetPopulatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static IDataSetPopulator getCartesianJointDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType ) throws DataException
+	public static IDataSetPopulator getCartesianJointDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session ) throws DataException
 	{
 		IMatchResultObjectSeeker seeker = new CartesianResultObjectSeeker( jcm );
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, seeker );
+		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, seeker, session );
 	}
 	
 	/**
@@ -47,8 +48,8 @@ public class JointDataSetPopulatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static IDataSetPopulator getBinaryTreeDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType ) throws DataException
+	public static IDataSetPopulator getBinaryTreeDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session ) throws DataException
 	{
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, null );
+		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, null, session );
 	}
 }

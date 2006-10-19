@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 
 /**
@@ -35,7 +36,7 @@ abstract class RowProcessUtil
 	protected FilterByRow filterByRow;
 	protected PassStatusController psController;
 	protected ResultSetPopulator populator;
-	
+	protected DataEngineSession session;
 	/**
 	 * 
 	 * @param populator
@@ -48,13 +49,15 @@ abstract class RowProcessUtil
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper,
 			FilterByRow filterByRow,
-			PassStatusController psController)
+			PassStatusController psController,
+			DataEngineSession session)
 	{
 		this.iccState = iccState;
 		this.computedColumnHelper = computedColumnHelper;
 		this.filterByRow = filterByRow;
 		this.psController = psController;
 		this.populator = populator;
+		this.session = session;
 	}
 	
 	/**
@@ -138,7 +141,7 @@ abstract class RowProcessUtil
 			}
 			filterByRow.setWorkingFilterSet( filterType );
 			FilterCalculator.applyFilters( this.populator,
-					this.filterByRow );
+					this.filterByRow, this.session );
 			populator.getQuery( ).setMaxRows( max );
 		}
 

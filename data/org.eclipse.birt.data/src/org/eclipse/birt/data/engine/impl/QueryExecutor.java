@@ -39,7 +39,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
-import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
@@ -93,7 +92,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected IQueryService outerResults;
 	private IResultIterator odiResult;
 	private IExecutorHelper parentHelper;
-
+	private DataEngineSession session;
 	private List temporaryComputedColumns = new ArrayList( );
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -103,11 +102,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param aggrTable
 	 */
 	QueryExecutor( Scriptable sharedScope, IBaseQueryDefinition baseQueryDefn,
-			AggregateTable aggrTable )
+			AggregateTable aggrTable, DataEngineSession session )
 	{
 		this.sharedScope = sharedScope;
 		this.baseQueryDefn = baseQueryDefn;
 		this.aggrTable = aggrTable;
+		this.session = session;
 	}
 
 	/**
@@ -230,7 +230,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			// TODO: potential bug
 			if ( !dataSource.isOpen( )
-					|| DataSetCacheManager.getInstance( ).doesLikeToCache( ) == true )
+					|| session.getDataSetCacheManager( ).doesLikeToCache( ) == true )
 			{
 				// Data source is not open; create an Odi Data Source and open it
 				// We should run the beforeOpen script now to give it a chance to modify

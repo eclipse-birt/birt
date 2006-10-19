@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -28,7 +27,6 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  */
 public class CacheUtil
 {
-	
 	/**
 	 * how many rows could be cached in memory when transformation is done, the
 	 * minimum value for it is 500. It is strongly recommended to give a high
@@ -39,6 +37,17 @@ public class CacheUtil
 	
 	private static Integer cacheCounter1 = new Integer(0);
 	private static Integer cacheCounter2 = new Integer(0);
+	
+	private String tempDir;
+	
+	/**
+	 * 
+	 * @param context
+	 */
+	public CacheUtil ( String tempDir )
+	{
+		this.tempDir = tempDir;
+	}
 	
 	//--------------------service for SmartCache----------------------
 	
@@ -252,7 +261,7 @@ public class CacheUtil
 	/**
 	 * @return
 	 */
-	public static String doCreateTempRootDir( Logger logger )
+	public String doCreateTempRootDir( Logger logger )
 	{
 		String rootDirStr = null;
 
@@ -260,15 +269,14 @@ public class CacheUtil
 		File tempDtEDir = null;
 		synchronized ( cacheCounter1 )
 		{
-			String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( );
-			tempDtEDir = new File( tempDirStr, "BirtDataTemp"
+			tempDtEDir = new File( tempDir, "BirtDataTemp"
 					+ System.currentTimeMillis( ) + cacheCounter1 );
 			cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
 			int x = 0;
 			while ( tempDtEDir.exists( ) )
 			{
 				x++;
-				tempDtEDir = new File( tempDirStr, "BirtDataTemp"
+				tempDtEDir = new File( tempDir, "BirtDataTemp"
 						+ System.currentTimeMillis( ) + cacheCounter1 + "_" + x );
 			}
 			tempDtEDir.mkdir( );
@@ -291,7 +299,7 @@ public class CacheUtil
 	/**
 	 * @return session temp dir
 	 */
-	public static String createSessionTempDir( String tempRootDirStr )
+	public String createSessionTempDir( String tempRootDirStr )
 	{
 		String sessionTempDirStr;
 

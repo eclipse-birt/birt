@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -38,8 +37,6 @@ import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.script.JSDataSources;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -47,8 +44,6 @@ import org.mozilla.javascript.Scriptable;
  */
 public class DataEngineImpl extends DataEngine
 {
-	private Scriptable 				sharedScope;
-
 	// Map of data source name (string) to DataSourceRT, for defined data sources
 	private HashMap					dataSources = new HashMap();
 	
@@ -60,6 +55,7 @@ public class DataEngineImpl extends DataEngine
 
 	// data engine context
 	private DataEngineContext context;
+	private DataEngineSession session;
 	private DataSourceManager dataSourceManager;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
@@ -83,21 +79,9 @@ public class DataEngineImpl extends DataEngine
 				context );
 		
 		this.context = context;
-		this.sharedScope = context.getJavaScriptScope( );
-		
-		if(context.getTmpdir( )!=null)
-			DataEngineContextExt.getInstance( ).setTmpdir( context.getTmpdir( ) );
-		
-		Context cx = Context.enter( );
-		if ( this.sharedScope == null )
-		{
-			this.sharedScope = new ImporterTopLevel( cx );
-		}
-		new CoreJavaScriptInitializer( ).initialize( cx, sharedScope );
-		Context.exit( );
-				
+						
 		dataSourceManager = new DataSourceManager( logger );
-		
+		this.session = new DataEngineSession( context );
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.INFO, "Data Engine starts up" );
 	}
@@ -300,7 +284,11 @@ public class DataEngineImpl extends DataEngine
 		if ( dataSource == null || dataSet == null )
 			return;
 
-		DataSetCacheManager.getInstance( ).clearCache( dataSource, dataSet );
+		DataSetCacheManager dscManager = this.getSession( ).getDataSetCacheManager( );
+		if( dscManager == null )
+			return;
+		else
+			dscManager.clearCache( dataSource, dataSet );
 	}
 	
 	/**
@@ -450,14 +438,24 @@ public class DataEngineImpl extends DataEngine
 		}
 	}
 
-	/**
+/*	*//**
 	 * Gets the shared Rhino scope used by this data engine
-	 */
+	 *//*
 	public Scriptable getSharedScope( )
 	{
-		return sharedScope;
-	}
+		return this.session.getSharedScope( );
+	}*/
 
+	/**
+	 * Get the DataEngineSession instance bound to this DataEngineImpl.
+	 * 
+	 * @return
+	 */
+	public DataEngineSession getSession( )
+	{
+		return session;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#shutdown()
 	 */
@@ -495,7 +493,6 @@ public class DataEngineImpl extends DataEngine
 				"shutdown",
 				"Data engine shuts down" );
 
-		sharedScope = null;
 		dataSetDesigns = null;
 		dataSources = null;
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );

@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -144,6 +145,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	private ArrayList propNames;
 	private ArrayList propValues;
 	
+	private DataEngineSession session;
 	/**
 	 * Constructor. 
 	 * 
@@ -151,11 +153,12 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 * @param queryType
 	 * @param queryText
 	 */
-    DataSourceQuery( DataSource dataSource, String queryType, String queryText )
+    DataSourceQuery( DataSource dataSource, String queryType, String queryText, DataEngineSession session )
     {
         this.dataSource = dataSource;
         this.queryText = queryText;
         this.queryType = queryType;
+        this.session = session;
     }
 
     /*
@@ -492,27 +495,27 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		}
 		
 		// Initialize CachedResultSet using the ODA result set
-		if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
+		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
 		{
 			if ( !hasOutputParams( ) )
 				return new CachedResultSet( this,
 						resultMetadata,
 						rs,
-						eventHandler );
+						eventHandler, session );
 			else
 			{
 				IDataSetPopulator populator = new OdaResultSet( rs );
 				return new CachedResultSet( this,
 						resultMetadata,
 						populator,
-						eventHandler );
+						eventHandler, session );
 			}
 		}
 		else
 			return new CachedResultSet( this,
 					resultMetadata,
-					new DataSetResultCache( rs, resultMetadata ),
-					eventHandler );
+					new DataSetResultCache( rs, resultMetadata, session ),
+					eventHandler, session );
     }
    
     /**

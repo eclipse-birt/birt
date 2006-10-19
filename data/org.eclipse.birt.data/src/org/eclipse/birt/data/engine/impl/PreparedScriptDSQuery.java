@@ -108,7 +108,8 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 							self.queryDefn.getInputParamBindings( ),
 							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
 									appContext ),
-							self.dataEngine.getContext( ).getCacheCount( ) );
+							self.dataEngine.getContext( ).getCacheCount( ),
+							self.dataEngine.getSession( ));
 		}
 	
 		/*

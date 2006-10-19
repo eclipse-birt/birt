@@ -30,7 +30,6 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -220,7 +219,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			PreparedOdaDSQuery self = PreparedOdaDSQuery.this;
 
 			Collection paramHints = null;
-			if ( DataSetCacheManager.getInstance( )
+			if ( getDataSetCacheManager()
 					.needsToCache( this.dataSet.getDesign( ),
 							DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
 									appContext ),
@@ -238,7 +237,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 							paramHints,
 							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
 									appContext ),
-							self.dataEngine.getContext( ).getCacheCount( ) );
+							self.dataEngine.getContext( ).getCacheCount( ),
+							self.dataEngine.getSession( ));
 		}
 		
 		/*

@@ -72,8 +72,8 @@ public class DataEngineContext
 	/** cacheCount field */
 	private int cacheOption;
 	private int cacheCount;
-	
-	private String tmpDir = null;
+
+	private String tmpDir = System.getProperty( "java.io.tmpdir" );
 	
 	/** stream id for internal use, don't use it externally */
 	public final static int VERSION_INFO_STREAM = 11;
@@ -151,6 +151,7 @@ public class DataEngineContext
 		this.reader = reader;
 		this.writer = writer;
 		this.cacheOption = CACHE_USE_DEFAULT;
+
 	}
 
 	/** 
@@ -374,6 +375,7 @@ public class DataEngineContext
 		this.tmpDir = tmpdir;
 	}
 
+	
 	/**
 	 * @param streamType
 	 * @return relative path, notice in reading data from file, directory can
