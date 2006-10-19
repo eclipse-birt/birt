@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.82.2.1 $ $Date: 2006/09/07 12:56:57 $
+ * @version $Revision: 1.82.2.2 $ $Date: 2006/09/08 05:58:43 $
  */
 public class ReportQueryBuilder
 {
@@ -608,8 +608,9 @@ public class ReportQueryBuilder
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( data );
-			String newValue = transformExpression( data.getValue( ) );
-			data.setValue( newValue );
+			//we needn't transfer the data expression as it must be row[''].
+//			String newValue = transformExpression( data.getValue( ) );
+//			data.setValue( newValue );
 			finishVisit( query );
 			return value;
 		}	

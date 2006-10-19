@@ -1226,14 +1226,15 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeReportItem( out, data );
 
-		String value = data.getValue( );
+		//String value = data.getValue( );
+		String bindingColumn = data.getBindingColumn( );
 		String helpText = data.getHelpText( );
 		String helpTextKey = data.getHelpTextKey( );
 		boolean suppressDuplicate = data.getSuppressDuplicate( );
-		if ( value != null )
+		if ( bindingColumn != null )
 		{
-			IOUtil.writeShort( out, FIELD_VALUE );
-			IOUtil.writeString( out, value );
+			IOUtil.writeShort( out, FIELD_BINDING_COLUMN);
+			IOUtil.writeString( out, bindingColumn );
 		}
 		if ( helpText != null || helpTextKey != null )
 		{

@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+
 /**
  * DataItem.
  * 
  * reference to report design schema.
  * 
- * @version $Revision: 1.9 $ $Date: 2006/02/27 07:35:59 $
+ * @version $Revision: 1.10 $ $Date: 2006/04/06 12:35:25 $
  */
 public class DataItemDesign extends ReportItemDesign
 {
@@ -25,6 +27,10 @@ public class DataItemDesign extends ReportItemDesign
 	 * Data expression
 	 */
 	protected String value;
+	/**
+	 * binding column used by this item.
+	 */
+	protected String bindingColumn;
 
 	/**
 	 * help text
@@ -44,6 +50,24 @@ public class DataItemDesign extends ReportItemDesign
 	}
 
 	/**
+	 * get the binding column used by this item.
+	 */
+	public String getBindingColumn( )
+	{
+		return this.bindingColumn;
+	}
+
+	/**
+	 * set the binding column of the item.
+	 * the value expression will be setted either.
+	 * @param column
+	 */
+	public void setBindingColumn( String column )
+	{
+		this.bindingColumn = column;
+		this.value = ExpressionUtil.createJSRowExpression( column );
+	}
+	/*
 	 * get the value expression
 	 * 
 	 * @return value expression

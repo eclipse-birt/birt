@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
@@ -26,7 +28,7 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.30 $ $Date: 2006/06/23 03:37:41 $
+ * @version $Revision: 1.31 $ $Date: 2006/08/25 03:24:04 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {
@@ -86,8 +88,23 @@ public class DataItemExecutor extends QueryItemExecutor
 		processStyle( dataDesign, dataContent );
 		processVisibility( dataDesign, dataContent );
 		
-		Object value = context.evaluate( dataDesign.getValue( ) );
-		// should we suppress the duplicate
+		Object value = null;
+		IResultSet rset = context.getResultSet( );
+		if ( rset != null )
+		{
+			String bindingColumn = dataDesign.getBindingColumn( );
+			if ( bindingColumn != null )
+			{
+				try
+				{
+					value = rset.getValue( bindingColumn );
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( ex );
+				}
+			}
+		}		// should we suppress the duplicate
 		duplicated = false;
 		if ( dataDesign.getSuppressDuplicate( ) )
 		{
