@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 /**
  *	A factory for IDataSource instances that represent underlying
@@ -38,7 +39,7 @@ public interface IDataSourceFactory
 	
 	/**
 	 */
-    public IDataSource getEmptyDataSource( );
+    public IDataSource getEmptyDataSource( DataEngineSession session );
     
     /**
      * Obtains a dedicated data source instance with the
@@ -59,6 +60,6 @@ public interface IDataSourceFactory
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
-			int cacheOption, int alwaysCacheRowCount );
+			int cacheOption, int alwaysCacheRowCount, DataEngineSession session );
     
 }

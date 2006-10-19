@@ -69,12 +69,12 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 		if ( dataSource instanceof IOdaDataSourceDesign )
 		{
 			return new OdaDataSourceRuntime( (IOdaDataSourceDesign) dataSource,
-					dataEngine.getSharedScope( ) );
+					dataEngine.getSession( ).getSharedScope( ) );
 		}
 		else if ( dataSource instanceof IScriptDataSourceDesign )
 		{
 			return new ScriptDataSourceRuntime( (IScriptDataSourceDesign) dataSource,
-					dataEngine.getSharedScope( ) );
+					dataEngine.getSession( ).getSharedScope( ) );
 		}
 		else
 		{

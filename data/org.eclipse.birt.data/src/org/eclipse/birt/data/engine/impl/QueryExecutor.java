@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -39,8 +39,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
-import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
@@ -92,7 +92,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected IQueryService outerResults;
 	private IResultIterator odiResult;
 	private IExecutorHelper parentHelper;
-
+	private DataEngineSession session;
 	private List temporaryComputedColumns = new ArrayList( );
 	private static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -102,11 +102,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param aggrTable
 	 */
 	QueryExecutor( Scriptable sharedScope, IBaseQueryDefinition baseQueryDefn,
-			AggregateTable aggrTable )
+			AggregateTable aggrTable, DataEngineSession session )
 	{
 		this.sharedScope = sharedScope;
 		this.baseQueryDefn = baseQueryDefn;
 		this.aggrTable = aggrTable;
+		this.session = session;
 	}
 
 	/**
@@ -229,7 +230,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			// TODO: potential bug
 			if ( !dataSource.isOpen( )
-					|| DataSetCacheManager.getInstance( ).doesLikeToCache( ) == true )
+					|| session.getDataSetCacheManager( ).doesLikeToCache( ) == true )
 			{
 				// Data source is not open; create an Odi Data Source and open it
 				// We should run the beforeOpen script now to give it a chance to modify
@@ -585,8 +586,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private String getColumnRefExpression( String expr )
 	{
-		return "row[\""
-				+ JavascriptEvalUtil.transformToJsConstants( expr ) + "\"]";
+		return ExpressionUtil.createJSRowExpression( expr );
 	}
 
 	void setParentExecutorHelper( IExecutorHelper helper )
@@ -601,9 +601,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param queryFilters
 	 * @param temporaryComputedColumns
 	 * @return
+	 * @throws DataException 
 	 */
 	private List prepareFilters( Context cx, List dataSetFilters,
-			List queryFilters, List temporaryComputedColumns )
+			List queryFilters, List temporaryComputedColumns ) throws DataException
 	{
 		List result = new ArrayList( );
 		prepareFilter( cx, dataSetFilters, temporaryComputedColumns, result );
@@ -617,9 +618,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param dataSetFilters
 	 * @param temporaryComputedColumns
 	 * @param result
+	 * @throws DataException 
 	 */
 	private void prepareFilter( Context cx, List dataSetFilters,
-			List temporaryComputedColumns, List result )
+			List temporaryComputedColumns, List result ) throws DataException
 	{
 		if ( dataSetFilters != null && !dataSetFilters.isEmpty( ) )
 		{
@@ -665,19 +667,25 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * 
 	 * @param filter
 	 * @return
+	 * @throws DataException 
 	 */
-	private boolean isGroupFilter( IFilterDefinition filter )
+	private boolean isGroupFilter( IFilterDefinition filter ) throws DataException
 	{
 		IBaseExpression expr = filter.getExpression( );
 
 		if ( expr instanceof IConditionalExpression )
 		{
+			if ( !ExpressionCompilerUtil.isValidExpressionInQueryFilter( expr ) )
+				throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
+						new Object[]{
+							( (IConditionalExpression) expr ).getExpression( ).getText( )
+						} );
 			try
 			{
 				if ( odiQuery instanceof BaseQuery )
 				{
 					return ( (BaseQuery) odiQuery ).getExprProcessor( )
-							.hasAggregation( expr );
+								.hasAggregation( expr );
 				}
 			}
 			catch ( DataException e )

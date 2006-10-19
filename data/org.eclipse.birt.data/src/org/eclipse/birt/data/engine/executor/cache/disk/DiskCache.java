@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -61,6 +62,8 @@ public class DiskCache implements ResultSetCache
 	// log instance
 	private static Logger logger = Logger.getLogger( DiskCache.class.getName( ) );
 	
+	private DataEngineSession session;
+	
 	/**
 	 * The MemoryCacheRowCount indicates the upper limitation of how many rows
 	 * can be loaded into memory. Note this value is included as well. Look at
@@ -80,12 +83,13 @@ public class DiskCache implements ResultSetCache
 	 */
 	public DiskCache( IResultObject[] resultObjects, IResultObject resultObject,
 			IRowResultSet rowResultSet, IResultClass rsMeta,
-			Comparator comparator, int MemoryCacheRowCount )
+			Comparator comparator, int MemoryCacheRowCount, DataEngineSession session )
 			throws DataException
 	{
 		//this.rsMeta = rsMeta;
 		this.MemoryCacheRowCount = MemoryCacheRowCount;
 		this.rsMeta = rsMeta;
+		this.session = session;
 		this.diskBasedResultSet = new DiskCacheResultSet( getInfoMap( ) );
 		
 		try
@@ -291,21 +295,32 @@ public class DiskCache implements ResultSetCache
 		if ( tempRootDirStr == null )
 			tempRootDirStr = createTempRootDir( );
 
-		sessionRootDirStr = CacheUtil.createSessionTempDir( tempRootDirStr );
+
+		
+		sessionRootDirStr = getCacheUtil().createSessionTempDir( tempRootDirStr );
 		return sessionRootDirStr;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private CacheUtil getCacheUtil( )
+	{
+		return this.session.getCacheUtil( );
 	}
 	
 	/**
 	 * @return temp root dir directory
 	 */
-	private static String createTempRootDir( )
+	private String createTempRootDir( )
 	{
 		if ( tempRootDirStr == null )
 		{
 			synchronized ( DiskCache.class )
 			{
 				if ( tempRootDirStr == null )
-					tempRootDirStr = CacheUtil.doCreateTempRootDir( logger );
+					tempRootDirStr = getCacheUtil().doCreateTempRootDir( logger );
 			}
 		}
 		

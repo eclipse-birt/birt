@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
@@ -30,6 +31,18 @@ public class DataSourceQuery extends BaseQuery
 			IDataSourceQuery,
 			IPreparedDSQuery
 {
+	//
+	private DataEngineSession session;
+	
+	/**
+	 * 
+	 * @param context
+	 */
+	public DataSourceQuery ( DataEngineSession session )
+	{
+		this.session = session;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#setResultHints(java.util.Collection)
 	 */
@@ -129,7 +142,7 @@ public class DataSourceQuery extends BaseQuery
 		return new CachedResultSet( this,
 				getOdaCacheResultSet( ).getResultClass( ),
 				getOdaCacheResultSet( ),
-				eventHandler );
+				eventHandler, session );
 	}
 
 	/*
@@ -157,7 +170,7 @@ public class DataSourceQuery extends BaseQuery
 	private DataSetResultCache getOdaCacheResultSet( )
 	{
 		if ( datasetCache == null )
-			datasetCache = new DataSetResultCache( );
+			datasetCache = new DataSetResultCache( session );
 
 		return datasetCache;
 	}

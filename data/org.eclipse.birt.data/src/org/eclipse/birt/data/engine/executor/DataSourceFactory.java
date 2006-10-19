@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
 
@@ -55,10 +56,10 @@ public class DataSourceFactory implements IDataSourceFactory
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceFactory#getNullDataSource()
 	 */
-	public IDataSource getEmptyDataSource(  )
+	public IDataSource getEmptyDataSource( DataEngineSession session )
 	{
 		// TODO: connection pooling
-		return new DataSource( null, null );
+		return new DataSource( null, null, session );
 	}
 	
 	/*
@@ -71,9 +72,9 @@ public class DataSourceFactory implements IDataSourceFactory
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterHints,
-			int cacheOption, int alwaysCacheRowCount )
+			int cacheOption, int alwaysCacheRowCount, DataEngineSession session)
 	{
-		if ( DataSetCacheManager.getInstance( )
+		if ( session.getDataSetCacheManager( )
 				.doesLoadFromCache( dataSourceDesign,
 						dataSetDesign,
 						parameterHints,
@@ -81,11 +82,11 @@ public class DataSourceFactory implements IDataSourceFactory
 						alwaysCacheRowCount ) == false )
 		{
 			// TODO: connection pooling
-			return new DataSource( driverName, connProperties );
+			return new DataSource( driverName, connProperties, session );
 		}
 		else
 		{
-			return new org.eclipse.birt.data.engine.executor.dscache.DataSource( dataSourceDesign instanceof ScriptDataSourceDesign );
+			return new org.eclipse.birt.data.engine.executor.dscache.DataSource( dataSourceDesign instanceof ScriptDataSourceDesign, session );
 		}
 	}
 

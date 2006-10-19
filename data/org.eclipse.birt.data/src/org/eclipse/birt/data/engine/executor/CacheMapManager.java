@@ -12,12 +12,8 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
 
 /**
  * Manage the cache map
@@ -29,16 +25,19 @@ class CacheMapManager
 		
 	// folder util instance
 	private FolderUtil folderUtil;
+	private String tempDir;
 	
 	private static Integer cacheCounter1 = new Integer(0);
-
+	private static Integer cacheCounter2 = new Integer(0);
+	
 	/**
 	 * construction
 	 */
-	CacheMapManager( )
+	CacheMapManager( String tempDir )
 	{
 		this.cacheMap = new HashMap( );
 		this.folderUtil = new FolderUtil( );
+		this.tempDir = tempDir;
 	}
 	
 	/**
@@ -163,16 +162,14 @@ class CacheMapManager
 			// system default temp dir is used
 			synchronized ( cacheCounter1 )
 			{
-				String tempDirStr = DataEngineContextExt.getInstance( )
-						.getTmpdir( );
-				tempDtEDir = new File( tempDirStr, "BirtDataCache"
+				tempDtEDir = new File( tempDir, "BirtDataCache"
 						+ System.currentTimeMillis( ) + cacheCounter1 );
 				cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
 				int x = 0;
 				while ( tempDtEDir.exists( ) )
 				{
 					x++;
-					tempDtEDir = new File( tempDirStr, "BirtDataCache"
+					tempDtEDir = new File( tempDir, "BirtDataCache"
 							+ System.currentTimeMillis( ) + cacheCounter1 + "_"
 							+ x );
 				}
@@ -197,52 +194,30 @@ class CacheMapManager
 		{
 			this.createTempRootDir();
 			
-			String sessionTempDirStr;
 			final String prefix = "session_";
 
-			// second create the seesion temp folder
-			String[] filesName = new File( tempRootDirStr ).list( );
-			Arrays.sort( filesName, new Comparator( ) {
-
-				public int compare( Object o1, Object o2 )
-				{
-					String f1 = (String) o1;
-					String f2 = (String) o2;
-
-					int index1 = f1.indexOf( prefix );
-					int index2 = f2.indexOf( prefix );
-
-					if ( index1 < 0 || index2 < 0 )
-						return 0;
-
-					Integer i1 = Integer.valueOf( f1.substring( index1
-							+ prefix.length( ) ) );
-					Integer i2 = Integer.valueOf( f2.substring( index2
-							+ prefix.length( ) ) );
-					return i1.compareTo( i2 );
-				}
-			} );
-
-			// find which extension should be used
-			int maxIndex = -1;
-			for ( int i = filesName.length - 1; i >= 0; i-- )
+			
+			// system default temp dir is used
+			synchronized ( cacheCounter2 )
 			{
-				int index = filesName[i].indexOf( prefix );
-				if ( index == 0 )
+				String sessionTempDir = tempRootDirStr
+						+ File.separator + prefix + System.currentTimeMillis( )
+						+ cacheCounter2;
+				cacheCounter2 = new Integer( cacheCounter2.intValue( ) + 1 );
+				File sessionDirFile = new File( sessionTempDir );
+				int x = 0;
+				while ( sessionDirFile.exists( ) )
 				{
-					maxIndex = Integer.valueOf( filesName[i].substring( index
-							+ prefix.length( ) ) ).intValue( );
-					break;
+					x++;
+					sessionTempDir =  tempRootDirStr
+					+ File.separator + prefix + System.currentTimeMillis( )
+					+ cacheCounter2 + "_" + x;
+					sessionDirFile = new File( sessionTempDir );
 				}
+				sessionDirFile.mkdir( );
+				sessionDirFile.deleteOnExit( );
+				return sessionTempDir;
 			}
-			maxIndex++;
-
-			sessionTempDirStr = tempRootDirStr
-					+ File.separator + prefix + maxIndex;
-			File file = new File( sessionTempDirStr );
-			file.mkdir( );
-
-			return sessionTempDirStr;
 		}
 
 		/**

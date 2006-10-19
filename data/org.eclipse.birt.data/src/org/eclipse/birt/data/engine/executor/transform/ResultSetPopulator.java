@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartRowResultSet;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
 import org.eclipse.birt.data.engine.executor.transform.pass.PassManager;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -61,6 +62,7 @@ public class ResultSetPopulator
 	 */
 	private IEventHandler eventHandler;
 	
+	private DataEngineSession session;
 	/**
 	 * 
 	 * @param query
@@ -93,11 +95,12 @@ public class ResultSetPopulator
 	 * @throws DataException
 	 */
 	ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			IResultIterator ri, IEventHandler eventHandler )
+			IResultIterator ri, IEventHandler eventHandler, DataEngineSession session )
 			throws DataException
 	{
 		this( query, rsMeta, ri );
 		this.eventHandler = eventHandler;
+		this.session = session;
 	}
 	
 	/**
@@ -204,7 +207,7 @@ public class ResultSetPopulator
 	 */
 	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
-		PassManager.populateResultSet( this, odaResultSet );
+		PassManager.populateResultSet( this, odaResultSet, this.session );
 	}
 
 	/**
@@ -237,7 +240,8 @@ public class ResultSetPopulator
 				null,
 				this.getEventHandler( ) ),
 				new SmartRowResultSet( this.getCache( ), rsMeta, odInfo ),
-				this.rsMeta ) );
+				this.rsMeta,
+				this.session) );
 		
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.setResultSetCache( this.getCache( ) );

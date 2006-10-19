@@ -11,31 +11,40 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
-import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 
 /**
  * Implementation of ICandidateQuery
  */
-
-public class CandidateQuery extends BaseQuery implements ICandidateQuery 
+public class CandidateQuery extends BaseQuery implements ICandidateQuery
 {
 
 	private ICustomDataSet customDataSet;
-	
+
 	private IResultIterator resultObjsIterator;
 	private int groupingLevel;
-	
-	private IResultClass	resultMetadata;
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.IResultIterator, int)
+
+	private IResultClass resultMetadata;
+	private DataEngineSession session;
+
+	public CandidateQuery( DataEngineSession session )
+	{
+		this.session = session;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.IResultIterator,
+	 *      int)
 	 */
 	public void setCandidates( IResultIterator resultObjsIterator,
 			int groupingLevel ) throws DataException
@@ -43,22 +52,27 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 		assert resultObjsIterator != null;
 		this.resultObjsIterator = resultObjsIterator;
 		this.groupingLevel = groupingLevel;
-		
-		resultMetadata = resultObjsIterator.getResultClass();
+
+		resultMetadata = resultObjsIterator.getResultClass( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.ICustomDataSet)
 	 */
-	public void setCandidates( ICustomDataSet customDataSet ) throws DataException
+	public void setCandidates( ICustomDataSet customDataSet )
+			throws DataException
 	{
 		assert customDataSet != null;
 		this.customDataSet = customDataSet;
-		
-		resultMetadata = customDataSet.getResultClass();
+
+		resultMetadata = customDataSet.getResultClass( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#getResultClass()
 	 */
 	public IResultClass getResultClass( )
@@ -66,7 +80,9 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 		return resultMetadata;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
 	public IResultIterator execute( IEventHandler eventHandler )
@@ -80,28 +96,38 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 					resultMetadata,
 					resultObjsIterator,
 					groupingLevel,
-					eventHandler);
+					eventHandler,
+					session );
 		}
-		else // scripted query
+		else
+		// scripted query
 		{
-			if ( DataSetCacheManager.getInstance( ).doesSaveToCache( ) == false )
-				return new CachedResultSet( this, customDataSet, eventHandler );
+			if ( this.session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
+				return new CachedResultSet( this,
+						customDataSet,
+						eventHandler,
+						session );
 			else
 				return new CachedResultSet( this,
 						resultMetadata,
-						new DataSetResultCache( customDataSet, resultMetadata ),
-						eventHandler );
-			
+						new DataSetResultCache( customDataSet,
+								resultMetadata,
+								session ),
+						eventHandler,
+						session );
+
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#close()
 	 */
 	public void close( )
 	{
 		// nothing
-		
+
 	}
 
 }

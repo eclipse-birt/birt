@@ -77,7 +77,7 @@ class PreparedQueryUtil
 			if ( queryDefn.getQueryResultsID( ) == null )
 				return new PreparedDummyQuery( dataEngine.getContext( ),
 						queryDefn,
-						dataEngine.getSharedScope( ) );
+						dataEngine.getSession().getSharedScope( ) );
 		}
 
 		IPreparedQuery preparedQuery;

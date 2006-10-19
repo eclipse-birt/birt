@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.Connection;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -50,15 +51,18 @@ class DataSource implements IDataSource
 	private static String className = DataSource.class.getName();
 	private static Logger logger = Logger.getLogger( className ); 
 
+	private DataEngineSession session;
     /**
      * @param driverName
      * @param connProperties
      */
-    DataSource( String driverName, Map connProperties )
+    DataSource( String driverName, Map connProperties, DataEngineSession session )
 	{
     	this.driverName = driverName;
     	if ( connProperties != null )
     		this.connectionProps.putAll( connProperties );
+    	
+    	this.session = session;
 	}
     
     /**
@@ -159,7 +163,7 @@ class DataSource implements IDataSource
     public IDataSourceQuery newQuery(String queryType, String queryText) throws DataException
     {
     	// Allow a query to be created on an unopened data source
-        return new DataSourceQuery(this, queryType, queryText);
+        return new DataSourceQuery(this, queryType, queryText, this.session );
     }
 
     /*
@@ -168,7 +172,7 @@ class DataSource implements IDataSource
     public ICandidateQuery newCandidateQuery()
     {
        	// Allow a query to be created on an unopened data source
-		return new CandidateQuery( );
+		return new CandidateQuery( this.session );
     }
     
     /**

@@ -63,8 +63,7 @@ abstract class PreparedDataSourceQuery
 		this.dataEngine = dataEngine;
 		this.appContext = appContext;
 		
-		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
-				dataEngine.getSharedScope( ),
+		preparedQuery = new PreparedQuery( dataEngine.getSession( ),dataEngine.getContext( ),
 				queryDefn,
 				this,
 				appContext );
@@ -89,8 +88,7 @@ abstract class PreparedDataSourceQuery
 		this.dataEngine = dataEngine;
 		this.appContext = appContext;
 		
-		preparedQuery = new PreparedQuery( dataEngine.getContext( ),
-				dataEngine.getSharedScope( ),
+		preparedQuery = new PreparedQuery( dataEngine.getSession( ), dataEngine.getContext( ),
 				baseQueryDefn,
 				this,
 				appContext );
@@ -142,7 +140,7 @@ abstract class PreparedDataSourceQuery
 			throws DataException
 	{
 		this.configureDataSetCache( queryDefn, appContext, scope != null
-				? scope : dataEngine.getSharedScope( ) );
+				? scope : dataEngine.getSession( ).getSharedScope( ) );
 
 		return preparedQuery.doPrepare( outerResults,
 				scope,
@@ -170,7 +168,7 @@ abstract class PreparedDataSourceQuery
 		if ( dataSetDesign == null )
 			return;
 
-		if ( DataSetCacheManager.getInstance( ).needsToCache( dataSetDesign,
+		if ( getDataSetCacheManager( ).needsToCache( dataSetDesign,
 				DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
 						appContext ),
 				dataEngine.getContext( ).getCacheCount( ) ) == false )
@@ -191,21 +189,30 @@ abstract class PreparedDataSourceQuery
 					scope ).resolveDataSetParameters( true );
 		}
 
-		DataSetCacheManager.getInstance( )
+		getDataSetCacheManager( )
 				.setDataSourceAndDataSet( dataSourceDesign,
 						dataSetDesign,
 						parameterHints );
 
 		if ( dataEngine.getContext( ).getCacheOption( ) == DataEngineContext.CACHE_USE_ALWAYS )
 		{
-			DataSetCacheManager.getInstance( )
+			getDataSetCacheManager( )
 					.setAlwaysCacheRowCount( dataEngine.getContext( )
 							.getCacheCount( ) );
 		}
 
-		DataSetCacheManager.getInstance( )
+		getDataSetCacheManager( )
 				.setCacheOption( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
 						appContext ) );
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	protected DataSetCacheManager getDataSetCacheManager( )
+	{
+		return this.dataEngine.getSession( ).getDataSetCacheManager( );
 	}
 	
 	/**
@@ -235,7 +242,8 @@ abstract class PreparedDataSourceQuery
 		{
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
-					preparedQuery.getAggrTable( ) );
+					preparedQuery.getAggrTable( ),
+					dataEngine.getSession( ));
 		}
 		
 		/*

@@ -58,37 +58,17 @@ public class DataSetCacheManager
 	public final static int DISABLE = 2;
 	public final static int DEFAULT = 3;
 	
-	// instance
-	private static DataSetCacheManager cacheManager;
-
-	/**
-	 * @return unique instance
-	 */
-	public static DataSetCacheManager getInstance( )
-	{
-		if ( cacheManager == null )
-		{
-			synchronized ( DataSetCacheManager.class )
-			{
-				if ( cacheManager == null )
-					cacheManager = new DataSetCacheManager( );
-			}
-		}
-
-		return cacheManager;
-	}
-
 	/**
 	 * Construction
 	 */
-	private DataSetCacheManager( )
+	public DataSetCacheManager( String tempDir )
 	{
 		dataSourceDesign = null;
 		dataSetDesign = null;
 		cacheOption = DEFAULT;
 		alwaysCacheRowCount = 0;
 		
-		cacheMapManager = new CacheMapManager( );
+		cacheMapManager = new CacheMapManager( tempDir );
 	}
 	
 	/**

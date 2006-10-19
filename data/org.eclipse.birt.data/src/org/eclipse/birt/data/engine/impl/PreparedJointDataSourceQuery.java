@@ -36,7 +36,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
-import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
@@ -114,7 +113,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private void initialize( DataEngineImpl dataEngine, Map appContext )
 			throws DataException
 	{
-		int savedCacheOption = DataSetCacheManager.getInstance( )
+		int savedCacheOption = getDataSetCacheManager()
 				.suspendCache( );
 
 		ResultIterator left = getSortedResultIterator( dataEngine,
@@ -128,7 +127,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dataSet.getJoinConditions( ),
 				false );
 
-		DataSetCacheManager.getInstance( ).setCacheOption( savedCacheOption );
+		getDataSetCacheManager().setCacheOption( savedCacheOption );
 
 		this.left = left;
 		this.right = right;
@@ -604,7 +603,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		{
 			if ( doesLoadFromCache( ) == true )
 			{
-				DataSourceQuery dsQuery = new DataSourceQuery( );
+				DataSourceQuery dsQuery = new DataSourceQuery( dataEngine.getSession( ) );
 
 				JointDataSetQuery jointQuery = (JointDataSetQuery) odiQuery;
 				dsQuery.setExprProcessor( jointQuery.getExprProcessor( ) );
@@ -628,18 +627,18 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					right.getOdiResult( ),
 					jrm,
 					matcher,
-					joinType );
+					joinType, dataEngine.getSession( ) );
 
 			if ( doesSaveToCache( ) == false )
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
 						populator,
-						eventHandler );
+						eventHandler, dataEngine.getSession( ) );
 			else
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
-						new DataSetResultCache( populator, resultClass ),
-						eventHandler );
+						new DataSetResultCache( populator, resultClass, dataEngine.getSession( ) ),
+						eventHandler, dataEngine.getSession( ) );
 		}
 
 		/**
@@ -664,7 +663,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		private boolean doesLoadFromCache( )
 		{
 			PreparedJointDataSourceQuery self = PreparedJointDataSourceQuery.this;
-			return DataSetCacheManager.getInstance( )
+			return getDataSetCacheManager()
 					.doesLoadFromCache( null,
 							dataSetDesign,
 							null,
@@ -678,7 +677,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		private boolean doesSaveToCache( )
 		{
-			return DataSetCacheManager.getInstance( ).doesSaveToCache( );
+			return getDataSetCacheManager().doesSaveToCache( );
 		}
 	}
 }

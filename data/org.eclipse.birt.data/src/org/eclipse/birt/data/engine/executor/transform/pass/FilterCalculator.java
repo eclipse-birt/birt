@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 
@@ -32,17 +33,19 @@ class FilterCalculator
 
 	private ResultSetPopulator populator;
 	private FilterByRow filterByRow;
-
+	private DataEngineSession session;
 	/**
 	 * 
 	 * @param populator
 	 * @param iccState
 	 * @param filterByRow
 	 */
-	private FilterCalculator( ResultSetPopulator populator, FilterByRow filterByRow )
+	private FilterCalculator( ResultSetPopulator populator,
+			FilterByRow filterByRow, DataEngineSession session )
 	{
 		this.populator = populator;
 		this.filterByRow = filterByRow;
+		this.session = session;
 	}
 
 	/**
@@ -53,10 +56,10 @@ class FilterCalculator
 	 * @param filterByRow
 	 * @throws DataException
 	 */
-	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow )
+	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow, DataEngineSession session)
 			throws DataException
 	{
-		new FilterCalculator( populator, filterByRow ).applyFilters( );
+		new FilterCalculator( populator, filterByRow, session ).applyFilters( );
 	}
 
 	/**
@@ -110,7 +113,7 @@ class FilterCalculator
 			//Grouping is done here
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true );
+					true, this.session  );
 		}
 
 		/*
@@ -195,7 +198,7 @@ class FilterCalculator
 		}
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false );
+				false, this.session );
 		filterByRow.getFilterList( ).clear( );
 		filterByRow.getFilterList( ).addAll( temp );
 	}
@@ -214,7 +217,7 @@ class FilterCalculator
 		// Grouping is done here.
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				true );
+				true, this.session );
 
 		filterPass.setPassLevel( FilterPassController.DEFAULT_PASS );
 		filterPass.setRowCount( FilterPassController.DEFAULT_ROW_COUNT );
