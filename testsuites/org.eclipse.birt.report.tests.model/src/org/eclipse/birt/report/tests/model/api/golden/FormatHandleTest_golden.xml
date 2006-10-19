@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
     <property name="author">W.C. Fields</property>
     <data-sources>
