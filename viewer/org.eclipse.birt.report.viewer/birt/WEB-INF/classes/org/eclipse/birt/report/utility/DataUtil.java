@@ -147,6 +147,11 @@ public class DataUtil
 			}
 			return getDisplayValue( obj );
 		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
+				.equalsIgnoreCase( dataType ) )
+		{
+			return getDisplayValue( Boolean.valueOf( defaultValue ) );
+		}
 
 		return defaultValue;
 	}
