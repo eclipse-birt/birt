@@ -711,27 +711,98 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		// if previous is visible, return directly
 		if( this.preVisible )	
 			return;
-			
-		// focus on the first input text/password or button control
+				
+		// focus on the first input text/password or select or button control
+		this.__init_focus( );
+	},
+	
+	/**
+	 * Try to focus on the first control.
+	 * Input text/password, select and button.
+	 */
+	__init_focus: function( )
+	{
+		var oFirstITC;
+		var oFirstIBT;
+		var oFirstST;
+		
 		var oITCs = this.__instance.getElementsByTagName( "input" );
 		for( var i = 0; i < oITCs.length; i++ )
 		{
+			// get the first input text/password control
 			if( oITCs[i].type == "text" 
-			    || oITCs[i].type == "password" || oITCs[i].type == 'button' )
+			    || oITCs[i].type == "password"  )
 			{
-				if( !oITCs[i].disabled )
+				if( !oITCs[i].disabled && !oFirstITC )
 				{
-					oITCs[i].focus( );
-					break;
+					oFirstITC = oITCs[i];
 				}
-			}			
+				continue;
+			}
+			
+			// get the first input button control
+			if( !oFirstIBT && oITCs[i].type == "button" && !oITCs[i].disabled )
+			{
+				oFirstIBT = oITCs[i];
+			}
 		}
+		
+		// get the first select control
+		var oSTs = this.__instance.getElementsByTagName( "select" );
+		for( var i = 0; i < oSTs.length; i++ )
+		{
+			if( !oSTs[i].disabled )
+			{
+				oFirstST = oSTs[i];
+				break;
+			}
+		}
+				
+		if( oFirstITC && !oFirstST )
+		{
+			// if exist input text/password, no select control
+			oFirstITC.focus( );
+		}
+		else if( !oFirstITC && oFirstST )
+		{
+			// if exist select control, no input text/password
+			oFirstST.focus( );
+		}
+		else if( oFirstITC && oFirstST )
+		{
+			// exist select control and input text/password
+			// compare the parent div offsetTop
+			if( oFirstITC.parentNode && oFirstST.parentNode )
+			{
+				var offsetITC = oFirstITC.parentNode.offsetTop;
+				var offsetST = oFirstST.parentNode.offsetTop;
+				
+				if( offsetITC > offsetST )
+				{
+					oFirstST.focus( );				
+				}
+				else
+				{
+					oFirstITC.focus( );
+				}
+			}
+			else
+			{
+				// default to focus on input control
+				oFirstITC.focus( );
+			}
+		}
+		else
+		{
+			// focus on button control
+			oFirstIBT.focus( );
+		}		
 	},
 		
 	/**
 	Called before element is hidden
 	*/
-	__preHide: function()
+	__preHide: function( )
 	{
 		// enable the toolbar buttons
 		birtUtility.setButtonsDisabled ( "toolbar", false );

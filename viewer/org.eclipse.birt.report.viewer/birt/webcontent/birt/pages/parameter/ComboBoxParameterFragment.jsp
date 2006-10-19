@@ -65,14 +65,11 @@
 	}
 	
 	boolean CHECKED = true;
-	int selectionLen = 0;
-	if( parameterBean.getSelectionList( ) != null )
-		selectionLen = parameterBean.getSelectionList( ).size( );
 		
 	if ( parameterBean.allowNewValues( ) ) // TODO: Editable
 	{
 		CHECKED = parameterBean.isValueInList( ) 
-				  || (paramValue == null && selectionLen > 0 )
+				  || paramValue == null
 				  || ( !parameterBean.isValueInList( ) && defaultValue != null && defaultValue.equals( paramValue ) );		
 %>
 		<LABEL FOR="<%= encodedParameterName + "_radio_selection" %>" CLASS="birtviewer_hidden_label">Select</LABEL>
