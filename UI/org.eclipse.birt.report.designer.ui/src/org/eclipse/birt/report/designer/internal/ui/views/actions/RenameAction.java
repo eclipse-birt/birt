@@ -11,16 +11,24 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.internal.ui.views.RenameInlineTool;
+import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * This class represents the rename action
@@ -34,7 +42,13 @@ public class RenameAction extends AbstractViewerAction
 	 */
 	public static final String TEXT = Messages.getString( "RenameAction.text" ); //$NON-NLS-1$
 
-	private RenameInlineTool tool = null;
+	private TreeItem selectedItem;
+
+	private String originalName;
+
+	private static final String ERROR_TITLE = Messages.getString( "RenameInlineTool.DialogTitle.RenameFailed" ); //$NON-NLS-1$
+
+	private static final String TRANS_LABEL = Messages.getString( "RenameInlineTool.TransLabel.Rename" ); //$NON-NLS-1$
 
 	/**
 	 * Create a new rename action under the specific viewer
@@ -62,7 +76,7 @@ public class RenameAction extends AbstractViewerAction
 		setAccelerator( SWT.F2 );
 		if ( isEnabled( ) )
 		{
-			tool = new RenameInlineTool( getSelectedItems( )[0] );
+			selectedItem = getSelectedItems( )[0];
 		}
 	}
 
@@ -105,12 +119,105 @@ public class RenameAction extends AbstractViewerAction
 	{
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out
-					.println( "Rename action >> Runs with " + DEUtil.getDisplayLabel( getSelectedObjects( ).getFirstElement( ) ) ); //$NON-NLS-1$
+			System.out.println( "Rename action >> Runs with " + DEUtil.getDisplayLabel( getSelectedObjects( ).getFirstElement( ) ) ); //$NON-NLS-1$
 		}
-		if ( tool != null )
+		doRename( );
+	}
+
+	private void doRename( )
+	{
+		if ( selectedItem.getData( ) instanceof DesignElementHandle
+				|| selectedItem.getData( ) instanceof EmbeddedImageHandle )
 		{
-			tool.doRename( );
+			initOriginalName( );
+			RenameInputDialog inputDialog = new RenameInputDialog( selectedItem.getParent( )
+					.getShell( ),
+					Messages.getString( "RenameInputDialog.DialogTitle" ),
+					Messages.getString( "RenameInputDialog.DialogMessage" ),
+					originalName,
+					null );
+			inputDialog.create( );
+			if ( inputDialog.open( ) == Window.OK )
+			{
+				saveChanges( inputDialog.getValue( ).trim( ) );
+			}
 		}
+	}
+
+	private void initOriginalName( )
+	{
+		if ( selectedItem.getData( ) instanceof DesignElementHandle )
+		{
+			originalName = ( (DesignElementHandle) selectedItem.getData( ) ).getQualifiedName( );
+		}
+		if ( selectedItem.getData( ) instanceof EmbeddedImageHandle )
+		{
+			originalName = ( (EmbeddedImageHandle) selectedItem.getData( ) ).getQualifiedName( );
+		}
+
+		if ( originalName == null )
+		{
+			originalName = ""; //$NON-NLS-1$
+		}
+	}
+
+	private void saveChanges( String newName )
+	{
+		if ( !newName.equals( originalName ) )
+		{
+			if ( !rename( selectedItem.getData( ), newName ) )
+			{
+				// failed to rename, do again
+				doRename( );
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Perform renaming
+	 * 
+	 * @param handle
+	 *            the handle of the element to rename
+	 * @param newName
+	 *            the newName to set
+	 * @return Returns true if perform successfully,or false if failed
+	 */
+	private boolean rename( Object handle, String newName )
+	{
+		if ( newName.length( ) == 0 )
+		{
+			newName = null;
+		}
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( TRANS_LABEL + " " + DEUtil.getDisplayLabel( handle ) ); //$NON-NLS-1$ 
+		try
+		{
+			if ( handle instanceof DesignElementHandle )
+			{
+				( (DesignElementHandle) handle ).setName( newName );
+			}
+
+			if ( handle instanceof EmbeddedImageHandle )
+			{
+				( (EmbeddedImageHandle) handle ).setName( newName );
+			}
+			stack.commit( );
+		}
+		catch ( NameException e )
+		{
+			ExceptionHandler.handle( e, ERROR_TITLE, e.getLocalizedMessage( ) );
+			stack.rollback( );
+			return false;
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e, ERROR_TITLE, e.getLocalizedMessage( ) );
+			stack.rollback( );
+			// If set EmbeddedImage name error, then use former name;
+			return true;
+		}
+		return true;
 	}
 }
