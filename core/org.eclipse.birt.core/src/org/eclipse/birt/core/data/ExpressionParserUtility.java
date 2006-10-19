@@ -33,15 +33,15 @@ import org.mozilla.javascript.Token;
 class ExpressionParserUtility
 {
 	private final String pluginId = "org.eclipse.birt.core";
-	private static String ROW_INDICATOR = "row";
+	
 	private final static String ROW_COLUMN_INDICATOR = "row";
 	private final static String ROWS_0_INDICATOR = "rows";
 	private final static String DATASETROW_INDICATOR = "dataSetRow";
 	private final static String TOTAL = "Total";
 	
-	private static ExpressionParserUtility instance = new ExpressionParserUtility( );
-	private static boolean hasAggregation = false;
-	private static boolean isDirectColumnRef = false;
+	private String ROW_INDICATOR = "row";
+	private boolean hasAggregation = false;
+	private boolean isDirectColumnRef = false;
 	
 	/**
 	 * compile the expression
@@ -53,7 +53,9 @@ class ExpressionParserUtility
 	static List compileColumnExpression( String expression )
 			throws BirtException
 	{
-		return compileColumnExpression( expression, true );
+		return compileColumnExpression( new ExpressionParserUtility( ),
+				expression,
+				true );
 	}
 	
 	/**
@@ -63,29 +65,29 @@ class ExpressionParserUtility
 	 * @return List contains all column reference
 	 * @throws BirtException
 	 */
-	static List compileColumnExpression( String expression, boolean rowMode )
+	static List compileColumnExpression(  ExpressionParserUtility util, String expression, boolean rowMode )
 			throws BirtException
 	{
 		if ( expression == null || expression.trim( ).length( ) == 0 )
 			return new ArrayList( );
 		if ( rowMode )
-			ROW_INDICATOR = ROW_COLUMN_INDICATOR;
+			util.ROW_INDICATOR = ROW_COLUMN_INDICATOR;
 		else
-			ROW_INDICATOR = DATASETROW_INDICATOR;
+			util.ROW_INDICATOR = DATASETROW_INDICATOR;
 		List columnExprList = new ArrayList( );
 		columnExprList.clear( );
 		Context context = Context.enter( );
 		try
 		{
-			ScriptOrFnNode tree = instance.parse( expression, context );
-			instance.CompiledExprFromTree( expression,
+			ScriptOrFnNode tree = util.parse( expression, context );
+			util.CompiledExprFromTree( expression,
 					context,
 					tree,
 					columnExprList );
 		}
 		catch ( Exception ex )
 		{
-			throw new CoreException( instance.pluginId,
+			throw new CoreException( util.pluginId,
 					ResourceConstants.INVALID_EXPRESSION,
 					ex );
 		}
@@ -114,17 +116,19 @@ class ExpressionParserUtility
 	static boolean hasAggregation( String expression, boolean mode )
 			throws BirtException
 	{
-		hasAggregation = false;
-		compileColumnExpression( expression, mode );
-		return hasAggregation;
+		ExpressionParserUtility util = new ExpressionParserUtility();
+		util.hasAggregation = false;
+		compileColumnExpression( util, expression, mode );
+		return util.hasAggregation;
 	}
 	
 	static boolean isDirectColumnRef( String expression, boolean mode )
 			throws BirtException
 	{
-		isDirectColumnRef = false;
-		compileColumnExpression( expression, mode );
-		return isDirectColumnRef;
+		ExpressionParserUtility util = new ExpressionParserUtility();
+		util.isDirectColumnRef = false;
+		compileColumnExpression( util, expression, mode );
+		return util.isDirectColumnRef;
 	}
 	
 	/**
