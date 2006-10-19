@@ -77,7 +77,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 					.getReportDesignHandle( context.getRequest( ) );
 			boolean svgFlag = ParameterAccessor.getSVGFlag( context
 					.getRequest( ) );
-			String outputDocName = attrBean.getReportDocumentName( );
+			String docName = attrBean.getReportDocumentName( );
 
 			// get bookmark
 			String bookmark = getBookmark( operation.getOprand( ), context
@@ -100,9 +100,28 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 
 			// output as byte array
 			ByteArrayOutputStream out = new ByteArrayOutputStream( );
-			getReportService( ).runAndRenderReport( reportDesignHandle,
-					outputDocName, options, params, out, new ArrayList( ),
-					displayTexts );
+			if ( ParameterAccessor.isGetImageOperator( context.getRequest( ) ) )
+			{
+				BirtRenderImageActionHandler renderImageHandler = new BirtRenderImageActionHandler(
+						context, operation, response );
+				renderImageHandler.execute( );
+			}
+			else if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
+			{
+				String __reportletId = attrBean.getReportletId( );
+				getReportService( ).renderReportlet( docName, __reportletId,
+						options, new ArrayList( ), out );
+			}
+			else if ( context.getBean( ).documentInUrl )
+			{
+				getReportService( ).renderReport( docName, null, options, out );
+			}
+			else
+			{
+				getReportService( ).runAndRenderReport( reportDesignHandle,
+						docName, options, params, out, new ArrayList( ),
+						displayTexts );
+			}
 
 			// Update response.
 			UpdateContent content = new UpdateContent( );

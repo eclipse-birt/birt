@@ -164,7 +164,7 @@ public class ReportEngineService
 		}
 
 		// Prepare image base url.
-		imageBaseUrl = "/run?__imageID="; //$NON-NLS-1$
+		imageBaseUrl = IBirtConstants.SERVLET_PATH_PREVIEW + "?__imageID="; //$NON-NLS-1$
 
 		// Prepare log directory.
 		String logDirectory = servletConfig.getServletContext( )

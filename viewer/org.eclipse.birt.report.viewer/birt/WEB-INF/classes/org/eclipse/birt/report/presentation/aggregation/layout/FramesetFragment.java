@@ -72,10 +72,8 @@ public class FramesetFragment extends BirtBaseFragment
 	{
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-		if ( attrBean != null
-				&& !attrBean.isMissingParameter( )
-				&& !ParameterAccessor.PARAM_FORMAT_HTML
-						.equalsIgnoreCase( attrBean.getFormat( ) ) )
+		if ( attrBean != null && !attrBean.isMissingParameter( )
+				&& !this.__checkHTMLFormat( request ) )
 		{
 			this.doPreService( request, response );
 			this.doService( request, response );
@@ -93,6 +91,22 @@ public class FramesetFragment extends BirtBaseFragment
 				rd.include( request, response );
 			}
 		}
+	}
+
+	/**
+	 * Check if use html format
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected boolean __checkHTMLFormat( HttpServletRequest request )
+	{
+		BaseAttributeBean bean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		assert bean != null;
+
+		return ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( bean
+				.getFormat( ) );
 	}
 
 	/**

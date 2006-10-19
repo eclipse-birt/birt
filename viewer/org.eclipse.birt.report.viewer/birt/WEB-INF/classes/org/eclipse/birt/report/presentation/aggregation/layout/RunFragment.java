@@ -11,6 +11,26 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.axis.AxisFault;
+import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.context.BaseAttributeBean;
+import org.eclipse.birt.report.context.BirtContext;
+import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
+import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
+import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
+import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.ParameterAccessor;
+
 /**
  * Root fragment for web viewer 'run' pattern.
  * <p>
@@ -27,5 +47,79 @@ public class RunFragment extends FramesetFragment
 	{
 		addChild( new SidebarFragment( ) );
 		addChild( new DocumentFragment( ) );
+	}
+
+	/**
+	 * Check if use html format
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected boolean __checkHTMLFormat( HttpServletRequest request )
+	{
+		BaseAttributeBean bean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		assert bean != null;
+
+		// if don't set report or document parameter, return false
+		if ( !ParameterAccessor.isReportParameterExist( request,
+				ParameterAccessor.PARAM_REPORT )
+				&& !ParameterAccessor.isReportParameterExist( request,
+						ParameterAccessor.PARAM_REPORT_DOCUMENT ) )
+		{
+			return false;
+		}
+
+		return super.__checkHTMLFormat( request );
+	}
+
+	/**
+	 * Handle image operate.
+	 * 
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
+	 * @exception ServletException
+	 * @exception IOException
+	 */
+	protected void doService( HttpServletRequest request,
+			HttpServletResponse response ) throws ServletException, IOException
+	{
+		ServletOutputStream out = response.getOutputStream( );
+		GetUpdatedObjectsResponse upResponse = new GetUpdatedObjectsResponse( );
+		IContext context = new BirtContext( request, response );
+		Operation op = null;
+		try
+		{
+			// if render image
+			if ( ParameterAccessor.isGetImageOperator( request ) )
+			{
+				BirtRenderImageActionHandler renderImageHandler = new BirtRenderImageActionHandler(
+						context, op, upResponse );
+				renderImageHandler.execute( );
+			}
+			else
+			{
+				BirtRunAndRenderActionHandler runAndRenderHandler = new BirtRunAndRenderActionHandler(
+						context, op, upResponse );
+				runAndRenderHandler.execute( );
+			}
+		}
+		catch ( RemoteException e )
+		{
+			AxisFault fault = (AxisFault) e;
+			// Special handle since servlet output stream has been
+			// retrieved.
+			// Any include and forward throws exception.
+			// Better to move this error handle into engine.
+			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+			String message = "<html><head><title>" + BirtResources.getMessage( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+					+ ParameterAccessor.htmlEncode( fault.getFaultString( ) )
+					+ "</font></body></html>"; //$NON-NLS-1$
+			out.write( message.getBytes( ) );
+			out.flush( );
+			out.close( );
+		}
 	}
 }
