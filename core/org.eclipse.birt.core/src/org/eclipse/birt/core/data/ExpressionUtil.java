@@ -172,7 +172,8 @@ public final class ExpressionUtil
 		if ( oldExpression == null || oldExpression.trim( ).length( ) == 0 )
 			return new ArrayList( );
 
-		return ExpressionParserUtility.compileColumnExpression( oldExpression,
+		return ExpressionParserUtility.compileColumnExpression( new ExpressionParserUtility( ),
+				oldExpression,
 				mode );
 	}
 
