@@ -2909,9 +2909,7 @@
    		<Property detailType="interval" displayNameID="Element.ListingGroup.interval" name="interval" runtimeSettable="false" since="1.0" type="choice">
      		 <Default>none</Default>
    		</Property>
-    	<Property displayNameID="Element.ListingGroup.intervalRange" name="intervalRange" runtimeSettable="false" since="1.0" type="float">
-      		<Default>1.0</Default>
-   	 	</Property>
+    	<Property displayNameID="Element.ListingGroup.intervalRange" name="intervalRange" runtimeSettable="false" since="1.0" type="float" />
     </PropertyGroup>
     <Property detailType="sortDirection" displayNameID="Element.ListingGroup.sortDirection" name="sortDirection" runtimeSettable="false" since="1.0" type="choice">
       <Default>asc</Default>
