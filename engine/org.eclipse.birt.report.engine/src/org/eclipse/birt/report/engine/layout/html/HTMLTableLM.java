@@ -72,6 +72,10 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 	{
 		repeatHeader( );
 		boolean hasNext = super.layoutChildren( );
+		if ( !isOutput )
+		{
+			startContent( );
+		}
 		tableEmitter.resolveAll( );
 		tableEmitter.flush( );
 		return hasNext;
