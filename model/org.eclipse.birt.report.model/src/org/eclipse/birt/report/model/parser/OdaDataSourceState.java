@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
+import org.eclipse.birt.report.model.plugin.OdaExtensibilityProvider;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -161,22 +162,8 @@ public class OdaDataSourceState extends DataSourceState
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;
 		}
-		else
-		{
-			// after version 3.2.7 , add convert fuction.
-			// TODO in the future if needs , maybe can increase version number.
 
-			String oldOdaXmlName = "org.eclipse.birt.report.data.oda.xml" ; //$NON-NLS-1$
-			String newOdaXmlName = "org.eclipse.datatools.enablement.oda.xml" ; //$NON-NLS-1$
-			
-			if( oldOdaXmlName.equals( extensionID ))
-			{
-				extensionID = newOdaXmlName;
-			}
-		}
-		
-		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-				extensionID );
+		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
 		// get the provider to check whether this is a valid oda extension
 
@@ -192,6 +179,21 @@ public class OdaDataSourceState extends DataSourceState
 					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
+		}
+		else if ( provider instanceof OdaExtensibilityProvider )
+		{
+			// After version 3.2.7 , add convert fuction.
+
+			if ( extensionID != null )
+			{
+				String newExtensionID = ( (OdaExtensibilityProvider) provider )
+						.convertDataSourceExtensionID( extensionID );
+				if ( !extensionID.equals( newExtensionID ) )
+				{
+					setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+							newExtensionID );
+				}
+			}
 		}
 	}
 

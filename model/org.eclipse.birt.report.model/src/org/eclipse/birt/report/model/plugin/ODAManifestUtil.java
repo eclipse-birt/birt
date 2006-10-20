@@ -50,11 +50,11 @@ public class ODAManifestUtil
 	}
 
 	/**
-	 * Returns the extensin for ODA data set with the given extension ID.
+	 * Returns the extensin for ODA data set type with the given extension ID.
 	 * 
 	 * @param extensionID
 	 *            ID of the extension
-	 * @return the extension for ODA data set
+	 * @return the extension for ODA data set type.
 	 */
 
 	public static DataSetType getDataSetExtension( String extensionID )
@@ -77,4 +77,5 @@ public class ODAManifestUtil
 
 		return null;
 	}
+
 }

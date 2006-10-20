@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
+import org.eclipse.birt.report.model.plugin.OdaExtensibilityProvider;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -202,19 +203,6 @@ public class OdaDataSetState extends SimpleDataSetState
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;
 		}
-		else
-		{
-			// after version 3.2.7 , add convert fuction.
-			// TODO in the future if needs , maybe can increase version number.
-
-			String oldOdaXmlName = "org.eclipse.birt.report.data.oda.xml.dataSet" ; //$NON-NLS-1$
-			String newOdaXmlName = "org.eclipse.datatools.enablement.oda.xml.dataSet" ; //$NON-NLS-1$
-			
-			if( oldOdaXmlName.equals( extensionID ))
-			{
-				extensionID = newOdaXmlName;
-			}
-		}
 
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
@@ -230,6 +218,21 @@ public class OdaDataSetState extends SimpleDataSetState
 					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
+		}
+		else if ( provider instanceof OdaExtensibilityProvider )
+		{
+			// After version 3.2.7 , add convert fuction.
+
+			if ( extensionID != null )
+			{
+				String newExtensionID = ( (OdaExtensibilityProvider) provider )
+						.convertDataSetExtensionID( extensionID );
+				if ( !extensionID.equals( newExtensionID ) )
+				{
+					setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+							newExtensionID );
+				}
+			}
 		}
 	}
 

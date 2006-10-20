@@ -39,7 +39,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 
 public class OdaExtensibilityProvider extends ExtensibilityProvider
 		implements
-			ODAProvider
+			ODAProvider , ODAConvertExtensionID
 {
 
 	/**
@@ -187,6 +187,40 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		}
 
 		return cachedExtDefn;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSourceExtensionID(java.lang.String)
+	 */
+
+	public String convertDataSourceExtensionID( String extensionID )
+	{
+		ExtensionManifest manifest = ODAManifestUtil
+				.getDataSourceExtension( extensionID );
+		if ( manifest != null && manifest.isDeprecated( ) )
+		{
+			extensionID = manifest.getRelatedDataSourceId( );
+		}
+		return extensionID;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSetExtensionID(java.lang.String)
+	 */
+
+	public String convertDataSetExtensionID( String extensionID )
+	{
+		DataSetType type = ODAManifestUtil.getDataSetExtension( extensionID );
+		if ( type != null && type.isDeprecated( ) )
+		{
+			extensionID = type.getRelatedDataSetId( );
+		}
+		return extensionID;
 	}
 
 	public boolean isValidODADataSetExtensionID( String extensionID )
