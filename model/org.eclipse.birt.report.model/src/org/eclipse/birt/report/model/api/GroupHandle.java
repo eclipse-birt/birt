@@ -322,6 +322,22 @@ public abstract class GroupHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Sets the interval range of group.
+	 * 
+	 * @param intervalRange
+	 *            the interval range value as a string.value is locale
+	 *            dependent.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setIntervalRange( String intervalRange )
+			throws SemanticException
+	{
+		setStringProperty( GroupElement.INTERVAL_RANGE_PROP, intervalRange );
+	}
+
+	/**
 	 * Returns the sort direction of this group. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * 
