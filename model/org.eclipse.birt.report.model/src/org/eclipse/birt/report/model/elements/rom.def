@@ -2459,8 +2459,7 @@
     <PropertyVisibility name="backgroundPositionY" visibility="hide"/> 
     <PropertyVisibility name="backgroundRepeat" visibility="hide"/>                    
     <PropertyVisibility name="masterPage" visibility="hide"/>    
-    <PropertyVisibility name="canShrink" visibility="hide"/> 
-    <PropertyVisibility name="pageBreakInside" visibility="hide"/>                   
+    <PropertyVisibility name="canShrink" visibility="hide"/>                
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.MasterPage" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="true" name="MasterPage" nameSpace="masterPage" selector="page" since="1.0">
     <Property detailType="pageSize" displayNameID="Element.MasterPage.type" name="type" since="1.0" type="string">
@@ -2631,6 +2630,7 @@
     <StyleProperty name="paddingRight"/>
     <StyleProperty name="pageBreakAfter"/>
     <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="textAlign"/>
     <StyleProperty name="textUnderline"/>
@@ -2704,6 +2704,7 @@
     <StyleProperty name="paddingRight"/>
     <StyleProperty name="pageBreakAfter"/>
     <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="textAlign"/>
     <StyleProperty name="textUnderline"/>
@@ -2800,6 +2801,7 @@
     <StyleProperty name="paddingRight"/>
     <StyleProperty name="pageBreakAfter"/>
     <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="stringFormat"/>
     <StyleProperty name="textAlign"/>
@@ -2873,6 +2875,7 @@
     <StyleProperty name="paddingRight"/>
     <StyleProperty name="pageBreakAfter"/>
     <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="textAlign"/>
     <StyleProperty name="textUnderline"/>
@@ -2902,6 +2905,9 @@
       <Default>auto</Default>
     </Property>
     <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.ListingGroup.pageBreakBefore" name="pageBreakBefore" runtimeSettable="false" since="2.1" type="choice">
+      <Default>auto</Default>
+    </Property>
+    <Property canInherit="false" detailType="pageBreakInside" displayNameID="Element.ListingGroup.pageBreakInside" name="pageBreakInside" runtimeSettable="false" since="2.2" type="choice">
       <Default>auto</Default>
     </Property>
 	<PropertyGroup displayNameID="Element.ListingGroup.Interval">
@@ -3307,6 +3313,7 @@
     <StyleProperty name="paddingRight"/>
     <StyleProperty name="pageBreakAfter"/>
     <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="textAlign"/>
     <StyleProperty name="textUnderline"/>
@@ -3442,6 +3449,7 @@
     <StyleProperty name="paddingRight"/>
     <StyleProperty name="pageBreakAfter"/>
     <StyleProperty name="pageBreakBefore"/>
+    <StyleProperty name="pageBreakInside"/>
     <StyleProperty name="showIfBlank"/>
     <StyleProperty name="textAlign"/>
     <StyleProperty name="textUnderline"/>

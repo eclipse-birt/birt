@@ -29,7 +29,6 @@ import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
@@ -1009,17 +1008,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			{
 				PropertyDefn prop = (PropertyDefn) styleProperties.get( i );
 
-				// special cases for row. PageBreak properties are not supported
-				// on TableRow element.
-
-				if ( ReportDesignConstants.ROW_ELEMENT.equalsIgnoreCase( name ) )
-					if ( IStyleModel.PAGE_BREAK_AFTER_PROP
-							.equalsIgnoreCase( prop.getName( ) )
-							|| IStyleModel.PAGE_BREAK_BEFORE_PROP
-									.equalsIgnoreCase( prop.getName( ) )
-							|| IStyleModel.PAGE_BREAK_INSIDE_PROP
-									.equalsIgnoreCase( prop.getName( ) ) )
-						continue;
 				properties.put( prop.getName( ), prop );
 			}
 		}
