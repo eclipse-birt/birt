@@ -594,6 +594,11 @@ public class GroupDialog extends BaseDialog
 		refreshColumnList( );
 		setKeyExpression( inputGroup.getKeyExpr( ) );
 
+		PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
+		String range = property == null ? null : property.getStringValue( );
+
+		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
+
 		int index = getIntervalTypeIndex( inputGroup.getInterval( ) );
 		intervalType.select( index );
 		if ( index == 0 )
@@ -605,17 +610,6 @@ public class GroupDialog extends BaseDialog
 		else
 		{
 			intervalRange.setEnabled( true );
-
-			if ( inputGroup != null )
-			{
-				PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
-
-				if ( property != null )
-				{
-					intervalRange.setText( property.getStringValue( ) );
-				}
-			}
-
 			if ( getColumnType( ) == String.class )
 			{
 				intervalBaseButton.setEnabled( false );
