@@ -94,9 +94,10 @@ import org.eclipse.ui.PlatformUI;
 
 public class SQLDataSetEditorPage extends DataSetWizardPage
 {
+
 	// Images that will be used in displayign the tables, views etc
-	private Image schemaImage, tableImage, viewImage, 
-		    dataBaseImage, columnImage;
+	private Image schemaImage, tableImage, viewImage, dataBaseImage,
+			columnImage;
 
 	// composite in editor page
 	private Document doc = null;
@@ -107,25 +108,25 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Combo schemaCombo = null;
 	private Label schemaLabel = null;
 	private Tree availableDbObjectsTree = null;
-	private Button identifierQuoteStringCheckBox = null; 
+	private Button identifierQuoteStringCheckBox = null;
 	private TreeItem[] selectionMac = null;// for DnD on Mac only
 
 	private boolean isSchemaSupported = false;
 	private boolean expandDbObjectsTree = false;
-    private IMetaDataProvider metaDataProvider = null;
-    private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
+	private IMetaDataProvider metaDataProvider = null;
+	private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	private String cachedSearchTxt = "";
 	private String formerQueryTxt = "";
 	private String cachedDbType = "";
 	private int cachedSchemaComboIndex = -1;
 	private DataSourceDesign prevDataSourceDesign;
 	private DataSetDesign dataSetDesign;
-	
+
 	// List of Schema Name
 	protected ArrayList schemaList;
 	// List of Table names 
 	protected ArrayList tableList;
-	
+
 	private Connection jdbcConnection = null;
 	private static String TABLE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.TableIcon";
 	private static String VIEW_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ViewIcon";
@@ -134,11 +135,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private static String DATABASE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.DbIcon";
 	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
-	
+
 	static
 	{
 		try
-		{	
+		{
 			ImageRegistry reg = JFaceResources.getImageRegistry( );
 			reg.put( TABLE_ICON,
 					ImageDescriptor.createFromFile( JdbcPlugin.class,
@@ -161,10 +162,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		catch ( Exception ex )
 		{
-			
-		} 
+
+		}
 	}
- 
+
 	/**
 	 * constructor
 	 * @param pageName
@@ -173,7 +174,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	{
 		super( pageName );
 	}
-	
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -181,7 +182,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	{
 		setControl( createPageControl( parent ) );
 		initializeControl( );
-		
+
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASET_JDBC );
 	}
@@ -207,7 +208,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		return SashForm;
 	}
-	
+
 	/**
 	 * Initialize image property
 	 * 
@@ -220,7 +221,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		dataBaseImage = JFaceResources.getImage( DATABASE_ICON );
 		columnImage = JFaceResources.getImage( COLUMN_ICON );
 	}
-
 
 	/**
 	 *  Initializes the Jdbc related information , used  by this page
@@ -261,7 +261,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		refreshPage( );
 		prepareUI( );
 	}
-	
+
 	/**
 	 * Creates the composite, for displaying the list of available db objects
 	 * 
@@ -401,8 +401,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		// Create the drag source on the tree
 		addDragSupportToTree( );
 	}
-		
-    /*
+
+	/*
 	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPageCore#collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
@@ -456,7 +456,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		identifierQuoteStringCheckBox.setSelection( false );
 		identifierQuoteStringCheckBox.setLayoutData( layoutData );
 	}
-	
+
 	/**
 	 * 
 	 * @param b
@@ -545,12 +545,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * This method is invoked when the find button is clicked It populates the
 	 * Available Data Base obecets ( in the Tree control )
 	 */
-	protected void populateAvailableDbObjects()
+	protected void populateAvailableDbObjects( )
 	{
 		DataSetDesign dataSetDesign = getDataSetDesign( );
 
 		DataSourceDesign curDataSourceDesign = dataSetDesign.getDataSourceDesign( );
-		
+
 		if ( curDataSourceDesign == prevDataSourceDesign )
 		{
 			if ( ( cachedSearchTxt == searchTxt.getText( ) || ( cachedSearchTxt != null && cachedSearchTxt.equals( searchTxt.getText( ) ) ) )
@@ -567,7 +567,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					return;
 			}
 		}
-		
+
 		// Clear of the Old values in the Available Db objects 
 		// in the tree
 		RemoveAllAvailableDbObjects( );
@@ -582,15 +582,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		{
 			populateTableList( );
 		}
-		addFetchDbObjectListener( );  
-		
+		addFetchDbObjectListener( );
+
 		// Set the focus on the root node
-		if( rootNode != null )
+		if ( rootNode != null )
 		{
-			selectNode(rootNode);
+			selectNode( rootNode );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -601,7 +601,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			dataSetDesign = this.getInitializationDesign( );
 		return dataSetDesign;
 	}
-	
+
 	/**
 	 * populate shema list if the schema is supported
 	 * 
@@ -680,7 +680,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param schemaName
@@ -722,7 +722,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Sets the Root Element of the Available Data Sources This is usually the
 	 * Name of the Catalog of the Database
@@ -736,8 +736,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				.getDataSourceDesign( );
 
 		rootNode.setText( dataSourceHandle.getName( ) );
+		rootNode.setData( new DbObject( "", DbObject.ROOT_NODE_TYPE ) );
 	}
-	
+
 	/**
 	 * Remove all available db objects
 	 * 
@@ -747,7 +748,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( availableDbObjectsTree != null )
 			availableDbObjectsTree.removeAll( );
 	}
-	
+
 	/**
 	 * Gets the list of schema objects
 	 */
@@ -759,13 +760,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			schemaList = getAllSchemaList( schemas );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param schemaName
 	 * @param schemaTreeItem
 	 */
-	protected void populateTableList( String schemaName ,TreeItem schemaTreeItem )
+	protected void populateTableList( String schemaName, TreeItem schemaTreeItem )
 	{
 		if ( schemaTreeItem != null )
 		{
@@ -775,7 +776,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText( );
 		namePattern = SQLUtility.getTailoredSearchText( searchTxt.getText( ) );
-		  
+
 		String dbtype = getSelectedDbType( );
 		cachedDbType = dbtype;
 		if ( dbtype != null )
@@ -789,32 +790,38 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		}
 
-	    String catalogName = metaDataProvider.getCatalog();
-		ArrayList tableList = new ArrayList();
-	
+		String catalogName = metaDataProvider.getCatalog( );
+		ArrayList tableList = new ArrayList( );
+
 		ResultSet tablesRs = null;
 		ArrayList procedureRs = null;
-		if (schemaName != null && schemaName.trim().length() > 0)
+		if ( schemaName != null && schemaName.trim( ).length( ) > 0 )
 		{
 			// For each schema Get  the List of Tables
-			
+
 			{
-				if( metaDataProvider.isProcedureSupported() )
-					procedureRs = metaDataProvider.getAllProcedure( catalogName, schemaName, namePattern );
-				if( !DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype))
-					tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);	
-				tableList = new ArrayList();
+				if ( metaDataProvider.isProcedureSupported( ) )
+					procedureRs = metaDataProvider.getAllProcedure( catalogName,
+							schemaName,
+							namePattern );
+				if ( !DbType.PROCEDURE_STRING.equalsIgnoreCase( dbtype ) )
+					tablesRs = metaDataProvider.getAlltables( catalogName,
+							schemaName,
+							namePattern,
+							tableType );
+				tableList = new ArrayList( );
 
 				try
 				{
 					// Create the schema Node
 					Image image = tableImage;
-							
+
 					if ( tablesRs != null )
 					{
 						int numberOfTable;
-						
-						Preferences preferences = JdbcPlugin.getDefault( ).getPluginPreferences( );
+
+						Preferences preferences = JdbcPlugin.getDefault( )
+								.getPluginPreferences( );
 						if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
 						{
 							numberOfTable = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
@@ -825,9 +832,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 							preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA,
 									numberOfTable );
 						}
-						int count = 0;			
-						
-						while ( tablesRs.next( ) && count < numberOfTable)
+						int count = 0;
+
+						while ( tablesRs.next( ) && count < numberOfTable )
 						{
 							// tablesRs.getString("TABLE_NAME") must be called
 							// before
@@ -863,52 +870,56 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 									dbType,
 									image );
 							tableList.add( dbObject );
-							count ++;
+							count++;
 
 						}
 					}
-					if ( needToCreateProcedureNode( dbtype, procedureRs ))
+					if ( needToCreateProcedureNode( dbtype, procedureRs ) )
 					{
 						String fullyQualifiedTableName = "STORED PROCEDURES";
 						if ( schemaName != null
 								&& schemaName.trim( ).length( ) > 0 )
 						{
-							fullyQualifiedTableName = schemaName + "." + "STORED PROCEDURES";
+							fullyQualifiedTableName = schemaName
+									+ "." + "STORED PROCEDURES";
 						}
-						DbObject dbObject = new DbObject( fullyQualifiedTableName,"STORED PROCEDURES", DbObject.PROCEDURE_TYPE, tableImage);
+						DbObject dbObject = new DbObject( fullyQualifiedTableName,
+								"STORED PROCEDURES",
+								DbObject.PROCEDURE_TYPE,
+								tableImage );
 
 						tableList.add( dbObject );
 					}
 
-					if ( schemaTreeItem != null ) 
+					if ( schemaTreeItem != null )
 					{
 						TreeItem item[] = Utility.createTreeItems( schemaTreeItem,
 								tableList,
 								SWT.NONE,
 								null );
 						//expand table TreeItem
-						if ( expandDbObjectsTree && item != null && item.length > 0 )
+						if ( expandDbObjectsTree
+								&& item != null && item.length > 0 )
 						{
 							availableDbObjectsTree.showItem( item[0] );
 						}
 					}
 				}
-				catch(SQLException e)
+				catch ( SQLException e )
 				{
-					e.printStackTrace();
+					e.printStackTrace( );
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param schemaName
 	 * @param tableName
 	 * @return
 	 */
-	private String getTableNameWithSchema( String schemaName,
-			String tableName )
+	private String getTableNameWithSchema( String schemaName, String tableName )
 	{
 		String tableNameWithSchema = tableName;
 
@@ -919,7 +930,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		return tableNameWithSchema;
 	}
-	
+
 	/**
 	 * if the schema is not support, populate the table list
 	 *
@@ -934,7 +945,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		ArrayList procedureRs = null;
 		String catalogName = metaDataProvider.getCatalog( );
 		tableList = new ArrayList( );
-		
+
 		String namePattern = null;
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText( );
@@ -942,7 +953,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		String dbtype = getSelectedDbType( );
 		cachedDbType = dbtype;
-		
+
 		if ( dbtype != null )
 		{
 			if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
@@ -971,12 +982,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		try
 		{
 			Image image = tableImage;
-		
+
 			if ( tablesRs != null )
 			{
 				int numberOfTable;
-				
-				Preferences preferences = JdbcPlugin.getDefault( ).getPluginPreferences( );
+
+				Preferences preferences = JdbcPlugin.getDefault( )
+						.getPluginPreferences( );
 				if ( preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
 				{
 					numberOfTable = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
@@ -1051,11 +1063,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * @param procedureRs
 	 * @return
 	 */
-	private boolean needToCreateProcedureNode( String dbtype, ArrayList procedureRs )
+	private boolean needToCreateProcedureNode( String dbtype,
+			ArrayList procedureRs )
 	{
-		return procedureRs!=null&& procedureRs.size()>0  && (DbType.ALL_STRING.equalsIgnoreCase(dbtype)||DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype) );
+		return procedureRs != null
+				&& procedureRs.size( ) > 0
+				&& ( DbType.ALL_STRING.equalsIgnoreCase( dbtype ) || DbType.PROCEDURE_STRING.equalsIgnoreCase( dbtype ) );
 	}
-	
+
 	/**
 	 * Connects the metadata provider to the specified data source
 	 */
@@ -1072,36 +1087,37 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	{
 		if ( metaDataProvider == null )
 		{
-			metaDataProvider = new JdbcMetaDataProvider(null);		
+			metaDataProvider = new JdbcMetaDataProvider( null );
 		}
 	}
-	
+
 	/**
 	 *  Initializes the Jdbc related information , used  by this page
 	 * ( such as the Jdbc Connection , Catalog Name etc )
 	 * @param curDataSourceHandle
 	 *
 	 */
-	protected void resetJdbcInfo(DataSourceDesign curDataSourceDesign)
+	protected void resetJdbcInfo( DataSourceDesign curDataSourceDesign )
 	{
-		if( metaDataProvider != null )
+		if ( metaDataProvider != null )
 		{
 			metaDataProvider.closeConnection( );
 			metaDataProvider = null;
 			createMetaDataProvider( );
-			jdbcConnection = connectMetadataProvider( metaDataProvider, curDataSourceDesign);
-			
+			jdbcConnection = connectMetadataProvider( metaDataProvider,
+					curDataSourceDesign );
+
 			// Clear the Table list and the schema List
 			tableList = null;
 			schemaList = null;
-			schemaCombo.removeAll();
+			schemaCombo.removeAll( );
 		}
-		
+
 		try
 		{
-			if ( jdbcConnection != null)
+			if ( jdbcConnection != null )
 			{
-				isSchemaSupported = metaDataProvider.isSchemaSupported();
+				isSchemaSupported = metaDataProvider.isSchemaSupported( );
 			}
 		}
 		catch ( Exception e )
@@ -1113,7 +1129,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		}
 	}
-		
+
 	/**
 	 * Called to indicate that the process of getting the available Db objects
 	 * is in progress
@@ -1134,12 +1150,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * 
 	 * @param item
 	 */
-	private void selectNode(TreeItem item)
+	private void selectNode( TreeItem item )
 	{
 		TreeItem[] selectedItem = new TreeItem[1];
 		selectedItem[0] = item;
-		availableDbObjectsTree.setSelection(selectedItem);
-		availableDbObjectsTree.setFocus();
+		availableDbObjectsTree.setSelection( selectedItem );
+		availableDbObjectsTree.setFocus( );
 
 	}
 
@@ -1170,7 +1186,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		return allSchemas;
 	}
-	
+
 	/**
 	 * 
 	 * @return The Type of the object selected in the type combo ( Can be one of the following )
@@ -1178,48 +1194,48 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 *   2) VIEW
 	 *   3) ALL
 	 */
-	private String  getSelectedDbType()
+	private String getSelectedDbType( )
 	{
-		
-		IStructuredSelection selection = (IStructuredSelection)filterComboViewer.getSelection();
+
+		IStructuredSelection selection = (IStructuredSelection) filterComboViewer.getSelection( );
 		String type = DbType.ALL_STRING;
-		if(selection != null && selection.getFirstElement() != null )
+		if ( selection != null && selection.getFirstElement( ) != null )
 		{
-			DbType dbType =  (DbType)selection.getFirstElement();
-			
-			switch ( dbType.getType())
+			DbType dbType = (DbType) selection.getFirstElement( );
+
+			switch ( dbType.getType( ) )
 			{
-				case DbType.TABLE_TYPE:
+				case DbType.TABLE_TYPE :
 					type = DbType.TABLE_STRING;
 					break;
-				case DbType.VIEW_TYPE:
+				case DbType.VIEW_TYPE :
 					type = DbType.VIEW_STRING;
 					break;
-				case DbType.PROCEDURE_TYPE:
+				case DbType.PROCEDURE_TYPE :
 					type = DbType.PROCEDURE_STRING;
 					break;
 			}
 		}
-		
+
 		return type;
 	}
 
 	/**
-	* @param item A tree Item which has to be tested
-	* @return if the TreeItem represents a Schema node
-	*/
+	 * @param item A tree Item which has to be tested
+	 * @return if the TreeItem represents a Schema node
+	 */
 	protected boolean isSchemaNode( TreeItem item )
 	{
 		if ( item != null && isSchemaSupported )
 		{
-			if (item.getParentItem() == rootNode)
+			if ( item.getParentItem( ) == rootNode )
 			{
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * refresh page
 	 * 
@@ -1242,8 +1258,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			populateAvailableDbObjects( );
 			prevDataSourceDesign = curDataSourceDesign;
 		}
-	}	
-	
+	}
+
 	/**
 	 * 
 	 */
@@ -1374,35 +1390,72 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		} );
 	}
-	
+
 	/**
 	 * Adds drag support to tree..Must set tree before execution.
 	 */
 	public void addDragSupportToTree( )
 	{
 
-		DragSource dragSource = new DragSource( availableDbObjectsTree, DND.DROP_COPY );
-		dragSource.setTransfer( new Transfer[]{TextTransfer.getInstance( )} );
+		DragSource dragSource = new DragSource( availableDbObjectsTree,
+				DND.DROP_COPY );
+		dragSource.setTransfer( new Transfer[]{
+			TextTransfer.getInstance( )
+		} );
 		dragSource.addDragListener( new DragSourceAdapter( ) {
 
 			public void dragStart( DragSourceEvent event )
 			{
 				TreeItem[] selection = availableDbObjectsTree.getSelection( );
+				//Don't remove me! This line is for Mac machine compatibility=
 				selectionMac = availableDbObjectsTree.getSelection( );
+				//Don't remove me!  ==========================================
+
 				if ( selection.length > 0 )
 				{
 					if ( selection[0].getData( ) instanceof DbObject )
 					{
-						if ( ( (DbObject) selection[0].getData( ) ).getType( ) == DbObject.PROCEDURE_TYPE )
+						if ( !isAcceptableDbObjectType( getDbObjectType( selection[0].getData( ) ) ) )
 						{
 							event.doit = false;
 							return;
+						}
+						else
+						{
+							if ( !isDbObjectTreeValid( selection,
+									getDbObjectType( selection[0].getData( ) ) ) )
+							{
+								event.doit = false;
+								return;
+							}
+						}
+					}
+					else if ( selection[0].getData( ) instanceof Procedure )
+					{
+						for ( int i = 1; i < selection.length; i++ )
+						{
+							if ( !( selection[i].getData( ) instanceof Procedure ) )
+							{
+								event.doit = false;
+								return;
+							}
 						}
 					}
 					else if ( selection[0].getData( ) instanceof ProcedureParameter )
 					{
 						event.doit = false;
 						return;
+					}
+					else if ( selection[0].getData( ) instanceof String )
+					{
+						for ( int i = 0; i < selection.length - 1; i++ )
+						{
+							if ( !( selection[i + 1].getData( ) instanceof String ) )
+							{
+								event.doit = false;
+								return;
+							}
+						}
 					}
 				}
 				else if ( selection.length <= 0
@@ -1413,6 +1466,91 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				}
 			}
 
+			/**
+			 * 
+			 * @param dbObj
+			 * @return
+			 */
+			private int getDbObjectType( Object dbObj )
+			{
+				return ( (DbObject) dbObj ).getType( );
+			}
+
+			/**
+			 * 
+			 * @param selection
+			 * @param type
+			 * @return
+			 */
+			private boolean isDbObjectTreeValid( TreeItem[] selection, int type )
+			{
+				for ( int i = 1; i < selection.length; i++ )
+				{
+					if ( !( selection[i].getData( ) instanceof DbObject ) )
+					{
+						return false;
+					}
+					DbObject temp = (DbObject) selection[i].getData( );
+
+					if ( !isAcceptableDbObjectType( temp.getType( ) ) )
+					{
+						return false;
+					}
+					if ( temp.getType( ) != type && isTableOrView( type ) )
+					{
+						if ( isTableOrView( temp.getType( ) ) )
+							continue;
+						else
+						{
+							return false;
+						}
+					}
+					else if ( temp.getType( ) == type )
+					{
+						continue;
+					}
+					else
+					{
+						return false;
+					}
+
+				}
+				return true;
+			}
+
+			/**
+			 * 
+			 * @param type
+			 * @return
+			 */
+			private boolean isAcceptableDbObjectType( int type )
+			{
+				if ( type == DbObject.ROOT_NODE_TYPE
+						|| type == DbObject.PROCEDURE_TYPE )
+				{
+					return false;
+				}
+				return true;
+			}
+
+			/**
+			 * 
+			 * @param type
+			 * @return
+			 */
+			private boolean isTableOrView( int type )
+			{
+				if ( type != DbObject.TABLE_TYPE && type != DbObject.VIEW_TYPE )
+				{
+					return false;
+				}
+				return true;
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * @see org.eclipse.swt.dnd.DragSourceAdapter#dragSetData(org.eclipse.swt.dnd.DragSourceEvent)
+			 */
 			public void dragSetData( DragSourceEvent event )
 			{
 				if ( TextTransfer.getInstance( )
@@ -1423,7 +1561,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		} );
 	}
-	
+
 	/**
 	 * 
 	 * @param event
@@ -1434,7 +1572,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		// selection could be null or contain none tableItem on Mac
 		if ( selection == null || selection.length == 0 )
 			selection = selectionMac;
-		
+
 		String identifierQuoteString;
 		try
 		{
@@ -1454,10 +1592,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				// table
 				if ( obj instanceof DbObject )
 				{
-
-					data += SQLUtility.getDnDString( ( (DbObject) obj ).getName( ),
-							identifierQuoteString,
-							identifierQuoteStringCheckBox.getSelection( ) );
+					if ( ( (DbObject) obj ).getType( ) != DbObject.PROCEDURE_TYPE )
+					{
+						data += SQLUtility.getDnDString( ( (DbObject) obj ).getName( ),
+								identifierQuoteString,
+								identifierQuoteStringCheckBox.getSelection( ) );
+					}
 				}
 				// stored procedure
 				else if ( obj instanceof Procedure )
@@ -1465,6 +1605,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					data += SQLUtility.getDnDString( ( (Procedure) obj ).getProcedureNameWithSchema( ),
 							identifierQuoteString,
 							identifierQuoteStringCheckBox.getSelection( ) );
+				}
+				// double click on Procedure parameters is disabled
+				else if ( obj instanceof ProcedureParameter )
+				{
+					continue;
 				}
 				// column
 				else
@@ -1486,8 +1631,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	public void addDropSupportToViewer( )
 	{
 		final StyledText text = viewer.getTextWidget( );
-		DropTarget dropTarget = new DropTarget( text, DND.DROP_COPY | DND.DROP_DEFAULT );
-		dropTarget.setTransfer( new Transfer[]{TextTransfer.getInstance( )} );
+		DropTarget dropTarget = new DropTarget( text, DND.DROP_COPY
+				| DND.DROP_DEFAULT );
+		dropTarget.setTransfer( new Transfer[]{
+			TextTransfer.getInstance( )
+		} );
 		dropTarget.addDropListener( new DropTargetAdapter( ) {
 
 			public void dragEnter( DropTargetEvent event )
@@ -1501,8 +1649,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			public void dragOver( DropTargetEvent event )
 			{
-				event.feedback = DND.FEEDBACK_SCROLL
-						| DND.FEEDBACK_SELECT;
+				event.feedback = DND.FEEDBACK_SCROLL | DND.FEEDBACK_SELECT;
 			}
 
 			public void dragOperationChanged( DropTargetEvent event )
@@ -1512,7 +1659,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			public void drop( DropTargetEvent event )
 			{
-				if ( event.data instanceof String )
+				if ( event.data instanceof String
+						&& !event.data.equals( "null" ) )
 					insertText( (String) event.data );
 			}
 		} );
@@ -1534,20 +1682,20 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		textWidget.setSelection( selectionStart + text.length( ) );
 		textWidget.setFocus( );
 	}
-	
+
 	/**
 	 * Creates the textual query editor 
 	 * @param parent
 	 */
 	private void createTextualQueryComposite( Composite parent )
 	{
-		
-        Composite composite = new Composite( parent, SWT.FILL
+
+		Composite composite = new Composite( parent, SWT.FILL
 				| SWT.LEFT_TO_RIGHT );
-        GridLayout layout = new GridLayout();
-        layout.numColumns = 1;
-        composite.setLayout(layout);
-        
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 1;
+		composite.setLayout( layout );
+
 		CompositeRuler ruler = new CompositeRuler( );
 		LineNumberRulerColumn lineNumbers = new LineNumberRulerColumn( );
 		ruler.addDecorator( 0, lineNumbers );
@@ -1555,8 +1703,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				| SWT.V_SCROLL );
 		sourceViewerConfiguration = new JdbcSQLSourceViewerConfiguration( this.getDataSetDesign( ) );
 		viewer.configure( sourceViewerConfiguration );
-		
-		doc = new Document( getQueryText() );
+
+		doc = new Document( getQueryText( ) );
 		FastPartitioner partitioner = new FastPartitioner( new SQLPartitionScanner( ),
 				new String[]{
 						SQLPartitionScanner.SINGLE_LINE_COMMENT1,
@@ -1580,15 +1728,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					}
 				} );
 		attachMenus( viewer );
-        
-        GridData data = new GridData(GridData.FILL_BOTH);
-        viewer.getControl().setLayoutData(data);
-        
-        // Add drop support to the viewer
-        addDropSupportToViewer();
 
-        // add support of additional accelerated key
-        viewer.getTextWidget( ).addKeyListener( new KeyListener( ) {
+		GridData data = new GridData( GridData.FILL_BOTH );
+		viewer.getControl( ).setLayoutData( data );
+
+		// Add drop support to the viewer
+		addDropSupportToViewer( );
+
+		// add support of additional accelerated key
+		viewer.getTextWidget( ).addKeyListener( new KeyListener( ) {
+
 			public void keyPressed( KeyEvent e )
 			{
 				if ( isUndoKeyPress( e ) )
@@ -1600,18 +1749,21 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					viewer.doOperation( ITextOperationTarget.REDO );
 				}
 			}
+
 			private boolean isUndoKeyPress( KeyEvent e )
 			{
 				// CTRL + z
 				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
 						&& ( ( e.keyCode == 'z' ) || ( e.keyCode == 'Z' ) );
 			}
+
 			private boolean isRedoKeyPress( KeyEvent e )
 			{
 				// CTRL + y
 				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
 						&& ( ( e.keyCode == 'y' ) || ( e.keyCode == 'Y' ) );
 			}
+
 			public void keyReleased( KeyEvent e )
 			{
 				// do nothing
@@ -1642,7 +1794,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		refreshPage( );
 		prepareUI( );
 	}
-	
+
 	/*
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
@@ -1651,7 +1803,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		super.setVisible( visible );
 		getControl( ).setFocus( );
 	}
-    
+
 	/**
 	 * Prepare UI when pageActivated event is invoked Following things will be
 	 * done: Set StyledText content Set StyledText as focus
@@ -1674,7 +1826,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		styledText.setFocus( );
 	}
-	
+
 	/**
 	 * return the query text. If the query text is empty then return the
 	 * pre-defined pattern
@@ -1712,7 +1864,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	{
 		this.expandDbObjectsTree = expand;
 	}
-	
+
 	/**
 	 * remove the tree item's direct child treeItem, cause since 3.1,
 	 * TreeItem.removeAll is supported.But in 3.0,this method is not supported.
@@ -1736,6 +1888,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 class DbType
 {
+
 	public static final int TABLE_TYPE = 0;
 	public static final String TABLE_STRING = "TABLE";
 	public static final int VIEW_TYPE = 1;
@@ -1746,34 +1899,34 @@ class DbType
 	public static final String PROCEDURE_STRING = "PROCEDURE";
 	public static final int MAX_ITEMS_DISPLAY_COUNT = 500;
 
-    private int type;
-    private String name;
-    
-    public String getName()
-    {
-        return name;
-    }
+	private int type;
+	private String name;
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+	public String getName( )
+	{
+		return name;
+	}
 
-    public int getType()
-    {
-        return type;
-    }
+	public void setName( String name )
+	{
+		this.name = name;
+	}
 
-    public void setType(int type)
-    {
-        this.type = type;
-    }
+	public int getType( )
+	{
+		return type;
+	}
 
-    public DbType(int type, String name)
-    {
-        super();
-        this.type = type;
-        this.name = name;
-    }
-    
+	public void setType( int type )
+	{
+		this.type = type;
+	}
+
+	public DbType( int type, String name )
+	{
+		super( );
+		this.type = type;
+		this.name = name;
+	}
+
 }
