@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
@@ -61,6 +62,19 @@ import org.osgi.framework.Bundle;
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
+	private static final String[] IMAGE_TYPES = new String[]{
+			".bmp",
+			".jpg",
+			".jpeg",
+			".jpe",
+			".jfif",
+			".gif",
+			".png",
+			".tif",
+			".tiff",
+			".ico",
+			".svg"
+	};
 
 	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
 
@@ -129,7 +143,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		super( pageName );
 
 		imageMap = new HashMap( );
-		if(UIUtil.getFragmentDirectory( ) == null)
+		if ( UIUtil.getFragmentDirectory( ) == null )
 		{
 			return;
 		}
@@ -379,6 +393,12 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewPane.layout( );
 
 			String key = handle.getIconFile( );
+			if ( key != null
+					&& key.trim( ).length( ) != 0
+					&& checkExtensions( key ) == false )
+			{
+				key = null;
+			}
 			Object img = null;
 			if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
 			{
@@ -398,8 +418,19 @@ public class WizardTemplateChoicePage extends WizardPage
 
 					if ( img == null )
 					{
-						img = ReportPlugin.getImage( key );
-						imageMap.put( key, img );
+						try
+						{
+							url = new URL( "file://" + key ); //$NON-NLS-1$
+							img = ImageManager.getInstance( ).loadImage( url );
+						}
+						catch ( IOException e )
+						{
+						}
+						if ( img != null )
+						{
+							imageMap.put( key, img );
+						}
+
 					}
 
 					previewCanvas.setVisible( true );
@@ -407,7 +438,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 					previewCanvas.clear( );
 					previewCanvas.loadImage( ( (Image) img ) );
-					previewCanvas.showOriginal( );
+					// previewCanvas.showOriginal( );
 
 				}
 				else
@@ -457,8 +488,8 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( )
 						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
-				if(handle.getCheatSheet( )
-						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ))
+				if ( handle.getCheatSheet( )
+						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
 				{
 					chkBox.setSelection( true );
 				}
@@ -550,7 +581,8 @@ public class WizardTemplateChoicePage extends WizardPage
 			ReportDesignHandle[] predefinedTemplateArray )
 	{
 
-		if ( predefinedTemplateArray == null || predefinedTemplateArray.length <= 1 )
+		if ( predefinedTemplateArray == null
+				|| predefinedTemplateArray.length <= 1 )
 		{
 			return;
 		}
@@ -566,7 +598,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				"dual_column_chart_listing.rpttemplate",
 				"sidebyside_chart_listing.rpttemplate",
 		};
-		
+
 		int predefinedTemplateCount = predefinedTemplateFileName.length;
 		ReportDesignHandle swapHandle = null;
 		String templateName = null;
@@ -585,7 +617,7 @@ public class WizardTemplateChoicePage extends WizardPage
 						predefinedTemplateArray[j] = predefinedTemplateArray[index];
 						predefinedTemplateArray[index] = swapHandle;
 					}
-					index ++;
+					index++;
 					break;
 				}
 			}
@@ -619,4 +651,17 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		return url;
 	}
+
+	private boolean checkExtensions( String fileName )
+	{
+		for ( int i = 0; i < IMAGE_TYPES.length; i++ )
+		{
+			if ( fileName.toLowerCase( ).endsWith( IMAGE_TYPES[i] ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

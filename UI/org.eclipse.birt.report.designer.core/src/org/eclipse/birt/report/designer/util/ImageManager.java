@@ -13,12 +13,9 @@ package org.eclipse.birt.report.designer.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -248,7 +245,7 @@ public class ImageManager
 		return loadImage( url );
 	}
 
-	private Image loadImage( URL url ) throws IOException
+	public Image loadImage( URL url ) throws IOException
 	{
 		String key = url.toString( );
 		Image image = getImageRegistry( ).get( key );

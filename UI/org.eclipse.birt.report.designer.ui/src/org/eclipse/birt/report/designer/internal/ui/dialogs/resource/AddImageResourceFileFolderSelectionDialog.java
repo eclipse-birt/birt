@@ -26,13 +26,23 @@ public class AddImageResourceFileFolderSelectionDialog extends
 {
 
 	private static final String[] IMAGE_FILTER = new String[]{
-		"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"
 	};
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp", ".jpg", ".gif", ".png", ".ico"
+			".bmp",
+			".jpg",
+			".jpeg",
+			".jpe",
+			".jfif",
+			".gif",
+			".png",
+			".tif",
+			".tiff",
+			".ico",
+			".svg"
 	};
-	
+
 	/**
 	 * @param parent
 	 * @param labelProvider
@@ -41,14 +51,11 @@ public class AddImageResourceFileFolderSelectionDialog extends
 	public AddImageResourceFileFolderSelectionDialog( )
 	{
 		super( true, IMAGE_FILTER );
-		setValidator( new ResourceSelectionValidator( false,
-				false,
-				IMAGE_TYPES ) );
+		setValidator( new ResourceSelectionValidator( false, false, IMAGE_TYPES ) );
 		setAllowMultiple( false );
 		setTitle( Messages.getString( "ReportPage.title.setPrewImg" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "AddImageResourceFileFolderSelectionDialog.Message" ) ); //$NON-NLS-1$
 	}
-
 
 	/*
 	 * @see Dialog#createDialogArea(Composite)
@@ -59,6 +66,5 @@ public class AddImageResourceFileFolderSelectionDialog extends
 		UIUtil.bindHelp( parent, IHelpContextIds.ADD_IMAGE_FILES_DIALOG_ID );
 		return control;
 	}
-	
 
 }
