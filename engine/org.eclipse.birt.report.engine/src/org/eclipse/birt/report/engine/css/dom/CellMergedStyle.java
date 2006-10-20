@@ -136,12 +136,17 @@ public class CellMergedStyle extends AbstractStyle
 
 	public boolean isEmpty( )
 	{
-		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++)
+		if ( cellStyle != null && !cellStyle.isEmpty( ) )
 		{
-			if ( getProperty ( i ) != null )
-			{
-				return false;
-			}
+			return false;
+		}
+		if ( rowStyle != null && !rowStyle.isEmpty( ) )
+		{
+			return false;
+		}
+		if ( columnStyle != null && !columnStyle.isEmpty( ) )
+		{
+			return false;
 		}
 		return true;
 	}
