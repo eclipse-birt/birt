@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -77,10 +78,9 @@ import org.eclipse.swt.widgets.Text;
 /**
  * TaskSelectType
  */
-public class TaskSelectType extends SimpleTask
-		implements
-			SelectionListener,
-			ITaskChangeListener
+public class TaskSelectType extends SimpleTask implements
+		SelectionListener,
+		ITaskChangeListener
 {
 
 	private transient Chart chartModel = null;
@@ -1034,7 +1034,7 @@ public class TaskSelectType extends SimpleTask
 
 	private void refreshChart( )
 	{
-		// DISABLE PREVIEW REFRESH DURING CONVERSION		
+		// DISABLE PREVIEW REFRESH DURING CONVERSION
 		ChartAdapter.beginIgnoreNotifications( );
 		IChartType chartType = (IChartType) htTypes.get( sType );
 		try
@@ -1194,12 +1194,22 @@ public class TaskSelectType extends SimpleTask
 		{
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				List al = ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel );
-				for ( int i = 0; i < al.size( ); i++ )
+				List sdList = new ArrayList( );
+				sdList.addAll( ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+						.get( 0 ) ).getSeriesDefinitions( ) );
+				
+				EList axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+						.get( 0 ) ).getAssociatedAxes( );
+				for ( int i = 0; i < axisList.size( ); i++ )
 				{
-					checkDataType( ChartUIUtil.getDataQuery( (SeriesDefinition) al.get( i ),
+					sdList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+				}
+				
+				for ( int i = 0; i < sdList.size( ); i++ )
+				{
+					checkDataType( ChartUIUtil.getDataQuery( (SeriesDefinition) sdList.get( i ),
 							0 ),
-							( (SeriesDefinition) al.get( i ) ).getDesignTimeSeries( ),
+							( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( ),
 							(SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chartModel )
 									.get( 0 ) );
 				}
@@ -1222,7 +1232,8 @@ public class TaskSelectType extends SimpleTask
 	private void doLivePreview( )
 	{
 		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( chartModel ) && hasDataSet( ) )
+				&& ChartUIUtil.checkDataBinding( chartModel )
+				&& hasDataSet( ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );
@@ -1252,7 +1263,7 @@ public class TaskSelectType extends SimpleTask
 	{
 		return (String) button.getData( );
 	}
-	
+
 	private void checkDataType( Query query, Series series, SeriesDefinition sd )
 	{
 		String expression = query.getDefinition( );
@@ -1287,7 +1298,7 @@ public class TaskSelectType extends SimpleTask
 				}
 				catch ( ChartException ce )
 				{
-					if ( expression!= null && expression.trim( ).length( ) > 0 )
+					if ( expression != null && expression.trim( ).length( ) > 0 )
 					{
 						Text text = DataDefinitionTextManager.getInstance( )
 								.findText( query );
@@ -1341,7 +1352,7 @@ public class TaskSelectType extends SimpleTask
 			}
 		}
 	}
-	
+
 	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
 	{
 		if ( dataType == null )
@@ -1402,8 +1413,7 @@ public class TaskSelectType extends SimpleTask
 		else
 		{
 			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( axis );
-			int iEndIndex = iStartIndex
-					+ axis.getSeriesDefinitions( ).size( );
+			int iEndIndex = iStartIndex + axis.getSeriesDefinitions( ).size( );
 
 			int iOSDSize = chartModel.getSampleData( )
 					.getOrthogonalSampleData( )
@@ -1422,7 +1432,7 @@ public class TaskSelectType extends SimpleTask
 			}
 		}
 	}
-	
+
 	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
 	{
 		List axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
