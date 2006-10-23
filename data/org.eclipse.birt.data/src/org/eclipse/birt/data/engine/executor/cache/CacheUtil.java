@@ -28,10 +28,10 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 public class CacheUtil
 {
 	/**
-	 * how many rows could be cached in memory when transformation is done, the
-	 * minimum value for it is 500. It is strongly recommended to give a high
-	 * value to it so as to get a good performance. If this value is not set,
-	 * the default value is 20,000.
+	 * how many memory could be used to cached rows in memory when
+	 * transformation is done, the minimum value for it is 1M. It is strongly
+	 * recommended to give a high value to it so as to get a good performance.
+	 * If this value is not set, the default value is 10.
 	 */
 	public final static String MEMCACHE_ROWNUMBER = "org.eclipse.birt.data.engine.memcache.rownumber";
 	
@@ -54,7 +54,7 @@ public class CacheUtil
 	/**
 	 * @return
 	 */
-	static int computeCacheRowCount( )
+	static int computeCacheSize( )
 	{
 		// below code only for unit test
 		String memcachesizeOfTest = System.getProperty( "birt.data.engine.test.memcachesize" );
@@ -74,7 +74,7 @@ public class CacheUtil
 			{
 				// ignore it
 			}
-			return Math.max( 500, memCacheRowNum );
+			return Math.max( 1, memCacheRowNum );
 		}
 				
 		// real code starts here
@@ -97,8 +97,7 @@ public class CacheUtil
 			}
 		}
 
-		// here a simple assumption, that 1M memory can accomondate 2000 rows
-		return memoryCacheSize * 2000;
+		return memoryCacheSize;
 	}
 	
 	/**

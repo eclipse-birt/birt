@@ -262,21 +262,25 @@ class SmartCacheHelper
 			SortSpec sortSpec ) throws DataException
 	{
 		long startTime = System.currentTimeMillis( );
+		SizeOfUtil sizeOfUtil = new SizeOfUtil( rsMeta );
 
 		// compute the number of rows which can be cached in memory
-		int memoryCacheRowCount = computeCacheRowCount( rsMeta );
-		logger.info( "memoryCacheRowCount is " + memoryCacheRowCount );
+		long memoryCacheSize = computeCacheMemorySize( rsMeta );
+		logger.info( "memoryCacheRowCount is " + memoryCacheSize/1000000 + "M" );
 
 		IResultObject odaObject;
 		IResultObject[] resultObjects;
 		List resultObjectsList = new ArrayList( );
 
 		int dataCount = 0;
+		int usedMemorySize = 0;
+		int rowSize = 0;
 		while ( ( odaObject = rowResultSet.next( ) ) != null )
 		{
 			dataCount++;
 			// notice. it is less than or equal
-			if ( dataCount <= memoryCacheRowCount )
+			rowSize = sizeOfUtil.sizeOf( odaObject );
+			if ( rowSize <= ( MemoryCacheSize - usedMemorySize ) )
 			{
 				//the followed variable is for performance
 				int odaObjectFieldCount = odaObject.getResultClass( ).getFieldCount( );
@@ -295,6 +299,7 @@ class SmartCacheHelper
 				{
 					resultObjectsList.add( odaObject );
 				}
+				usedMemorySize += rowSize;
 			}
 			else
 			{
@@ -307,7 +312,7 @@ class SmartCacheHelper
 						rowResultSet,
 						rsMeta,
 						CacheUtil.getComparator( sortSpec, eventHandler ),
-						memoryCacheRowCount,
+						dataCount - 1,
 						this.session );
 				break;
 			}
@@ -343,7 +348,7 @@ class SmartCacheHelper
 	 * @param rsMeta
 	 * @return row count
 	 */
-	private int computeCacheRowCount( IResultClass rsMeta )
+	private long computeCacheMemorySize( IResultClass rsMeta )
 	{
 		if ( MemoryCacheSize == 0 )
 		{
@@ -351,7 +356,7 @@ class SmartCacheHelper
 			{
 				if ( MemoryCacheSize == 0 )
 				{
-					MemoryCacheSize = CacheUtil.computeCacheRowCount( );
+					MemoryCacheSize = CacheUtil.computeCacheSize( ) * 1000000;
 				}
 			}
 		}

@@ -21,26 +21,24 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * This class provide the function of compute the size of memory occupied by
- * object.
+ * object
  */
-class SizeOfUtil
+public class SizeOfUtil
 {
 	private final static int INTEGER_SIZE = 16;
-	private final static int DOUBLE_SIZE = 16;	
+	private final static int DOUBLE_SIZE = 16;
+	private static int BIGDECIMAL_SIZE = 80;
 	private final static int DATE_SIZE = 24;
 	private final static int TIME_SIZE = 24;
-	
-	private static int BIGDECIMAL_SIZE = 80;
 	private static int TIMESTAMP_SIZE = 24;
 
 	// field count of result object
 	private int fieldCount = 0;
 	private boolean[] isfixedSize = null;
 	private int[] fieldSize = null;
-
-	static
-	{
-		if ( System.getProperty( "java.version" ).startsWith( "1.5" ) )
+	
+	static {
+		if(System.getProperty( "java.version" ).startsWith( "1.5" ))
 		{
 			BIGDECIMAL_SIZE = 96;
 			TIMESTAMP_SIZE = 32;
@@ -120,12 +118,9 @@ class SizeOfUtil
 		{
 			return SizeOfUtil.TIMESTAMP_SIZE;
 		}
-		else
-		{
-			// Normally followed lines will never be arrived.
-			assert ( false );
-			return 0;
-		}
+		// Normally followed lines will never be arrived.
+		assert ( false );
+		return 0;
 	}
 
 	/**
@@ -142,9 +137,9 @@ class SizeOfUtil
 		{
 			if ( !isfixedSize[i - 1] )
 			{
-				returnValue += sizeOf( resultObject.getResultClass( )
-						.getFieldValueClass( i ),
-						resultObject.getFieldValue( i ) );
+				if ( resultObject.getFieldValue( i ) != null )
+					returnValue += sizeOf( resultObject.getFieldValue( i )
+							.getClass( ), resultObject.getFieldValue( i ) );
 			}
 			else
 			{
