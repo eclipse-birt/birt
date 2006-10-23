@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -29,7 +26,6 @@ import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -129,7 +125,8 @@ public class Regression_128590_svg extends Composite
 			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, rtc, null );
 
 			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+			idr.setProperty(
+					IDeviceRenderer.UPDATE_NOTIFIER,
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 			gr.render( idr, gcs );
@@ -272,8 +269,10 @@ public class Regression_128590_svg extends Composite
 		cwaBar.setType( "Bar Chart" );
 		cwaBar.setSubType( "Stacked" );
 		cwaBar.getBlock( ).getTriggers( ).add(
-				TriggerImpl.create( TriggerCondition.ONMOUSEMOVE_LITERAL,
-						ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
+				TriggerImpl.create(
+						TriggerCondition.ONMOUSEMOVE_LITERAL,
+						ActionImpl.create(
+								ActionType.SHOW_TOOLTIP_LITERAL,
 								TooltipValueImpl.create( 0, new String(
 										"abcdef\ndeeeeee" ) ) ) ) );
 
@@ -312,8 +311,6 @@ public class Regression_128590_svg extends Composite
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.setSorting( SortOption.ASCENDING_LITERAL );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

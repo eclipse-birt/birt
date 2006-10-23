@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -25,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
@@ -67,7 +63,8 @@ import com.ibm.icu.util.Calendar;
 /**
  * Regression description:
  * </p>
- * Set Datetime type data to X series, Y Axis labels can not be displayed in Chart Builder 
+ * Set Datetime type data to X series, Y Axis labels can not be displayed in
+ * Chart Builder
  * </p>
  * Test description:
  * <p>
@@ -108,7 +105,8 @@ public final class Regression_139334_swt extends Composite
 		shell.setSize( 600, 400 );
 		shell.setLayout( new GridLayout( ) );
 
-		Regression_139334_swt siv = new Regression_139334_swt( shell,
+		Regression_139334_swt siv = new Regression_139334_swt(
+				shell,
 				SWT.NO_BACKGROUND );
 		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		siv.addPaintListener( siv );
@@ -180,7 +178,12 @@ public final class Regression_139334_swt extends Composite
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
 						null );
 			}
 			catch ( ChartException ce )
@@ -305,77 +308,78 @@ public final class Regression_139334_swt extends Composite
 	 * @return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
-	public static final Chart createBarChart() {
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+	public static final Chart createBarChart( )
+	{
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
 		// Chart Type
-		cwaBar.setType("Bar Chart");
-		cwaBar.setSubType("Stacked");
+		cwaBar.setType( "Bar Chart" );
+		cwaBar.setSubType( "Stacked" );
 
 		// Title
-		cwaBar.getTitle().getLabel().getCaption().setValue(
-				"Computer Hardware Sales"); //$NON-NLS-1$
-		cwaBar.getTitle().setOutline(LineAttributesImpl.create(
-				ColorDefinitionImpl.create(239, 33, 3),
-				LineStyle.DASH_DOTTED_LITERAL, 3));
-		cwaBar.getTitle().setInsets(InsetsImpl.create(0,10,20,10));
-		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
+				"Computer Hardware Sales" ); //$NON-NLS-1$
+		cwaBar.getTitle( ).setOutline(
+				LineAttributesImpl.create( ColorDefinitionImpl.create(
+						239,
+						33,
+						3 ), LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+		cwaBar.getTitle( ).setInsets( InsetsImpl.create( 0, 10, 20, 10 ) );
+		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot
-		cwaBar.getPlot().getClientArea().getOutline().setVisible(false);
-		cwaBar.getPlot().getClientArea().setBackground(
-				ColorDefinitionImpl.create(255, 255, 225));
+		cwaBar.getPlot( ).getClientArea( ).getOutline( ).setVisible( false );
+		cwaBar.getPlot( ).getClientArea( ).setBackground(
+				ColorDefinitionImpl.create( 255, 255, 225 ) );
 
 		// X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaBar).getPrimaryBaseAxes()[0];
-		xAxisPrimary.getTitle().setVisible(false);
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes( )[0];
+		xAxisPrimary.getTitle( ).setVisible( false );
 
-		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		xAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.GREEN().darker());
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
+		xAxisPrimary.getLabel( ).getCaption( ).setColor(
+				ColorDefinitionImpl.GREEN( ).darker( ) );
 
 		// Y-Axis
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaBar)
-				.getPrimaryOrthogonalAxis(xAxisPrimary);
-		yAxisPrimary.getLabel().getCaption().setValue("Sales Growth"); //$NON-NLS-1$
-		yAxisPrimary.getTitle().setVisible(false);
-		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		yAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
+				.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
+		yAxisPrimary.getTitle( ).setVisible( false );
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
 		// Data Set
 		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-		.create( new Calendar[]{new CDateTime( 2004, 12, 27 ),
-				new CDateTime( 2004, 12, 23 ),
-				new CDateTime( 2004, 12, 22 ),
-				new CDateTime( 2004, 12, 21 )} );
-		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
-				143.26, 156.55, 95.25, 47.56 });
-		
+				.create( new Calendar[]{new CDateTime( 2004, 12, 27 ),
+						new CDateTime( 2004, 12, 23 ),
+						new CDateTime( 2004, 12, 22 ),
+						new CDateTime( 2004, 12, 21 )} );
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl
+				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
+
 		// X-Series
-		Series seBase = SeriesImpl.create();
-		seBase.setDataSet(dsDateValues);
-        
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.setSorting(SortOption.ASCENDING_LITERAL);
-		sdX.getQuery().setDefinition(""); //$NON-NLS-1$
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
-		sdX.getSeries().add(seBase);
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsDateValues );
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create();
-		bs.setSeriesIdentifier("Actuate"); //$NON-NLS-1$
-		bs.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
-		bs.getLabel().setBackground(ColorDefinitionImpl.CYAN());
-		bs.getLabel().setVisible(true);
-		bs.setDataSet(dsNumericValues1);
-		bs.setStacked(true);
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.setSeriesIdentifier( "Actuate" ); //$NON-NLS-1$
+		bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+		bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+		bs.getLabel( ).setVisible( true );
+		bs.setDataSet( dsNumericValues1 );
+		bs.setStacked( true );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create();
-		yAxisPrimary.getSeriesDefinitions().add(sdY);
-		sdY.getSeriesPalette().update(ColorDefinitionImpl.BLUE());
-		sdY.getSeries().add(bs);
-		
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
+		sdY.getSeries( ).add( bs );
+
 		return cwaBar;
 
 	}

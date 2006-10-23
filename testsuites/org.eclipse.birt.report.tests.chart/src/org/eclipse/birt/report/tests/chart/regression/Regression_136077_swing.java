@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -51,7 +48,6 @@ import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -129,7 +125,8 @@ public final class Regression_136077_swing extends JPanel
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
 		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
+		jf.setLocation(
+				( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( siv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
@@ -261,7 +258,9 @@ public final class Regression_136077_swing extends JPanel
 		if ( bi == null || bi.getWidth( ) != d.width
 				|| bi.getHeight( ) != d.height )
 		{
-			bi = new BufferedImage( d.width, d.height,
+			bi = new BufferedImage(
+					d.width,
+					d.height,
 					BufferedImage.TYPE_INT_ARGB );
 		}
 
@@ -282,7 +281,12 @@ public final class Regression_136077_swing extends JPanel
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
 						null );
 			}
 			catch ( ChartException ex )
@@ -559,10 +563,13 @@ public final class Regression_136077_swing extends JPanel
 				"Computer Hardware Sales" ); //$NON-NLS-1$
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 
-		Trigger trigger = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-				ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
+		Trigger trigger = TriggerImpl.create(
+				TriggerCondition.ONCLICK_LITERAL,
+				ActionImpl.create(
+						ActionType.URL_REDIRECT_LITERAL,
 						URLValueImpl.create( "http://www.actuate.com", //$NON-NLS-1$
-								null, null, //$NON-NLS-1$
+								null,
+								null, //$NON-NLS-1$
 								null, //$NON-NLS-1$
 								null ) ) );
 		cwaBar.getTitle( ).getTriggers( ).add( trigger );
@@ -592,9 +599,16 @@ public final class Regression_136077_swing extends JPanel
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-		FontDefinition fd = FontDefinitionImpl.create( "Arial", (float) 30.0,
-				true, true, false, true, false, 30.0, TextAlignmentImpl
-						.create( ) );
+		FontDefinition fd = FontDefinitionImpl.create(
+				"Arial",
+				(float) 30.0,
+				true,
+				true,
+				false,
+				true,
+				false,
+				30.0,
+				TextAlignmentImpl.create( ) );
 		yAxisPrimary.getLabel( ).getCaption( ).setFont( fd );
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
@@ -621,8 +635,6 @@ public final class Regression_136077_swing extends JPanel
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.setSorting( SortOption.ASCENDING_LITERAL );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

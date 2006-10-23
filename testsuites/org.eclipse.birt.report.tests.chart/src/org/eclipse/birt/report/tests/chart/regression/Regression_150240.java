@@ -243,7 +243,6 @@ public class Regression_150240 extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

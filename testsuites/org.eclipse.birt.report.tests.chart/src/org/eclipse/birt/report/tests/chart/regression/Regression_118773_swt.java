@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -20,32 +17,8 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
-import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.NumberDataSet;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.TextDataSet;
-import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
-import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -68,7 +41,8 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Regression description:
  * </p>
- * Set chart title or axis title  alignment to center, chart preview and live preview style are inconsistent.
+ * Set chart title or axis title alignment to center, chart preview and live
+ * preview style are inconsistent.
  * </p>
  * Test description:
  * <p>
@@ -76,12 +50,13 @@ import org.eclipse.swt.widgets.Shell;
  * </p>
  */
 
-
-public final class Regression_118773_swt extends Composite implements
-		PaintListener,
-		IUpdateNotifier,
-		SelectionListener
+public final class Regression_118773_swt extends Composite
+		implements
+			PaintListener,
+			IUpdateNotifier,
+			SelectionListener
 {
+
 	private IDeviceRenderer idr = null;
 
 	private Chart cm = null;
@@ -93,7 +68,7 @@ public final class Regression_118773_swt extends Composite implements
 	private GeneratedChartState gcs = null;
 
 	private boolean bNeedsGeneration = true;
-	
+
 	private Map contextMap;
 
 	/**
@@ -108,7 +83,8 @@ public final class Regression_118773_swt extends Composite implements
 		shell.setSize( 600, 400 );
 		shell.setLayout( new GridLayout( ) );
 
-		Regression_118773_swt siv = new Regression_118773_swt( shell,
+		Regression_118773_swt siv = new Regression_118773_swt(
+				shell,
 				SWT.NO_BACKGROUND );
 		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		siv.addPaintListener( siv );
@@ -121,7 +97,7 @@ public final class Regression_118773_swt extends Composite implements
 
 		la.setText( "Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add("Bar Chart");
+		cbType.add( "Bar Chart" );
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -143,9 +119,9 @@ public final class Regression_118773_swt extends Composite implements
 	Regression_118773_swt( Composite parent, int style )
 	{
 		super( parent, style );
-		
-		contextMap = new HashMap();
-		
+
+		contextMap = new HashMap( );
+
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -180,7 +156,8 @@ public final class Regression_118773_swt extends Composite implements
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ),
+				gcs = gr.build(
+						idr.getDisplayServer( ),
 						cm,
 						bo,
 						null,
@@ -217,9 +194,9 @@ public final class Regression_118773_swt extends Composite implements
 			int iSelection = cbType.getSelectionIndex( );
 			switch ( iSelection )
 			{
-			case 0:
-				cm = Title.BarChart();
-				break;
+				case 0 :
+					cm = Title.BarChart( );
+					break;
 			}
 			bNeedsGeneration = true;
 			this.redraw( );
@@ -271,7 +248,7 @@ public final class Regression_118773_swt extends Composite implements
 	{
 		redraw( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -292,7 +269,7 @@ public final class Regression_118773_swt extends Composite implements
 	{
 		return contextMap.put( key, value );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -304,4 +281,3 @@ public final class Regression_118773_swt extends Composite implements
 	}
 
 }
-

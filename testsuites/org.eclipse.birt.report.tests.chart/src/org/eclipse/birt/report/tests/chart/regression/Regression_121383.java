@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -56,11 +53,12 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class Regression_121383 extends ChartTestCase{
+public class Regression_121383 extends ChartTestCase
+{
 
-    private static String GOLDEN = "Regression_121383.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_121383.jpg"; //$NON-NLS-1$	
-	
+	private static String GOLDEN = "Regression_121383.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_121383.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -85,7 +83,7 @@ public class Regression_121383 extends ChartTestCase{
 	 */
 	public static void main( String[] args )
 	{
-		Regression_121383 st = new Regression_121383( );
+		new Regression_121383( );
 	}
 
 	/**
@@ -104,15 +102,17 @@ public class Regression_121383 extends ChartTestCase{
 			ex.printStackTrace( );
 		}
 		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -120,7 +120,13 @@ public class Regression_121383 extends ChartTestCase{
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -133,9 +139,9 @@ public class Regression_121383 extends ChartTestCase{
 	public void test_regression_121383( ) throws Exception
 	{
 		Regression_121383 st = new Regression_121383( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+	}
+
 	/**
 	 * Creates a line chart model as a reference implementation
 	 * 
@@ -197,7 +203,6 @@ public class Regression_121383 extends ChartTestCase{
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

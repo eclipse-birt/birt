@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -25,8 +22,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
@@ -57,11 +52,11 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class Regression_144511 extends ChartTestCase{
+public class Regression_144511 extends ChartTestCase
+{
 
-//    private static String GOLDEN = "Regression_144511.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_144511.jpg"; //$NON-NLS-1$	
-	
+	private static String OUTPUT = "Regression_144511.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -84,53 +79,68 @@ public class Regression_144511 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_144511 st = new Regression_144511();
+	public static void main( String[] args )
+	{
+		new Regression_144511( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_144511() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+	public Regression_144511( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
 		}
-		cm = createBarChart();
-		BufferedImage img = new BufferedImage(500, 500,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = createBarChart( );
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-			fail();
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+			gr.render( dRenderer, gcs );
+			fail( );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			//scessful
+			// e.printStackTrace();
+			// scessful
 		}
 	}
 
 	public void test_regression_144511( ) throws Exception
 	{
-		Regression_144511 st = new Regression_144511( );
-//		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+		new Regression_144511( );
+	}
+
 	/**
 	 * Creates a bar chart model as a reference implementation
 	 * 
@@ -167,9 +177,16 @@ public class Regression_144511 extends ChartTestCase{
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-		FontDefinition fd = FontDefinitionImpl.create( "Arial", (float) 10.0,
-				true, true, false, true, false, 0, TextAlignmentImpl
-						.create( ) );
+		FontDefinition fd = FontDefinitionImpl.create(
+				"Arial",
+				(float) 10.0,
+				true,
+				true,
+				false,
+				true,
+				false,
+				0,
+				TextAlignmentImpl.create( ) );
 		yAxisPrimary.getLabel( ).getCaption( ).setFont( fd );
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
@@ -188,7 +205,6 @@ public class Regression_144511 extends ChartTestCase{
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

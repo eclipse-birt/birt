@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -49,19 +46,23 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 /**
  * Regression description:
  * </p>
- * Create a report of side-by-side Chart, Set X Axis Type as Linear but X Series data type is String,when preview there is a error message: The error message should let user know he/she set a wrong Type of X Axis.
+ * Create a report of side-by-side Chart, Set X Axis Type as Linear but X Series
+ * data type is String,when preview there is a error message: The error message
+ * should let user know he/she set a wrong Type of X Axis.
  * </p>
  * Test description:
  * <p>
- *  Set X Axis Type as Linear but X Series data type is String, check the error message
+ * Set X Axis Type as Linear but X Series data type is String, check the error
+ * message
  * </p>
  */
 
-public class Regression_78746 extends ChartTestCase{
+public class Regression_78746 extends ChartTestCase
+{
 
-//    private static String GOLDEN = "Regression_78746.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_78746.jpg"; //$NON-NLS-1$	
-	
+	// private static String GOLDEN = "Regression_78746.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_78746.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -84,60 +85,81 @@ public class Regression_78746 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_78746 st = new Regression_78746();
+	public static void main( String[] args )
+	{
+		new Regression_78746( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_78746() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+	public Regression_78746( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
 		}
-		cm = createBarChart();
-		BufferedImage img = new BufferedImage(500, 500,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = createBarChart( );
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-			fail();
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+			gr.render( dRenderer, gcs );
+			fail( );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			//success
-			if (e.getMessage( ).equals(new String("Unable to use a text data to render a numerical/datetime axis.") )) {
-				//success
+			// e.printStackTrace();
+			// success
+			if ( e
+					.getMessage( )
+					.equals(
+							new String(
+									"Unable to use a text data to render a numerical/datetime axis." ) ) )
+			{
+				// success
 			}
-			else {
-				fail();
+			else
+			{
+				fail( );
 			}
-				
+
 		}
 	}
 
 	public void test_regression_78746( ) throws Exception
 	{
-		Regression_78746 st = new Regression_78746( );
-//		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+		new Regression_78746( );
+	}
+
 	/**
 	 * Creates a bar chart model as a reference implementation
 	 * 
@@ -182,9 +204,16 @@ public class Regression_78746 extends ChartTestCase{
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-		FontDefinition fd = FontDefinitionImpl.create( "Arial", (float) 30.0,
-				true, true, false, true, false, 30.0, TextAlignmentImpl
-						.create( ) );
+		FontDefinition fd = FontDefinitionImpl.create(
+				"Arial",
+				(float) 30.0,
+				true,
+				true,
+				false,
+				true,
+				false,
+				30.0,
+				TextAlignmentImpl.create( ) );
 		yAxisPrimary.getLabel( ).getCaption( ).setFont( fd );
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
@@ -213,7 +242,6 @@ public class Regression_78746 extends ChartTestCase{
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

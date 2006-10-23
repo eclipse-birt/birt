@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -21,27 +18,17 @@ import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
-import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
-import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
@@ -51,18 +38,14 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
-import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.DialSeries;
-import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
 
 import com.ibm.icu.util.ULocale;
-
 
 /**
  * Regression description:
@@ -71,15 +54,16 @@ import com.ibm.icu.util.ULocale;
  * </p>
  * Test description:
  * <p>
- * Set locale to Arabic, create a meter chart, verify if it can be redered anti-clockwise 
+ * Set locale to Arabic, create a meter chart, verify if it can be redered
+ * anti-clockwise
  * </p>
  */
 
-public class Regression_132783 extends ChartTestCase{
-	
-	
+public class Regression_132783 extends ChartTestCase
+{
+
 	private static String GOLDEN = "Regression_132783.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_132783.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_132783.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -103,54 +87,68 @@ public class Regression_132783 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_132783 st = new Regression_132783();
+	public static void main( String[] args )
+	{
+		Regression_132783 st = new Regression_132783( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_132783() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			RunTimeContext rtc = new RunTimeContext();
-			ULocale.setDefault(new ULocale("ar_YE"));
+	public Regression_132783( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			// RunTimeContext rtc = new RunTimeContext( );
+			ULocale.setDefault( new ULocale( "ar_YE" ) );
 
-			
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
 		}
-		cm = createMeterChart();
-		BufferedImage img = new BufferedImage(500, 500,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = createMeterChart( );
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+			gr.render( dRenderer, gcs );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 	}
-	
-	
+
 	public void test_regression_132783( ) throws Exception
 	{
 		Regression_132783 st = new Regression_132783( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -187,10 +185,11 @@ public class Regression_132783 extends ChartTestCase{
 
 		final Fill[] fiaBase = {
 				ColorDefinitionImpl.ORANGE( ),
-				GradientImpl
-						.create( ColorDefinitionImpl.create( 225, 225, 255 ),
-								ColorDefinitionImpl.create( 255, 255, 225 ),
-								-35, false ), ColorDefinitionImpl.CREAM( ),
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						ColorDefinitionImpl.create( 255, 255, 225 ),
+						-35,
+						false ), ColorDefinitionImpl.CREAM( ),
 				ColorDefinitionImpl.RED( ), ColorDefinitionImpl.GREEN( ),
 				ColorDefinitionImpl.BLUE( ).brighter( ),
 				ColorDefinitionImpl.CYAN( ).darker( ),};
@@ -208,11 +207,12 @@ public class Regression_132783 extends ChartTestCase{
 		// Dial
 		DialSeries seDial = (DialSeries) DialSeriesImpl.create( );
 		seDial.setDataSet( seriesValues );
-		seDial.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		NumberFormatSpecifier nfs = NumberFormatSpecifierImpl.create( );
 		nfs.setSuffix( "`C" );
 		nfs.setFractionDigits( 0 );
@@ -221,11 +221,16 @@ public class Regression_132783 extends ChartTestCase{
 		seDial.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial.getDial( ).setStartAngle( -45 );
 		seDial.getDial( ).setStopAngle( 225 );
-		seDial.getDial( ).getMajorGrid( ).getTickAttributes( )
+		seDial
+				.getDial( )
+				.getMajorGrid( )
+				.getTickAttributes( )
 				.setVisible( true );
 		seDial.getDial( ).getMajorGrid( ).getTickAttributes( ).setColor(
 				ColorDefinitionImpl.BLACK( ) );
-		seDial.getDial( ).getScale( )
+		seDial
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 100 ) );
@@ -233,7 +238,8 @@ public class Regression_132783 extends ChartTestCase{
 		seDial.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 

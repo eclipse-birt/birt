@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -88,7 +85,7 @@ public class Regression_122807 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_122807 st = new Regression_122807( );
+		new Regression_122807( );
 	}
 
 	/**
@@ -107,7 +104,9 @@ public class Regression_122807 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createPieChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -124,7 +123,13 @@ public class Regression_122807 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -136,7 +141,7 @@ public class Regression_122807 extends ChartTestCase
 	public void test_regression_122807( ) throws Exception
 	{
 		Regression_122807 st = new Regression_122807( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -172,9 +177,12 @@ public class Regression_122807 extends ChartTestCase
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
@@ -199,7 +207,9 @@ public class Regression_122807 extends ChartTestCase
 		PieSeries ps = (PieSeries) PieSeriesImpl.create( );
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
-				ColorDefinitionImpl.BLACK( ), LineStyle.SOLID_LITERAL, 1 ) );
+				ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 		ps.setSeriesIdentifier( "ab" );
 		ps.setExplosion( 10 );

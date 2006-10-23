@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -45,19 +42,20 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 /**
  * Regression description:
  * </p>
- * Pie charts with values of 0 is renderered weird 
+ * Pie charts with values of 0 is renderered weird
  * </p>
  * Test description:
  * <p>
- * Create a 2D with depth pie chart, the data values contain 0, render the chart, verify the chart shape
+ * Create a 2D with depth pie chart, the data values contain 0, render the
+ * chart, verify the chart shape
  * </p>
  */
 
-public class Regression_134885 extends ChartTestCase{
-	
-	
+public class Regression_134885 extends ChartTestCase
+{
+
 	private static String GOLDEN = "Regression_134885.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_134885.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_134885.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -81,50 +79,65 @@ public class Regression_134885 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_134885 st = new Regression_134885();
+	public static void main( String[] args )
+	{
+		new Regression_134885( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_134885() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+	public Regression_134885( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
 		}
-		cm = createPieChart();
-		BufferedImage img = new BufferedImage(500, 500,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = createPieChart( );
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+			gr.render( dRenderer, gcs );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 	}
-	
-	
+
 	public void test_regression_134885( ) throws Exception
 	{
 		Regression_134885 st = new Regression_134885( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -140,7 +153,7 @@ public class Regression_134885 extends ChartTestCase{
 		// Chart Type
 		cwoaPie.setType( "Pie Chart" );
 		cwoaPie
-		.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
+				.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
 
 		// Data Set
 		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
@@ -160,12 +173,12 @@ public class Regression_134885 extends ChartTestCase{
 		ps.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
 		ps.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
 		ps.getLabel( ).setVisible( true );
-		// ps.getTitle().getCaption().setValue("sss");
 		ps.setSeriesIdentifier( "Actuate" );
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );

@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -30,7 +27,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -69,17 +65,21 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Regression description:
  * </p>
- * Toggling on and off the visibility of the datasets also toggles on and off the maker in the legend
+ * Toggling on and off the visibility of the datasets also toggles on and off
+ * the maker in the legend
  * </p>
  * Test description:
  * <p>
- * Set interactivity-Toggle seriex visibility to the chart, render chart, verify if legend item will be hide
+ * Set interactivity-Toggle seriex visibility to the chart, render chart, verify
+ * if legend item will be hide
  * </p>
  */
 
-
-public class Regression_117511_svg extends Composite implements
-		IUpdateNotifier, SelectionListener {
+public class Regression_117511_svg extends Composite
+		implements
+			IUpdateNotifier,
+			SelectionListener
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -97,51 +97,54 @@ public class Regression_117511_svg extends Composite implements
 
 	private Map contextMap;
 
-	Regression_117511_svg(Composite parent, int style) {
-		super(parent, style);
-		contextMap = new HashMap();
+	Regression_117511_svg( Composite parent, int style )
+	{
+		super( parent, style );
+		contextMap = new HashMap( );
 
-		PluginSettings.instance().registerDevice("dv.SVG", //$NON-NLS-1$
-				"org.eclipse.birt.chart.device.svg.SVGRendererImpl"); //$NON-NLS-1$
-		cm = BarChart();
+		PluginSettings.instance( ).registerDevice( "dv.SVG", //$NON-NLS-1$
+				"org.eclipse.birt.chart.device.svg.SVGRendererImpl" ); //$NON-NLS-1$
+		cm = BarChart( );
 
 	}
 
-	public static void main(String args[]) {
-		display = Display.getDefault();
-		Shell shell = new Shell(display);
-		shell.setSize(220, 80);
-		shell.setLocation(display.getClientArea().width / 2 - 110, display
-				.getClientArea().height / 2 - 40);
-		shell.setLayout(new GridLayout());
+	public static void main( String args[] )
+	{
+		display = Display.getDefault( );
+		Shell shell = new Shell( display );
+		shell.setSize( 220, 80 );
+		shell.setLocation( display.getClientArea( ).width / 2 - 110, display
+				.getClientArea( ).height / 2 - 40 );
+		shell.setLayout( new GridLayout( ) );
 
-		Regression_117511_svg siv = new Regression_117511_svg(shell, SWT.NONE);
-		GridData gd = new GridData(GridData.BEGINNING);
+		Regression_117511_svg siv = new Regression_117511_svg( shell, SWT.NONE );
+		GridData gd = new GridData( GridData.BEGINNING );
 		gd.widthHint = 1;
 		gd.heightHint = 1;
-		siv.setLayoutData(gd);
+		siv.setLayoutData( gd );
 
-		Composite cBottom = new Composite(shell, SWT.NONE);
-		cBottom.setLayoutData(new GridData(GridData.CENTER));
-		cBottom.setLayout(new RowLayout());
+		Composite cBottom = new Composite( shell, SWT.NONE );
+		cBottom.setLayoutData( new GridData( GridData.CENTER ) );
+		cBottom.setLayout( new RowLayout( ) );
 
-		Label la = new Label(cBottom, SWT.NONE);
-		la.setText("Choose: ");//$NON-NLS-1$
+		Label la = new Label( cBottom, SWT.NONE );
+		la.setText( "Choose: " );//$NON-NLS-1$
 
-		cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbType.add("Toggle Series Visibility");//$NON-NLS-1$
-		cbType.select(0);
+		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cbType.add( "Toggle Series Visibility" );//$NON-NLS-1$
+		cbType.select( 0 );
 
-		btn = new Button(cBottom, SWT.NONE);
-		btn.setText("Show");//$NON-NLS-1$
-		btn.addSelectionListener(siv);
+		btn = new Button( cBottom, SWT.NONE );
+		btn.setText( "Show" );//$NON-NLS-1$
+		btn.addSelectionListener( siv );
 
-		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
+		shell.open( );
+		while ( !shell.isDisposed( ) )
+		{
+			if ( !display.readAndDispatch( ) )
+				display.sleep( );
 		}
-		display.dispose();
+		display.dispose( );
 	}
 
 	/*
@@ -149,45 +152,61 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 	 */
-	public void widgetSelected(SelectionEvent e) {
-		if (e.widget == btn) {
-			int i = cbType.getSelectionIndex();
-			switch (i) {
-			case 0:
-				cm = BarChart();
-				break;
+	public void widgetSelected( SelectionEvent e )
+	{
+		if ( e.widget == btn )
+		{
+			int i = cbType.getSelectionIndex( );
+			switch ( i )
+			{
+				case 0 :
+					cm = BarChart( );
+					break;
 			}
 
-			try {
+			try
+			{
 
-				RunTimeContext rtc = new RunTimeContext();
-				rtc.setULocale(ULocale.getDefault());
+				RunTimeContext rtc = new RunTimeContext( );
+				rtc.setULocale( ULocale.getDefault( ) );
 
-				idr = PluginSettings.instance().getDevice("dv.SVG"); //$NON-NLS-1$
-				Generator gr = Generator.instance();
+				idr = PluginSettings.instance( ).getDevice( "dv.SVG" ); //$NON-NLS-1$
+				Generator gr = Generator.instance( );
 				GeneratedChartState gcs = null;
-				Bounds bo = BoundsImpl.create(0, 0, 450, 300);
-				gcs = gr.build(idr.getDisplayServer(), cm, bo, null, rtc, null);
+				Bounds bo = BoundsImpl.create( 0, 0, 450, 300 );
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						rtc,
+						null );
 
-				idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg"); //$NON-NLS-1$
-				idr.setProperty(IDeviceRenderer.UPDATE_NOTIFIER,
-						new EmptyUpdateNotifier(cm, gcs.getChartModel()));
+				idr
+						.setProperty(
+								IDeviceRenderer.FILE_IDENTIFIER,
+								"c:/test.svg" ); //$NON-NLS-1$
+				idr.setProperty(
+						IDeviceRenderer.UPDATE_NOTIFIER,
+						new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
-				gr.render(idr, gcs);
-			} catch (ChartException ce) {
-				ce.printStackTrace();
+				gr.render( idr, gcs );
+			}
+			catch ( ChartException ce )
+			{
+				ce.printStackTrace( );
 			}
 
-			Shell shell = new Shell(display);
-			shell.setSize(620, 450);
-			shell.setLayout(new GridLayout());
+			Shell shell = new Shell( display );
+			shell.setSize( 620, 450 );
+			shell.setLayout( new GridLayout( ) );
 
-			Browser br = new Browser(shell, SWT.NONE);
-			br.setLayoutData(new GridData(GridData.FILL_BOTH));
-			br.setUrl("c:/test.svg");//$NON-NLS-1$		
-			br.setVisible(true);
+			Browser br = new Browser( shell, SWT.NONE );
+			br.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			br.setUrl( "c:/test.svg" );//$NON-NLS-1$		
+			br.setVisible( true );
 
-			shell.open();
+			shell.open( );
 		}
 	}
 
@@ -196,7 +215,8 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected(SelectionEvent e) {
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
 		// TODO Auto-generated method stub
 
 	}
@@ -206,8 +226,9 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
-	public Object getContext(Object key) {
-		return contextMap.get(key);
+	public Object getContext( Object key )
+	{
+		return contextMap.get( key );
 	}
 
 	/*
@@ -215,7 +236,8 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
 	 */
-	public Chart getDesignTimeModel() {
+	public Chart getDesignTimeModel( )
+	{
 		return cm;
 	}
 
@@ -224,8 +246,9 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
 	 */
-	public Chart getRunTimeModel() {
-		return gcs.getChartModel();
+	public Chart getRunTimeModel( )
+	{
+		return gcs.getChartModel( );
 	}
 
 	/*
@@ -233,7 +256,8 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
 	 */
-	public Object peerInstance() {
+	public Object peerInstance( )
+	{
 		return this;
 	}
 
@@ -243,8 +267,9 @@ public class Regression_117511_svg extends Composite implements
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
 	 *      java.lang.Object)
 	 */
-	public Object putContext(Object key, Object value) {
-		return contextMap.put(key, value);
+	public Object putContext( Object key, Object value )
+	{
+		return contextMap.put( key, value );
 	}
 
 	/*
@@ -252,7 +277,8 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
 	 */
-	public void regenerateChart() {
+	public void regenerateChart( )
+	{
 		// TODO Auto-generated method stub
 
 	}
@@ -262,8 +288,9 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
 	 */
-	public Object removeContext(Object key) {
-		return contextMap.remove(key);
+	public Object removeContext( Object key )
+	{
+		return contextMap.remove( key );
 	}
 
 	/*
@@ -271,7 +298,8 @@ public class Regression_117511_svg extends Composite implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
-	public void repaintChart() {
+	public void repaintChart( )
+	{
 		// TODO Auto-generated method stub
 
 	}
@@ -283,76 +311,76 @@ public class Regression_117511_svg extends Composite implements
 	 *         filled datasets)
 	 */
 
-	public static final Chart BarChart() {
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+	public static final Chart BarChart( )
+	{
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
 		// Chart Type
-		cwaBar.setType("Bar Chart");
-		cwaBar.setSubType("Stacked");
+		cwaBar.setType( "Bar Chart" );
+		cwaBar.setSubType( "Stacked" );
 
 		// Title
-		cwaBar.getTitle().getLabel().getCaption().setValue(
-				"Computer Hardware Sales"); //$NON-NLS-1$
+		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
+				"Computer Hardware Sales" ); //$NON-NLS-1$
 
 		// Legend
 		Legend lg = cwaBar.getLegend( );
 
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
-		lg.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-						ActionImpl.create( ActionType.TOGGLE_VISIBILITY_LITERAL,
+		lg.getTriggers( ).add(
+				TriggerImpl.create(
+						TriggerCondition.ONCLICK_LITERAL,
+						ActionImpl.create(
+								ActionType.TOGGLE_VISIBILITY_LITERAL,
 								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$		
-		
-		// X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaBar).getPrimaryBaseAxes()[0];
-		xAxisPrimary.getTitle().setVisible(false);
 
-		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
-		xAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.GREEN().darker());
+		// X-Axis
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes( )[0];
+		xAxisPrimary.getTitle( ).setVisible( false );
+
+		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+		xAxisPrimary.getLabel( ).getCaption( ).setColor(
+				ColorDefinitionImpl.GREEN( ).darker( ) );
 
 		// Y-Axis
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaBar)
-				.getPrimaryOrthogonalAxis(xAxisPrimary);
-		yAxisPrimary.getLabel().getCaption().setValue("Sales Growth"); //$NON-NLS-1$
-		yAxisPrimary.getLabel().getCaption().setColor(
-				ColorDefinitionImpl.BLUE());
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
+				.getPrimaryOrthogonalAxis( xAxisPrimary );
+		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
+		yAxisPrimary.getLabel( ).getCaption( ).setColor(
+				ColorDefinitionImpl.BLUE( ) );
 
-		yAxisPrimary.getTitle().setVisible(false);
-		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		yAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
-
+		yAxisPrimary.getTitle( ).setVisible( false );
+		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
 		// Data Set
-		TextDataSet dsStringValue = TextDataSetImpl.create(new String[] {
-				"Keyboards", "Moritors", "Printers", "Mortherboards" });
-		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
-				143.26, 156.55, 95.25, 47.56 });
+		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
+				"Keyboards", "Moritors", "Printers", "Mortherboards"} );
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl
+				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
 
 		// X-Series
-		Series seBase = SeriesImpl.create();
-		seBase.setDataSet(dsStringValue);
+		Series seBase = SeriesImpl.create( );
+		seBase.setDataSet( dsStringValue );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.setSorting(SortOption.ASCENDING_LITERAL);
-		sdX.getQuery().setDefinition(""); //$NON-NLS-1$
-		xAxisPrimary.getSeriesDefinitions().add(sdX);
-		sdX.getSeries().add(seBase);
+		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
+		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create();
-		bs.setSeriesIdentifier("Actuate"); //$NON-NLS-1$
-		bs.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
-		bs.getLabel().setBackground(ColorDefinitionImpl.CYAN());
-		bs.getLabel().setVisible(true);
-		bs.setDataSet(dsNumericValues1);
-		bs.setStacked(true);
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.setSeriesIdentifier( "Actuate" ); //$NON-NLS-1$
+		bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+		bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+		bs.getLabel( ).setVisible( true );
+		bs.setDataSet( dsNumericValues1 );
+		bs.setStacked( true );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create();
-		yAxisPrimary.getSeriesDefinitions().add(sdY);
-		sdY.getSeriesPalette().update(ColorDefinitionImpl.BLUE());
-		sdY.getSeries().add(bs);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
+		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
+		sdY.getSeries( ).add( bs );
 
 		return cwaBar;
 	}

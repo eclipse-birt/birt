@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -46,14 +43,14 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 
 /**
- * Run mode: StandAlone
- * Regression description:
+ * Run mode: StandAlone Regression description:
  * </p>
- * Can't change the label of the  X-Axis of a scatter chart
+ * Can't change the label of the X-Axis of a scatter chart
  * </p>
  * Test description:
  * <p>
- * Change the label of the  X-Axis of a scatter chart, verify if it can be take effect.
+ * Change the label of the X-Axis of a scatter chart, verify if it can be take
+ * effect.
  * </p>
  */
 
@@ -85,7 +82,7 @@ public class Regression_152033 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_152033 st = new Regression_152033( );
+		new Regression_152033( );
 	}
 
 	/**
@@ -104,7 +101,9 @@ public class Regression_152033 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createDateTimeScatter( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -120,7 +119,13 @@ public class Regression_152033 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -128,14 +133,8 @@ public class Regression_152033 extends ChartTestCase
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		
-	}
 
-//	public void test_regression_152033( ) throws Exception
-//	{
-//		Regression_152033 st = new Regression_152033( );
-//		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
-//	}
+	}
 
 	/**
 	 * Creates a scatter chart model as a reference implementation
@@ -146,8 +145,8 @@ public class Regression_152033 extends ChartTestCase
 	public static final Chart createDateTimeScatter( )
 	{
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create( );
-		
-//		 TODO: research running script under plugin test.
+
+		// TODO: research running script under plugin test.
 
 		cwaScatter
 				.setScript( "function beforeDrawAxisLabel(axis, label, context)" //$NON-NLS-1$

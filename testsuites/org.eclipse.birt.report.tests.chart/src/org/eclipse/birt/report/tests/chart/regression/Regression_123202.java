@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -84,7 +83,7 @@ public class Regression_123202 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_123202 st = new Regression_123202( );
+		new Regression_123202( );
 	}
 
 	/**
@@ -120,7 +119,13 @@ public class Regression_123202 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -132,7 +137,7 @@ public class Regression_123202 extends ChartTestCase
 	public void test_regression_123202( ) throws Exception
 	{
 		Regression_123202 st = new Regression_123202( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -189,8 +194,6 @@ public class Regression_123202 extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

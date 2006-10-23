@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -77,7 +74,6 @@ import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 
-
 /**
  * Regression description:
  * </p>
@@ -85,7 +81,8 @@ import org.eclipse.birt.core.exception.BirtException;
  * </p>
  * Test description:
  * <p>
- * 3D Line Chart, set marker type to icon, render the chart,verify if it is correct.
+ * 3D Line Chart, set marker type to icon, render the chart,verify if it is
+ * correct.
  * </p>
  */
 
@@ -130,7 +127,8 @@ public final class Regression_118009_swing extends JPanel
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
 		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
+		jf.setLocation(
+				( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( siv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
@@ -148,7 +146,7 @@ public final class Regression_118009_swing extends JPanel
 				siv.idr.dispose( );
 			}
 		} );
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**
@@ -260,7 +258,9 @@ public final class Regression_118009_swing extends JPanel
 		if ( bi == null || bi.getWidth( ) != d.width
 				|| bi.getHeight( ) != d.height )
 		{
-			bi = new BufferedImage( d.width, d.height,
+			bi = new BufferedImage(
+					d.width,
+					d.height,
 					BufferedImage.TYPE_INT_ARGB );
 		}
 
@@ -281,7 +281,12 @@ public final class Regression_118009_swing extends JPanel
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
 						null );
 			}
 			catch ( ChartException ex )
@@ -573,7 +578,7 @@ public final class Regression_118009_swing extends JPanel
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
-        
+
 		yAxisPrimary.getTitle( ).setVisible( false );
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
@@ -592,8 +597,12 @@ public final class Regression_118009_swing extends JPanel
 		zAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		cwaLine.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).add( zAxisPrimary );
 
-		cwaLine.getPrimaryOrthogonalAxis( cwaLine.getPrimaryBaseAxes( )[0] )
-				.getTitle( ).getCaption( ).getFont( ).setRotation( 0 );
+		cwaLine
+				.getPrimaryOrthogonalAxis( cwaLine.getPrimaryBaseAxes( )[0] )
+				.getTitle( )
+				.getCaption( )
+				.getFont( )
+				.setRotation( 0 );
 
 		// Data Set
 		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
@@ -610,7 +619,6 @@ public final class Regression_118009_swing extends JPanel
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -623,11 +631,11 @@ public final class Regression_118009_swing extends JPanel
 		ls.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
 		ls.getLabel( ).setVisible( false );
 		ls.setDataSet( dsNumericValues1 );
-		Marker marker = (Marker)ls.getMarkers().get(0);
+		Marker marker = (Marker) ls.getMarkers( ).get( 0 );
 		marker.setType( MarkerType.ICON_LITERAL );
-        marker.setFill(ImageImpl.create( "file:///" + System.getProperty( "user.dir" )
-				+ "/27.gif" ));
-  
+		marker.setFill( ImageImpl.create( "file:///"
+				+ System.getProperty( "user.dir" ) + "/27.gif" ) );
+
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
@@ -659,5 +667,3 @@ public final class Regression_118009_swing extends JPanel
 
 	}
 }
-
-

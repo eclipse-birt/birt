@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -29,7 +26,6 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
@@ -57,7 +53,8 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  * Test description:
  * <p>
- * Flip the axes (still 2D bar chart), the data set contain values equal to 0, verify if it can be rendered correclty.
+ * Flip the axes (still 2D bar chart), the data set contain values equal to 0,
+ * verify if it can be rendered correclty.
  * </p>
  */
 
@@ -90,7 +87,7 @@ public class Regression_152127 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_152127 st = new Regression_152127( );
+		new Regression_152127( );
 	}
 
 	/**
@@ -109,7 +106,9 @@ public class Regression_152127 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createBarChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -125,7 +124,13 @@ public class Regression_152127 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -133,13 +138,13 @@ public class Regression_152127 extends ChartTestCase
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
-		
+
 	}
 
 	public void test_regression_152127( ) throws Exception
 	{
 		Regression_152127 st = new Regression_152127( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -172,10 +177,11 @@ public class Regression_152127 extends ChartTestCase
 		p.setAnchor( Anchor.NORTH_LITERAL );
 
 		p.getClientArea( ).setBackground(
-				GradientImpl
-						.create( ColorDefinitionImpl.create( 225, 0, 255 ),
-								ColorDefinitionImpl.create( 255, 253, 200 ),
-								-35, false ) );
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 0, 255 ),
+						ColorDefinitionImpl.create( 255, 253, 200 ),
+						-35,
+						false ) );
 		p.getClientArea( ).getOutline( ).setVisible( true );
 
 		// Legend
@@ -188,9 +194,12 @@ public class Regression_152127 extends ChartTestCase
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.SOUTH_LITERAL );
 		lg.setItemType( LegendItemType.SERIES_LITERAL );
 
@@ -232,8 +241,6 @@ public class Regression_152127 extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

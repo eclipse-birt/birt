@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -50,19 +47,20 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 /**
  * Regression description:
  * </p>
- * Pie chart, Minimun Slice is set to 50% percentage,system throws exception 
+ * Pie chart, Minimun Slice is set to 50% percentage,system throws exception
  * </p>
  * Test description:
  * <p>
- * PIe chart, Minimun Slice is set to 50% percentage,render the chart, verify if it will throw exception
+ * PIe chart, Minimun Slice is set to 50% percentage,render the chart, verify if
+ * it will throw exception
  * </p>
  */
 
-public class Regression_115433 extends ChartTestCase{
-	
-	
+public class Regression_115433 extends ChartTestCase
+{
+
 	private static String GOLDEN = "Regression_115433.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_115433.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_115433.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -86,51 +84,66 @@ public class Regression_115433 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_115433 st = new Regression_115433();
+	public static void main( String[] args )
+	{
+		new Regression_115433( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_115433() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-	
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+	public Regression_115433( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
+
 		}
-		cm = createPieChart();
-		BufferedImage img = new BufferedImage(500, 500,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = createPieChart( );
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+			gr.render( dRenderer, gcs );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 	}
-	
-	
+
 	public void test_regression_115433( ) throws Exception
 	{
-		Regression_115433 st = new Regression_115433();
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+		Regression_115433 st = new Regression_115433( );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -166,9 +179,12 @@ public class Regression_115433 extends ChartTestCase{
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
@@ -180,7 +196,7 @@ public class Regression_115433 extends ChartTestCase{
 		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
 				"Keyboards", "Moritors", "Printers", "Mortherboards"} );
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl
-				.create( new double[]{30.5, 12.3, 85.3,22.3} );
+				.create( new double[]{30.5, 12.3, 85.3, 22.3} );
 
 		// Series
 		Series seCategory = SeriesImpl.create( );
@@ -194,12 +210,12 @@ public class Regression_115433 extends ChartTestCase{
 		ps.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
 		ps.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
 		ps.getLabel( ).setVisible( true );
-		// ps.getTitle().getCaption().setValue("sss");
 		ps.setSeriesIdentifier( "Actuate" );
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );
@@ -208,8 +224,8 @@ public class Regression_115433 extends ChartTestCase{
 		series.getSeriesPalette( ).update( -2 );
 		series.getSeriesDefinitions( ).add( seGroup1 );
 		seGroup1.getSeries( ).add( ps );
-		
-//		 Min Slice
+
+		// Min Slice
 		cwoaPie.setMinSlice( 50 );
 		cwoaPie.setMinSlicePercent( true );
 		cwoaPie.setMinSliceLabel( "Others" );//$NON-NLS-1$

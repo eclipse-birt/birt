@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -122,7 +119,8 @@ public class Regression_117865_svg extends Composite
 			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, rtc, null );
 
 			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+			idr.setProperty(
+					IDeviceRenderer.UPDATE_NOTIFIER,
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 			gr.render( idr, gcs );
@@ -296,9 +294,12 @@ public class Regression_117865_svg extends Composite
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
@@ -306,17 +307,12 @@ public class Regression_117865_svg extends Composite
 		lg.setPosition( Position.LEFT_LITERAL );
 		lg.setOrientation( Orientation.VERTICAL_LITERAL );
 
-		lg
-				.getTriggers( )
-				.add(
-						TriggerImpl
-								.create(
-										TriggerCondition.ONCLICK_LITERAL,
-										ActionImpl
-												.create(
-														ActionType.HIGHLIGHT_LITERAL,
-														SeriesValueImpl
-																.create( "not-used" ) ) ) ); //$NON-NLS-1$
+		lg.getTriggers( ).add(
+				TriggerImpl.create(
+						TriggerCondition.ONCLICK_LITERAL,
+						ActionImpl.create(
+								ActionType.HIGHLIGHT_LITERAL,
+								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
 
 		// Data Set
 		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
@@ -340,7 +336,8 @@ public class Regression_117865_svg extends Composite
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );

@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -62,11 +59,12 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class Regression_122396 extends ChartTestCase{
+public class Regression_122396 extends ChartTestCase
+{
 
-    private static String GOLDEN = "Regression_122396.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "Regression_122396.jpg"; //$NON-NLS-1$	
-	
+	private static String GOLDEN = "Regression_122396.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_122396.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -91,7 +89,7 @@ public class Regression_122396 extends ChartTestCase{
 	 */
 	public static void main( String[] args )
 	{
-		Regression_122396 st = new Regression_122396( );
+		new Regression_122396( );
 	}
 
 	/**
@@ -110,15 +108,17 @@ public class Regression_122396 extends ChartTestCase{
 			ex.printStackTrace( );
 		}
 		cm = createMeterChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -126,7 +126,13 @@ public class Regression_122396 extends ChartTestCase{
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -139,9 +145,9 @@ public class Regression_122396 extends ChartTestCase{
 	public void test_regression_122396( ) throws Exception
 	{
 		Regression_122396 st = new Regression_122396( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-	}	
-	
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+	}
+
 	/**
 	 * Creates a meter chart model as a reference implementation
 	 * 
@@ -196,10 +202,11 @@ public class Regression_122396 extends ChartTestCase{
 
 		final Fill[] fiaBase = {
 				ColorDefinitionImpl.ORANGE( ),
-				GradientImpl
-						.create( ColorDefinitionImpl.create( 225, 225, 255 ),
-								ColorDefinitionImpl.create( 255, 255, 225 ),
-								-35, false ), ColorDefinitionImpl.CREAM( ),
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						ColorDefinitionImpl.create( 255, 255, 225 ),
+						-35,
+						false ), ColorDefinitionImpl.CREAM( ),
 				ColorDefinitionImpl.RED( ), ColorDefinitionImpl.GREEN( ),
 				ColorDefinitionImpl.BLUE( ).brighter( ),
 				ColorDefinitionImpl.CYAN( ).darker( ),};
@@ -218,19 +225,27 @@ public class Regression_122396 extends ChartTestCase{
 		DialSeries seDial = (DialSeries) DialSeriesImpl.create( );
 		seDial.setDataSet( NumberDataSetImpl.create( new double[]{60} ) );
 		seDial.getDial( ).setFill(
-				GradientImpl
-						.create( ColorDefinitionImpl.create( 225, 225, 255 ),
-								ColorDefinitionImpl.create( 255, 255, 225 ),
-								-35, false ) );
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						ColorDefinitionImpl.create( 255, 255, 225 ),
+						-35,
+						false ) );
 		seDial.getDial( ).setRadius( 0 );
 		seDial.getNeedle( ).setDecorator( LineDecorator.ARROW_LITERAL );
-		seDial.getDial( ).getMinorGrid( ).getTickAttributes( )
+		seDial
+				.getDial( )
+				.getMinorGrid( )
+				.getTickAttributes( )
 				.setVisible( true );
 		seDial.getDial( ).getMinorGrid( ).getTickAttributes( ).setColor(
 				ColorDefinitionImpl.RED( ) );
-		seDial.getDial( ).getMinorGrid( )
+		seDial
+				.getDial( )
+				.getMinorGrid( )
 				.setTickStyle( TickStyle.BELOW_LITERAL );
-		seDial.getDial( ).getScale( )
+		seDial
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 180 ) );
@@ -238,7 +253,8 @@ public class Regression_122396 extends ChartTestCase{
 		seDial.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
@@ -254,10 +270,11 @@ public class Regression_122396 extends ChartTestCase{
 		DialSeries seDial1 = (DialSeries) DialSeriesImpl.create( );
 		seDial1.setDataSet( NumberDataSetImpl.create( new double[]{60} ) );
 		seDial1.getDial( ).setFill(
-				GradientImpl
-						.create( ColorDefinitionImpl.create( 225, 225, 255 ),
-								ColorDefinitionImpl.create( 255, 255, 225 ),
-								-35, false ) );
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						ColorDefinitionImpl.create( 255, 255, 225 ),
+						-35,
+						false ) );
 		seDial1.getDial( ).setRadius( 10 );
 		seDial1.getDial( ).getMinorGrid( ).getTickAttributes( ).setVisible(
 				true );
@@ -265,7 +282,9 @@ public class Regression_122396 extends ChartTestCase{
 				ColorDefinitionImpl.BLUE( ) );
 		seDial1.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial1.getDial( ).getScale( )
+		seDial1
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial1.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 180 ) );
@@ -273,14 +292,16 @@ public class Regression_122396 extends ChartTestCase{
 		seDial1.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial1.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
 		DialRegion dregion2 = DialRegionImpl.create( );
 		dregion2.setFill( ColorDefinitionImpl.YELLOW( ) );
 		dregion2.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion2.setStartValue( NumberDataElementImpl.create( 0 ) );
 		dregion2.setEndValue( NumberDataElementImpl.create( 80 ) );
 		seDial1.getDial( ).getDialRegions( ).add( dregion2 );

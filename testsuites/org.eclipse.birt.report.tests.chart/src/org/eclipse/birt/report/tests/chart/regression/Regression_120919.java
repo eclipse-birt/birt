@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -85,7 +82,7 @@ public class Regression_120919 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_120919 st = new Regression_120919( );
+		new Regression_120919( );
 	}
 
 	/**
@@ -105,7 +102,9 @@ public class Regression_120919 extends ChartTestCase
 		}
 		cm = createChart( );
 		bindGroupingData( cm );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -122,7 +121,13 @@ public class Regression_120919 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -134,95 +139,8 @@ public class Regression_120919 extends ChartTestCase
 	public void test_regression_120919( ) throws Exception
 	{
 		Regression_120919 st = new Regression_120919( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
-
-	// /**
-	// * Creates a bar chart model as a reference implementation
-	// *
-	// * @return An instance of the simulated runtime chart model (containing
-	// * filled datasets)
-	// */
-	// public static final Chart createBarChart( )
-	// {
-	// ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-	//
-	// // Chart Type
-	// cwaBar.setType( "Bar Chart" );
-	//
-	// // Title
-	// cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
-	// "Computer Hardware Sales" ); //$NON-NLS-1$
-	// cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-	//
-	// // Legend
-	// Legend lg = cwaBar.getLegend( );
-	// lg.setVisible( false );
-	//
-	// // X-Axis
-	// Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes(
-	// )[0];
-	// xAxisPrimary.getTitle( ).setVisible( false );
-	//
-	// xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-	// xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-	// xAxisPrimary.getLabel( ).getCaption( ).setColor(
-	// ColorDefinitionImpl.GREEN( ).darker( ) );
-	//
-	// xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 45 );
-	//
-	// // Y-Axis
-	// Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
-	// .getPrimaryOrthogonalAxis( xAxisPrimary );
-	// yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" );
-	// //$NON-NLS-1$
-	// yAxisPrimary.getLabel( ).getCaption( ).setColor(
-	// ColorDefinitionImpl.BLUE( ) );
-	//
-	// yAxisPrimary.getTitle( ).setVisible( false );
-	// yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-	// yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-	//
-	// // Data Set
-	// DateTimeDataSet dsDateValues = DateTimeDataSetImpl
-	// .create( new Calendar[]{new CDateTime( 2005, 4, 1, 10, 12 ),
-	// new CDateTime( 2005, 4, 1, 11, 15 ),
-	// new CDateTime( 2005, 4, 1, 7, 15 )} );
-	// NumberDataSet dsNumericValues1 = NumberDataSetImpl
-	// .create( new double[]{143.26, 156.55, 95.25} );
-	//
-	// // X-Series
-	// Series seBase = SeriesImpl.create( );
-	// seBase.setDataSet( dsDateValues );
-	//
-	// SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-	// sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-	// sdX.setSorting( SortOption.DESCENDING_LITERAL );
-	// xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-	// sdX.getSeries( ).add( seBase );
-	//
-	// sdX.getGrouping( ).setEnabled( true );
-	// sdX.getGrouping( ).setGroupType( DataType.get( 1 ) );
-	// sdX.getGrouping( ).setGroupingUnit( GroupingUnitType.get( 3 ) );
-	// sdX.getGrouping( ).setGroupingInterval( 1 );
-	// sdX.getGrouping( ).setAggregateExpression( "Sum" );
-	//
-	// // Y-Series
-	// BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-	// bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-	// bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-	// bs.getLabel( ).setVisible( true );
-	// bs.setDataSet( dsNumericValues1 );
-	// bs.setStacked( true );
-	//
-	// SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-	// yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-	// sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
-	// sdY.getSeries( ).add( bs );
-	//
-	// return cwaBar;
-	//
-	// }
 
 	private void bindGroupingData( Chart chart )
 

@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -25,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -86,7 +82,7 @@ public class Regression_103787 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_103787 st = new Regression_103787( );
+		new Regression_103787( );
 	}
 
 	/**
@@ -105,7 +101,9 @@ public class Regression_103787 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createBarChart( );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -122,7 +120,13 @@ public class Regression_103787 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -134,7 +138,7 @@ public class Regression_103787 extends ChartTestCase
 	public void test_regression_103787( ) throws Exception
 	{
 		Regression_103787 st = new Regression_103787( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -143,6 +147,7 @@ public class Regression_103787 extends ChartTestCase
 	 * @return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
+
 	public static final Chart createBarChart( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
@@ -200,8 +205,6 @@ public class Regression_103787 extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

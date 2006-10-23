@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -84,7 +81,7 @@ public class Regression_109641 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_109641 st = new Regression_109641( );
+		new Regression_109641( );
 	}
 
 	/**
@@ -105,7 +102,9 @@ public class Regression_109641 extends ChartTestCase
 		cm = createChart( );
 		bindGroupingData( cm );
 
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -122,7 +121,13 @@ public class Regression_109641 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -134,7 +139,7 @@ public class Regression_109641 extends ChartTestCase
 	public void test_regression_109641( ) throws Exception
 	{
 		Regression_109641 st = new Regression_109641( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	private void bindGroupingData( Chart chart )

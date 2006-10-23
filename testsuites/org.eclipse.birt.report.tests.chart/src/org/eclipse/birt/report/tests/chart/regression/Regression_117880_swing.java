@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -135,7 +132,8 @@ public final class Regression_117880_swing extends JPanel
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
 		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
+		jf.setLocation(
+				( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( siv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
@@ -155,7 +153,7 @@ public final class Regression_117880_swing extends JPanel
 
 		} );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**
@@ -267,7 +265,9 @@ public final class Regression_117880_swing extends JPanel
 		if ( bi == null || bi.getWidth( ) != d.width
 				|| bi.getHeight( ) != d.height )
 		{
-			bi = new BufferedImage( d.width, d.height,
+			bi = new BufferedImage(
+					d.width,
+					d.height,
 					BufferedImage.TYPE_INT_ARGB );
 		}
 
@@ -288,7 +288,12 @@ public final class Regression_117880_swing extends JPanel
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
 						null );
 			}
 			catch ( ChartException ex )
@@ -588,7 +593,8 @@ public final class Regression_117880_swing extends JPanel
 		lg.setPosition( Position.BELOW_LITERAL );
 		lg.setItemType( LegendItemType.SERIES_LITERAL );
 		lg.getTriggers( ).add(
-				TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+				TriggerImpl.create(
+						TriggerCondition.ONCLICK_LITERAL,
 						ActionImpl.create(
 								ActionType.TOGGLE_VISIBILITY_LITERAL,
 								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
@@ -616,11 +622,12 @@ public final class Regression_117880_swing extends JPanel
 		// Dial 1
 		DialSeries seDial1 = (DialSeries) DialSeriesImpl.create( );
 		seDial1.setDataSet( NumberDataSetImpl.create( new double[]{20} ) );
-		seDial1.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial1.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial1.setSeriesIdentifier( "Temperature" );
 		seDial1.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial1.getDial( ).setStartAngle( -45 );
@@ -631,7 +638,9 @@ public final class Regression_117880_swing extends JPanel
 				ColorDefinitionImpl.BLACK( ) );
 		seDial1.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial1.getDial( ).getScale( )
+		seDial1
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial1.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -639,14 +648,16 @@ public final class Regression_117880_swing extends JPanel
 		seDial1.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial1.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
 		DialRegion dregion1 = DialRegionImpl.create( );
 		dregion1.setFill( ColorDefinitionImpl.GREEN( ) );
 		dregion1.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion1.setStartValue( NumberDataElementImpl.create( 70 ) );
 		dregion1.setEndValue( NumberDataElementImpl.create( 90 ) );
 		dregion1.setInnerRadius( 40 );
@@ -656,7 +667,8 @@ public final class Regression_117880_swing extends JPanel
 		DialRegion dregion2 = DialRegionImpl.create( );
 		dregion2.setFill( ColorDefinitionImpl.YELLOW( ) );
 		dregion2.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion2.setStartValue( NumberDataElementImpl.create( 40 ) );
 		dregion2.setEndValue( NumberDataElementImpl.create( 70 ) );
 		dregion2.setOuterRadius( 70 );
@@ -665,7 +677,8 @@ public final class Regression_117880_swing extends JPanel
 		DialRegion dregion3 = DialRegionImpl.create( );
 		dregion3.setFill( ColorDefinitionImpl.RED( ) );
 		dregion3.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion3.setStartValue( NumberDataElementImpl.create( 0 ) );
 		dregion3.setEndValue( NumberDataElementImpl.create( 40 ) );
 		dregion3.setInnerRadius( 40 );
@@ -675,11 +688,12 @@ public final class Regression_117880_swing extends JPanel
 		// Dial 2
 		DialSeries seDial2 = (DialSeries) DialSeriesImpl.create( );
 		seDial2.setDataSet( NumberDataSetImpl.create( new double[]{58} ) );
-		seDial2.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial2.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial2.setSeriesIdentifier( "Wind Speed" );
 		seDial2.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial2.getDial( ).setStartAngle( -45 );
@@ -690,7 +704,9 @@ public final class Regression_117880_swing extends JPanel
 				ColorDefinitionImpl.BLACK( ) );
 		seDial2.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial2.getDial( ).getScale( )
+		seDial2
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial2.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -698,7 +714,8 @@ public final class Regression_117880_swing extends JPanel
 		seDial2.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial2.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
@@ -709,11 +726,12 @@ public final class Regression_117880_swing extends JPanel
 		// Dial 3
 		DialSeries seDial3 = (DialSeries) DialSeriesImpl.create( );
 		seDial3.setDataSet( NumberDataSetImpl.create( new double[]{80} ) );
-		seDial3.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial3.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial3.setSeriesIdentifier( "Viscosity" );
 		seDial3.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial3.getDial( ).setStartAngle( -45 );
@@ -724,7 +742,9 @@ public final class Regression_117880_swing extends JPanel
 				ColorDefinitionImpl.BLACK( ) );
 		seDial3.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial3.getDial( ).getScale( )
+		seDial3
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial3.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -732,7 +752,8 @@ public final class Regression_117880_swing extends JPanel
 		seDial3.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial3.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 

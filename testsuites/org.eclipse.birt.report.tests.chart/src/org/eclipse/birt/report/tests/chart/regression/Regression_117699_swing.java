@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -129,7 +126,8 @@ public final class Regression_117699_swing extends JPanel
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
 		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
+		jf.setLocation(
+				( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( siv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
@@ -149,7 +147,7 @@ public final class Regression_117699_swing extends JPanel
 
 		} );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**
@@ -261,7 +259,9 @@ public final class Regression_117699_swing extends JPanel
 		if ( bi == null || bi.getWidth( ) != d.width
 				|| bi.getHeight( ) != d.height )
 		{
-			bi = new BufferedImage( d.width, d.height,
+			bi = new BufferedImage(
+					d.width,
+					d.height,
 					BufferedImage.TYPE_INT_ARGB );
 		}
 
@@ -282,7 +282,12 @@ public final class Regression_117699_swing extends JPanel
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
 						null );
 			}
 			catch ( ChartException ex )
@@ -607,7 +612,6 @@ public final class Regression_117699_swing extends JPanel
 		seBase.setDataSet( dsNumericValues1 );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -638,10 +642,13 @@ public final class Regression_117699_swing extends JPanel
 		ss.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
 		ss.getLabel( ).setVisible( true );
 		ss.setDataSet( dsNumericValues2 );
-		Trigger triger = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-				ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
+		Trigger triger = TriggerImpl.create(
+				TriggerCondition.ONCLICK_LITERAL,
+				ActionImpl.create(
+						ActionType.URL_REDIRECT_LITERAL,
 						URLValueImpl.create( "http://www.actuate.com", //$NON-NLS-1$
-								null, null, //$NON-NLS-1$
+								null,
+								null, //$NON-NLS-1$
 								null, //$NON-NLS-1$
 								null ) ) );
 		ss.getTriggers( ).add( triger );

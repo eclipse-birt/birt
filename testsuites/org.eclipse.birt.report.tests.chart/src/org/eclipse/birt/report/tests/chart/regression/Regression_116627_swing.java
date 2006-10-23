@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -128,7 +125,8 @@ public final class Regression_116627_swing extends JPanel
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
 		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
+		jf.setLocation(
+				( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( siv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
@@ -148,7 +146,7 @@ public final class Regression_116627_swing extends JPanel
 
 		} );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**
@@ -260,7 +258,9 @@ public final class Regression_116627_swing extends JPanel
 		if ( bi == null || bi.getWidth( ) != d.width
 				|| bi.getHeight( ) != d.height )
 		{
-			bi = new BufferedImage( d.width, d.height,
+			bi = new BufferedImage(
+					d.width,
+					d.height,
 					BufferedImage.TYPE_INT_ARGB );
 		}
 
@@ -281,7 +281,12 @@ public final class Regression_116627_swing extends JPanel
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null,
+				gcs = gr.build(
+						idr.getDisplayServer( ),
+						cm,
+						bo,
+						null,
+						null,
 						null );
 			}
 			catch ( ChartException ex )
@@ -572,9 +577,12 @@ public final class Regression_116627_swing extends JPanel
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.SERIES_LITERAL );
 
@@ -582,7 +590,8 @@ public final class Regression_116627_swing extends JPanel
 		lg.setPosition( Position.LEFT_LITERAL );
 		lg.setOrientation( Orientation.VERTICAL_LITERAL );
 		lg.getTriggers( ).add(
-				TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+				TriggerImpl.create(
+						TriggerCondition.ONCLICK_LITERAL,
 						ActionImpl.create(
 								ActionType.TOGGLE_VISIBILITY_LITERAL,
 								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
@@ -610,7 +619,8 @@ public final class Regression_116627_swing extends JPanel
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );

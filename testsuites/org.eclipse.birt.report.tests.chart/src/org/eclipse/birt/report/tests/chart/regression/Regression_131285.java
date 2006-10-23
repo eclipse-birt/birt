@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -94,7 +91,7 @@ public class Regression_131285 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_131285 st = new Regression_131285( );
+		new Regression_131285( );
 	}
 
 	/**
@@ -113,7 +110,9 @@ public class Regression_131285 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createMeterChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -129,7 +128,13 @@ public class Regression_131285 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -142,7 +147,7 @@ public class Regression_131285 extends ChartTestCase
 	public void test_regression_131285( ) throws Exception
 	{
 		Regression_131285 st = new Regression_131285( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -210,11 +215,12 @@ public class Regression_131285 extends ChartTestCase
 		// Dial 1
 		DialSeries seDial1 = (DialSeries) DialSeriesImpl.create( );
 		seDial1.setDataSet( NumberDataSetImpl.create( new double[]{20} ) );
-		seDial1.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial1.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial1.setSeriesIdentifier( "Temperature" );
 		seDial1.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial1.getDial( ).setStartAngle( -45 );
@@ -225,7 +231,9 @@ public class Regression_131285 extends ChartTestCase
 				ColorDefinitionImpl.BLACK( ) );
 		seDial1.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial1.getDial( ).getScale( )
+		seDial1
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial1.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -233,14 +241,16 @@ public class Regression_131285 extends ChartTestCase
 		seDial1.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial1.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
 		DialRegion dregion1 = DialRegionImpl.create( );
 		dregion1.setFill( ColorDefinitionImpl.GREEN( ) );
 		dregion1.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion1.setStartValue( NumberDataElementImpl.create( 0 ) );
 		dregion1.setEndValue( NumberDataElementImpl.create( 40 ) );
 		dregion1.setInnerRadius( 40 );

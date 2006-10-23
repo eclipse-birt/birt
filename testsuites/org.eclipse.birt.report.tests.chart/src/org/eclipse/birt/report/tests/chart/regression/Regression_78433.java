@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -26,8 +23,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
@@ -64,7 +59,6 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 public class Regression_78433 extends ChartTestCase
 {
 
-	// private static String GOLDEN = "Regression_78433.jpg"; //$NON-NLS-1$
 	private static String OUTPUT = "Regression_78433.jpg"; //$NON-NLS-1$
 
 	/**
@@ -91,7 +85,7 @@ public class Regression_78433 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_78433 st = new Regression_78433( );
+		new Regression_78433( );
 	}
 
 	/**
@@ -110,7 +104,9 @@ public class Regression_78433 extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createBarChart( );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -126,7 +122,13 @@ public class Regression_78433 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 			fail( );
 		}
@@ -140,7 +142,7 @@ public class Regression_78433 extends ChartTestCase
 
 	public void test_regression_78433( ) throws Exception
 	{
-		Regression_78433 st = new Regression_78433( );
+		new Regression_78433( );
 	}
 
 	/**
@@ -161,12 +163,16 @@ public class Regression_78433 extends ChartTestCase
 		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
 				"Computer Hardware Sales" ); //$NON-NLS-1$
 		cwaBar.getTitle( ).setOutline(
-				LineAttributesImpl.create( ColorDefinitionImpl.create( 239, 33,
+				LineAttributesImpl.create( ColorDefinitionImpl.create(
+						239,
+						33,
 						3 ), LineStyle.DASH_DOTTED_LITERAL, 3 ) );
 		cwaBar.getTitle( ).setInsets( InsetsImpl.create( 0, 10, 20, 10 ) );
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 		cwaBar.getBlock( ).setOutline(
-				LineAttributesImpl.create( ColorDefinitionImpl.create( 239, 33,
+				LineAttributesImpl.create( ColorDefinitionImpl.create(
+						239,
+						33,
 						3 ), LineStyle.DOTTED_LITERAL, 2 ) );
 
 		// Plot
@@ -187,9 +193,16 @@ public class Regression_78433 extends ChartTestCase
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-		FontDefinition fd = FontDefinitionImpl.create( "Arial", (float) 30.0,
-				true, true, false, true, false, 30.0, TextAlignmentImpl
-						.create( ) );
+		FontDefinition fd = FontDefinitionImpl.create(
+				"Arial",
+				(float) 30.0,
+				true,
+				true,
+				false,
+				true,
+				false,
+				30.0,
+				TextAlignmentImpl.create( ) );
 		yAxisPrimary.getLabel( ).getCaption( ).setFont( fd );
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
@@ -211,8 +224,6 @@ public class Regression_78433 extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.setSorting( SortOption.ASCENDING_LITERAL );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

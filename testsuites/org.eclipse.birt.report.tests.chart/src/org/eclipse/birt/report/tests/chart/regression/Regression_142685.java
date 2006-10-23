@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -65,12 +62,9 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
+public class Regression_142685 extends ChartTestCase
+{
 
-
-public class Regression_142685 extends ChartTestCase{
-	
-	
-	
 	private static String GOLDEN = "Regression_142685.jpg"; //$NON-NLS-1$
 	private static String OUTPUT = "Regression_142685.jpg"; //$NON-NLS-1$
 	/**
@@ -95,50 +89,65 @@ public class Regression_142685 extends ChartTestCase{
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Regression_142685 st = new Regression_142685();
+	public static void main( String[] args )
+	{
+		new Regression_142685( );
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_142685() {
-		final PluginSettings ps = PluginSettings.instance();
-		try {
-			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
+	public Regression_142685( )
+	{
+		final PluginSettings ps = PluginSettings.instance( );
+		try
+		{
+			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
-		} catch (ChartException ex) {
-			ex.printStackTrace();
 		}
-		cm = create3DLineChart();
-		BufferedImage img = new BufferedImage(600, 600,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+		cm = create3DLineChart( );
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
+				BufferedImage.TYPE_INT_ARGB );
+		Graphics g = img.getGraphics( );
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
-		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this
+		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create(0, 0, 600, 600);
-		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
+				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
+		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
-		Generator gr = Generator.instance();
+		Generator gr = Generator.instance( );
 
-		try {
-			gcs = gr.build(dRenderer.getDisplayServer(), cm, null, bo, null);
-			gr.render(dRenderer, gcs);
-		} catch (ChartException e) {
+		try
+		{
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+			gr.render( dRenderer, gcs );
+		}
+		catch ( ChartException e )
+		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 	}
-	
-	
+
 	public void test_regression_142685( ) throws Exception
 	{
 		Regression_142685 st = new Regression_142685( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	/**
@@ -161,7 +170,6 @@ public class Regression_142685 extends ChartTestCase{
 		cwaLine.getTitle( ).getLabel( ).getCaption( ).setValue(
 				"Computer Hardware Sales" ); //$NON-NLS-1$
 		cwaLine.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-
 
 		// X-Axis
 		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
@@ -190,9 +198,16 @@ public class Regression_142685 extends ChartTestCase{
 		zAxisPrimary.getTitle( ).getCaption( ).setValue( "Z Axis Title" ); //$NON-NLS-1$
 		zAxisPrimary.getTitle( ).setVisible( true );
 		zAxisPrimary.setPrimaryAxis( true );
-		FontDefinition fd1 = FontDefinitionImpl.create( "Arial", (float) 10.0,
-				true, true, false, true, false, 10.0, TextAlignmentImpl
-						.create( ) );
+		FontDefinition fd1 = FontDefinitionImpl.create(
+				"Arial",
+				(float) 10.0,
+				true,
+				true,
+				false,
+				true,
+				false,
+				10.0,
+				TextAlignmentImpl.create( ) );
 		zAxisPrimary.getLabel( ).getCaption( ).setFont( fd1 );
 		zAxisPrimary.setLabelPosition( Position.ABOVE_LITERAL );
 		zAxisPrimary.setOrientation( Orientation.HORIZONTAL_LITERAL );
@@ -202,8 +217,12 @@ public class Regression_142685 extends ChartTestCase{
 		zAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		cwaLine.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).add( zAxisPrimary );
 
-		cwaLine.getPrimaryOrthogonalAxis( cwaLine.getPrimaryBaseAxes( )[0] )
-				.getTitle( ).getCaption( ).getFont( ).setRotation( 0 );
+		cwaLine
+				.getPrimaryOrthogonalAxis( cwaLine.getPrimaryBaseAxes( )[0] )
+				.getTitle( )
+				.getCaption( )
+				.getFont( )
+				.setRotation( 0 );
 
 		// Data Set
 		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
@@ -220,7 +239,6 @@ public class Regression_142685 extends ChartTestCase{
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

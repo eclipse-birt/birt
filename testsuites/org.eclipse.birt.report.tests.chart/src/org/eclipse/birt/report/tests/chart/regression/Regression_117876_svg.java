@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -139,7 +136,8 @@ public class Regression_117876_svg extends Composite
 			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, rtc, null );
 
 			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+			idr.setProperty(
+					IDeviceRenderer.UPDATE_NOTIFIER,
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 			gr.render( idr, gcs );
@@ -311,7 +309,8 @@ public class Regression_117876_svg extends Composite
 		lg.setPosition( Position.BELOW_LITERAL );
 		lg.setItemType( LegendItemType.SERIES_LITERAL );
 		lg.getTriggers( ).add(
-				TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+				TriggerImpl.create(
+						TriggerCondition.ONCLICK_LITERAL,
 						ActionImpl.create(
 								ActionType.TOGGLE_VISIBILITY_LITERAL,
 								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
@@ -339,11 +338,12 @@ public class Regression_117876_svg extends Composite
 		// Dial 1
 		DialSeries seDial1 = (DialSeries) DialSeriesImpl.create( );
 		seDial1.setDataSet( NumberDataSetImpl.create( new double[]{20} ) );
-		seDial1.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial1.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial1.setSeriesIdentifier( "Temperature" );
 		seDial1.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial1.getDial( ).setStartAngle( -45 );
@@ -354,7 +354,9 @@ public class Regression_117876_svg extends Composite
 				ColorDefinitionImpl.BLACK( ) );
 		seDial1.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial1.getDial( ).getScale( )
+		seDial1
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial1.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -362,14 +364,16 @@ public class Regression_117876_svg extends Composite
 		seDial1.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial1.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
 		DialRegion dregion1 = DialRegionImpl.create( );
 		dregion1.setFill( ColorDefinitionImpl.GREEN( ) );
 		dregion1.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion1.setStartValue( NumberDataElementImpl.create( 70 ) );
 		dregion1.setEndValue( NumberDataElementImpl.create( 90 ) );
 		dregion1.setInnerRadius( 40 );
@@ -379,7 +383,8 @@ public class Regression_117876_svg extends Composite
 		DialRegion dregion2 = DialRegionImpl.create( );
 		dregion2.setFill( ColorDefinitionImpl.YELLOW( ) );
 		dregion2.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion2.setStartValue( NumberDataElementImpl.create( 40 ) );
 		dregion2.setEndValue( NumberDataElementImpl.create( 70 ) );
 		dregion2.setOuterRadius( 70 );
@@ -388,7 +393,8 @@ public class Regression_117876_svg extends Composite
 		DialRegion dregion3 = DialRegionImpl.create( );
 		dregion3.setFill( ColorDefinitionImpl.RED( ) );
 		dregion3.setOutline( LineAttributesImpl.create( ColorDefinitionImpl
-				.BLACK( ).darker( ), LineStyle.SOLID_LITERAL, 1 ) );
+				.BLACK( )
+				.darker( ), LineStyle.SOLID_LITERAL, 1 ) );
 		dregion3.setStartValue( NumberDataElementImpl.create( 0 ) );
 		dregion3.setEndValue( NumberDataElementImpl.create( 40 ) );
 		dregion3.setInnerRadius( 40 );
@@ -398,11 +404,12 @@ public class Regression_117876_svg extends Composite
 		// Dial 2
 		DialSeries seDial2 = (DialSeries) DialSeriesImpl.create( );
 		seDial2.setDataSet( NumberDataSetImpl.create( new double[]{58} ) );
-		seDial2.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial2.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial2.setSeriesIdentifier( "Wind Speed" );
 		seDial2.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial2.getDial( ).setStartAngle( -45 );
@@ -413,7 +420,9 @@ public class Regression_117876_svg extends Composite
 				ColorDefinitionImpl.BLACK( ) );
 		seDial2.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial2.getDial( ).getScale( )
+		seDial2
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial2.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -421,7 +430,8 @@ public class Regression_117876_svg extends Composite
 		seDial2.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial2.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 
@@ -432,11 +442,12 @@ public class Regression_117876_svg extends Composite
 		// Dial 3
 		DialSeries seDial3 = (DialSeries) DialSeriesImpl.create( );
 		seDial3.setDataSet( NumberDataSetImpl.create( new double[]{80} ) );
-		seDial3.getDial( )
-				.setFill(
-						GradientImpl.create( ColorDefinitionImpl.create( 225,
-								255, 225 ), ColorDefinitionImpl.create( 225,
-								225, 255 ), 45, false ) );
+		seDial3.getDial( ).setFill(
+				GradientImpl.create(
+						ColorDefinitionImpl.create( 225, 255, 225 ),
+						ColorDefinitionImpl.create( 225, 225, 255 ),
+						45,
+						false ) );
 		seDial3.setSeriesIdentifier( "Viscosity" );
 		seDial3.getNeedle( ).setDecorator( LineDecorator.CIRCLE_LITERAL );
 		seDial3.getDial( ).setStartAngle( -45 );
@@ -447,7 +458,9 @@ public class Regression_117876_svg extends Composite
 				ColorDefinitionImpl.BLACK( ) );
 		seDial3.getDial( ).getMinorGrid( ).setTickStyle(
 				TickStyle.BELOW_LITERAL );
-		seDial3.getDial( ).getScale( )
+		seDial3
+				.getDial( )
+				.getScale( )
 				.setMin( NumberDataElementImpl.create( 0 ) );
 		seDial3.getDial( ).getScale( ).setMax(
 				NumberDataElementImpl.create( 90 ) );
@@ -455,7 +468,8 @@ public class Regression_117876_svg extends Composite
 		seDial3.getLabel( ).setOutline(
 				LineAttributesImpl.create(
 						ColorDefinitionImpl.GREY( ).darker( ),
-						LineStyle.SOLID_LITERAL, 1 ) );
+						LineStyle.SOLID_LITERAL,
+						1 ) );
 		seDial3.getLabel( ).setBackground(
 				ColorDefinitionImpl.GREY( ).brighter( ) );
 

@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
 
@@ -53,7 +50,8 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  * Test description:
  * <p>
- * X Axis grouping, set x Axis data type to data time, render the chart, verify if it will be take effect
+ * X Axis grouping, set x Axis data type to data time, render the chart, verify
+ * if it will be take effect
  * </p>
  */
 
@@ -87,7 +85,7 @@ public class Regression_109622_1 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_109622_1 st = new Regression_109622_1( );
+		new Regression_109622_1( );
 	}
 
 	/**
@@ -108,7 +106,9 @@ public class Regression_109622_1 extends ChartTestCase
 		cm = createChart( );
 		bindGroupingData( cm );
 
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -124,7 +124,13 @@ public class Regression_109622_1 extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -137,7 +143,7 @@ public class Regression_109622_1 extends ChartTestCase
 	public void test_regression_109622_1( ) throws Exception
 	{
 		Regression_109622_1 st = new Regression_109622_1( );
-		assertTrue( this.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
 	}
 
 	private void bindGroupingData( Chart chart )
@@ -147,7 +153,7 @@ public class Regression_109622_1 extends ChartTestCase
 		// Data Set
 
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$
 
 		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
 
