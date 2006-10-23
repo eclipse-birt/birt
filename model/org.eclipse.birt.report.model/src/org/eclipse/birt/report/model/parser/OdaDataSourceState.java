@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
-import org.eclipse.birt.report.model.plugin.OdaExtensibilityProvider;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -44,7 +43,19 @@ public class OdaDataSourceState extends DataSourceState
 	 */
 
 	private static final String NEW_FLAT_FILE_ID = "org.eclipse.datatools.connectivity.oda.flatfile"; //$NON-NLS-1$
+	
+	/**
+	 * New extension id in version 3.2.7
+	 */
 
+	private static final String NEW_XML_FILE_ID = "org.eclipse.datatools.enablement.oda.xml";//$NON-NLS-1$
+
+	/**
+	 * Old extension id before version 3.2.7
+	 */
+
+	private static final String OBSOLETE_XML_FILE_ID = "org.eclipse.birt.report.data.oda.xml";//$NON-NLS-1$
+	
 	/**
 	 * <code>true</code> if the extension can be found. Otherwise
 	 * <code>false</code>.
@@ -162,7 +173,20 @@ public class OdaDataSourceState extends DataSourceState
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;
 		}
+		
+		/**
+		 * Hard code for converting extension id
+		 * 'org.eclipse.birt.report.data.oda.xml'.
+		 */
 
+		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_7 )
+		{
+			if ( OBSOLETE_XML_FILE_ID.equalsIgnoreCase( extensionID ) )
+			{
+				extensionID = NEW_XML_FILE_ID;
+			}
+		}
+		
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
 		// get the provider to check whether this is a valid oda extension
@@ -184,15 +208,13 @@ public class OdaDataSourceState extends DataSourceState
 		{
 			// After version 3.2.7 , add convert fuction.
 
-			
-				String newExtensionID = provider
-						.convertDataSourceExtensionID( extensionID );
-				if ( !extensionID.equals( newExtensionID ) )
-				{
-					setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-							newExtensionID );
-				}
-			
+			String newExtensionID = provider
+					.convertDataSourceExtensionID( extensionID );
+			if ( !extensionID.equals( newExtensionID ) )
+			{
+				setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+						newExtensionID );
+			}
 		}
 	}
 
