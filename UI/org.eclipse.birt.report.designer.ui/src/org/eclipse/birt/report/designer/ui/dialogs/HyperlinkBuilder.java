@@ -37,8 +37,6 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -1377,10 +1375,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			else
 			{
-				List chooserItems = getDocumentBookmarks( (IReportDocument) handle );
-				chooserItems.add( 0, (Object)new String("---") );
-				// anchorChooser.setItems( getDocumentBookmarks( (IReportDocument) handle ) );
-				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
+				anchorChooser.setItems( getDocumentBookmarks( (IReportDocument) handle ) );
 			}
 		}
 
@@ -1404,18 +1399,18 @@ public class HyperlinkBuilder extends BaseDialog
 		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
 	}
 
-	private List getDocumentBookmarks( IReportDocument rdoc )
+	private String[] getDocumentBookmarks( IReportDocument rdoc )
 	{
 		List bookmarks = rdoc.getBookmarks( );
-//		String[] bookmarkArray = new String[bookmarks.size( )];
-//		int i = 0;
-//		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
-//		{
-//			bookmarkArray[i] = "\"" + iter.next( ) + "\""; //$NON-NLS-1$//$NON-NLS-2$
-//			i++;
-//		}
-//		return bookmarkArray;
-		return bookmarks;
+		String[] bookmarkArray = new String[bookmarks.size( )+1];
+		bookmarkArray[0] = "---";
+		int i = 1;
+		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
+		{
+			bookmarkArray[i] = "\"" + iter.next( ) + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			i++;
+		}
+		return bookmarkArray;
 	}
 
 	private List getAllTocDisplayString( TOCNode parent )
