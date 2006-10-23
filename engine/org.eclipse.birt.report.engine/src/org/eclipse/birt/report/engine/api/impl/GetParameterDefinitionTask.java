@@ -200,6 +200,10 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			else if ( ret instanceof ParameterGroupDefn )
 			{
+				( (ParameterGroupDefn) ret )
+						.setReportDesign( (ReportDesignHandle) runnable
+								.getDesignHandle( ) );
+				( (ParameterGroupDefn) ret ).setLocale( locale );
 				Iterator iter2 = ( (ParameterGroupDefn) ret ).getContents( )
 						.iterator( );
 				while ( iter2.hasNext( ) )
