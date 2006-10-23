@@ -665,8 +665,7 @@ public class HyperlinkBuilder extends BaseDialog
 				updateButtons( );
 			}
 
-		} );
-
+		} );		
 	}
 
 	private void createDrillthroughCreateLinkExpression( Composite container )
@@ -1022,7 +1021,7 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setReportName( documentEditor.getText( ).trim( ) );
 				}
 
-				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) ) )
+				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) ) && !bookmarkEditor.getText( ).equals( "---" ) )
 				{
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
@@ -1219,6 +1218,10 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				bookmarkEditor.setText( inputHandle.getTargetBookmark( ) );
 			}
+			else
+			{
+				bookmarkEditor.setText( "---" );
+			}			
 
 			if ( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK.equals( inputHandle.getTargetWindow( ) ) )
 			{
@@ -1332,13 +1335,19 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			if ( isToc )
 			{
-				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllTocs( )
-						.toArray( new String[0] ) );
+				List chooserItems = ( (ReportDesignHandle) handle ).getAllTocs( );
+				chooserItems.add( 0, (Object)new String("---") );
+//				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllTocs( )
+//						.toArray( new String[0] ) );
+				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 			else
 			{
-				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllBookmarks( )
-						.toArray( new String[0] ) );
+				List chooserItems = ( (ReportDesignHandle) handle ).getAllBookmarks( );
+				chooserItems.add( 0, (Object)new String("---") );
+//				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllBookmarks( )
+//						.toArray( new String[0] ) );
+				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 		}
 		else if ( handle instanceof IReportDocument )
@@ -1361,16 +1370,22 @@ public class HyperlinkBuilder extends BaseDialog
 				TOCNode rootTocNode = tocTree.getRoot( );
 				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
 				// null );
-				anchorChooser.setItems( (String[]) getAllTocDisplayString( rootTocNode ).toArray( new String[0] ) );
+				List chooserItems = getAllTocDisplayString( rootTocNode );
+				chooserItems.add( 0, (Object)new String("---") );
+				// anchorChooser.setItems( (String[]) getAllTocDisplayString( rootTocNode ).toArray( new String[0] ) );
+				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 			else
 			{
-				anchorChooser.setItems( getDocumentBookmarks( (IReportDocument) handle ) );
+				List chooserItems = getDocumentBookmarks( (IReportDocument) handle );
+				chooserItems.add( 0, (Object)new String("---") );
+				// anchorChooser.setItems( getDocumentBookmarks( (IReportDocument) handle ) );
+				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 		}
 
 		bookmarkEditor.setText( "" ); //$NON-NLS-1$
-
+		
 		String bookmark = inputHandle.getTargetBookmark( );
 		String[] chooserValues = anchorChooser.getItems( );
 		if ( bookmark != null && chooserValues != null )
@@ -1381,24 +1396,26 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					anchorChooser.select( i );
 					bookmarkEditor.setText( anchorChooser.getText( ) );
+					break;
 				}
 			}
 		}
-
+		
 		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
 	}
 
-	private String[] getDocumentBookmarks( IReportDocument rdoc )
+	private List getDocumentBookmarks( IReportDocument rdoc )
 	{
 		List bookmarks = rdoc.getBookmarks( );
-		String[] bookmarkArray = new String[bookmarks.size( )];
-		int i = 0;
-		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
-		{
-			bookmarkArray[i] = "\"" + iter.next( ) + "\""; //$NON-NLS-1$//$NON-NLS-2$
-			i++;
-		}
-		return bookmarkArray;
+//		String[] bookmarkArray = new String[bookmarks.size( )];
+//		int i = 0;
+//		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
+//		{
+//			bookmarkArray[i] = "\"" + iter.next( ) + "\""; //$NON-NLS-1$//$NON-NLS-2$
+//			i++;
+//		}
+//		return bookmarkArray;
+		return bookmarks;
 	}
 
 	private List getAllTocDisplayString( TOCNode parent )
