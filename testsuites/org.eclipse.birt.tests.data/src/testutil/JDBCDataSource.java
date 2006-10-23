@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004,2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004,2005 Actuate Corporation. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate
+ * Corporation - initial API and implementation
+ ******************************************************************************/
 
 package testutil;
 
@@ -20,18 +17,17 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 
 /**
  * This class extends the abstract class TestDataSource by using ODA.JDBC
- * 		includes:
- * 			jdbcDataSourceUtil
- * 			jdbcOdaDataSource
+ * includes: jdbcDataSourceUtil jdbcOdaDataSource
  */
 public class JDBCDataSource implements TestDataSource
 {
-	/** delegate to JDBCDataSourceUtil for table creation and drop*/
+
+	/** delegate to JDBCDataSourceUtil for table creation and drop */
 	private JDBCDataSourceUtil jdbcDataSourceUtil;
-	
+
 	/** delegate to dteDataSource for DtE datasource and data set */
 	private JDBCOdaDataSource jdbcOdaDataSource;
-	
+
 	/**
 	 * @return one instance
 	 * @throws Exception
@@ -40,21 +36,23 @@ public class JDBCDataSource implements TestDataSource
 	{
 		return new JDBCDataSource( );
 	}
-	
+
 	/**
 	 * @throws Exception
 	 */
 	private JDBCDataSource( ) throws Exception
 	{
 		jdbcDataSourceUtil = new JDBCDataSourceUtil( );
-		jdbcOdaDataSource = new JDBCOdaDataSource( JDBCDataSourceUtil.getURL( ),
+		jdbcOdaDataSource = new JDBCOdaDataSource(
+				JDBCDataSourceUtil.getURL( ),
 				JDBCDataSourceUtil.getDriverClassName( ),
 				JDBCDataSourceUtil.getUser( ),
 				JDBCDataSourceUtil.getPassword( ) );
-	}	
-	
+	}
+
 	/*
-	 * @see testutil.TestDataSource#createTestTable(java.lang.String, java.lang.String, boolean)
+	 * @see testutil.TestDataSource#createTestTable(java.lang.String,
+	 *      java.lang.String, boolean)
 	 */
 	public void createTable( String tableName, String metaInfo,
 			boolean dropTable ) throws SQLException
@@ -63,16 +61,18 @@ public class JDBCDataSource implements TestDataSource
 	}
 
 	/*
-	 * @see testutil.TestDataSource#createTestProcedure(java.lang.String, java.lang.String, boolean)
+	 * @see testutil.TestDataSource#createTestProcedure(java.lang.String,
+	 *      java.lang.String, boolean)
 	 */
 	public void createStoredProcedure( String proName, String metaInfo,
 			boolean dropProc ) throws SQLException
 	{
 		jdbcDataSourceUtil.createStoredProcedure( proName, metaInfo, dropProc );
 	}
-	
+
 	/*
-	 * @see testutil.TestDataSource#populateTestTable(java.lang.String, java.io.File)
+	 * @see testutil.TestDataSource#populateTestTable(java.lang.String,
+	 *      java.io.File)
 	 */
 	public void populateTable( String testTableName, File testTableDataFile )
 			throws SQLException, IOException
@@ -101,15 +101,15 @@ public class JDBCDataSource implements TestDataSource
 	 */
 	public OdaDataSourceDesign getOdaDataSourceDesign( )
 	{
-		return jdbcOdaDataSource.getOdaDataSourceDesign();
+		return jdbcOdaDataSource.getOdaDataSourceDesign( );
 	}
 
-	/* 
+	/*
 	 * @see testutil.TestDataSource#getExtendedDataSetDesign()
 	 */
 	public OdaDataSetDesign getOdaDataSetDesign( )
 	{
-		return jdbcOdaDataSource.getOdaDataSetDesign();
+		return jdbcOdaDataSource.getOdaDataSetDesign( );
 	}
-	
+
 }

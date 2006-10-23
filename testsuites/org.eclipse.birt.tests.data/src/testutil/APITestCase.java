@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package testutil;
 
@@ -33,11 +30,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
-
-import testutil.BaseTestCase;
-import testutil.JDBCDataSource;
-import testutil.JDBCOdaDataSource;
-import testutil.TestDataSource;
 
 /**
  * Base class for test cases that work with Data Engine public API
@@ -72,7 +64,10 @@ abstract public class APITestCase extends BaseTestCase
 		super.setUp( );
 
 		dataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance(
-				DataEngineContext.DIRECT_PRESENTATION, jsScope, null, null ) );
+				DataEngineContext.DIRECT_PRESENTATION,
+				jsScope,
+				null,
+				null ) );
 		prepareDataSource( );
 	}
 
@@ -149,8 +144,10 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			this.tableName = dataSourceInfo.tableName;
 
-			this.prepareTestTable( dataSourceInfo.tableName,
-					dataSourceInfo.createSql, dataSourceInfo.dataFileName );
+			this.prepareTestTable(
+					dataSourceInfo.tableName,
+					dataSourceInfo.createSql,
+					dataSourceInfo.dataFileName );
 		}
 	}
 
@@ -174,7 +171,8 @@ abstract public class APITestCase extends BaseTestCase
 
 		// insert data into table
 		this.dataSourceInstance.populateTable( tableName, new File(
-				getInputFolder( ), dataFileName ) );
+				getInputFolder( ),
+				dataFileName ) );
 	}
 
 	/**
@@ -485,9 +483,19 @@ abstract public class APITestCase extends BaseTestCase
 					new ScriptExpression( "dataSetRow.COL2", 0 ),
 					new ScriptExpression( "dataSetRow.COL3", 0 )};
 
-			return this.getQueryDefinition( bindingNameGroup, bindingExprGroup,
-					groupDefn, bindingNameSort, bindingExprSort, sortDefn,
-					null, null, null, bindingNameRow, expressions, dataSetName );
+			return this.getQueryDefinition(
+					bindingNameGroup,
+					bindingExprGroup,
+					groupDefn,
+					bindingNameSort,
+					bindingExprSort,
+					sortDefn,
+					null,
+					null,
+					null,
+					bindingNameRow,
+					expressions,
+					dataSetName );
 		}
 
 		private QueryDefinition getQueryDefinition( String[] bindingNameGroup,
@@ -507,7 +515,8 @@ abstract public class APITestCase extends BaseTestCase
 			{
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
-						queryDefn.addResultSetExpression( bindingNameGroup[i],
+						queryDefn.addResultSetExpression(
+								bindingNameGroup[i],
 								bindingExprGroup[i] );
 				for ( int i = 0; i < groupDefn.length; i++ )
 					queryDefn.addGroup( groupDefn[i] );
@@ -517,7 +526,8 @@ abstract public class APITestCase extends BaseTestCase
 			{
 				if ( bindingNameSort != null )
 					for ( int i = 0; i < bindingNameSort.length; i++ )
-						queryDefn.addResultSetExpression( bindingNameSort[i],
+						queryDefn.addResultSetExpression(
+								bindingNameSort[i],
 								bindingExprSort[i] );
 				for ( int i = 0; i < sortDefn.length; i++ )
 					queryDefn.addSort( sortDefn[i] );
@@ -526,7 +536,8 @@ abstract public class APITestCase extends BaseTestCase
 			// add value retrive tansformation
 			if ( bindingNameRow != null )
 				for ( int i = 0; i < bindingNameRow.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameRow[i],
+					queryDefn.addResultSetExpression(
+							bindingNameRow[i],
 							expressions[i] );
 			return queryDefn;
 
@@ -543,7 +554,8 @@ abstract public class APITestCase extends BaseTestCase
 			IQueryDefinition queryDefn = getDefaultQueryDefn( dataSetName );
 
 			// row.Col1
-			GroupDefinition groupDefn = (GroupDefinition) queryDefn.getGroups( )
+			GroupDefinition groupDefn = (GroupDefinition) queryDefn
+					.getGroups( )
 					.get( 1 );
 
 			// ---------- begin sub query ----------
@@ -564,7 +576,8 @@ abstract public class APITestCase extends BaseTestCase
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
 						subqueryDefn.addResultSetExpression(
-								bindingNameGroup[i], bindingExprGroup[i] );
+								bindingNameGroup[i],
+								bindingExprGroup[i] );
 
 				for ( int i = 0; i < subGroupDefn.length; i++ )
 					subqueryDefn.addGroup( subGroupDefn[i] );
@@ -590,7 +603,8 @@ abstract public class APITestCase extends BaseTestCase
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
 						subSubqueryDefn.addResultSetExpression(
-								bindingNameGroup[i], bindingExprGroup[i] );
+								bindingNameGroup[i],
+								bindingExprGroup[i] );
 
 				for ( int i = 0; i < subSubGroupDefn.length; i++ )
 					subSubqueryDefn.addGroup( subSubGroupDefn[i] );
@@ -607,7 +621,8 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			// ///TODO remove in future
 			for ( int i = 0; i < bindingNameRow.length; i++ )
-				subqueryDefn.addResultSetExpression( bindingNameRow[i],
+				subqueryDefn.addResultSetExpression(
+						bindingNameRow[i],
 						expressions[i] );
 			// ///////////////////////
 		}
@@ -650,10 +665,18 @@ abstract public class APITestCase extends BaseTestCase
 			String[] bindingNameRow, IBaseExpression[] bindingExprRow )
 			throws Exception
 	{
-		executeQuery( createQuery( bindingNameGroup, bindingExprGroup,
-				groupDefn, bindingNameSort, bindingExprSort, sortDefn,
-				bindingNameFilter, bindingExprFilter, filterDefn,
-				bindingNameRow, bindingExprRow ), bindingNameRow );
+		executeQuery( createQuery(
+				bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				bindingNameSort,
+				bindingExprSort,
+				sortDefn,
+				bindingNameFilter,
+				bindingExprFilter,
+				filterDefn,
+				bindingNameRow,
+				bindingExprRow ), bindingNameRow );
 	}
 
 	/**
@@ -686,7 +709,8 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameGroup != null )
 				for ( int i = 0; i < bindingNameGroup.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameGroup[i],
+					queryDefn.addResultSetExpression(
+							bindingNameGroup[i],
 							bindingExprGroup[i] );
 			for ( int i = 0; i < groupDefn.length; i++ )
 				queryDefn.addGroup( groupDefn[i] );
@@ -696,7 +720,8 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameSort != null )
 				for ( int i = 0; i < bindingNameSort.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameSort[i],
+					queryDefn.addResultSetExpression(
+							bindingNameSort[i],
 							bindingExprSort[i] );
 			for ( int i = 0; i < sortDefn.length; i++ )
 				queryDefn.addSort( sortDefn[i] );
@@ -706,7 +731,8 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameFilter != null )
 				for ( int i = 0; i < bindingNameFilter.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameFilter[i],
+					queryDefn.addResultSetExpression(
+							bindingNameFilter[i],
 							bindingExprFilter[i] );
 			for ( int i = 0; i < filterDefn.length; i++ )
 				queryDefn.addFilter( filterDefn[i] );
@@ -715,7 +741,8 @@ abstract public class APITestCase extends BaseTestCase
 		// add value retrive tansformation
 		if ( bindingNameRow != null )
 			for ( int i = 0; i < bindingNameRow.length; i++ )
-				queryDefn.addResultSetExpression( bindingNameRow[i],
+				queryDefn.addResultSetExpression(
+						bindingNameRow[i],
 						bindingExprRow[i] );
 
 		return queryDefn;

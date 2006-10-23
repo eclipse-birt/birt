@@ -53,7 +53,8 @@ public class MultiPass_NestedQueryTest extends APITestCase
 		FilterDefinition filterDefn = new FilterDefinition(
 				new ConditionalExpression(
 						"Total.sum( Total.ave( dataSetRow.AMOUNT,null,1 ),null,1)",
-						IConditionalExpression.OP_GT, "0.2" ) );
+						IConditionalExpression.OP_GT,
+						"0.2" ) );
 
 		// FilterDefinition filterDefn = new FilterDefinition (
 		// new

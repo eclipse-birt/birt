@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004,2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004,2005 Actuate Corporation. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate
+ * Corporation - initial API and implementation
+ ******************************************************************************/
 
 package testutil;
 
@@ -21,13 +18,12 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 /**
  * This abstract class is used to define the interface and shared behaviors of a
  * "data base visitor".
- *  
  */
 public interface TestDataSource
 {
-	
-	// JDBC test part	
-	/**	
+
+	// JDBC test part
+	/**
 	 * Create table in test data source
 	 * 
 	 * @param tableName
@@ -67,7 +63,7 @@ public interface TestDataSource
 	 * @throws SQLException
 	 */
 	public void dropTable( String tableName ) throws SQLException;
-	
+
 	/**
 	 * Close data source
 	 * 
@@ -86,5 +82,5 @@ public interface TestDataSource
 	 * @return ODA data set
 	 */
 	public OdaDataSetDesign getOdaDataSetDesign( );
-	
+
 }

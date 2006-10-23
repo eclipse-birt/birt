@@ -32,7 +32,8 @@ public class MultiPassTest extends APITestCase
 
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
-				new ScriptExpression( "Total.Sum( dataSetRow.AMOUNT,null,1 )",
+				new ScriptExpression(
+						"Total.Sum( dataSetRow.AMOUNT,null,1 )",
 						2 )};
 
 		String names[] = {"group_COUNTRY", "group_AMOUNT"};
@@ -54,8 +55,18 @@ public class MultiPassTest extends APITestCase
 		bindingExprRow[2] = new ScriptExpression(
 				"Total.sum( dataSetRow.AMOUNT,null,1)" );
 
-		createAndRunQuery( names, bindingExprGroup, groupDefn, null, null,
-				null, null, null, null, bindingNameRow, bindingExprRow );
+		createAndRunQuery(
+				names,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
 
 		checkOutputFile( );
 	}
