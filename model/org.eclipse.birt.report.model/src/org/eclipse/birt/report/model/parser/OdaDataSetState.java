@@ -219,20 +219,19 @@ public class OdaDataSetState extends SimpleDataSetState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
 		}
-		else if ( provider instanceof OdaExtensibilityProvider )
+		else
 		{
 			// After version 3.2.7 , add convert fuction.
 
-			if ( extensionID != null )
-			{
-				String newExtensionID = ( (OdaExtensibilityProvider) provider )
+		
+				String newExtensionID = provider
 						.convertDataSetExtensionID( extensionID );
 				if ( !extensionID.equals( newExtensionID ) )
 				{
 					setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 							newExtensionID );
 				}
-			}
+			
 		}
 	}
 

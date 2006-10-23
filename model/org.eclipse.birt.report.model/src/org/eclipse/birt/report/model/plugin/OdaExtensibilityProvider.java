@@ -39,7 +39,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 
 public class OdaExtensibilityProvider extends ExtensibilityProvider
 		implements
-			ODAProvider , ODAConvertExtensionID
+			ODAProvider
 {
 
 	/**

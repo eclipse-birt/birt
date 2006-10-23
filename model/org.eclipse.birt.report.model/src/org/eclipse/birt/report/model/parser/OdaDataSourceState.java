@@ -180,20 +180,19 @@ public class OdaDataSourceState extends DataSourceState
 			RecoverableError.dealMissingInvalidExtension( handler, e );
 			isValidExtensionId = false;
 		}
-		else if ( provider instanceof OdaExtensibilityProvider )
+		else
 		{
 			// After version 3.2.7 , add convert fuction.
 
-			if ( extensionID != null )
-			{
-				String newExtensionID = ( (OdaExtensibilityProvider) provider )
+			
+				String newExtensionID = provider
 						.convertDataSourceExtensionID( extensionID );
 				if ( !extensionID.equals( newExtensionID ) )
 				{
 					setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 							newExtensionID );
 				}
-			}
+			
 		}
 	}
 

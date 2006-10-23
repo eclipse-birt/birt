@@ -278,4 +278,26 @@ public class OdaDummyProvider implements ODAProvider
 		}
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSetExtensionID(java.lang.String)
+	 */
+
+	public String convertDataSetExtensionID( String extensionID )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSourceExtensionID(java.lang.String)
+	 */
+
+	public String convertDataSourceExtensionID( String extensionID )
+	{
+		return null;
+	}
 }

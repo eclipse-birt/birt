@@ -69,5 +69,25 @@ public interface ODAProvider
 	 *         otherwise, false.
 	 */
 	public boolean isValidODADataSetExtensionID( String extensionID );
+	
+	/**
+	 * Converts deprecated data source extension id to new one.
+	 * 
+	 * @param extensionID
+	 *            the data source extension id.
+	 * @return the new data source extension id.
+	 */
+
+	public String convertDataSourceExtensionID( String extensionID );
+
+	/**
+	 * Converts deprecated data set extension id to new one.
+	 * 
+	 * @param extensionID
+	 *            the data set extension id.
+	 * @return the new data set extension id.
+	 */
+
+	public String convertDataSetExtensionID( String extensionID );
 
 }
