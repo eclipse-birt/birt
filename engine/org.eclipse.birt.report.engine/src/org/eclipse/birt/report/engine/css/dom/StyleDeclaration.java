@@ -59,6 +59,7 @@ public class StyleDeclaration extends AbstractStyle implements IStyle
 		super( style.engine );
 		this.engine = style.engine;
 		this.values = style.values;
+		this.propertyCount = style.propertyCount;
 		this.shared = true;
 	}
 
