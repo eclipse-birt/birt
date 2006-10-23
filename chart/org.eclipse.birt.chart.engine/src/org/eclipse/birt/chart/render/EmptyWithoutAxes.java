@@ -86,19 +86,15 @@ public final class EmptyWithoutAxes extends BaseRenderer
 				1 );
 
 		// COMPUTE THE FRONT FACE ONLY
-		final double dXOffset = ( bo.getWidth( ) - bo.getHeight( ) ) / 2;
 		Location[] loaFrontFace = null;
 		loaFrontFace = new Location[4];
-		loaFrontFace[0] = LocationImpl.create( bo.getLeft( ) + dXOffset,
-				bo.getTop( ) );
-		loaFrontFace[1] = LocationImpl.create( bo.getLeft( ) + dXOffset,
+		loaFrontFace[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
+		loaFrontFace[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
+				+ bo.getHeight( ) );
+		loaFrontFace[2] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
 				bo.getTop( ) + bo.getHeight( ) );
-		loaFrontFace[2] = LocationImpl.create( bo.getLeft( )
-				+ dXOffset
-				+ bo.getHeight( ), bo.getTop( ) + bo.getHeight( ) );
-		loaFrontFace[3] = LocationImpl.create( bo.getLeft( )
-				+ dXOffset
-				+ bo.getHeight( ), bo.getTop( ) );
+		loaFrontFace[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+				bo.getTop( ) );
 
 		// RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)
 		renderPlane( ipr,
