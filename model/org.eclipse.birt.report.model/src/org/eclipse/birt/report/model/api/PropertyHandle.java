@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -333,6 +334,19 @@ public class PropertyHandle extends SimpleValueHandle
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
+	 */
+	public void removeItem( int posn ) throws PropertyValueException
+	{
+		if ( propDefn.getTypeCode( ) == PropertyType.LIST_TYPE )
+		{
+			PropertyCommand cmd = new PropertyCommand( getModule( ) , getElement( ));
+			cmd.removeItem( propDefn, posn );
+		}
+		else
+			super.removeItem( posn );
+	}	
 
 	/**
 	 * Returns whether the property value is read-only in the report context.

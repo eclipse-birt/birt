@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-
 /**
  * Indicates the error when loading extensions.
  */
@@ -22,7 +21,7 @@ public class ExtensionException extends MetaDataException
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
-	
+
 	private static final long serialVersionUID = 3977016262414907448L;
 
 	/**
@@ -48,7 +47,7 @@ public class ExtensionException extends MetaDataException
 	 */
 
 	public static final String DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS = "ENCYRPTION_EXTENSION_EXISTS"; //$NON-NLS-1$
-	
+
 	/**
 	 * Error code indicating the choice value is invalid for the user property
 	 * type, which is not choice.
@@ -56,6 +55,12 @@ public class ExtensionException extends MetaDataException
 
 	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_VALUE = "INVALID_CHOICE_VALUE"; //$NON-NLS-1$
 
+	/**
+	 * Error code indicating the element type of the extension is invalid or not
+	 * supported.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_TYPE = "INVALID_ELEMENT_TYPE"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an extension exception with error code.

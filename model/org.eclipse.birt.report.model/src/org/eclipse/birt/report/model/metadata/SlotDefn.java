@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
@@ -56,65 +57,65 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * class defines the list of slot IDs for that element.
 	 */
 
-	private int slotID = 0;
+	protected int slotID = 0;
 
 	/**
 	 * Slot cardinality. True if the cardinality is multiple, false if the
 	 * cardinality is single.
 	 */
 
-	private boolean multipleCardinality = true;
+	protected boolean multipleCardinality = true;
 
 	/**
 	 * Internal name.
 	 */
 
-	private String name = null;
+	protected String name = null;
 
 	/**
 	 * The message ID for the display name for the slot.
 	 */
 
-	private String displayNameID = null;
+	protected String displayNameID = null;
 
 	/**
 	 * Pointers the the element meta data for the element types that the slot
 	 * can hold.
 	 */
 
-	private ArrayList contentElements = new ArrayList( );
+	protected ArrayList contentElements = new ArrayList( );
 
 	/**
 	 * List of one or more element type names that the slot can hold.
 	 */
 
-	private ArrayList contentTypes = new ArrayList( );
+	protected ArrayList contentTypes = new ArrayList( );
 
 	/**
 	 * Predefined style for elements in this slot. Null means that the slot does
 	 * not define a predefined style.
 	 */
 
-	private String selector = null;
+	protected String selector = null;
 
 	/**
 	 * The collection of semantic validation triggers.
 	 */
 
-	private SemanticTriggerDefnSet triggers = null;
+	protected SemanticTriggerDefnSet triggers = null;
 
 	/**
 	 * The BIRT release when this slot was introduced.
 	 */
 
-	private String since;
+	protected String since;
 
 	/**
 	 * The XML element name used to identify slot contents. Will be blank if the
 	 * slot is anonymous.
 	 */
 
-	private String xmlName;
+	protected String xmlName;
 
 	/**
 	 * Status whether name of the contents in this slot will be added to the
@@ -122,7 +123,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * otherwise not add names to namespace.
 	 */
 
-	private boolean isManagedByNameSpace = true;
+	protected boolean isManagedByNameSpace = true;
 
 	/**
 	 * Returns the slot cardinality.
@@ -241,7 +242,8 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 				ExtensionElementDefn extension = (ExtensionElementDefn) dd
 						.getExtensions( ).get( i );
 				if ( PeerExtensionLoader.EXTENSION_POINT
-						.equals( extension.extensionPoint ) )
+						.equals( extension.extensionPoint )
+						&& !contentsWithExtensions.contains( extension ) )
 					contentsWithExtensions.add( extension );
 			}
 		}
@@ -294,7 +296,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * @return true if the slot can contain the type, false otherwise
 	 */
 
-	public boolean canContain( IElementDefn type )
+	public final boolean canContain( IElementDefn type )
 	{
 		Iterator iter = contentElements.iterator( );
 		while ( iter.hasNext( ) )
@@ -314,7 +316,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 * @return true if the element can reside in the slot, false otherwise
 	 */
 
-	public boolean canContain( DesignElement content )
+	public final boolean canContain( DesignElement content )
 	{
 		return canContain( content.getDefn( ) );
 	}
@@ -351,7 +353,8 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	void addType( String type )
 	{
-		contentTypes.add( type );
+		if ( !contentTypes.contains( type ) )
+			contentTypes.add( type );
 	}
 
 	/**

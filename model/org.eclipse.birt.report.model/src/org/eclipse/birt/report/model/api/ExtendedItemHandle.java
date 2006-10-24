@@ -18,12 +18,10 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -69,21 +67,6 @@ public class ExtendedItemHandle extends ReportItemHandle
 		return getStringProperty( EXTENSION_NAME_PROP );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getDefn()
-	 */
-
-	public IElementDefn getDefn( )
-	{
-		ElementDefn extDefn = ( (ExtendedItem) getElement( ) ).getExtDefn( );
-		if ( extDefn != null )
-			return extDefn;
-
-		return super.getDefn( );
-	}
-
 	/**
 	 * Loads the instance of extended element. When the application invokes UI
 	 * for the extended element, such as listing property values in property
@@ -124,10 +107,11 @@ public class ExtendedItemHandle extends ReportItemHandle
 		return reportItem;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the list of extension property definition. All these properties
+	 * are just those defined in extension plugin.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.IExtendableElementHandle#getExtensionPropertyDefinitionList()
+	 * @return the list of extension property definition.
 	 */
 
 	public List getExtensionPropertyDefinitionList( )

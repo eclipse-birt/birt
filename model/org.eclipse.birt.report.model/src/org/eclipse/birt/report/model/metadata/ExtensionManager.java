@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+
 /**
  * Represents the extension manager which is responsible to load all extensions
  * that Model supports. This class can not be instantiated and derived.
@@ -36,7 +37,11 @@ public final class ExtensionManager
 
 	public static void initialize( ) throws MetaDataParserException
 	{
+		// ensure the ROM is initialized first
+		assert !MetaDataDictionary.getInstance( ).isEmpty( );
+
+		// load extensions in all the extension points
 		new PeerExtensionLoader( ).load( );
-		new EncryptionHelperExtensionLoader( ).load( );
+		new EncryptionHelperExtensionLoader( ).load( );		
 	}
 }

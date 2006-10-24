@@ -71,10 +71,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * <h2>Enabling Object IDs</h2>
  * The model may be used in the web environment in which it is necessary to
  * identify elements using a unique ID separate from their object pointer. The
- * {@link org.eclipse.birt.report.model.core.Module}class maintains the
- * object ID counter, as well as an id-to-element map. Because the map is
- * costly, it is enabled only if ID support is enabled in the data dictionary
- * object.
+ * {@link org.eclipse.birt.report.model.core.Module}class maintains the object
+ * ID counter, as well as an id-to-element map. Because the map is costly, it is
+ * enabled only if ID support is enabled in the data dictionary object.
  * 
  * <h2>Lifecycle</h2>
  * 
@@ -161,6 +160,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	/**
 	 * Whether to apply element ids to newly created elements. This feature is
 	 * used for the web environment, but not for the Eclipse environment.
+	 * 
 	 * @deprecated
 	 */
 
@@ -190,8 +190,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private Map semanticValidators = new HashMap( );
 
 	/**
-	 * Whether to use validation trigger. This feature will perform
-	 * validation once one property or slot is changed.
+	 * Whether to use validation trigger. This feature will perform validation
+	 * once one property or slot is changed.
 	 */
 
 	private boolean useValidationTrigger = false;
@@ -200,7 +200,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * The default encryption helper.
 	 */
 
-	private IEncryptionHelper encryptionHelper = SimpleEncryptionHelper.getInstance();
+	private IEncryptionHelper encryptionHelper = SimpleEncryptionHelper
+			.getInstance( );
 
 	/**
 	 * Singleton class, constructor is private.
@@ -213,7 +214,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		// The meta-data file will provide additional information for these
 		// types.
 		addPropertyType( new StringPropertyType( ) );
-		addPropertyType( new LiteralStringPropertyType() );
+		addPropertyType( new LiteralStringPropertyType( ) );
 		addPropertyType( new NumberPropertyType( ) );
 		addPropertyType( new IntegerPropertyType( ) );
 		addPropertyType( new DimensionPropertyType( ) );
@@ -359,10 +360,11 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			throw new MetaDataException(
 					MetaDataException.DESIGN_EXCEPTION_STYLE_TYPE_MISSING );
 		style.build( );
-		
+
 		ElementDefn report = (ElementDefn) getElement( ReportDesignConstants.REPORT_DESIGN_ELEMENT );
 		if ( report == null )
-			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_CONSTRUCTOR_EXISTING );
+			throw new MetaDataException(
+					MetaDataException.DESIGN_EXCEPTION_CONSTRUCTOR_EXISTING );
 		report.build( );
 
 		// Build the element metadata.
@@ -404,17 +406,17 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return propertyTypes[type];
 	}
 
-    /**
-     * Gets a list of rom-defined property types.
-     * 
-     * @return a list of rom-defined property types.
-     */
-    
-    public List getPropertyTypes()
-    {
-        return Arrays.asList( propertyTypes );
-    }
-    
+	/**
+	 * Gets a list of rom-defined property types.
+	 * 
+	 * @return a list of rom-defined property types.
+	 */
+
+	public List getPropertyTypes( )
+	{
+		return Arrays.asList( propertyTypes );
+	}
+
 	/**
 	 * Gets the metadata for a property type given the type's XML name.
 	 * 
@@ -462,7 +464,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 *            the element type to add
 	 * @throws MetaDataException
 	 *             if exception occurs when adding the element definition.
-	 *  
+	 * 
 	 */
 
 	void addElementDefn( ElementDefn type ) throws MetaDataException
@@ -749,12 +751,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 					MetaDataException.DESIGN_EXCEPTION_MISSING_EXTENSION_NAME );
 		if ( extensionNameMap == null )
 			extensionNameMap = new HashMap( );
-		if ( extensionNameMap.get( extDefn.getName( ) ) != null )
+		if ( elementNameMap.get( extDefn.getName( ) ) != null
+				|| extensionNameMap.get( extDefn.getName( ) ) != null )
 			throw new MetaDataException( new String[]{extDefn.getName( )},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_EXTENSION_NAME );
 
 		extensionNameMap.put( extDefn.getName( ), extDefn );
-		extDefn.build( );
 	}
 
 	/**
@@ -836,7 +838,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	/**
 	 * Returns whether to use validation trigger feature.
 	 * 
-	 * @return whether to use validation trigger feature 
+	 * @return whether to use validation trigger feature
 	 */
 
 	public boolean useValidationTrigger( )
@@ -850,7 +852,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @param useValidationTrigger
 	 *            the flag to set
 	 */
-	
+
 	public void setUseValidationTrigger( boolean useValidationTrigger )
 	{
 		this.useValidationTrigger = useValidationTrigger;

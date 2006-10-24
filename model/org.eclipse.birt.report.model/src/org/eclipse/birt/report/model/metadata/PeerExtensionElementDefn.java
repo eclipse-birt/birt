@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -57,19 +56,6 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		assert reportItemFactory != null;
 		this.name = name;
 		this.reportItemFactory = reportItemFactory;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
-	 */
-
-	protected void build( ) throws MetaDataException
-	{
-		extendsFrom = ReportDesignConstants.EXTENDED_ITEM;
-
-		super.build( );
 	}
 
 	/**

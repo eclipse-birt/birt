@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 /**
  * Abstract base class that represents a handle for the value to either a
  * property or a structure member.
- *  
+ * 
  */
 
 public abstract class SimpleValueHandle extends ValueHandle
@@ -135,10 +135,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public ArrayList getListValue( )
 	{
-		if ( getDefn( ).getTypeCode( ) == PropertyType.STRUCT_TYPE
-				&& getDefn( ).isList( ) )
-			return (ArrayList) getValue( );
-
+		Object value = getValue( );
+		if ( value instanceof ArrayList )
+			return (ArrayList) value;
 		return null;
 	}
 
@@ -410,7 +409,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * 
 	 * @param item
 	 *            The new item to add.
-	 * @return a handle to the newly added structure£¬return null if the item is
+	 * @return a handle to the newly added structureï¿½ï¿½return null if the item is
 	 *         null.
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value

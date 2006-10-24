@@ -1,0 +1,34 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.parser.treebuild;
+
+
+/**
+ * Inteface to do all actions with the content tree build.
+ */
+
+public interface IContentHandler
+{
+	/**
+	 * Gets the content tree.
+	 * @return the content tree
+	 */
+	ContentTree getContentTree( );
+	
+	/**
+	 * @param contentTree
+	 *            the contentTree to set
+	 */
+	public void initializeContentTree( );
+}
+
+

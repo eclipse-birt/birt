@@ -524,6 +524,21 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Adds an id number to the map.
+	 * 
+	 * @param id
+	 *            the id to add
+	 */
+
+	public void addElementID( long id )
+	{
+		if ( this.elementIDCounter <= id )
+		{
+			this.elementIDCounter = id + 1;
+		}
+	}
+
+	/**
 	 * Adds an element to the id-to-elementLineNumber map.
 	 * 
 	 * @param elementId
@@ -601,7 +616,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		if ( lineNoMap == null )
 			return 1;
-		
+
 		Integer lineNo = (Integer) lineNoMap.get( new Long( id ) );
 		return lineNo == null ? 1 : lineNo.intValue( );
 	}

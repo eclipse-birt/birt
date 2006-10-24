@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+
 /**
  * Represents the extension element definition based on Model extension point.
  * This class only used for those extension definition from third-party, not the
@@ -32,6 +34,12 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	 */
 
 	protected String extensionPoint = null;
+	
+	/**
+	 * The element type of this extension.
+	 */
+	
+	protected String elementType = null;
 
 	/*
 	 * (non-Javadoc)
@@ -50,6 +58,14 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		// we don't repeat the work for any style properties copied below.
 
 		buildProperties( );
+
+		// set the xml-name to that of ExtendedItem
+		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.EXTENDED_ITEM );
+		setXmlName( defn.getXmlName( ) );
+
+		// build slot
+		buildSlots( );
 
 		isBuilt = true;
 	}
@@ -80,6 +96,14 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	public String getExtensionPoint( )
 	{
 		return this.extensionPoint;
+	}
+		
+	/**
+	 * @param elementType the elementType to set
+	 */
+	public void setElementType( String elementType )
+	{
+		this.elementType = elementType;
 	}
 
 }

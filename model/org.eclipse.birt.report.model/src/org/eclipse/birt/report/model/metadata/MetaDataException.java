@@ -423,6 +423,12 @@ public class MetaDataException extends ModelException
 	 */
 	
 	public static final String DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN = "SUB_TYPE_FORBIDDEN"; //$NON-NLS-1$
+	
+	/**
+	 * Error code indicates that a concrete element misses defines the xml name.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_MISSING_XML_NAME = "MISSING_XML_NAME"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an exception given parameters and its error code.

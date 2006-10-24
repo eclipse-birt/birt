@@ -45,7 +45,12 @@ public abstract class AbstractParseState
 	 */
 
 	protected StringBuffer text = new StringBuffer( );
-	
+
+	/**
+	 * Status indicates whether this text is a CDATA section or not.
+	 */
+
+	protected boolean isCDataSection = false;
 
 	/**
 	 * Sets the element name.
@@ -102,7 +107,8 @@ public abstract class AbstractParseState
 	public AbstractParseState startElement( String tagName )
 	{
 		getHandler( ).getErrorHandler( ).semanticError(
-				new XMLParserException( XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
+				new XMLParserException(
+						XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
 		return new AnyElementState( getHandler( ) );
 	}
 
@@ -132,7 +138,7 @@ public abstract class AbstractParseState
 	 * 
 	 * @throws SAXException
 	 *             if the SAX exception is encountered.
-	 * @throws 
+	 * @throws
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement
 	 */
 
@@ -178,7 +184,8 @@ public abstract class AbstractParseState
 		else if ( value.equalsIgnoreCase( "false" ) ) //$NON-NLS-1$ 
 			return false;
 		getHandler( ).getErrorHandler( ).semanticError(
-				new XMLParserException( XMLParserException.DESIGN_EXCEPTION_INVALID_BOOLEAN ) );
+				new XMLParserException(
+						XMLParserException.DESIGN_EXCEPTION_INVALID_BOOLEAN ) );
 		return defaultValue;
 	}
 
@@ -222,7 +229,8 @@ public abstract class AbstractParseState
 		catch ( NumberFormatException e )
 		{
 			getHandler( )
-					.getErrorHandler( ).semanticError(
+					.getErrorHandler( )
+					.semanticError(
 							new XMLParserException(
 									XMLParserException.DESIGN_EXCEPTION_INVALID_INTEGER ) );
 			return 0;

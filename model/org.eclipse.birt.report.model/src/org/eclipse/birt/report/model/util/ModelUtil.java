@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
@@ -82,6 +84,7 @@ import org.xml.sax.SAXException;
 import com.ibm.icu.text.CollationKey;
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.util.ULocale;
+import com.sun.rsasign.d;
 
 /**
  * The utility class which provides many static methods used in Model.
@@ -1158,6 +1161,110 @@ public class ModelUtil
 			assert false;
 		}
 
+		return null;
+	}
+
+	/**
+	 * Adds an element to the name space. If the module is null, or element is
+	 * null, or element is not in the tree of module, then do nothing.
+	 * 
+	 * @param module
+	 * @param element
+	 */
+
+	public static void addElement2NameSpace( Module module,
+			DesignElement element )
+	{
+		if ( module == null || element == null || element.getRoot( ) != module )
+			return;
+		module.makeUniqueName( element );
+		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		if ( element.getName( ) != null
+				&& ns != MetaDataConstants.NO_NAME_SPACE
+				&& element.getContainer( ).isManagedByNameSpace(
+						element.getContainerSlot( ) ) )
+			module.getNameSpace( ns ).insert( element );
+	}
+
+	/**
+	 * Gets the element name with the given xml name.
+	 * 
+	 * @param xmlName
+	 *            the xml name to find
+	 * @return the element name with the given xml name if found, otherwise null
+	 */
+
+	public static String getElementNameFromXmlName( String xmlName )
+	{
+		if ( StringUtil.isBlank( xmlName ) )
+			return null;
+		if ( DesignSchemaConstants.CELL_TAG.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.CELL_ELEMENT;
+		else if ( DesignSchemaConstants.COLUMN_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.COLUMN_ELEMENT;
+		else if ( DesignSchemaConstants.DATA_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.DATA_ITEM;
+		else if ( DesignSchemaConstants.ODA_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.ODA_DATA_SET;
+		else if ( DesignSchemaConstants.ODA_DATA_SOURCE_TAG.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.ODA_DATA_SOURCE;
+		else if ( DesignSchemaConstants.EXTENDED_ITEM_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.EXTENDED_ITEM;
+		else if ( DesignSchemaConstants.FREE_FORM_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.FREE_FORM_ITEM;
+		else if ( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT;
+		else if (DesignSchemaConstants.GRID_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.GRID_ITEM;
+		else if ( DesignSchemaConstants.IMAGE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.IMAGE_ITEM;
+		else if ( DesignSchemaConstants.LABEL_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.LABEL_ITEM;
+		else if ( DesignSchemaConstants.LINE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.LINE_ITEM;
+		else if ( DesignSchemaConstants.GROUP_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.GROUP_ELEMENT;
+		else if ( DesignSchemaConstants.LIST_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.LIST_ITEM;
+		else if ( DesignSchemaConstants.PARAMETER_GROUP_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
+		else if ( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
+		else if ( DesignSchemaConstants.RECTANGLE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.RECTANGLE_ITEM;
+		else if ( DesignSchemaConstants.ROW_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.ROW_ELEMENT;
+		else if ( DesignSchemaConstants.SCALAR_PARAMETER_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
+		else if ( DesignSchemaConstants.SCRIPT_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.SCRIPT_DATA_SET;
+		else if ( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.SCRIPT_DATA_SOURCE;
+		else if ( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT;
+		else if ( DesignSchemaConstants.STYLE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.STYLE_ELEMENT;
+		else if ( DesignSchemaConstants.TABLE_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TABLE_ITEM;
+		else if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TEXT_ITEM;
+		else if ( DesignSchemaConstants.TEXT_DATA_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TEXT_DATA_ITEM;
+		else if ( DesignSchemaConstants.THEME_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.THEME_ITEM;
+		else if ( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION;
+		else if ( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TEMPLATE_REPORT_ITEM;
+		else if ( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TEMPLATE_DATA_SET;
+		else if ( DesignSchemaConstants.JOINT_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.JOINT_DATA_SET;
+		else if ( DesignSchemaConstants.AUTO_TEXT_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.AUTOTEXT_ITEM;
+		else if ( DesignSchemaConstants.MULTI_LINE_DATA_TAG.equalsIgnoreCase( xmlName ))
+			return ReportDesignConstants.TEXT_DATA_ITEM;
+		
 		return null;
 	}
 }

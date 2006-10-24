@@ -1205,12 +1205,12 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            the property definition whose type is list
 	 * @param item
 	 *            the item to add to the list
-	 * @throws SemanticException
+	 * @throws PropertyValueException
 	 *             if the item to add is invalid.
 	 */
 
 	public void addItem( ElementPropertyDefn prop, Object item )
-			throws SemanticException
+			throws PropertyValueException
 	{
 		assert prop != null;
 
@@ -1290,8 +1290,6 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            reference to a list.
 	 * @param item
 	 *            the item to check
-	 * @throws SemanticError
-	 *             if element reference is invalid.
 	 * @throws PropertyValueException
 	 *             if the item has any member with invalid value or if the given
 	 *             structure is not of a valid type that can be contained in the
@@ -1299,7 +1297,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 */
 
 	private Object checkItem( ElementPropertyDefn prop, Object item )
-			throws PropertyValueException, SemanticError
+			throws PropertyValueException
 	{
 		assert item != null;
 		assert prop.getTypeCode( ) == PropertyType.LIST_TYPE;
@@ -1312,12 +1310,12 @@ public class PropertyCommand extends AbstractElementCommand
 		PropertyType type = prop.getSubType( );
 		assert type != null;
 		Object result = type.validateValue( module, prop, value );
-		if ( result instanceof ElementRefValue
-				&& !( (ElementRefValue) result ).isResolved( ) )
-		{
-			throw new SemanticError( element,
-					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
-		}
+//		if ( result instanceof ElementRefValue
+//				&& !( (ElementRefValue) result ).isResolved( ) )
+//		{
+//			throw new SemanticError( element,
+//					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
+//		}
 		return result;
 
 	}
@@ -1381,7 +1379,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            definition of the simple value list property
 	 * @param posn
 	 *            position of the item to be removed from the list.
-	 * @throws SemanticException
+	 * @throws PropertyValueException
 	 *             if the item to remove is not found.
 	 * @throws IndexOutOfBoundsException
 	 *             if the given posn is out of range
@@ -1389,7 +1387,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 */
 
 	public void removeItem( ElementPropertyDefn prop, int posn )
-			throws SemanticException
+			throws PropertyValueException
 	{
 		assert prop != null;
 

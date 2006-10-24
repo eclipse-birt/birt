@@ -1935,7 +1935,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			if ( !StringUtil.isBlank( slotInfo ) )
 				elementPath = slotInfo;
 
-			elementPath = elementPath + "/" + elementDefn.getXmlElement( ); //$NON-NLS-1$
+			elementPath = elementPath + "/" + elementDefn.getXmlName( ); //$NON-NLS-1$
 
 			if ( !StringUtil.isBlank( posnInfo ) )
 				elementPath = elementPath + posnInfo;

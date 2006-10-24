@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -55,24 +56,26 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 	 *      org.eclipse.birt.report.model.core.DesignElement,
 	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-	
+
 	protected Object getPropertyFromSelfSelector( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
 		// find the selector defined in extension
+		ExtendedItem extendedItem = (ExtendedItem) element;
 
-		IElementDefn elementDefn = ( (ExtendedItem) element ).getExtDefn( );
+		IElementDefn elementDefn = extendedItem.getExtDefn( );
 		if ( elementDefn != null )
 		{
-			String selector = ( (ExtendedItem) element ).getExtDefn( )
-					.getSelector( );
+			String selector = extendedItem.getExtDefn( ).getSelector( );
 			Object value = getPropertyFromSelector( module, prop, selector );
 			if ( value != null )
 				return value;
 		}
 
 		// find the "extended-item" selector
+		String selector = ( (ElementDefn) extendedItem.getDefaultDefn( ) )
+				.getSelector( );
 
-		return super.getPropertyFromSelfSelector( module, element, prop );
+		return super.getPropertyFromSelector( module, prop, selector );
 	}
 }

@@ -70,6 +70,17 @@ public abstract class ExtensionLoader
 		try
 		{
 			doLoad( );
+
+			// buidl all the extension definitions
+			List extensions = MetaDataDictionary.getInstance( ).getExtensions( );
+			if ( extensions == null || extensions.isEmpty( ) )
+				return;
+
+			for ( int i = 0; i < extensions.size( ); i++ )
+			{
+				ElementDefn defn = (ElementDefn) extensions.get( i );
+				defn.build( );
+			}
 		}
 		catch ( ExtensionException e )
 		{
@@ -243,15 +254,16 @@ public abstract class ExtensionLoader
 				ExtensionChoice choice, PropertyDefn propDefn )
 				throws ExtensionException
 		{
+			// read required first
 			String name = choiceTag.getAttribute( NAME_ATTRIB );
+			checkRequiredAttribute( NAME_ATTRIB, name );
 
+			// read optional
 			String value = choiceTag.getAttribute( VALUE_ATTRIB );
 			String displayNameID = choiceTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String defaultDisplayName = choiceTag
 					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-
-			checkRequiredAttribute( NAME_ATTRIB, name );
 
 			choice.setName( name );
 			if ( propDefn.getTypeCode( ) != PropertyType.CHOICE_TYPE )
@@ -290,10 +302,12 @@ public abstract class ExtensionLoader
 		void loadPropertyVisibility( IConfigurationElement propTag,
 				ExtensionElementDefn elementDefn ) throws ExtensionException
 		{
+			// load required parts first
 			String name = propTag.getAttribute( NAME_ATTRIB );
-			String visible = propTag.getAttribute( VISIBILITY_ATTRIB );
-
 			checkRequiredAttribute( NAME_ATTRIB, name );
+
+			// load optional parts
+			String visible = propTag.getAttribute( VISIBILITY_ATTRIB );
 			elementDefn.addPropertyVisibility( name, visible );
 		}
 
@@ -317,13 +331,15 @@ public abstract class ExtensionLoader
 				ExtensionElementDefn elementDefn, List propList )
 				throws MetaDataException
 		{
+			// read required parts first
+			String groupName = propGroupTag.getAttribute( NAME_ATTRIB );
+			checkRequiredAttribute( NAME_ATTRIB, groupName );
+
+			// read optinal parts
 			String displayNameID = propGroupTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
-			String groupName = propGroupTag.getAttribute( NAME_ATTRIB );
 			String defaultDisplayName = propGroupTag
 					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-
-			checkRequiredAttribute( NAME_ATTRIB, groupName );
 
 			IConfigurationElement[] elements = propGroupTag.getChildren( );
 			for ( int i = 0; i < elements.length; i++ )

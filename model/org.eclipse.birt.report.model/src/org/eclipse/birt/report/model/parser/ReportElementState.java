@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -218,14 +220,28 @@ public abstract class ReportElementState extends DesignParseState
 	protected void initElement( Attributes attrs, boolean nameRequired )
 	{
 		DesignElement element = getElement( );
-		
+
 		String name = attrs.getValue( DesignElement.NAME_PROP );
 		if ( StringUtil.isBlank( name ) )
 		{
 			if ( nameRequired )
-				handler.getErrorHandler( ).semanticError(
-						new NameException( element, null,
-								NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+			{
+				// if version<3.2.8, add it to the list and allocate a name in
+				// end-document
+				if ( element instanceof ExtendedItem
+						&& handler.versionNumber < VersionUtil.VERSION_3_2_8 )
+				{
+					handler.addUnnamedExtendedItem( (ExtendedItem) element );
+				}
+				else
+					handler
+							.getErrorHandler( )
+							.semanticError(
+									new NameException(
+											element,
+											null,
+											NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+			}
 		}
 		else if ( name.indexOf( ReferenceValue.NAMESPACE_DELIMITER ) != -1 )
 		{
@@ -400,9 +416,6 @@ public abstract class ReportElementState extends DesignParseState
 		String name = content.getName( );
 		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
 
-		assert !StringUtil.isBlank( name )
-				|| contentDefn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
-
 		// Disallow duplicate names.
 
 		Module module = handler.getModule( );
@@ -410,10 +423,16 @@ public abstract class ReportElementState extends DesignParseState
 		if ( name == null
 				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 		{
+			// if element is extended-item and version less than 3.2.8, do
+			// nothing and returns
+			if ( ( content instanceof ExtendedItem && handler.versionNumber < VersionUtil.VERSION_3_2_8 ) )
+				return;
+
 			handler.getErrorHandler( ).semanticError(
-					new NameException( container, name,
+					new NameException( content, name,
 							NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			return;
+
 		}
 
 		int id = contentDefn.getNameSpaceID( );
@@ -425,7 +444,7 @@ public abstract class ReportElementState extends DesignParseState
 			if ( module.getNameSpace( id ).contains( name ) )
 			{
 				handler.getErrorHandler( ).semanticError(
-						new NameException( container, name,
+						new NameException( content, name,
 								NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 				return;
 			}

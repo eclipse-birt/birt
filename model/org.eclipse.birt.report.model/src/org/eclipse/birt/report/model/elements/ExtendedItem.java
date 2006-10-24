@@ -22,7 +22,9 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
@@ -33,12 +35,14 @@ import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
+import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 
 /**
  * This class represents an extended item element. The extended report item
  * allows third-party developers to create report items that work within BIRT
  * virtually identically to BIRT-defined items. Extended items can use the
- * user-properties discussed above to define properties, can use a ¡°black-box¡±
+ * user-properties discussed above to define properties, can use a ï¿½ï¿½black-boxï¿½ï¿½
  * approach, or a combination of the two. Extended items are defined in a Java
  * plug-in that contributes behavior to the Eclipse Report Developer, to the
  * Factory and to the Presentation Engine. The extended item can fully
@@ -63,7 +67,8 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 public class ExtendedItem extends ReportItem
 		implements
 			IExtendableElement,
-			IExtendedItemModel
+			IExtendedItemModel,
+			IContentHandler
 {
 
 	/**
@@ -82,6 +87,8 @@ public class ExtendedItem extends ReportItem
 	 */
 
 	private PeerExtensibilityProvider provider = null;
+
+	private ContentTree contentTree = null;
 
 	/**
 	 * Default constructor.
@@ -335,11 +342,7 @@ public class ExtendedItem extends ReportItem
 	{
 		if ( EXTENSION_NAME_PROP.equals( propName ) )
 		{
-			extensionName = (String) value;
-			if ( extensionName != null )
-				provider = new PeerExtensibilityProvider( this, extensionName );
-			else
-				provider = null;
+			setExtensionName( (String) value );
 		}
 		else
 		{
@@ -487,4 +490,83 @@ public class ExtendedItem extends ReportItem
 	{
 		return ExtendedItemPropSearchStrategy.getInstance( );
 	}
+
+	/**
+	 * Sets the extension name for this extended item. At the same time,
+	 * initialize the extension provider and slot.
+	 * 
+	 * @param extension
+	 *            the extension name to set
+	 */
+
+	private void setExtensionName( String extension )
+	{
+		extensionName = extension;
+		if ( extensionName != null )
+		{
+			provider = new PeerExtensibilityProvider( this, extensionName );
+			initSlots( );
+		}
+		else
+			provider = null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
+	 */
+
+	public ContainerSlot getSlot( int slot )
+	{
+		assert slot >= 0 && slot < getDefn( ).getSlotCount( );
+		return slots[slot];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getDefn()
+	 */
+	public IElementDefn getDefn( )
+	{
+		IElementDefn extDefn = getExtDefn( );
+		if ( extDefn != null )
+			return extDefn;
+		return super.getDefn( );
+	}
+
+	/**
+	 * Gets the default element definition of this extended-item.
+	 * 
+	 * @return the default element definition
+	 */
+
+	public IElementDefn getDefaultDefn( )
+	{
+		return super.getDefn( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
+	 */
+
+	public ContentTree getContentTree( )
+	{
+		return this.contentTree;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#initializeContentTree()
+	 */
+	
+	public void initializeContentTree( )
+	{
+		if ( contentTree == null )
+			contentTree = new ContentTree( );
+	}
+
 }

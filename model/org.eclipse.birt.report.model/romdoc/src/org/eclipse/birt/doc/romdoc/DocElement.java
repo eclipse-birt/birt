@@ -237,7 +237,7 @@ public class DocElement extends DocComposite
 	{
 		if ( getElementDefn( ).isAbstract( ) )
 			return "None";
-		return getElementDefn( ).getXmlElement( );
+		return getElementDefn( ).getXmlName( );
 	}
 
 	public void setXmlSummary( String string )

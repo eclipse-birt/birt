@@ -352,7 +352,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * The name of the XML element used when serializing this ROM element.
 	 */
 
-	protected String xmlElement;
+	protected String xmlName;
 
 	/**
 	 * Cached property definitions. It contains local defined and parents'
@@ -601,10 +601,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		buildProperties( );
 
-		// check if the javaClass is valid for concrete element type
+		// check if the javaClass and xml name is valid for concrete element
+		// type
 
 		if ( !isAbstract( ) )
+		{
 			checkJavaClass( );
+			checkXmlName( );
+		}
 
 		checkPropertyVisibilities( );
 
@@ -647,7 +651,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#buildDefn()
 	 */
-	protected void buildDefn( ) throws MetaDataException
+
+	protected final void buildDefn( ) throws MetaDataException
 	{
 		// Handle parent-specific tasks.
 
@@ -852,6 +857,23 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks the xml name for this element. Check the xml name is not empty and
+	 * unique.
+	 * 
+	 * @throws MetaDataException
+	 *             if the xml name of this element is not defined or not unique
+	 */
+
+	private void checkXmlName( ) throws MetaDataException
+	{
+		if ( StringUtil.isBlank( xmlName ) )
+			throw new MetaDataException( new String[]{name},
+					MetaDataException.DESIGN_EXCEPTION_MISSING_XML_NAME );
+
+		// TODO: checks the unique of the name
 	}
 
 	/**
@@ -1475,7 +1497,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			}
 
 		}
-		
+
 		super.addProperty( property );
 	}
 
@@ -1584,9 +1606,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            the name of the XML element
 	 */
 
-	public void setXmlElement( String value )
+	public void setXmlName( String value )
 	{
-		xmlElement = value;
+		xmlName = value;
 	}
 
 	/**
@@ -1594,8 +1616,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * @return the name of the XML element used to serialize this ROM element.
 	 */
 
-	public String getXmlElement( )
+	public String getXmlName( )
 	{
-		return xmlElement;
+		return xmlName;
 	}
 }

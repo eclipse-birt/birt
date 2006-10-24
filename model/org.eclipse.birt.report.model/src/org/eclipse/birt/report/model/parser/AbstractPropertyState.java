@@ -41,15 +41,8 @@ import org.xml.sax.Attributes;
 /**
  * Parses the abstract property. The XML file is like:
  * 
- * <pre>
- *         
- *          
- *           
- *             
+ * <pre>        
  *             &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
- *            
- *           
- *          
  * </pre>
  * 
  * The supported tags are:

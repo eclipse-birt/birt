@@ -560,7 +560,7 @@ class MetaDataHandler extends XMLParserHandler
 			elementDefn.setCanExtend( getBooleanAttrib( attrs,
 					CAN_EXTEND_ATTRIB, true ) );
 			elementDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
-			elementDefn.setXmlElement( attrs.getValue( XML_NAME_ATTRIB ) );
+			elementDefn.setXmlName( attrs.getValue( XML_NAME_ATTRIB ) );
 			String nameRequired = attrs.getValue( IS_NAME_REQUIRED_ATTRIB );
 			if ( nameRequired != null )
 			{

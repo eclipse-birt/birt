@@ -226,10 +226,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			// work on unique name and name space.
 
 			targetDesign.manageId( tmpElement, true );
-
-			targetDesign.makeUniqueName( tmpElement );
-			int ns = ( (ElementDefn) tmpElement.getDefn( ) ).getNameSpaceID( );
-			targetDesign.getNameSpace( ns ).insert( tmpElement );
+			ModelUtil.addElement2NameSpace( targetDesign, tmpElement );			
 		}
 	}
 

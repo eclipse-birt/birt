@@ -231,10 +231,8 @@ public class NameCommand extends AbstractElementCommand
 				.getElement( element.getName( ) );
 
 		assert existedElement == null;
-
-		if ( existedElement == null )
-			getActivityStack( ).execute(
-					new NameSpaceRecord( getModule( ), ns, element, true ) );
+		getActivityStack( ).execute(
+				new NameSpaceRecord( getModule( ), ns, element, true ) );
 	}
 
 	/**

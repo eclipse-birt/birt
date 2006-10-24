@@ -66,4 +66,15 @@ public interface INameManager
 	 */
 
 	String getUniqueName( DesignElement element );
+
+	/**
+	 * Adds a content name to the name-manager.
+	 * 
+	 * @param id
+	 *            name space id
+	 * @param name
+	 *            the name of the content
+	 */
+
+	void addContentName( int id, String name );
 }

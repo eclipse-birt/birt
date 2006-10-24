@@ -16,10 +16,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.ModuleOption;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -94,9 +96,12 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
+import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
@@ -1446,7 +1451,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		resourceKey( obj, ExtendedItem.ALT_TEXT_KEY_PROP,
 				ExtendedItem.ALT_TEXT_PROP );
 
-		// write the extension item local properties
+		// write filter properties for the extended item
+
+		writeStructureList( obj, ExtendedItem.FILTER_PROP );
+
+		// write the extension item local properties and slot
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn != null )
 		{
@@ -1464,21 +1473,39 @@ public abstract class ModuleWriter extends ElementVisitor
 				// serialized on the IReportItem itself, never minding whether
 				// the xml-property values are set locally or extended from
 				// parent.
+				switch ( prop.getTypeCode( ) )
+				{
+					case PropertyType.LIST_TYPE :
+						writeSimplePropertyList( obj, prop.getName( ) );
+						break;
+					case PropertyType.XML_TYPE :
+						writeProperty( obj, getTagByPropertyType( prop ), prop
+								.getName( ), true );
+						break;
+					default :
+						writeProperty( obj, getTagByPropertyType( prop ), prop
+								.getName( ), false );
+						break;
+				}
+			}
 
-				if ( prop.getTypeCode( ) != PropertyType.XML_TYPE )
-					writeProperty( obj, getTagByPropertyType( prop ), prop
-							.getName( ), false );
-				else
-					writeProperty( obj, getTagByPropertyType( prop ), prop
-							.getName( ), true );
-
+			// write the slot content
+			if ( extDefn.isContainer( ) )
+			{
+				for ( int i = 0; i < extDefn.getSlotCount( ); i++ )
+				{
+					SlotDefn slotDefn = (SlotDefn) extDefn.getSlot( i );
+					writeContents( obj, i, slotDefn.getXmlName( ) );
+				}
 			}
 		}
+		// ext definition is not found, then write it as content tree
+		else
+		{
+			ContentTree tree = obj.getContentTree( );
+			writeContentTree( tree );
 
-		// write filter properties for the extended item
-
-		writeStructureList( obj, ExtendedItem.FILTER_PROP );
-
+		}
 		writer.endElement( );
 	}
 
@@ -2986,6 +3013,72 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			assert false;
 		}
+		writer.endElement( );
+	}
+
+	/**
+	 * Writes the content tree out to the file.
+	 * 
+	 * @param tree
+	 *            the tree to write out
+	 */
+
+	protected void writeContentTree( ContentTree tree )
+	{
+		if ( tree == null || tree.isEmpty( ) )
+			return;
+		List children = (List) tree.getChildren( );
+		for ( int i = 0; i < children.size( ); i++ )
+		{
+			ContentNode node = (ContentNode) children.get( i );
+			writeContentNode( node );
+		}
+	}
+
+	/**
+	 * Writers the content node out to the file.
+	 * 
+	 * @param node
+	 *            the content node to write out
+	 */
+
+	private void writeContentNode( ContentNode node )
+	{
+		String tagName = node.getName( );
+		boolean isCdata = node.isCDATASection( );
+
+		writer.startElement( tagName );
+
+		// attributes
+		Map attributes = node.getAttributes( );
+		Iterator keys = attributes.keySet( ).iterator( );
+		while ( keys.hasNext( ) )
+		{
+			String key = (String) keys.next( );
+			String attr = (String) attributes.get( key );
+			writer.attribute( key, attr );
+		}
+
+		// write the value or the children
+		String value = node.getValue( );
+		List children = node.getChildren( );
+		assert StringUtil.isBlank( value ) || children.isEmpty( );
+		if ( !StringUtil.isBlank( value ) )
+		{
+			if ( isCdata )
+				writer.textCDATA( value );
+			else
+				writer.text( value );
+		}
+		else
+		{
+			for ( int i = 0; i < children.size( ); i++ )
+			{
+				ContentNode child = (ContentNode) children.get( i );
+				writeContentNode( child );
+			}
+		}
+
 		writer.endElement( );
 	}
 }
