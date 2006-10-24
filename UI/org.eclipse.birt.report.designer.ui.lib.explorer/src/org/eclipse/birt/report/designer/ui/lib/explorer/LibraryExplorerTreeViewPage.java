@@ -119,7 +119,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		treeViewer.setLabelProvider( provider );
 
 		// Adds drag and drop support
-		int ops = DND.DROP_COPY;
+		int ops = DND.DROP_COPY | DND.DROP_LINK;
 		Transfer[] transfers = new Transfer[]{
 			TemplateTransfer.getInstance( )
 		};
