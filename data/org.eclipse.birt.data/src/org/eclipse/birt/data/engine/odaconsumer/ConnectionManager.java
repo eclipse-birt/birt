@@ -121,10 +121,6 @@ public class ConnectionManager
 		{
             DriverManager driverMgr = DriverManager.getInstance();
 
-            // passes ODA framework's trace logging configuration settings 
-            // to the ODA consumer helper and driver itself
-            driverMgr.setDriverLogConfiguration( dataSourceElementId );
-
             // gets the driver's connection to open
             IDriver driverHelper = 
                 driverMgr.getDriverHelper( dataSourceElementId );

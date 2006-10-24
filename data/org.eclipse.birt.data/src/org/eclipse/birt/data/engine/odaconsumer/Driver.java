@@ -16,16 +16,13 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IDriver;
-import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaDriver;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
-import org.eclipse.datatools.connectivity.oda.util.manifest.TraceLogging;
 
 /**
  * Each <code>Driver</code> maintains the state of a driver in the drivers 
@@ -123,48 +120,6 @@ class Driver
 		}
 	}
 
-    /**
-     * Passes the trace logging configuration values to the
-     * ODA driver and its consumer helper.
-     */
-	void setLogConfiguration() 
-	{
-	    final String methodName = "setLogConfiguration";
-	            
-        // get log configuration values
-        LogConfiguration logConfigSpec = newLogSettings();
-	    if( logConfigSpec == null )
-	    {
-			sm_logger.logp( Level.INFO, sm_className, methodName,
-					"ODA driver does not have valid trace logging defined in the plug-in .options or plugin.xml file." );
-	        return;		// no log configuration, nothing to set
-	    }
-	            
-        // get the ODA consumer helper to set the log configuration
-        IDriver driverHelper;
-        try
-        {
-            driverHelper = getDriverHelper();
-        }
-        catch( DataException ex )
-        {
-            sm_logger.logp( Level.WARNING, sm_className, methodName,
-                    "Cannot get ODA consumer manager's driver helper to set up logging.", ex );
-            return;
-        }
-
-        try
-	    {
-	        driverHelper.setLogConfiguration( logConfigSpec );
-	    }
-	    catch( OdaException e1 )
-	    {
-            // log exception and continue
-			sm_logger.logp( Level.WARNING, sm_className, methodName,
-					"Cannot set ODA data source log configuration.", e1 );
-	    }
-	}
-    
 	/*
 	 * Sets the member variable(s) with value of the DTP ODA driver manifest, or 
 	 * the manifests of a BIRT ODA driver and its adapter
@@ -272,162 +227,5 @@ class Driver
 		throw new DataException( ResourceConstants.CANNOT_PROCESS_DRIVER_CONFIG, cause, 
 			new Object[] { dataSourceDriverId } );	
 	}
-	
-    /*
-     * Gets the driver's trace logging element in plug-in manifest.
-     */ 
-	private TraceLogging getLoggingElement()
-    {
-	    final String methodName = "getLoggingElement";
-        
-        ExtensionManifest config;
-        try
-        {
-            config = getDriverExtensionConfig();
-        }
-        catch( DataException ex )
-        {
-            sm_logger.logp( Level.WARNING, sm_className, methodName,
-                    "Cannot get ODA driver plug-in manifest.", ex );
-            return null;
-        }
-        
-        assert( config != null );
-        return config.getTraceLogging();
-    }
-    
-    /*
-     * Gets the plug-in trace logging configuration from 
-     * the .options file if set to debugging; otherwise,  
-     * from the plugin.xml traceLogging element.
-     */ 
-	private LogConfiguration newLogSettings()
-    {
-        // get log configuration specified in plug-in .options file
-        LogConfiguration logOptions = newTraceOptions();
-        if( logOptions != null )
-            return logOptions;  // done
-
-        // no trace options are set for ODA driver;
-        // get the driver's trace logging element in plug-in manifest        
-        TraceLogging logManifest = getLoggingElement();
-        if( logManifest == null )
-            return null;    // none found
-        
-        // convert trace logging element to returned object
-        return newLogSettings( logManifest );
-    }
-    
-    /* 
-     * Gets the plug-in trace logging configuration  
-     * from the PDE .options file 
-     */
-    private LogConfiguration newTraceOptions()
-    {
-        String pluginId;
-        try
-        {
-            pluginId = getDriverExtensionConfig().getNamespace();
-        }
-        catch( DataException e )
-        {
-            // try use the driver's data source element id
-            pluginId = m_dataSourceDriverId;
-        }
-        
-        String debugOption = pluginId + "/debug";
-        String debugOptionValue = Platform.getDebugOption( debugOption );
-        Boolean isDebug = Boolean.valueOf( debugOptionValue );
-        if( isDebug == Boolean.FALSE )
-            return null;    // not found or not debugging
-        
-        String logLevelOption = pluginId + "/traceLogging/logLevel";
-        int logLevel = TraceLogging.toLogLevelNumber( 
-                			Platform.getDebugOption( logLevelOption ) );
-        
-        String logFormatterOption = pluginId + "/traceLogging/logFormatterClass";
-        String logFilePrefixOption = pluginId + "/traceLogging/logFileNamePrefix";
-        String logDirOption = pluginId + "/traceLogging/logDirectory";
-        
-        // set default configuration values if not specified
-        String logFilenamePrefix = Platform.getDebugOption( logFilePrefixOption );
-        String logDest = Platform.getDebugOption( logDirOption );
-        
-        // if either log file attribute has value, ensure
-        // both attributes have values, using default value as needed
-        if( isNotEmpty( logFilenamePrefix ) || isNotEmpty( logDest ) )
-        {
-	        logFilenamePrefix = getDefaultLogFilenamePrefix( logFilenamePrefix );
-	        logDest = getDefaultLogDirectory( logDest );
-        }
-
-        // instantiate object with log configuration values
-        return new LogConfiguration( m_dataSourceDriverId, 
-                            logLevel,
-                            logDest,
-                            logFilenamePrefix,
-                            Platform.getDebugOption( logFormatterOption ) );
-    }
-    
-    /*
-     * Gets the plug-in trace logging configuration settings 
-     * from the plugin.xml traceLogging element
-     */
-    private LogConfiguration newLogSettings( TraceLogging logManifest )
-    {
-        assert( logManifest != null );
-        
-        // set default configuration values if not specified
-        String logFilenamePrefix = logManifest.getLogFileNamePrefix();
-        String logDest = logManifest.getLogDirectory();
-        
-        // if either log file attribute has value, ensure
-        // both attributes have values, using default value as needed
-        if( isNotEmpty( logFilenamePrefix ) || isNotEmpty( logDest ) )
-        {
-	        logFilenamePrefix = getDefaultLogFilenamePrefix( logFilenamePrefix );
-	        logDest = getDefaultLogDirectory( logDest );
-        }
-
-        // instantiate object with log configuration values
-        return new LogConfiguration( m_dataSourceDriverId, 
-                            logManifest.getLogLevel(),
-                            logDest,
-                            logFilenamePrefix,
-                            logManifest.getLogFormatterClass() );
-    }
-
-    /*
-     * Returns the default configuration value if 
-     * the given log filename prefix is not specified
-     */
-    private String getDefaultLogFilenamePrefix( String prefix )
-    {
-        if( isNotEmpty( prefix ) )
-            return prefix;	// already specified, use as is
-        return m_dataSourceDriverId;
-    }
-    
-    /*
-     * Returns the driver name as the default relative folder name if 
-     * the given log directory is not specified
-     */
-    private String getDefaultLogDirectory( String logDir )
-    {
-        if( isNotEmpty( logDir ) )
-            return logDir;  // already specified, use as is
-        return m_dataSourceDriverId;
-    }
- 
-    private boolean isNullOrEmpty( String value )
-    {
-        return ( value == null || value.length() == 0 );
-    }
-    
-    
-    private boolean isNotEmpty( String value )
-    {
-        return ! isNullOrEmpty( value );
-    }
 
 }

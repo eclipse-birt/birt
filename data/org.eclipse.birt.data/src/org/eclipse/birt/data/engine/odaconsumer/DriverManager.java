@@ -111,22 +111,6 @@ class DriverManager
 		return ret;
 	}
 	
-	void setDriverLogConfiguration( String dataSourceElementId )
-	{
-		final String methodName = "setDriverLogConfiguration"; //$NON-NLS-1$
-		if( getLogger().isLoggingEnterExitLevel() )
-			getLogger().entering( sm_className, methodName, 
-		        				new Object[] { dataSourceElementId } );
-
-	    assert( dataSourceElementId != null );
-	    
-		Driver driver = getDriver( dataSourceElementId );
-		assert( driver != null );
-        driver.setLogConfiguration();
-
-        getLogger().exiting( sm_className, methodName );
-	}
-		
 	private Driver getDriver( String dataSourceElementId )
 	{
 		assert( dataSourceElementId != null && dataSourceElementId.length() != 0 );
