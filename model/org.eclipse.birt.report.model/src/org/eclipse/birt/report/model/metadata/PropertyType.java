@@ -379,7 +379,7 @@ public abstract class PropertyType implements IPropertyType
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	
+
 	public boolean equals( Object obj )
 	{
 		if ( obj instanceof IPropertyType )

@@ -131,10 +131,10 @@ public class ExtendsPropertyType extends PropertyType
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
-		ElementRefValue refValue = (ElementRefValue) value;
-		if ( refValue == null )
+		if ( value == null )
 			return null;
-
+		
+		ElementRefValue refValue = (ElementRefValue) value;
 		return refValue.getQualifiedReference( );
 	}
 

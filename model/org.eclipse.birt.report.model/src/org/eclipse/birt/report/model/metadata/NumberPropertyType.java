@@ -38,7 +38,7 @@ public class NumberPropertyType extends PropertyType
 	/**
 	 * A default fixed-locale number formatter.
 	 */
-	
+
 	private static final NumberFormat formatter = NumberFormat
 			.getNumberInstance( DEFAULT_LOCALE );
 	static
@@ -160,6 +160,18 @@ public class NumberPropertyType extends PropertyType
 		if ( value == null )
 			return 0.0;
 
+		if ( value instanceof String )
+		{
+			try
+			{
+				return Double.valueOf( (String) value ).doubleValue( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return 0.0;
+			}
+		}
+
 		return ( (BigDecimal) value ).doubleValue( );
 	}
 
@@ -178,6 +190,9 @@ public class NumberPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
+		if ( value instanceof String )
+			return (String) value;
+
 		return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 	}
 
@@ -195,6 +210,18 @@ public class NumberPropertyType extends PropertyType
 		if ( value == null )
 			return 0;
 
+		if ( value instanceof String )
+		{
+			try
+			{
+				return Double.valueOf( (String) value ).intValue( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return 0;
+			}
+		}
+
 		return ( (BigDecimal) value ).intValue( );
 	}
 
@@ -206,6 +233,18 @@ public class NumberPropertyType extends PropertyType
 
 	public BigDecimal toNumber( Module module, Object value )
 	{
+		if ( value instanceof String )
+		{
+			try
+			{
+				return new BigDecimal( formatter.parse( (String) value )
+						.doubleValue( ) );
+			}
+			catch ( ParseException e )
+			{
+				return new BigDecimal( 0.0 );
+			}
+		}
 		return (BigDecimal) value;
 	}
 

@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
@@ -2095,16 +2094,12 @@ public abstract class DesignElement
 
 	public BigDecimal getNumberProperty( Module module, String propName )
 	{
-		Object value = getProperty( module, propName );
-		if ( value == null )
-			return null;
-		if ( value instanceof BigDecimal )
-			return (BigDecimal) value;
-
 		ElementPropertyDefn prop = getPropertyDefn( propName );
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				prop.getTypeCode( ) );
-		return type.toNumber( module, value );
+		if ( prop == null )
+			return null;
+
+		Object value = getProperty( module, prop );
+		return prop.getNumberValue( module, value );
 	}
 
 	/**
@@ -2134,9 +2129,8 @@ public abstract class DesignElement
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return null;
+		
 		Object value = getProperty( module, prop );
-		if ( value == null )
-			return null;
 		return prop.getStringValue( module, value );
 	}
 
@@ -2416,14 +2410,8 @@ public abstract class DesignElement
 		if ( prop == null )
 			return 0;
 
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				prop.getTypeCode( ) );
-
-		Object value = getProperty( module, propName );
-		if ( value instanceof Integer )
-			return ( (Integer) value ).intValue( );
-
-		return type.toInteger( module, value );
+		Object value = getProperty( module, prop );
+		return prop.getIntValue( module, value );
 	}
 
 	/**
@@ -2443,14 +2431,8 @@ public abstract class DesignElement
 		if ( prop == null )
 			return 0;
 
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				prop.getTypeCode( ) );
-
-		Object value = getProperty( module, propName );
-		if ( value instanceof Double )
-			return ( (Double) value ).doubleValue( );
-
-		return type.toDouble( module, value );
+		Object value = getProperty( module, prop );
+		return prop.getFloatValue( module, value );
 	}
 
 	/**
@@ -2470,11 +2452,8 @@ public abstract class DesignElement
 		if ( prop == null )
 			return false;
 
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				prop.getTypeCode( ) );
-
-		Object value = getProperty( module, propName );
-		return ( (BooleanPropertyType) type ).toBoolean( module, value );
+		Object value = getProperty( module, prop );
+		return prop.getBooleanValue( module, value );
 	}
 
 	/**

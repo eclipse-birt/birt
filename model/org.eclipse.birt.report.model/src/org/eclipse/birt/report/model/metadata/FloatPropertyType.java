@@ -155,6 +155,19 @@ public class FloatPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return 0;
+
+		if ( value instanceof String )
+		{
+			try
+			{
+				return Double.valueOf( (String) value ).doubleValue( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return 0.0;
+			}
+		}
+
 		return ( (Double) value ).doubleValue( );
 	}
 
@@ -169,6 +182,19 @@ public class FloatPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return 0;
+
+		if ( value instanceof String )
+		{
+			try
+			{
+				return Double.valueOf( (String) value ).intValue( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return 0;
+			}
+		}
+
 		return ( (Double) value ).intValue( );
 	}
 
@@ -182,6 +208,9 @@ public class FloatPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return null;
+
+		if ( value instanceof String )
+			return (String) value;
 
 		return formatter.format( ( (Double) value ).doubleValue( ) );
 	}

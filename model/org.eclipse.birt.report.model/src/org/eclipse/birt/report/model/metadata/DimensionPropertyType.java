@@ -391,7 +391,6 @@ public class DimensionPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		assert value instanceof DimensionValue;
 		return value.toString( );
 	}
 
@@ -406,9 +405,22 @@ public class DimensionPropertyType extends PropertyType
 
 	public double toDouble( Module module, Object value )
 	{
-		DimensionValue dim = (DimensionValue) value;
-		if ( dim == null )
+		if ( value == null )
 			return 0.0;
+
+		if ( value instanceof String )
+		{
+			try
+			{
+				return Double.valueOf( (String) value ).doubleValue( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return 0.0;
+			}
+		}
+
+		DimensionValue dim = (DimensionValue) value;
 
 		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 			return dim.getMeasure( );

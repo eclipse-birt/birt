@@ -131,10 +131,14 @@ public class LiteralStringPropertyType extends PropertyType
 		if ( value == null )
 			return 0;
 
-		Integer conv = Integer.decode( (String) value );
-		if ( conv == null )
+		try
+		{
+			return Integer.decode( (String) value ).intValue( );
+		}
+		catch ( NumberFormatException e )
+		{
 			return 0;
-		return conv.intValue( );
+		}
 	}
 
 }

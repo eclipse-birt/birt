@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -228,7 +227,8 @@ public class DateTimePropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		assert value instanceof Date;
+		if ( value instanceof String )
+			return (String) value;
 
 		return formatter.format( (Date) value );
 	}

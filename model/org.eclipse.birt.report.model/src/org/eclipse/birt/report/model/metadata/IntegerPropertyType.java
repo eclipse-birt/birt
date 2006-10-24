@@ -175,6 +175,9 @@ public class IntegerPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
+		if ( value instanceof String )
+			return (String) value;
+
 		return ( (Integer) value ).toString( );
 	}
 
@@ -209,6 +212,18 @@ public class IntegerPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return 0;
+
+		if ( value instanceof String )
+		{
+			try
+			{
+				return Integer.decode( (String) value ).intValue( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return 0;
+			}
+		}
 
 		return ( (Integer) value ).intValue( );
 	}

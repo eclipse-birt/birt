@@ -402,12 +402,12 @@ public abstract class PropertyDefn
 					throw new MetaDataException(
 							new String[]{name, subType.getName( )},
 							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
-				
+
 				// add the simple list validator
 				// TODO exclude the style property
-				SimpleListValidator validator = SimpleListValidator.getInstance( );
-				triggerDefn = new SemanticTriggerDefn(
-						SimpleListValidator.NAME );
+				SimpleListValidator validator = SimpleListValidator
+						.getInstance( );
+				triggerDefn = new SemanticTriggerDefn( SimpleListValidator.NAME );
 				triggerDefn.setPropertyName( getName( ) );
 				triggerDefn.setValidator( validator );
 				getTriggerDefnSet( ).add( triggerDefn );
@@ -889,10 +889,7 @@ public abstract class PropertyDefn
 
 	/**
 	 * Returns a value as a locale independent string.
-	 * 
-	 * This method checks the predefined choice properties first. If has not,
-	 * then uses type to return the value.
-	 * 
+	 *  
 	 * @param module
 	 *            the report design
 	 * @param value
@@ -902,20 +899,13 @@ public abstract class PropertyDefn
 
 	public String getStringValue( Module module, Object value )
 	{
-		if ( value == null )
-			return null;
-
-		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null
-				? getType( ).toString( module, this, value )
-				: retValue;
+		return getType( ).toString( module, this, value );
 	}
 
 	/**
 	 * Returns a value as a <code>double</code>.
 	 * 
-	 * This method checks the predefined choice properties first. If has not,
-	 * then uses type to return the value.
+	 * Uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -926,18 +916,13 @@ public abstract class PropertyDefn
 
 	public double getFloatValue( Module module, Object value )
 	{
-		if ( value == null )
-			return 0.0;
-
-		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toDouble( module, value ) : 0.0d;
+		return getType( ).toDouble( module, value );
 	}
 
 	/**
 	 * Returns a value as a <code>int</code>.
 	 * 
-	 * This method checks the predefined choice properties first. If has not,
-	 * then uses type to return the value.
+	 * Uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -948,18 +933,13 @@ public abstract class PropertyDefn
 
 	public int getIntValue( Module module, Object value )
 	{
-		if ( value == null )
-			return 0;
-
-		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toInteger( module, value ) : 0;
+		return getType( ).toInteger( module, value );
 	}
 
 	/**
 	 * Returns a value as a <code>BigDecimal</code>.
 	 * 
-	 * This method checks the predefined choice properties first. If has not,
-	 * then uses type to return the value.
+	 * Uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -970,18 +950,13 @@ public abstract class PropertyDefn
 
 	public BigDecimal getNumberValue( Module module, Object value )
 	{
-		if ( value == null )
-			return null;
-
-		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toNumber( module, value ) : null;
+		return getType( ).toNumber( module, value );
 	}
 
 	/**
 	 * Returns a value as a <code>boolean</code>.
 	 * 
-	 * This method checks the predefined choice properties first. If has not,
-	 * then uses type to return the value.
+	 * Uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -992,11 +967,7 @@ public abstract class PropertyDefn
 
 	public boolean getBooleanValue( Module module, Object value )
 	{
-		if ( value == null )
-			return false;
-
-		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toBoolean( module, value ) : false;
+		return getType( ).toBoolean( module, value );
 	}
 
 	/**
