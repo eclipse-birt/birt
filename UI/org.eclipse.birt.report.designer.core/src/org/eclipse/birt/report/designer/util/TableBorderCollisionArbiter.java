@@ -20,6 +20,20 @@ public class TableBorderCollisionArbiter
 {
 
 	/**
+	 * @param data
+	 * @param style
+	 * @param width
+	 * @param color
+	 * @param rowIndex
+	 * @param colIndex
+	 */
+	public static void refreshBorderData( int[] data, int style, int width,
+			int color, int rowIndex, int colIndex )
+	{
+		refreshBorderData( data, style, width, color, rowIndex, colIndex, 0 );
+	}
+
+	/**
 	 * Refresh the border data as per the current border setting and existing
 	 * border setting, using the CSS2.0 border collision algorithm: if the style
 	 * is none, always lose; then compare the width, greater win; if width is
@@ -27,12 +41,35 @@ public class TableBorderCollisionArbiter
 	 * part 1 of the algorithm.
 	 */
 	public static void refreshBorderData( int[] data, int style, int width,
-			int color, int rowIndex, int colIndex )
+			int color, int rowIndex, int colIndex, int type )
 	{
-		assert ( data.length > 4 );
+		assert ( data.length > 5 );
 
 		if ( style != 0 )
 		{
+			if (data[0] == 0)
+			{
+				data[0] = style;
+				data[1] = width;
+				data[2] = color;
+				data[3] = rowIndex;
+				data[4] = colIndex;
+				data[5] = type;
+				return;
+			}
+			if (type > data[5])
+			{
+				data[0] = style;
+				data[1] = width;
+				data[2] = color;
+				data[3] = rowIndex;
+				data[4] = colIndex;
+				data[5] = type;
+			}
+			else if (type < data[5])
+			{
+				return;
+			}
 			if ( width > data[1] || data[0] == 0 )
 			{
 				data[0] = style;
@@ -40,6 +77,7 @@ public class TableBorderCollisionArbiter
 				data[2] = color;
 				data[3] = rowIndex;
 				data[4] = colIndex;
+				data[5] = type;
 			}
 			else if ( width == data[1] && style < data[0] )
 			{
@@ -47,6 +85,7 @@ public class TableBorderCollisionArbiter
 				data[2] = color;
 				data[3] = rowIndex;
 				data[4] = colIndex;
+				data[5] = type;
 			}
 		}
 		else if ( data[0] == 0 )

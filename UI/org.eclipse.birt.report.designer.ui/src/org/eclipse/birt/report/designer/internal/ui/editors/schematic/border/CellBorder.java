@@ -27,13 +27,18 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class CellBorder extends LineBorder
 {
 
+	public static int FROM_ROW = 0;
+	public static int FROM_CELL = 1;
 	private static final Insets DEFAULT_CROP = new Insets( 2, 2, 2, 2 );
 
 	private static final Insets DEFAULTINSETS = new Insets( 3, 3, 2, 2 );
 
 	private Insets paddingInsets = new Insets( DEFAULTINSETS );
 	private Insets borderInsets;
-
+	private int bottomFrom = FROM_CELL;
+	private int topFrom = FROM_CELL;
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,6 +149,42 @@ public class CellBorder extends LineBorder
 		}
 
 		g.restoreState( );
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public int getBottomFrom( )
+	{
+		return bottomFrom;
+	}
+
+	
+	/**
+	 * @param bottomFrom
+	 */
+	public void setBottomFrom( int bottomFrom )
+	{
+		this.bottomFrom = bottomFrom;
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public int getTopFrom( )
+	{
+		return topFrom;
+	}
+
+	
+	/**
+	 * @param topFrom
+	 */
+	public void setTopFrom( int topFrom )
+	{
+		this.topFrom = topFrom;
 	}
 
 

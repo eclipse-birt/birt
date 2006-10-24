@@ -57,7 +57,7 @@ public class TableBorderHelper
 		heights = new int[colCount][rowCount + 1];
 		widths = new int[rowCount][colCount + 1];
 
-		borderData = new int[2 * colCount * rowCount + colCount + rowCount][5];
+		borderData = new int[2 * colCount * rowCount + colCount + rowCount][6];
 
 		// initialize all index data as -1.
 		for ( int i = 0; i < rowCount; i++ )
@@ -67,18 +67,22 @@ public class TableBorderHelper
 				//top
 				borderData[i * ( 2 * colCount + 1 ) + j][3] = -1;
 				borderData[i * ( 2 * colCount + 1 ) + j][4] = -1;
-
+				borderData[i * ( 2 * colCount + 1 ) + j][5] = -1;
+				
 				//bottom
 				borderData[( i + 1 ) * ( 2 * colCount + 1 ) + j][3] = -1;
 				borderData[( i + 1 ) * ( 2 * colCount + 1 ) + j][4] = -1;
+				borderData[( i + 1 ) * ( 2 * colCount + 1 ) + j][5] = -1;
 
 				//left
 				borderData[i * ( 2 * colCount + 1 ) + colCount + j][3] = -1;
 				borderData[i * ( 2 * colCount + 1 ) + colCount + j][4] = -1;
+				borderData[i * ( 2 * colCount + 1 ) + colCount + j][5] = -1;
 
 				//right
 				borderData[i * ( 2 * colCount + 1 ) + colCount + j + 1][3] = -1;
 				borderData[i * ( 2 * colCount + 1 ) + colCount + j + 1][4] = -1;
+				borderData[i * ( 2 * colCount + 1 ) + colCount + j + 1][5] = -1;
 			}
 		}
 
@@ -114,10 +118,12 @@ public class TableBorderHelper
 			int topStyle = border.getTopBorderStyle( );
 			int topWidth = border.getTopBorderWidth( );
 			int topColor = border.getTopBorderColor( );
+			int topFrom = border.getTopFrom( );
 
 			int bottomStyle = border.getBottomBorderStyle( );
 			int bottomWidth = border.getBottomBorderWidth( );
 			int bottomColor = border.getBottomBorderColor( );
+			int bottomFrom = border.getBottomFrom( );
 
 			int leftStyle = border.getLeftBorderStyle( );
 			int leftWidth = border.getLeftBorderWidth( );
@@ -139,7 +145,8 @@ public class TableBorderHelper
 						topWidth,
 						topColor,
 						rowIndex - 1,
-						colIndex - 1 + i );
+						colIndex - 1 + i ,
+						topFrom);
 
 				TableBorderCollisionArbiter.refreshBorderData( borderData[( rowIndex
 						+ rowSpan - 1 )
@@ -151,7 +158,8 @@ public class TableBorderHelper
 						bottomWidth,
 						bottomColor,
 						rowIndex - 1 + rowSpan - 1,
-						colIndex - 1 + i );
+						colIndex - 1 + i, 
+						bottomFrom);
 
 				// update border insets data.
 				heights[colIndex - 1 + i][rowIndex - 1] = Math.max( heights[colIndex

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
@@ -382,4 +383,60 @@ public class TableCellEditPart extends ReportElementEditPart
 		super.addChildVisual( part, index );
 	}
 
+	/* 
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#updateBaseBorder(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder)
+	 */
+	//now suport the row border, so interest the bottom and top.
+	protected void updateBaseBorder( DesignElementHandle handle,
+			BaseBorder border )
+	{
+		super.updateBaseBorder( handle, border );
+		DesignElementHandle parent = ((DesignElementHandle) getModel( )).getContainer( );
+		if (DesignChoiceConstants.LINE_STYLE_NONE.equals( border.bottomStyle))
+		{
+			updateBottomBorder( parent, border );
+			if ( border instanceof CellBorder )
+			{
+				((CellBorder)border).setBottomFrom( CellBorder.FROM_ROW );
+			}
+		}
+		else
+		{
+			if ( border instanceof CellBorder )
+			{
+				((CellBorder)border).setBottomFrom( CellBorder.FROM_CELL );
+			}
+		}
+		if (DesignChoiceConstants.LINE_STYLE_NONE.equals( border.topStyle))
+		{
+			updateTopBorder( parent, border );
+			if ( border instanceof CellBorder )
+			{
+				((CellBorder)border).setTopFrom( CellBorder.FROM_ROW );
+			}
+		}
+		else
+		{
+			if ( border instanceof CellBorder )
+			{
+				((CellBorder)border).setTopFrom( CellBorder.FROM_CELL );
+			}
+		}
+		if (DesignChoiceConstants.LINE_STYLE_NONE.equals( border.leftStyle))
+		{
+			if (getColumnNumber( ) == 1)
+			{
+				updateLeftBorder( parent, border );
+			}
+		}
+		
+		if (DesignChoiceConstants.LINE_STYLE_NONE.equals( border.rightStyle))
+		{
+			if (getColumnNumber( )+getColSpan( ) ==  ((TableEditPart)getParent( )).getColumnCount( ) + 1)
+			{
+				updateRightBorder( parent, border );
+			}
+		}
+	}
 }

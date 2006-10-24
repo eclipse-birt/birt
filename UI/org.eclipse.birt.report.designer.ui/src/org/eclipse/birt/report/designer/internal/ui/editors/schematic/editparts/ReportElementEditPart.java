@@ -732,20 +732,37 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	protected void updateBaseBorder( DesignElementHandle handle,
 			BaseBorder border )
 	{
+		updateBottomBorder( handle, border );
+		updateTopBorder( handle, border );
+		updateLeftBorder( handle, border );
+		updateRightBorder( handle, border );
+	}
+
+	protected void updateBottomBorder( DesignElementHandle handle,
+			BaseBorder border )
+	{
 		border.bottomColor = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
 				.getIntValue( );
 		border.bottomStyle = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
 				.getStringValue( );
 		border.bottomWidth = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
 				.getStringValue( );
+	}
 
+	protected void updateTopBorder( DesignElementHandle handle,
+			BaseBorder border )
+	{
 		border.topColor = handle.getPropertyHandle( StyleHandle.BORDER_TOP_COLOR_PROP )
 				.getIntValue( );
 		border.topStyle = handle.getPropertyHandle( StyleHandle.BORDER_TOP_STYLE_PROP )
 				.getStringValue( );
 		border.topWidth = handle.getPropertyHandle( StyleHandle.BORDER_TOP_WIDTH_PROP )
 				.getStringValue( );
+	}
 
+	protected void updateLeftBorder( DesignElementHandle handle,
+			BaseBorder border )
+	{
 		border.leftColor = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_COLOR_PROP )
 				.getIntValue( );
 		border.leftStyle = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_STYLE_PROP )
@@ -753,6 +770,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		border.leftWidth = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_WIDTH_PROP )
 				.getStringValue( );
 
+	}
+
+	protected void updateRightBorder( DesignElementHandle handle,
+			BaseBorder border )
+	{
 		border.rightColor = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_COLOR_PROP )
 				.getIntValue( );
 		border.rightStyle = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_STYLE_PROP )
