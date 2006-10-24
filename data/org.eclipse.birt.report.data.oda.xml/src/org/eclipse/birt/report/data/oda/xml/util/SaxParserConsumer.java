@@ -32,7 +32,7 @@ public class SaxParserConsumer extends org.eclipse.datatools.enablement.oda.xml.
 	 */
 	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, XMLDataInputStream is, String tName ) throws OdaException
 	{
-		super( rs, rinfo, is, tName );
+		super( rinfo, is, tName );
 	}
 }
 
