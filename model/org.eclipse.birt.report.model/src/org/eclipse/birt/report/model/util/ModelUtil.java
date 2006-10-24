@@ -84,7 +84,6 @@ import org.xml.sax.SAXException;
 import com.ibm.icu.text.CollationKey;
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.util.ULocale;
-import com.sun.rsasign.d;
 
 /**
  * The utility class which provides many static methods used in Model.
