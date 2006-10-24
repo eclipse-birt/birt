@@ -30,7 +30,7 @@ import org.mozilla.javascript.Token;
  * expression. The returned column expression is marked as dataSetRow["name"] or
  * dataSetRow[index]
  */
-class ExpressionParserUtility
+public class ExpressionParserUtility
 {
 	private final String pluginId = "org.eclipse.birt.core";
 	
@@ -50,7 +50,7 @@ class ExpressionParserUtility
 	 * @return List contains all column reference
 	 * @throws BirtException
 	 */
-	static List compileColumnExpression( String expression )
+	public static List compileColumnExpression( String expression )
 			throws BirtException
 	{
 		return compileColumnExpression( new ExpressionParserUtility( ),
@@ -65,7 +65,7 @@ class ExpressionParserUtility
 	 * @return List contains all column reference
 	 * @throws BirtException
 	 */
-	static List compileColumnExpression(  ExpressionParserUtility util, String expression, boolean rowMode )
+	public static List compileColumnExpression(  ExpressionParserUtility util, String expression, boolean rowMode )
 			throws BirtException
 	{
 		if ( expression == null || expression.trim( ).length( ) == 0 )
@@ -103,7 +103,7 @@ class ExpressionParserUtility
 	 * @return
 	 * @throws BirtException 
 	 */
-	static boolean hasAggregation( String expression ) throws BirtException
+	public static boolean hasAggregation( String expression ) throws BirtException
 	{
 		return hasAggregation( expression, true );
 	}
