@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -118,7 +119,7 @@ public class ReportParameterAdapter
 
 		InputParameterAttributes paramAttrs = odaParam.getInputAttributes( );
 		InputParameterAttributes tmpParamDefn = null;
-		String tmpDataSetName = null;
+		DataSetDesign tmpDataSet = null;
 
 		if ( paramAttrs != null )
 		{
@@ -130,7 +131,7 @@ public class ReportParameterAdapter
 
 			if ( tmpDynamicQuery != null )
 			{
-				tmpDataSetName = tmpDynamicQuery.getDataSetDesign( ).getName( );
+				tmpDataSet = tmpDynamicQuery.getDataSetDesign( );
 				tmpDynamicQuery.setDataSetDesign( null );
 			}
 
@@ -153,14 +154,14 @@ public class ReportParameterAdapter
 		}
 		DynamicValuesQuery tmpDynamicQuery1 = tmpParamDefn1
 				.getElementAttributes( ).getDynamicValueChoices( );
-		String tmpDataSetName1 = null;
+		DataSetDesign tmpDataSet1 = null;
 		if ( tmpDynamicQuery1 != null )
 		{
-			tmpDataSetName1 = tmpDynamicQuery1.getDataSetDesign( ).getName( );
+			tmpDataSet1 = tmpDynamicQuery1.getDataSetDesign( );
 			tmpDynamicQuery1.setDataSetDesign( null );
 		}
 
-		if ( !isEquals( tmpDataSetName, tmpDataSetName1 ) )
+		if ( !EcoreUtil.equals( tmpDataSet, tmpDataSet1 ) )
 			return false;
 
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
@@ -267,7 +268,8 @@ public class ReportParameterAdapter
 		{
 			if ( matchedParam != null )
 				updateLinkedReportParameter( reportParam, matchedParam, null,
-						dataType );
+						dataType, (OdaDataSetHandle) dataSetParam
+								.getElementHandle( ) );
 
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam );
@@ -393,14 +395,16 @@ public class ReportParameterAdapter
 	 *            the cached ODA parameter definition in designerValues
 	 * @param dataType
 	 *            the updated data type
-	 * 
+	 * @param setHandle
+	 *            the ROM data set that has the corresponding data set parameter
 	 * @throws SemanticException
 	 *             if value in the data set design is invalid
 	 */
 
 	void updateLinkedReportParameter( ScalarParameterHandle reportParam,
 			ParameterDefinition paramDefn, ParameterDefinition cachedParamDefn,
-			String dataType ) throws SemanticException
+			String dataType, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( paramDefn == null )
 			return;
@@ -438,7 +442,8 @@ public class ReportParameterAdapter
 			updateInputParameterAttrsToReportParam( paramDefn
 					.getInputAttributes( ), cachedParamDefn == null
 					? null
-					: cachedParamDefn.getInputAttributes( ), reportParam );
+					: cachedParamDefn.getInputAttributes( ), reportParam,
+					setHandle );
 
 		}
 		catch ( SemanticException e )
@@ -557,13 +562,16 @@ public class ReportParameterAdapter
 	 *            the cached input parameter attributes
 	 * @param reportParam
 	 *            the report parameter
+	 * @param setHandle
+	 *            the ROM data set that has the corresponding data set parameter
 	 * @throws SemanticException
 	 */
 
 	private void updateInputParameterAttrsToReportParam(
 			InputParameterAttributes inputParamAttrs,
 			InputParameterAttributes cachedInputParamAttrs,
-			ScalarParameterHandle reportParam ) throws SemanticException
+			ScalarParameterHandle reportParam, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( inputParamAttrs == null )
 			return;
@@ -596,7 +604,8 @@ public class ReportParameterAdapter
 		updateInputElementAttrsToReportParam( inputParamAttrs
 				.getElementAttributes( ), cachedInputParamAttrs == null
 				? null
-				: cachedInputParamAttrs.getElementAttributes( ), reportParam );
+				: cachedInputParamAttrs.getElementAttributes( ), reportParam,
+				setHandle );
 	}
 
 	/**
@@ -608,13 +617,16 @@ public class ReportParameterAdapter
 	 *            the cached input element attributes
 	 * @param reportParam
 	 *            the report parameter
+	 * @param setHandle
+	 *            the ROM data set that has the corresponding data set parameter
 	 * @throws SemanticException
 	 */
 
 	private void updateInputElementAttrsToReportParam(
 			InputElementAttributes elementAttrs,
 			InputElementAttributes cachedElementAttrs,
-			ScalarParameterHandle reportParam ) throws SemanticException
+			ScalarParameterHandle reportParam, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( elementAttrs == null )
 			return;
@@ -657,7 +669,7 @@ public class ReportParameterAdapter
 
 		updateROMDyanmicList( elementAttrs.getDynamicValueChoices( ),
 				cachedElementAttrs == null ? null : cachedElementAttrs
-						.getDynamicValueChoices( ), reportParam );
+						.getDynamicValueChoices( ), reportParam, setHandle );
 
 		InputElementUIHints uiHints = elementAttrs.getUiHints( );
 		if ( uiHints != null )
@@ -773,7 +785,8 @@ public class ReportParameterAdapter
 
 	private void updateROMDyanmicList( DynamicValuesQuery valueQuery,
 			DynamicValuesQuery cachedValueQuery,
-			ScalarParameterHandle reportParam ) throws SemanticException
+			ScalarParameterHandle reportParam, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( valueQuery == null )
 			return;
@@ -782,7 +795,19 @@ public class ReportParameterAdapter
 		String cachedValue = cachedValueQuery == null ? null : cachedValueQuery
 				.getDataSetDesign( ).getName( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
+		{
+
 			reportParam.setDataSetName( value );
+
+			// update the data set instance. To avoid recursivly convert,
+			// compare set handle instances.
+
+			ModuleHandle module = setHandle.getModuleHandle( );
+			DataSetHandle target = module.findDataSet( value );
+			if ( target instanceof OdaDataSetHandle && target != setHandle )
+				new ModelOdaAdapter( ).updateDataSetHandle( valueQuery
+						.getDataSetDesign( ), (OdaDataSetHandle) target, false );
+		}
 
 		value = valueQuery.getValueColumn( );
 		cachedValue = cachedValueQuery == null ? null : cachedValueQuery
