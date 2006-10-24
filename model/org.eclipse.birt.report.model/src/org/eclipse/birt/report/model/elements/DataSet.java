@@ -1,6 +1,3 @@
-
-package org.eclipse.birt.report.model.elements;
-
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -12,7 +9,10 @@ package org.eclipse.birt.report.model.elements;
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
+package org.eclipse.birt.report.model.elements;
+
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 
@@ -57,4 +57,14 @@ public abstract class DataSet extends ReferenceableElement
 		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(org.eclipse.birt.report.model.api.activity.NotificationEvent,
+	 *      org.eclipse.birt.report.model.core.Module)
+	 */
+
+	protected void broadcastToClients( NotificationEvent ev, Module module )
+	{
+	}
 }
