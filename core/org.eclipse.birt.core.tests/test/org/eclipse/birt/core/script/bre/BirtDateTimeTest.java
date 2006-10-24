@@ -1,0 +1,733 @@
+
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.core.script.bre;
+
+import java.util.Date;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
+import junit.framework.TestCase;
+
+
+/**
+ * 
+ */
+
+public class BirtDateTimeTest extends TestCase
+{
+	private Context cx;
+	private Scriptable scope;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	public void setUp( ) throws Exception
+	{
+		/*
+		 * Creates and enters a Context. The Context stores information about
+		 * the execution environment of a script.
+		 */
+
+		cx = Context.enter( );
+		/*
+		 * Initialize the standard objects (Object, Function, etc.) This must be
+		 * done before scripts can be executed. Returns a scope object that we
+		 * use in later calls.
+		 */
+		scope = cx.initStandardObjects( );
+		ScriptableObject.putProperty( scope, "BirtDateTime", new BirtDateTime() );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	public void tearDown( )
+	{
+		Context.exit( );
+	}
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_year(Date)'
+	 */
+	public void testYear( )
+	{
+		/*assertTrue( NativeBirtDateTime.jsStaticFunction_year( new Date(105, 10, 15) ) == 2005);
+		assertTrue( NativeBirtDateTime.jsStaticFunction_year( new Date(0, 10, 15) ) == 1900);
+		assertTrue( NativeBirtDateTime.jsStaticFunction_year( new Date(0, 12, 15) ) == 1901);*/
+		String script1 = "BirtDateTime.year(new Date(23,11,11))";
+
+		assertTrue( ( (Number) cx.evaluateString( scope,
+				script1,
+				"inline",
+				1,
+				null ) ).intValue( ) == 1923 );		
+		
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_quarter(Date)'
+	 */
+	public void testQuarter( )
+	{
+		String script1 = "BirtDateTime.quarter(\"1905-10-11\")";
+		String script2 = "BirtDateTime.quarter( new Date( 05,11,15))";
+		String script3 = "BirtDateTime.quarter(\"1900-3-15\")";
+		String script4 = "BirtDateTime.quarter( new Date( 0,11,15))";
+		assertEquals( ( (Number) cx.evaluateString( scope,
+				script1,
+				"inline",
+				1,
+				null ) ).intValue( ) , 4 );		
+		assertEquals( ( (Number) cx.evaluateString( scope,
+				script2,
+				"inline",
+				1,
+				null ) ).intValue( ) , 4 );
+		assertEquals( ( (Number) cx.evaluateString( scope,
+				script3,
+				"inline",
+				1,
+				null ) ).intValue( ) , 1 );
+		assertEquals( ( (Number) cx.evaluateString( scope,
+				script4,
+				"inline",
+				1,
+				null ) ).intValue( ) , 4 );
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_month(Date)'
+	 */
+	public void testMonthDate( )
+	{
+		String script1 = "BirtDateTime.month(new Date(75,0,15),1)";
+		String script2 = "BirtDateTime.month( new Date( 105,11,15),1)";
+		String script3 = "BirtDateTime.month(\"1900-3-15\",1)";
+		String script4 = "BirtDateTime.month( new Date( 10,11,15),1)";
+		assertEquals( ( (String) cx.evaluateString( scope,
+				script1,
+				"inline",
+				1,
+				null ) ), "1" );		
+		assertEquals( ( (String) cx.evaluateString( scope,
+				script2,
+				"inline",
+				1,
+				null ) ), "12" );
+		assertEquals( ( (String) cx.evaluateString( scope,
+				script3,
+				"inline",
+				1,
+				null ) ), "3" );
+		assertEquals( ( (String) cx.evaluateString( scope,
+				script4,
+				"inline",
+				1,
+				null ) ), "12" );
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_week(Date)'
+	 */
+	public void testWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.week(new Date(2006, 0, 1) )",
+				"BirtDateTime.week(new Date(2006, 0, 3) )",
+				"BirtDateTime.week(new Date(2006, 0, 7) )",
+				"BirtDateTime.week(new Date(2006, 0, 8) )",
+				"BirtDateTime.week(new Date(2006, 0, 14))",
+				"BirtDateTime.week(\"1855-1-1\")",
+				"BirtDateTime.week( new Date(1780, 0, 2))",
+				"BirtDateTime.week(new Date(1780, 0, 8))",
+				"BirtDateTime.week(new Date(1780, 0, 9))",
+				"BirtDateTime.week(new Date(1780, 1, 9))",
+				"BirtDateTime.week( new Date(1780, 2, 9))",
+				"BirtDateTime.week(new Date(1780, 3, 9, 11, 0, 0) )",
+				"BirtDateTime.week(new Date(1780, 4, 9, 23, 0, 0) )"
+		};
+		
+		int[] values = new int[]{1,1,1,2,2,1,2,2,3,7,11,16,20 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_day(Date)'
+	 */
+	public void testDay( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.day(new Date(2006, 0, 1) )",
+				"BirtDateTime.day(new Date(2006, 0, 3) )",
+				"BirtDateTime.day( new Date(1780, 0, 1))",
+				"BirtDateTime.day(new Date(1780, 3, 9, 11, 0, 0) )",
+				"BirtDateTime.day(new Date(1780, 4, 9, 23, 0, 0) )"
+		};
+		
+		int[] values = new int[]{1,3,1,9,9 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_weekDay(Date)'
+	 */
+	public void testWeekDayDate( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.weekDay(new Date(2006, 0, 1), 1 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 3), 1 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 7), 1 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 8), 1 )",
+				"BirtDateTime.weekDay(new Date(1780, 0, 1))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 2))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 8))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 9))",
+				
+				"BirtDateTime.weekDay(new Date(2006, 0, 1), 2 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 3), 2 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 7), 2 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 8), 2 )",
+				"BirtDateTime.weekDay(new Date(1780, 0, 1), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 2), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 8), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 9), 2)",
+				
+				"BirtDateTime.weekDay(new Date(2006, 0, 1), 3 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 3), 3 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 7), 3 )",
+				"BirtDateTime.weekDay(new Date(2006, 0, 8), 3 )",
+				"BirtDateTime.weekDay(new Date(1780, 0, 1), 3)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 2), 3)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 8), 3)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 9), 3)"
+		};
+		
+		String[] values = new String[]{
+				"1",
+				"3",
+				"7",
+				"1",
+				"7",
+				"1",
+				"7",
+				"1",
+				"7",
+				"2",
+				"6",
+				"7",
+				"6",
+				"7",
+				"6",
+				"7",
+				"6",
+				"1",
+				"5",
+				"6",
+				"5",
+				"6",
+				"5",
+				"6"
+		};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
+	 */
+	public void testToday( )
+	{
+		Date d = (Date)cx.evaluateString( scope,
+				"BirtDateTime.today()",
+				"inline",
+				1,
+				null );
+		System.out.println( "year:"
+				+ d.getYear( ) + " month:"
+				+ d.getMonth( ) + " day:"
+				+ d.getDate( ) + " hour:"
+				+ d.getHours( ) );
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_now()'
+	 */
+	public void testNow( )
+	{
+		Date d = (Date)cx.evaluateString( scope,
+				"BirtDateTime.now()",
+				"inline",
+				1,
+				null );
+		System.out.println( "year:"
+				+ d.getYear( ) + " month:"
+				+ d.getMonth( ) + " day:"
+				+ d.getDate( ) + " hour:"
+				+ d.getHours( ) + " minute:"
+				+ d.getMinutes( ) + "second:"
+				+ d.getSeconds( ));
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffYear(Date, Date)'
+	 */
+	public void testDiffYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 0, 15) )",
+				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 11, 15) )",
+				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 12, 15) )",
+				"BirtDateTime.diffYear(new Date(2007, 10, 15),new Date(2005, 0, 15) )",
+				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(1793, 0, 15) )"
+		};
+		
+		int[] values = new int[]{2,2,3,-2,-212 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffMonth(Date, Date)'
+	 */
+	public void testDiffMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
+				"BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 11, 15) )",
+				"BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 12, 15) )",
+				"BirtDateTime.diffMonth(new Date(2007, 10, 15),new Date(2005, 0, 1) )",
+				"BirtDateTime.diffMonth(new Date(1910, 10, 15),new Date(1890, 0, 15) )"
+		};
+		
+		int[] values = new int[]{14,25,26,-34,-250 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffQuarter(Date, Date)'
+	 */
+	public void testDiffQuarter( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
+				"BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 11, 15) )",
+				"BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 12, 15) )",
+				"BirtDateTime.diffQuarter(new Date(2007, 10, 15),new Date(2005, 0, 1) )",
+				"BirtDateTime.diffQuarter(new Date(1910, 10, 15),new Date(1890, 0, 15) )"
+		};
+		
+		int[] values = new int[]{5,8,9,-11,-83 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffWeek(Date, Date)'
+	 */
+	public void testDiffWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffWeek(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
+				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
+				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
+				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 7) )",
+				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 8) )",
+				"BirtDateTime.diffWeek(new Date(1779, 11, 31),new Date(1780, 0, 1) )",
+				"BirtDateTime.diffWeek(new Date(1780, 0, 1),new Date(1780, 0, 2) )",
+				"BirtDateTime.diffWeek(new Date(1780, 0, 1),new Date(1780, 0, 8) )",
+				"BirtDateTime.diffWeek(new Date(1780, 0, 1),new Date(1780, 0, 9) )"
+		};
+		
+		int[] values = new int[]{-1,-1,0,0,1,0,1,1,2 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	/*	assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( 0, 0, 8 ),
+				new Date( 0, 0, 6 ) ) == -1 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( 106, 0, 1 ),
+				new Date( 105, 11, 31 ) ) == -1 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( 106, 0, 1 ),
+				new Date( 106, 0, 3 ) ) == 0 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( 106, 0, 1 ),
+				new Date( 106, 0, 7 ) ) == 0 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( 106, 0, 1 ),
+				new Date( 106, 0, 8 ) ) == 1 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( -121, 11, 31 ),
+				new Date( -120, 0, 1 ) ) == 0 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( -120, 0, 1 ),
+				new Date( -120, 0, 2 ) ) == 1 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( -120, 0, 1 ),
+				new Date( -120, 0, 8 ) ) == 1 );
+		assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( -120, 0, 1 ),
+				new Date( -120, 0, 9 ) ) == 2 );*/
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffDay(Date, Date) throws BirtException'
+	 */
+	public void testDiffDay( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffDay(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
+				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
+				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
+				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
+				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 7) )",
+				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 8) )",
+				"BirtDateTime.diffDay(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+		};
+		
+		int[] values = new int[]{-2,-1,2,37,65,66,431 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffHour(Date, Date)'
+	 */
+	public void testDiffHour( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffHour(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
+				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
+				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
+				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
+				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 7,11,2,0) )",
+				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 8,22,0,0) )",
+				"BirtDateTime.diffHour(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+		};
+		
+		int[] values = new int[]{-2*24,-1*24,2*24,37*24,65*24+11,66*24+22,(66+365)*24  };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffMinute(Date, Date)'
+	 */
+	public void testDiffMinute( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffMinute(new Date(1900, 0, 8,12,1,1),new Date(1900, 0, 8,12,2,58) )",
+				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
+				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
+				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
+				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 2, 7,11,2,0) )",
+				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 2, 8,22,3,0) )",
+				"BirtDateTime.diffMinute(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+		};
+		
+		int[] values = new int[]{1,-1*24*60, 2*24*60,37*24*60,(65*24+11)*60+2,(66*24+22)*60+3,((66+365)*24)*60};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffSecond(Date, Date)'
+	 */
+	public void testDiffSecond( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,1),new Date(1900, 0, 8,12,2,58) )",
+				"BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,58),new Date(1900, 0, 8,12,2,1) )",
+				"BirtDateTime.diffSecond(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
+				"BirtDateTime.diffSecond(new Date(2006, 0, 1),new Date(2006, 2, 8,22,3,0) )",
+				"BirtDateTime.diffSecond(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+		};
+		
+		int[] values = new int[]{60+57,3,2*24*60*60,((66*24+22)*60+3)*60,(66+365)*24*60*60 };
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ) ).intValue( ) , values[i] );
+		}
+
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addYear(Date, int)'
+	 */
+	public void testAddYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addYear(new Date(2005, 10, 15),10 )",
+				"BirtDateTime.addYear(new Date(1795, 10, 15),10 )",
+				"BirtDateTime.addYear(new Date(1900, 10, 15),10 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 115, 10, 15 ),new Date( -95, 10, 15 ),new Date( 10, 10, 15 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addMonth(Date, int)'
+	 */
+	public void testAddMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addMonth(new Date(2005, 10, 15),10 )",
+				"BirtDateTime.addMonth(new Date(1795, 0, 15),10 )",
+				"BirtDateTime.addMonth(new Date(1900, 1, 15),11 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 106, 8, 15 ),new Date( -105, 10, 15 ),new Date( 1, 0, 15 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addQuarter(Date, int)'
+	 */
+	public void testAddQuarter( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addQuarter(new Date(2005, 10, 15),2 )",
+				"BirtDateTime.addQuarter(new Date(1795, 0, 15),9 )",
+				"BirtDateTime.addQuarter(new Date(1900, 5, 15),11 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 106, 4, 15 ),new Date( -103, 3, 15 ),new Date( 3, 2, 15 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addWeek(Date, int)'
+	 */
+	public void testAddWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addWeek(new Date(2005, 10, 15),1 )",
+				"BirtDateTime.addWeek(new Date(2006, 9, 15),3 )",
+				"BirtDateTime.addWeek(new Date(1795, 10, 15),2 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 105, 10, 22 ), new Date( 106, 10, 5 ),new Date( -105, 10, 29 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addDay(Date, int)'
+	 */
+	public void testAddDay( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addDay(new Date(2005, 10, 15),7 )",
+				"BirtDateTime.addDay(new Date(2006, 9, 15),21 )",
+				"BirtDateTime.addDay(new Date(1795, 10, 15),10 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 105, 10, 22 ), new Date( 106, 10, 5 ),new Date( -105, 10, 25 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addHour(Date, int)'
+	 */
+	public void testAddHour( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
+				"BirtDateTime.addHour(new Date(2006, 9, 15),21*24 )",
+				"BirtDateTime.addHour(new Date(1795, 10, 15),10 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 105, 10, 22 ), new Date( 106, 10, 5 ),new Date( -105, 10, 15,10,0,0 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+				
+		try{
+			cx.evaluateString( scope,
+					"BirtDateTime.addHour(null,21*24 )",
+					"inline",
+					1,
+					null );
+			fail("IllegalArgumentException expected");
+		}
+		catch(IllegalArgumentException ie)
+		{
+			
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addMinute(Date, int)'
+	 */
+	public void testAddMinute( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addMinute(new Date(2005, 10, 15),7*24*60 )",
+				"BirtDateTime.addMinute(new Date(2006, 9, 15),21*24*60 )",
+				"BirtDateTime.addMinute(new Date(1795, 10, 15),10*60+10 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 105, 10, 22 ), new Date( 106, 10, 5 ),new Date( -105, 10, 15, 10,10,0 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addSecond(Date, int)'
+	 */
+	public void testAddSecond( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.addSecond(new Date(2005, 10, 15),7*24*60*60 )",
+				"BirtDateTime.addSecond(new Date(2006, 9, 15),21*24*60*60 )",
+				"BirtDateTime.addSecond(new Date(1795, 10, 15),(10*60+10)*60+9 )"
+		};
+		
+		Date[] values = new Date[]{new Date( 105, 10, 22 ), new Date( 106, 10, 5 ),new Date( -105, 10, 15, 10,10,9 )};
+		
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null ), values[i] );
+		}
+	}
+}

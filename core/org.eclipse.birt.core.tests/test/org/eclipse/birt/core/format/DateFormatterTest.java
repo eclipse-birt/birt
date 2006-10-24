@@ -1,0 +1,178 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.core.format;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import junit.framework.TestCase;
+
+/**
+ * DateFormatterTest.
+ * 
+ * Design for test whether DateFormatter Class can do a correct formating,
+ * translate the Date/Time instance to an object of String according to the
+ * format string. In this unit test, we pay more attention the new method which
+ * we add in the subclss.
+ * 
+ * @version $Revision: 1.10 $ $Date: 2006/04/27 05:04:38 $
+ */
+public class DateFormatterTest extends TestCase
+{
+
+	/*
+	 * test for void DateFormatter()
+	 */
+	public void testDateFormat( )
+	{
+		DateFormatter sample = new DateFormatter( );
+		assertEquals( "", sample.getPattern( ) );
+		Locale locDef = Locale.getDefault( );
+		Calendar dateCal = Calendar.getInstance( locDef );
+		dateCal.set( 8, 8, 13, 20, 1, 44 );
+		Date date = dateCal.getTime( );
+		
+		String fmtDate = sample.format(date);
+		java.text.DateFormat glodenFormat = java.text.DateFormat.getDateTimeInstance(
+				java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT);
+		String golden = glodenFormat.format(date);
+		assertEquals( golden, fmtDate );
+		assertEquals( "", sample.getPattern( ) );
+	}
+
+	/*
+	 * test for void DateFormatter(String)
+	 */
+	public void testDateFormatString( )
+	{
+		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a" );
+		Locale locDef = Locale.getDefault( );
+		Calendar dateCal = Calendar.getInstance( locDef );
+		dateCal.set( 8, 8, 13, 20, 1, 44 );
+		Date date = dateCal.getTime( );
+		SimpleDateFormat sampleJava = new SimpleDateFormat(
+				"MM/dd/yyyy hh:mm:ss a", locDef );
+		assertEquals( sampleJava.format( date ), sample.format( date ) );
+	}
+
+	/*
+	 * test for void DateFormatter(String, String) especially test for chinese
+	 * support
+	 */
+	public void testDateFormatStringStringCHN( )
+	{
+		Locale locDef = Locale.getDefault( );
+		Calendar dateCal = Calendar.getInstance( locDef );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		Date date = dateCal.getTime( );
+		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
+				new Locale( "CHINESE" ) );
+		SimpleDateFormat sampleJava = new SimpleDateFormat(
+				"MM/dd/yyyy hh:mm:ss a", new Locale( "CHINESE" ) );
+		assertEquals( sampleJava.format( date ), sample.format( date ) );
+		sample.applyPattern( "MM/dd/yyyy hh:mm:ss a" );
+		assertEquals( sampleJava.format( date ), sample.format( date ) );
+
+	}
+
+	/*
+	 * test for void DateFormatter(Locale)
+	 */
+	public void testDateFormatLocale( )
+	{
+		Locale locale = new Locale( "en", "us" );
+		DateFormatter sample = new DateFormatter( locale );
+		Locale locDef = Locale.getDefault( );
+		Calendar dateCal = Calendar.getInstance( locDef );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		Date date = dateCal.getTime( );
+		SimpleDateFormat sampleJava = new SimpleDateFormat(
+				"MM/dd/yy KK:mm aa", locale );
+		//assertEquals(sampleJava.format(date), sample.format(date));
+		locale = Locale.ITALY;
+		sample = new DateFormatter( locale );
+		sampleJava = new SimpleDateFormat( "MM/dd/yy KK:mm aa", locale );
+		//assertEquals(sampleJava.format(date), sample.format(date));
+		sample.applyPattern( "MM/dd/yy KK:mm aa" );
+		assertEquals( "09/13/98 08:01 p.", sample.format( date ) );
+		sample = new DateFormatter( "Long Date", locale );
+		assertEquals( "13 settembre 1998", sample.format( date ) );
+		assertTrue( true );
+
+	}
+
+	/*
+	 * test for void DateFormatter(String, Locale)
+	 */
+	public void testDateFormatStringLocale( )
+	{
+		Locale locale = new Locale( "en", "us" );
+		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
+				locale );
+		Locale locDef = Locale.getDefault( );
+		Calendar dateCal = Calendar.getInstance( locDef );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		Date date = dateCal.getTime( );
+		assertEquals( "09/13/1998 08:01:44 PM", sample.format( date ) );
+	}
+
+	/*
+	 * test for void GetPattern()
+	 */
+	public void testGetPattern( )
+	{
+		Locale locale = new Locale( "en", "us" );
+		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
+				locale );
+		assertEquals( "MM/dd/yyyy hh:mm:ss a", sample.getPattern( ) );
+	}
+
+	public void testApplyPattern( )
+	{
+		//test the instance of locale
+		Locale locDef = Locale.getDefault( );
+		Calendar dateCal = Calendar.getInstance( locDef );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		Date date = dateCal.getTime( );
+
+		Locale locale = new Locale( "en", "us" );
+		DateFormatter sample = new DateFormatter( locale );
+		sample.applyPattern( "Long Date" );
+		assertEquals( "September 13, 1998", sample.format( date ) );
+		sample.applyPattern( "D" );
+		assertEquals( "September 13, 1998", sample.format( date ) );
+		sample.applyPattern( "Medium Date" );
+		assertEquals( "Sep 13, 1998", sample.format( date ) );
+		sample.applyPattern( "Short Date" );
+		assertEquals( "9/13/98", sample.format( date ) );
+		sample.applyPattern( "d" );
+		assertEquals( "9/13/98", sample.format( date ) );
+		sample.applyPattern( "Long Time" );
+		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM GMT+" ) );
+		sample.applyPattern( "T" );
+		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM GMT+" ) );
+		SimpleDateFormat javaSample = (SimpleDateFormat) java.text.DateFormat
+				.getDateTimeInstance( java.text.DateFormat.LONG,
+						java.text.DateFormat.SHORT, locale );
+		sample.applyPattern( "f" );
+		assertEquals( javaSample.format( date ), sample.format( date ) );
+		sample.applyPattern( "General Date" );
+		assertEquals( true, sample.format( date ).startsWith( "September 13, 1998 8:01:44 PM GMT+" ) );
+
+		sample.applyPattern( "Short Time" );
+		assertEquals( "20:01", sample.format( date ) );
+		sample.applyPattern( "Medium Time" );
+		assertEquals( "8:01:44 PM", sample.format( date ) );
+	}
+}

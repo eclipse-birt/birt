@@ -1,0 +1,280 @@
+
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.core.script.bre;
+
+import java.lang.reflect.InvocationTargetException;
+
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
+import junit.framework.TestCase;
+
+
+/**
+ * 
+ */
+
+public class BirtMathTest extends TestCase
+{
+	private Context cx;
+	private Scriptable scope;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	public void setUp( ) throws Exception
+	{
+		/*
+		 * Creates and enters a Context. The Context stores information about
+		 * the execution environment of a script.
+		 */
+
+		cx = Context.enter( );
+		/*
+		 * Initialize the standard objects (Object, Function, etc.) This must be
+		 * done before scripts can be executed. Returns a scope object that we
+		 * use in later calls.
+		 */
+		scope = cx.initStandardObjects( );
+
+		ScriptableObject.putProperty( scope, "BirtMath", new BirtMath() );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	public void tearDown( )
+	{
+		Context.exit( );
+	}
+	
+	public void testAdd()
+	{
+		
+	}
+	
+	public void testRound()
+	{
+		String[] scripts = new String[]
+		{
+				"BirtMath.round( 0 )",
+				"BirtMath.round( 100.5999 )",
+				"BirtMath.round( 100.5999,1 )",
+				"BirtMath.round( 100.5999,2 )",
+				"BirtMath.round( 100.5999,-1 )",
+				"BirtMath.round( 100.5999,-2 )",
+				"BirtMath.round( 100.5999,-3 )",
+				"BirtMath.round( 999.5999,-1 )",
+				"BirtMath.round( 999.5999,-2 )",
+				"BirtMath.round( 999.5999,-3 )",
+				"BirtMath.round( 999.5999,-4 )"
+		};
+		
+		double values[] = new double[]{0,101,100.6,100.60,100,100,0,1000,1000,1000,0};
+
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ((Number)cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null )).doubleValue( ) ,values[i],0 );
+		}
+		
+	}
+	
+	public void testRoundUp() throws IllegalAccessException, InstantiationException, InvocationTargetException
+	{
+		String[] scripts = new String[]
+  		{
+  				"BirtMath.roundUp( 0 )",
+  				"BirtMath.roundUp( 100.5999 )",
+  				"BirtMath.roundUp( 100.5999,1 )",
+  				"BirtMath.roundUp( 100.5999,2 )",
+  				"BirtMath.roundUp( 100.5999,-1 )",
+  				"BirtMath.roundUp( 100.5999,-2 )",
+  				"BirtMath.roundUp( 100.5999,-3 )",
+  				"BirtMath.roundUp( 100.5999,-4 )",
+  				"BirtMath.roundUp( 100.5999,-6 )",
+  				"BirtMath.roundUp( 999.5999,-1 )",
+  				"BirtMath.roundUp( 999.5999,-2 )",
+  				"BirtMath.roundUp( 999.5999,-3 )",
+  				"BirtMath.roundUp( 999.5999,-4 )",
+  				"BirtMath.roundUp( 100.213,0 )",
+  				"BirtMath.roundUp( 100.213,1 )",
+  				"BirtMath.roundUp( 100.213,2 )",
+  				"BirtMath.roundUp( 100.213,-1 )",
+  				"BirtMath.roundUp( 100.213,-2 )",
+  				"BirtMath.roundUp( 100.213,-4 )"
+  		};
+  		
+  		double values[] = new double[]{0,101,100.6,100.60,110,200,1000,10000,1000000,1000,1000,1000,10000,101,100.3,100.22,110,200,10000};
+
+  		for( int i = 0; i < values.length; i++ )
+  		{
+  			assertEquals( ((Number)cx.evaluateString( scope,
+  				scripts[i],
+  				"inline",
+  				1,
+  				null )).doubleValue( ) ,values[i],0 );
+  		}
+
+	}
+	
+	public void testRoundDown()
+	{
+		String[] scripts = new String[]
+		{
+				"BirtMath.roundDown( 0 )",
+				"BirtMath.roundDown( 100.5999 )",
+				"BirtMath.roundDown( 100.5999,1 )",
+				"BirtMath.roundDown( 100.5999,2 )",
+				"BirtMath.roundDown( 100.5999,-1 )",
+				"BirtMath.roundDown( 100.5999,-2 )",
+				"BirtMath.roundDown( 100.5999,-3 )",
+				"BirtMath.roundDown( 100.5999,-4 )",
+				"BirtMath.roundDown( 100.5999,-6 )",
+				"BirtMath.roundDown( 999.5999,-1 )",
+				"BirtMath.roundDown( 999.5999,-2 )",
+				"BirtMath.roundDown( 999.5999,-3 )",
+				"BirtMath.roundDown( 999.5999,-4 )",
+				"BirtMath.roundDown( 100.213,0 )",
+				"BirtMath.roundDown( 100.213,1 )",
+				"BirtMath.roundDown( 100.213,2 )",
+				"BirtMath.roundDown( 100.213,-1 )",
+				"BirtMath.roundDown( 100.213,-2 )",
+				"BirtMath.roundDown( 100.213,-4 )"
+		};
+		
+		double values[] = new double[]{0,100,100.5,100.59,100,100,0,0,0,990,900,0,0,100,100.2,100.21,100,100,0};
+
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ((Number)cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null )).doubleValue( ) ,values[i],0 );
+		}
+	}
+	
+	public void testCeiling()
+	{
+		String[] scripts = new String[]
+		{
+				"BirtMath.ceiling( 0, 0 )",
+				"BirtMath.ceiling( 100.5999,10 )",
+				"BirtMath.ceiling( 100.5999,20 )",
+				"BirtMath.ceiling( 100.5999,30 )",
+				"BirtMath.ceiling( 100.5999,5 )",
+				"BirtMath.ceiling( -100.5999,-10 )",
+				"BirtMath.ceiling( -100.5999,-3 )",
+				"BirtMath.ceiling( -100.5999,-4 )",
+				"BirtMath.ceiling( 100.5999,1000 )",
+				"BirtMath.ceiling( 999.5999,10000 )",
+				"BirtMath.ceiling( 999.5999,0 )",
+				"BirtMath.ceiling( 0,100 )",
+				"BirtMath.ceiling( 0,-100 )"
+		};
+		
+		double values[] = new double[]{0,110,120,120,105,-110,-102,-104,1000,10000,0,0,0};
+	
+		for( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ((Number)cx.evaluateString( scope,
+				scripts[i],
+				"inline",
+				1,
+				null )).doubleValue( ) ,values[i],0 );
+		}
+		
+		try{
+			cx.evaluateString( scope,
+					"BirtMath.ceiling(-10,1)",
+					"inline",
+					1,
+					null );
+			fail("Should not arrive here");
+		}catch ( Exception e )
+		{
+			
+		}
+		
+		try{
+			cx.evaluateString( scope,
+					"BirtMath.ceiling(10,-1)",
+					"inline",
+					1,
+					null );
+			fail("Should not arrive here");
+		}catch ( Exception e )
+		{
+			
+		}
+		
+
+	}
+	
+	public void testMod()
+	{
+		String[] scripts = new String[]
+  		{
+  				"BirtMath.mod( 0, 10 )",
+  				"BirtMath.mod( 0, -10 )",
+  				"BirtMath.mod( 100.5,10 )",
+  				"BirtMath.mod( 100.5,100 )",
+  				"BirtMath.mod( 100.5,1000 )",
+  				"BirtMath.mod( 100.5,15 )",
+  				"BirtMath.mod( 100.5,-10 )",
+  				"BirtMath.mod( 100.5,-100 )",
+  				"BirtMath.mod( 100.5,-1000 )",
+  				"BirtMath.mod( 100.5,-15 )",
+ 				"BirtMath.mod( -100.5,10 )",
+  				"BirtMath.mod( -100.5,100 )",
+  				"BirtMath.mod( -100.5,1000 )",
+  				"BirtMath.mod( -100.5,15 )",
+  				"BirtMath.mod( -100.5,-10 )",
+  				"BirtMath.mod( -100.5,-100 )",
+  				"BirtMath.mod( -100.5,-1000 )",
+  				"BirtMath.mod( -100.5,-15 )"
+  		};
+  		
+  		double values[] = new double[]{0,0,0.5,0.5,100.5,10.5,-9.5,-99.5,-899.5,-4.5,9.5,99.5,899.5,4.5,-0.5,-0.5,-100.5,-10.5};
+  	
+  		for( int i = 0; i < values.length; i++ )
+  		{
+  			assertEquals( ((Number)cx.evaluateString( scope,
+  				scripts[i],
+  				"inline",
+  				1,
+  				null )).doubleValue( ) ,values[i],0 );
+  		}
+	
+		try{
+			cx.evaluateString( scope,
+	  				"BirtMath.mod(0,0)",
+	  				"inline",
+	  				1,
+	  				null );
+			
+			fail("Should not arrive here");
+		}catch ( Exception e )
+		{
+			
+		}
+	}
+}
