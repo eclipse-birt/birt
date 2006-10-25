@@ -807,6 +807,16 @@ public class ReportParameterAdapter
 			if ( target instanceof OdaDataSetHandle && target != setHandle )
 				new ModelOdaAdapter( ).updateDataSetHandle( valueQuery
 						.getDataSetDesign( ), (OdaDataSetHandle) target, false );
+			
+			// if there is no corresponding data set, creates a new one.
+			
+			if ( target == null )
+			{
+				OdaDataSetHandle nestedDataSet = new ModelOdaAdapter( )
+						.createDataSetHandle( valueQuery.getDataSetDesign( ),
+								module );
+				module.getDataSets( ).add( nestedDataSet );
+			}
 		}
 
 		value = valueQuery.getValueColumn( );
