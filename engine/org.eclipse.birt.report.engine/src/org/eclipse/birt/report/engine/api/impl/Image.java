@@ -116,18 +116,15 @@ public class Image extends ReportPart implements IImage
 	{
 		String imgUri = content.getURI( );
 		byte[] imgData = content.getData( );
-		extension = content.getExtension( );
+		this.imageMap = (String) content.getImageMap( );
+		this.mimeType = content.getMIMEType( );
+		this.extension = content.getExtension( );
 		if ( extension == null )
 		{
-			String mimeType = content.getMIMEType( );
 			if ( mimeType != null )
 			{
 				extension = FileUtil.getExtFromType( mimeType );
 			}
-		}
-		if ( content.getImageMap( ) != null )
-		{
-			this.imageMap = (String) content.getImageMap( );
 		}
 		switch ( content.getImageSource( ) )
 		{
