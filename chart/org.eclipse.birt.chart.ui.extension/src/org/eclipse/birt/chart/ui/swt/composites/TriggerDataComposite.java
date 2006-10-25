@@ -750,16 +750,22 @@ public class TriggerDataComposite extends Composite
 	{
 		if ( e.getSource( ).equals( cmbActionType ) )
 		{
+			String triggerType = cmbTriggerType.getText( );
 			if ( cmbActionType.getSelectionIndex( ) == 0 )
 			{
-				cmbTriggerType.unmarkSelection( cmbTriggerType.getText( ) );
-				Object trigger = triggersMap.get( cmbTriggerType.getText( ) );
+				cmbTriggerType.unmarkSelection( triggerType );
+				Object trigger = triggersMap.get( triggerType );
 				if ( trigger != null )
 				{
-					triggersMap.remove( cmbTriggerType.getText( ) );
+					triggersMap.remove( triggerType );
 					triggersList.remove( trigger );
 				}
 			}
+			else
+			{
+				cmbTriggerType.markSelection( triggerType );
+			}
+			cmbTriggerType.setText( triggerType );
 			switchUI( );
 		}
 		else if ( e.getSource( ).equals( btnBaseURL ) )
