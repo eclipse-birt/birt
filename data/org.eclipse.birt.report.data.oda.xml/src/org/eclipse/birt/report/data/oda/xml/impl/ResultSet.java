@@ -62,7 +62,7 @@ public class ResultSet implements IResultSet
 		
 		isClosed = false;
 		
-		spConsumer = new SaxParserConsumer( this, ri, is, tableName );
+		spConsumer = new SaxParserConsumer( ri, is, tableName );
 	}
 
 	/*
@@ -349,26 +349,19 @@ public class ResultSet implements IResultSet
     private Date stringToDate( String stringValue ) throws OdaException
     {
     	testClosed();
-    	if( stringValue != null )
-        {
-            try
-            {
-                return Date.valueOf( stringValue );
-            }
-            catch( IllegalArgumentException e )
-            {
-            	try
-        		{
-        			java.util.Date date = DateUtil.toDate( stringValue );
-        			return new Date( date.getTime( ) );
-        		}
-        		catch ( OdaException oe )
-        		{
-        			this.wasNull = true;
-        			return null;
-        		}
-            }
-        }
+    	if ( stringValue != null )
+		{
+			try
+			{
+				java.util.Date date = DateUtil.toDate( stringValue );
+				return new Date( date.getTime( ) );
+			}
+			catch ( OdaException oe )
+			{
+				this.wasNull = true;
+				return null;
+			}
+		}
         return null;
     }
 	
@@ -378,7 +371,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Time getTime( int index ) throws OdaException
 	{
-		// TODO Auto-generated method stub
 		return stringToTime( this.getString( index ));
 	}
 
@@ -400,24 +392,17 @@ public class ResultSet implements IResultSet
     private Time stringToTime( String stringValue ) throws OdaException
     {
     	testClosed();
-    	if( stringValue != null )
-        {
-            try
-            {
-                return Time.valueOf( stringValue );
-            }
-            catch( IllegalArgumentException e )
-            {
-				try
-				{
-					java.util.Date date = DateUtil.toDate( stringValue );
-					return new Time( date.getTime( ) );
-				}
-				catch ( OdaException oe )
-				{
-					this.wasNull = true;
-					return null;
-				}
+    	if ( stringValue != null )
+		{
+			try
+			{
+				java.util.Date date = DateUtil.toDate( stringValue );
+				return new Time( date.getTime( ) );
+			}
+			catch ( OdaException oe )
+			{
+				this.wasNull = true;
+				return null;
 			}
 		}
 		this.wasNull = true;

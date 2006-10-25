@@ -32,11 +32,11 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 * @param ri
 	 * @param tableName
 	 */
-	ResultSetMetaData(RelationInformation ri, String tableName)
+	public ResultSetMetaData(RelationInformation ri, String tableName)
 	{
 		this.ri = ri;
 		this.tableName = tableName;
-		columnNames = ri.getTableColumnNames(tableName);
+		this.columnNames = ri.getTableColumnNames(tableName);
 	}
 	
 	/*

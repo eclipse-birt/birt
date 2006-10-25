@@ -14,9 +14,10 @@ package org.eclipse.birt.report.data.oda.xml.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.birt.report.data.oda.xml.impl.DataTypes;
 import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
+import org.eclipse.birt.report.data.oda.xml.impl.DataTypes;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
@@ -28,6 +29,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class RelationInformation
 {
+	private static final String TEMPCOLUMNNAMEPREFIX = "TEMP";
 	//
 	public static final String CONST_TABLE_DELIMITER = "#-#";
 	public static final String CONST_TABLE_COLUMN_DELIMITER = "#:#";
@@ -55,6 +57,7 @@ public class RelationInformation
 	 */
 	private void initialize( String relationString ) throws OdaException
 	{
+		List filterColumnInfos = new ArrayList();
 		if( relationString == null|| relationString.length() == 0)
 			throw new OdaException( Messages.getString("RelationInformation.InputStringCannotBeNull"));
 		
@@ -103,16 +106,40 @@ public class RelationInformation
 							.trim( );
 					value = value.substring( 1, value.length( ) - 2 );
 				
-					//add it to filter
-					tableInfo.addFilter( columnInfos[0], value );
 					
-					columnXpath = columnXpath.replaceAll( "\\Q=\\E.*",
-							"]" );
+					
+					String filterOriginalColumnXpath = originalColumnXpath.replaceAll( "\\Q=\\E.*","]" );
+					String filterColumnXpath = columnXpath.replaceAll( "\\Q=\\E.*","]" );
+					
+					//originalColumnXpath = originalColumnXpath.replaceAll( "\\Q[\\E.*\\Q]\\E", "" ); 
+					columnXpath = columnXpath.replaceAll( "\\Q[\\E.*\\Q]\\E", "" );
+
+					String tempColumnName = TEMPCOLUMNNAMEPREFIX
+							+ filterColumnInfos.size( ) + 1;
+					// add it to filter
+					tableInfo.addFilter( tempColumnName, value );
+
+					filterColumnInfos.add( new ColumnInfo( columns.length
+							+ filterColumnInfos.size( ) + 1,
+							tempColumnName,
+							"String",
+							tableInfo.getRootPath( ),
+							filterColumnXpath,
+							filterOriginalColumnXpath ) );
 				}
+				else if( columnXpath.matches( ".*\\Q[@\\E.*\\Q]\\E.*" ))
+				{
+					columnXpath = columnXpath.replaceAll( "\\Q[@\\E.*\\Q]\\E", "" ).trim( );
+				}
+				
 				tableInfo.addColumn( new ColumnInfo( j + 1,
 						columnInfos[0],
 						columnInfos[1],
 						tableInfo.getRootPath( ), columnXpath, originalColumnXpath));
+			}
+			for( int j = 0; j < filterColumnInfos.size( ); j++ )
+			{
+				tableInfo.addColumn( (ColumnInfo )filterColumnInfos.get( j ));
 			}
 			this.tableInfos.put( temp[0].trim( ), tableInfo );
 		}
@@ -213,6 +240,21 @@ public class RelationInformation
 	}
 
 	/**
+	 * Return the array of column names of certain table.
+	 *  
+	 * @param tableName
+	 * @return
+	 */
+	String[] getTableRealColumnNames( String tableName )
+	{
+		Object tableInfo = this.tableInfos.get( tableName == null ? "":tableName.trim( ) );
+		if( tableInfo!= null )
+			return ( (TableInfo)tableInfo ).getRealColumnNames( );
+		else
+			return new String[0];
+	}
+	
+	/**
 	 * Return the array of complex nested column names of certain table.
 	 *  
 	 * @param tableName
@@ -286,6 +328,9 @@ public class RelationInformation
 			return null;
 	}
 	
+	/**
+	 * @return
+	 */
 	public Iterator getTableNames()
 	{
 		return this.tableInfos.keySet( ).iterator( );
@@ -429,13 +474,40 @@ class TableInfo
 	 */
 	public String[] getColumnNames( )
 	{
-		Object[] names = this.columnInfos.keySet( ).toArray( );
-		String[] result = new String[names.length];
-		for ( int i = 0; i < names.length; i++ )
+		String[] temp = this.getRealColumnNames( );
+		
+		List l = new ArrayList();
+		for( int i = 0; i < temp.length; i ++ )
 		{
-			result[( (ColumnInfo) columnInfos.get( names[i] ) ).getColumnIndex( ) - 1] = names[i].toString( );
+			if( temp[i].matches( "\\QTEMP\\E.*" ))
+				break;
+			else
+				l.add( temp[i] );
+		}
+		
+		String[] result = new String[l.size( )];
+		for( int i = 0; i < result.length; i++ )
+		{
+			result[i] = l.get( i ).toString( );
 		}
 		return result;
+	}
+
+	/**
+	 * Return the column name array.
+	 * 
+	 * @return
+	 */
+	public String[] getRealColumnNames( )
+	{
+		Object[] names = this.columnInfos.keySet( ).toArray( );
+		String[] temp = new String[names.length];
+		for ( int i = 0; i < names.length; i++ )
+		{
+			temp[( (ColumnInfo) columnInfos.get( names[i] ) ).getColumnIndex( ) - 1] = names[i].toString( );
+		}
+		
+		return temp;
 	}
 
 	/**

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.data.oda.xml.Constants;
-import org.eclipse.birt.report.data.oda.xml.impl.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
@@ -26,8 +25,6 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 public class SaxParserConsumer implements ISaxParserConsumer
 {
 	private static final int INVALID_COLUMN_INDEX = -1;
-	//The ResultSet this instance served for.
-	private ResultSet resultSet;
 	
 	//The SaxParser this instance dealing with.
 	private SaxParser sp;
@@ -80,10 +77,8 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	 * @param tName
 	 * @throws OdaException
 	 */
-	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, XMLDataInputStream is, String tName) throws OdaException
+	public SaxParserConsumer( RelationInformation rinfo, XMLDataInputStream is, String tName) throws OdaException
 	{
-		this.resultSet = rs;
-		                                 
 		//must start from 0
 		cachedResultSetRowNo = 0;
 		
@@ -100,13 +95,13 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		cachedRootRows = new ArrayList();
 		cachedOrderedTempRowRoots = new ArrayList();
 		
-		cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][resultSet.getMetaData().getColumnCount( )];
+		cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][relationInfo.getTableRealColumnNames( tableName ).length];
 		this.rootPath = relationInfo.getTableRootPath( tableName );
 		
 		this.namesOfCachedComplexNestedColumns = relationInfo.getTableComplexNestedXMLColumnNames( tableName );
 		this.namesOfCachedSimpleNestedColumns = relationInfo.getTableSimpleNestedXMLColumnNames( tableName );
 		
-		this.namesOfColumns = relationInfo.getTableColumnNames( tableName );
+		this.namesOfColumns = relationInfo.getTableRealColumnNames( tableName );
 		
 		XMLDataInputStream xdis = is;
 		
@@ -144,8 +139,8 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	}
 	
 	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#manipulateData(java.lang.String, java.lang.String)
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.enablement.oda.xml.util.ISaxParserConsumer#manipulateData(java.lang.String, java.lang.String)
 	 */
 	public void manipulateData( String path, String value )
 	{
@@ -218,9 +213,10 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		}
 		return false;
 	}
+
 	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#detectNewRow(java.lang.String)
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.enablement.oda.xml.util.ISaxParserConsumer#detectNewRow(java.lang.String, boolean)
 	 */
 	public void detectNewRow( String path, boolean start )
 	{
@@ -351,7 +347,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		for ( int i = 0; i < cachedResultSet[cachedResultSetRowNo].length; i++ )
 		{
 			if ( relationInfo.getTableFilter( tableName )
-					.containsKey( relationInfo.getTableColumnNames( tableName )[i] ) )
+					.containsKey( relationInfo.getTableRealColumnNames( tableName )[i] ) )
 			{
 				if ( isCurrentColumnValueNotMatchFilterValue( i ) )
 
@@ -374,14 +370,14 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	private boolean isCurrentColumnValueNotMatchFilterValue( int i )
 	{
 		return !( relationInfo.getTableFilter( tableName )
-				.get( relationInfo.getTableColumnNames( tableName )[i] ) == cachedResultSet[cachedResultSetRowNo][i] || relationInfo.getTableFilter( tableName )
-				.get( relationInfo.getTableColumnNames( tableName )[i] )
+				.get( relationInfo.getTableRealColumnNames( tableName )[i] ) == cachedResultSet[cachedResultSetRowNo][i] || relationInfo.getTableFilter( tableName )
+				.get( relationInfo.getTableRealColumnNames( tableName )[i] )
 				.equals( cachedResultSet[cachedResultSetRowNo][i] ) );
 	}
 
 	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.oda.xml.util.ISaxParserConsumer#wakeup()
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.enablement.oda.xml.util.ISaxParserConsumer#wakeup()
 	 */
 	public synchronized void wakeup( )
 	{
@@ -457,7 +453,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 			cachedTimes++;
 			// Recache the result set.
 			cachedResultSetRowNo = 0;
-			cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][resultSet.getMetaData().getColumnCount( )];
+			cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][relationInfo.getTableRealColumnNames( tableName ).length];
 			sp.setStart( true );
 		}
 	}
