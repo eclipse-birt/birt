@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.birt.tests"
+      label="%featureName"
+      version="2.2.0.qualifier"
+      provider-name="%providerName"
+      plugin="org.eclipse.birt.tests">
+
+   <description url="http://www.eclipse.org/birt">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site"/>
+   </url>
+
+   <requires>
+   </requires>
+
+   <plugin
+         id="org.eclipse.birt.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="true"/>
+
+   <plugin
+         id="org.eclipse.birt.core.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="true"/>
+
+</feature>
