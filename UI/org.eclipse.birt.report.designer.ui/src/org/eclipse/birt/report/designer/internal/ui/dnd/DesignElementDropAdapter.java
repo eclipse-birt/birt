@@ -92,7 +92,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 			}
 			return moveData( data, getCurrentTarget( ) );
 		}
-		else if ( getCurrentOperation( ) == DND.DROP_COPY )
+		else if ( getCurrentOperation( ) == DND.DROP_COPY || getCurrentOperation( ) == DND.DROP_LINK )
 		{
 			if ( Policy.TRACING_DND_DRAG )
 			{
