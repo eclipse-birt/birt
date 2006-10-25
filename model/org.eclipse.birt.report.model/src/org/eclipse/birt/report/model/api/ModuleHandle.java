@@ -1615,7 +1615,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
 				.getElements( level );
 
-		return generateHandleList( elementList );
+		return generateHandleList( sortVisibleElements( elementList, level ) );
 	}
 
 	/**
@@ -1670,7 +1670,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		List elementList = namescope
 				.getElements( IModuleNameScope.NATIVE_LEVEL );
-		return generateHandleList( elementList );
+		return generateHandleList( sortVisibleElements( elementList,
+				IModuleNameScope.NATIVE_LEVEL ) );
 	}
 
 	/**
@@ -1704,7 +1705,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		List elementList = namescope
 				.getElements( IModuleNameScope.NATIVE_LEVEL );
-		return generateHandleList( elementList );
+		return generateHandleList( sortVisibleElements( elementList,
+				IModuleNameScope.NATIVE_LEVEL ) );
 
 	}
 
@@ -2018,9 +2020,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			else
 			{
 				LibraryCommand cmd = new LibraryCommand( module );
-				cmd
-						.reloadLibrary( lib.getFileName( ), lib
-								.getNamespace( ) );
+				cmd.reloadLibrary( lib.getFileName( ), lib.getNamespace( ) );
 			}
 
 		}
@@ -2771,6 +2771,75 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public String getResourceFolder( )
 	{
 		return module.getResourceFolder( );
+	}
+
+	/**
+	 * Sorts visible elements. Check value in design handle and libraries and
+	 * sort the sequence as list in slot handle.
+	 * 
+	 * @param nameSpaceList
+	 *            the list contains elements from name space
+	 * @param level
+	 *            level
+	 * 
+	 * @return the list contains sorted design elements.
+	 */
+
+	private List sortVisibleElements( List nameSpaceList, int level )
+	{
+		// Sort element in namespace
+
+		List modules = new ArrayList( );
+		if ( nameSpaceList.size( ) == 0 )
+			return modules;
+
+		// Check value in design handle and libraries.
+
+		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
+		int slotID = element.getContainerSlot( );
+		assert slotID != DesignElement.NO_SLOT;
+
+		// Libraries
+		modules.add( this );
+		modules.addAll( getLibraries( level ) );
+		
+		return checkVisibleElements( nameSpaceList, modules, slotID );
+
+	}
+
+	/**
+	 * Checks visible elements
+	 * 
+	 * @param nameSpaceList
+	 *            the list contains elements from name space
+	 * @param modules
+	 *            the list contains design handle and library handle
+	 * @param slotID
+	 *            slot id
+	 * @return the list contains sorted design elements.
+	 */
+	
+	private List checkVisibleElements( List nameSpaceList, List modules,
+			int slotID )
+	{
+		assert modules != null;
+		List resultList = new ArrayList( );
+
+		for ( int i = 0; i < modules.size( ); ++i )
+		{
+			ModuleHandle handle = (ModuleHandle) modules.get( i );
+			SlotHandle slotHandle = handle.getSlot( slotID );
+			for ( int j = 0; j < slotHandle.getCount( ); ++j )
+			{
+				DesignElementHandle contentHandle = slotHandle.get( j );
+				DesignElement content = contentHandle.getElement( );
+				if ( nameSpaceList.contains( content ) )
+				{
+					resultList.add( content );
+				}
+			}
+		}
+		return resultList;
 	}
 
 }
