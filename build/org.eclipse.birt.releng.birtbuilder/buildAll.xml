@@ -1,0 +1,175 @@
+<project default="main">
+
+        <!--
+                Steps
+                Ant properties available at runtime:
+
+         - eclipse.pdebuild.scripts: the org.eclipse.eclipse.pdebuild.scripts folder
+         - eclipse.pdebuild.home: the root folder of pde build
+         - eclipse.pdebuild.templates: the  templates folder
+
+        -->
+
+        <!--build monitoring information:  e-mail, smtp server, build label-->
+        <property file="monitor.properties"/>
+
+        <!--location of PDE Build configuration files for builder and packager-->
+        <property name="eclipse.build.configs" value="${basedir}/eclipse/buildConfigs" />
+
+        <property name="sdkHelper" location="${eclipse.build.configs}/eclipse/helper.xml"/>
+        <property name="base.builder" value="${basedir}/../BaseBuilder" />
+
+        <!--location of properties file containing last tag used for integration build-->
+        <property name="mapTag.properties" value="/home/users/releng/buildTools/eclipse33/mapTag.properties"/>
+
+        <!--location of properties file containing last performance reference test information-->
+        <property name="ref.properties" value="/home/users/releng/buildTools/eclipse.perf/ref33.properties"/>
+
+        <!--location of test update site-->
+        <property file="${ref.properties}"/>
+
+        <!--default buildDirectory-->
+        <property name="buildDirectory" value="${basedir}/../src" />
+
+        <!--default location for build output, parent to ${buildLabel}-->
+        <property name="postingDirectory" value="${buildDirectory}" />
+
+        <target name="main" depends="init">
+                <antcall target="prepare"/>
+                <antcall target="buildBirtFeature" />
+                <antcall target="signBirtFeature" />
+                <antcall target="CreateDistribute"/>
+        </target>
+	
+	    <target name="init">
+                <ant antfile="build.xml" target="init" />
+                <property file="${buildDirectory}/label.properties" />
+                <condition property="fetchTag" value="HEAD">
+                        <equals arg1="${buildType}" arg2="N" />
+                </condition>
+                <!--compiler args-->
+                <property name="compilerArg" value="-enableJavadoc -encoding ISO-8859-1 -warn:-discouraged,forbidden" />
+                <property name="javacSource" value="1.4" />
+                <property name="javacTarget" value="1.4" />
+                <property name="javacDebugInfo" value="true" />
+                <property name="javacFailOnError" value="false" />
+                <property name="javacVerbose" value="false" />
+                <property name="logExtension" value=".xml" />
+                <!--this property required as of Eclipse 3.0 stream builds > 20031126 -->
+                <property name="buildingOSGi" value="true" />
+                <!--zip args-->
+                <property name="zipargs" value="-y -qq" />
+                <!--unzip args-->
+                <property name="unzipArgs" value="-qq" />
+        </target>
+        
+        <target name="prepare" unless="update">
+                <!-- clean up environment -->
+                <ant antfile="${eclipse.build.configs}/../helper.xml" target="cleanBuild" />
+                <!-- download DTP nightly build -->
+                <ant antfile="${eclipse.build.configs}/../helper.xml" target="getDTPDownloads" />
+        </target>
+
+        <target name="buildBirtFeature">
+
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+                <ant antfile="versionUpdater.xml" dir="${eclipse.build.configs}/birt" target="genDiffLog">
+                        <property name="buildDirectory" value="${buildDirectory}" />
+                </ant>
+                <ant antfile="versionUpdater.xml" dir="${eclipse.build.configs}/birt" target="updatePlugins">
+                        <property name="buildDirectory" value="${buildDirectory}" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="assemble">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="package">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="postBuild">
+                        <property name="builder" value="${eclipse.build.configs}/birt" />
+                </ant>
+        </target>
+        
+        <target name="CreateDistribute">            
+                <!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
+                <ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt" target="default">
+                        <property name="OutputDir" value="${postingDirectory}" />
+                        <property name="deposit" value="${buildDirectory}/${buildLabel}" />
+                </ant>
+                <!-- create Runtime -->
+        
+        </target>
+        
+        <target name="buildUpdateSite" if="updateSite">
+                <ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
+        </target>
+	
+        <target name="signBirtFeature" >
+                
+                <property name="archiveName" value="birt-report-framework-sdk-2_2_0" />
+                <property name="packtmp" value="${buildDirectory}/packtmp" />
+                <!--
+                <mkdir dir="${packtmp}" />
+                <move file="${buildDirectory}/${buildLabel}/${archiveName}.zip" tofile="${packtmp}/${archiveName}.zip"/>
+                -->
+
+                <!--pack200-->
+                <!--
+                <java jar="/home/adb/farrah/BaseBuilder/startup.jar"
+                        timeout="10800000"
+                        fork="true"
+                        failonerror="true"
+                        maxmemory="512m"
+                        dir="${buildDirectory}">
+                        <arg line="-application org.eclipse.update.core.siteOptimizer"/>
+                        <arg line="-jarProcessor -outputDir ${buildLabel} -processAll -repack ${packtmp}/eclipse"/>
+                </java>
+                <delete dir="${packtmp}" />
+                -->
+
+                <exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+                        <arg line="-q ${archiveName}.zip -d ${buildDirectory}/${buildLabel}" />
+                </exec>
+        </target>
+
+        <target name="unpackUpdateJarsForPackaging">
+
+                <property name="archiveName" value="birt-report-framework-sdk-2_2_0" />
+                <property name="tmpsite" value="${buildDirectory}/tmpsite" />
+
+                <mkdir dir="${tmpsite}/new/eclipse/features" />
+                <mkdir dir="${tmpsite}/new/eclipse/plugins" />
+                <exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+                        <arg line="-q ${archiveName}.zip -d ${tmpsite}" />
+                </exec>
+
+                <unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
+                <exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+                        <arg line="-q ${archiveName}.zip -d ${tmpsite}" />
+                </exec>
+
+                <move file="${buildDirectory}/${buildLabel}/${archiveName}.zip" tofile="${buildDirectory}/${buildLabel}/${archiveName}.bak.zip" />
+                <exec executable="zip" dir="${tmpsite}/new">
+                        <arg line="-q ${buildDirectory}/${buildLabel}/${archiveName}.zip -r eclipse" />
+                </exec>
+
+        </target>
+
+        <target name="package">
+                <ant antfile="package.xml" dir="${eclipse.pdebuild.scripts}">
+                        <property name="packagingInfo" value="${packagingInfo}" />
+                        <property name="assemblyTempDir" value="${packagingInfo}/jartmp" />
+                </ant>
+        </target>
+</project>
