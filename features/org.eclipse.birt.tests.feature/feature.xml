@@ -23,21 +23,16 @@
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site"/>
    </url>
 
-   <requires>
-   </requires>
-
    <plugin
          id="org.eclipse.birt.tests"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="true"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.birt.core.tests"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="true"/>
+         version="0.0.0"/>
 
 </feature>
