@@ -14,14 +14,15 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * List group
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2006/06/13 15:37:20 $
  */
 public class ListGroupDesign extends GroupDesign
 {
 	public ListGroupDesign()
 	{
-		header = new ListBandDesign( );
-		footer = new ListBandDesign( );
+		//modify bug161912
+		//header = new ListBandDesign( );
+		//footer = new ListBandDesign( );
 	}
 
 	public Object accept( IReportItemVisitor visitor, Object value )

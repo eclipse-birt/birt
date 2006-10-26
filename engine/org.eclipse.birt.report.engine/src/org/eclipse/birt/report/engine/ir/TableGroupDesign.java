@@ -15,14 +15,15 @@ package org.eclipse.birt.report.engine.ir;
  * group defined in table item
  * 
  * @see TableItemDesign
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2006/06/13 15:37:20 $
  */
 public class TableGroupDesign extends GroupDesign
 {
 	public TableGroupDesign( )
 	{
-		header = new TableBandDesign( );
-		footer = new TableBandDesign( );
+        //modify bug161912
+		//header = new TableBandDesign( );
+		//footer = new TableBandDesign( );
 	}
 
 	public Object accept( IReportItemVisitor visitor, Object value )
