@@ -76,7 +76,7 @@ public class CachedImage
 
 	public String getMIMEType( )
 	{
-		return imageMap;
+		return mimeType;
 	}
 
 	public void setMIMEType( String mimeType )
