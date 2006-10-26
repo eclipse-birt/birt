@@ -49,6 +49,7 @@ import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -618,12 +619,14 @@ public final class Regression_117699_swing extends JPanel
 		// Y-Series
 		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create( );
 		ss.setSeriesIdentifier( "Unit Price" ); //$NON-NLS-1$
-		ss.getMarker( ).setType( MarkerType.ICON_LITERAL );
-		ss
-				.getMarker( )
-				.setFill(
-						ImageImpl
-								.create( "http://www.google.com/intl/zh-CN_ALL/images/logo.gif" ) );
+		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
+		{
+			( (Marker) ss.getMarkers( ).get( i ) )
+					.setType( MarkerType.ICON_LITERAL );
+			( (Marker) ss.getMarkers( ).get( i ) )
+					.setFill( ImageImpl
+							.create( " http://image2.sina.com.cn/igame/new/new011/ver4/icon_rich.GIF " ) );
+		}
 
 		DataPoint dp = ss.getDataPoint( );
 		dp.getComponents( ).clear( );

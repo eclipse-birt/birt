@@ -151,7 +151,7 @@ public final class Regression_116630_swing extends JPanel
 
 		} );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**

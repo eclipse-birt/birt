@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
-import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -89,7 +88,7 @@ public class Regression_132783 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_132783 st = new Regression_132783( );
+		new Regression_132783( );
 	}
 
 	/**

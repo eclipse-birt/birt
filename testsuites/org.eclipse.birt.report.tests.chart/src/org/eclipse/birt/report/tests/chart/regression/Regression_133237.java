@@ -86,7 +86,7 @@ public class Regression_133237 extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		Regression_133237 st = new Regression_133237( );
+		new Regression_133237( );
 	}
 
 	/**

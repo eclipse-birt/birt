@@ -28,14 +28,10 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.TextDataSet;
-import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
@@ -304,216 +300,104 @@ public final class Regression_78699_swt extends Composite
 	private void bindGroupingData( Chart chart )
 
 	{
-
 		// Data Set
-
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-
-		25, 35, 15, 2, 9
-
-		} );
-
-		final Object[][] data = new Object[][]{
-
-		{
-
-		"x1", new Integer( 1 ), "g1"
-
-		}, {
-
-		"x2", new Integer( 2 ), "g2"
-
-		}, {
-
-		"x3", new Integer( 3 ), "g1"
-
-		}, {
-
-		"x4", new Integer( 4 ), "g3"
-
-		}, {
-
-		"x5", new Integer( 5 ), "g2"
-
-		}, {
-
-		"x6", new Integer( 6 ), "g1"
-
-		}, {
-
-		"x7", new Integer( 7 ), "g3"
-
-		}, {
-
-		"x8", new Integer( 8 ), "g2"
-
-		}, {
-
-		"x9", new Integer( 9 ), "g2"
-
-		}, {
-
-		"x0", new Integer( 0 ), "g2"
-
-		},
-
-		};
+		final Object[][] data = new Object[][]{{"x1", new Integer( 1 ), "g1"},
+				{"x2", new Integer( 2 ), "g2"}, {"x3", new Integer( 3 ), "g1"},
+				{"x4", new Integer( 4 ), "g3"}, {"x5", new Integer( 5 ), "g2"},
+				{"x6", new Integer( 6 ), "g1"}, {"x7", new Integer( 7 ), "g3"},
+				{"x8", new Integer( 8 ), "g2"}, {"x9", new Integer( 9 ), "g2"},
+				{"x0", new Integer( 0 ), "g2"},};
 
 		try
-
 		{
-
 			Generator gr = Generator.instance( );
-
 			gr.bindData( new IDataRowExpressionEvaluator( ) {
 
 				int idx = 0;
 
 				public void close( )
-
 				{
-
 				}
 
 				public Object evaluate( String expression )
-
 				{
-
 					if ( "X".equals( expression ) )
-
 					{
-
 						return data[idx][0];
-
 					}
-
 					else if ( "Y".equals( expression ) )
-
 					{
-
 						return data[idx][1];
-
 					}
-
 					else if ( "G".equals( expression ) )
-
 					{
-
 						return data[idx][2];
-
 					}
-
 					return null;
-
 				}
 
 				public Object evaluateGlobal( String expression )
-
 				{
-
 					return evaluate( expression );
-
 				}
 
 				public boolean first( )
-
 				{
-
 					idx = 0;
-
 					return true;
-
 				}
 
 				public boolean next( )
-
 				{
-
 					idx++;
-
 					return ( idx < 9 );
-
 				}
-
 			}, chart, new RunTimeContext( ) );
-
 		}
-
 		catch ( ChartException e )
-
 		{
-
 			e.printStackTrace( );
-
 		}
-
 	}
 
 	private Chart createChart( )
-
 	{
-
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
 		// X-Axis
-
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 
 		// Y-Axis
-
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 
 		// X-Series
-
 		Series seCategory = SeriesImpl.create( );
-
 		Query xQ = QueryImpl.create( "G" );
-
 		seCategory.getDataDefinition( ).add( xQ );
-
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-
 		sdX.getSeries( ).add( seCategory );
 
 		// -------------------------------------------------------------
 
 		sdX.setSorting( SortOption.DESCENDING_LITERAL );
-
 		sdX.getGrouping( ).setEnabled( true );
-
 		sdX.getGrouping( ).setGroupType( DataType.TEXT_LITERAL );
-
 		sdX.getGrouping( ).setAggregateExpression( "Sum" );
-
 		sdX.getGrouping( ).setGroupingInterval( 0 );
 
 		// -------------------------------------------------------------
 
 		// Y-Series
-
 		LineSeries bs = (LineSeries) LineSeriesImpl.create( );
-
 		bs.getLabel( ).setVisible( false );
-
 		Query yQ = QueryImpl.create( "Y" );
-
 		bs.getDataDefinition( ).add( yQ );
-
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-
 		sdY.getSeriesPalette( ).update( 0 );
-
 		sdY.getSeries( ).add( bs );
 
 		return cwaBar;

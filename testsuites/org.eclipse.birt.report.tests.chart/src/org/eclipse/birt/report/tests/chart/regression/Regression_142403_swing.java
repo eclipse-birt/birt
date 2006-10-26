@@ -666,8 +666,6 @@ public final class Regression_142403_swing extends JPanel
 				"Keyboards", "Moritors", "Printers", "Mortherboards"} );
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl
 				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
-		NumberDataSet dsNumericValues2 = NumberDataSetImpl
-				.create( new double[]{15.29, -14.53, -47.05, 32.55} );
 		TextDataSet dsStringValue1 = TextDataSetImpl.create( new String[]{
 				"Actuate", "Microsoft"} );
 

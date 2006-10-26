@@ -42,21 +42,18 @@ import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
-import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -70,9 +67,8 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.layout.Legend;
-import org.eclipse.birt.chart.model.type.AreaSeries;
-import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
+import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 
@@ -80,11 +76,12 @@ import org.eclipse.birt.core.exception.BirtException;
  * Regression description:
  * </p>
  * Set tooltip text which contain double quotation inside in chart will cause
- * tooltip text preview incorrect.
+ * tooltip text preview incorrect
  * </p>
  * Test description:
  * </p>
- * Tooltip will work correctly
+ * Create a bar chart and add interactivity Show Tooltip with text "my"text"" to
+ * its Y series
  * </p>
  */
 
@@ -169,7 +166,7 @@ public final class Regression_123931_swing extends JPanel
 		{
 			ex.printStackTrace( );
 		}
-		cm = showTooltip_AreaChart( );
+		cm = showTooltip_BarChart( );
 	}
 
 	/*
@@ -541,7 +538,7 @@ public final class Regression_123931_swing extends JPanel
 		 */
 		public void actionPerformed( ActionEvent e )
 		{
-			cm = showTooltip_AreaChart( );
+			cm = showTooltip_BarChart( );
 			bNeedsGeneration = true;
 			siv.updateBuffer( );
 			siv.repaint( );
@@ -561,52 +558,30 @@ public final class Regression_123931_swing extends JPanel
 	 *         filled datasets)
 	 */
 
-	public static final Chart showTooltip_AreaChart( )
+	public static final Chart showTooltip_BarChart( )
 	{
-		ChartWithAxes cwaArea = ChartWithAxesImpl.create( );
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 
 		// Chart Type
-		cwaArea.setType( "Area Chart" );
+		cwaBar.setType( "Bar Chart" );
+		cwaBar.setSubType( "Stacked" );
 
 		// Title
-		cwaArea.getTitle( ).getLabel( ).getCaption( ).setValue(
+		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
 				"Computer Hardware Sales" ); //$NON-NLS-1$
-		cwaArea.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot
-		cwaArea.getPlot( ).getClientArea( ).getOutline( ).setVisible( false );
-		cwaArea.getPlot( ).getClientArea( ).setBackground(
+		cwaBar.getPlot( ).getClientArea( ).getOutline( ).setVisible( false );
+		cwaBar.getPlot( ).getClientArea( ).setBackground(
 				ColorDefinitionImpl.create( 255, 255, 225 ) );
 
-		// Legend
-		Legend lg = cwaArea.getLegend( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
-
-		lg.getOutline( ).setStyle( LineStyle.DOTTED_LITERAL );
-		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
-		lg.getOutline( ).setVisible( true );
-
-		lg
-				.setBackground( GradientImpl.create( ColorDefinitionImpl
-						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
-						255,
-						255,
-						225 ), -35, false ) );
-		lg.setAnchor( Anchor.EAST_LITERAL );
-		lg.setItemType( LegendItemType.SERIES_LITERAL );
-
-		lg.getClientArea( ).setBackground( ColorDefinitionImpl.ORANGE( ) );
-		lg.setPosition( Position.RIGHT_LITERAL );
-		lg.setOrientation( Orientation.VERTICAL_LITERAL );
-
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaArea )
-				.getPrimaryBaseAxes( )[0];
+		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes( )[0];
 		xAxisPrimary.getTitle( ).setVisible( false );
 
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.GREEN( ).darker( ) );
 
@@ -618,15 +593,26 @@ public final class Regression_123931_swing extends JPanel
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaArea )
+		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
 				.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
+		FontDefinition fd = FontDefinitionImpl.create(
+				"Arial",
+				(float) 30.0,
+				true,
+				true,
+				false,
+				true,
+				false,
+				30.0,
+				TextAlignmentImpl.create( ) );
+		yAxisPrimary.getLabel( ).getCaption( ).setFont( fd );
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
 
 		yAxisPrimary.getTitle( ).setVisible( false );
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		yAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
 		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
 		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
@@ -650,31 +636,28 @@ public final class Regression_123931_swing extends JPanel
 		sdX.getSeries( ).add( seBase );
 
 		// Y-Series
-		AreaSeries as = (AreaSeries) AreaSeriesImpl.create( );
-		as.setSeriesIdentifier( "Actuate" ); //$NON-NLS-1$
-		as.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-		as.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-		as.getLabel( ).setVisible( true );
-		as.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
-				.create( 207, 41, 207 ), LineStyle.SOLID_LITERAL, 1 ) );
-		as.setDataSet( dsNumericValues1 );
-		as.getMarker( ).setVisible( true );
-		as
-				.getTriggers( )
-				.add(
-						TriggerImpl.create(
+		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
+		bs.setSeriesIdentifier( "Actuate" ); //$NON-NLS-1$
+		bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
+		bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+		bs.getLabel( ).setVisible( true );
+		bs.setDataSet( dsNumericValues1 );
+
+		bs.getTriggers( ).add(
+				TriggerImpl
+						.create(
 								TriggerCondition.ONMOUSEOVER_LITERAL,
 								ActionImpl.create(
 										ActionType.SHOW_TOOLTIP_LITERAL,
 										TooltipValueImpl.create(
-												0,
+												500,
 												"My \"text\"" ) ) ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
-		sdY.getSeries( ).add( as );
+		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLUE( ) );
+		sdY.getSeries( ).add( bs );
 
-		return cwaArea;
+		return cwaBar;
 	}
 }
