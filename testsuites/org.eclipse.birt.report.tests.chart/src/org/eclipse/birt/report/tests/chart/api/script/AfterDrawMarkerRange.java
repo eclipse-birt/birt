@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -25,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -58,7 +54,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 public class AfterDrawMarkerRange extends ChartTestCase
 {
 
-	private static String OUTPUT = "afterDrawMarkerRange.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "AfterDrawMarkerRange.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -103,7 +99,9 @@ public class AfterDrawMarkerRange extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -120,7 +118,12 @@ public class AfterDrawMarkerRange extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, bo, null, null,
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
 					null );
 			gr.render( dRenderer, gcs );
 		}
@@ -183,11 +186,15 @@ public class AfterDrawMarkerRange extends ChartTestCase
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
-		MarkerRange mry = MarkerRangeImpl.create( yAxisPrimary,
-				NumberDataElementImpl.create( 40 ), NumberDataElementImpl
-						.create( 100 ), null );
-		mry.setOutline( LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
-				LineStyle.DASH_DOTTED_LITERAL, 4 ) );
+		MarkerRange mry = MarkerRangeImpl.create(
+				yAxisPrimary,
+				NumberDataElementImpl.create( 40 ),
+				NumberDataElementImpl.create( 100 ),
+				null );
+		mry.setOutline( LineAttributesImpl.create(
+				ColorDefinitionImpl.GREY( ),
+				LineStyle.DASH_DOTTED_LITERAL,
+				4 ) );
 		mry.getLabel( ).setVisible( true );
 		mry.getLabel( ).getCaption( ).setValue( "abc" );
 
@@ -202,8 +209,6 @@ public class AfterDrawMarkerRange extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

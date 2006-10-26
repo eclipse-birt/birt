@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -82,7 +79,7 @@ public class BeforeGeneration extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		BeforeGeneration st = new BeforeGeneration( );
+		new BeforeGeneration( );
 	}
 
 	/**
@@ -101,7 +98,9 @@ public class BeforeGeneration extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createPieChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -110,7 +109,7 @@ public class BeforeGeneration extends ChartTestCase
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder2( )
 				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
-		
+
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -118,7 +117,13 @@ public class BeforeGeneration extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -145,7 +150,7 @@ public class BeforeGeneration extends ChartTestCase
 						+ " cm.getLegend().getOutline( ).setStyle( LineStyle.DASH_DOTTED_LITERAL );" //$NON-NLS-1$
 						+ " cm.getLegend().getOutline( ).setColor( ColorDefinitionImpl.GREEN() );" //$NON-NLS-1$
 						+ " cm.getLegend().getOutline( ).setVisible( true );} " //$NON-NLS-1$
-					);
+				);
 
 		// Chart Type
 		cwoaPie.setType( "Pie Chart" );
@@ -166,7 +171,7 @@ public class BeforeGeneration extends ChartTestCase
 		lg.getText( ).getFont( ).setSize( 16 );
 		lg.getInsets( ).set( 10, 5, 0, 0 );
 
-    	lg.setAnchor( Anchor.EAST_LITERAL );
+		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
 		lg.setPosition( Position.LEFT_LITERAL );
@@ -188,12 +193,13 @@ public class BeforeGeneration extends ChartTestCase
 
 		PieSeries ps = (PieSeries) PieSeriesImpl.create( );
 		ps.getLabel( ).setVisible( true );
-		ps.getTitle().setVisible( true );
-        ps.setSeriesIdentifier( "Actuate" );
+		ps.getTitle( ).setVisible( true );
+		ps.setSeriesIdentifier( "Actuate" );
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );

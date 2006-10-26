@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -53,11 +50,11 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class AfterDrawLegendItem extends ChartTestCase {
-    
-//	private static String GOLDEN = "AfterDrawLegendItem.jpg"; //$NON-NLS-1$
-    private static String OUTPUT = "AfterDrawLegendItem.jpg"; //$NON-NLS-1$	
-	
+public class AfterDrawLegendItem extends ChartTestCase
+{
+
+	private static String OUTPUT = "AfterDrawLegendItem.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -82,7 +79,7 @@ public class AfterDrawLegendItem extends ChartTestCase {
 	 */
 	public static void main( String[] args )
 	{
-		AfterDrawLegendItem st = new AfterDrawLegendItem( );
+		new AfterDrawLegendItem( );
 	}
 
 	/**
@@ -101,7 +98,9 @@ public class AfterDrawLegendItem extends ChartTestCase {
 			ex.printStackTrace( );
 		}
 		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -117,7 +116,13 @@ public class AfterDrawLegendItem extends ChartTestCase {
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -127,12 +132,6 @@ public class AfterDrawLegendItem extends ChartTestCase {
 		}
 	}
 
-//	public void test( ) throws Exception
-//	{
-//		AfterDrawLegendItem st = new AfterDrawLegendItem( );
-//		assertTrue( this.compareBytes( GOLDEN, OUTPUT ));
-//	}	
-	
 	/**
 	 * Creates a line chart model as a reference implementation
 	 * 
@@ -147,7 +146,7 @@ public class AfterDrawLegendItem extends ChartTestCase {
 						+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl); " //$NON-NLS-1$
 						+ "importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl);" //$NON-NLS-1$
 						+ "lerh.getLabel().setBackground( ColorDefinitionImpl.GREY( ) );}" //$NON-NLS-1$
-					);
+				);
 
 		// Chart Type
 		cwaLine.setType( "Line Chart" );
@@ -162,7 +161,7 @@ public class AfterDrawLegendItem extends ChartTestCase {
 		Legend lg = cwaLine.getLegend( );
 		lg.setVisible( true );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
-		lg.getText().setColor( ColorDefinitionImpl.GREEN( ) );
+		lg.getText( ).setColor( ColorDefinitionImpl.GREEN( ) );
 
 		// X-Axis
 		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
@@ -196,7 +195,6 @@ public class AfterDrawLegendItem extends ChartTestCase {
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -218,5 +216,5 @@ public class AfterDrawLegendItem extends ChartTestCase {
 		return cwaLine;
 
 	}
-	
+
 }

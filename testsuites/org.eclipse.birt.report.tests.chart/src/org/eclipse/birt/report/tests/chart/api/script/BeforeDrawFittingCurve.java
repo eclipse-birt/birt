@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -64,10 +61,11 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class BeforeDrawFittingCurve extends ChartTestCase{
+public class BeforeDrawFittingCurve extends ChartTestCase
+{
 
-    private static String OUTPUT = "BeforeDrawFittingCurve.jpg"; //$NON-NLS-1$	
-	
+	private static String OUTPUT = "BeforeDrawFittingCurve.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -92,7 +90,7 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 	 */
 	public static void main( String[] args )
 	{
-		BeforeDrawFittingCurve st = new BeforeDrawFittingCurve( );
+		new BeforeDrawFittingCurve( );
 	}
 
 	/**
@@ -111,7 +109,9 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 			ex.printStackTrace( );
 		}
 		cm = createCFBarChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -127,7 +127,13 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -146,17 +152,17 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 	public static final Chart createCFBarChart( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-        
+
 		cwaBar
-		.setScript( "function beforeDrawFittingCurve( cf,icsc )" //$NON-NLS-1$
-				+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl); " //$NON-NLS-1$
-				+ "importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl); " //$NON-NLS-1$
-				+ "importPackage(Packages.org.eclipse.birt.chart.model.attribute); " //$NON-NLS-1$
-				+ "cf.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.create(239, 33, 3 ), LineStyle.DOTTED_LITERAL, 4 ) ); " //$NON-NLS-1$
-				+ "cf.getLabel().setVisible(true);" //$NON-NLS-1$
-				+ "cf.getLabel( ).getCaption( ).setValue( \"abc\" );}" //$NON-NLS-1$
-		
-			);
+				.setScript( "function beforeDrawFittingCurve( cf,icsc )" //$NON-NLS-1$
+						+ "{importPackage(Packages.org.eclipse.birt.chart.model.component.impl); " //$NON-NLS-1$
+						+ "importPackage(Packages.org.eclipse.birt.chart.model.attribute.impl); " //$NON-NLS-1$
+						+ "importPackage(Packages.org.eclipse.birt.chart.model.attribute); " //$NON-NLS-1$
+						+ "cf.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.create(239, 33, 3 ), LineStyle.DOTTED_LITERAL, 4 ) ); " //$NON-NLS-1$
+						+ "cf.getLabel().setVisible(true);" //$NON-NLS-1$
+						+ "cf.getLabel( ).getCaption( ).setValue( \"abc\" );}" //$NON-NLS-1$
+
+				);
 		// Chart Type
 		cwaBar.setType( "Bar Chart" );
 		cwaBar.setSubType( "Stacked" );
@@ -183,9 +189,12 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.SERIES_LITERAL );
 
@@ -209,11 +218,15 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 				ColorDefinitionImpl.GREY( ) );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		MarkerRange mr = MarkerRangeImpl.create( xAxisPrimary,
-				NumberDataElementImpl.create( 2.0 ), NumberDataElementImpl
-						.create( 3.0 ), null );
+		MarkerRange mr = MarkerRangeImpl.create(
+				xAxisPrimary,
+				NumberDataElementImpl.create( 2.0 ),
+				NumberDataElementImpl.create( 3.0 ),
+				null );
 		mr.setOutline( LineAttributesImpl.create( ColorDefinitionImpl.create(
-				239, 33, 3 ), LineStyle.DOTTED_LITERAL, 2 ) );
+				239,
+				33,
+				3 ), LineStyle.DOTTED_LITERAL, 2 ) );
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
@@ -233,7 +246,8 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 				ColorDefinitionImpl.GREY( ) );
 		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		MarkerLine ml = MarkerLineImpl.create( yAxisPrimary,
+		MarkerLine ml = MarkerLineImpl.create(
+				yAxisPrimary,
 				NumberDataElementImpl.create( 60.0 ) );
 		ml.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
 				.create( 17, 37, 223 ), LineStyle.SOLID_LITERAL, 1 ) );
@@ -251,7 +265,6 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -276,14 +289,6 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 		bs2.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
 		bs2.getLabel( ).setVisible( true );
 		bs2.setDataSet( dsNumericValues2 );
-//	    CurveFitting cf = CurveFittingImpl.create( );
-//	    cf.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.create(
-//				239, 33, 3 ), LineStyle.DOTTED_LITERAL, 2 ) );
-//	    cf.getLabel( ).getCaption( ).setValue( value )
-////		Label label = LabelImpl.create( );
-//		label.getCaption( ).setValue( "abc" );
-//		cf.setLabel( label );
-//		bs2.setCurveFitting( cf );
 		bs2.setCurveFitting( CurveFittingImpl.create( ) );
 		bs2.setStacked( true );
 
@@ -296,5 +301,4 @@ public class BeforeDrawFittingCurve extends ChartTestCase{
 
 	}
 
-	
 }

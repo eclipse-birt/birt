@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -25,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -58,7 +54,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 public class BeforeDrawMarkerLine extends ChartTestCase
 {
 
-	private static String OUTPUT = "beforeDrawMarkerLine.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "BeforeDrawMarkerLine.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -103,7 +99,9 @@ public class BeforeDrawMarkerLine extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -120,7 +118,12 @@ public class BeforeDrawMarkerLine extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, bo, null, null,
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
 					null );
 			gr.render( dRenderer, gcs );
 		}
@@ -179,7 +182,8 @@ public class BeforeDrawMarkerLine extends ChartTestCase
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.GREEN( ).darker( ) );
 
-		MarkerLine mlx = MarkerLineImpl.create( xAxisPrimary,
+		MarkerLine mlx = MarkerLineImpl.create(
+				xAxisPrimary,
 				NumberDataElementImpl.create( 2 ) );
 		mlx.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
 				.create( 21, 244, 231 ), LineStyle.SOLID_LITERAL, 1 ) );
@@ -195,7 +199,8 @@ public class BeforeDrawMarkerLine extends ChartTestCase
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
-		MarkerLine mly = MarkerLineImpl.create( yAxisPrimary,
+		MarkerLine mly = MarkerLineImpl.create(
+				yAxisPrimary,
 				NumberDataElementImpl.create( 60.0 ) );
 		mly.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
 				.create( 244, 21, 231 ), LineStyle.SOLID_LITERAL, 1 ) );
@@ -211,8 +216,6 @@ public class BeforeDrawMarkerLine extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

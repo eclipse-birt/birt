@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -55,7 +52,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 public class BeforeDrawDataPointLabel extends ChartTestCase
 {
 
-	private static String OUTPUT = "beforeDrawDataPointLabel.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "BeforeDrawDataPointLabel.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -100,7 +97,9 @@ public class BeforeDrawDataPointLabel extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -117,7 +116,12 @@ public class BeforeDrawDataPointLabel extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, bo, null, null,
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
 					null );
 			gr.render( dRenderer, gcs );
 		}
@@ -210,7 +214,8 @@ public class BeforeDrawDataPointLabel extends ChartTestCase
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 		xAxisPrimary.setLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.SOLID_LITERAL, 1 ) );
+				LineStyle.SOLID_LITERAL,
+				1 ) );
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
@@ -238,7 +243,6 @@ public class BeforeDrawDataPointLabel extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

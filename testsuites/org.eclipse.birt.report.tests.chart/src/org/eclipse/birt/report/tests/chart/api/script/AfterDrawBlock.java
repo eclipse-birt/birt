@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -83,7 +80,7 @@ public class AfterDrawBlock extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		AfterDrawBlock st = new AfterDrawBlock( );
+		new AfterDrawBlock( );
 	}
 
 	/**
@@ -102,7 +99,9 @@ public class AfterDrawBlock extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createPieChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -111,7 +110,7 @@ public class AfterDrawBlock extends ChartTestCase
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder2( )
 				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
-	
+
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -119,7 +118,13 @@ public class AfterDrawBlock extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -139,15 +144,14 @@ public class AfterDrawBlock extends ChartTestCase
 	{
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
 
-		cwoaPie
-				.setScript( "function afterDrawBlock( block, icsc )" //$NON-NLS-1$
-						+ "{importPackage(Packages.java.lang); " //$NON-NLS-1$
-						+ " if (block.isLegend()) " //$NON-NLS-1$
-						+ "{if (block.getOutline( ).isVisible()==true) " //$NON-NLS-1$
-						+ " {System.out.println(\"ok\");}" //$NON-NLS-1$
-						+ " else" //$NON-NLS-1$
-						+ " {System.out.println(\"false\");}}}" //$NON-NLS-1$
-				);
+		cwoaPie.setScript( "function afterDrawBlock( block, icsc )" //$NON-NLS-1$
+				+ "{importPackage(Packages.java.lang); " //$NON-NLS-1$
+				+ " if (block.isLegend()) " //$NON-NLS-1$
+				+ "{if (block.getOutline( ).isVisible()==true) " //$NON-NLS-1$
+				+ " {System.out.println(\"ok\");}" //$NON-NLS-1$
+				+ " else" //$NON-NLS-1$
+				+ " {System.out.println(\"false\");}}}" //$NON-NLS-1$
+		);
 
 		// Chart Type
 		cwoaPie.setType( "Pie Chart" );
@@ -172,9 +176,12 @@ public class AfterDrawBlock extends ChartTestCase
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
@@ -183,12 +190,12 @@ public class AfterDrawBlock extends ChartTestCase
 		lg.setOrientation( Orientation.VERTICAL_LITERAL );
 
 		// Data Set
-		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
-				"Keyboards"} );
+		TextDataSet dsStringValue = TextDataSetImpl
+				.create( new String[]{"Keyboards"} );
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl
 				.create( new double[]{143.26} );
 
-		// Series -1
+		// Series
 		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( dsStringValue );
 
@@ -198,12 +205,13 @@ public class AfterDrawBlock extends ChartTestCase
 
 		PieSeries ps = (PieSeries) PieSeriesImpl.create( );
 		ps.getLabel( ).setVisible( true );
-		ps.getTitle().setVisible( true );
-        ps.setSeriesIdentifier( "Actuate" );
+		ps.getTitle( ).setVisible( true );
+		ps.setSeriesIdentifier( "Actuate" );
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );

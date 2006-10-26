@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -25,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -58,7 +54,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 public class BeforeDrawMarkerRange extends ChartTestCase
 {
 
-	private static String OUTPUT = "beforeDrawMarkerRange.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "BeforeDrawMarkerRange.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -103,7 +99,9 @@ public class BeforeDrawMarkerRange extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createLineChart( );
-		BufferedImage img = new BufferedImage( 500, 500,
+		BufferedImage img = new BufferedImage(
+				500,
+				500,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -120,7 +118,12 @@ public class BeforeDrawMarkerRange extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, bo, null, null,
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
 					null );
 			gr.render( dRenderer, gcs );
 		}
@@ -182,11 +185,15 @@ public class BeforeDrawMarkerRange extends ChartTestCase
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.GREEN( ).darker( ) );
 
-		MarkerRange mrx = MarkerRangeImpl.create( xAxisPrimary,
-				NumberDataElementImpl.create( 1 ), NumberDataElementImpl
-						.create( 2 ), null );
+		MarkerRange mrx = MarkerRangeImpl.create(
+				xAxisPrimary,
+				NumberDataElementImpl.create( 1 ),
+				NumberDataElementImpl.create( 2 ),
+				null );
 		mrx.setOutline( LineAttributesImpl.create( ColorDefinitionImpl.create(
-				239, 33, 3 ), LineStyle.DOTTED_LITERAL, 2 ) );
+				239,
+				33,
+				3 ), LineStyle.DOTTED_LITERAL, 2 ) );
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
@@ -199,11 +206,15 @@ public class BeforeDrawMarkerRange extends ChartTestCase
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
 		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
-		MarkerRange mry = MarkerRangeImpl.create( yAxisPrimary,
-				NumberDataElementImpl.create( 40 ), NumberDataElementImpl
-						.create( 100 ), null );
-		mry.setOutline( LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
-				LineStyle.DASH_DOTTED_LITERAL, 4 ) );
+		MarkerRange mry = MarkerRangeImpl.create(
+				yAxisPrimary,
+				NumberDataElementImpl.create( 40 ),
+				NumberDataElementImpl.create( 100 ),
+				null );
+		mry.setOutline( LineAttributesImpl.create(
+				ColorDefinitionImpl.GREY( ),
+				LineStyle.DASH_DOTTED_LITERAL,
+				4 ) );
 
 		// Data Set
 		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
@@ -216,8 +227,6 @@ public class BeforeDrawMarkerRange extends ChartTestCase
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -235,6 +244,5 @@ public class BeforeDrawMarkerRange extends ChartTestCase
 		sdY.getSeries( ).add( ls );
 
 		return cwaLine;
-
 	}
 }

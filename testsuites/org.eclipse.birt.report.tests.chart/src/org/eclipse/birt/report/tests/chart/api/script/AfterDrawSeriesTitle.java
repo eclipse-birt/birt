@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -83,7 +80,7 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 	 */
 	public static void main( String[] args )
 	{
-		AfterDrawSeriesTitle st = new AfterDrawSeriesTitle( );
+		new AfterDrawSeriesTitle( );
 	}
 
 	/**
@@ -102,7 +99,9 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 			ex.printStackTrace( );
 		}
 		cm = createPieChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -118,7 +117,13 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -170,9 +175,12 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
 		lg.getOutline( ).setVisible( true );
 
-		lg.setBackground( GradientImpl.create( ColorDefinitionImpl.create( 225,
-				225, 255 ), ColorDefinitionImpl.create( 255, 255, 225 ), -35,
-				false ) );
+		lg
+				.setBackground( GradientImpl.create( ColorDefinitionImpl
+						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
+						255,
+						255,
+						225 ), -35, false ) );
 		lg.setAnchor( Anchor.EAST_LITERAL );
 		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
 
@@ -186,7 +194,7 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl
 				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
 
-		// Series -1
+		// Series
 		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( dsStringValue );
 
@@ -196,12 +204,13 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 
 		PieSeries ps = (PieSeries) PieSeriesImpl.create( );
 		ps.getLabel( ).setVisible( true );
-		ps.getTitle().setVisible( true );
-        ps.setSeriesIdentifier( "Actuate" );
+		ps.getTitle( ).setVisible( true );
+		ps.setSeriesIdentifier( "Actuate" );
 		ps.setDataSet( dsNumericValues1 );
 		ps.setLeaderLineAttributes( LineAttributesImpl.create(
 				ColorDefinitionImpl.create( 239, 33, 3 ),
-				LineStyle.DASH_DOTTED_LITERAL, 3 ) );
+				LineStyle.DASH_DOTTED_LITERAL,
+				3 ) );
 		ps.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		ps.setExplosion( 0 );
 		ps.setSliceOutline( ColorDefinitionImpl.BLACK( ) );

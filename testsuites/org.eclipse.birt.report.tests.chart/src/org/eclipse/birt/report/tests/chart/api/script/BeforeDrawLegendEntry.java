@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
 
@@ -57,10 +54,11 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class BeforeDrawLegendEntry extends ChartTestCase{
+public class BeforeDrawLegendEntry extends ChartTestCase
+{
 
-    private static String OUTPUT = "BeforeDrawLegendEntry.jpg"; //$NON-NLS-1$	
-	
+	private static String OUTPUT = "BeforeDrawLegendEntry.jpg"; //$NON-NLS-1$	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -85,7 +83,7 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 	 */
 	public static void main( String[] args )
 	{
-		BeforeDrawLegendEntry st = new BeforeDrawLegendEntry( );
+		new BeforeDrawLegendEntry( );
 	}
 
 	/**
@@ -104,7 +102,9 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 			ex.printStackTrace( );
 		}
 		cm = createBarChart( );
-		BufferedImage img = new BufferedImage( 600, 600,
+		BufferedImage img = new BufferedImage(
+				600,
+				600,
 				BufferedImage.TYPE_INT_ARGB );
 		Graphics g = img.getGraphics( );
 
@@ -113,7 +113,7 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder2( )
 				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
-		
+
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -121,7 +121,13 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 
 		try
 		{
-			gcs = gr.build( dRenderer.getDisplayServer( ), cm, null, bo, null );
+			gcs = gr.build(
+					dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
 			gr.render( dRenderer, gcs );
 		}
 		catch ( ChartException e )
@@ -140,16 +146,16 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 	public static final Chart createBarChart( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-        
+
 		cwaBar
-		.setScript( "function beforeDrawLegendEntry(label, scriptContext)" //$NON-NLS-1$
-				+ "{label.getCaption( ).getColor().set( 35, 184, 245 ); " //$NON-NLS-1$
-				+ "label.getCaption().getFont().setBold(true); " //$NON-NLS-1$
-				+ "label.getCaption().getFont().setItalic(true); " //$NON-NLS-1$
-				+ "label.getOutline().setVisible(true); " //$NON-NLS-1$
-				+ "label.getOutline().getColor().set( 177, 12, 187);}" //$NON-NLS-1$
-		
-			);
+				.setScript( "function beforeDrawLegendEntry(label, scriptContext)" //$NON-NLS-1$
+						+ "{label.getCaption( ).getColor().set( 35, 184, 245 ); " //$NON-NLS-1$
+						+ "label.getCaption().getFont().setBold(true); " //$NON-NLS-1$
+						+ "label.getCaption().getFont().setItalic(true); " //$NON-NLS-1$
+						+ "label.getOutline().setVisible(true); " //$NON-NLS-1$
+						+ "label.getOutline().getColor().set( 177, 12, 187);}" //$NON-NLS-1$
+
+				);
 		// Chart Type
 		cwaBar.setType( "Bar Chart" );
 		cwaBar.setSubType( "Stacked" );
@@ -187,11 +193,15 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 				ColorDefinitionImpl.GREY( ) );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		MarkerRange mr = MarkerRangeImpl.create( xAxisPrimary,
-				NumberDataElementImpl.create( 2.0 ), NumberDataElementImpl
-						.create( 3.0 ), null );
+		MarkerRange mr = MarkerRangeImpl.create(
+				xAxisPrimary,
+				NumberDataElementImpl.create( 2.0 ),
+				NumberDataElementImpl.create( 3.0 ),
+				null );
 		mr.setOutline( LineAttributesImpl.create( ColorDefinitionImpl.create(
-				239, 33, 3 ), LineStyle.DOTTED_LITERAL, 2 ) );
+				239,
+				33,
+				3 ), LineStyle.DOTTED_LITERAL, 2 ) );
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
@@ -222,7 +232,6 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 		seBase.setDataSet( dsStringValue );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -244,5 +253,4 @@ public class BeforeDrawLegendEntry extends ChartTestCase{
 
 	}
 
-	
 }
