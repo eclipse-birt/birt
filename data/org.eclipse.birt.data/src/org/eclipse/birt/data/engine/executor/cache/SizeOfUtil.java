@@ -119,7 +119,6 @@ public class SizeOfUtil
 			return SizeOfUtil.TIMESTAMP_SIZE;
 		}
 		// Normally followed lines will never be arrived.
-		assert ( false );
 		return 0;
 	}
 
@@ -179,9 +178,7 @@ public class SizeOfUtil
 		}
 		else
 		{
-			// Normally followed lines will never be arrived.
-			assert ( false );
-			return 0;
+			return sizeOf( objectClass );
 		}
 	}
 
