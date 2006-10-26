@@ -38,7 +38,7 @@
 	<!-- Report engine log level -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_LEVEL</param-name>
-		<param-value>OFF</param-value>
+		<param-value>WARNING</param-value>
 	</context-param>
 
 	<!-- Absolute directory to store all birt report script libraries (JARs). Default to ${birt home}/scriptlib -->
