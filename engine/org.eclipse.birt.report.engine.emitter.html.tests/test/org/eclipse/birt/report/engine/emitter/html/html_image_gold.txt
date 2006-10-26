@@ -1,0 +1,7 @@
+<div>
+	<img src="http://www.actuate.com/images/home/main.gif" alt="my image">
+</div>
+<img src="http://www.actuate.com/images/home/main.gif" alt="my image">
+<a href="http://www.actuate.com" target="_blank">
+	<img src="http://www.actuate.com/images/home/main.gif" alt="my image">
+</a>

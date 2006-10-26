@@ -1,0 +1,11 @@
+<table>
+	<col>
+	<col>
+	<col>
+	<tr>
+		<td></td><td colspan="2" rowspan="2"></td>
+	</tr>
+	<tr>
+		<td></td>
+	</tr>
+</table>
