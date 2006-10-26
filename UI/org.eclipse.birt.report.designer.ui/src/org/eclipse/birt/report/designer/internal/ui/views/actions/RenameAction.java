@@ -121,7 +121,10 @@ public class RenameAction extends AbstractViewerAction
 		{
 			System.out.println( "Rename action >> Runs with " + DEUtil.getDisplayLabel( getSelectedObjects( ).getFirstElement( ) ) ); //$NON-NLS-1$
 		}
-		doRename( );
+		if ( selectedItem != null )
+		{
+			doRename( );
+		}
 	}
 
 	private void doRename( )
