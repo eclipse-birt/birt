@@ -13,12 +13,14 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -75,12 +77,14 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient InsetsComposite icLabel;
 	private transient Label lblValue;
 	private transient Label lblAnchor;
+	private transient ChartWizardContext context;
 
 	public SeriesTrendlineSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
 		super( title, context, false );
 		this.seriesDefn = seriesDefn;
+		this.context = context;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -311,7 +315,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		// Set block Anchor property
 		NameSet nameSet = LiteralHelper.anchorSet;
 		cmbAnchor.setItems( nameSet.getDisplayNames( ) );
-		cmbAnchor.select( nameSet.getSafeNameIndex( getTrendline( ).getLabelAnchor( )
+		cmbAnchor.select( nameSet.getSafeNameIndex( ChartUIUtil.getFlippedAnchor( getTrendline( ).getLabelAnchor( ),
+				isFlippedAxes( ) )
 				.getName( ) ) );
 
 		// Set Legend Position property
@@ -407,7 +412,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		if ( e.widget.equals( cmbAnchor ) )
 		{
-			getTrendline( ).setLabelAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+			getTrendline( ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ),
+					isFlippedAxes( ) ) );
 		}
 		// else if ( e.widget.equals( btnTriggers ) )
 		// {
@@ -432,6 +438,12 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	private boolean isFlippedAxes( )
+	{
+		return ( (ChartWithAxes) context.getModel( ) ).getOrientation( )
+				.equals( Orientation.HORIZONTAL_LITERAL );
 	}
 
 }

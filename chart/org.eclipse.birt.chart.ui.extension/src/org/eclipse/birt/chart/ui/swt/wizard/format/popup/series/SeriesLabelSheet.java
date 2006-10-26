@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import java.text.MessageFormat;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -25,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
@@ -66,10 +68,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class SeriesLabelSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class SeriesLabelSheet extends AbstractPopupSheet implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -126,11 +127,14 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 	private transient Group grpOutline;
 
+	private transient ChartWizardContext context;
+
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
 		super( title, context, false );
 		this.seriesDefn = seriesDefn;
+		this.context = context;
 	}
 
 	/*
@@ -244,8 +248,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
 
 		// Position
-		int positionScope = ( getSeriesForProcessing( ) instanceof PieSeries || getSeriesForProcessing( ) instanceof BarSeries )
-				? LabelAttributesComposite.ALLOW_INOUT_POSITION
+		int positionScope = ( getSeriesForProcessing( ) instanceof PieSeries || getSeriesForProcessing( ) instanceof BarSeries ) ? LabelAttributesComposite.ALLOW_INOUT_POSITION
 				: ( LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION | LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
 		if ( positionScope == LabelAttributesComposite.ALLOW_ALL_POSITION )
@@ -253,7 +256,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			cmbPosition.setItems( LiteralHelper.fullPositionSet.getDisplayNames( ) );
 			if ( lpCurrent != null )
 			{
-				cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+				if ( context.getModel( ) instanceof ChartWithAxes )
+				{
+					cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( ChartUIUtil.getFlippedPosition( lpCurrent,
+							isFlippedAxes( ) )
+							.getName( ) ) );
+				}
+				else
+				{
+					cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+				}
 			}
 		}
 		else
@@ -261,19 +273,43 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			// check vertical
 			if ( ( positionScope & LabelAttributesComposite.ALLOW_VERTICAL_POSITION ) != 0 )
 			{
-				String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
-				for ( int i = 0; i < ns.length; i++ )
+				if ( context.getModel( ) instanceof ChartWithAxes
+						&& isFlippedAxes( ) )
 				{
-					cmbPosition.add( ns[i] );
+					String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
+				}
+				else
+				{
+					String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
 				}
 			}
 			// check horizontal
 			if ( ( positionScope & LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION ) != 0 )
 			{
-				String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
-				for ( int i = 0; i < ns.length; i++ )
+				if ( context.getModel( ) instanceof ChartWithAxes
+						&& isFlippedAxes( ) )
 				{
-					cmbPosition.add( ns[i] );
+					String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
+				}
+				else
+				{
+					String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
 				}
 			}
 			// check inout
@@ -296,10 +332,20 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 			if ( lpCurrent != null )
 			{
+				String positionName = null;
+				if ( context.getModel( ) instanceof ChartWithAxes )
+				{
+					positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
+							isFlippedAxes( ) ).getName( );
+				}
+				else
+				{
+					positionName = lpCurrent.getName( );
+				}
+
 				for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
 				{
-					if ( lpCurrent.getName( )
-							.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
+					if ( positionName.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
 					{
 						cmbPosition.select( i );
 					}
@@ -602,7 +648,15 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	{
 		if ( e.getSource( ).equals( cmbPosition ) )
 		{
-			getSeriesForProcessing( ).setLabelPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			if ( context.getModel( ) instanceof ChartWithAxes )
+			{
+				getSeriesForProcessing( ).setLabelPosition( ChartUIUtil.getFlippedPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ),
+						isFlippedAxes( ) ) );
+			}
+			else
+			{
+				getSeriesForProcessing( ).setLabelPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			}
 		}
 		else if ( e.getSource( ).equals( cbVisible ) )
 		{
@@ -710,6 +764,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
 				.remove( iComponentIndex );;
+	}
+
+	private boolean isFlippedAxes( )
+	{
+		return ( (ChartWithAxes) context.getModel( ) ).getOrientation( )
+				.equals( Orientation.HORIZONTAL_LITERAL );
 	}
 
 }

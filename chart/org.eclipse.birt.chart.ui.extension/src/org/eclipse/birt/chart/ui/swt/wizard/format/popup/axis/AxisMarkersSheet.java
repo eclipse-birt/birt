@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -24,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
@@ -160,6 +162,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	private transient int iRangeCount = 0;
 
 	private transient Axis axis;
+	
+	private transient ChartWizardContext context;
 
 	private transient String MARKER_LINE_LABEL = Messages.getString( "AxisMarkersSheet.MarkerLine.displayName" ); //$NON-NLS-1$
 
@@ -169,6 +173,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 	{
 		super( title, context, true );
 		this.axis = axis;
+		this.context = context;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -726,12 +731,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		else if ( e.getSource( ).equals( cmbLineAnchor ) )
 		{
 			( (MarkerLine) getAxisForProcessing( ).getMarkerLines( )
-					.get( getMarkerIndex( ) ) ).setLabelAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbLineAnchor.getText( ) ) ) );
+					.get( getMarkerIndex( ) ) ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbLineAnchor.getText( ) ) ),
+					isFlippedAxes( ) ) );
 		}
 		else if ( e.getSource( ).equals( cmbRangeAnchor ) )
 		{
 			( (MarkerRange) getAxisForProcessing( ).getMarkerRanges( )
-					.get( getMarkerIndex( ) ) ).setLabelAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbRangeAnchor.getText( ) ) ) );
+					.get( getMarkerIndex( ) ) ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbRangeAnchor.getText( ) ) ),
+					isFlippedAxes( ) ) );
 		}
 		else if ( e.getSource( ).equals( btnLineFormatSpecifier ) )
 		{
@@ -914,7 +921,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			txtValue.setText( getValueAsString( line.getValue( ) ) );
 
 			// Update the Anchor field
-			cmbLineAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( line.getLabelAnchor( )
+			cmbLineAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( line.getLabelAnchor( ),
+					isFlippedAxes( ) )
 					.getName( ) ) );
 
 			// Update the Line attribute fields
@@ -936,7 +944,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			txtEndValue.setText( getValueAsString( range.getEndValue( ) ) );
 
 			// Update the anchor field
-			cmbRangeAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( range.getLabelAnchor( )
+			cmbRangeAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( range.getLabelAnchor( ),
+					isFlippedAxes( ) )
 					.getName( ) ) );
 
 			// Update the fill
@@ -1092,6 +1101,12 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		setEnabled( btnRemove, isEnabled );
 
 		// TODO disable all?
+	}
+	
+	private boolean isFlippedAxes( )
+	{
+		return ( (ChartWithAxes) context.getModel( ) ).getOrientation( )
+				.equals( Orientation.HORIZONTAL_LITERAL );
 	}
 
 }

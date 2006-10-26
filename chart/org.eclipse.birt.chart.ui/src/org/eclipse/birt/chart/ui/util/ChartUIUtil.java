@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -758,7 +759,7 @@ public class ChartUIUtil
 		// Prevent notifications rendering preview
 		ChartAdapter.beginIgnoreNotifications( );
 		// --------------------------Begin
-		
+
 		// Create a clone of the existing Y Axis
 		Axis yAxis = (Axis) ( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 );
@@ -1165,4 +1166,70 @@ public class ChartUIUtil
 				&& floor.getTransparency( ) > 0;
 	}
 
+	/**
+	 * Convert the displayed anchor in the case of flipped axes.
+	 * 
+	 * @param anchor
+	 * @param isFlippedAxes  true if the Orientation is Horizontal
+	 * @return
+	 */
+	public static Anchor getFlippedAnchor( Anchor anchor, boolean isFlippedAxes )
+	{
+		if ( isFlippedAxes )
+		{
+			switch ( anchor.getValue( ) )
+			{
+				case Anchor.EAST :
+					anchor = Anchor.NORTH_LITERAL;
+					break;
+				case Anchor.WEST :
+					anchor = Anchor.SOUTH_LITERAL;
+					break;
+				case Anchor.NORTH :
+					anchor = Anchor.EAST_LITERAL;
+					break;
+				case Anchor.SOUTH :
+					anchor = Anchor.WEST_LITERAL;
+					break;
+				case Anchor.SOUTH_EAST :
+					anchor = Anchor.NORTH_WEST_LITERAL;
+					break;
+				case Anchor.NORTH_WEST :
+					anchor = Anchor.SOUTH_EAST_LITERAL;
+					break;
+			}
+		}
+		return anchor;
+	}
+
+	/**
+	 * Convert the displayed position in the case of flipped axes.
+	 * 
+	 * @param position
+	 * @param isFlippedAxes true if the Orientation is Horizontal
+	 * @return
+	 */
+	public static Position getFlippedPosition( Position position,
+			boolean isFlippedAxes )
+	{
+		if ( isFlippedAxes )
+		{
+			switch ( position.getValue( ) )
+			{
+				case Position.ABOVE :
+					position = Position.RIGHT_LITERAL;
+					break;
+				case Position.BELOW :
+					position = Position.LEFT_LITERAL;
+					break;
+				case Position.LEFT :
+					position = Position.BELOW_LITERAL;
+					break;
+				case Position.RIGHT :
+					position = Position.ABOVE_LITERAL;
+					break;
+			}
+		}
+		return position;
+	}
 }

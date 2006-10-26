@@ -13,14 +13,19 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,10 +46,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class LabelAttributesComposite extends Composite
-		implements
-			SelectionListener,
-			Listener
+public class LabelAttributesComposite extends Composite implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpGeneral = null;
@@ -538,7 +542,16 @@ public class LabelAttributesComposite extends Composite
 				cmbPosition.setItems( LiteralHelper.fullPositionSet.getDisplayNames( ) );
 				if ( lpCurrent != null )
 				{
-					cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+					if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+					{
+						cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( ChartUIUtil.getFlippedPosition( lpCurrent,
+								isFlippedAxes( ) )
+								.getName( ) ) );
+					}
+					else
+					{
+						cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+					}
 				}
 			}
 			else
@@ -546,19 +559,43 @@ public class LabelAttributesComposite extends Composite
 				// check vertical
 				if ( ( positionScope & ALLOW_VERTICAL_POSITION ) != 0 )
 				{
-					String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
+					if ( ( isAxisAttribute( ) || isSeriesAttribute( ) )
+							&& isFlippedAxes( ) )
 					{
-						cmbPosition.add( ns[i] );
+						String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
+						for ( int i = 0; i < ns.length; i++ )
+						{
+							cmbPosition.add( ns[i] );
+						}
+					}
+					else
+					{
+						String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
+						for ( int i = 0; i < ns.length; i++ )
+						{
+							cmbPosition.add( ns[i] );
+						}
 					}
 				}
 				// check horizontal
 				if ( ( positionScope & ALLOW_HORIZONTAL_POSITION ) != 0 )
 				{
-					String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
+					if ( ( isAxisAttribute( ) || isSeriesAttribute( ) )
+							&& isFlippedAxes( ) )
 					{
-						cmbPosition.add( ns[i] );
+						String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
+						for ( int i = 0; i < ns.length; i++ )
+						{
+							cmbPosition.add( ns[i] );
+						}
+					}
+					else
+					{
+						String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
+						for ( int i = 0; i < ns.length; i++ )
+						{
+							cmbPosition.add( ns[i] );
+						}
 					}
 				}
 				// check inout
@@ -573,10 +610,20 @@ public class LabelAttributesComposite extends Composite
 
 				if ( lpCurrent != null )
 				{
+					String positionName = null;
+					if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+					{
+						positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
+								isFlippedAxes( ) )
+								.getName( );
+					}
+					else
+					{
+						positionName = lpCurrent.getName( );
+					}
 					for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
 					{
-						if ( lpCurrent.getName( )
-								.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
+						if ( positionName.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
 						{
 							cmbPosition.select( i );
 						}
@@ -639,7 +686,16 @@ public class LabelAttributesComposite extends Composite
 		this.lpCurrent = pos;
 		if ( attributesContext.isPositionEnabled )
 		{
-			this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( lpCurrent.getName( ) ) );
+			if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+			{
+				this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( ChartUIUtil.getFlippedPosition( lpCurrent,
+						isFlippedAxes( ) )
+						.getName( ) ) );
+			}
+			else
+			{
+				this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( lpCurrent.getName( ) ) );
+			}
 		}
 	}
 
@@ -667,7 +723,15 @@ public class LabelAttributesComposite extends Composite
 		eLabel.widget = this;
 		if ( e.getSource( ).equals( cmbPosition ) )
 		{
-			eLabel.data = Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) );
+			if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+			{
+				eLabel.data = ChartUIUtil.getFlippedPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ),
+						isFlippedAxes( ) );
+			}
+			else
+			{
+				eLabel.data = Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) );
+			}
 			eLabel.type = POSITION_CHANGED_EVENT;
 		}
 		else if ( e.getSource( ).equals( cbVisible ) )
@@ -786,5 +850,22 @@ public class LabelAttributesComposite extends Composite
 		}
 		eLabel.data = event.data;
 		fireEvent( eLabel );
+	}
+
+	private boolean isFlippedAxes( )
+	{
+		return ( (ChartWithAxes) wizardContext.getModel( ) ).getOrientation( )
+				.equals( Orientation.HORIZONTAL_LITERAL );
+	}
+
+	private boolean isAxisAttribute( )
+	{
+		return lblCurrent.eContainer( ) instanceof Axis;
+	}
+
+	private boolean isSeriesAttribute( )
+	{
+		return ( wizardContext.getModel( ) instanceof ChartWithAxes )
+				&& ( lblCurrent.eContainer( ) instanceof Series );
 	}
 }
