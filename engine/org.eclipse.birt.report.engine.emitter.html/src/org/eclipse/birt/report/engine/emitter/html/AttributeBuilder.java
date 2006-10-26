@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.28 $ $Date: 2006/10/11 08:34:26 $
+ * @version $Revision: 1.29 $ $Date: 2006/10/20 21:31:18 $
  */
 public class AttributeBuilder
 {
@@ -126,6 +126,46 @@ public class AttributeBuilder
 		buildBox( content, style );
 		buildPagedMedia( content, style );
 		buildVisual( content, style );
+	}
+	
+	/**
+	 * Build the cell's style. The border information will not be build.
+	 * @param content
+	 * @param cellStyle
+	 * @param emitter
+	 * @param bContainer
+	 */
+	public static void buildCellStyle( StringBuffer content, IStyle cellStyle,
+			HTMLReportEmitter emitter, boolean bContainer )
+	{
+		if ( cellStyle == null )
+		{
+			return;
+		}
+		buildFont( content, cellStyle );
+		buildText( content, cellStyle, bContainer );
+		
+		//buildBox without border
+		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, cellStyle.getMarginTop( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_RIGHT, cellStyle
+				.getMarginRight( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_BOTTOM, cellStyle
+				.getMarginBottom( ) );
+		buildProperty( content, HTMLTags.ATTR_MARGIN_LEFT, cellStyle
+				.getMarginLeft( ) );
+		
+		buildProperty( content, HTMLTags.ATTR_PADDING_TOP, cellStyle
+				.getPaddingTop( ) );
+		buildProperty( content, HTMLTags.ATTR_PADDING_RIGHT, cellStyle
+				.getPaddingRight( ) );
+		buildProperty( content, HTMLTags.ATTR_PADDING_BOTTOM, cellStyle
+				.getPaddingBottom( ) );
+		buildProperty( content, HTMLTags.ATTR_PADDING_LEFT, cellStyle
+				.getPaddingLeft( ) );
+		
+		buildBackground( content, cellStyle, emitter );
+		buildPagedMedia( content, cellStyle );
+		buildVisual( content, cellStyle );
 	}
 
 	/**
@@ -403,7 +443,7 @@ public class AttributeBuilder
 	 * @param color
 	 *            The border-color value
 	 */
-	private static void buildBorder( StringBuffer content, String name,
+	static void buildBorder( StringBuffer content, String name,
 			String width, String style, String color )
 	{
 		if ( style == null || style.length( ) <= 0 )

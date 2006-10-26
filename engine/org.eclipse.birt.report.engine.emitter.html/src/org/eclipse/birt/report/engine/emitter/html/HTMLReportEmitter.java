@@ -65,7 +65,10 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
@@ -89,6 +92,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSPrimitiveValue;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * <code>HTMLReportEmitter</code> is a subclass of
@@ -142,7 +147,7 @@ import org.w3c.dom.NodeList;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.145 $ $Date: 2006/08/22 08:31:55 $
+ * @version $Revision: 1.146 $ $Date: 2006/09/11 08:35:47 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -289,6 +294,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private MetadataEmitter metadataEmitter;
 	
 	private IDGenerator idGenerator = new IDGenerator( );
+	
+	static HashMap borderStyleMap = null;
+	static
+	{
+		borderStyleMap = new HashMap( );
+		borderStyleMap.put( CSSConstants.CSS_NONE_VALUE, new Integer( 0 ) );
+		borderStyleMap.put( CSSConstants.CSS_INSET_VALUE, new Integer( 1 ) );
+		borderStyleMap.put( CSSConstants.CSS_GROOVE_VALUE, new Integer( 2 ) );
+		borderStyleMap.put( CSSConstants.CSS_OUTSET_VALUE, new Integer( 3 ) );
+		borderStyleMap.put( CSSConstants.CSS_RIDGE_VALUE, new Integer( 4 ) );
+		borderStyleMap.put( CSSConstants.CSS_DOTTED_VALUE, new Integer( 5 ) );
+		borderStyleMap.put( CSSConstants.CSS_DASHED_VALUE, new Integer( 6 ) );
+		borderStyleMap.put( CSSConstants.CSS_SOLID_VALUE, new Integer( 7 ) );
+		borderStyleMap.put( CSSConstants.CSS_DOUBLE_VALUE, new Integer( 8 ) );
+	}
+	
+	/**
+	 * record the leaf cell
+	 */
+	private ICellContent leafCell;
+	/**
+	 * record the leaf cell is filled or not.
+	 */
+	private boolean cellFilled = false;
+	
 	/**
 	 * the constructor
 	 */
@@ -1370,6 +1400,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startCell( ICellContent cell )
 	{				
+		leafCell = cell;
+		cellFilled = false;
+		
 		int colSpan = cell.getColSpan( );
 		
 		push( false );
@@ -1419,7 +1452,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			handleCellFont( cell, styleBuffer );
 		}
 		
-		handleStyle( cell, styleBuffer );
+		handleCellStyle( cell, styleBuffer );
 
 		writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 
@@ -1454,6 +1487,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endCell( ICellContent cell )
 	{
+		if( (cell == leafCell) && (false == cellFilled) )
+		{
+			writer.text( " " );
+		}
+		leafCell = null;
+		cellFilled = false;
+		
 		if ( pop( ) )
 		{
 			return;
@@ -1685,6 +1725,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.endText( text );
 		}
+		cellFilled = true;
 	}
 
 	/*
@@ -1828,6 +1869,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.endForeign( foreign );
 		}
+		
+		/**
+		 * We suppose the foreign content will all occupy space now.
+		 * In fact some foreign contents don't occupy space.
+		 * For example: a empty html text will not occupy space in html.
+		 * It needs to be solved in the future.
+		 */
+		cellFilled = true;
 	}
 	
 	
@@ -2230,6 +2279,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.endImage( image );
 		}
+		cellFilled = true;
 	}
 	
 	/**
@@ -2665,6 +2715,263 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output in-line style
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+	}
+	
+	/**
+	 * Handles the style of a cell
+	 * @param cell: the cell content
+	 * @param styleBuffer: the buffer to store the tyle building result.
+	 */
+	protected void handleCellStyle( ICellContent cell, StringBuffer styleBuffer )
+	{
+		IStyle style = null;
+		if ( isEmbeddable )
+		{
+			style = cell.getStyle( );
+		}
+		else
+		{
+			style = cell.getInlineStyle( );
+		}
+		//	build the cell's style except border
+		AttributeBuilder.buildCellStyle( styleBuffer, style, this, true );
+		
+		//prepare build the cell's border
+		int columnCount = -1;
+		IStyle cellStyle = null, cellComputedStyle = null;
+		IStyle rowStyle = null, rowComputedStyle = null;
+		
+		cellStyle = cell.getStyle( );
+		cellComputedStyle = cell.getComputedStyle( );
+		IRowContent row = (IRowContent) cell.getParent( );
+		if( null != row )
+		{
+			rowStyle = row.getStyle( );
+			rowComputedStyle = row.getComputedStyle( );
+			ITableContent table = row.getTable( );
+			if( null != table )
+			{
+				columnCount = table.getColumnCount( );
+			}
+		}
+		
+		//build the cell's border
+		if( null == rowStyle || cell.getColumn( )< 0 || columnCount < 1 )
+		{
+			if( null != cellStyle )
+			{
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_TOP,
+						cellStyle.getBorderTopWidth( ), cellStyle.getBorderTopStyle( ),
+						cellStyle.getBorderTopColor( ), 0, null, null, null, 0 );
+
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT,
+						cellStyle.getBorderRightWidth( ), cellStyle.getBorderRightStyle( ),
+						cellStyle.getBorderRightColor( ), 0, null, null, null, 0 );
+
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM,
+						cellStyle.getBorderBottomWidth( ), cellStyle.getBorderBottomStyle( ),
+						cellStyle.getBorderBottomColor( ), 0, null, null, null, 0 );
+
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT,
+						cellStyle.getBorderLeftWidth( ), cellStyle.getBorderLeftStyle( ),
+						cellStyle.getBorderLeftColor( ), 0, null, null, null, 0 );
+			}
+		}
+		else if( null == cellStyle )
+		{
+			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_TOP, null, null, null, 0,
+					rowStyle.getBorderTopWidth( ), rowStyle.getBorderTopStyle( ),
+					rowStyle.getBorderTopColor( ),  0 );
+
+			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT, null, null, null, 0,
+					rowStyle.getBorderRightWidth( ), rowStyle.getBorderRightStyle( ),
+					rowStyle.getBorderRightColor( ), 0 );
+
+			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM, null, null, null, 0,
+					rowStyle.getBorderBottomWidth( ), rowStyle.getBorderBottomStyle( ),
+					rowStyle.getBorderBottomColor( ), 0 );
+
+			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT, null, null, null, 0,
+					rowStyle.getBorderLeftWidth( ), rowStyle.getBorderLeftStyle( ),
+					rowStyle.getBorderLeftColor( ), 0 );
+		}
+		else
+		{
+			//We have treat the column span. But we haven't treat the row span.
+			//It need to be solved in the future.
+			int cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_TOP_WIDTH );
+			int rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_TOP_WIDTH );
+			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_TOP,
+					cellStyle.getBorderTopWidth( ), cellStyle.getBorderTopStyle( ),
+					cellStyle.getBorderTopColor( ), cellWidthValue,
+					rowStyle.getBorderTopWidth( ), rowStyle.getBorderTopStyle( ),
+					rowStyle.getBorderTopColor( ), rowWidthValue );
+			
+			if( (cell.getColumn( ) +  cell.getColSpan( )) == columnCount )
+			{
+				cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_RIGHT_WIDTH );
+				rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_RIGHT_WIDTH );
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT,
+						cellStyle.getBorderRightWidth( ), cellStyle.getBorderRightStyle( ),
+						cellStyle.getBorderRightColor( ), cellWidthValue,
+						rowStyle.getBorderRightWidth( ), rowStyle.getBorderRightStyle( ),
+						rowStyle.getBorderRightColor( ), rowWidthValue );
+			}
+			else
+			{
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT,
+						cellStyle.getBorderRightWidth( ), cellStyle.getBorderRightStyle( ),
+						cellStyle.getBorderRightColor( ), 0, null, null, null, 0 );
+			}
+			
+			cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_BOTTOM_WIDTH );
+			rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_BOTTOM_WIDTH );
+			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM,
+					cellStyle.getBorderBottomWidth( ), cellStyle.getBorderBottomStyle( ),
+					cellStyle.getBorderBottomColor( ), cellWidthValue,
+					rowStyle.getBorderBottomWidth( ), rowStyle.getBorderBottomStyle( ),
+					rowStyle.getBorderBottomColor( ), rowWidthValue );
+			
+			if( cell.getColumn( ) == 0 )
+			{
+				cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_LEFT_WIDTH );
+				rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_LEFT_WIDTH );
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT,
+						cellStyle.getBorderLeftWidth( ), cellStyle.getBorderLeftStyle( ),
+						cellStyle.getBorderLeftColor( ), cellWidthValue,
+						rowStyle.getBorderLeftWidth( ), rowStyle.getBorderLeftStyle( ),
+						rowStyle.getBorderLeftColor( ), rowWidthValue );
+			}
+			else
+			{
+				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT,
+						cellStyle.getBorderLeftWidth( ), cellStyle.getBorderLeftStyle( ),
+						cellStyle.getBorderLeftColor( ), 0, null, null, null, 0 );
+			}
+			
+		}
+			
+		// output in-line style
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+	}
+	
+	/**
+	 * Get the border width from a style. It don't support '%'.
+	 * @param style
+	 * @param borderNum
+	 * @return
+	 */
+	private int getBorderWidthValue( IStyle style, int borderNum )
+	{
+		if( null == style )
+		{
+			return 0;
+		}
+		if( IStyle.STYLE_BORDER_TOP_WIDTH != borderNum
+				&& IStyle.STYLE_BORDER_RIGHT_WIDTH != borderNum 
+				&& IStyle.STYLE_BORDER_BOTTOM_WIDTH != borderNum 
+				&& IStyle.STYLE_BORDER_LEFT_WIDTH != borderNum )
+		{
+			return 0;
+		}
+		CSSValue value = style.getProperty( borderNum );
+		if ( value != null && ( value instanceof FloatValue ) )
+		{
+			FloatValue fv = (FloatValue) value;
+			float v = fv.getFloatValue( );
+			switch ( fv.getPrimitiveType( ) )
+			{
+				case CSSPrimitiveValue.CSS_CM :
+					return (int) ( v * 72000 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_IN :
+					return (int) ( v * 72000 );
+
+				case CSSPrimitiveValue.CSS_MM :
+					return (int) ( v * 7200 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_PT :
+					return (int) ( v * 1000 );
+				case CSSPrimitiveValue.CSS_NUMBER :
+					return (int) v;
+			}
+		}
+		return 0;
+	}
+	
+	/**
+	 * Treat the conflict of cell border and row border
+	 * @param content
+	 * @param borderName
+	 * @param cellBorderWidth
+	 * @param cellBorderStyle
+	 * @param cellBorderColor
+	 * @param cellWidthValue
+	 * @param rowBorderWidth
+	 * @param rowBorderStyle
+	 * @param rowBorderColor
+	 * @param rowWidthValue
+	 */
+	private void buildCellRowBorder( StringBuffer content, String borderName,
+			String cellBorderWidth, String cellBorderStyle, String cellBorderColor, int cellWidthValue,
+			String rowBorderWidth, String rowBorderStyle, String rowBorderColor, int rowWidthValue)
+	{
+		boolean bUseCellBorder = true;//true means choose cell's border; false means choose row's border 
+		if( null == rowBorderStyle )
+		{
+		}
+		else if( null == cellBorderStyle )
+		{
+			bUseCellBorder = false;
+		}
+		else if( cellBorderStyle.matches( "hidden" ) )
+		{
+		}
+		else if( rowBorderStyle.matches( "hidden" ) )
+		{
+			bUseCellBorder = false;
+		}
+		else if( rowBorderStyle.matches( CSSConstants.CSS_NONE_VALUE ) )
+		{
+		}
+		else if( cellBorderStyle.matches( CSSConstants.CSS_NONE_VALUE ) )
+		{
+			bUseCellBorder = false;
+		}
+		else if( rowWidthValue < cellWidthValue )
+		{
+		}
+		else if( rowWidthValue > cellWidthValue )
+		{
+			bUseCellBorder = false;
+		}
+		else if( !cellBorderStyle.matches( rowBorderStyle ) )
+		{
+			Integer iCellBorderLevel = ( (Integer) borderStyleMap.get( cellBorderStyle ) );
+			Integer iRowBorderLevel = ( (Integer) borderStyleMap.get( rowBorderStyle ) );
+			if( null == iCellBorderLevel )
+			{
+				iCellBorderLevel = new Integer( -1 );
+			}
+			if( null == iRowBorderLevel )
+			{
+				iRowBorderLevel = new Integer( -1 );
+			}
+			
+			if( iRowBorderLevel.intValue( ) > iCellBorderLevel.intValue( ) )
+			{
+				bUseCellBorder = false;
+			}
+		}
+		
+		if( bUseCellBorder )
+		{
+			AttributeBuilder.buildBorder( content, borderName, cellBorderWidth, cellBorderStyle, cellBorderColor );
+		}
+		else
+		{
+			AttributeBuilder.buildBorder( content, borderName, rowBorderWidth, rowBorderStyle, rowBorderColor );
+		}
 	}
 
 	protected void handleStyle( IContent element, StringBuffer styleBuffer )
