@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report units="cm">
+    
+    <page-setup>
+        <simple-master-page name="pp" type="us-letter" width="8.5in" height="11in" orientation="auto" top-margin="1in" bottom-margin="1in" left-margin="1.25in" right-margin="1.25in" show-header-on-first="true" show-footer-on-last="true" floating-footer="false">
+        	<header></header>
+        	<footer></footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <text content-type="auto"></text>
+        <free-form>
+            <label></label>
+            <text content-type="auto"></text>
+        </free-form>
+        <grid>
+            <column></column>
+            <column></column>
+            <row>
+                <cell drop="none"></cell>
+                <cell drop="none"></cell>
+            </row>
+        </grid>
+        <list>
+            <header>
+                <text content-type="auto">
+                    label
+                </text>
+            </header>
+            <group>
+                <header>
+                    <text content-type="auto">
+                        label
+                    </text>
+                </header>
+                <footer>
+                    <text content-type="auto">
+                        label
+                    </text>
+                </footer>
+            </group>
+            <group>
+                <header>
+                    <text content-type="auto">
+                        label
+                    </text>
+                </header>
+                <footer>
+                    <text content-type="auto">
+                        label
+                    </text>
+                </footer>
+            </group>
+            <detail></detail>
+            <footer>
+                <text content-type="auto">
+                    label
+                </text>
+            </footer>
+        </list>
+        <table>
+            <caption>
+                table caption
+            </caption>
+            <column></column>
+            <column></column>
+            <column></column>
+            <header>
+                <row>
+                    <cell column="1" drop="none">
+                        <text content-type="auto">
+                            label
+                        </text>
+                    </cell>
+                    <cell column="2" drop="none">
+                        <text content-type="auto">
+                            label
+                        </text>
+                    </cell>
+                    <cell column="3" drop="none">
+                        <text content-type="auto">
+                            label
+                        </text>
+                        <text content-type="auto">
+                            label
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <group>
+                <header>
+                    <row>
+                        <cell column="1" drop="none">
+                            <data>
+                                field1
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row>
+                        <cell column="1" drop="none">
+                            <data>
+                                field1
+                            </data>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <group>
+                <header>
+                    <row>
+                        <cell column="1" drop="none">
+                            <data>
+                                field2
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row>
+                        <cell column="1" drop="none">
+                            <data>
+                                field2
+                            </data>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row>
+                    <cell column="3" drop="none">
+                        <data>
+                            field2
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer></footer>
+        </table>
+    </body>
+</report>

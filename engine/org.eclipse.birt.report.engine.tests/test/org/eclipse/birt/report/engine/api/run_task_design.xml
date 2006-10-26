@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.sampledb" name="Data Source" id="4">
+            <property name="odaDriverClass">org.apache.derby.jdbc.EmbeddedDriver</property>
+            <property name="odaURL">jdbc:derby:jar:(E:\birt\org.eclipse.birt.report.data.oda.sampledb\db\BirtSample.jar)BirtSample</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select FIRSTNAME, LASTNAME, OFFICECODE
+from CLASSICMODELS.EMPLOYEES</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <text id="55">
+		    <expression name="toc">"All offices"</expression>
+            <property name="pageBreakAfter">always</property>
+            <property name="contentType">plain</property>
+            <text-property name="content"><![CDATA[Fist Page
+
+This is the first page of the reports]]></text-property>
+        </text>
+        <table id="6">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <column id="25"/>
+            <column id="26"/>
+            <header>
+                <row id="7">
+                    <cell id="8">
+                        <label id="54">
+                            <text-property name="text">OFFICECODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10"/>
+                </row>
+            </header>
+            <group id="28">
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["OFFICECODE"]</expression>
+                <header>
+                    <row id="29">
+                        <cell id="30">
+                            <data id="37">
+                                <expression name="toc">"office: " + row["OFFICECODE"]</expression>
+                                <expression name="valueExpr">row["OFFICECODE"]</expression>
+                            </data>
+                        </cell>
+                        <cell id="31">
+                            <table id="38">
+                                <property name="width">100%</property>
+                                <column id="48"/>
+                                <column id="49"/>
+                                <header>
+                                    <row id="39">
+                                        <cell id="40">
+                                            <label id="50">
+                                                <text-property name="text">FIRSTNAME</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="41">
+                                            <label id="51">
+                                                <text-property name="text">LASTNAME</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                </header>
+                                <detail>
+                                    <row id="42">
+                                        <cell id="43">
+                                            <data id="52">
+                                                <expression name="toc">"Emplyee:" + row["FIRSTNAME"] + " " + row["LASTNAME"]</expression>
+                                                <expression name="valueExpr">row["FIRSTNAME"]</expression>
+                                            </data>
+                                        </cell>
+                                        <cell id="44">
+                                            <data id="53">
+                                                <expression name="valueExpr">row["LASTNAME"]</expression>
+                                            </data>
+                                        </cell>
+                                    </row>
+                                </detail>
+                            </table>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="33">
+                        <cell id="34"/>
+                        <cell id="35"/>
+                    </row>
+                </footer>
+            </group>
+            <footer>
+                <row id="21">
+                    <cell id="22"/>
+                    <cell id="23"/>
+                </row>
+            </footer>
+        </table>
+        <text id="56">
+            <property name="pageBreakBefore">always</property>
+            <property name="contentType">plain</property>
+            <text-property name="content"><![CDATA[This is the Last page of the report]]></text-property>
+        </text>
+    </body>
+</report>

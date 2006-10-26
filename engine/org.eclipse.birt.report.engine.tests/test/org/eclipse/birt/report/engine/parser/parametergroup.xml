@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">in</property>
+    <parameters>
+        <scalar-parameter name="param1">
+            <text-property name="displayName">param1</text-property>
+            <property name="hidden">false</property>
+            <property name="dataType">string</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <expression name="defaultValue">value1</expression>
+        </scalar-parameter>
+        <parameter-group name="group">
+            <text-property name="displayName">group</text-property>
+            <parameters>
+                <scalar-parameter name="param2">
+                    <text-property name="displayName">param2</text-property>
+                    <property name="hidden">false</property>
+                    <property name="dataType">string</property>
+                    <property name="concealValue">false</property>
+                    <property name="allowBlank">true</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">text-box</property>
+                    <expression name="defaultValue">value2</expression>
+                </scalar-parameter>
+                <scalar-parameter name="param3">
+                    <text-property name="displayName">param3</text-property>
+                    <property name="hidden">false</property>
+                    <property name="dataType">string</property>
+                    <property name="concealValue">false</property>
+                    <property name="allowBlank">true</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">text-box</property>
+                    <expression name="defaultValue">value3</expression>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+        <scalar-parameter name="param4">
+            <text-property name="displayName">param4</text-property>
+            <property name="hidden">false</property>
+            <property name="dataType">string</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <expression name="defaultValue">value4</expression>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <simple-master-page name="pp"/>
+    </page-setup>
+</report>

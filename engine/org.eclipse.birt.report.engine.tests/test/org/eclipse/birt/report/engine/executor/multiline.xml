@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+    <body>
+  		<text-data id="369">
+            <expression name="valueExpr">"&lt;html>&lt;h1>ABCDEFG&lt;/h1>&lt;/html>"</expression>
+            <property name="contentType">plain</property>
+        </text-data>
+        <text-data id="372">
+            <expression name="valueExpr">"&lt;html>&lt;h1>ABCDEFG&lt;/h1>&lt;/html>"</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <text-data id="371">
+            <expression name="valueExpr">"&lt;html>&lt;h1>ABCDEFG&lt;/h1>&lt;/html>"</expression>
+            <property name="contentType">auto</property>
+        </text-data>
+    </body>
+</report>

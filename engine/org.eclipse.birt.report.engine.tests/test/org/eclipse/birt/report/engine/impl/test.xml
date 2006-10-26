@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">in</property>
+    <parameters>
+        <scalar-parameter name="param1">
+            <property name="dataType">string</property>
+            <expression name="defaultValue">"DEFAULT VALUE"</expression>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <simple-master-page name="default"/>
+    </page-setup>
+    <body>
+        <label>
+            <property name="fontWeight">bold</property>
+            <text-property name="text">First Label</text-property>
+        </label>
+        <label>
+            <property name="color">red</property>
+            <text-property name="text">Second Label</text-property>
+        </label>
+        <data>
+            <expression name="valueExpr">params.param1</expression>
+        </data>
+        <image>
+            <expression name="uri">"test.jpg"</expression>
+        </image>
+    </body>
+</report>

@@ -1,0 +1,213 @@
+#background-attachment
+background-attachment: fixed
+background-attachment: fixed
+
+#background-color
+background-color: black
+background-color: black
+
+#background-image
+background-image: normal.gif
+background-image: normal.gif
+background-image: e:\work folder\normal.gif
+background-image: e:\work folder\normal.gif
+
+#background-repeat
+background-repeat: repeat
+background-repeat: repeat
+
+#border color, style, width
+border-top-color: red
+border-top-color: red
+border-top-style: dashed
+border-top-style: dashed
+border-top-width: 15px
+border-top-width: 15px
+
+border-bottom-color: red
+border-bottom-color: red
+border-bottom-style: dashed
+border-bottom-style: dashed
+border-bottom-width: 15px
+border-bottom-width: 15px
+
+border-left-color: red
+border-left-color: red
+border-left-style: dashed
+border-left-style: dashed
+border-left-width: 15px
+border-left-width: 15px
+
+border-right-color: red
+border-right-color: red
+border-right-style: dashed
+border-right-style: dashed
+border-right-width: 15px
+border-right-width: 15px
+
+#color
+color: red
+color: red
+color: rgb(250, 0, 255)
+color: rgb(250, 0, 255)
+
+#display
+display: block
+display: block
+
+#font-family
+font-family: "Arial",Courier New,"Franklin Gothic Book",sans-serif
+font-family: Arial,Courier New,Franklin Gothic Book,sans-serif
+
+#font-size
+font-size: 16pt
+font-size: 16pt
+
+#font-style
+font-style: italic
+font-style: italic
+
+#font-variant
+font-variant: small-caps
+font-variant: small-caps
+
+#font-weight
+font-weight: 500
+font-weight: 500
+
+#letter-spacing
+letter-spacing: -0.5px
+letter-spacing: -0.5px
+
+
+#line-height
+line-height: 0.4cm
+line-height: 0.4cm
+
+#margin-right,margin-left,margin-top,margin-bottom
+margin-top: 2cm
+margin-top: 2cm
+margin-right: 2cm
+margin-right: 2cm
+margin-bottom: 2cm
+margin-bottom: 2cm
+margin-left: 2cm
+margin-left: 2cm
+
+
+#orphans
+orphans: 3
+orphans: 3
+
+#padding-top,padding-right,padding-bottom,padding-left
+padding-left: 2cm
+padding-left: 2cm
+padding-top: 2cm
+padding-top: 2cm
+padding-right: 2cm
+padding-right: 2cm
+padding-bottom: 2cm
+padding-bottom: 2cm
+
+
+#page-break-after, page-break-before, page-break-inside
+page-break-after: always
+page-break-after: always
+
+page-break-before: auto
+page-break-before: auto
+
+page-break-inside: avoid
+page-break-inside: avoid
+
+#text-align
+text-align: center
+text-align: center
+
+#text-indent
+text-indent: -12px
+text-indent: -12px
+text-indent: 12%
+text-indent: 12%
+
+
+#text-transform
+text-transform: capitalize
+text-transform: capitalize
+
+#vertical-align
+vertical-align: bottom
+vertical-align: bottom
+
+#white-space
+white-space: normal
+white-space: normal
+
+#widows
+widows: 5
+widows: 5
+
+#word-spacing
+word-spacing: 5px
+word-spacing: 5px
+
+#background-position-x,background-position-y
+background-position-x: 50px
+background-position-x: 50px
+background-position-y: 50px
+background-position-y: 50px
+
+#can-shrink
+can-shrink: true
+can-shrink: true
+
+#date-format
+date-format: G
+date-format: G
+
+#master-page
+master-page: me
+master-page: me
+
+master-page: me ok
+master-page: me ok
+
+#number-align
+number-align: left
+number-align: left
+
+#number-format
+number-format: Currency
+number-format: Currency
+number-format: Standard
+number-format: Standard
+
+#show-if-blank
+show-if-blank: false
+show-if-blank: false
+
+
+#string-format
+string-format: >
+string-format: >
+
+string-format: &&& &&&&-&&&
+string-format: &&& &&&&-&&&
+
+string-format: (@@@) @@@-@@
+string-format: (@@@) @@@-@@
+
+string-format: !&&& &&&&-&&&
+string-format: !&&& &&&&-&&&
+
+#text-underline,text-overline,text-linethrough
+text-underline: underline
+text-underline: underline
+text-overline: overline
+text-overline: overline
+text-linethrough: line-through
+text-linethrough: line-through
+
+#visible-format
+visible-format: pdf,html,viewer,all
+visible-format: pdf,html,viewer,all

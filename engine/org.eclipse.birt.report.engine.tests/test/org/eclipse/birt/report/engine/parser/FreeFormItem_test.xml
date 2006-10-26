@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">cm</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.sampledb" name="Data Source" id="4">
+            <property name="odaDriverClass">org.apache.derby.jdbc.EmbeddedDriver</property>
+            <property name="odaURL">jdbc:derby:jar:(E:\birt\org.eclipse.birt.report.data.oda.sampledb\db\BirtSample.jar)BirtSample</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select STATE, CITY, CUSTOMERNUMBER from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+
+    <page-setup>
+        <simple-master-page name="pp"/>
+    </page-setup>
+    <body>
+        <free-form name="myFreeForm">
+            <property name="x">2</property>
+            <property name="y">3</property>
+            <property name="height">3</property>
+            <property name="width">3</property>
+            <property name="dataSet">Data Set</property>
+            <report-items>
+                <data name="myData">
+                    <expression name="valueExpr">I am data value</expression>
+                </data>
+            </report-items>
+        </free-form>
+    </body>
+</report>

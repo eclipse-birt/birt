@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">cm</property>
+    <data-sources>
+        <oda-data-source name="hsql1">
+            <property name="driverName">jdbc1</property>
+            <list-property name="publicDriverProperties">
+                <ex-property>
+                    <name>ODA:driver-class</name>
+                    <value>org.hsqldb.jdbcDriver</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:url</name>
+                    <value>jdbc:hsqldb:file:list1</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:user</name>
+                    <value>sa</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:password</name>
+                </ex-property>
+            </list-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="dset">
+            <property name="dataSource">hsql1</property>
+            <property name="queryText">select * from list1</property>
+            <property name="type">JdbcSelectDataSet</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="page"/>
+    </page-setup>
+    <body>
+        <text name="text">
+            <property name="backgroundColor">green</property>
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">23%</property>
+            <property name="fontWeight">bolder</property>
+            <property name="fontStyle">normal</property>
+            <property name="fontVariant">small-caps</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textOverline">overline</property>
+            <property name="textUnderline">underline</property>
+            <property name="borderBottomColor">orange</property>
+            <property name="borderBottomStyle">dashed</property>
+            <property name="borderBottomWidth">2pt</property>
+            <property name="borderLeftColor">yellow</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">3pt</property>
+            <property name="borderRightColor">green</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">4pt</property>
+            <property name="borderTopColor">red</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">1pt</property>
+            <property name="marginTop">1pt</property>
+            <property name="marginLeft">3pt</property>
+            <property name="marginBottom">2pt</property>
+            <property name="marginRight">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingLeft">3pt</property>
+            <property name="paddingBottom">2pt</property>
+            <property name="paddingRight">4pt</property>
+            <property name="textAlign">justify</property>
+            <property name="textIndent">2%</property>
+            <property name="letterSpacing">normal</property>
+            <property name="lineHeight">normal</property>
+            <property name="textTransform">uppercase</property>
+            <property name="verticalAlign">baseline</property>
+            <property name="whiteSpace">normal</property>
+            <property name="wordSpacing">normal</property>
+            <property name="display">block</property>
+            <property name="masterPage">page</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">always</property>
+            <property name="showIfBlank">true</property>
+            <property name="canShrink">true</property>
+            <property name="x">1pt</property>
+            <property name="y">2pt</property>
+            <property name="height">4pt</property>
+            <property name="width">3pt</property>
+            <property name="dataSet">dset</property>
+            <property name="contentType">auto</property>
+            <text-property name="content" key="content-key"><![CDATA[text content]]></text-property>
+        </text>
+    </body>
+</report>

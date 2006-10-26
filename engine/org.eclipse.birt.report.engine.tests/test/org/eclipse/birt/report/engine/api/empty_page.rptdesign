@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="23">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="24">
+            <text-property name="displayName">Data Set</text-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select *
+from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <data id="138">
+                    <expression name="valueExpr">"BCD" + Math.random() + "RANDOM"</expression>
+                </data>
+            </page-header>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="4">
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">always</property>
+            <text-property name="text">dddddddd</text-property>
+        </label>
+        <grid id="5">
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">always</property>
+            <property name="width">100%</property>
+            <column id="6">
+                <property name="textAlign">right</property>
+            </column>
+            <column id="7"/>
+            <column id="8"/>
+            <row id="9">
+                <cell id="10">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                    <label id="22">
+                        <text-property name="text">ABC</text-property>
+                    </label>
+                </cell>
+                <cell id="11">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+                <cell id="12">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+            </row>
+            <row id="13">
+                <property name="textAlign">center</property>
+                <cell id="14">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                    <label id="21">
+                        <text-property name="text">ABC</text-property>
+                    </label>
+                </cell>
+                <cell id="15">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+                <cell id="16">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+            </row>
+            <row id="17">
+                <cell id="18">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+                <cell id="19">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+                <cell id="20">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                </cell>
+            </row>
+        </grid>
+        <table id="25">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <column id="94"/>
+            <column id="95"/>
+            <column id="96"/>
+            <column id="97"/>
+            <column id="98"/>
+            <column id="99"/>
+            <column id="100"/>
+            <column id="101"/>
+            <column id="102"/>
+            <column id="103"/>
+            <column id="104"/>
+            <column id="105"/>
+            <column id="106"/>
+            <header>
+                <row id="26">
+                    <cell id="27">
+                        <label id="28">
+                            <text-property name="text">CUSTOMERNUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="29">
+                        <label id="30">
+                            <text-property name="text">CUSTOMERNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="31">
+                        <label id="32">
+                            <text-property name="text">CONTACTLASTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="33">
+                        <label id="34">
+                            <text-property name="text">CONTACTFIRSTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="35">
+                        <label id="36">
+                            <text-property name="text">PHONE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="37">
+                        <label id="38">
+                            <text-property name="text">ADDRESSLINE1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="39">
+                        <label id="40">
+                            <text-property name="text">ADDRESSLINE2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="41">
+                        <label id="42">
+                            <text-property name="text">CITY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="43">
+                        <label id="44">
+                            <text-property name="text">STATE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="45">
+                        <label id="46">
+                            <text-property name="text">POSTALCODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="47">
+                        <label id="48">
+                            <text-property name="text">COUNTRY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="49">
+                        <label id="50">
+                            <text-property name="text">SALESREPEMPLOYEENUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="51">
+                        <label id="52">
+                            <text-property name="text">CREDITLIMIT</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="53">
+                    <cell id="54">
+                        <data id="55">
+                            <expression name="valueExpr">row["CUSTOMERNUMBER"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="56">
+                        <data id="57">
+                            <expression name="valueExpr">row["CUSTOMERNAME"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="58">
+                        <data id="59">
+                            <expression name="valueExpr">row["CONTACTLASTNAME"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="60">
+                        <data id="61">
+                            <expression name="valueExpr">row["CONTACTFIRSTNAME"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="62">
+                        <data id="63">
+                            <expression name="valueExpr">row["PHONE"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="64">
+                        <data id="65">
+                            <expression name="valueExpr">row["ADDRESSLINE1"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="66">
+                        <data id="67">
+                            <expression name="valueExpr">row["ADDRESSLINE2"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="68">
+                        <data id="69">
+                            <expression name="valueExpr">row["CITY"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="70">
+                        <data id="71">
+                            <expression name="valueExpr">row["STATE"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="72">
+                        <data id="73">
+                            <expression name="valueExpr">row["POSTALCODE"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="74">
+                        <data id="75">
+                            <expression name="valueExpr">row["COUNTRY"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="76">
+                        <data id="77">
+                            <expression name="valueExpr">row["SALESREPEMPLOYEENUMBER"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="78">
+                        <data id="79">
+                            <expression name="valueExpr">row["CREDITLIMIT"]</expression>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="80">
+                    <cell id="81"/>
+                    <cell id="82"/>
+                    <cell id="83"/>
+                    <cell id="84"/>
+                    <cell id="85"/>
+                    <cell id="86"/>
+                    <cell id="87"/>
+                    <cell id="88"/>
+                    <cell id="89"/>
+                    <cell id="90"/>
+                    <cell id="91"/>
+                    <cell id="92"/>
+                    <cell id="93"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

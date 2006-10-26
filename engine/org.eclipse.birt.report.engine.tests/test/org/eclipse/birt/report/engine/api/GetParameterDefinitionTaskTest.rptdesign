@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060714-0934 Build &lt;20060714-0934></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <parameters>
+        <scalar-parameter name="paramString" id="4">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">true</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">defaultStringValue</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramBoolean" id="5">
+            <property name="valueType">static</property>
+            <property name="dataType">boolean</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">check-box</property>
+            <property name="defaultValue">false</property>
+            <structure name="format"/>
+        </scalar-parameter>
+        <scalar-parameter name="paramConceal" id="6">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="concealValue">true</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">defaultConcealValue</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramAllowNullAndBlank" id="7">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramDatetimeFormat" id="10">
+            <property name="valueType">static</property>
+            <property name="dataType">dateTime</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">07/23/2006 10:20:30 AM</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">MM-yyyy</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramList" id="12">
+            <property name="valueType">static</property>
+            <property name="dataType">decimal</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">true</property>
+            <property name="defaultValue">2</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">1</property>
+                    <property name="label">display1st</property>
+                </structure>
+                <structure>
+                    <property name="value">2</property>
+                    <property name="label">display2nd</property>
+                </structure>
+                <structure>
+                    <property name="value">3</property>
+                    <property name="label">display3rd</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="paramDispFormatString" id="13">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">true</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">displayFormatDefaultValue</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">(@@)</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramDispFormatDateTime" id="14">
+            <property name="valueType">static</property>
+            <property name="dataType">dateTime</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">08/10/2006 10:32:58 AM</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">Short Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramDispFormatNum" id="15">
+            <property name="valueType">static</property>
+            <property name="dataType">decimal</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">123</property>
+            <structure name="format">
+                <property name="category">Scientific</property>
+                <property name="pattern">Scientific</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramComboSort" id="16">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">false</property>
+            <property name="defaultValue">item2</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">item1</property>
+                </structure>
+                <structure>
+                    <property name="value">item2</property>
+                </structure>
+                <structure>
+                    <property name="value">item3</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="paramAlign" id="17">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <property name="alignment">right</property>
+            <property name="defaultValue">paramAlignDefaultValue</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramListDynamic" id="20">
+            <property name="valueType">dynamic</property>
+            <property name="dataType">string</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">true</property>
+            <property name="controlType">list-box</property>
+            <property name="dataSetName">Data Set</property>
+            <expression name="valueExpr">dataSetRow["CUSTOMERNUMBER"]</expression>
+            <expression name="labelExpr">dataSetRow["CUSTOMERNUMBER"]</expression>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">true</property>
+            <property name="defaultValue">0</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramRadio" id="22">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="controlType">radio-button</property>
+            <property name="fixedOrder">true</property>
+            <property name="defaultValue">2</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">1</property>
+                    <property name="label">displayValue1</property>
+                </structure>
+                <structure>
+                    <property name="value">2</property>
+                    <property name="label">displayValue2</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="paramFloat" id="23">
+            <property name="valueType">static</property>
+            <property name="dataType">float</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="paramInteger" id="24">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="allowBlank">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <parameter-group name="paramGroup" id="25">
+            <text-property name="displayName">paramGroupDispName</text-property>
+            <parameters>
+                <scalar-parameter name="p1" id="26">
+                    <property name="valueType">static</property>
+                    <property name="dataType">string</property>
+                    <property name="controlType">text-box</property>
+                    <property name="defaultValue">1</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="p2" id="27">
+                    <property name="valueType">static</property>
+                    <property name="dataType">string</property>
+                    <property name="controlType">text-box</property>
+                    <property name="defaultValue">2</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="18">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="19">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select CLASSICMODELS.CUSTOMERS.CUSTOMERNUMBER,CLASSICMODELS.CUSTOMERS.CUSTOMERNAME,CLASSICMODELS.CUSTOMERS.CITY
+from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+</report>

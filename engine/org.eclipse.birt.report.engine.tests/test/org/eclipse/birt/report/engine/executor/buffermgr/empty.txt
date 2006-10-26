@@ -1,0 +1,12 @@
+ROW ROW0
+CELL -1 -1 1 CELL0.0.2.1
+CELL -1 1 1 CELL0.1.1.1
+CELL 1 1 1 NULL 				#omit
+CELL -1 2 1 CELL0.2.1.1
+ROW ROW1
+CELL 0 1 1 NULL 				#omit with drop
+CELL 2 1 1 NULL 				#omit with span
+ROW ROW2
+CELL 0 1 1 CELL2.0.1.1 			#replace the drop
+BAND -1
+

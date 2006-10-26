@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051206-0756></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="SampleDB" id="4">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DataSet" id="5">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">OFFICECODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">TERRITORY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">SampleDB</property>
+            <property name="queryText">select *
+from OFFICES</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Customer" id="6">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">SampleDB</property>
+            <property name="queryText">select *
+from Customers</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="219">
+            <property name="width">100%</property>
+            <property name="dataSet">DataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+            </list-property>
+            <column id="268"/>
+            <column id="269"/>
+            <column id="270"/>
+            <column id="276"/>
+            <header>
+                <row id="220">
+                    <cell id="221">
+                        <label id="222">
+                            <text-property name="text">OFFICECODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="223">
+                        <label id="224">
+                            <text-property name="text">CITY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="225">
+                        <label id="226">
+                            <text-property name="text">PHONE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="237">
+                        <label id="238">
+                            <text-property name="text">TERRITORY</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="239">
+                    <cell id="240">
+                        <data id="241">
+                            <property name="resultSetColumn">OFFICECODE</property>
+                        </data>
+                    </cell>
+                    <cell id="242">
+                        <data id="243">
+                            <property name="resultSetColumn">CITY</property>
+                        </data>
+                    </cell>
+                    <cell id="244">
+                        <data id="245">
+                            <property name="resultSetColumn">PHONE</property>
+                        </data>
+                    </cell>
+                    <cell id="256">
+                        <data id="257">
+                            <property name="resultSetColumn">TERRITORY</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="258">
+                    <cell id="259"/>
+                    <cell id="260"/>
+                    <cell id="261"/>
+                    <cell id="267"/>
+                </row>
+            </footer>
+        </table>
+        <list id="277">
+            <property name="dataSet">Customer</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <header>
+                <label id="278">
+                    <text-property name="text">List Starts Here</text-property>
+                </label>
+                <table id="280">
+                    <property name="width">100%</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">CUSTOMERNUMBER</property>
+                            <expression name="expression">"SubQuery_Name: " + dataSetRow["CUSTOMERNUMBER"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                    </list-property>
+                    <column id="287"/>
+                    <header>
+                        <row id="281">
+                            <cell id="282"/>
+                        </row>
+                    </header>
+                    <detail>
+                        <row id="283">
+                            <cell id="284">
+                                <data id="298">
+                                    <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </detail>
+                    <footer>
+                        <row id="285">
+                            <cell id="286"/>
+                        </row>
+                    </footer>
+                </table>
+                <table id="289">
+                    <property name="width">100%</property>
+                    <property name="dataSet">Customer</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">CUSTOMERNUMBER</property>
+                            <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CUSTOMERNAME</property>
+                            <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CONTACTLASTNAME</property>
+                            <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CONTACTFIRSTNAME</property>
+                            <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                    </list-property>
+                    <column id="296"/>
+                    <header>
+                        <row id="290">
+                            <cell id="291"/>
+                        </row>
+                    </header>
+                    <detail>
+                        <row id="292">
+                            <cell id="293">
+                                <data id="297">
+                                    <property name="resultSetColumn">CONTACTLASTNAME</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </detail>
+                    <footer>
+                        <row id="294">
+                            <cell id="295"/>
+                        </row>
+                    </footer>
+                </table>
+            </header>
+            <detail>
+                <data id="279">
+                    <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                </data>
+            </detail>
+        </list>
+    </body>
+</report>

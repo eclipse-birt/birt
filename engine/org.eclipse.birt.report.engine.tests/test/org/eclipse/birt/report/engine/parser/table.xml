@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">cm</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <property name="odaDriverClass">org.apache.derby.jdbc.EmbeddedDriver</property>
+            <property name="odaURL">jdbc:derby:jar:(E:\birt\org.eclipse.birt.report.data.oda.sampledb\db\BirtSample.jar)BirtSample</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select STATE, CITY, CUSTOMERNUMBER from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="pp" id="6"/>
+    </page-setup>
+    <body>
+        <table name="table1" id="7">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_32</property>
+                    <expression name="expression">"row1"</expression>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_41</property>
+                    <expression name="expression">ITEM_ID</expression>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_42</property>
+                    <expression name="expression">ITEM_NAME</expression>
+                </structure>
+                <structure>
+                      <property name="name">COLUMN_33</property>
+                      <expression name="expression">CUSTOM_ID</expression>
+                </structure>
+            </list-property>
+            <text-property name="caption">Table Caption</text-property>
+            <column id="36">
+                <property name="width">7cm</property>
+                <property name="repeat">6</property>
+            </column>
+            <header>
+                <row id="8">
+                    <expression name="bookmark">row["COLUMN_32"]</expression>
+                    <cell id="9">
+                        <property name="colSpan">6</property>
+                        <text id="10">
+                            <property name="style">txtStyle</property>
+                            <text-property name="content"><![CDATA[BEGIN OF Table]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <group id="11">
+                <expression name="keyExpr">row["COLUMN_33"]</expression>
+                <header>
+                    <row id="12">
+                        <cell id="13">
+                            <property name="column">1</property>
+                            <property name="drop">all</property>
+                            <data id="14">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">COLUMN_34</property>
+                                        <expression name="expression">CUSTOM_ID</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">COLUMN_34</property>
+                            </data>
+                        </cell>
+                        <cell id="15">
+                            <property name="column">2</property>
+                            <property name="drop">detail</property>
+                            <data id="16">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">COLUMN_35</property>
+                                        <expression name="expression">CUSTOM_NAME</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">COLUMN_35</property>
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="17">
+                        <cell id="18">
+                            <data id="19">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">COLUMN_36</property>
+                                        <expression name="expression">CUSTOM_ID</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">COLUMN_36</property>
+                            </data>
+                        </cell>
+                        <cell id="20">
+                            <data id="21">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">COLUMN_37</property>
+                                        <expression name="expression">CUSTOM_NAME</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">COLUMN_37</property>
+                            </data>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <group id="22">
+                <expression name="keyExpr">row["COLUMN_38"]</expression>
+                <list-property name="boundDataColumns">
+                    <structure>
+                        <property name="name">COLUMN_38</property>
+                        <expression name="expression">ORDER_ID</expression>
+                    </structure>
+                </list-property>
+                <header>
+                    <row id="23">
+                        <cell id="24">
+                            <property name="column">3</property>
+                            <data id="25">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">COLUMN_39</property>
+                                        <expression name="expression">ORDER_ID</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">COLUMN_39</property>
+                            </data>
+                        </cell>
+                        <cell id="26">
+                            <property name="column">4</property>
+                            <data id="27">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">COLUMN_40</property>
+                                        <expression name="expression">ORDER_DATE</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">COLUMN_40</property>
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row id="28">
+                    <cell id="29">
+                        <property name="column">5</property>
+                        <data id="30">
+                            <property name="resultSetColumn">COLUMN_41</property>
+                        </data>
+                    </cell>
+                    <cell id="31">
+                        <property name="column">6</property>
+                        <data id="32">
+                            <property name="resultSetColumn">COLUMN_42</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="33">
+                    <cell id="34">
+                        <property name="colSpan">5</property>
+                        <label id="35">
+                            <text-property name="text">END OF REPORT</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

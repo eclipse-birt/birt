@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">cm</property>
+    <data-sources>
+        <oda-data-source name="hsql1">
+            <property name="driverName">jdbc1</property>
+            <list-property name="publicDriverProperties">
+                <ex-property>
+                    <name>ODA:driver-class</name>
+                    <value>org.hsqldb.jdbcDriver</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:url</name>
+                    <value>jdbc:hsqldb:file:list1</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:user</name>
+                    <value>sa</value>
+                </ex-property>
+                <ex-property>
+                    <name>ODA:password</name>
+                </ex-property>
+            </list-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="test2">
+            <property name="dataSource">hsql1</property>
+            <property name="queryText">select * from list1</property>
+            <property name="type">JdbcSelectDataSet</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="pp"/>
+    </page-setup>
+    <body>
+        <free-form>
+            <report-items>
+                <label name="myLabel">
+                    <property name="x">0cm</property>
+                    <property name="y">10cm</property>
+                    <property name="height">1.2cm</property>
+                    <property name="width">10cm</property>
+                    <property name="dataSet">test2</property>
+                    <text-property name="text">PAGE HEADER</text-property>
+                    <structure name="action">
+                        <expression name="hyperlink">http://www.2t.cn</expression>
+                    </structure>
+                </label>
+                <label>
+                    <property name="x">0cm</property>
+                    <property name="y">50cm</property>
+                    <property name="height">1.2cm</property>
+                    <property name="width">10cm</property>
+                    <text-property name="text">PAGE FOOTER</text-property>
+                </label>
+            </report-items>
+        </free-form>
+    </body>
+</report>

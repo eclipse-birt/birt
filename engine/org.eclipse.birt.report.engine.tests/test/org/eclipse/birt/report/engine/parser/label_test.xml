@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report units="cm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:///d:/JOB/FirstProject/design%20css.xsd" xsi:schemaLocation="http://www.actuate.com/Schema/JRPSchema1 file:///d:/JOB/PerforceAll/JRP/Dev/engine/test/org/eclipse/birt/engine/parser/design.xsd">
+	<data-sources>
+	<oda-data-source name="hsql1">
+<driver-name>jdbc1</driver-name>
+<public-driver-properties>
+<property name="ODA:driver-class">org.hsqldb.jdbcDriver</property>
+<property name="ODA:url">jdbc:hsqldb:file:list1</property>
+<property name="ODA:user">sa</property>
+<property name="ODA:password"></property>
+</public-driver-properties>
+</oda-data-source></data-sources>
+	<data-sets>
+		<oda-data-set name="test2" data-source="hsql1">
+<query-text>select * from list1</query-text>
+<query-type>JdbcSelectDataSet</query-type>
+</oda-data-set>
+		</data-sets>
+	<page-setup>
+		<master-page name="pp" height="29.7" width="21">
+			<margins bottom="2.5" top="2.5" left="0.5" right="0.5"/>
+			<contents>
+				<label x="0" y="10" width="10" height="1.2">
+					<text>PAGE HEADER</text>
+				</label>
+				<label x="0" y="50" width="10" height="1.2">
+					<text>PAGE FOOTER</text>
+				</label>
+			</contents>
+		</master-page>
+		</page-setup>
+	<body>
+		<grid data-set="test2">
+
+			<column repeat="4" width="10" decimal-offset="0.5">
+				
+			</column>
+
+			<row>
+			
+				<bookmark>This is bookmark for section.</bookmark>
+				<cell col-span="2" row-span="2">
+				
+					<data>
+						<value-expr>CUSTOM_NAME</value-expr>
+					</data>
+				</cell>
+				<cell column="3" col-span="2">
+					<data>
+						<value-expr>CUSTOM_ID</value-expr>
+					</data>
+				</cell>
+			</row>
+			<row>
+				<cell column="3" col-span="2">
+					<data>
+						<value-expr>CUSTOM_NAME</value-expr>
+					</data>
+				</cell>
+			</row>
+			<row>
+				<cell column="1">
+					<data>
+						<value-expr>ORDER_ID</value-expr>
+					</data>
+				</cell>
+				<cell column="2">
+					<data>
+						<value-expr>ORDER_DATE</value-expr>
+					</data>
+				</cell>
+				<cell column="3">
+					<data>
+						<value-expr>ITEM_ID</value-expr>
+					</data>
+				</cell>
+				<cell column="4">
+					<data>
+						<value-expr>ITEM_NAME</value-expr>
+					</data>
+				</cell>
+			</row>
+			<row>
+				<cell column="1" col-span="2" row-span="1">
+				
+					<label x="1" y="2" height="3" width="4.8" name="labelTest" >
+					<action target-window="
+						<text>Customer Name</text>
+					
+					</label>
+				</cell>		
+				<cell column="3" col-span="2" row-span="1">					
+					<label x="1.1" y="2.2" height="3.3" width="4.4">
+						<text>Address</text>
+					</label>
+				</cell>	
+			</row>
+		</grid>
+	</body>
+</report>

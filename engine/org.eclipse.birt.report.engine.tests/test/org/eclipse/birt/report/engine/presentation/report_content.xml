@@ -1,0 +1,47 @@
+<?xml versin="1.0" charset="utf-8"?>
+<report>
+<page-content>
+<page-header>
+</page-header>
+<page-body>
+	<label/>
+	<text/>
+	<image/>
+	<foreign/>
+	<data/>
+	<container>
+		<label/>
+		<text/>
+		<image/>
+		<foreign/>
+		<container/>
+		<table/>
+	<container/>
+	<table>
+		<table-band>
+			<row>
+				<cell/>
+				<cell/>
+			</row>
+		<table-band/>
+		<table-band>
+			<row>
+				<cell/>
+				<cell/>
+			</row>
+			<row>
+				<cell/>
+				<cell/>
+			</row>
+		</table-band>
+		<table-band>
+			<row>
+				<cell/>
+				<cell/>
+			</row>
+		</table-band>
+</page-body>
+<page-footer>
+</page-footer>
+</page-content>
+</report>

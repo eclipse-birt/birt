@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+    <body>
+        <text id="373">
+            <property name="contentType">plain</property>
+            <text-property name="content"><![CDATA[<html><h1><value-of>1+1</value-of></h1></html>]]></text-property>
+        </text>
+        <text id="374">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<html><h1><value-of>1+1</value-of></h1></html>]]></text-property>
+        </text>
+        <text id="375">
+            <property name="contentType">auto</property>
+            <text-property name="content"><![CDATA[<html><h1><value-of>1+1</value-of></h1></html>]]></text-property>
+        </text>
+    </body>
+</report>

@@ -1,0 +1,443 @@
+/*******************************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.report.engine.api.script;
+
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import junit.framework.TestCase;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.script.internal.RowData;
+import org.mozilla.javascript.Scriptable;
+
+/**
+ * JUnit test for the RowData class
+ * 
+ */
+public class RowDataTest extends TestCase
+{
+
+	private Map testExpressions;
+
+	private IRowData rowData;
+
+	protected void setUp( )
+	{
+		testExpressions = new HashMap( );
+		testExpressions.put( "row[9999]" , "1" );
+		testExpressions.put( "row[\"test\"]" , "2" );
+		testExpressions.put( "test" , "3" );
+		testExpressions.put( "row[\"test1\"]" , "4" );
+		testExpressions.put( "ROW[\"test\"]" , "5" );
+		testExpressions.put( "ROw[\"test\"]" , "6" );
+		testExpressions.put( "row[\"test_1\"]" , "7" );
+		testExpressions.put( "row[\"test\"] + test" , "8" );
+		testExpressions.put(
+				"row[\"test\"] + row[\"testit\"]" , "9" );
+
+		IResultIterator iterator = new FakeResultIteratorTest( testExpressions );
+		IResultSet rset = new FakeResultSetTest( iterator );
+		List expressions = new ArrayList( );
+		expressions.addAll( testExpressions.keySet( ) );
+		rowData = new RowData( rset, null );
+	}
+
+	public void testIndex( ) throws ScriptException
+	{
+		assertEquals( "1", rowData.getExpressionValue( "row[9999]" ) );
+	}
+
+	public void testWithQuotes( ) throws ScriptException
+	{
+		assertEquals( "2", rowData.getExpressionValue( "row[\"test\"]" ) );
+	}
+
+	public void testWithoutQuotes( ) throws ScriptException
+	{
+		assertEquals( "2", rowData.getExpressionValue( "row[test]" ) );
+	}
+
+	public void testWithoutRow( ) throws ScriptException
+	{
+		assertEquals( "3", rowData.getExpressionValue( "test" ) );
+		assertEquals( "3", rowData.getColumnValue( "test" ) );		
+	}
+
+	public void testWithNumber( ) throws ScriptException
+	{
+		assertEquals( "4", rowData.getExpressionValue( "row[test1]" ) );
+	}
+
+	public void testWithCapital( ) throws ScriptException
+	{
+		assertEquals( "5", rowData.getExpressionValue( "ROW[test]" ) );
+	}
+
+	public void testWithMixed( ) throws ScriptException
+	{
+		assertEquals( "6", rowData.getExpressionValue( "ROw[test]" ) );
+	}
+
+	public void testWithUnderscore( ) throws ScriptException
+	{
+		assertEquals( "7", rowData.getExpressionValue( "row[test_1]" ) );
+	}
+
+	public void testWithMultipleParts1( ) throws ScriptException
+	{
+		assertEquals( "8", rowData.getExpressionValue( "row[test] + test" ) );
+	}
+
+	public void testWithMultipleParts2( ) throws ScriptException
+	{
+		assertEquals( "9", rowData
+				.getExpressionValue( "row[test] + row[testit]" ) );
+	}
+
+	//Fake a result set
+	private class FakeResultSetTest implements IResultSet
+	{
+		protected IResultIterator rs = null;
+		
+		public FakeResultSetTest( IResultIterator rs )
+		{
+			this.rs = rs;
+		}
+		
+		public IResultSet getParent( )
+		{
+			return null;
+		}
+		
+		public DataSetID getID( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public long getCurrentPosition( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public boolean skipTo( long rows )
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public boolean next( )
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public int getStartingGroupLevel( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public int getEndingGroupLevel( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public IResultMetaData getResultMetaData( ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Object getValue( String name ) throws BirtException
+		{
+			return rs.getValue( name );
+		}
+
+		public Boolean getBoolean( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Integer getInteger( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Double getDouble( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getString( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public BigDecimal getBigDecimal( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Date getDate( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Blob getBlob( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public byte[] getBytes( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public void close( )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public Object evaluate( String expr )
+		{
+			// TODO Auto-generated method stub
+			try
+			{
+				return rs.getValue( expr );
+			}
+			catch ( BirtException e )
+			{				
+			}
+			return null;
+		}
+
+		public Object evaluate( IBaseExpression expr )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getGroupId( int groupLevel )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	
+	// Fake a result iterator
+	private class FakeResultIteratorTest implements IResultIterator
+	{
+
+		private Map expressions;
+
+		public FakeResultIteratorTest( Map expressions )
+		{
+			this.expressions = expressions;
+		}
+
+		public IQueryResults getQueryResults( )
+		{
+			return null;
+		}
+
+		public Scriptable getScope( )
+		{
+			return null;
+		}
+
+		public IResultMetaData getResultMetaData( ) throws BirtException
+		{
+			return null;
+		}
+
+		public boolean next( ) throws BirtException
+		{
+			return false;
+		}
+
+		public Boolean getBoolean( IBaseExpression dataExpr )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public Integer getInteger( IBaseExpression dataExpr )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public Double getDouble( IBaseExpression dataExpr )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public String getString( IBaseExpression dataExpr )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public BigDecimal getBigDecimal( IBaseExpression dataExpr )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public Date getDate( IBaseExpression dataExpr ) throws BirtException
+		{
+			return null;
+		}
+
+		public Blob getBlob( IBaseExpression dataExpr ) throws BirtException
+		{
+			return null;
+		}
+
+		public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException
+		{
+			return null;
+		}
+
+		public void skipToEnd( int groupLevel ) throws BirtException
+		{
+
+		}
+
+		public int getStartingGroupLevel( ) throws BirtException
+		{
+			return 0;
+		}
+
+		public int getEndingGroupLevel( ) throws BirtException
+		{
+			return 0;
+		}
+
+		public IResultIterator getSecondaryIterator( String subQueryName,
+				Scriptable scope ) throws BirtException
+		{
+			return null;
+		}
+
+		public void close( ) throws BirtException
+		{
+
+		}
+
+		public boolean findGroup( Object[] groupKeyValues )
+				throws BirtException
+		{
+			return false;
+		}
+
+		public int getRowId( ) throws BirtException
+		{
+			return 0;
+		}
+		
+		public int getRowIndex( ) throws BirtException
+		{
+			return 0;
+		}
+
+		public void moveTo( int rowIndex ) throws BirtException
+		{
+
+		}
+
+		public Object getValue( String name ) throws BirtException
+		{
+			return expressions.get( name );
+		}
+
+		public Boolean getBoolean( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Integer getInteger( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Double getDouble( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getString( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public BigDecimal getBigDecimal( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Date getDate( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Blob getBlob( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public byte[] getBytes( String name ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Object getValue( IBaseExpression dataExpr ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
+}

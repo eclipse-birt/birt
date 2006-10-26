@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <data id="3">
+					<expression name="valueExpr">"page header of " + pageNumber</expression>
+                </data>
+            </page-header>
+            <page-footer>
+                <data id="4">
+					<expression name="valueExpr">"page footer of " + pageNumber</expression>
+                </data>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+    	<!-- page one -->
+		<label id="54">
+        	<text-property name="text">start of first page</text-property>
+        	<expression name="toc">"first page"</expression>
+        </label>
+		<label id="55">
+        	<text-property name="text">end of first page</text-property>
+            <property name="pageBreakAfter">always</property>
+        </label>
+        <!-- page two -->
+		<label id="56">
+        	<text-property name="text">start of second page</text-property>
+        	<expression name="toc">"second page"</expression>
+        </label>
+		<label id="57">
+        	<text-property name="text">end of second page</text-property>
+            <property name="pageBreakAfter">always</property>
+        </label>
+        <!-- page three -->
+		<label id="58">
+        	<text-property name="text">start of third page</text-property>
+        	<expression name="toc">"third page"</expression>
+        </label>
+		<label id="59">
+        	<text-property name="text">end of third page</text-property>
+        </label>
+    </body>
+</report>

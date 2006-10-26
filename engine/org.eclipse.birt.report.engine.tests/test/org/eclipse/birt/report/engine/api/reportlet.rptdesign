@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <text-property name="displayName">Data Set</text-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">OFFICECODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">TERRITORY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select *
+from CLASSICMODELS.OFFICES</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="64">
+            <text-property name="text">The next is a reportlet</text-property>
+        </label>
+        <table id="6">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_4</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                </structure>
+            </list-property>
+            <column id="55"/>
+            <column id="56"/>
+            <column id="57"/>
+            <column id="58"/>
+            <column id="59"/>
+            <column id="60"/>
+            <column id="61"/>
+            <column id="62"/>
+            <column id="63"/>
+            <header>
+                <row id="7">
+                    <cell id="8">
+                        <label id="9">
+                            <text-property name="text">OFFICECODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10">
+                        <label id="11">
+                            <text-property name="text">CITY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="12">
+                        <label id="13">
+                            <text-property name="text">PHONE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <label id="15">
+                            <text-property name="text">ADDRESSLINE1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <label id="17">
+                            <text-property name="text">ADDRESSLINE2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="18">
+                        <label id="19">
+                            <text-property name="text">STATE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="20">
+                        <label id="21">
+                            <text-property name="text">COUNTRY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="22">
+                        <label id="23">
+                            <text-property name="text">POSTALCODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="24">
+                        <label id="25">
+                            <text-property name="text">TERRITORY</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group id="65">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["COLUMN_4"]</expression>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">avoid</property>
+                <property name="pageBreakBefore">avoid</property>
+                <header>
+                    <row id="66">
+                        <cell id="67">
+                            <data id="86">
+                                <property name="resultSetColumn">OFFICECODE</property>
+                            </data>
+                        </cell>
+                        <cell id="68">
+                            <property name="colSpan">8</property>
+                            <property name="rowSpan">1</property>
+                            <table id="87">
+                                <property name="width">100%</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">CITY</property>
+                                        <expression name="expression">dataSetRow["CITY"]</expression>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">PHONE</property>
+                                        <expression name="expression">dataSetRow["PHONE"]</expression>
+                                    </structure>
+                                </list-property>
+                                <column id="97"/>
+                                <column id="98"/>
+                                <header>
+                                    <row id="88">
+                                        <cell id="89">
+                                            <label id="101">
+                                                <text-property name="text">CITY</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="90">
+                                            <label id="102">
+                                                <text-property name="text">PHONE</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                </header>
+                                <detail>
+                                    <row id="91">
+                                        <cell id="92">
+                                            <data id="99">
+                                                <property name="resultSetColumn">CITY</property>
+                                            </data>
+                                        </cell>
+                                        <cell id="93">
+                                            <data id="100">
+                                                <property name="resultSetColumn">PHONE</property>
+                                            </data>
+                                        </cell>
+                                    </row>
+                                </detail>
+                                <footer>
+                                    <row id="94">
+                                        <cell id="95"/>
+                                        <cell id="96"/>
+                                    </row>
+                                </footer>
+                            </table>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="76">
+                        <cell id="77"/>
+                        <cell id="78"/>
+                        <cell id="79"/>
+                        <cell id="80"/>
+                        <cell id="81"/>
+                        <cell id="82"/>
+                        <cell id="83"/>
+                        <cell id="84"/>
+                        <cell id="85"/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="26">
+                    <cell id="27">
+                        <data id="28">
+                            <property name="resultSetColumn">OFFICECODE</property>
+                        </data>
+                    </cell>
+                    <cell id="29">
+                        <data id="30">
+                            <property name="resultSetColumn">CITY</property>
+                        </data>
+                    </cell>
+                    <cell id="31">
+                        <data id="32">
+                            <property name="resultSetColumn">PHONE</property>
+                        </data>
+                    </cell>
+                    <cell id="33">
+                        <data id="34">
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
+                        </data>
+                    </cell>
+                    <cell id="35">
+                        <data id="36">
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
+                        </data>
+                    </cell>
+                    <cell id="37">
+                        <data id="38">
+                            <property name="resultSetColumn">STATE</property>
+                        </data>
+                    </cell>
+                    <cell id="39">
+                        <data id="40">
+                            <property name="resultSetColumn">COUNTRY</property>
+                        </data>
+                    </cell>
+                    <cell id="41">
+                        <data id="42">
+                            <property name="resultSetColumn">POSTALCODE</property>
+                        </data>
+                    </cell>
+                    <cell id="43">
+                        <data id="44">
+                            <property name="resultSetColumn">TERRITORY</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="45">
+                    <cell id="46"/>
+                    <cell id="47"/>
+                    <cell id="48"/>
+                    <cell id="49"/>
+                    <cell id="50"/>
+                    <cell id="51"/>
+                    <cell id="52"/>
+                    <cell id="53"/>
+                    <cell id="54"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

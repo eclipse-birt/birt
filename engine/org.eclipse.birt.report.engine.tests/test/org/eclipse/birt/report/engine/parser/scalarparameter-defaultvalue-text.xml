@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">in</property>
+    <property name="comments">
+		 Author: Liwen Chen
+		 Reference test case: parameters test 1~19
+		 Description: test parameter default value function in text item
+	</property>
+    <parameters>
+        <scalar-parameter name="param1">
+            <text-property name="displayName" key="display">display</text-property>
+            <property name="hidden">true</property>
+            <text-property name="helpText" key="help">help</text-property>
+            <property name="dataType">string</property>
+            <property name="concealValue">true</property>
+            <property name="allowNull">true</property>
+            <property name="format">###___</property>
+            <property name="mustMatch">true</property>
+            <expression name="defaultValue">default</expression>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">choice</property>
+                    <property name="label">choice</property>
+                    <property name="labelID">choice</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="param2">
+            <property name="dataType">float</property>
+            <property name="controlType">text-box</property>
+            <property name="alignment">auto</property>
+        </scalar-parameter>
+        <scalar-parameter name="param3">
+            <property name="dataType">decimal</property>
+            <property name="controlType">list-box</property>
+            <property name="alignment">left</property>
+        </scalar-parameter>
+        <scalar-parameter name="param4">
+            <property name="dataType">dateTime</property>
+            <property name="controlType">radio-button</property>
+            <property name="alignment">center</property>
+        </scalar-parameter>
+        <scalar-parameter name="param5">
+            <property name="dataType">boolean</property>
+            <property name="controlType">check-box</property>
+            <property name="alignment">right</property>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <simple-master-page name="pp"/>
+    </page-setup>
+</report>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<table>
+		<column/>
+		<column/>
+		<column/>
+		<column/>
+		<row>
+			<cell column="0" row-span="2" col-span="2"/>
+			<cell column="2" row-span="1" col-span="2"/>
+		</row>
+		<row>
+			<cell column="2" row-span="1" col-span="2"/>
+		</row>
+		<row>
+			<cell column="0" row-span="1" col-span="1"/>
+			<cell column="1" row-span="1" col-span="1"/>
+			<cell column="2" row-span="1" col-span="1"/>
+			<cell column="3" row-span="1" col-span="1"/>
+		</row>
+	</Table>
+</report>

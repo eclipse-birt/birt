@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="SampleDB" id="4">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="SingleDS" id="5">
+            <property name="dataSource">SampleDB</property>
+            <property name="queryText">select *
+from CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="6">
+            <property name="width">100%</property>
+            <property name="dataSet">SingleDS</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_5</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_6</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                </structure>
+            </list-property>
+            <column id="75"/>
+            <column id="76"/>
+            <header>
+                <row id="7">
+                    <cell id="8">
+                        <label id="9">
+                            <text-property name="text">CUSTOMERNUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10">
+                        <label id="11">
+                            <text-property name="text">CUSTOMERNAME</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="34">
+                    <cell id="35">
+                        <data id="36">
+                            <property name="resultSetColumn">COLUMN_5</property>
+                        </data>
+                    </cell>
+                    <cell id="37">
+                        <data id="38">
+                            <property name="resultSetColumn">COLUMN_6</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="61">
+                    <cell id="62"/>
+                    <cell id="63"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

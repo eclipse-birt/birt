@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select STATE, CITY, CUSTOMERNUMBER
+from CLASSICMODELS.CUSTOMERS
+WHERE STATE = 'NY'</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <list id="462">
+            <property name="dataSet">Data Set</property>
+            <header>
+                <label id="465">
+                    <text-property name="text">START LIST</text-property>
+                </label>
+            </header>
+            <group id="463">
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["STATE"]</expression>
+                <header>
+                    <label id="469">
+                        <text-property name="text">GROUP BY STATE</text-property>
+                    </label>
+                    <data id="467">
+                        <expression name="valueExpr">row["STATE"]</expression>
+                    </data>
+                </header>
+            </group>
+            <group id="464">
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["CITY"]</expression>
+                <header>
+                    <label id="470">
+                        <text-property name="text">GROUP BY CITY</text-property>
+                    </label>
+                    <data id="468">
+                        <expression name="valueExpr">row["CITY"]</expression>
+                    </data>
+                </header>
+            </group>
+            <detail>
+                <data id="471">
+                    <expression name="valueExpr">row["CUSTOMERNUMBER"]</expression>
+                </data>
+            </detail>
+            <footer>
+                <label id="466">
+                    <text-property name="text">END LIST</text-property>
+                </label>
+            </footer>
+        </list>
+    </body>
+</report>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="units">in</property>
+     <page-setup>
+        <simple-master-page name="pp"/>
+    </page-setup>
+    <body>
+        <data>
+            <expression name="valueExpr">"ABCDEFG"</expression>
+        </data>
+    </body>
+</report>

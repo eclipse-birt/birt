@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060626-1637 Build &lt;20060626-1637></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Customer" id="5">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select *
+from 
+CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Orders" id="6">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">ORDERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">ORDERDATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">REQUIREDDATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">SHIPPEDDATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">STATUS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">COMMENTS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">ORDERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">ORDERDATE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">REQUIREDDATE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">SHIPPEDDATE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">STATUS</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">COMMENTS</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select *
+from 
+CLASSICMODELS.ORDERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="customerOrdersSubQuery" id="7">
+            <property name="width">100%</property>
+            <property name="dataSet">Customer</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="20">
+                <property name="width">1.947in</property>
+            </column>
+            <column id="21">
+                <property name="width">2.041in</property>
+            </column>
+            <column id="22"/>
+            <header>
+                <row id="8">
+                    <cell id="9">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <label id="82">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Sample Master detail report: Customer and Orders grouped by Country</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group id="38">
+                <property name="groupName">grpCity</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["COUNTRY"]</expression>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <header>
+                    <row id="39">
+                        <property name="backgroundColor">#FFFF80</property>
+                        <cell id="40">
+                            <data id="48">
+                                <property name="resultSetColumn">COUNTRY</property>
+                            </data>
+                        </cell>
+                        <cell id="41"/>
+                        <cell id="42"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="43">
+                        <cell id="44">
+                            <property name="colSpan">3</property>
+                            <property name="rowSpan">1</property>
+                        </cell>
+                    </row>
+                    <row id="75">
+                        <cell id="76">
+                            <data id="80">
+                                <property name="resultSetColumn">CUSTOMERNAME</property>
+                            </data>
+                            <data id="79">
+                                <property name="fontWeight">bold</property>
+                                <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                            </data>
+                            <data id="81">
+                                <property name="resultSetColumn">CREDITLIMIT</property>
+                            </data>
+                        </cell>
+                        <cell id="77">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <table id="53">
+                                <property name="width">100%</property>
+                                <property name="dataSet">Orders</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">CUSTOMERNUMBER</property>
+                                        <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">ORDERNUMBER</property>
+                                        <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">ORDERDATE</property>
+                                        <expression name="expression">dataSetRow["ORDERDATE"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                </list-property>
+                                <!--list-property name="filter">
+                                    <structure>
+                                        <expression name="expr">row["CUSTOMERNUMBER"]</expression>
+                                        <expression name="value1">row._outer["CUSTOMERNUMBER"]</expression>
+                                    </structure>
+                                </list-property-->
+                                <column id="67"/>
+                                <column id="68"/>
+                                <header>
+                                    <row id="54">
+                                        <property name="backgroundColor">#FFFF80</property>
+                                        <cell id="56">
+                                            <label id="71">
+                                                <text-property name="text">ORDERNUMBER</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="57">
+                                            <label id="73">
+                                                <text-property name="text">ORDERDATE</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                </header>
+                                <detail>
+                                    <row id="58">
+                                        <property name="backgroundColor">#FFFFFF</property>
+                                        <cell id="60">
+                                            <data id="72">
+                                                <property name="resultSetColumn">ORDERNUMBER</property>
+                                            </data>
+                                        </cell>
+                                        <cell id="61">
+                                            <data id="74">
+                                                <property name="resultSetColumn">ORDERDATE</property>
+                                            </data>
+                                        </cell>
+                                    </row>
+                                </detail>
+                                <footer>
+                                    <row id="62">
+                                        <cell id="64"/>
+                                        <cell id="65"/>
+                                    </row>
+                                </footer>
+                            </table>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <footer>
+                <row id="16">
+                    <cell id="17"/>
+                    <cell id="18"/>
+                    <cell id="19"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">actuate_logo.gif</property>
+            <property name="data">
+                R0lGODlhqQAtAPcAAP768JCCRtLa5SBJfSVMgRE+dvLSc1Fumu/EUEtpllZxnWp9lNTFkujr8fXbkTVY
+                ik5rmMXFtqm0zEFikc2cEXmOsuy5MGmCqKGtyIWauay5z+qyGXmJl7bB1GV+ptikFeu0IIGUtr3F2BZB
+                eB5HfLq8t/vx0pypxlt2oOLm7vXbjV54olh0nt3h6w48dZCgv5alwo2dvaWxyzxdju7DSCxShWlwZv79
+                +hpEe4iZun6StIqYo/Hz97nC1s3V4rmUJoSWuPz14MnJxFBleFthRsXM3cDI2vP1+Ih7PG1vVTBVh+mu
+                EO3kxgc3ccLO3LC60NujCEhnlSpQhEZllG2Eq/HJYJqoxNnd6TJXiMrS4KWrqYaDZp6sx7S+02N8pfDK
+                WXKIrTlbjJimw8adKXCGrPfjqWSCphVAd/bfmxhDeneMsDxZd7uZMuu3Jq+5z93Wtgs6c8fS3z9gkOmt
+                C3SKr5KiwI2hvTpcjbK80Udmij1ehPHlwZyinWB6o0Vkk4ucvKy3zkZqlaK0ygw7dCdOgnyQs/jntcjP
+                3/HQbO7x9e7BQh5HfXiSsre9x6KwyVBfXZSjwe2+PcTL3C1MaG6Fq7WRH2F7pChQgi5ThhlBa1Z3ngg4
+                cevhvpKfsoqbu5mCLd3XwcLK27W/1HlxOfTUgO6/QPrsw/nqwPbfoAk5cgo5cvvv0PjksPLPcCJLfxtF
+                e/PWgERjkgw7c+29N+y5LDdai+irBfbhofDMX/npvBM/dgg3cfHOZmiApyVQg+Xdw/f4+nOPr1NvnPjl
+                r2uDqaezzJOowT9fkKizzNbc56aLNNHNuP335ai2zdPMq5ipxJKep/HLZV93kquMKNHPxENmkpiktfLO
+                berWl5WitNDX5Iifu6u1ypqRap2fkJWhouCmCtG7cv357F9xhL20jCpUhRU+aebFZfDMYCRLgPvuyVBw
+                ma+0qaexxeK5QY6LcpSLY1ptgZSSderapHuUs7KcVrC3tb/CxO/HU7m7r3OHoKONQq6WSaKQUOipAP//
+                /yH5BAEAAP8ALAAAAACpAC0AAAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo8ePIEOK
+                HEmypMmTKFOqXMmypcuXMGPKnLkykCYzVMyYsaQpEM2fPwNRyZBhG1FGwXL2BMrUpSZ624w9e2bM2DZ6
+                Sc30lNO060lLUI0JaqahmSOrWLVu9co2pCZGGcRq6GGkhwZBxjIwosIzUCCubQNrDBSM0bZnGkT4SOZD
+                hIZn2/Zq9QtY4RZ48MYpzAOPn4XPFtjAyzMQs+nTqOFt+Xd5NcJxmA9WM12tdOrbqv/hPh3SUjB6drh0
+                cdIiUYsiT7hcDaZ13d87CseBdpcQHujrn92tlo69O2h+/zyD/0do3cLBfqDhDfTOHjz76yADmfm9jcsT
+                J1caXHGSfHnzv7Uo5BlorhWEngXa1fZPNVu485kNnKF2YGqriVfdZwblcZ07CqY2IWqrfcbPbiCtg5Nh
+                zzTTQxzaxNFDM5BtE5w3ft1RTmUFcQePg9QVtMVn/RwUT3YHcYeQheRhaOBnP1qgXpFKGvTZkydpYgkV
+                wcTFhQZGFOEDNb/8wgoqpJzTTY3lBHgQj6wxSVA1bJLHz3g5RlkQkgeVV9CQFgQ5IGkGGXnQlChV85Qd
+                jQgBChPqqJNLGWiQgs853uzgTk+B1FJOOQc16RqPCrZpQYEQCWoQngbpSdCf//AZZKB2Ev9EaElaCMFo
+                o40aUoYDpFRBwyz1fMMcA/JQtimnBsUpKpUHhlpqrAOhWpCqAnH36j8HAkqQqQXNSpIQjZoyJq/XIBAJ
+                gt6EgJQZWlyKpi++GOQpQaAK5FmPEnG7qgV0pmrnvaFqaEE9sJo36HsWaMYRuGWQ0koVpYBWzw7BVJyT
+                Ga28Y2w5viA7EJwI+jjrvRTpGy2/Fxr8j45LJlynyt0irPBG4OJzbnby6KSzTpbk4w5lmsLrsUDlkSqQ
+                gxaQNmDJ0NqLcpIq10uQwP2u3PQ/3o4kBCmg9bPAOpqEbaXYwVyjsRw2wuuLmgKBjHCfuj04kclOV02Q
+                qk2+PbPVMMv/6qRJEcySoBx+BQK22Ousg83PaG+q9rRvg5YHn3YPtMWc8RQMtbMEsRHyP0i/3S/dWP9d
+                0js2/CNHmncQXnjh1lQxzh2aciz01A5WXi2Q4blpkNuc8/1a1gPZQOi8CB1YIOnEl3RsLa27bhM29dSu
+                Nrw4Hrj3qZ+NkwfSo23ruekvJzQgPM42iGA1ION7kMD4Mk/+Sasfm2Yt+OeDQDyOX8/2P1RbCHfAE4/x
+                hWZOoatH8ISHkGoYkA0IzE7mirYQ5e2ub+t5m0juoDb7mYEU9bheB1u2vYMMKHOsMaDEjLatq1lOhQhC
+                39E+t5k4yQ9hI6mFCMvhDATkQYQd+8g4ZoaIQo1UY4jeE8xFVqe2DJCCH0D8nxKnmBEb3QEVNNCD/6jI
+                xY5E4Br9wB90ukhGjQQDFZHQVhnXaJFAvCEa12KjHCfiDRokbY54zKMe98jHPvrxj4AMpCAHSchCGvKQ
+                iEykIikSEAA7
+            </property>
+        </structure>
+    </list-property>
+</report>
