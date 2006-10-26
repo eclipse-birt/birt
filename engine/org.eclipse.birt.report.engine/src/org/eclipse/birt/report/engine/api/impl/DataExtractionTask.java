@@ -231,12 +231,13 @@ public class DataExtractionTask extends EngineTask
 				String rsetId = IOUtil.readString( dis );
 				
 				IQueryDefinition query = getQuery( queryId );
+				
+				rsetId2queryIdMapping.put( rsetId, queryId );
+				
 				if ( !isMasterQuery ( query ) )
 				{
 					continue;
 				}
-				
-				rsetId2queryIdMapping.put( rsetId, queryId );
 				
 				int count = -1;
 				Integer countObj = (Integer) queryCounts.get( queryId );
