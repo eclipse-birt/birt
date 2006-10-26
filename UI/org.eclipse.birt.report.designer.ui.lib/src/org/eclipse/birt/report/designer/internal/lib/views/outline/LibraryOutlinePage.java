@@ -44,7 +44,7 @@ public class LibraryOutlinePage extends DesignerOutlinePage
 	protected void addDragAndDropListener()
 	{
 		//add drag and drop support
-		int ops = DND.DROP_MOVE | DND.DROP_COPY;
+		int ops = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
 		Transfer[] transfers = new Transfer[]{
 			TemplateTransfer.getInstance( )
 		};
