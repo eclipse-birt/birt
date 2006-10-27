@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -140,7 +141,16 @@ public class ScalarParameterFragment extends BirtBaseFragment
 
 		if ( paramValueObj != null )
 		{
-			parameterValue = paramValueObj.toString( );
+			if ( paramValueObj instanceof Date )
+			{
+				// if Date object, format it using standard format
+				parameterValue = ParameterValidationUtil
+						.getDisplayValue( paramValueObj );
+			}
+			else
+			{
+				parameterValue = paramValueObj.toString( );
+			}
 		}
 		else if ( !parameter.allowNull( ) && parameter.allowBlank( ) )
 		{

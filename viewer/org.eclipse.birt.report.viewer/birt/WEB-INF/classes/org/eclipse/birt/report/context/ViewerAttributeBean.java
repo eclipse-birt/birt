@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -366,9 +367,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param options
 	 *            InputOptionsF
 	 * 
-	 * @return String
+	 * @return Object
 	 */
-	protected String getParameterDefaultValues(
+	protected Object getParameterDefaultValues(
 			IViewerReportDesignHandle design, String paramName,
 			InputOptions options ) throws ReportServiceException
 	{
@@ -401,21 +402,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 					.equalsIgnoreCase( dataType ) )
 			{
-				defalutValue = ParameterValidationUtil
-						.getDisplayValue( defaultValueObj );
+				// if datetime format, return it directly
+				return defaultValueObj;
 			}
-			else
+
+			if ( DesignChoiceConstants.PARAM_TYPE_STRING
+					.equalsIgnoreCase( dataType ) )
 			{
-				if ( DesignChoiceConstants.PARAM_TYPE_STRING
-						.equalsIgnoreCase( dataType ) )
-				{
-					pattern = null;
-				}
-
-				defalutValue = ParameterValidationUtil.getDisplayValue( null,
-						pattern, defaultValueObj, locale );
+				pattern = null;
 			}
 
+			defalutValue = ParameterValidationUtil.getDisplayValue( null,
+					pattern, defaultValueObj, locale );	
 		}
 
 		// get parameter default value as string
@@ -701,6 +699,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 			if ( paramValueObj != null )
 			{
+				// if default value is Date object, put map directly
+				if( paramValueObj instanceof Date )
+				{
+					params.put( paramName, paramValueObj );
+					continue;
+				}
+				
 				try
 				{
 					// convert parameter to object
