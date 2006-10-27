@@ -35,6 +35,25 @@
 		<delete dir="${romdoc.output.dir}" failonerror="false"/>
 		<mkdir dir="${romdoc.output.dir}" />
 
+		<!-- make modelapi.jar-->
+		<echo message="make modelapi.jar"/>
+		<jar destfile="${basedir}/modelapi.jar" >
+			<fileset dir="@dot">
+				<exclude name="org/eclipse/birt/report/model/plugin/"/>
+				<exclude name="org/eclipse/birt/report/model/api/impl/"/>
+				<exclude name="**/*Test.class"/>	
+				<exclude name="**/*Test$*.class/"/>	
+				<exclude name="**/*TestCase.class/"/>									
+				<exclude name="**/*TestCase$*.class/"/>																												
+				<exclude name="**/AllTests.class"/>		
+				<exclude name="**/Messages_aa.properties"/>								   
+				<exclude name="romdoc/**"/>		   
+				<exclude name="org/eclipse/birt/report/model/library/"/>
+				<exclude name="**/input/"/>
+				<exclude name="**/golden/"/>								
+			</fileset>
+		</jar>
+		
 		<java classname="org.eclipse.birt.doc.romdoc.RomDoc" fork="true">
 	        	<arg value="${romdoc.output.dir}"/>
 			<arg value="${basedir}/romdoc/docs" />
@@ -66,6 +85,8 @@
 				<include name="**/*"/>
 			</fileset>
 		</copy>
+		
+		
 
 	</target>
 	
