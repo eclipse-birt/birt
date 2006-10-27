@@ -97,6 +97,9 @@ import org.eclipse.birt.tests.data.engine.regression.Regression_150822;
 import org.eclipse.birt.tests.data.engine.regression.Regression_153036;
 import org.eclipse.birt.tests.data.engine.regression.Regression_155262;
 import org.eclipse.birt.tests.data.engine.regression.Regression_156338;
+import org.eclipse.birt.tests.data.engine.regression.Regression_158947;
+import org.eclipse.birt.tests.data.engine.regression.Regression_159385;
+import org.eclipse.birt.tests.data.engine.regression.Regression_159398;
 import org.eclipse.birt.tests.data.engine.regression.Regression_76549;
 import org.eclipse.birt.tests.data.engine.regression.Regression_78978;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79009;
@@ -105,6 +108,10 @@ import org.eclipse.birt.tests.data.engine.regression.Regression_79182;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79505;
 import org.eclipse.birt.tests.data.engine.regression.Regression_93220;
 import org.eclipse.birt.tests.data.engine.regression.Regression_96025;
+import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_105755;
+import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_152210;
+import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_155376;
+import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_160807;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_117447;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119127;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119999;
@@ -254,6 +261,18 @@ public class AllTests extends TestCase
 
 		suite.addTestSuite( Regression_147237.class );
 		suite.addTestSuite( Regression_148392.class );
+
+		suite.addTestSuite( Regression_158947.class );
+		suite.addTestSuite( Regression_159398.class );
+		suite.addTestSuite( Regression_159385.class );
+
+		// flat file package
+		suite.addTestSuite( Regression_160807.class );
+
+		suite.addTestSuite( Regression_155376.class );
+		suite.addTestSuite( Regression_152210.class );
+
+		suite.addTestSuite( Regression_105755.class );
 
 		// xml package
 		suite.addTestSuite( Regression_119999.class );
