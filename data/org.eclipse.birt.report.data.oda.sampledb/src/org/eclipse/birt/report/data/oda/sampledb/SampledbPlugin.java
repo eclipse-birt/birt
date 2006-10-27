@@ -199,13 +199,17 @@ public class SampledbPlugin extends BIRTPlugin
 	/**
 	 * Deletes all files created for the Derby database
 	 */
-	private void removeDatabase()
+	private void removeDatabase( )
 	{
 		logger.info( "Removing Sampledb DB directory at location " + dbDir );
+		File dbDirFile = new File( dbDir );
 		// recursively delete the DB directory
-		if ( ! removeDirectory( new File(dbDir) ))
+		if ( !removeDirectory( dbDirFile ) )
 		{
-			logger.warning( "Failed to remove one or more file in temp db directory: " + dbDir );
+			assert dbDirFile != null;
+			dbDirFile.deleteOnExit( );
+			logger.info( "Fail to remove one or more file in temp db directory,but it will be removed when the VM exits: "
+					+ dbDir );
 		}
 	}
 	
