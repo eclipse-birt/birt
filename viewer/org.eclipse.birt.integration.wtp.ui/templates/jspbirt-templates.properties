@@ -1,0 +1,7 @@
+Templates.jspbirthtml.name=New JSP File (html, BIRT tag)
+Templates.jspbirthtml.desc=JSP with html markup and BIRT tag 
+Templates.jspbirthtml.content=<%@ page language="java" contentType="text/html; charset=${encoding}"\n    pageEncoding="${encoding}"%>\n<%@ taglib uri="/birt.tld" prefix="birt" %>\n<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=${encoding}">\n<title>Insert title here</title>\n</head>\n<body>\n${cursor}\n</body>\n</html>
+
+Templates.jspbirttag.name=JSP taglib (BIRT)
+Templates.jspbirttag.desc=JSP taglib for BIRT reporting tools 
+Templates.jspbirttag.content=<%@ taglib uri="/birt.tld" prefix="birt" %>\n

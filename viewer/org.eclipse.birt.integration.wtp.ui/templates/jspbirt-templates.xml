@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+	<template name="%Templates.jspbirthtml.name" description="%Templates.jspbirthtml.desc" id="org.eclipse.jst.jsp.ui.templates.jspbirthtml" context="jsp_new" enabled="true">%Templates.jspbirthtml.content</template>
+
+	<template name="%Templates.jspbirttag.name" description="%Templates.jspbirttag.desc" id="org.eclipse.jst.jsp.ui.templates.jspbirttag" context="jsp_tag" enabled="true">%Templates.jspbirttag.content</template>
+
+</templates>
