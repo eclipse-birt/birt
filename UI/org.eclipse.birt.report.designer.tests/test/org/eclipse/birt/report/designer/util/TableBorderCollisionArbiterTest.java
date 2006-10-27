@@ -27,7 +27,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 	{
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: none, 0px, black, x=0, y=0;
 		TableBorderCollisionArbiter.refreshBorderData( data, 0, 0, 0, 0, 0 );
@@ -40,7 +40,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: none, 3px, black, x=0, y=0;
 		TableBorderCollisionArbiter.refreshBorderData( data, 0, 3, 0, 0, 0 );
@@ -53,7 +53,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: solid, 1px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 1, 1, 255, 1, 1 );
@@ -66,7 +66,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: solid, 3px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 1, 3, 255, 1, 1 );
@@ -79,7 +79,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: double, 1px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, -2, 1, 255, 1, 1 );
@@ -92,7 +92,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: double, 4px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, -2, 4, 255, 1, 1 );
@@ -105,7 +105,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: dashed, 1px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 2, 1, 255, 1, 1 );
@@ -118,7 +118,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: dashed, 2px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 2, 2, 255, 1, 1 );
@@ -131,7 +131,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: dotted, 1px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 3, 1, 255, 1, 1 );
@@ -144,7 +144,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: solid, 1px, black, x=0, y=0.
 		data = new int[]{
-				1, 1, 0, 0, 0
+				1, 1, 0, 0, 0,0
 		};
 		// New: dotted, 2px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 3, 2, 255, 1, 1 );
@@ -157,7 +157,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: none, 0px, black, x=0, y=0.
 		data = new int[]{
-				0, 0, 0, 0, 0
+				0, 0, 0, 0, 0,0
 		};
 		// New: dotted, 2px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 3, 2, 255, 1, 1 );
@@ -170,7 +170,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: none, 6px, black, x=0, y=0.
 		data = new int[]{
-				0, 6, 0, 0, 0
+				0, 6, 0, 0, 0,0
 		};
 		// New: dotted, 2px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 3, 2, 255, 1, 1 );
@@ -183,7 +183,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: none, 0px, black, x=0, y=0.
 		data = new int[]{
-				0, 0, 0, 0, 0
+				0, 0, 0, 0, 0,0
 		};
 		// New: none, 2px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 0, 2, 255, 1, 1 );
@@ -196,7 +196,7 @@ public class TableBorderCollisionArbiterTest extends TestCase
 
 		// Source: none, 0px, black, x=0, y=0.
 		data = new int[]{
-				0, 0, 0, 0, 0
+				0, 0, 0, 0, 0,0
 		};
 		// New: none, 0px, blue, x=1, y=1;
 		TableBorderCollisionArbiter.refreshBorderData( data, 0, 0, 255, 1, 1 );
