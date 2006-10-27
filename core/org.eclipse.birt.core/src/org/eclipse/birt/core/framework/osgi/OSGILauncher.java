@@ -23,6 +23,7 @@ public class OSGILauncher
 	/** the class used to start the elipse framework */
 	private static final String ECLIPSE_STARTER = "org.eclipse.core.runtime.adaptor.EclipseStarter";
 
+	private static String PluginId = "org.eclipse.birt.core";
 	private File platformDirectory;
 	private ClassLoader frameworkClassLoader;
 	private ClassLoader frameworkContextClassLoader;
@@ -34,14 +35,14 @@ public class OSGILauncher
 		IPlatformContext context = config.getPlatformContext( );
 		if ( context == null )
 		{
-			throw new BirtException(
+			throw new BirtException( PluginId,
 					"PlatformContext is not setted - {0}", new Object[]{"PlatformConfig"} ); //$NON-NLS-1$
 		}
 		String root = context.getPlatform( );
 		platformDirectory = new File( root );
 		if ( !platformDirectory.exists( ) || !platformDirectory.isDirectory( ) )
 		{
-			throw new BirtException(
+			throw new BirtException( PluginId,
 					"Could not start the Framework - {0}" + root, root ); //$NON-NLS-1$
 		}
 
@@ -85,7 +86,7 @@ public class OSGILauncher
 		path = searchFor( "org.eclipse.osgi", path ); //$NON-NLS-1$
 		if ( path == null )
 		{
-			throw new BirtException(
+			throw new BirtException( PluginId,
 					"Could not find the Framework - {0}", new Object[]{"org.eclipse.osgi"} ); //$NON-NLS-1$
 		}
 

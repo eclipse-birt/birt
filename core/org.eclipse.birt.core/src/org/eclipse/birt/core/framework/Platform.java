@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
  * 
  * This class is a singleton.
  * 
- * @version $Revision: 1.16 $ $Date: 2006/06/07 00:50:45 $
+ * @version $Revision: 1.17 $ $Date: 2006/07/22 02:35:33 $
  */
 public class Platform
 {
@@ -87,7 +87,7 @@ public class Platform
 			catch ( Exception ex )
 			{
 				platform = null;
-				throw new BirtException( "Can't startup the OSGI framework",
+				throw new BirtException( "org.eclipse.birt.core", "Can't startup the OSGI framework",
 						new Object[]{}, ex );
 			}
 		}

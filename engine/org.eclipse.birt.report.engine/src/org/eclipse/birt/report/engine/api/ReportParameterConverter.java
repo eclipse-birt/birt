@@ -60,7 +60,7 @@ public class ReportParameterConverter
 		{
 			if ( reportParameterObj instanceof String )
 			{
-				StringFormatter sf = new StringFormatter( locale );
+				StringFormatter sf = new StringFormatter( ULocale.forLocale(locale) );
 				
 				if ( format != null )
 				{
@@ -71,7 +71,7 @@ public class ReportParameterConverter
 			}
 			else if ( reportParameterObj instanceof Date )
 			{
-				DateFormatter df = new DateFormatter( locale );
+				DateFormatter df = new DateFormatter( ULocale.forLocale(locale) );
 				
 				if ( format != null )
 				{
@@ -82,7 +82,7 @@ public class ReportParameterConverter
 			}
 			else if ( reportParameterObj instanceof Double )
 			{
-				NumberFormatter nf = new NumberFormatter( locale );
+				NumberFormatter nf = new NumberFormatter( ULocale.forLocale(locale) );
 				
 				if ( format != null )
 				{
@@ -93,7 +93,7 @@ public class ReportParameterConverter
 			}
 			else if ( reportParameterObj instanceof BigDecimal )
 			{
-				NumberFormatter nf = new NumberFormatter( locale );
+				NumberFormatter nf = new NumberFormatter( ULocale.forLocale(locale) );
 
 				if ( format != null )
 				{
@@ -108,7 +108,7 @@ public class ReportParameterConverter
 			}
 			else if ( reportParameterObj instanceof Number )
 			{
-				NumberFormatter nf = new NumberFormatter( locale );
+				NumberFormatter nf = new NumberFormatter( ULocale.forLocale(locale) );
 				
 				if ( format != null )
 				{
@@ -146,7 +146,7 @@ public class ReportParameterConverter
 			{
 				case IScalarParameterDefn.TYPE_STRING:
 				{
-					StringFormatter sf = new StringFormatter( locale );
+					StringFormatter sf = new StringFormatter( ULocale.forLocale(locale) );
 					
 					if ( format != null )
 					{
@@ -166,7 +166,7 @@ public class ReportParameterConverter
 				
 				case IScalarParameterDefn.TYPE_DATE_TIME:
 				{
-					DateFormatter df = new DateFormatter( locale );
+					DateFormatter df = new DateFormatter( ULocale.forLocale(locale) );
 					
 					if ( format != null )
 					{
@@ -205,7 +205,7 @@ public class ReportParameterConverter
 	
 				case IScalarParameterDefn.TYPE_FLOAT:
 				{
-					NumberFormatter nf = new NumberFormatter( locale );
+					NumberFormatter nf = new NumberFormatter( ULocale.forLocale(locale) );
 
 					if ( format != null )
 					{
@@ -245,7 +245,7 @@ public class ReportParameterConverter
 				
 				case IScalarParameterDefn.TYPE_DECIMAL:
 				{
-					NumberFormatter nf = new NumberFormatter( locale );
+					NumberFormatter nf = new NumberFormatter( ULocale.forLocale(locale) );
 						
 					if ( format != null )
 					{
@@ -292,7 +292,7 @@ public class ReportParameterConverter
 				//can use class DataTypeUtil to convert
 				case IScalarParameterDefn.TYPE_INTEGER:
 				{
-					NumberFormatter nf = new NumberFormatter( locale );
+					NumberFormatter nf = new NumberFormatter( ULocale.forLocale(locale) );
 					
 					if ( format != null )
 					{
