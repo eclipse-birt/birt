@@ -12,5 +12,21 @@ public interface ILabelInstance extends IReportItemInstance
 	 * Set the value
 	 */
 	void setText( String value );
-
+	
+	/**
+	 * Create a new action instance, witch can be bookmark, hyperlink or
+	 * drillThrough. The default action instance type is NULL.
+	 */
+	IActionInstance createAction( );
+	
+	/**
+	 * Get the action instance. 
+	 */
+	IActionInstance getAction( );
+	
+	/**
+	 * set the actionInstance
+	 * @param actionInstance
+	 */
+	void setAction( IActionInstance actionInstance );
 }

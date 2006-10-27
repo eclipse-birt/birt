@@ -97,4 +97,8 @@ public interface IHyperlinkAction
 	public void setDrillThrough( String bookmark, boolean isBookmark,
 			String reportName, Map parameterBindings, Map searchCriteria,
 			String target, String format );
+	
+	public IDrillThroughAction getDrillThrough( );
+	
+	public void setDrillThrough( IDrillThroughAction drillThrough );
 }

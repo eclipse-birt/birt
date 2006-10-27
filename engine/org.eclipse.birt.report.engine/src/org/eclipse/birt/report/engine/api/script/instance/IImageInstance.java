@@ -105,5 +105,22 @@ public interface IImageInstance extends IReportItemInstance
 	 * if the source type is not <code>IMAGE_REF_TYPE_FILE</code> return null.
 	 */
 	String getFile( );
+	
+	/**
+	 * Create a new action instance, witch can be bookmark, hyperlink or
+	 * drillThrough. The default action instance type is NULL.
+	 */
+	IActionInstance createAction( );
+	
+	/**
+	 * Get the action instance. 
+	 */
+	IActionInstance getAction( );
+	
+	/**
+	 * set the actionInstance
+	 * @param actionInstance
+	 */
+	void setAction( IActionInstance actionInstance );
 
 }

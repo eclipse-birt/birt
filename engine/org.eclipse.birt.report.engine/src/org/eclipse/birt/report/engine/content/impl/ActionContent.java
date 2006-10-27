@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.content.IDrillThroughAction;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
 /**
@@ -30,6 +31,11 @@ public class ActionContent implements IHyperlinkAction
 	 * action type
 	 */
 	protected int type = -1;
+	
+	/**
+	 * Flag indicating if this is a bookmark. False means this is a TOC.
+	 */
+	protected boolean isBookmark;
 
 	/**
 	 * bookmark string
@@ -37,36 +43,19 @@ public class ActionContent implements IHyperlinkAction
 	protected String bookmark;
 
 	/**
-	 * Flag indicating if this is a bookmark. False means this is a TOC.
-	 */
-	protected boolean isBookmark;
-
-	/**
 	 * action string. See base interface
 	 */
 	protected String hyperlink;
 
 	/**
-	 * report name
-	 */
-	protected String reportName;
-
-	protected String format;
-
-	/**
-	 * parameters and their values for running drillthrough reports
-	 */
-	protected Map parameterBindings;
-
-	/**
-	 * search keys and their values for searching drillthrough reports
-	 */
-	protected Map searchCriteria;
-
-	/**
 	 * the name of a frame where a document is to be opened.
 	 */
 	protected String target = null;
+	
+	/**
+	 * 
+	 */
+	protected IDrillThroughAction drillThrough;
 
 	/**
 	 * Constructor for hyperlink action type
@@ -119,14 +108,9 @@ public class ActionContent implements IHyperlinkAction
 			String reportName, Map parameterBindings, Map searchCriteria,
 			String target, String format )
 	{
-		this.bookmark = bookmark;
-		this.isBookmark = isBookmark;
-		this.reportName = reportName;
-		this.parameterBindings = parameterBindings;
-		this.searchCriteria = searchCriteria;
-		this.target = target;
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
-		this.format = format;
+		drillThrough = new DrillThroughAction( bookmark, isBookmark,
+				reportName, parameterBindings, searchCriteria, target, format );
 	}
 
 	/*
@@ -146,6 +130,10 @@ public class ActionContent implements IHyperlinkAction
 	 */
 	public String getBookmark( )
 	{
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.getBookmark( );
+		}
 		return bookmark;
 	}
 
@@ -157,13 +145,20 @@ public class ActionContent implements IHyperlinkAction
 	public String getReportName( )
 	{
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
-		return reportName;
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.getReportName( );
+		}
+		return null;
 	}
 	
 	public void setReportName( String reportName )
 	{
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
-		this.reportName = reportName;
+		if ( isDrillThrough( ) )
+		{
+			drillThrough.setReportName( reportName );
+		}
 	}
 	/*
 	 * (non-Javadoc)
@@ -173,7 +168,14 @@ public class ActionContent implements IHyperlinkAction
 	public Map getParameterBindings( )
 	{
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
-		return parameterBindings;
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.getParameterBindings( );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/*
@@ -184,7 +186,14 @@ public class ActionContent implements IHyperlinkAction
 	public Map getSearchCriteria( )
 	{
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
-		return searchCriteria;
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.getSearchCriteria( );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/*
@@ -194,6 +203,10 @@ public class ActionContent implements IHyperlinkAction
 	 */
 	public String getTargetWindow( )
 	{
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.getTargetWindow( );
+		}
 		return target;
 	}
 
@@ -230,12 +243,28 @@ public class ActionContent implements IHyperlinkAction
 			IOUtil.writeInt( out, FIELD_TYPE );
 			IOUtil.writeInt( out, type );
 		}
-		if ( bookmark != null )
+		if ( isDrillThrough( ) )
+		{
+			if ( drillThrough.getBookmark( ) != null )
+			{
+				IOUtil.writeInt( out, FIELD_BOOKMARK );
+				IOUtil.writeString( out, drillThrough.getBookmark( ) );
+			}
+		}
+		else if ( bookmark != null )
 		{
 			IOUtil.writeInt( out, FIELD_BOOKMARK );
 			IOUtil.writeString( out, bookmark );
 		}
-		if ( isBookmark )
+		if ( isDrillThrough( ) )
+		{
+			if ( isBookmark )
+			{
+				IOUtil.writeInt( out, FIELD_ISBOOKMARK );
+				IOUtil.writeBool( out, drillThrough.isBookmark( ) );
+			}
+		}
+		else if ( isBookmark )
 		{
 			IOUtil.writeInt( out, FIELD_ISBOOKMARK );
 			IOUtil.writeBool( out, isBookmark );
@@ -245,30 +274,35 @@ public class ActionContent implements IHyperlinkAction
 			IOUtil.writeInt( out, FIELD_HYPERLINK );
 			IOUtil.writeString( out, hyperlink );
 		}
-		if ( reportName != null )
+		if ( isDrillThrough( ) && drillThrough.getReportName( ) != null )
 		{
 			IOUtil.writeInt( out, FIELD_REPORTNAME );
-			IOUtil.writeString( out, reportName );
+			IOUtil.writeString( out, drillThrough.getReportName( ) );
 		}
-		if ( parameterBindings != null )
+		if ( isDrillThrough( ) && drillThrough.getParameterBindings( ) != null )
 		{
 			IOUtil.writeInt( out, FIELD_PARAMETERBINDINGS );
-			IOUtil.writeMap( out, parameterBindings );
+			IOUtil.writeMap( out, drillThrough.getParameterBindings( ) );
 		}
-		if ( searchCriteria != null )
+		if ( isDrillThrough( ) && drillThrough.getSearchCriteria( ) != null )
 		{
 			IOUtil.writeInt( out, FIELD_SEARCHCRITERIA );
-			IOUtil.writeMap( out, searchCriteria );
+			IOUtil.writeMap( out, drillThrough.getSearchCriteria( ) );
 		}
-		if ( target != null )
+		if ( isDrillThrough( ) && drillThrough.getTargetWindow( ) != null )
+		{
+			IOUtil.writeInt( out, FIELD_TARGET );
+			IOUtil.writeString( out, drillThrough.getTargetWindow( ) );
+		}
+		else if ( target != null )
 		{
 			IOUtil.writeInt( out, FIELD_TARGET );
 			IOUtil.writeString( out, target );
 		}
-		if ( format != null )
+		if ( isDrillThrough( ) && drillThrough.getFormat( ) != null )
 		{
 			IOUtil.writeInt( out, FIELD_FORMAT );
-			IOUtil.writeString( out, format );
+			IOUtil.writeString( out, drillThrough.getFormat( ) );
 		}
 
 	}
@@ -280,30 +314,67 @@ public class ActionContent implements IHyperlinkAction
 		{
 			case FIELD_TYPE :
 				type = IOUtil.readInt( in );
+				if ( type == ACTION_DRILLTHROUGH )
+				{
+					drillThrough = new DrillThroughAction( );
+				}
 				break;
 			case FIELD_BOOKMARK :
-				bookmark = IOUtil.readString( in );
+				if ( isDrillThrough( ) )
+				{
+					drillThrough.setBookmark( IOUtil.readString( in ) );
+				}
+				else
+				{	
+					bookmark = IOUtil.readString( in );
+				}
 				break;
 			case FIELD_HYPERLINK :
 				hyperlink = IOUtil.readString( in );
 				break;
 			case FIELD_REPORTNAME :
-				reportName = IOUtil.readString( in );
+				if ( isDrillThrough( ) )
+				{
+					drillThrough.setReportName( IOUtil.readString( in ) );
+				}
 				break;
 			case FIELD_PARAMETERBINDINGS :
-				parameterBindings = IOUtil.readMap( in );
+				if ( isDrillThrough( ) )
+				{
+					drillThrough.setParameterBindings( IOUtil.readMap( in ) );
+				}
 				break;
 			case FIELD_SEARCHCRITERIA :
-				searchCriteria = IOUtil.readMap( in );
+				if ( isDrillThrough( ) )
+				{
+					drillThrough.setSearchCriteria( IOUtil.readMap( in ) );
+				}
 				break;
 			case FIELD_TARGET :
-				target = IOUtil.readString( in );
+				if ( isDrillThrough( ) ) 
+				{
+					drillThrough.setTargetWindow( IOUtil.readString( in ) );
+				}
+				else
+				{	
+					target = IOUtil.readString( in );
+				}
 				break;
 			case FIELD_FORMAT :
-				format = IOUtil.readString( in );
+				if ( isDrillThrough( ) )
+				{
+					drillThrough.setFormat( IOUtil.readString( in ) );
+				}
 				break;
 			case FIELD_ISBOOKMARK:
-				isBookmark = IOUtil.readBool( in );
+				if ( isDrillThrough( ) )
+				{					
+					drillThrough.setBookmarkType( IOUtil.readBool( in ) );
+				}
+				else
+				{	
+					isBookmark = IOUtil.readBool( in );
+				}
 				break;
 		}
 	}
@@ -328,16 +399,55 @@ public class ActionContent implements IHyperlinkAction
 
 	public String getFormat( )
 	{
-		return format;
+		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.getFormat( );
+		}
+		return null;
 	}
 
 	public void setBookmarkType( boolean isBookmark )
 	{
-		this.isBookmark = isBookmark;
+		if ( isDrillThrough( ) )
+		{
+			drillThrough.setBookmarkType( isBookmark );
+		}
+		else
+		{	
+			this.isBookmark = isBookmark;
+		}
 	}
 
 	public boolean isBookmark( )
 	{
-		return isBookmark;
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough.isBookmark( );
+		}
+		else
+		{	
+			return isBookmark;
+		}		
+	}
+	
+	public IDrillThroughAction getDrillThrough( )
+	{
+		if ( isDrillThrough( ) )
+		{
+			return drillThrough;
+		}
+		return null;
+	}
+	
+	public void setDrillThrough( IDrillThroughAction drillThrough )
+	{
+		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
+		this.drillThrough = drillThrough;
+	}
+	
+	private boolean isDrillThrough( )
+	{
+		return type == ACTION_DRILLTHROUGH;
 	}
 }

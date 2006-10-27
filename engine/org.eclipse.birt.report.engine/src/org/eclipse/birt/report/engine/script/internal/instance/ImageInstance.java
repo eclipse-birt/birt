@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
+import org.eclipse.birt.report.engine.api.script.instance.IActionInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
@@ -207,5 +210,55 @@ public class ImageInstance extends ReportItemInstance implements IImageInstance
 			return ( ( IImageContent ) content ).getURI( );
 		}
 		return null;
+	}
+
+	private IActionInstance actionInstance;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#createHyperlinkActionInstance( )
+	 */
+	public IActionInstance createAction( )
+	{
+		IHyperlinkAction hyperlink = new ActionContent( );
+		return new ActionInstance( hyperlink );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getHyperlinkInstance( )
+	 */
+	public IActionInstance getAction( )
+	{
+		IHyperlinkAction hyperlink = content.getHyperlinkAction( );
+		if ( hyperlink != null )
+		{
+			if ( actionInstance == null )
+			{
+				actionInstance = new ActionInstance( hyperlink );
+			}
+		}
+		return actionInstance;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setActionInstance(org.eclipse.birt.report.engine.api.script.instance.IActionInstance )
+	 */
+	public void setAction( IActionInstance actionInstance )
+	{
+		if ( actionInstance == null )
+		{
+			content.setHyperlinkAction( null );
+		}
+		else if ( actionInstance instanceof ActionInstance )
+		{
+			content.setHyperlinkAction( ( (ActionInstance) actionInstance )
+					.getHyperlinkAction( ) );
+		}
+		this.actionInstance = actionInstance;
 	}
 }
