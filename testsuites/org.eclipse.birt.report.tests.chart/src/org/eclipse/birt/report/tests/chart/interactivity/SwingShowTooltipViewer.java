@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
 
@@ -53,19 +50,19 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * The selector of interactivity charts in Swing JPanel.
- * 
- * Note: Use an extra off-screen image buffer as the actual drawing canvas instead of 
- * 		 the original chart rendering code in paint( ) method. 
- *   	 Please see [bugzilla] 127615 for more details.
+ * The selector of interactivity charts in Swing JPanel. Note: Use an extra
+ * off-screen image buffer as the actual drawing canvas instead of the original
+ * chart rendering code in paint( ) method. Please see [bugzilla] 127615 for
+ * more details.
  */
-public final class SwingShowTooltipViewer extends JPanel implements
-        ICallBackNotifier,
-		ComponentListener
+public final class SwingShowTooltipViewer extends JPanel
+		implements
+			ICallBackNotifier,
+			ComponentListener
 {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private boolean bNeedsGeneration = true;
 
 	private GeneratedChartState gcs = null;
@@ -73,11 +70,11 @@ public final class SwingShowTooltipViewer extends JPanel implements
 	private Chart cm = null;
 
 	private IDeviceRenderer idr = null;
-	
+
 	private BufferedImage bi = null;
 
 	private Map contextMap;
-	
+
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
 	 * panel for selecting interactivity.
@@ -99,7 +96,8 @@ public final class SwingShowTooltipViewer extends JPanel implements
 		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
 		Dimension dApp = new Dimension( 600, 400 );
 		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
+		jf.setLocation(
+				( dScreen.width - dApp.width ) / 2,
 				( dScreen.height - dApp.height ) / 2 );
 
 		jf.setTitle( siv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
@@ -107,7 +105,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 
 		ControlPanel cp = siv.new ControlPanel( siv );
 		co.add( cp, BorderLayout.SOUTH );
-		
+
 		siv.idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, siv );
 
 		jf.addWindowListener( new WindowAdapter( ) {
@@ -119,7 +117,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 
 		} );
 
-		jf.show( );
+		jf.setVisible( true );
 	}
 
 	/**
@@ -127,8 +125,8 @@ public final class SwingShowTooltipViewer extends JPanel implements
 	 */
 	SwingShowTooltipViewer( )
 	{
-		contextMap = new HashMap();
-		
+		contextMap = new HashMap( );
+
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -138,7 +136,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 		{
 			ex.printStackTrace( );
 		}
-		cm = PrimitiveCharts.showTooltip_AreaChart();
+		cm = PrimitiveCharts.showTooltip_AreaChart( );
 	}
 
 	/*
@@ -192,7 +190,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 	{
 		return gcs.getChartModel( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -228,11 +226,11 @@ public final class SwingShowTooltipViewer extends JPanel implements
 	{
 		Dimension d = getSize( );
 
-		if ( bi == null
-				|| bi.getWidth( ) != d.width
+		if ( bi == null || bi.getWidth( ) != d.width
 				|| bi.getHeight( ) != d.height )
 		{
-			bi = new BufferedImage( d.width,
+			bi = new BufferedImage(
+					d.width,
 					d.height,
 					BufferedImage.TYPE_INT_ARGB );
 		}
@@ -254,7 +252,8 @@ public final class SwingShowTooltipViewer extends JPanel implements
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ),
+				gcs = gr.build(
+						idr.getDisplayServer( ),
 						cm,
 						bo,
 						null,
@@ -281,7 +280,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 		}
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -295,7 +294,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 		{
 			updateBuffer( );
 		}
-		
+
 		g.drawImage( bi, 0, 0, this );
 	}
 
@@ -437,7 +436,7 @@ public final class SwingShowTooltipViewer extends JPanel implements
 	{
 
 		private static final long serialVersionUID = 1L;
-		
+
 		private JComboBox jcbModels = null;
 
 		private JButton jbUpdate = null;
@@ -456,14 +455,14 @@ public final class SwingShowTooltipViewer extends JPanel implements
 			jp.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
 			jcbModels = new JComboBox( );
 
-			jcbModels.addItem("Area Chart");
-			jcbModels.addItem("Bar Chart");
-			jcbModels.addItem("Line Chart");
-			jcbModels.addItem("Meter Chart");
-			jcbModels.addItem("Pie Chart");
-			jcbModels.addItem("Scatter Chart");
-			jcbModels.addItem("Stock Chart");
-			jcbModels.addItem("Bar Chart_combine");
+			jcbModels.addItem( "Area Chart" );
+			jcbModels.addItem( "Bar Chart" );
+			jcbModels.addItem( "Line Chart" );
+			jcbModels.addItem( "Meter Chart" );
+			jcbModels.addItem( "Pie Chart" );
+			jcbModels.addItem( "Scatter Chart" );
+			jcbModels.addItem( "Stock Chart" );
+			jcbModels.addItem( "Bar Chart_combine" );
 
 			jcbModels.setSelectedIndex( 0 );
 			jp.add( jcbModels );
@@ -536,30 +535,30 @@ public final class SwingShowTooltipViewer extends JPanel implements
 			cm = null;
 			switch ( i )
 			{
-			case 0:
-				cm = PrimitiveCharts.showTooltip_AreaChart();
-				break;
-			case 1:
-				cm = PrimitiveCharts.showTooltip_BarChart();
-				break;
-			case 2:
-				cm = PrimitiveCharts.showTooltip_LineChart();
-				break;
-			case 3:
-				cm = PrimitiveCharts.showTooltip_MeterChart();
-				break;
-			case 4:
-				cm = PrimitiveCharts.showTooltip_PieChart();
-				break;
-			case 5:
-				cm = PrimitiveCharts.showTooltip_ScatterChart();
-				break;
-			case 6:
-				cm = PrimitiveCharts.showTooltip_StockChart();
-				break;
-			case 7:
-				cm = PrimitiveCharts.showTooltipURLRedirect_BarChart();
-				break;
+				case 0 :
+					cm = PrimitiveCharts.showTooltip_AreaChart( );
+					break;
+				case 1 :
+					cm = PrimitiveCharts.showTooltip_BarChart( );
+					break;
+				case 2 :
+					cm = PrimitiveCharts.showTooltip_LineChart( );
+					break;
+				case 3 :
+					cm = PrimitiveCharts.showTooltip_MeterChart( );
+					break;
+				case 4 :
+					cm = PrimitiveCharts.showTooltip_PieChart( );
+					break;
+				case 5 :
+					cm = PrimitiveCharts.showTooltip_ScatterChart( );
+					break;
+				case 6 :
+					cm = PrimitiveCharts.showTooltip_StockChart( );
+					break;
+				case 7 :
+					cm = PrimitiveCharts.showTooltipURLRedirect_BarChart( );
+					break;
 			}
 
 			bNeedsGeneration = true;
@@ -567,10 +566,10 @@ public final class SwingShowTooltipViewer extends JPanel implements
 			siv.repaint( );
 		}
 	}
-	
+
 	public void callback( Object event, Object source, CallBackValue value )
 	{
-		JOptionPane.showMessageDialog( SwingShowTooltipViewer.this,
-				value.getIdentifier( ) ); 
+		JOptionPane.showMessageDialog( SwingShowTooltipViewer.this, value
+				.getIdentifier( ) );
 	}
 }

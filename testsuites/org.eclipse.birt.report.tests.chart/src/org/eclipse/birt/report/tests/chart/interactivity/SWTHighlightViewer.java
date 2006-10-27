@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
 
@@ -45,13 +42,14 @@ import org.eclipse.swt.widgets.MessageBox;
 
 /**
  * The selector of charts in SWT.
- * 
  */
-public final class SWTHighlightViewer extends Composite implements
-		PaintListener, 
-		ICallBackNotifier,
-		SelectionListener
+public final class SWTHighlightViewer extends Composite
+		implements
+			PaintListener,
+			ICallBackNotifier,
+			SelectionListener
 {
+
 	private IDeviceRenderer idr = null;
 
 	private Chart cm = null;
@@ -63,7 +61,7 @@ public final class SWTHighlightViewer extends Composite implements
 	private GeneratedChartState gcs = null;
 
 	private boolean bNeedsGeneration = true;
-	
+
 	private Map contextMap;
 
 	/**
@@ -78,7 +76,8 @@ public final class SWTHighlightViewer extends Composite implements
 		shell.setSize( 600, 400 );
 		shell.setLayout( new GridLayout( ) );
 
-		SWTHighlightViewer siv = new SWTHighlightViewer( shell,
+		SWTHighlightViewer siv = new SWTHighlightViewer(
+				shell,
 				SWT.NO_BACKGROUND );
 		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		siv.addPaintListener( siv );
@@ -91,13 +90,13 @@ public final class SWTHighlightViewer extends Composite implements
 
 		la.setText( "Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add("Area Chart"); //$NON-NLS-1$
-		cbType.add("Bar Chart"); //$NON-NLS-1$
-		cbType.add("Line Chart");//$NON-NLS-1$
-		cbType.add("Meter Chart");//$NON-NLS-1$
-		cbType.add("Pie Chart");//$NON-NLS-1$
-		cbType.add("Scatter Chart");//$NON-NLS-1$
-		cbType.add("Stock Chart");//$NON-NLS-1$
+		cbType.add( "Area Chart" ); //$NON-NLS-1$
+		cbType.add( "Bar Chart" ); //$NON-NLS-1$
+		cbType.add( "Line Chart" );//$NON-NLS-1$
+		cbType.add( "Meter Chart" );//$NON-NLS-1$
+		cbType.add( "Pie Chart" );//$NON-NLS-1$
+		cbType.add( "Scatter Chart" );//$NON-NLS-1$
+		cbType.add( "Stock Chart" );//$NON-NLS-1$
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -119,9 +118,9 @@ public final class SWTHighlightViewer extends Composite implements
 	SWTHighlightViewer( Composite parent, int style )
 	{
 		super( parent, style );
-		
-		contextMap = new HashMap();
-		
+
+		contextMap = new HashMap( );
+
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -156,7 +155,8 @@ public final class SWTHighlightViewer extends Composite implements
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ),
+				gcs = gr.build(
+						idr.getDisplayServer( ),
 						cm,
 						bo,
 						null,
@@ -193,27 +193,27 @@ public final class SWTHighlightViewer extends Composite implements
 			int iSelection = cbType.getSelectionIndex( );
 			switch ( iSelection )
 			{
-			case 0:
-				cm = PrimitiveCharts.highlight_AreaChart();
-				break;
-			case 1:
-				cm = PrimitiveCharts.highlight_BarChart();
-				break;
-			case 2:
-				cm = PrimitiveCharts.highlight_3DLineChart();
-				break;
-			case 3:
-				cm = PrimitiveCharts.highlight_MeterChart();
-				break;
-			case 4:
-				cm = PrimitiveCharts.highlight_PieChart();
-				break;
-			case 5:
-				cm = PrimitiveCharts.highlight_ScatterChart();
-				break;
-			case 6:
-				cm = PrimitiveCharts.highlight_StockChart();
-				break;
+				case 0 :
+					cm = PrimitiveCharts.highlight_AreaChart( );
+					break;
+				case 1 :
+					cm = PrimitiveCharts.highlight_BarChart( );
+					break;
+				case 2 :
+					cm = PrimitiveCharts.highlight_3DLineChart( );
+					break;
+				case 3 :
+					cm = PrimitiveCharts.highlight_MeterChart( );
+					break;
+				case 4 :
+					cm = PrimitiveCharts.highlight_PieChart( );
+					break;
+				case 5 :
+					cm = PrimitiveCharts.highlight_ScatterChart( );
+					break;
+				case 6 :
+					cm = PrimitiveCharts.highlight_StockChart( );
+					break;
 			}
 			bNeedsGeneration = true;
 			this.redraw( );
@@ -265,7 +265,7 @@ public final class SWTHighlightViewer extends Composite implements
 	{
 		redraw( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -286,7 +286,7 @@ public final class SWTHighlightViewer extends Composite implements
 	{
 		return contextMap.put( key, value );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -296,11 +296,11 @@ public final class SWTHighlightViewer extends Composite implements
 	{
 		return contextMap.remove( key );
 	}
-	
+
 	public void callback( Object event, Object source, CallBackValue value )
 	{
-		MessageBox mb = new MessageBox ( this.getShell( ) );
-		mb.setText( value.getIdentifier( ) ); 
+		MessageBox mb = new MessageBox( this.getShell( ) );
+		mb.setText( value.getIdentifier( ) );
 		mb.open( );
 	}
 

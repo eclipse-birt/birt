@@ -1,13 +1,10 @@
-/***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Actuate Corporation - initial API and implementation
- ***********************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
 
@@ -43,13 +40,14 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The selector of charts in SWT.
- * 
  */
-public final class SWTURLRedirectViewer extends Composite implements
-		PaintListener,
-		IUpdateNotifier,
-		SelectionListener
+public final class SWTURLRedirectViewer extends Composite
+		implements
+			PaintListener,
+			IUpdateNotifier,
+			SelectionListener
 {
+
 	private IDeviceRenderer idr = null;
 
 	private Chart cm = null;
@@ -61,7 +59,7 @@ public final class SWTURLRedirectViewer extends Composite implements
 	private GeneratedChartState gcs = null;
 
 	private boolean bNeedsGeneration = true;
-	
+
 	private Map contextMap;
 
 	/**
@@ -76,7 +74,8 @@ public final class SWTURLRedirectViewer extends Composite implements
 		shell.setSize( 600, 400 );
 		shell.setLayout( new GridLayout( ) );
 
-		SWTURLRedirectViewer siv = new SWTURLRedirectViewer( shell,
+		SWTURLRedirectViewer siv = new SWTURLRedirectViewer(
+				shell,
 				SWT.NO_BACKGROUND );
 		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		siv.addPaintListener( siv );
@@ -89,13 +88,13 @@ public final class SWTURLRedirectViewer extends Composite implements
 
 		la.setText( "Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add("Area Chart");
-		cbType.add("Bar Chart");
-		cbType.add("Line Chart");
-		cbType.add("Meter Chart");
-		cbType.add("Pie Chart");
-		cbType.add("Scatter Chart");
-		cbType.add("Stock Chart");
+		cbType.add( "Area Chart" );
+		cbType.add( "Bar Chart" );
+		cbType.add( "Line Chart" );
+		cbType.add( "Meter Chart" );
+		cbType.add( "Pie Chart" );
+		cbType.add( "Scatter Chart" );
+		cbType.add( "Stock Chart" );
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -117,9 +116,9 @@ public final class SWTURLRedirectViewer extends Composite implements
 	SWTURLRedirectViewer( Composite parent, int style )
 	{
 		super( parent, style );
-		
-		contextMap = new HashMap();
-		
+
+		contextMap = new HashMap( );
+
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
@@ -154,7 +153,8 @@ public final class SWTURLRedirectViewer extends Composite implements
 			bNeedsGeneration = false;
 			try
 			{
-				gcs = gr.build( idr.getDisplayServer( ),
+				gcs = gr.build(
+						idr.getDisplayServer( ),
 						cm,
 						bo,
 						null,
@@ -191,27 +191,27 @@ public final class SWTURLRedirectViewer extends Composite implements
 			int iSelection = cbType.getSelectionIndex( );
 			switch ( iSelection )
 			{
-			case 0:
-				cm = PrimitiveCharts.URLRedirect_AreaChart();
-				break;
-			case 1:
-				cm = PrimitiveCharts.URLRedirect_BarChart();
-				break;
-			case 2:
-				cm = PrimitiveCharts.URLRedirect_LineChart();
-				break;
-			case 3:
-				cm = PrimitiveCharts.URLRedirect_MeterChart();
-				break;
-			case 4:
-				cm = PrimitiveCharts.URLRedirect_PieChart();
-				break;
-			case 5:
-				cm = PrimitiveCharts.URLRedirect_ScatterChart();
-				break;
-			case 6:
-				cm = PrimitiveCharts.URLRedirect_StockChart();
-				break;
+				case 0 :
+					cm = PrimitiveCharts.URLRedirect_AreaChart( );
+					break;
+				case 1 :
+					cm = PrimitiveCharts.URLRedirect_BarChart( );
+					break;
+				case 2 :
+					cm = PrimitiveCharts.URLRedirect_LineChart( );
+					break;
+				case 3 :
+					cm = PrimitiveCharts.URLRedirect_MeterChart( );
+					break;
+				case 4 :
+					cm = PrimitiveCharts.URLRedirect_PieChart( );
+					break;
+				case 5 :
+					cm = PrimitiveCharts.URLRedirect_ScatterChart( );
+					break;
+				case 6 :
+					cm = PrimitiveCharts.URLRedirect_StockChart( );
+					break;
 			}
 			bNeedsGeneration = true;
 			this.redraw( );
@@ -263,7 +263,7 @@ public final class SWTURLRedirectViewer extends Composite implements
 	{
 		redraw( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -284,7 +284,7 @@ public final class SWTURLRedirectViewer extends Composite implements
 	{
 		return contextMap.put( key, value );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -296,7 +296,3 @@ public final class SWTURLRedirectViewer extends Composite implements
 	}
 
 }
-
-
-
-
