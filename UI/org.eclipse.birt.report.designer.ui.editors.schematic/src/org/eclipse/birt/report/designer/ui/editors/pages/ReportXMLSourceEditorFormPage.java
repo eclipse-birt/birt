@@ -242,6 +242,10 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					}
 					break;
 				case 2 :
+					if ( getEditorInput( ) != null )
+					{
+						this.setInput( getEditorInput( ) );
+					}
 					return false;
 			}
 		}
@@ -362,14 +366,14 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	// else
 	// super.firePropertyChange( type );
 	// }
-	public boolean onBroughtToTop( IReportEditorPage prePage ) 
+	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if ( prePage!=this && (prePage.isDirty( )
-				|| prePage.getStaleType( ) != IPageStaleType.NONE ))
+		if ( prePage != this
+				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
 			prePage.doSave( null );
 			prePage.markPageStale( IPageStaleType.NONE );
