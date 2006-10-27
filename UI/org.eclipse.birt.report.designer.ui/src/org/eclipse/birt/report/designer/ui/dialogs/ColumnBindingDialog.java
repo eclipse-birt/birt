@@ -901,7 +901,7 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		if ( bindingHandle == null )
 			return;
-		
+
 		String bindingName = bindingHandle.getName( );
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
 		dialog.setInput( (ReportItemHandle) inputElement, bindingHandle );
@@ -1050,7 +1050,8 @@ public class ColumnBindingDialog extends BaseDialog
 	private void updateButtons( )
 	{
 		boolean okEnable = false;
-		if ( !canSelect || selectedColumnName != null )
+		if ( !canSelect
+				|| ( selectedColumnName != null && getDataSetName( ) != null ) )
 		{
 			okEnable = true;
 		}
