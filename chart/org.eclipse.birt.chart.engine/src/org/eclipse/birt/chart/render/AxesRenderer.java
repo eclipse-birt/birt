@@ -901,7 +901,6 @@ public abstract class AxesRenderer extends BaseRenderer
 		Anchor anc = null;
 		Label la = null;
 		TextRenderEvent tre;
-		Orientation or;
 		double dOriginalAngle = 0;
 
 		for ( int i = 0; i < iAxisCount; i++ )
@@ -1101,8 +1100,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					anc = switchAnchor( mr.getLabelAnchor( ) );
 					if ( bTransposed )
 					{
-						or = ax.getOrientation( ) == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
-								: Orientation.HORIZONTAL_LITERAL;
 						dOriginalAngle = la.getCaption( )
 								.getFont( )
 								.getRotation( );
@@ -1111,7 +1108,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							la.getCaption( )
 									.getFont( )
 									.setRotation( pwa.getTransposedAngle( dOriginalAngle ) );
-							anc = pwa.transposedAnchor( or, anc );
+							anc = ChartUtil.transposeAnchor( anc );
 						}
 						catch ( IllegalArgumentException uiex )
 						{
@@ -2534,7 +2531,6 @@ public abstract class AxesRenderer extends BaseRenderer
 		final Location loEnd = LocationImpl.create( 0, 0 );
 
 		Anchor anc;
-		Orientation or;
 		TextRenderEvent tre = null;
 		Label la = null;
 		double dOriginalAngle = 0;
@@ -2705,8 +2701,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					anc = switchAnchor( ml.getLabelAnchor( ) );
 					if ( bTransposed )
 					{
-						or = ax.getOrientation( ) == Orientation.HORIZONTAL_LITERAL ? Orientation.VERTICAL_LITERAL
-								: Orientation.HORIZONTAL_LITERAL;
 						// la = ml.getLabel( );
 						dOriginalAngle = la.getCaption( )
 								.getFont( )
@@ -2716,7 +2710,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							la.getCaption( )
 									.getFont( )
 									.setRotation( pwa.getTransposedAngle( dOriginalAngle ) );
-							anc = pwa.transposedAnchor( or, anc );
+							anc = ChartUtil.transposeAnchor( anc );
 						}
 						catch ( IllegalArgumentException uiex )
 						{

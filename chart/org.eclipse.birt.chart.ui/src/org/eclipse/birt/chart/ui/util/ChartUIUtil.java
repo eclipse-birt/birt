@@ -56,6 +56,7 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
@@ -1170,34 +1171,14 @@ public class ChartUIUtil
 	 * Convert the displayed anchor in the case of flipped axes.
 	 * 
 	 * @param anchor
-	 * @param isFlippedAxes  true if the Orientation is Horizontal
-	 * @return
+	 * @param isFlippedAxes
+	 *            true if the Orientation is Horizontal
 	 */
 	public static Anchor getFlippedAnchor( Anchor anchor, boolean isFlippedAxes )
 	{
 		if ( isFlippedAxes )
 		{
-			switch ( anchor.getValue( ) )
-			{
-				case Anchor.EAST :
-					anchor = Anchor.NORTH_LITERAL;
-					break;
-				case Anchor.WEST :
-					anchor = Anchor.SOUTH_LITERAL;
-					break;
-				case Anchor.NORTH :
-					anchor = Anchor.EAST_LITERAL;
-					break;
-				case Anchor.SOUTH :
-					anchor = Anchor.WEST_LITERAL;
-					break;
-				case Anchor.SOUTH_EAST :
-					anchor = Anchor.NORTH_WEST_LITERAL;
-					break;
-				case Anchor.NORTH_WEST :
-					anchor = Anchor.SOUTH_EAST_LITERAL;
-					break;
-			}
+			return ChartUtil.transposeAnchor( anchor );
 		}
 		return anchor;
 	}
@@ -1206,8 +1187,8 @@ public class ChartUIUtil
 	 * Convert the displayed position in the case of flipped axes.
 	 * 
 	 * @param position
-	 * @param isFlippedAxes true if the Orientation is Horizontal
-	 * @return
+	 * @param isFlippedAxes
+	 *            true if the Orientation is Horizontal
 	 */
 	public static Position getFlippedPosition( Position position,
 			boolean isFlippedAxes )

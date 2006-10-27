@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.chart.util;
 
+import java.text.MessageFormat;
+
 import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.internal.computations.Polygon;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -315,5 +319,48 @@ public class ChartUtil
 			}
 		}
 		return fill;
+	}
+	
+	/**
+	 * Transposes the anchor
+	 * 
+	 * @param an
+	 *            anchor
+	 * 
+	 */
+	public static Anchor transposeAnchor( Anchor an )
+			throws IllegalArgumentException
+	{
+		if ( an == null )
+		{
+			return null; // CENTERED ANCHOR
+		}
+
+		switch ( an.getValue( ) )
+		{
+			case Anchor.NORTH :
+				return Anchor.EAST_LITERAL;
+			case Anchor.SOUTH :
+				return Anchor.WEST_LITERAL;
+			case Anchor.EAST :
+				return Anchor.NORTH_LITERAL;
+			case Anchor.WEST :
+				return Anchor.SOUTH_LITERAL;
+			case Anchor.NORTH_WEST :
+				return Anchor.SOUTH_EAST_LITERAL;
+			case Anchor.NORTH_EAST :
+				return Anchor.NORTH_EAST_LITERAL;
+			case Anchor.SOUTH_WEST :
+				return Anchor.SOUTH_WEST_LITERAL;
+			case Anchor.SOUTH_EAST :
+				return Anchor.NORTH_WEST_LITERAL;
+		}
+		throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( )
+				.getString( "exception.anchor.transpose" ), //$NON-NLS-1$ 
+				new Object[]{
+					an
+				} )
+
+		);
 	}
 }
