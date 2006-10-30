@@ -65,6 +65,25 @@ public class FileArchiveReader implements IDocArchiveReader
 
 		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#getName()
+	 */
+	public String getName( )
+	{
+		return fileName;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#open()
+	 */
+	public void open( ) throws IOException
+	{
 		// open the file
 		file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
 		
@@ -75,11 +94,11 @@ public class FileArchiveReader implements IDocArchiveReader
 		}
 		catch(IOException ex)
 		{
-			file.close( );
+			close( );
 			throw ex;
 		}
 	}
-
+	
 	/**
 	 * read the stream table from the archive file.
 	 * the stream table is in the begining of the file, it contains:
@@ -109,25 +128,6 @@ public class FileArchiveReader implements IDocArchiveReader
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#getName()
-	 */
-	public String getName( )
-	{
-		return fileName;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#open()
-	 */
-	public void open( ) throws IOException
-	{
-	}
-	
 	public void close( ) throws IOException
 	{
 		if ( file != null )
