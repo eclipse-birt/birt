@@ -3918,6 +3918,7 @@ public class AttributePackageImpl extends EPackageImpl
 		addEEnumLiteral( riserTypeEEnum, RiserType.RECTANGLE_LITERAL );
 		addEEnumLiteral( riserTypeEEnum, RiserType.TRIANGLE_LITERAL );
 		addEEnumLiteral( riserTypeEEnum, RiserType.TUBE_LITERAL );
+		addEEnumLiteral( riserTypeEEnum, RiserType.CONE_LITERAL );
 
 		initEEnum( ruleTypeEEnum, RuleType.class, "RuleType" ); //$NON-NLS-1$
 		addEEnumLiteral( ruleTypeEEnum, RuleType.FILTER_LITERAL );

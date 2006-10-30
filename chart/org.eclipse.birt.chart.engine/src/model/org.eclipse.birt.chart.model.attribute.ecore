@@ -1507,6 +1507,7 @@
     <eLiterals name="Rectangle"/>
     <eLiterals name="Triangle" value="1"/>
     <eLiterals name="Tube" value="2"/>
+    <eLiterals name="Cone" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="RiserTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

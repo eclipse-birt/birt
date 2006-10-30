@@ -71,6 +71,21 @@ public final class RiserType extends AbstractEnumerator
 	public static final int TUBE = 2;
 
 	/**
+	 * The '<em><b>Cone</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Cone</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CONE_LITERAL
+	 * @model name="Cone"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CONE = 3;
+
+	/**
 	 * The '<em><b>Rectangle</b></em>' literal object.
 	 * <!-- begin-user-doc
 	 * -->
@@ -114,13 +129,24 @@ public final class RiserType extends AbstractEnumerator
 			"Tube", "Tube" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
+	 * The '<em><b>Cone</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CONE
+	 * @generated
+	 * @ordered
+	 */
+	public static final RiserType CONE_LITERAL = new RiserType( CONE,
+			"Cone", "Cone" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
 	 * An array of all the '<em><b>Riser Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	private static final RiserType[] VALUES_ARRAY = new RiserType[]{
-			RECTANGLE_LITERAL, TRIANGLE_LITERAL, TUBE_LITERAL,
+			RECTANGLE_LITERAL, TRIANGLE_LITERAL, TUBE_LITERAL, CONE_LITERAL,
 	};
 
 	/**
@@ -182,6 +208,8 @@ public final class RiserType extends AbstractEnumerator
 				return TRIANGLE_LITERAL;
 			case TUBE :
 				return TUBE_LITERAL;
+			case CONE :
+				return CONE_LITERAL;
 		}
 		return null;
 	}
