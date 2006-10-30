@@ -189,7 +189,6 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
 		Series valueSeries = DifferenceSeriesImpl.create( );
-		valueSeries.getLabel( ).setVisible( true );
 		( (Marker) ( (DifferenceSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 		( (DifferenceSeries) valueSeries ).getLineAttributes( )
 				.setColor( ColorDefinitionImpl.BLUE( ) );
@@ -382,6 +381,7 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )

@@ -277,7 +277,6 @@ public class BarChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			valueSeries.setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -295,7 +294,6 @@ public class BarChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			valueSeries.setStacked( true );
 			( (BarSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -312,7 +310,6 @@ public class BarChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (BarSeries) valueSeries ).setStacked( false );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -579,6 +576,7 @@ public class BarChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );

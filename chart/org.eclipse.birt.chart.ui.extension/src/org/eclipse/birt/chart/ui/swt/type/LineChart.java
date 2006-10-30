@@ -235,7 +235,6 @@ public class LineChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = LineSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (Marker) ( (LineSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( true );
 			( (LineSeries) valueSeries ).setStacked( true );
 			( (LineSeries) valueSeries ).setPaletteLineColor( true );
@@ -255,7 +254,6 @@ public class LineChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = LineSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (Marker) ( (LineSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( true );
 			( (LineSeries) valueSeries ).setStacked( true );
 			( (LineSeries) valueSeries ).setPaletteLineColor( true );
@@ -273,7 +271,6 @@ public class LineChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = LineSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (Marker) ( (LineSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( true );
 			( (LineSeries) valueSeries ).setStacked( false );
 			( (LineSeries) valueSeries ).setPaletteLineColor( true );
@@ -547,6 +544,7 @@ public class LineChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					( (LineSeries) series ).setPaletteLineColor( true );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{

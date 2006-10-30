@@ -185,7 +185,6 @@ public class GanttChart extends DefaultChartTypeImpl
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
 		Series valueSeries = GanttSeriesImpl.create( );
-		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setLabelPosition( Position.ABOVE_LITERAL );
 		sdY.getSeries( ).add( valueSeries );
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -378,6 +377,7 @@ public class GanttChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )

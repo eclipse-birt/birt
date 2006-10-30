@@ -205,7 +205,6 @@ public class StockChart extends DefaultChartTypeImpl
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
 		Series valueSeries = StockSeriesImpl.create( );
-		valueSeries.getLabel( ).setVisible( true );
 		if ( BAR_STICK_SUBTYPE_LITERAL.equals( sSubType ) )
 		{
 			( (StockSeries) valueSeries ).setShowAsBarStick( true );
@@ -407,6 +406,7 @@ public class StockChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )

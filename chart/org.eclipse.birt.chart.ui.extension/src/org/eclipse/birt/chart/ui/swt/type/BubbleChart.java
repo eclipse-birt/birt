@@ -189,7 +189,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
 		Series orthogonalSeries = BubbleSeriesImpl.create( );
-		orthogonalSeries.getLabel( ).setVisible( true );
 		( (BubbleSeries) orthogonalSeries ).setStacked( false );
 		sdY.getSeries( ).add( orthogonalSeries );
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -329,7 +328,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 			}
 
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
 
 			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -390,6 +388,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					series.setStacked( false );
 					// Clear any existing series
 					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
@@ -446,51 +445,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 		ChartUIUtil.copyGeneralSeriesAttributes( series, bubbleSeries );
 
 		return bubbleSeries;
-	}
-
-	private SampleData getConvertedSampleData( SampleData currentSampleData, AxisType xAxisType, ArrayList axisTypes )
-	{
-		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData =  getConvertedBaseSampleDataRepresentation( bsdList, xAxisType );
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
-
-		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList, axisTypes );
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
-		return currentSampleData;
-	}
-
-	private Vector getConvertedBaseSampleDataRepresentation(
-			EList bsdList, AxisType xAxisType )
-	{
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
-					bsd.getDataSetRepresentation( ) ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		return vNewBaseSampleData;
-	}
-	
-	private Vector getConvertedOrthogonalSampleDataRepresentation(
-			EList osdList, ArrayList axisTypes )
-	{
-		Vector vNewOrthogonalSampleData = new Vector( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( (AxisType) axisTypes.get( i ),
-					osd.getDataSetRepresentation( ) ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
-		return vNewOrthogonalSampleData;
 	}
 
 	/*

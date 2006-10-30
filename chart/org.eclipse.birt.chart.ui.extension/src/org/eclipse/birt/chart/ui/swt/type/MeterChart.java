@@ -190,6 +190,7 @@ public class MeterChart extends DefaultChartTypeImpl
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
 		DialSeries valueSeries = (DialSeries) DialSeriesImpl.create( );
+		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
 		sdY.getSeries( ).add( valueSeries );
 

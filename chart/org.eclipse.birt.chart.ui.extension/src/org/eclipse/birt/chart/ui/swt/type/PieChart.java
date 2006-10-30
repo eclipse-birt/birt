@@ -426,6 +426,7 @@ public class PieChart extends DefaultChartTypeImpl
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, pieseries );
+		pieseries.getLabel( ).setVisible( true );
 
 		return pieseries;
 	}

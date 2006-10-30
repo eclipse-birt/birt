@@ -258,7 +258,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = AreaSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 			( (AreaSeries) valueSeries ).getLineAttributes( )
 					.setColor( ColorDefinitionImpl.BLUE( ) );
@@ -279,7 +278,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = AreaSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 			( (AreaSeries) valueSeries ).getLineAttributes( )
 					.setColor( ColorDefinitionImpl.BLUE( ) );
@@ -298,7 +296,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
 			Series valueSeries = AreaSeriesImpl.create( );
-			valueSeries.getLabel( ).setVisible( true );
 			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
 			( (AreaSeries) valueSeries ).getLineAttributes( )
 					.setColor( ColorDefinitionImpl.BLUE( ) );
@@ -552,7 +549,6 @@ public class AreaChart extends DefaultChartTypeImpl
 				// Update the base series
 				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-				// series = getConvertedSeries( series );
 
 				// Clear existing series
 				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -571,6 +567,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
+					series.getLabel( ).setVisible( false );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
