@@ -119,8 +119,6 @@
 	</target>
 
 	<target name="pre.@dot">
-		<property name="@dot.classpath" value="lib/servlet.jar" />
-		<echo message="@dot.classpath"/>
 	</target>
 
 	<!-- ===================================================================== -->
