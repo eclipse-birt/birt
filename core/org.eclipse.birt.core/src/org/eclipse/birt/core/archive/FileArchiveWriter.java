@@ -182,10 +182,12 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		if (folderWriter != null)
-		{
-			return folderWriter.lock( stream );
-		}
+//		if (folderWriter != null)
+//		{
+//			return folderWriter.lock( stream );
+//		}
+		//we don't support the progressive for the file based document, so
+		//no lock and refersh is needed.
 		return stream.toString( );
 	}
 
@@ -196,10 +198,10 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	 */
 	public void unlock( Object lock )
 	{
-		if (folderWriter != null)
-		{
-			folderWriter.unlock( lock );
-		}
+//		if (folderWriter != null)
+//		{
+//			folderWriter.unlock( lock );
+//		}
 	}
 	
 }
