@@ -62,7 +62,7 @@ public class BirtException extends Exception
 	 * The resource bundle that holds a collection of messages for a specific
 	 * locale
 	 */
-	protected final ResourceBundle rb;
+	transient protected final ResourceBundle rb;
 
 	/**
 	 * The unique identifier of the plug-in associated with this exception

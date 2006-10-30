@@ -24,6 +24,7 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
  */
 public class CoreException extends BirtException
 {
+	private static final long serialVersionUID = 1L;
 	static protected UResourceBundle rb = new ResourceHandle(ULocale.getDefault()).getUResourceBundle();
 	static protected String PLUGIN_ID = "org.eclipse.birt.core";
 	
