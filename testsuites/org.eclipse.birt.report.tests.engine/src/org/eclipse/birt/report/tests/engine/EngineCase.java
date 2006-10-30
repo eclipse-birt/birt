@@ -367,7 +367,17 @@ public abstract class EngineCase extends TestCase
 	}
 
 	/**
+	 * Compares the string. The comparison will ignore the line containing
 	 * 
+	 * @param output
+	 *            the file name to be compared.
+	 * @param checkstring
+	 *            the string to be compared.
+	 * @param checktimes
+	 * 		      the times that the checkstring display.
+	 * @return true if the string display times is the same as checktimes
+	 * @throws Exception
+	 *             if any exception.
 	 */
 	protected boolean compareHTML_STRING( String output, String checkstring, int checktimes )
 	{
@@ -754,7 +764,15 @@ public abstract class EngineCase extends TestCase
 	}
 	
 	/**
+	 * Compares the two times.
 	 * 
+	 * @param checktimes
+	 *            the times that the string display.
+	 * @param countstring
+	 *            the golden times.
+	 * @return true if two times are same.
+	 * @throws Exception
+	 *             if any exception
 	 */
 	private boolean compareString ( int checktimes, int countstring )
 	{
