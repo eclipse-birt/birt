@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +57,7 @@ public class RenderTaskTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		engine.getConfig( ).setLogConfig( getClassFolder()+"/"+OUTPUT_FOLDER+"/", Level.WARNING );
 	}
 
 	public void testRender_orderreport( )
@@ -354,7 +356,6 @@ public class RenderTaskTest extends EngineCase
 			htmlRenderOptions.setOutputStream( ostream );
 			htmlRenderOptions.setOutputFormat( "html" );
 			( (HTMLRenderOption) htmlRenderOptions ).setEnableMetadata( true );
-
 			task.setRenderOption( htmlRenderOptions );
 			task.render( );
 			task.close( );

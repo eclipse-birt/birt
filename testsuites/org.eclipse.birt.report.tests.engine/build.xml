@@ -109,6 +109,12 @@
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
+		
+		<copy todir="${utest.report.dir}/AutoTestLog" >
+			<fileset dir="${src.dir}/org/eclipse/birt/report/tests/engine/api/output">
+				<include name="*.log"/>
+			</fileset>
+		</copy>
 	</target>
 	
 	<!-- Clean, clean this project -->
