@@ -52,7 +52,7 @@ public final class DataTypeUtil
 	private static int DEFAULT_DATE_STYLE = DateFormat.FULL;
 
 	// resource bundle for exception messages 
-	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getResourceBundle( );
+	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getUResourceBundle( );
 
 	public static long count = 0;
 	private final static String pluginId = "org.eclipse.birt.core";

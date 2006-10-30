@@ -16,6 +16,8 @@ import java.util.Date;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.Calendar;
+
 /**
  * This calculator is used to calculate a datetime group key basing group interval.
  */
@@ -23,7 +25,15 @@ import org.eclipse.birt.core.exception.BirtException;
 abstract class DateGroupCalculator extends GroupCalculator
 {
 	
-	static protected Date defaultStart = new Date(70,0,1);
+	static protected Date defaultStart;
+	
+	static
+	{
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		c.set( 1970, 0, 1 );
+		defaultStart = c.getTime( );
+	}
 	
 	/**
 	 * 

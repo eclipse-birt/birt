@@ -78,7 +78,7 @@ public class JdbcResourceHandle
 		bundleName = bundleName + BUNDLE_NAME;
 		if ( locale == null )
 			locale = ULocale.getDefault( );
-		resources = UResourceBundle.getBundleInstance( bundleName, locale, this.getClass().getClassLoader() );
+		resources = UResourceBundle.getBundleInstance( bundleName, locale.getName( ), this.getClass().getClassLoader() );
 		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
 	}
