@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -371,6 +372,16 @@ class PropertyState extends AbstractPropertyState
 			CompatibleColumnDataTypeState state = new CompatibleColumnDataTypeState(
 					handler, element, propDefn, struct );
 			state.setName( DataSetParameter.DATA_TYPE_MEMBER );
+			return state;
+		}
+		
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_9
+				&& element instanceof ScalarParameter
+				&& IScalarParameterModel.MUCH_MATCH_PROP.equalsIgnoreCase( name ) )
+		{
+			CompatibleMustMatchState state = new CompatibleMustMatchState(
+					handler, element );
+			state.setName( IScalarParameterModel.MUCH_MATCH_PROP );
 			return state;
 		}
 

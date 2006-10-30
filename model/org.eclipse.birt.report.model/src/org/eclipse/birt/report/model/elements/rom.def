@@ -2235,7 +2235,7 @@
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.ScalarParameter.selectionList">
       <Property displayNameID="Element.ScalarParameter.selectionList.mustMatch" name="mustMatch" runtimeSettable="false" since="1.0" type="boolean">
-        <Default>false</Default>
+        <Default>true</Default>
       </Property>
       <Property displayNameID="Element.ScalarParameter.selectionList.fixedOrder" name="fixedOrder" runtimeSettable="false" since="1.0" type="boolean">
         <Default>true</Default>

@@ -23,13 +23,13 @@ public interface DesignSchemaConstants
 	 * The version of report design.
 	 */
 
-	public final static String REPORT_VERSION = "3.2.8"; //$NON-NLS-1$
+	public final static String REPORT_VERSION = "3.2.9"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
 
-	final static int REPORT_VERSION_NUMBER = 3020800;
+	final static int REPORT_VERSION_NUMBER = 3020900;
 
 	static final String BACKGROUND_ATTACHMENT_ATTRIB = "background-attachment"; //$NON-NLS-1$
 	static final String BACKGROUND_COLOR_ATTRIB = "background-color"; //$NON-NLS-1$
