@@ -261,14 +261,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					if ( configVar != null && configVar.getName( ) != null )
 					{
 						String paramName = configVar.getName( );
-						String paramValue = configVar.getValue( );
+						Object paramValue = configVar.getValue( );
 
 						// check if null parameter
 						if ( paramName.toLowerCase( ).startsWith(
 								ParameterAccessor.PARAM_ISNULL )
 								&& paramValue != null )
 						{
-							String nullParamName = getParameterName( paramValue );
+							String nullParamName = getParameterName( (String) paramValue );
 							if ( nullParamName != null )
 								this.configMap.put( nullParamName, null );
 
@@ -320,22 +320,25 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 							try
 							{
-								// if parameter type isn't String or DateTime,
-								// convert it
+								// if parameter type isn't String ,convert it
 								if ( !DesignChoiceConstants.PARAM_TYPE_STRING
-										.equalsIgnoreCase( dataType )
-										&& !DesignChoiceConstants.PARAM_TYPE_DATETIME
-												.equalsIgnoreCase( dataType ) )
+										.equalsIgnoreCase( dataType ) )
 								{
 									String pattern = parameter.getPattern( );
 									Object paramValueObj = ParameterValidationUtil
 											.validate( dataType, pattern,
-													paramValue, ULocale.US );
+													(String) paramValue,
+													ULocale.US );
 
-									paramValue = ParameterValidationUtil
-											.getDisplayValue( dataType,
-													pattern, paramValueObj,
-													locale );
+									// if DateTime type,return Date Object
+									if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+											.equalsIgnoreCase( dataType ) )
+										paramValue = paramValueObj;
+									else
+										paramValue = ParameterValidationUtil
+												.getDisplayValue( dataType,
+														pattern, paramValueObj,
+														locale );
 								}
 							}
 							catch ( Exception err )
@@ -413,7 +416,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 
 			defalutValue = ParameterValidationUtil.getDisplayValue( null,
-					pattern, defaultValueObj, locale );	
+					pattern, defaultValueObj, locale );
 		}
 
 		// get parameter default value as string
@@ -700,12 +703,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			if ( paramValueObj != null )
 			{
 				// if default value is Date object, put map directly
-				if( paramValueObj instanceof Date )
+				if ( paramValueObj instanceof Date )
 				{
 					params.put( paramName, paramValueObj );
 					continue;
 				}
-				
+
 				try
 				{
 					// convert parameter to object
@@ -724,8 +727,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				}
 				catch ( ValidationValueException e )
 				{
-					// if in RUN mode, then throw exception directly
-					if ( ParameterAccessor.SERVLET_PATH_RUN
+					// if in PREVIEW mode, then throw exception directly
+					if ( ParameterAccessor.SERVLET_PATH_PREVIEW
 							.equalsIgnoreCase( request.getServletPath( ) ) )
 					{
 						this.exception = e;
@@ -751,7 +754,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * 
 	 * @return
 	 */
-	protected String getParamValueAsString( HttpServletRequest request,
+	protected Object getParamValueAsString( HttpServletRequest request,
 			ScalarParameterHandle parameter )
 	{
 		String paramName = parameter.getName( );
@@ -781,17 +784,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		{
 			// Get value from document
 			paramValueObj = this.parameterMap.get( paramName );
-
-			// Convert to locale string format
-			paramValueObj = ParameterValidationUtil.getDisplayValue( null,
-					parameter.getPattern( ), paramValueObj, locale );
 		}
 
-		if ( paramValueObj != null )
-			paramValue = paramValueObj.toString( );
+		if ( paramValueObj == null )
+			return paramValue;
 
-		return paramValue;
-
+		// if DateTime parameter, return it
+		if ( paramValueObj instanceof Date )
+			return paramValueObj;
+		else
+			return paramValueObj.toString( );
 	}
 
 	/**
@@ -829,7 +831,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				continue;
 
 			String paramName = parameter.getName( );
-			String paramValue = getParamValueAsString( request, parameter );
+			Object paramValue = getParamValueAsString( request, parameter );
 
 			if ( paramName != null )
 				params.put( paramName, paramValue );
