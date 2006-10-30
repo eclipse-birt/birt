@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <list name="My List">
+            <property name="pageBreakInterval">aa</property>
+        </list>
+    </body>
+</report>

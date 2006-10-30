@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <translations>
+        <resource key="ResourceKey.testKey1">
+            <translation>text default</translation>
+            <translation locale="en">text en</translation>
+            <translation locale="en_US">text en_US</translation>
+            <translation locale="en_AU">text en_AU</translation>
+        </resource>
+    </translations>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

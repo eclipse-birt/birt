@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.1 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+    <data-sources>
+        <extended-data-source name="extendedDataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="DataSet1">
+            <property name="dataSource">extendedDataSource</property>
+            <method name="queryScript"><![CDATA[query script1]]></method>
+        </oda-data-set>
+        <oda-data-set name="DataSet2">
+            <property name="dataSource">extendedDataSource</property>
+            <method name="queryScript"><![CDATA[query script2]]></method>
+        </oda-data-set>
+        <joint-data-set name="JointDataSet">
+			<simple-property-list name="dataSets">
+    			<value>DataSet1</value>
+       			<value>DataSet2</value>
+            </simple-property-list>
+            <list-property name="joinConditions">
+                <structure>
+                    <property name="joinType">inner</property>
+                    <property name="joinOperator">eq</property>
+                    <property name="leftDataSet">DataSet1</property>
+                    <property name="rightDataSet">DataSet2</property>
+                    <property name="leftExpression">leftExpression</property>
+                    <property name="rightExpression">rightExpression</property>
+                </structure>
+             </list-property>
+        </joint-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>	
+</report>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="theme">theme1</property>
+    <data-sources>
+        <script-data-source name="dataSource1" id="5">
+            <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
+            <method name="beforeClose"><![CDATA[script_beforeclose]]></method>
+            <method name="afterOpen"><![CDATA[script_afteropen]]></method>
+            <method name="afterClose"><![CDATA[script_afterclose]]></method>
+            <method name="open"><![CDATA[script_open]]></method>
+            <method name="close"><![CDATA[script_close]]></method>
+        </script-data-source>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="dataSet1" id="6">
+            <property name="dataSource">dataSource1</property>
+            <method name="open"><![CDATA[open script]]></method>
+            <method name="describe"><![CDATA[describe script]]></method>
+            <method name="fetch"><![CDATA[fetch script]]></method>
+            <method name="close"><![CDATA[close script]]></method>
+        </script-data-set>
+        <script-data-set name="dataSet2">
+            <property name="dataSource">dataSource1</property>
+            <method name="open"><![CDATA[open script]]></method>
+            <method name="describe"><![CDATA[describe script]]></method>
+            <method name="fetch"><![CDATA[fetch script]]></method>
+            <method name="close"><![CDATA[close script]]></method>
+        </script-data-set>
+        <joint-data-set name="jointDataSet">
+			<simple-property-list name="dataSets">
+    			<value>dataSet1</value>
+       			<value>dataSet2</value>
+            </simple-property-list>
+            <list-property name="joinConditions">
+                <structure>
+                    <property name="joinType">inner</property>
+                    <property name="joinOperator">eq</property>
+                    <property name="leftDataSet">dataSet1</property>
+                    <property name="rightDataSet">dataSet2</property>
+                    <property name="leftExpression">leftExpression</property>
+                    <property name="rightExpression">rightExpression</property>
+                </structure>
+             </list-property>
+        </joint-data-set>
+    </data-sets>
+    <themes>
+        <theme name="theme1" id="2">
+            <styles>
+                <style name="style1" id="3">
+                    <property name="fontWeight">bolder</property>
+                    <property name="color">red</property>
+                </style>
+                <style name="style2" id="4">
+                    <property name="backgroundColor">yellow</property>
+            		<property name="fontFamily">Times</property>
+            		<property name="fontSize">12mm</property>
+            		<property name="fontWeight">bold</property>
+            		<property name="color">red</property>
+                </style>
+				<style name="grid" id="34">
+            		<property name="color">green</property>
+					<property name="fontWeight">bolder</property>
+                </style>				
+            </styles>
+        </theme>
+    </themes>
+    <components>
+        <table name="libTable1" id="8">
+            <property name="style">style1</property>
+			<column id="24"/>
+			<column id="25">
+				<property name="fontFamily">serial</property>
+			</column>
+            <method name="onStart"><![CDATA[onStart in Library]]></method>
+            <text-property name="caption">Employee Table</text-property>
+            <header>
+                <row id="9">
+					<property name="color">green</property>
+					<property name="height">20pt</property>
+                    <cell id="10"/>
+                    <cell id="11"/>
+                </row>
+            </header>
+            <detail>
+                <row id="12">
+                    <cell id="13">
+                        <label name="label_1_1" id="14">
+                            <text-property name="text">Cell 1-1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label name="label_1_2" id="16">
+                            <text-property name="text">Cell 1-2</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="17">
+                    <cell id="18">
+                        <table name="libInnerTable" id="19">
+                            <header>
+                                <row id="20">
+                                    <cell id="21">
+										<property name="color">yellow</property>
+                                        <text name="libInnerText" id="22">
+                                            <text-property name="content"><![CDATA[Inner Text]]></text-property>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </header>
+                        </table>
+                    </cell>
+                    <cell id="23"/>
+                </row>
+            </detail>
+        </table>
+		<table name="libTable2" id="26">
+            <group id="27">
+				<property name="keyExpr">[keyExpr]</property>
+				<property name="toc">[toc]</property>
+			</group>
+		</table>
+		<table name="libTable3" id="28">
+            <group id="29">
+				<property name="keyExpr">[keyExpr]</property>
+			</group>
+		</table>		
+        <label name="libLabel1" id="30">
+			<property name="text">base label in library</property>
+        </label>
+        <label name="libLabel2">
+			<property name="text">base label in library</property>
+			<property name="dataSet">jointDataSet</property>
+        </label>
+		<list name="libList1" id="31">
+			<property name="color">green</property>
+			<detail>
+				<label name="libLabel3" id="32" extends="libLabel1" />
+			</detail>
+		</list>        	
+    </components>
+    <parameters>
+	    <scalar-parameter name="param1" id="33">
+            <property name="dataType">string</property>
+			<property name="valueType">dynamic</property>
+            <property name="controlType">check-box</property>
+	        <property name="dataSetName">dataSet1</property>
+            <expression name="valueExpr">row["test"]</expression>
+            <expression name="labelExpr">test column</expression>
+            <property name="promptText">City</property>
+            <property name="listLimit">100</property>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <graphic-master-page name="libPage1" id="7"/>
+    </page-setup>
+</library>

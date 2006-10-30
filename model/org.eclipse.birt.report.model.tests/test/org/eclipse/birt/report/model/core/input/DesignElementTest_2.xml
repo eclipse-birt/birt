@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="FreeForm">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <text name="text1">
+                    <text-property name="displayName" key="TextKey1">he</text-property>
+                </text>
+                <text name="text2"/>
+                <text name="text3">
+                    <text-property name="displayName" key="TextKey2"></text-property>
+                </text>
+                <text>
+                    <text-property name="displayName" key="TextKey4">Ant</text-property>
+                </text>
+                <text>
+                    <text-property name="displayName" key="TextKey5"></text-property>
+                </text>
+                <text/>
+                <text name="hexingjie">
+                    <text-property name="content"><![CDATA[This is a sample bit of plain text.]]></text-property>
+                </text>
+                <text>
+                    <text-property name="content"><![CDATA[hello,12345678910111213141adfasfasdfasdfaasdfasdfasdfasd]]></text-property>
+                </text>
+                <text>
+                    <text-property name="content"><![CDATA[This is ]]></text-property>
+                </text>
+                <text>
+                    <text-property name="content"><![CDATA[a sample bit of plain textafsfasdfasdfasdfasd.]]></text-property>
+                </text>
+            </report-items>
+        </free-form>
+    </body>
+</report>

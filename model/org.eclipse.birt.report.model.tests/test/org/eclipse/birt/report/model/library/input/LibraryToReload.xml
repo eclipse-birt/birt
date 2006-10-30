@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="theme">theme1</property>
+    <data-sources>
+        <oda-data-source name="dataSource1" id="5"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="dataSet1" id="6"/>
+    </data-sets>
+    <themes>
+        <theme name="theme1" id="2">
+            <styles>
+                <style name="style1" id="3">
+                    <property name="fontWeight">bolder</property>
+                    <property name="color">red</property>
+                </style>
+                <style name="style3" id="4">
+                    <property name="color">red</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <components>
+        <table name="libTable1" id="8">
+            <property name="style">style1</property>
+            <text-property name="caption">Employee Table</text-property>
+            <column id="24"/>
+            <column id="25">
+                <property name="fontFamily">serial</property>
+            </column>
+            <header>
+                <row id="9">
+                    <property name="height">20pt</property>
+                    <property name="color">green</property>
+                    <cell id="10"/>
+                    <cell id="11"/>
+                </row>
+            </header>
+            <detail>
+                <row id="12">
+                    <cell id="13">
+                        <label name="label_1_1" id="14">
+                            <text-property name="text">Cell 1-1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label name="label_1_2" id="16">
+                            <text-property name="text">Cell 1-2</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="17">
+                    <cell id="18">
+                        <table name="libInnerTable" id="19">
+                            <header>
+                                <row id="20">
+                                    <cell id="21">
+                                        <property name="color">yellow</property>
+                                        <text name="libInnerText" id="22">
+                                            <text-property name="content"><![CDATA[Inner Text]]></text-property>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </header>
+                        </table>
+                    </cell>
+                    <cell id="23"/>
+                </row>
+            </detail>
+        </table>
+        <table name="libTable2" id="26">
+            <property name="color">lime</property>
+            <group id="27">
+                <property name="groupName">NewTableGroup1</property>
+                <expression name="keyExpr">[keyExpr]</expression>
+                <expression name="toc">[toc]</expression>
+            </group>
+        </table>
+        <table name="libTable3" id="28">
+            <group id="29">
+                <property name="groupName">NewTableGroup1</property>
+                <expression name="keyExpr">[keyExpr]</expression>
+            </group>
+        </table>
+        <label name="libLabel1" id="30">
+            <text-property name="text">base label in library</text-property>
+        </label>
+        <list name="libList1" id="31">
+            <detail>
+                <label name="libLabel2" id="32" extends="libLabel1"/>
+            </detail>
+        </list>
+    </components>
+    <page-setup>
+        <graphic-master-page name="libPage1" id="7"/>
+    </page-setup>
+</library>

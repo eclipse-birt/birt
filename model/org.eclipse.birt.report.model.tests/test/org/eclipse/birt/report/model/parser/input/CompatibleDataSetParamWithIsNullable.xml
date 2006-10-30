@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sets>
+        <oda-data-set name="MyDataSet">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">name</property>
+                    <property name="isNullable">true</property>
+                </structure>
+			</list-property>
+		</oda-data-set>
+    </data-sets>
+</report>

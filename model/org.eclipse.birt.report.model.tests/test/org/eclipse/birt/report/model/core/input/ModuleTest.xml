@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="parent">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <label name="label">
+                    <text-property name="displayName" key="hello">he</text-property>
+                </label>
+                <free-form name="child">
+                	<property name="comments">Sample Section</property>
+            		<text-property name="displayName">The Section</text-property>
+            		<expression name="toc">"This Section"</expression>
+            		<report-items>
+                		<label name="labelTwo">
+                    		<text-property name="displayName" key="hello">he</text-property>
+                		</label>
+                	</report-items>
+                </free-form>
+            </report-items>
+        </free-form>
+    </body>
+</report>

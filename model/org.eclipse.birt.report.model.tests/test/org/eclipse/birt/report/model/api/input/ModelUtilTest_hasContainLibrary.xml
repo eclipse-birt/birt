@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="includeResource">r2</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">Containlibrary.xml</property>
+            <property name="namespace">Containlibrary</property>
+        </structure>
+        <structure>
+            <property name="fileName">../input/RelativeContainlibrary.xml</property>
+            <property name="namespace">RelativeContainlibrary</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label name="NewLabel2" id="616" extends="new_library.NewLabel2"/>
+    </body>
+</report>

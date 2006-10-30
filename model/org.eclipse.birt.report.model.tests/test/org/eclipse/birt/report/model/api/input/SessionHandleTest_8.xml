@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="extendedDataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">extendedDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">us-letter</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="width">8mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <image name="wrong">
+            <property name="uri">c:/nofile/nofile.data</property>
+            <text-property name="altText"></text-property>
+            <text-property name="helpText"></text-property>
+        </image>
+    </body>
+</report>

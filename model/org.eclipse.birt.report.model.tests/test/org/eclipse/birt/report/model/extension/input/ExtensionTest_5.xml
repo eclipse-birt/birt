@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+    <body>
+    	<free-form>
+            <report-items>
+        		<extended-item name="right extended item" >
+        			<property name="x">1.2mm</property>
+        			<property name="test2">22</property>
+        			<property name="test3"><![CDATA[type=bar,xScale=2,yScale=3]]></property>
+        			<property name="test5">choice1</property>
+       			</extended-item>
+       		</report-items>
+       	</free-form>       			
+    </body>
+</report>

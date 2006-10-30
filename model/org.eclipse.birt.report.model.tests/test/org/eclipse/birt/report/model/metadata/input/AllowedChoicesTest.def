@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportMetaData>	
+  <ChoiceType name="units">
+    <Choice displayNameID="Choices.units.in" name="in" />
+    <Choice displayNameID="Choices.units.cm" name="cm" />
+    <Choice displayNameID="Choices.units.mm" name="mm" />
+    <Choice displayNameID="Choices.units.pt" name="pt" />
+    <Choice displayNameID="Choices.units.pc" name="pc" />
+    <Choice displayNameID="Choices.units.em" name="em" />
+    <Choice displayNameID="Choices.units.ex" name="ex" />
+    <Choice displayNameID="Choices.units.px" name="px" />
+    <Choice displayNameID="Choices.units.%" name="%" />
+  </ChoiceType>
+  <ChoiceType name="fontSize">
+    <Choice name="xx-small" displayNameID="Choices.fontSize.xx-small" />
+    <Choice name="x-small" displayNameID="Choices.fontSize.x-small" />
+    <Choice name="small" displayNameID="Choices.fontSize.small" />
+    <Choice name="medium" displayNameID="Choices.fontSize.medium" />
+    <Choice name="large" displayNameID="Choices.fontSize.large" />
+    <Choice name="x-large" displayNameID="Choices.fontSize.x-large" />
+    <Choice name="xx-large" displayNameID="Choices.fontSize.xx-large" />
+    <Choice name="larger" displayNameID="Choices.fontSize.larger" />
+    <Choice name="smaller" displayNameID="Choices.fontSize.smaller" />
+  </ChoiceType>
+  <ChoiceType name="fontStyle">
+    <Choice name="normal" displayNameID="Choices.fontStyle.normal" />
+    <Choice name="italic" displayNameID="Choices.fontStyle.italic" />
+    <Choice name="oblique" displayNameID="Choices.fontStyle.oblique" />
+  </ChoiceType>
+  <ChoiceType name="backgroundPositionX">
+    <Choice name="left" displayNameID="Choices.backgroundPositionX.left" />
+    <Choice name="center" displayNameID="Choices.backgroundPositionX.center" />
+    <Choice name="right" displayNameID="Choices.backgroundPositionX.right" />
+  </ChoiceType>
+<Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="none" selector="report" xmlName="report"/>
+<Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none"/>
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true" xmlName="style">
+    <PropertyGroup displayNameID="Element.Style.font">
+      <Property name="fontSize" displayNameID="Element.Style.font.size" type="dimension" detailType="fontSize" isStyleProperty="true">
+        <Allowed>in,cm</Allowed>
+        <Default>medium</Default>
+      </Property>
+      <Property name="fontStyle" displayNameID="Element.Style.font.style" type="choice" detailType="fontStyle" isStyleProperty="true">
+        <Allowed>normal,Italic</Allowed>
+        <Default>normal</Default>
+      </Property>
+    </PropertyGroup>
+    <PropertyGroup displayNameID="Element.Style.background">
+      <Property name="backgroundPositionX" displayNameID="Element.Style.background.positionX" type="dimension" detailType="backgroundPositionX" isStyleProperty="true" canInherit="false">
+        <Default>0%</Default>
+      </Property>
+    </PropertyGroup>
+  </Element>
+</ReportMetaData>
+

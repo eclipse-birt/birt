@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+   <parameters>
+        <cascading-parameter-group name="NewCascadingParameterGroup" id="8">
+            <property name="dataSet">Data Set</property>
+            <parameters>
+                <scalar-parameter name="country" id="9">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="format">Unformatted</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">row["open_dt"]</expression>
+                </scalar-parameter>
+                <scalar-parameter name="state" id="10">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="format">Unformatted</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">row["account_id"]</expression>
+                </scalar-parameter>
+                <scalar-parameter name="city" id="11">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="format">Unformatted</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">row["account_nm"]</expression>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+    </parameters>
+  <components>
+        <label name="baseLabel" id="101">
+            <property name="x">6mm</property>
+            <property name="y">0.5mm</property>
+            <property name="height">0.25mm</property>
+            <property name="width">1mm</property>
+            <text-property name="text">First Page</text-property>
+        </label>        
+		<table name="baseTable" id="131">
+            <property name="width">100%</property>
+            <column id="144"/>
+            <column id="145"/>
+            <column id="146"/>
+            <header>
+                <row id="132">
+                    <cell id="133"/>
+                    <cell id="134"/>
+                    <cell id="135"/>
+                </row>
+            </header>
+            <detail>
+                <row id="136">
+                    <cell id="137"/>
+                    <cell id="138">
+                        <label name="NewLabel1" id="147">
+                            <text-property name="text">test</text-property>
+                        </label>
+                    </cell>
+                    <cell id="139"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="140">
+                    <cell id="141"/>
+                    <cell id="142"/>
+                    <cell id="143"/>
+                </row>
+            </footer>
+        </table>
+    </components>
+</library>

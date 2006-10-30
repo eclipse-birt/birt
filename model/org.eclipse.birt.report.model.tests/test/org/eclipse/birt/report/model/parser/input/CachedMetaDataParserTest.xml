@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+            <structure name="cachedMetaData">
+                <list-property name="parameters">
+                    <structure>
+                        <property name="name">name</property>
+                        <property name="dataType">string</property>
+                        <property name="position">1</property>
+                        <expression name="defaultValue">default value 1</expression>
+                        <property name="isOptional">true</property>
+                        <property name="isNullable">false</property>
+                        <property name="isInput">true</property>
+                        <property name="isOutput">false</property>
+                    </structure>
+                    <structure>
+                        <property name="name">date</property>
+                        <property name="dataType">date-time</property>
+                        <property name="position">2</property>
+                        <property name="isOptional">false</property>
+                        <property name="isNullable">false</property>
+                        <property name="isInput">true</property>
+                        <property name="isOutput">false</property>
+                    </structure>
+                    <structure>
+                        <property name="name">birth</property>
+                        <property name="dataType">date-time</property>
+                        <property name="isOptional">false</property>
+                        <property name="isNullable">false</property>
+                        <property name="isInput">false</property>
+                        <property name="isOutput">true</property>
+                    </structure>
+                    <structure>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                        <property name="isOptional">false</property>
+                        <property name="isNullable">false</property>
+                        <property name="isInput">false</property>
+                        <property name="isOutput">true</property>
+                    </structure>
+                </list-property>
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+</report>

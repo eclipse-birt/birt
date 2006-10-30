@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+    </themes>
+    <components>
+        <label name="NewLabel" id="4">
+            <property name="backgroundColor">aqua</property>
+            <text-property name="text">label from library</text-property>
+        </label>
+        <table name="NewTable" id="5">
+            <property name="backgroundColor">orange</property>
+            <property name="width">100%</property>
+            <column id="18"/>
+            <column id="19"/>
+            <column id="20"/>
+            <header>
+                <row id="6">
+                    <cell id="7"/>
+                    <cell id="8"/>
+                    <cell id="9"/>
+                </row>
+            </header>
+			<group id="21">
+				<header>
+					<row id="22">
+						<cell id="23"/>
+						<cell id="24"/>
+						<cell id="25"/>
+					</row>
+				</header>					
+			</group>
+            <detail>
+                <row id="10">
+                    <cell id="11"/>
+                    <cell id="12"/>
+                    <cell id="13"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="14">
+                    <cell id="15"/>
+                    <cell id="16"/>
+                    <cell id="17"/>
+                </row>
+            </footer>
+        </table>
+    </components>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

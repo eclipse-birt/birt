@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" author="W.C. Fields" created-by="Whiz-Bang Plus" creation-date="2004-06-10 17:28:39" help-guide="http://company.com/reportHelp.html" is-reportlet="false" locale="us-en" modification-date="2004-06-11 13:14:15" refresh-rate="30" units="in">
+	
+	<page-setup>
+		<master-page columns="1" column-spacing=".25mm" extends="" height="11mm" java-class="page.java" name="My Page" orientation="auto" type="USLetter" width="8.5mm">
+			<comments>Sample page</comments>
+			<margins bottom=".75mm" left=".8mm" top=".95mm" right=".9mm"/>
+			<contents>
+				<rectangle x="12mm" y="39mm" width="100mm" height="20mm">
+					<style name="My Style">
+						<border>
+							<top color="white" style="dotted" width="1mm"/>
+							<left color="white" style="dashed" width="2mm"/>
+							<bottom color="white" style="solid" width="3mm"/>
+							<right color="white" style="double" width="4mm"/>
+						
+					</style>
+				</rectangle>
+			</contents>
+		</master-page>
+	</page-setup>
+	
+</report>

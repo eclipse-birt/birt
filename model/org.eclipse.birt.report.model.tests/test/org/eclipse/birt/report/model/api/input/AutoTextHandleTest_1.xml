@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.1.0" id="1">
+    <page-setup>
+        <simple-master-page name="My Page" id="2">
+            <page-header>
+                <auto-text name="sf1" id="3">
+                    <property name="type">page-number</property>
+                </auto-text>
+            </page-header>
+        </simple-master-page>
+    </page-setup>
+    <body>
+       
+    </body>
+</report>

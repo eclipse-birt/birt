@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sources>
+        <oda-data-source name="extendedDataSource" id="2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="3">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">date</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">new column1</property>
+                    <expression name="expression">new expression 1</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">new column2</property>
+                    <expression name="expression">new expression 2</expression>
+                </structure>
+                <structure>
+                    <property name="name">new column3</property>
+                    <expression name="expression">new expression 3</expression>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">new username</property>
+                    <property name="alias">new userid</property>
+                    <property name="searching">indexed</property>
+                    <property name="export">if-realized</property>
+                    <property name="analysis">detail</property>
+                    <property name="parentLevel">new level</property>
+                    <property name="format">new format</property>
+                    <property name="displayName">new display name</property>
+                    <property name="displayNameID">new display name id</property>
+                    <property name="helpText">new help text</property>
+                    <property name="helpTextID">new help text id</property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+                <structure>
+                    <property name="operator">is-true</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+            </list-property>
+            <property name="dataSource">extendedDataSource</property>
+            <property name="cachedRowCount">20</property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">new param1</property>
+                    <expression name="expression">new value1</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">new param2</property>
+                    <expression name="expression">new value2</expression>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">new name</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">22</property>
+                    <property name="position">91</property>
+                    <expression name="defaultValue">new default value 1</expression>
+                    <property name="isOptional">false</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">new date</property>
+                    <property name="nativeName">date</property>
+                    <property name="dataType">dateTime</property>
+                    <property name="position">92</property>
+                    <property name="isOptional">false</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">new id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="position">93</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">new name</property>
+                    <property name="nativeName">birth</property>
+                    <property name="dataType">float</property>
+                    <property name="isOutput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">new date</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                    <property name="isOutput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">new id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="isOutput">true</property>
+                </structure>
+            </list-property>
+            <property name="queryText">new text</property>
+            <property name="resultSetName">new result set</property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>customer</name>
+                    <value>private customer</value>
+                </ex-property>
+            </list-property>
+        </oda-data-set>
+        <oda-data-set name="SecondDataSet" id="4">
+            <property name="dataSource">extendedDataSource</property>
+            <property name="resultSetName">userid</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="5">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

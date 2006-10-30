@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+	<data-sets>
+        <oda-data-set name="MyDataSet" />
+	</data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <list name="myList1">
+			<property name="dataSet">myDataSet</property>
+			<group>
+				<header>
+					<data name="MyData1">
+						<expression name="valueExpr">First data value</expression>
+					</data>
+				</header>					
+			</group>
+			<group>
+				<header>				
+					<data name="MyData2">
+						<expression name="valueExpr">First data value</expression>
+					</data>
+				</header>					
+			</group>			
+            <detail>
+                <data name="MyData3">
+                    <expression name="valueExpr">First data value</expression>
+                </data>
+                <data name="MyData4">
+                    <expression name="valueExpr">First data value</expression>
+                </data>				
+            </detail>									
+        </list>
+		<table>				        	
+            <group>
+                <header>
+                    <row>                   
+                        <cell>
+							<data name="MyData5">
+								<expression name="valueExpr">First data value</expression>
+							</data>		
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <group>
+                <header>
+                    <row>                   
+                        <cell>
+							<data name="MyData6">
+								<expression name="valueExpr">First data value</expression>
+							</data>									
+                        </cell>
+                    </row>
+                </header>
+            </group>
+			<detail>
+				<row>
+					<cell>
+						<data name="MyData7">
+							<expression name="valueExpr">First data value</expression>
+						</data>	
+					</cell>						
+				</row>
+			</detail>
+			<footer>
+				<row>
+					<cell>				
+						<data name="MyData8">
+							<expression name="valueExpr">First data value</expression>
+						</data>
+					</cell>						
+				</row>						
+			</footer>					
+		</table>
+    </body>
+</report>

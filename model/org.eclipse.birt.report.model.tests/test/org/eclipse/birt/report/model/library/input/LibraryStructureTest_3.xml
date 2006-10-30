@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">Library_1.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+	<property name="theme">theme1</property>
+	<body>
+		<image name="image" extends="Lib1.libImage"/>
+       	<grid name="grid" extends="Lib1.libGrid"/>
+	</body>
+</report>

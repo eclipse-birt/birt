@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryIncludingTwoLibraries.xml</property>
+	        <property name="namespace">CompositeLib</property>
+		</structure>
+    </list-property>
+	<property name="theme">CompositeLib.theme1</property>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>	
+    <body>
+    	<label name="label1">
+    		<property name="style">style1</property>
+    	</label>
+    	<table name="table1">
+    		<property name="dataSet">Lib1.dataSet1</property>
+    	</table>
+    	<table name="table2">
+    		<property name="dataSet">Lib2.dataSet1</property>
+    	</table>
+		<table name="table3" extends="CompositeLib.myTable">			
+		</table>		
+		<table name="table4" extends="CompositeLib.myTable1">			
+		</table>			
+		<table name="table5" extends="CompositeLib.myTable2">			
+		</table>					
+    </body>
+</report>

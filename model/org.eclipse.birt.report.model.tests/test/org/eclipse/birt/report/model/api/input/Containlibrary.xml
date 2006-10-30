@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+    </themes>
+    <components>
+        <label name="NewLabel2" id="41">
+            <text-property name="text">asdff</text-property>
+        </label>
+    </components>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="13">
+        </simple-master-page>
+    </page-setup>
+</library>

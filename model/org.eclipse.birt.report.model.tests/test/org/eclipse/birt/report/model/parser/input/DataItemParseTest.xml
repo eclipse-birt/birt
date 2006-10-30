@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <components>
+        <data name="componentsData">
+           <property name="resultSetColumn">Components data value</property>
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="name">Components data value</property>
+					<expression name="expression">Components data value</expression>
+				</structure>
+			</list-property>
+        </data>
+    </components>
+	<data-sets>
+        <oda-data-set name="MyDataSet" />
+	</data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <data name="graphicmasterpageData">
+                   <property name="resultSetColumn">Graphic master page data value</property>
+					<list-property name="boundDataColumns">
+						<structure>
+							<property name="name">Graphic master page data value</property>
+							<expression name="expression">Graphic master page data value</expression>
+						</structure>
+					</list-property>
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form>
+            <report-items>
+                <data name="My First Data">
+                    <property name="distinct">repeatOnPage</property>
+                    <property name="distinctReset">abc</property>
+                    <property name="resultSetColumn">First data value</property>
+					<list-property name="boundDataColumns">
+						<structure>
+							<property name="name">First data value</property>
+							<expression name="expression">First data value</expression>
+						</structure>
+					</list-property>
+                    <text-property name="helpText" key="help">data help</text-property>
+                    <structure name="action">
+                        <expression name="hyperlink">http://localhost:8080/</expression>
+                    </structure>
+                </data>
+            </report-items>
+        </free-form>
+        <data name="Body Data">
+            <property name="distinct">repeat</property>
+            <property name="distinctReset">abc</property>
+            <text-property name="helpText" key="help">data help</text-property>
+            <structure name="action">
+                <expression name="hyperlink">http://localhost:80/</expression>
+            </structure>
+			<property name="resultSetColumn">column1</property>
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="name">column1</property>
+					<expression name="expression">column1 expr</expression>						
+					<property name="dataType">integer</property>	
+					<property name="aggregateOn">column1 aggre</property>											
+				</structure>
+			</list-property>
+        </data>
+    </body>
+    <scratch-pad>
+        <data name="scratchpadData">
+        	<property name="resultSetColumn">Scratch pad data value</property>
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="name">Scratch pad data value</property>
+					<expression name="expression">Scratch pad data value</expression>
+				</structure>
+			</list-property>
+        </data>
+    </scratch-pad>
+</report>

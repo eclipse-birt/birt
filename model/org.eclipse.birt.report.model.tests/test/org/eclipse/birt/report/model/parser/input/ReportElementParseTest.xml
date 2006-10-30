@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="author">W.C. Fields</property>
+    <components>
+        <label name="base">
+            <text-property name="text">First Page</text-property>
+        </label>
+        <label name="child1" extends="base">
+            <text-property name="text">Today's Date</text-property>
+        </label>
+    </components>
+    <page-setup>
+        <simple-master-page name="My Page"/>
+    </page-setup>
+    <body>
+        <label name="bodyLabel1">
+            <list-property name="propertyMasks">
+                <structure>
+                    <property name="name">text</property>
+                    <property name="mask">lock</property>
+                </structure>
+                <structure>
+                    <property name="name">extends</property>
+                    <property name="mask">change</property>
+                </structure>
+                <structure>
+                    <property name="name">textID</property>
+                    <property name="mask">hide</property>
+                </structure>
+                <structure>
+                    <property name="mask">hide</property>
+                </structure>
+                <structure>
+                    <property name="mask">hide</property>
+                </structure>
+            </list-property>
+            <text-property name="text">Fifth Label in body.</text-property>
+        </label>
+    </body>
+</report>

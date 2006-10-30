@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">Library_1.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+		<structure>
+			<property name="fileName">Library_2.xml</property>
+	        <property name="namespace">Lib2</property>
+		</structure>
+    </list-property>
+	<property name="theme">Lib2.theme1</property>
+    <data-sources>
+        <oda-data-source name="dataSource1"/>
+        <oda-data-source name="dataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="dataSet2">
+			<property name="dataSource">LibA.dataSource1</property>
+		</oda-data-set>
+        <oda-data-set name="dataSet3">
+			<property name="dataSource">dataSource1</property>
+		</oda-data-set>
+    </data-sets>
+	<styles>
+		<style name="style1">
+			<property name="color">blue</property>
+		</style>
+		<style name="style2">
+			<property name="color">blue</property>
+		</style>
+	</styles>
+    <page-setup>
+        <graphic-master-page name="page1"/>
+    </page-setup>
+	<body>
+		<label name="label1">
+			<property name="style">style1</property>
+		</label>
+		<table name="table1">
+			<property name="dataSet">LibA.dataSet1</property>
+		</table>
+		<table name="table2">
+			<property name="dataSet">dataSet2</property>
+		</table>
+	</body>
+</report>

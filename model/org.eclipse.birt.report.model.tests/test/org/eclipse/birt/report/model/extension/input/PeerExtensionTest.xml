@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label name="label1">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="TestingBox" name="testBox">
+        	<property name="dataSet">firstDataSet</property>
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
+            <simple-property-list name="points">
+            	<value>13.1
+            	</value>
+            	<value>14
+            	</value>
+            	<value>15.678
+            	</value>
+            </simple-property-list>
+            <header>
+            	<extended-item extensionName="TestingMatrix" name="headerMatrix">
+            	</extended-item>
+            </header>
+            <detail>
+            	<table name="testTable">
+            		<detail>
+            			<row>
+            				<cell>
+            					<extended-item extensionName="TestingBox" name="detailBox">
+            						<header>
+            							<label/>
+            						</header>
+            						<detail>
+            							<label/>
+            						</detail>
+            						<footer>
+            							<label/>
+            						</footer>
+            					</extended-item>
+            				</cell>
+            			</row>
+            		</detail>
+            	</table>
+            </detail>
+            <footer>
+            	<grid name="footerGrid">
+            	</grid>
+            </footer>
+        </extended-item>
+    </body>
+</report>

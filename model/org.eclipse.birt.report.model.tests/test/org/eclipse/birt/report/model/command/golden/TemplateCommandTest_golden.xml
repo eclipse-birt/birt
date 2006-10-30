@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <template-parameter-definitions>
+        <template-parameter-definition name="NewTemplateParameterDefinition1" id="13">
+            <property name="allowedType">Data</property>
+            <text-property name="description">123</text-property>
+            <default>
+                <data id="14">
+                    <property name="resultSetColumn">FIRSTNAME</property>
+                </data>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition" id="17">
+            <property name="allowedType">Label</property>
+            <text-property name="description">2321</text-property>
+            <default>
+                <label id="18"/>
+            </default>
+        </template-parameter-definition>
+    </template-parameter-definitions>
+    <body>
+        <list id="7">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">EMPLOYEENUMBER</property>
+                    <expression name="expression">dataSetRow["EMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">LASTNAME</property>
+                    <expression name="expression">dataSetRow["LASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">FIRSTNAME</property>
+                    <expression name="expression">dataSetRow["FIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">EXTENSION</property>
+                    <expression name="expression">dataSetRow["EXTENSION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">EMAIL</property>
+                    <expression name="expression">dataSetRow["EMAIL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">REPORTSTO</property>
+                    <expression name="expression">dataSetRow["REPORTSTO"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">JOBTITLE</property>
+                    <expression name="expression">dataSetRow["JOBTITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <detail>
+                <template-report-item name="123" id="15">
+                    <property name="refTemplateParameter">NewTemplateParameterDefinition1</property>
+                </template-report-item>
+            </detail>
+        </list>
+        <template-report-item name="213" id="19">
+            <property name="refTemplateParameter">NewTemplateParameterDefinition</property>
+        </template-report-item>
+    </body>
+</report>

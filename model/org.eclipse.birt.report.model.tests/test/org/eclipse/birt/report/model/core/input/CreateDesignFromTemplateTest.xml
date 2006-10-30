@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">LibraryForCreateDesignFromTemplateTest.xml</property>
+            <property name="namespace">LibraryForCreateDesignFromTemplateTest</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label name="Label1" id="4">
+            <text-property name="text">Test</text-property>
+        </label>
+        <text name="NewText" id="6" extends="LibraryForCreateDesignFromTemplateTest.NewText">
+            <property name="contentType">auto</property>
+            <text-property name="content"><![CDATA[hello world]]></text-property>
+        </text>
+    </body>
+</report>

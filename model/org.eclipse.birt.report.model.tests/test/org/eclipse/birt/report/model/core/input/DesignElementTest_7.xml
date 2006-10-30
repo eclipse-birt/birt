@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source  name="myDataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+        <oda-data-set name="secondDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+        <oda-data-set name="asdf sadf asdfa asdfasdfasdfasdfasdfasdfasdfdsa">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="FreeForm">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <table name="table1">
+                    <text-property name="displayName" key="hello">he</text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table name="table2">
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table name="table3">
+                    <text-property name="displayName" key="tableKey3"></text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table>
+                    <text-property name="displayName" key="tableKey4">Ant</text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table>
+                    <text-property name="displayName" key="tableKey5"></text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table>
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table name="hexingjie">
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+                <table>
+                    <property name="dataSet">secondDataSet</property>
+                </table>
+                <table>
+                    <property name="dataSet">asdf sadf asdfa asdfasdfasdfasdfasdfasdfasdfdsa</property>
+                </table>
+            </report-items>
+        </free-form>
+    </body>
+</report>

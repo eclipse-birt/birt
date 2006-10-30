@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="refreshRate">30</property>
+    <styles>
+        <style name="Test Style" id="2"/>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3">
+            <property name="type">us-legal</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1in</property>
+            <property name="bottomMargin">2in</property>
+            <property name="rightMargin">2in</property>
+            <property name="backgroundColor">yellow</property>
+            <property name="fontSize">12mm</property>
+            <property name="color">red</property>
+            <property name="columns">5</property>
+            <property name="columnSpacing">2mm</property>
+            <contents>
+                <label id="4"/>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

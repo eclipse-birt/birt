@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label name="label1" id="3">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="TestingBox" name="testBox" id="4">
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
+            <property name="dataSet">firstDataSet</property>
+            <simple-property-list name="points">
+                <value>13.1</value>
+                <value>15.678</value>
+                <value>18.9</value>
+            </simple-property-list>
+            <header>
+                <label name="label11" id="14"/>
+            </header>
+            <detail>
+                <table name="testTable" id="6">
+                    <group id="15">
+                        <property name="groupName">NewTableGroup1</property>
+                    </group>
+                    <detail>
+                        <row id="7">
+                            <cell id="8">
+                                <extended-item extensionName="TestingBox" name="detailBox" id="9">
+                                    <header>
+                                        <label id="10"/>
+                                    </header>
+                                    <detail>
+                                        <label id="11"/>
+                                    </detail>
+                                    <footer>
+                                        <label id="12"/>
+                                    </footer>
+                                </extended-item>
+                            </cell>
+                        </row>
+                    </detail>
+                </table>
+                <list name="list" id="16"/>
+            </detail>
+            <footer>
+                <grid name="footerGrid" id="13"/>
+            </footer>
+        </extended-item>
+    </body>
+</report>

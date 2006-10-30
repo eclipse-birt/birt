@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="author">W.C. Fields</property>
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+    </data-sources>
+    <styles>
+        <style name="My Style">
+            <property name="fontFamily">cursive</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">bolder</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textUnderline">underline</property>
+        </style>
+        <style name="Style1">
+            <property name="fontFamily">Time New Roman, Arial</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">lighter</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">none</property>
+            <property name="textUnderline">underline</property>
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">eq</property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="Style2">
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">lighter</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">none</property>
+            <property name="textUnderline">none</property>
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="fontFamily">Arial</property>
+                    <property name="fontSize">9pt</property>
+                    <property name="fontStyle">normal</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="fontVariant">normal</property>
+                </structure>
+            </list-property>
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <contents>
+                <label name="label1">
+                    <property name="style">Style1</property>
+                    <property name="fontFamily">Time New Roman, Arial</property>
+                    <property name="fontSize">14mm</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="color">red</property>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label name="label2">
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+                <text name="text1"/>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

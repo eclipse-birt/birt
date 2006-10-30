@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+   	<data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dataSource1">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>		   
+        <oda-data-source name="dataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataSet1">
+            <property name="queryText">select * from dbo.order_details</property>
+        	<property name="dataSource">dataSource1</property>
+        </oda-data-set>
+    </data-sets>  
+	<page-setup>
+        <graphic-master-page name="My Page">
+		</graphic-master-page>
+    </page-setup>
+	<body>
+ 	</body>
+</report>

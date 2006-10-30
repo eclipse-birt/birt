@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="test1" id="4">
+            <property name="width">100%</property>
+            <column id="25"/>
+            <column id="26"/>
+            <column id="27"/>
+            <column id="58"/>
+            <column id="28"/>
+            <detail>
+                <row id="10">
+                    <cell id="11">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">2</property>
+                    </cell>
+                    <cell id="12">
+                        <label id="29">
+                            <text-property name="text">1-2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="13">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">2</property>
+                    </cell>
+                    <cell id="59"/>
+                    <cell id="14"/>
+                </row>
+                <row id="15">
+                    <cell id="16"/>
+                    <cell id="17">
+                        <label id="30">
+                            <text-property name="text">2-2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="60"/>
+                    <cell id="18"/>
+                    <cell id="19"/>
+                </row>
+            </detail>
+        </table>
+        <table name="test2" id="31">
+            <property name="dataSet">firstDataSet</property>
+            <column id="32"/>
+            <column id="63"/>
+            <column id="33"/>
+            <column id="34"/>
+            <header>
+                <row id="35">
+                    <cell id="36">
+                        <property name="column">1</property>
+                        <property name="colSpan">4</property>
+                        <label id="37"/>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="38">
+                    <cell id="39">
+                        <label id="40"/>
+                    </cell>
+                    <cell id="64"/>
+                    <cell id="41">
+                        <label id="42"/>
+                    </cell>
+                    <cell id="43">
+                        <label id="44"/>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

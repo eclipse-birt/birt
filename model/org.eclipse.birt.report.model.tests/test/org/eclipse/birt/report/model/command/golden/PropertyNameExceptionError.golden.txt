@@ -1,0 +1,2 @@
+Error.PropertyNameException.PROPERTY_NOT_VALID              The property "bookmark" is invalid for element "customerTable".
+Error.PropertyNameException.MEMBER_NOT_VALID                The member "color" is invalid for structure "CustomColor".

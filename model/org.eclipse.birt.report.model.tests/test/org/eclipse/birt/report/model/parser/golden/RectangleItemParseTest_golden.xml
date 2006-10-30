@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <styles>
+        <style name="My Style" id="2">
+            <property name="backgroundColor">yellow</property>
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">none</property>
+            <property name="textUnderline">none</property>
+            <property name="borderBottomColor">red</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">3mm</property>
+            <property name="borderLeftColor">green</property>
+            <property name="borderLeftStyle">dashed</property>
+            <property name="borderLeftWidth">2mm</property>
+            <property name="borderRightColor">maroon</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">4mm</property>
+            <property name="borderTopColor">blue</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">1mm</property>
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <rectangle id="4">
+                    <property name="style">My Style</property>
+                    <property name="backgroundColor">yellow</property>
+                    <property name="borderBottomColor">white</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">3mm</property>
+                    <property name="borderLeftColor">white</property>
+                    <property name="borderLeftStyle">dashed</property>
+                    <property name="borderLeftWidth">2mm</property>
+                    <property name="borderRightColor">white</property>
+                    <property name="borderRightStyle">double</property>
+                    <property name="borderRightWidth">4mm</property>
+                    <property name="borderTopColor">white</property>
+                    <property name="borderTopStyle">dotted</property>
+                    <property name="borderTopWidth">1mm</property>
+                    <property name="x">12mm</property>
+                    <property name="y">39mm</property>
+                    <property name="height">20mm</property>
+                    <property name="width">100mm</property>
+                </rectangle>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form id="5">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+        </free-form>
+    </body>
+</report>

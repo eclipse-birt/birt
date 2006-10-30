@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+	<data-sources>
+        <oda-data-source name="DataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="ds1">
+            <property name="dataSource">DataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <parameters>
+       <cascading-parameter-group name="Country-State-City">
+		    <property name="promptText">Prompt Text for Country-State-City</property>		   
+		    <property name="dataSetMode">multiple</property>		   		   
+		    <text-property name="displayName">Group for Country-State-City</text-property>
+            <parameters>
+                <scalar-parameter name="Country">
+					<property name="displayName">Country</property>					
+					<property name="valueType">dynamic</property>
+					<property name="dataSetName">ds1</property>
+					<property name="valueExpr">country</property>
+					<property name="labelExpr">Enter country:</property>
+                </scalar-parameter>
+                <scalar-parameter name="State">
+					<property name="displayName">State</property>					
+					<property name="valueType">dynamic</property>
+					<property name="dataSetName">ds1</property>
+					<property name="valueExpr">state</property>
+					<property name="labelExpr">Enter state:</property>
+                </scalar-parameter>
+                <scalar-parameter name="City">
+					<property name="displayName">City</property>					
+					<property name="valueType">dynamic</property>
+					<property name="dataSetName">ds1</property>
+					<property name="valueExpr">city</property>
+					<property name="labelExpr">Enter city:</property>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+    </parameters>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+                <label/>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

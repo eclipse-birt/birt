@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <parameters>
+        <scalar-parameter name="Param 1" id="2">
+            <expression name="valueExpr">value column</expression>
+            <expression name="labelExpr">label column</expression>
+            <property name="defaultValue">State</property>
+        </scalar-parameter>
+    </parameters>
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="3"/>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="4">
+            <contents>
+                <data name="graphicmasterpageData" id="5">
+                    <structure name="action">
+                        <property name="linkType">drill-through</property>
+                        <property name="reportName">Another report</property>
+                        <expression name="targetBookmark">Total/bookmarks/1.jsp</expression>
+                        <property name="targetWindow">Window3</property>
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param1</property>
+                                <expression name="expression">row["param1Value"]</expression>
+                            </structure>
+                            <structure>
+                                <property name="paramName">param2</property>
+                                <expression name="expression">row["param2Value"]</expression>
+                            </structure>
+                        </list-property>
+                    </structure>
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <list name="myList1" id="6">
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">is-null</property>
+                    <expression name="testExpr">row["Total"]</expression>
+                    <expression name="value1">row["10"]</expression>
+                    <expression name="value2">row["20"]</expression>
+                </structure>
+            </list-property>
+            <property name="dataSet">myDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">First data value</property>
+                    <expression name="expression">First data value</expression>
+                </structure>
+                <structure>
+                    <property name="name">Total</property>
+                    <expression name="expression">dataSetRow["Total"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">10</property>
+                    <expression name="expression">dataSetRow["10"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">20</property>
+                    <expression name="expression">dataSetRow["20"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">grade</property>
+                    <expression name="expression">dataSetRow["grade"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">filter</property>
+                    <expression name="expression">dataSetRow["filter"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">value1</property>
+                    <expression name="expression">dataSetRow["value1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">value2</property>
+                    <expression name="expression">dataSetRow["value2"]</expression>
+                </structure>
+            </list-property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["grade"]</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">row["filter"]</expression>
+                    <expression name="value1">row["value1"]</expression>
+                    <expression name="value2">row["value2"]</expression>
+                </structure>
+            </list-property>
+            <detail>
+                <data name="My First Data" id="7">
+                    <property name="resultSetColumn">First data value</property>
+                    <text-property name="helpText" key="help">data help</text-property>
+                </data>
+            </detail>
+        </list>
+        <table id="8">
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">is-null</property>
+                    <expression name="testExpr">[count]</expression>
+                    <expression name="value1">"10"</expression>
+                    <expression name="value2">"20"</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Total</property>
+                    <expression name="expression">dataSetRow["Total"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">pdf</property>
+                    <expression name="expression">dataSetRow["pdf"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">Country</property>
+                    <expression name="expression">dataSetRow["Country"]</expression>
+                    <property name="aggregateOn">NewTableGroup1</property>
+                </structure>
+                <structure>
+                    <property name="name">onCreateValue</property>
+                    <expression name="expression">dataSetRow["onCreateValue"]</expression>
+                    <property name="aggregateOn">NewTableGroup1</property>
+                </structure>
+            </list-property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">grade</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+            </list-property>
+            <header>
+                <row id="9">
+                    <expression name="bookmark">row["Total"]</expression>
+                    <list-property name="visibility">
+                        <structure>
+                            <property name="format">pdf</property>
+                            <expression name="valueExpr">row["pdf"]</expression>
+                        </structure>
+                    </list-property>
+                    <cell id="10"/>
+                    <cell id="11"/>
+                </row>
+            </header>
+            <group id="12">
+                <property name="groupName">NewTableGroup1</property>
+                <expression name="keyExpr">row["Country"]</expression>
+                <header>
+                    <row id="13">
+                        <expression name="bookmark">This is bookmark without.</expression>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">pdf</property>
+                                <expression name="valueExpr">pdf, 10 people</expression>
+                            </structure>
+                        </list-property>
+                        <cell id="14"/>
+                    </row>
+                    <row id="15">
+                        <cell id="16"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="17">
+                        <cell id="18">
+                            <method name="onCreate"><![CDATA[row["onCreateValue"]]]></method>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+        </table>
+        <data name="myData1" id="19">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Body data value</property>
+                    <expression name="expression">dataSetRow["Body data value"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">uri</property>
+                    <expression name="expression">dataSetRow["uri"]</expression>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">Body data value</property>
+            <structure name="action">
+                <property name="linkType">hyperlink</property>
+                <expression name="uri">row["uri"]</expression>
+            </structure>
+        </data>
+        <list name="MyList2" id="20">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">prop1</property>
+                    <property name="type">expression</property>
+                    <text-property name="displayName" key="abcde"></text-property>
+                </structure>
+            </list-property>
+            <expression name="prop1">row["prop1Value"]</expression>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">prop1Value</property>
+                    <expression name="expression">dataSetRow["prop1Value"]</expression>
+                </structure>
+            </list-property>
+        </list>
+        <data name="myData2" id="21">
+            <method name="onCreate"><![CDATA[Total create on the cell]]></method>
+        </data>
+        <data name="myData3" id="22">
+            <structure name="action">
+                <property name="linkType">hyperlink</property>
+                <expression name="uri">http://localhost://</expression>
+            </structure>
+        </data>
+        <list name="myList4" id="23">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">param1Value</property>
+                    <expression name="expression">dataSetRow["param1Value"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">myData4Value</property>
+                    <expression name="expression">dataSetRow["myData4Value"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">row["myData4Value"]</property>
+                    <expression name="expression">row["myData4Value"]</expression>
+                </structure>
+            </list-property>
+            <detail>
+                <table id="24">
+                    <list-property name="paramBindings">
+                        <structure>
+                            <property name="paramName">param1</property>
+                            <expression name="expression">row["param1Value"]</expression>
+                        </structure>
+                    </list-property>
+                </table>
+                <data name="myData4" id="25">
+                    <property name="resultSetColumn">row["myData4Value"]</property>
+                </data>
+            </detail>
+        </list>
+        <grid name="myGrid1" id="26">
+            <row id="27">
+                <cell id="28">
+                    <list name="myData5" id="29">
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param1</property>
+                                <expression name="expression">row["param1Value"]</expression>
+                            </structure>
+                        </list-property>
+                    </list>
+                </cell>
+            </row>
+        </grid>
+        <grid name="myGrid2" id="30">
+            <property name="dataSet">myDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">param1Value</property>
+                    <expression name="expression">dataSetRow["param1Value"]</expression>
+                </structure>
+            </list-property>
+            <row id="31">
+                <cell id="32">
+                    <table id="33">
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param1</property>
+                                <expression name="expression">row["param1Value"]</expression>
+                            </structure>
+                        </list-property>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+    <scratch-pad>
+        <list name="myList3" id="34">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">prop1</property>
+                    <property name="type">expression</property>
+                    <text-property name="displayName" key="abcde"></text-property>
+                </structure>
+            </list-property>
+            <expression name="prop1">Without</expression>
+            <property name="dataSet">noExistedDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Scratch pad data value</property>
+                    <expression name="expression">Scratch pad data value</expression>
+                </structure>
+            </list-property>
+            <detail>
+                <data name="scratchpadData" id="35">
+                    <property name="resultSetColumn">Scratch pad data value</property>
+                    <structure name="action">
+                        <property name="linkType">bookmark-link</property>
+                        <expression name="targetBookmark">/bookmarklink1</expression>
+                    </structure>
+                </data>
+                <data name="scratchpadData1" id="36">
+                    <property name="resultSetColumn">Scratch pad data value</property>
+                </data>
+            </detail>
+        </list>
+    </scratch-pad>
+</report>

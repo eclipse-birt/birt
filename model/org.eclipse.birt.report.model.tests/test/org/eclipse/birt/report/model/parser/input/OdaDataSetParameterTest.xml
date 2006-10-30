@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+        <oda-data-source name="myDataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+            <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
+            <method name="beforeClose"><![CDATA[script_beforeclose]]></method>
+            <method name="onFetch"><![CDATA[script_onfetch]]></method>
+            <method name="afterOpen"><![CDATA[script_afteropen]]></method>
+            <method name="afterClose"><![CDATA[script_afterclose]]></method>
+            <list-property name="odaParameters">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+					<property name="paramName">ReportParameter</property>
+                    <property name="nativeName">native parameterName</property>
+                    <property name="dataType">string</property>
+                    <property name="isOptional">true</property>
+					<property name="isInput">true</property>					
+					<property name="defaultValue">default value 1</property>						
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">date</property>
+					<property name="paramName">ReportParameter2</property>
+                    <property name="nativeName">native parameterName2</property>
+                    <property name="dataType">date-time</property>
+                    <property name="isOptional">false</property>
+					<property name="isInput">true</property>		                    
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">id</property>
+                    <property name="paramName">reportParameter3</property>
+                </structure>
+            </list-property>
+             <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="nativeDataType">0</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">date</property>
+                    <property name="nativeDataType">2</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">name</property>
+                    <property name="nativeDataType">3</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>      
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

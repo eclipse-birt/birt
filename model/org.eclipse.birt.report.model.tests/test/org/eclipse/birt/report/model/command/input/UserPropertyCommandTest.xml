@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <translations>
+        <resource key="resource_key_one">
+            <translation>one</translation>
+            <translation locale="aa">&#x4e00;</translation>
+            <translation locale="en">One(en)</translation>
+        </resource>
+    </translations>
+	<page-setup>
+		<simple-master-page name="My Label">
+		</simple-master-page>
+	</page-setup>
+	<components>
+		<data name="base data">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">stringProp</property>
+                    <property name="type">string</property>
+                </structure>
+            </list-property>
+        </data>	
+	</components>
+    <body>	
+        <data name="My Data">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">myProp1</property>
+                    <property name="type">string</property>
+                    <text-property name="displayName" key="abc"></text-property>
+                </structure>
+                <structure>
+                    <property name="name">myProp2</property>
+                    <property name="type">choice</property>
+                    <text-property name="displayName" key="abc"></text-property>
+                    <list-property name="choices">
+                        <structure>
+                            <property name="name">choiceOne</property>
+                            <property name="value">one</property>
+                            <text-property name="displayName" key="resource_key_one">one</text-property>
+                        </structure>
+                        <structure>
+                            <property name="name">choiceTwo</property>
+                            <property name="value">two</property>
+                        </structure>
+                        <structure>
+                            <property name="name">choiceThree</property>
+                            <property name="value">three</property>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+            <property name="myProp1">world</property>
+            <property name="myProp2">choiceOne</property>
+        </data>
+        <data name="child data" extends="base data">
+            <property name="stringProp">string value</property>
+        </data>
+    </body>
+</report>

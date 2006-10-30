@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <body>
+        <table name="table1" id="2">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">valueData</property>
+                    <expression name="expression">dataSetRow["valueData"]</expression>
+                    <property name="aggregateOn">NewTableGroup1</property>
+                </structure>
+                <structure>
+                    <property name="name">valueData_1</property>
+                    <expression name="expression">dataSetRow["valueData"]</expression>
+                    <property name="aggregateOn">NewTableGroup2</property>
+                </structure>
+            </list-property>
+            <column id="15"/>
+            <column id="16"/>
+            <column id="17"/>
+            <header>
+                <row id="3">
+                    <cell id="4"/>
+                    <cell id="5"/>
+                    <cell id="6"/>
+                </row>
+            </header>
+            <group id="18">
+                <property name="groupName">NewTableGroup1</property>
+                <footer>
+                    <row id="19">
+                        <cell id="20">
+                            <data name="data11" id="29">
+                                <property name="resultSetColumn">valueData</property>
+                            </data>
+                        </cell>
+                        <cell id="21"/>
+                        <cell id="22"/>
+                    </row>
+                </footer>
+            </group>
+            <group id="23">
+                <property name="groupName">NewTableGroup2</property>
+                <footer>
+                    <row id="24">
+                        <cell id="25">
+                            <data name="data1" id="28">
+                                <property name="resultSetColumn">valueData_1</property>
+                            </data>
+                        </cell>
+                        <cell id="26"/>
+                        <cell id="27"/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="7">
+                    <cell id="8"/>
+                    <cell id="9"/>
+                    <cell id="10"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="11">
+                    <cell id="12"/>
+                    <cell id="13"/>
+                    <cell id="14"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

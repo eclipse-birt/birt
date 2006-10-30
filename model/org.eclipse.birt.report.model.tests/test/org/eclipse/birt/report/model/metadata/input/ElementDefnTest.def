@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportMetaData>	
+<Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="none" selector="report" xmlName="report"/>
+<Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none">
+    <Method name="method1" displayNameID="display-name-id" toolTipID="tool-tip-id" returnType="string">
+      <Argument name="arg0" type="int" tagID="method1.arg0" />
+      <Argument name="arg1" type="string" tagID="method1.arg1" />
+    </Method>
+    <Method name="method2" displayNameID="method2-displayName" toolTipID="tool-tip-id" returnType="string">
+      <Argument name="arg0" />
+      <Argument name="arg1" />
+      <Argument name="arg3" />
+    </Method>
+</Element>
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true" xmlName="style"/>
+</ReportMetaData>
+

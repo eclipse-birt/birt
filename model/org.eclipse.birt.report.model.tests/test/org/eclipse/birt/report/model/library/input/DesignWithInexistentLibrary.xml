@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">inexistentLibrary.xml</property>
+	        <property name="namespace">LibA</property>
+		</structure>
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+	<body>
+		<text name="myText" extends="LibA.libText"/>
+		<grid name="myGrid" extends="LibA.libGrid"/>
+		<table name="myTable" extends="LibA.libTable"/>
+		<table name="myTable1" />
+	</body>
+</report>

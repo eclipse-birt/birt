@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">Library_CloneForTemplate.xml</property>
+            <property name="namespace">Library_CloneForTemplate</property>
+        </structure>
+    </list-property>
+    <template-parameter-definitions>
+        <template-parameter-definition name="NewTemplateParameterDefinition" id="21">
+            <property name="allowedType">Label</property>
+            <default>
+                <label name="NewLabel" id="22" extends="Library_CloneForTemplate.NewLabel"/>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition1" id="24">
+            <property name="allowedType">Table</property>
+            <default>
+                <table name="NewTable" id="25" extends="Library_CloneForTemplate.NewTable"/>
+            </default>
+        </template-parameter-definition>
+    </template-parameter-definitions>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <template-report-item name="template label" id="23">
+            <property name="refTemplateParameter">NewTemplateParameterDefinition</property>
+        </template-report-item>
+        <template-report-item name="template table" id="41">
+            <property name="refTemplateParameter">NewTemplateParameterDefinition1</property>
+        </template-report-item>
+    </body>
+</report>

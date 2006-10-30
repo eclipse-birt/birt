@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+ 	<body>
+		<image name="image1">
+			<!-- The structure name is wrong. -->
+			<structure name="wrongName">
+				<property name="targetWindow">Window2</property>
+				<expression name="hyperlink">www.rock.com.cn/haha/test.html</expression>
+			</structure>
+		</image>
+	</body>
+</report>

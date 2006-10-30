@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <page-setup>
+        <graphic-master-page name="mypage" id="2"/>
+    </page-setup>
+    <styles>
+        <style name="style1">
+            <property name="fontSize">12mm</property>
+            <property name="color">red</property>
+        </style>
+    </styles>
+    <components>
+        <label name="baseLabel" id="3">
+            <text-property name="text">First Page</text-property>
+        </label>
+        <grid name="baseGrid" id="4">
+            <property name="height">20pt</property>
+            <property name="width">40mm</property>
+            <column id="5"/>
+            <column id="6"/>
+            <row id="7">
+                <cell id="8">
+                    <property name="column">1</property>
+                    <property name="height">40pt</property>
+					<property name="width">64pt</property>
+                    <label id="9">
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                    <label id="13" name="baseLabel2" >
+						<property name="style">style1</property>
+					</label>
+                    <data id="12">
+                       <expression name="valueExpr">TO-BE-ADDED</expression>	
+                    </data>
+                </cell>
+            </row>
+        </grid>
+    </components>
+    <body>
+        <grid name="Grid1" id="10" extends="baseGrid">
+            <property name="height">24pt</property>
+		    <Overridden-values>	
+				<!-- override cell(id="8") properties. -->
+				<ref-entry baseId="8" > 
+	  	    	    <property name="color">blue</property>	
+		        	<property name="height">28mm</property>	
+				</ref-entry>
+
+				<!-- override Label(id="9") properties. -->
+				<ref-entry baseId="9" name="Child Label(Address)">  		
+				    <text-property name="text" key="new_text_key">New Address</text-property>
+					<property name="style">style1</property>
+				</ref-entry>
+
+				<!-- override Data(id="12") properties. -->
+				<ref-entry baseId="12" >  		
+			        <expression name="valueExpr">row["STUDENT_ID"]</expression>	
+				</ref-entry>
+		    </Overridden-values>	
+        </grid>
+        <label name="Label1" id="11" extends="baseLabel"/>
+    </body>
+</report>

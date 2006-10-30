@@ -1,0 +1,61 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.validators;
+
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
+
+/**
+ * Tests <code>ValueRequiredValidator</code>.
+ */
+
+public class ValueRequiredValidatorTest extends ValidatorTestCase
+{
+
+	MyListener listener = new MyListener( );
+
+	/**
+	 * Tests <code>ValueRequiredValidator</code>.
+	 * 
+	 * @throws Exception
+	 *             if any exception
+	 */
+
+	public void testTriggers( ) throws Exception
+	{
+		createDesign( );
+
+		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory( )
+				.newOdaDataSet( "dataset1" ); //$NON-NLS-1$
+		designHandle.addValidationListener( listener );
+		designHandle.getDataSets( ).add( dataSetHandle );
+		assertTrue( listener.hasError( dataSetHandle, ValueRequiredValidator
+				.getInstance( ).getName( ), SimpleDataSet.DATA_SOURCE_PROP,
+				PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+
+		OdaDataSourceHandle dataSourceHandle = designHandle.getElementFactory( )
+				.newOdaDataSource( "dataSource1" ); //$NON-NLS-1$
+		designHandle.getDataSources( ).add( dataSourceHandle );
+		dataSetHandle.setDataSource( dataSourceHandle.getName( ) );
+		assertFalse( listener.hasError( dataSetHandle, ValueRequiredValidator
+				.getInstance( ).getName( ),SimpleDataSet.DATA_SOURCE_PROP,
+				PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+
+		dataSetHandle.setDataSource( null );
+		assertTrue( listener.hasError( dataSetHandle, ValueRequiredValidator
+				.getInstance( ).getName( ),SimpleDataSet.DATA_SOURCE_PROP,
+				PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+	}
+}

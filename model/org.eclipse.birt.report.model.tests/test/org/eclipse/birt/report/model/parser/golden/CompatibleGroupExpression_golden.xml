@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.0.1 Build &lt;20060222-1204></property>
+    <property name="units">in</property>
+    <text-property name="displayName">rpt100</text-property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="sqlserver" id="66">
+            <property name="odaDriverClass">net.sourceforge.jtds.jdbc.Driver</property>
+            <property name="odaURL">jdbc:jtds:sqlserver://192.168.30.67:1433;databaseName=BIRT_test</property>
+            <property name="odaUser">actest</property>
+            <encrypted-property name="odaPassword">c3lzVGVzdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="sqlSet" id="67">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">Group</property>
+                    <expression name="expression">row["Category"] / 10000 - 0.5</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Subgroup</property>
+                    <expression name="expression">row["Category"] / 100 - 0.5</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <property name="dataSource">sqlserver</property>
+            <property name="queryText">select dbo.rpt100.Category, dbo.rpt100.SubCat, dbo.rpt100.QTR1, dbo.rpt100.QTR2, dbo.rpt100.QTR3, dbo.rpt100.QTR4
+from dbo.rpt100
+</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <table id="196">
+            <property name="width">100%</property>
+            <property name="dataSet">sqlSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Category</property>
+                    <expression name="expression">dataSetRow["Category"]</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">QTR1</property>
+                    <expression name="expression">dataSetRow["QTR1"]</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">SubCat</property>
+                    <expression name="expression">dataSetRow["SubCat"]</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 1)</property>
+                    <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 1)</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 2)</property>
+                    <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 2)</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 3)</property>
+                    <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 3)</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 5)</property>
+                    <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 5)</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="aggregateOn">Category</property>
+                </structure>
+            </list-property>
+            <column id="221"/>
+            <column id="222"/>
+            <column id="223"/>
+            <column id="224"/>
+            <column id="225"/>
+            <column id="262"/>
+            <header>
+                <row id="197">
+                    <cell id="198"/>
+                    <cell id="199"/>
+                    <cell id="200"/>
+                    <cell id="201"/>
+                    <cell id="202"/>
+                    <cell id="256"/>
+                </row>
+            </header>
+            <group id="226">
+                <property name="groupName">Category</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["Category"]</expression>
+                <header>
+                    <row id="227">
+                        <cell id="228"/>
+                        <cell id="229">
+                            <label id="241">
+                                <text-property name="text">QTR1</text-property>
+                            </label>
+                        </cell>
+                        <cell id="230">
+                            <label id="243">
+                                <text-property name="text">QTR2</text-property>
+                            </label>
+                        </cell>
+                        <cell id="231">
+                            <label id="245">
+                                <text-property name="text">QTR3</text-property>
+                            </label>
+                        </cell>
+                        <cell id="232">
+                            <label id="247">
+                                <text-property name="text">QTR4</text-property>
+                            </label>
+                        </cell>
+                        <cell id="257">
+                            <label id="264">
+                                <text-property name="text">SubCat</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="249">
+                        <cell id="250">
+                            <data id="240">
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="resultSetColumn">Category</property>
+                            </data>
+                        </cell>
+                        <cell id="251">
+                            <data id="255">
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="resultSetColumn">Total.sum(row["QTR1"], row["SubCat"] == 1)</property>
+                            </data>
+                        </cell>
+                        <cell id="252">
+                            <data id="268">
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="resultSetColumn">Total.sum(row["QTR1"], row["SubCat"] == 2)</property>
+                            </data>
+                        </cell>
+                        <cell id="253">
+                            <data id="269">
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="resultSetColumn">Total.sum(row["QTR1"], row["SubCat"] == 3)</property>
+                            </data>
+                        </cell>
+                        <cell id="254">
+                            <data id="270">
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="resultSetColumn">Total.sum(row["QTR1"], row["SubCat"] == 1)</property>
+                            </data>
+                        </cell>
+                        <cell id="259">
+                            <data id="271">
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="resultSetColumn">Total.sum(row["QTR1"], row["SubCat"] == 5)</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="233">
+                        <cell id="234">
+                            <label id="267">
+                                <property name="pageBreakAfter">always</property>
+                                <text-property name="text"> </text-property>
+                            </label>
+                        </cell>
+                        <cell id="235"/>
+                        <cell id="236"/>
+                        <cell id="237"/>
+                        <cell id="238"/>
+                        <cell id="260">
+                            <text id="265">
+                                <text-property name="content"><![CDATA[<value-of>row["CUSTOMERNUMBER"]</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <footer>
+                <row id="215">
+                    <cell id="216"/>
+                    <cell id="217"/>
+                    <cell id="218"/>
+                    <cell id="219"/>
+                    <cell id="220"/>
+                    <cell id="261"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

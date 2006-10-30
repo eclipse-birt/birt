@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sources>
+        <oda-data-source name="datasource1" id="2">
+            <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="dataset1" id="3">
+            <property name="dataSource">datasource1</property>
+        </oda-data-set>
+    </data-sets>
+</report>

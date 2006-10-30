@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportMetaData>	
+<Validators>
+	<ValueValidator name="NonNegativeValueValidator" class=" "/>
+	<ValueValidator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validator.PositiveValueValidator"/>
+	<SemanticValidator name="MasterPageMultiColumnValidator" class="org.eclipse.birt.report.model.validators.MasterPageMultiColumnValidator"/>
+	<SemanticValidator name="MasterPageRequiredValidator" class="org.eclipse.birt.report.model.validators.MasterPageRequiredValidator"/>
+</Validators>
+<Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="none" selector="report"/>
+<Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none"/>
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true"/>
+</ReportMetaData>
+

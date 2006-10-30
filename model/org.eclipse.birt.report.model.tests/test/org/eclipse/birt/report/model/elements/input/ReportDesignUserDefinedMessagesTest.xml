@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="author">W.C. Fields</property>
+    <text-property name="title" key="ResourceKey.ReportDesign.Title">A sample design</text-property>
+    <html-property name="description" key="ResourceKey.ReportDesign.Description">Sample report</html-property>
+    <translations>
+        <resource key="ResourceKey.ReportDesign.Title">
+            <translation>My Sample design(default)</translation>
+            <translation locale="aa">ja_JP:&#x7b80;&#x5355;&#x62a5;&#x8868;.</translation>
+            <translation locale="en">EN: My Sample design.</translation>
+        </resource>
+        <resource key="ResourceKey.ReportDesign.Description">
+            <translation>sample report(default)</translation>
+            <translation locale="aa">&#x5b9e;&#x4f8b;&#x62a5;&#x8868;</translation>
+            <translation locale="en">Sample report(en)</translation>
+        </resource>
+        <resource key="ResourceKey.testKey1">
+            <translation>default translation1</translation>
+            <translation locale="en">Sample report(en)</translation>
+        </resource>
+        <resource key="ResourceKey.testKey2">
+            <translation>text default</translation>
+            <translation locale="en">text en</translation>
+            <translation locale="en_US">text en_US</translation>
+            <translation locale="en_AU">text en_AU</translation>
+        </resource>
+    </translations>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

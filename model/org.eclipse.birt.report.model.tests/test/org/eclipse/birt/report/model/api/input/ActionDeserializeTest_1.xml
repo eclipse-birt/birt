@@ -1,0 +1,6 @@
+<structure name="action">
+	<property name="linkType">hyperlink</property>
+	<property name="targetWindow">Window3</property>
+	<property name="uri">/BIRT/中文.html</property>
+</structure>
+

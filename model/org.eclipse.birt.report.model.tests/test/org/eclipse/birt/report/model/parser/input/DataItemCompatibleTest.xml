@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <components>
+        <data name="componentsData">
+        </data>
+    </components>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <data name="graphicmasterpageData">
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form>
+            <report-items>
+                <data name="My First Data">
+                    <property name="distinct">repeatOnPage</property>
+                    <property name="distinctReset">abc</property>
+                    <text-property name="helpText" key="help">data help</text-property>
+                    <structure name="action">
+                        <expression name="hyperlink">http://localhost:8080/</expression>
+                    </structure>
+                </data>
+            </report-items>
+        </free-form>
+        <data name="Body Data">
+            <property name="distinct">repeat</property>
+            <property name="distinctReset">abc</property>
+            <text-property name="helpText" key="help">data help</text-property>
+            <structure name="action">
+                <expression name="hyperlink">http://localhost:80/</expression>
+            </structure>
+              <expression name="highlightTestExpr">[this]</expression>
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">is-null</property>
+                    <structure name="dateTimeFormat">
+                        <property name="category">Custom</property>
+                        <property name="pattern">yyyy/mm/dd</property>
+                    </structure>
+                    <structure name="numberFormat">
+                        <property name="category">Custom</property>
+                    </structure>
+                    <structure name="stringFormat">
+                        <property name="category">noformat</property>
+                    </structure>
+                    <expression name="value1">"10"</expression>
+                    <expression name="value2">"20"</expression>
+                    
+                </structure>
+                <structure>
+                    <property name="operator">is-null</property>
+                    
+                </structure>
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    
+                </structure>
+                <structure>
+                    <property name="operator">is-true</property>
+                    
+                </structure>
+                <structure>
+                    <property name="operator">is-false</property>
+                  
+                </structure>
+            </list-property>
+        </data>
+    </body>
+    <scratch-pad>
+        <data name="scratchpadData">
+        </data>
+    </scratch-pad>
+</report>

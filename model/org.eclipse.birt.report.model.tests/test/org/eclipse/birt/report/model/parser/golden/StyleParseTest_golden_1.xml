@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="refreshRate">30</property>
+    <styles>
+        <style name="My Style" id="2">
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">gt</property>
+                    <property name="backgroundColor">red</property>
+                    <property name="borderTopStyle">ridge</property>
+                    <property name="borderTopWidth">12pt</property>
+                    <property name="borderTopColor">yellow</property>
+                    <property name="borderLeftStyle">dotted</property>
+                    <property name="borderLeftWidth">12mm</property>
+                    <property name="borderLeftColor">#123456</property>
+                    <property name="borderBottomStyle">groove</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderBottomColor">black</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderRightWidth">thick</property>
+                    <property name="borderRightColor">#654321</property>
+                    <property name="fontFamily">song</property>
+                    <property name="fontSize">18pc</property>
+                    <property name="fontStyle">oblique</property>
+                    <property name="fontWeight">900</property>
+                    <property name="fontVariant">small-caps</property>
+                    <property name="color">#FF0088</property>
+                    <property name="textUnderline">none</property>
+                    <property name="textOverline">none</property>
+                    <property name="textLineThrough">none</property>
+                    <property name="textAlign">justify</property>
+                    <property name="textTransform">capitalize</property>
+                    <property name="textIndent">2pc</property>
+                    <structure name="dateTimeFormat">
+                        <property name="category">Medium Date</property>
+                        <property name="pattern">mm dd, yyyy</property>
+                    </structure>
+                    <structure name="numberFormat">
+                        <property name="category">Currency</property>
+                        <property name="pattern">$000,000</property>
+                    </structure>
+                    <structure name="stringFormat">
+                        <property name="category">&lt;</property>
+                        <property name="pattern">string-format</property>
+                    </structure>
+                    <expression name="testExpr">[this]</expression>
+                    <expression name="value1">dataSet.name</expression>
+                    <expression name="value2">table.column</expression>
+                </structure>
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="fontSize">18pt</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="color">blue</property>
+                    <property name="textTransform">lowercase</property>
+                    <expression name="testExpr">[this]</expression>
+                    <expression name="value1">"data.item"</expression>
+                    <expression name="value2">"1*200"</expression>
+                </structure>
+            </list-property>
+            <list-property name="mapRules">
+                <structure>
+                    <expression name="testExpr">[somefield]</expression>
+                    <property name="operator">eq</property>
+                    <expression name="value1">"X"</expression>
+                    <text-property name="display">Closed</text-property>
+                </structure>
+                <structure>
+                    <expression name="testExpr">[somefield]</expression>
+                    <property name="operator">is-true</property>
+                    <text-property name="display">Open</text-property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="label" id="3">
+            <property name="fontWeight">bolder</property>
+        </style>
+        <style name="table-detail" id="4">
+            <property name="fontSize">large</property>
+        </style>
+        <style name="footer" id="5">
+            <property name="fontSize">x-large</property>
+        </style>
+        <style name="Container Style" id="6">
+            <property name="fontSize">xx-large</property>
+        </style>
+        <style name="Empty Style" id="7"/>
+        <style name="free-form" id="8">
+            <property name="fontVariant">small-caps</property>
+        </style>
+        <style name="table" id="9">
+            <property name="fontWeight">100</property>
+        </style>
+        <style name="table-group-header-1" id="10">
+            <property name="textAlign">center</property>
+        </style>
+        <style name="table-group-header-2" id="11">
+            <property name="textAlign">right</property>
+        </style>
+        <style name="table-group-header-3" id="12">
+            <property name="textAlign">left</property>
+        </style>
+        <style name="table-group-header-4" id="13">
+            <property name="textAlign">justify</property>
+        </style>
+        <style name="table-group-header-5" id="14">
+            <property name="textAlign">center</property>
+        </style>
+        <style name="table-group-header-6" id="15">
+            <property name="textAlign">right</property>
+        </style>
+        <style name="table-group-header-7" id="16">
+            <property name="textAlign">left</property>
+        </style>
+        <style name="table-group-header-8" id="17">
+            <property name="textAlign">justify</property>
+        </style>
+        <style name="table-group-header-9" id="18">
+            <property name="textAlign">center</property>
+        </style>
+    </styles>
+    <components>
+        <free-form name="GrandFather Form" id="19">
+            <property name="color">red</property>
+            <property name="x">999mm</property>
+        </free-form>
+        <free-form name="Parent Form" id="20" extends="GrandFather Form">
+            <property name="fontSize">x-small</property>
+            <property name="x">999mm</property>
+        </free-form>
+    </components>
+    <page-setup>
+        <graphic-master-page name="My Page" id="21">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

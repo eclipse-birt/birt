@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1"/>
+        <oda-data-source name="myDataSource2"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">column 1</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="dataType">date-time</property>
+					<property name="name">column 2</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                </structure>
+            </list-property>				
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

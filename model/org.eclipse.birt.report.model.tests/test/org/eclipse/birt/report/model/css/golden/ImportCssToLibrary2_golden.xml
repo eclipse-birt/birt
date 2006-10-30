@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+        <theme name="theme1" id="3">
+            <styles>
+                <style name="table" id="4"/>
+                <style name="fullstyle" id="5">
+                    <property name="backgroundAttachment">scroll</property>
+                    <property name="backgroundColor">black</property>
+                    <property name="backgroundImage">images/header</property>
+                    <property name="backgroundPositionX">50%</property>
+                    <property name="backgroundPositionY">top</property>
+                    <property name="backgroundRepeat">no-repeat</property>
+                    <property name="fontFamily">"Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif</property>
+                    <property name="fontSize">2em</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="fontStyle">italic</property>
+                    <property name="fontVariant">small-caps</property>
+                    <property name="color">#004F93</property>
+                    <property name="textLineThrough">line-through</property>
+                    <property name="textOverline">overline</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="borderBottomColor">#445566</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">10px</property>
+                    <property name="borderLeftColor">#445566</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">10px</property>
+                    <property name="borderRightColor">#445566</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">10px</property>
+                    <property name="borderTopColor">#445566</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">10px</property>
+                    <property name="marginTop">1em</property>
+                    <property name="marginLeft">1em</property>
+                    <property name="marginBottom">1em</property>
+                    <property name="marginRight">1em</property>
+                    <property name="paddingTop">1em</property>
+                    <property name="paddingLeft">1em</property>
+                    <property name="paddingBottom">1em</property>
+                    <property name="paddingRight">1em</property>
+                    <property name="textAlign">justify</property>
+                    <property name="textIndent">2em</property>
+                    <property name="letterSpacing">1pt</property>
+                    <property name="lineHeight">120%</property>
+                    <property name="orphans">1</property>
+                    <property name="textTransform">uppercase</property>
+                    <property name="verticalAlign">middle</property>
+                    <property name="whiteSpace">pre</property>
+                    <property name="widows">3</property>
+                    <property name="wordSpacing">2pt</property>
+                    <property name="display">inline</property>
+                    <property name="pageBreakAfter">always</property>
+                    <property name="pageBreakBefore">always</property>
+                    <property name="pageBreakInside">avoid</property>
+                </style>
+                <style name="H1" id="6">
+                    <property name="backgroundAttachment">scroll</property>
+                    <property name="backgroundColor">black</property>
+                    <property name="backgroundImage">images/header</property>
+                    <property name="backgroundPositionX">50%</property>
+                    <property name="backgroundPositionY">top</property>
+                    <property name="backgroundRepeat">no-repeat</property>
+                    <property name="fontFamily">"Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif</property>
+                    <property name="fontSize">2em</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="fontStyle">italic</property>
+                    <property name="fontVariant">small-caps</property>
+                    <property name="color">#004F93</property>
+                    <property name="textLineThrough">line-through</property>
+                    <property name="textOverline">overline</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="borderBottomColor">#445566</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">10px</property>
+                    <property name="borderLeftColor">#445566</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">10px</property>
+                    <property name="borderRightColor">#445566</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">10px</property>
+                    <property name="borderTopColor">#445566</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">10px</property>
+                    <property name="marginTop">1em</property>
+                    <property name="marginLeft">1em</property>
+                    <property name="marginBottom">1em</property>
+                    <property name="marginRight">1em</property>
+                    <property name="paddingTop">1em</property>
+                    <property name="paddingLeft">1em</property>
+                    <property name="paddingBottom">1em</property>
+                    <property name="paddingRight">1em</property>
+                    <property name="textAlign">justify</property>
+                    <property name="textIndent">2em</property>
+                    <property name="letterSpacing">1pt</property>
+                    <property name="lineHeight">120%</property>
+                    <property name="orphans">1</property>
+                    <property name="textTransform">uppercase</property>
+                    <property name="verticalAlign">middle</property>
+                    <property name="whiteSpace">pre</property>
+                    <property name="widows">3</property>
+                    <property name="wordSpacing">2pt</property>
+                    <property name="display">inline</property>
+                    <property name="pageBreakAfter">always</property>
+                    <property name="pageBreakBefore">always</property>
+                    <property name="pageBreakInside">avoid</property>
+                </style>
+                <style name="table1" id="7">
+                    <property name="backgroundAttachment">scroll</property>
+                    <property name="backgroundColor">black</property>
+                    <property name="backgroundImage">images/header</property>
+                    <property name="backgroundPositionX">50%</property>
+                    <property name="backgroundPositionY">top</property>
+                    <property name="backgroundRepeat">no-repeat</property>
+                    <property name="fontFamily">"Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif</property>
+                    <property name="fontSize">2em</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="fontStyle">italic</property>
+                    <property name="fontVariant">small-caps</property>
+                    <property name="color">#004F93</property>
+                    <property name="textLineThrough">line-through</property>
+                    <property name="textOverline">overline</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="borderBottomColor">#445566</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">10px</property>
+                    <property name="borderLeftColor">#445566</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">10px</property>
+                    <property name="borderRightColor">#445566</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">10px</property>
+                    <property name="borderTopColor">#445566</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">10px</property>
+                    <property name="marginTop">1em</property>
+                    <property name="marginLeft">1em</property>
+                    <property name="marginBottom">1em</property>
+                    <property name="marginRight">1em</property>
+                    <property name="paddingTop">1em</property>
+                    <property name="paddingLeft">1em</property>
+                    <property name="paddingBottom">1em</property>
+                    <property name="paddingRight">1em</property>
+                    <property name="textAlign">justify</property>
+                    <property name="textIndent">2em</property>
+                    <property name="letterSpacing">1pt</property>
+                    <property name="lineHeight">120%</property>
+                    <property name="orphans">1</property>
+                    <property name="textTransform">uppercase</property>
+                    <property name="verticalAlign">middle</property>
+                    <property name="whiteSpace">pre</property>
+                    <property name="widows">3</property>
+                    <property name="wordSpacing">2pt</property>
+                    <property name="display">inline</property>
+                    <property name="pageBreakAfter">always</property>
+                    <property name="pageBreakBefore">always</property>
+                    <property name="pageBreakInside">avoid</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+</library>

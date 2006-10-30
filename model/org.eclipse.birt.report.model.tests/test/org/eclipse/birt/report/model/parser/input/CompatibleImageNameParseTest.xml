@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <styles>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page">
+        </graphic-master-page>
+    </page-setup>
+	<body>
+		<image name="Image1">
+	        <expression name="imageName">image.jpg1</expression>
+		</image>
+	</body>
+</report>

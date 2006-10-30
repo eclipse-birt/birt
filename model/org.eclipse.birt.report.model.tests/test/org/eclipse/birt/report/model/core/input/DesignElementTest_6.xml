@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="FreeForm">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <image name="image1">
+                    <text-property name="displayName" key="hello">he</text-property>
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image name="image2">
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image name="image3">
+                    <text-property name="displayName" key="imageKey3"></text-property>
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image>
+                    <text-property name="displayName" key="imageKey4">Ant</text-property>
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image>
+                    <text-property name="displayName" key="imageKey5"></text-property>
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image>
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image name="hexingjie1">
+                    <expression name="uri">Blue He</expression>
+                </image>
+                <image name="hexingjie2">
+                    <expression name="imageName">test image</expression>
+                </image>
+                <image>
+                    <expression name="typeExpr">Type Expression</expression>
+                    <expression name="valueExpr">haha</expression>
+                </image>
+                <image>
+                    <expression name="typeExpr">Type Expression</expression>
+                    <expression name="valueExpr">test asdf sadf sadf sdaf sadtest</expression>
+                </image>
+                <image>
+                    <expression name="imageName">test asdf sadf sadf sdafsadtest</expression>
+                </image>
+                <image>
+                    <expression name="uri">test asdf sadf sadfsdafsadtestdsfafda</expression>
+                </image>
+            </report-items>
+        </free-form>
+    </body>
+</report>

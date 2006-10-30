@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label name="label1" id="3">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="TestingBox" name="testBox" id="4">
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
+            <property name="dataSet">firstDataSet</property>
+            <simple-property-list name="points">
+                <value>13.1</value>
+                <value>14.0</value>
+                <value>15.678</value>
+            </simple-property-list>
+            <header>
+                <extended-item extensionName="TestingMatrix" name="headerMatrix" id="5"/>
+            </header>
+            <detail>
+                <table name="testTable" id="6">
+                    <detail>
+                        <row id="7">
+                            <cell id="8">
+                                <extended-item extensionName="TestingBox" name="detailBox" id="9">
+                                    <header>
+                                        <label id="10"/>
+                                    </header>
+                                    <detail>
+                                        <label id="11"/>
+                                    </detail>
+                                    <footer>
+                                        <label id="12"/>
+                                    </footer>
+                                </extended-item>
+                            </cell>
+                        </row>
+                    </detail>
+                </table>
+                <label name="addLabel" id="14"/>
+                <extended-item extensionName="TestingBox" name="testBox1" id="15">
+                    <property name="x">1.2mm</property>
+                    <property name="y">11.2mm</property>
+                    <property name="dataSet">firstDataSet</property>
+                    <simple-property-list name="points">
+                		<value>13.1</value>
+                		<value>14.0</value>
+                		<value>15.678</value>
+            		</simple-property-list>
+                    <header>
+                        <extended-item extensionName="TestingMatrix" name="headerMatrix1" id="16"/>
+                    </header>
+                    <detail>
+                        <table name="testTable1" id="17">
+                            <detail>
+                                <row id="18">
+                                    <cell id="19">
+                                        <extended-item extensionName="TestingBox" name="detailBox1" id="20">
+                                            <header>
+                                                <label id="21"/>
+                                            </header>
+                                            <detail>
+                                                <label id="22"/>
+                                            </detail>
+                                            <footer>
+                                                <label id="23"/>
+                                            </footer>
+                                        </extended-item>
+                                    </cell>
+                                </row>
+                            </detail>
+                        </table>
+                        <label name="addLabel1" id="24"/>
+                    </detail>
+                    <footer>
+                        <grid name="footerGrid1" id="25"/>
+                    </footer>
+                </extended-item>
+            </detail>
+            <footer>
+                <grid name="footerGrid" id="13"/>
+            </footer>
+        </extended-item>
+    </body>
+</report>

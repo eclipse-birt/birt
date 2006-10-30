@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+    <list-property name="colorPalette">
+        <structure>
+            <property name="name">custom blue</property>
+            <property name="color">#0000FE</property>
+            <text-property name="displayName" key="custom-color1">Color1</text-property>
+        </structure>
+        <structure>
+            <property name="name">custom red</property>
+            <property name="color">16646144</property>
+            <text-property name="displayName" key="custom-color2">Color2</text-property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="My Style">
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">bold</property>
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+                <image name="Image1">
+                    <property name="style">My Style</property>
+                    <property name="paddingTop">2mm</property>
+                    <property name="size">scale-to-item</property>
+                    <property name="scale">0.8</property>
+                    <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
+                    <text-property name="altText" key="help">Help Test For Image Item</text-property>
+                    <structure name="action">
+                        <expression name="hyperlink">http://localhost:8080/bluehero</expression>
+                    </structure>
+                </image>
+                <image name="Image2">
+                    <property name="imageName">image2.jpg</property>
+                    <text-property name="helpText" key="abc">Image2-Help-Text</text-property>
+                    <structure name="action">
+                        <expression name="hyperlink">http://localhost:8080/bluehero</expression>
+                    </structure>
+                </image>
+                <image name="Image3">
+                    <expression name="typeExpr">Type Expression</expression>
+                    <expression name="valueExpr">Value Expression</expression>
+                    <text-property name="helpText">Help Text</text-property>
+                    <structure name="action">
+                        <expression name="hyperlink">http://localhost:8080/blue</expression>
+                    </structure>
+                </image>
+                <image name="Image4">
+                    <expression name="typeExpr">Type Expression</expression>
+                    <expression name="valueExpr">Value Expression</expression>
+                </image>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <image name="Body Image">
+            <property name="imageName">bodyImage.jpg</property>
+            <text-property name="helpText" key="Body Image Key">BodyImage-Help-Text</text-property>
+            <structure name="action">
+                <expression name="hyperlink">http://localhost:8080/bodyImage.jpg</expression>
+            </structure>
+        </image>
+    </body>
+</report>

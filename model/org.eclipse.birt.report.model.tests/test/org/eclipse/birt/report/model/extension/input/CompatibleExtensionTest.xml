@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+        <oda-data-source name="myDataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+                <label name="label1">
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+    <table>
+    <property name="dataSet">firstDataSet</property>
+    <header>
+    <row/>
+    </header>
+    <footer>
+                <row id="15">
+                    <cell id="16">
+                    <extended-item extensionName="TestingMatrix" name="right extended item">
+			<list-property name="filter">
+				<structure>
+					<property name="operator">gt</property>
+					<expression name="expr">row["tmpValue"]</expression>
+					<expression name="value1">70700.0</expression>
+				</structure>
+			</list-property>			
+        </extended-item>
+        </cell>
+                    <cell id="17"/>
+                    <cell id="18"/>
+                </row>
+            </footer>
+            </table>
+    </body>
+</report>

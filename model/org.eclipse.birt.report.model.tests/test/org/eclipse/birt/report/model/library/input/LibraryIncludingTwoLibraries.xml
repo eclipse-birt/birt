@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">Library_1.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+		<structure>
+			<property name="fileName">Library_2.xml</property>
+	        <property name="namespace">Lib2</property>
+		</structure>
+    </list-property>
+	<property name="theme">Lib2.theme1</property>	
+    <data-sets>
+    	<oda-data-set name="dataSet1" extends="Lib2.dataSet1"/>
+    </data-sets>	
+	<components>
+		<label name="myLabel">
+			<property name="style">style1</property>
+		</label>
+		<table name="myTable" extends="Lib1.libTable">			
+		</table>
+		<table name="myTable1">			
+			<property name="dataSet">dataSet1</property>
+		</table>
+		<table name="myTable2" extends="Lib1.libTable1">
+		</table>		
+		<grid name="myGrid" extends="Lib1.libGrid">			
+		</grid>
+		<image name="myImage" extends="Lib1.libImage"/>				
+		<image name="myImage1" extends="Lib1.libImage1"/>		
+	</components>
+</library>

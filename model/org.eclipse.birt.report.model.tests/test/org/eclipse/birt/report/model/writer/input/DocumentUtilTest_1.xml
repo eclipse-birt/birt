@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3" id="1">
+	<styles>	
+		 <style name="new_style" id="4">
+			<property name="fontFamily">Arial</property>">
+         </style>
+	</styles>	
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryWithImage.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+    </list-property>
+    <list-property name="images">
+        <structure>
+            <property name="name">designImage</property>
+            <property name="libReference">Lib1.image2</property>
+        </structure>
+		<structure>
+            <property name="name">designImage2</property>
+            <property name="libReference">Lib1.image3</property>
+            <property name="data">BBBB</property>
+        </structure>		
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2"/>
+    </page-setup>
+</report>

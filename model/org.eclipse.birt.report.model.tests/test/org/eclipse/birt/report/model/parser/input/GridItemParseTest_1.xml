@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <grid name="First grid">
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <row>
+                <expression name="bookmark">This is bookmark for section.</expression>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                        <text-property name="text">Customer Name</text-property>
+                    </label>
+                </cell>
+                <cell>
+                    <property name="column">2</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid name="Second grid">
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <row>
+                <expression name="bookmark">This is bookmark for section.</expression>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                        <text-property name="text">Customer Name</text-property>
+                    </label>
+                </cell>
+                <cell>
+                    <property name="column">2</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid name="Third grid">
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <row>
+                <expression name="bookmark">This is bookmark for section.</expression>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                        <text-property name="text">Customer Name</text-property>
+                    </label>
+                </cell>
+                <cell>
+                    <property name="column">2</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">2</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

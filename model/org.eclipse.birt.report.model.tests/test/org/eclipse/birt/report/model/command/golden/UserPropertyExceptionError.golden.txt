@@ -1,0 +1,10 @@
+Error.UserPropertyException.NAME_REQUIRED                   The user property must have a name.
+Error.UserPropertyException.DUPLICATE_NAME                  The user property with the name "userProp1" already exists.
+Error.UserPropertyException.INVALID_TYPE                    The user property type is invalid. 
+Error.UserPropertyException.MISSING_CHOICES                 The user property type is choice, but no choice is defined.
+Error.UserPropertyException.INVALID_DISPLAY_ID              Neither display name ID or display name is defined on user property "userProp1".
+Error.UserPropertyException.NOT_FOUND                       The user property "userProp1" can not be found.
+Error.UserPropertyException.USER_PROP_DISALLOWED            The Table("customerTable") cannot have user property.
+Error.UserPropertyException.CHOICE_NAME_REQUIRED            The name of the user-defined choice is required in user property "userProp1".
+Error.UserPropertyException.CHOICE_VALUE_REQUIRED           The value of the user-defined choice is required in user property "userProp1".
+Error.UserPropertyException.INVALID_CHOICE_VALUE            The value of the choice is invalid for the type of the user property "userProp1".

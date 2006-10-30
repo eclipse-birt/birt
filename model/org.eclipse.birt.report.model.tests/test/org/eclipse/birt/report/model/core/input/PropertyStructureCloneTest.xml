@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <image name="Image1">
+            <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
+            <structure name="action">
+				<property name="linkType">drill-through</property>
+                <property name="targetWindow">Window3</property>
+                <property name="drillThroughReportName">iserver/report1</property>
+                <list-property name="drillThroughParamBindings">
+                    <structure>
+                        <property name="paramName">param1</property>
+                        <expression name="expression">1+1=3</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param2</property>
+                        <expression name="expression">2*2=6</expression>
+                    </structure>
+                </list-property>
+            </structure>
+        </image>
+        <image name="Image2">
+            <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
+        </image>
+    </body>
+</report>

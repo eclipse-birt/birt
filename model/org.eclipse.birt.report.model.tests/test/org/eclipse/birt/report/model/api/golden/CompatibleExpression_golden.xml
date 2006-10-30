@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <parameters>
+        <scalar-parameter name="param1" id="39">
+            <expression name="valueExpr">row["param1ValueExpr"]</expression>
+            <expression name="labelExpr">row["param1LabelExpr"]</expression>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">param1ValueExpr</property>
+                    <expression name="expression">dataSetRow["param1ValueExpr"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">param1LabelExpr</property>
+                    <expression name="expression">dataSetRow["param1LabelExpr"]</expression>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="param2" id="40">
+            <expression name="valueExpr">param2ValueExpr</expression>
+            <expression name="labelExpr">param2LabelExpr</expression>
+        </scalar-parameter>
+    </parameters>
+    <body>
+        <data name="data1" id="2">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">actionBookMark</property>
+                    <expression name="expression">dataSetRow["actionBookMark"]</expression>
+                </structure>
+            </list-property>
+            <structure name="action">
+                <property name="linkType">bookmark-link</property>
+                <expression name="targetBookmark">row["actionBookMark"]</expression>
+            </structure>
+        </data>
+        <table name="table1" id="3">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">bookmark1</property>
+                    <expression name="expression">dataSetRow["bookmark1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">bookmark2</property>
+                    <expression name="expression">dataSetRow["bookmark2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">image1</property>
+                    <expression name="expression">dataSetRow["image1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">valueExpr</property>
+                    <expression name="expression">dataSetRow["valueExpr"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">value1</property>
+                    <expression name="expression">dataSetRow["value1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">onCreateValueExpr</property>
+                    <expression name="expression">dataSetRow["onCreateValueExpr"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">textData1ValueExpr</property>
+                    <expression name="expression">dataSetRow["textData1ValueExpr"]</expression>
+                </structure>
+            </list-property>
+            <column id="26"/>
+            <column id="27"/>
+            <header>
+                <row id="4">
+                    <cell id="5">
+                        <image name="image1" id="6">
+                            <expression name="bookmark">row["bookmark1"] + row["bookmark2"]</expression>
+                            <property name="source">expr</property>
+                            <expression name="valueExpr">row["image1"] + row["valueExpr"]</expression>
+                        </image>
+                    </cell>
+                    <cell id="7"/>
+                </row>
+            </header>
+            <detail>
+                <row id="8">
+                    <cell id="9"/>
+                    <cell id="10">
+                        <table name="table2" id="11">
+                            <list-property name="paramBindings">
+                                <structure>
+                                    <property name="paramName">binding1</property>
+                                    <expression name="expression">row["value1"]</expression>
+                                </structure>
+                            </list-property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">hide1Expr</property>
+                                    <expression name="expression">dataSetRow["hide1Expr"]</expression>
+                                </structure>
+                            </list-property>
+                            <column id="21">
+                                <list-property name="visibility">
+                                    <structure>
+                                        <property name="format">reportlet</property>
+                                        <expression name="valueExpr">row["hide1Expr"]</expression>
+                                    </structure>
+                                </list-property>
+                            </column>
+                            <column id="22"/>
+                            <header>
+                                <row id="12">
+                                    <cell id="13"/>
+                                    <cell id="14"/>
+                                </row>
+                            </header>
+                            <detail>
+                                <row id="15">
+                                    <cell id="16"/>
+                                    <cell id="17"/>
+                                </row>
+                            </detail>
+                            <footer>
+                                <row id="18">
+                                    <cell id="19"/>
+                                    <cell id="20"/>
+                                </row>
+                            </footer>
+                        </table>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="23">
+                    <cell id="24">
+                        <method name="onCreate"><![CDATA[row["onCreateValueExpr"] + 1]]></method>
+                        <grid name="grid1" id="28">
+                            <column id="29"/>
+                            <column id="30"/>
+                            <row id="31">
+                                <cell id="32"/>
+                                <cell id="33"/>
+                            </row>
+                            <row id="34">
+                                <cell id="35"/>
+                                <cell id="36">
+                                    <text-data name="textData1" id="37">
+                                        <expression name="valueExpr">row["textData1ValueExpr"]</expression>
+                                    </text-data>
+                                </cell>
+                            </row>
+                        </grid>
+                    </cell>
+                    <cell id="25"/>
+                </row>
+            </footer>
+        </table>
+        <list name="list1" id="38">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">filter1ValueExpr</property>
+                    <expression name="expression">dataSetRow["filter1ValueExpr"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">filter1Value1</property>
+                    <expression name="expression">dataSetRow["filter1Value1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">filter1Value2</property>
+                    <expression name="expression">dataSetRow["filter1Value2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">sort1Key</property>
+                    <expression name="expression">dataSetRow["sort1Key"]</expression>
+                </structure>
+            </list-property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["sort1Key"]</expression>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <expression name="expr">row["filter1ValueExpr"]</expression>
+                    <expression name="value1">row["filter1Value1"]</expression>
+                    <expression name="value2">row["filter1Value2"]</expression>
+                </structure>
+            </list-property>
+        </list>
+        <text-data name="textData2" id="41">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">New Column</property>
+                    <expression name="expression">row["textData2ValueExpr"]</expression>
+                </structure>
+            </list-property>
+            <expression name="valueExpr">row["New Column"]</expression>
+        </text-data>
+    </body>
+</report>

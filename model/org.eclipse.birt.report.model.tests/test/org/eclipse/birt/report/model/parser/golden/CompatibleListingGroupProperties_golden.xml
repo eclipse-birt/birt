@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource" id="2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet" id="3">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="4">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <list name="My List" id="5">
+            <property name="dataSet">firstDataSet</property>
+            <group id="6">
+                <property name="groupName">NewListGroup1</property>
+                <property name="intervalBase">101</property>
+            </group>
+        </list>
+    </body>
+</report>

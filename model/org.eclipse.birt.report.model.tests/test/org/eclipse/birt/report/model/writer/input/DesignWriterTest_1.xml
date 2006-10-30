@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+    <body>
+        <text>
+            <text-property name="content"><![CDATA[DOESN¡¯T HAVE]]></text-property>
+        </text>
+    </body>
+</report>

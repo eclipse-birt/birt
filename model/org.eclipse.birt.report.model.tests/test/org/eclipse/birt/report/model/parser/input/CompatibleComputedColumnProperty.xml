@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="datasource1"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="dataset1">
+            <property name="dataSource">datasource1</property>
+	         <list-property name="computedColumns">
+                <structure>
+                    <property name="columnName">column1</property>
+                    <expression name="expression">expression1</expression>
+                </structure>
+                <structure>
+                    <property name="name">column2</property>
+                    <expression name="expression">expression2</expression>
+                </structure>
+	          </list-property>
+  	 	</oda-data-set>
+    </data-sets>
+</report>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="refreshRate">30</property>
+    <styles>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="Third Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="topMargin">12.95in</property>
+            <property name="leftMargin">0.8in</property>
+            <property name="bottomMargin">0.75in</property>
+            <property name="rightMargin">1.9in</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

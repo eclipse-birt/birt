@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="refreshRate">30</property>
+    <styles>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="Sixth Page">
+            <property name="type">custom</property>
+            <property name="columns">10</property>
+            <property name="columnSpacing">1.25in</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

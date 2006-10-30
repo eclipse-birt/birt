@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <parameters>
+        <scalar-parameter name="MyParam1" id="4">
+            <expression name="labelExpr">row["COLUMN_1"]</expression>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_1</property>
+                    <expression name="expression">column1 expr</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+    </parameters>
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="2"/>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3"/>
+    </page-setup>
+    <body>
+        <list name="MyList1" id="5">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_2</property>
+                    <expression name="expression">column1 expr</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <detail>
+                <data name="InnerData2" id="6">
+                    <property name="resultSetColumn">COLUMN_2</property>
+                </data>
+            </detail>
+        </list>
+        <list name="MyList2" id="7">
+            <detail>
+                <data name="InnerData3" id="8"/>
+                <list name="innerList1" id="9">
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">COLUMN_5</property>
+                            <expression name="expression">column1 expr</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                    </list-property>
+                    <detail>
+                        <data name="InnerData4" id="10">
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">COLUMN_4</property>
+                                    <expression name="expression">column1 expr</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">COLUMN_5</property>
+                        </data>
+                    </detail>
+                </list>
+            </detail>
+        </list>
+        <table name="MyTable1" id="11">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_1</property>
+                    <expression name="expression">column1 expr</expression>
+                </structure>
+            </list-property>
+            <detail>
+                <row id="12">
+                    <cell id="13">
+                        <table name="innerTable1" id="14">
+                            <list-property name="paramBindings">
+                                <structure>
+                                    <property name="paramName">param1</property>
+                                    <expression name="expression">row["COLUMN_1"]</expression>
+                                </structure>
+                            </list-property>
+                        </table>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <table name="MyTable2" id="15">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_1</property>
+                    <expression name="expression">column1 expr</expression>
+                </structure>
+            </list-property>
+            <detail>
+                <row id="16">
+                    <cell id="17"/>
+                </row>
+            </detail>
+        </table>
+        <table name="MyTable3" id="18">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_1</property>
+                    <expression name="expression">row["COLUMN_2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_2</property>
+                    <expression name="expression">row["COLUMN_1"]</expression>
+                </structure>
+            </list-property>
+            <detail>
+                <row id="19">
+                    <cell id="20"/>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

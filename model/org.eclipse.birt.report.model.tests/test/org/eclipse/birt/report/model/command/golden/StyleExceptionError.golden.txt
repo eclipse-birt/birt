@@ -1,0 +1,2 @@
+Error.StyleException.FORBIDDEN                              The Table("customerTable") can not have a style.
+Error.StyleException.NOT_FOUND                              The style "style1" used by Table("customerTable") is not found.

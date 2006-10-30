@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<ReportMetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="0.01">
+  <Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none">
+    <Property name="displayName" displayNameID="Element.ReportElement.displayName" type="string" />
+    <Property name="displayNameID" displayNameID="Element.ReportElement.displayNameID" type="string" />
+    <Method name="method1" displayNameID="id">
+      <Argument name="arg0" />
+      <Argument name="arg0" />
+    </Method>
+  </Element>
+</ReportMetaData>
+

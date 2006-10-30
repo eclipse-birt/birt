@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <parameters>
+        <scalar-parameter name="Param 1" id="4">
+            <property name="hidden">true</property>
+            <text-property name="helpText" key="new resource key of the help text">new help text</text-property>
+            <method name="validate"><![CDATA[new validation test]]></method>
+            <property name="valueType">static</property>
+            <property name="dataType">dateTime</property>
+            <property name="concealValue">true</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">radio-button</property>
+            <property name="alignment">right</property>
+            <property name="dataSetName">ds1</property>
+            <expression name="valueExpr">new value column</expression>
+            <expression name="labelExpr">new label column</expression>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+            <property name="defaultValue">new default value</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">$***,***.**</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">option 1</property>
+                    <property name="label">option 1 label</property>
+                    <property name="labelID">key 1 for label 1</property>
+                </structure>
+                <structure>
+                    <property name="value">option 2</property>
+                    <property name="label">option 2 label</property>
+                    <property name="labelID">key 2 for label 1</property>
+                </structure>
+                <structure>
+                    <property name="value">option 3</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="Param 2" id="5">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText" key="ResourceKey.Parameter.PromptText">new Text</text-property>
+            <property name="listLimit">300</property>
+            <property name="controlType">check-box</property>
+            <expression name="labelExpr">test column</expression>
+        </scalar-parameter>
+        <scalar-parameter name="Param 3" id="6">
+            <property name="valueType">dynamic</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
+            <property name="listLimit">100</property>
+            <property name="controlType">check-box</property>
+            <property name="dataSetName">ds1</property>
+            <expression name="valueExpr">row["test"]</expression>
+            <expression name="labelExpr">test column</expression>
+            <property name="defaultValue">default value</property>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source name="DataSource" id="2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="ds1" id="3">
+            <property name="dataSource">DataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="7">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label id="8">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

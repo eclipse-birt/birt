@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+        <oda-data-source name="myDataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="b">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+        <oda-data-set name="a">
+            <property name="dataSource">myDataSource2</property>
+        </oda-data-set>
+    	<oda-data-set name="c">
+            <property name="dataSource">myDataSource2</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="My Style">
+            <property name="fontFamily">cursive</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">bolder</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textUnderline">underline</property>
+        </style>
+        <style name="Style1">
+            <property name="fontFamily">Time New Roman, Arial</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">lighter</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">none</property>
+            <property name="textUnderline">underline</property>
+            <list-property name="mapRules">
+                <structure>
+                    <property name="operator">like</property>
+                </structure>
+                <structure>
+                    <property name="operator">eq</property>
+                </structure>
+                <structure>
+                    <property name="operator">ge</property>
+                </structure>
+            </list-property>
+        </style>
+    </styles>
+    <components>
+        <label name="base">
+            <text-property name="text">First Page</text-property>     
+        </label>
+        <label name="child1" extends="base">
+            <property name="style">My Style</property>
+            <property name="dataSet">firstDataSet</property>
+        </label>
+    </components>
+</report>

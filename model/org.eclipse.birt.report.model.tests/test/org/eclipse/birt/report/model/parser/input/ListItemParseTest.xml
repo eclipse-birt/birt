@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>		
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <list name="My List">
+            <property name="dataSet">firstDataSet</property>
+            <property name="pageBreakInterval">120</property>
+            <method name="onCreate"><![CDATA[my list on create]]></method>
+            <method name="onPrepare"><![CDATA[my list on prepare]]></method>
+            <method name="onRender"><![CDATA[my list on render]]></method>
+            <method name="onPageBreak"><![CDATA[my list on page break]]></method>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">age</expression>
+                    <property name="direction">asc</property>
+                </structure>
+                <structure>
+                    <expression name="key">grade</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+            </list-property>
+            <header>
+                <free-form>
+                    <property name="comments">Header Section</property>
+                    <text-property name="displayName">The Section</text-property>
+                </free-form>
+            </header>
+            <group>
+                <property name="groupName">group test</property>
+                <property name="interval">week</property>
+                <property name="intervalRange">3.0</property>
+                <property name="sortDirection">desc</property>
+                <property name="sortType">complex-sort</property>
+				<property name="groupStart">2005/05/20</property>
+				<property name="toc">2005 statistics</property>
+				<property name="hideDetail">true</property>
+                <expression name="keyExpr">[Country]</expression>
+                <method name="onCreate"><![CDATA[create]]></method>
+                <method name="onPrepare"><![CDATA[prepare]]></method>
+                <method name="onRender"><![CDATA[render]]></method>
+                <method name="onPageBreak"><![CDATA[page break]]></method>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key">name</expression>
+                        <property name="direction">asc</property>
+                    </structure>
+                    <structure>
+                        <expression name="key">birthday</expression>
+                        <property name="direction">desc</property>
+                    </structure>
+                </list-property>
+                <list-property name="filter">
+                    <structure>
+                        <property name="operator">lt</property>
+                        <expression name="expr">filter expression</expression>
+                        <expression name="value1">value1 expression</expression>
+                        <expression name="value2">value2 expression</expression>
+                    </structure>
+                </list-property>
+                <header>
+                    <free-form>
+                        <property name="comments">Group Header Section</property>
+                        <text-property name="displayName">The Section</text-property>
+                    </free-form>
+                </header>
+                <footer>
+                    <free-form>
+                        <property name="comments">Group Footer Section</property>
+                        <text-property name="displayName">The Section</text-property>
+                    </free-form>
+                </footer>
+            </group>
+            <detail>
+                <free-form>
+                    <property name="comments">Detail Section</property>
+                    <text-property name="displayName">The Section</text-property>
+                </free-form>
+            </detail>
+            <footer>
+                <free-form>
+                    <property name="comments">Footer Section</property>
+                    <text-property name="displayName">The Section</text-property>
+                </free-form>
+            </footer>
+        </list>
+    </body>
+</report>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <page-setup>
+        <simple-master-page name="Page1" id="2">
+            <property name="type">custom</property>
+            <property name="height">13.3cm</property>
+            <property name="width">8.3cm</property>
+            <property name="orientation">auto</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="showHeaderOnFirst">true</property>
+            <property name="showFooterOnLast">true</property>
+            <property name="floatingFooter">false</property>
+            <page-header>
+                <text name="text1" id="3"/>
+            </page-header>
+        </simple-master-page>
+    </page-setup>
+</report>

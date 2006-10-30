@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2">
+            <styles>
+                <style name="style1" id="3">
+                    <property name="color">red</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <components>
+        <label name="libLabel" id="4"/>
+        <label name="label2" id="5">
+            <property name="fontSize">11px</property>
+            <text-property name="text">label2</text-property>
+        </label>
+    </components>
+</library>

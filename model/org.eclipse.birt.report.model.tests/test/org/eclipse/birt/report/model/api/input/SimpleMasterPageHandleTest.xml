@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <simple-master-page name="Page1">
+            <property name="type">custom</property>
+            <property name="height">13.3cm</property>
+            <property name="width">8.3cm</property>
+            <property name="orientation">auto</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="showHeaderOnFirst">true</property>
+			<property name="floatingFooter">true</property>
+			<property name="showFooterOnLast">false</property>
+            <page-header>
+                <text name="text1"/>
+            </page-header>
+            <page-footer>
+                <free-form name="free-form1"/>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+</report>

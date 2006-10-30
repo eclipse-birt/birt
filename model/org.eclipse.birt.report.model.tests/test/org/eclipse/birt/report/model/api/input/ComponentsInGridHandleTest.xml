@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+    <styles>
+        <style name="My Style">
+            <property name="backgroundColor">yellow</property>
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">none</property>
+            <property name="textUnderline">none</property>
+            <property name="borderBottomColor">red</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">3mm</property>
+            <property name="borderLeftColor">green</property>
+            <property name="borderLeftStyle">dashed</property>
+            <property name="borderLeftWidth">2mm</property>
+            <property name="borderRightColor">maroon</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">4mm</property>
+            <property name="borderTopColor">blue</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">1mm</property>
+            <property name="marginTop">8mm</property>
+            <property name="marginLeft">auto</property>
+            <property name="marginBottom">8mm</property>
+            <property name="marginRight">9mm</property>
+            <property name="paddingTop">1mm</property>
+            <property name="paddingLeft">2mm</property>
+            <property name="paddingBottom">4mm</property>
+            <property name="paddingRight">3mm</property>
+            <property name="numberFormat">$#,###.##</property>
+            <property name="numberAlign">right</property>
+            <property name="stringFormat">XX-XX-XX</property>
+            <property name="textAlign">justify</property>
+            <property name="textIndent">6mm</property>
+            <property name="lineHeight">7mm</property>
+            <property name="orphans">2</property>
+            <property name="masterPage">Page 1</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakInside">auto</property>
+            <property name="showIfBlank">true</property>
+            <property name="canShrink">false</property>
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="type">custom</property>
+            <property name="height">11mm</property>
+            <property name="width">8.5mm</property>
+            <property name="orientation">auto</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+                <data>
+                    <expression name="valueExpr">[myParam]</expression>
+                    <text-property name="helpText">Shows what parameter was used.</text-property>
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <grid name="My grid">
+            <column>
+                <property name="width">2.5mm</property>
+                <property name="repeat">3</property>
+                <property name="style">My Style</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+                <property name="style">My Style</property>
+            </column>
+            <row>
+                <property name="height">5mm</property>
+                <expression name="bookmark">This is bookmark for section.</expression>
+                <property name="style">My Style</property>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                        <text-property name="text">Customer Name</text-property>
+                    </label>
+                </cell>
+                <cell>
+                    <property name="column">2</property>
+                    <property name="colSpan">3</property>
+                    <property name="rowSpan">1</property>
+                    <property name="drop">all</property>
+                    <property name="height">1.5mm</property>
+                    <property name="width">2mm</property>
+                    <property name="style">My Style</property>
+                    <property name="backgroundColor">red</property>
+                    <property name="borderTopColor">yellow</property>
+                    <property name="borderTopStyle">dotted</property>
+                    <property name="borderTopWidth">2mm</property>
+                    <label name="address">
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">4</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+        <oda-data-source name="myDataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <components>
+        <table name="component table"/>
+    </components>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <table name="First table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <header>
+                <row>
+                    <expression name="bookmark">This is bookmark for section.</expression>
+                    <cell>
+                        <property name="column">2</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1mm</property>
+                            <property name="y">2mm</property>
+                            <property name="height">3mm</property>
+                            <property name="width">4mm</property>
+                            <text-property name="text">Customer Name</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <property name="column">3</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+        </table>
+        <table name="Second table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <detail>
+                <row>
+                    <cell>
+                        <property name="column">3</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <table name="Forth table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <footer>
+                <row>
+                    <cell>
+                        <property name="column">2</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address3</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row>
+                    <cell>
+                        <property name="column">3</property>
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address4</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+        <table name="Fifth table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <detail>
+                <row>
+                    <cell>
+                        <property name="column">1</property>
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <property name="column">2</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <table name="Sixth table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+            </column>
+            <detail>
+                <row>
+                    <cell>
+                        <property name="column">1</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <property name="column">2</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row>
+                    <cell>
+                        <property name="column">1</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">3</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                    <cell>
+                        <property name="column">2</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">3</property>
+                        <label>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <table name="Seventh table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <header>
+                <row>
+                    <cell>
+                        <property name="column">1</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <table name="Seventh inner table"/>
+                    </cell>
+                </row>
+            </header>
+        </table>
+        <table name="Eighth table">
+            <property name="dataSet">firstDataSet</property>
+            <column>
+                <property name="width">2.5mm</property>
+            </column>
+            <group>
+                <property name="keyExpr">@expression</property>
+                <header>
+                    <row>
+                        <cell>
+                            <property name="drop">detail</property>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row>
+                    <cell>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+                
+        <list name="First list">
+            <detail>
+                <table name="First inner table"/>
+            </detail>
+        </list>
+        <list name="Second list">
+            <property name="dataSet">firstDataSet</property>
+            <detail>
+                <list name="Second inner list">
+                    <header>
+                        <table name="Ninth table"/>
+                    </header>
+                </list>
+            </detail>
+        </list>
+    </body>
+</report>

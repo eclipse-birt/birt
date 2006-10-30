@@ -1,7 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests Plug-in
-Bundle-SymbolicName: org.eclipse.birt.report.model.tests
+Bundle-SymbolicName: org.eclipse.birt.report.model.tests; singleton:=true
 Bundle-Version: 2.2.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.report.model,
+ org.apache.commons.codec
+Bundle-ClassPath: modeltests.jar

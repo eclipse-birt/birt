@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+    <property name="units">in</property>
+    <template-parameter-definitions>
+        <template-parameter-definition name="NewTemplateParameterDefinition" id="21">
+            <property name="allowedType">Label</property>
+            <default>
+                <label id="22">
+                    <text-property name="text">label 1</text-property>
+                </label>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition1" id="24">
+            <property name="allowedType">Table</property>
+            <default>
+                <table id="25">
+                    <property name="width">100%</property>
+                    <column id="39"/>
+                    <column id="40"/>
+                    <column id="41"/>
+                    <header>
+                        <row id="26">
+                            <cell id="27"/>
+                            <cell id="28"/>
+                            <cell id="29"/>
+                        </row>
+                    </header>
+                    <detail>
+                        <row id="30">
+                            <cell id="31">
+                                <template-report-item name="template label 1" id="32">
+                                    <property name="refTemplateParameter">NewTemplateParameterDefinition</property>
+                                </template-report-item>
+                            </cell>
+                            <cell id="33"/>
+                            <cell id="34"/>
+                        </row>
+                    </detail>
+                    <footer>
+                        <row id="35">
+                            <cell id="36"/>
+                            <cell id="37"/>
+                            <cell id="38"/>
+                        </row>
+                    </footer>
+                </table>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition2" id="75">
+            <property name="allowedType">Table</property>
+            <default>
+                <table id="76">
+                    <property name="width">100%</property>
+                    <column id="89"/>
+                    <column id="90"/>
+                    <column id="91"/>
+                    <header>
+                        <row id="77">
+                            <cell id="78"/>
+                            <cell id="79"/>
+                            <cell id="80"/>
+                        </row>
+                    </header>
+                    <detail>
+                        <row id="81">
+                            <cell id="82"/>
+                            <cell id="83"/>
+                            <cell id="84"/>
+                        </row>
+                    </detail>
+                    <footer>
+                        <row id="85">
+                            <cell id="86"/>
+                            <cell id="87"/>
+                            <cell id="88"/>
+                        </row>
+                    </footer>
+                </table>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition3" id="94">
+            <property name="allowedType">Label</property>
+            <default>
+                <label id="95">
+                    <text-property name="text">label 2</text-property>
+                </label>
+            </default>
+        </template-parameter-definition>
+        <template-parameter-definition name="NewTemplateParameterDefinition4" id="100">
+            <property name="allowedType">Label</property>
+            <default>
+                <label id="101">
+                    <text-property name="text">label 3</text-property>
+                </label>
+            </default>
+        </template-parameter-definition>
+    </template-parameter-definitions>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+            	<label name="label in master page" id="303">
+		            <property name="refTemplateParameter">NewTemplateParameterDefinition4</property>
+        		    <text-property name="text">label in master page</text-property>
+		        </label>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <template-report-item name="template table 1" id="42">
+            <property name="refTemplateParameter">NewTemplateParameterDefinition1</property>
+        </template-report-item>
+        <table id="43">
+            <property name="width">100%</property>
+            <column id="56"/>
+            <column id="57"/>
+            <column id="58"/>
+            <header>
+                <row id="44">
+                    <cell id="45"/>
+                    <cell id="46"/>
+                    <cell id="47"/>
+                </row>
+            </header>
+            <detail>
+                <row id="48">
+                    <cell id="49">
+                        <template-report-item name="template inner table" id="92">
+                            <property name="refTemplateParameter">NewTemplateParameterDefinition2</property>
+                        </template-report-item>
+                    </cell>
+                    <cell id="50">
+	                    <label name="inner label" id="503">
+    				        <property name="refTemplateParameter">NewTemplateParameterDefinition4</property>
+				            <text-property name="text">inner label</text-property>
+				        </label>
+        			</cell>
+                    <cell id="51"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="52">
+                    <cell id="53"/>
+                    <cell id="54"/>
+                    <cell id="55"/>
+                </row>
+            </footer>
+        </table>
+        <template-report-item name="tamplate label 2" id="96">
+            <property name="refTemplateParameter">NewTemplateParameterDefinition3</property>
+        </template-report-item>
+        <label name="label 3" id="103">
+            <property name="refTemplateParameter">NewTemplateParameterDefinition4</property>
+            <text-property name="text">label 3</text-property>
+        </label>
+    </body>
+</report>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2">
+            <styles>
+                <style name="style1" id="3">
+                    <property name="color">red</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <components>
+        <label name="libLabel" id="4"/>
+        <table name="table1" id="5">
+            <property name="fontWeight">200</property>
+            <property name="dataSet">firstDataSet</property>
+            <group id="6">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">week</property>
+                <property name="intervalRange">3.0</property>
+                <property name="sortDirection">asc</property>
+                <property name="sortType">none</property>
+                <expression name="keyExpr">state</expression>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <header>
+                    <row id="7">
+                        <property name="suppressDuplicates">false</property>
+                        <cell id="8">
+                            <property name="column">0</property>
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <property name="drop">none</property>
+                            <property name="fontWeight">normal</property>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row id="9">
+                    <property name="suppressDuplicates">false</property>
+                    <cell id="10">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <label name="innerLabel" id="11">
+                            <property name="fontWeight">bolder</property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </components>
+</library>

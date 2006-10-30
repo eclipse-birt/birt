@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3">
+	<html-property name="description">   html   </html-property>
+    <data-sources>
+        <oda-data-source name="myDataSource">
+            <method name="beforeOpen"></method>
+        </oda-data-source>
+        <oda-data-source name="myDataSource1">
+            <method name="beforeOpen">  </method>
+        </oda-data-source>
+    </data-sources>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+    <list-property name="images">
+        <structure>
+            <property name="name">image1</property>
+            <property name="type">image/bmp</property>
+            <property name="data">   </property>
+        </structure>
+	</list-property>
+	<body>
+		<label name="label1">
+            <text-property name="helpText" key=" "></text-property>
+        </label>
+		<data name="data1">
+			<expression name="valueExpr">   </expression>
+		</data>
+		<text name="text1">
+			<property name="contentType">   html   </property>
+			<text-property name="content"><![CDATA[   ]]></text-property>
+		</text>
+	</body>
+</report>

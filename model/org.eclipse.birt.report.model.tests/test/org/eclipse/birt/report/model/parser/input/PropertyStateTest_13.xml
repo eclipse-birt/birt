@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="parent"/>
+    </page-setup>
+    <body>
+        <free-form name="form1">
+			<property name="myProp1">myValue1</property>
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">myProp1</property>
+                    <property name="type">string</property>
+                    <text-property name="displayName" key="abc"></text-property>
+                </structure>
+            </list-property>
+        </free-form>
+    </body>
+</report>

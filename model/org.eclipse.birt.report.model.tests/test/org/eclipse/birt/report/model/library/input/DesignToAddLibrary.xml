@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.3" id="1">
+	<property name="theme">Lib1.theme1</property>
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryToReload.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2"/>
+    </page-setup>
+	<body>
+		<table name="designTable" id="3" extends="Lib1.libTable1">
+			<property name="caption">New Design Table</property>
+			<overridden-values>
+				<!-- base is row -->
+				<ref-entry baseId="9">
+					<property name="color">blue</property>
+					<property name="style">new_style</property>
+				</ref-entry>
+				<ref-entry baseId="21">
+					<property name="color">lime</property>
+				</ref-entry>
+				<ref-entry baseId="25">
+					<property name="color">aqua</property>
+				</ref-entry>				
+			</overridden-values>
+		</table>
+		<grid name="designGrid" id="4" extends="lib2.libGrid"/>
+	</body>
+</report>

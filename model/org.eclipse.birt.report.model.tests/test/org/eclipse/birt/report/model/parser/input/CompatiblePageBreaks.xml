@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <table name="table1">
+            <property name="pageBreakBefore">left</property>
+            <header>
+                <row>
+                    <cell>
+                    </cell>
+                </row>
+            </header>
+            <group>
+            	<header>
+                	<row>
+                    	<property name="pageBreakAfter">inherit</property>
+                    	<cell>
+                    	</cell>
+                	</row>
+            	</header>
+            	<footer>
+            		<row>
+            			<property name="pageBreakAfter">left</property>
+            		</row>
+            	</footer>
+            </group>
+            <detail>
+                <row>
+                    <cell>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <property name="pageBreakAfter">avoid</property>
+                    <cell>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

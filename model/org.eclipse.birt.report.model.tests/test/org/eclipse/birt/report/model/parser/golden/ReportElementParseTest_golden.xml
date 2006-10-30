@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="author">W.C. Fields</property>
+    <components>
+        <label name="base" id="2">
+            <list-property name="propertyMasks">
+                <structure>
+                    <property name="name">height</property>
+                    <property name="mask">lock</property>
+                </structure>
+            </list-property>
+            <text-property name="text">First Page</text-property>
+        </label>
+        <label name="child1" id="3" extends="base">
+            <text-property name="text">Today's Date</text-property>
+        </label>
+    </components>
+    <page-setup>
+        <simple-master-page name="My Page" id="4"/>
+    </page-setup>
+    <body>
+        <label name="bodyLabel1" id="5">
+            <list-property name="propertyMasks">
+                <structure>
+                    <property name="name">text</property>
+                    <property name="mask">change</property>
+                </structure>
+                <structure>
+                    <property name="name">extends</property>
+                    <property name="mask">change</property>
+                </structure>
+                <structure>
+                    <property name="name">textID</property>
+                    <property name="mask">lock</property>
+                </structure>
+                <structure>
+                    <property name="mask">hide</property>
+                </structure>
+                <structure>
+                    <property name="name">height</property>
+                    <property name="mask">lock</property>
+                </structure>
+            </list-property>
+            <text-property name="text">Fifth Label in body.</text-property>
+        </label>
+    </body>
+</report>

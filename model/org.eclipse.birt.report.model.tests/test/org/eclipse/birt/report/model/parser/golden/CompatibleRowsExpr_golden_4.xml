@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.0.1 Build &lt;20060222-1204></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.xml" name="CustomerOfferXMLDatenquelle" id="393">
+            <property name="FILELIST">C:\tmp\CustomerOffer.xml</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="OfferPosition" id="403">
+            <property name="dataSource">CustomerOfferXMLDatenquelle</property>
+            <property name="queryText">table0#-TNAME-#table0#:#[/GloConDocuments/GloConDocument/positionText]#:#{position_uid;String;/position_uid},{positionNoLabel;String;../labels/positionNo},{positionNo;String;/positionNo},{textLine;String;/textLine},{receiverLabel;String;../labels/receiverLabel},{receiverCompanyName;String;../receiver/companyName},{receiverLocation;String;../receiver/location},{receiverLastname;String;../receiver/lastname},{receiverFirstname;String;../receiver/firstname},{receiverSalutation;String;../receiver/salutation},{receiverStreet;String;../receiver/street},{receiverCity;String;../receiver/city},{receiverCountry;String;../receiver/country},{receiverTel;String;../receiver/tel},{receiverFax;String;../receiver/fax},{receiverEmail;String;../receiver/email},{senderLabel;String;../labels/senderLabel},{senderCompany;String;../senderCompany},{signatureLine1;String;../signatureLine1},{signatureLine2;String;../signatureLine2},{payableLabel;String;../labels/payable},{payable;String;/payable},{courierLabel;String;../labels/courier},{courier;String;/courier},{additionalTextDetails;String;/additionalTextDetails},{validityLabel;String;../labels/validity},{validity;String;/validity},{transportUnitsLabel;String;../transportLabels/transportUnits},{senderStreet;String;../senderStreet},{senderCity;String;../senderCity},{senderCountry;String;../senderCountry},{senderPhone;String;../senderPhone},{senderFax;String;../senderFax},{senderEmail;String;../senderEmail},{offerLabel;String;../offerLabel},{phoneLabel;String;../labels/phone},{faxLabel;String;../labels/fax},{emailLabel;String;../labels/email},{dateLabel;String;../labels/date},{toLabel;String;../labels/to},{offerNoLabel;String;../labels/offerNo},{dateFromLabel;String;../labels/dateFromLabel},{offerTextLabel;String;../labels/offerTextLabel},{offerNoText;String;../offerNoText},{date;String;../date},{receiverPostbox;String;../receiver/postbox},{priceTextLabel;String;../priceLabels/priceText},{priceDescriptionLabel;String;../priceLabels/descriptionLabel},{priceRemarkLabel;String;../priceLabels/remarkLabel},{singlePriceLabel;String;../priceLabels/singlePriceLabel},{priceCountLabel;String;../priceLabels/countLabel},{totalPriceLabel;String;../priceLabels/totalPriceLabel},{priceCurrencyLabel;String;../priceLabels/currency},{transportPositionLabel;String;../transportLabels/positionLabel},{transportCountLabel;String;../transportLabels/countLabel},{transportDescriptionLabel;String;../transportLabels/descriptionLabel},{transportMeasureLabel;String;../transportLabels/measureLabel},{transportWeightLabel;String;../transportLabels/weightLabel},{transportKindOfGoodsLabel;String;../transportLabels/kindOfGoodsLabel},{transportImoClassLabel;String;../transportLabels/imoClassLabel}</property>
+            <property name="MAX_ROW">-1</property>
+            <property name="XML_FILE">C:\tmp\CustomerOffer.xml</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="TransportUnit" id="409">
+            <property name="dataSource">CustomerOfferXMLDatenquelle</property>
+            <property name="queryText">table0#-TNAME-#table0#:#[/GloConDocuments/GloConDocument/transportUnit]#:#{tu_position_uid;String;/position_uid},{position;String;/position},{count;String;/count},{description;String;/description},{measure;String;/measure},{weight;String;/weight},{kindOfGoods;String;/kindOfGoods},{imoClass;String;/imoClass}</property>
+            <property name="MAX_ROW">-1</property>
+            <property name="XML_FILE">C:\tmp\CustomerOffer.xml</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="PricePosition" id="801">
+            <property name="dataSource">CustomerOfferXMLDatenquelle</property>
+            <property name="queryText">table0#-TNAME-#table0#:#[/GloConDocuments/GloConDocument/price]#:#{price_Position_uid;String;/position_uid},{description;String;/description},{remark;String;/remark},{singlePriceCurrency;String;/singlePriceCurrency},{singlePrice;String;/singlePrice},{count;String;/count},{totalPriceCurrency;String;/totalPriceCurrency},{totalPrice;String;/totalPrice}</property>
+            <property name="MAX_ROW">-1</property>
+            <property name="XML_FILE">C:\tmp\CustomerOffer.xml</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">15mm</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="176">
+            <property name="width">100%</property>
+            <property name="dataSet">OfferPosition</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">transportUnitsLabel</property>
+                    <expression name="expression">dataSetRow["transportUnitsLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportPositionLabel</property>
+                    <expression name="expression">dataSetRow["transportPositionLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportCountLabel</property>
+                    <expression name="expression">dataSetRow["transportCountLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportDescriptionLabel</property>
+                    <expression name="expression">dataSetRow["transportDescriptionLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportMeasureLabel</property>
+                    <expression name="expression">dataSetRow["transportMeasureLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportWeightLabel</property>
+                    <expression name="expression">dataSetRow["transportWeightLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportKindOfGoodsLabel</property>
+                    <expression name="expression">dataSetRow["transportKindOfGoodsLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">transportImoClassLabel</property>
+                    <expression name="expression">dataSetRow["transportImoClassLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">priceTextLabel</property>
+                    <expression name="expression">dataSetRow["priceTextLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">priceDescriptionLabel</property>
+                    <expression name="expression">dataSetRow["priceDescriptionLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">priceRemarkLabel</property>
+                    <expression name="expression">dataSetRow["priceRemarkLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">singlePriceLabel</property>
+                    <expression name="expression">dataSetRow["singlePriceLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">priceCurrencyLabel</property>
+                    <expression name="expression">dataSetRow["priceCurrencyLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">priceCountLabel</property>
+                    <expression name="expression">dataSetRow["priceCountLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">totalPriceLabel</property>
+                    <expression name="expression">dataSetRow["totalPriceLabel"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">position_uid</property>
+                    <expression name="expression">dataSetRow["position_uid"]</expression>
+                </structure>
+            </list-property>
+            <column id="192">
+                <property name="width">45mm</property>
+            </column>
+            <column id="193">
+                <property name="width">80%</property>
+                <property name="textAlign">left</property>
+            </column>
+            <detail>
+                <row id="305">
+                    <cell id="306">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="fontFamily">Courier New</property>
+                        <property name="fontSize">10pt</property>
+                        <table id="457">
+                            <property name="pageBreakInside">avoid</property>
+                            <property name="width">100%</property>
+                            <property name="dataSet">TransportUnit</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">position</property>
+                                    <expression name="expression">dataSetRow["position"]</expression>
+                                    <property name="dataType">any</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">tu_position_uid</property>
+                                    <expression name="expression">dataSetRow["tu_position_uid"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportUnitsLabel"]</property>
+                                    <expression name="expression">row._outer["transportUnitsLabel"]</expression>
+                                    <property name="dataType">any</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportPositionLabel"]</property>
+                                    <expression name="expression">row._outer["transportPositionLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportCountLabel"]</property>
+                                    <expression name="expression">row._outer["transportCountLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportDescriptionLabel"]</property>
+                                    <expression name="expression">row._outer["transportDescriptionLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportMeasureLabel"]</property>
+                                    <expression name="expression">row._outer["transportMeasureLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportWeightLabel"]</property>
+                                    <expression name="expression">row._outer["transportWeightLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportKindOfGoodsLabel"]</property>
+                                    <expression name="expression">row._outer["transportKindOfGoodsLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["transportImoClassLabel"]</property>
+                                    <expression name="expression">row._outer["transportImoClassLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">count</property>
+                                    <expression name="expression">dataSetRow["count"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">description</property>
+                                    <expression name="expression">dataSetRow["description"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">measure</property>
+                                    <expression name="expression">dataSetRow["measure"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">weight</property>
+                                    <expression name="expression">dataSetRow["weight"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">kindOfGoods</property>
+                                    <expression name="expression">dataSetRow["kindOfGoods"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">imoClass</property>
+                                    <expression name="expression">dataSetRow["imoClass"]</expression>
+                                </structure>
+                            </list-property>
+                            <column id="497">
+                                <property name="width">20mm</property>
+                            </column>
+                            <column id="498">
+                                <property name="width">20mm</property>
+                            </column>
+                            <column id="499"/>
+                            <column id="500">
+                                <property name="width">38mm</property>
+                            </column>
+                            <column id="501">
+                                <property name="width">30mm</property>
+                            </column>
+                            <column id="502">
+                                <property name="width">45mm</property>
+                            </column>
+                            <column id="591">
+                                <property name="width">33mm</property>
+                            </column>
+                            <detail>
+                                <row id="473">
+                                    <property name="verticalAlign">top</property>
+                                    <cell id="476">
+                                        <data id="477">
+                                            <property name="paddingRight">12pt</property>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">position</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="478">
+                                        <data id="479">
+                                            <property name="paddingRight">12pt</property>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">count</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="480">
+                                        <data id="481">
+                                            <property name="resultSetColumn">description</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="482">
+                                        <data id="483">
+                                            <property name="resultSetColumn">measure</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="484">
+                                        <data id="485">
+                                            <property name="paddingRight">12pt</property>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">weight</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="486">
+                                        <data id="487">
+                                            <property name="resultSetColumn">kindOfGoods</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="589">
+                                        <data id="593">
+                                            <property name="resultSetColumn">imoClass</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </detail>
+                        </table>
+                    </cell>
+                </row>
+                <row id="750">
+                    <cell id="751">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="fontFamily">Courier New</property>
+                        <property name="fontSize">10pt</property>
+                        <table id="755">
+                            <property name="pageBreakInside">avoid</property>
+                            <property name="width">100%</property>
+                            <property name="dataSet">PricePosition</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">price_Position_uid</property>
+                                    <expression name="expression">dataSetRow["price_Position_uid"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["priceTextLabel"]</property>
+                                    <expression name="expression">row._outer["priceTextLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["priceDescriptionLabel"]</property>
+                                    <expression name="expression">row._outer["priceDescriptionLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["priceRemarkLabel"]</property>
+                                    <expression name="expression">row._outer["priceRemarkLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["singlePriceLabel"]</property>
+                                    <expression name="expression">row._outer["singlePriceLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["priceCurrencyLabel"]</property>
+                                    <expression name="expression">row._outer["priceCurrencyLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["priceCountLabel"]</property>
+                                    <expression name="expression">row._outer["priceCountLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">rows[0]["totalPriceLabel"]</property>
+                                    <expression name="expression">row._outer["totalPriceLabel"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">description</property>
+                                    <expression name="expression">dataSetRow["description"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">remark</property>
+                                    <expression name="expression">dataSetRow["remark"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">singlePrice</property>
+                                    <expression name="expression">dataSetRow["singlePrice"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">singlePriceCurrency</property>
+                                    <expression name="expression">dataSetRow["singlePriceCurrency"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">count</property>
+                                    <expression name="expression">dataSetRow["count"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">totalPrice</property>
+                                    <expression name="expression">dataSetRow["totalPrice"]</expression>
+                                </structure>
+                                <structure>
+                                    <property name="name">totalPriceCurrency</property>
+                                    <expression name="expression">dataSetRow["totalPriceCurrency"]</expression>
+                                </structure>
+                            </list-property>
+                            <list-property name="filter">
+                                <structure>
+                                    <expression name="expr">row["price_Position_uid"]</expression>
+                                    <expression name="value1">row._outer["position_uid"]</expression>
+                                </structure>
+                            </list-property>
+                            <column id="794">
+                                <property name="width">60mm</property>
+                                <property name="verticalAlign">top</property>
+                            </column>
+                            <column id="795">
+                                <property name="verticalAlign">top</property>
+                            </column>
+                            <column id="796">
+                                <property name="width">30mm</property>
+                            </column>
+                            <column id="797">
+                                <property name="width">18mm</property>
+                            </column>
+                            <column id="798">
+                                <property name="width">18mm</property>
+                            </column>
+                            <column id="799">
+                                <property name="width">30mm</property>
+                            </column>
+                            <column id="800">
+                                <property name="width">16mm</property>
+                            </column>
+                            <detail>
+                                <row id="771">
+                                    <property name="verticalAlign">top</property>
+                                    <cell id="772">
+                                        <data id="802">
+                                            <property name="resultSetColumn">description</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="774">
+                                        <data id="803">
+                                            <property name="resultSetColumn">remark</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="776">
+                                        <data id="804">
+                                            <property name="paddingRight">12pt</property>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">singlePrice</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="778">
+                                        <data id="805">
+                                            <property name="resultSetColumn">singlePriceCurrency</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="780">
+                                        <data id="806">
+                                            <property name="paddingRight">12pt</property>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">count</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="782">
+                                        <data id="807">
+                                            <property name="paddingRight">12pt</property>
+                                            <property name="textAlign">right</property>
+                                            <property name="resultSetColumn">totalPrice</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="784">
+                                        <data id="808">
+                                            <property name="resultSetColumn">totalPriceCurrency</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </detail>
+                        </table>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

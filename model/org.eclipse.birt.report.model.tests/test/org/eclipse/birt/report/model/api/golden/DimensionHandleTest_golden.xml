@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <styles>
+        <style name="My Style" id="2">
+            <property name="backgroundPositionX">12000.123cm</property>
+            <property name="fontFamily">fantasy</property>
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="fontStyle">italic</property>
+            <property name="fontVariant">normal</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textOverline">overline</property>
+            <property name="textUnderline">underline</property>
+            <property name="borderBottomColor">red</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">green</property>
+            <property name="borderLeftStyle">dashed</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">maroon</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">blue</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="marginTop">auto</property>
+            <property name="marginLeft">auto</property>
+            <property name="marginBottom">auto</property>
+            <property name="marginRight">auto</property>
+            <property name="paddingTop">1mm</property>
+            <property name="paddingLeft">2mm</property>
+            <property name="paddingBottom">4mm</property>
+            <property name="paddingRight">3mm</property>
+            <property name="textAlign">right</property>
+            <property name="textIndent">5mm</property>
+            <property name="letterSpacing">normal</property>
+            <property name="lineHeight">normal</property>
+            <property name="orphans">19</property>
+            <property name="textTransform">uppercase</property>
+            <property name="verticalAlign">middle</property>
+            <property name="whiteSpace">nowrap</property>
+            <property name="widows">12</property>
+            <property name="wordSpacing">normal</property>
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightWidth">12mm</property>
+                    <property name="fontSize">medium</property>
+                </structure>
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="fontSize">10mm</property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="My Style1" id="3">
+            <property name="fontSize">14pc</property>
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="fontSize">22pt</property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="list" id="4">
+            <property name="fontSize">small</property>
+        </style>
+    </styles>
+    <body>
+        <free-form name="form1" id="5">
+            <property name="fontSize">12px</property>
+            <property name="textIndent">3em</property>
+            <property name="x">12in</property>
+            <property name="y">0in</property>
+            <report-items>
+                <text name="text1" id="6">
+                    <property name="fontSize">15px</property>
+                </text>
+            </report-items>
+        </free-form>
+        <free-form name="form2" id="7">
+            <property name="fontSize">12px</property>
+            <report-items>
+                <text name="text2" id="8">
+                    <property name="fontSize">15px</property>
+                    <property name="textIndent">3em</property>
+                </text>
+            </report-items>
+        </free-form>
+        <free-form name="form3" id="9">
+            <property name="style">My Style</property>
+            <property name="textIndent">3em</property>
+            <report-items>
+                <text name="text3" id="10">
+                    <property name="textIndent">5em</property>
+                </text>
+            </report-items>
+        </free-form>
+        <free-form name="form4" id="11">
+            <property name="textIndent">3em</property>
+            <report-items>
+                <text name="text4" id="12"/>
+            </report-items>
+        </free-form>
+        <free-form name="form5" id="13">
+            <property name="fontSize">20px</property>
+            <property name="textIndent">3em</property>
+            <report-items>
+                <text name="text5" id="14">
+                    <property name="fontSize">15px</property>
+                </text>
+            </report-items>
+        </free-form>
+        <free-form name="form6" id="15">
+            <property name="fontSize">19px</property>
+            <report-items>
+                <free-form name="innerForm6" id="16">
+                    <property name="backgroundPositionX">2em</property>
+                    <property name="textIndent">3em</property>
+                    <report-items>
+                        <text name="text6" id="17">
+                            <property name="fontSize">15px</property>
+                        </text>
+                    </report-items>
+                </free-form>
+            </report-items>
+        </free-form>
+        <free-form name="form7" id="18">
+            <property name="fontSize">12px</property>
+            <property name="textIndent">3ex</property>
+            <report-items>
+                <text name="text7" id="19">
+                    <property name="fontSize">15px</property>
+                </text>
+            </report-items>
+        </free-form>
+        <free-form name="form8" id="20">
+            <report-items>
+                <text name="text8" id="21"/>
+            </report-items>
+        </free-form>
+        <free-form name="form9" id="22">
+            <property name="fontSize">20px</property>
+            <report-items>
+                <free-form name="innerForm9" id="23">
+                    <property name="fontSize">larger</property>
+                    <property name="textIndent">3ex</property>
+                    <report-items>
+                        <text name="text9" id="24">
+                            <property name="fontSize">15px</property>
+                        </text>
+                    </report-items>
+                </free-form>
+            </report-items>
+        </free-form>
+    </body>
+</report>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+</report>

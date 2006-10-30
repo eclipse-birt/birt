@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="2"/>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3"/>
+    </page-setup>
+</report>

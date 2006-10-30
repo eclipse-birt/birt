@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 0.0.1 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="80">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dSet" id="5">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">SELECT CLASSICMODELS.PRODUCTS.PRODUCTCODE,
+       CLASSICMODELS.PRODUCTS.PRODUCTNAME,
+       CLASSICMODELS.PRODUCTS.PRODUCTLINE,
+       CLASSICMODELS.PRODUCTS.PRODUCTVENDOR,
+       CLASSICMODELS.PRODUCTS.BUYPRICE,
+       CLASSICMODELS.PRODUCTS.MSRP,
+       CLASSICMODELS.PRODUCTS.QUANTITYINSTOCK,
+       CLASSICMODELS.ORDERDETAILS.QUANTITYORDERED
+ FROM CLASSICMODELS.PRODUCTS,CLASSICMODELS.ORDERDETAILS
+ WHERE CLASSICMODELS.PRODUCTS.PRODUCTCODE=CLASSICMODELS.ORDERDETAILS.PRODUCTCODE</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="6">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">3</property>
+                    <property name="alias">TotalOrders</property>
+                    <property name="displayName">TOTALORDERS</property>
+                </structure>
+            </list-property>
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">SELECT CLASSICMODELS.PRODUCTS.PRODUCTNAME,
+       CLASSICMODELS.PRODUCTS.PRODUCTLINE,
+       SUM(CLASSICMODELS.ORDERDETAILS.QUANTITYORDERED)
+FROM CLASSICMODELS.ORDERDETAILS,
+     CLASSICMODELS.PRODUCTS
+WHERE CLASSICMODELS.PRODUCTS.PRODUCTCODE=CLASSICMODELS.ORDERDETAILS.PRODUCTCODE
+AND  CLASSICMODELS.PRODUCTS.PRODUCTLINE=?
+GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
+</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="Label" id="2">
+            <property name="fontFamily">Book Antiqua</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#004080</property>
+        </style>
+        <style name="Data" id="3">
+            <property name="fontFamily">Book Antiqua</property>
+            <property name="fontSize">small</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="7">
+            <page-header>
+                <grid id="8">
+                    <property name="width">100%</property>
+                    <column id="9"/>
+                    <row id="10">
+                        <cell id="11">
+                            <property name="fontSize">xx-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="12">
+                    <property name="width">100%</property>
+                    <column id="13"/>
+                    <column id="14"/>
+                    <row id="15">
+                        <cell id="16">
+                            <text id="17">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="18">
+                            <property name="textAlign">right</property>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="19">
+            <property name="width">100%</property>
+            <property name="dataSet">dSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">PRODUCTCODE</property>
+                    <expression name="expression">dataSetRow["PRODUCTCODE"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">PRODUCTLINE</property>
+                    <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
+                    <property name="aggregateOn">productCategory</property>
+                </structure>
+            </list-property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["PRODUCTCODE"]</expression>
+                    <property name="direction">asc</property>
+                </structure>
+            </list-property>
+            <column id="73">
+                <property name="width">13%</property>
+            </column>
+            <column id="74">
+                <property name="width">25%</property>
+            </column>
+            <column id="75">
+                <property name="width">20%</property>
+            </column>
+            <column id="76">
+                <property name="width">10%</property>
+            </column>
+            <column id="77">
+                <property name="width">10%</property>
+            </column>
+            <column id="78">
+                <property name="width">10%</property>
+            </column>
+            <column id="79">
+                <property name="width">12%</property>
+            </column>
+            <header>
+                <row id="20">
+                    <cell id="21">
+                        <property name="colSpan">7</property>
+                        <property name="rowSpan">1</property>
+                    </cell>
+                </row>
+            </header>
+            <group id="33">
+                <property name="groupName">productCategory</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["PRODUCTLINE"]</expression>
+                <header>
+                    <row id="34">
+                        <cell id="35">
+                            <property name="colSpan">7</property>
+                            <property name="rowSpan">1</property>
+                            <property name="paddingTop">2cm</property>
+                            <property name="textAlign">center</property>
+                            <data id="36">
+                                <property name="fontFamily">Arial Black</property>
+                                <property name="fontSize">x-large</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#004080</property>
+                                <property name="paddingLeft">0cm</property>
+                                <property name="resultSetColumn">PRODUCTLINE</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="37">
+                        <cell id="38">
+                            <property name="colSpan">7</property>
+                            <property name="rowSpan">1</property>
+                            <property name="textAlign">center</property>
+                            <extended-item extensionName="Chart" id="39">
+                                <property name="height">400pt</property>
+                                <property name="width">550pt</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="paramBindings">
+                                    <structure>
+                                        <property name="paramName">param1</property>
+                                        <expression name="expression">row["PRODUCTLINE"]</expression>
+                                    </structure>
+                                </list-property>
+                            </extended-item>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+        </table>
+    </body>
+</report>

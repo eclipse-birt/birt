@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <list-property name="colorPalette">
+        <structure>
+            <property name="name">myColor1</property>
+            <property name="color">#1234FA</property>
+            <text-property name="displayName" key="MY_COLOR_ID1">My Color</text-property>
+        </structure>
+        <structure>
+            <property name="name">myColor2</property>
+            <property name="color">#FFFFFF</property>
+            <text-property name="displayName" key="MY_COLOR_ID2">Color 2</text-property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form>
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>
+                    <property name="height">3mm</property>
+                    <property name="width">4mm</property>
+                    <text-property name="text">Customer Name</text-property>
+                </label>
+            </report-items>
+        </free-form>
+    </body>
+</report>

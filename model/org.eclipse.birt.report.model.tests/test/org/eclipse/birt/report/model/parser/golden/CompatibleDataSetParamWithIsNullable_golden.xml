@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="2">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
+                    <property name="allowNull">true</property>
+                </structure>
+            </list-property>
+        </oda-data-set>
+    </data-sets>
+</report>

@@ -1,0 +1,985 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 0.0 (http://www.eclipse.com) -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
+    <property name="createdBy">Eclipse BIRT Designer Version 0.0.1 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <parameters>
+        <scalar-parameter name="balance">
+            <property name="hidden">false</property>
+            <property name="dataType">float</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">false</property>
+            <property name="format">###,##0.00</property>
+            <property name="controlType">text-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+            <expression name="defaultValue">0.00</expression>
+        </scalar-parameter>
+        <scalar-parameter name="isFirstRecord">
+            <property name="hidden">false</property>
+            <property name="dataType">boolean</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+            <expression name="defaultValue">true</expression>
+        </scalar-parameter>
+        <scalar-parameter name="refCode">
+            <property name="hidden">false</property>
+            <property name="dataType">string</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+            <expression name="defaultValue">IT-BANK-55763</expression>
+        </scalar-parameter>
+        <scalar-parameter name="accountID">
+            <property name="hidden">false</property>
+            <property name="dataType">decimal</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">false</property>
+            <property name="format">General Number</property>
+            <property name="controlType">text-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+            <expression name="defaultValue">0</expression>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionName="jdbc" name="Data source">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">valid</property>
+                    <property name="type">string</property>
+                </structure>
+            </list-property>
+            <property name="valid">true</property>
+            <property name="ODA:driver-class">sun.jdbc.odbc.JdbcOdbcDriver</property>
+            <property name="ODA:url">jdbc:odbc:Example_Bank</property>
+            <property name="ODA:user">ODA:password</property>
+            <property name="ODA:password"></property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="Data Set">
+            <property name="dataSource">Data source</property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="columnName">deposit</property>
+                    <expression name="expression">if (row["trans_amt"]>0)
+	row["trans_amt"];
+else null</expression>
+                </structure>
+                <structure>
+                    <property name="columnName">withdrawal</property>
+                    <expression name="expression">if (row["trans_amt"]&lt;0)
+	row["trans_amt"];
+else null</expression>
+                </structure>
+            </list-property>
+            <property name="queryText">SELECT Account.account_id,
+       Account.account_nm,
+       Account.curr_val,
+       Account.address,
+       Trans.trand_dt,
+       Trans.branch,
+       Trans.trans_amt
+FROM  Account, Trans
+WHERE Account.account_id = Trans.account_id
+  AND Trans.account_id = 33892</property>
+            <property name="type">JdbcSelectDataSet</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="date">
+            <property name="dateTimeFormat">:MM/dd/yyyy</property>
+        </style>
+        <style name="bannerLabel">
+            <property name="backgroundColor">#E8D3FE</property>
+            <property name="fontSize">smaller</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#494949</property>
+            <property name="borderBottomColor">#808080</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#808080</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#808080</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#808080</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingRight">0.5cm</property>
+            <property name="textAlign">right</property>
+        </style>
+        <style name="bannerData">
+            <property name="fontSize">small</property>
+            <property name="borderBottomColor">#808080</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#808080</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#808080</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#808080</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="paddingLeft">0.5cm</property>
+        </style>
+        <style name="Border">
+            <property name="borderBottomColor">#808080</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#808080</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#808080</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#808080</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+        </style>
+        <style name="BorderLeft">
+            <property name="borderLeftColor">#808080</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+        </style>
+        <style name="BorderTop">
+            <property name="borderTopColor">#808080</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+        </style>
+        <style name="BorderTopLeft">
+            <property name="borderLeftColor">#808080</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderTopColor">#808080</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+        </style>
+        <style name="currency">
+            <property name="numberFormat">:###,###.00</property>
+            <property name="textAlign">right</property>
+        </style>
+        <style name="accountID">
+            <property name="numberFormat">:###</property>
+        </style>
+        <style name="report">
+            <property name="fontFamily">sans-serif</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+            <page-header>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <property name="fontSize">xx-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <label>
+                                <text-property name="text">RefCode:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="fontSize">xx-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <data>
+                                <expression name="valueExpr">params["refCode"]</expression>
+                            </data>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <text>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell>
+                            <property name="textAlign">right</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Page:]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <list>
+            <property name="color">blue</property>
+            <header>
+                <grid>
+                    <property name="width">100%</property>
+                    <column>
+                        <property name="width">33%</property>
+                    </column>
+                    <column>
+                        <property name="width">33%</property>
+                    </column>
+                    <column>
+                        <property name="width">33%</property>
+                    </column>
+                    <row>
+                        <cell>
+                            <image>
+                                <expression name="imageName">D:\WorkingFiles\SampleDesign\Samples\images\logo1.jpg</expression>
+                            </image>
+                        </cell>
+                        <cell/>
+                        <cell>
+                            <label>
+                                <property name="fontFamily">Arial Black</property>
+                                <property name="fontSize">x-large</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#700F95</property>
+                                <property name="textAlign">left</property>
+                                <text-property name="text">PERSONAL BANK STATEMENT</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <column/>
+                    <column/>
+                    <row>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                    <row>
+                        <cell/>
+                        <cell/>
+                        <cell/>
+                    </row>
+                    <row>
+                        <cell>
+                            <image>
+                                <expression name="imageName">D:\WorkingFiles\SampleDesign\Samples\images\logo1.jpg</expression>
+                            </image>
+                        </cell>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </grid>
+            </header>
+        </list>
+        <table>
+            <property name="fontSize">medium</property>
+            <property name="verticalAlign">baseline</property>
+            <property name="width">90%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["trand_dt"]</expression>
+                    <property name="direction">asc</property>
+                </structure>
+            </list-property>
+            <column>
+                <property name="width">10%</property>
+            </column>
+            <column>
+                <property name="width">15%</property>
+            </column>
+            <column>
+                <property name="width">15%</property>
+            </column>
+            <column>
+                <property name="width">15%</property>
+            </column>
+            <column>
+                <property name="width">15%</property>
+            </column>
+            <column>
+                <property name="width">20%</property>
+            </column>
+            <header>
+                <row>
+                    <cell>
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">none</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="paddingTop">0.5cm</property>
+                        <property name="paddingLeft">1cm</property>
+                        <property name="paddingBottom">1.5cm</property>
+                        <property name="textAlign">left</property>
+                    </cell>
+                    <cell>
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">none</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="paddingTop">0.5cm</property>
+                        <property name="paddingLeft">1cm</property>
+                        <property name="paddingBottom">1.5cm</property>
+                        <property name="textAlign">left</property>
+                    </cell>
+                </row>
+            </header>
+            <group>
+                <property name="groupName">id</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["account_id"]</expression>
+                <header>
+                    <row>
+                        <cell>
+                            <property name="colSpan">3</property>
+                            <property name="rowSpan">4</property>
+                        </cell>
+                        <cell>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <property name="style">bannerLabel</property>
+                            <label>
+                                <text-property name="text">Account ID:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">bannerData</property>
+                            <data>
+                                <expression name="valueExpr">row["account_id"]</expression>
+                            </data>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <property name="style">bannerLabel</property>
+                            <label>
+                                <text-property name="text">Customer Name:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">bannerData</property>
+                            <data>
+                                <expression name="valueExpr">row["account_nm"]</expression>
+                            </data>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <property name="style">bannerLabel</property>
+                            <label>
+                                <text-property name="text">Address:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">bannerData</property>
+                            <data>
+                                <expression name="valueExpr">row["address"]</expression>
+                            </data>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <property name="style">bannerLabel</property>
+                            <label>
+                                <text-property name="text">Opening Balance:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">bannerData</property>
+                            <data>
+                                <property name="style">currency</property>
+                                <expression name="valueExpr">row["curr_val"]</expression>
+                            </data>
+                        </cell>
+                    </row>
+                    <row>
+                        <property name="height">0.25in</property>
+                        <property name="textAlign">left</property>
+                        <cell>
+                            <property name="colSpan">6</property>
+                            <property name="rowSpan">1</property>
+                            <property name="drop">none</property>
+                        </cell>
+                    </row>
+                    <row>
+                        <property name="style">currency</property>
+                        <cell>
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <property name="drop">none</property>
+                            <property name="style">currency</property>
+                        </cell>
+                        <cell>
+                            <property name="drop">none</property>
+                            <property name="style">currency</property>
+                            <label>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#3C3C3C</property>
+                                <property name="paddingRight">0.5cm</property>
+                                <property name="textAlign">right</property>
+                                <text-property name="text">From:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="drop">none</property>
+                            <property name="style">currency</property>
+                            <data>
+                                <property name="style">Date</property>
+                                <property name="fontSize">smaller</property>
+                                <expression name="valueExpr">Total.min(row["trand_dt"])</expression>
+                            </data>
+                        </cell>
+                        <cell>
+                            <property name="drop">none</property>
+                            <property name="style">currency</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#3C3C3C</property>
+                                <property name="paddingRight">0.5cm</property>
+                                <property name="textAlign">right</property>
+                                <text-property name="text">To:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="drop">none</property>
+                            <property name="style">currency</property>
+                            <data>
+                                <property name="style">Date</property>
+                                <property name="fontSize">smaller</property>
+                                <expression name="valueExpr">Total.max(row["trand_dt"])</expression>
+                            </data>
+                        </cell>
+                        <cell>
+                            <property name="drop">none</property>
+                            <property name="style">currency</property>
+                        </cell>
+                    </row>
+                    <row>
+                        <property name="backgroundColor">#E8D3FE</property>
+                        <cell>
+                            <property name="style">Border</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#494949</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Index</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">Border</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#494949</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Date</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">Border</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#494949</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Branch</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">Border</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#494949</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Deposit</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">Border</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#494949</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Withdraw</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="style">Border</property>
+                            <property name="borderRightColor">#808080</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <label>
+                                <property name="fontSize">smaller</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#494949</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Balance</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row>
+                        <cell>
+                            <property name="style">BorderTopLeft</property>
+                            <property name="borderBottomColor">#808080</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                        </cell>
+                        <cell>
+                            <property name="style">BorderTop</property>
+                            <property name="borderBottomColor">#808080</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                        </cell>
+                        <cell>
+                            <property name="style">BorderTop</property>
+                            <property name="borderBottomColor">#808080</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                        </cell>
+                        <cell>
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <property name="style">BorderTop</property>
+                            <property name="borderBottomColor">#808080</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                        </cell>
+                        <cell>
+                            <property name="backgroundColor">#E8D3FE</property>
+                            <property name="borderBottomColor">#808080</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftColor">#808080</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightColor">#808080</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#808080</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label>
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">large</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#353535</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Balance:</text-property>
+                            </label>
+                        </cell>
+                        <cell>
+                            <property name="borderBottomColor">#808080</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderRightColor">#808080</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#808080</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <property name="textAlign">center</property>
+                            <data>
+                                <property name="style">currency</property>
+                                <property name="fontSize">large</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#353535</property>
+                                <property name="numberFormat">:###,###.00;(###,###.00)</property>
+                                <property name="textAlign">right</property>
+                                <expression name="highlightTestExpr">params.balance</expression>
+                                <list-property name="highlightRules">
+                                    <structure>
+                                        <property name="operator">lt</property>
+                                        <property name="color">#FF0000</property>
+                                        <expression name="value1">0</expression>
+                                    </structure>
+                                </list-property>
+                                <expression name="valueExpr">row.curr_val + Total.sum( row.trans_amt )</expression>
+                            </data>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <property name="colSpan">6</property>
+                            <property name="rowSpan">1</property>
+                            <property name="paddingTop">0.5cm</property>
+                            <property name="paddingBottom">1cm</property>
+                            <text>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#700F95</property>
+                                <property name="paddingTop">0cm</property>
+                                <property name="paddingBottom">0cm</property>
+                                <property name="textAlign">center</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[---------*--------*--------*--------*---------*---------*---------*---------*---------*---------*--------*--------]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row>
+                    <cell>
+                        <property name="style">BorderLeft</property>
+                        <property name="paddingLeft">5pt</property>
+                        <data>
+                            <property name="fontSize">small</property>
+                            <property name="textAlign">left</property>
+                            <method name="onCreate"><![CDATA[if(params["accountID2"] == 0)
+{
+	params["accountID2"] = row["account_id"];
+}
+
+if(params["accountID2"]!=row["account_id"])
+{
+	params["index"] = 0;
+	params["accountID2"] = 0;
+}
+
+params["index"]++;]]></method>
+                            <expression name="valueExpr">row[0] + 1</expression>
+                        </data>
+                    </cell>
+                    <cell>
+                        <property name="paddingLeft">5pt</property>
+                        <data>
+                            <property name="style">Date</property>
+                            <property name="fontSize">small</property>
+                            <property name="textAlign">left</property>
+                            <expression name="valueExpr">row["trand_dt"]</expression>
+                        </data>
+                    </cell>
+                    <cell>
+                        <property name="paddingLeft">5pt</property>
+                        <data>
+                            <property name="fontSize">small</property>
+                            <property name="textAlign">left</property>
+                            <expression name="valueExpr">row["branch"]</expression>
+                        </data>
+                    </cell>
+                    <cell>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data>
+                            <property name="style">currency</property>
+                            <property name="fontSize">small</property>
+                            <property name="numberFormat">:###,###.00</property>
+                            <property name="textAlign">right</property>
+                            <expression name="valueExpr">row.deposit</expression>
+                        </data>
+                    </cell>
+                    <cell>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data>
+                            <property name="style">currency</property>
+                            <property name="fontSize">small</property>
+                            <property name="numberFormat">:###,###.00</property>
+                            <property name="textAlign">right</property>
+                            <expression name="valueExpr">row.withdrawal</expression>
+                        </data>
+                    </cell>
+                    <cell>
+                        <property name="borderRightColor">#808080</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data>
+                            <property name="style">currency</property>
+                            <property name="fontSize">small</property>
+                            <property name="numberFormat">:###,###.00;(###,###.00)</property>
+                            <property name="textAlign">right</property>
+                            <expression name="highlightTestExpr">params.balance</expression>
+                            <list-property name="highlightRules">
+                                <structure>
+                                    <property name="operator">lt</property>
+                                    <property name="color">#FF0000</property>
+                                    <expression name="value1">0</expression>
+                                </structure>
+                            </list-property>
+                            <method name="onCreate"><![CDATA[if(params["accountID"] == 0)
+{
+	params["accountID"] = row["account_id"];
+}
+
+if(params["accountID"]!=row["account_id"])
+{
+	params["accountID"] = row["account_id"];
+	params["isFirstRecord"] = true;
+}
+
+if(params["isFirstRecord"])
+{
+	params["balance"] = row["curr_val"]+row["trans_amt"];
+	params["isFirstRecord"] = false;
+}
+else
+{
+	params["balance"] = params["balance"]+row["trans_amt"];
+}]]></method>
+                            <expression name="valueExpr">params["balance"]</expression>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <cell>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">D:\WorkingFiles\SampleDesign\Samples\images\logo1.jpg</property>
+            <property name="data">
+                /9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAAZAAA/+4ADkFkb2JlAGTAAAAAAf/bAIQA
+                AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQICAgICAgICAgICAwMDAwMD
+                AwMDAwEBAQEBAQECAQECAgIBAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD
+                AwMDAwMDAwMD/8AAEQgARACYAwERAAIRAQMRAf/EAK8AAQADAAIDAQAAAAAAAAAAAAAGBwgJCgECBAUB
+                AQACAwADAQAAAAAAAAAAAAAFBgQHCAEDCQIQAAAHAAIBAwEHAwQBBQAAAAECAwQFBgcACBESEwkUITEi
+                IxUWGEEyF1FhJAolcWJyMzcRAAIBAwMCAwQGBgcGBwEAAAECAxEEBQASBiEHMSITQVFhFHEyQiMWCIGR
+                oWIzFVJysmNzJBexolM0ZDXB4UOzVHS0Jf/aAAwDAQACEQMRAD8A69nPv3r6s6caacaacaacaacaacaa
+                nVLy7TNIcCzzvOr1fXYHBIWtLqNgtLgFB8eExQg498r6x8h9njz9vIzI5vDYdPUy13a2sdK1mlSMfrdl
+                1hXmSx2PXff3EECe+R1QfrYjWhE+gvcUiZFZrAbxSCKEKoH+TiRWUmKQ5QMUypNKk6qdABKPn8YF8Byq
+                Hul2+JK22Vtrkj/4265//Ostf0agTzjiZNIb6GY/3O6b/wBoPr3/AIL70n9j2U61wxv6pWLu30srSxf9
+                joWDsBGrEEP6gJQEOeP9TOLn+GmYkH93h8vIP1pYsNPxphD9Rcg4/dx+Qf8AatsdP4Mbqf7Gk91elD/0
+                Sg+9XSCeXMP+hEIXsO/WOP8AsBRHj/UzjI+vFm0HvfC5hB+t7BRp+M8KPrJklH72OyK/ta1Gn8Be3jj7
+                ILF5i8GH+xPMrBS9TVW/0BujnFltKrkTf0BMDef6cf6pcBT/AJrIx2w/6iOa2A+k3EcYH6dPxxxVf414
+                kP8AjLJD+v1USn6dUbe8R2jLTHLpuQ6hnRkz+2oW90C11EyZ/Pp9BwsETHiU/qHx4H7fPLLjOScdzdDh
+                r+yuwf8AgzxS/wBhm1M2WZxGS/7ddW1x/hyo/wDZY6rDk1qS0400400400400400400400400401amW4
+                pp2zSD1jnlVdzDeIRK7sM+6XZQlRqrAR8DJWy4TjmOrVajyh5H3XrpEpvAgX1D9nITN8jwvHolly06xv
+                IaRoAXllb+jFEgaSRvgin401GZLMY7ERh7+UIzmiqAWdz7kjUF3PwVTq7v8AH3VLKf8A9P1WybxbG/gy
+                9E67kbV+jt3KYe59FLblfIZ6V8U4iUihoKsybYfx+09EQKblb/mvOc5/2WxhxdifCa/q8xHvWygdae8e
+                tcRt4bo/Eahvn+TZP/tttHZWp8JLqrSEe9beNhT4epMh8Kp7NP5Zsqh+ThnXjA8mKj9jSxzNLQ3PQymH
+                +90padwNd4hhImKIgC0TERIJgP5ZSD9vH4EkyHm5Nlspfk+MaTGyg+gR2fouy/CWWWvtJ0/C73fXNX99
+                dV8UWQ20X0bLf02I+Du9faTqCXTtv2g0NsDC4b/rkvDkIKSNcC92GOqjRIfPlFhU4p8xrceiPnwJEGqZ
+                fH2ePAByTx3A+F4l/Vx+KsI7itTJ6MbSk+9pWVpGPxLHWdZ8W43YNvtLG1SX+n6alz9LsC5/Sx1ntRRR
+                ZQ6qpzqqqnMoqqoYx1FFDmExznOYRMc5zCIiIj5EeWwAKAqiijU6AAKDoBr04150400401eVE7OdjcwK
+                RLPN312mtCE9o0bX9DtcdDuEBD0mbPIZCULFPmhij4MksiomYPvKPK1k+GcRzVTlsZYXD+O54ImcH3hy
+                u5T8QQfjqFveOYDJdb+ytZm97RIWHxDFdwPxBB1aH8xrDafyNux3At0bq/lupSyZlE5/fDoG/uEuk4qb
+                NLi8ekMImTWkXMgBTiPqIcv4eQv+n1pZebjeQyuMcdQsdw08Ff8A6958xEB7xGsdR4EHrqN/CcFt5sNd
+                31k3sCTNLHX/AArj1owPeEC/SNAgunWrfhrVpv3WC2uRAEojSvOwY8s6P+URBK+1CChtFqLNVUSmAXdf
+                nSolE3uOvSX1cfM9wcH1vILXNWC+L2/+UuwPGpgld7eUgf0Z4a9KJU009blmM/5iODJWo+1F9xOB7/Sd
+                mic/1ZY6+xdVTqXXzT8jaR87Y4hlMUebUFOt6ZSZePuma2QQKBwJE3KAWeRIPfQPkzJwZu/R+5VAggIc
+                nMJyvC56R7a0kaPJRj7y3mRobiP+tE4DU9zqGQ/ZY6k8bncblXaG3dkvUHnhkUxyp/WjYBqfvCqn2MdU
+                nyx6mdONNONNcoGIfDV8jXYLP4rUM/68SDel2GPRlaxJXe30XPnlljXKYrM5CHgrjZIefPGSDcSKtXiz
+                VFm7QVIqiqomYD80ryX8w3aLimVfCZXLIcjC5WRYYppxGw6FXeKN03KahkDF1IKsoIprW2Z7udv8FfNj
+                b6/U3kbbXEcckoQjxDNGjLUHoygllIIIB6apKE+O3ufP9j3vUhlhM+07CsYN9Z1M9n56l1U7mtx6IOHE
+                /FWiz2aIpc1DHT8+y5ZyK6LkxDlSMcxDgFkue7fbq14gvPZMnE3E2lEfrok0tJGNAjRxxvMj+9XjUrUF
+                gARqZm59xCDj45U96hwLOE9VVkejnoFZERpFb3hkBHStKjUxrHxZd8Lk93aPreFfqLzrRMOoHbUf8nY2
+                z/ZUsygDWh009x/oTVKye1BEFf3Igz9I39gGFT8HI+9739r8fHi5bzJ7I8zGHsz8tdn1lL+mD5YCY6v5
+                aS7D7aU66xLnuXwm0SykuL3amRQNb/czn1FLbAekR2ebpR9p9vh11R2e5dTa/UGOz7srKoUV+5eI5/nk
+                E5TjrlssnFL+w/TYyK6LglUz+KegCMnOGRVUE4GbMk1XPqMjZstm8jdX7cd4wEOTVQZ53G6K0VhVdygj
+                1Z2HWOEEClHkKpQNNX+Su57psRhQpvVA9WVhWOAN1FQKb5SOqR1A8GchfGO6l2AvOnMGdU/8ZR8thHB1
+                qtkVEa/oFBgRMJf+YrGoHFxZbCsJfWvLyyr2TcKGMJlvSIELl4TiuMwsrX3nuc3KKSXUx3zv8Ax6Rxjw
+                WKIJGoAoteuvfjcFZY5zdeabJOPPPId0rfCp6IvuRAqAez26o7ll1Na1j2H6OdpOqVRzC977l/7Cqmys
+                3D/NpX9653af3G0axkPMLq/Q0u22OSh/bjZ9op6X6LUw+76QATFOUtF4l3L4Tzq/vcZxa9+avscwW4X0
+                Z4/TJZ0A3TRRq/mRx5Cw6V8CCavgOZ8a5Pd3Nlg7n17q0IEq+nKmwkso6yIgbqrDylvD3Eaydy9atGnG
+                mte9hOhva/qtQc60/esq/YlG1n2f8fzn75ze0fr/ANRCt7Cj/wCMplwsUxFeuHdJrf8ANbtvHq9A+DgJ
+                QoPE+6HBecZS7wvF775rJ2FfXT0biPZRzGfNNFGjecEeRm9/h11VMDzfjHJr64xuDuvXvbX+Kvpyptox
+                XxkjRW8wI8pPv8NZC5ftWvTjTTjTXKtTvhI+Ty/1Gq3updZf1aqXWuQdtrEr/mfr4w/U69ZIxrMwsh9D
+                J6uykmX1sa9SU9pwikun6vSoQpgEoaOyH5key2Kv58Xf5r0762meKRflL5tskbFHXctqVNGBFVJU+IJH
+                XWsbvvH23sbqWyusjtuoZGR1+XujRkJVhUQEGhBFQSD7CRrHXZnqH2O6c3CKofZLL5XMrNOw/wCvQjZ3
+                K1uxRsxEg5UZqu4qxU+asNckPpnSYkWTRdnVQMJQUKX1F87B4Zz7iHcLHvlOH3qXtlFJschZI2RqVAaO
+                VI5FqOoJUButCaHVt45yrj/LbRr7j1ytzbI+1iFdCrUrRkkVHFR1BK0PsrqDZbtujY86kBp02T9Dnkis
+                7bSJ9i0sdAu0YIl96Kt9NmEncFONFkgEgHURBwgBhMgqkoAHCUzfG8RyBE/mEf8AmYjWKZCY54W9jRSo
+                Q6EHrQHa3gysOms3JYfH5ZV+bT75DVJFJSWM/wBKORaMp+g0PgwI6atWzUKg7JW5/S8KiVanZKzHrz2m
+                4Oo8cSoQsM2AoyV7yqVdmPJTtFaCYDv410KsnBgInFRyzD3koOzymV49eRYbk8gns5nCW97QLvc/VhuV
+                HlSY+CSLSObwoknlMZb319ibhMdmmEtvIwWG5oF3MfCOZR0WQ+CutEk8KK/Q0zkWSaFvGl07H8pr/wC6
+                tFv8wnA1Ku/qsJB/q0sqksum0/VrJJQ8Ew9SSBx9xy6RTDx4E3kQ5Yc/nsTxfDXHIM7L6GItY98sm132
+                qCBXbGru3Ujoqk/DUvlcrYYTHTZbJyelj4E3O+1m2r4V2oGY+PgATqR9guu+xdWNRmsX3in/ALE0uus4
+                Z/MVv9wVaz/RtLBFNZuIV/WKbN2GAcfVxj1JX0pOjmT9XpOBTgJQw+Kct4/zfCR8i4vcfNYaZnVJPTkj
+                qY2KONkqRuKMCOqitKio66x8Fn8TybGpl8JL6+OkLBX2ulSrFW8siowoQR1UV9nTXcN+fTsd3kwvQOot
+                P6m2TS6NUrQrKOihlsGsJ7fpkNOwrSsUqUex8e6VlI9KMclEleOIMJIjk/1DdyVNMEfn7+VniHbTk2Kz
+                +Q53DZXV/AFH+ZcfdW7o5kmUMw2sWHWceeMqNjoSd3J3Y7j/AAvNWGVu+UR2811EFH3zfw4WVi8gBIoa
+                j+L9ZKDay1NfxOqsx8jM78wGIvfkPolKplgSwPfGOVKUSPoIQcjWUUq06nEGM9UpixTsswj5F6gdNCYe
+                qKs1HSopJpist6sjnFv2ituwGSj7S3VzcWhyti1z67T71kJkCFklSNFZlBBMSAOFXcTtWnu5NF2/h7UX
+                qcCnmmgN9bGb1DLuD+cLVXVFUkA1MagMAKk0FNHdacVzfV91+ZlW+pzSZWm/vo0snGW64V9KNj3ePJmd
+                u1o+vT0VHSRmwGFT/kpLeQL6R/CIhyo8x5HmMFxnt2uLMZLYpW2tFFIWYXfQBpEZlr4eUj3+Oq/yLMZD
+                F4XiIsdlTYg0McbVIn6AFlYivh0I/XqgpmgfGhH9AeoXdTsd1NYWlO2Tua0isQVccP0HrSHscjcqvT6v
+                NJFn2LGQqdKqJlX6zMngj2RYJqmKdVQ5jWm3yveWbupn+3PEM68BgiuJpHkCkF41iklkQ7GKyzS0QOeq
+                RuVBCgATkV93Fk5zleH8fyjRGJJZHZwCCyCN5HXykh5Hoob7KMR0AA1T/a3oN8YGBfKl1kgNVr1dx/r5
+                rOS3a2zVQlbZLV/JX+u12xC1qyU7KyM2iFOqky1cmBZok6aRJ3TNuiZMiThcp7Bwbun3q5V2PzV1g5Zs
+                hyuwv4YklWJZLpbWSOshRVQ+rKhHRyrShXdgSyKRLcY5x3IznbLIz4ySS7z1rdRosiorTiB0q+1Qv3jq
+                R0YqzgMxqSq0kfybdBcT/hbrmq4Z0y6zSzKgnk7DVNq6r7G5gLDUqDXnTd+WyXaluaKvVtAbNKyZf9fb
+                pTTt0CYg4bCQSAsjh9mO6fJP9RbDB8m5FmY5LoLHLZ5O0DxyzyAr6cMwmEsBMm30GMKrXyPWu1sftzzn
+                M/i+1xmay+RR56K9vewBleVgRsjkEgeIl6ekTGo+y1a0PLzcOiGJdzqF0Qn98ZEtdKw/LU5Npmbv30Ie
+                8WK65zQGcapPPWj9o8Uiq23rrhyLFMPDxcyYqnBBFVFfQWP7n8k7d5TlFrxZvQyWTvtpuBQvDHDcTltg
+                KkbpDIq7z9QV2jcysuqrTm2Z4hfZuDBt6V5e3NDMKFo0jllJ2ggjc5cDcfqitBuIK9c7rl19yrevlG7G
+                Z5Y/jH+toHX5F7TYrDqBaa3TKdQwaz7qPZahrljttuq4aJMW5ApFY1izcLNlWTkVm7RwmzFdTrrl/K85
+                xfsniMtZ8025XKkTNezxSTTT1jDG2tY4opPQSI1EjuoYOu15EMm0b/5Bncng+2uPv7fkdL6/Ika5lR5J
+                JKqCYYERH9JUPR2YAhhtZlL7RtPvH0K6Y3z43uw+9VXCOs+SbVhozCsdJ9TdRX0euVx/VLBBi5o95mo2
+                v0aCl7crXJT6aZaOIxZRg6VKsiuYfTzXPbTuj3ExfeDE8Wvspmb/AI5k9gZcpbC3kkWWN6TQozzOsQkX
+                dC6yAOoKso66p/DOb8vsu4Nhg7q+yN1h73bUXsIidw6tSSNS0jKm9axsHAYAgrrQnfTrPW+4UB8N/Xa4
+                yjyHqF/shnFqdRy4NZJet0nrMtoU5ExrsyLgGUlPRlUVYt1xTOCKzgp/A+nxyp9ruZXnb+67hcux6LJf
+                2sNIgwqokmyIgRmFRVUaUOy1FQpHt1A8I5FccTn5bn7RQ93BHRARUB5Lz0lYjpUKXDEV6gU19ujdH/iv
+                ZX3TOrel9fuo2CZtC55HFqm3fycplf7BI3SZjoR4RFzTrI7C8who5lKg8YSExJSTd8LIRWaKN3ZQP68R
+                3K74SYuy5thsrn8pmJLtvVs/5dNJYmFGcVEsY9F9xXY8cUcbJv8ALIrxmn4x/M+5j2NtyXHX+Vvsi853
+                2/ycjWvpqWHSRB6bVK7WWNEK7ujhk6Yz6pdNPjuyP46ew+8djMgp3Ytt1t7AbnAl0+trgExqUBk2sMq/
+                RU6/KtLA2hl4C9umjVIpQXO2cMJA5BMomfwbYnOe4fdvPd3MTxfiOQuMQ+YxVk/y0g8ls91amSb1FMZc
+                PACx+qGV0BoCOlu5Py7n2V5/YYTj93Lj2yNhbN6LjywtPAWk3KVLBowSfCoZQehGurD2W0PNdX3bTNCx
+                3K4zE8ws9iO8pOXRCx12VTg0GbRg2bicyy6ZXsgZoZ46IiYGybpyoRApESpkL29w3E5jBcYssTyC+fJZ
+                qGGk1y4oZXJLE+A6LXYpPmKqCxLEk9McdsMji8JbWGWumvMlHHSSZvF2JJJ9nQV2rXqVALVNTrvh73cu
+                vFD+NvoVYuyvYzsR1jpTVh1fCCvvWqcssBdJe5BgU24YU6xO6lUbnOL0SUg28i6eoItkzKOGLb0qlOBS
+                KfMDi+P5blO8PKbTh2IxOayTPkt8GQSN4Ui+eQNLGJZYUE6uY1QliArvVSKkcS4O0z993Czlvx3H2GSv
+                C15uiu1Ro1j+ZUGRA7xqJVYoFJJoGbpSpGPPnEyK6b72A+Nt89ytxtvXqwXexVSMz/O5cKlsV8tV4jK/
+                b3tZkJq1oV+OpNXnavR0h+sF+3NHoN37h2LcyTc5dgflpz+O4rxXmEcd8MbyyK2jlae4T1bSCKFpIhIq
+                RGRppEkmPk2N6jNEke8M4Ns7M5WzweC5CiXQs89HCjmWVd8ESRlow4VNxkdXkPl2ncSipuqw1qmj/HX0
+                L1az3TA9B6N9X8dIzz6KskJU4PbGlg7axyL86EfJWa3Q9GSWWqlWaPJBBGOkU7VMJu3RPKiYAr6C0fJ9
+                2+6OCsrblOJ5Nm8gWu2jeV7Mx4titWWOJ5iBLKQrGSM20RVT0Plqaze8+5vjLaHOWGayV2TOyM7W5WxN
+                OoRGk+u5AJdDDGVXwPSp48OjfXHpHgXxxa1252zGBv8AbutW86u2RvdfcuYPSrCwzzU4mtVqtpyTeVYs
+                EYu0qHTjJNuf/juIt85QUA6ahijtruXy/uTyru/YcC43kflbDM4u1JgcB7eNp7ZpJJNpVmLRCskbDzLI
+                iMKEA6vvM+QcyzncG14rhrz0LXI2MB9NgGhUyws7vQqTVOrofEOqsKEauzXuo/UTMe3XxAdoer2TM8dL
+                vmtRzmWgIMzuPhpKuTuWt7nV13dXGSfwcDOxTdyZNYY4qJHBlzisKpiEOFbwHPefZrgXP+E81v2yBxVg
+                wV3ozrIlyYZAJNqu6MRUepUrtG3aCRqHxPKuVZLivK+N8kujd/I2pCs1CwdZjG4D0DMrEVG+tKClKka2
+                53H+Prr0pMdyO8l+wSN7f7A9zKAmaJjljcuoyIhI3Ls+aRBY2KSj3h15GVsr2GcPXTkyJ3KjdumyZIlV
+                907nW/b3uvywW/Hu2eLyj8f4+t66TXcYDO7XM5fcxYUVYw6oq1ChmMkrFdoSm8S53nhFiOF2N82JxIuW
+                WSdACzGaUtVqigVAwUCoAJLuaUC9bHDP+x33gyHOK5nVlqeObIaqRjKGjLvfYu5IXh/Gx6ANWhLNJ164
+                xUbPPUGySZPrDM0na/pE7lRdU5lB7D5N+ULtrn8xNl7OfIY4TuXaGBojCrMan01kiZkBJJ2byq+CBVAG
+                uhc1+X7hmVyEl/by3dp6rFjHE0ZjBJqdgeNiorXy7io8FCgU1lpt8y3cD+aCXeObTzG26XF0iczap0qx
+                VuxBllLo04q4cKQNega/cK/YvDV07WWK5dyzp2sqqJnCqwAQC3d/y8cA/wBOj20tjewYZ7lLiWaOSP5m
+                aZABvkeSJ4+oABVYlUAAIF61szdo+KfhA8Mh+ZixzTLK8iOnrSSLQbnZo2TqABRUVQB5QOtdN9Lvlt7C
+                zu/77SH9TxBh/P2x3RxbnZIK7tVILUp/I7FSMzjqSu40k6EXASF3PEpO0pAJFyqkqqVJwiYxDp0zuJ2G
+                4nbcVxWSinyTfhWGERDfCd9sl1HNcNMBb1Z1h9UqU9NQQpZWAINc5f2swMODsbxJb1v5FHGEG6M7oVnS
+                SYyAReZhHvKldgBAqpFQcSaJ8mnYO7dSMe6P2WlZPGZtgNpqc/W5ZpW7sy0dzL0JWfKwZWp8/vruBWRM
+                rPuCuk0IlkqIkIBTJiU3q2RiOzPFMbz3IdyrO5v3zGVglSRTJCbcJP6e4xKsAcGiLtLSuOpqDUUuNh25
+                wNnym75nbzXTZC+idXUvGYgsu2pQCIN9kbSXYdT460DbvnY7kXHs3lHad1V8Kg7llVLseepVSu1K6p0O
+                51K0SKMvIMLhHT+jWGbUdNZVo3cs3MdIR6rddumPkxfcIeqY/wDLH29x/DL7hCT5OXHX1zHOZZJYfXhl
+                jUorRMlvGlCpZXWSOQMGPgaEQVr2U4laccuuMrLevaXUyS73eP1Y3QbQYysSLQqSGDKwIJ8OhDf/AJut
+                +2TGNZxCj4j1t65V3e5acmNsnsToT6BtmlOrQgVrbVrFIvpp+yeSdyalBGWklmy0q8QAE/qSFE4HcV/L
+                ZxXj3IrDkuSyWYy93i40SzS8nV4rcRmsQjVUUhYj1ijDCJD12E0owXZvBYjL2uZvbzIZC4sUVbdbiUMk
+                IQ1TYAoIEZ6ogIRT12k0pGr782fcS9znUqwBF5HT33TmYTl88SpkJf2DG3h+146kvozTWcrpU0jPRstU
+                2jiPXBgEWuDeTeFSVT90okzMX+W/t9i7XPWm+/uIuQx7ZzM8DNF940ytbFbdCjLKVdd/qDdHGWU7TXIs
+                ezvE7KHKQbrqVMsm2X1GiJj85kBhKwrtKuQw3bxVEqDTralW+fvthWOx1z7KNMl63srNpWdVbO9KrNfr
+                Okw9WvRKHISzyhXGdSd6lNSal3qLKeexjZ4RyRI8U5FuqicU26iMHfflX4Le8Qt+HSX+Yays7uS4t5Hk
+                t3lh9dVE8SEWyL6MpRJGQqSJVDqwq4aMuexnF7nj8PHWusgba3uHlhdniZ4/VCiWNaQqPTcqrlaV3jcC
+                KsDC9C+b7sLecA1jq5G9fun+cYVqUJP11Gk5nlVso7agRthSKd2vSka3pMXCIzAzYGlzuHzB8RaUWUMd
+                IW5gbFkcT+WvieM5VYc2myvILzk9jIkhmuLmKYztGegmMluzlNlIgqOhEYAB3jecyw7NYGyztryWS/y1
+                xmrZ1cyTTJIZSvh6m+Fm27fJRWWiAAHd5jXW6/MZ243SF60RyzbMcvl+p85E2PKLnlMFb4m1FlYettKs
+                3PY1bXe7lCS7RzFNPS6bFYoN3RVVU1SGQUMkMvxj8vnAuMXOZmU3t7b52Jo7qG5eJotryGU+mIoIXQhj
+                VWLsy0BUhgG1IYXtNxXCzZGQG5uYsojJPHM0bJtZy52bI42Uhj0O4laAghhXWnrZ/wBhLsfZ2dil0utP
+                TmG120VNtUpXa2+VSspeBaNG50Wbkh7BapVu9/SlFTLMmkh9dHN1h/E3UT8pmpdh+VDh9lJDbtmeQyYC
+                CcyrZm6VYak1I+7iUruoA7R7JGHg4PUVu17D8ftnjiORyz4qKUutuZlWOpPUeVFI3eDMu1yPtA9dYggf
+                k67BQPSfReiRa7lcrlmoz8zZbRcpaDt62qGlp63w91kVmU01vTOqJArMwqYACkIqPtKHAREwlOXZV12X
+                4pddyLTuf618mcsokjjhV4hbbUieFQUMJl6I58Jh1A9lQbnP24wU/Mbfm3qXS5O2jVEjVo/R2qjRiqmM
+                v9Vj4SDqB9GuOjm3NX/XYBzX/se94MtzmgZjX8s6qPIHOaVVaJCO5mj664l3URUIJhX41zKuGW5R7JeS
+                XZR5DLnRboJGVEwkTIUQKHKuZ/KD21zeXus1d32cW6vLmWdwk1qEDyu0jBQbJiFBYhQWYgUqSeutFZH8
+                vvDMnkJ8jPc5MT3EzyMFkgChpGLEKDbEgAnpUk08SdZ+1z5v+8Ox71g2+TkhnFbk+utjkbRQaDSqvMxO
+                euJGfiV63awsjaTtU5bZpG01N65iXIGlyCixdLFai3UVOoa14H8tfbXj3F8pxa2S8mhy8KxzzzSI04VG
+                EkXplYkiQxShZV+6NXVS+8KAJ7FdmuGYnB32DhW4kjyEYSWWR1aUBWDpsIRUXY4Dj7vqyjduAA1ok/8A
+                2L+1EVo87qFF64dMqdarnGMWGizLfLLevZdJXhGzWOqzy73KP0eEtc4FMhmn0cSio79pqguqUwKF9gqF
+                SH5RuDz4eLCZPMciuLG3dmt0NzEI7cOS0ohha3eJPWc75SFqzBSKHcWgB2B4zLj0xt7kMvNbQsTEpmjC
+                QhiS4jjMTIvqMdzkLUkA9PNuxc/+Vnf3vVLbOnSVBxCNyjddAueiWV8wr+gfvGAk7voDDRn8VU5V9pj2
+                KawcdLxybdoR8wkHRWXkqq6yo+9zYsXY3isXOcb3Ba6yT53GWkNvGrSQek6wwNbq0qi3DF2RizFHjXf1
+                VVXy6t6dscEnJ7PlpnvWyllBHEgLRemwjiMQZ1EIYsVJLbWUbvBQOmta9mvlO7B0o3xvVz9nY3+6+oOS
+                ZTqjZg8r129I3eep8nE1mDt7UmhIuRjQxdzW3btqiZk7CYcOVAWTQOm0RofDeyHE8l+MLz5jI/I8gv7m
+                2LCSH+CkqvI8R9Ajd82LhVY719JUG0sGdqtxztngbz8Q3HrXfyuWupoSQ0f8NZAztGfSpX5gSqpO5fTC
+                ihYFjWVU+drunT+0OrdqoyGxhxZ9iolLoNrziSgNFdZK2Y5+QhKrMQUCXUkbNGz0b778QOMwq1MeXemF
+                D1KlFOavvyxduchwmx4PNJkRZY+6mniuFe3F0Wn/AIqO/wAsY2RqJ09INSKMbqKayN12U4fd8bteMyPe
+                C2tJ5JUlDRCcmX66s3o7Cpov/pg/dp5uhrwv86J1t/TjTX2Rsi/h5FhLRTxxHycW9ayMc/aKnQdsX7Jc
+                jlm8arpiB0XDZwkU5DlEBKYoCHPXNDFcRNBOoeF1KspFQVIoQR7QQaEa/EkaSxtFKA0bAgg9QQRQgj3E
+                a1vq0Ch2GiJnsXnLBua3EahL9is4iECEe16xiJSS+uVmKRD3nme3N2b62RBEpxgpNZYiwg1UQUCh4O6b
+                ic8fEsu5+Q3bbC4c9JI/s2sjHoJ4R5I609aMKV84Yaq2MnbAypgMgx+VrttZWPRk+zA7HwljHlWv8RAC
+                PMGGsec2Bq2acaacaacaacaacaacaacaacaacaacaacaa07juaQUFFNd72uPOnk0G+WPVqq6N9JJ7pbo
+                oxVG9LryShRXGooPgIFhlykM3ZtAO3TMZ4omQtM5Bmbm6nbi/HHrnZVHqSjqtlE3jNIfD1SK+hETudqO
+                QIwSa5lsjPNKcJh2/wD6jr53HUWyN4yN7N5H8JPFmox8gJ1SmiX6y6lebTodweFfWW4TLybll0k/YbEX
+                dqeojRg2Axis4yPQAiDVAo+hBukRMv4Shyx4nF2eExkGJx67bO3jCKD1NB7WPtZjVmbxZiSep1L2Fjb4
+                2yisLQbbeJAqjxNB7SfaSepPtJJ9uobyQ1macaacaacaak1Oudqz6yxNwpM/J1izwbkruLmoh0dq8aqg
+                AkOX1kH0rNnKRjJrIqAdFdE5k1CmIYxRw8hjrHK2cmPyUSTWUq0ZHFQR/wCBB6gihUgEEEA6xru0tr63
+                a0vEWS2cUZWFQf8AzHiCOoPUEHWn/wBy9eN/ET6Gg364a07MIuNBpsC9lsSuD5QxSg8uOdxX1E7nMk58
+                AK72ukeRx1DHU/S0RETcpfyfLOK9MSTl8CvhBK4W8iX3RTtRLhR9lLgpIBQeu3hqufL57B9LAnIYseEU
+                jBbiMe6OVqLKB7FlKuBQeqdQS/8AVbZ6DBqXQlda3/My+oyWr5RKs9Izg6RSev1P7HWDvQrLgAAfU1mE
+                o56QSmA6JRAeSeK5vx3KXIxxma1zPttbpTb3Ff3Y5KeoP3ojIhqKMdZtjybEX03yZkMGR/4MymKX9CPT
+                ePjGXU+w6zry26n9ONNONNONNONNONNONNONNXlmXW3adbYLz1QpD4lLYm/8vpFocsKVmMEmU4kWVmdD
+                trqGqLIUAKYwpC7FwYCCBEzmDxytZnmHHcDKLXIXK/zFvqW8Yaa5f3BIIg8rV9+3b16kDULkeQYjFuIL
+                qZfm2+rEgMkzf1YkDOa+/bT3katL6DrVgoe+/lI/tRqjUPU1h4gs3CddqxJJ+g6S0zNLlhLnrpmjgoeW
+                jNKIiFwAQM5dpCJTQnq8x5R5YkfB4NvF32PfyL7QiDfDa1H2nMso9iI3URu/kOb8qK2Mxh8Wba104/dU
+                bo4Kj7TF5B7FU9dZ60nULvrdlVtV6mlJaR+mQjo5qkg3joSvwrMokj6/WIJgk3ia7ARqY+lBm0RSRJ5E
+                3pE5jGNbMPhcbgbMWOMjEcNSzEks8jn60kjsS0jt9p2JJ8K0AGp7H42zxduLayTbHUkmpLMx8WdjVmY+
+                1mJP6KagHJTWdpxppxppxppxppxppxpqcUDTdFyqcTs2Z3u3UCwJegAmKdYZWuv1EyG9QIOHEU6andNT
+                CIgdFT1pHKIgYogIgMblcNiM5bGyzNrb3VofsSxrIv0gMDQ+4ihHsOsK+x1hk4flsjBFPAfsyKrj6QGB
+                ofiOo1or+X722fl7nhmB7mZX8LuxTNIXzPQ1y/eRdS/YfK5rLysimbx4XliygnD7FCnAeVL8AR2PXjOT
+                ymMA8I0mFxAPgILxbhFX92Ix09hGoD8Kpa9cLe31lTwVZBNEPh6VwsyqPgmz4U14/cHRO1/mSmbdlsde
+                n+xY9J0fP9jrpB+/3WFcuVMzOwNygI//AFL2J0IgAfmAPkePlO5tj0gvMNkIx4etbz2kn0NJFLcIfpEC
+                /Rrz6HNbbpFcY67T+8ilgf8AS8ckyn6REv0af4p6bS/5kB28vcAVT8RG+pdX5SEWbgb7QScr5nq+vJKC
+                n58CdMogbx5AoefHH887hW/S6wFrKR7bbIq4PxAuLW1P6D+vT+Z8ti6T4qBz74bwNX6PWhg/bp/HPBXP
+                4mXf/rW1KP3FsWa902Cwf/Mlf6rWxEB/18KGDj8XcoT+JxXMMf7u4xDD/fycR/Zp/P8ANr9fB5An92XH
+                n+1ep/s0/jfhSH4nfyB9XnBA+8sHnfd94uIf+wk11FriIj/6qFD/AH4/F/Jm6JxXNg/vz4cD/cykh/Zp
+                +IM031cFkgf3pccP7N8/+zT/AA91DjPtne5cxLlL/eXMutF0sSpvH3/Tl0e546koI/09w6Xn+vjj8Qc+
+                m/5Xj0cZ/wCoyMMY/T8vDdn9QOn825VJ/BxCJ/jXcafr9KOf9ldPr+hVX/Na17tbsrhH7UU5ufynAYly
+                f7gM/Yw0V2BlPp/6ikhIIqD9wLB9/Hpd0L3yvLg8ch8diXN8w/ql2sVr8WjI/d02c3uejSYy0U/0VmuW
+                H0FmtRX4lSPhrz/KyvVH8OI9ZcCzBwl+JrarJX5bdr4kv9xXhZPapa4U5g9SKACmpHQEeKZwExfBh8g/
+                A93f9eSZnK3qHxijkWygI922zWKVgfaJJ3qOh6a8fhme665nI31yp8URlto6e6luschHvDytXw1Rum7Z
+                ruzP0JHVNHuF7XZgBI1CxTj59GQyJUwSI1gYYyoRECyTTD0lQZoIIlD7ih55ZcNxvA8diMODs7e1VvrG
+                NFVnPjV3pvc/F2Y/HU1jsPisQhjxlvFAD4lFALfFm+sx+LEnVX8mtSWnGmnGmnGmnGmnGmnGmnGmnGmn
+                GmnGmnGmnGmnGmnGmnGmnGmnGmnGmnGmnGmnGmnGmv/Z
+            </property>
+        </structure>
+    </list-property>
+</report>

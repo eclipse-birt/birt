@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="author">W.C. Fields</property>
+    <property name="helpGuide">http://company.com/reportHelp.html</property>
+    <property name="createdBy">Whiz-Bang Plus</property>
+    <property name="base">c:\</property>
+    <text-property name="title" key="TITLE_ID">Sample Report</text-property>
+    <property name="comments">First sample report.</property>
+    <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
+    <property name="refreshRate">30</property>
+    <list-property name="configVars">
+        <structure>
+            <property name="name">var1</property>
+            <property name="value">mumble.jpg</property>
+        </structure>
+        <structure>
+            <property name="name">var2</property>
+            <property name="value">abcdefg</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="Param 1" id="2">
+            <text-property name="displayName">State</text-property>
+        </scalar-parameter>
+        <parameter-group name="My Param Group" id="3">
+            <property name="comments">About my param group</property>
+            <text-property name="displayName">Group 1</text-property>
+            <property name="startExpanded">true</property>
+            <text-property name="helpText">This group contains a bunch of parameters.</text-property>
+            <parameters>
+                <scalar-parameter name="Param 2" id="4">
+                    <text-property name="displayName">Param 2</text-property>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+        <scalar-parameter name="Param 3" id="5">
+            <text-property name="displayName">City</text-property>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source name="extendedDataSource" id="6"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet" id="7">
+            <property name="dataSource">extendedDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <translations>
+        <resource key="ResourceKey.ReportDesign.Title">
+            <translation>My Sample design(default)</translation>
+            <translation locale="zh_CN">zh_CN:简单报表.</translation>
+        </resource>
+        <resource key="ResourceKey.ReportDesign.Description">
+            <translation>sample report(default)</translation>
+            <translation locale="en">Sample report(en)</translation>
+        </resource>
+    </translations>
+    <page-setup>
+        <graphic-master-page name="My Page" id="8">
+            <property name="type">us-letter</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <image name="wrong" id="9">
+            <property name="source">file</property>
+            <expression name="uri">c:/nofile/nofile.data</expression>
+        </image>
+    </body>
+</report>

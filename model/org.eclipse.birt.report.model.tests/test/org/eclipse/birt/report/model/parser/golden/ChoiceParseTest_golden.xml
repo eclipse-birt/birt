@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <styles>
+        <style name="MyStyle" id="1193">
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">xx-small</property>
+            <property name="fontWeight">lighter</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textUnderline">underline</property>
+            <property name="verticalAlign">middle</property>
+            <list-property name="mapRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <expression name="value1">"X"</expression>
+                    <text-property name="display">Closed</text-property>
+                </structure>
+                <structure>
+                    <property name="operator">like</property>
+                    <text-property name="display">Open</text-property>
+                </structure>
+                <structure>
+                    <property name="operator">is-null</property>
+                    <text-property name="display">Unknown</text-property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="style1" id="1194">
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">12cm</property>
+            <property name="fontWeight">700</property>
+            <property name="color">red</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textUnderline">underline</property>
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page" id="1195">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label name="label1" id="1196">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label name="label2" id="1197">
+                    <property name="style">MyStyle</property>
+                    <property name="fontFamily">Times</property>
+                    <property name="fontSize">12in</property>
+                    <property name="color">red</property>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <table id="1110">
+            <column id="1174"/>
+            <group id="1190">
+                <property name="groupName">NewTableGroup1</property>
+                <header>
+                    <row id="1191">
+                        <cell id="1192">
+                            <property name="drop">detail</property>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+        </table>
+    </body>
+</report>

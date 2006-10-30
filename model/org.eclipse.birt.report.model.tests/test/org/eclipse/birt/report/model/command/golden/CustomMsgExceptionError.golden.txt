@@ -1,0 +1,4 @@
+Error.CustomMsgException.RESOURCE_KEY_REQUIRED              The resource key of translation must be provided.
+Error.CustomMsgException.DUPLICATE_LOCALE                   The translation for locale "en" of the resource "ResourceKey.ReportDesign.Title" is already defined.
+Error.CustomMsgException.INVALID_LOCALE                     The locale "abc" is invalid locale name.
+Error.CustomMsgException.TRANSLATION_NOT_FOUND              The translation for locale "en" of the resource "ResourceKey.ReportDesign.Title" is not found.

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="FreeForm" id="3">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <grid name="grid1" id="4">
+                    <text-property name="displayName" key="gridKey1">he</text-property>
+                </grid>
+                <grid name="grid2" id="5"/>
+                <grid name="grid3" id="6">
+                    <text-property name="displayName" key="gridKey2"></text-property>
+                </grid>
+                <grid id="7">
+                    <text-property name="displayName" key="gridKey4">Ant</text-property>
+                </grid>
+                <grid id="8">
+                    <text-property name="displayName" key="gridKey5"></text-property>
+                </grid>
+                <grid id="9"/>
+                <grid name="hexingjie" id="10">
+                    <column id="11">
+                        <property name="width">1.5mm</property>
+                    </column>
+                    <column id="12">
+                        <property name="width">1.5mm</property>
+                    </column>
+                    <row id="13">
+                        <cell id="14">
+                            <property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="15">
+                                <property name="x">1mm</property>
+                                <property name="y">2mm</property>
+                                <property name="height">3mm</property>
+                                <property name="width">4mm</property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="16">
+                        <cell id="17">
+                            <property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="18">
+                                <property name="x">1mm</property>
+                                <property name="y">2mm</property>
+                                <property name="height">3mm</property>
+                                <property name="width">4mm</property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="19">
+                        <cell id="20">
+                            <property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="21">
+                                <property name="x">1mm</property>
+                                <property name="y">2mm</property>
+                                <property name="height">3mm</property>
+                                <property name="width">4mm</property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+                <grid id="22">
+                    <row id="23">
+                        <cell id="24">
+                            <property name="column">1</property>
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <label id="25">
+                                <property name="x">1mm</property>
+                                <property name="y">2mm</property>
+                                <property name="height">3mm</property>
+                                <property name="width">4mm</property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+            </report-items>
+        </free-form>
+        <grid name="hexingjie1" id="26">
+            <column id="27">
+                <property name="width">1.5mm</property>
+            </column>
+            <column id="28">
+                <property name="width">1.5mm</property>
+            </column>
+            <row id="29">
+                <cell id="30">
+                    <property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label id="31">
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                    </label>
+                </cell>
+            </row>
+            <row id="32">
+                <cell id="33">
+                    <property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label id="34">
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                    </label>
+                </cell>
+            </row>
+            <row id="35">
+                <cell id="36">
+                    <property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label id="37">
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
+                        <property name="height">3mm</property>
+                        <property name="width">4mm</property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <extended-data-source name="extendedDataSource"/>
+    </data-sources>
+    <data-sets>
+        <extended-data-set name="MyDataSet">
+            <property name="dataSource">extendedDataSource</property>
+        </extended-data-set>
+    </data-sets>
+    <styles>
+	    <style name="style1">
+	        <property name="backgroundAttachment">scroll</property>
+	        <property name="backgroundColor">red</property>
+	        <property name="backgroundImage">file</property>
+	        <property name="backgroundPositionX">center</property>
+	        <property name="backgroundPositionY">top</property>
+	    </style>
+	</styles>
+   	<components>
+        <grid name="parent"/>
+ 	</components>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+    <body>
+	    <grid name="grid1" extends="parent">
+			<property name="style">style1</property>
+			<property name="dataSet">MyDataSet</property>
+			<property name="x">12mm</property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">param1</property>
+                    <expression name="expression">value1</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">param2</property>
+                    <expression name="expression">value2</expression>
+                </structure>
+            </list-property>
+	        <column>
+	            <property name="width">1.5mm</property>
+	        </column>
+	        <column>
+	            <property name="width">1.5mm</property>
+	        </column>
+	        <row>
+	            <cell>
+	                <property name="column">1</property>
+	                <property name="colSpan">2</property>
+	                <property name="rowSpan">1</property>
+	                <label>
+	                    <property name="x">1mm</property>
+	                    <property name="y">2mm</property>
+	                    <property name="height">3mm</property>
+	                    <property name="width">4mm</property>
+	                </label>
+	            </cell>
+	        </row>
+	        <row>
+	            <cell>
+	                <property name="column">1</property>
+	                <property name="colSpan">2</property>
+	                <property name="rowSpan">1</property>
+	                <label>
+	                    <property name="x">1mm</property>
+	                    <property name="y">2mm</property>
+	                    <property name="height">3mm</property>
+	                    <property name="width">4mm</property>
+	                </label>
+	            </cell>
+	        </row>
+	    </grid>
+    </body>
+</report>

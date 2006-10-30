@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <translations>
+        <resource key="ResourceKey.testKey1">
+            <translation locale="en_AF">text for AF</translation>
+            <translation locale="en">text en</translation>
+            <translation locale="en_US">text en_US</translation>
+            <translation locale="en_AU">text en_AU</translation>
+        </resource>
+        <resource key="ResourceKey.testKey2">
+            <translation locale="en">ABC</translation>
+            <translation>DEFAULT</translation>
+        </resource>
+    </translations>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

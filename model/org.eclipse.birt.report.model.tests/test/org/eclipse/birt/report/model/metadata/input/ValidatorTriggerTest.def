@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportMetaData>	
+  <Validators>
+		<Validator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validator.NonNegativeValueValidator"/>
+		<Validator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validator.PositiveValueValidator"/>
+		<SemanticValidator name="CellOverlappingValidator" class="org.eclipse.birt.report.model.validators.CellOverlappingValidator"/>
+		<SemanticValidator name="DataSetRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSetRequiredValidator"/>
+		<SemanticValidator name="DataSourceRequiredValidator" class="org.eclipse.birt.report.model.validators.DataSourceRequiredValidator"/>
+		<SemanticValidator name="DataSetResultSetValidator" class="org.eclipse.birt.report.model.validators.DataSetResultSetValidator"/>
+		<SemanticValidator name="ExtensionValidator" class="org.eclipse.birt.report.model.validators.ExtensionValidator"/>
+		<SemanticValidator name="GroupNameValidator" class="org.eclipse.birt.report.model.validators.GroupNameValidator"/>
+		<SemanticValidator name="InconsistentColumnsValidator" class="org.eclipse.birt.report.model.validators.InconsistentColumnsValidator"/>
+		<SemanticValidator name="MasterPageMultiColumnValidator" class="org.eclipse.birt.report.model.validators.MasterPageMultiColumnValidator"/>
+		<SemanticValidator name="MasterPageRequiredValidator" class="org.eclipse.birt.report.model.validators.MasterPageRequiredValidator"/>
+		<SemanticValidator name="MasterPageSizeValidator" class="org.eclipse.birt.report.model.validators.MasterPageSizeValidator"/>
+		<SemanticValidator name="MasterPageTypeValidator" class="org.eclipse.birt.report.model.validators.MasterPageTypeValidator"/>
+		<SemanticValidator name="StructureListValidator" class="org.eclipse.birt.report.model.validators.StructureListValidator"/>
+		<SemanticValidator name="TableDroppingValidator" class="org.eclipse.birt.report.model.validators.TableDroppingValidator"/>
+		<SemanticValidator name="ElementReferenceValidator" class="org.eclipse.birt.report.model.validators.ElementReferenceValidator"/>
+  </Validators>
+<Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="none" selector="report"/>
+<Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none"/>
+</Element>
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="style" isNameRequired="true"/>
+</ReportMetaData>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="theme">Theme.theme2</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">LibraryTheme.xml</property>
+            <property name="namespace">Theme</property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="label" id="2">
+            <property name="color">maroon</property>
+        </style>
+        <style name="localStyle1" id="3">
+            <property name="color">silver</property>
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="page1" id="4"/>
+    </page-setup>
+    <body>
+        <label name="label1" id="5">
+            <property name="style">localStyle1</property>
+        </label>
+        <label name="label2" id="6">
+            <property name="style">libStyle1</property>
+        </label>
+        <label name="label3" id="7"/>
+        <text name="text1" id="8"/>
+        <list name="list1" id="9"/>
+    </body>
+</report>

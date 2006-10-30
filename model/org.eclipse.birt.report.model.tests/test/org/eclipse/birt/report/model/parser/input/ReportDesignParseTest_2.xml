@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <list-property name="dataSourceBindings">
+        <structure>
+            <property name="dataSourceName">dataSource_1</property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">parameter_1</property>
+                    <expression name="expression">expression_1</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">parameter_11</property>
+                    <expression name="expression">expression_11</expression>
+                </structure>
+            </list-property>
+        </structure>
+        <structure>
+            <property name="dataSourceName">dataSource_2</property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">parameter_2</property>
+                    <expression name="expression">expression_2</expression>
+                </structure>
+            </list-property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+</report>

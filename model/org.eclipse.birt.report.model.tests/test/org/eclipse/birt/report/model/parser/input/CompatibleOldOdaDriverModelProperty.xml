@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design">
+    <data-sources>
+        <oda-data-source name="myDataSource">
+            <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
+            <method name="beforeClose"><![CDATA[script_beforeclose]]></method>
+            <method name="afterOpen"><![CDATA[script_afteropen]]></method>
+            <method name="afterClose"><![CDATA[script_afterclose]]></method>
+        </oda-data-source>
+        <oda-data-source extensionName="jdbc" name="myDataSource1">
+            <property name="ODA:driver-class">Driver Class</property>
+            <property name="ODA:url">URL</property>
+            <property name="ODA:data-source">Data Source</property>
+            <property name="ODA:user">User</property>
+            <property name="ODA:password">Password</property>
+        </oda-data-source>
+    </data-sources>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

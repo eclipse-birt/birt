@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <styles>
+        <style name="My Style">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">propNotAllowed</property>
+                    <property name="type">string</property>
+                    <text-property name="displayName" key="abcde"></text-property>
+                    <property name="displayNameID">abcde</property>
+                    <property name="displayName"></property>
+                </structure>
+            </list-property>
+
+        </style>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+                <data>
+                    <expression name="valueExpr">[myParam]</expression>
+                    <text-property name="helpText">Shows what parameter was used.</text-property>
+                </data>
+            </contents>
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">myProp2</property>
+                    <property name="type">string</property>
+                    <text-property name="displayName" key="abcde"></text-property>
+                    <property name="displayNameID">abcde</property>
+                    <property name="displayName"></property>
+                    <list-property name="choices">
+                        <structure>
+                            <property name="name">none</property>
+                            <property name="value">none value</property>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">myProp2</property>
+                    <property name="type">string</property>
+                </structure>
+                <structure>
+                    <property name="name">myProp3</property>
+                    <property name="type">choice</property>
+                    <text-property name="displayName" key="abcde"></text-property>
+                    <property name="displayNameID">abcde</property>
+                    <property name="displayName"></property>
+                    <list-property name="choices">
+                        <structure>
+                            <property name="name">none</property>
+                        </structure>
+                    </list-property>
+                </structure>
+            </list-property>
+		    <property name="myProp1">world</property>
+		    <property name="myProp2">always</property>
+			<property name="myProp0">abc</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form>
+            <property name="comments">Sample Section</property>
+            <property name="displayName">The Section</property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>
+                    <property name="height">3mm</property>
+                    <property name="width">4mm</property>
+                    <text-property name="text">Customer Name</text-property>
+                </label>
+            </report-items>
+        </free-form>
+    </body>
+</report>

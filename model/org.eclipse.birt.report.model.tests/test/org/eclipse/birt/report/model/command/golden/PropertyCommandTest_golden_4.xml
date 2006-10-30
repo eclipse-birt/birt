@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <styles>
+        <style name="My Style" id="2">
+            <property name="comments">This is a sample style</property>
+            <list-property name="mapRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <expression name="value1">"X"</expression>
+                    <text-property name="display">Closed</text-property>
+                </structure>
+                <structure>
+                    <property name="operator">is-true</property>
+                    <text-property name="display">Open</text-property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="Style1" id="3">
+            <list-property name="mapRules">
+                <structure>
+                    <text-property name="display">Rule1</text-property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="Style2" id="4">
+            <list-property name="mapRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <text-property name="display">Open</text-property>
+                </structure>
+                <structure>
+                    <property name="operator">eq</property>
+                    <text-property name="display">Design</text-property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="Style3" id="5"/>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page" id="6">
+            <property name="comments">Sample page</property>
+            <property name="type">custom</property>
+            <property name="height">11mm</property>
+            <property name="width">8.5mm</property>
+            <property name="orientation">auto</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <image name="Image1" id="7">
+                    <property name="source">url</property>
+                    <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
+                    <text-property name="altText">Help Test For Image Item</text-property>
+                    <structure name="action">
+                        <property name="linkType">drill-through</property>
+                        <property name="reportName">iserver/report1</property>
+                        <property name="targetWindow">Window3</property>
+                        <list-property name="search">
+                            <structure>
+                                <expression name="expression">searchKey1</expression>
+                            </structure>
+                            <structure>
+                                <expression name="expression">searchKey2</expression>
+                            </structure>
+                        </list-property>
+                    </structure>
+                </image>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

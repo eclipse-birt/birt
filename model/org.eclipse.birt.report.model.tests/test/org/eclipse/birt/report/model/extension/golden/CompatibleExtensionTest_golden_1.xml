@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource" id="2"/>
+        <oda-data-source name="myDataSource2" id="3"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet" id="4">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="5">
+            <contents>
+                <label name="label1" id="6"/>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="TestingMatrix" name="right extended item" id="7">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">value2</property>
+                    <expression name="expression">dataSetRow["value2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">value3</property>
+                    <expression name="expression">dataSetRow["value3"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">tmpValue</property>
+                    <expression name="expression">dataSetRow["tmpValue"]</expression>
+                </structure>
+            </list-property>
+            <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
+        </extended-item>
+    </body>
+</report>

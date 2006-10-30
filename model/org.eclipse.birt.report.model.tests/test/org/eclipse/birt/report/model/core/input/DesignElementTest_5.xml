@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="FreeForm">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <data name="data1">
+                    <text-property name="displayName" key="hello">he</text-property>
+                </data>
+                <data name="data2"/>
+                <data name="data3">
+                    <text-property name="displayName" key="dataKey3"></text-property>
+                </data>
+                <data>
+                    <text-property name="displayName" key="dataKey4">Ant</text-property>
+                </data>
+                <data>
+                    <text-property name="displayName" key="dataKey5"></text-property>
+                </data>
+                <data/>
+                <data name="hexingjie">
+                    <expression name="valueExpr">haha</expression>
+                </data>
+                <data>
+                    <expression name="valueExpr">testtest</expression>
+                </data>
+                <data>
+                    <expression name="valueExpr">test asdf sadf sadf sdaf sadtest</expression>
+                </data>
+            </report-items>
+        </free-form>
+    </body>
+</report>

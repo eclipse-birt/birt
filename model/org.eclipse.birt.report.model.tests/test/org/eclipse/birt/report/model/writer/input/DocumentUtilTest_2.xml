@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3" id="1">
+	<property name="theme">Lib1.theme1</property>
+	<list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryCompoundElement.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+    </list-property>
+	<styles>	
+		 <style name="new_style" id="4">
+			<property name="fontFamily">Arial</property>">
+         </style>
+	</styles>
+	<parameters>
+        <scalar-parameter name="param1" extends="Lib1.param1"/>
+    </parameters>    
+    <page-setup>
+        <graphic-master-page name="My Page" id="2"/>
+    </page-setup>
+	<body>
+		<label name="label" id="8" extends="Lib1.libLabel2">
+			<property name="backgroundColor">red</property>
+			<property name="fontSize">14mm</property>			
+			<property name="style">style2</property>
+		</label>
+		<grid name="MyGrid1" id="9" />
+	</body>
+</report>

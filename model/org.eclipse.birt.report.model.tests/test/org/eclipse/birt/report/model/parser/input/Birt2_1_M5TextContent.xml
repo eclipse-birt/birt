@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="2">
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3">
+            <contents>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+		<text name="myText1" id="4">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<value-of>row["ADDRESSLINE1"]</value-of>, <value-of>row["ADDRESSLINE2"]</value-of>,
+<value-of>row["STATE"]</value-of>, <value-of>row["POSTALCODE"]</value-of>, <value-of>row["COUNTRY"]</value-of>]]></text-property>
+		</text>
+        <text name="myText2" id="5">
+	        <text-property name="content"><![CDATA[Ext: <value-of>row["EXTENSION"]</value-of><BR>
+E-mail: <value-of>row["EMAIL"].replace(".", ". ");</value-of>]]></text-property>
+        </text>		
+    </body>
+</report>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dataSource"  >
+        	<property name="odaUser">User</property>
+  	    	<encrypted-property name="odaPassword">RG9Ob3RLbm93</encrypted-property>
+  	    	<property name="odaDriverClass">DriverClass</property>
+  	    	<property name="odaURL">URL</property>
+ 		</oda-data-source >
+    </data-sources>
+	<data-sets>
+	 	<oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataSet" >
+       		<property name="dataSource">dataSource</property>
+           	<property name="queryText">select * from customers</property>	
+           	<property name="queryTimeOut">30</property>	
+		</oda-data-set>
+	</data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+</report>

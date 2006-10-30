@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+	<!-- Two config variables has the same name, which is not allowed in both
+		report design and library -->
+    <list-property name="configVars">
+        <structure>
+            <property name="name">var1</property>
+            <property name="value">mumble.jpg</property>
+        </structure>
+        <structure>
+            <property name="name">var1</property>
+            <property name="value">abcdefg</property>
+        </structure>
+    </list-property>
+    <page-setup>
+		<!-- In report design, at least one master page is required, while there
+			is no such restiction in library. -->
+    </page-setup>
+</library>

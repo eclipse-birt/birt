@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource" id="2"/>
+        <oda-data-source name="myDataSource2" id="3"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet" id="4">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="My Style" id="5">
+            <property name="fontFamily">Times</property>
+            <property name="fontSize">12mm</property>
+            <property name="fontWeight">bold</property>
+        </style>
+    </styles>
+    <components>
+        <table name="componentsTable" id="6">
+            <property name="dataSet">firstDataSet</property>
+        </table>
+    </components>
+    <page-setup>
+        <graphic-master-page name="My Page" id="7">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label id="8">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label id="9">
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form id="10">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <report-items>
+                <table name="freeformTable" id="11">
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+            </report-items>
+        </free-form>
+        <table name="My table" id="12">
+            <property name="eventHandlerClass">birt.js.newTableHandler</property>
+            <property name="dataSet">firstDataSet</property>
+            <method name="onPrepare"><![CDATA[new prepare on table]]></method>
+            <method name="onCreate"><![CDATA[new create on table]]></method>
+            <method name="onRender"><![CDATA[new render on table]]></method>
+            <property name="repeatHeader">false</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">age</expression>
+                    <property name="direction">asc</property>
+                </structure>
+                <structure>
+                    <expression name="key">grade</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+            </list-property>
+            <text-property name="caption" key="new caption key">new caption</text-property>
+            <column id="13">
+                <property name="width">2.5mm</property>
+                <property name="style">My Style</property>
+            </column>
+            <column id="14">
+                <property name="width">1.5mm</property>
+                <property name="style">My Style</property>
+            </column>
+            <column id="15">
+                <property name="suppressDuplicates">true</property>
+                <list-property name="visibility">
+                    <structure>
+                        <property name="format">reportlet</property>
+                        <expression name="valueExpr">new expression of reportlet</expression>
+                    </structure>
+                </list-property>
+            </column>
+            <header>
+                <row id="16">
+                    <expression name="bookmark">This is bookmark for section.</expression>
+                    <list-property name="visibility">
+                        <structure>
+                            <expression name="valueExpr">new rule 1</expression>
+                        </structure>
+                        <structure>
+                            <property name="format">reportlet</property>
+                            <expression name="valueExpr">new rule 2</expression>
+                        </structure>
+                    </list-property>
+                    <cell id="17">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <label id="18">
+                            <property name="x">1mm</property>
+                            <property name="y">2mm</property>
+                            <property name="height">3mm</property>
+                            <property name="width">4mm</property>
+                            <text-property name="text">Customer Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="19">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <label id="20">
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group id="21">
+                <property name="groupName">new group name</property>
+                <property name="interval">day</property>
+                <property name="intervalRange">99.0</property>
+                <property name="sortDirection">desc</property>
+                <expression name="keyExpr">new expression</expression>
+                <property name="eventHandlerClass">birt.js.newGroup1Handler</property>
+                <method name="onPrepare"><![CDATA[new prepare on group]]></method>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key">name</expression>
+                        <property name="direction">asc</property>
+                    </structure>
+                    <structure>
+                        <expression name="key">birthday</expression>
+                        <property name="direction">desc</property>
+                    </structure>
+                </list-property>
+                <list-property name="filter">
+                    <structure>
+                        <property name="operator">lt</property>
+                        <expression name="expr">filter expression</expression>
+                        <expression name="value1">value1 expression</expression>
+                        <expression name="value2">value2 expression</expression>
+                    </structure>
+                </list-property>
+                <header>
+                    <row id="22">
+                        <cell id="23">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <label id="24">
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>
+                                <property name="height">3.3mm</property>
+                                <property name="width">4.4mm</property>
+                                <text-property name="text">Address1</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="25">
+                        <cell id="26">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="27">
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>
+                                <property name="height">3.3mm</property>
+                                <property name="width">4.4mm</property>
+                                <text-property name="text">Address2</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="28">
+                        <cell id="29">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="30">
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>
+                                <property name="height">3.3mm</property>
+                                <property name="width">4.4mm</property>
+                                <text-property name="text">Address3</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="31">
+                    <property name="suppressDuplicates">false</property>
+                    <property name="eventHandlerClass">birt.js.newRowHandler</property>
+                    <method name="onPrepare"><![CDATA[new prepare on row]]></method>
+                    <method name="onCreate"><![CDATA[new create on row]]></method>
+                    <cell id="32">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="eventHandlerClass">birt.js.newNewHandler</property>
+                        <method name="onPrepare"><![CDATA[new prepare on cell]]></method>
+                        <method name="onRender"><![CDATA[new render on cell]]></method>
+                        <label id="33">
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="34">
+                    <cell id="35">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <label id="36">
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
+                            <property name="height">3.3mm</property>
+                            <property name="width">4.4mm</property>
+                            <text-property name="text">Address4</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+        <list name="My List" id="37">
+            <property name="dataSet">firstDataSet</property>
+            <header>
+                <table name="listHeaderTable" id="38">
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+            </header>
+            <group id="39">
+                <property name="groupName">group test</property>
+                <property name="interval">week</property>
+                <property name="intervalRange">3.0</property>
+                <property name="sortDirection">desc</property>
+                <expression name="keyExpr">[Country]</expression>
+                <header>
+                    <table name="listgroupHeaderTable" id="40">
+                        <property name="dataSet">firstDataSet</property>
+                    </table>
+                </header>
+                <footer>
+                    <table name="listgroupFooterTable" id="41">
+                        <property name="dataSet">firstDataSet</property>
+                    </table>
+                </footer>
+            </group>
+            <detail>
+                <table name="listDetailTable" id="42">
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+            </detail>
+            <footer>
+                <table name="listFooterTable" id="43">
+                    <property name="dataSet">firstDataSet</property>
+                </table>
+            </footer>
+        </list>
+    </body>
+    <scratch-pad>
+        <table name="scratchpadTable" id="44">
+            <property name="dataSet">firstDataSet</property>
+        </table>
+    </scratch-pad>
+</report>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <list-property name="colorPalette">
+        <structure>
+            <property name="name">cusblue</property>
+            <property name="color">#000FD</property>
+            <text-property name="displayName" key="Color1_DisplayName_ID">Color1_DisplayName</text-property>
+        </structure>
+        <structure>
+            <property name="name">custom red</property>
+            <property name="color">green</property>
+            <text-property name="displayName" key="custom-color2">Color2</text-property>
+        </structure>
+        <structure>
+            <property name="name">customColor3</property>
+            <property name="color">red</property>
+            <text-property name="displayName" key="custom-color3">Color3</text-property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="columns">1</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

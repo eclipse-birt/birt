@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
+			<text-property name="displayName">My Data Source One</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+		<oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="queryText"></property>		
+        </oda-data-set>      
+		<oda-data-set name="myDataSet3" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="queryText">  </property>		
+        </oda-data-set>            
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

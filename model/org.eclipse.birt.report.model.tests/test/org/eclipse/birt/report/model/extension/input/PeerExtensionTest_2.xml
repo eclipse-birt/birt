@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>            
+            <contents>
+                <label name="label1">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="nonExistingExtension" name="testBox" id="3">
+        	<property name="dataSet">firstDataSet</property>
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
+            <header>
+            	<extended-item extensionName="TestingMatrix" name="headerMatrix" id="4">
+            	</extended-item>
+            </header>
+            <detail>
+            	<table name="testTable" id="5">
+            		<property name="fontFamily"><![CDATA[fantasy]]></property>
+            		<property name="fontSize"><![CDATA[larger]]></property>
+            		<detail>
+            			<row id="6">
+            				<cell id="7">
+            					<extended-item extensionName="TestingBox" name="detailBox" id="8">
+            						<header>
+            							<label name="testLabel" id="9"/>
+            						</header>
+            						<detail>
+            							<label name="NewLabel" id="10"/>
+            						</detail>
+            						<footer>
+            							<label id="11"/>
+            						</footer>
+            					</extended-item>
+            				</cell>
+            			</row>
+            		</detail>
+            	</table>
+            </detail>
+            <footer>
+            	<grid name="footerGrid" id="12">
+            	</grid>
+            </footer>
+        </extended-item>
+    </body>
+</report>

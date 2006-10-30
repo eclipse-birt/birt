@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="refreshRate">30</property>
+    <styles>
+        <style name="My Style">
+            <expression name="highlightTestExpr">[this]</expression>
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="backgroundColor">white</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="borderTopColor">black</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderLeftColor">black</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderBottomColor">black</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderRightColor">black</property>
+                    <property name="fontFamily">Arial</property>
+                    <property name="fontSize">9pt</property>
+                    <property name="fontStyle">normal</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="fontVariant">normal</property>
+                    <property name="color">blue</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="textOverline">overline</property>
+                    <property name="textLineThrough">line-through</property>
+                    <property name="textAlign">right</property>
+                    <property name="textTransform">lowercase</property>
+                    <property name="textIndent">1pc</property>
+                    <structure name="dateTimeFormat">
+                        <property name="category">Short Date</property>
+                        <property name="pattern">yyyy/mm/dd</property>
+                    </structure>
+                    <structure name="numberFormat">
+                        <property name="category">Currency</property>
+                        <property name="pattern">#.00</property>
+                    </structure>
+                    <structure name="stringFormat">
+                        <property name="category">&lt;</property>
+                        <property name="pattern">string-format</property>
+                    </structure>         
+                    <expression name="value1">"10"</expression>
+                    <expression name="value2">"20"</expression>
+                </structure>
+                <structure>
+                    <property name="operator">eq</property>
+                    <property name="fontSize">5pc</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="color">blue</property>
+                    <property name="textTransform">lowercase</property>
+                    <expression name="value1">"data.item"</expression>
+                    <expression name="value2">"1*200"</expression>
+                </structure>
+            </list-property>
+            <expression name="mapTestExpr">[somefield]</expression>
+            <list-property name="mapRules">
+                <structure>
+                    <property name="operator">eq</property>
+                    <expression name="value1">"X"</expression>
+                    <text-property name="display">Closed</text-property>
+                </structure>
+                <structure>
+                    <property name="operator">is-true</property>
+                    <text-property name="display">Open</text-property>
+                </structure>
+            </list-property>
+        </style>
+        <style name="label">
+            <property name="fontWeight">bolder</property>
+        </style>
+        <style name="table-detail">
+            <property name="fontSize">large</property>
+        </style>
+        <style name="footer">
+            <property name="fontSize">x-large</property>
+        </style>
+        <style name="Container Style">
+            <property name="fontSize">xx-large</property>
+        </style>
+        <style name="Empty Style"/>
+        <style name="free-form">
+            <property name="fontVariant">small-caps</property>
+        </style>
+        <style name="table">
+            <property name="fontWeight">100</property>
+        </style>
+        <style name="table-group-header-1">
+            <property name="textAlign">center</property>
+        </style>
+        <style name="table-group-header-2">
+            <property name="textAlign">right</property>
+        </style>
+        <style name="table-group-header-3">
+            <property name="textAlign">left</property>
+        </style>
+        <style name="table-group-header-4">
+            <property name="textAlign">justify</property>
+        </style>
+        <style name="table-group-header-5">
+            <property name="textAlign">center</property>
+        </style>
+        <style name="table-group-header-6">
+            <property name="textAlign">right</property>
+        </style>
+        <style name="table-group-header-7">
+            <property name="textAlign">left</property>
+        </style>
+        <style name="table-group-header-8">
+            <property name="textAlign">justify</property>
+        </style>
+        <style name="table-group-header-9">
+            <property name="textAlign">center</property>
+        </style>
+    </styles>
+    <components>
+        <free-form name="GrandFather Form">
+            <property name="color">red</property>
+            <property name="x">999mm</property>
+        </free-form>
+        <free-form name="Parent Form" extends="GrandFather Form">
+            <property name="fontSize">x-small</property>
+            <property name="x">999mm</property>
+            <report-items>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>
+                    <property name="height">3mm</property>
+                    <property name="width">4mm</property>
+                    <text-property name="text">Customer Name</text-property>
+                </label>
+            </report-items>
+        </free-form>
+    </components>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

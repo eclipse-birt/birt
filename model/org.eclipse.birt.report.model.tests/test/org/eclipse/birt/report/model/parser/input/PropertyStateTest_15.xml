@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+	<styles>
+		<style name="style1">
+            <list-property name="highlightRules">
+                <structure>
+                    <property name="borderTopWidth">1in</property>
+                    <property name="borderLeftWidth">2cm</property>
+                    <property name="borderBottomWidth">-2cm</property>
+                    <property name="borderRightWidth">0cm</property>
+                    <property name="fontSize">0pt</property>
+                </structure>
+            </list-property>
+    	</style>
+	</styles>
+    <page-setup>
+        <graphic-master-page name="parent">
+	        <property name="columns">0</property>
+	    </graphic-master-page>   
+    </page-setup>
+    <body>
+        <free-form name="form1">
+        	<property name="width">-1in</property>            	
+        </free-form>
+    </body>
+</report>

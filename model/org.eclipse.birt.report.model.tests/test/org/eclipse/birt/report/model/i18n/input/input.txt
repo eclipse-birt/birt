@@ -1,0 +1,94 @@
+#Element		  Property name	      Locale			  Input string		    isOK( Pass(P)/Fail(F) )
+
+#1. Datetime
+# TODO: createDate or modificationDate in ReportDesign
+
+#2. Choice
+Style			  fontStyle              en		normal				P
+Style			  fontStyle              en		italic				P
+Style			  fontStyle              en		none-exist-style	F
+
+#3. Color
+Style            color			 aa			  \u7ea2\u8272			    P
+Style            color			 aa			  red			    P
+Style            color			 en				  red			    P
+Style            color			 en				  \u7ea2\u8272		        F
+Style            color			 en				  rgb(100,200,300)  P
+Style            color			 en				  rgb(100,200,)     F
+Style            color			 en				  rgb(100%,200%,)   F
+Style            color			 en				  rgb(100.0,200,300)  F
+Style            color			 en				  rgb(100,200.0,300)  F
+Style            color			 en				  rgb(100,200,300.0)  F
+
+Style            color			 en				  rgb(100%,200%,200%)   P
+Style            color			 en				  rgb(400%,400%,200%)   P
+Style            color			 en				  rgb(99.2%,65.5%,65.5%)   P
+Style            color			 en				  rgb(99.0%,65.0%,65%)   P
+Style            color			 en				  rgb(99.2%,65.5%,65.5)   F
+Style            color			 en				  rgb(99.a%,65.5%,65.5)   F
+Style            color			 en				  rgb(99.0%,65.B%,65.5)   F
+Style            color			 en				  rgb(99.00%,65.0%,65%)   P
+
+Style            color			 en				  #FFFFFF				P
+Style            color			 en				  #000000				P   
+Style            color			 en				  #000000F				P
+Style            color			 en				  #0FF					P
+Style            color			 en				  0xFFFFFFF				P
+Style            color			 en				  123456				P
+Style            color			 en				  AB123					F
+
+Style            color			 en				  none-exist-color  F
+#! custom color
+Style            color			 en				  myColor1			P
+
+#4. Number  TODO: no element has a Number type property yet.
+
+#5. Boolean
+ScalarParameter	  hidden 		      aa			  \u771f			  	    P
+ScalarParameter	  hidden		      aa			  \u5047			  	    P
+ScalarParameter	  hidden		      aa			  \u4e0d\u5b58\u5728\u7684\u503c	  	    F
+ScalarParameter	  hidden		      en				  true		  	    P
+ScalarParameter	  hidden		      en				  false		  	    P
+ScalarParameter	  hidden		      en				  none-exsit-bool 	    F
+
+#6. Float
+ImageItem          scale			 aa			  123,456.78		    P
+ImageItem          scale			 aa			  123.456,78		    P
+ImageItem          scale			 aa			  123456.78		    	P
+ImageItem          scale			 aa			  123456.00		    	P
+ImageItem          scale			 aa			  123,456.0abc		    P
+ImageItem          scale			 aa			  123,456.0abc		    P
+ImageItem          scale			 aa			  12,345ab6.78		    P
+ImageItem          scale			 aa			   a12,3456.78		    F
+ImageItem          scale			 EN				  123,456.78		    P
+ImageItem          scale			 EN				  123456.78		    	P
+ImageItem          scale			 EN				  abcd			    	F
+
+#7. Dimension
+Label              height				 EN				  123.45mm			    P
+Label              height				 EN				  123,456.78cm		    P
+Label              height				 EN				  10000cm			    P
+Label              height				 EN				  cm				    P
+Label              height				 EN				  123,456.78cm		    P
+Label              height				 EN				  123.45none-exist-unit F
+Label              height				 EN				  80.0in					P
+Label              height				 EN				  80.0cm					P
+Label              height				 EN				  80.0mm					P
+Label              height				 EN				  80.0pt					P
+Label              height				 EN				  80.0pc					P
+Label              height				 EN				  80.0em					P
+Label              height				 EN				  80.0ex					P
+Label              height				 EN				  80.0px					P
+Label              height				 EN				  80.0%					P
+Label              height				 EN				  80.0%abc				F
+Label              height				 aa		    	  50.12pc				P
+Label              height				 aa		    	  123.45cm			    P
+Label              height				 aa			      123.45cm		    	P
+Label              height				 aa			      123,456.78cm          P
+Label              height				 aa			      123,456.78\u4e0d\u5b58\u5728\u7684\u5355\u4f4d  F
+
+#8. Points
+Style		  borderTopWidth		 EN				  123,456.78mm		    P
+Style		  borderTopWidth		 EN				  123456.78mm		    P
+Style            borderTopWidth		 aa		       12,3456.78mm		    P
+Style            borderTopWidth		 aa		       a12,3456.78mm		    F

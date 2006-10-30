@@ -1,0 +1,7 @@
+Error.InvalidParentException.PARENT_NOT_FOUND               The parent element "parentTable" does not exist.
+Error.WrongTypeException.WRONG_TYPE                         The parent Grid("parentGrid") is different element type with the target Table("customerTable").
+Error.ExtendsForbiddenException.CANT_EXTEND                 The element "parentTable" is not allowed to derive.
+Error.CircularExtendsException.SELF_EXTEND                  The Table("customerTable") cannot extend itself.
+Error.CircularExtendsException.CIRCULAR                     The circular extension is found, because the Grid("parentGrid") extends from Table("customerTable") already.
+Error.InvalidParentException.UNNAMED_PARENT                 The parent element has no name.
+Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT     The parent element "parentTable" is not the top-level report item in components.

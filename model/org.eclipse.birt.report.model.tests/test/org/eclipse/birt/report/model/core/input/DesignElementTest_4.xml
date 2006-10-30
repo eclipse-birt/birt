@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set >
+        <oda-data-set  name="secondDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set >
+        <oda-data-set  name="test asdf sadf sadf sdaf sadtest">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set >
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">custom</property>
+            <property name="height">11in</property>
+            <property name="width">8.5in</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25in</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="FreeForm">
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <expression name="toc">"This Section"</expression>
+            <report-items>
+                <list name="list1">
+                    <text-property name="displayName" key="hello">he</text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list name="list2">
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list name="list3">
+                    <text-property name="displayName" key="listKey3"></text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list>
+                    <text-property name="displayName" key="listKey4">Ant</text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list>
+                    <text-property name="displayName" key="listKey5"></text-property>
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list>
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list name="hexingjie">
+                    <property name="dataSet">firstDataSet</property>
+                </list>
+                <list>
+                    <property name="dataSet">secondDataSet</property>
+                </list>
+                <list>
+                    <property name="dataSet">test asdf sadf sadf sdaf sadtest</property>
+                </list>
+            </report-items>
+        </free-form>
+    </body>
+</report>

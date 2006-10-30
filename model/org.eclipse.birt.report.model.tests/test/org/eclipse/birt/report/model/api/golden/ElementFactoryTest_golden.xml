@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="theme">theme1</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">Library_3.xml</property>
+            <property name="namespace">Lib3</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <cascading-parameter-group name="NewCascadingParameterGroup" id="8">
+            <parameters>
+                <scalar-parameter name="NewParameter" id="9">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">open_dt</expression>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="NewParameter1" id="10">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">account_id</expression>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                        <property name="pattern">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="NewParameter2" id="11">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">account_nm</expression>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                        <property name="pattern">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+        <cascading-parameter-group name="newPara" id="148" extends="Lib3.NewCascadingParameterGroup">
+            <overridden-values>
+                <ref-entry baseId="9" name="country" id="149"/>
+                <ref-entry baseId="10" name="state" id="150"/>
+                <ref-entry baseId="11" name="city" id="151"/>
+            </overridden-values>
+        </cascading-parameter-group>
+          <cascading-parameter-group name="newParaTwo" id="152" extends="Lib3.NewCascadingParameterGroup">
+            <overridden-values>
+                <ref-entry baseId="9" name="country1" id="153"/>
+                <ref-entry baseId="10" name="state1" id="154"/>
+                <ref-entry baseId="11" name="city1" id="155"/>
+            </overridden-values>
+        </cascading-parameter-group>
+    </parameters>
+    <page-setup>
+        <graphic-master-page name="My Page" id="12"/>
+    </page-setup>
+</report>

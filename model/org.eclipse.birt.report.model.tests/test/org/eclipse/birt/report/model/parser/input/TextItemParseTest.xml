@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label/>
+                <text>
+                    <property name="contentType">html</property>
+                    <text-property name="content" key="static"><![CDATA[text & < > ' " static]]></text-property>
+                </text>
+                <text>
+                    <text-property name="content"><![CDATA[    text value expr    ]]></text-property>
+                </text>
+                <text>
+                    <text-property name="content" key="dynamic"><![CDATA[text &amp; &lt; &gt; &apos; &quot; static]]></text-property>
+                </text>
+                <text>
+                    <text-property name="content" key="static"><![CDATA[<hello>text &amp; </hello>&lt; <hello>&gt; &apos; &quot; static</hello>]]></text-property>
+                </text>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <text>
+            <property name="contentType">html</property>
+            <text-property name="content" key="static"><![CDATA[<hello>text &amp; </hello>&lt; <hello>&gt; &apos; &quot; static</hello>]]></text-property>
+        </text>
+    </body>
+</report>

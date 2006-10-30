@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+    <body>
+        <label name="Label1">
+            <property name="height">0.25mm</property>
+            <property name="width">1mm</property>
+        </label>
+    </body>
+</report>

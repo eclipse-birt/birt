@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.3">
+    <list-property name="includeLibraries">
+		<structure>
+			<property name="fileName">Library_3.xml</property>
+	        <property name="namespace">Lib3</property>
+		</structure>
+    </list-property>
+    <parameters>
+        <cascading-parameter-group name="NewCascadingParameterGroup" id="8">
+            <parameters>
+                <scalar-parameter name="NewParameter" id="9">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="format">Unformatted:</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">open_dt</expression>
+                </scalar-parameter>
+                <scalar-parameter name="NewParameter1" id="10">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="format">Unformatted</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">account_id</expression>
+                </scalar-parameter>
+                <scalar-parameter name="NewParameter2" id="11">
+                    <property name="valueType">dynamic</property>
+                    <property name="allowNull">false</property>
+                    <property name="format">Unformatted</property>
+                    <property name="controlType">list-box</property>
+                    <expression name="valueExpr">account_nm</expression>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+    </parameters>
+    <page-setup>
+        <graphic-master-page name="My Page"/>
+    </page-setup>
+	<property name="theme">theme1</property>
+</report>

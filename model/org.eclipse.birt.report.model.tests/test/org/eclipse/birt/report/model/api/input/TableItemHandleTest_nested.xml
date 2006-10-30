@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <text-property name="displayName">Data Set</text-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select *
+from CLASSICMODELS.CUSTOMERS</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="My table3" id="259">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER_1</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME_1</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME_1</property>
+                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME_1</property>
+                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE_1</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1_1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2_1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY_1</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE_1</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE_1</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY_1</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER_1</property>
+                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT_1</property>
+                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="272"/>
+            <column id="273"/>
+            <column id="274"/>
+            <header>
+                <row id="260">
+                    <cell id="261">
+                        <label id="275">
+                            <text-property name="text">CONTACTFIRSTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="262"/>
+                    <cell id="263">
+                        <label id="277">
+                            <text-property name="text">PHONE</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="264">
+                    <cell id="265">
+                        <data id="276">
+                            <property name="dataSet">Data Set</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">CUSTOMERNUMBER</property>
+                                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CUSTOMERNAME</property>
+                                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CONTACTLASTNAME</property>
+                                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CONTACTFIRSTNAME</property>
+                                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">PHONE</property>
+                                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">ADDRESSLINE1</property>
+                                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">ADDRESSLINE2</property>
+                                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CITY</property>
+                                    <expression name="expression">dataSetRow["CITY"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">STATE</property>
+                                    <expression name="expression">dataSetRow["STATE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">POSTALCODE</property>
+                                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">COUNTRY</property>
+                                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CREDITLIMIT</property>
+                                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                    <property name="dataType">float</property>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">CONTACTFIRSTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="266">
+                        <table id="279">
+                            <property name="width">100%</property>
+                            <property name="dataSet">Data Set</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">CUSTOMERNUMBER</property>
+                                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CUSTOMERNAME</property>
+                                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CONTACTLASTNAME</property>
+                                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CONTACTFIRSTNAME</property>
+                                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">PHONE</property>
+                                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">ADDRESSLINE1</property>
+                                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">ADDRESSLINE2</property>
+                                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CITY</property>
+                                    <expression name="expression">dataSetRow["CITY"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">STATE</property>
+                                    <expression name="expression">dataSetRow["STATE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">POSTALCODE</property>
+                                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">COUNTRY</property>
+                                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CREDITLIMIT</property>
+                                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                    <property name="dataType">float</property>
+                                </structure>
+                            </list-property>
+                            <column id="292"/>
+                            <column id="293"/>
+                            <column id="294"/>
+                            <header>
+                                <row id="280">
+                                    <cell id="281"/>
+                                    <cell id="282">
+                                        <label id="295">
+                                            <text-property name="text">ADDRESSLINE1</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="283">
+                                        <label id="297">
+                                            <text-property name="text">CITY</text-property>
+                                        </label>
+                                    </cell>
+                                </row>
+                            </header>
+                            <detail>
+                                <row id="284">
+                                    <cell id="285"/>
+                                    <cell id="286">
+                                        <data id="296">
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">CUSTOMERNUMBER</property>
+                                                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CUSTOMERNAME</property>
+                                                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CONTACTLASTNAME</property>
+                                                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CONTACTFIRSTNAME</property>
+                                                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">PHONE</property>
+                                                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">ADDRESSLINE1</property>
+                                                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">ADDRESSLINE2</property>
+                                                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CITY</property>
+                                                    <expression name="expression">dataSetRow["CITY"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">STATE</property>
+                                                    <expression name="expression">dataSetRow["STATE"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">POSTALCODE</property>
+                                                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">COUNTRY</property>
+                                                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CREDITLIMIT</property>
+                                                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">ADDRESSLINE1</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="287">
+                                        <data id="298">
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">CUSTOMERNUMBER</property>
+                                                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CUSTOMERNAME</property>
+                                                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CONTACTLASTNAME</property>
+                                                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CONTACTFIRSTNAME</property>
+                                                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">PHONE</property>
+                                                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">ADDRESSLINE1</property>
+                                                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">ADDRESSLINE2</property>
+                                                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CITY</property>
+                                                    <expression name="expression">dataSetRow["CITY"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">STATE</property>
+                                                    <expression name="expression">dataSetRow["STATE"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">POSTALCODE</property>
+                                                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">COUNTRY</property>
+                                                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">CREDITLIMIT</property>
+                                                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">CITY</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </detail>
+                            <footer>
+                                <row id="288">
+                                    <cell id="289"/>
+                                    <cell id="290"/>
+                                    <cell id="291"/>
+                                </row>
+                            </footer>
+                        </table>
+                    </cell>
+                    <cell id="267">
+                        <data id="278">
+                            <property name="dataSet">Data Set</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">CUSTOMERNUMBER</property>
+                                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CUSTOMERNAME</property>
+                                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CONTACTLASTNAME</property>
+                                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CONTACTFIRSTNAME</property>
+                                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">PHONE</property>
+                                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">ADDRESSLINE1</property>
+                                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">ADDRESSLINE2</property>
+                                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CITY</property>
+                                    <expression name="expression">dataSetRow["CITY"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">STATE</property>
+                                    <expression name="expression">dataSetRow["STATE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">POSTALCODE</property>
+                                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">COUNTRY</property>
+                                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">CREDITLIMIT</property>
+                                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                    <property name="dataType">float</property>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">PHONE</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="268">
+                    <cell id="269"/>
+                    <cell id="270"/>
+                    <cell id="271"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

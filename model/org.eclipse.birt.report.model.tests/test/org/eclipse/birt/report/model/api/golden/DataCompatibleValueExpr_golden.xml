@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <body>
+        <data name="data1" id="2">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">column1</property>
+                    <expression name="expression">dataSetRow["column1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">column2</property>
+                    <expression name="expression">dataSetRow["column2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">row["column1"] + row["column2"]</property>
+                    <expression name="expression">row["column1"] + row["column2"]</expression>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">row["column1"] + row["column2"]</property>
+        </data>
+        <table name="table1" id="3">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">value1</property>
+                    <expression name="expression">dataSetRow["value1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">value2</property>
+                    <expression name="expression">dataSetRow["value2"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">row["value1"] + row["value2"]</property>
+                    <expression name="expression">row["value1"] + row["value2"]</expression>
+                </structure>
+            </list-property>
+            <column id="14"/>
+            <column id="15"/>
+            <header>
+                <row id="4">
+                    <cell id="5">
+                        <data name="data2" id="6">
+                            <property name="resultSetColumn">row["value1"] + row["value2"]</property>
+                        </data>
+                    </cell>
+                    <cell id="7"/>
+                </row>
+            </header>
+            <detail>
+                <row id="8">
+                    <cell id="9"/>
+                    <cell id="10"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="11">
+                    <cell id="12"/>
+                    <cell id="13"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

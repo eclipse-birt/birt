@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="refreshRate">30</property>
+    <styles>
+        <style name="My Style"/>
+    </styles>
+    <data-sources>
+        <script-data-source name="myDataSource">
+            <method name="beforeOpen"><![CDATA[script_beforeopen]]></method>
+            <method name="beforeClose"><![CDATA[script_beforeclose]]></method>
+            <method name="afterOpen"><![CDATA[script_afteropen]]></method>
+            <method name="afterClose"><![CDATA[script_afterclose]]></method>
+            <method name="open"><![CDATA[script_open]]></method>
+            <method name="close"><![CDATA[script_close]]></method>
+        </script-data-source>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+            <method name="open"><![CDATA[open script]]></method>
+            <method name="describe"><![CDATA[describe script]]></method>
+            <method name="fetch"><![CDATA[fetch script]]></method>
+            <method name="close"><![CDATA[close script]]></method>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="type">us-letter</property>
+            <property name="orientation">portrait</property>
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1in</property>
+            <property name="bottomMargin">2in</property>
+            <property name="rightMargin">2in</property>
+			<property name="headerHeight">2.5cm</property>
+			<property name="footerHeight">.5cm</property>
+            <property name="backgroundColor">yellow</property>
+            <property name="fontSize">12mm</property>
+            <property name="color">red</property>
+            <property name="columns">2</property>
+            <property name="columnSpacing">2mm</property>
+            <contents>
+                <grid name="My grid">
+            <column>
+                <property name="width">2.5mm</property>
+                <property name="repeat">3</property>
+                <property name="style">My Style</property>
+            </column>
+            <column>
+                <property name="width">1.5mm</property>
+                <property name="style">My Style</property>
+            </column>
+            <row>
+                <property name="height">5mm</property>
+                <expression name="bookmark">This is bookmark for section.</expression>
+                <property name="style">My Style</property>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">1</property>
+                    <!-- wrong containment -->
+                    <table>
+                    	<property name="dataSet">firstDataSet</property>
+                    </table>
+                </cell>
+                <cell>
+                    <property name="column">2</property>
+                    <property name="colSpan">3</property>
+                    <property name="rowSpan">1</property>
+                    <property name="drop">all</property>
+                    <property name="height">1.5mm</property>
+                    <property name="width">2mm</property>
+                    <property name="style">My Style</property>
+                    <property name="backgroundColor">red</property>
+                    <property name="borderTopColor">yellow</property>
+                    <property name="borderTopStyle">dotted</property>
+                    <property name="borderTopWidth">2mm</property>
+                    <label name="address">
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <property name="column">1</property>
+                    <property name="colSpan">4</property>
+                    <property name="rowSpan">1</property>
+                    <label>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                    <grid name="cellGrid"/>
+                </cell>
+            </row>
+		</grid>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <styles>
+        <style name="Style1" id="2">
+            <property name="borderBottomStyle">solid</property>
+        </style>
+    </styles>
+    <body>
+        <image name="Image1" id="3">
+            <structure name="action"/>
+        </image>
+    </body>
+</report>

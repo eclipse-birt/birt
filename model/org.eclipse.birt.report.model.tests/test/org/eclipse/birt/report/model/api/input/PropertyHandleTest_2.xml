@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.0.1" id="1">
+    <page-setup>
+        <graphic-master-page name="mypage" id="2"/>
+    </page-setup>
+    <styles>
+		<style name="style1">
+            <property name="fontSize">larger</property>
+		</style>
+		<style name="style2">
+            <property name="fontWeight">bold</property>
+		</style>
+	</styles>
+    <components>
+        <grid name="baseGrid" id="4">
+            <property name="height">20pt</property>
+            <column id="5"/>
+            <column id="6"/>
+            <row id="7">
+                <cell id="8">
+                    <property name="column">1</property>
+                    <property name="height">12pt</property>
+		            <property name="height">40pt</property>
+                    <label id="9">
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                    <data id="12">
+                       <expression name="valueExpr">TO-BE-ADDED</expression>	
+                    </data>
+                </cell>
+            </row>
+        </grid>
+    </components>
+    <body>
+        <grid name="Grid1" id="10" extends="baseGrid">
+            <property name="height">24pt</property>
+		    <Overridden-values>	
+				<!-- override cell(id="8") properties. -->
+				<ref-entry baseId="8" > 
+	  	    	    <property name="color">blue</property>	
+		        	<property name="height">24pt</property>	
+				</ref-entry>
+		    </Overridden-values>	
+        </grid>
+    </body>
+</report>

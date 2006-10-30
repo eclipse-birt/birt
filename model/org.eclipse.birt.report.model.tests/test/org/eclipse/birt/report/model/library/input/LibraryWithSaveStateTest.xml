@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+    </themes>
+    <components>
+        <table name="NewTable" id="4">
+            <property name="width">100%</property>
+            <column id="17"/>
+            <column id="18"/>
+            <column id="19"/>
+            <header>
+                <row id="5">
+                    <cell id="6"/>
+                    <cell id="7"/>
+                    <cell id="8"/>
+                </row>
+            </header>
+            <detail>
+                <row id="9">
+                    <cell id="10">
+                        <label name="NewLabel" id="20"/>
+                    </cell>
+                    <cell id="11"/>
+                    <cell id="12"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="13">
+                    <cell id="14"/>
+                    <cell id="15"/>
+                    <cell id="16"/>
+                </row>
+            </footer>
+        </table>
+        <label name="NewLabel1" id="21">
+            <text-property name="text">asdfsad</text-property>
+        </label>
+    </components>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

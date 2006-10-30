@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <data-sets>
+        <oda-data-set name="MyDataSet" id="2"/>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3"/>
+    </page-setup>
+    <body>
+        <list name="myList1" id="4">
+            <property name="dataSet">myDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">First data value</property>
+                    <expression name="expression">First data value</expression>
+                </structure>
+                <structure>
+                    <property name="name">First data value_1</property>
+                    <expression name="expression">First data value</expression>
+                    <property name="aggregateOn">NewListGroup1</property>
+                </structure>
+                <structure>
+                    <property name="name">First data value_2</property>
+                    <expression name="expression">First data value</expression>
+                    <property name="aggregateOn">NewListGroup2</property>
+                </structure>
+            </list-property>
+            <group id="5">
+                <property name="groupName">NewListGroup1</property>
+                <header>
+                    <data name="MyData1" id="6">
+                        <property name="resultSetColumn">First data value_1</property>
+                    </data>
+                </header>
+            </group>
+            <group id="7">
+                <property name="groupName">NewListGroup2</property>
+                <header>
+                    <data name="MyData2" id="8">
+                        <property name="resultSetColumn">First data value_2</property>
+                    </data>
+                </header>
+            </group>
+            <detail>
+                <data name="MyData3" id="9">
+                    <property name="resultSetColumn">First data value</property>
+                </data>
+                <data name="MyData4" id="10">
+                    <property name="resultSetColumn">First data value</property>
+                </data>
+            </detail>
+        </list>
+        <table id="11">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">First data value</property>
+                    <expression name="expression">First data value</expression>
+                </structure>
+                <structure>
+                    <property name="name">First data value_1</property>
+                    <expression name="expression">First data value</expression>
+                    <property name="aggregateOn">NewTableGroup1</property>
+                </structure>
+                <structure>
+                    <property name="name">First data value_2</property>
+                    <expression name="expression">First data value</expression>
+                    <property name="aggregateOn">NewTableGroup2</property>
+                </structure>
+            </list-property>
+            <group id="12">
+                <property name="groupName">NewTableGroup1</property>
+                <header>
+                    <row id="13">
+                        <cell id="14">
+                            <data name="MyData5" id="15">
+                                <property name="resultSetColumn">First data value_1</property>
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <group id="16">
+                <property name="groupName">NewTableGroup2</property>
+                <header>
+                    <row id="17">
+                        <cell id="18">
+                            <data name="MyData6" id="19">
+                                <property name="resultSetColumn">First data value_2</property>
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row id="20">
+                    <cell id="21">
+                        <data name="MyData7" id="22">
+                            <property name="resultSetColumn">First data value</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="23">
+                    <cell id="24">
+                        <data name="MyData8" id="25">
+                            <property name="resultSetColumn">First data value</property>
+                        </data>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

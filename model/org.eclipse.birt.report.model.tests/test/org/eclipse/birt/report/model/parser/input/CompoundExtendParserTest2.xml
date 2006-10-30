@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.3" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="2"/>
+    </page-setup>
+    <components>
+        <grid name="baseGrid" id="4">
+            <property name="height">20pt</property>
+            <row id="7">
+                <cell id="8">
+                    <property name="column">1</property>
+                    <property name="height">12pt</property>
+                    <label id="9">
+                        <property name="height">3.3mm</property>
+                        <property name="width">4.4mm</property>
+                        <text-property name="text">Address</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </components>
+	<body>
+		<grid name="grid1" id="13" extends="baseGrid">
+			<!-- This row is not parsed, structure is not allowed in the child -->
+            <row id="14">
+                <cell id="15">
+                    <property name="height">20pt</property>
+                    <label/>
+                </cell>
+            </row>
+			<overridden-values>
+				<ref-entry baseId="9">
+					<property name="color">blue</property>
+                    <property name="width">12pt</property>
+				</ref-entry>
+			</overridden-values>
+		</grid>
+		<grid name="grid2" id="14" extends="baseGrid">
+			<overridden-values>
+				<ref-entry baseId="9">
+					<property name="color">blue</property>
+                    <property name="width">12pt</property>
+				</ref-entry>
+			</overridden-values>
+			<!-- This row is not parsed, structure is not allowed in the child -->
+            <row id="15" />
+		</grid>
+		<grid name="grid3" id="16" extends="baseGrid">
+			<overridden-values>
+				<!-- element(id=100) is not found in the parent(baseGrid), a warning is logged -->
+				<ref-entry baseId="100">
+					<property name="color">blue</property>
+				</ref-entry>
+				<!-- element(id=13) exist but not in the parent, a warning is logged -->
+				<ref-entry baseId="13">
+					<property name="color">blue</property>
+				</ref-entry>
+			</overridden-values>
+		</grid>
+	</body>
+</report>

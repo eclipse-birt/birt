@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">odaDriverClass</property>
+            <property name="id">360</property>
+            <expression name="value">"org.eclipse.birt.report.data.oda.sampledb.Driver"</expression>
+        </structure>
+        <structure>
+            <property name="name">odaURL</property>
+            <property name="id">360</property>
+            <expression name="value">"jdbc:classicmodels:sa65656565mpledb"</expression>
+        </structure>
+        <structure>
+            <property name="name">odaPassword</property>
+            <property name="id">360</property>
+        </structure>
+        <structure>
+            <property name="name">odaUser</property>
+            <property name="id">360</property>
+            <expression name="value">"ClassicModesddsls"</expression>
+        </structure>
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">361</property>
+            <expression name="value">"select CLASSICMODELS.EMPLOYEES.EMPLOYEENUMBER  
+from CLASSICMODELS.EMPLOYEES"</expression>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">361</property>
+        </structure>
+    </list-property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="360">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source1" id="362">
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="361">
+            <property name="dataSource">Data Source</property>
+            <property name="queryText">select *
+from CLASSICMODELS.EMPLOYEES</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set1" id="363">
+            <property name="dataSource">Data Source1</property>
+            <property name="queryText">select *
+from CLASSICMODELS.EMPLOYEES</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="7">
+            <page-footer>
+                <text id="8">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="468">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <column id="477"/>
+            <header>
+                <row id="469">
+                    <cell id="470">
+                        <label id="471">
+                            <text-property name="text">EMPLOYEENUMBER</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="472">
+                    <cell id="473">
+                        <data id="474">
+                            <expression name="valueExpr">row["EMPLOYEENUMBER"]</expression>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="475">
+                    <cell id="476"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="author">W.C. Fields</property>
+    <property name="helpGuide">http://company.com/reportHelp.html</property>
+    <property name="createdBy">Whiz-Bang Plus</property>
+    <property name="refreshRate">30</property>
+    <list-property name="colorPalette">
+        <structure>
+            <property name="name">red</property>
+            <property name="color">#0000FE</property>
+            <text-property name="displayName" key="custom-color1">Color1</text-property>
+        </structure>
+        <structure>
+            <property name="name">customColor</property>
+            <property name="color">16646144</property>
+            <text-property name="displayName" key="custom-color2">Color2</text-property>
+        </structure>
+        <structure>
+            <property name="name">customColor</property>
+            <property name="color">16646144</property>
+            <text-property name="displayName" key="custom-color2">Color2</text-property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

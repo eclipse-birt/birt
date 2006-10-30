@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <list-property name="colorPalette">
+        <structure>
+            <property name="name">myColor</property>
+            <property name="color">#010203</property>
+            <text-property name="displayName" key="MY_COLOR_ID">My Color</text-property>
+        </structure>
+        <structure>
+            <property name="name">color2</property>
+            <property name="color">#8090A0</property>
+            <text-property name="displayName" key="COLOR">Color 2</text-property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="My Style"/>
+    </styles>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="type">custom</property>
+            <property name="height">11mm</property>
+            <property name="width">8.5mm</property>
+            <property name="orientation">auto</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+                <data>
+                    <expression name="valueExpr">[myParam]</expression>
+                    <text-property name="helpText">Shows what parameter was used.</text-property>
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <free-form name="form1">
+            <property name="comments">Sample Section</property>
+            <property name="displayName">The Section</property>
+            <property name="style">My Style</property>
+            <property name="backgroundColor">red</property>
+            <expression name="toc">"This Section"</expression>
+        </free-form>
+        <free-form name="form1">
+            <property name="comments">Sample Section</property>
+            <property name="displayName">The Section</property>
+            <property name="style">My Style</property>
+            <property name="backgroundColor">red</property>
+            <expression name="toc">"This Section"</expression>
+        </free-form>
+        <free-form name="form2">
+	    <report-items>
+		<graphic-master-page/>
+	    </report-items>
+        </free-form>
+    </body>
+</report>
