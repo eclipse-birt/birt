@@ -99,6 +99,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String EXTENDS_FROM_ATTRIB = "extendsFrom"; //$NON-NLS-1$
 		private static final String XML_TAG_NAME_ATTRIB = "xmlTagName"; //$NON-NLS-1$
 		private static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$
+		private static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
+		private static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
 
 		/**
 		 * List of the property types that are allowed for the extensions.
@@ -282,12 +284,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String isEncrypted = propTag.getAttribute( IS_ENCRYPTABLE_ATTRIB );
 			String defaultDisplayName = propTag
 					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-			String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
+			String subType = propTag.getAttribute( SUB_TYPE_ATTRIB );
 			// by default set it to 'string' type
-			if ( StringUtil.isBlank( detailType ) )
-				detailType = PropertyType.STRING_TYPE_NAME;
-			PropertyType propType = MetaDataDictionary.getInstance( )
-					.getPropertyType( type );
+			if ( StringUtil.isBlank( subType ) )
+				subType = PropertyType.STRING_TYPE_NAME;
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			PropertyType propType = dd.getPropertyType( type );
 
 			// not well-recognized or not supported by extension, fire error
 			if ( propType == null
@@ -295,15 +297,16 @@ public class PeerExtensionLoader extends ExtensionLoader
 				throw new ExtensionException(
 						new String[]{type},
 						ExtensionException.DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE );
-			PropertyType subType = null;
+			PropertyType subPropType = null;
 			if ( propType.getTypeCode( ) == PropertyType.LIST_TYPE )
 			{
-				subType = MetaDataDictionary.getInstance( ).getPropertyType(
-						detailType );
-				if ( subType == null
-						|| !getAllowedSubPropertyTypes( ).contains( subType ) )
+				subPropType = MetaDataDictionary.getInstance( )
+						.getPropertyType( subType );
+				if ( subPropType == null
+						|| !getAllowedSubPropertyTypes( )
+								.contains( subPropType ) )
 					throw new ExtensionException(
-							new String[]{name, detailType},
+							new String[]{name, subType},
 							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
 			}
 
@@ -314,18 +317,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			extPropDefn.setName( name );
 			extPropDefn.setDisplayNameID( displayNameID );
 			extPropDefn.setType( propType );
-			extPropDefn.setSubType( subType );
-			try
-			{
-				Object value = extPropDefn.validateXml( null, defaultValue );
-				extPropDefn.setDefault( value );
-			}
-			catch ( PropertyValueException e )
-			{
-				throw new ExtensionException(
-						new String[]{defaultValue},
-						ExtensionException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
-			}
+			extPropDefn.setSubType( subPropType );
 			extPropDefn.setIntrinsic( false );
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
@@ -353,6 +345,13 @@ public class PeerExtensionLoader extends ExtensionLoader
 				}
 			}
 
+			// can not define detail-type and own choice list synchronously
+			String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
+			detailType = StringUtil.trimString( detailType );
+			if ( !StringUtil.isBlank( detailType ) && choiceList.size( ) > 0 )
+				throw new ExtensionException(
+						new String[]{detailType},
+						ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY );
 			if ( choiceList.size( ) > 0 )
 			{
 				Choice[] choices = new Choice[choiceList.size( )];
@@ -360,6 +359,26 @@ public class PeerExtensionLoader extends ExtensionLoader
 				ChoiceSet choiceSet = new ChoiceSet( );
 				choiceSet.setChoices( choices );
 				extPropDefn.setDetails( choiceSet );
+			}
+			else if ( !StringUtil.isBlank( detailType ) )
+			{
+				extPropDefn.setDetails( dd.getChoiceSet( detailType ) );
+			}
+
+			// after loading the choices, then validates the default value
+			if ( !StringUtil.isBlank( defaultValue ) )
+			{
+				try
+				{
+					Object value = extPropDefn.validateXml( null, defaultValue );
+					extPropDefn.setDefault( value );
+				}
+				catch ( PropertyValueException e )
+				{
+					throw new ExtensionException(
+							new String[]{name, elementDefn.getName( )},
+							ExtensionException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
+				}
 			}
 
 			return extPropDefn;

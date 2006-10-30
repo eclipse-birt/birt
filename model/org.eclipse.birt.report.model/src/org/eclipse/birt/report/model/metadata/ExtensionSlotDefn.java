@@ -104,7 +104,7 @@ public class ExtensionSlotDefn extends SlotDefn
 			if ( type == null )
 				type = dd.getExtension( name );
 			if ( type == null )
-				throw new MetaDataException( new String[]{this.name, name},
+				throw new MetaDataException( new String[]{name, this.name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
 			contentElements.add( type );
 		}

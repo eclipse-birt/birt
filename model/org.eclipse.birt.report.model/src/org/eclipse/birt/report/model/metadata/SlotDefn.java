@@ -280,7 +280,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 			String name = (String) iter.next( );
 			ElementDefn type = (ElementDefn) dd.getElement( name );
 			if ( type == null )
-				throw new MetaDataException( new String[]{this.name, name},
+				throw new MetaDataException( new String[]{name, this.name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
 			contentElements.add( type );
 		}

@@ -59,8 +59,15 @@ public class ExtensionException extends MetaDataException
 	 * Error code indicating the element type of the extension is invalid or not
 	 * supported.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_TYPE = "INVALID_ELEMENT_TYPE"; //$NON-NLS-1$
+
+	/**
+	 * Error code indicating that an extension choice property defines both
+	 * "detailType" to refer a rom-defined choice set and its own choice list.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY = "INVALID_CHOICE_PROPERTY"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an extension exception with error code.

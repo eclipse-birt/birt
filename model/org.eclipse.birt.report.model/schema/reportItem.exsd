@@ -212,10 +212,17 @@
                </restriction>
             </simpleType>
          </attribute>
-         <attribute name="detailType" use="default" value="string">
+         <attribute name="detailType" type="string">
             <annotation>
                <documentation>
-                  When the &quot;type&quot; is &quot;list&quot;, the &quot;detailType&quot; is required and must be defined as one of the restriction choices. By default it is &quot;string&quot;.
+                  When the &quot;type&quot; is &quot;choice&quot;, extension can define &quot;detailType&quot; to refer a choice set in original meta-data of Model.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="subType" use="default" value="string">
+            <annotation>
+               <documentation>
+                  When the &quot;type&quot; is &quot;list&quot;, the &quot;subType&quot; is required and must be defined as one of the restriction choices. By default it is &quot;string&quot;.
                </documentation>
             </annotation>
             <simpleType>
