@@ -80,7 +80,7 @@ public class ContentNode
 	 */
 	public void setAttributes( Map attributes )
 	{
-		attributes.putAll( attributes );
+		this.attributes.putAll( attributes );
 	}
 
 	/**
