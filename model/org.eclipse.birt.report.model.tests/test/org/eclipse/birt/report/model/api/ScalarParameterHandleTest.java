@@ -159,7 +159,7 @@ public class ScalarParameterHandleTest extends BaseTestCase
 
 		handle = (ScalarParameterHandle) params.get( 2 );
 
-		assertFalse( handle.isMustMatch( ) );
+		assertTrue( handle.isMustMatch( ) );
 		assertFalse( handle.isFixedOrder( ) );
 
 		iter = handle.choiceIterator( );
@@ -173,7 +173,7 @@ public class ScalarParameterHandleTest extends BaseTestCase
 		// choices.
 
 		handle = (ScalarParameterHandle) params.get( 3 );
-		assertFalse( handle.isMustMatch( ) );
+		assertTrue( handle.isMustMatch( ) );
 		assertTrue( handle.isFixedOrder( ) );
 
 		StructureHandle[] choices = new StructureHandle[3];

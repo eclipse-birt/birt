@@ -177,8 +177,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.SCALAR_PARAM_ALIGN_AUTO, handle
 				.getAlignment( ) );
 
-		assertFalse( handle.isMustMatch( ) ); //$NON-NLS-1$
-		assertTrue( handle.isFixedOrder( ) ); //$NON-NLS-1$
+		assertTrue( handle.isMustMatch( ) ); 
+		assertTrue( handle.isFixedOrder( ) );
 
 		StructureHandle[] choices = new StructureHandle[3];
 		int count = 0;
