@@ -367,6 +367,39 @@ public abstract class EngineCase extends TestCase
 	}
 
 	/**
+	 * 
+	 */
+	protected boolean compareHTML_STRING( String output, String checkstring, int checktimes )
+	{
+		StringBuffer errorText = new StringBuffer( );
+		String outputFile = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output;
+		String line = null;
+		int count = 0;
+		boolean same = true;
+		
+		try
+		{
+			BufferedReader reader = new BufferedReader( new FileReader( new File( outputFile ) ) );
+			while ( ( line = reader.readLine( ) ) != null )
+			{
+				if ( line.indexOf( checkstring ) > 0 )
+				{
+					count++;
+				}
+			}
+			same = compareString( checktimes, count );
+		}
+		catch ( IOException e )
+		{
+			errorText.append( e.toString( ) );
+			errorText.append( "\n" ); //$NON-NLS-1$
+			e.printStackTrace( );
+		}
+		
+		return same;
+		
+	}
+	/**
 	 * Run and render the given design file into html file. If the input is
 	 * "a.xml", output html file will be named "a.html" under folder "output".
 	 * 
@@ -718,6 +751,28 @@ public abstract class EngineCase extends TestCase
 		}
 
 		return same;
+	}
+	
+	/**
+	 * 
+	 */
+	private boolean compareString ( int checktimes, int countstring )
+	{
+		boolean same = true;
+		StringBuffer errorText = new StringBuffer( );
+		try
+		{
+			if ( checktimes == countstring )
+				same = true;
+			else
+				same = false;
+		}
+		catch ( Exception e )
+		{
+			errorText.append( e.toString( ) );
+		}
+		return same;
+		
 	}
 
 	/**
