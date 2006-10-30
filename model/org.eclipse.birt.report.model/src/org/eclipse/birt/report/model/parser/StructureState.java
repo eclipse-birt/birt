@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -170,6 +171,10 @@ public class StructureState extends AbstractPropertyState
 			// created by the specific state.
 
 			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
+
+			Structure.StructureContext structContext = new Structure.StructureContext(
+					element, propDefn.getName( ) );
+			( (Structure) struct ).setContext( structContext );
 		}
 	}
 
@@ -218,6 +223,10 @@ public class StructureState extends AbstractPropertyState
 			// created by the specific state.
 
 			struct = createStructure( (StructureDefn) propDefn.getStructDefn( ) );
+
+			Structure.StructureContext structContext = new Structure.StructureContext(
+					element, propDefn.getName( ) );
+			( (Structure) struct ).setContext( structContext );
 		}
 	}
 

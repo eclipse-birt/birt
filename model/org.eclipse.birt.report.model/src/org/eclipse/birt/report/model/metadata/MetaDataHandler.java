@@ -104,6 +104,9 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
 
+
+	private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
+	
 	private String groupNameID;
 
 	// Cached state. Can be done here because nothing in this grammar is
@@ -452,7 +455,18 @@ class MetaDataHandler extends XMLParserHandler
 					}
 					structDefn = detailName;
 					break;
-
+					
+				case PropertyType.ELEMENT_REF_TYPE :
+					if ( detailName == null )
+					{
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
+						return;
+					}
+					if ( detailName.equals( THIS_KEYWORD ) )
+						detailName = elementDefn.getName( );
+					break;
 			}
 
 			memberDefn = new StructPropertyDefn( );
@@ -484,7 +498,9 @@ class MetaDataHandler extends XMLParserHandler
 				memberDefn.setDetails( choiceSet );
 			else if ( structDefn != null )
 				memberDefn.setDetails( structDefn );
-
+			else if ( detailName != null )
+				memberDefn.setDetails( detailName );
+			
 			memberDefn.setIntrinsic( getBooleanAttrib( attrs,
 					IS_INTRINSIC_ATTRIB, false ) );
 			try
@@ -705,7 +721,6 @@ class MetaDataHandler extends XMLParserHandler
 	class PropertyState extends InnerParseState
 	{
 
-		private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
 
 		public void parseAttrs( Attributes attrs )
 		{

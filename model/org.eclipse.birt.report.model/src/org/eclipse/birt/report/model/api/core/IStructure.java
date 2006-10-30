@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * generically accessing or updating object members, and provides a meta-data
  * definition for the object. This interface allows an object to participate in
  * the generic property type, command and related mechanisms.
- *  
+ * 
  */
 
 public interface IStructure extends IPropertySet
@@ -63,9 +63,26 @@ public interface IStructure extends IPropertySet
 	 *            definition of the property to get
 	 * @return value of the item as an object, or null if the item is not set
 	 *         locally or is not found.
+	 * 
+	 * @deprecated by {@link #getProperty(Module, String)}
 	 */
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn );
+
+	/**
+	 * Gets the locale value of a property.
+	 * 
+	 * @param module
+	 *            the module
+	 * 
+	 * @param propName
+	 *            the name of the property definition
+	 * @return value of the item as an object, or null if the item is not set
+	 *         locally or is not found.
+	 * 
+	 */
+
+	public Object getProperty( Module module, String propName );
 
 	/**
 	 * Justifies whether the structure can be referred by other design elements.

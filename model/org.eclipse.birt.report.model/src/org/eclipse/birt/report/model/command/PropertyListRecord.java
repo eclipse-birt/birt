@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.Structure.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -143,6 +145,13 @@ public class PropertyListRecord extends SimpleRecord
 		if ( doAdd )
 		{
 			list.add( listRef.getIndex( ), value );
+
+			// setup the context for the structure.
+
+			StructureContext structContext = new Structure.StructureContext(
+					element, listRef.getPropDefn( ).getName( ) );
+			( (Structure) value ).setContext( structContext );
+
 		}
 		else
 		{

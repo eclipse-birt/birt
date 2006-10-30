@@ -70,9 +70,11 @@ public abstract class ReferenceableElement extends DesignElement
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
-		ReferenceableElement element = (ReferenceableElement) super.doClone( policy );
+		ReferenceableElement element = (ReferenceableElement) super
+				.doClone( policy );
 		element.clients = new ArrayList( );
 		return element;
 	}
@@ -102,9 +104,26 @@ public abstract class ReferenceableElement extends DesignElement
 
 	public void dropClient( DesignElement client )
 	{
+		dropClient( client, null );
+	}
+
+	/**
+	 * Drops a client.
+	 * 
+	 * @param client
+	 *            The client to drop.
+	 * @param propName
+	 *            the property name
+	 */
+
+	public void dropClient( DesignElement client, String propName )
+	{
+
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			if ( ( (BackRef) clients.get( i ) ).element == client )
+			BackRef ref = (BackRef) clients.get( i );
+			if ( ref.element == client
+					&& ( propName == null || ref.propName.equals( propName ) ) )
 			{
 				clients.remove( i );
 				return;
@@ -175,7 +194,8 @@ public abstract class ReferenceableElement extends DesignElement
 	{
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			( (BackRef) clients.get( i ) ).element.broadcast( ev, module );
+			DesignElement target = ( (BackRef) clients.get( i ) ).element;
+			target.broadcast( ev, module );
 		}
 	}
 

@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 
@@ -210,23 +212,23 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			DesignElement originalElement = elementArray[i];
 
-			long containerId = originalElement.getContainer( ).getID( );
 			int slotId = originalElement.getContainerSlot( );
-
-			DesignElement tmpContainer = targetDesign
-					.getElementByID( containerId );
-
-			assert tmpContainer != null;
 
 			DesignElement tmpElement = (DesignElement) externalElements
 					.get( originalElement );
+
+			DesignElement tmpContainer = getTargetContainer( originalElement,
+					tmpElement );
+
+			assert tmpContainer != null;
+
 			tmpContainer.getSlot( slotId ).add( tmpElement );
 			tmpElement.setContainer( tmpContainer, slotId );
 
 			// work on unique name and name space.
 
 			targetDesign.manageId( tmpElement, true );
-			ModelUtil.addElement2NameSpace( targetDesign, tmpElement );			
+			ModelUtil.addElement2NameSpace( targetDesign, tmpElement );
 		}
 	}
 
@@ -439,7 +441,20 @@ public class ReportDesignSerializer extends ElementVisitor
 			if ( value == null )
 				continue;
 
-			target.setProperty( targetProp, value );
+			switch ( targetProp.getTypeCode( ) )
+			{
+				case IPropertyType.LIST_TYPE :
+					target.setProperty( targetProp, ModelUtil.copyValue(
+							targetProp, value ) );
+					break;
+				case IPropertyType.STRUCT_TYPE :
+					handleStructureValue( target, targetProp, value );
+					break;
+				default :
+					target.setProperty( targetProp, ModelUtil.copyValue(
+							targetProp, value ) );
+			}
+
 			notEmptyProperties.add( propName );
 		}
 	}
@@ -825,8 +840,127 @@ public class ReportDesignSerializer extends ElementVisitor
 			localizeEmbeddedImage( (List) valueList, images );
 		}
 		else
-			newElement.setProperty( propDefn, ModelUtil.copyValue( propDefn,
-					valueList ) );
+		{
+			newElement.setProperty( propDefn, createNewStructureValue(
+					propDefn, valueList ) );
+		}
+	}
+
+	/**
+	 * Returns the copy of <code>value</code>. Structure, structure list,
+	 * element reference values, etc. are dumped as a new copy.
+	 * 
+	 * @param propDefn
+	 *            the property/member definition
+	 * @param value
+	 *            the source value
+	 * @return the copy of <code>value</code>
+	 * 
+	 */
+
+	private Object createNewStructureValue( PropertyDefn propDefn, Object value )
+	{
+		Object newValue = null;
+
+		if ( propDefn.isList( ) )
+		{
+			List sourceValue = (List) value;
+
+			newValue = new ArrayList( );
+
+			for ( int i = 0; i < sourceValue.size( ); i++ )
+			{
+				Structure newStruct = doCreateNewStructureValue( (Structure) sourceValue
+						.get( i ) );
+				( (List) newValue ).add( newStruct );
+			}
+		}
+		else
+			newValue = doCreateNewStructureValue( (Structure) value );
+
+		return newValue;
+	}
+
+	/**
+	 * Returns the copy of <code>value</code>. Structure, structure list,
+	 * element reference values, etc. are dumped as a new copy.
+	 * 
+	 * @param propDefn
+	 *            the property/member definition
+	 * @param value
+	 *            the source value
+	 * @return the copy of <code>value</code>
+	 * 
+	 */
+
+	private Structure doCreateNewStructureValue( Structure struct )
+	{
+		Structure newStruct = (Structure) struct.copy( );
+
+		Iterator iter = struct.getObjectDefn( ).propertiesIterator( );
+		while ( iter.hasNext( ) )
+		{
+			StructPropertyDefn memberDefn = (StructPropertyDefn) iter.next( );
+			Object value = struct.getLocalProperty( sourceDesign, memberDefn );
+
+			if ( value == null )
+				continue;
+
+			switch ( memberDefn.getTypeCode( ) )
+			{
+				case IPropertyType.ELEMENT_REF_TYPE :
+					handleElementRefValue( newStruct, memberDefn,
+							(ElementRefValue) value );
+					break;
+				case IPropertyType.STRUCT_TYPE :
+					newStruct.setProperty( memberDefn, createNewStructureValue(
+							memberDefn, value ) );
+					break;
+				default :
+					newStruct.setProperty( memberDefn, ModelUtil.copyValue(
+							memberDefn, value ) );
+			}
+		}
+
+		return newStruct;
+	}
+
+	/**
+	 * Localize values if the property type is element reference value.
+	 * 
+	 * @param newElement
+	 *            the target element
+	 * @param propDefn
+	 *            the property definition
+	 * @param value
+	 *            the original property value
+	 */
+
+	private void handleElementRefValue( Structure structure,
+			PropertyDefn propDefn, ElementRefValue value )
+	{
+		DesignElement refElement = value.getElement( );
+
+		// handle only when the data set is not local but
+		// library resource
+
+		if ( refElement != null && refElement.getRoot( ) != sourceDesign )
+		{
+			DesignElement newRefEelement = getCache( refElement );
+			if ( newRefEelement == null )
+			{
+				newRefEelement = visitExternalElement( refElement );
+				refElement.apply( this );
+			}
+
+			assert newRefEelement != null;
+
+			structure.setProperty( propDefn, new ElementRefValue( null,
+					newRefEelement ) );
+		}
+		else
+			structure.setProperty( propDefn, new ElementRefValue( value
+					.getLibraryNamespace( ), value.getName( ) ) );
 	}
 
 	/**
@@ -1068,4 +1202,34 @@ public class ReportDesignSerializer extends ElementVisitor
 		return false;
 	}
 
+	/**
+	 * Returns the container for the target element.
+	 * 
+	 * @param sourceElement
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 * @return the container of <code>target</code>
+	 */
+
+	private DesignElement getTargetContainer( DesignElement sourceElement,
+			DesignElement target )
+	{
+		DesignElement sourceContainer = sourceElement.getContainer( );
+		long containerId = sourceContainer.getID( );
+
+		DesignElement tmpContainer = targetDesign.getElementByID( containerId );
+
+		if ( sourceContainer.getElementName( ).equalsIgnoreCase(
+				tmpContainer.getElementName( ) ) )
+			return tmpContainer;
+
+		if ( sourceContainer instanceof Module && tmpContainer == targetDesign )
+			return tmpContainer;
+
+		if ( sourceContainer instanceof Theme )
+			return targetDesign;
+
+		return tmpContainer;
+	}
 }

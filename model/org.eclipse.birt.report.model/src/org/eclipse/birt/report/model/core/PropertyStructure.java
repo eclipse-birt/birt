@@ -18,11 +18,12 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
  * Base class for structures that store some or all of their properties in a
  * hash table. Such properties can have an "unset" state.
- *  
+ * 
  */
 
 public abstract class PropertyStructure extends Structure
@@ -49,16 +50,23 @@ public abstract class PropertyStructure extends Structure
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
+		Object value = resolveElementReference( module,
+				(StructPropertyDefn) propDefn );
+		if ( value != null )
+			return value;
+
 		if ( propDefn.isIntrinsic( ) )
 			return getIntrinsicProperty( propDefn.getName( ) );
 		return propValues.get( propDefn.getName( ) );
-	}	
-	
+	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse.birt.report.model.core.Module, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#getLocalProperty(org.eclipse.birt.report.model.core.Module,
+	 *      java.lang.String)
 	 */
-	
+
 	public Object getLocalProperty( Module module, String memberName )
 	{
 		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( memberName );
@@ -75,55 +83,60 @@ public abstract class PropertyStructure extends Structure
 	 * 
 	 * @param value
 	 *            the value to set.
-	 *  
+	 * 
 	 */
 
 	public final void setProperty( PropertyDefn prop, Object value )
 	{
 		assert prop != null;
 
+		updateReference( prop, value );		
+		
 		if ( prop.isIntrinsic( ) )
 			setIntrinsicProperty( prop.getName( ), value );
 		else if ( value == null )
 			propValues.remove( prop.getName( ) );
 		else
-			propValues.put( prop.getName( ), value );
+			propValues.put( prop.getName( ), value );		
 	}
 
-	
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
-	
+
 	protected Object getIntrinsicProperty( String propName )
 	{
 		assert false;
 		return null;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String, java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
-	
+
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
 		assert false;
 	}
-	
+
 	/**
 	 * Makes a copy of this property structure map.
 	 * 
 	 * @return IStructure of this property.
 	 * @throws CloneNotSupportedException
-	 *  
+	 * 
 	 */
 
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		PropertyStructure clone = (PropertyStructure) super.clone( );
-		clone.propValues = new HashMap();
-        
+		clone.propValues = new HashMap( );
+
 		for ( Iterator iter = propValues.keySet( ).iterator( ); iter.hasNext( ); )
 		{
 			String memberName = (String) iter.next( );
@@ -139,8 +152,8 @@ public abstract class PropertyStructure extends Structure
 				}
 				else
 				{
-                    // must be a structure.
-                    
+					// must be a structure.
+
 					value = ( (Structure) propValues.get( memberName ) ).copy( );
 				}
 			}

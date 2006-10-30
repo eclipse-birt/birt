@@ -20,8 +20,14 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Base class for property structures. Implements the two "boiler-plate" methods
@@ -31,6 +37,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 public abstract class Structure implements IStructure
 {
+
+	private StructureContext context;
 
 	/*
 	 * (non-Javadoc)
@@ -77,7 +85,9 @@ public abstract class Structure implements IStructure
 	{
 		try
 		{
-			return (IStructure) clone( );
+			Structure retValue = (Structure) clone( );
+			retValue.context = null;
+			return retValue;
 		}
 		catch ( CloneNotSupportedException e )
 		{
@@ -146,6 +156,12 @@ public abstract class Structure implements IStructure
 		if ( value == null )
 			return propDefn.getDefault( );
 
+		if ( value instanceof ElementRefValue )
+		{
+			ElementRefValue refValue = (ElementRefValue) value;
+			return ReferenceValueUtil.needTheNamespacePrefix( refValue, module );
+		}
+
 		return value;
 	}
 
@@ -163,9 +179,81 @@ public abstract class Structure implements IStructure
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
+		Object value = resolveElementReference( module,
+				(StructPropertyDefn) propDefn );
+		if ( value != null )
+			return value;
+
 		if ( propDefn.isIntrinsic( ) )
 			return getIntrinsicProperty( propDefn.getName( ) );
 		return null;
+	}
+
+	/**
+	 * Resolves a property element reference. The reference is the value of a
+	 * property of type property element reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
+	 * @param prop
+	 *            the property whose type is element reference
+	 * @return the element reference value is always returned, which contains
+	 *         the information of element resolution.
+	 */
+
+	protected ElementRefValue resolveElementReference( Module module,
+			StructPropertyDefn prop )
+	{
+		if ( prop.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+			return null;
+
+		Object value = getIntrinsicProperty( prop.getName( ) );
+
+		assert value == null || value instanceof ElementRefValue;
+
+		if ( value == null || module == null )
+			return (ElementRefValue) value;
+
+		ElementRefValue ref = (ElementRefValue) value;
+		if ( ref.isResolved( ) )
+			return ref;
+
+		// The element exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		ElementRefPropertyType refType = (ElementRefPropertyType) prop
+				.getType( );
+
+		refType.resolve( module, prop, ref );
+
+		if ( !ref.isResolved( ) )
+			return ref;
+
+		DesignElement me = getContextElement( );
+
+		// if it is recursively reference, not resolve it.
+
+		if ( me instanceof ReferenceableElement
+				&& ModelUtil.isRecursiveReference( ref.getElement( ),
+						(ReferenceableElement) me ) )
+		{
+			ref.unresolved( ref.getName( ) );
+			return ref;
+		}
+
+		String propName = getContextPropertyName( );
+
+		// how to handle back reference.
+
+		if ( me != null && propName != null )
+			ref.getTargetElement( ).addClient( me, propName );
+
+		return ref;
 	}
 
 	/**
@@ -186,9 +274,7 @@ public abstract class Structure implements IStructure
 		if ( prop == null )
 			return null;
 
-		if ( prop.isIntrinsic( ) )
-			return getIntrinsicProperty( memberName );
-		return null;
+		return getLocalProperty( module, prop );
 	}
 
 	/**
@@ -218,8 +304,82 @@ public abstract class Structure implements IStructure
 
 	public void setProperty( PropertyDefn prop, Object value )
 	{
+		updateReference( prop, value );
+
 		if ( prop.isIntrinsic( ) )
 			setIntrinsicProperty( prop.getName( ), value );
+	}
+
+	/**
+	 * Updates back reference for element reference value.
+	 * 
+	 * @param prop
+	 *            the property
+	 * @param value
+	 *            value of the property
+	 */
+
+	protected void updateReference( PropertyDefn prop, Object value )
+	{
+		if ( value instanceof ElementRefValue
+				&& prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		{
+			ElementRefValue oldRef = (ElementRefValue) getLocalProperty( null,
+					prop.getName( ) );
+			doUpdateReference( oldRef, (ElementRefValue) value, prop );
+		}
+	}
+
+	/**
+	 * Implements to cache a back-pointer from a referenced element. This
+	 * element has an element reference property that can point to another
+	 * "referencable" element. To maintain semantic consistency, the referenced
+	 * element maintains a list of "clients" that identifies the elements that
+	 * refer to it. The client list is used when the target element changes
+	 * names or is deleted. In these cases, the change automatically updates the
+	 * clients as well.
+	 * <p>
+	 * References can be in two states: resovled and unresolved. An unresolved
+	 * reference is just a name, but the system has not yet identified the
+	 * target element, or if a target even exists. A resolved reference caches a
+	 * pointer to the target element itself.
+	 * 
+	 * @param oldRef
+	 *            the old reference, if any
+	 * @param newRef
+	 *            the new reference, if any
+	 * @param prop
+	 *            definition of the property
+	 */
+
+	private void doUpdateReference( ElementRefValue oldRef,
+			ElementRefValue newRef, PropertyDefn prop )
+	{
+		ReferenceableElement target;
+
+		DesignElement me = getContextElement( );;
+		String propName = getContextPropertyName( );
+
+		// Drop the old reference. Clear the back pointer from the referenced
+		// element to this element.
+
+		if ( oldRef != null )
+		{
+			target = oldRef.getTargetElement( );
+			if ( target != null && me != null && propName != null )
+				target.dropClient( me, propName );
+		}
+
+		// Add the new reference. Cache a back pointer from the referenced
+		// element to this element. Include the property name so we know which
+		// property to adjust it the target is deleted.
+
+		if ( newRef != null )
+		{
+			target = newRef.getTargetElement( );
+			if ( target != null && me != null && propName != null )
+				target.addClient( me, propName );
+		}
 	}
 
 	/**
@@ -349,4 +509,73 @@ public abstract class Structure implements IStructure
 	{
 		return null;
 	}
+
+	/**
+	 * Gets the element in the cached context.
+	 * 
+	 * @return the element
+	 */
+
+	public DesignElement getContextElement( )
+	{
+		if ( context != null )
+			return context.element;
+
+		return null;
+	}
+
+	/**
+	 * Gets the element property name in the cached context.
+	 * 
+	 * @return the property name
+	 */
+
+	public String getContextPropertyName( )
+	{
+		if ( context != null )
+			return context.elementPropName;
+
+		return null;
+	}
+
+	/**
+	 * Caches the context to the structure.
+	 * 
+	 * @param context
+	 *            the context
+	 */
+
+	public void setContext( StructureContext context )
+	{
+		this.context = context;
+	}
+
+	/**
+	 * The structure context. It is used when establishes back reference.
+	 * 
+	 */
+
+	public static class StructureContext
+	{
+
+		private DesignElement element;
+		private String elementPropName;
+
+		/**
+		 * Constructs the structure context.
+		 * 
+		 * @param element
+		 *            the design element
+		 * @param elementPropName
+		 *            the element property name
+		 */
+
+		public StructureContext( DesignElement element, String elementPropName )
+		{
+			this.element = element;
+			this.elementPropName = elementPropName;
+		}
+
+	}
+
 }

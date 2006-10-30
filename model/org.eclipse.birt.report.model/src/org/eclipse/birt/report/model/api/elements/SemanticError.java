@@ -310,6 +310,13 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_MISSING_COLUMN_BINDING = MessageConstants.SEMANTIC_ERROR_MISSING_COLUMN_BINDING;
 
 	/**
+	 * The element reference would create a cycle: a extends b extends a.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE = MessageConstants.SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE;
+
+	
+	/**
 	 * The constant for the semantic error.
 	 */
 
@@ -429,7 +436,8 @@ public class SemanticError extends SemanticException
 					element.getIdentifier( ), (String) oaMessageArguments[0]} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST
-				|| sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_NAME )
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_NAME
+				|| sResourceKey == DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE )
 		{
 			assert oaMessageArguments != null;
 

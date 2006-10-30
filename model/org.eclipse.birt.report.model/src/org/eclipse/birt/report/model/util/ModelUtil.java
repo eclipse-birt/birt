@@ -50,10 +50,12 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -1199,71 +1201,132 @@ public class ModelUtil
 			return null;
 		if ( DesignSchemaConstants.CELL_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.CELL_ELEMENT;
-		else if ( DesignSchemaConstants.COLUMN_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.COLUMN_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.COLUMN_ELEMENT;
-		else if ( DesignSchemaConstants.DATA_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.DATA_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.DATA_ITEM;
-		else if ( DesignSchemaConstants.ODA_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.ODA_DATA_SET_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.ODA_DATA_SET;
-		else if ( DesignSchemaConstants.ODA_DATA_SOURCE_TAG.equalsIgnoreCase( xmlName ) )
+		else if ( DesignSchemaConstants.ODA_DATA_SOURCE_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.ODA_DATA_SOURCE;
-		else if ( DesignSchemaConstants.EXTENDED_ITEM_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.EXTENDED_ITEM_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.EXTENDED_ITEM;
-		else if ( DesignSchemaConstants.FREE_FORM_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.FREE_FORM_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.FREE_FORM_ITEM;
-		else if ( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT;
-		else if (DesignSchemaConstants.GRID_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.GRID_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.GRID_ITEM;
-		else if ( DesignSchemaConstants.IMAGE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.IMAGE_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.IMAGE_ITEM;
-		else if ( DesignSchemaConstants.LABEL_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.LABEL_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.LABEL_ITEM;
-		else if ( DesignSchemaConstants.LINE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.LINE_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.LINE_ITEM;
-		else if ( DesignSchemaConstants.GROUP_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.GROUP_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.GROUP_ELEMENT;
-		else if ( DesignSchemaConstants.LIST_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.LIST_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.LIST_ITEM;
-		else if ( DesignSchemaConstants.PARAMETER_GROUP_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.PARAMETER_GROUP_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
-		else if ( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
-		else if ( DesignSchemaConstants.RECTANGLE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.RECTANGLE_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.RECTANGLE_ITEM;
-		else if ( DesignSchemaConstants.ROW_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.ROW_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.ROW_ELEMENT;
-		else if ( DesignSchemaConstants.SCALAR_PARAMETER_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.SCALAR_PARAMETER_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
-		else if ( DesignSchemaConstants.SCRIPT_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.SCRIPT_DATA_SET_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.SCRIPT_DATA_SET;
-		else if ( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.SCRIPT_DATA_SOURCE;
-		else if ( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT;
-		else if ( DesignSchemaConstants.STYLE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.STYLE_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.STYLE_ELEMENT;
-		else if ( DesignSchemaConstants.TABLE_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.TABLE_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TABLE_ITEM;
-		else if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.TEXT_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEXT_ITEM;
-		else if ( DesignSchemaConstants.TEXT_DATA_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.TEXT_DATA_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEXT_DATA_ITEM;
-		else if ( DesignSchemaConstants.THEME_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.THEME_TAG.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.THEME_ITEM;
-		else if ( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION;
-		else if ( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEMPLATE_REPORT_ITEM;
-		else if ( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEMPLATE_DATA_SET;
-		else if ( DesignSchemaConstants.JOINT_DATA_SET_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.JOINT_DATA_SET_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.JOINT_DATA_SET;
-		else if ( DesignSchemaConstants.AUTO_TEXT_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.AUTO_TEXT_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.AUTOTEXT_ITEM;
-		else if ( DesignSchemaConstants.MULTI_LINE_DATA_TAG.equalsIgnoreCase( xmlName ))
+		else if ( DesignSchemaConstants.MULTI_LINE_DATA_TAG
+				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEXT_DATA_ITEM;
-		
+
 		return null;
+	}
+
+	/**
+	 * Checks whether these is reference between <code>reference</code> and
+	 * <code>referred</code>.
+	 * 
+	 * @param reference
+	 * @param referred
+	 * 
+	 * @return <code>true</code> if there is reference. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public static boolean isRecursiveReference( DesignElement reference,
+			ReferenceableElement referred )
+	{
+		if ( reference == referred )
+			return true;
+
+		List backRefs = referred.getClientList( );
+
+		List referenceElements = new ArrayList( );
+		for ( int i = 0; i < backRefs.size( ); i++ )
+		{
+			BackRef backRef = (BackRef) backRefs.get( i );
+			DesignElement tmpElement = backRef.getElement( );
+
+			if ( tmpElement == reference )
+				return true;
+
+			if ( tmpElement instanceof ReferenceableElement )
+				referenceElements.add( tmpElement );
+		}
+
+		for ( int i = 0; i < referenceElements.size( ); i++ )
+		{
+			if ( isRecursiveReference( reference,
+					(ReferenceableElement) referenceElements.get( i ) ) )
+				return true;
+		}
+
+		return false;
 	}
 }

@@ -67,11 +67,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 */
 
 	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the default member.
 	 */
-	
+
 	public static final String DEFAULT_MEMBER = "default"; //$NON-NLS-1$
 
 	/**
@@ -532,6 +532,22 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
 			return displayNameID;
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IStructure#getProperty(org.eclipse.birt.report.model.core.Module,
+	 *      java.lang.String)
+	 */
+
+	public Object getProperty( Module module, String memberName )
+	{
+		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( memberName );
+		if ( prop == null )
+			return null;
+		
+		return getProperty( module, prop );
 	}
 
 	/*

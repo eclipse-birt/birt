@@ -28,6 +28,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -54,6 +57,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -223,7 +228,8 @@ public class PropertyCommand extends AbstractElementCommand
 			Object value ) throws SemanticException
 	{
 		assert prop != null;
-		assert IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop.getName( ) );
+		assert IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
+				.getName( ) );
 
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( );
@@ -531,6 +537,12 @@ public class PropertyCommand extends AbstractElementCommand
 				|| memberDefn.getTypeCode( ) == PropertyType.MEMBER_KEY_TYPE )
 			checkItemName( ref, (String) value );
 
+		if ( value instanceof ElementRefValue
+				&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		{
+			checkRecursiveElementReference( memberDefn, (ElementRefValue) value );
+		}
+
 		// Ignore duplicate values, even if the current value is not local.
 		// This avoids making local copies if the user enters the existing
 		// value, or if the UI gets a bit sloppy.
@@ -627,6 +639,7 @@ public class PropertyCommand extends AbstractElementCommand
 				insertRef.getList( module, element ), item );
 		stack.execute( record );
 		stack.commit( );
+
 	}
 
 	/**
@@ -815,6 +828,10 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( struct.isReferencable( ) )
 			adjustReferenceClients( (ReferencableStructure) struct );
 
+		// handle the structure member refers to other elements.
+
+		adjustReferenceClients( struct, structRef );
+
 		PropertyListRecord record = new PropertyListRecord( element, structRef,
 				list );
 		stack.execute( record );
@@ -853,6 +870,62 @@ public class PropertyCommand extends AbstractElementCommand
 					client, ref.propName );
 			getActivityStack( ).execute( record );
 
+		}
+	}
+
+	/**
+	 * Adjusts references to an element that is to be deleted. The element to be
+	 * deleted is one that has references in the form of element reference
+	 * properties on other elements. These other elements, called "clients",
+	 * each contain a property of type element reference and that property
+	 * refers to this element. Each reference is recorded with a "back pointer"
+	 * from the referenced element to the client. That back pointer has both a
+	 * pointer to the client element, and the property within that element that
+	 * holds the reference. There are two algorithms to handle this reference
+	 * property, which can be selected by <code>unresolveReference</code>. If
+	 * <code>unresolveReference</code> is <code>true</code>, the reference
+	 * property is unresolved. Otherwise, it's cleared.
+	 * 
+	 * @param referred
+	 *            the element to be deleted
+	 * @param unresolveReference
+	 *            the flag indicating the reference property should be
+	 *            unresolved, instead of cleared
+	 * @throws SemanticException
+	 *             if an error occurs, but the operation should not fail under
+	 *             normal conditions
+	 * 
+	 * @see #adjustReferredClients(DesignElement)
+	 */
+
+	private void adjustReferenceClients( Structure referred, MemberRef memberRef )
+	{
+		IStructureDefn structDefn = referred.getDefn( );
+		Iterator memberDefns = structDefn.getPropertyIterator( );
+
+		while ( memberDefns.hasNext( ) )
+		{
+			StructPropertyDefn memberDefn = (StructPropertyDefn) memberDefns
+					.next( );
+			if ( memberDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+				continue;
+
+			ReferenceValue refValue = (ReferenceValue) referred
+					.getLocalProperty( module, memberDefn );
+
+			if ( refValue == null || !refValue.isResolved( ) )
+				continue;
+
+			ReferenceableElement client = (ReferenceableElement) ( (ElementRefValue) refValue )
+					.getElement( );
+
+			DesignElement referenceElement = referred.getContextElement( );
+			String propName = referred.getContextPropertyName( );
+
+			BackRefRecord record = new ElementBackRefRecord( module, client,
+					referenceElement, propName, new CachedMemberRef( memberRef,
+							memberDefn ) );
+			getActivityStack( ).execute( record );
 		}
 	}
 
@@ -1171,10 +1244,32 @@ public class PropertyCommand extends AbstractElementCommand
 				.hasNext( ); )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-			if ( !ReferencableStructure.LIB_REFERENCE_MEMBER.equals( memberDefn
+			if ( ReferencableStructure.LIB_REFERENCE_MEMBER.equals( memberDefn
 					.getName( ) ) )
-				item.setProperty( memberDefn, memberDefn.validateValue( module,
-						item.getLocalProperty( module, memberDefn ) ) );
+				continue;
+
+			Object value = ( (Structure) item ).getLocalProperty( module,
+					memberDefn );
+
+			// if the user calls Structure.setProperty(), the string element
+			// name will be saved as ElementRefValue. So, need to resolve it as
+			// string again since ElementRefPropertyType do not accept element
+			// reference value
+
+			if ( value instanceof ElementRefValue
+					&& memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				value = memberDefn.validateValue( module, refValue
+						.getQualifiedReference( ) );
+
+				checkRecursiveElementReference( memberDefn,
+						(ElementRefValue) value );
+			}
+			else
+				value = memberDefn.validateValue( module, value );
+
+			item.setProperty( memberDefn, value );
 		}
 
 		if ( item instanceof Structure )
@@ -1310,12 +1405,12 @@ public class PropertyCommand extends AbstractElementCommand
 		PropertyType type = prop.getSubType( );
 		assert type != null;
 		Object result = type.validateValue( module, prop, value );
-//		if ( result instanceof ElementRefValue
-//				&& !( (ElementRefValue) result ).isResolved( ) )
-//		{
-//			throw new SemanticError( element,
-//					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
-//		}
+		// if ( result instanceof ElementRefValue
+		// && !( (ElementRefValue) result ).isResolved( ) )
+		// {
+		// throw new SemanticError( element,
+		// SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
+		// }
 		return result;
 
 	}
@@ -1536,4 +1631,32 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 	}
 
+	/**
+	 * Checks whethere recursive element reference occurs.
+	 * 
+	 * @param memberDefn
+	 *            the property/member definition
+	 * @param refValue
+	 *            the element reference value
+	 * @throws SemanticException
+	 */
+
+	private void checkRecursiveElementReference( PropertyDefn memberDefn,
+			ElementRefValue refValue ) throws SemanticException
+	{
+		assert refValue != null;
+
+		if ( refValue.isResolved( ) && element instanceof ReferenceableElement )
+		{
+			DesignElement reference = refValue.getElement( );
+			if ( ModelUtil.isRecursiveReference( reference,
+					(ReferenceableElement) element ) )
+
+				throw new SemanticError(
+						element,
+						new String[]{reference.getIdentifier( )},
+						SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE );
+		}
+
+	}
 }
