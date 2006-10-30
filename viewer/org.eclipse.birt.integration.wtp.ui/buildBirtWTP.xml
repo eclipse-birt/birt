@@ -86,6 +86,7 @@
 	<property name="plugin.jface" value="org.eclipse.jface" />
 	<property name="plugin.equinox" value="org.eclipse.equinox" />
 	<property name="plugin.jdt.core" value="org.eclipse.jdt.core" />
+	<property name="plugin.swt" value="org.eclipse.swt" />
 
 	<!-- WTP related. Default version 1.5.0 -->
 	<property name="plugin.wst.common.frameworks" value="org.eclipse.wst.common.frameworks" />
@@ -189,6 +190,7 @@
 					<include name="${plugin.jface}_*.jar" />
 					<include name="${plugin.equinox}*.jar" />
 					<include name="${plugin.jdt.core}_*.jar" />
+					<include name="${plugin.swt}*.jar" />
 					<include name="${plugin.wst.common.frameworks}_*.jar" />
 					<include name="${plugin.wst.common.frameworks.ui}_*.jar" />
 					<include name="${plugin.wst.common.modulecore}_*.jar" />
@@ -271,6 +273,7 @@
 						<include name="${plugin.jface}_*.jar" />
 						<include name="${plugin.equinox}*.jar" />
 						<include name="${plugin.jdt.core}_*.jar" />
+						<include name="${plugin.swt}*.jar" />
 						<include name="${plugin.wst.common.frameworks}_*.jar" />
 						<include name="${plugin.wst.common.frameworks.ui}_*.jar" />
 						<include name="${plugin.wst.common.modulecore}_*.jar" />
