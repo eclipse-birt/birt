@@ -627,7 +627,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					right.getOdiResult( ),
 					jrm,
 					matcher,
-					joinType, dataEngine.getSession( ) );
+					joinType, dataEngine.getSession( ),
+					dataSetDesign.getRowFetchLimit( ));
 
 			if ( doesSaveToCache( ) == false )
 				return new CachedResultSet( (BaseQuery) this.odiQuery,

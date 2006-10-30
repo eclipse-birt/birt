@@ -209,6 +209,15 @@ public abstract class QueryExecutor implements IQueryExecutor
 		odiQuery = createOdiQuery( );
 		odiQuery.setDistinctValueFlag( dataSet.needDistinctValue( ) );
 		odiQuery.setExprProcessor( new ExpressionProcessor( dataSet ) );
+		
+		//Set the row fetch limit for the IQuery instance.The row fetch limit
+		//is the number of rows that a data set can fetch from data source.
+		if( dataSet.getDesign( ) != null )
+		{
+			//When it is not a subquery, the property "row fetch limit" should be applied
+			//to the query.
+			odiQuery.setRowFetchLimit( dataSet.getDesign( ).getRowFetchLimit( ) );
+		}
 		populateOdiQuery( );
 		prepareOdiQuery( );
 		isPrepared = true;

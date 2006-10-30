@@ -276,6 +276,10 @@ public class NewInstanceHelper
 			public void setDistinctValueFlag( boolean distinctValueFlag )
 			{				
 			}
+
+			public void setRowFetchLimit( int limit )
+			{
+			}
 			
 		};
 	}
@@ -368,6 +372,18 @@ public class NewInstanceHelper
 		public boolean needDistinctValue( )
 		{
 			return false;
+		}
+
+		public int getRowFetchLimit( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public void setRowFetchLimit( int max )
+		{
+			// TODO Auto-generated method stub
+			
 		}
 	};
 

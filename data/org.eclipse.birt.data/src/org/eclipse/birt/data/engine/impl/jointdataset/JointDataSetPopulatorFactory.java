@@ -31,10 +31,10 @@ public class JointDataSetPopulatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static IDataSetPopulator getCartesianJointDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session ) throws DataException
+	public static IDataSetPopulator getCartesianJointDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session, int rowFetchLimit ) throws DataException
 	{
 		IMatchResultObjectSeeker seeker = new CartesianResultObjectSeeker( jcm );
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, seeker, session );
+		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, seeker, session, rowFetchLimit );
 	}
 	
 	/**
@@ -48,8 +48,8 @@ public class JointDataSetPopulatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static IDataSetPopulator getBinaryTreeDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session ) throws DataException
+	public static IDataSetPopulator getBinaryTreeDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session, int rowFetchLimit ) throws DataException
 	{
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, null, session );
+		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, null, session, rowFetchLimit );
 	}
 }

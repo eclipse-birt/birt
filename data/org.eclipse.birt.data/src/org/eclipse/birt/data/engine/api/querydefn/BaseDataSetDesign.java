@@ -47,6 +47,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     private String 	beforeCloseScript;
     private String 	afterCloseScript;
     private IBaseDataSetEventHandler eventHandler;
+    private int fetchRowLimit;
 	
 	private int cacheRowCount;
     private boolean distinctValue;
@@ -326,6 +327,24 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setEventHandler( IBaseDataSetEventHandler handler )
 	{
 		this.eventHandler = handler;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getRowFetchLimit()
+	 */
+	public int getRowFetchLimit( )
+	{
+		return this.fetchRowLimit;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#setRowFetchLimit(int)
+	 */
+	public void setRowFetchLimit( int max )
+	{
+		this.fetchRowLimit = max <= 0 ? 0 : max;
 	}
     
 }

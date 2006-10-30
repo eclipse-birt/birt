@@ -29,6 +29,7 @@ public abstract class BaseQuery implements IQuery
     private SortSpec[] 		sorts;
     private GroupSpec[] 	groups;
     private int				maxRows = 0;
+    private int 			rowFetchLimit = 0;
     private List 			fetchEventList;
     
     private IExpressionProcessor exprProcessor;
@@ -63,6 +64,23 @@ public abstract class BaseQuery implements IQuery
     public void setMaxRows(int maxRows)
     {
         this.maxRows = maxRows;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.birt.data.engine.odi.IQuery#setRowFetchLimit(int)
+     */
+    public void setRowFetchLimit( int limit )
+    {
+    	this.rowFetchLimit = limit > 0 ? limit : 0;
+    }
+    
+    /**
+     * Return the row fetch limit of the data set current query bound to.
+     */
+    protected int getRowFetchLimit( )
+    {
+    	return this.rowFetchLimit;
     }
     
     /**

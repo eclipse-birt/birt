@@ -261,6 +261,9 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         
 		odaStatement.setColumnsProjection( this.projectedFields );
 
+		//Here the "max rows" means the max number of rows that can fetch from data source.
+		odaStatement.setMaxRows( this.getRowFetchLimit( ) );
+		
         // If ODA can provide result metadata, get it now
         try
         {
