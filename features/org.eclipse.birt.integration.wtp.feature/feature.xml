@@ -4,7 +4,7 @@
       label="%featureName"
       version="2.2.0.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.birt.chart.cshelp">
+      plugin="org.eclipse.birt.integration.wtp.ui">
 
    <description url="http://www.eclipse.org/birt">
       %description
@@ -24,9 +24,27 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime.compatibility" version="3.1.100" match="compatible"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.commands"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import feature="org.eclipse.emf" version="2.2.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.common_ui.feature" version="1.5.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.web_ui.feature" version="1.5.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.common_core.feature" version="1.5.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.enterprise_ui.feature" version="1.5.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.web_core.feature" version="1.5.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jst.web_ui.feature" version="1.5.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jem" version="1.2.0" match="greaterOrEqual"/>
    </requires>
+
+   <plugin
+         id="org.eclipse.birt.integration.wtp.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
