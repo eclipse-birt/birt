@@ -239,10 +239,10 @@
 		<antcall target="build" />
 
 		<property file="META-INF/MANIFEST.MF" />
-		<property name="plugin.package" value="${module.name}_${Bundle-Version}.v${TODAY}" />
-		<echo message="Export Birt WTP version = ${Bundle-Version}" />
-
-		<copy todir="${plugin.destination}/${plugin.package}" failonerror="false">
+		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />				
+		<echo message="Export Viewer version = ${Bundle-Version}" />
+					
+		<copy todir="${export.dir}/${plugin.package}" failonerror="false">
 			<fileset dir="." includes="${jar.name},about.html,plugin.xml,plugin.properties,META-INF/**,runtime/**,templates/**,icons/**,schema/**"/>
 		</copy>
 	</target>
