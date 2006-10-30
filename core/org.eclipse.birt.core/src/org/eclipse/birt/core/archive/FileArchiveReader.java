@@ -21,15 +21,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * file based archive reader.
+ * It reads multiple streams from a single physical file. the file
+ * is created by FileArchiveWriter.
+ */
 public class FileArchiveReader implements IDocArchiveReader
 {
-
+	/**
+	 * file name of the archive.
+	 */
 	private String fileName;
-	private String tempFolderName;
-	private String lockFileName;
-	private String readerCountFileName;
+	/**
+	 * random file used to access the file
+	 */
 	private RandomAccessFile file = null;
-	private FolderArchiveReader folderReader = null;
+	/**
+	 * streams in the file. each entry is a stream name and start, end pos pair.
+	 */
 	private HashMap lookupMap = new HashMap( );
 
 	/** 
@@ -38,19 +47,66 @@ public class FileArchiveReader implements IDocArchiveReader
 	public FileArchiveReader( String fileName ) throws IOException
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
+		{
 			throw new IOException(
 					"The file archive name is null or empty string." );
+		}
 
 		File fd = new File( fileName );
 		if ( !fd.isFile( ) )
+		{
 			throw new IOException(
 					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
+		}
+		if ( !fd.exists( ) )
+		{
+			throw new IOException( "The specified file do not exist." );
+		}
 
 		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
-		this.tempFolderName = fileName + ".tmpfolder";
-		this.lockFileName = fileName + ".lck";
-		this.readerCountFileName = ArchiveUtil.generateFullPath( tempFolderName,
-				FolderArchiveWriter.READER_COUNT_FILE_NAME );
+
+		// open the file
+		file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
+		
+		// restore the in-memory lookup map
+		try
+		{
+			readFileTable( );
+		}
+		catch(IOException ex)
+		{
+			file.close( );
+			throw ex;
+		}
+	}
+
+	/**
+	 * read the stream table from the archive file.
+	 * the stream table is in the begining of the file, it contains:
+	 * long: stream section postiton, always zero.
+	 * long: entry number.
+	 * followed by entries in the archive, each entry contains:
+	 * utf8: stream name.
+	 * long[2]: start offset, length. 
+	 * @throws IOException
+	 */
+	protected void readFileTable( ) throws IOException
+	{
+		long streamSectionPos = file.readLong( );
+		long entryNumber = file.readLong( );
+
+		// read lookup map
+		for ( long i = 0; i < entryNumber; i++ )
+		{
+			String relativeFilePath = file.readUTF( );
+			long[] positionAndLength = new long[2];
+			// stream position (and convert it to absolute position)
+			positionAndLength[0] = file.readLong( ) + streamSectionPos;
+			// stream length
+			positionAndLength[1] = file.readLong( );
+			// generate map entry
+			lookupMap.put( relativeFilePath, positionAndLength );
+		}
 	}
 
 	/*
@@ -70,109 +126,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void open( ) throws IOException
 	{
-		if ( file != null || folderReader != null )
-		{
-			// has been opend
-			return;
-		}
-
-		File fd = new File( fileName );
-		if ( !fd.isFile( ) )
-			throw new IOException(
-					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
-		if ( !fd.exists( ) )
-		{
-			throw new IOException( "The specified file do not exist." );
-		}
-
-		DocArchiveLockManager lockManager = DocArchiveLockManager.getInstance( );
-		Object lock = lockManager.lock( lockFileName );
-		try
-		{
-			File tmpFolder = new File( tempFolderName );
-			if ( tmpFolder.exists( ) )
-			{
-				// it is the folder archive now
-				RandomAccessFile rf = new RandomAccessFile(
-						readerCountFileName, "rw" );
-				// open the refernce count, increase 1
-				try
-				{
-					int refCount = rf.readInt( );
-					refCount++;
-					rf.seek( 0 );
-					rf.writeInt( refCount );
-				}
-				finally
-				{
-					rf.close( );
-				}
-				// read it as a folder
-				folderReader = new FolderArchiveReader( tempFolderName );
-				folderReader.open( );
-				return;
-			}
-		}
-		finally
-		{
-			lockManager.unlock( lock );
-		}
-
-		readFileTable( );
 	}
 	
-	protected void readFileTable( ) throws IOException
-	{
-		// restore the in-memory lookup map
-		file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
-
-		long streamSectionPos = file.readLong( );
-		long entryNumber = file.readLong( );
-
-		// read lookup map
-		for ( long i = 0; i < entryNumber; i++ )
-		{
-			String relativeFilePath = file.readUTF( );
-			long[] positionAndLength = new long[2];
-			// stream position (and convert it to absolute position)
-			positionAndLength[0] = file.readLong( ) + streamSectionPos;
-			// stream length
-			positionAndLength[1] = file.readLong( );
-			// generate map entry
-			lookupMap.put( relativeFilePath, positionAndLength );
-		}
-	}
-
 	public void close( ) throws IOException
 	{
-		if ( folderReader != null )
-		{
-			folderReader.close( );
-			folderReader = null;
-
-			DocArchiveLockManager lockManager = DocArchiveLockManager
-					.getInstance( );
-			Object lock = lockManager.lock( lockFileName );
-			try
-			{
-				// open the refernce count, increase 1
-				RandomAccessFile rf = new RandomAccessFile(
-						readerCountFileName, "rw" );
-				int refCount = rf.readInt( );
-				refCount--;
-				rf.seek( 0 );
-				rf.writeInt( refCount );
-				rf.close( );
-				if ( refCount == 0 )
-				{
-					ArchiveUtil.DeleteAllFiles( new File( tempFolderName ) );
-				}
-			}
-			finally
-			{
-				lockManager.unlock( lock );
-			}
-		}
 		if ( file != null )
 		{
 			file.close( );
@@ -182,11 +139,6 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
-		if ( folderReader != null )
-		{
-			return folderReader.getStream( relativePath );
-		}
-		
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 
@@ -204,11 +156,6 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
-		if ( folderReader != null )
-		{
-			return folderReader.exists( relativePath );
-		}
-		
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 
@@ -220,10 +167,6 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public List listStreams( String relativeStoragePath ) throws IOException
 	{
-		if ( folderReader != null )
-		{
-			return folderReader.listStreams( relativeStoragePath );
-		}
 		ArrayList streamList = new ArrayList( );
 		if ( !relativeStoragePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativeStoragePath = ArchiveUtil.UNIX_SEPERATOR
@@ -258,8 +201,6 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void expandFileArchive( String folderArchiveName ) throws IOException
 	{
-		assert folderReader == null;
-		
 		File folder = new File( folderArchiveName );
 		folderArchiveName = folder.getCanonicalPath( );
 		
@@ -322,10 +263,6 @@ public class FileArchiveReader implements IDocArchiveReader
 	
 	public Object lock( String stream ) throws IOException
 	{
-		if (folderReader != null)
-		{
-			return folderReader.lock( stream );
-		}
 		return stream.toString( );
 	}
 
@@ -336,10 +273,6 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void unlock( Object lock )
 	{
-		if (folderReader != null)
-		{
-			folderReader.unlock( lock );
-		}
 	}
 
 }

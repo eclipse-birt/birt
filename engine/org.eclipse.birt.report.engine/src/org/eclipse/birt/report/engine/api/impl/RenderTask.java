@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
+
 	IReportDocument reportDoc;
 	String emitterID;
 	int paginationType;
@@ -71,7 +72,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		// open the report document
 		openReportDocument( reportDoc );
-		
+
 		// load report design
 		loadDesign( );
 
@@ -86,7 +87,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		// load the informationf rom the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
-		//setParameterDisplayTexts( reportDoc.getParameterDisplayTexts( ) );
+		// setParameterDisplayTexts( reportDoc.getParameterDisplayTexts( ) );
 		usingParameterValues( );
 		executionContext.registerGlobalBeans( reportDoc
 				.getGlobalVariables( null ) );
@@ -94,9 +95,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	protected void closeReportDocument( )
 	{
-		//the report document is shared by mutiple render task, 
-		//it is open by the caller, it should be closed by the caller.
-		//reportDoc.close( );
+		// the report document is shared by mutiple render task,
+		// it is open by the caller, it should be closed by the caller.
+		// reportDoc.close( );
 	}
 
 	/*
@@ -110,12 +111,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		render( );
 	}
 
-	protected IContentEmitter createContentEmitter( )
-			throws EngineException
+	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{
 		String format = executionContext.getOutputFormat( );
-		
-		if ("html".equalsIgnoreCase( format ))
+
+		if ( "html".equalsIgnoreCase( format ) )
 		{
 			paginationType = IReportContentLoader.MULTI_PAGE;
 		}
@@ -166,13 +166,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException(
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
 		}
-		
-		//the output will be paginate.
+
+		// the output will be paginate.
 		if ( paginationType != IReportContentLoader.NO_PAGE )
 		{
 			emitter = new HTMLTableLayoutNestEmitter( emitter );
 		}
-		
+
 		return emitter;
 	}
 
@@ -219,15 +219,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 				initializeContentEmitter( emitter, executor );
 				IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( format );
-				
+
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
 				layoutEngine.setPageHandler( handle );
-				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
+
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
+						format );
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
-				
+
 				startRender( );
 				layoutEngine.layout( executor, outputEmitters, false );
 				closeRender( );
@@ -297,18 +298,19 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executor );
 				executionContext.setExecutor( executor );
 				initializeContentEmitter( emitter, executor );
-				
+
 				IReportLayoutEngine layoutEngine = LayoutEngineFactory
 						.createLayoutEngine( format );
-				
+
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
 				layoutEngine.setPageHandler( handle );
-				
-				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(format);
+
+				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
+						format );
 				outputEmitters.addEmitter( emitter );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
-				
+
 				startRender( );
 				layoutEngine.layout( executor, outputEmitters, true );
 				closeRender( );
@@ -360,7 +362,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw err;
 		}
 	}
-	
+
 	/**
 	 * @param offset
 	 *            the offset of the reportlet to be rendered
@@ -371,10 +373,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		try
 		{
-			if (offset != -1)
+			if ( offset != -1 )
 			{
 				// start the render
-				
+
 				IContentEmitter emitter = createContentEmitter( );
 				Report reportDesign = executionContext.getReport( );
 				String format = executionContext.getOutputFormat( );
@@ -388,15 +390,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 					initializeContentEmitter( emitter, executor );
 					IReportLayoutEngine layoutEngine = LayoutEngineFactory
 							.createLayoutEngine( format );
-					
+
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 							executionContext );
 					layoutEngine.setPageHandler( handle );
 
-					CompositeContentEmitter outputEmitters = new CompositeContentEmitter( format );
+					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
+							format );
 					outputEmitters.addEmitter( emitter );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
-					
+
 					startRender( );
 					layoutEngine.layout( executor, outputEmitters, false );
 					closeRender( );
@@ -439,7 +442,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
 			throw err;
 		}
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -564,7 +567,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					continue;
 				if ( current[0] <= last[1] )
 					current[0] = last[1];
-					ret.add( current );
+				ret.add( current );
 			}
 			else
 			{
@@ -575,33 +578,50 @@ public class RenderTask extends EngineTask implements IRenderTask
 		return ret;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(org.eclipse.birt.report.engine.api.InstanceID)
 	 */
-	public void render(InstanceID iid) throws EngineException {
+	public void render( InstanceID iid ) throws EngineException
+	{
 		setInstanceID( iid );
 		render( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
 	 */
-	public void render() throws EngineException {
-		if ( renderOptions == null )
+	public void render( ) throws EngineException
+	{
+
+		try
 		{
-			throw new EngineException(
-					"Render options have to be specified to render a report." ); //$NON-NLS-1$
+			runningStatus = RUNNING_STATUS_RUNNING;
+			if ( renderOptions == null )
+			{
+				throw new EngineException(
+						"Render options have to be specified to render a report." ); //$NON-NLS-1$
+			}
+			if ( runnable == null )
+			{
+				throw new EngineException(
+						"Can not find the report design in the report document {0}.",
+						new Object[]{reportDoc.getName( )} );
+			}
+			innerRender.render( );
 		}
-		if ( runnable == null )
+		finally
 		{
-			throw new EngineException(
-					"Can not find the report design in the report document {0}.",
-					new Object[]{reportDoc.getName( )} );
+			runningStatus = RUNNING_STATUS_STOP;
 		}
-		innerRender.render( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
 	 */
 	public void setPageNumber( long pageNumber ) throws EngineException
@@ -612,32 +632,43 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException( "Page {0} is not found ", new Long( //$NON-NLS-1$
 					pageNumber ) );
 		}
-		innerRender = new PageRender( pageNumber);
+		innerRender = new PageRender( pageNumber );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setInstanceID( InstanceID iid )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setInstanceID(
+	 *      InstanceID iid )
 	 */
 	public void setInstanceID( InstanceID iid ) throws EngineException
 	{
 		innerRender = new ReportletRender( iid );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setPageRange( String pageRange )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setPageRange( String
+	 *      pageRange )
 	 */
 	public void setPageRange( String pageRange ) throws EngineException
 	{
-		innerRender = new PageRangeRender( parsePageSequence( pageRange, reportDoc.getPageCount( )) );
+		innerRender = new PageRangeRender( parsePageSequence( pageRange,
+				reportDoc.getPageCount( ) ) );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setBookmark( String bookmark )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setBookmark( String
+	 *      bookmark )
 	 */
 	public void setBookmark( String bookmark ) throws EngineException
 	{
 		long pageNumber = reportDoc.getPageNumber( bookmark );
-		if ( pageNumber <= 0 ) {
+		if ( pageNumber <= 0 )
+		{
 			throw new EngineException( "Can not find bookmark :{0}", bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRender( pageNumber );
@@ -645,19 +676,21 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void setReportlet( String bookmark ) throws EngineException
 	{
-		innerRender = new ReportletRender( bookmark ); 
+		innerRender = new ReportletRender( bookmark );
 	}
 
 	private interface InnerRender
 	{
-		void render() throws EngineException;
+
+		void render( ) throws EngineException;
 	}
 
 	/**
-	 * Renders a page with a page number. 
+	 * Renders a page with a page number.
 	 */
 	private class PageRender implements InnerRender
 	{
+
 		private long pageNumber;
 
 		public PageRender( long pageNumber )
@@ -672,15 +705,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 	}
 
 	/**
-	 * Renders a range of pages. 
+	 * Renders a range of pages.
 	 */
 	private class PageRangeRender implements InnerRender
 	{
+
 		private List pageRange;
 
 		public PageRangeRender( long[] arrayRange )
 		{
-			this.pageRange = new ArrayList();
+			this.pageRange = new ArrayList( );
 			pageRange.add( arrayRange );
 		}
 
@@ -694,18 +728,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 			RenderTask.this.doRender( pageRange );
 		}
 	}
-	
+
 	private class ReportletRender implements InnerRender
 	{
+
 		private long offset;
 
-		ReportletRender(InstanceID iid) throws EngineException
+		ReportletRender( InstanceID iid ) throws EngineException
 		{
 			this.offset = reportDoc.getInstanceOffset( iid );
 			if ( offset == -1 )
 			{
-				throw new EngineException(
-					"Invalid instance id :" + iid ); //$NON-NLS-1$
+				throw new EngineException( "Invalid instance id :" + iid ); //$NON-NLS-1$
 			}
 		}
 
@@ -714,8 +748,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.offset = reportDoc.getBookmarkOffset( bookmark );
 			if ( offset == -1 )
 			{
-				throw new EngineException(
-					"Invalid bookmark :" + bookmark ); //$NON-NLS-1$
+				throw new EngineException( "Invalid bookmark :" + bookmark ); //$NON-NLS-1$
 			}
 		}
 
@@ -727,6 +760,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void setInstanceID( String iid ) throws EngineException
 	{
-		setInstanceID( InstanceID.parse( iid ));
+		setInstanceID( InstanceID.parse( iid ) );
 	}
 }

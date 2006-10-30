@@ -78,7 +78,7 @@ public class PageHintReaderV2 implements IPageHintReader
 		}
 	}
 
-	public long getTotalPage( ) throws IOException
+	synchronized public long getTotalPage( ) throws IOException
 	{
 		indexStream.refresh();
 		indexStream.seek( 0 );
@@ -86,7 +86,7 @@ public class PageHintReaderV2 implements IPageHintReader
 		return totalPage;
 	}
 
-	public IPageHint getPageHint( long pageNumber ) throws IOException
+	synchronized public IPageHint getPageHint( long pageNumber ) throws IOException
 	{
 		indexStream.seek( pageNumber * 8 );
 		long offset = indexStream.readLong( );
@@ -96,7 +96,7 @@ public class PageHintReaderV2 implements IPageHintReader
 		return hint;
 	}
 
-	public long findPage( long offset ) throws IOException
+	synchronized public long findPage( long offset ) throws IOException
 	{
 		getTotalPage();
 		for ( long page = 1; page <= totalPage; page++ )

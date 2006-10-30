@@ -87,7 +87,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.84.2.2 $ $Date: 2006/09/08 08:05:33 $
+ * @version $Revision: 1.84.2.2.2.1 $ $Date: 2006/10/13 08:15:27 $
  */
 public class ExecutionContext
 {
@@ -1653,6 +1653,10 @@ public class ExecutionContext
 		this.rset = rset;
 	}
 
+	public boolean hasErrors( )
+	{
+		return !elementExceptions.isEmpty( );
+	}
 	/**
 	 * Returns list or errors, the max count of the errors is
 	 * <code>MAX_ERRORS</code>

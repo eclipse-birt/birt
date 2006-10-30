@@ -50,7 +50,6 @@ public class ReportDocumentReader
 			IReportDocument,
 			ReportDocumentConstants
 {
-
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
@@ -80,17 +79,19 @@ public class ReportDocumentReader
 	private HashMap reportletsIndexByBookmark;
 	/** Design name */
 	private String systemId;
-	
+
 	private int checkpoint = CHECKPOINT_INIT;
-	
+
 	private long pageCount;
 
-	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive ) throws EngineException
+	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
+			throws EngineException
 	{
 		this( null, engine, archive );
 	}
 
-	public ReportDocumentReader( String systemId, IReportEngine engine, IDocArchiveReader archive ) throws EngineException
+	public ReportDocumentReader( String systemId, IReportEngine engine,
+			IDocArchiveReader archive ) throws EngineException
 	{
 		this.engine = engine;
 		this.archive = archive;
@@ -98,7 +99,7 @@ public class ReportDocumentReader
 		this.moduleOptions = new HashMap( );
 		this.moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
 				Boolean.FALSE );
-		
+
 		try
 		{
 			archive.open( );
@@ -115,12 +116,12 @@ public class ReportDocumentReader
 		{
 			try
 			{
-				archive.close(); 
+				archive.close( );
 			}
-			catch(Exception ex)
+			catch ( Exception ex )
 			{
 			}
-			throw ee; 
+			throw ee;
 		}
 	}
 
@@ -143,8 +144,7 @@ public class ReportDocumentReader
 					Boolean.FALSE );
 		}
 	}
-	
-	
+
 	public IDocArchiveReader getArchive( )
 	{
 		return this.archive;
@@ -157,15 +157,16 @@ public class ReportDocumentReader
 
 	protected class ReportDocumentCoreInfo
 	{
+
 		String version;
 		HashMap globalVariables;
 		HashMap parameters;
 		String systemId;
-		int checkpoint;			
+		int checkpoint;
 		long pageCount;
 	}
-	
-	public void refresh()
+
+	public void refresh( )
 	{
 		if ( checkpoint == CHECKPOINT_END )
 		{
@@ -173,14 +174,14 @@ public class ReportDocumentReader
 		}
 		try
 		{
-			doRefresh();
+			doRefresh( );
 		}
-		catch( EngineException ee )
+		catch ( EngineException ee )
 		{
 			logger.log( Level.SEVERE, "Failed to refresh", ee ); //$NON-NLS-1$
 		}
 	}
-	
+
 	protected void doRefresh( ) throws EngineException
 	{
 		try
@@ -197,10 +198,7 @@ public class ReportDocumentReader
 				{
 					// no check point stream, old version, return -1
 					documentInfo.checkpoint = CHECKPOINT_END;
-					if ( pageHintReader == null )
-					{
-						createPageHintReader( );
-					}
+					initializePageHintReader();
 					if ( pageHintReader != null )
 					{
 						documentInfo.pageCount = pageHintReader.getTotalPage( );
@@ -284,7 +282,6 @@ public class ReportDocumentReader
 		}
 	}
 
-
 	private HashMap convertToCompatibleParameter( Map parameters )
 	{
 		if ( parameters == null )
@@ -322,7 +319,8 @@ public class ReportDocumentReader
 		return result;
 	}
 
-	protected String checkVersion( DataInputStream di ) throws IOException, EngineException
+	protected String checkVersion( DataInputStream di ) throws IOException,
+			EngineException
 	{
 		String tag = IOUtil.readString( di );
 		String version = IOUtil.readString( di );
@@ -330,9 +328,10 @@ public class ReportDocumentReader
 				|| !( REPORT_DOCUMENT_VERSION_1_2_1.equals( version ) || REPORT_DOCUMENT_VERSION_2_1_0
 						.equals( version ) ) )
 		{
-			throw new EngineException( "unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
+			throw new EngineException(
+					"unsupport report document tag" + tag + " version " + version ); //$NON-NLS-1$
 		}
-		return version;		
+		return version;
 	}
 
 	public void close( )
@@ -367,8 +366,16 @@ public class ReportDocumentReader
 
 	public IReportRunnable getReportRunnable( )
 	{
-		if ( reportRunnable == null )
+		if ( reportRunnable != null )
 		{
+			return reportRunnable;
+		}
+		synchronized ( this )
+		{
+			if ( reportRunnable != null )
+			{
+				return reportRunnable;
+			}
 			String name = null;
 			if ( systemId == null )
 			{
@@ -446,7 +453,7 @@ public class ReportDocumentReader
 		}
 		return result;
 	}
-	
+
 	public Map getParameterDisplayTexts( )
 	{
 		Map result = new HashMap( );
@@ -472,17 +479,14 @@ public class ReportDocumentReader
 
 	public IPageHint getPageHint( long pageNumber )
 	{
-		if ( pageHintReader == null )
-		{
-			createPageHintReader( );
-		}
-		if (pageHintReader != null)
+		initializePageHintReader( );
+		if ( pageHintReader != null )
 		{
 			try
 			{
 				return pageHintReader.getPageHint( pageNumber );
 			}
-			catch(IOException ex)
+			catch ( IOException ex )
 			{
 				logger.log( Level.WARNING, "Failed to load page hint "
 						+ pageNumber, ex );
@@ -498,15 +502,12 @@ public class ReportDocumentReader
 	 */
 	public long getPageNumber( String bookmark )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return -1;
 		}
-	
-		if ( bookmarks == null )
-		{
-			loadBookmarks( );
-		}
+
+		intializeBookmarks( );
 		Object number = bookmarks.get( bookmark );
 		if ( number instanceof Number )
 		{
@@ -522,20 +523,17 @@ public class ReportDocumentReader
 	 */
 	public List getBookmarks( )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return null;
 		}
-		if ( bookmarks == null )
-		{
-			loadBookmarks( );
-		}
+		intializeBookmarks( );
 		ArrayList list = new ArrayList( );
 		Set bookmarkSet = bookmarks.keySet( );
 		Iterator iterator = bookmarkSet.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			String bookmark = (String)iterator.next( );
+			String bookmark = (String) iterator.next( );
 			if ( bookmark != null
 					&& !bookmark.startsWith( TOCBuilder.TOC_PREFIX ) )
 			{
@@ -552,14 +550,11 @@ public class ReportDocumentReader
 	 */
 	public long getBookmark( String bookmark )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return -1;
 		}
-		if ( bookmarks == null )
-		{
-			loadBookmarks( );
-		}
+		intializeBookmarks( );
 		Long pageNumber = (Long) bookmarks.get( bookmark );
 		if ( pageNumber == null )
 		{
@@ -570,18 +565,15 @@ public class ReportDocumentReader
 
 	public ITOCTree getTOCTree( String format, ULocale locale )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return null;
 		}
-		if ( tocTree == null )
-		{
-			loadTOC( );
-		}
+		intializeTOC( );
 		TOCTree result = new TOCTree( tocTree.getTOCRoot( ), format, locale );
 		return result;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -589,14 +581,11 @@ public class ReportDocumentReader
 	 */
 	public TOCNode findTOC( String tocNodeId )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return null;
 		}
-		if ( tocTree == null )
-		{
-			loadTOC( );
-		}
+		intializeTOC( );
 		ITOCTree tree = getTOCTree( "all", ULocale.getDefault( ) );
 		return tree.findTOC( tocNodeId );
 	}
@@ -608,14 +597,11 @@ public class ReportDocumentReader
 	 */
 	public List findTOCByName( String tocName )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return null;
 		}
-		if ( tocTree == null )
-		{
-			loadTOC( );
-		}
+		intializeTOC( );
 		ITOCTree tree = getTOCTree( "all", ULocale.getDefault( ) );
 		return tree.findTOCByValue( tocName );
 	}
@@ -627,7 +613,7 @@ public class ReportDocumentReader
 	 */
 	public List getChildren( String tocNodeId )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return null;
 		}
@@ -642,21 +628,82 @@ public class ReportDocumentReader
 	/**
 	 * load the TOC from the stream.
 	 */
-	protected void loadTOC( )
+	protected void intializeTOC( )
 	{
-		tocTree = new TOCTree( );
-		if ( archive.exists( TOC_STREAM ) )
+		if ( tocTree != null )
 		{
-			InputStream in = null;
+			return;
+		}
+		synchronized ( this )
+		{
+			if ( tocTree != null )
+			{
+				return;
+			}
+			tocTree = new TOCTree( );
+			if ( archive.exists( TOC_STREAM ) )
+			{
+				InputStream in = null;
+				try
+				{
+					in = archive.getStream( TOC_STREAM );
+					DataInputStream input = new DataInputStream( in );
+					TOCBuilder.read( tocTree, input );
+				}
+				catch ( Exception ex )
+				{
+					logger.log( Level.SEVERE, "Failed to load the TOC", ex ); //$NON-NLS-1$
+				}
+				finally
+				{
+					if ( in != null )
+					{
+						try
+						{
+							in.close( );
+						}
+						catch ( IOException ex )
+						{
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void intializeBookmarks( )
+	{
+		if ( bookmarks != null )
+		{
+			return;
+		}
+		synchronized ( this )
+		{
+			if ( bookmarks != null )
+			{
+				return;
+			}
+			bookmarks = new HashMap( );
+			if ( !archive.exists( BOOKMARK_STREAM ) )
+			{
+				return;
+			}
+			RAInputStream in = null;
 			try
 			{
-				in = archive.getStream( TOC_STREAM );
-				DataInputStream input = new DataInputStream( in );
-				TOCBuilder.read( tocTree, input );
+				in = archive.getStream( BOOKMARK_STREAM );
+				DataInputStream di = new DataInputStream( in );
+				long count = IOUtil.readLong( di );
+				for ( long i = 0; i < count; i++ )
+				{
+					String bookmark = IOUtil.readString( di );
+					long pageNumber = IOUtil.readLong( di );
+					bookmarks.put( bookmark, new Long( pageNumber ) );
+				}
 			}
 			catch ( Exception ex )
 			{
-				logger.log( Level.SEVERE, "Failed to load the TOC", ex ); //$NON-NLS-1$
+				logger.log( Level.SEVERE, "failed to load the bookmarks", ex ); //$NON-NLS-1$
 			}
 			finally
 			{
@@ -666,75 +713,49 @@ public class ReportDocumentReader
 					{
 						in.close( );
 					}
-					catch ( IOException ex )
+					catch ( Exception ex )
 					{
-					}
+					};
 				}
 			}
 		}
 	}
 
-	private void loadBookmarks( )
+	private void initializePageHintReader( )
 	{
-		bookmarks = new HashMap( );
-		if ( !archive.exists( BOOKMARK_STREAM ) )
+		if ( pageHintReader != null )
 		{
 			return;
 		}
-		RAInputStream in = null;
-		try
+		synchronized ( this )
 		{
-			in = archive.getStream( BOOKMARK_STREAM );
-			DataInputStream di = new DataInputStream( in );
-			long count = IOUtil.readLong( di );
-			for ( long i = 0; i < count; i++ )
-			{
-				String bookmark = IOUtil.readString( di );
-				long pageNumber = IOUtil.readLong( di );
-				bookmarks.put( bookmark, new Long( pageNumber ) );
-			}
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "failed to load the bookmarks", ex ); //$NON-NLS-1$
-		}
-		finally
-		{
-			if ( in != null )
-			{
-				try
-				{
-					in.close( );
-				}
-				catch ( Exception ex )
-				{
-				};
-			}
-		}
-	}
-
-	private void createPageHintReader( )
-	{
-		if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
-		{
-			pageHintReader = new PageHintReaderV1( this );
-		}
-		else
-		{
-			pageHintReader = new PageHintReaderV2( this );
-		}
-		try
-		{
-			pageHintReader.open( );
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.SEVERE, "can't open the page hint stream", ex );
 			if ( pageHintReader != null )
 			{
-				pageHintReader.close( );
+				return;
 			}
-			pageHintReader = null;
+			if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( getVersion( ) ) )
+			{
+				pageHintReader = new PageHintReaderV1( this );
+			}
+			else
+			{
+				pageHintReader = new PageHintReaderV2( this );
+			}
+			try
+			{
+				pageHintReader.open( );
+			}
+			catch ( IOException ex )
+			{
+				logger
+						.log( Level.SEVERE, "can't open the page hint stream",
+								ex );
+				if ( pageHintReader != null )
+				{
+					pageHintReader.close( );
+				}
+				pageHintReader = null;
+			}
 		}
 	}
 
@@ -760,7 +781,7 @@ public class ReportDocumentReader
 
 	public long getPageNumber( InstanceID iid )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return -1;
 		}
@@ -772,10 +793,7 @@ public class ReportDocumentReader
 		long offset = getInstanceOffset( iid );
 		if ( offset != -1 )
 		{
-			if ( pageHintReader == null )
-			{
-				createPageHintReader( );
-			}
+			initializePageHintReader( );
 			if ( pageHintReader != null )
 			{
 				try
@@ -794,7 +812,7 @@ public class ReportDocumentReader
 
 	public long getInstanceOffset( InstanceID iid )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return -1l;
 		}
@@ -802,16 +820,13 @@ public class ReportDocumentReader
 		{
 			return -1l;
 		}
-		if ( reportletsIndexById == null )
-		{
-			loadReportletStream( );
-		}
+		initializeReportlet();
 		return getOffset( reportletsIndexById, iid.toString( ) );
 	}
 
 	public long getBookmarkOffset( String bookmark )
 	{
-		if ( !isComplete() )
+		if ( !isComplete( ) )
 		{
 			return -1;
 		}
@@ -819,10 +834,7 @@ public class ReportDocumentReader
 		{
 			return -1l;
 		}
-		if ( reportletsIndexByBookmark == null )
-		{
-			loadReportletStream( );
-		}
+		initializeReportlet();
 		return getOffset( reportletsIndexByBookmark, bookmark );
 	}
 
@@ -841,13 +853,24 @@ public class ReportDocumentReader
 		return -1;
 	}
 
-	private void loadReportletStream( )
+	private void initializeReportlet()
 	{
-		reportletsIndexById = new HashMap( );
-		reportletsIndexByBookmark = new HashMap( );
-		loadReportletStream( reportletsIndexById, REPORTLET_ID_INDEX_STREAM );
-		loadReportletStream( reportletsIndexByBookmark,
-				REPORTLET_BOOKMARK_INDEX_STREAM );
+		if ( reportletsIndexById != null )
+		{
+			return;
+		}
+		synchronized ( this )
+		{
+			if ( reportletsIndexById != null )
+			{
+				return;
+			}
+			reportletsIndexById = new HashMap( );
+			reportletsIndexByBookmark = new HashMap( );
+			loadReportletStream( reportletsIndexById, REPORTLET_ID_INDEX_STREAM );
+			loadReportletStream( reportletsIndexByBookmark,
+					REPORTLET_BOOKMARK_INDEX_STREAM );
+		}
 	}
 
 	private void loadReportletStream( Map index, String streamName )
@@ -886,7 +909,7 @@ public class ReportDocumentReader
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

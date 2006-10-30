@@ -148,16 +148,45 @@ public interface IEngineTask {
 	public void setParameterDisplayText( String name, String displayText );
 
 	/**
-	 * Cancels the task.
+	 * set the cancel flag if the task is running.
+	 * the task can re-run if it is cancedl.
 	 */
 	public void cancel();
-	
+
 	/**
-	 * Cancels the task with a signal.
+	 * cancels the task with a signal.
+	 * you can't call this method in the same thread with runTask
 	 * The signal will be notified when the task finishes the cancel.
 	 */
 	public void cancel( Object signal );
 
+
+	/**
+	 * the task is not running yet
+	 */
+	static final int STATUS_INIT = 0;
+	/**
+	 * the task is running
+	 */
+	static final int STATUS_RUNNING = 1;
+	/**
+	 * the task is finished with sucessful
+	 */
+	static final int STATUS_SUCCEED = 2;
+	/**
+	 * the task is finished with errors
+	 */
+	static final int STATUS_FAILED = 3;
+	/**
+	 * the task is finished by cancled
+	 */
+	static final int STATUS_CANCELLED = 4;
+	/**
+	 * get the status of task
+	 * @return the status
+	 */
+	int getStatus();
+	
 	/**
 	 * close the task, relese any resources. 
 	 */

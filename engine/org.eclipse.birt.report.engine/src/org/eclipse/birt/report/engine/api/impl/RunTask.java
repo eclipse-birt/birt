@@ -74,41 +74,51 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	public void run( String reportDocName ) throws EngineException
 	{
-		if ( reportDocName == null || reportDocName.length( ) == 0 )
-			throw new EngineException(
-					"Report document name is not specified when running a report." ); //$NON-NLS-1$
 		try
 		{
-			File file = new File( reportDocName );
-			if ( file.exists( ) )
+			runningStatus = RUNNING_STATUS_RUNNING;
+			if ( reportDocName == null || reportDocName.length( ) == 0 )
 			{
-				if ( file.isDirectory( ) )
+				throw new EngineException(
+						"Report document name is not specified when running a report." ); //$NON-NLS-1$
+			}
+			try
+			{
+				File file = new File( reportDocName );
+				if ( file.exists( ) )
 				{
-					archive = new FolderArchiveWriter( reportDocName );
+					if ( file.isDirectory( ) )
+					{
+						archive = new FolderArchiveWriter( reportDocName );
+					}
+					else
+					{
+						archive = new FileArchiveWriter( reportDocName );
+					}
 				}
 				else
 				{
-					archive = new FileArchiveWriter( reportDocName );
-				}
-			} 
-			else
-			{
-				if ( reportDocName.endsWith( "\\" ) || reportDocName.endsWith( "/" ) )
-				{
-					archive = new FolderArchiveWriter( reportDocName );
-				}
-				else
-				{
-					archive = new FileArchiveWriter( reportDocName );
+					if ( reportDocName.endsWith( "\\" )
+							|| reportDocName.endsWith( "/" ) )
+					{
+						archive = new FolderArchiveWriter( reportDocName );
+					}
+					else
+					{
+						archive = new FileArchiveWriter( reportDocName );
+					}
 				}
 			}
+			catch ( IOException e )
+			{
+				throw new EngineException( e.getLocalizedMessage( ) );
+			}
+			doRun( );
 		}
-		catch ( IOException e )
+		finally
 		{
-			throw new EngineException( e.getLocalizedMessage( ) );
+			runningStatus = RUNNING_STATUS_STOP;
 		}
-
-		run( archive );
 	}
 
 	/*
@@ -118,12 +128,21 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	public void run( IDocArchiveWriter archive ) throws EngineException
 	{
-		if ( archive == null )
-			throw new EngineException(
-					"Report archive is not specified when running a report." ); //$NON-NLS-1$	
-
-		this.archive = archive;
-		doRun( );
+		try
+		{
+			runningStatus = RUNNING_STATUS_RUNNING;
+			if ( archive == null )
+			{
+				throw new EngineException(
+						"Report archive is not specified when running a report." ); //$NON-NLS-1$
+			}
+			this.archive = archive;
+			doRun( );
+		}
+		finally
+		{
+			runningStatus = RUNNING_STATUS_STOP;
+		}
 	}
 
 	private void openReportDocument( ) throws EngineException
@@ -173,11 +192,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	protected void doRun( ) throws EngineException
 	{
-		setRunningFlag( true );
 		// using paramters
 		if ( !validateParameters( ) )
 		{
-			setRunningFlag( false );
 			throw new EngineException(
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
@@ -248,7 +265,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			documentBuilder = null;
 			closeReportDocument();
 			closeFactory();
-			setRunningFlag( false );
 		}
 	}
 
@@ -262,13 +278,21 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	public void run( FolderArchive fArchive ) throws EngineException
 	{
-		setDataSource( fArchive );
-		run( ( IDocArchiveWriter ) fArchive );
+		try
+		{
+			runningStatus = RUNNING_STATUS_RUNNING;
+			setDataSource( fArchive );
+			run( (IDocArchiveWriter) fArchive );
+		}
+		finally
+		{
+			runningStatus = RUNNING_STATUS_STOP;
+		}
 	}
 	
-	protected void doCancel( )
+	public void cancel( )
 	{
-		super.doCancel( );
+		super.cancel( );
 		if ( documentBuilder != null )
 		{
 			documentBuilder.cancel( );
