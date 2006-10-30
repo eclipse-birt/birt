@@ -398,7 +398,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public Object lock( String stream ) throws IOException
 	{
 		String path = ArchiveUtil.generateFullPath( folderName, stream + ".lck" );
-		return DocArchiveLockManager.getInstance( ).lock( path );
+		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
+		return lockManager.lock( path );
 	}
 
 	/*
@@ -408,6 +409,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public void unlock( Object lock )
 	{
-		DocArchiveLockManager.getInstance( ).unlock( lock );
+		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
+		lockManager.unlock( lock );
 	}
 }

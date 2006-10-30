@@ -54,12 +54,21 @@ public class RAFileInputStream extends RAInputStream
 	{
 		bufLen = 0;
 		bufCur = 0;
-		long availableSize = endPos - localPosToGlobalPos( cur );
+		
+		long parentPos = startPos + cur;		
+		long availableSize = endPos - parentPos;
 		if ( availableSize <= 0 )
 			return;
-		int len = (int) Math.min( buf.length, availableSize );
-		seekParent( cur );
-		bufLen = parent.read( buf, 0, len );
+		int len = buf.length;
+		if (len > availableSize)
+		{
+			len = (int)availableSize;
+		}
+		synchronized ( parent )
+		{
+			parent.seek( parentPos );
+			bufLen = parent.read( buf, 0, len );
+		}
 		cur += bufLen;
 		return;
 	}
@@ -291,15 +300,4 @@ public class RAFileInputStream extends RAInputStream
 	{
 		return localPos + startPos;
 	}
-	
-	/**
-	 * Convert the local position to global position and move the file pointer to there in parent file.
-	 * @param localPos - the local position which starts from 0
-	 * @throws IOException
-	 */
-	private void seekParent( long localPos ) throws IOException
-	{
-		parent.seek( localPosToGlobalPos(localPos) );
-	}
-
 }

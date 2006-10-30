@@ -21,26 +21,18 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class DocArchiveLockManager
+
+/**
+ * an IArchiveLockManager implemented through file lock.
+ */
+class DocArchiveLockManager implements IArchiveLockManager
 {
 
 	protected static Logger log = Logger.getLogger( DocArchiveLockManager.class
 			.getName( ) );
 
-	protected static DocArchiveLockManager instance;
-
-	public synchronized static DocArchiveLockManager getInstance( )
+	DocArchiveLockManager( )
 	{
-		if ( instance == null )
-		{
-			instance = new DocArchiveLockManager( );
-		}
-		return instance;
-	}
-
-	protected DocArchiveLockManager( )
-	{
-
 	}
 
 	private class Lock

@@ -235,7 +235,8 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	public Object lock( String stream ) throws IOException
 	{
 		String path = ArchiveUtil.generateFullPath( folderName, stream + ".lck" );
-		return DocArchiveLockManager.getInstance( ).lock( path );
+		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
+		return lockManager.lock( path );
 	}
 
 	/*
@@ -245,6 +246,7 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 */
 	public void unlock( Object lock )
 	{
-		DocArchiveLockManager.getInstance( ).unlock( lock );
+		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
+		lockManager.unlock( lock );
 	}
 }

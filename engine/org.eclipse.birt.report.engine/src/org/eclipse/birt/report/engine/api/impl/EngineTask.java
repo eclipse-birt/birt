@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +56,11 @@ public abstract class EngineTask implements IEngineTask
 
 	protected static Logger log = Logger
 			.getLogger( EngineTask.class.getName( ) );
+	
+	protected final int RUNNING_STATUS_START = 0;
+	protected final int RUNNING_STATUS_RUNNING = 1;
+	protected final int RUNNING_STATUS_STOP = 2;
+	
 
 	protected static int id = 0;
 	
@@ -64,16 +68,11 @@ public abstract class EngineTask implements IEngineTask
 
 	protected final static String FORMAT_HTML = "html";
 	/**
-	 * is the task running or not.
+	 * is cancel called
 	 */
-	//private boolean runningFlag = false;
-	private Thread threadHandle = null;
+	protected boolean cancelFlag;
+	protected int runningStatus;
 	
-	/**
-	 * store the signals which need be notified.
-	 */
-	private ArrayList notifyList = new ArrayList( );
-
 	/**
 	 * the contexts for running this task
 	 */
@@ -146,6 +145,9 @@ public abstract class EngineTask implements IEngineTask
 		setReportRunnable( runnable );
 		// set the default app context
 		setAppContext( new HashMap( ) );
+		
+		cancelFlag = false;
+		runningStatus = RUNNING_STATUS_START;
 	}
 
 	protected void initializePagination( String format, ExtensionManager extManager )
@@ -634,55 +636,50 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 
-	protected void doCancel()
-	{
-		executionContext.cancel( );
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IEngineTask#cancel()
 	 */
-	synchronized public void cancel( )
+	public void cancel( )
 	{
-		doCancel();
-		if( null != threadHandle )
-		{
-			if (Thread.currentThread( ).equals( threadHandle ))
-			{
-				return;
-			}
-			try
-			{
-				wait( );
-			}
-			catch ( InterruptedException e )
-			{
-				return;
-			}
-		}
+		cancelFlag = true;
+		executionContext.cancel( );
 	}
 	
-	synchronized public void cancel( Object signal )
+	public void cancel(Object signal)
 	{
-		assert (signal != null);
-		if( null != threadHandle )
+		if ( signal == null )
 		{
-			notifyList.add( signal );
-			doCancel();
+			throw new IllegalArgumentException( "signal can't be null" );
 		}
-		else
+		cancelFlag = true;
+		long waitingTime = 0;
+		do
 		{
-			synchronized( signal )
+			waitingTime += 100;
+			try
 			{
-				signal.notifyAll( );
+				Thread.sleep( 100 );
 			}
-		}
+			catch ( Exception ex )
+			{
+			}
+			if ( runningStatus != RUNNING_STATUS_RUNNING )
+			{
+				return;
+			}
+		} while ( waitingTime < 5000 );
+		return;
 	}
-
+	
+	public boolean isCancel()
+	{
+		return cancelFlag;
+	}
+	
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.46 $ $Date: 2006/09/07 13:35:19 $
+	 * @version $Revision: 1.47 $ $Date: 2006/09/21 06:15:51 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -847,7 +844,6 @@ public abstract class EngineTask implements IEngineTask
 	public void close( )
 	{
 		executionContext.close( );
-		setRunningFlag( false );
 	}
 
 	protected void loadDesign( )
@@ -929,34 +925,33 @@ public abstract class EngineTask implements IEngineTask
 		
 		executionContext.setDataSource( dataSource );		
 	}
+
+	public int getStatus()
+	{
+		switch(runningStatus)
+		{
+			case RUNNING_STATUS_START:
+				return STATUS_INIT;
+			case RUNNING_STATUS_RUNNING:
+				return STATUS_RUNNING;
+			case RUNNING_STATUS_STOP:
+				if (cancelFlag)
+				{
+					return STATUS_CANCELLED;
+				}
+				if ( executionContext.hasErrors( ))
+				{
+					return STATUS_FAILED;
+				}
+				return STATUS_SUCCEED;
+		}
+		assert false;
+		return STATUS_INIT;
+	}
 	
 	public List getErrors( )
 	{
 		return executionContext.getErrors( );
-	}
-	
-	synchronized protected void setRunningFlag( boolean flag )
-	{
-		if( flag && ( null == threadHandle ) )
-		{
-			threadHandle = Thread.currentThread( );
-			
-		}
-		else if( !flag && ( null != threadHandle ) )
-		{
-			threadHandle = null;
-			Iterator iter = notifyList.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Object signal = iter.next( );
-				synchronized( signal )
-				{
-					signal.notifyAll( );
-				}
-			}
-			notifyAll( );
-			notifyList.clear();
-		}
 	}
 	
 	public IReportContext getReportContext( )

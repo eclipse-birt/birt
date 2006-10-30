@@ -331,19 +331,28 @@ public class RenderTask extends EngineTask implements IRenderTask
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render()
 	 */
-	public void render() throws EngineException {
-		if ( renderOptions == null )
+	public void render( ) throws EngineException
+	{
+		try
 		{
-			throw new EngineException(
-					"Render options have to be specified to render a report." ); //$NON-NLS-1$
+			runningStatus = RUNNING_STATUS_RUNNING;
+			if ( renderOptions == null )
+			{
+				throw new EngineException(
+						"Render options have to be specified to render a report." ); //$NON-NLS-1$
+			}
+			if ( runnable == null )
+			{
+				throw new EngineException(
+						"Can not find the report design in the report document {0}.",
+						new Object[]{reportDoc.getName( )} );
+			}
+			innerRender.render( );
 		}
-		if ( runnable == null )
+		finally
 		{
-			throw new EngineException(
-					"Can not find the report design in the report document {0}.",
-					new Object[]{reportDoc.getName( )} );
+			runningStatus = RUNNING_STATUS_STOP;
 		}
-		innerRender.render( );
 	}
 
 	/* (non-Javadoc)
@@ -602,6 +611,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void setInstanceID( String iid ) throws EngineException
 	{
-		setInstanceID( InstanceID.parse( iid ));
+		setInstanceID( InstanceID.parse( iid ) );
 	}
 }

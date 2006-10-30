@@ -99,7 +99,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.84 $ $Date: 2006/09/08 04:07:19 $
+ * @version $Revision: 1.85 $ $Date: 2006/10/19 22:35:33 $
  */
 public class ReportQueryBuilder
 {
@@ -122,9 +122,12 @@ public class ReportQueryBuilder
 	 */
 	public void build( Report report, ExecutionContext context )
 	{
-		if ( report.getQueries( ).isEmpty( ) )
+		synchronized ( report )
 		{
-			new QueryBuilderVisitor( ).buildQuery( report, context );
+			if ( report.getQueries( ).isEmpty( ) )
+			{
+				new QueryBuilderVisitor( ).buildQuery( report, context );
+			}
 		}
 	}
 

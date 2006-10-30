@@ -19,8 +19,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 {
 	private String fileName;
 	private String tempFolderName;
-	private String lockFileName;
-	private String countFileName;
 	private FolderArchiveWriter folderWriter; 			
 
 	/**
@@ -36,9 +34,6 @@ public class FileArchiveWriter implements IDocArchiveWriter
 											// absolute path
 		this.fileName = fileName;
 		this.tempFolderName = fileName + ".tmpfolder";
-		this.lockFileName = fileName + ".lck";
-		this.countFileName = ArchiveUtil.generateFullPath( tempFolderName,
-				FolderArchiveWriter.READER_COUNT_FILE_NAME );
 
 		// try to create the parent folder
 		File parentFile = new File( fileName ).getParentFile( );
@@ -46,52 +41,33 @@ public class FileArchiveWriter implements IDocArchiveWriter
 		{
 			parentFile.mkdirs( );
 		}
-		// try to lock the file
-		DocArchiveLockManager lockManager = DocArchiveLockManager.getInstance( );
-		Object lock = lockManager.lock( lockFileName );
+		
+		// try to create an empty file, if failed that means
+		// some the file has been opened, throw out an exception.
+		RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );
 		try
 		{
-			// try to create an empty file, if failed that means
-			// some the file has been opened, throw out an exception.
-			RandomAccessFile rf = new RandomAccessFile( fileName, "rw" );
-			try
-			{
-				rf.setLength( 0 );
-			}
-			finally
-			{
-				rf.close( );
-			}
-
-			// try to remove the temp folder
-			File archiveRootFolder = new File( tempFolderName );
-			if ( archiveRootFolder.exists( ) )
-			{
-				ArchiveUtil.DeleteAllFiles( archiveRootFolder );
-			}
-			if ( archiveRootFolder.exists( ) )
-			{
-				throw new IOException( "archive root folder can't be removed" );
-			}
-
-			// Create archive folder
-			archiveRootFolder.mkdirs( );
-			// create an ref count in the archive root folder
-			RandomAccessFile cf = new RandomAccessFile( countFileName, "rw" );
-			try
-			{
-				cf.writeInt( 1 );
-			}
-			finally
-			{
-				cf.close( );
-			}
-			folderWriter = new FolderArchiveWriter( tempFolderName );
+			rf.setLength( 0 );
 		}
 		finally
 		{
-			lockManager.unlock( lock );
+			rf.close( );
 		}
+
+		// try to remove the temp folder
+		File archiveRootFolder = new File( tempFolderName );
+		if ( archiveRootFolder.exists( ) )
+		{
+			ArchiveUtil.DeleteAllFiles( archiveRootFolder );
+		}
+		if ( archiveRootFolder.exists( ) )
+		{
+			throw new IOException( "archive root folder can't be removed" );
+		}
+
+		// Create archive folder
+		archiveRootFolder.mkdirs( );
+		folderWriter = new FolderArchiveWriter( tempFolderName );
 	}
 	
 	/*
@@ -165,7 +141,7 @@ public class FileArchiveWriter implements IDocArchiveWriter
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#finish()
 	 */
-	public void finish() throws IOException
+	public void finish( ) throws IOException
 	{
 		if ( folderWriter != null )
 		{
@@ -181,29 +157,8 @@ public class FileArchiveWriter implements IDocArchiveWriter
 			{
 				rf.close( );
 			}
-
 			// try to lock the file
-			DocArchiveLockManager lockManager = DocArchiveLockManager
-					.getInstance( );
-			Object lock = lockManager.lock( lockFileName );
-			try
-			{
-				RandomAccessFile readerCountFile = new RandomAccessFile(
-						countFileName, "rw" );;
-				int readerCount = readerCountFile.readInt( );
-				readerCount--;
-				readerCountFile.seek( 0 );
-				readerCountFile.writeInt( readerCount );
-				readerCountFile.close( );
-				if ( readerCount == 0 )
-				{
-					ArchiveUtil.DeleteAllFiles( new File( tempFolderName ) );
-				}
-			}
-			finally
-			{
-				lockManager.unlock( lock );
-			}
+			ArchiveUtil.DeleteAllFiles( new File( tempFolderName ) );
 		}
 	}
 	

@@ -141,11 +141,22 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void run( ) throws EngineException
 	{
-		setRunningFlag( true );
+		try
+		{
+			runningStatus = RUNNING_STATUS_RUNNING;
+			doRun( );
+		}
+		finally
+		{
+			runningStatus = RUNNING_STATUS_STOP;
+		}
+	}
+
+	void doRun( ) throws EngineException
+	{
 		// register default parameters and validate
 		if ( !validateParameters( ) )
 		{
-			setRunningFlag( false );
 			throw new EngineException(
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
@@ -242,10 +253,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					"Error happened while running the report.", t ); //$NON-NLS-1$
 			throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
 		}
-		finally
-		{
-			setRunningFlag( false );
-		}
 	}
 
 	public void setEmitterID( String id )
@@ -253,11 +260,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		this.emitterID = id;
 
 	}
-	
-	protected void doCancel()
+
+	public void cancel( )
 	{
-		super.doCancel( );
-		if(layoutEngine!=null)
+		super.cancel( );
+		if ( layoutEngine != null )
 		{
 			layoutEngine.cancel( );
 		}

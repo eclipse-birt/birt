@@ -208,8 +208,16 @@ public class ReportRunnable implements IReportRunnable
 	
 	public Report getReportIR( )
 	{
-		if ( reportIR == null )
+		if (reportIR != null)
 		{
+			return reportIR;
+		}
+		synchronized ( this )
+		{
+			if ( reportIR != null )
+			{
+				return reportIR;
+			}
 			reportIR = new ReportParser( ).parse( designHandle );
 		}
 		return reportIR;
