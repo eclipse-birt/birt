@@ -63,13 +63,6 @@
                 <property name="unzipArgs" value="-qq" />
         </target>
         
-        <target name="prepare" unless="update">
-                <!-- clean up environment -->
-                <ant antfile="${eclipse.build.configs}/../helper.xml" target="cleanBuild" />
-                <!-- download DTP nightly build -->
-                <ant antfile="${eclipse.build.configs}/../helper.xml" target="getDTPDownloads" />
-        </target>
-
         <target name="buildBirtFeature">
 
                 <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
@@ -101,14 +94,15 @@
                 </ant>
         </target>
         
-        <target name="CreateDistribute">            
+        <target name="CreateDistribute"> 
+        		<mkdir dir="${postingDirectory}/${buildLabel}"/>
                 <!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
                 <ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt" target="default">
-                        <property name="OutputDir" value="${postingDirectory}" />
+                        <property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
                         <property name="deposit" value="${buildDirectory}/${buildLabel}" />
                 </ant>
                 <!-- create Runtime -->
-        
+      
         </target>
         
         <target name="buildUpdateSite" if="updateSite">
@@ -123,7 +117,6 @@
                 <mkdir dir="${packtmp}" />
                 <move file="${buildDirectory}/${buildLabel}/${archiveName}.zip" tofile="${packtmp}/${archiveName}.zip"/>
                 -->
-
                 <!--pack200-->
                 <!--
                 <java jar="/home/adb/farrah/BaseBuilder/startup.jar"
@@ -141,6 +134,8 @@
                 <exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
                         <arg line="-q ${archiveName}.zip -d ${buildDirectory}/${buildLabel}" />
                 </exec>
+        		<!-- export 3rd party plugins -->
+
         </target>
 
         <target name="unpackUpdateJarsForPackaging">
