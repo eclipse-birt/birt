@@ -1051,7 +1051,8 @@ public class ColumnBindingDialog extends BaseDialog
 	{
 		boolean okEnable = false;
 		if ( !canSelect
-				|| ( selectedColumnName != null && getDataSetName( ) != null ) )
+				|| ( selectedColumnName != null && getDataSetName( ) != null )
+				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement ).getDataSet( ) != null ) )
 		{
 			okEnable = true;
 		}
