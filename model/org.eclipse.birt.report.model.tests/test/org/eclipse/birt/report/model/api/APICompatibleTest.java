@@ -49,7 +49,8 @@ public class APICompatibleTest extends BaseTestCase
 		data = designHandle.getElementFactory( ).newDataItem( "data2" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"value1\"] + row[\"value2\"]" ); //$NON-NLS-1$
 
-		table.getCell( 1, 1 ).getContent( ).add( data );
+		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 ).getContent( ).add(
+				data );
 
 		designHandle.getBody( ).add( table );
 
@@ -86,7 +87,8 @@ public class APICompatibleTest extends BaseTestCase
 		image.setBookmark( "row[\"bookmark1\"] + row[\"bookmark2\"]" ); //$NON-NLS-1$
 		image.setValueExpression( "row[\"image1\"] + row[\"valueExpr\"]" ); //$NON-NLS-1$
 
-		table.getCell( 1, 1 ).getContent( ).add( image );
+		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 ).getContent( ).add(
+				image );
 
 		TableHandle nestedTable = designHandle.getElementFactory( )
 				.newTableItem( "table2", 2 ); //$NON-NLS-1$
@@ -103,7 +105,8 @@ public class APICompatibleTest extends BaseTestCase
 		column.getPropertyHandle( ColumnHandle.VISIBILITY_PROP ).addItem(
 				hideRule );
 
-		table.getCell( 2, 2 ).getContent( ).add( nestedTable );
+		table.getCell( TableHandle.DETAIL_SLOT, -1, 1, 2 ).getContent( ).add(
+				nestedTable );
 
 		designHandle.getBody( ).add( table );
 
@@ -114,8 +117,10 @@ public class APICompatibleTest extends BaseTestCase
 				"grid1", 2, 2 ); //$NON-NLS-1$
 		grid.getCell( 2, 2 ).getContent( ).add( textData );
 
-		table.getCell( 3, 1 ).getContent( ).add( grid );
-		table.getCell( 3, 1 ).setOnCreate( "row[\"onCreateValueExpr\"] + 1" );//$NON-NLS-1$
+		table.getCell( TableHandle.FOOTER_SLOT, -1, 1, 1 ).getContent( ).add(
+				grid );
+		table.getCell( TableHandle.FOOTER_SLOT, -1, 1, 1 ).setOnCreate(
+				"row[\"onCreateValueExpr\"] + 1" );//$NON-NLS-1$
 
 		ListHandle list = designHandle.getElementFactory( ).newList( "list1" ); //$NON-NLS-1$
 		FilterCondition filter = new FilterCondition( );
@@ -177,7 +182,8 @@ public class APICompatibleTest extends BaseTestCase
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(
 				"table1", 2 ); //$NON-NLS-1$
 
-		table.getCell( 1, 1 ).getContent( ).add( data );
+		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 ).getContent( ).add(
+				data );
 
 		designHandle.getBody( ).add( table );
 
@@ -222,12 +228,14 @@ public class APICompatibleTest extends BaseTestCase
 				"data1" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"valueData\"]" ); //$NON-NLS-1$
 
-		table.getCell( 3, 1 ).getContent( ).add( data );
+		table.getCell( GroupHandle.FOOTER_SLOT, 2, 1, 1 ).getContent( ).add(
+				data );
 
 		data = designHandle.getElementFactory( ).newDataItem( "data1" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"valueData\"]" ); //$NON-NLS-1$
 
-		table.getCell( 4, 1 ).getContent( ).add( data );
+		table.getCell( GroupHandle.FOOTER_SLOT, 1, 1, 1 ).getContent( ).add(
+				data );
 
 		saveAs( "CompatibleExpression_out_2.xml" ); //$NON-NLS-1$
 		assertTrue( compareTextFile( "CompatibleExpression_golden_2.xml", //$NON-NLS-1$

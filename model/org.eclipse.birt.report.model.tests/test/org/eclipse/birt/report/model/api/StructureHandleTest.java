@@ -211,7 +211,7 @@ public class StructureHandleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		ElementFactory factory = new ElementFactory( designHandle.module );
+		ElementFactory factory = new ElementFactory( design );
 		TableHandle tableHandle = factory.newTableItem( "table 1" ); //$NON-NLS-1$
 		PropertyHandle propHandle = tableHandle
 				.getPropertyHandle( ListingElement.SORT_PROP );
@@ -277,7 +277,7 @@ public class StructureHandleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		ElementFactory factory = new ElementFactory( designHandle.module );
+		ElementFactory factory = new ElementFactory( design );
 		ScalarParameterHandle paramHandle = factory
 				.newScalarParameter( "param 1" ); //$NON-NLS-1$
 		PropertyHandle propHandle = paramHandle
@@ -310,7 +310,7 @@ public class StructureHandleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		ElementFactory factory = new ElementFactory( designHandle.module );
+		ElementFactory factory = new ElementFactory( design );
 		DataSetHandle dataSetHandle = factory.newScriptDataSet( "data set 1" ); //$NON-NLS-1$
 		PropertyHandle propHandle = dataSetHandle
 				.getPropertyHandle( DesignElement.PROPERTY_MASKS_PROP );
@@ -433,7 +433,7 @@ public class StructureHandleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		ElementFactory factory = new ElementFactory( designHandle.module );
+		ElementFactory factory = new ElementFactory( design );
 		LabelHandle handle = factory.newLabel( "label 1" ); //$NON-NLS-1$
 		PropertyHandle propHandle = handle
 				.getPropertyHandle( ReportItem.VISIBILITY_PROP );

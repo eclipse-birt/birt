@@ -63,22 +63,23 @@ public class GridColumnHandleTest extends BaseTestCase
 		assertNotNull( grid );
 
 		ColumnBandData data = grid.copyColumn( 1 );
-		assertEquals( 2, data.getCells( ).size( ) );
+		assertEquals( 2, ApiTestUtil.getCopiedCells( data ).size( ) );
 
 		grid = (GridHandle) designHandle.findElement( "My grid2" ); //$NON-NLS-1$
 		assertNotNull( grid );
 
 		data = grid.copyColumn( 2 );
-		assertEquals( 1, data.getCells( ).size( ) );
-		TableColumn column = data.getColumn( );
+		assertEquals( 1, ApiTestUtil.getCopiedCells( data ).size( ) );
+		TableColumn column = ApiTestUtil.getCopiedColumn( data );
 		assertEquals( 1, column
 				.getIntProperty( design, TableColumn.REPEAT_PROP ) );
 		assertEquals(
 				"red", column.getStringProperty( design, Style.COLOR_PROP ) ); //$NON-NLS-1$		
-		CellContextInfo contextInfo = (CellContextInfo) data.getCells( )
-				.get( 0 );
-		assertEquals( 2, contextInfo.getRowSpan( ) );
-
+//		CellContextInfo contextInfo = (CellContextInfo) ApiTestUtil
+//				.getCopiedCells( data ).get( 0 );
+		assertEquals( 2, ApiTestUtil.getCopiedCell( data, 0 ).getRowSpan(
+				design ) );
+		
 		grid = (GridHandle) designHandle.findElement( "My grid3" ); //$NON-NLS-1$
 		assertNotNull( grid );
 		try
@@ -153,8 +154,9 @@ public class GridColumnHandleTest extends BaseTestCase
 
 	public void testCopyNoColumnHeader2HasColumn( ) throws Exception
 	{
-		designHandle = new SessionHandle( ULocale.getDefault( ) ).createDesign( );
-		design = (ReportDesign) designHandle.module;
+		designHandle = new SessionHandle( ULocale.getDefault( ) )
+				.createDesign( );
+		design = (ReportDesign) designHandle.getModule( );
 
 		ElementFactory factory = new ElementFactory( design );
 
@@ -198,8 +200,9 @@ public class GridColumnHandleTest extends BaseTestCase
 
 	public void testCopyHasColumnHeader2NoColumn( ) throws Exception
 	{
-		designHandle = new SessionHandle( ULocale.getDefault( ) ).createDesign( );
-		design = (ReportDesign) designHandle.module;
+		designHandle = new SessionHandle( ULocale.getDefault( ) )
+				.createDesign( );
+		design = (ReportDesign) designHandle.getModule( );
 
 		ElementFactory factory = new ElementFactory( design );
 
@@ -245,8 +248,9 @@ public class GridColumnHandleTest extends BaseTestCase
 
 	public void testCopyColumnHeader( ) throws Exception
 	{
-		designHandle = new SessionHandle( ULocale.getDefault( ) ).createDesign( );
-		design = (ReportDesign) designHandle.module;
+		designHandle = new SessionHandle( ULocale.getDefault( ) )
+				.createDesign( );
+		design = (ReportDesign) designHandle.getModule( );
 
 		ElementFactory factory = new ElementFactory( design );
 

@@ -273,7 +273,7 @@ public class ImageHandleTest extends BaseTestCase
 		// get the actionHandle
 		ActionHandle action = fileImage.getActionHandle( );
 		assertNotNull( action );
-		assertEquals( fileImage, action.elementHandle );
+		assertEquals( fileImage, action.getElementHandle( ) );
 
 		IChoice choiceList[] = fileImage.getChoices( ImageItem.SIZE_PROP );
 		assertEquals( 3, choiceList.length );
@@ -285,7 +285,7 @@ public class ImageHandleTest extends BaseTestCase
 		assertEquals( "newImage", fileImage.getExtends( ).getName( ) ); //$NON-NLS-1$
 
 		assertEquals( design.findPage( "My Page" ), fileImage.getContainer( ) ); //$NON-NLS-1$
-		assertEquals( 0, fileImage.getContainerSlotHandle( ).slotID );
+		assertEquals( 0, fileImage.getContainerSlotHandle( ).getSlotID( ));
 
 		DimensionHandle dh = fileImage
 				.getDimensionProperty( ImageItem.WIDTH_PROP );

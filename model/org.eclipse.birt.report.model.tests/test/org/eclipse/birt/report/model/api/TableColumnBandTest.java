@@ -70,21 +70,22 @@ public class TableColumnBandTest extends BaseTestCase
 		assertNotNull( table );
 
 		ColumnBandData data = table.copyColumn( 1 );
-		assertEquals( 2, data.getCells( ).size( ) );
+		assertEquals( 2, ApiTestUtil.getCopiedCells( data ).size( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table2" ); //$NON-NLS-1$
 		assertNotNull( table );
 
 		data = table.copyColumn( 2 );
-		assertEquals( 1, data.getCells( ).size( ) );
-		TableColumn column = data.getColumn( );
+		assertEquals( 1, ApiTestUtil.getCopiedCells( data ).size( ) );
+		TableColumn column = ApiTestUtil.getCopiedColumn( data );
 		assertEquals( 1, column
 				.getIntProperty( design, TableColumn.REPEAT_PROP ) );
 		assertEquals(
 				"red", column.getStringProperty( design, Style.COLOR_PROP ) ); //$NON-NLS-1$		
-		CellContextInfo contextInfo = (CellContextInfo) data.getCells( )
-				.get( 0 );
-		assertEquals( 2, contextInfo.getRowSpan( ) );
+		// CellContextInfo contextInfo = (CellContextInfo) ApiTestUtil
+		// .getCopiedCells( data ).get( 0 );
+		assertEquals( 2, ApiTestUtil.getCopiedCell( data, 0 ).getRowSpan(
+				design ) );
 
 		table = (TableHandle) designHandle.findElement( "My table3" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -127,9 +128,9 @@ public class TableColumnBandTest extends BaseTestCase
 		}
 
 		data = table.copyColumn( 2 );
-		assertEquals( 2, data.getCells( ).size( ) );
-		contextInfo = (CellContextInfo) data.getCells( ).get( 1 );
-		assertEquals( IColorConstants.BLACK, contextInfo.getCell( )
+		assertEquals( 2, ApiTestUtil.getCopiedCells( data ).size( ) );
+		assertEquals( IColorConstants.BLACK, ApiTestUtil
+				.getCopiedCell( data, 1 )
 				.getProperty( design, Style.COLOR_PROP ) );
 
 		// TODO test on cells with dropping in group header
@@ -502,7 +503,7 @@ public class TableColumnBandTest extends BaseTestCase
 				.getStringProperty( Style.COLOR_PROP ) );
 
 		ColumnBandData data = copyTable.copyColumn( 1 );
-		assertEquals( 1, data.getCells( ).size( ) );
+		assertEquals( 1, ApiTestUtil.getCopiedCells( data ).size( ) );
 
 		// different layout, the exception is thrown.
 
@@ -875,7 +876,7 @@ public class TableColumnBandTest extends BaseTestCase
 		assertNotNull( pasteTable );
 
 		ColumnBandData data = copyTable.copyColumn( 1 );
-		assertEquals( 1, data.getCells( ).size( ) );
+		assertEquals( 1, ApiTestUtil.getCopiedCells( data ).size( ) );
 
 		assertTrue( pasteTable.canInsertAndPasteColumn( data, 1 ) );
 		assertTrue( pasteTable.canInsertAndPasteColumn( data, 2 ) );

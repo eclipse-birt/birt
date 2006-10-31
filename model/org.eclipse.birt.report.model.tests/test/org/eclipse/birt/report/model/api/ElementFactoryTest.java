@@ -47,7 +47,7 @@ public class ElementFactoryTest extends BaseTestCase
 	{
 		super.setUp( );
 		designHandle = new SessionHandle( ULocale.getDefault( ) ).createDesign( );
-		design = (ReportDesign) designHandle.module;
+		design = (ReportDesign) designHandle.getModule( );
 	}
 
 	/**

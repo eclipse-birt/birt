@@ -868,7 +868,8 @@ public class SessionHandleTest extends BaseTestCase
 	private int getDesignCount( )
 	{
 		int count = 0;
-		Iterator iter = session.session.getDesignIterator( );
+		Iterator iter = ApiTestUtil.getDesignSession( session )
+				.getDesignIterator( );
 		while ( iter.hasNext( ) )
 		{
 			iter.next( );
@@ -947,7 +948,7 @@ public class SessionHandleTest extends BaseTestCase
 	 * 
 	 * @throws DesignFileException
 	 */
-	
+
 	public void testFireResourceChange( ) throws DesignFileException
 	{
 		libraryHandle = session.openLibrary( getClassFolder( ) + INPUT_FOLDER
@@ -970,28 +971,30 @@ public class SessionHandleTest extends BaseTestCase
 				.getLibraries( ).get( 1 ) );
 		assertSame( instance2, ( (Module) designHandle.getElement( ) )
 				.getLibraries( ).get( 0 ) );
-		
+
 		session.fireResourceChange( new LibraryChangeEvent( getClassFolder( )
 				+ INPUT_FOLDER + "Grandson.xml" ) ); //$NON-NLS-1$
 		assertNotSame( instance2, ( (Module) designHandle.getElement( ) )
 				.getLibraries( ).get( 1 ) );
 	}
-	
+
 	public void testParserSemanticCheckControl( ) throws Exception
 	{
 		ModuleOption options = new ModuleOption( );
 		options.setSemanticCheck( false );
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER + "SessionHandleTest_11.xml", options ); //$NON-NLS-1$
+		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
+				+ "SessionHandleTest_11.xml", options ); //$NON-NLS-1$
 		assertEquals( 0, designHandle.getModule( ).getAllErrors( ).size( ) );
 		assertEquals( 0, designHandle
 				.getLibrary( "lib" ).getModule( ).getAllErrors( ).size( ) ); //$NON-NLS-1$
 		designHandle.close( );
-		
+
 		options = null;
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER + "SessionHandleTest_11.xml", options ); //$NON-NLS-1$
+		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
+				+ "SessionHandleTest_11.xml", options ); //$NON-NLS-1$
 		assertEquals( 1, designHandle.getModule( ).getAllErrors( ).size( ) );
 		assertEquals( 1, designHandle
 				.getLibrary( "lib" ).getModule( ).getAllErrors( ).size( ) ); //$NON-NLS-1$
-		
+
 	}
 }

@@ -96,7 +96,7 @@ public class ComplexValueHandleTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "label2" ); //$NON-NLS-1$
 		assertNotNull( labelHandle );
-		fontHandle = labelHandle.getFontProperty( );
+		fontHandle = labelHandle.getPrivateStyle( ).getFontFamilyHandle( );
 
 		assertNotNull( fontHandle );
 		assertFalse( fontHandle.isSet( ) );
@@ -126,7 +126,7 @@ public class ComplexValueHandleTest extends BaseTestCase
 
 		labelHandle = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
 		assertNotNull( labelHandle );
-		fontHandle = labelHandle.getFontProperty( );
+		fontHandle = labelHandle.getPrivateStyle( ).getFontFamilyHandle( );
 
 		assertNotNull( fontHandle );
 		assertTrue( fontHandle.isSet( ) );

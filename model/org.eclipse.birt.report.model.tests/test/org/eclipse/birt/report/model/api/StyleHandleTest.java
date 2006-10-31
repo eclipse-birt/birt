@@ -561,7 +561,7 @@ public class StyleHandleTest extends BaseTestCase
 	{
 		designHandle = new SessionHandle( ULocale.getDefault( ) )
 				.createDesign( );
-		design = (ReportDesign) designHandle.module;
+		design = (ReportDesign) designHandle.getModule( );
 
 		ElementFactory factory = new ElementFactory( design );
 		StyleHandle style1 = factory.newStyle( "style1" ); //$NON-NLS-1$

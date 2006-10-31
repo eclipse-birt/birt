@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -469,8 +470,7 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		// style1 has 2 clients.
 
-		ClientIterator iterator = (ClientIterator) styleHandle
-				.clientsIterator( );
+		Iterator iterator = styleHandle.clientsIterator( );
 
 		int count = 0;
 		for ( ; iterator.hasNext( ); iterator.next( ) )
@@ -478,8 +478,7 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		assertEquals( 2, count );
 
-		DerivedElementIterator iteratorDerived = (DerivedElementIterator) styleHandle
-				.derivedIterator( );
+		Iterator iteratorDerived = styleHandle.derivedIterator( );
 
 		count = 0;
 		for ( ; iteratorDerived.hasNext( ); iteratorDerived.next( ) )
@@ -611,12 +610,11 @@ public class DesignElementHandleTest extends BaseTestCase
 				ReportDesign.COMPONENT_SLOT );
 		assertEquals( handle.getModuleHandle( ), handle.getContainer( ) );
 		assertEquals( ReportDesign.COMPONENT_SLOT, handle
-				.getContainerSlotHandle( ).slotID );
+				.getContainerSlotHandle( ).getSlotID( ) );
 
 		// for a label, totally it has 59 properties.
 
-		PropertyIterator iterator = (PropertyIterator) handle
-				.getPropertyIterator( );
+		Iterator iterator = handle.getPropertyIterator( );
 		int count = 0;
 		for ( ; iterator.hasNext( ); iterator.next( ) )
 			count++;
@@ -959,11 +957,11 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		// get a font handle from the label.
 
-		FontHandle fontHandle = handle.getFontProperty( );
+		FontHandle fontHandle = handle.getPrivateStyle( ).getFontFamilyHandle( );
 		assertNotNull( fontHandle );
 		assertEquals( "Time New Roman, Arial", fontHandle.getValue( ) ); //$NON-NLS-1$
 
-		fontHandle = styleHandle.getFontProperty( );
+		fontHandle = styleHandle.getFontFamilyHandle( );
 		assertNotNull( fontHandle );
 		assertEquals( "Time New Roman, Arial", fontHandle.getValue( ) ); //$NON-NLS-1$
 

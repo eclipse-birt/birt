@@ -927,13 +927,16 @@ public class GroupElementHandleTest extends BaseTestCase
 		GroupElementHandle groupHandle = new SimpleGroupElementHandle(
 				designHandle, elements );
 
-		assertTrue( groupHandle.isPropertyVisible( DesignElement.NAME_PROP ) );
-		assertTrue( groupHandle.isPropertyVisible( ReportItem.HEIGHT_PROP ) );
-		assertFalse( groupHandle
-				.isPropertyVisible( ReportItem.PROPERTY_MASKS_PROP ) );
-		assertFalse( groupHandle.isPropertyVisible( ReportItem.DATA_SET_PROP ) );
-		assertFalse( groupHandle.isPropertyVisible( ReportItem.X_PROP ) );
-		assertFalse( groupHandle.isPropertyVisible( TextItem.CONTENT_PROP ) );
+		assertTrue( groupHandle.getPropertyHandle(
+				DesignElementHandle.NAME_PROP ).isVisible( ) );
+		assertTrue( groupHandle.getPropertyHandle( ReportItem.HEIGHT_PROP )
+				.isVisible( ) );
+		assertFalse( groupHandle.getPropertyHandle(
+				ReportItem.PROPERTY_MASKS_PROP ).isVisible( ) );
+		assertFalse( groupHandle.getPropertyHandle( ReportItem.DATA_SET_PROP )
+				.isVisible( ) );
+		assertFalse( groupHandle.getPropertyHandle( ReportItem.X_PROP )
+				.isVisible( ) );
 	}
 
 	/**
@@ -989,18 +992,23 @@ public class GroupElementHandleTest extends BaseTestCase
 		GroupElementHandle groupHandle = new SimpleGroupElementHandle(
 				designHandle, elements );
 
-		assertTrue( !groupHandle.isPropertyVisible( ReportItem.TOC_PROP ) );
-		assertTrue( !groupHandle.isPropertyVisible( ReportItem.BOOKMARK_PROP ) );
+		assertTrue( !groupHandle.getPropertyHandle( ReportItem.TOC_PROP )
+				.isVisible( ) );
+		assertTrue( !groupHandle.getPropertyHandle( ReportItem.BOOKMARK_PROP )
+				.isVisible( ) );
 		assertTrue( !groupHandle
-				.isPropertyVisible( Style.PAGE_BREAK_AFTER_PROP ) );
-		assertTrue( !groupHandle
-				.isPropertyVisible( Style.PAGE_BREAK_BEFORE_PROP ) );
-		assertTrue( groupHandle.isPropertyReadOnly( ReportItem.TOC_PROP ) );
-		assertTrue( groupHandle.isPropertyReadOnly( ReportItem.BOOKMARK_PROP ) );
+				.getPropertyHandle( Style.PAGE_BREAK_AFTER_PROP ).isVisible( ) );
+		assertTrue( !groupHandle.getPropertyHandle(
+				Style.PAGE_BREAK_BEFORE_PROP ).isVisible( ) );
+
+		assertTrue( groupHandle.getPropertyHandle( ReportItem.TOC_PROP )
+				.isReadOnly( ) );
+		assertTrue( groupHandle.getPropertyHandle( ReportItem.BOOKMARK_PROP )
+				.isReadOnly( ) );
+		assertTrue( groupHandle.getPropertyHandle( Style.PAGE_BREAK_AFTER_PROP )
+				.isReadOnly( ) );
 		assertTrue( groupHandle
-				.isPropertyReadOnly( Style.PAGE_BREAK_AFTER_PROP ) );
-		assertTrue( groupHandle
-				.isPropertyReadOnly( Style.PAGE_BREAK_BEFORE_PROP ) );
+				.getPropertyHandle( Style.PAGE_BREAK_BEFORE_PROP ).isReadOnly( ) );
 
 		// drop is only visible for cells in group
 		elements.clear( );
@@ -1011,8 +1019,10 @@ public class GroupElementHandleTest extends BaseTestCase
 		elements.add( cell );
 		groupHandle = new SimpleGroupElementHandle( designHandle, elements );
 
-		assertTrue( !groupHandle.isPropertyVisible( CellHandle.DROP_PROP ) );
-		assertTrue( groupHandle.isPropertyReadOnly( CellHandle.DROP_PROP ) );
+		assertTrue( !groupHandle.getPropertyHandle( CellHandle.DROP_PROP )
+				.isVisible( ) );
+		assertTrue( groupHandle.getPropertyHandle( CellHandle.DROP_PROP )
+				.isReadOnly( ) );
 	}
 
 	static class FakeElementHandle extends DesignElementHandle
