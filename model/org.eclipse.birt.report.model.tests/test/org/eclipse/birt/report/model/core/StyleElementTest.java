@@ -188,8 +188,10 @@ public class StyleElementTest extends BaseTestCase
 		label1.addListener( clientListener1 );
 		label2.addListener( clientListener2 );
 
-		assertTrue( label1.listeners.contains( clientListener1 ) );
-		assertTrue( label2.listeners.contains( clientListener2 ) );
+		assertTrue( CoreTestUtil.getListeners( label1 ).contains(
+				clientListener1 ) );
+		assertTrue( CoreTestUtil.getListeners( label2 ).contains(
+				clientListener2 ) );
 
 		// Set new style and broadcast
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.core;
 
 import java.io.IOException;
 
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
@@ -134,16 +135,19 @@ public class StyledElementTest extends BaseTestCase
 		// get intrinsic property from styledElement which has name
 
 		styledElement.setName( "styled element" ); //$NON-NLS-1$
-		Object o = styledElement.getIntrinsicProperty( DesignElement.NAME_PROP );
+		Object o = CoreTestUtil.getIntrinsicProperty( styledElement,
+				DesignElement.NAME_PROP );
 		assertEquals( "styled element", o ); //$NON-NLS-1$
 
 		// get intrinsic property from styledElement which has style
 
 		style.setName( "style" ); //$NON-NLS-1$
-		o = styledElement.getIntrinsicProperty( StyledElement.STYLE_PROP );
+		o = CoreTestUtil.getIntrinsicProperty( styledElement,
+				StyledElement.STYLE_PROP );
 		assertNull( o );
 		styledElement.setStyle( style );
-		o = styledElement.getIntrinsicProperty( StyledElement.STYLE_PROP );
+		o = CoreTestUtil.getIntrinsicProperty( styledElement,
+				StyledElement.STYLE_PROP );
 		assertEquals( style, ( (ElementRefValue) o ).getElement( ) );
 
 		// get intrinsic property from Label which has extends element
@@ -152,8 +156,8 @@ public class StyledElementTest extends BaseTestCase
 		Label label2 = new Label( );
 		label2.setName( "hexingjie" ); //$NON-NLS-1$
 		label1.setExtendsElement( label2 );
-		ElementRefValue elementRefValue = (ElementRefValue) label1
-				.getIntrinsicProperty( DesignElement.EXTENDS_PROP );
+		ElementRefValue elementRefValue = (ElementRefValue) CoreTestUtil
+				.getIntrinsicProperty( label1, DesignElement.EXTENDS_PROP );
 		assertEquals( "hexingjie", elementRefValue.getElement( ).getName( ) ); //$NON-NLS-1$
 
 	}
@@ -164,7 +168,8 @@ public class StyledElementTest extends BaseTestCase
 	 */
 	public void testStyleProperty( ) throws Exception
 	{
-		sessionHandle = DesignEngine.newSession( (ULocale) null );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 
@@ -202,7 +207,7 @@ public class StyledElementTest extends BaseTestCase
 		// remove the style1 and set the "null" to label
 
 		style1.drop( );
-		assertNull( designHandle.findStyle( style1.getName( ) ) ); //$NON-NLS-1$
+		assertNull( designHandle.findStyle( style1.getName( ) ) );
 		assertNull( label.getStyle( ) );
 		assertNull( ( (StyledElement) label.getElement( ) ).getStyle( design ) );
 		assertEquals( style1.getName( ), ( (StyledElement) label.getElement( ) )
@@ -260,9 +265,9 @@ public class StyledElementTest extends BaseTestCase
 
 		designHandle.getStyles( ).drop( designHandle.findStyle( "label" ) ); //$NON-NLS-1$
 		assertEquals( "gray", label3.getProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
-		assertEquals( null, label3.getFactoryPropertyHandle( Style.COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals( null, label3.getFactoryPropertyHandle( Style.COLOR_PROP ) );
 
-		designHandle.includeLibrary( "Library_1.xml", "newLib" ); //$NON-NLS-1$
+		designHandle.includeLibrary( "Library_1.xml", "newLib" ); //$NON-NLS-1$ //$NON-NLS-2$
 		LibraryHandle lib = designHandle.getLibrary( "newLib" ); //$NON-NLS-1$
 		assertNotNull( lib );
 

@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -894,7 +895,8 @@ public class DesignElementTest extends BaseTestCase
 		MetaDataReader
 				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
 
-		sessionHandle = DesignEngine.newSession( (ULocale) null );
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( (ULocale) null );
 		MetaDataDictionary.reset( );
 
 		MetaDataReader.read( ReportDesign.class
@@ -933,23 +935,26 @@ public class DesignElementTest extends BaseTestCase
 	 */
 	public void testAddRemoveListener( ) throws Exception
 	{
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 		MyActionListener listener = new MyActionListener( );
 
 		// Add listner
 
 		designElement.addListener( listener );
-		assertTrue( designElement.listeners.contains( listener ) );
+		assertTrue( CoreTestUtil.getListeners( designElement ).contains(
+				listener ) );
 
 		// Remove listener
 
 		designElement.removeListener( listener );
-		assertFalse( designElement.listeners.contains( listener ) );
+		assertFalse( CoreTestUtil.getListeners( designElement ).contains(
+				listener ) );
 
 		// Remove a non-existing listener
 
 		designElement.removeListener( listener );
-		assertFalse( designElement.listeners.contains( listener ) );
+		assertFalse( CoreTestUtil.getListeners( designElement ).contains(
+				listener ) );
 
 		// remove all listeners.
 
@@ -962,16 +967,16 @@ public class DesignElementTest extends BaseTestCase
 		// add an element then undo.
 
 		designHandle.getBody( ).add( handle );
-		assertEquals( 1, designElement.listeners.size( ) );
+		assertEquals( 1, CoreTestUtil.getListeners( designElement ).size( ) );
 
 		designHandle.getCommandStack( ).undo( );
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 
 		designHandle.getCommandStack( ).redo( );
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 
 		designHandle.getCommandStack( ).undo( );
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 
 		// drop an element, listeners are removed.
 
@@ -980,13 +985,13 @@ public class DesignElementTest extends BaseTestCase
 		designHandle.getBody( ).add( handle );
 		handle.dropAndClear( );
 
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 
 		designHandle.getCommandStack( ).undo( );
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 
 		designHandle.getCommandStack( ).redo( );
-		assertNull( designElement.listeners );
+		assertNull( CoreTestUtil.getListeners( designElement ) );
 	}
 
 	/**
@@ -1026,7 +1031,7 @@ public class DesignElementTest extends BaseTestCase
 		designHandle.getComponents( ).add( grand );
 
 		designElement.setExtendsElement( parent.getElement( ) );
-		parent.setExtendsElement( grand.getElement( ) );
+		parent.setExtends( grand );
 
 		MyActionListener listener = new MyActionListener( );
 		MyActionListener parentListener = new MyActionListener( );
@@ -1035,9 +1040,12 @@ public class DesignElementTest extends BaseTestCase
 		designElement.addListener( listener );
 		parent.addListener( parentListener );
 		grand.addListener( grandListener );
-		assertTrue( designElement.listeners.contains( listener ) );
-		assertTrue( parent.getElement( ).listeners.contains( parentListener ) );
-		assertTrue( grand.getElement( ).listeners.contains( grandListener ) );
+		assertTrue( CoreTestUtil.getListeners( designElement ).contains(
+				listener ) );
+		assertTrue( CoreTestUtil.getListeners( parent.getElement( ) ).contains(
+				parentListener ) );
+		assertTrue( CoreTestUtil.getListeners( grand.getElement( ) ).contains(
+				grandListener ) );
 
 		// test the original name of the elements.
 
@@ -1560,7 +1568,7 @@ public class DesignElementTest extends BaseTestCase
 
 		// add parent
 
-		parent.addDerived( designElement );
+		CoreTestUtil.addDerived( parent, designElement );
 		assertTrue( parent.getDescendents( ).contains( designElement ) );
 	}
 
@@ -2749,7 +2757,7 @@ public class DesignElementTest extends BaseTestCase
 	 * <li>data</li>
 	 * <li>data</li>
 	 * <li>hexingjie(haha)</li>
-	 * <li>data£¨testtest)</li>
+	 * <li>dataï¿½ï¿½testtest)</li>
 	 * <li>data(test asdf sadf sadf sdaf...)
 	 * <li>
 	 * </ul>
@@ -3706,6 +3714,11 @@ public class DesignElementTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Tests the name-manager.
+	 * 
+	 * @throws Exception
+	 */
 	public void testNameManager( ) throws Exception
 	{
 		openDesign( "DesignElementTest_1.xml" ); //$NON-NLS-1$
@@ -3714,15 +3727,16 @@ public class DesignElementTest extends BaseTestCase
 		ScalarParameterHandle param = designHandle.getElementFactory( )
 				.newScalarParameter( null );
 		assertNotNull( param.getName( ) );
-		assertEquals( param.getElement( ), ( (NameManager) design
-				.getNameManager( ) ).getNameSpace( Module.PARAMETER_NAME_SPACE )
-				.getElement( param.getName( ) ) );
+		assertEquals( param.getElement( ), CoreTestUtil.getNameSpace(
+				( (NameManager) design.getNameManager( ) ),
+				Module.PARAMETER_NAME_SPACE ).getElement( param.getName( ) ) );
 
 		// add the parameter into the design and find that
 		// the cached name in the name manger is cleared.
 
 		designHandle.getParameters( ).add( param );
-		assertNull( ( (NameManager) design.getNameManager( ) ).getNameSpace(
+		assertNull( CoreTestUtil.getNameSpace(
+				( (NameManager) design.getNameManager( ) ),
 				Module.PARAMETER_NAME_SPACE ).getElement( param.getName( ) ) );
 	}
 

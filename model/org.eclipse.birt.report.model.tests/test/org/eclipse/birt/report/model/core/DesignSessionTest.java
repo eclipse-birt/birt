@@ -141,28 +141,28 @@ public class DesignSessionTest extends BaseTestCase
 		ULocale.setDefault( ULocale.CHINA );
 
 		DesignSession session = new DesignSession( null );
-		assertEquals( ULocale.CHINA, session.locale );
+		assertEquals( ULocale.CHINA, CoreTestUtil.getSessionLocale( session ) );
 
 		session = new DesignSession( ULocale.ENGLISH );
-		assertEquals( ULocale.ENGLISH, session.locale );
+		assertEquals( ULocale.ENGLISH, CoreTestUtil.getSessionLocale( session ) );
 
 		ReportDesign design = session.createDesign( );
 		assertNotNull( design );
-		assertEquals( session, design.session );
+		assertEquals( session, CoreTestUtil.getDesignSession( design ) );
 
 		design = session.openDesign( getClassFolder( )
 				+ "/input/DesignSessionTest.xml" ); //$NON-NLS-1$
-		assertEquals( session, design.session );
+		assertEquals( session, CoreTestUtil.getDesignSession( design ) );
 
 		design = session.openDesign( getClassFolder( )
 				+ "/input/DesignSessionTest.xml" ); //$NON-NLS-1$
 
-		assertEquals( 3, session.designs.size( ) );
+		assertEquals( 3, CoreTestUtil.getDesigns( session ).size( ) );
 		session.drop( design );
-		assertEquals( 2, session.designs.size( ) );
+		assertEquals( 2, CoreTestUtil.getDesigns( session ).size( ) );
 
 		design = session.createDesign( "template" ); //$NON-NLS-1$
-		assertEquals( 3, session.designs.size( ) );
+		assertEquals( 3, CoreTestUtil.getDesigns( session ).size( ) );
 
 		ULocale.setDefault( defaultULocale );
 	}
@@ -184,8 +184,7 @@ public class DesignSessionTest extends BaseTestCase
 		assertEquals( "Test", label.getProperty( design.getRoot( ), "text" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		assertEquals(
-				getClassFolder( )
-						+ "/input/CreateDesignFromTemplateTest.xml", design.getFileName( ) );//$NON-NLS-1$ 
+				getClassFolder( ) + "/input/CreateDesignFromTemplateTest.xml", design.getFileName( ) );//$NON-NLS-1$ 
 
 		TextItem text = (TextItem) design.findElement( "NewText" ); //$NON-NLS-1$ 
 		assertEquals( "blue", text.getProperty( design.getRoot( ), "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -197,13 +196,14 @@ public class DesignSessionTest extends BaseTestCase
 				"hello world", text.getProperty( design.getRoot( ), "content" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		List libs = design.getLibraries( );
 		assertEquals( 1, libs.size( ) );
-		Library lib = (Library)libs.get( 0 );
-		assertEquals( "LibraryForCreateDesignFromTemplateTest" , lib.getNamespace( ));//$NON-NLS-1$
-	
+		Library lib = (Library) libs.get( 0 );
+		assertEquals(
+				"LibraryForCreateDesignFromTemplateTest", lib.getNamespace( ) );//$NON-NLS-1$
+
 	}
 
 	/**
-	 * Tests set¡Á¡Á¡Á mthods. Test cases:
+	 * Tests setï¿½aaï¿½ mthods. Test cases:
 	 * 
 	 * <ul>
 	 * <li>Case1:Get the default RGB and units value.

@@ -247,14 +247,15 @@ public class DesignElementCloneTest extends BaseTestCase
 		pageHandle.addListener( new MyListener( "listener1" ) ); //$NON-NLS-1$
 		pageHandle.addListener( new MyListener( "listener2" ) ); //$NON-NLS-1$
 
-		assertEquals( 2, pageHandle.getElement( ).listeners.size( ) );
+		assertEquals( 2, CoreTestUtil.getListeners( pageHandle.getElement( ) )
+				.size( ) );
 		assertEquals( design, pageHandle.getContainer( ) );
 
 		GraphicMasterPage masterPage = (GraphicMasterPage) pageHandle.copy( );
 
 		// the listeners should be set to null after clone.
 
-		assertNull( masterPage.listeners );
+		assertNull( CoreTestUtil.getListeners( masterPage ) );
 
 		// the container should not be kept after clone
 
@@ -304,7 +305,8 @@ public class DesignElementCloneTest extends BaseTestCase
 
 		SharedStyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
 		assertNotNull( styleHandle );
-		assertNotNull( styleHandle.getElement( ).cachedDefn );
+		assertNotNull( CoreTestUtil.getCachedElementDefn( styleHandle
+				.getElement( ) ) );
 
 		List client = ( (Style) styleHandle.getElement( ) ).getClientList( );
 		assertEquals( 3, client.size( ) );
