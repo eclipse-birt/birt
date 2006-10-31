@@ -494,6 +494,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			{
 				reportRunnable = reportDocumentInstance.getReportRunnable( );
 
+				if ( ParameterAccessor.getParameter( request,
+						ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
+					this.documentInUrl = true;
+
 				// in frameset mode, parse parameter values from document file
 				// if the path is frameset, copy the parameter value from
 				// document
@@ -501,16 +505,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				// null, means user wants to preview the document, copy the
 				// parameter from the document to do the preview.
 				if ( IBirtConstants.SERVLET_PATH_FRAMESET
-						.equalsIgnoreCase( request.getServletPath( ) ) )
+						.equalsIgnoreCase( request.getServletPath( ) )
+						|| this.documentInUrl )
 
 				{
 					this.parameterMap = reportDocumentInstance
 							.getParameterValues( );
 				}
-
-				if ( ParameterAccessor.getParameter( request,
-						ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
-					this.documentInUrl = true;
 
 				// if generating document from report isn't completed
 				if ( !reportDocumentInstance.isComplete( )
