@@ -600,7 +600,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 			else
 			{
-				birtEventDispatcher.broadcastEvent( birtEvent.__E_CHANGE_PARAMETER );
+				if( this.__mode == 'run' )
+				{
+					// if 'run' mode, fire GetPageAll event
+					this.__init_page_all( );
+				}
+				else
+				{
+					birtEventDispatcher.broadcastEvent( birtEvent.__E_CHANGE_PARAMETER );
+				}
+				
 				this.__l_hide( );
 			}
 		}
