@@ -70,7 +70,8 @@
 	<property name="dtp.home" location=".." />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />	
-
+	<property name="export.dir" location="export" />
+	
 	<!-- Compiler properties -->
 	<property name="compilerArg" value="" />
 
@@ -222,7 +223,9 @@
 		<antcall target="buildDependents" />
 		<delete file="${dir.runtime}/birt.zip" />
 		<zip destfile="${dir.runtime}/birt.zip">
-			<fileset dir="${viewer.dir}/birt_web/" excludes="**/report/*,**/scriptlib,**/log,**/WEB-INF/web.xml,**/WEB-INF/web_*.xml,**/WEB-INF/web-*.xml"/>
+			<fileset dir="${viewer.dir}/birt_web/" 
+				includes="*.jsp,*.rptdesign,webcontent/**,WEB-INF/attachments/**,WEB-INF/lib/**,WEB-INF/tlds/**,WEB-INF/platform/configuration/**,WEB-INF/platform/plugins/**,WEB-INF/*.wsdd,WEB-INF/weblogic.xml"
+				excludes="**/WEB-INF/classes/**"/>
 		</zip>
 	</target>
 
