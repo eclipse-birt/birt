@@ -400,10 +400,13 @@ public class DataExtractionTaskTest extends EngineCase
 		String[] columnNames = new String[]{"OFFICECODE" , "CITY"};
 		dataExTask.selectColumns( columnNames );
 		IExtractionResults result = dataExTask.extract( );
-		int count = result.getResultMetaData( ).getColumnCount( );
-		/*
-		 * Here, the method selectColumn() doesnot work.
-		 */
+		IResultMetaData metaData = result.getResultMetaData( );
+		int count = metaData.getColumnCount( );
+		assertEquals( 2, count );
+		String columnName = metaData.getColumnName( 0 );
+		assertEquals( "OFFICECODE", columnName );
+		columnName = metaData.getColumnName( 1 );
+		assertEquals( "CITY", columnName );
 	}
 
 	/**

@@ -82,7 +82,6 @@
 							</CELL>
 						</ROW>
 					</TABLE-BAND>
-					<TABLE-BAND/>
 				</GROUP>
 				<GROUP>
 					<TABLE-BAND>
@@ -103,9 +102,7 @@
 							</CELL>
 						</ROW>
 					</TABLE-BAND>
-					<TABLE-BAND/>
 				</GROUP>
-				<TABLE-BAND/>
 			</GROUP>
 			<TABLE-BAND>
 				<ROW>

@@ -144,142 +144,142 @@ public class DataSourceCompareTest extends EngineCase
 		return null;
 	}
 
+	class EngineTask
+	{
+
+		/**
+		 * design file
+		 */
+		private String designFile;
+
+		/**
+		 * decument file
+		 */
+		private String documentFile;
+
+		/**
+		 * dataSource file
+		 */
+		private String dataSourceFile;
+
+		/**
+		 * target file
+		 */
+		private String targetFile;
+
+		/**
+		 * 
+		 */
+		public EngineTask( String designFile, String documentFile,
+				String dataSourceFile, String targetFile )
+		{
+			this.designFile = designFile;
+			this.documentFile = documentFile;
+			this.dataSourceFile = dataSourceFile;
+			this.targetFile = targetFile;
+		}
+
+		/**
+		 * get dataSource form file
+		 */
+		protected IDocArchiveReader openDataSource( String dataSourceFile )
+				throws Exception
+		{
+			if ( dataSourceFile == null || dataSourceFile.length( ) == 0 )
+			{
+				return null;
+			}
+			if ( dataSourceFile.endsWith( "\\" ) || dataSourceFile.endsWith( "/" ) )
+			{
+				return new FolderArchiveReader( dataSourceFile );
+			}
+			else
+			{
+				return new FileArchiveReader( dataSourceFile );
+			}
+		}
+
+		/**
+		 * create document
+		 */
+		public void doRunTask( ) throws Exception
+		{
+			EngineConfig config = new EngineConfig( );
+			IReportEngine engine = new ReportEngine( config );
+			IReportRunnable report = engine.openReportDesign( designFile );
+			IRunTask task = engine.createRunTask( report );
+			IDocArchiveReader dataSource = openDataSource( dataSourceFile );
+			if ( dataSource != null )
+			{
+				task.setDataSource( dataSource );
+			}
+			task.run( documentFile );
+			task.close( );
+			engine.shutdown( );
+		}
+
+		/**
+		 * create the report document.
+		 * 
+		 * @throws Exception
+		 */
+		public void doRenderTask( ) throws Exception
+		{
+			EngineConfig config = new EngineConfig( );
+			IReportEngine engine = new ReportEngine( config );
+
+			// open the document in the archive.
+			IReportDocument reportDoc = engine.openReportDocument( documentFile );
+			// create an RenderTask using the report document
+			IRenderTask task = engine.createRenderTask( reportDoc );
+
+			// create the render options
+			IRenderOption option = new HTMLRenderOption( );
+			option.setOutputFormat( "html" ); //$NON-NLS-1$
+			option.setOutputFileName( targetFile );
+			// set the render options
+			task.setRenderOption( option );
+
+			IDocArchiveReader dataSource = openDataSource( dataSourceFile );
+			if ( dataSource != null )
+			{
+				task.setDataSource( dataSource );
+			}
+			// execute the report to create the report document.
+			task.render( );
+			// close the task, release the resource.
+			task.close( );
+			engine.shutdown( );
+		}
+
+		/**
+		 * create document
+		 */
+		public void doRunAndRenderTask( ) throws Exception
+		{
+			EngineConfig config = new EngineConfig( );
+			IReportEngine engine = new ReportEngine( config );
+			IReportRunnable report = engine.openReportDesign( designFile );
+
+			IRunAndRenderTask task = engine.createRunAndRenderTask( report );
+
+			// create the render options
+			IRenderOption option = new HTMLRenderOption( );
+			option.setOutputFormat( "html" ); //$NON-NLS-1$
+			option.setOutputFileName( targetFile );
+			// set the render options
+			task.setRenderOption( option );
+
+			IDocArchiveReader dataSource = openDataSource( dataSourceFile );
+			if ( dataSource != null )
+			{
+				task.setDataSource( dataSource );
+			}
+
+			task.run( );
+			task.close( );
+			engine.shutdown( );
+		}
+	}
 }
 
-class EngineTask
-{
-
-	/**
-	 * design file
-	 */
-	private String designFile;
-
-	/**
-	 * decument file
-	 */
-	private String documentFile;
-
-	/**
-	 * dataSource file
-	 */
-	private String dataSourceFile;
-
-	/**
-	 * target file
-	 */
-	private String targetFile;
-
-	/**
-	 * 
-	 */
-	public EngineTask( String designFile, String documentFile,
-			String dataSourceFile, String targetFile )
-	{
-		this.designFile = designFile;
-		this.documentFile = documentFile;
-		this.dataSourceFile = dataSourceFile;
-		this.targetFile = targetFile;
-	}
-
-	/**
-	 * get dataSource form file
-	 */
-	protected IDocArchiveReader openDataSource( String dataSourceFile )
-			throws Exception
-	{
-		if ( dataSourceFile == null || dataSourceFile.length( ) == 0 )
-		{
-			return null;
-		}
-		if ( dataSourceFile.endsWith( "\\" ) || dataSourceFile.endsWith( "/" ) )
-		{
-			return new FolderArchiveReader( dataSourceFile );
-		}
-		else
-		{
-			return new FileArchiveReader( dataSourceFile );
-		}
-	}
-
-	/**
-	 * create document
-	 */
-	public void doRunTask( ) throws Exception
-	{
-		EngineConfig config = new EngineConfig( );
-		IReportEngine engine = new ReportEngine( config );
-		IReportRunnable report = engine.openReportDesign( designFile );
-		IRunTask task = engine.createRunTask( report );
-		IDocArchiveReader dataSource = openDataSource( dataSourceFile );
-		if ( dataSource != null )
-		{
-			task.setDataSource( dataSource );
-		}
-		task.run( documentFile );
-		task.close( );
-		engine.shutdown( );
-	}
-
-	/**
-	 * create the report document.
-	 * 
-	 * @throws Exception
-	 */
-	public void doRenderTask( ) throws Exception
-	{
-		EngineConfig config = new EngineConfig( );
-		IReportEngine engine = new ReportEngine( config );
-
-		// open the document in the archive.
-		IReportDocument reportDoc = engine.openReportDocument( documentFile );
-		// create an RenderTask using the report document
-		IRenderTask task = engine.createRenderTask( reportDoc );
-
-		// create the render options
-		IRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" ); //$NON-NLS-1$
-		option.setOutputFileName( targetFile );
-		// set the render options
-		task.setRenderOption( option );
-
-		IDocArchiveReader dataSource = openDataSource( dataSourceFile );
-		if ( dataSource != null )
-		{
-			task.setDataSource( dataSource );
-		}
-		// execute the report to create the report document.
-		task.render( );
-		// close the task, release the resource.
-		task.close( );
-		engine.shutdown( );
-	}
-
-	/**
-	 * create document
-	 */
-	public void doRunAndRenderTask( ) throws Exception
-	{
-		EngineConfig config = new EngineConfig( );
-		IReportEngine engine = new ReportEngine( config );
-		IReportRunnable report = engine.openReportDesign( designFile );
-
-		IRunAndRenderTask task = engine.createRunAndRenderTask( report );
-
-		// create the render options
-		IRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" ); //$NON-NLS-1$
-		option.setOutputFileName( targetFile );
-		// set the render options
-		task.setRenderOption( option );
-
-		IDocArchiveReader dataSource = openDataSource( dataSourceFile );
-		if ( dataSource != null )
-		{
-			task.setDataSource( dataSource );
-		}
-
-		task.run( );
-		task.close( );
-		engine.shutdown( );
-	}
-}

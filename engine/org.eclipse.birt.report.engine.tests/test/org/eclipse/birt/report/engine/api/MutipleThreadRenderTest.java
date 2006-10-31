@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.io.ByteArrayOutputStream;
+
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.RunnableMonitor;
 
@@ -8,28 +10,34 @@ public class MutipleThreadRenderTest extends EngineCase
 {
 
 	final static String REPORT_DOCUMENT = "./utest/report.rptdocument";
+	final static String REPORT_DOCUMENT_FOLDER = "./utest/report.rptdocument.folder/";
 	final static String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/mutiple-thread-render.rptdesign";
-	final static String REPORT_DESIGN = "./report.rptdesign";
+	final static String REPORT_DESIGN = "./utest/report.rptdesign";
 
-	IReportEngine engine;
-
-	public void setUp( )
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
 		removeFile( REPORT_DOCUMENT );
+		removeFile( REPORT_DOCUMENT_FOLDER );
 		removeFile( REPORT_DESIGN );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		EngineConfig config = new EngineConfig( );
-		engine = new ReportEngine( config );
 	}
 
 	public void tearDown( )
 	{
-		engine.shutdown( );
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
+		removeFile( REPORT_DOCUMENT_FOLDER );
 	}
 
-	public void testMutipleThread( ) throws Exception
+	/**
+	 * Start the render threads at the same time with create thread. In the
+	 * rener thread, it will test if the document is finished. If it is
+	 * finished, it will start to render.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMutipleThreadWithProgressive( ) throws Exception
 	{
 		RunnableMonitor monitor = new RunnableMonitor( );
 		new CreateDocument( monitor );
@@ -69,7 +77,7 @@ public class MutipleThreadRenderTest extends EngineCase
 			IRunTask task = engine.createRunTask( report );
 			try
 			{
-				task.run( REPORT_DOCUMENT );
+				task.run( REPORT_DOCUMENT_FOLDER );
 			}
 			finally
 			{
@@ -98,7 +106,8 @@ public class MutipleThreadRenderTest extends EngineCase
 				{
 					try
 					{
-						document = engine.openReportDocument( REPORT_DOCUMENT );
+						document = engine
+								.openReportDocument( REPORT_DOCUMENT_FOLDER );
 					}
 					catch ( Exception ex )
 					{
@@ -121,6 +130,8 @@ public class MutipleThreadRenderTest extends EngineCase
 						{
 							HTMLRenderOption options = new HTMLRenderOption( );
 							options.setOutputFormat( "html" );
+							options
+									.setOutputStream( new ByteArrayOutputStream( ) );
 							task.setRenderOption( options );
 							task.setPageNumber( startPage );
 							task.render( );
@@ -169,7 +180,8 @@ public class MutipleThreadRenderTest extends EngineCase
 				{
 					try
 					{
-						document = engine.openReportDocument( REPORT_DOCUMENT );
+						document = engine
+								.openReportDocument( REPORT_DOCUMENT_FOLDER );
 					}
 					catch ( Exception ex )
 					{
@@ -192,6 +204,8 @@ public class MutipleThreadRenderTest extends EngineCase
 						{
 							HTMLRenderOption options = new HTMLRenderOption( );
 							options.setOutputFormat( "PDF" );
+							options
+									.setOutputStream( new ByteArrayOutputStream( ) );
 							task.setRenderOption( options );
 							task.setPageNumber( startPage );
 							task.render( );
@@ -240,7 +254,8 @@ public class MutipleThreadRenderTest extends EngineCase
 				{
 					try
 					{
-						document = engine.openReportDocument( REPORT_DOCUMENT );
+						document = engine
+								.openReportDocument( REPORT_DOCUMENT_FOLDER );
 					}
 					catch ( Exception ex )
 					{
@@ -259,6 +274,7 @@ public class MutipleThreadRenderTest extends EngineCase
 				IRenderTask renderTask = engine.createRenderTask( document );
 				HTMLRenderOption options = new HTMLRenderOption( );
 				options.setOutputFormat( "html" );
+				options.setOutputStream( new ByteArrayOutputStream( ) );
 				renderTask.setRenderOption( options );
 				renderTask.render( );
 				renderTask.close( );
@@ -291,7 +307,8 @@ public class MutipleThreadRenderTest extends EngineCase
 				{
 					try
 					{
-						document = engine.openReportDocument( REPORT_DOCUMENT );
+						document = engine
+								.openReportDocument( REPORT_DOCUMENT_FOLDER );
 					}
 					catch ( Exception ex )
 					{
@@ -310,6 +327,7 @@ public class MutipleThreadRenderTest extends EngineCase
 				IRenderTask renderTask = engine.createRenderTask( document );
 				HTMLRenderOption options = new HTMLRenderOption( );
 				options.setOutputFormat( "PDF" );
+				options.setOutputStream( new ByteArrayOutputStream( ) );
 				renderTask.setRenderOption( options );
 				renderTask.render( );
 				renderTask.close( );
@@ -324,4 +342,93 @@ public class MutipleThreadRenderTest extends EngineCase
 			}
 		}
 	}
+
+	int THREAD_COUNT = 20;
+	int runningThread;
+
+	public void testMutipleThreadRenderShareDocument( ) throws Exception
+	{
+		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+		IRunTask task = engine.createRunTask( report );
+		try
+		{
+			task.run( REPORT_DOCUMENT );
+		}
+		finally
+		{
+			task.close( );
+		}
+		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
+		RenderRunnable[] renders = new RenderRunnable[THREAD_COUNT];
+		for ( int i = 0; i < THREAD_COUNT; i++ )
+		{
+			renders[i] = new RenderRunnable( engine, reportDoc );
+			new Thread( renders[i] ).start( );
+		}
+		long waitingTime = 0;
+		while ( runningThread > 0 )
+		{
+			Thread.sleep( 200 );
+			waitingTime += 200;
+			if ( waitingTime > 20000 )
+			{
+				fail( );
+			}
+		}
+
+		String golden = renders[0].output.toString( );
+		assertTrue( golden.length( ) != 0 );
+		for ( int i = 1; i < THREAD_COUNT; i++ )
+		{
+			String value = renders[i].output.toString( );
+			assertEquals( golden, value );
+		}
+	}
+
+	private class RenderRunnable implements Runnable
+	{
+
+		IReportDocument document;
+		IReportEngine engine;
+		ByteArrayOutputStream output;
+
+		RenderRunnable( IReportEngine engine, IReportDocument document )
+		{
+			this.engine = engine;
+			this.document = document;
+			this.output = new ByteArrayOutputStream( );
+			runningThread++;
+		}
+
+		public void run( )
+		{
+			try
+			{
+				long pageCount = document.getPageCount( );
+				for ( long i = 1; i <= pageCount; i++ )
+				{
+					// create an RenderTask using the report document
+					IRenderTask task = engine.createRenderTask( document );
+					IRenderOption option = new HTMLRenderOption( );
+					option.setOutputFormat( "html" ); //$NON-NLS-1$
+					option.setOutputStream( output );
+					// set the render options
+					task.setRenderOption( option );
+					// render report by page
+					task.setPageNumber( i );
+					task.render( );
+					task.close( );
+				}
+			}
+			catch ( Exception ex )
+			{
+				fail( );
+			}
+			finally
+			{
+				runningThread--;
+			}
+		}
+	}
+
 }

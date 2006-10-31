@@ -29,7 +29,6 @@
 				<list-band>
 					<data/>
 				</list-band>
-				<list-band/>
 			</group>
 			<group>
 				<list-band>
@@ -39,9 +38,7 @@
 				<list-band>
 					<data/>
 				</list-band>
-				<list-band/>
 			</group>
-			<list-band/>
 		</group>
 		<list-band>
 			<label/>
