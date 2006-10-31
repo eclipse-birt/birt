@@ -282,7 +282,7 @@ public class Statement implements IQuery
 				// at prepare time and get 0 as column count.
 				// in the other case, having 0 column doesn't make sense neither and
 				// it doesn't cost anything to try to get the columns from the query.
-				if (resultmd.getColumnCount() == 0) {
+				if (resultmd.getColumnCount() <= 0) {
 					resultmd = null;
 				}
 			}
