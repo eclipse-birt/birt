@@ -276,6 +276,15 @@ public class Statement implements IQuery
 				// gotten prepare time, the getColumnCount function is still
 				// unavailable.
 				resultmd.getColumnCount( );
+				
+				// in the case of sybase 4.9.2 using the sun jdbc-odbc
+				// driver and freetds the database doesn't support ResultMetaData
+				// at prepare time and get 0 as column count.
+				// in the other case, having 0 column doesn't make sense neither and
+				// it doesn't cost anything to try to get the columns from the query.
+				if (resultmd.getColumnCount() == 0) {
+					resultmd = null;
+				}
 			}
 			catch ( SQLException e )
 			{
