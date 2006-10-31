@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -477,7 +478,29 @@ public class ElementFactoryTest extends BaseTestCase
 
 		assertEquals( "Table11", tableHandle2.getName( ) ); //$NON-NLS-1$
 
-		TableHandle tableHandle3 = factory.newTableItem( null ); //$NON-NLS-1$
+		TableHandle tableHandle3 = factory.newTableItem( null ); 
 		assertNull( tableHandle3.getName( ) );
 	}
+	
+	/**
+	 * New extended item from library.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testNewExtendedItemFrom( ) throws Exception
+	{
+		new PeerExtensionLoader( ).load( );
+		
+		openDesign("ElementFactoryTest_2.xml");//$NON-NLS-1$
+		LibraryHandle libraryHandle = designHandle.getLibrary( "ElementFactoryLibTest" );//$NON-NLS-1$
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) libraryHandle
+				.getElementByID( 77 );
+
+		DesignElementHandle handle = designHandle.getElementFactory( )
+				.newElementFrom( extendedItem, "NewMatrix" );//$NON-NLS-1$
+		assertNotNull( handle );
+		assertEquals( "NewMatrix", handle.getName( ) );//$NON-NLS-1$
+	}
+	
 }

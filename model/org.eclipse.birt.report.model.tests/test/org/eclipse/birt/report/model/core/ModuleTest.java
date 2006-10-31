@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.core;
 
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
@@ -19,7 +21,10 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -279,4 +284,45 @@ public class ModuleTest extends BaseTestCase
 		assertEquals( 14, label.getID( ) );
 	}
 
+	/**
+	 * Tests drag data source and data set. After draging ,should keep position
+	 * right.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testDragDataSourceAndDataSet( ) throws Exception
+	{
+		openDesign( "ModuleTest_3.xml" ); //$NON-NLS-1$
+
+		SlotHandle slotHandle = designHandle.getDataSources( );
+		DataSourceHandle dsHandle2 = designHandle
+				.findDataSource( "Data Source2" );//$NON-NLS-1$
+
+		DataSource ds = (DataSource) dsHandle2.copy( );
+		dsHandle2.drop( );
+		slotHandle.paste( ds, 1 );
+
+		DataSourceHandle dsHandle = (DataSourceHandle) slotHandle.get( 0 );
+		assertEquals( "Data Source3", dsHandle.getName( ) );//$NON-NLS-1$
+		dsHandle = (DataSourceHandle) slotHandle.get( 1 );
+		assertEquals( "Data Source2", dsHandle.getName( ) );//$NON-NLS-1$
+		dsHandle = (DataSourceHandle) slotHandle.get( 2 );
+		assertEquals( "Data Source4", dsHandle.getName( ) );//$NON-NLS-1$
+
+		slotHandle = designHandle.getDataSets( );
+		DataSetHandle setHandle1 = designHandle.findDataSet( "Data Set" );//$NON-NLS-1$
+		DataSet set = (DataSet) setHandle1.copy( );
+		setHandle1.drop( );
+		slotHandle.paste( set, 1 );
+
+		DataSetHandle setHandle = (DataSetHandle) slotHandle.get( 0 );
+		assertEquals( "Data Set1", setHandle.getName( ) );//$NON-NLS-1$
+		setHandle = (DataSetHandle) slotHandle.get( 1 );
+		assertEquals( "Data Set", setHandle.getName( ) );//$NON-NLS-1$
+		setHandle = (DataSetHandle) slotHandle.get( 2 );
+		assertEquals( "Data Set2", setHandle.getName( ) );//$NON-NLS-1$
+
+	}
+	
 }

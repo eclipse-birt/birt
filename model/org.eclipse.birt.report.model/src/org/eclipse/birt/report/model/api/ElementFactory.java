@@ -705,13 +705,16 @@ public class ElementFactory
 					"Only report item extension can be created through this method." ); //$NON-NLS-1$
 
 		ExtendedItem element = new ExtendedItem( name );
-
+		
+		//init provider.
+		
+		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
+		
 		if ( parent != null )
 		{
 			element.getHandle( module ).setExtends( parent );
 		}
 
-		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
 		module.makeUniqueName( element );
 		ExtendedItemHandle handle = element.handle( module );
 		try
