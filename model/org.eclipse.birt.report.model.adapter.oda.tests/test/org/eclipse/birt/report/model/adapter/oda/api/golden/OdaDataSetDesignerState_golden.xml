@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="myDataSource1" id="2">
+            <text-property name="displayName">My Data Source One</text-property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>odaUser</name>
+                    <value>User</value>
+                </ex-property>
+                <ex-property>
+                    <name>odaPassword</name>
+                    <value>Password</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/birt</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
+            <text-property name="displayName">My Data Set One</text-property>
+            <property name="dataSource">myDataSource1</property>
+            <property name="queryText">select * from user</property>
+            <property name="resultSetName">userid</property>
+            <structure name="designerState">
+                <property name="version">2.0</property>
+                <property name="stateContentAsBlob">NDIzRFI=</property>
+            </structure>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="4">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

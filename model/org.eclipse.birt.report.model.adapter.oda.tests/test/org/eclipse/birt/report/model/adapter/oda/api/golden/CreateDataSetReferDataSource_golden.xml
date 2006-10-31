@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">Library_2.xml</property>
+            <property name="namespace">lib</property>
+        </structure>
+    </list-property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="testSource" id="4"
+ extends="lib.Data Source"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="testDataSet" id="5">
+            <property name="dataSource">testSource</property>
+            <property name="queryText">new query text</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

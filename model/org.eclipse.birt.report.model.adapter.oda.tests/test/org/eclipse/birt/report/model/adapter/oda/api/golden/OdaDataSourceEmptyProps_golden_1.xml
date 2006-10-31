@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="my data source design" id="2">
+            <text-property name="displayName">data source display name</text-property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>odaDriverClass</name>
+                    <value>new drivers</value>
+                </ex-property>
+                <ex-property>
+                    <name>odaPassword</name>
+                    <value>new password</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">new drivers</property>
+            <property name="odaURL">jdbc:sqlserver://localhost</property>
+            <property name="odaUser">new user</property>
+        </oda-data-source>
+    </data-sources>
+    <page-setup>
+        <graphic-master-page name="My Page" id="3">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>
