@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
@@ -49,7 +50,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.39 $ $Date: 2006/08/22 08:31:13 $
+ * @version $Revision: 1.40 $ $Date: 2006/08/30 05:18:43 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -235,18 +236,28 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		if ( bookmark != null )
 		{
 			Object tmp = evaluate( bookmark );
-			if ( tmp != null )
+			if ( tmp != null && !tmp.equals( "" ) )
 			{
 				itemContent.setBookmark( tmp.toString( ) );
+			}
+			else
+			{
+				context.addException( new EngineException(
+						"Bookmark can not be null or empty." ) );
 			}
 		}
 		String toc = item.getTOC( );
 		if ( toc != null )
 		{
 			Object tmp = evaluate( toc );
-			if ( tmp != null )
+			if ( tmp != null && !tmp.equals( "" ) )
 			{
 				itemContent.setTOC( tmp );
+			}
+			else
+			{
+				context.addException( new EngineException(
+						"TOC can not be null or empty." ) );
 			}
 		}
 	}
@@ -284,12 +295,17 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				case ActionDesign.ACTION_BOOKMARK :
 					assert action.getBookmark( ) != null;
 					value = evaluate( action.getBookmark( ) );
-					if ( value != null )
+					if ( value != null && !value.equals( "" ) )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
 						obj.setBookmark( value.toString( ) );
 						obj.setBookmarkType( action.isBookmark( ) );
 						itemContent.setHyperlinkAction( obj );
+					}
+					else
+					{
+						context.addException( new EngineException(
+								"Bookmark in hyperlink can not be null or empty." ) );
 					}
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :

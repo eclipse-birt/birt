@@ -64,13 +64,13 @@ public class ActionInstance implements IActionInstance
 	 */
 	public void setBookmark( String bookmark )
 	{
-		if ( bookmark != null )
+		if ( bookmark != null && !bookmark.equals( "" ) )
 		{
 			hyperlink.setBookmark( bookmark );
 		}
 		else
 		{
-			throw new IllegalArgumentException( "Bookmark can not be set to NULL." );
+			throw new IllegalArgumentException( "Bookmark can not be set to NULL or empty." );
 		}
 	}	
 
@@ -95,13 +95,13 @@ public class ActionInstance implements IActionInstance
 	 */
 	public void setHyperlink( String hyperlink, String target )
 	{
-		if ( hyperlink != null )
+		if ( hyperlink != null && !hyperlink.equals( "" ) )
 		{
 			this.hyperlink.setHyperlink( hyperlink, target );
 		}
 		else
 		{
-			throw new IllegalArgumentException( "Hyperlink can not be set to NULL." );
+			throw new IllegalArgumentException( "Hyperlink can not be set to NULL or empty." );
 		}
 	}
 
