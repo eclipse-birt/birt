@@ -85,7 +85,7 @@ public class DocArchiveLockManagerTest extends TestCase
 	{
 
 		static long threadId = 0;
-		DocArchiveLockManager lockManager = DocArchiveLockManager.getInstance( );
+		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		int status;
 		long lockTime = -1;
 		long unlockTime = -1;

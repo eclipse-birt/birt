@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import com.ibm.icu.util.ULocale;
+
 import junit.framework.TestCase;
 
 /**
@@ -26,7 +28,7 @@ import junit.framework.TestCase;
  * format string. In this unit test, we pay more attention the new method which
  * we add in the subclss.
  * 
- * @version $Revision: 1.10 $ $Date: 2006/04/27 05:04:38 $
+ * @version $Revision: 1.11 $ $Date: 2006/10/27 02:05:05 $
  */
 public class DateFormatterTest extends TestCase
 {
@@ -77,7 +79,7 @@ public class DateFormatterTest extends TestCase
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
 		Date date = dateCal.getTime( );
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
-				new Locale( "CHINESE" ) );
+				new ULocale( "CHINESE" ) );
 		SimpleDateFormat sampleJava = new SimpleDateFormat(
 				"MM/dd/yyyy hh:mm:ss a", new Locale( "CHINESE" ) );
 		assertEquals( sampleJava.format( date ), sample.format( date ) );
@@ -92,21 +94,19 @@ public class DateFormatterTest extends TestCase
 	public void testDateFormatLocale( )
 	{
 		Locale locale = new Locale( "en", "us" );
-		DateFormatter sample = new DateFormatter( locale );
+		DateFormatter sample = new DateFormatter( ULocale.forLocale(locale) );
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
 		Date date = dateCal.getTime( );
-		SimpleDateFormat sampleJava = new SimpleDateFormat(
-				"MM/dd/yy KK:mm aa", locale );
 		//assertEquals(sampleJava.format(date), sample.format(date));
 		locale = Locale.ITALY;
-		sample = new DateFormatter( locale );
-		sampleJava = new SimpleDateFormat( "MM/dd/yy KK:mm aa", locale );
+		sample = new DateFormatter( ULocale.forLocale(locale) );
+		SimpleDateFormat sampleJava = new SimpleDateFormat( "MM/dd/yy KK:mm aa", locale );
 		//assertEquals(sampleJava.format(date), sample.format(date));
 		sample.applyPattern( "MM/dd/yy KK:mm aa" );
 		assertEquals( "09/13/98 08:01 p.", sample.format( date ) );
-		sample = new DateFormatter( "Long Date", locale );
+		sample = new DateFormatter( "Long Date", ULocale.forLocale(locale) );
 		assertEquals( "13 settembre 1998", sample.format( date ) );
 		assertTrue( true );
 
@@ -119,7 +119,7 @@ public class DateFormatterTest extends TestCase
 	{
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
-				locale );
+				ULocale.forLocale(locale) );
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
@@ -134,7 +134,7 @@ public class DateFormatterTest extends TestCase
 	{
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
-				locale );
+				ULocale.forLocale(locale) );
 		assertEquals( "MM/dd/yyyy hh:mm:ss a", sample.getPattern( ) );
 	}
 
@@ -147,7 +147,7 @@ public class DateFormatterTest extends TestCase
 		Date date = dateCal.getTime( );
 
 		Locale locale = new Locale( "en", "us" );
-		DateFormatter sample = new DateFormatter( locale );
+		DateFormatter sample = new DateFormatter( ULocale.forLocale(locale) );
 		sample.applyPattern( "Long Date" );
 		assertEquals( "September 13, 1998", sample.format( date ) );
 		sample.applyPattern( "D" );

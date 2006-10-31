@@ -1,44 +1,73 @@
-/*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
 
 package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import junit.framework.TestCase;
 
-public class FileArchiveTest extends TestCase
+public class FolderArchiveTest extends TestCase
 {
 
-	static final String ARCHIVE_NAME = "./utest/test.archive";
-	static final String TEMP_FOLDER_NAME = "./utest/test.archive.tmpfolder";
+	static final String ARCHIVE_NAME = "./utest/test.archive.folder/";
 	static final String STREAM_NAME = "/teststream";
 
 	public void setUp( )
 	{
 		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
-		ArchiveUtil.DeleteAllFiles( new File( TEMP_FOLDER_NAME ) );
 	}
 
 	public void tearDown( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( TEMP_FOLDER_NAME ) );
 		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
 
+	/**
+	 * reader and writer read/write interactivily. After writing, the writer
+	 * should flush the data into disk. before reading, the reader should
+	 * refersh the data from the disk. check to see if the data read out is same
+	 * with what we saved.
+	 * 
+	 * @throws Exception
+	 */
+	public void testReaderDuringWriter( ) throws Exception
+	{
+		FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );
+		writer.initialize( );
+		FolderArchiveReader reader = new FolderArchiveReader( ARCHIVE_NAME );
+		reader.open( );
+		RAOutputStream ws = writer.createRandomAccessStream( STREAM_NAME );
+		ws.writeInt( 1 );
+		ws.flush( );
+		RAInputStream rs = reader.getStream( STREAM_NAME );
+		assertEquals( 1, rs.readInt( ) );
+		ws.writeLong( -1L );
+		ws.flush( );
+		rs.refresh( );
+		assertEquals( -1L, rs.readLong( ) );
+		ws.seek( 2 );
+		ws.writeLong( -2L );
+		ws.flush( );
+		rs.refresh( );
+		rs.seek( 2 );
+		assertEquals( -2L, rs.readLong( ) );
+		rs.close( );
+
+		ws.close( );
+
+		reader.close( );
+		writer.finish( );
+	}
+
+	/**
+	 * writer writes the data into disk. then reader reads them out. check the
+	 * data to see if they are the same.
+	 * 
+	 * @throws Exception
+	 */
 	public void testReaderAfterWriter( ) throws Exception
 	{
-		FileArchiveWriter writer = new FileArchiveWriter( ARCHIVE_NAME );
+		FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );
 		writer.initialize( );
 		RAOutputStream ws = writer.createRandomAccessStream( STREAM_NAME );
 		ws.writeInt( 1 );
@@ -48,7 +77,7 @@ public class FileArchiveTest extends TestCase
 		ws.close( );
 		writer.finish( );
 
-		FileArchiveReader reader = new FileArchiveReader( ARCHIVE_NAME );
+		FolderArchiveReader reader = new FolderArchiveReader( ARCHIVE_NAME );
 		reader.open( );
 		RAInputStream rs = reader.getStream( STREAM_NAME );
 		assertEquals( 1, rs.readInt( ) );
@@ -57,43 +86,78 @@ public class FileArchiveTest extends TestCase
 		reader.close( );
 	}
 
-	public void testOpenEmptyFile( ) throws IOException
+	/**
+	 * open a reader twice once before the writer's close and the other after
+	 * the writer's close. test to see if the two readers return the same data.
+	 * 
+	 * @throws Exception
+	 */
+	public void testReaderCrossWriter( ) throws Exception
 	{
-		new RandomAccessFile( ARCHIVE_NAME, "rw" ).close( );
+
+		FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );
+		writer.initialize( );
+
+		RAOutputStream ws = writer.createRandomAccessStream( STREAM_NAME );
+		ws.writeInt( 1 );
+		ws.flush( );
+
+		FolderArchiveReader reader = new FolderArchiveReader( ARCHIVE_NAME );
+		reader.open( );
+
+		ws.writeLong( -1L );
+		ws.flush( );
+		ws.close( );
+		writer.finish( );
+
+		RAInputStream rs = reader.getStream( STREAM_NAME );
+		assertEquals( 1, rs.readInt( ) );
+		assertEquals( -1L, rs.readLong( ) );
+		rs.close( );
+		reader.close( );
+
+		reader = new FolderArchiveReader( ARCHIVE_NAME );
+		reader.open( );
+		rs = reader.getStream( STREAM_NAME );
+		assertEquals( 1, rs.readInt( ) );
+		assertEquals( -1L, rs.readLong( ) );
+		rs.close( );
+		reader.close( );
+	}
+
+	/**
+	 * open a empty folder to see if there are any exception throw out.
+	 * It should be sucessful. 
+	 */
+	public void testOpenEmptyFolder( )
+	{
 		try
 		{
-			FileArchiveReader reader = new FileArchiveReader( ARCHIVE_NAME );
-			try
-			{
-				reader.open( );
-			}
-			finally
-			{
-				reader.close( );
-			}
+			new File( ARCHIVE_NAME ).mkdirs( );
+			FolderArchiveReader reader = new FolderArchiveReader( ARCHIVE_NAME );
+			reader.open( );
+			assertTrue( reader.listStreams( "/" ).isEmpty( ) );
+			reader.close( );
 		}
 		catch ( IOException ex )
 		{
-			assertTrue( true );
+			assertFalse( true );
 			return;
 		}
-		assertTrue( false );
 	}
 
-	public void testOpenNoneExistFile( )
+	/**
+	 * open an none exits folder. it should be failed and no folder is created.
+	 * 
+	 */
+	public void testOpenNoneExistFolder( )
 	{
-		new File( ARCHIVE_NAME ).delete( );
 		try
 		{
-			FileArchiveReader reader = new FileArchiveReader( ARCHIVE_NAME );
-			try
-			{
-				reader.open( );
-			}
-			finally
-			{
-				reader.close( );
-			}
+			ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+			FolderArchiveReader reader = new FolderArchiveReader( ARCHIVE_NAME );
+			reader.open( );
+			reader.close( );
 		}
 		catch ( IOException ex )
 		{
@@ -118,10 +182,10 @@ public class FileArchiveTest extends TestCase
 		new Thread( new ReaderRunnable( readCmd ) ).start( );
 		sendCommand( wrtCmd, Command.OPEN );
 		sendCommand( wrtCmd, Command.WRITING );
-		sendCommand( wrtCmd, Command.CLOSE );
-		sendCommand( wrtCmd, Command.EXIT );
 		sendCommand( readCmd, Command.OPEN );
 		sendCommand( readCmd, Command.READING );
+		sendCommand( wrtCmd, Command.CLOSE );
+		sendCommand( wrtCmd, Command.EXIT );
 		sendCommand( readCmd, Command.CLOSE );
 		sendCommand( readCmd, Command.OPEN );
 		sendCommand( readCmd, Command.READING );
@@ -176,7 +240,7 @@ public class FileArchiveTest extends TestCase
 	{
 
 		Command command;
-		FileArchiveWriter writer;
+		FolderArchiveWriter writer;
 
 		WriterRunnable( Command command )
 		{
@@ -188,7 +252,7 @@ public class FileArchiveTest extends TestCase
 		{
 			if ( writer == null )
 			{
-				writer = new FileArchiveWriter( ARCHIVE_NAME );
+				writer = new FolderArchiveWriter( ARCHIVE_NAME );
 				writer.initialize( );
 			}
 		}
@@ -262,7 +326,7 @@ public class FileArchiveTest extends TestCase
 	{
 
 		Command command;
-		FileArchiveReader reader;
+		FolderArchiveReader reader;
 
 		ReaderRunnable( Command command )
 		{
@@ -274,7 +338,7 @@ public class FileArchiveTest extends TestCase
 		{
 			if ( reader == null )
 			{
-				reader = new FileArchiveReader( ARCHIVE_NAME );
+				reader = new FolderArchiveReader( ARCHIVE_NAME );
 				reader.open( );
 			}
 
@@ -346,4 +410,5 @@ public class FileArchiveTest extends TestCase
 
 		}
 	}
+
 }

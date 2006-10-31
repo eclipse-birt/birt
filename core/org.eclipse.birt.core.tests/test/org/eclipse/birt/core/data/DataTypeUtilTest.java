@@ -12,8 +12,6 @@
 package org.eclipse.birt.core.data;
 import java.math.BigDecimal;
 import java.sql.Types;
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.util.ULocale;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -25,6 +23,7 @@ import org.eclipse.birt.core.script.BaseScriptable;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;

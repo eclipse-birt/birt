@@ -222,4 +222,88 @@ public class DocumentArchiveTest extends TestCase
 	    
 	    return out.toString();
 	}
+
+	int runningThread;
+	int THREAD_COUNT = 100;
+	int VALUE_COUNT = 10000;
+
+	public void testReadMutipleThreads( ) throws IOException
+	{
+		// create a stream
+		FileArchiveWriter writer = new FileArchiveWriter( fileArchiveName );
+		writer.initialize( );
+		for ( int i = 0; i < THREAD_COUNT; i++ )
+		{
+			RAOutputStream out = writer
+					.createRandomAccessStream( "STREAM_" + i );
+			for ( int j = 0; j < VALUE_COUNT; j++ )
+			{
+				out.writeInt( i );
+			}
+			out.close( );
+		}
+		writer.finish( );
+
+		FileArchiveReader reader = new FileArchiveReader( fileArchiveName );
+		reader.open( );
+		for ( int i = 0; i < THREAD_COUNT; i++ )
+		{
+			new Thread( new ReadThread( reader, "STREAM_" + i, i ) ).start( );
+		}
+		long waitTime = 0;
+		while ( runningThread > 0 )
+		{
+			try
+			{
+				Thread.sleep( 100 );
+			}
+			catch ( Exception ex )
+			{
+			}
+			waitTime += 100;
+			if ( waitTime > 5000 )
+			{
+				fail( );
+			}
+		}
+		reader.close( );
+	}
+
+	private class ReadThread implements Runnable
+	{
+
+		IDocArchiveReader reader;
+		String name;
+		int value;
+
+		ReadThread( IDocArchiveReader reader, String name, int value )
+		{
+			this.reader = reader;
+			this.name = name;
+			this.value = value;
+			runningThread++;
+		}
+
+		public void run( )
+		{
+			try
+			{
+				RAInputStream in = reader.getStream( name );
+				for ( int i = 0; i < VALUE_COUNT; i++ )
+				{
+					int readValue = in.readInt( );
+					assertEquals( value, readValue );
+				}
+				in.close( );
+			}
+			catch ( Exception ex )
+			{
+				ex.printStackTrace( );
+			}
+			finally
+			{
+				runningThread--;
+			}
+		}
+	}
 }

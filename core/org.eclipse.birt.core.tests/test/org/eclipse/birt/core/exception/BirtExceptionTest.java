@@ -50,7 +50,7 @@ public class BirtExceptionTest extends TestCase {
 	{
 		String errorCode = "No RB {0}";
 		String error = "$NO-RB$ No RB Message";
-		BirtException e = new BirtException( errorCode, "Message" );
+		BirtException e = new BirtException( testPluginId, errorCode, "Message" );
 		assertEquals( errorCode, e.getErrorCode( ) );
 		assertEquals( error, e.getLocalizedMessage( ) );
 		assertEquals( error, e.getMessage( ) );
@@ -60,7 +60,7 @@ public class BirtExceptionTest extends TestCase {
     {
 		String errorCode = "No RB {0";
 		String error = "$NO-RB$ No RB {0";
-		BirtException e = new BirtException( errorCode, "Message" );
+		BirtException e = new BirtException( testPluginId, errorCode, "Message" );
 		assertEquals( errorCode, e.getErrorCode( ) );
 		assertEquals( error, e.getLocalizedMessage( ) );
 		assertEquals( error, e.getMessage( ) );
@@ -69,49 +69,49 @@ public class BirtExceptionTest extends TestCase {
     public void testBirtException()
     {
         // Tests for simple getters
-        BirtException e1 = new BirtException(FATAL_ERROR_KEY, new MyResources());
+        BirtException e1 = new BirtException( testPluginId, FATAL_ERROR_KEY, new MyResources());
         assertEquals( e1.getErrorCode(), FATAL_ERROR_KEY);
         assertEquals( e1.getLocalizedMessage(), fatalError);
         assertEquals( e1.getMessage(), fatalError);
         
         // Tests for localization
-        BirtException e2 = new BirtException(FATAL_ERROR_KEY, new MyResources_de());
+        BirtException e2 = new BirtException( testPluginId, FATAL_ERROR_KEY, new MyResources_de());
         assertEquals( e2.getLocalizedMessage(), fatalErrorDE);
         
         // Test for causes
-        BirtException e3 = new BirtException(FATAL_ERROR_KEY, new MyResources_de(), e1);
+        BirtException e3 = new BirtException( testPluginId, FATAL_ERROR_KEY, new MyResources_de(), e1);
         assertEquals( e3.getLocalizedMessage(), fatalErrorDE);
         assertEquals( e3.getCause().getLocalizedMessage(), fatalError);
         
         // Message formatting
         // Tests for simple getters
-        BirtException e4 = new BirtException(CONCATENATED_ERROR_KEY, new Object[] {"fatal", "system administrator"}, new MyResources());
+        BirtException e4 = new BirtException( testPluginId, CONCATENATED_ERROR_KEY, new Object[] {"fatal", "system administrator"}, new MyResources());
         assertEquals( e4.getErrorCode(), CONCATENATED_ERROR_KEY);
         assertEquals( e4.getLocalizedMessage(), fatalError);
         assertEquals( e4.getMessage(), fatalError);
         
         // Tests for localization
-        BirtException e5 = new BirtException(CONCATENATED_ERROR_KEY, new Object[] {"fatal", "system administrator"}, new MyResources_de());
+        BirtException e5 = new BirtException( testPluginId, CONCATENATED_ERROR_KEY, new Object[] {"fatal", "system administrator"}, new MyResources_de());
         assertEquals( e5.getLocalizedMessage(), fatalErrorDE);
         
         // Test for causes
-        BirtException e6 = new BirtException(CONCATENATED_ERROR_KEY, new Object[] {"fatal", "system administrator"}, new MyResources_de(), e1);
+        BirtException e6 = new BirtException( testPluginId, CONCATENATED_ERROR_KEY, new Object[] {"fatal", "system administrator"}, new MyResources_de(), e1);
         assertEquals( e6.getLocalizedMessage(), fatalErrorDE);
         assertEquals( e6.getCause().getLocalizedMessage(), fatalError);        
 
         // Message formatting
         // Tests for simple getters
-        BirtException e7 = new BirtException(CONCATENATED_ERROR_ONE_ARG_KEY, (Object)"system administrator", new MyResources());
+        BirtException e7 = new BirtException( testPluginId, CONCATENATED_ERROR_ONE_ARG_KEY, (Object)"system administrator", new MyResources());
         assertEquals( e7.getErrorCode(), CONCATENATED_ERROR_ONE_ARG_KEY);
         assertEquals( e7.getLocalizedMessage(), fatalError);
         assertEquals( e7.getMessage(), fatalError);
         
         // Tests for localization
-        BirtException e8 = new BirtException(CONCATENATED_ERROR_ONE_ARG_KEY, (Object)"system administrator", new MyResources_de());
+        BirtException e8 = new BirtException( testPluginId, CONCATENATED_ERROR_ONE_ARG_KEY, (Object)"system administrator", new MyResources_de());
         assertEquals( e8.getLocalizedMessage(), fatalErrorDE);
         
         // Test for causes
-        BirtException e9 = new BirtException(CONCATENATED_ERROR_ONE_ARG_KEY, (Object)"system administrator", new MyResources_de(), e1);
+        BirtException e9 = new BirtException( testPluginId, CONCATENATED_ERROR_ONE_ARG_KEY, (Object)"system administrator", new MyResources_de(), e1);
         assertEquals( e9.getLocalizedMessage(), fatalErrorDE);
         assertEquals( e9.getCause().getLocalizedMessage(), fatalError);  
         
