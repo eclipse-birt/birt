@@ -331,9 +331,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
-		getActivePageInstance( ).doSave( monitor );
+		getCurrentPageInstance().doSave( monitor );
 		fireDesignFileChangeEvent( );
 	}
+	
+
 
 	private void fireDesignFileChangeEvent( )
 	{
@@ -607,7 +609,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		updateDateView( getCurrentPageInstance( ) );
 	}
 
-	private boolean prePageChanges( Object oldPage, Object newPage )
+	protected boolean prePageChanges( Object oldPage, Object newPage )
 	{
 
 		boolean isNewPageValid = true;
@@ -619,7 +621,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			// model = SessionHandleAdapter.getInstance(
 			// ).getReportDesignHandle( );
 		}
-
+		
 		return isNewPageValid;
 	}
 

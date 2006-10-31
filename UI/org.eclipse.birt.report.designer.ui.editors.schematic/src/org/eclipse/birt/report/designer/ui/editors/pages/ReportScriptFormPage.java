@@ -426,7 +426,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( isDirty( ) )
 		{
-			doSave( null );
+			getEditor().doSave( null );
 		}
 		return super.canLeaveThePage( );
 	}

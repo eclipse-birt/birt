@@ -349,8 +349,9 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		{
 			return;
 		}
-		
-		// Model said that should checkReport( ) before getting error and warning list.
+
+		// Model said that should checkReport( ) before getting error and
+		// warning list.
 		reportDesignHandle.checkReport( );
 		List list = reportDesignHandle.getErrorList( );
 		int errorListSize = list.size( );
@@ -377,7 +378,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 						new Integer( (int) errorDetail.getElement( ).getID( ) ) );
 			}
 
-
 		}
 	}
 
@@ -389,6 +389,18 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	public void doSave( IProgressMonitor monitor )
 	{
 		super.doSave( monitor );
+		try
+		{
+			refreshMarkers( getEditorInput( ) );
+		}
+		catch ( CoreException e )
+		{
+		}
+	}
+
+	public void doSaveAs( )
+	{
+		super.doSaveAs( );
 		try
 		{
 			refreshMarkers( getEditorInput( ) );
@@ -468,6 +480,38 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			reportProvider = new IDEFileReportProvider( );
 		}
 		return reportProvider;
+	}
+
+	protected boolean prePageChanges( Object oldPage, Object newPage )
+	{
+		boolean isNewPageValid = true;
+		boolean isOldDirty = true;
+		if ( oldPage instanceof IReportEditorPage )
+		{
+			isOldDirty = ( (IReportEditorPage) oldPage ).isDirty( );
+		}
+		isNewPageValid = super.prePageChanges( oldPage, newPage );
+		
+		boolean isOldDirtyNow = true;
+		if ( oldPage instanceof IReportEditorPage )
+		{
+			isOldDirtyNow = ( (IReportEditorPage) oldPage ).isDirty( );
+		}
+		
+		if ( oldPage instanceof IReportEditorPage
+				&& ( isOldDirty && (!isOldDirtyNow )) )
+		{
+			try
+			{
+				refreshMarkers( getEditorInput( ) );
+			}
+			catch ( CoreException e )
+			{
+			}
+
+		}
+
+		return isNewPageValid;
 	}
 
 }

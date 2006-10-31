@@ -233,7 +233,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			switch ( ret )
 			{
 				case 0 :
-					doSave( null );
+					getEditor().doSave( null );
 					break;
 				case 1 :
 					if ( getEditorInput( ) != null )
