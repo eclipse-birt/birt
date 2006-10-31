@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
@@ -55,9 +56,7 @@ public final class DataTypeUtil
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getUResourceBundle( );
 
 	public static long count = 0;
-	private final static String pluginId = "org.eclipse.birt.core";
-
-
+	
 	/**
 	 * convert an object to given type
 	 * Types supported:
@@ -104,8 +103,7 @@ public final class DataTypeUtil
 			case DataType.BINARY_TYPE :
 				return toBytes( source );
 			default :
-				throw new BirtException( pluginId,
-						ResourceConstants.INVALID_TYPE,
+				throw new CoreException( ResourceConstants.INVALID_TYPE,
 						resourceBundle );
 		}
 	}
@@ -148,8 +146,7 @@ public final class DataTypeUtil
 		if ( toTypeClass == Blob.class )
 			return toBlob( source );
 
-		throw new BirtException( pluginId,
-				ResourceConstants.INVALID_TYPE,
+		throw new CoreException( ResourceConstants.INVALID_TYPE,
 				resourceBundle );
 	}
 
@@ -201,22 +198,18 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new BirtException( pluginId,
-						ResourceConstants.CONVERT_FAILS,
+				throw new CoreException( ResourceConstants.CONVERT_FAILS,
 						new Object[]{
 								source.toString( ), "Integer"
-						},
-						resourceBundle );
+						} );
 			}
 		}
 		else
 		{
-			throw new BirtException( pluginId,
-					ResourceConstants.CONVERT_FAILS,
+			throw new CoreException( ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Integer"
-					},
-					resourceBundle );
+					} );
 		}
 	}
 
@@ -254,12 +247,11 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new BirtException( pluginId,
+				throw new CoreException( 
 						ResourceConstants.CONVERT_FAILS,
 						new Object[]{
 								str, "BigDecimal"
-						},
-						resourceBundle );
+						} );
 			}
 		}
 		else if ( source instanceof Boolean )
@@ -281,22 +273,20 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new BirtException( pluginId,
+				throw new CoreException(
 						ResourceConstants.CONVERT_FAILS,
 						new Object[]{
 								source.toString( ), "BigDecimal"
-						},
-						resourceBundle );
+						});
 			}
 		}
 		else
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException(
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "BigDecimal"
-					},
-					resourceBundle );
+					} );
 		}
 	}
 
@@ -349,7 +339,7 @@ public final class DataTypeUtil
 				}
 				catch ( NumberFormatException e )
 				{
-					throw new BirtException( pluginId,
+					throw new CoreException(
 							ResourceConstants.CONVERT_FAILS,
 							new Object[]{
 									source.toString( ), "Boolean"
@@ -359,12 +349,11 @@ public final class DataTypeUtil
 		}
 		else
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException( 
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Boolean"
-					},
-					resourceBundle );
+					});
 		}
 	}
 
@@ -392,12 +381,11 @@ public final class DataTypeUtil
 		}
 		else
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException(
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Date"
-					},
-					resourceBundle );
+					});
 		}
 	}
     
@@ -432,12 +420,11 @@ public final class DataTypeUtil
             }
         }
 
-        throw new BirtException( pluginId,
+        throw new CoreException(
                     ResourceConstants.CONVERT_FAILS,
                     new Object[]{
                             source.toString( ), "Time"
-                    },
-                    resourceBundle );
+                    } );
     }
 
 	/**
@@ -510,12 +497,11 @@ public final class DataTypeUtil
 		// for the String can not be parsed, throws a BirtException
 		if ( resultDate == null )
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException( 
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Date"
-					},
-					resourceBundle );
+					} );
 		}
 
 		// never access here
@@ -570,12 +556,11 @@ public final class DataTypeUtil
 		// check whether conversion is correct
 		if ( DateUtil.checkValid( dateFormat, source ) == false )
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException( 
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Date"
-					},
-					resourceBundle );
+					});
 		}
 
 		return resultDate;
@@ -627,22 +612,20 @@ public final class DataTypeUtil
 			}
 			catch ( NumberFormatException e )
 			{
-				throw new BirtException( pluginId,
+				throw new CoreException( 
 						ResourceConstants.CONVERT_FAILS,
 						new Object[]{
 								source.toString( ), "Double"
-						},
-						resourceBundle );
+						});
 			}
 		}
 		else
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException(
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Double"
-					},
-					resourceBundle );
+					});
 		}
 	}
 
@@ -739,12 +722,11 @@ public final class DataTypeUtil
 		if ( source instanceof Blob )
 			return (Blob) source;
 		else
-			throw new BirtException( pluginId,
+			throw new CoreException(
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Blob"
-					},
-					resourceBundle );
+					});
 	}
 
 	/**
@@ -761,12 +743,11 @@ public final class DataTypeUtil
 		if ( source instanceof byte[] )
 			return (byte[]) source;
 		else
-			throw new BirtException( pluginId,
+			throw new CoreException(
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Binary"
-					},
-					resourceBundle );
+					} );
 	}
 
 	/**
@@ -960,12 +941,11 @@ public final class DataTypeUtil
 		}
 		catch ( ParseException e1 )
 		{
-			throw new BirtException( pluginId,
+			throw new CoreException( 
 					ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Date"
-					},
-					resourceBundle );
+					} );
 		}
 	}
 
@@ -1029,9 +1009,7 @@ public final class DataTypeUtil
 				&& odaDataTypeCode != Types.CLOB
 				&& odaDataTypeCode != Types.NULL )
 		{
-			throw new BirtException( pluginId,
-					ResourceConstants.INVALID_TYPE,
-					resourceBundle );
+			throw new CoreException( ResourceConstants.INVALID_TYPE);
 		}
 
 		Class fieldClass = null;
