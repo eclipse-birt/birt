@@ -333,7 +333,6 @@ public class GroupDialog extends BaseDialog
 				if ( !keyChooser.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 				{
 					resetInterval( );
-					tocEditor.setText( getKeyExpression( ) );
 				}
 			}
 
@@ -353,7 +352,6 @@ public class GroupDialog extends BaseDialog
 				if ( expressionBuilder.open( ) == OK )
 				{
 					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
-					tocEditor.setText( expressionBuilder.getResult( ).trim( ) );
 				}
 			}
 		} );
