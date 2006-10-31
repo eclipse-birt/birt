@@ -33,7 +33,7 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
     {
         super.setUp( );
         
-        propDefn.setIsList( true );
+        MetadataTestUtil.setIsList( propDefn, true );
         
         value.add("One"); //$NON-NLS-1$
         value.add("Two"); //$NON-NLS-1$

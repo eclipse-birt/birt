@@ -63,16 +63,14 @@ public class ElementDefnTest extends BaseTestCase
 	 */
 	public void testGetterAndSetter( )
 	{
-		def.setAllowsUserProperties( true );
-		def.setCanExtend( true );
-		def.setDisplayNameKey( "Element.ReportDesign" ); //$NON-NLS-1$
-		def.setExtends( "ReportElement" ); //$NON-NLS-1$
-		def.setHasStyle( true );
-		def.setName( "Name" ); //$NON-NLS-1$
-		def.setNameOption( 2 );
-		def.setNameSpaceID( 4 );
-		// No getter for supportUserProperties
-		def.setSupportsUserProperties( true );
+		MetadataTestUtil.setAllowsUserProperties( def, true );
+		MetadataTestUtil.setCanExtends( def, true );
+		MetadataTestUtil.setDisplayNameKey( def, "Element.ReportDesign" ); //$NON-NLS-1$
+		MetadataTestUtil.setExtends( def, "ReportElement" ); //$NON-NLS-1$
+		MetadataTestUtil.setHasStyle( def, true );
+		MetadataTestUtil.setName( def, "Name" ); //$NON-NLS-1$
+		MetadataTestUtil.setNameOption( def, 2 );
+		MetadataTestUtil.setNameSpaceID( def, 4 );
 
 		assertEquals( false, def.isAbstract( ) );
 		assertEquals( true, def.allowsUserProperties( ) );
@@ -408,16 +406,17 @@ public class ElementDefnTest extends BaseTestCase
 		// Add one slot
 
 		SlotDefn slot = new SlotDefn( );
-		slot.setDisplayNameID( "Data Sets" ); //$NON-NLS-1$
-		slot.setName( "dataSets" ); //$NON-NLS-1$
-		slot.setMultipleCardinality( true );
-		slot.addType( ReportDesignConstants.DATA_SOURCE_ELEMENT );
-		label.addSlot( slot );
+		MetadataTestUtil.setDisplayNameKey( slot, "Data Sets" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( slot, "dataSets" ); //$NON-NLS-1$
+		MetadataTestUtil.setMultipleCardinality( slot, true );
+		MetadataTestUtil.addType( slot,
+				ReportDesignConstants.DATA_SOURCE_ELEMENT );
+		MetadataTestUtil.addSlot( label, slot );
 		assertEquals( 1, label.getSlotCount( ) );
 
 		// Add another slot
 
-		label.addSlot( slot );
+		MetadataTestUtil.addSlot( label, slot );
 		assertEquals( 2, label.getSlotCount( ) );
 	}
 
@@ -431,35 +430,34 @@ public class ElementDefnTest extends BaseTestCase
 		// element without parent and style
 
 		def = new ElementDefn( );
-		def.setName( "TestElement1" ); //$NON-NLS-1$
-		def.setAbstract( true );
-
-		def.setHasStyle( false );
-		def.setNameOption( MetaDataConstants.NO_NAME );
-		def.build( );
+		MetadataTestUtil.setName( def, "TestElement1" ); //$NON-NLS-1$
+		MetadataTestUtil.setAbstract( def, true );
+		MetadataTestUtil.setHasStyle( def, false );
+		MetadataTestUtil.setNameOption( def, MetaDataConstants.NO_NAME );
+		MetadataTestUtil.build( def );
 
 		// element without parent but with style
 
 		def = new ElementDefn( );
-		def.setName( "TestElement2" ); //$NON-NLS-1$
-		def.setHasStyle( true );
-		def.addStyleProperty( Style.FONT_SIZE_PROP );
-		def.addStyleProperty( Style.DATE_TIME_FORMAT_PROP );
-		def.setNameOption( MetaDataConstants.NO_NAME );
-		def.setAbstract( true );
-		def.build( );
+		MetadataTestUtil.setName( def, "TestElement2" ); //$NON-NLS-1$
+		MetadataTestUtil.setHasStyle( def, true );
+		MetadataTestUtil.addStyleProp( def, Style.FONT_SIZE_PROP );
+		MetadataTestUtil.addStyleProp( def, Style.DATE_TIME_FORMAT_PROP );
+		MetadataTestUtil.setNameOption( def, MetaDataConstants.NO_NAME );
+		MetadataTestUtil.setAbstract( def, true );
+		MetadataTestUtil.build( def );
 
 		// element with parent and style
 
 		def = new ElementDefn( );
-		def.setAbstract( true );
-		def.setName( "TestElement3" ); //$NON-NLS-1$
-		def.setExtends( "ReportElement" ); //$NON-NLS-1$
-		def.setHasStyle( true );
-		def.addStyleProperty( Style.FONT_SIZE_PROP );
-		def.addStyleProperty( Style.DATE_TIME_FORMAT_PROP );
-		def.setNameOption( MetaDataConstants.NO_NAME );
-		def.build( );
+		MetadataTestUtil.setAbstract( def, true );
+		MetadataTestUtil.setName( def, "TestElement3" ); //$NON-NLS-1$
+		MetadataTestUtil.setExtends( def, "ReportElement" ); //$NON-NLS-1$
+		MetadataTestUtil.setHasStyle( def, true );
+		MetadataTestUtil.addStyleProp( def, Style.FONT_SIZE_PROP );
+		MetadataTestUtil.addStyleProp( def, Style.DATE_TIME_FORMAT_PROP );
+		MetadataTestUtil.setNameOption( def, MetaDataConstants.NO_NAME );
+		MetadataTestUtil.build( def );
 	}
 
 	/**

@@ -36,8 +36,8 @@ public class SystemPropertyDefnTest extends BaseTestCase
      */
     public void testGetterAndSetter()
     {
-        property.setStyleProperty(true);
-        property.setIntrinsic(true);
+    	MetadataTestUtil.setStyleProperty( property, true );
+    	MetadataTestUtil.setIntrinsic( property, true );
         
         assertTrue(property.isStyleProperty());
         assertTrue(property.isIntrinsic());

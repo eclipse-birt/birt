@@ -67,7 +67,7 @@ public class MetaDataDictionaryTest extends BaseTestCase
 				.getChoiceSet( DesignChoiceConstants.CHOICE_FONT_SIZE ) );
 
 		Object[] choices = dict.getChoiceSet(
-				DesignChoiceConstants.CHOICE_FONT_SIZE ).getChoices( ); //$NON-NLS-1$
+				DesignChoiceConstants.CHOICE_FONT_SIZE ).getChoices( );
 		assertTrue( choices.length == 9 );
 
 		Choice extendedChoice = (Choice) choices[0];
@@ -129,11 +129,11 @@ public class MetaDataDictionaryTest extends BaseTestCase
 
 		// null name
 
-		element.setName( null );
+		MetadataTestUtil.setName( element, null );
 
 		try
 		{
-			dict.addElementDefn( element );
+			MetadataTestUtil.addElementDefn( dict, element );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -149,11 +149,11 @@ public class MetaDataDictionaryTest extends BaseTestCase
 	public void testAddOneElement( ) throws MetaDataException
 	{
 		ElementDefn element = new ElementDefn( );
-		element.setName( "TestItem" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( element, "TestItem" ); //$NON-NLS-1$
 
 		// add one element
 
-		dict.addElementDefn( element );
+		MetadataTestUtil.addElementDefn( dict, element );
 		assertEquals( element.getName( ), dict
 				.getElement( "TestItem" ).getName( ) ); //$NON-NLS-1$
 	}
@@ -166,15 +166,14 @@ public class MetaDataDictionaryTest extends BaseTestCase
 		// add one element
 
 		ElementDefn element = new ElementDefn( );
-		element.setName( "Label" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( element, "Label" ); //$NON-NLS-1$
 
 		// add two elements with the same name , must throw out exception
 
 		try
 		{
-			dict.addElementDefn( element );
-
-			dict.addElementDefn( element );
+			MetadataTestUtil.addElementDefn( dict, element );
+			MetadataTestUtil.addElementDefn( dict, element );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -190,11 +189,11 @@ public class MetaDataDictionaryTest extends BaseTestCase
 		// null name
 
 		PredefinedStyle style = new PredefinedStyle( );
-		style.setName( "" ); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName( style, null );
 
 		try
 		{
-			dict.addPredefinedStyle( style );
+			MetadataTestUtil.addPredefinedStyle( dict, style );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -204,11 +203,11 @@ public class MetaDataDictionaryTest extends BaseTestCase
 		// empty name
 
 		style = new PredefinedStyle( );
-		style.setName( "" ); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName( style, "" ); //$NON-NLS-1$
 
 		try
 		{
-			dict.addPredefinedStyle( style );
+			MetadataTestUtil.addPredefinedStyle( dict, style );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -224,9 +223,9 @@ public class MetaDataDictionaryTest extends BaseTestCase
 	public void testAddOnePredefinedStyle( ) throws MetaDataException
 	{
 		PredefinedStyle style = new PredefinedStyle( );
-		style.setName( "test" ); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName( style, "test" ); //$NON-NLS-1$
 
-		dict.addPredefinedStyle( style );
+		MetadataTestUtil.addPredefinedStyle( dict, style );
 		assertNotNull( dict.getPredefinedStyle( "test" ) ); //$NON-NLS-1$
 	}
 
@@ -240,20 +239,20 @@ public class MetaDataDictionaryTest extends BaseTestCase
 		// add one style
 
 		PredefinedStyle style = new PredefinedStyle( );
-		style.setName( "test" ); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName( style, "test" ); //$NON-NLS-1$
 
-		dict.addPredefinedStyle( style );
+		MetadataTestUtil.addPredefinedStyle( dict, style );
 
 		assertNotNull( dict.getPredefinedStyle( "test" ) ); //$NON-NLS-1$
 
 		// add another style with same name
 
 		style = new PredefinedStyle( );
-		style.setName( "test" ); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName( style, "test" ); //$NON-NLS-1$
 
 		try
 		{
-			dict.addPredefinedStyle( style );
+			MetadataTestUtil.addPredefinedStyle( dict, style );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -301,14 +300,14 @@ public class MetaDataDictionaryTest extends BaseTestCase
 
 	public void testGetPropertyTypes( )
 	{
-		List propTypes = dict.getPropertyTypes();
-		assertNotNull ( propTypes );
-		
+		List propTypes = dict.getPropertyTypes( );
+		assertNotNull( propTypes );
+
 		int i = 0;
-		for ( ; i < propTypes.size(); i++ )
+		for ( ; i < propTypes.size( ); i++ )
 		{
 			IPropertyType propType = (IPropertyType) propTypes.get( i );
-			assertEquals(i, propType.getTypeCode() );
+			assertEquals( i, propType.getTypeCode( ) );
 		}
 		assertEquals( i, IPropertyType.TYPE_COUNT );
 	}

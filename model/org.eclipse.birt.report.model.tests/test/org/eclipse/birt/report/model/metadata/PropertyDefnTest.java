@@ -67,7 +67,7 @@ public class PropertyDefnTest extends BaseTestCase
 		 */
 		propertyDefn.setName( "TestProperty" ); //$NON-NLS-1$
 		propertyDefn.setDisplayNameID( "Element.ReportDesign.author" ); //$NON-NLS-1$
-		propertyDefn.setDefault( "Default" ); //$NON-NLS-1$
+		MetadataTestUtil.setPropertyDefnDefault( propertyDefn, "Default" ); //$NON-NLS-1$
 		propertyDefn.setType( MetaDataDictionary.getInstance( )
 				.getPropertyType( PropertyType.STRING_TYPE ) );
 
@@ -94,7 +94,7 @@ public class PropertyDefnTest extends BaseTestCase
 
 			propertyDefn.setType( MetaDataDictionary.getInstance( )
 					.getPropertyType( PropertyType.CHOICE_TYPE ) );
-			propertyDefn.build( );
+			MetadataTestUtil.buildPropertyDefn( propertyDefn );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -105,7 +105,7 @@ public class PropertyDefnTest extends BaseTestCase
 		{
 			propertyDefn.setType( MetaDataDictionary.getInstance( )
 					.getPropertyType( PropertyType.STRING_TYPE ) );
-			propertyDefn.build( );
+			MetadataTestUtil.buildPropertyDefn( propertyDefn );
 		}
 		catch ( MetaDataException e )
 		{

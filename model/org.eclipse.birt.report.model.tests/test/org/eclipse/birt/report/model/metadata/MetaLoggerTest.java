@@ -792,7 +792,8 @@ public class MetaLoggerTest extends BaseTestCase
 		ElementDefn newElement = new ElementDefn( );
 		try
 		{
-			MetaDataDictionary.getInstance( ).addElementDefn( newElement );
+			MetadataTestUtil.addElementDefn( MetaDataDictionary.getInstance( ),
+					newElement );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -827,15 +828,17 @@ public class MetaLoggerTest extends BaseTestCase
 
 		MetaDataDictionary.reset( );
 		ElementDefn elementA = new ElementDefn( );
-		elementA.setName( "Name" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( elementA, "Name" ); //$NON-NLS-1$
 
 		ElementDefn elementB = new ElementDefn( );
-		elementB.setName( "Name" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( elementB, "Name" ); //$NON-NLS-1$
 
 		try
 		{
-			MetaDataDictionary.getInstance( ).addElementDefn( elementA );
-			MetaDataDictionary.getInstance( ).addElementDefn( elementB );
+			MetadataTestUtil.addElementDefn( MetaDataDictionary.getInstance( ),
+					elementA );
+			MetadataTestUtil.addElementDefn( MetaDataDictionary.getInstance( ),
+					elementB );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -864,7 +867,8 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			MetaDataDictionary.getInstance( ).addPredefinedStyle( style );
+			MetadataTestUtil.addPredefinedStyle( MetaDataDictionary
+					.getInstance( ), style );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -897,15 +901,17 @@ public class MetaLoggerTest extends BaseTestCase
 
 		MetaDataDictionary.reset( );
 		ElementDefn elementA = new ElementDefn( );
-		elementA.setName( "Name" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( elementA, "Name" ); //$NON-NLS-1$
 
 		ElementDefn elementB = new ElementDefn( );
-		elementB.setName( "Name" );//$NON-NLS-1$
+		MetadataTestUtil.setName( elementB, "Name" );//$NON-NLS-1$
 
 		try
 		{
-			MetaDataDictionary.getInstance( ).addElementDefn( elementA );
-			MetaDataDictionary.getInstance( ).addElementDefn( elementB );
+			MetadataTestUtil.addElementDefn( MetaDataDictionary.getInstance( ),
+					elementA );
+			MetadataTestUtil.addElementDefn( MetaDataDictionary.getInstance( ),
+					elementB );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -1071,7 +1077,7 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			propDefn.build( );
+			MetadataTestUtil.buildPropertyDefn( propDefn );
 		}
 		catch ( MetaDataException e )
 		{
@@ -1097,7 +1103,7 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			propDefn.build( );
+			MetadataTestUtil.buildPropertyDefn( propDefn );
 		}
 		catch ( MetaDataException e )
 		{
@@ -1194,7 +1200,8 @@ public class MetaLoggerTest extends BaseTestCase
 		ChoiceSet choices1 = new ChoiceSet( null );
 		try
 		{
-			MetaDataDictionary.getInstance( ).addChoiceSet( choices1 );
+			MetadataTestUtil.addChoiceSet( MetaDataDictionary.getInstance( ),
+					choices1 );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -1204,7 +1211,7 @@ public class MetaLoggerTest extends BaseTestCase
 					e.getErrorCode( ) );
 			assertEquals(
 					"Message:Missing choice set name when adding a Choice Set to the meta-data dictionary. Error code:MISSING_CHOICE_SET_NAME", //$NON-NLS-1$ 
-					e.getMessage( ).trim( ) ); //$NON-NLS-1$ 
+					e.getMessage( ).trim( ) );
 		}
 	}
 
@@ -1219,8 +1226,10 @@ public class MetaLoggerTest extends BaseTestCase
 		ChoiceSet choices2 = new ChoiceSet( "choices1" ); //$NON-NLS-1$ 
 		try
 		{
-			MetaDataDictionary.getInstance( ).addChoiceSet( choices1 );
-			MetaDataDictionary.getInstance( ).addChoiceSet( choices2 );
+			MetadataTestUtil.addChoiceSet( MetaDataDictionary.getInstance( ),
+					choices1 );
+			MetadataTestUtil.addChoiceSet( MetaDataDictionary.getInstance( ),
+					choices2 );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -1231,7 +1240,6 @@ public class MetaLoggerTest extends BaseTestCase
 			assertEquals(
 					"Message:Duplicate choice set names when adding the choice set [choices1] to the meta-data dictionary. Error code:DUPLICATE_CHOICE_SET_NAME", //$NON-NLS-1$ 
 					e.getMessage( ).trim( ) );
-			//$NON-NLS-1$ 
 		}
 	}
 
@@ -1244,7 +1252,8 @@ public class MetaLoggerTest extends BaseTestCase
 		StructureDefn structDefn = new StructureDefn( null );
 		try
 		{
-			MetaDataDictionary.getInstance( ).addStructure( structDefn );
+			MetadataTestUtil.addStructureDefn(
+					MetaDataDictionary.getInstance( ), structDefn );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -1254,7 +1263,7 @@ public class MetaLoggerTest extends BaseTestCase
 							.getErrorCode( ) );
 			assertEquals(
 					"Message:Missing structure name when adding a structure to the meta-data dictionary. Error code:MISSING_STRUCT_NAME", //$NON-NLS-1$
-					e.getMessage( ).trim( ) ); //$NON-NLS-1$ 
+					e.getMessage( ).trim( ) );
 		}
 	}
 
@@ -1270,8 +1279,10 @@ public class MetaLoggerTest extends BaseTestCase
 		StructureDefn structDefn2 = new StructureDefn( "struct" ); //$NON-NLS-1$ 
 		try
 		{
-			MetaDataDictionary.getInstance( ).addStructure( structDefn1 );
-			MetaDataDictionary.getInstance( ).addStructure( structDefn2 );
+			MetadataTestUtil.addStructureDefn(
+					MetaDataDictionary.getInstance( ), structDefn1 );
+			MetadataTestUtil.addStructureDefn(
+					MetaDataDictionary.getInstance( ), structDefn2 );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -1305,7 +1316,7 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			prop.build( );
+			MetadataTestUtil.buildPropertyDefn( prop );
 		}
 		catch ( MetaDataException e )
 		{
@@ -1334,7 +1345,7 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			prop.build( );
+			MetadataTestUtil.buildPropertyDefn( prop );
 		}
 		catch ( MetaDataException e )
 		{
@@ -1363,7 +1374,7 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			prop.build( );
+			MetadataTestUtil.buildPropertyDefn( prop );
 		}
 		catch ( MetaDataException e )
 		{

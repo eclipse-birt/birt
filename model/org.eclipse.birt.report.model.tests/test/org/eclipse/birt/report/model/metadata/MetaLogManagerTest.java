@@ -41,7 +41,7 @@ public class MetaLogManagerTest extends TestCase
 		Logger logger = new Logger( );
 		MetaLogManager.registerLogger( logger );
 
-		MetaLogManager.log( "abc" ); //$NON-NLS-1$
+		MetadataTestUtil.log( "abc" ); //$NON-NLS-1$
 		assertTrue( logger.logged );
 
 		MetaLogManager.shutDown( );
@@ -62,7 +62,7 @@ public class MetaLogManagerTest extends TestCase
 		MetaLogManager.registerLogger( logger );
 		MetaLogManager.removeLogger( logger );
         
-		MetaLogManager.log( "abc" ); //$NON-NLS-1$
+		MetadataTestUtil.log( "abc" ); //$NON-NLS-1$
 		assertFalse( logger.logged );
 
 		MetaLogManager.shutDown( );

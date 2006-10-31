@@ -61,11 +61,11 @@ public class SlotDefnTest extends BaseTestCase
 		assertNotNull( elementDefn );
 
 		slotDefn = (SlotDefn) elementDefn.getSlot( 0 );
-
-		slotDefn.setMultipleCardinality( true );
-		slotDefn.setDisplayNameID( "Element.ReportDesign.slot.styles" ); //$NON-NLS-1$
-		slotDefn.setName( "Name" ); //$NON-NLS-1$
-		slotDefn.setSlotID( 99 );
+		MetadataTestUtil.setMultipleCardinality( slotDefn, true );
+		MetadataTestUtil.setDisplayNameKey( slotDefn,
+				"Element.ReportDesign.slot.styles" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( slotDefn, "Name" ); //$NON-NLS-1$
+		MetadataTestUtil.setID( slotDefn, 99 );
 
 		assertEquals( true, slotDefn.isMultipleCardinality( ) );
 
@@ -124,7 +124,7 @@ public class SlotDefnTest extends BaseTestCase
 		{
 			// Test for empty contents type
 
-			slotDefn.build( );
+			MetadataTestUtil.build( slotDefn );
 			fail( );
 		}
 		catch ( MetaDataException e )
@@ -135,9 +135,10 @@ public class SlotDefnTest extends BaseTestCase
 		{
 			// test for null displayNameID
 
-			slotDefn.addType( ReportDesignConstants.FREE_FORM_ITEM );
-			slotDefn.addType( "Label" ); //$NON-NLS-1$
-			slotDefn.build( );
+			MetadataTestUtil.addType( slotDefn,
+					ReportDesignConstants.FREE_FORM_ITEM );
+			MetadataTestUtil.addType( slotDefn, "Label" ); //$NON-NLS-1$
+			MetadataTestUtil.build( slotDefn );
 			fail( );
 		}
 		catch ( MetaDataException e1 )
@@ -146,8 +147,9 @@ public class SlotDefnTest extends BaseTestCase
 
 		// succeed in building
 
-		slotDefn.setDisplayNameID( "Element.ReportDesign.slot.body" ); //$NON-NLS-1$
-		slotDefn.build( );
+		MetadataTestUtil.setDisplayNameKey( slotDefn,
+				"Element.ReportDesign.slot.body" ); //$NON-NLS-1$
+		MetadataTestUtil.build( slotDefn );
 		assertFalse( slotDefn.canContain( MetaDataDictionary.getInstance( )
 				.getElement( "DataSource" ) ) ); //$NON-NLS-1$
 		assertTrue( slotDefn.canContain( MetaDataDictionary.getInstance( )

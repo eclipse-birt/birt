@@ -61,18 +61,17 @@ public class ObjectDefnTest extends BaseTestCase
 	{
 		super.setUp( );
 		ThreadResources.setLocale( TEST_LOCALE );
-		obj.setDisplayNameKey( "Element.ReportDesign" ); //$NON-NLS-1$
+		MetadataTestUtil.setDisplayNameKey( obj, "Element.ReportDesign" ); //$NON-NLS-1$
 	}
 
 	/**
 	 * test getters and setters.
-	 *  
+	 * 
 	 */
 	public void testGetterAndSetter( )
 	{
 		assertEquals( "TestObject", obj.getName( ) ); //$NON-NLS-1$
-
-		obj.setName( "New Object Name" ); //$NON-NLS-1$
+		MetadataTestUtil.setName( obj, "New Object Name" ); //$NON-NLS-1$
 
 		assertEquals( "\u62a5\u8868", obj.getDisplayName( ) ); //$NON-NLS-1$
 		assertEquals( "New Object Name", obj.getName( ) ); //$NON-NLS-1$
@@ -81,7 +80,7 @@ public class ObjectDefnTest extends BaseTestCase
 
 	/**
 	 * add three properties, iterate them and find them.
-	 *  
+	 * 
 	 */
 	public void testAddThreeProperty( )
 	{
@@ -97,9 +96,9 @@ public class ObjectDefnTest extends BaseTestCase
 
 		try
 		{
-			obj.addProperty( propertyA );
-			obj.addProperty( propertyB );
-			obj.addProperty( propertyC );
+			MetadataTestUtil.addPropertyDefn( obj, propertyA );
+			MetadataTestUtil.addPropertyDefn( obj, propertyB );
+			MetadataTestUtil.addPropertyDefn( obj, propertyC );
 		}
 		catch ( MetaDataException e )
 		{
@@ -131,7 +130,7 @@ public class ObjectDefnTest extends BaseTestCase
 
 	/**
 	 * add the property whose name exists in object definition.
-	 *  
+	 * 
 	 */
 	public void testAddSameProperty( )
 	{
@@ -143,15 +142,16 @@ public class ObjectDefnTest extends BaseTestCase
 
 		try
 		{
-			obj.addProperty( propertyA );
-			obj.addProperty( propertyA );
+			MetadataTestUtil.addPropertyDefn( obj, propertyA );
+			MetadataTestUtil.addPropertyDefn( obj, propertyA );
 
 			fail( "MetaDataException should be thrown because the name exists !" ); //$NON-NLS-1$
 		}
 		catch ( MetaDataException e )
 		{
-			assertEquals( MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY, e
-					.getErrorCode( ) );
+			assertEquals(
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY, e
+							.getErrorCode( ) );
 		}
 	}
 }
