@@ -1031,9 +1031,11 @@ public class ParameterDialog extends BaseDialog
 				{
 					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
 							.getDisplayName( );
-					choices[1] = DISPLAY_NAME_CONTROL_LIST;
+//					choices[1] = DISPLAY_NAME_CONTROL_LIST;
+					choices[1] = DISPLAY_NAME_CONTROL_COMBO;
 				}
-				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
+//				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
+				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_LIST;
 				choices[choices.length - 1] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
 						.getDisplayName( );
 
