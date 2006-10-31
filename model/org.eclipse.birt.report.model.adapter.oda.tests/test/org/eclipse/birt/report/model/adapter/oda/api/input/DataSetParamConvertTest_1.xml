@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="dataSource">myDataSource1</property>
+			<text-property name="displayName">My Data Set One</text-property>			
+            <property name="queryTimeOut">30000</property>				
+			<property name="queryText">select * from table</property>					
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">name</property>
+					<property name="position">1</property>
+					<property name="defaultValue">expression</property>
+                </structure>
+                <structure>
+                    <property name="name">date</property>
+                    <property name="dataType">date-time</property>
+					<property name="position">2</property>
+					<property name="defaultValue">date time expression</property>
+                </structure>
+                <structure>
+                    <property name="name">name3</property>
+                    <property name="dataType">string</property>
+					<property name="defaultValue">225</property>
+					<property name="position">3</property>
+                </structure>				
+            </list-property>	
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
+			<text-property name="displayName">My Data Source One</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/birt</property>		
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>odaUser</name>
+                    <value>User</value>
+                </ex-property>
+                <ex-property>
+                    <name>odaPassword</name>
+                    <value>Password</value>
+                </ex-property>
+            </list-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="dataSource">myDataSource1</property>
+			<text-property name="displayName">My Data Set One</text-property>			
+            <property name="queryTimeOut">30000</property>		
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>queryTimeOut</name>
+                    <value>10000</value>
+                </ex-property>
+            </list-property>			
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">name</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">'default value 1'</expression>
+                    <property name="isOptional">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                    <property name="isNullable">true</property>
+                </structure>
+                <structure>
+                    <property name="name">date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                    <property name="allowNull">false</property>
+                </structure>
+                <structure>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">true</property>
+                    <property name="isInput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">birth</property>
+                    <property name="dataType">date-time</property>
+                    <property name="isOutput">true</property>
+                </structure>
+                <structure>
+                    <property name="name">title</property>
+                    <property name="dataType">string</property>
+                    <property name="isOutput">true</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">date</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select * from user</property>
+            <property name="type">extended</property>
+            <property name="resultSetName">userid</property>
+			<structure	name="designerState">
+				<property name="version">1.1</property>
+				<property name="stateContentAsString">content as string</property>
+			</structure>			
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">library_1.xml</property>
+	        <property name="namespace">Lib1</property>
+		</structure>
+    </list-property>	
+	<data-sets>
+		<oda-data-set name="myDataSet1" id="3">
+			<property name="dataSource">Lib1.libDataSource1</property>
+        </oda-data-set>		
+	</data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="4">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

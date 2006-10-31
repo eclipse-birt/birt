@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="3">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

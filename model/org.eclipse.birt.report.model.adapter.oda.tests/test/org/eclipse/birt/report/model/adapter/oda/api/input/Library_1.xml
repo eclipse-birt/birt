@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <data-sources>
+        <oda-data-source name="libDataSource1">
+			<text-property name="displayName">Library Data Source One</text-property>
+		</oda-data-source>
+    </data-sources>
+</library>

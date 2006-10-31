@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.5" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+    <property name="includeResource">testResource</property>
+    <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
+    <property name="theme">defaultTheme</property>
+    <parameters>
+        <scalar-parameter name="p1" id="6">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <text-property name="promptText" key="pKey">staticPromp</text-property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="8">
+            <text-property name="displayName">Data Source</text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+            <encrypted-property name="odaPassword">  </encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <themes>
+        <theme name="defaultTheme" id="2"/>
+        <theme name="NewTheme" id="4">
+            <styles>
+                <style name="NewStyle" id="5">
+                    <property name="color">#0000FF</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <components>
+        <label name="NewLabel" id="7">
+            <text-property name="text">fdasfdsa</text-property>
+        </label>
+    </components>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="3"/>
+    </page-setup>
+</library>
