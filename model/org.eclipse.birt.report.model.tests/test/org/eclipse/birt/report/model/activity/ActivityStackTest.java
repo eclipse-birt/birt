@@ -955,7 +955,7 @@ public class ActivityStackTest extends BaseTestCase
 		record1 = new MockupActivityRecord( this.designElement, 1 );
 		as.execute( record1 );
 		as.rollback( );
-		// not the outmost transaction, no notifications.		
+		// not the outmost transaction, no notifications.
 		assertEquals( -1, listener.action );
 		as.rollback( );
 		assertEquals( ActivityStackEvent.ROLL_BACK, listener.action );
@@ -1277,7 +1277,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		assertEquals( ColorPropertyType.BLUE, cell
 				.getProperty( IStyleModel.COLOR_PROP ) );
-		
+
 		// must rehook the listener to the row element again.
 
 		row.addListener( rowListener );
@@ -1426,7 +1426,7 @@ public class ActivityStackTest extends BaseTestCase
 		assertFalse( as.canRedo( ) );
 		assertFalse( as.canUndo( ) );
 		assertEquals( 0, as.getRecords( ).length );
-		assertNull( as.listeners );
+		assertNull( ActivityTestUtil.getActivityListener( as ) );
 	}
 
 	/**
