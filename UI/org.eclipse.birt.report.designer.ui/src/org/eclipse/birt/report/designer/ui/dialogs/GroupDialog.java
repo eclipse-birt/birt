@@ -103,7 +103,8 @@ public class GroupDialog extends BaseDialog
 	// private static final String GROUP_DLG_INCLUDE_HEADER_LABEL =
 	// Messages.getString( "GroupDialog.Label.IncludeHeader" ); //$NON-NLS-1$;
 
-	//private static final String GROUP_DLG_HEADER_FOOTER_LABEL = Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
+	// private static final String GROUP_DLG_HEADER_FOOTER_LABEL =
+	// Messages.getString( "GroupDialog.Label.HeaderFooter" ); //$NON-NLS-1$
 
 	private static final String GROUP_DLG_INTERVAL_BASE_LABEL = Messages.getString( "GroupDialog.Label.IntervalBase" ); //$NON-NLS-1$
 
@@ -330,7 +331,10 @@ public class GroupDialog extends BaseDialog
 			public void modifyText( ModifyEvent e )
 			{
 				if ( !keyChooser.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+				{
 					resetInterval( );
+					tocEditor.setText( getKeyExpression( ) );
+				}
 			}
 
 		} );
@@ -349,6 +353,7 @@ public class GroupDialog extends BaseDialog
 				if ( expressionBuilder.open( ) == OK )
 				{
 					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
+					tocEditor.setText( expressionBuilder.getResult( ).trim( ) );
 				}
 			}
 		} );
@@ -437,7 +442,7 @@ public class GroupDialog extends BaseDialog
 					return;
 				}
 			}
-		});
+		} );
 
 		// Creates interval base editor
 		intervalBaseButton = new Button( composite, SWT.CHECK );
@@ -558,7 +563,8 @@ public class GroupDialog extends BaseDialog
 								200, 100, 100, 100
 						};
 					}
-				} , true);
+				},
+				true );
 		filterPage.setInput( list );
 		filterItem.setText( TAB_FILTER );
 		filterItem.setControl( filterPage );
@@ -574,7 +580,8 @@ public class GroupDialog extends BaseDialog
 								200, 100
 						};
 					}
-				}, true );
+				},
+				true );
 		sortPage.setInput( list );
 		sortItem.setText( TAB_SORTING );
 		sortItem.setControl( sortPage );
@@ -642,25 +649,25 @@ public class GroupDialog extends BaseDialog
 		tocEditor.setText( UIUtil.convertToGUIString( inputGroup.getTocExpression( ) ) );
 
 		index = getPagebreakBeforeIndex( inputGroup.getPageBreakBefore( ) );
-		if(index < 0 || index >= pagebreakBeforeCombo.getItemCount( ))
+		if ( index < 0 || index >= pagebreakBeforeCombo.getItemCount( ) )
 		{
 			pagebreakBeforeCombo.setText( inputGroup.getPageBreakBefore( ) );
-		}else
+		}
+		else
 		{
 			pagebreakBeforeCombo.select( index );
 		}
-		
 
 		index = getPagebreakAfterIndex( inputGroup.getPageBreakAfter( ) );
-		
-		if(index < 0 || index >= pagebreakAfterCombo.getItemCount( ))
+
+		if ( index < 0 || index >= pagebreakAfterCombo.getItemCount( ) )
 		{
 			pagebreakAfterCombo.setText( inputGroup.getPageBreakAfter( ) );
-		}else
+		}
+		else
 		{
 			pagebreakAfterCombo.select( index );
 		}
-		
 
 		if ( inputGroup.repeatHeader( ) )
 		{
@@ -755,19 +762,23 @@ public class GroupDialog extends BaseDialog
 
 			String newToc = UIUtil.convertToModelString( tocEditor.getText( ),
 					true );
-			if ( newToc != inputGroup.getTocExpression( ) )
+			// if ( newToc != inputGroup.getTocExpression( ) )
+			// {
+			// if ( newToc == null
+			// || !newToc.equals( inputGroup.getTocExpression( ) ) )
+			// {
+			// inputGroup.setTocExpression( newToc );
+			// }
+			// }
+			if ( newToc != null
+					&& !newToc.equals( inputGroup.getTocExpression( ) ) )
 			{
-				if ( newToc == null
-						|| !newToc.equals( inputGroup.getTocExpression( ) ) )
-				{
-					inputGroup.setTocExpression( newToc );
-				}
+				inputGroup.setTocExpression( newToc );
 			}
 
 			int index = keyChooser.getSelectionIndex( );
 			String oldKeyExpr = inputGroup.getKeyExpr( );
 			String newKeyExpr = getKeyExpression( );
-
 			inputGroup.setKeyExpr( newKeyExpr );
 			if ( newKeyExpr != null
 					&& newKeyExpr.length( ) != 0
