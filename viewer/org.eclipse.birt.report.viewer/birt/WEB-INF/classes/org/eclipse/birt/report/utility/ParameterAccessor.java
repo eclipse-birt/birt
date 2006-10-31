@@ -1011,7 +1011,6 @@ public class ParameterAccessor
 	 * @param s
 	 * @return String
 	 */
-
 	public static final String htmlEncode( String s )
 	{
 		String sHtmlEncoded = ""; //$NON-NLS-1$
@@ -1067,6 +1066,29 @@ public class ParameterAccessor
 
 		sHtmlEncoded = sbHtmlEncoded.toString( );
 		return sHtmlEncoded;
+	}
+
+	/**
+	 * This function is used to decode a htmlEncoded string and convert to the
+	 * orginial string
+	 * 
+	 * @param s
+	 * @return String
+	 */
+	public static final String htmlDecode( String s )
+	{
+		String sHtmlDecoded = s.replaceAll( "&#09;", "\t" ); //$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "<br>", "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#13;", "\r" ); //$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#32;", " " );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#34;", "\"" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#39;", "'" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#60;", "<" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#62;", ">" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#96;", "`" );//$NON-NLS-1$ //$NON-NLS-2$
+		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#38;", "&" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		return sHtmlDecoded;
 	}
 
 	/**

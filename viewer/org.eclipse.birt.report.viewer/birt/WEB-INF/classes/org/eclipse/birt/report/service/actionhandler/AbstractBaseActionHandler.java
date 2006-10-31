@@ -35,6 +35,7 @@ import org.eclipse.birt.report.soapengine.api.ReportId;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 abstract public class AbstractBaseActionHandler implements IActionHandler
 {
@@ -89,7 +90,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		}
 		catch ( Exception e )
 		{
-			// Exception handle in action handler layer. 
+			// Exception handle in action handler layer.
 			throwAxisFault( e );
 		}
 	}
@@ -186,7 +187,8 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 				if ( IBirtConstants.OPRAND_BOOKMARK.equalsIgnoreCase( params[i]
 						.getName( ) ) )
 				{
-					bookmark = params[i].getValue( );
+					bookmark = ParameterAccessor.htmlDecode( params[i]
+							.getValue( ) );
 					break;
 				}
 			}
@@ -244,7 +246,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					|| ReportIdType._Extended.equalsIgnoreCase( type )
 					|| ReportIdType._Label.equalsIgnoreCase( type )
 					|| ReportIdType._Group.equalsIgnoreCase( type )
-					|| "ColoumnInfo".equalsIgnoreCase( type ) )
+					|| "ColoumnInfo".equalsIgnoreCase( type ) ) //$NON-NLS-1$
 			// TODO: emitter need to fix its name.
 			{
 				ReportId reportId = new ReportId( );
@@ -271,7 +273,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 				{
 					reportId.setType( ReportIdType.Group );
 				}
-				else if ( "ColoumnInfo".equalsIgnoreCase( type ) )
+				else if ( "ColoumnInfo".equalsIgnoreCase( type ) ) //$NON-NLS-1$
 				{
 					reportId.setType( ReportIdType.ColumnInfo );
 				}
@@ -336,13 +338,14 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	 * @param op
 	 * @param response
 	 */
-	protected void appendUpdate( GetUpdatedObjectsResponse response, Update update )
+	protected void appendUpdate( GetUpdatedObjectsResponse response,
+			Update update )
 	{
 		// response may already contain some Update instances.
 		Update[] oldUpdates = response.getUpdate( );
 		if ( oldUpdates == null || oldUpdates.length == 0 )
 		{
-			response.setUpdate( new Update[] { update } );
+			response.setUpdate( new Update[]{update} );
 		}
 		else
 		{
@@ -368,10 +371,10 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		UpdateData updateData = new UpdateData( );
 		updateData.setTarget( target );
 		updateData.setData( data );
-		
+
 		Update update = new Update( );
 		update.setUpdateData( updateData );
-		
+
 		return update;
 	}
 

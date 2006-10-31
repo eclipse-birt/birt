@@ -208,7 +208,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0
 				|| baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
 		{
-			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-1$//$NON-NLS-2$
+			return "javascript:catchBookmark('" //$NON-NLS-1$
+					+ ParameterAccessor.htmlEncode( bookmark ) + "')"; //$NON-NLS-1$
 		}
 
 		// Save the URL String
