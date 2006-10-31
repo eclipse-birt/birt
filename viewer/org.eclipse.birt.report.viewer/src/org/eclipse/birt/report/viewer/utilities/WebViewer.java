@@ -42,10 +42,10 @@ public class WebViewer
 	 * PDF format name
 	 */
 	final public static String PDF = "pdf"; //$NON-NLS-1$
-	
+
 	/**
 	 * DOC format name
-	 */	
+	 */
 	final public static String DOC = "doc";
 
 	/**
@@ -177,6 +177,9 @@ public class WebViewer
 		String maxrows = null;
 		if ( params.get( MAX_ROWS_KEY ) != null )
 			maxrows = (String) params.get( MAX_ROWS_KEY );
+		else
+			maxrows = ViewerPlugin.getDefault( ).getPluginPreferences( )
+					.getString( WebViewer.PREVIEW_MAXROW );
 
 		return createURL( servletName, report, format, true, resourceFolder,
 				maxrows );
