@@ -114,7 +114,6 @@ public class DrillThroughAction implements IDrillThroughAction
 
 	public void setBookmark( String bookmark )
 	{
-		this.isBookmark = true;
 		this.bookmark = bookmark;
 	}
 
