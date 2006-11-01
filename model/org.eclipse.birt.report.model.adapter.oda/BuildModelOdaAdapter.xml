@@ -60,14 +60,12 @@
 
 		     eclipse.home
 		     dtp.home
-		     utest.report.dir
 		     javadoc.dir
 		     plugin.version 
 	-->
 	<!--properties -->
 
 	<!-- ===== Default value for public properties ============= -->
-	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="api.javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
@@ -149,65 +147,10 @@
 			</fileset>
 		</jar>			    
 	</target>
-
-	
-	<!-- Compile Model Oda Test Files 
-		 javac.failonerror should be true.
-	-->
-    <target name="compileTest" description="Compile Model ODA Adapter Test Files">
-		<mkdir dir="${build.dir}" />
-
-        <copy todir="${build.dir}">
-			<fileset dir="${test.src.dir}">
-				<include name="**/input/*.*"/>
-				<include name="**/golden/*.*"/>
-				<include name="**/*.properties" />	
-			</fileset>
-		</copy>
-    	
-		<javac srcdir="${test.src.dir}" 
-			   destdir="${build.dir}" 
-			   source="1.4" 
-			   target="1.4"
-			   debug="true" 
-			   encoding="utf-8" 
-			   failonerror="true" >
-			   <classpath refid="class.path" />
-		</javac>
-    </target>
-
-	
-	<!-- Run Unit test.
-			 Parameters:
-			 		- ${utest.report.dir} target directory to put the unit test report
-			 		
-		 Notice: This public task UnitTest doesn't depend on complieSource, top level script 
-		 will ensure that compilation is successful before call this UnitTest.
-	-->
-	<target name="UnitTest" depends="compileTest">
-		<delete dir="${utest.report.dir}" />
-		<mkdir dir="${utest.report.dir}"/>
-
-		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="UnitTest" inheritAll="false" inheritRefs="false">			
-			<property name="dir.utest" value="utest" />
-			<property name="utest.report.dir" value="${utest.report.dir}" />
-			<property name="module.name" value="${module.name}" />
-			<property name="classname" value="org.eclipse.birt.report.model.adapter.oda.AllTests" />
-		</ant>
-		
-		<junitreport todir="${utest.report.dir}">
-			<fileset dir="${utest.report.dir}">
-				<include name="${module.name}.xml"/>
-			</fileset>
-			<report format="noframes" todir="${utest.report.dir}"/>
-	    </junitreport>
-		
-	</target>
 	
 	<!-- Clean the build environment -->
 	<target name="Clean">
 		<delete dir="${build.dir}" />
-		<delete dir="${utes.report.dir}"/>
 		<delete dir="${javadoc.dir}"/>
 		<delete dir="${export.dir}"/>
 		<delete file="modeloda.jar" />
@@ -267,8 +210,4 @@
 		</javac>
 	</target>
 	
-	<!-- private task, run unit test -->
-	<target name="utest" depends="compileSource,UnitTest" >
-		<fail if="test.failed" message="One or more tests failed!  Check the output." />
-	</target>
 </project>
