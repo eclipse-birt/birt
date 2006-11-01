@@ -46,6 +46,8 @@ public class AllTests extends utility.BaseTestCase
 						.getClasses( "org.eclipse.birt.report.tests.engine.regression" ) ); //$NON-NLS-1$
 		classes
 				.add( "org.eclipse.birt.report.tests.engine.smoke.sampleReport.SampleReportTest" ); //$NON-NLS-1$
+
+		classes.add( "org.eclipse.birt.report.tests.engine.smoke.EngineSmokeTest" ); //$NON-NLS-1$
 		classes
 				.remove( "org.eclipse.birt.report.tests.engine.api.EngineResourceLocator" ); //$NON-NLS-1$
 		classes

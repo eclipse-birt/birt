@@ -109,12 +109,20 @@
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
-		
+
 		<copy todir="${utest.report.dir}/AutoTestLog" >
 			<fileset dir="${src.dir}/org/eclipse/birt/report/tests/engine/api/output">
 				<include name="*.log"/>
 			</fileset>
 		</copy>
+
+		
+		<copy todir="${utest.report.dir}/smokeTest" >
+			<fileset dir="${src.dir}/org/eclipse/birt/report/tests/engine/smoke/TestCases" />
+			<fileset dir=".">
+				<include name="TESTS-SmokeTests.xml"/>
+			</fileset>
+		</copy>		
 	</target>
 	
 	<!-- Clean, clean this project -->
