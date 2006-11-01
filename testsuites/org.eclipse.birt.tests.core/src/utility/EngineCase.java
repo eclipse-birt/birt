@@ -543,7 +543,7 @@ public abstract class EngineCase extends TestCase
 	 *             if any exception
 	 */
 
-	private boolean compareTextFile( Reader golden, Reader output,
+	protected final boolean compareTextFile( Reader golden, Reader output,
 			String fileName ) throws Exception
 	{
 		StringBuffer errorText = new StringBuffer( );
