@@ -172,8 +172,6 @@
                   </enumeration>
                   <enumeration value="html">
                   </enumeration>
-                  <enumeration value="messageId">
-                  </enumeration>
                   <enumeration value="uri">
                   </enumeration>
                   <enumeration value="dateTime">
@@ -187,6 +185,8 @@
                   <enumeration value="literalString">
                   </enumeration>
                   <enumeration value="list">
+                  </enumeration>
+                  <enumeration value="resourceKey">
                   </enumeration>
                </restriction>
             </simpleType>

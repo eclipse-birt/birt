@@ -314,7 +314,7 @@ public interface IPropertyType
 	 * Name the key property type of a structure member.
 	 */
 
-	public static final String MEMBER_KEY_NAME = "memberKey";
+	public static final String MEMBER_KEY_NAME = "memberKey"; //$NON-NLS-1$
 	
 	
 	/**
