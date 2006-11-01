@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -40,6 +41,16 @@ public class ImportLibraryAction extends Action
 
 	public static final String ID = "UseLibraryAction"; //$NON-NLS-1$
 	public static final String ACTION_TEXT = Messages.getString( "UseLibraryAction.Text" ); //$NON-NLS-1$
+	
+
+	public static final String DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Dialog.Titile" ); //$NON-NLS-1$
+	public static final String DIALOG_MESSAGE = Messages.getString( "ImportLibraryAction.Dialog.Message" ); //$NON-NLS-1$
+	private static final String[] LIBRARY_FILE_TYPE = new String[]{
+		".rptlibrary", //$NON-NLS-1$
+	};
+	private static final String[] LIBRARY_FILE_PATTERN = new String[]{
+		"*.rptlibrary", //$NON-NLS-1$
+	};
 
 	public ImportLibraryAction( )
 	{
@@ -116,9 +127,12 @@ public class ImportLibraryAction extends Action
 
 		// Bugzilla Bug 160806
 		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
-				new String[]{
-					"*.rptlibrary" //$NON-NLS-1$
-				} );
+				LIBRARY_FILE_PATTERN );
+		dialog.setTitle( DIALOG_TITLE ); 
+		dialog.setMessage( DIALOG_MESSAGE ); 
+		ResourceSelectionValidator validator = new ResourceSelectionValidator( LIBRARY_FILE_TYPE );
+		dialog.setValidator( validator );
+		
 		if ( dialog.open( ) == Window.OK )
 		{
 			try
