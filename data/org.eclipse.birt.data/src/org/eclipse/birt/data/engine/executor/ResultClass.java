@@ -168,6 +168,7 @@ public class ResultClass implements IResultClass
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
+			int writeCount = 0;
 			for ( int i = 0; i < m_fieldCount; i++ )
 			{
 				ResultFieldMetadata column = projectedCols[i];
@@ -186,8 +187,12 @@ public class ResultClass implements IResultClass
 					else
 						IOUtil.writeString( dos,
 								column.getDriverProvidedDataType( ).getName( ) );
+					writeCount++;
 				}
 			}
+			
+			if ( writeCount != size )
+				throw new DataException( ResourceConstants.RESULT_CLASS_SAVE_ERROR );
 			
 			dos.close( );
 		}

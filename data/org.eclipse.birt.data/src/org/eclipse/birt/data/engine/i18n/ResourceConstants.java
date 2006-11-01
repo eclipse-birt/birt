@@ -279,4 +279,5 @@ public class ResourceConstants
 	public final static String CANNOT_LOAD_ODA_ADAPTER = "odaconsumer.CannotLoadOdaAdapter";
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
+	public final static String RESULT_CLASS_SAVE_ERROR = "data.engine.resultClassSaveError";
 }
