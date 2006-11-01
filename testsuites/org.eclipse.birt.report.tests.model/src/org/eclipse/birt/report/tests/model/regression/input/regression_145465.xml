@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.v20060920-0630 Build &lt;20060921-0630></property>
     <property name="units">in</property>
@@ -28,5 +27,9 @@
         <label name="extendsLabel3" id="8" extends="regression_145465_lib.NewLabel"/>
         <label name="extendsLabel4" id="9" extends="regression_145465_lib.NewLabel"/>
         <label name="extendsLabel5" id="10" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel6" id="11" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel7" id="12" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel8" id="13" extends="regression_145465_lib.NewLabel"/>
+        <label name="extendsLabel9" id="14" extends="regression_145465_lib.NewLabel"/>
     </body>
 </report>
