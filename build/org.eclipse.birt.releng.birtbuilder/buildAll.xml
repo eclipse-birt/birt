@@ -137,7 +137,7 @@
 
 		<!--pack200-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
-			<arg line="-q ${archiveName}.zip -d ${buildDirectory}/{buildLabel}" />
+			<arg line="-q ${archiveName}.zip -d ${buildDirectory}/${buildLabel}" />
 		</exec>
 
 		<ant antfile="build.xml" dir="${baseLocation}/plugins/com.lowagie.itext" target="Export">
