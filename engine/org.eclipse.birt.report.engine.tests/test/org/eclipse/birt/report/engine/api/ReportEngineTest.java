@@ -121,29 +121,6 @@ public class ReportEngineTest extends EngineCase
 	}
 	
 	/**
-	 * API test on IReportEngine.getFormatIcon( ) method
-	 */
-	public void testGetFormatIcon( )
-	{
-		try
-		{
-			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
-			String[] supportedFormats = engine.getSupportedFormats( );
-			for ( int length = supportedFormats.length, index = 0; index < length; index++ )
-			{
-				assertTrue( engine.getFormatIcon( supportedFormats[index] ) != null );
-			}
-			String unSupported = "unSupportFormatName";
-			assertTrue( engine.getFormatIcon( unSupported ) == null );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
-		}
-	}
-	
-	/**
 	 * API test on IReportEngine.getMIMEType( String ) method
 	 * test two default supported formats only - "html" and "pdf"
 	 */
