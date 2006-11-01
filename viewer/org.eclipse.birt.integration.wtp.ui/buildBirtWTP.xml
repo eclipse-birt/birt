@@ -224,8 +224,21 @@
 		<delete file="${dir.runtime}/birt.zip" />
 		<zip destfile="${dir.runtime}/birt.zip">
 			<fileset dir="${viewer.dir}/birt_web/" 
-				includes="*.jsp,*.rptdesign,webcontent/**,WEB-INF/attachments/**,WEB-INF/lib/**,WEB-INF/tlds/**,WEB-INF/platform/configuration/**,WEB-INF/platform/plugins/**,WEB-INF/*.wsdd,WEB-INF/weblogic.xml"
-				excludes="**/WEB-INF/classes/**"/>
+				includes="*.jsp,*.rptdesign,webcontent/**,
+						  WEB-INF/attachments/**,
+						  WEB-INF/lib/**,
+				          WEB-INF/tlds/**,
+				          WEB-INF/platform/configuration/**,
+				          WEB-INF/platform/plugins/**,
+				          WEB-INF/*.wsdd,
+				          WEB-INF/weblogic.xml"
+				excludes="WEB-INF/classes/**,
+						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity_*/**,
+						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity*.nl/**,
+						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity.oda.design*.jar,
+						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity.oda.finfo*.jar,
+						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity.oda.flatfile.ui*.jar,
+						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity.oda.profile*.jar"/>
 		</zip>
 	</target>
 
