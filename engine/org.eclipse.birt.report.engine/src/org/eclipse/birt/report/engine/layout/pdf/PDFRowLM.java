@@ -177,5 +177,15 @@ public class PDFRowLM extends PDFInlineStackingLM
 		}
 		return true;
 	}
+	
+	protected boolean hasNextChild()
+	{
+		if(children.size( )>0)
+		{
+			return !isRowFinished( );
+		}
+		return true;
+				
+	}
 
 }

@@ -134,6 +134,11 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				{
 					// there are sill some content to output,
 					// return to caller to creat the new page.
+					if(!hasNextChild())
+					{
+						closeExecutor( );
+						status = STATUS_END;
+					}
 					return true;
 				}
 				// we have finished the content and all its children.
@@ -151,6 +156,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return hasNextPage;
 	}
 
+	protected abstract boolean hasNextChild();
 	protected void closeExecutor( )
 	{
 		if ( executor != null )

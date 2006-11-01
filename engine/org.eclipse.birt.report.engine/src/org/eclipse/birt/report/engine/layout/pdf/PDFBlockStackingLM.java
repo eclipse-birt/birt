@@ -208,4 +208,14 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			child.cancel( );
 		}
 	}
+	
+	protected boolean hasNextChild()
+	{
+		if(child==null && (blockExecutor!=null && !blockExecutor.hasNextChild( )))
+		{
+			return false;
+		}
+		return true;
+				
+	}
 }

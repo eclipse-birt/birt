@@ -51,4 +51,9 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM
 			child.cancel( );
 		}
 	}
+	
+	protected boolean hasNextChild()
+	{
+		return true;
+	}
 }

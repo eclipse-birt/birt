@@ -93,5 +93,10 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 		}
 		return containerArea;
 	}
+	
+	protected boolean hasNextChild()
+	{
+		return true;
+	}
 
 }
