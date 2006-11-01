@@ -154,13 +154,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String extendsFrom = elementTag.getAttribute( EXTENDS_FROM_ATTRIB );
 			if ( StringUtil.isBlank( extendsFrom ) )
 				extendsFrom = ReportDesignConstants.EXTENDED_ITEM;
-			String elementType = elementTag.getAttribute( TYPE_ATTRIB );
-			if ( StringUtil.isBlank( elementType ) )
-				elementType = ReportDesignConstants.EXTENDED_ITEM;
-			if ( !isValidElementType( elementType ) )
-				throw new ExtensionException(
-						new String[]{elementType},
-						ExtensionException.DESIGN_EXCEPTION_INVALID_ELEMENT_TYPE );
 
 			IReportItemFactory factory = null;
 			PeerExtensionElementDefn elementDefn = null;
@@ -176,7 +169,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 				elementDefn.setCanExtend( true );
 				elementDefn.setDisplayNameKey( displayNameID );
 				elementDefn.setExtends( extendsFrom );
-				elementDefn.setElementType( elementType );
 				elementDefn.setJavaClass( null );
 				elementDefn.setSelector( defaultStyle );
 

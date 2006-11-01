@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -94,5 +96,32 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		}
 
 		return getName( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildProperties()
+	 */
+
+	protected void buildProperties( ) throws MetaDataException
+	{
+		super.buildProperties( );
+
+		if ( PeerExtensionLoader.EXTENSION_POINT
+				.equalsIgnoreCase( extensionPoint ) )
+		{
+			// extensions must have 'extensionName' property
+			ElementDefn extendedItem = (ElementDefn) MetaDataDictionary
+					.getInstance( ).getElement(
+							ReportDesignConstants.EXTENDED_ITEM );
+			PropertyDefn extensionName = (PropertyDefn) extendedItem
+					.getProperty( ExtendedItem.EXTENSION_NAME_PROP );
+			if ( getProperty( ExtendedItem.EXTENSION_NAME_PROP ) == null )
+			{
+				properties.put( extensionName.getName( ), extensionName );
+				cachedProperties.put( extensionName.getName( ), extensionName );
+			}
+		}
 	}
 }

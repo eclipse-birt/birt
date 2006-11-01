@@ -34,12 +34,6 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	 */
 
 	protected String extensionPoint = null;
-	
-	/**
-	 * The element type of this extension.
-	 */
-	
-	protected String elementType = null;
 
 	/*
 	 * (non-Javadoc)
@@ -70,6 +64,8 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		isBuilt = true;
 	}
 
+	
+
 	/**
 	 * Checks whether the property has the mask defined by the peer extension
 	 * given the property name.
@@ -97,13 +93,4 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	{
 		return this.extensionPoint;
 	}
-		
-	/**
-	 * @param elementType the elementType to set
-	 */
-	public void setElementType( String elementType )
-	{
-		this.elementType = elementType;
-	}
-
 }

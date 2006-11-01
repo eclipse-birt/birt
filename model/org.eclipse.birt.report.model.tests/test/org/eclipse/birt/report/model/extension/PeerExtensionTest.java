@@ -370,41 +370,26 @@ public class PeerExtensionTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests an extension has 'extensionName' property even if it does not
+	 * extend from 'ExtendedItem'.
 	 * 
 	 * @throws Exception
 	 */
-//	public void testCrosstabMetadata( ) throws Exception
-//	{
-//		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-//
-//		ExtensionElementDefn crosstabDefn = (ExtensionElementDefn) dd
-//				.getExtension( "Crosstab" ); //$NON-NLS-1$
-//		ExtensionElementDefn crosstabGroupDefn = (ExtensionElementDefn) dd
-//				.getExtension( "CrosstabGroup" ); //$NON-NLS-1$
-//
-//		// test meta-data of cross-tab
-//		assertNotNull( crosstabDefn );
-//		assertEquals( 4, crosstabDefn.getSlotCount( ) );
-//		// row group slot
-//		SlotDefn slotDefn = (SlotDefn) crosstabDefn.getSlot( 0 );
-//		assertEquals( "rowGroups", slotDefn.getName( ) ); //$NON-NLS-1$
-//		assertTrue( slotDefn.canContain( crosstabGroupDefn ) );
-//		// column group slot
-//		slotDefn = (SlotDefn) crosstabDefn.getSlot( 1 );
-//		assertEquals( "columnGroups", slotDefn.getName( ) ); //$NON-NLS-1$
-//		assertTrue( slotDefn.canContain( crosstabGroupDefn ) );
-//		// row detail slot
-//		slotDefn = (SlotDefn) crosstabDefn.getSlot( 2 );
-//		assertEquals( "rowDetail", slotDefn.getName( ) ); //$NON-NLS-1$
-//		assertTrue( slotDefn.canContain( new TableRow( ) ) );
-//		// column detail slot
-//		slotDefn = (SlotDefn) crosstabDefn.getSlot( 3 );
-//		assertEquals( "columnDetail", slotDefn.getName( ) ); //$NON-NLS-1$
-//		assertTrue( slotDefn.canContain( new TableColumn( ) ) );
-//		
-//		// test cross-tab group
-//		//assertEquals( 6, crosstabGroupDefn.getLocalProperties( ).size( ) );
-//		assertEquals( 2, crosstabGroupDefn.getSlotCount( ) );
-//	}
-	
+
+	public void testExtensionNameProp( ) throws Exception
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		assertTrue( dd.getExtensions( ).size( ) >= 3 );
+
+		ElementDefn extendedCell = (ElementDefn) dd
+				.getExtension( "TestingCell" ); //$NON-NLS-1$
+		assertNotNull( extendedCell );
+		assertEquals( dd.getElement( ReportDesignConstants.CELL_ELEMENT ),
+				extendedCell.getParent( ) );
+
+		PropertyDefn extensionName = (PropertyDefn) extendedCell
+				.getProperty( ExtendedItem.EXTENSION_NAME_PROP );
+		assertNotNull( extensionName );
+	}
+
 }

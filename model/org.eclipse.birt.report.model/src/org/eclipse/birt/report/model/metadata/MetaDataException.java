@@ -33,7 +33,7 @@ public class MetaDataException extends ModelException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 3787774664483885333L;
 
 	/**
@@ -98,7 +98,14 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_STYLE_TYPE_MISSING = "STYLE_TYPE_MISSING"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the Style element is missing from the
+	 * Error code constant indicating that extended item is missing from the
+	 * meta-data dictionary.
+	 */
+
+	public static final String DESIGN_EXCEPTION_EXTENDED_ITEM_MISSING = "EXTENDED_ITEM_MISSING"; //$NON-NLS-1$
+
+	/**
+	 * Error code constant indicating that the report design is missing from the
 	 * meta-data dictionary.
 	 */
 
@@ -405,29 +412,30 @@ public class MetaDataException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_UNIT = "INVALID_UNIT"; //$NON-NLS-1$
-	
+
 	/**
 	 * If the type is list, sub-type can not be null.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_MISSING_SUB_TYPE = "MISSING_SUB_TYPE"; //$NON-NLS-1$
-	
+
 	/**
 	 * The sub-type is not the supported simple types when the type is list.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE = "UNSUPPORTED_SUB_TYPE"; //$NON-NLS-1$
-	
+
 	/**
-	 * Only when type is list, the sub-type can be set. Otherwise, sub-type must be null.
+	 * Only when type is list, the sub-type can be set. Otherwise, sub-type must
+	 * be null.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN = "SUB_TYPE_FORBIDDEN"; //$NON-NLS-1$
-	
+
 	/**
 	 * Error code indicates that a concrete element misses defines the xml name.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_MISSING_XML_NAME = "MISSING_XML_NAME"; //$NON-NLS-1$
 
 	/**

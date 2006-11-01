@@ -102,27 +102,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="type" use="default" value="ReportItem">
-            <annotation>
-               <documentation>
-                  This attribute represents the element type of this extension. It can be one of allowed types(ExtendedItem,Column,Row,ListingGroup,Cell).
-               </documentation>
-            </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="Column">
-                  </enumeration>
-                  <enumeration value="Row">
-                  </enumeration>
-                  <enumeration value="ListingGroup">
-                  </enumeration>
-                  <enumeration value="Cell">
-                  </enumeration>
-                  <enumeration value="ExtendedItem">
-                  </enumeration>
-               </restriction>
-            </simpleType>
-         </attribute>
       </complexType>
    </element>
 
