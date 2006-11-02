@@ -529,8 +529,8 @@
 		<exec executable="unzip" dir="${test.dir}">
 			<arg line="-q birt-report-framework-2_2_0.zip -d ${postDirectory}/${buildLabel}" />
 		</exec>
-		<exec executable="unzip" dir="${test.dir}" overwrite="true">
-			<arg line="-q birt-tests-suite-2_2_0.zip -d ${postDirectory}/${buildLabel}" />
+		<exec executable="unzip" dir="${test.dir}">
+			<arg line="-q birt-tests-suite-2_2_0.zip -d ${postDirectory}/${buildLabel} -o" />
 		</exec>
 		
 		<replace dir="${runner.dir}" value="2.2.0.{buildLabel}" token="@REPLACE_BY_BUILD_ID@">

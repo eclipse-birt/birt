@@ -3,12 +3,12 @@
 	<property name="os" value="linux"/>
 	
 	<target name="Start">
-		<antcall name="org.eclipse.birt.core.tests"/>
-		<antcall name="org.eclipse.birt.report.engine.tests"/>
-		<antcall name="org.eclipse.birt.report.engine.emitter.pdf.tests"/>
-		<antcall name="org.eclipse.birt.report.engine.emitter.html.tests"/>
-		<antcall name="org.eclipse.birt.report.model.tests"/>
-		<antcall name="org.eclipse.birt.report.model.adapter.oda.tests"/>
+		<antcall target="org.eclipse.birt.core.tests"/>
+		<antcall target="org.eclipse.birt.report.engine.tests"/>
+		<antcall target="org.eclipse.birt.report.engine.emitter.pdf.tests"/>
+		<antcall target="org.eclipse.birt.report.engine.emitter.html.tests"/>
+		<antcall target="org.eclipse.birt.report.model.tests"/>
+		<antcall target="org.eclipse.birt.report.model.adapter.oda.tests"/>
 		
 	</target>
 	
