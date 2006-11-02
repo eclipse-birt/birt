@@ -11,7 +11,7 @@
             <property name="controlType">list-box</property>
             <property name="dataSetName">dataset1</property>
             <expression name="valueExpr">row["ORDERDATE"]</expression>
-            <property name="mustMatch">true</property>
+            <property name="mustMatch">false</property>
             <property name="fixedOrder">true</property>
             <property name="defaultValue">10/15/2005</property>
             <structure name="format">

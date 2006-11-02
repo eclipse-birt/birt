@@ -70,7 +70,7 @@ public class DynamicParameterTest extends BaseTestCase
 			handle.setListlimit(20);
 			assertEquals(20,handle.getListlimit());
 			
-			assertTrue(handle.isMustMatch());
+			assertFalse(handle.isMustMatch());
 			assertTrue(handle.isFixedOrder());
 			
 			//test on the 2nd param
