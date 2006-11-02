@@ -526,13 +526,22 @@
 				<include name="birt-tests-suite-2_2_0.zip"/>
 			</fileset>
 		</copy>
-		<exec executable="unzip" dir="${test.dir}">
-			<arg line="-q birt-report-framework-2_2_0.zip -d ${postDirectory}/${buildLabel}" />
+		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
+			<arg line="-o -q birt-report-framework-2_2_0.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${test.dir}">
-			<arg line="-q birt-tests-suite-2_2_0.zip -d ${postDirectory}/${buildLabel} -o" />
+		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
+			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
 		</exec>
-		
+		<delete>
+			<fileset dir="${test.dir}/eclipse/plugins">
+				<include name="*.itext*/**"/>
+			</fileset>
+		</delete>
+		<copy todir="${test.dir}/eclipse/plugins">
+			<fileset dir="${baseLocation}/plugins">
+				<include name="*.itext*/**"/>
+			</fileset>
+		</copy>
 		<replace dir="${runner.dir}" value="2.2.0.${buildLabel}" token="@REPLACE_BY_BUILD_ID@">
 			<include name="testRunner.xml" />
 		</replace>
