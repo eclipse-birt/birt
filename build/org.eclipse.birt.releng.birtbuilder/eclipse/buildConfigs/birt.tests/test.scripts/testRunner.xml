@@ -1,6 +1,7 @@
 <project name="Start the birt unit test" default="Start">
 
 	<property name="os" value="linux"/>
+	<property name="working.dir" value="${test.dir}/eclipse/plugins"/>
 	
 	<target name="Start">
 		<antcall target="org.eclipse.birt.core.tests"/>
@@ -13,32 +14,32 @@
 	</target>
 	
 	<target name="org.eclipse.birt.core.tests">
-		<ant dir="${test.dir}/org.eclipse.birt.core.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+		<ant dir="${working.dir}/org.eclipse.birt.core.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.engine.tests">
-		<ant dir="${test.dir}/org.eclipse.birt.report.engine.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+		<ant dir="${working.dir}/org.eclipse.birt.report.engine.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.engine.emitter.pdf.tests">
-		<ant dir="${test.dir}/org.eclipse.birt.report.engine.emitter.pdf.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.pdf.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.engine.emitter.html.tests">
-		<ant dir="${test.dir}/org.eclipse.birt.report.engine.emitter.html.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.html.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.model.tests">
-		<ant dir="${test.dir}/org.eclipse.birt.report.model.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+		<ant dir="${working.dir}/org.eclipse.birt.report.model.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.model.adapter.oda.tests">
-		<ant dir="${test.dir}/org.eclipse.birt.report.model.adapter.oda.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+		<ant dir="${working.dir}/org.eclipse.birt.report.model.adapter.oda.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
