@@ -508,7 +508,7 @@
 	<target name="runBirtTest" depends="init">
 		<!-- Clean last test plugins -->
 		<delete includeEmptyDirs="true" failonerror="false">
-			<fileset dir="test.dir">
+			<fileset dir="${test.dir}">
 				<include name="**/*.birt*.jar"/>
 				<include name="**/*.birt*/**"/>
 				<include name="**/*.itext*/**"/>
@@ -537,6 +537,6 @@
 			<include name="testRunner.xml" />
 		</replace>
 		<!-- call the birt unit test -->
-		<ant dir="${runner.dir}" antfile="testRunner.xml"/>
+		<ant dir="${runner.dir}" antfile="testRunner.xml" />
 	</target>
 </project>
