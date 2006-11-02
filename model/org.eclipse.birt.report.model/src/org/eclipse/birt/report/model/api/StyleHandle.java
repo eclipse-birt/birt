@@ -894,7 +894,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * </ul>
 	 * 
 	 * @return the page break inside property
-	 * @deprecated
 	 */
 
 	public String getPageBreakInside( )
@@ -915,7 +914,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the new page break inside property
 	 * @throws SemanticException
 	 *             if the value is not one of the above.
-	 * @deprecated
 	 */
 
 	public void setPageBreakInside( String value ) throws SemanticException

@@ -404,7 +404,9 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		if ( !( IReportItemModel.BOOKMARK_PROP.equals( propName )
 				|| IReportItemModel.TOC_PROP.equals( propName )
 				|| IStyleModel.PAGE_BREAK_AFTER_PROP.equals( propName )
-				|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equals( propName ) || ICellModel.DROP_PROP
+				|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equals( propName )
+				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equals( propName ) 
+				|| ICellModel.DROP_PROP
 				.equals( propName ) ) )
 			return false;
 

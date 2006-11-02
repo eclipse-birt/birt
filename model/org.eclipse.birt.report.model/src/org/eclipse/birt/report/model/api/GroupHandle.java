@@ -541,6 +541,31 @@ public abstract class GroupHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Gets page break inside property value of this group.
+	 * 
+	 * @return page break inside property value of this group.
+	 */
+
+	public String getPageBreakInside( )
+	{
+		return getStringProperty( Style.PAGE_BREAK_INSIDE_PROP );
+	}
+
+	/**
+	 * Sets page break inside property value of this group.
+	 * 
+	 * @param value
+	 *            value of page break inside property
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setPageBreakInside( String value ) throws SemanticException
+	{
+		setProperty( Style.PAGE_BREAK_INSIDE_PROP , value );
+	}
+
+	/**
 	 * Gets page break before property value of this group.
 	 * 
 	 * @return page break before property value of this group.

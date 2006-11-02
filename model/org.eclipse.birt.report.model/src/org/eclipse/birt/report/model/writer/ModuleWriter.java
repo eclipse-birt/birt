@@ -2771,6 +2771,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, Style.PAGE_BREAK_AFTER_PROP );
 		property( obj, Style.PAGE_BREAK_BEFORE_PROP );
+		property( obj, Style.PAGE_BREAK_INSIDE_PROP );
 
 		// write user property definitions and values
 

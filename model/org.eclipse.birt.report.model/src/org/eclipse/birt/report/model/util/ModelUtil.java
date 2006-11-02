@@ -186,11 +186,11 @@ public class ModelUtil
 			// properties on the group element
 
 			// for toc the default value is the group expression.
-
 			if ( propHandle.getElement( ) instanceof GroupElement
 					&& ( GroupElement.TOC_PROP.equals( propName )
 							|| IStyleModel.PAGE_BREAK_AFTER_PROP
 									.equals( propName ) || IStyleModel.PAGE_BREAK_BEFORE_PROP
+							.equals( propName ) || IStyleModel.PAGE_BREAK_INSIDE_PROP
 							.equals( propName ) ) )
 				value = propHandle.getElement( ).getLocalProperty(
 						propHandle.getModule( ), propDefn );
