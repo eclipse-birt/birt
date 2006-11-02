@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <styles>
+        <style name="style" id="20">
+            <property name="borderRightStyle">dotted</property>
+            <property name="borderRightWidth">thin</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <table name="table" id="22">
+            <property name="width">100%</property>
+            <column id="35"/>
+            <column id="36"/>
+            <column id="37"/>
+            <header>
+                <row id="23">
+                    <property name="borderTopColor">#0000FF</property>
+                    <property name="borderTopStyle">double</property>
+                    <property name="borderTopWidth">thick</property>
+                    <cell id="24"/>
+                    <cell id="25"/>
+                    <cell id="26"/>
+                </row>
+            </header>
+            <detail>
+                <row id="27">
+                    <cell id="28"/>
+                    <cell id="29"/>
+                    <cell id="30"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="31">
+                    <cell id="32"/>
+                    <cell id="33"/>
+                    <cell id="34"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
