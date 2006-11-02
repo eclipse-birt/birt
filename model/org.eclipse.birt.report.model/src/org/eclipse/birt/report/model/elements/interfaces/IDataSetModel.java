@@ -58,4 +58,10 @@ public interface IDataSetModel
 	 */
 
 	public static final String CACHED_METADATA_PROP = "cachedMetaData"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of the max number of rows to fetch from data set.
+	 */
+
+	public static final String ROW_FETCH_LIMIT_PROP = "rowFetchLimit"; //$NON-NLS-1$
 }

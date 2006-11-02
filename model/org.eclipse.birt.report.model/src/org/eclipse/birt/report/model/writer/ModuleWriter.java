@@ -2549,6 +2549,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			// end of writing meta-data information.
 		}
+		
+		property( obj, DataSet.ROW_FETCH_LIMIT_PROP );
 	}
 
 	/*

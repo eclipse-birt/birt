@@ -60,11 +60,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *          
- *              
- *          		DataSetHandle dataHandle = designHandle
- *                  findDataSet( &quot;My First Data Set &quot; );
- *           
+ *            
+ *                
+ *            		DataSetHandle dataHandle = designHandle
+ *                    findDataSet( &quot;My First Data Set &quot; );
+ *             
  * </pre>
  * 
  * <p>
@@ -939,6 +939,28 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		}
 
+	}
+
+	/**
+	 * Sets the max number of rows from data source property value.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void setRowFetchLimit( int count ) throws SemanticException
+	{
+		setIntProperty( ROW_FETCH_LIMIT_PROP, count );
+	}
+
+	/**
+	 * Returns the max number of rows from data source property value.
+	 * 
+	 * @return the max number of rows that can be fetched from data source.
+	 */
+
+	public int getRowFetchLimit( )
+	{
+		return getIntProperty( ROW_FETCH_LIMIT_PROP );
 	}
 
 }

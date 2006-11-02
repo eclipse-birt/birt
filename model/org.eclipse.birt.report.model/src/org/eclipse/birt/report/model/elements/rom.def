@@ -2119,6 +2119,7 @@
 	<Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSetHints" isList="true" name="resultSetHints" since="2.1" type="structure"/>
     <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
+	<Property displayNameID="Element.DataSet.rowFetchLimit" name="rowFetchLimit" since="2.2" type="integer"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">
     <Method context="factory" displayNameID="Element.SimpleDataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.SimpleDataSet.beforeOpen.toolTip" >
