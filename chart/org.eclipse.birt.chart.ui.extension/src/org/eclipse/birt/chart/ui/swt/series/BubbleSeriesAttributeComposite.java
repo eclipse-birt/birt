@@ -68,6 +68,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	private transient Combo cmbOrientation;
 
 	private transient Series series = null;
+	
+	private transient Label lblShadow = null;
 
 	ChartWizardContext context;
 
@@ -171,7 +173,7 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		cmpShadow.setLayout( new GridLayout( 2, false ) );
 		cmpShadow.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		Label lblShadow = new Label( cmpShadow, SWT.NONE );
+		lblShadow = new Label( cmpShadow, SWT.NONE );
 		GridData gdLBLShadow = new GridData( );
 		lblShadow.setLayoutData( gdLBLShadow );
 		lblShadow.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
@@ -324,6 +326,10 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 
 	private void enableLineSettings( boolean isEnabled )
 	{
+		if ( lblShadow != null )
+		{
+			lblShadow.setEnabled( isEnabled );
+		}
 		if ( fccShadow != null )
 		{
 			fccShadow.setEnabled( isEnabled );
