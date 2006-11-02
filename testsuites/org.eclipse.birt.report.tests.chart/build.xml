@@ -150,8 +150,17 @@
 		<ant dir="${tests.core.dir}" target="compileTest" antfile="build.xml" inheritAll="false" inheritrefs="false" />
 		<echo message="end building tests.core" />
 	</target>
+	
+	<target name="Export">
+	<copy todir="${utest.report.dir}/${module.name}/Output/regression" failonerror="false">
+	<fileset dir="${src}/org/eclipse/birt/report/tests/chart/regression/output">
+	<include name="*"/>
+	</fileset>
+	</copy>
+	</target>
+
 
 
 	<!-- private task, run unit test -->
-	<target name="utest" depends="compileTest,UnitTest,Report" />
+	<target name="utest" depends="compileTest,UnitTest,Report,Export" />
 </project>
