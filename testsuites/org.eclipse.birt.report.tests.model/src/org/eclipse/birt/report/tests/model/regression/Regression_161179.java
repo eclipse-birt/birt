@@ -59,6 +59,7 @@ public class Regression_161179 extends BaseTestCase
 
 		ElementFactory factory = designHandle.getElementFactory( );
 		TableHandle table = factory.newTableItem( "table", 3, 1, 1, 1 ); //$NON-NLS-1$
+		designHandle.getBody( ).add( table );
 		RowHandle row = (RowHandle) table.getHeader( ).get( 0 );
 
 		row.setStringProperty(
@@ -131,6 +132,7 @@ public class Regression_161179 extends BaseTestCase
 		TableHandle newtable = (TableHandle) designHandle
 				.getElementFactory( )
 				.newElementFrom( table, "newTable" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( newtable );
 
 		// set/get border to table row in library
 		RowHandle row = (RowHandle) newtable.getHeader( ).get( 0 );
