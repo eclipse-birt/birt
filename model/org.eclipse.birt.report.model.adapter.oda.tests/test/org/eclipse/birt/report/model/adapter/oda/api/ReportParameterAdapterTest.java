@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
+import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -36,6 +37,7 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
+import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 
 /**
  * Test cases to convert Oda data set parameters and ROM data set parameter and
@@ -126,6 +128,8 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		// get the latest data set design.
 
 		setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
+		
+		DesignUtil.validateObject( setDesign );
 
 		// oda data set design changed, update ROM values. still keep report
 		// parameter link.
@@ -243,7 +247,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 
 		dataSetToDelete = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
 		assertNull( dataSetToDelete );
-		
+
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
@@ -251,7 +255,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 
 		dataSetToDelete = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
 		assertNotNull( dataSetToDelete );
-		
+
 	}
 
 	/**

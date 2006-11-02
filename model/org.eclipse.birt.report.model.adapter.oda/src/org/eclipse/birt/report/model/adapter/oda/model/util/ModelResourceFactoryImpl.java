@@ -2,12 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: ModelResourceFactoryImpl.java,v 1.1 2006/08/10 03:33:06 rlu Exp $
  */
 package org.eclipse.birt.report.model.adapter.oda.model.util;
 
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
-import org.eclipse.datatools.connectivity.oda.design.DesignPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
@@ -32,6 +31,10 @@ public class ModelResourceFactoryImpl extends ResourceFactoryImpl
 	public ModelResourceFactoryImpl()
 	{
 		super();
+		
+		ExtendedMetaData extendedMetaData = ExtendedMetaData.INSTANCE;
+		extendedMetaData.putPackage( "http://www.eclipse.org/birt/report/model/adapter/odaModel", //$NON-NLS-1$
+				ModelPackage.eINSTANCE );
 	}
 
 	/**

@@ -878,66 +878,18 @@ public class ModelOdaAdapter
 			// and result set columns.
 
 			// Set Parameter
-			
+
 			// Get user-defined parameters
 
 			List userDefinedList = new DataSetParameterAdapter( )
 					.getUserDefinedParameter( designerValues, setDesign,
 							setHandle );
 
-			// update designvalues.
-			
-			if ( setDesign.getParameters( ) == null )
-			{
-				if ( designerValues != null )
-					designerValues.setDataSetParameters( null );
-			}
-			else
-			{
-				EList designDefns = setDesign.getParameters( )
-						.getParameterDefinitions( );
-				
-				List resultList = DataSetParameterAdapter.getDriverDefinedParameters(
-						designDefns, userDefinedList );
-
-				if ( resultList.size( ) > 0 )
-				{
-					if ( designerValues == null )
-					{
-						designerValues = ModelFactory.eINSTANCE
-								.createDesignValues( );
-					}
-					DataSetParameters dsParams = designerValues.getDataSetParameters( );
-					if ( dsParams == null )
-					{
-						dsParams = DesignFactory.eINSTANCE.createDataSetParameters( );
-						designerValues.setDataSetParameters( dsParams );
-					}
-					dsParams = designerValues.getDataSetParameters( );
-					dsParams.getParameterDefinitions( ).clear( );
-					dsParams.getParameterDefinitions( ).addAll( resultList );
-				}
-			}
-
-			// Set DesignerValues
-
-			try
-			{
-				if ( designerValues != null )
-				{
-					String dValue = SerializerImpl.instance( ).write(
-							designerValues );
-					setHandle.setDesignerValues( dValue );
-				}
-			}
-			catch ( IOException e )
-			{
-			}
-			
-			//Update parameters of dataset handle.
+			// Update parameters of dataset handle.
 
 			updateROMDataSetParams( setDesign, setHandle,
-					userDefinedList );
+					designerValues == null ? null : designerValues
+							.getDataSetParameters( ), userDefinedList );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -969,6 +921,9 @@ public class ModelOdaAdapter
 			}
 			else
 				setHandle.setDataSource( null );
+
+			updateDesignerValue( setDesign, setHandle, designerValues,
+					userDefinedList );
 		}
 		catch ( SemanticException e )
 		{
@@ -977,6 +932,78 @@ public class ModelOdaAdapter
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Updates the designer value. Designer values only contain Driver-defined
+	 * parameters.
+	 * 
+	 * @param setDesign
+	 *            the data set design
+	 * @param setHandle
+	 *            the data set handle
+	 * @param designerValues
+	 *            the designer values
+	 * @param userDefinedList
+	 *            the user defined parameters
+	 * @throws SemanticException
+	 */
+
+	private void updateDesignerValue( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, DesignValues designerValues,
+			List userDefinedList ) throws SemanticException
+	{
+
+		// update designvalues.
+
+		if ( setDesign.getParameters( ) == null )
+		{
+			if ( designerValues != null )
+				designerValues.setDataSetParameters( null );
+		}
+		else
+		{
+			EList designDefns = setDesign.getParameters( )
+					.getParameterDefinitions( );
+
+			List resultList = DataSetParameterAdapter
+					.getDriverDefinedParameters( designDefns, userDefinedList );
+
+			if ( resultList.size( ) > 0 )
+			{
+				if ( designerValues == null )
+				{
+					designerValues = ModelFactory.eINSTANCE
+							.createDesignValues( );
+				}
+				DataSetParameters dsParams = designerValues
+						.getDataSetParameters( );
+				if ( dsParams == null )
+				{
+					dsParams = DesignFactory.eINSTANCE
+							.createDataSetParameters( );
+					designerValues.setDataSetParameters( dsParams );
+				}
+				dsParams = designerValues.getDataSetParameters( );
+				dsParams.getParameterDefinitions( ).clear( );
+				dsParams.getParameterDefinitions( ).addAll( resultList );
+			}
+		}
+
+		// Set DesignerValues
+
+		try
+		{
+			if ( designerValues != null )
+			{
+				String dValue = SerializerImpl.instance( ).write(
+						designerValues );
+				setHandle.setDesignerValues( dValue );
+			}
+		}
+		catch ( IOException e )
+		{
+		}
 	}
 
 	/**
@@ -1144,6 +1171,8 @@ public class ModelOdaAdapter
 	 *            data set design contains driver-defined parameters
 	 * @param setHandle
 	 *            data set handle
+	 * @param cachedParameters
+	 *            the cached data set parameters in the designer values
 	 * @param userDefinedList
 	 *            a list contains user-defined parameters. Each item is
 	 *            <code>OdaDataSetParameter</code>.
@@ -1152,11 +1181,11 @@ public class ModelOdaAdapter
 	 */
 
 	private void updateROMDataSetParams( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, List userDefinedList )
-			throws SemanticException
+			OdaDataSetHandle setHandle, DataSetParameters cachedParameters,
+			List userDefinedList ) throws SemanticException
 	{
 		List resultList = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null, userDefinedList );
+				setDesign, setHandle, cachedParameters, userDefinedList );
 
 		// Merge all parameter list with data set handle.
 

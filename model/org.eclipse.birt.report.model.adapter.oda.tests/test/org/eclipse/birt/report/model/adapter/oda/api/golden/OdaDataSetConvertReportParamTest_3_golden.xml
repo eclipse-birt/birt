@@ -7,7 +7,7 @@
             <method name="validate"><![CDATA[the validation test]]></method>
             <property name="valueType">static</property>
             <property name="dataType">decimal</property>
-            <text-property name="promptText">param1 prompt text</text-property>
+            <text-property name="promptText">not updated prompt text</text-property>
             <property name="concealValue">true</property>
             <property name="allowBlank">false</property>
             <property name="allowNull">true</property>
@@ -15,7 +15,7 @@
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
-            <property name="defaultValue">State</property>
+            <property name="defaultValue">not updated default value</property>
             <list-property name="selectionList">
                 <structure>
                     <property name="value">option 1</property>
@@ -37,28 +37,22 @@
             <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="concealValue">false</property>
-            <property name="allowBlank">true</property>
-            <property name="allowNull">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="7">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="concealValue">false</property>
-            <property name="allowBlank">true</property>
-            <property name="allowNull">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
-            <property name="defaultValue">default value param 3</property>
+            <property name="defaultValue">"default value param 3"</property>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -81,24 +75,6 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
             <text-property name="displayName">My Data Set One</text-property>
-            <list-property name="resultSetHints">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">10</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">date</property>
-                    <property name="dataType">date-time</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-            </list-property>
             <property name="dataSource">myDataSource1</property>
             <list-property name="parameters">
                 <structure>
@@ -117,6 +93,8 @@
                     <property name="name">dataSetParam2</property>
                     <property name="paramName">Param 2</property>
                     <property name="nativeName">dataSetParam2</property>
+                    <property name="dataType">any</property>
+                    <property name="nativeDataType">0</property>                    
                     <property name="position">2</property>
                     <expression name="defaultValue">param["Param 2"]</expression>
                     <property name="isOptional">true</property>
@@ -126,12 +104,34 @@
                     <property name="name">dataSetParam3</property>
                     <property name="paramName">Param 3</property>
                     <property name="nativeName">dataSetParam3</property>
+                    <property name="dataType">any</property>
+                    <property name="nativeDataType">0</property>                    
                     <property name="position">3</property>
                     <expression name="defaultValue">data set param default value 3</expression>
                     <property name="isInput">true</property>
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">10</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">date</property>
+                    <property name="dataType">date-time</property>
+					<property name="nativeDataType">0</property>                    
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+					<property name="nativeDataType">0</property>                    
+                </structure>
+            </list-property>            
             <property name="queryText">select * from user</property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
