@@ -35,15 +35,21 @@
 				<IMG SRC="birt/images/Loading.gif" ALT="Progress Bar Image"/>
 			</TD>
 		</TR>
-		<DIV ID="cancelTaskButton" STYLE="display:none">
 		<TR>
 			<TD ALIGN="center">
-				<INPUT TYPE="BUTTON" VALUE='<%= BirtResources.getMessage( "birt.viewer.dialog.cancel" )%>' 					   
-					   TITLE='<%= BirtResources.getMessage( "birt.viewer.dialog.cancel" )%>'  
-					   CLASS="birtviewer_progressbar_button"/>
+				<DIV ID="cancelTaskButton" STYLE="display:none">
+					<TABLE WIDTH="100%">
+						<TR>
+							<TD ALIGN="center">
+								<INPUT TYPE="BUTTON" VALUE='<%= BirtResources.getMessage( "birt.viewer.dialog.cancel" )%>' 					   
+									   TITLE='<%= BirtResources.getMessage( "birt.viewer.dialog.cancel" )%>'  
+									   CLASS="birtviewer_progressbar_button"/>
+							</TD>
+						</TR>
+					</TABLE>
+				</DIV>
 			</TD>
-		</TR>
-		</DIV>
+		</TR>	
 		<INPUT TYPE="HIDDEN" ID="taskid" VALUE=""/>
 	</TABLE>
 </DIV>
