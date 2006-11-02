@@ -110,6 +110,7 @@
 			</fileset>
 			<report format="noframes" todir="${utest.report.dir}/" />
 		</junitreport>
+		<antcall target="Export"/>
 	</target>
 
 
@@ -152,11 +153,17 @@
 	</target>
 	
 	<target name="Export">
-	<copy todir="${utest.report.dir}/${module.name}/Output/regression" failonerror="false">
-	<fileset dir="${src}/org/eclipse/birt/report/tests/chart/regression/output">
-	<include name="*"/>
-	</fileset>
-	</copy>
+		<copy todir="${utest.report.dir}/${module.name}/Output/regression" failonerror="false">
+		<fileset dir="${src}/org/eclipse/birt/report/tests/chart/regression/output">
+			<include name="*"/>
+		</fileset>
+		<fileset dir="${src}/org/eclipse/birt/report/tests/chart/acceptance/output">
+			<include name="*"/>
+		</fileset>
+		<fileset dir="${src}/org/eclipse/birt/report/tests/chart/smoke/output">
+			<include name="*"/>
+		</fileset>
+		</copy>
 	</target>
 
 
