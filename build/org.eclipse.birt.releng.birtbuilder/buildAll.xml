@@ -40,6 +40,7 @@
 		<!--antcall target="buildBirtNLFeature"/-->
 		<antcall target="Export3rdFeature"/>
 		<antcall target="CreateDistribute"/>
+		<antcall target="runBirtTest"/>
 	</target>
 
 	<target name="init">
@@ -119,6 +120,12 @@
 
 	</target>
 
+	<target name="runBirtTest">
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtTest" >
+			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
+		</ant>
+	</target>
+	
 	<target name="buildBirtTestFeature">
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.tests" />
