@@ -26,7 +26,10 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 
 	public boolean layout( )
 	{
-		context.setPageEmpty( false );
+		if ( !context.getSkipPageHint( ) )
+		{
+			context.setPageEmpty( false );
+		}
 		return super.layout( );
 	}
 	

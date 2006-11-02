@@ -29,7 +29,7 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 	public boolean layout( )
 	{
 		boolean hasNext =  super.layout( );
-		if (status != STATUS_START)
+		if ( status != STATUS_START && !context.getSkipPageHint( ) )
 		{
 			context.setPageEmpty( false );
 		}
