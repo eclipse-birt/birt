@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
 
@@ -203,6 +204,28 @@ public class DesignWriterTest extends BaseTestCase
 		saveAs( "testWriter_out.xml" ); //$NON-NLS-1$
 		assertTrue( compareTextFile(
 				"testWriter_golden.xml", "testWriter_out.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
+
+	}
+	
+	/**
+	 * Write page break inside
+	 * since 3.2.8
+	 * @throws Exception
+	 */
+	
+	public void testWriterPageBreak( ) throws Exception
+	{
+		createDesign( );
+		ElementFactory elemFactory = new ElementFactory( design );
+		
+		LabelHandle label = elemFactory.newLabel( "label" );//$NON-NLS-1$
+		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+		
+		designHandle.getBody( ).add( label );
+		
+		saveAs("testWriterPageBreak_out.xml");//$NON-NLS-1$
+		assertTrue( compareTextFile(
+				"testWriterPageBreak_golden.xml", "testWriterPageBreak_out.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	}
 
