@@ -533,7 +533,7 @@
 			<arg line="-q birt-tests-suite-2_2_0.zip -d ${postDirectory}/${buildLabel} -o" />
 		</exec>
 		
-		<replace dir="${runner.dir}" value="2.2.0.{buildLabel}" token="@REPLACE_BY_BUILD_ID@">
+		<replace dir="${runner.dir}" value="2.2.0.${buildLabel}" token="@REPLACE_BY_BUILD_ID@">
 			<include name="testRunner.xml" />
 		</replace>
 		<!-- call the birt unit test -->
