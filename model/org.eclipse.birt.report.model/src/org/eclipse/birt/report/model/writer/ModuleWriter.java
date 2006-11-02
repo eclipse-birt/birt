@@ -91,6 +91,7 @@ import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -1438,36 +1439,57 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitExtendedItem( ExtendedItem obj )
 	{
-		// provide bound column compatibility
-
+        // provide bound column compatibility
 		boundColumnsMgr.dealExtendedItem( obj, getModule( ) );
-
+		
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
-		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
-				ExtendedItem.EXTENSION_NAME_PROP );
-
-		super.visitExtendedItem( obj );
-
-		resourceKey( obj, ExtendedItem.ALT_TEXT_KEY_PROP,
-				ExtendedItem.ALT_TEXT_PROP );
-
-		// write filter properties for the extended item
-
-		writeStructureList( obj, ExtendedItem.FILTER_PROP );
-
-		// write the extension item local properties and slot
+		
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
-		if ( extDefn != null )
+		if ( extDefn == null )
 		{
-			// TODO: write the style properties
+			attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
+					ExtendedItem.EXTENSION_NAME_PROP );
 
-			List list = extDefn.getLocalProperties( );
-			for ( int i = 0; i < list.size( ); i++ )
+			super.visitExtendedItem( obj );
+
+			resourceKey( obj, ExtendedItem.ALT_TEXT_KEY_PROP,
+					ExtendedItem.ALT_TEXT_PROP );
+
+			// write filter properties for the extended item
+
+			writeStructureList( obj, ExtendedItem.FILTER_PROP );
+
+			// write other un-organized strings
+			ContentTree tree = obj.getContentTree( );
+			writeContentTree( tree );
+		}
+		else
+		{
+			// write some attributes
+			attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
+					ExtendedItem.EXTENSION_NAME_PROP );
+			String name = (String) obj.getLocalProperty( getModule( ),
+					DesignElement.NAME_PROP );
+			if ( !StringUtil.isBlank( name ) )
+				writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
+			String extendsFrom = obj.getExtendsName( );
+			if ( !StringUtil.isBlank( extendsFrom ) )
+				writer.attribute( DesignSchemaConstants.EXTENDS_ATTRIB,
+						extendsFrom );
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+					.getID( ) ).toString( ) );
+
+			// write all other properties
+			List props = extDefn.getProperties( );
+			for ( int i = 0; i < props.size( ); i++ )
 			{
-				PropertyDefn prop = (PropertyDefn) list.get( i );
-				if ( ExtendedItem.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
+				PropertyDefn prop = (PropertyDefn) props.get( i );
+				String propName = prop.getName( );
+				if ( ExtendedItem.NAME_PROP.equals( propName )
+						|| ExtendedItem.EXTENSION_NAME_PROP.equals( propName )
+						|| ExtendedItem.EXTENDS_PROP.equals( propName ) )
 					continue;
-
+				
 				// TODO: support extending those xml properties.
 				// Now, each time a child is initialized, its xml-properties are
 				// serialized on the IReportItem itself, never minding whether
@@ -1476,11 +1498,17 @@ public abstract class ModuleWriter extends ElementVisitor
 				switch ( prop.getTypeCode( ) )
 				{
 					case PropertyType.LIST_TYPE :
-						writeSimplePropertyList( obj, prop.getName( ) );
+						writeSimplePropertyList( obj, propName );
 						break;
 					case PropertyType.XML_TYPE :
-						writeProperty( obj, getTagByPropertyType( prop ), prop
-								.getName( ), true );
+						writeProperty( obj, getTagByPropertyType( prop ),
+								propName, true );
+						break;
+					case PropertyType.STRUCT_TYPE :
+						if ( prop.isList( ) )
+							writeStructureList( obj, propName );
+						else
+							writeStructure( obj, propName );
 						break;
 					default :
 						writeProperty( obj, getTagByPropertyType( prop ), prop
@@ -1488,7 +1516,7 @@ public abstract class ModuleWriter extends ElementVisitor
 						break;
 				}
 			}
-
+			
 			// write the slot content
 			if ( extDefn.isContainer( ) )
 			{
@@ -1498,14 +1526,9 @@ public abstract class ModuleWriter extends ElementVisitor
 					writeContents( obj, i, slotDefn.getXmlName( ) );
 				}
 			}
-		}
-		// ext definition is not found, then write it as content tree
-		else
-		{
-			ContentTree tree = obj.getContentTree( );
-			writeContentTree( tree );
 
 		}
+		
 		writer.endElement( );
 	}
 

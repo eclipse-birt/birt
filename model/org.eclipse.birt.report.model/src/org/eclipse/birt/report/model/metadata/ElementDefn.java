@@ -662,6 +662,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			parent = (ElementDefn) dd.getElement( extendsFrom );
 			if ( parent == null )
+				parent = (ElementDefn) dd.getExtension( extendsFrom );
+			if ( parent == null )
 				throw new MetaDataException(
 						new String[]{extendsFrom, name},
 						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
