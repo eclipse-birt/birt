@@ -34,39 +34,48 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.html.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.engine.emitter.pdf.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-   
-  <plugin
+
+   <plugin
          id="org.eclipse.birt.report.model.adapter.oda.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-                
-  <plugin
+
+   <plugin
          id="org.eclipse.birt.report.model.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-  <plugin
+
+   <plugin
          id="org.eclipse.birt.report.designer.tests"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>  
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt.report.model.testhelper"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"/>
+
 </feature>
