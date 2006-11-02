@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
  * Represents an element in the XML file. This is used to parse a xml trunk when
@@ -76,6 +77,7 @@ public class ContentNode
 
 	/**
 	 * Sets all the attributes to the node.
+	 * 
 	 * @param attributes
 	 */
 	public void setAttributes( Map attributes )
@@ -157,6 +159,11 @@ public class ContentNode
 	 */
 	public boolean isCDATASection( )
 	{
+		// TODO XML and method must be written in CDATA.
+
+		if ( DesignSchemaConstants.XML_PROPERTY_TAG.equalsIgnoreCase( name )
+				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( name ) )
+			return true;
 		return isCDATASection;
 	}
 

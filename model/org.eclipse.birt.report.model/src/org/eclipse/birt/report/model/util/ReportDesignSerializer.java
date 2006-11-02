@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -748,6 +749,10 @@ public class ReportDesignSerializer extends ElementVisitor
 		// not be found when copying property values
 
 		localizeUserPropDefn( element, newElement );
+
+		if ( element instanceof IExtendableElement )
+			ModelUtil.duplicateExtensionIdentifier( element, newElement,
+					element.getRoot( ) );
 
 		// get proerties from ascendants.
 

@@ -13,7 +13,10 @@ package org.eclipse.birt.report.model.writer;
 
 import java.io.FileOutputStream;
 
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -144,7 +147,8 @@ public class DocumentUtilTest extends BaseTestCase
 	 * when there is a external resource file sets for this report, all report
 	 * properties use the external string value should be saved into the report
 	 * file after serialization. And the reource key should be set to null.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 * 
 	 */
 	public void testSerializeExternalString( ) throws Exception
@@ -161,4 +165,31 @@ public class DocumentUtilTest extends BaseTestCase
 
 	}
 
+	/**
+	 * For extended item, the extension name must be set first. So that, other
+	 * properties can be set propertyly.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtendedItem( ) throws Exception
+	{
+		new PeerExtensionLoader().load( );
+		
+		openDesign( "DocumentUtilTest_ExtendedItem.xml" ); //$NON-NLS-1$
+
+		assertNotNull( designHandle );
+		String fileName = getClassFolder( ) + OUTPUT_FOLDER
+				+ "DocumentUtilTest_out_ExtendedItem.xml"; //$NON-NLS-1$
+		FileOutputStream os = new FileOutputStream( fileName );
+		DocumentUtil.serialize( designHandle, os );
+
+		ExtendedItemHandle matrix1 = (ExtendedItemHandle) designHandle
+				.findElement( "matrix1" ); //$NON-NLS-1$
+		assertNotNull( ( (ExtendedItem) matrix1.getElement( ) ).getExtDefn( ) );
+
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_6.xml", //$NON-NLS-1$
+				"DocumentUtilTest_out_ExtendedItem.xml" ) ); //$NON-NLS-1$
+
+	}
 }

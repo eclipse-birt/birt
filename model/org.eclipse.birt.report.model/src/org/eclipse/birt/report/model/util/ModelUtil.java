@@ -149,7 +149,8 @@ public class ModelUtil
 		}
 
 		if ( source.getElement( ) instanceof IExtendableElement )
-			duplicateExtensionIdentifier( source, destination );
+			duplicateExtensionIdentifier( source.getElement( ), destination
+					.getElement( ), source.getModule( ) );
 
 		Iterator iter = source.getPropertyIterator( );
 
@@ -243,36 +244,38 @@ public class ModelUtil
 	 * </ul>
 	 * 
 	 * @param source
-	 *            handle of the source element
+	 *            the source element
 	 * @param destination
-	 *            handle of the destination element
+	 *            the destination element
+	 * @param sourceModule
+	 *            the root module of the source
 	 */
 
-	private static void duplicateExtensionIdentifier(
-			DesignElementHandle source, DesignElementHandle destination )
+	static void duplicateExtensionIdentifier( DesignElement source,
+			DesignElement destination, Module sourceModule )
 	{
 
 		// for the special oda cases, the extension id must be set before
 		// copy properties. Otherwise, destination cannot find its ODA
 		// properties.
 
-		if ( source.getElement( ) instanceof IOdaExtendableElementModel )
+		if ( source instanceof IOdaExtendableElementModel )
 		{
-			String extensionId = (String) source
-					.getProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
+			String extensionId = (String) source.getProperty( sourceModule,
+					IOdaExtendableElementModel.EXTENSION_ID_PROP );
 
-			destination.getElement( ).setProperty(
+			destination.setProperty(
 					IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionId );
 		}
 		else
 
-		if ( source.getElement( ) instanceof IExtendedItemModel )
+		if ( source instanceof IExtendedItemModel )
 		{
-			String extensionId = (String) source
-					.getProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
+			String extensionId = (String) source.getProperty( sourceModule,
+					IExtendedItemModel.EXTENSION_NAME_PROP );
 
-			destination.getElement( ).setProperty(
-					IExtendedItemModel.EXTENSION_NAME_PROP, extensionId );
+			destination.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP,
+					extensionId );
 		}
 		else
 		{

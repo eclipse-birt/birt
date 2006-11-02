@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
-    <themes>
-        <theme name="defaultTheme" id="2"/>
-    </themes>
-    <components>
-        <extended-item extensionName="TestingMatrix" name="NewTestingMatrix" id="3">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <page-setup>
+        <graphic-master-page name="My Page" id="2"/>
+    </page-setup>
+    <body>
+        <extended-item extensionName="TestingMatrix" name="matrix1" id="5">
+            <property name="test1">2in</property>
             <property name="test2">22</property>
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal]]></xml-property>
             <property name="test5">choice2</property>
             <property name="dataSet">firstDataSet</property>
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">value1</property>
@@ -28,5 +31,5 @@
                 </structure>
             </list-property>
         </extended-item>
-    </components>
-</library>
+    </body>
+</report>
