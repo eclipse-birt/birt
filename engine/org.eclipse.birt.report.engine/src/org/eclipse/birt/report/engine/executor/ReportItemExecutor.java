@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.40 $ $Date: 2006/08/30 05:18:43 $
+ * @version $Revision: 1.41 $ $Date: 2006/10/31 08:00:18 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -250,14 +250,9 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		if ( toc != null )
 		{
 			Object tmp = evaluate( toc );
-			if ( tmp != null && !tmp.equals( "" ) )
+			if ( tmp != null )
 			{
 				itemContent.setTOC( tmp );
-			}
-			else
-			{
-				context.addException( new EngineException(
-						"TOC can not be null or empty." ) );
 			}
 		}
 	}
