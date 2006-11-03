@@ -44,11 +44,6 @@
 			dest="${buildDirectory}/maps"
 			tag="${mapVersionTag}"
 		/>
-
-		<generateBaseFetchScript
-			mapfile="${buildDirectory}/maps/source/org.eclipse.birt.releng/maps/base.map"
-			outputfile="${buildDirectory}/fetchbase.xml"/>
-		<ant antfile="${buildDirectory}/fetchbase.xml" />
 		
 	</target>
 

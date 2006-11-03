@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="ASCII" ?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ *
+ *  EclipseDownloadSetup.xml
+ *
+ *  Created on 04/11/2005
+ *  Create package file (zip) for download.eclipse.org.
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * default  create and upload the packages.
+ * DownLoadSetup create the packages.
+ * upload2eclipse.org upload the packages.
+
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *	  - -file EclipseDownloadSetup.xml 
+ *    -logfile adb.log 
+ *
+ *
+ * Notes:
+ *
+ * Change History:
+ *
+ *    1. 05/16/2005: initial version
+ *
+ *
+-->
+
+<project name="EclipseDownloadSetup For Release 1" default="default" basedir=".">
+
+
+
+	<tstamp prefix="timestamp">
+		<format property="TODAY_MIN" pattern="yyyyMMddHHMM" />
+		<format property="TODAY" pattern="yyyyMMdd" />
+	</tstamp>
+
+
+	<!--Define the build type-->
+    <property name="checkout.version" value=""/>
+	<property name="BuildType" value="Nightly" />
+	<property name="NightlyBuild" value="N" />
+	<property name="StableBuild" value="S" />
+	<property name="RCBuild" value="S" />
+
+	<property name="birt.info" value="build_info.txt" />
+
+	<!--Property for Zip file prefix-->
+	<property name="ZipPrefix" value="eclipse/plugins" />
+	<property name="FeautrePrefix" value="eclipse/features" />
+
+	
+	<property name="viewer.version" value="${org.eclipse.birt.report.viewer.plugin.version}" />
+	<property name="package.version" value="2_2_0" />
+	<property name="sdk.zip.name" value="birt-report-framework-sdk-${package.version}.zip" />
+	<property name="framework.zip.name" value="birt-report-framework-${package.version}.zip" />
+	<property name="allinone.zip.name" value="birt-report-designer-all-in-one-${package.version}.zip" />
+	<property name="allinone.linux.zip.name" value="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
+	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
+	<property name="charts.zip.name" value="birt-charts-${package.version}.zip" />
+	<property name="iportal.lib.name" value="iportal-library.zip" />
+	
+	<property name="runtime.tmp" value="${OutputDir}/runtime_tmp" />
+	<property name="war.tmp" value="${OutputDir}/war_tmp" />
+	<property name="chart.tmp" value="${OutputDir}/chart_tmp" />
+	<property name="package.files.dir" value="${baseLocation}/../PackageFiles"/>
+	<property name="template.dir" value="${package.files.dir}/template" />
+	<property name="all.in.one.file.dir" value="${package.files.dir}/AllInOne"/>
+	<property name="RCP.static.file.dir" value="${package.files.dir}/RCP" />
+	
+	<property name="iportal.tmp" value="${OutputDir}/iportal_tmp" />
+	
+	<property name="birt.runtime.dir.prefix" value="birt-runtime-${package.version}" />
+	<property name="chart.sdk.dir.prefix" value="birt-charts-${package.version}" />
+	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
+		
+	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}.zip" />
+	
+	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
+
+	<property name="nl.group1.zip.name.allinone" value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
+	<property name="nl.group1.zip.name.runtime"  value="NLpack1-birt-runtime-${package.version}.zip" />
+	<property name="nl.group1.zip.name.chart"  value="NLpack1-birt-charts-${package.version}.zip" />
+	<property name="nl.group1.zip.name.RCP"  value="NLpack1-birt-rcp-report-designer-${package.version}.zip" />
+	<property name="nl.group1.zip.name.framework"  value="NLpack1-birt-report-framework-${package.version}.zip" />
+	
+	<property name="nl.group1.overlay.zip.name.SDK"  value="NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}.zip" />
+	<property name="nl.group1.overlay.zip.name.RCP"  value="NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip" />
+	<property name="nl.group1.overlay.zip.name.Framework"  value="NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip" />
+	<property name="nl.group1.overlay.zip.name.Chart"  value="NLpack1_FeatureOverlay-birt-charts-${package.version}.zip" />
+	
+	<target name="default">
+		<antcall target="DownLoadSetup" />
+	</target>
+
+	<!--  Set up download pages -->
+	<target name="DownLoadSetup">
+
+		<echo message="DownloadPage Setup starts at ${timestamp.TODAY_MIN}" />
+		<echo message="Copy log files to deposit" />
+
+		<!--
+		<concat destfile="${OutputDir}\chart_build_log.txt">
+			<header filtering="no" trimleading="yes">
+         BIRT Chart: Build log for build   ${SetupBuild.time}
+         ===================================================         
+            </header>
+			<path path="${deposit}/logs/org.eclipse.birt.chart.device.extension_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.chart.engine.extension_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.chart.engine_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.chart.reportitem_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.chart.ui.extension_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.chart.ui_log.txt" />
+		</concat>
+
+		<concat destfile="${workingDir}\designer_build_log.txt" eol="crlf">
+			<header filtering="no" trimleading="yes">
+         BIRT Designer: Build log for build   ${SetupBuild.time}
+         ===================================================         
+            </header>
+			<path path="${deposit}/logs/org.eclipse.birt.report.designer.core_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.designer.tests_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.designer.ui_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.viewer_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.data.oda.jdbc.ui_log.txt" />
+		</concat>
+
+		<replace file="${OutputDir}\designer_build_log.txt" token="Buildfile: test_designer.xml" value="">
+		</replace>
+
+		<concat destfile="${OutputDir}\data_build_log.txt" eol="crlf">
+			<header filtering="no" trimleading="yes">
+         BIRT Data: Build log for build   ${SetupBuild.time}         
+         ===================================================         
+            </header>
+			<path path="${deposit}/logs/org.eclipse.birt.data_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.data.oda.jdbc_log.txt" />
+		</concat>
+		<replace file="${OutputDir}\data_build_log.txt" token="all:" value="============================================">
+		</replace>
+
+		<concat destfile="${OutputDir}\engine_build_log.txt">
+			<header filtering="no" trimleading="yes">
+         BIRT Engine: Build log for build   ${SetupBuild.time}
+         ===================================================         
+      </header>
+			<path path="${deposit}/logs/org.eclipse.birt.report.engine.emitter.pdf_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.engine.emitter.html_log.txt" />
+			<path path="${deposit}/logs/org.eclipse.birt.report.engine_log.txt" />
+		</concat>
+
+		<concat destfile="${OutputDir}\model_build_log.txt">
+			<header filtering="no" trimleading="yes">
+         BIRT Model: Build log for build   ${SetupBuild.time}
+         ===================================================         
+            </header>
+			<path path="${deposit}/logs/org.eclipse.birt.report.model_log.txt" />
+		</concat>
+
+		<copy file="${template.dir}\build_info_template.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
+		-->
+		
+		<!--Define chart runtime file set.-->
+		<patternset id="chart.runtime.jars">
+			<include name="org.eclipse.birt.chart.engine*.jar" />
+			<include name="org.eclipse.birt.chart.engine.extension*.jar" />
+			<include name="org.eclipse.birt.chart.device.extension*.jar" />
+			<include name="org.eclipse.birt.core*.jar" />
+			<include name="org.eclipse.birt.chart.engine.jar" />
+			<include name="org.eclipse.birt.chart.device.svg*.jar" />
+		</patternset>
+
+
+		<!--Define the engine runtime plugins-->
+		<patternset id="chart.runtime.plugins">
+			<include name="org.eclipse.birt.chart.device.extension*.jar" />
+			<include name="org.eclipse.birt.chart.device.svg*.jar" />
+			<include name="org.eclipse.birt.chart.device.swt*.jar" />
+			<include name="org.eclipse.birt.chart.engine.extension*.jar" />
+			<include name="org.eclipse.birt.chart.engine*.jar" />
+			<include name="org.eclipse.birt.chart.runtime*.jar" />
+			<include name="org.eclipse.birt.chart.ui.extension*.jar" />
+			<include name="org.eclipse.birt.chart.ui*.jar" />
+			<include name="org.eclipse.birt.chart_*.jar" />
+			<include name="org.eclipse.birt.core*.jar" />
+			<include name="org.eclipse.birt.core.ui*.jar" />
+			<include name="org.eclipse.birt.doc*.jar" />
+			<include name="org.mozilla.rhino*/**" />
+			<include name="org.apache.commons.codec*/**" />
+			<include name="org.eclipse.birt.doc*.jar" />
+			<include name="org.eclipse.birt.chart.cshelp*/**"/>
+			<include name="org.eclipse.birt.chart.doc.isv*/**"/>
+		</patternset>
+
+		<!--Define the engine runtime plugins-->
+		<patternset id="engine.runtime.plugins">
+			<include name="org.eclipse.birt.chart.device.extension*.jar" />
+			<include name="org.eclipse.birt.chart.engine.extension*.jar" />
+			<include name="org.eclipse.birt.chart.reportitem*.jar" />
+			<include name="org.eclipse.birt.report.data.oda.jdbc*.jar" />
+			<include name="org.eclipse.birt.report.data.oda.sampledb*.jar" />
+			<include name="org.eclipse.birt.report.engine.emitter.pdf*.jar" />
+			<include name="org.eclipse.birt.report.engine.emitter.html*.jar" />
+		</patternset>
+
+		<!--Define the engine runtime file set-->
+		<patternset id="engine.runtime.jars">
+			<include name="org.eclipse.birt.report.engine*/engine.jar" />
+			<include name="org.eclipse.birt.data.oda*/oda.jar" />
+			<include name="org.eclipse.birt.data*/dte.jar" />
+			<include name="org.eclipse.birt.core*/core.jar" />
+			<include name="org.eclipse.birt.report.model*/model.jar" />
+		</patternset>
+
+		<!--Exclude jar file pattern set-->
+
+		<patternset id="exclude.jars">
+			<exclude name="**/jtds-0.9.jar" />
+			<exclude name="**/db2jcc.jar" />
+			<exclude name="**/db2jcc_license_c.jar" />
+			<exclude name="**/db2jcc_license_cu.jar" />
+			<exclude name="**/ifxjdbc.jar" />
+			<exclude name="**/jtds-0.9.jar" />
+			<exclude name="**/mysql-connector-java-3.0.16-ga-bin.jar" />
+			<exclude name="**/ojdbc14.jar" />
+			<exclude name="**/postgresql-8.0-310.jdbc3.jar" />
+			<exclude name="**/JimiProClasses.zip" />
+			<exclude name="**/org.eclipse.birt.data*/**/castor-0.9.5.4-xml.jar" />
+			<exclude name="**/org.eclipse.birt.data*/**/derbynet.jar" />
+			<exclude name="**/org.eclipse.birt.data*/**/js.jar" />
+			<exclude name="**/org.eclipse.birt.data*/**/osgi.jar" />
+			<exclude name="**/org.eclipse.birt.data*/**/runtime.jar" />
+			<exclude name="**/org.eclipse.birt.data*/**/xercesImpl.jar" />
+			<exclude name="**/org.eclipse.birt.data*/**/xml-apis.jar" />
+			<exclude name="**/junit.jar" />
+			<exclude name="**/hsqldb.jar"/>
+			<exclude name="**/itext*.jar"/>
+            <exclude name="**/iText*.jar"/>
+			<exclude name="**/common.jar"/>
+			<exclude name="**/common.resources.jar"/>
+			<exclude name="**/org.eclipse.datatools.connectivity.oda*/lib/birt-core.jar"/>
+		</patternset>
+
+		<antcall target="createBirtFramework" />
+
+		<!--antcall target="createBirtRuntime" /-->
+
+		<!--antcall target="createTestSuite" /-->
+		
+		<antcall target="createSamplePlugin" />
+		
+		<antcall target="createBirtRCP" />
+		
+		<antcall target="createChartRuntime" />
+		
+		<antcall target="createDatabase" />
+
+		<antcall target="createAllInOne" />
+
+		<antcall target="createAllInOneForLinux" />
+		
+		<antcall target="createBirtSDK"/>
+		
+		<!--antcall target="createIpotalLib" /-->
+
+		<!--
+		<replace file="${workingDir}\${birt.info}" token="#build_time#" value="${SetupBuild.time}"/>
+		<replace file="${workingDir}\${birt.info}" token="#univBDate#" value="${univBuildDate.time}"/>
+		<replace file="${workingDir}\${birt.info}" token="GMT+08:00" value="+0800"/>
+		<replace file="${workingDir}\${birt.info}" token="#buildType#" value="${BuildType}"/>
+		<replace file="${workingDir}\${birt.info}" token="#timeStamp#" value="v${timeStamp}"/>
+	
+		<condition property="enginefailure" value="engineOK=false">
+			<not>
+				<and>
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.core_${org.eclipse.birt.core.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.engine.emitter.html_${org.eclipse.birt.report.engine.emitter.html.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.engine.emitter.pdf_${org.eclipse.birt.report.engine.emitter.pdf.plugin.version}" type="dir" />
+				</and>
+			</not>
+		</condition>
+
+		<condition property="chartfailure" value="chartOK=false">
+			<not>
+				<and>
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.device.extension_${org.eclipse.birt.chart.device.extension.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.engine.extension_${org.eclipse.birt.chart.engine.extension.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.engine_${org.eclipse.birt.chart.engine.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.reportitem_${org.eclipse.birt.chart.reportitem.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.ui.extension_${org.eclipse.birt.chart.ui.extension.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.ui_${org.eclipse.birt.chart.ui.plugin.version}" type="dir" />
+				</and>
+			</not>
+		</condition>
+
+		<condition property="modelfailure" value="modelOK=false">
+
+			<not>
+				<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.model_${org.eclipse.birt.report.model.plugin.version}" type="dir" />
+			</not>
+		</condition>
+
+		<condition property="datafailure" value="dataOK=false">
+			<not>
+				<and>
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.data.oda.jdbc.ui_${org.eclipse.birt.report.data.oda.jdbc.ui.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.data.oda.jdbc_${org.eclipse.birt.report.data.oda.jdbc.plugin.version}" type="dir" />
+				</and>
+			</not>
+		</condition>
+
+		<condition property="designerfailure" value="designerOK=false">
+			<not>
+				<and>
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.designer.core_${org.eclipse.birt.report.designer.core.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.designer.ui_${org.eclipse.birt.report.designer.ui.plugin.version}" type="dir" />
+					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.viewer_${org.eclipse.birt.report.viewer.plugin.version}" type="dir" />
+				</and>
+			</not>
+		</condition>
+
+		<antcall target="replace_chart" />
+		<antcall target="replace_engine" />
+		<antcall target="replace_model" />
+		<antcall target="replace_designer" />
+		<antcall target="replace_data" />
+		-->
+	</target>
+
+	<target name="createBirtSDK">
+		<!--  Make BIRT SDK ZIP file-->
+		<zip destfile="${OutputDir}/${sdk.zip.name}">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="**/*" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="**/org.eclipse.birt.sample.reportitem.rotatedtext*.jar" />
+				<exclude name="**/org.eclipse.birt.integration.wtp*/**"/>
+				<patternset refid="exclude.jars" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="**/*" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="org.eclipse.datatools*/**" />
+				<include name="org.eclipse.datatools*.jar" />
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="org.eclipse.datatools*/*" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="createBirtFramework">
+		<!--  Make birt framework ZIP file-->
+		<!-- Exclude SDK feature and corresponding plug-ins-->
+
+		<zip destfile="${OutputDir}/${framework.zip.name}">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="**/*" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.report.viewer_*/birt/ajax/**" />
+				<patternset refid="exclude.jars" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="**/*" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt*source*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="org.eclipse.datatools*/**" />
+				<include name="org.eclipse.datatools*.jar" />
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="org.eclipse.datatools*/*" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="createIpotalLib">
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.core.contenttype_.*.jar" to="org.eclipse.core.contenttype.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.core.jobs_.*.jar" to="org.eclipse.core.jobs.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.core.runtime.compatibility_.*.jar" to="org.eclipse.core.runtime.compatibility.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.core.runtime_.*.jar" to="org.eclipse.core.runtime.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda.design_.*.jar" to="org.eclipse.datatools.connectivity.oda.design.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda_.*.jar" to="org.eclipse.datatools.connectivity.oda.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.emf_.*.jar" to="org.eclipse.emf.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.equinox.common_.*.jar" to="org.eclipse.equinox.common.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.equinox.preferences_.*.jar" to="org.eclipse.equinox.preferences.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.equinox.registry_.*.jar" to="org.eclipse.equinox.registry.jar"/>
+		</copy>
+		<copy todir="${iportal.tmp}">
+			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.osgi_.*.jar" to="org.eclipse.osgi.jar"/>
+		</copy>
+		<copy tofile="${iportal.tmp}/org.eclipse.birt.report.model.adapter.oda.jar"  	file="${deposit}/integrated/org.eclipse.birt.integrated/plugins/org.eclipse.birt.report.model.adapter.oda_${org.eclipse.birt.report.viewer.plugin.version}.jar"/>
+		<zip destfile="${workingDir}/${iportal.lib.name}">
+			<zipfileset dir="${iportal.tmp}" >
+				<include name="**/*"/>
+			</zipfileset>
+            <!-- include nl bundles except designers into ipotal packages -->
+            <zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" >
+				<include name="*.nl*.jar"/>
+                <exclude name="*.designer.*nl*.jar"/>
+				<exclude name="*debug.ui*nl*.jar"/>
+			</zipfileset>
+		</zip>
+		<delete dir="${iportal.tmp}"/>
+	</target>
+	
+	<target name="createAllInOne">
+		<!--  Make birt all-in-one ZIP file-->
+		<zip destfile="${OutputDir}/${allinone.zip.name}">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="**/*" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
+				<exclude name="org.eclipse.datatools.connectivity_*/**"/>
+				<exclude name="org.eclipse.datatools.connectivity.ui_*/**"/>
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk_*.jar" />
+				<patternset refid="exclude.jars" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="**/*" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="createAllInOneForLinux">
+		<!--  Make birt all-in-one ZIP file-->
+
+		<tar destfile="${OutputDir}/${allinone.linux.zip.name}">
+			<tarfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="**/*" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
+				<exclude name="org.eclipse.datatools.connectivity_*/**"/>
+				<exclude name="org.eclipse.datatools.connectivity.ui_*/**"/>
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk_*.jar" />
+				<patternset refid="exclude.jars" />
+			</tarfileset>
+			<tarfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="**/*" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+			</tarfileset>
+			<tarfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</tarfileset>
+			<tarfileset dir="${all.in.one.file.dir}-Linux">
+				<include name="**/*" />
+			</tarfileset>
+		</tar>
+		<gzip src="${OutputDir}/${allinone.linux.zip.name}" destfile="${OutputDir}/${allinone.linux.zip.name}.gz"/>
+		<delete file="${OutputDir}/${allinone.linux.zip.name}"/>
+	</target>
+
+
+	<target name="createBirtRuntime"  depends="createWAR">
+		<!--   Zip Engine runtime file    -->
+		<copy todir="${runtime.tmp}/ChartEngine" flatten="true">
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins">
+				<patternset refid="chart.runtime.jars" />
+				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
+				<exclude name="*.nl1_*/**"/>
+				<exclude name="*.nl/**" />
+				<exclude name="*.nl1_*.jar"/>
+			</fileset>
+			<fileset dir="${template.dir}/chart.runtime.libs">
+				<include name="*.*" />
+			</fileset>
+			<fileset dir="${template.dir}/chart.runtime.files">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ChartEngine/docs">
+			<fileset dir="${template.dir}/chart.docs">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ChartEngine" >
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins">
+				<include name="org.apache.batik_*/**" />
+				<include name="org.apache.batik.pdf_*/**" />
+				<include name="org.apache.xerces_*/**" />
+			</fileset>
+		</copy>
+
+        <!-- ReportEngine-->
+		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
+			<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web/WEB-INF/platform">
+				<exclude name="**/*.nl1_*/**"/>
+				<exclude name="**/*.nl/**" />
+				<exclude name="**/*.nl1_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar" />
+				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
+				<exclude name="**/org.junit*/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ReportEngine">
+			<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web/WEB-INF">
+				<include name="lib/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ReportEngine/samples">
+			<fileset dir="${template.dir}/engine.runtime.samples">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${runtime.tmp}/ReportEngine/samples">
+			<fileset dir="${template.dir}/engine.runtime.samples">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${runtime.tmp}/ReportEngine">
+			<fileset dir="${template.dir}/engine.runtime.bin">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		<!-- WebViewerExample-->
+		<copy todir="${runtime.tmp}/WebViewerExample">
+			<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web">
+				<patternset refid="exclude.jars" />
+			    <exclude name="plugins/**"/>
+				<exclude name="images/**" />
+				<exclude name="pages/**" />
+				<exclude name="styles/**" />
+				<exclude name="**/*.nl1_*/**"/>
+				<exclude name="**/*.nl/**" />
+				<exclude name="**/*.nl1_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar" />
+				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
+				<exclude name="**/org.junit*/**"/>
+			</fileset>
+		</copy>
+
+		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
+		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_delpoy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
+		<unjar src="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
+		<delete file="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" />
+		<jar destfile="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+		<delete dir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
+		<!-- copy additional jars -->
+        <!-- Fixing bugzilla bug #155489, comment these copy steps -->
+        <!--
+		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/">
+			<fileset dir="${eclipse.home}/plugins/">
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore_*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" />
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
+		<copy todir="${runtime.tmp}/ReportEngine/lib">
+			<fileset dir="${eclipse.home}/plugins/">
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore_*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ReportEngine/lib">
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" />
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
+		-->
+		<copy todir="${runtime.tmp}">
+			<fileset dir="${template.dir}/birt.runtime.files">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		
+		<delete dir="${runtime.tmp}/WebViewerExample/ajax" />
+		<delete includeEmptyDirs="true" failonerror="false" >
+			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform" includes="lib/**" />
+		</delete>
+		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
+		</copy>
+		<zip destfile="${workingDir}/${runtime.zip.name}">
+			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}">
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="${birt.runtime.dir.prefix}">
+				<include name="**/*" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/birt-runtime-about" prefix="${birt.runtime.dir.prefix}">
+				<include name="**/*"/>
+			</zipfileset>
+		</zip>
+		<delete dir="${runtime.tmp}" />
+	</target>
+	
+	<target name="createBirtRCP">
+		<!--  Make birt RCP ZIP file-->
+		<zip destfile="${OutputDir}/${birt.rcp.zip.name}">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
+				<include name="**/*" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.ide*/**" />
+				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
+				<exclude name="org.eclipse.birt.report.debug.ui*/**" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="*.source_*/**" />
+				<patternset refid="exclude.jars" />
+			</zipfileset>
+
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
+				<include name="org.eclipse.datatools.*/**" />
+				<include name="org.eclipse.datatools.connectivity.*.jar" />
+			</zipfileset>
+
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${birt.rcp.dir.prefix}/features">
+				<include name="**/*" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt*source*/**" />
+			</zipfileset>
+			
+			<zipfileset dir="${RCP.static.file.dir}" prefix="${birt.rcp.dir.prefix}">
+				<include name="**/*" />
+				<exclude name="**/*datatools*/**" />
+				<exclude name="**/datatools*.jar" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="${birt.rcp.dir.prefix}">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<target name="createTestSuite">
+		<!--  Make Test Suite ZIP file-->
+		<zip destfile="${workingDir}/${test.suite.zip.name}">
+			<zipfileset dir="${test.suite.dir}/source" prefix="${ZipPrefix}">
+				<include name="**/*" />
+				<exclude name="**/CVS/**" />
+				<exclude name="**/org.eclipse.birt.report.tests.chart/**" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="createSamplePlugin">
+		<!--  Make sample plugin ZIP file-->
+		<zip destfile="${OutputDir}/${sample.plugin.zip.name}" >
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="org.eclipse.birt.sample.reportitem.rotatedtext_*.jar" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="org.eclipse.birt.chart.examples_*.jar" />
+			</zipfileset>		
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${test.suite.dir}"/>
+	</target>	
+	
+	<target name="createWAR">
+	   <property file="${eclipse.home}/plugins/org.eclipse.birt.report.viewer/META-INF/MANIFEST.MF"/> 
+	   <property name="plugin.package" value="${Bundle-Version}" />
+	   <mkdir dir="${runtime.tmp}" />
+	   <mkdir dir="${war.tmp}/birt" />
+       <copy todir="${war.tmp}/birt">
+       		<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web" >
+       			<exclude name="plugins/**" />
+				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
+				<exclude name="**/*.nl1_*/**"/>
+				<exclude name="**/*.nl/**" />
+				<exclude name="**/*.nl1_*.jar"/>
+       		</fileset>
+       </copy>
+       <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
+	   <move file="${war.tmp}/birt/WEB-INF/web_delpoy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
+
+		<!--remove *_jsp.class from the viewservlets.jar in WAR-->
+		<unjar src="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" dest="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+		<delete file="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" />
+		<jar destfile="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" basedir="${war.tmp}/birt/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+		<delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+		<!-- copy additional jars -->
+        <!-- Fixing bugzilla bug #155489-->
+        <!--
+		<copy todir="${war.tmp}/birt/WEB-INF/lib">
+			<fileset dir="${eclipse.home}/plugins/">
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore_*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${war.tmp}/birt/WEB-INF/lib">
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" />
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
+        -->
+		<delete dir="${war.tmp}/birt/ajax" failonerror="false" />
+		
+		<delete includeEmptyDirs="true" failonerror="false" >
+			<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
+		</delete>
+		<copy todir="${war.tmp}/birt/WEB-INF/platform/plugins">
+			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
+		</copy>
+	   <zip destfile="${runtime.tmp}/birt.war">
+			<zipfileset dir="${war.tmp}/birt" >
+				<include name="**/*" />
+				<exclude name="plugin/**" />
+				<patternset refid="exclude.jars" />
+			</zipfileset>
+		</zip>
+		<delete dir="${war.tmp}"/>
+	</target>
+	
+	<target name="createNLGroup1" >
+		<!-- package NL for Report Designer Full Eclipse Install -->
+		<zip destfile="${workingDir}/${nl.group1.zip.name.allinone}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${ZipPrefix}">
+				<include name="*.nl1_*/**" />
+				<include name="*.nl1_*.jar" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
+				<include name="*.nl1_/**" />
+				<include name="*.nl1_*.jar" />
+			</zipfileset>
+		</zip>
+		<!-- package NL for Report Designer Full Eclipse Install -->
+		<copy file="${workingDir}/${nl.group1.zip.name.allinone}" tofile="${workingDir}/${nl.group1.zip.name.framework}"/>
+		
+		<!-- package NL for RCP -->
+		<zip destfile="${workingDir}/${nl.group1.zip.name.RCP}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
+				<include name="*.nl1_*/**" />
+				<include name="*.nl1_*.jar" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${birt.rcp.dir.prefix}/features">
+				<include name="*.nl1_/**" />
+				<include name="*.nl1_*.jar" />
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<target name="createNLGroup1Runtime" >
+		<zip destfile="${workingDir}/${nl.group1.zip.name.runtime}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/ChartEngine">
+				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
+				<include name="org.eclipse.birt.core.nl1_*.jar" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/ReportEngine/plugins">
+				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
+				<include name="org.eclipse.birt.data.nl1_*.jar" />
+				<include name="org.eclipse.birt.core.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
+				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
+				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
+				<include name="org.eclipse.birt.data.nl1_*.jar" />
+				<include name="org.eclipse.birt.core.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
+				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
+				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
+			</zipfileset>
+		</zip>
+	</target>
+	<target name="createNLGroup1Chart" >
+		<zip destfile="${workingDir}/${nl.group1.zip.name.chart}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${ZipPrefix}">
+				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar" />
+				<include name="org.eclipse.birt.chart.ui.nl1_*.jar" />
+				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
+				<include name="org.eclipse.birt.core.nl1_*.jar" />
+			</zipfileset>
+			<!--zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="eclipse/features">
+				<include name="*.nl1_/**" />
+			</zipfileset-->
+		</zip>
+	</target>
+	<target name="createNLGroup1FeatureOverlaySDK" >
+		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.SDK}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
+				<include name="**/feature_*.properties" />
+			</zipfileset>
+		</zip>
+	</target>
+	<target name="createNLGroup1FeatureOverlayRCP" >
+		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.RCP}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${birt.rcp.dir.prefix}/features">
+				<include name="**/feature_*.properties" />
+			</zipfileset>
+		</zip>
+	</target>
+	<target name="createNLGroup1FeatureOverlayFramework" >
+		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.Framework}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
+				<include name="**/feature_*.properties" />
+			</zipfileset>
+		</zip>
+	</target>
+	<target name="createNLGroup1FeatureOverlayChart" >
+		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.Chart}">
+			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
+				<include name="org.eclipse.birt.chart_*/feature_*.properties" />
+				<include name="org.eclipse.birt.chart.runtime_*/feature_*.properties" />
+			</zipfileset>
+		</zip>
+	</target>
+	<target name="createDatabase">
+		 <copy todir="${OutputDir}">
+			<fileset dir="${template.dir}/database">
+				<include name="*.*" />
+			</fileset>
+		 </copy>
+	</target>
+	
+	<target name="createChartRuntime">
+		<mkdir dir="${chart.tmp}" />
+		<copy todir="${chart.tmp}/plugins">
+			<fileset dir="${deposit}/eclipse/plugins">
+				<patternset refid="chart.runtime.plugins" />
+				<patternset refid="exclude.jars" />
+				<include name="org.eclipse.birt.chart.device.pdf*.jar" />
+				<include name="org.apache.batik_*/**"/>
+				<include name="org.apache.batik.pdf_*/**"/>
+				<include name="org.apache.xerces_*/**"/>
+			</fileset>
+			<fileset dir="${deposit}/eclipse/plugins" >
+				<include name="org.eclipse.birt.chart.examples*.jar" />
+			</fileset>				
+		</copy>
+		
+
+		<!--   Zip Chart runtime file    -->
+		<zip destfile="${OutputDir}/${charts.zip.name}">
+			<zipfileset dir="${chart.tmp}" prefix="eclipse">
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="org.eclipse.birt.chart*/*" />
+				<include name="org.mozilla.rhino*/*" />
+				<include name="org.apache.commons.codec*/*" />
+				<include name="org.apache.batik*/**"/>
+				<include name="org.apache.xerces*/**"/>
+				<exclude name="*.source*/*" />
+			</zipfileset>
+		</zip>
+		<delete dir="${chart.tmp}" />
+	</target>
+
+	<!--////////////////////////////////////////////////////-->
+	<!--////////////////////////////////////////////////////-->
+	<!--////////////////////////////////////////////////////-->
+	<target name="replace_chart" if="chartfailure">
+		<!--replace file="${workingDir}\${birt.info}" token="chartOK=true" value="${chartfailure}">
+		</replace-->
+	</target>
+	<target name="replace_engine" if="enginefailure">
+		<!--replace file="${workingDir}\${birt.info}" token="engineOK=true" value="${enginefailure}">
+		</replace-->
+	</target>
+	<target name="replace_model" if="modelfailure">
+		<!--replace file="${workingDir}\${birt.info}" token="modelOK=true" value="${modelfailure}">
+		</replace-->
+	</target>
+	<target name="replace_designer" if="designerfailure">
+		<!--replace file="${workingDir}\${birt.info}" token="designerOK=true" value="${designerfailure}">
+		</replace-->
+	</target>
+	<target name="replace_data" if="datafailure">
+		<!--replace file="${workingDir}\${birt.info}" token="dataOK=true" value="${datafailure}">
+		</replace-->
+	</target>
+
+	<condition property="build.fromlocal">
+		<and>
+			<istrue value="${fromlocal}" />
+		</and>
+	</condition>
+
+</project>
