@@ -100,7 +100,7 @@ public class ListingSectionPage extends AttributePage
 		masterPageSection.setProvider( masterPageProvider );
 		masterPageSection.setLayoutNum( 2 );
 		masterPageSection.setWidth( 200 );
-		addSection( PageSectionId.LISTING_SECTION_BREAK_AFTER, masterPageSection );
+		addSection( PageSectionId.LISTING_SECTION_MASTER_PAGE, masterPageSection );
 		/*
 		 * 
 		 * String[] properties = { StyleHandle.PAGE_BREAK_BEFORE_PROP,
