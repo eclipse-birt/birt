@@ -497,7 +497,7 @@
 			<antcall target="updatePluginVersion">
 				<param name="cvs.control.path" value="${p4.home}/CvsDiff/${projectName}_DayInPast.xml" />
 				<param name="projectPath" value="${buildDirectory}/plugins/${projectName}" />
-				<param name="buildId" value="${buildId}"/>
+				<param name="buildId" value=".${buildId}"/>
 				<param name="project.name" value="${projectName}"/>
 			</antcall>	
 		</forEach>
@@ -507,7 +507,7 @@
 			<antcall target="updatePluginVersion">
 				<param name="cvs.control.path" value="${p4.home}/CvsDiff/${projectName}_DayInPast.xml" />
 				<param name="projectPath" value="${buildDirectory}/plugins/${projectName}" />
-				<param name="buildId" value="${buildId}"/>
+				<param name="buildId" value=".${buildId}"/>
 				<param name="project.name" value="${projectName}"/>
 			</antcall>	
 		</forEach>
@@ -517,7 +517,7 @@
 			<antcall target="updatePluginVersion">
 				<param name="cvs.control.path" value="${p4.home}/CvsDiff/${projectName}_DayInPast.xml" />
 				<param name="projectPath" value="${buildDirectory}/plugins/${projectName}" />
-				<param name="buildId" value="${buildId}"/>
+				<param name="buildId" value=".${buildId}"/>
 				<param name="project.name" value="${projectName}"/>
 			</antcall>	
 		</forEach>

@@ -36,12 +36,13 @@
 
 	<target name="main" depends="init">
 		<antcall target="buildBirtThirdPartyFeature"/>
-		<antcall target="buildBirtFeature"/>
-		<antcall target="buildBirtTestFeature"/>
-		<!--antcall target="buildBirtNLFeature"/-->
+		<antcall target="buildBirtFeature"/>		
 		<antcall target="integrateBirtFeatures"/>
 		<antcall target="CreateDistribute"/>
+		<!--antcall target="CreateUpdateSiteJars"/-->
+		<antcall target="buildBirtTestFeature"/>
 		<antcall target="runBirtTest"/>
+		<!--antcall target="buildBirtNLFeature"/-->
 	</target>
 
 	<target name="init">
@@ -68,54 +69,48 @@
 	</target>
 	
 	<target name="buildBirtFeature">
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt" />
+		</ant>
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+                <property name="builder" value="${eclipse.build.configs}/birt" />
+        </ant>
+	    <ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" >
+	            <property file="${eclipse.build.configs}/birt/build.properties"/>
+	    </ant>
+	    <ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" target="updatePluginVersion.new" >
+	            <property file="${eclipse.build.configs}/birt/build.properties"/>
+	    </ant>
+	    <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
+	            <property name="builder" value="${eclipse.build.configs}/birt" />
+	    </ant>
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
+                <property name="builder" value="${eclipse.build.configs}/birt" />
+        </ant>
 
-        	<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
-		        <ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" >
-		                <property file="${eclipse.build.configs}/birt/build.properties"/>
-		        </ant>
-		        <ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" target="updatePluginVersion.new" >
-		                <property file="${eclipse.build.configs}/birt/build.properties"/>
-		        </ant>
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="assemble">
+                <property name="builder" value="${eclipse.build.configs}/birt" />
+        </ant>
 
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
-
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="assemble">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
-
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="package">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
-
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="postBuild">
-                        <property name="builder" value="${eclipse.build.configs}/birt" />
-                </ant>
-
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="package">
+                <property name="builder" value="${eclipse.build.configs}/birt" />
+        </ant>
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="postBuild">
+                <property name="builder" value="${eclipse.build.configs}/birt" />
+        </ant>
 	</target>
 
 	<target name="CreateDistribute">
 
 		<mkdir dir="${postingDirectory}/${buildLabel}"/>
-
 		<!-- create Runtime -->
-
+		<!-- copy runtime to ${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_/runtime -->
 		<!-- create BIRT Integration WTP package -->
-
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
-                <ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
-                        <property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
-                        <property name="deposit" value="${buildDirectory}/${buildLabel}" />
-                </ant>
+        <ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
+                <property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
+                <property name="deposit" value="${buildDirectory}/${buildLabel}" />
+        </ant>
 
 	</target>
 
@@ -130,11 +125,13 @@
 			<property name="component" value="${eclipse.build.configs}/birt.tests" />
 		</ant>
 	</target>
+	
 	<target name="buildBirtThirdPartyFeature">
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.third.party" />
 		</ant>
 	</target>
+	
 	<target name="buildUpdateSite" if="updateSite">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
 	</target>
@@ -145,7 +142,6 @@
 		<property name="birtFramePackageName" value="birt-report-framework-sdk-2_2_0" />
 		<property name="birtThirdPartyPackageName" value="birt-third-party-2_2_0" />
 
-		<!--pack200-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
 			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildLabel}" />
 		</exec>
