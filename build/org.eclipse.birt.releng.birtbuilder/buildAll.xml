@@ -35,10 +35,11 @@
 	<property name="postingDirectory" value="${buildDirectory}" />
 
 	<target name="main" depends="init">
+		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtTestFeature"/>
 		<!--antcall target="buildBirtNLFeature"/-->
-		<antcall target="Export3rdFeature"/>
+		<antcall target="integrateBirtFeatures"/>
 		<antcall target="CreateDistribute"/>
 		<antcall target="runBirtTest"/>
 	</target>
@@ -74,14 +75,12 @@
                 <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
                         <property name="builder" value="${eclipse.build.configs}/birt" />
                 </ant>
-		<!--
-                <ant antfile="versionUpdater.xml" dir="${eclipse.build.configs}/birt" target="genDiffLog">
-                        <property name="buildDirectory" value="${buildDirectory}" />
-		</ant>
-                <ant antfile="versionUpdater.xml" dir="${eclipse.build.configs}/birt" target="updatePlugins">
-                        <property name="buildDirectory" value="${buildDirectory}" />
-		</ant>
-		-->
+		        <ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" >
+		                <property file="${eclipse.build.configs}/birt/build.properties"/>
+		        </ant>
+		        <ant antfile="${eclipse.build.configs}/birt/tools/VersionUpdater.xml" target="updatePluginVersion.new" >
+		                <property file="${eclipse.build.configs}/birt/build.properties"/>
+		        </ant>
                 <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
                         <property name="builder" value="${eclipse.build.configs}/birt" />
                 </ant>
@@ -113,7 +112,7 @@
 		<!-- create BIRT Integration WTP package -->
 
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
-                <ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt" target="default">
+                <ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
                         <property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
                         <property name="deposit" value="${buildDirectory}/${buildLabel}" />
                 </ant>
@@ -131,37 +130,29 @@
 			<property name="component" value="${eclipse.build.configs}/birt.tests" />
 		</ant>
 	</target>
-
+	<target name="buildBirtThirdPartyFeature">
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt.third.party" />
+		</ant>
+	</target>
 	<target name="buildUpdateSite" if="updateSite">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
 	</target>
 	
 
-	<target name="Export3rdFeature" >
+	<target name="integrateBirtFeatures" >
 
-		<property name="archiveName" value="birt-report-framework-sdk-2_2_0" />
-		<property name="packtmp" value="${buildDirectory}/packtmp" />
+		<property name="birtFramePackageName" value="birt-report-framework-sdk-2_2_0" />
+		<property name="birtThirdPartyPackageName" value="birt-third-party-2_2_0" />
 
 		<!--pack200-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
-			<arg line="-q ${archiveName}.zip -d ${buildDirectory}/${buildLabel}" />
+			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildLabel}" />
 		</exec>
-
-		<ant antfile="build.xml" dir="${baseLocation}/plugins/com.lowagie.itext" target="Export">
-	       		<property name="export.dir" value="${buildDirectory}/${buildLabel}/eclipse/plugins" />
-	        </ant>
-	        <ant antfile="build.xml" dir="${baseLocation}/plugins/org.apache.derby.core" target="Export">
-	        	<property name="export.dir" value="${buildDirectory}/${buildLabel}/eclipse/plugins" />
-	        </ant>
-	        <ant antfile="build.xml" dir="${baseLocation}/plugins/org.apache.commons.codec" target="Export">
-	        	<property name="export.dir" value="${buildDirectory}/${buildLabel}/eclipse/plugins" />
-	        </ant>
-	        <ant antfile="build.xml" dir="${baseLocation}/plugins/org.mozilla.rhino" target="Export">
-	        	<property name="export.dir" value="${buildDirectory}/${buildLabel}/eclipse/plugins" />
-	        </ant>
-	        <ant antfile="build.xml" dir="${baseLocation}/plugins/org.w3c.sac" target="Export">
-	        	<property name="export.dir" value="${buildDirectory}/${buildLabel}/eclipse/plugins" />
-	        </ant>
+		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+			<arg line="-o -q ${birtThirdPartyPackageName}.zip -d ${buildDirectory}/${buildLabel}" />
+		</exec>
+		
 	</target>
 
 	<target name="package">
