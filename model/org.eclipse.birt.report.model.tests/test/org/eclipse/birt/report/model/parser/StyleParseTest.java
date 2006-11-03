@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.FontHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
@@ -1151,6 +1153,25 @@ public class StyleParseTest extends BaseTestCase
 		LabelHandle label = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
 		String bkColor = label.getStringProperty( Style.BACKGROUND_COLOR_PROP );
 		assertEquals( "gray", bkColor ); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Write page break inside
+	 * since 3.2.8
+	 * @throws Exception
+	 */
+	
+	public void testWriterPageBreak( ) throws Exception
+	{
+		openDesign( fileName );
+
+		LabelHandle label = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
+		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+		
+		saveAs("testWriterPageBreak_out.xml");//$NON-NLS-1$
+		assertTrue( compareTextFile(
+				"testWriterPageBreak_golden.xml", "testWriterPageBreak_out.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
+
 	}
 
 	/**
