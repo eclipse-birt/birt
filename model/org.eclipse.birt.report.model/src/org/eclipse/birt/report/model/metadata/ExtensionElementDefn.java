@@ -60,6 +60,9 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		// build slot
 		buildSlots( );
+		
+		// build validation trigger
+		buildTriggerDefnSet( );
 
 		isBuilt = true;
 	}

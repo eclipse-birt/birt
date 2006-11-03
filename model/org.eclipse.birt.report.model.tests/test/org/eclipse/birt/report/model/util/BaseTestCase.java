@@ -328,7 +328,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception.
 	 */
 
-	protected void openDesignAsResource( Class theClass, String fileName )
+	private void openDesignAsResource( Class theClass, String fileName )
 			throws DesignFileException
 	{
 		openDesignAsResource( theClass, fileName, ULocale.getDefault( ) );
@@ -345,7 +345,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception.
 	 */
 
-	protected void openDesignAsResource( Class theClass, String fileName,
+	private void openDesignAsResource( Class theClass, String fileName,
 			ULocale locale ) throws DesignFileException
 	{
 		fileName = getFullQualifiedClassName( ) + INPUT_FOLDER + fileName;
@@ -469,7 +469,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception.
 	 */
 
-	protected boolean compareTextFileAsResource( Class theClass,
+	private boolean compareTextFileAsResource( Class theClass,
 			String goldenFileName, String outputFileName ) throws Exception
 	{
 		InputStreamReader readerA = null;
@@ -762,7 +762,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception
 	 */
 
-	protected void saveAsInTempDir( String filename ) throws IOException
+	private void saveAsInTempDir( String filename ) throws IOException
 	{
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 		if ( !tempDir.endsWith( File.separator ) )

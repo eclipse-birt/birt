@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
     <data-sources>
-        <oda-data-source name="myDataSource" id="3"/>
-        <oda-data-source name="myDataSource2" id="4"/>
+        <oda-data-source name="myDataSource" id="2"/>
+        <oda-data-source name="myDataSource2" id="3"/>
     </data-sources>
     <data-sets>
-        <oda-data-set name="firstDataSet" id="5">
+        <oda-data-set name="firstDataSet" id="4">
             <property name="dataSource">myDataSource</property>
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style" id="2"/>
+        <style name="My Style" id="5"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page" id="6">
@@ -33,12 +33,12 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingMatrix" name="right extended item" id="8">
-            <property name="x">1.2mm</property>
-            <property name="y">11.2mm</property>
-            <property name="dataSet">firstDataSet</property>
             <property name="test2">22</property>
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal]]></xml-property>
             <property name="test5">choice2</property>
+            <property name="dataSet">firstDataSet</property>
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
         </extended-item>
     </body>
 </report>

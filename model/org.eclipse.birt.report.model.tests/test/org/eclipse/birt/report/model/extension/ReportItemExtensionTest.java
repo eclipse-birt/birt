@@ -302,7 +302,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testExtension( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -385,13 +385,12 @@ public class ReportItemExtensionTest extends BaseTestCase
 		extendedHandle.setProperty( "afterCloseDoc", //$NON-NLS-1$
 				"new script of afterCloseDoc" ); //$NON-NLS-1$
 
-		saveAsInTempDir( outFileName_1 );
-		assertTrue( compareTextFileAsResource( ReportItemExtensionTest.class,
-				goldenFileName_1, outFileName_1 ) );
+		saveAs( outFileName_1 );
+		assertTrue( compareTextFile( goldenFileName_1, outFileName_1 ) );
 
 		// after writer, read the golden file and test the properties twice
 
-		openDesignAsResource( ReportItemExtensionTest.class, checkFileName );
+		openDesign( checkFileName );
 		extendedHandle = null;
 		extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
@@ -409,9 +408,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		extendedHandle.loadExtendedElement( );
 		extendedHandle.setProperty( "test1", null ); //$NON-NLS-1$
-		saveAsInTempDir( outFileName_2 );
-		assertTrue( compareTextFileAsResource( ReportItemExtensionTest.class,
-				goldenFileName_2, outFileName_2 ) );
+		saveAs( outFileName_2 );
+		assertTrue( compareTextFile( goldenFileName_2, outFileName_2 ) );
 	}
 
 	/**
@@ -422,7 +420,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testExtends( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -442,9 +440,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		}
 		catch ( ExtendsException e )
 		{
-			assertEquals(
-					WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE, e
-							.getErrorCode( ) );
+			assertEquals( WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE, e
+					.getErrorCode( ) );
 		}
 
 		// creates a new extended item by element factory and
@@ -468,7 +465,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		try
 		{
-			openDesignAsResource( ReportItemExtensionTest.class, fileName_2 );
+			openDesign( fileName_2 );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -481,8 +478,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 			assertEquals( 2, errors.size( ) );
 
-			assertEquals(
-					WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE,
+			assertEquals( WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE,
 					( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
 			assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
 					( (ErrorDetail) errors.get( 1 ) ).getErrorCode( ) );
@@ -497,7 +493,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testGetProperty( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_3 );
+		openDesign( fileName_3 );
 
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
@@ -532,7 +528,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testStyleProperty( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_3 );
+		openDesign( fileName_3 );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -746,9 +742,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( ColorPropertyType.RED, extendedHandle
 				.getProperty( Style.COLOR_PROP ) );
 
-		saveAsInTempDir( outFileName_3 );
-		assertTrue( compareTextFileAsResource( ReportItemExtensionTest.class,
-				goldenFileName_3, outFileName_3 ) );
+		saveAs( outFileName_3 );
+		assertTrue( compareTextFile( goldenFileName_3, outFileName_3 ) );
 
 	}
 
@@ -760,7 +755,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 			throws DesignFileException
 	{
 
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_3 );
+		openDesign( fileName_3 );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -929,7 +924,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testExtendedCommand( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -967,8 +962,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testDynamicPropertyList( ) throws DesignFileException,
 			SemanticException
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName,
-				ULocale.ENGLISH );
+		openDesign( fileName, ULocale.ENGLISH );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -1154,8 +1148,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// itemHandle.loadExtendedElement( );
 		itemHandle.setProperty( "usage", "toy" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		saveAsInTempDir( "TestingBox_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFileAsResource( ReportItemExtensionTest.class,
+		saveAs( "TestingBox_out_1.xml" ); //$NON-NLS-1$
+		assertTrue( compareTextFile(
 				"TestingBox_golden_1.xml", "TestingBox_out_1.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
@@ -1168,7 +1162,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testAddExtendedItem2( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_7 );
+		openDesign( fileName_7 );
 
 		DesignElementHandle baseMatrixHandle = designHandle.getComponents( )
 				.get( 0 );
@@ -1178,9 +1172,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.newElementFrom( baseMatrixHandle, "myMatrix" ); //$NON-NLS-1$
 
 		designHandle.getBody( ).add( newMatrixHandle );
-		saveAsInTempDir( "TestAddExtendedItem_out_2.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFileAsResource(
-				ReportItemExtensionTest.class,
+		saveAs( "TestAddExtendedItem_out_2.xml" ); //$NON-NLS-1$
+		assertTrue( compareTextFile(
 				"TestAddExtendedItem_golden_2.xml", "TestAddExtendedItem_out_2.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
@@ -1192,7 +1185,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testClone( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -1234,7 +1227,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testNotification( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_3 );
+		openDesign( fileName_3 );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -1360,24 +1353,15 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testOpenDesignFileWithWrongExtension( )
 			throws DesignFileException, SemanticException
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_4 );
+		openDesign( fileName_4 );
 
 		List list = designHandle.getErrorList( );
-		assertEquals( 5, list.size( ) );
+		assertEquals( 2, list.size( ) );
 
 		int i = 0;
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
-		assertEquals(
-				DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
-		assertEquals(
-				DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
-		assertEquals(
-				DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
@@ -1460,24 +1444,15 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testOpenDesignFileWithoutExtension( )
 			throws DesignFileException, SemanticException
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_5 );
+		openDesign( fileName_5 );
 
 		List list = designHandle.getErrorList( );
-		assertEquals( 5, list.size( ) );
+		assertEquals( 2, list.size( ) );
 
 		int i = 0;
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
-		assertEquals(
-				DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
-		assertEquals(
-				DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
-		assertEquals(
-				DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
@@ -1515,7 +1490,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 			String extensionName ) throws Exception
 	{
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
-		.newSessionHandle( (ULocale) null );
+				.newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 		ExtendedItemHandle itemHandle = designHandle.getElementFactory( )
 				.newExtendedItem( name, extensionName );
@@ -1535,7 +1510,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		// Get property without initializing.
 
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -1545,7 +1520,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// Get string property without initializing.
 
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -1555,7 +1530,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// Set property without initializing.
 
-		openDesignAsResource( ReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 		extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
@@ -1633,7 +1608,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testSemanticCheck( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_6 );
+		openDesign( fileName_6 );
+		
 		assertEquals( 3, design.getErrorList( ).size( ) );
 
 		assertEquals(
@@ -1690,12 +1666,12 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testCreateExtension( ) throws Exception
 	{
 		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-		.newSessionHandle( ULocale.ENGLISH );
+				.newSessionHandle( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
 
 		ExtendedItemHandle elementHandle = designHandle.getElementFactory( )
 				.newExtendedItem( null, TESTING_MATRIX_NAME );
-		assertNull( elementHandle.getName( ) );
+		assertNotNull( elementHandle.getName( ) );
 
 		libraryHandle = session.createLibrary( );
 
@@ -1767,20 +1743,13 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testLocalizedMessage( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_8,
-				ULocale.ENGLISH );
-		assertEquals( 3, design.getErrorList( ).size( ) );
+		openDesign( fileName_8, ULocale.ENGLISH );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 
 		ErrorDetail eDetail = (ErrorDetail) design.getErrorList( ).get( 0 );
 		String localizedMessage = eDetail.getMessage( );
 		String expect = "Extended exception in TestingMatrix"; //$NON-NLS-1$		
 		assertEquals( expect, localizedMessage );
-
-		expect = "local actuate";//$NON-NLS-1$
-		eDetail = (ErrorDetail) design.getErrorList( ).get( 1 );
-		localizedMessage = eDetail.getMessage( );
-		assertEquals( expect, localizedMessage );
-
 	}
 
 	/**
@@ -1792,21 +1761,14 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testChartValidation( ) throws DesignFileException
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_9,
-				ULocale.ENGLISH );
+		openDesign( fileName_9, ULocale.ENGLISH );
 
-		assertEquals( 3, design.getErrorList( ).size( ) );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 
 		ErrorDetail eDetail = (ErrorDetail) design.getErrorList( ).get( 0 );
 		String localizedMessage = eDetail.getMessage( );
 		String expect = "Extended exception in TestingMatrix"; //$NON-NLS-1$		
 		assertEquals( expect, localizedMessage );
-
-		expect = "local actuate";//$NON-NLS-1$
-		eDetail = (ErrorDetail) design.getErrorList( ).get( 1 );
-		localizedMessage = eDetail.getMessage( );
-		assertEquals( expect, localizedMessage );
-
 	}
 
 	/**
@@ -1832,8 +1794,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	public void testGetPropertyDefns( ) throws Exception
 	{
-		openDesignAsResource( ReportItemExtensionTest.class, fileName_10,
-				ULocale.ENGLISH );
+		openDesign( fileName_10, ULocale.ENGLISH );
 		assertNotNull( designHandle );
 
 		ExtendedItemHandle extendedItemHandle = (ExtendedItemHandle) designHandle

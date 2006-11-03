@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -204,6 +205,16 @@ public class PeerExtensionTest extends BaseTestCase
 		IDesignElement clonedExtendedItem = extendedItem.copy( );
 		designHandle.rename( clonedExtendedItem.getHandle( design ) );
 		slot.paste( clonedExtendedItem );
+
+		// add a testing table
+		ExtendedItemHandle extendedTable = designHandle.getElementFactory( )
+				.newExtendedItem( "testExtendedTable", "TestingTable" ); //$NON-NLS-1$//$NON-NLS-2$
+		extendedTable.setProperty( TableItem.CAPTION_PROP, "table caption" ); //$NON-NLS-1$
+		extendedTable.setProperty( TableItem.DATA_SET_PROP, "tableDataSet" ); //$NON-NLS-1$
+		extendedTable.setProperty( IStyleModel.COLOR_PROP, IColorConstants.RED );
+		extendedTable.setProperty( "usage", "testusagevalue" );  //$NON-NLS-1$//$NON-NLS-2$
+		designHandle.getBody( ).add( extendedTable );
+
 		saveAs( "PeerExtensionTest_out.xml" ); //$NON-NLS-1$
 		assertTrue( compareTextFile(
 				"PeerExtensionTest_golden.xml", "PeerExtensionTest_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
@@ -382,9 +393,9 @@ public class PeerExtensionTest extends BaseTestCase
 		assertTrue( dd.getExtensions( ).size( ) >= 3 );
 
 		ElementDefn extendedCell = (ElementDefn) dd
-				.getExtension( "TestingCell" ); //$NON-NLS-1$
+				.getExtension( "TestingTable" ); //$NON-NLS-1$
 		assertNotNull( extendedCell );
-		assertEquals( dd.getElement( ReportDesignConstants.CELL_ELEMENT ),
+		assertEquals( dd.getElement( ReportDesignConstants.TABLE_ITEM ),
 				extendedCell.getParent( ) );
 
 		PropertyDefn extensionName = (PropertyDefn) extendedCell

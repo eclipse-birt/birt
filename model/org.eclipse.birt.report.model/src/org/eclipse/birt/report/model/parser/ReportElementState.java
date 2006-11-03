@@ -399,6 +399,7 @@ public abstract class ReportElementState extends DesignParseState
 		catch ( ExtendsException ex )
 		{
 			handler.getErrorHandler( ).semanticError( ex );
+			return;
 		}
 
 		element.setExtendsElement( parent );

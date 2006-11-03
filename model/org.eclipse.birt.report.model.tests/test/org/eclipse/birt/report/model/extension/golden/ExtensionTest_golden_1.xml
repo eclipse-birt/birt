@@ -33,9 +33,6 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingMatrix" name="right extended item" id="8">
-            <property name="x">1.2mm</property>
-            <property name="y">11.2in</property>
-            <property name="dataSet">firstDataSet</property>
             <property name="test1">2in</property>
             <property name="test2">22</property>
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal,script=internalScript]]></xml-property>
@@ -55,6 +52,9 @@
                     <expression name="value2">new value 2</expression>
                 </structure>
             </list-property>
+            <property name="dataSet">firstDataSet</property>
+            <property name="x">1.2mm</property>
+            <property name="y">11.2in</property>
         </extended-item>
     </body>
 </report>

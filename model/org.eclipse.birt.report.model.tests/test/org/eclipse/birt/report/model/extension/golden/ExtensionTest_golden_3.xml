@@ -33,12 +33,12 @@
     </styles>
     <components>
         <extended-item extensionName="TestingMatrix" name="parent" id="11">
-            <property name="x">0.4mm</property>
-            <property name="y">2.4mm</property>
-            <property name="dataSet">firstDataSet</property>
             <property name="test1">parent value</property>
             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
             <property name="test5">choice2</property>
+            <property name="dataSet">firstDataSet</property>
+            <property name="x">0.4mm</property>
+            <property name="y">2.4mm</property>
         </extended-item>
     </components>
     <page-setup>
@@ -69,53 +69,69 @@
             <property name="color">yellow</property>
             <expression name="toc">"This Section"</expression>
             <report-items>
-                <extended-item extensionName="TestingMatrix" name="right extended item" id="13"
- extends="parent">
-                    <property name="style">My Style</property>
-                    <property name="backgroundColor">white</property>
-                    <property name="x">1.2mm</property>
-                                    <property name="test2">22</property>
+                <extended-item extensionName="TestingMatrix" name="right extended item" extends="parent"
+ id="13">
+                    <property name="test2">22</property>
                     <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal]]></xml-property>
                     <property name="test5">choice1</property>
+                    <property name="backgroundColor">white</property>
+                    <property name="x">1.2mm</property>
+                    <property name="style">My Style</property>
                 </extended-item>
-                <extended-item extensionName="TestingMatrix" name="style extended item" id="14"
- extends="parent">
+                <extended-item extensionName="TestingMatrix" name="style extended item" extends="parent"
+ id="14">
+                    <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
+                    <property name="fontFamily">fantasy</property>
+                    <property name="fontSize">larger</property>
+                    <property name="fontStyle">italic</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="fontVariant">normal</property>
+                    <property name="color">red</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="textOverline">overline</property>
+                    <property name="textLineThrough">line-through</property>
                     <property name="backgroundAttachment">scroll</property>
                     <property name="backgroundColor">red</property>
                     <property name="backgroundImage">file</property>
                     <property name="backgroundPositionX">center</property>
                     <property name="backgroundPositionY">top</property>
                     <property name="backgroundRepeat">repeat</property>
-                    <property name="fontFamily">fantasy</property>
-                    <property name="fontSize">larger</property>
-                    <property name="fontWeight">bold</property>
-                    <property name="fontStyle">italic</property>
-                    <property name="fontVariant">normal</property>
-                    <property name="color">red</property>
-                    <property name="textLineThrough">line-through</property>
-                    <property name="textOverline">overline</property>
-                    <property name="textUnderline">underline</property>
-                    <property name="borderBottomColor">red</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftColor">green</property>
-                    <property name="borderLeftStyle">dashed</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightColor">maroon</property>
-                    <property name="borderRightStyle">double</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopColor">blue</property>
+                    <property name="letterSpacing">normal</property>
+                    <property name="lineHeight">normal</property>
+                    <property name="textAlign">right</property>
+                    <property name="textIndent">5mm</property>
+                    <property name="textTransform">uppercase</property>
+                    <property name="verticalAlign">middle</property>
+                    <property name="whiteSpace">nowrap</property>
+                    <property name="widows">12</property>
+                    <property name="orphans">19</property>
+                    <property name="wordSpacing">normal</property>
+                    <property name="display">inline</property>
+                    <property name="masterPage">My Page</property>
+                    <property name="pageBreakBefore">avoid</property>
+                    <property name="pageBreakAfter">auto</property>
+                    <property name="pageBreakInside">inherit</property>
+                    <property name="showIfBlank">true</property>
                     <property name="borderTopStyle">dotted</property>
                     <property name="borderTopWidth">thin</property>
+                    <property name="borderTopColor">blue</property>
+                    <property name="borderLeftStyle">dashed</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderLeftColor">green</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderBottomColor">red</property>
+                    <property name="borderRightStyle">double</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderRightColor">maroon</property>
                     <property name="marginTop">auto</property>
-                    <property name="marginLeft">auto</property>
                     <property name="marginBottom">auto</property>
+                    <property name="marginLeft">auto</property>
                     <property name="marginRight">auto</property>
                     <property name="paddingTop">1mm</property>
                     <property name="paddingLeft">2mm</property>
                     <property name="paddingBottom">4mm</property>
                     <property name="paddingRight">3mm</property>
-                    <property name="numberAlign">right</property>
                     <structure name="dateTimeFormat">
                         <property name="category">Custom</property>
                         <property name="pattern">date-time</property>
@@ -124,31 +140,40 @@
                         <property name="category">Custom</property>
                         <property name="pattern">number</property>
                     </structure>
+                    <property name="numberAlign">right</property>
                     <structure name="stringFormat">
                         <property name="category">Custom</property>
                         <property name="pattern">string</property>
                     </structure>
-                    <property name="textAlign">right</property>
-                    <property name="textIndent">5mm</property>
-                    <property name="letterSpacing">normal</property>
-                    <property name="lineHeight">normal</property>
-                    <property name="orphans">19</property>
-                    <property name="textTransform">uppercase</property>
-                    <property name="verticalAlign">middle</property>
-                    <property name="whiteSpace">nowrap</property>
-                    <property name="widows">12</property>
-                    <property name="wordSpacing">normal</property>
-                    <property name="display">inline</property>
-                    <property name="masterPage">My Page</property>
-                    <property name="pageBreakAfter">auto</property>
-                    <property name="pageBreakBefore">avoid</property>
-                    <property name="pageBreakInside">inherit</property>
-                    <property name="showIfBlank">true</property>
                     <property name="canShrink">true</property>
+                    <list-property name="mapRules">
+                        <structure>
+                            <property name="operator">eq</property>
+                            <expression name="value1">"X"</expression>
+                            <property name="display">Closed</property>
+                        </structure>
+                        <structure>
+                            <property name="operator">is-true</property>
+                            <property name="display">Open</property>
+                        </structure>
+                        <structure>
+                            <property name="operator">like</property>
+                            <property name="display">Unknown</property>
+                        </structure>
+                        <structure>
+                            <property name="operator">is-not-null</property>
+                            <property name="display">Unknown</property>
+                        </structure>
+                        <structure>
+                            <property name="operator">not-between</property>
+                            <property name="display">Unknown</property>
+                        </structure>
+                    </list-property>
                     <list-property name="highlightRules">
                         <structure>
                             <property name="operator">eq</property>
-                            <property name="backgroundColor">white</property>
+                            <expression name="value1">"10"</expression>
+                            <expression name="value2">"20"</expression>
                             <property name="borderTopStyle">solid</property>
                             <property name="borderTopWidth">thin</property>
                             <property name="borderTopColor">black</property>
@@ -161,6 +186,7 @@
                             <property name="borderRightStyle">solid</property>
                             <property name="borderRightWidth">thin</property>
                             <property name="borderRightColor">black</property>
+                            <property name="backgroundColor">white</property>
                             <property name="fontFamily">Arial</property>
                             <property name="fontSize">9pt</property>
                             <property name="fontStyle">normal</property>
@@ -172,20 +198,6 @@
                             <property name="textLineThrough">line-through</property>
                             <property name="textAlign">right</property>
                             <property name="textTransform">lowercase</property>
-                            <structure name="dateTimeFormat">
-                                <property name="category">Custom</property>
-                                <property name="pattern">yyyy/mm/dd</property>
-                            </structure>
-                            <structure name="numberFormat">
-                                <property name="category">Custom</property>
-                                <property name="pattern">#.00</property>
-                            </structure>
-                            <structure name="stringFormat">
-                                <property name="category">Custom</property>
-                                <property name="pattern">string-format</property>
-                            </structure>
-                            <expression name="value1">"10"</expression>
-                            <expression name="value2">"20"</expression>
                         </structure>
                         <structure>
                             <property name="operator">eq</property>
@@ -227,30 +239,6 @@
                             <property name="operator">like</property>
                         </structure>
                     </list-property>
-                    <list-property name="mapRules">
-                        <structure>
-                            <property name="operator">eq</property>
-                            <expression name="value1">"X"</expression>
-                            <text-property name="display">Closed</text-property>
-                        </structure>
-                        <structure>
-                            <property name="operator">is-true</property>
-                            <text-property name="display">Open</text-property>
-                        </structure>
-                        <structure>
-                            <property name="operator">like</property>
-                            <text-property name="display">Unknown</text-property>
-                        </structure>
-                        <structure>
-                            <property name="operator">is-not-null</property>
-                            <text-property name="display">Unknown</text-property>
-                        </structure>
-                        <structure>
-                            <property name="operator">not-between</property>
-                            <text-property name="display">Unknown</text-property>
-                        </structure>
-                    </list-property>
-                                    <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
                 </extended-item>
             </report-items>
         </free-form>

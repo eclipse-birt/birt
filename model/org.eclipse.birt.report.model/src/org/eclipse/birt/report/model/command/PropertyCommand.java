@@ -333,8 +333,12 @@ public class PropertyCommand extends AbstractElementCommand
 	{
 		if ( element instanceof ExtendedItem )
 		{
-			if ( prop.isExtended( ) )
+			ExtendedItem extendedItem = (ExtendedItem) element;
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
+					|| extendedItem.isExtensionXMLProperty( prop.getName( ) ) )
+			{
 				assert ( (ExtendedItem) element ).getExtendedElement( ) != null;
+			}
 		}
 	}
 

@@ -21,14 +21,14 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingBox" name="testBox" id="4">
-            <property name="x">1.2mm</property>
-            <property name="y">11.2mm</property>
-            <property name="dataSet">firstDataSet</property>
             <simple-property-list name="points">
                 <value>13.1</value>
                 <value>15.678</value>
                 <value>18.9</value>
             </simple-property-list>
+            <property name="dataSet">firstDataSet</property>
+            <property name="x">1.2mm</property>
+            <property name="y">11.2mm</property>
             <header>
                 <label name="label11" id="14"/>
             </header>

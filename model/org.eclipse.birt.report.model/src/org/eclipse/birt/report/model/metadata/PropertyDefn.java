@@ -429,8 +429,9 @@ public abstract class PropertyDefn
 			getTriggerDefnSet( ).add( triggerDefn );
 		}
 
-		if ( getValueType( ) == EXTENSION_MODEL_PROPERTY
-				|| getValueType( ) == EXTENSION_PROPERTY )
+		// add extension validator on exteion xml property
+		if ( getValueType( ) == EXTENSION_PROPERTY
+				&& getTypeCode( ) == PropertyType.XML_TYPE )
 		{
 			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 					ExtensionValidator.NAME );
@@ -889,7 +890,7 @@ public abstract class PropertyDefn
 
 	/**
 	 * Returns a value as a locale independent string.
-	 *  
+	 * 
 	 * @param module
 	 *            the report design
 	 * @param value

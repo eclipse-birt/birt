@@ -10,12 +10,12 @@
     </data-sets>
     <components>
         <extended-item extensionName="TestingMatrix" name="baseMatrix" id="6">
-            <property name="x">1.2mm</property>
-            <property name="dataSet">ds1</property>
             <property name="test1">2in</property>
             <property name="test2">22</property>
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal]]></xml-property>
             <property name="test5">choice1</property>
+            <property name="dataSet">ds1</property>
+            <property name="x">1.2mm</property>
         </extended-item>
     </components>
     <page-setup>
@@ -28,8 +28,8 @@
         </graphic-master-page>
     </page-setup>
     <body>
-        <extended-item extensionName="TestingMatrix" name="myMatrix" id="7"
- extends="baseMatrix">
+        <extended-item extensionName="TestingMatrix" name="myMatrix" extends="baseMatrix"
+ id="7">
             <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
         </extended-item>
     </body>

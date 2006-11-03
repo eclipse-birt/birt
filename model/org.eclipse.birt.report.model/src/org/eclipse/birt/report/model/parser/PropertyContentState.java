@@ -28,7 +28,7 @@ import org.xml.sax.Attributes;
  * Parses the property content. The XML file is like:
  * 
  * <pre>
- *                     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *                        &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
  * 
  * The supported tags are:
@@ -133,7 +133,6 @@ public class PropertyContentState extends AbstractParseState
 			valid = false;
 			return;
 		}
-
 		for ( int i = 0; i < attrs.getLength( ); i++ )
 		{
 			String name = attrs.getQName( i );
@@ -232,6 +231,8 @@ public class PropertyContentState extends AbstractParseState
 			{
 				state = new TextPropertyState( handler, element );
 				state.setName( name );
+				( (TextPropertyState) state ).setKeyValue( (String) attributes
+						.get( DesignSchemaConstants.KEY_ATTRIB ) );
 			}
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
@@ -255,5 +256,4 @@ public class PropertyContentState extends AbstractParseState
 			return state;
 		}
 	}
-
 }

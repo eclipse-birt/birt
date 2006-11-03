@@ -783,7 +783,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * are used to perform full validation of one element instance.
 	 */
 
-	private void buildTriggerDefnSet( )
+	protected void buildTriggerDefnSet( )
 	{
 		AbstractSemanticValidator validator = UnsupportedElementValidator
 				.getInstance( );

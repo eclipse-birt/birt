@@ -30,7 +30,7 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 	private String goldenFileName = "CompatibleExtensionTest_golden.xml"; //$NON-NLS-1$
 
 	private String fileName_1 = "CompatibleExtensionTest_1.xml"; //$NON-NLS-1$
-	
+
 	private String outFileName_1 = "CompatibleExtensionTest_out_1.xml"; //$NON-NLS-1$
 	private String goldenFileName_1 = "CompatibleExtensionTest_golden_1.xml"; //$NON-NLS-1$
 
@@ -57,11 +57,10 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 
 	public void testCompatibleBoundDataColumns( ) throws Exception
 	{
-		openDesignAsResource( CompatibleReportItemExtensionTest.class, fileName );
+		openDesign( fileName );
 
-		saveAsInTempDir( outFileName );
-		assertTrue( compareTextFileAsResource( ReportItemExtensionTest.class,
-				goldenFileName, outFileName ) );
+		saveAs( outFileName );
+		assertTrue( compareTextFile( goldenFileName, outFileName ) );
 	}
 
 	/**
@@ -73,15 +72,14 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 
 	public void testRemoveBoundDataColumns( ) throws Exception
 	{
-		openDesignAsResource( CompatibleReportItemExtensionTest.class, fileName_1 );
+		openDesign( fileName_1 );
 
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "right extended item" ); //$NON-NLS-1$
 
 		extendedItem.removedUnusedColumnBindings( );
 
-		saveAsInTempDir( outFileName_1 );
-		assertTrue( compareTextFileAsResource( ReportItemExtensionTest.class,
-				goldenFileName_1, outFileName_1 ) );
+		saveAs( outFileName_1 );
+		assertTrue( compareTextFile( goldenFileName_1, outFileName_1 ) );
 	}
 }

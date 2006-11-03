@@ -19,6 +19,8 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.model.extension.PeerExtensionTest;
+import org.eclipse.birt.report.model.extension.ReportItemExtensionTest;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -61,6 +63,10 @@ public class AllTests extends BaseTestCase
 				assert false;
 			}
 		}
+		
+		// add peerextensiontest and reportitemextension test
+		test.addTestSuite( PeerExtensionTest.class );
+		test.addTestSuite( ReportItemExtensionTest.class );
 
 		return test;
 	}
@@ -84,7 +90,7 @@ public class AllTests extends BaseTestCase
 		tmpClasses.addAll( getClasses( "element", pkgPrefix ) ); //$NON-NLS-1$
 		tmpClasses.addAll( getClasses( "i18n", pkgPrefix ) ); //$NON-NLS-1$
 		tmpClasses.addAll( getClasses( "library", pkgPrefix ) ); //$NON-NLS-1$
-		tmpClasses.addAll( getClasses( "metadata", pkgPrefix ) ); //$NON-NLS-1$
+		tmpClasses.addAll( getClasses( "metadata", pkgPrefix ) ); //$NON-NLS-1$		
 		tmpClasses.addAll( getClasses( "parser", pkgPrefix ) ); //$NON-NLS-1$
 		tmpClasses.addAll( getClasses( "script", pkgPrefix ) ); //$NON-NLS-1$
 		tmpClasses.addAll( getClasses( "util", pkgPrefix ) ); //$NON-NLS-1$

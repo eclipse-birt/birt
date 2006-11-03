@@ -27,6 +27,7 @@ public class TextPropertyState extends AbstractPropertyState
 
 	PropertyDefn propDefn = null;
 	PropertyDefn keyPropDefn = null;
+	String keyValue = null;
 
 	/*
 	 * (non-Javadoc)
@@ -68,8 +69,11 @@ public class TextPropertyState extends AbstractPropertyState
 		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 		if ( StringUtil.isBlank( name ) )
 		{
-			handler.getErrorHandler( ).semanticError( new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			valid = false;
 			return;
 		}
@@ -88,7 +92,8 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( propDefn == null )
 		{
-			DesignParserException e = new DesignParserException( new String[]{name},
+			DesignParserException e = new DesignParserException(
+					new String[]{name},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;
@@ -96,7 +101,8 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( keyPropDefn == null )
 		{
-			DesignParserException e = new DesignParserException( new String[]{keyName},
+			DesignParserException e = new DesignParserException(
+					new String[]{keyName},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;
@@ -113,6 +119,11 @@ public class TextPropertyState extends AbstractPropertyState
 			setProperty( keyName, keyValue );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
 	public void end( )
 	{
 		String value = text.toString( );
@@ -120,7 +131,20 @@ public class TextPropertyState extends AbstractPropertyState
 		if ( struct != null )
 			setMember( struct, propDefn.getName( ), name, value );
 		else
+		{
 			setProperty( name, value );
+			if ( !StringUtil.isBlank( keyValue ) )
+				setProperty( name + DesignElement.ID_SUFFIX, keyValue );
+		}
+	}
+
+	/**
+	 * @param keyValue
+	 *            the keyValue to set
+	 */
+	public void setKeyValue( String keyValue )
+	{
+		this.keyValue = keyValue;
 	}
 
 }

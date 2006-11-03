@@ -391,7 +391,6 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			assert propDefn.isExtended( );
 			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
 					|| !propDefn.canInherit( ) )
 				continue;

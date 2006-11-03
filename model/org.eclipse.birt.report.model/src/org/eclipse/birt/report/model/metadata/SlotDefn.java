@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
@@ -241,8 +240,9 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 			{
 				ExtensionElementDefn extension = (ExtensionElementDefn) dd
 						.getExtensions( ).get( i );
-				if ( PeerExtensionLoader.EXTENSION_POINT
-						.equals( extension.extensionPoint )
+				if ( extension.isKindOf( extendItem )
+						&& PeerExtensionLoader.EXTENSION_POINT
+								.equals( extension.extensionPoint )
 						&& !contentsWithExtensions.contains( extension ) )
 					contentsWithExtensions.add( extension );
 			}
