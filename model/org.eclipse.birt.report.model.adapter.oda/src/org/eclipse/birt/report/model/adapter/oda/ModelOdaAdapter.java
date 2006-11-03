@@ -912,8 +912,7 @@ public class ModelOdaAdapter
 				if ( !isSourceChanged
 						&& sourceHandle != null
 						&& !sourceHandle.getModuleHandle( ).isReadOnly( )
-						&& !( new EcoreUtil.EqualityHelper( ).equals(
-								createDataSourceDesign( sourceHandle ),
+						&& !( this.isEqualDataSourceDesign( createDataSourceDesign( sourceHandle ),
 								sourceDesign ) ) )
 				{
 					updateDataSourceHandle( sourceDesign, sourceHandle );
@@ -1223,4 +1222,34 @@ public class ModelOdaAdapter
 
 	}
 
+	/**
+	 * Check equal between datasource design from handle and the latest datasource design
+	 * 
+	 * @param designFromHandle
+	 * @param design
+	 * @return
+	 */
+	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
+			DataSourceDesign design )
+	{
+		if ( designFromHandle != null )
+		{
+			EList publicProps = designFromHandle.getPublicProperties( )
+					.getProperties( );
+			for ( int i = 0; i < publicProps.size( ); i++ )
+			{
+				Property prop = (Property) publicProps.get( i );
+				String propValue = prop.getValue( );
+				String propName = prop.getName( );
+				if ( propValue == null )
+				{
+					String value = design.getPublicProperties( )
+							.getProperty( propName );
+					if ( value != null && value.trim( ).equals( "" ) )
+						prop.setNameValue( prop.getName( ), "" );
+				}
+			}
+		}
+		return new EcoreUtil.EqualityHelper( ).equals( designFromHandle, design );
+	}
 }
