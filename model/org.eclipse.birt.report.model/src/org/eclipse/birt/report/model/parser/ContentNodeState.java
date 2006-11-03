@@ -34,6 +34,12 @@ public class ContentNodeState extends AbstractParseState
 {
 
 	/**
+	 * Status indicates whether this text is a CDATA section or not.
+	 */
+
+	protected boolean isCDataSection = false;
+
+	/**
 	 * The design file parser handler.
 	 */
 
@@ -202,6 +208,17 @@ public class ContentNodeState extends AbstractParseState
 		node.setCDATASection( isCDataSection );
 		parentNode.addChild( node );
 		super.end( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#setIsCDataSection(boolean)
+	 */
+
+	public void setIsCDataSection( boolean isCDataSection )
+	{
+		this.isCDataSection = isCDataSection;
 	}
 
 }

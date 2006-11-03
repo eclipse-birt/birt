@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 /**
  * This class provides the reader for the design file, library file and template
@@ -85,6 +86,10 @@ public abstract class ModuleReader
 					.getFileName( ) );
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
 			SAXParser parser = saxParserFactory.newSAXParser( );
+			XMLReader xmlReader = parser.getXMLReader( );
+			xmlReader.setProperty(
+					"http://xml.org/sax/properties/lexical-handler", //$NON-NLS-1$
+					new ModuleParserHandler.ModuleLexicalHandler( handler ) );
 			InputSource inputSource = new InputSource( internalStream );
 			inputSource.setEncoding( signature );
 			parser.parse( inputSource, handler );

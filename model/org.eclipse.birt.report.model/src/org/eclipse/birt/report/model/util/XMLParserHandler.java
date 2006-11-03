@@ -33,6 +33,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 
 public abstract class XMLParserHandler extends DefaultHandler
+		
 {
 
 	/**
@@ -191,25 +192,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 			throws SAXException
 	{
 		if ( !stateStack.isEmpty( ) )
-		{
 			topState( ).text.append( ch, start, length );
-			// "<![CDATA[" identifer is 9-char length
-			if ( start >= 9 )
-			{
-				StringBuffer b = new StringBuffer( );
-				b.append( ch, start - 9, 9 );
-				if ( "<![CDATA[".equals( b.toString( ) ) ) //$NON-NLS-1$
-					topState( ).isCDataSection = true;
-			}
-			// "]]>" identifer is 3-char length
-			else if ( ch.length >= start + length + 3 )
-			{
-				StringBuffer b = new StringBuffer( );
-				b.append( ch, start + length, 3 );
-				if ( "]]>".equals( b.toString( ) ) ) //$NON-NLS-1$
-					topState( ).isCDataSection = true;
-			}
-		}
 	}
 
 	/**

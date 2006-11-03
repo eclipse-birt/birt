@@ -47,12 +47,6 @@ public abstract class AbstractParseState
 	protected StringBuffer text = new StringBuffer( );
 
 	/**
-	 * Status indicates whether this text is a CDATA section or not.
-	 */
-
-	protected boolean isCDataSection = false;
-
-	/**
 	 * Sets the element name.
 	 * 
 	 * @param name
@@ -269,4 +263,17 @@ public abstract class AbstractParseState
 		return null;
 	}
 
+	/**
+	 * Sets the flag to indicate whether the value is a XML CDATA. In default,
+	 * this method do nothing.
+	 * 
+	 * @param isCDataSection
+	 *            <code>true</code> if it is a XML CDATA. Otherwise
+	 *            <code>false</code>.
+	 */
+
+	public void setIsCDataSection( boolean isCDataSection )
+	{
+
+	}
 }

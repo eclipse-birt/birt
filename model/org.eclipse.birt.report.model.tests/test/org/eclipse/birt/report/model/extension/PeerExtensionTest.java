@@ -44,6 +44,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 import com.ibm.icu.util.ULocale;
 
 /**
+ * New cases for report item extension should be added here.
+ * <p>
  * Tests the cases for the peer extension enhancement: slot definition.
  */
 

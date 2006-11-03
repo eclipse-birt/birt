@@ -79,6 +79,8 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Tests the extension pointer of org.eclipse.birt.report.model.reportItem.
+ * <p>
+ * New cases should be added into PeerExtensionTest.
  */
 
 public class ReportItemExtensionTest extends BaseTestCase
