@@ -20,50 +20,6 @@
     <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
     <taskdef name="reliableTask" classname="org.eclipse.birt.build.ReliableTask" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
 	
-	<projectList id="third.party.list">
-		<projectInfo>
-			<property name="projectName" value="org.apache.batik.pdf" />
-			<property name="repositoryPath" value="org.eclipse.gmf/plugins" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${batik.pdf.cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.apache.batik" />
-			<property name="repositoryPath" value="org.eclipse.gmf/plugins" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${batik.cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.mozilla.rhino" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="com.lowagie.itext" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.apache.commons.codec" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.w3c.sac" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-	</projectList>
 	<projectList id="project.list.data">	
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.chart.examples" />
@@ -479,7 +435,6 @@
 				<antcall target="CvsDiffGUI" />
 				<antcall target="CvsDiffENG"/>
 		</parallel>
-		<antcall target="CvsDiff3rd"/>
 		<!--antcall target="SubmitVersionLog" /-->
 	</target>
 
@@ -510,18 +465,6 @@
 	<target name="CvsDiffGUI">
 		<reliableTask retrial="${checkout.retry.times}" interval="${checkout.retry.interval}" failOnError="false" failProperty="checkout.isFailed">
 			<forEach iteratorId="project.list.gui">
-				<dynamicProperty name="projectName" value="current.projectName" />
-				<dynamicProperty name="repositoryPath" value="current.repositoryPath" />
-				<antcall target="getDaysInPast">
-					<param name="project.name" value="${projectName}" />
-					<param name="repository.Path" value="${repositoryPath}" />
-				</antcall>	
-			</forEach>
-		</reliableTask>
-	</target>
-	<target name="CvsDiff3rd">
-		<reliableTask retrial="${checkout.retry.times}" interval="${checkout.retry.interval}" failOnError="false" failProperty="checkout.isFailed">
-			<forEach iteratorId="third.party.list">
 				<dynamicProperty name="projectName" value="current.projectName" />
 				<dynamicProperty name="repositoryPath" value="current.repositoryPath" />
 				<antcall target="getDaysInPast">
@@ -578,16 +521,14 @@
 				<param name="project.name" value="${projectName}"/>
 			</antcall>	
 		</forEach>
-		<!--forEach iteratorId="third.party.list" failonerror="false">
-			<dynamicProperty name="projectName" value="current.projectName" />
-			<dynamicProperty name="repositoryPath" value="current.repositoryPath" />
-			<antcall target="updatePluginVersion">
-				<param name="cvs.control.path" value="${p4.home}/CvsDiff/${projectName}_DayInPast.xml" />
-				<param name="projectPath" value="${baseLocation}/plugins/${projectName}" />
-				<param name="buildId" value="${buildId}"/>
-				<param name="project.name" value="${projectName}"/>
-			</antcall>	
-		</forEach-->
+        <exec executable="/home/adb/farrah/BIRTBuilder/eclipse/buildConfigs/birt/tools/test.sh" output="result">
+                <arg value="=.v"/>
+                <arg value="=v"/>
+                <arg value="${buildDirectory}/pluginVersions.properties"/>
+                <arg value="${buildDirectory}/pluginVersions.properties.bak"/>
+        </exec>
+        <move file="${buildDirectory}/pluginVersions.properties.bak" tofile="${buildDirectory}/pluginVersions.properties"/>
+
 	</target>
 	
 	<target name="updatePluginVersion" >
@@ -598,8 +539,21 @@
 			logPath="${p4.home}/CvsResult/DaysInPast" 
 			plugId="${project.name}" 
 			checkFlag="Y" 
-			updateFlag="Y"
+			updateFlag="N"
 			cvsControlPath="${cvs.control.path}"
 		/>
+		
+        <xmlproperty file="${p4.home}/CvsResult/DaysInPast/${project.name}_DayInPast.xml" collapseAttributes="true"/>
+        <echo message="${p4.home}/CvsResult/DaysInPast/${project.name}_DayInPast.xml" />
+        <echo message=" ${plugin.LastDate} days" />
+        <echo message="replacing version in ${buildDirectory}/pluginVersions.properties ..." />
+        <exec executable="/home/adb/farrah/BIRTBuilder/eclipse/buildConfigs/birt/tools/test.sh" output="result">
+                <arg value="${project.name}=HEAD"/>
+                <arg value="${project.name}=${plugin.LastDate}"/>
+                <arg value="${buildDirectory}/pluginVersions.properties"/>
+                <arg value="${buildDirectory}/pluginVersions.properties.bak"/>
+        </exec>
+
+        <move file="${buildDirectory}/pluginVersions.properties.bak" tofile="${buildDirectory}/pluginVersions.properties"/>
 	</target>
 </project>
