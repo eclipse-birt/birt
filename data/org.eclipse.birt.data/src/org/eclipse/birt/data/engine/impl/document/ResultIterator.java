@@ -332,6 +332,15 @@ class ResultIterator implements IResultIterator
 	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
 	{
 		throw new DataException( ResourceConstants.NOT_SUPPORT_IN_PRESENTATION );
-	}	
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#isEmpty()
+	 */
+	public boolean isEmpty( ) throws BirtException
+	{
+		return exprResultSet.isEmpty( );
+	}
 	
 }

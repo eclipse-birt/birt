@@ -273,4 +273,13 @@ public class ExprResultSet implements IExprResultSet
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#isEmpty()
+	 */
+	public boolean isEmpty( )
+	{
+		return rowCount == 0 ? true : false;
+	}
+
 }

@@ -264,4 +264,12 @@ public interface IResultIterator
     */
     public boolean findGroup( Object[] groupKeyValues ) throws BirtException;
 
+    /**
+	 * Judges if the IResultSetIterator is empty or not
+	 * 
+	 * @return true if IResultSetIterator is empty. false if the
+	 *         IResultSetIterator is not empty.
+	 * @throws BirtException
+	 */
+    public boolean isEmpty( ) throws BirtException;
 }

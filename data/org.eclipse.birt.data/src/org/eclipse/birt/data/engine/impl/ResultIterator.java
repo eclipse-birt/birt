@@ -205,6 +205,15 @@ public class ResultIterator implements IResultIterator
 	{
 		return this.odiResult.next( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#isEmpty()
+	 */
+	public boolean isEmpty() throws DataException
+	{
+		return this.odiResult.getRowCount( ) == 0 ? true : false;
+	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowId()

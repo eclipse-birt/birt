@@ -735,6 +735,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 			return this.rdSaveUtil;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IResultIterator#isEmpty()
+		 */
+		public boolean isEmpty( ) throws BirtException
+		{
+			return false;
+		}
+
 	}
 
 	/**

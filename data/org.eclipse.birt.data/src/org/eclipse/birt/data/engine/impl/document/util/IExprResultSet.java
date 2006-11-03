@@ -69,5 +69,11 @@ public interface IExprResultSet
 	 * @throws DataException
 	 */
 	public void close( ) throws DataException;
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	public boolean isEmpty( );
 
 }
