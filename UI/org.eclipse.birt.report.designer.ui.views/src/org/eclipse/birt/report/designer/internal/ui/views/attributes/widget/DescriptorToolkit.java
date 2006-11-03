@@ -1,0 +1,131 @@
+
+package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
+
+public class DescriptorToolkit
+{
+
+	public static TextPropertyDescriptor createTextPropertyDescriptor(
+			boolean formStyle )
+	{
+		TextPropertyDescriptor text = new TextPropertyDescriptor( formStyle );
+		return text;
+	}
+
+	public static SimpleComboPropertyDescriptor createSimpleComboPropertyDescriptor(
+			boolean formStyle )
+	{
+		SimpleComboPropertyDescriptor descriptor = new SimpleComboPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static ComboPropertyDescriptor createComboPropertyDescriptor(
+			boolean formStyle )
+	{
+		ComboPropertyDescriptor descriptor = new ComboPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static CComboPropertyDescriptor createCComboPropertyDescriptor(
+			boolean formStyle )
+	{
+		CComboPropertyDescriptor descriptor = new CComboPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static StyleComboPropertyDescriptor createStyleComboPropertyDescriptor(
+			boolean formStyle )
+	{
+		StyleComboPropertyDescriptor descriptor = new StyleComboPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static ColorPropertyDescriptor createColorPropertyDescriptor(
+			boolean formStyle )
+	{
+		ColorPropertyDescriptor descriptor = new ColorPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static UnitPropertyDescriptor createUnitPropertyDescriptor(
+			boolean formStyle )
+	{
+		UnitPropertyDescriptor descriptor = new UnitPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static ExpressionPropertyDescriptor createExpressionPropertyDescriptor(
+			boolean formStyle )
+	{
+		ExpressionPropertyDescriptor expression = new ExpressionPropertyDescriptor( formStyle );
+		return expression;
+	}
+
+	public static TextAndButtonDescriptor createTextAndButtonDescriptor(
+			boolean formStyle )
+	{
+		TextAndButtonDescriptor descriptor = new TextAndButtonDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static FontSizePropertyDescriptor createFontSizePropertyDescriptor(
+			boolean formStyle )
+	{
+		FontSizePropertyDescriptor descriptor = new FontSizePropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static TogglePropertyDescriptor createTogglePropertyDescriptor( )
+	{
+		TogglePropertyDescriptor descriptor = new TogglePropertyDescriptor( );
+		return descriptor;
+	}
+
+	public static CheckPropertyDescriptor createCheckPropertyDescriptor(
+			boolean formStyle )
+	{
+		CheckPropertyDescriptor descriptor = new CheckPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static FormPropertyDescriptor createFormPropertyDescriptor(
+			boolean formStyle )
+	{
+		FormPropertyDescriptor descriptor = new FormPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static FontAlignPropertyDescriptor createFontAlignPropertyDescriptor( )
+	{
+		FontAlignPropertyDescriptor descriptor = new FontAlignPropertyDescriptor( );
+		return descriptor;
+	}
+
+	public static FontStylePropertyDescriptor createFontStylePropertyDescriptor(
+			boolean formStyle )
+	{
+		FontStylePropertyDescriptor descriptor = new FontStylePropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static MarignPropertyDescriptor createMarignPropertyDescriptor(
+			boolean formStyle )
+	{
+		MarignPropertyDescriptor descriptor = new MarignPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+	
+	public static MarginsPropertyDescriptor createSpinnerPropertyDescriptor(
+			boolean formStyle )
+	{
+		MarginsPropertyDescriptor descriptor = new MarginsPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static ResourceKeyDescriptor createResourceKeyDescriptor(
+			boolean formStyle )
+	{
+		ResourceKeyDescriptor descriptor = new ResourceKeyDescriptor( formStyle );
+		return descriptor;
+	}
+
+}
