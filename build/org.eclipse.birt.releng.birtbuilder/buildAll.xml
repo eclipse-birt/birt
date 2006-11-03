@@ -111,7 +111,13 @@
                 <property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
                 <property name="deposit" value="${buildDirectory}/${buildLabel}" />
         </ant>
-
+		<!-- copy to test machine for QA -->
+		<copy todir="${output.test.dir}/download/${buildLabel}">
+			<fileset dir="${postingDirectory}/${buildLabel}">
+				<include name="*.zip"/>
+				<include name="*.gz"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="runBirtTest">

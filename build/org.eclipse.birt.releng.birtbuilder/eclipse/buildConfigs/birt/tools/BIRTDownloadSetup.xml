@@ -349,11 +349,13 @@
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
 				<exclude name="**/org.eclipse.birt.sample.reportitem.rotatedtext*.jar" />
 				<exclude name="**/org.eclipse.birt.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="**/*" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
@@ -381,6 +383,7 @@
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.report.viewer_*/birt/ajax/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
@@ -388,6 +391,7 @@
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt*source*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
@@ -471,6 +475,7 @@
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.datatools.connectivity_*/**"/>
 				<exclude name="org.eclipse.datatools.connectivity.ui_*/**"/>
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
 				<patternset refid="exclude.jars" />
@@ -478,6 +483,7 @@
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="**/*" />
 				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.sdk*/**" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
@@ -501,12 +507,14 @@
 				<exclude name="org.eclipse.datatools.connectivity.ui_*/**"/>
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<patternset refid="exclude.jars" />
 			</tarfileset>
 			<tarfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="**/*" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 			</tarfileset>
 			<tarfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -673,6 +681,7 @@
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.report.debug.ui*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="*.source_*/**" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -686,6 +695,7 @@
 				<include name="**/*" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt*source*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 			</zipfileset>
 			
 			<zipfileset dir="${RCP.static.file.dir}" prefix="${birt.rcp.dir.prefix}">
