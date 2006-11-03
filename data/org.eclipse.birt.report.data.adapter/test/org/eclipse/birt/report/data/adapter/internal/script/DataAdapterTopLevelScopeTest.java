@@ -163,6 +163,63 @@ public class DataAdapterTopLevelScopeTest extends TestCase
 		r = evaluateScript("Finance");
 		assertNotNull(r);
 	}
+	
+	/**
+	 * Test access to "params's value" with report handle
+	 */
+	public void testParamsWithItAttr() throws Exception
+	{
+		scope = new DataAdapterTopLevelScope( cx, design);
+		 
+		// Test string parameters
+		Object r = evaluateScript("params[\"string_1\"].value");
+		assertEquals( r.getClass(), String.class);
+		assertEquals( r, "1_default" );
+		
+		r = evaluateScript("params[\"string_2\"].value");
+		assertNull( r );
+		
+		r = evaluateScript("params[\"string_3\"].value");
+		assertEquals( r.getClass(), String.class);
+		assertEquals( r, "" );
+		
+		r = evaluateScript("params[\"string_4\"].value");
+		assertEquals( r.getClass(), String.class);
+		assertTrue( r.toString().length() > 0 );
+		
+		// Test date params
+		r = evaluateScript("params[\"date_1\"].value");
+		assertEquals( r.getClass(), Date.class);
+		r = evaluateScript("params[\"date_2\"].value");
+		assertNull( r);
+		r = evaluateScript("params[\"date_3\"].value");
+		assertEquals( r.getClass(), Date.class);
+		
+		// Test float params
+		r = evaluateScript("params[\"float_1\"].value");
+		assertEquals( r.getClass(), Double.class);
+		assertEquals( ((Double)r).intValue(), 1234 );
+		r = evaluateScript("params[\"float_2\"].value");
+		assertEquals( r.getClass(), Double.class);
+		assertEquals( ((Double)r).intValue(), 0 );
+		
+		// Test decimal params
+		r = evaluateScript("params[\"dec_1\"].value");
+		assertEquals( r.getClass(), BigDecimal.class);
+		assertEquals( ((BigDecimal)r).intValue(), 1234 );
+		r = evaluateScript("params[\"dec_2\"].value");
+		assertEquals( r.getClass(), BigDecimal.class);
+		assertEquals( ((BigDecimal)r).intValue(), 0 );
+		
+		// Test boolean params
+		r = evaluateScript("params[\"bool_1\"].value");
+		assertEquals( r.getClass(), Boolean.class);
+		assertTrue( ((Boolean)r).booleanValue() );
+		r = evaluateScript("params[\"bool_2\"].value");
+		assertEquals( r.getClass(), Boolean.class);
+		assertFalse( ((Boolean)r).booleanValue() );
+
+	}
 
 	/**
 	 * Test access to "params" w/o report handle
