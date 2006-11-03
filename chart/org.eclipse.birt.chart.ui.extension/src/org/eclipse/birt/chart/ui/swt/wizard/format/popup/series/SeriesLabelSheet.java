@@ -115,8 +115,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private transient FillChooserComposite fccShadow;
 
-	private transient Button cbVisible;
-
 	private transient Group grpAttributes;
 
 	private transient Label lblPrefix;
@@ -132,7 +130,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( title, context, false );
+		super( title, context, true );
 		this.seriesDefn = seriesDefn;
 		this.context = context;
 	}
@@ -159,18 +157,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			layout.horizontalSpacing = 0;
 			cmpTop.setLayout( layout );
 			cmpTop.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		}
-
-		cbVisible = new Button( cmpTop, SWT.CHECK );
-		{
-			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
-			gdCBVisible.horizontalSpan = 2;
-			gdCBVisible.horizontalIndent = 5;
-			cbVisible.setLayoutData( gdCBVisible );
-			cbVisible.setSelection( getSeriesForProcessing( ).getLabel( )
-					.isVisible( ) );
-			cbVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-			cbVisible.addSelectionListener( this );
 		}
 
 		Composite cmpLeft = new Composite( cmpTop, SWT.NONE );
@@ -224,7 +210,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		// Populate lists
 		populateLists( getSeriesForProcessing( ) );
 
-		setEnabled( cbVisible.getSelection( ) );
+		setEnabled( getSeriesForProcessing( ).getLabel( ).isVisible( ) );
 
 		refreshDataPointButtons( );
 
@@ -657,12 +643,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			{
 				getSeriesForProcessing( ).setLabelPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
 			}
-		}
-		else if ( e.getSource( ).equals( cbVisible ) )
-		{
-			getSeriesForProcessing( ).getLabel( )
-					.setVisible( cbVisible.getSelection( ) );
-			setEnabled( cbVisible.getSelection( ) );
 		}
 		else if ( e.getSource( ).equals( btnAddComponent ) )
 		{

@@ -68,6 +68,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 	private transient Button btnTrendline;
 
+	private transient Button cbVisible;
+
 	private transient Hashtable htSeriesAttributeUIProviders = null;
 
 	public void createControl( Composite parent )
@@ -92,9 +94,25 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		getSeriesAttributeUI( series, grpDetails );
 
+		Composite cmpBottom = new Composite( cmpContent, SWT.NONE );
+		GridLayout glBottom = new GridLayout( 2, false );
+		cmpBottom.setLayout( glBottom );
+
+		cbVisible = new Button( cmpBottom, SWT.CHECK );
+		{
+			cbVisible.setSelection( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+					.getLabel( )
+					.isVisible( ) );
+			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
+			cbVisible.addSelectionListener( this );
+			cbVisible.setSelection( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+					.getLabel( )
+					.isVisible( ) );
+		}
+
 		if ( isTrendlineAvailable( ) )
 		{
-			btnShowLine = new Button( cmpContent, SWT.CHECK );
+			btnShowLine = new Button( cmpBottom, SWT.CHECK );
 			{
 				btnShowLine.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowTrendline" ) ); //$NON-NLS-1$
 				btnShowLine.addSelectionListener( this );
@@ -191,7 +209,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// Markers for Line/Area/Scatter series
-		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof LineSeries 
+		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof LineSeries
 				&& !isDifferenceSeries( ) )
 		{
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
@@ -202,7 +220,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					popup );
 			btnLineMarker.addSelectionListener( this );
 		}
-		
+
 		// Markers for Difference series
 		if ( isDifferenceSeries( ) )
 		{
@@ -347,7 +365,13 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 				}
 			}
 		}
-
+		else if ( e.widget.equals( cbVisible ) )
+		{
+			getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+					.getLabel( )
+					.setVisible( cbVisible.getSelection( ) );
+			refreshPopupSheet( );
+		}
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
@@ -428,7 +452,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 	{
 		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof GanttSeries;
 	}
-	
+
 	private boolean isDifferenceSeries( )
 	{
 		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof DifferenceSeries;
