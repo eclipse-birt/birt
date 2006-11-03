@@ -438,6 +438,11 @@ public class RowDataTest extends TestCase
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
+		public boolean isEmpty( ) throws BirtException
+		{
+			return true;
+		}
 
 	}
 }
