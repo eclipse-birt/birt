@@ -1,0 +1,38 @@
+<project name="Checkout BIRT PDE Builder before build" default="checkout">
+
+        <property name="working.dir" value="/home/adb/farrah/BIRTBuilder"/>
+        <property name="cvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt"/>
+        <property name="cvs.dir" value="/home/adb/farrah/P4/dailybuild" />
+        <property name="work.dir" value="/home/adb/farrah/BIRTBuilder" />
+        <property name="checkout.version" value=" "/>
+        <property name="cvs.options" value=" "/>
+
+        <target name="checkout" depends="clean">
+
+                <echo message="checking out daily build scripts" />
+                <cvs cvsRoot="${cvsRoot}"
+                     package="source/org.eclipse.birt.releng.birtbuilder"
+                     dest="${cvs.dir}"
+                     command="checkout -P ${checkout.version} ${cvs.options}"
+                     failonerror="yes" />
+
+                <copy todir="${work.dir}" failonerror="true">
+                        <fileset dir="${cvs.dir}/source/org.eclipse.birt.releng.birtbuilder" >
+                                <include name="**"/>
+                        </fileset>
+                </copy>
+                <chmod file="${work.dir}/bootstrap.sh" perm="755"/>
+                <chmod file="${work.dir}/eclipse/buildConfigs/birt/tools/test.sh" perm="755"/>
+        </target>
+
+        <target name="clean">
+                <delete failonerror="false">
+                        <fileset dir="${work.dir}">
+                                <include name="eclipse/**"/>
+                                <include name="buildAll.xml"/>
+                                <include name="build.properties"/>
+                        </fileset>
+                </delete>
+        </target>
+</project>
+~
