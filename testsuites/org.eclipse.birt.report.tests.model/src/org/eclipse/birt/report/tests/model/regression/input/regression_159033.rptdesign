@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="sample" id="14830">
+            <text-property name="displayName"></text-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+            <encrypted-property name="odaPassword"></encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="OFFICE" id="14832">
+            <structure name="cachedMetaData"/>
+            <property name="dataSource">sample</property>
+            <property name="queryText">select 
+from </property>
+            <xml-property name="designerValues"><![CDATA[]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="14827"/>
+    </page-setup>
+</report>
