@@ -29,6 +29,9 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -72,7 +75,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
-
 
 public class TaskSelectData extends SimpleTask implements
 		SelectionListener,
@@ -902,6 +904,48 @@ public class TaskSelectData extends SimpleTask implements
 						secondManager.add( action );
 					}
 				}
+				else if ( series instanceof BubbleSeries )
+				{
+					IMenuManager secondManager = new MenuManager( getSecondMenuText( axisIndex,
+							i,
+							series ) );
+					topManager.add( secondManager );
+					for ( int j = 0; j < dataDefns.size( ); j++ )
+					{
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						action.setText( ChartUIUtil.getBubbleTitle( j )
+								+ Messages.getString( "TaskSelectData.Label.Component" ) ); //$NON-NLS-1$
+						secondManager.add( action );
+					}
+				}
+				else if ( series instanceof DifferenceSeries )
+				{
+					IMenuManager secondManager = new MenuManager( getSecondMenuText( axisIndex,
+							i,
+							series ) );
+					topManager.add( secondManager );
+					for ( int j = 0; j < dataDefns.size( ); j++ )
+					{
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						action.setText( ChartUIUtil.getDifferenceTitle( j )
+								+ Messages.getString( "TaskSelectData.Label.Component" ) ); //$NON-NLS-1$
+						secondManager.add( action );
+					}
+				}
+				else if ( series instanceof GanttSeries )
+				{
+					IMenuManager secondManager = new MenuManager( getSecondMenuText( axisIndex,
+							i,
+							series ) );
+					topManager.add( secondManager );
+					for ( int j = 0; j < dataDefns.size( ); j++ )
+					{
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						action.setText( ChartUIUtil.getGanttTitle( j )
+								+ Messages.getString( "TaskSelectData.Label.Component" ) ); //$NON-NLS-1$
+						secondManager.add( action );
+					}
+				}
 				else
 				{
 					IAction action = new ValueYSeriesAction( (Query) dataDefns.get( 0 ) );
@@ -1009,21 +1053,21 @@ public class TaskSelectData extends SimpleTask implements
 				checkDataType( (Query) notification.getNotifier( ),
 						(Series) ( (Query) notification.getNotifier( ) ).eContainer( ) );
 			}
-			
+
 			if ( notification.getNotifier( ) instanceof SeriesDefinition
 					&& getChartModel( ) instanceof ChartWithAxes )
 			{
-				Iterator axes = ((Axis)((SeriesDefinition) notification.getNotifier( )).eContainer( )).getAssociatedAxes( ).iterator( );
+				Iterator axes = ( (Axis) ( (SeriesDefinition) notification.getNotifier( ) ).eContainer( ) ).getAssociatedAxes( )
+						.iterator( );
 				while ( axes.hasNext( ) )
 				{
 					Series[] series = ( (Axis) axes.next( ) ).getRuntimeSeries( );
 					for ( int i = 0; i < series.length; i++ )
 					{
 						checkDataType( (Query) series[i].getDataDefinition( )
-								.get( 0 ),
-								series[i] );
+								.get( 0 ), series[i] );
 					}
-				}		
+				}
 			}
 
 			// Query and series change need to update Live Preview
@@ -1105,7 +1149,8 @@ public class TaskSelectData extends SimpleTask implements
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
 					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
-					if ( sd!= null && sd.getGrouping( ).isEnabled( )
+					if ( sd != null
+							&& sd.getGrouping( ).isEnabled( )
 							&& ( sd.getGrouping( )
 									.getAggregateExpression( )
 									.equals( "Count" )//$NON-NLS-1$
@@ -1136,7 +1181,7 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 	}
-	
+
 	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
 	{
 		if ( dataType == null )
@@ -1197,8 +1242,7 @@ public class TaskSelectData extends SimpleTask implements
 		else
 		{
 			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( axis );
-			int iEndIndex = iStartIndex
-					+ axis.getSeriesDefinitions( ).size( );
+			int iEndIndex = iStartIndex + axis.getSeriesDefinitions( ).size( );
 
 			int iOSDSize = getChartModel( ).getSampleData( )
 					.getOrthogonalSampleData( )
@@ -1217,7 +1261,7 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 	}
-	
+
 	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
 	{
 		List axisList = ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( )
