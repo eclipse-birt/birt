@@ -277,13 +277,13 @@ public class IScalarParameterDefnTest extends EngineCase
 	{
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_list" );
-		assertTrue(
+		assertFalse(
 				"AllowNewValues method should return true for listbox",
 				scalarDefn.allowNewValues( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_combo_sort" );
-		assertFalse(
+		assertTrue(
 				"AllowNewValues method should return false for combobox",
 				scalarDefn.allowNewValues( ) );
 	}
