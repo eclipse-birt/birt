@@ -160,11 +160,18 @@ public interface IEngineTask {
 	 */
 	public void cancel( Object signal );
 
+	/**
+	 * return a flag if the user called cancel.
+	 * 
+	 * @return true the user has called cancel, false the user doesn't call
+	 *         cancel.
+	 */
+	public boolean getCancelFlag( );
 
 	/**
 	 * the task is not running yet
 	 */
-	static final int STATUS_INIT = 0;
+	static final int STATUS_NOT_STARTED = 0;
 	/**
 	 * the task is running
 	 */
@@ -172,7 +179,7 @@ public interface IEngineTask {
 	/**
 	 * the task is finished with sucessful
 	 */
-	static final int STATUS_SUCCEED = 2;
+	static final int STATUS_SUCCEEDED = 2;
 	/**
 	 * the task is finished with errors
 	 */

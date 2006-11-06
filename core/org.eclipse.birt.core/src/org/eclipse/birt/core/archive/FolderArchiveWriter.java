@@ -12,10 +12,8 @@
 package org.eclipse.birt.core.archive;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -122,179 +120,14 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public void toFileArchive( String fileArchiveName ) throws IOException
 	{
-		// Write the temp archive content to the compound file	
-		createFileFromFolder( fileArchiveName ); 
+		ArchiveUtil.archive( folderName, streamSorter, fileArchiveName );
 	}
 	
 	public void toFileArchive( RandomAccessFile compoundFile ) throws IOException
 	{
-		// Write the temp archive content to the compound file	
-		createFileFromFolder( compoundFile ); 
+		ArchiveUtil.archive( folderName, streamSorter, compoundFile );
 	}
 
-
-	/**
-	 * files used to record the reader count reference.
-	 */
-	static final String READER_COUNT_FILE_NAME = "/.reader.count";
-	/**
-	 * files which should not be copy into the archives
-	 */
-	static final String[] SKIP_FILES = new String[]{READER_COUNT_FILE_NAME};
-
-	static boolean needSkip( String file )
-	{
-		for ( int i = 0; i < SKIP_FILES.length; i++ )
-		{
-			if ( SKIP_FILES[i].equals( file ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Compound File Format: <br>
-	 * 1long(stream section position) + 1long(entry number in lookup map) + lookup map section + stream data section <br>
-	 * The Lookup map is a hash map. The key is the relative path of the stram. The entry contains two long number.
-	 * The first long is the start postion. The second long is the length of the stream. <br>
-	 * @param tempFolder
-	 * @param fileArchiveName - the file archive name
-	 * @return Whether the compound file was created successfully.
-	 */
-	private void createFileFromFolder( String fileArchiveName ) throws IOException
-	{
-		// Create the file
-		File targetFile = new File( fileArchiveName );
-		ArchiveUtil.DeleteAllFiles( targetFile );	// Delete existing file or folder that has the same name of the file archive.
-		RandomAccessFile compoundFile = null;
-		compoundFile = new RandomAccessFile( targetFile, "rw" );  //$NON-NLS-1$
-		createFileFromFolder(compoundFile);
-		compoundFile.close( );
-	}
-	private void createFileFromFolder( RandomAccessFile compoundFile ) throws IOException
-	{
-		compoundFile.setLength( 0 );
-		compoundFile.seek( 0 );
-
-		compoundFile.writeLong(0); 	// reserve a spot for writing the start position of the stream data section in the file
-		compoundFile.writeLong(0);	// reserve a sopt for writing the entry number of the lookup map.
-
-		ArrayList fileList = new ArrayList();
-		getAllFiles( new File( folderName ), fileList );	
-		
-		if ( streamSorter != null )
-		{
-			ArrayList streamNameList = new ArrayList();
-			for ( int i=0; i<fileList.size(); i++ )
-			{
-				File file = (File)fileList.get(i);
-				streamNameList.add( ArchiveUtil.generateRelativePath(folderName, file.getAbsolutePath()) );
-			}
-					
-			ArrayList sortedNameList = streamSorter.sortStream( streamNameList ); // Sort the streams by using the stream sorter (if any).
-			
-			if ( sortedNameList != null )
-			{
-				fileList.clear();			
-				for ( int i=0; i<sortedNameList.size(); i++ )
-				{
-					String fileName = ArchiveUtil.generateFullPath( folderName, (String)sortedNameList.get(i) );
-					fileList.add( new File(fileName) );
-				}
-			}			
-		}
-
-		// Generate the in-memory lookup map and serialize it to the compound file.
-		long streamRelativePosition = 0;
-		long entryNum = 0;
-		for ( int i=0; i<fileList.size(); i++ )
-		{
-			File file = (File)fileList.get(i);				
-			String relativePath = ArchiveUtil.generateRelativePath( folderName, file.getAbsolutePath() );
-			if ( !needSkip( relativePath ) )
-			{
-				compoundFile.writeUTF( relativePath );
-				compoundFile.writeLong( streamRelativePosition );
-				compoundFile.writeLong( file.length() );
-				
-				streamRelativePosition += file.length();
-				entryNum++;
-			}
-		}
-
-		// Write the all of the streams to the stream data section in the compound file
-		long streamSectionPos = compoundFile.getFilePointer();
-		for ( int i=0; i<fileList.size(); i++ )
-		{
-			File file = (File)fileList.get(i);
-			String relativePath = ArchiveUtil.generateRelativePath( folderName, file.getAbsolutePath() );
-			if ( !needSkip( relativePath ) )
-			{
-				copyFileIntoTheArchive( file, compoundFile );
-			}
-		}			
-		
-		// go back and write the start position of the stream data section and the entry number of the lookup map 
-		compoundFile.seek( 0 );						 
-		compoundFile.writeLong( streamSectionPos );	
-		compoundFile.writeLong( entryNum );
-	}
-
-	/**
-	 * Get all the files under the specified folder (including all the files under sub-folders)
-	 * @param dir - the folder to look into
-	 * @param fileList - the fileList to be returned
-	 */
-	private void getAllFiles( File dir, ArrayList fileList )
-	{
-		if ( dir.exists() &&
-			 dir.isDirectory() )
-		{
-			File[] files = dir.listFiles();
-			if ( files == null )
-				return;
-
-			for ( int i=0; i<files.length; i++ )
-			{
-				File file = files[i];
-				if ( file.isFile() )
-				{
-					fileList.add( file );
-				}
-				else if ( file.isDirectory() )
-				{
-					getAllFiles( file, fileList );
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Copy files from in to out
-	 * @param in - input file
-	 * @param out - output compound file. Since the input is only part of the file, the compound file output should be be closed by caller. 
-	 * @throws Exception
-	 */
-	private long copyFileIntoTheArchive( File in, RandomAccessFile out ) 
-		throws IOException 
-	{	
-		long totalBytesWritten = 0;
-	    FileInputStream fis  = new FileInputStream(in);
-	    byte[] buf = new byte[1024 * 5];
-	    
-	    int i = 0;
-	    while( (i=fis.read(buf))!=-1 ) 
-	    {
-	      out.write(buf, 0, i);
-	      totalBytesWritten += i;
-	    }
-	    fis.close();
-	    
-	    return totalBytesWritten;
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#flush()
