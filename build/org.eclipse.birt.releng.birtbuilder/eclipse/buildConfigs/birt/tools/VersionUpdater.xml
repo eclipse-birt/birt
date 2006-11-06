@@ -1,4 +1,4 @@
-<project name="Generate BIRT version files">
+<project name="Generate BIRT version files" default="default">
 	
 
     <property name="checkout.retry.times" value="5"/>

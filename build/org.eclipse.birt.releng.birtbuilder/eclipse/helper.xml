@@ -376,17 +376,7 @@
 	</target>
 
 	<target name="cleanBuild">
-		<echo message="clean up third party resources under ${baseLocation} ..." />
-		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${baseLocation}" >
-				<include name="**/com.lowagie.itext*" />
-				<include name="**/org.mozilla.rhino*" />
-				<include name="**/org.w3c.sac*" />
-				<include name="**/org.apache.commons.codec*" />
-				<include name="**/org.apache.batik*" />
-				<include name="**/org.apache.derby.core*" />
-			</fileset>
-		</delete>
+
 		<echo message="clean up last input under ${buildDirectory} ..." />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${buildDirectory}">	
@@ -395,7 +385,7 @@
 				<include name="*.xml"/>
 				<include name="plugins/**"/>
 				<include name="features/**"/>
-				<include name="maps/**"/>
+				<include name="maps/source"/>
 			</fileset>
 		</delete>
 		<delete failonerror="false" includeemptydirs="true">
