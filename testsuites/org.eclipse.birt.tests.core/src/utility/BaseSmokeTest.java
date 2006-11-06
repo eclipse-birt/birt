@@ -41,7 +41,8 @@ public abstract class BaseSmokeTest extends EngineCase
 	/**
 	 * Working folder that containing the smoke test cases.
 	 * 
-	 * @return
+	 * @return Working folder that containing the 'TestCases' folder containing
+	 *         the smoke test collections.
 	 */
 	protected abstract String getWorkingFolder( );
 
@@ -50,7 +51,7 @@ public abstract class BaseSmokeTest extends EngineCase
 	 * @throws Exception
 	 */
 
-	public void testSmoke( ) throws Exception
+	public final void testSmoke( ) throws Exception
 	{
 		String inputFolder = getWorkingFolder( ) + "/TestCases/input/"; //$NON-NLS-1$
 		String outputFolder = getWorkingFolder( ) + "/TestCases/output/"; //$NON-NLS-1$
@@ -107,7 +108,7 @@ public abstract class BaseSmokeTest extends EngineCase
 		Document doc = builder.newDocument( );
 
 		Element testsuite = doc.createElement( "testsuite" ); //$NON-NLS-1$
-		testsuite.setAttribute( "name", this.getClass( ).getName( ) ); //$NON-NLS-1$
+		testsuite.setAttribute( "name", getName( ) ); //$NON-NLS-1$
 
 		int failuresCount = 0;
 
@@ -118,21 +119,21 @@ public abstract class BaseSmokeTest extends EngineCase
 			String testCaseName = (String) entry.getKey( );
 			Object status = entry.getValue( );
 
-			Element testcase = doc.createElement( "testcase" );
-			testcase.setAttribute( "name", testCaseName );
+			Element testcase = doc.createElement( "testcase" ); //$NON-NLS-1$
+			testcase.setAttribute( "name", testCaseName ); //$NON-NLS-1$
 			if ( null == status )
-				testcase.setAttribute( "errors", null );
+				testcase.setAttribute( "errors", null ); //$NON-NLS-1$
 			else
 			{
-				testcase.setAttribute( "errors", status.toString( ) );
+				testcase.setAttribute( "errors", status.toString( ) ); //$NON-NLS-1$
 				++failuresCount;
 			}
 
 			testsuite.appendChild( testcase );
 		}
 
-		testsuite.setAttribute( "failures", String.valueOf( failuresCount ) );
-		testsuite.setAttribute( "tests", String.valueOf( testStatus
+		testsuite.setAttribute( "failures", String.valueOf( failuresCount ) ); //$NON-NLS-1$
+		testsuite.setAttribute( "tests", String.valueOf( testStatus //$NON-NLS-1$
 				.keySet( )
 				.size( ) ) );
 
@@ -172,10 +173,10 @@ public abstract class BaseSmokeTest extends EngineCase
 				renderContext );
 		task.setAppContext( appContext );
 
-		options.setOutputFormat( "html" );
+		options.setOutputFormat( "html" ); //$NON-NLS-1$
 		options
 				.getOutputSetting( )
-				.put( HTMLRenderOption.URL_ENCODING, "UTF-8" );
+				.put( HTMLRenderOption.URL_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		task.setRenderOption( options );
 		task.run( );

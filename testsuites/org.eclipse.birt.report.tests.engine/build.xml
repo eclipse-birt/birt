@@ -117,10 +117,16 @@
 		</copy>
 
 		
+		<!-- Generate html page for Smoke result -->
+		
+		<xslt style="${tests.core.dir}/lib/smoke-to-html.xslt" in="TESTS-SmokeTests.xml" out="TESTS-SmokeTests.html"/>
+				
 		<copy todir="${utest.report.dir}/smokeTest" >
 			<fileset dir="${src.dir}/org/eclipse/birt/report/tests/engine/smoke/TestCases" />
+		</copy>		
+		<copy todir="${utest.report.dir}" >
 			<fileset dir=".">
-				<include name="TESTS-SmokeTests.xml"/>
+				<include name="TESTS-SmokeTests*.*"/>
 			</fileset>
 		</copy>		
 	</target>
