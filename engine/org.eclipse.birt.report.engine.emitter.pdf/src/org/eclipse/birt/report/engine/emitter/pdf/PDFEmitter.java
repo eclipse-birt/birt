@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Stack;
@@ -919,12 +920,34 @@ public class PDFEmitter implements IContentEmitter
 					if (null == imageContent.getURI())
 						return;
 					
-					if(imageContent.getURI().endsWith(".svg")) {
-						isSvg = true;
-						ti = new TranscoderInput(new FileInputStream(imageContent.getURI( )));
-					} else {
-						img = Image.getInstance(imageContent.getURI());
-					}
+					if ( imageContent.getURI( ).endsWith( ".svg" ) )
+						{
+							isSvg = true;
+							ti = new TranscoderInput( new FileInputStream(
+									imageContent.getURI( ) ) );
+						}
+						else
+						{
+							URL url = new URL( imageContent.getURI( ) );
+							InputStream in = url.openStream( );
+							try
+							{
+								byte[] buffer = new byte[in.available( )];
+								in.read( buffer );
+								img = Image.getInstance( buffer );
+							}
+							catch ( Exception ex )
+							{
+								logger
+										.log( Level.WARNING, ex.getMessage( ),
+												ex );
+							}
+							finally
+							{
+								in.close( );
+							}
+
+						}
 					break;
 				case IImageContent.IMAGE_URL:
 					if (null == imageContent.getURI())

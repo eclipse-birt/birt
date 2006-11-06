@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -129,7 +130,22 @@ public class PDFImageLM extends PDFLeafItemLM
 		switch ( content.getImageSource( ) )
 		{
 			case IImageContent.IMAGE_FILE :
-				image = Image.getInstance( content.getURI( ) );
+				URL url = new URL(content.getURI( ));
+				InputStream in = url.openStream( );
+				try
+				{
+					byte[] buffer = new byte[in.available( )];
+					in.read( buffer );
+					image = Image.getInstance( buffer );
+				}
+				catch ( Exception ex )
+				{
+					logger.log( Level.WARNING, ex.getMessage( ), ex );
+				}
+				finally
+				{
+					in.close( );
+				}
 				break;
 			case IImageContent.IMAGE_NAME :
 			case IImageContent.IMAGE_EXPRESSION :
