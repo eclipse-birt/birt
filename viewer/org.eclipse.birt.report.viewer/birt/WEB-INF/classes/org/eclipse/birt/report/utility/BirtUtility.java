@@ -29,7 +29,7 @@ public class BirtUtility
 {
 
 	/**
-	 * add current task in http session
+	 * Add current task in http session
 	 * 
 	 * @param request
 	 * @param task
@@ -61,6 +61,44 @@ public class BirtUtility
 		{
 			if ( taskid != null )
 				map.put( taskid, task );
+		}
+	}
+
+	/**
+	 * Remove task from http session
+	 * 
+	 * @param request
+	 */
+	public static void removeTask( HttpServletRequest request )
+	{
+		if ( request == null )
+			return;
+
+		try
+		{
+			// get task id
+			BaseAttributeBean attrBean = (BaseAttributeBean) request
+					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+			if ( attrBean == null )
+				return;
+
+			String taskid = attrBean.getTaskId( );
+
+			// get task map
+			HttpSession session = request.getSession( true );
+			Map map = (Map) session.getAttribute( IBirtConstants.TASK_MAP );
+			if ( map == null )
+				return;
+
+			// remove task
+			synchronized ( map )
+			{
+				if ( taskid != null )
+					map.remove( taskid );
+			}
+		}
+		catch ( Exception e )
+		{
 		}
 	}
 }

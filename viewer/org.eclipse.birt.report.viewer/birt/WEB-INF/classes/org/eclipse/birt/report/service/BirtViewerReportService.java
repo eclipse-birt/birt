@@ -481,6 +481,8 @@ public class BirtViewerReportService implements IViewerReportService
 			throws ReportServiceException
 	{
 		IGetParameterDefinitionTask task = null;
+		HttpServletRequest request = (HttpServletRequest) options
+				.getOption( InputOptions.OPT_REQUEST );
 		try
 		{
 			task = getParameterDefinitionTask( design, options );
@@ -491,8 +493,6 @@ public class BirtViewerReportService implements IViewerReportService
 					task.setParameterValues( bean.getParameters( ) );
 
 				// Add task into session
-				HttpServletRequest request = (HttpServletRequest) options
-						.getOption( InputOptions.OPT_REQUEST );
 				BirtUtility.addTask( request, task );
 
 				task.evaluateQuery( groupName );
@@ -505,6 +505,9 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		finally
 		{
+			// Remove task from http session
+			BirtUtility.removeTask( request );
+
 			if ( task != null )
 				task.close( );
 		}
@@ -525,11 +528,6 @@ public class BirtViewerReportService implements IViewerReportService
 				ViewerAttributeBean bean = getViewerAttrBean( runOptions );
 				if ( bean != null )
 					task.setParameterValues( bean.getParameters( ) );
-
-				// Add task into session
-				HttpServletRequest request = (HttpServletRequest) runOptions
-						.getOption( InputOptions.OPT_REQUEST );
-				BirtUtility.addTask( request, task );
 
 				Collection selectionList = task.getSelectionList( paramName );
 				return convertEngineParameterSelectionChoice( selectionList );

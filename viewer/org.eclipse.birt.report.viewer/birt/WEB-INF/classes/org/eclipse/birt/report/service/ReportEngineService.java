@@ -741,6 +741,8 @@ public class ReportEngineService
 		}
 		finally
 		{
+			// Remove task from http session
+			BirtUtility.removeTask( request );
 			runAndRenderTask.close( );
 		}
 	}
@@ -840,6 +842,8 @@ public class ReportEngineService
 		}
 		finally
 		{
+			// Remove task from http session
+			BirtUtility.removeTask( request );
 			runTask.close( );
 		}
 	}
@@ -991,6 +995,8 @@ public class ReportEngineService
 		}
 		finally
 		{
+			// Remove task from http session
+			BirtUtility.removeTask( request );
 			renderTask.close( );
 		}
 	}
@@ -1118,6 +1124,8 @@ public class ReportEngineService
 		}
 		finally
 		{
+			// Remove task from http session
+			BirtUtility.removeTask( request );
 			renderTask.close( );
 		}
 	}
