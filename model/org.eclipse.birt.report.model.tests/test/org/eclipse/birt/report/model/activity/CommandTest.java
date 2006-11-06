@@ -10,10 +10,6 @@
 *******************************************************************************/ 
 package org.eclipse.birt.report.model.activity;
 
-import com.ibm.icu.util.ULocale;
-
-import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 

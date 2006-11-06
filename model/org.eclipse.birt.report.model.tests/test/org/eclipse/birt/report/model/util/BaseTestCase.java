@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -249,12 +250,12 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 		fileName = INPUT_FOLDER + fileName;
-		InputStream is = getResourceAStream( fileName );
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		designHandle = sessionHandle.openDesign( getResource( fileName ), is );
+		designHandle = sessionHandle.openDesign( getResource( fileName )
+				.toString( ) );
 		design = designHandle.getDesign( );
 	}
 
@@ -875,6 +876,23 @@ public abstract class BaseTestCase extends TestCase
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
 		designHandle.saveAs( outputPath + filename );
+	}
+
+	/**
+	 * Gets the temp folder of this class.
+	 * 
+	 * @return temp folder of this class
+	 */
+
+	protected String getTempFolder( )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+
+		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
+				+ getFullQualifiedClassName( );
+		return outputPath;
 	}
 
 	/**
