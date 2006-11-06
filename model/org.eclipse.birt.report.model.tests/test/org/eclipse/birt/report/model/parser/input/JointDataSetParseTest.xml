@@ -7,6 +7,7 @@
     <data-sets>
         <oda-data-set name="DataSet1">
             <property name="dataSource">extendedDataSource</property>
+            <property name="rowFetchLimit">30</property>
             <method name="queryScript"><![CDATA[query script1]]></method>
         </oda-data-set>
         <oda-data-set name="DataSet2">

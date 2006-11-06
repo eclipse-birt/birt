@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
@@ -103,13 +104,21 @@ public class JointDataSetParseTest extends BaseTestCase
 		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle
 				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
+		assertEquals( 0, dataSet.getRowFetchLimit( ) );
 
 		List dataSets = dataSet.getListProperty( JointDataSet.DATA_SETS_PROP );
 		assertEquals( 2, dataSets.size( ) );
-		assertSame( design.findDataSet( "DataSet1" ), //$NON-NLS-1$
-				( (ElementRefValue) dataSets.get( 0 ) ).getElement( ) );
-		assertSame( design.findDataSet( "DataSet2" ), //$NON-NLS-1$
-				( (ElementRefValue) dataSets.get( 1 ) ).getElement( ) );
+		DataSetHandle ds1 = (DataSetHandle) designHandle
+				.findDataSet( "DataSet1" );//$NON-NLS-1$
+		assertSame( ds1.getElement( ), ( (ElementRefValue) dataSets.get( 0 ) )
+				.getElement( ) );
+		assertEquals( 30, ds1.getRowFetchLimit( ) );
+
+		DataSetHandle ds2 = (DataSetHandle) designHandle
+				.findDataSet( "DataSet2" );//$NON-NLS-1$
+		assertEquals( 0, ds2.getRowFetchLimit( ) );
+		assertSame( ds2.getElement( ), ( (ElementRefValue) dataSets.get( 1 ) )
+				.getElement( ) );
 
 		Iterator joinConditionsIterator = dataSet.joinConditionsIterator( );
 		assertTrue( joinConditionsIterator.hasNext( ) );
@@ -131,7 +140,8 @@ public class JointDataSetParseTest extends BaseTestCase
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
 		assertEquals( "JointDataSet", table.getDataSet( ).getName( ) ); //$NON-NLS-1$
 
-		List parameters = (List) dataSet.getProperty( SimpleDataSet.PARAMETERS_PROP );
+		List parameters = (List) dataSet
+				.getProperty( SimpleDataSet.PARAMETERS_PROP );
 		assertEquals( 1, parameters.size( ) );
 
 		// Test "input-parameters" on DataSet
@@ -161,9 +171,10 @@ public class JointDataSetParseTest extends BaseTestCase
 		assertEquals( 1, columns.size( ) );
 
 		ComputedColumn computedColumn = (ComputedColumn) columns.get( 0 );
-		assertEquals( "column1", computedColumn.getColumnName( )); //$NON-NLS-1$
+		assertEquals( "column1", computedColumn.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( "expression1", computedColumn.getExpression( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, computedColumn.getDataType( ) );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+				computedColumn.getDataType( ) );
 
 		// Test "column-hints" on DataSet
 
@@ -241,7 +252,16 @@ public class JointDataSetParseTest extends BaseTestCase
 		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle
 				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
+		dataSet.setRowFetchLimit( 10 );
+
+		DataSetHandle ds1 = designHandle.findDataSet( "DataSet1" );//$NON-NLS-1$
+		ds1.setRowFetchLimit( 50 );
+		
+		DataSetHandle ds2 = designHandle.findDataSet( "DataSet2" );//$NON-NLS-1$
+		ds2.setRowFetchLimit( 20 );
+
 		dataSet.addDataSet( "DataSet3" ); //$NON-NLS-1$
+
 		JoinCondition condition = StructureFactory.createJoinCondition( );
 		condition.setJoinType( DesignChoiceConstants.JOIN_TYPE_LEFT_OUT );
 		condition.setOperator( DesignChoiceConstants.JOIN_OPERATOR_EQALS );

@@ -5,9 +5,11 @@
     </data-sources>
     <data-sets>
         <oda-data-set name="DataSet1" id="44">
+            <property name="rowFetchLimit">50</property>
             <property name="dataSource">extendedDataSource</property>
         </oda-data-set>
         <oda-data-set name="DataSet2" id="45">
+            <property name="rowFetchLimit">20</property>
             <property name="dataSource">extendedDataSource</property>
         </oda-data-set>
         <oda-data-set name="DataSet3" id="46">
@@ -51,6 +53,7 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
+            <property name="rowFetchLimit">10</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
