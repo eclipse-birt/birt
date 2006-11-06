@@ -92,12 +92,14 @@ public final class EmptyWithAxes extends AxesRenderer
 		// COMPUTE THE FRONT FACE ONLY
 		Location[] loaFrontFace = null;
 		loaFrontFace = new Location[4];
+		final double dOffset =  bo.getWidth( ) > bo.getHeight( ) ? bo.getHeight( )
+				: bo.getWidth( );
 		loaFrontFace[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
 		loaFrontFace[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
-				+ bo.getHeight( ) );
-		loaFrontFace[2] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
-				bo.getTop( ) + bo.getHeight( ) );
-		loaFrontFace[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+				+ dOffset );
+		loaFrontFace[2] = LocationImpl.create( bo.getLeft( ) + dOffset,
+				bo.getTop( ) + dOffset );
+		loaFrontFace[3] = LocationImpl.create( bo.getLeft( ) + dOffset,
 				bo.getTop( ) );
 
 		// RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)

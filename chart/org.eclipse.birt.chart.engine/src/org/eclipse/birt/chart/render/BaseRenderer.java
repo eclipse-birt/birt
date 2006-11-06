@@ -899,7 +899,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								seBase,
 								fPaletteEntry,
 								lirh,
-								i );
+								i,
+								dScale );
 					}
 				}
 			}
@@ -985,7 +986,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										seBase,
 										fPaletteEntry,
 										lirh,
-										i );
+										i,
+										dScale );
 							}
 						}
 					}
@@ -1090,7 +1092,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										seBase,
 										fPaletteEntry,
 										lirh,
-										i );
+										i,
+										dScale );
 							}
 						}
 					}
@@ -1210,7 +1213,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								seBase,
 								fPaletteEntry,
 								lirh,
-								i );
+								i,
+								dScale );
 					}
 				}
 			}
@@ -1286,7 +1290,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										seBase,
 										fPaletteEntry,
 										lirh,
-										i );
+										i,
+										dScale );
 							}
 						}
 					}
@@ -1381,7 +1386,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										seBase,
 										fPaletteEntry,
 										lirh,
-										i );
+										i,
+										dScale );
 							}
 						}
 					}
@@ -1586,7 +1592,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			double dItemHeight, double dFullHeight, double dExtraHeight,
 			double dColumnWidth, double dLeftInset, double dHorizontalSpacing,
 			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh,
-			int dataIndex ) throws ChartException
+			int dataIndex, double dScale ) throws ChartException
 	{
 		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints( la,
 				valueLa,
@@ -1605,21 +1611,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( isRightToLeft( ) )
 		{
-			bo.setLeft( dX
-					+ dColumnWidth
-					- dLeftInset
-					- 1
-					- 3
-					* dItemHeight
-					/ 2 );
+			bo.setLeft( ( dX + dColumnWidth - dLeftInset - 1 - 3 * dItemHeight / 2 )
+					/ dScale );
 		}
 		else
 		{
-			bo.setLeft( dX + dLeftInset + 1 );
+			bo.setLeft( ( dX + dLeftInset + 1 ) / dScale );
 		}
-		bo.setTop( dY + 1 + ( dFullHeight - dItemHeight ) / 2 );
-		bo.setWidth( 3 * dItemHeight / 2 );
-		bo.setHeight( dItemHeight - 2 );
+		bo.setTop( ( dY + 1 + ( dFullHeight - dItemHeight ) / 2 ) / dScale );
+		bo.setWidth( ( 3 * dItemHeight / 2 ) / dScale );
+		bo.setHeight( ( dItemHeight - 2 ) / dScale );
 
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ITEM,
@@ -1628,6 +1629,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				getRunTimeContext( ).getScriptContext( ) );
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_LEGEND_ITEM,
 				lerh );
+
+		bo.setLeft( bo.getLeft( ) * dScale );
+		bo.setTop( bo.getTop( ) * dScale );
+		bo.setWidth( bo.getWidth( ) * dScale );
+		bo.setHeight( bo.getHeight( ) * dScale );
 
 		final BaseRenderer br = lirh.getRenderer( );
 		br.renderLegendGraphic( ipr, lg, fPaletteEntry, bo );
