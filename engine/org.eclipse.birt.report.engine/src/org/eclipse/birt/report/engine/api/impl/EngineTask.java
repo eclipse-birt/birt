@@ -662,7 +662,7 @@ public abstract class EngineTask implements IEngineTask
 		return;
 	}
 	
-	public boolean isCancel()
+	public boolean getCancelFlag( )
 	{
 		return cancelFlag;
 	}
@@ -670,7 +670,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.45.2.1 $ $Date: 2006/09/07 12:56:55 $
+	 * @version $Revision: 1.45.2.1.2.1 $ $Date: 2006/10/30 17:45:06 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -922,7 +922,7 @@ public abstract class EngineTask implements IEngineTask
 		switch(runningStatus)
 		{
 			case RUNNING_STATUS_START:
-				return STATUS_INIT;
+				return STATUS_NOT_STARTED;
 			case RUNNING_STATUS_RUNNING:
 				return STATUS_RUNNING;
 			case RUNNING_STATUS_STOP:
@@ -934,10 +934,10 @@ public abstract class EngineTask implements IEngineTask
 				{
 					return STATUS_FAILED;
 				}
-				return STATUS_SUCCEED;
+				return STATUS_SUCCEEDED;
 		}
 		assert false;
-		return STATUS_INIT;
+		return STATUS_NOT_STARTED;
 	}
 	
 	public List getErrors( )

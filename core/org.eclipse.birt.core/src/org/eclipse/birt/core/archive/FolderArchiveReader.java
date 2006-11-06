@@ -122,7 +122,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 					{
 						String relativePath = ArchiveUtil.generateRelativePath(
 								folderName, file.getPath( ) );
-						if ( !FolderArchiveWriter.needSkip( relativePath ) )
+						if ( !ArchiveUtil.needSkip( relativePath ) )
 						{
 							streamList.add( relativePath );
 						}
