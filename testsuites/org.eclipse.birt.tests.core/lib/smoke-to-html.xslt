@@ -50,8 +50,10 @@
 				</head>
 				<body>
 					<h1>
-						<xsl:value-of select="@name"/> Test Result
-					</h1>
+						<span style="font-family:Verdana; font-size:larger; ">
+							<xsl:value-of select="@name"/>
+						</span> Test Result
+								</h1>
 					<br/>
 					<h2>Summary<h2/>
 						<p>
@@ -91,6 +93,7 @@
 								<th>Name</th>
 								<th>Status</th>
 								<th>Errors</th>
+								<th>Engine internal errors</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -102,6 +105,7 @@
 										</td>
 										<td>Failure</td>
 										<td><xsl:value-of select="@errors"/></td>
+										<td><xsl:value-of select="@internalErrors"/></td>
 									</tr>
 								</xsl:if>	
 								<xsl:if test="string-length(  @errors ) = 0">
@@ -111,6 +115,7 @@
 										</td>
 										<td>Success</td>
 										<td><xsl:value-of select="@errors"/></td>
+										<td><xsl:value-of select="@internalErrors"/></td>
 									</tr>
 								</xsl:if>	
 							</xsl:for-each>

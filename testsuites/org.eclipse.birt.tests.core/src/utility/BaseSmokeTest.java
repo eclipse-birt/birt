@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public abstract class BaseSmokeTest extends EngineCase
 {
 
 	private Map testStatus = new LinkedHashMap( );
+	private Map engineInternalErrors = new LinkedHashMap( );
 
 	/**
 	 * Working folder that containing the smoke test cases.
@@ -80,9 +82,22 @@ public abstract class BaseSmokeTest extends EngineCase
 
 			try
 			{
-				runAndRender( inputFolder + report.getName( ), outputFolder
-						+ html );
+				List engineErrors = runAndRender( inputFolder
+						+ report.getName( ), outputFolder + html );
 				compareHTML( html, html );
+
+				if ( engineErrors != null && engineErrors.size( ) > 0 )
+				{
+					StringBuffer sb = new StringBuffer( );
+					for ( Iterator iter = engineErrors.iterator( ); iter
+							.hasNext( ); )
+					{
+						sb.append( iter.next( ).toString( ) );
+						sb.append( "\n" ); //$NON-NLS-1$
+					}
+
+					engineInternalErrors.put( report.getName( ), sb.toString( ) );
+				}
 
 				// success
 
@@ -122,13 +137,31 @@ public abstract class BaseSmokeTest extends EngineCase
 			Element testcase = doc.createElement( "testcase" ); //$NON-NLS-1$
 			testcase.setAttribute( "name", testCaseName ); //$NON-NLS-1$
 			if ( null == status )
+			{
+				// no error;
+
 				testcase.setAttribute( "errors", null ); //$NON-NLS-1$
+			}
 			else
 			{
 				testcase.setAttribute( "errors", status.toString( ) ); //$NON-NLS-1$
 				++failuresCount;
 			}
 
+			String internalError = (String)engineInternalErrors.get( testCaseName ); 
+			if (  null == internalError )
+			{
+				// no internal error;
+				
+				testcase.setAttribute( "internalErrors", null ); //$NON-NLS-1$
+				
+			}
+			else
+			{
+				testcase.setAttribute( "internalErrors", internalError ); //$NON-NLS-1$
+			}
+			
+			
 			testsuite.appendChild( testcase );
 		}
 
@@ -155,7 +188,7 @@ public abstract class BaseSmokeTest extends EngineCase
 				+ "/"; //$NON-NLS-1$
 	}
 
-	private void runAndRender( String inputFile, String outputFile )
+	private List runAndRender( String inputFile, String outputFile )
 			throws EngineException
 	{
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
@@ -180,7 +213,10 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		task.setRenderOption( options );
 		task.run( );
+		List errors = task.getErrors( );
 		task.close( );
+
+		return errors;
 	}
 
 	/*
