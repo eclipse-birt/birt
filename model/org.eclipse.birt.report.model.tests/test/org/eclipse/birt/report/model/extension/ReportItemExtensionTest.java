@@ -72,7 +72,6 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
-import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -387,8 +386,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		extendedHandle.setProperty( "afterCloseDoc", //$NON-NLS-1$
 				"new script of afterCloseDoc" ); //$NON-NLS-1$
 
-		saveAs( outFileName_1 );
-		assertTrue( compareTextFile( goldenFileName_1, outFileName_1 ) );
+		save( );
+		assertTrue( compareTextFile( goldenFileName_1 ) );
 
 		// after writer, read the golden file and test the properties twice
 
@@ -410,8 +409,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		extendedHandle.loadExtendedElement( );
 		extendedHandle.setProperty( "test1", null ); //$NON-NLS-1$
-		saveAs( outFileName_2 );
-		assertTrue( compareTextFile( goldenFileName_2, outFileName_2 ) );
+		save( );
+		assertTrue( compareTextFile( goldenFileName_2 ) );
 	}
 
 	/**
@@ -744,8 +743,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( ColorPropertyType.RED, extendedHandle
 				.getProperty( Style.COLOR_PROP ) );
 
-		saveAs( outFileName_3 );
-		assertTrue( compareTextFile( goldenFileName_3, outFileName_3 ) );
+		save( );
+		assertTrue( compareTextFile( goldenFileName_3) );
 
 	}
 
@@ -1150,9 +1149,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// itemHandle.loadExtendedElement( );
 		itemHandle.setProperty( "usage", "toy" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		saveAs( "TestingBox_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"TestingBox_golden_1.xml", "TestingBox_out_1.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TestingBox_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1174,9 +1172,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.newElementFrom( baseMatrixHandle, "myMatrix" ); //$NON-NLS-1$
 
 		designHandle.getBody( ).add( newMatrixHandle );
-		saveAs( "TestAddExtendedItem_out_2.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"TestAddExtendedItem_golden_2.xml", "TestAddExtendedItem_out_2.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TestAddExtendedItem_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1611,7 +1608,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testSemanticCheck( ) throws Exception
 	{
 		openDesign( fileName_6 );
-		
+
 		assertEquals( 3, design.getErrorList( ).size( ) );
 
 		assertEquals(
@@ -1829,9 +1826,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		assertEquals( "chart alt text", extendedHandle.getAltText( ) ); //$NON-NLS-1$
 		assertEquals( "chart id 2", extendedHandle.getAltTextKey( ) ); //$NON-NLS-1$
-		saveAs( "ExtensionTest_AltText_out.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"ExtensionTest_AltText_golden.xml", "ExtensionTest_AltText_out.xml" ) );//$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "ExtensionTest_AltText_golden.xml" ) );//$NON-NLS-1$
 	}
 
 }

@@ -214,12 +214,11 @@ public class PeerExtensionTest extends BaseTestCase
 		extendedTable.setProperty( TableItem.CAPTION_PROP, "table caption" ); //$NON-NLS-1$
 		extendedTable.setProperty( TableItem.DATA_SET_PROP, "tableDataSet" ); //$NON-NLS-1$
 		extendedTable.setProperty( IStyleModel.COLOR_PROP, IColorConstants.RED );
-		extendedTable.setProperty( "usage", "testusagevalue" );  //$NON-NLS-1$//$NON-NLS-2$
+		extendedTable.setProperty( "usage", "testusagevalue" ); //$NON-NLS-1$//$NON-NLS-2$
 		designHandle.getBody( ).add( extendedTable );
 
-		saveAs( "PeerExtensionTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"PeerExtensionTest_golden.xml", "PeerExtensionTest_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "PeerExtensionTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -342,9 +341,8 @@ public class PeerExtensionTest extends BaseTestCase
 		slot.add( list );
 		assertEquals( 2, slot.getCount( ) );
 		// add element to detail directly
-		saveAs( "PeerExtensionTest_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"PeerExtensionTest_golden_1.xml", "PeerExtensionTest_out_1.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "PeerExtensionTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -374,12 +372,9 @@ public class PeerExtensionTest extends BaseTestCase
 				"testLabel" ); //$NON-NLS-1$
 		assertEquals( "testLabel1", label.getName( ) ); //$NON-NLS-1$
 		designHandle.getBody( ).add( label );
-		// 
 
-		saveAs( "PeerExtensionTest_out_2.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"PeerExtensionTest_golden_2.xml", "PeerExtensionTest_out_2.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
-
+		save( );
+		assertTrue( compareTextFile( "PeerExtensionTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

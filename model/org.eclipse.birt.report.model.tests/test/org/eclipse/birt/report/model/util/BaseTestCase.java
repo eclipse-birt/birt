@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -36,6 +38,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -105,16 +108,20 @@ public abstract class BaseTestCase extends TestCase
 	protected ReportDesign design = null;
 
 	/**
+	 * Byte array output stream.
+	 */
+
+	protected ByteArrayOutputStream os = null;
+
+	/**
 	 * The file name of metadata file.
 	 */
 	protected static final String ROM_DEF_NAME = "rom.def"; //$NON-NLS-1$
 
 	protected static final String TEST_FOLDER = "test/"; //$NON-NLS-1$
 	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
-	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$
-	protected static final String GOLDEN_FOLDER = "/golden/"; //$NON-NLS-1$
-
-	private static final String BIN_FOLDER = "/bin/"; //$NON-NLS-1$
+	protected static final String INPUT_FOLDER = "input/"; //$NON-NLS-1$
+	protected static final String GOLDEN_FOLDER = "golden/"; //$NON-NLS-1$
 
 	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
 
@@ -150,6 +157,9 @@ public abstract class BaseTestCase extends TestCase
 
 		if ( libraryHandle != null )
 			libraryHandle.close( );
+			
+		if ( os != null )
+			os.close();
 
 		super.tearDown( );
 	}
@@ -239,12 +249,13 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesign( String fileName, ULocale locale )
 			throws DesignFileException
 	{
-		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		fileName = INPUT_FOLDER + fileName;
+		InputStream is = getResourceAStream( fileName );
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		designHandle = sessionHandle.openDesign( fileName );
+		designHandle = sessionHandle.openDesign( getResource( fileName ), is );
 		design = designHandle.getDesign( );
 	}
 
@@ -276,12 +287,13 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( String fileName, ULocale locale )
 			throws DesignFileException
 	{
-		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		fileName = INPUT_FOLDER + fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		libraryHandle = sessionHandle.openLibrary( fileName );
+		libraryHandle = sessionHandle.openLibrary( getResource( fileName ),
+				getResourceAStream( fileName ) );
 	}
 
 	/**
@@ -311,12 +323,13 @@ public abstract class BaseTestCase extends TestCase
 	protected void openModule( String fileName, ULocale locale )
 			throws DesignFileException
 	{
-		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		fileName = INPUT_FOLDER + fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		moduleHandle = sessionHandle.openModule( fileName );
+		moduleHandle = sessionHandle.openModule( getResource( fileName )
+				.toString( ), getResourceAStream( fileName ) );
 	}
 
 	/**
@@ -407,6 +420,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @return true if two text files are same line by line
 	 * @throws Exception
 	 *             if any exception.
+	 * @deprecated
 	 */
 	protected boolean compareTextFile( String goldenFileName,
 			String outputFileName ) throws Exception
@@ -414,43 +428,68 @@ public abstract class BaseTestCase extends TestCase
 		FileReader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer( );
-
-		try
-		{
-			goldenFileName = getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
-			outputFileName = getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
-
-			readerA = new FileReader( goldenFileName );
-			readerB = new FileReader( outputFileName );
-
-			same = compareTextFile( readerA, readerB );
-		}
-		catch ( IOException e )
-		{
-			errorText.append( e.toString( ) );
-			errorText.append( "\n" ); //$NON-NLS-1$
-			e.printStackTrace( );
-		}
-		finally
-		{
-			try
-			{
-				readerA.close( );
-				readerB.close( );
-			}
-			catch ( Exception e )
-			{
-				readerA = null;
-				readerB = null;
-
-				errorText.append( e.toString( ) );
-
-				throw new Exception( errorText.toString( ) );
-			}
-		}
+		// StringBuffer errorText = new StringBuffer( );
+		//
+		// try
+		// {
+		// goldenFileName = getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
+		// outputFileName = getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
+		//
+		// readerA = new FileReader( goldenFileName );
+		// readerB = new FileReader( outputFileName );
+		//
+		// same = compareTextFile( readerA, readerB );
+		// }
+		// catch ( IOException e )
+		// {
+		// errorText.append( e.toString( ) );
+		// errorText.append( "\n" ); //$NON-NLS-1$
+		// e.printStackTrace( );
+		// }
+		// finally
+		// {
+		// try
+		// {
+		// readerA.close( );
+		// readerB.close( );
+		// }
+		// catch ( Exception e )
+		// {
+		// readerA = null;
+		// readerB = null;
+		//
+		// errorText.append( e.toString( ) );
+		//
+		// throw new Exception( errorText.toString( ) );
+		// }
+		// }
 
 		return same;
+	}
+
+	/**
+	 * Compares two text file. The comparison will ignore the line containing
+	 * "modificationDate".
+	 * 
+	 * @param goldenFileName
+	 *            the 1st file name to be compared.
+	 * @param os
+	 *            the 2nd output stream to be compared.
+	 * @return true if two text files are same char by char
+	 * @throws Exception
+	 *             if any exception.
+	 */
+	protected boolean compareTextFile( String goldenFileName ) throws Exception
+	{
+		goldenFileName = GOLDEN_FOLDER + goldenFileName;
+
+		InputStream streamA = getResourceAStream( goldenFileName );
+		if ( os == null )
+			return false;
+		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
+		InputStreamReader readerA = new InputStreamReader( streamA );
+		InputStreamReader readerB = new InputStreamReader( streamB );
+		return compareTextFile( readerA, readerB );
 	}
 
 	/**
@@ -701,11 +740,28 @@ public abstract class BaseTestCase extends TestCase
 	 *            the test output file to be saved.
 	 * @throws IOException
 	 *             if error occurs while saving the file.
+	 * @deprecated
 	 */
 
 	protected void saveAs( String filename ) throws IOException
 	{
 		saveAs( designHandle, filename );
+	}
+
+	/**
+	 * Eventually, this method will call
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
+	 * output file of some unit test.
+	 * 
+	 * @param filename
+	 *            the test output file to be saved.
+	 * @throws IOException
+	 *             if error occurs while saving the file.
+	 */
+
+	protected void save( ) throws IOException
+	{
+		save( designHandle );
 	}
 
 	/**
@@ -723,20 +779,60 @@ public abstract class BaseTestCase extends TestCase
 	 *            the test output file to be saved.
 	 * @throws IOException
 	 *             if error occurs while saving the file.
+	 * @deprecated
 	 */
 
 	protected void saveAs( ModuleHandle moduleHandle, String filename )
 			throws IOException
 	{
-		if ( moduleHandle == null )
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+
+		if ( designHandle == null )
 			return;
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
+		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
+				+ getFullQualifiedClassName( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
+		if ( !outputFolder.exists( ) && !outputFolder.mkdirs( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
-		moduleHandle.saveAs( outputPath + filename );
+		designHandle.saveAs( outputPath + filename );
+	}
+
+	/**
+	 * Eventually, this method will call
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
+	 * output file of some unit test.
+	 * 
+	 * @param moduleHandle
+	 *            the module to save, either a report design or a library
+	 * @throws IOException
+	 *             if error occurs while saving the file.
+	 */
+
+	protected void save( ModuleHandle moduleHandle ) throws IOException
+	{
+		os = new ByteArrayOutputStream( );
+		if ( moduleHandle != null )
+			moduleHandle.serialize( os );
+		os.close( );
+	}
+
+	/**
+	 * Saves library as the given file name.
+	 * 
+	 * @param filename
+	 *            the file name for saving
+	 * @throws IOException
+	 *             if any exception
+	 * @deprecated
+	 */
+
+	protected void saveLibraryAs( String filename ) throws IOException
+	{
+		saveAs( libraryHandle, filename );
 	}
 
 	/**
@@ -748,9 +844,9 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception
 	 */
 
-	protected void saveLibraryAs( String filename ) throws IOException
+	protected void saveLibrary( ) throws IOException
 	{
-		saveAs( libraryHandle, filename );
+		save( libraryHandle );
 	}
 
 	/**
@@ -784,6 +880,7 @@ public abstract class BaseTestCase extends TestCase
 	 * Locates the folder where the unit test java source file is saved.
 	 * 
 	 * @return the path name where the test java source file locates.
+	 * @deprecated
 	 */
 
 	protected String getClassFolder( )
@@ -813,6 +910,28 @@ public abstract class BaseTestCase extends TestCase
 		className = pathBase + className.replace( '.', '/' );
 
 		return className;
+	}
+
+	/**
+	 * Gets the input stream of the given name resources.
+	 */
+
+	protected InputStream getResourceAStream( String name )
+	{
+		return this.getClass( ).getResourceAsStream( name );
+	}
+
+	/**
+	 * gets the url of the resource.
+	 * 
+	 * @param name
+	 *            name of the resource
+	 * @return the url of the resource
+	 */
+
+	protected URL getResource( String name )
+	{
+		return this.getClass( ).getResource( name );
 	}
 
 	/**

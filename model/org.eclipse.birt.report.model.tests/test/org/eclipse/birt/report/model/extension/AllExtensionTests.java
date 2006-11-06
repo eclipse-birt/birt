@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,32 +9,32 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.model;
+package org.eclipse.birt.report.model.extension;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.model.extension.AllExtensionTests;
 
 /**
- * Tests cases run in the build script.
+ * Tests cases in extension package.
  */
 
-public class AllTests
+public class AllExtensionTests
 {
-
 	/**
-	 * @return test run in build script
+	 * @return the test
 	 */
 
 	public static Test suite( )
 	{
 		TestSuite test = new TestSuite( );
 		
-		// add all package tests here
-		test.addTest( AllExtensionTests.suite( ) );
-
+		// add all test classes here
+		test.addTestSuite( ReportItemExtensionTest.class );
+		test.addTestSuite( PeerExtensionTest.class );
+		
 		return test;
 	}
-
 }
+
+
