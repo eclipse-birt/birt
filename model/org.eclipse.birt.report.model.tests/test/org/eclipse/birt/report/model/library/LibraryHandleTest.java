@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.library;
 
-import java.io.File;
-import java.io.RandomAccessFile;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -154,8 +152,8 @@ public class LibraryHandleTest extends BaseTestCase
 		assertEquals(
 				"libraryNameSpace.dataSet1", designTable.getDataSet( ).getQualifiedName( ) ); //$NON-NLS-1$ 
 
-		ScriptDataSetHandle dataSet = (ScriptDataSetHandle) designHandle
-				.getElementFactory( ).newScriptDataSet( "scriptDataSet" ); //$NON-NLS-1$
+		ScriptDataSetHandle dataSet = designHandle.getElementFactory( )
+				.newScriptDataSet( "scriptDataSet" ); //$NON-NLS-1$
 
 		designHandle.getDataSets( ).add( dataSet );
 		designTable.setDataSet( dataSet );
@@ -188,7 +186,6 @@ public class LibraryHandleTest extends BaseTestCase
 	public void testGetQualifiedName( ) throws DesignFileException,
 			SemanticException
 	{
-
 		openDesign( "DesignWithoutLibrary.xml" ); //$NON-NLS-1$
 		designHandle.includeLibrary( "Library_2.xml", "libraryNameSpace" ); //$NON-NLS-1$ //$NON-NLS-2$   
 		List list = designHandle.getAllDataSets( );
@@ -297,9 +294,8 @@ public class LibraryHandleTest extends BaseTestCase
 		designHandle.rename( copied.getHandle( design ) );
 		designHandle.getBody( ).paste( copied.getHandle( design ) );
 
-		saveAs( "DesignCopyPaste_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "DesignCopyPaste_golden.xml", //$NON-NLS-1$
-				"DesignCopyPaste_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "DesignCopyPaste_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -314,8 +310,8 @@ public class LibraryHandleTest extends BaseTestCase
 	{
 		openLibrary( "LibraryWithImage.xml" ); //$NON-NLS-1$
 
-		LabelHandle original = (LabelHandle) libraryHandle.getElementFactory( )
-				.newLabel( "original" ); //$NON-NLS-1$
+		LabelHandle original = libraryHandle.getElementFactory( ).newLabel(
+				"original" ); //$NON-NLS-1$
 		libraryHandle.getComponents( ).add( original );
 
 		LabelHandle copied = (LabelHandle) original.copy( ).getHandle(
@@ -376,87 +372,6 @@ public class LibraryHandleTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests needSave method.
-	 * 
-	 * Only change happens directly on report design, isDirty mark of report
-	 * design is true. So when library changed, isDirty mark of report design
-	 * should be false.
-	 * 
-	 * <ul>
-	 * <li>reload error library and throw out exception</li>
-	 * <li>isDirty not changed</li>
-	 * 
-	 * </ul>
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testErrorLibraryNeedsSave( ) throws Exception
-	{
-		openDesign( "DesignWithSaveStateTest.xml" ); //$NON-NLS-1$
-		openLibrary( "LibraryWithSaveStateTest.xml" );//$NON-NLS-1$
-
-		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
-				"new test label" );//$NON-NLS-1$
-		designHandle.getBody( ).add( labelHandle );
-
-		assertTrue( designHandle.needsSave( ) );
-		assertTrue( designHandle.getCommandStack( ).canUndo( ) );
-		assertFalse( designHandle.getCommandStack( ).canRedo( ) );
-
-		ActivityStack stack = (ActivityStack) designHandle.getCommandStack( );
-
-		File f = new File( getClassFolder( ) + INPUT_FOLDER
-				+ "LibraryWithSaveStateTest.xml" );//$NON-NLS-1$
-		RandomAccessFile raf = new RandomAccessFile( f, "rw" );//$NON-NLS-1$
-
-		// Seek to end of file
-		raf.seek( 906 );
-
-		// Append to the end
-		raf.writeBytes( "<label id=\"21\"/>" );//$NON-NLS-1$
-		raf.close( );
-
-		// reloadlibrary
-
-		try
-		{
-			designHandle.reloadLibrary( libraryHandle );
-			fail( );
-		}
-		catch ( DesignFileException e )
-		{
-
-		}
-
-		assertTrue( stack.canUndo( ) );
-		assertFalse( stack.canRedo( ) );
-		assertEquals( 1, stack.getCurrentTransNo( ) );
-		assertTrue( designHandle.needsSave( ) );
-
-		// restore file
-
-		libraryHandle.close( );
-		recoverOriginalLibrary(
-				"LibraryWithSaveStateTest_BackUP.xml", "LibraryWithSaveStateTest.xml" );//$NON-NLS-1$//$NON-NLS-2$
-
-	}
-
-	/**
-	 * Restores changed library to the original one.
-	 * 
-	 * @throws Exception
-	 *             any error occurs
-	 */
-
-	private void recoverOriginalLibrary( String backup, String target )
-			throws Exception
-	{
-		openLibrary( backup );
-		libraryHandle.saveAs( getClassFolder( ) + INPUT_FOLDER + target );
-	}
-
-	/**
 	 * Tests the library include library writer.
 	 * 
 	 * @throws Exception
@@ -467,10 +382,9 @@ public class LibraryHandleTest extends BaseTestCase
 		openLibrary( "Library_1.xml" ); //$NON-NLS-1$
 		libraryHandle.includeLibrary( "Library_2.xml", "lib2" ); //$NON-NLS-1$//$NON-NLS-2$
 
-		saveLibraryAs( "LibraryIncludeLibrary_out.xml" ); //$NON-NLS-1$
+		saveLibrary( );
 
-		assertTrue( compareTextFile( "LibraryIncludeLibrary_golden.xml", //$NON-NLS-1$
-				"LibraryIncludeLibrary_out.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "LibraryIncludeLibrary_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 

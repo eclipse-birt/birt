@@ -33,7 +33,6 @@ public class LibraryParseTest extends BaseTestCase
 {
 
 	private String fileName = "LibraryParseTest.xml"; //$NON-NLS-1$
-	private String outFileName = "LibraryParseTest_out.xml"; //$NON-NLS-1$
 	private String goldenFileName = "LibraryParseTest_golden.xml"; //$NON-NLS-1$
 	private String semanticCheckFileName = "LibraryParseTest_1.xml"; //$NON-NLS-1$
 
@@ -170,8 +169,8 @@ public class LibraryParseTest extends BaseTestCase
 				"New description id" ); //$NON-NLS-1$
 		libraryHandle.setProperty( Library.DESCRIPTION_PROP, "New description" ); //$NON-NLS-1$
 
-		saveLibraryAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		saveLibrary( );
+		assertTrue( compareTextFile( goldenFileName ) );
 	}
 
 	/**

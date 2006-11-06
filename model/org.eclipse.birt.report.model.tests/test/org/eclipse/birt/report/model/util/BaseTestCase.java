@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -157,9 +156,9 @@ public abstract class BaseTestCase extends TestCase
 
 		if ( libraryHandle != null )
 			libraryHandle.close( );
-			
+
 		if ( os != null )
-			os.close();
+			os.close( );
 
 		super.tearDown( );
 	}
@@ -620,8 +619,10 @@ public abstract class BaseTestCase extends TestCase
 		{
 			try
 			{
-				lineReaderA.close( );
-				lineReaderB.close( );
+				if ( lineReaderA != null )
+					lineReaderA.close( );
+				if ( lineReaderB != null )
+					lineReaderB.close( );
 			}
 			catch ( Exception e )
 			{

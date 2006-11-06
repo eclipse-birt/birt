@@ -79,7 +79,7 @@ public class LibraryStructureTest extends BaseTestCase
 		assertTrue( Arrays.equals( image.getData( design ), includeImage
 				.getData( includeLib.getModule( ) ) ) );
 
-		saveAs( "LibraryStructure_tmp_out.xml" ); //$NON-NLS-1$
+		save( );
 
 		// check the "imageName" of the image items in design
 
@@ -361,9 +361,8 @@ public class LibraryStructureTest extends BaseTestCase
 		assertNull( StructureFactory.newEmbeddedImageFrom( baseImage, "image3", //$NON-NLS-1$
 				designHandle ) );
 
-		saveAs( "LibraryStructure_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "LibraryStructure_golden.xml", //$NON-NLS-1$
-				"LibraryStructure_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "LibraryStructure_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 }

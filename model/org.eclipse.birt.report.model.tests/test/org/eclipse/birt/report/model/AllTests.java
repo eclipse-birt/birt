@@ -15,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.extension.AllExtensionTests;
+import org.eclipse.birt.report.model.library.AllLibraryTests;
 
 /**
  * Tests cases run in the build script.
@@ -32,8 +33,10 @@ public class AllTests
 		TestSuite test = new TestSuite( );
 		
 		// add all package tests here
+		
 		test.addTest( AllExtensionTests.suite( ) );
-
+		test.addTest( AllLibraryTests.suite( ) );
+		
 		return test;
 	}
 
