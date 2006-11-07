@@ -81,7 +81,6 @@ public class SQLUtility
 			}
 			conn.open( prop );
 			IQuery query = conn.newQuery( design.getOdaExtensionDataSetId( ) );
-			query.setMaxRows( 1 );
 			query.prepare( design.getQueryText( ) );
 
 			setParameterMetaData( design, query );
@@ -126,7 +125,8 @@ public class SQLUtility
 		}
 		catch ( OdaException e )
 		{
-			dataSetDesign.setParameters( null );
+			// do nothing, to keep the parameter definition in dataset design
+			// dataSetDesign.setParameters( null );
 		}
 	}
 	
