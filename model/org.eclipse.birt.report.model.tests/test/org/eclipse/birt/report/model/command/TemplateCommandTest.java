@@ -14,11 +14,11 @@ package org.eclipse.birt.report.model.command;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -62,7 +62,6 @@ public class TemplateCommandTest extends BaseTestCase
 	 * Input,output, golden file
 	 */
 	private static final String INPUT_FILE = "TemplateCommandTest.xml";//$NON-NLS-1$
-	private static final String OUTPUT_FILE = "TemplateCommandTest_out.xml"; //$NON-NLS-1$
 	private static final String GOLEAN_FILE = "TemplateCommandTest_golden.xml"; //$NON-NLS-1$
 
 	/*
@@ -115,15 +114,14 @@ public class TemplateCommandTest extends BaseTestCase
 		design.getVersionManager( ).setVersion(
 				DesignSchemaConstants.REPORT_VERSION );
 
-		DesignEngine.getMetaDataDictionary( ).enableElementID( );
 		ContentCommand command = new ContentCommand( design, design );
-		command.add( designElement, designHandle.BODY_SLOT );
-		command.add( templateItem, designHandle.BODY_SLOT );
-		saveAs( OUTPUT_FILE );
-
-		compareTextFile( GOLEAN_FILE, OUTPUT_FILE );
+		command.add( designElement, ReportDesign.BODY_SLOT );
+		command.add( templateItem, ReportDesign.BODY_SLOT );
+		
+		save( );
+		assertTrue( compareTextFile( GOLEAN_FILE ) );
 	}
-	
+
 	/**
 	 * Tests clear RefTemplateParameter property.
 	 * 

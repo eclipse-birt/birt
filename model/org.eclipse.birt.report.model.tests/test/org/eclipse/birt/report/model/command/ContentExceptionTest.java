@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -30,27 +28,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class ContentExceptionTest extends BaseTestCase
 {
 
-	private PrintWriter writer;
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		writer = new PrintWriter( new FileOutputStream( outputFolder
-				+ File.separator + "ContentExceptionError.out.txt" ) ); //$NON-NLS-1$
-
-	}
-
 	/**
 	 * Tests the error message.
 	 * 
@@ -62,6 +39,7 @@ public class ContentExceptionTest extends BaseTestCase
 
 		DesignElement table = new TableItem( );
 		table.setName( "customerTable" ); //$NON-NLS-1$
+		os = new ByteArrayOutputStream( );
 
 		DesignElement row = new TableRow( );
 
@@ -119,19 +97,27 @@ public class ContentExceptionTest extends BaseTestCase
 		print( error );
 
 		// System.out.println(error.getLocalizedMessage());
-		writer.close( );
+		os.close( );
 
-		assertTrue( compareTextFile(
-				"ContentExceptionError.golden.txt", "ContentExceptionError.out.txt" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue( compareTextFile( "ContentExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 
 	private void print( ContentException error )
 	{
-		writer.write( error.getErrorCode( ) );
-		for ( int i = error.getErrorCode( ).length( ); i < 60; i++ )
-			writer.write( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write( code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' ' );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
 
 }

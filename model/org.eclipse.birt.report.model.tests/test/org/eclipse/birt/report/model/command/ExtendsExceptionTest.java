@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.eclipse.birt.report.model.api.command.CircularExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -33,27 +31,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class ExtendsExceptionTest extends BaseTestCase
 {
 
-	private PrintWriter writer;
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		writer = new PrintWriter( new FileOutputStream( outputFolder
-				+ File.separator + "ExtendsExceptionError.out.txt" ) ); //$NON-NLS-1$
-
-	}
-
 	/**
 	 * Tests the error message.
 	 * 
@@ -64,6 +41,7 @@ public class ExtendsExceptionTest extends BaseTestCase
 	{
 
 		DesignElement table = new TableItem( );
+		os = new ByteArrayOutputStream();
 		table.setName( "customerTable" ); //$NON-NLS-1$
 
 		DesignElement parent = new GridItem( );
@@ -102,19 +80,27 @@ public class ExtendsExceptionTest extends BaseTestCase
 				ExtendsForbiddenException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
 		print( error );
 
-		writer.close( );
+		os.close( );
 
-		assertTrue( compareTextFile( "ExtendsExceptionError.golden.txt", //$NON-NLS-1$
-				"ExtendsExceptionError.out.txt" ) ); //$NON-NLS-1$ 
+		assertTrue( compareTextFile( "ExtendsExceptionError.golden.txt" ) ); //$NON-NLS-1$ 
 
 	}
 
 	private void print( ExtendsException error )
 	{
-		writer.write( error.getErrorCode( ) );
-		for ( int i = error.getErrorCode( ).length( ); i < 60; i++ )
-			writer.write( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write(code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' '  );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
 
 }

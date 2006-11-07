@@ -116,7 +116,7 @@ public class UserPropertyCommandTest extends BaseTestCase
 
 	public void testAddUserProperty( ) throws Exception
 	{
-		openDesign( "UserPropertyCommandTest.xml", TEST_LOCALE );//$NON-NLS-1$ //$NON-NLS-2$
+		openDesign( "UserPropertyCommandTest.xml", TEST_LOCALE );//$NON-NLS-1$
 		assertEquals( 0, design.getErrorList( ).size( ) );
 
 		DataItemHandle dataHandle = (DataItemHandle) designHandle

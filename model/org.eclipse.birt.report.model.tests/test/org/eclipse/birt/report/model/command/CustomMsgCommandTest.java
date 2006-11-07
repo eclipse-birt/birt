@@ -91,7 +91,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Test writer.</td>
  * <td></td>
  * </tr>
- *  
+ * 
  */
 
 public class CustomMsgCommandTest extends BaseTestCase
@@ -142,7 +142,8 @@ public class CustomMsgCommandTest extends BaseTestCase
 		}
 		catch ( CustomMsgException e )
 		{
-			assertEquals( CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE, e.getErrorCode( ) );
+			assertEquals( CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE,
+					e.getErrorCode( ) );
 		}
 
 		// resource key required
@@ -155,25 +156,26 @@ public class CustomMsgCommandTest extends BaseTestCase
 		}
 		catch ( CustomMsgException e )
 		{
-			assertEquals( CustomMsgException.DESIGN_EXCEPTION_RESOURCE_KEY_REQUIRED, e
-					.getErrorCode( ) );
+			assertEquals(
+					CustomMsgException.DESIGN_EXCEPTION_RESOURCE_KEY_REQUIRED,
+					e.getErrorCode( ) );
 		}
 
 		// invalid locale
 		// Note: This case can not be tested for StringUtil.isValidULocale()
 		// always return true.
 		//
-		//		translation = new Translation( "resourceKey", "bad locale", text );
+		// translation = new Translation( "resourceKey", "bad locale", text );
 		// //$NON-NLS-1$ //$NON-NLS-2$
-		//		try
-		//		{
-		//			command.addTranslation( translation );
-		//			fail( );
-		//		}
-		//		catch ( CustomMsgException e )
-		//		{
-		//			assertEquals( CustomMsgException.INVALID_LOCALE, e.getErrorCode( ) );
-		//		}
+		// try
+		// {
+		// command.addTranslation( translation );
+		// fail( );
+		// }
+		// catch ( CustomMsgException e )
+		// {
+		// assertEquals( CustomMsgException.INVALID_LOCALE, e.getErrorCode( ) );
+		// }
 	}
 
 	/**
@@ -183,14 +185,14 @@ public class CustomMsgCommandTest extends BaseTestCase
 	 * <p>
 	 * 
 	 * @throws CustomMsgException
-	 *  
+	 * 
 	 */
 	public void testDropTranslation( ) throws CustomMsgException
 	{
 		assertEquals( 6, design.getTranslations( ).size( ) );
 
 		String resourceKey = "ResourceKey.ReportDesign.Title"; //$NON-NLS-1$
-		String locale = null; //$NON-NLS-1$
+		String locale = null;
 
 		command.dropTranslation( resourceKey, locale );
 		assertEquals( 5, design.getTranslations( ).size( ) );
@@ -199,13 +201,14 @@ public class CustomMsgCommandTest extends BaseTestCase
 
 		try
 		{
-			command.dropTranslation( null, locale ); //$NON-NLS-1$
+			command.dropTranslation( null, locale );
 			fail( );
 		}
 		catch ( CustomMsgException e )
 		{
-			assertEquals( CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND, e
-					.getErrorCode( ) );
+			assertEquals(
+					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND,
+					e.getErrorCode( ) );
 		}
 
 	}
@@ -235,7 +238,8 @@ public class CustomMsgCommandTest extends BaseTestCase
 		}
 		catch ( CustomMsgException e )
 		{
-			assertEquals( CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE, e.getErrorCode( ) );
+			assertEquals( CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE,
+					e.getErrorCode( ) );
 		}
 	}
 
@@ -274,8 +278,9 @@ public class CustomMsgCommandTest extends BaseTestCase
 		}
 		catch ( CustomMsgException e )
 		{
-			assertEquals( CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND, e
-					.getErrorCode( ) );
+			assertEquals(
+					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND,
+					e.getErrorCode( ) );
 		}
 	}
 
@@ -286,9 +291,8 @@ public class CustomMsgCommandTest extends BaseTestCase
 	 */
 	public void testWriter( ) throws Exception
 	{
-		saveAs( "CustomMsgCommandTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"CustomMsgCommandTest_golden.xml", "CustomMsgCommandTest_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "CustomMsgCommandTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

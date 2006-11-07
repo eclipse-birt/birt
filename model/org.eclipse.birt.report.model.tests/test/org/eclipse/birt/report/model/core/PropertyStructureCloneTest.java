@@ -21,20 +21,16 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test for PropertyStructure clone facility.
- *  
+ * 
  */
 
 public class PropertyStructureCloneTest extends BaseTestCase
 {
 
 	private final static String INPUT_FILE = "PropertyStructureCloneTest.xml"; //$NON-NLS-1$
-	private final static String OUTPUT_FILE = "PropertyStructureCloneTest_out.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE = "PropertyStructureCloneTest_golden.xml"; //$NON-NLS-1$
-    
-    private final static String OUTPUT_FILE1 = "PropertyStructureCloneTest1_out.xml"; //$NON-NLS-1$
-    private final static String GOLDEN_FILE1 = "PropertyStructureCloneTest1_golden.xml"; //$NON-NLS-1$
-    
-    
+	private final static String GOLDEN_FILE1 = "PropertyStructureCloneTest1_golden.xml"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,7 +39,7 @@ public class PropertyStructureCloneTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		openDesign( INPUT_FILE ); //$NON-NLS-1$
+		openDesign( INPUT_FILE );
 	}
 
 	/**
@@ -70,13 +66,13 @@ public class PropertyStructureCloneTest extends BaseTestCase
 		// change the original action.
 
 		actionHandle.setURI( "www.sina.com.cn\\abc.jsp" ); //$NON-NLS-1$
-        actionHandle.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
-		saveAs( OUTPUT_FILE ); //$NON-NLS-1$
+		actionHandle
+				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
 
+		save( );
 		// compare with golden file to ensure that change to the
 		// original action won't affect the copy.
-
-		compareTextFile( GOLDEN_FILE, OUTPUT_FILE ); //$NON-NLS-1$//$NON-NLS-2$
+		assertTrue( compareTextFile( GOLDEN_FILE ) );
 	}
 
 	/**
@@ -96,13 +92,13 @@ public class PropertyStructureCloneTest extends BaseTestCase
 
 		ImageHandle image2 = (ImageHandle) designHandle.findElement( "Image2" ); //$NON-NLS-1$
 		image2.setAction( (Action) action.copy( ) );
-        
-        MemberHandle paramsHandle = actionHandle.getParamBindings();
-        ParamBindingHandle param1 = (ParamBindingHandle)paramsHandle.getAt( 0 );
-        
-        param1.setExpression( "new Expression" ); //$NON-NLS-1$
-        
-        saveAs( OUTPUT_FILE1 ); //$NON-NLS-1$
-        compareTextFile( GOLDEN_FILE1, OUTPUT_FILE1 ); //$NON-NLS-1$//$NON-NLS-2$
-  	}
+
+		MemberHandle paramsHandle = actionHandle.getParamBindings( );
+		ParamBindingHandle param1 = (ParamBindingHandle) paramsHandle.getAt( 0 );
+
+		param1.setExpression( "new Expression" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareTextFile( GOLDEN_FILE1 ) );
+	}
 }

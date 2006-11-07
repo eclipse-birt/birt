@@ -3539,6 +3539,10 @@ public class DesignElementTest extends BaseTestCase
 		dataSource1.dropAndClear( );
 	}
 
+	/**
+	 * 
+	 * @throws SemanticException
+	 */
 	public void testIsContentOf( ) throws SemanticException
 	{
 		setupDesign( );
@@ -3663,7 +3667,7 @@ public class DesignElementTest extends BaseTestCase
 		// Create one table without name
 
 		TableHandle table2 = designHandle.getElementFactory( ).newTableItem(
-				null, 3, 0, 3, 0 ); //$NON-NLS-1$
+				null, 3, 0, 3, 0 );
 		assertEquals( "Table", table2.getElement( ).getIdentifier( ) ); //$NON-NLS-1$
 
 		row = (RowHandle) table2.getDetail( ).get( 0 );

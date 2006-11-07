@@ -34,8 +34,6 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StructureIterator;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.TemplateElementHandle;
-import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -58,7 +56,6 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -490,8 +487,7 @@ public class PropertyCommandTest extends BaseTestCase
 	{
 		StyleElement style = design.findStyle( "Style1" ); //$NON-NLS-1$
 		AddItemRule( style, false );
-		saveOperate(
-				"PropertyCommandTest_4.out", "PropertyCommandTest_golden_4.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+		saveOperate( "PropertyCommandTest_golden_4.xml" );//$NON-NLS-1$
 
 		// delete latest new added style
 
@@ -503,7 +499,7 @@ public class PropertyCommandTest extends BaseTestCase
 		style = design.findStyle( "Style2" ); //$NON-NLS-1$
 		AddItemRule( style, true );
 		saveOperate(
-				"PropertyCommandTest_5.out", "PropertyCommandTest_golden_5.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_5.xml" );//$NON-NLS-1$
 
 		DeleteRule( style );
 
@@ -513,7 +509,7 @@ public class PropertyCommandTest extends BaseTestCase
 		style = design.findStyle( "Style3" ); //$NON-NLS-1$
 		AddItemRule( style, false );
 		saveOperate(
-				"PropertyCommandTest_6.out", "PropertyCommandTest_golden_6.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_6.xml" );//$NON-NLS-1$
 
 	}
 
@@ -1157,7 +1153,7 @@ public class PropertyCommandTest extends BaseTestCase
 		propHandle.addItem( rule );
 
 		saveOperate(
-				"PropertyCommandTest.out", "PropertyCommandTest_golden.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden.xml" );//$NON-NLS-1$
 
 		// replace item operation
 
@@ -1167,16 +1163,16 @@ public class PropertyCommandTest extends BaseTestCase
 		ruleNew.setProperty( propDefn, "NewItem" ); //$NON-NLS-1$
 		propHandle.replaceItem( rule, ruleNew );
 		saveOperate(
-				"PropertyCommandTest_1.out", "PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$
 
 		// undo , redo to test if the result is equal to excepted value
 
 		design.getActivityStack( ).undo( );
 		saveOperate(
-				"PropertyCommandTest_2.out", "PropertyCommandTest_golden_2.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_2.xml" );//$NON-NLS-1$
 		design.getActivityStack( ).redo( );
 		saveOperate(
-				"PropertyCommandTest_3.out", "PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$
 
 	}
 
@@ -1290,11 +1286,10 @@ public class PropertyCommandTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	private void saveOperate( String saveFile, String compareFile )
-			throws Exception
+	private void saveOperate( String compareFile ) throws Exception
 	{
-		saveAs( saveFile );
-		assertTrue( compareTextFile( compareFile, saveFile ) );
+		save( );
+		assertTrue( compareTextFile( compareFile ) );
 	}
 
 	/**
@@ -1352,7 +1347,7 @@ public class PropertyCommandTest extends BaseTestCase
 		// save check result
 
 		saveOperate(
-				"PropertyCommandTest_7.out", "PropertyCommandTest_golden_7.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_7.xml" );//$NON-NLS-1$
 
 		// remove the last rule.
 
@@ -1417,7 +1412,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
 
 		saveOperate(
-				"PropertyCommandTest_11.out", "PropertyCommandTest_golden_11.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_11.xml" );//$NON-NLS-1$
 
 	}
 
@@ -1455,25 +1450,25 @@ public class PropertyCommandTest extends BaseTestCase
 
 		propHandle.moveItem( 0, 2 );
 		saveOperate(
-				"PropertyCommandTest_9.out", "PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
 
 		// undo and check result
 
 		design.getActivityStack( ).undo( );
 		saveOperate(
-				"PropertyCommandTest_10.out", "PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
 
 		// redo and check result
 
 		design.getActivityStack( ).redo( );
 		saveOperate(
-				"PropertyCommandTest_9.out", "PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
 
 		// move Item to the end of the list.
 
 		propHandle.moveItem( 0, rules.size( ) );
 		saveOperate(
-				"PropertyCommandTest_10.out", "PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$ //$NON-NLS-2$
+				"PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
 
 		// move item from null structure list
 

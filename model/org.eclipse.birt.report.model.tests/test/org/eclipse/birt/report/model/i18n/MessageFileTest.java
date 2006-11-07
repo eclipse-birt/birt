@@ -61,7 +61,7 @@ public class MessageFileTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		props.load( ModelResourceHandle.class.getResourceAsStream( MESSAGE_FILE ) ); //$NON-NLS-1$
+		props.load( ModelResourceHandle.class.getResourceAsStream( MESSAGE_FILE ) );
 		this.gatherDisplayNameIDs( );
 	}
 
@@ -75,7 +75,7 @@ public class MessageFileTest extends BaseTestCase
 	private void gatherDisplayNameIDs( ) throws IOException
 	{
 		BufferedReader br = new BufferedReader( new InputStreamReader(
-				ReportDesign.class.getResourceAsStream( ROM_FILE ) ) ); //$NON-NLS-1$
+				ReportDesign.class.getResourceAsStream( ROM_FILE ) ) );
 
 		String line = null;
 		int lineCount = 0;

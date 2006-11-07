@@ -180,8 +180,8 @@ public class ModuleTest extends BaseTestCase
 
 		openDesign( idFileName );
 		assertNotNull( designHandle );
-		saveAs( "ModuleTest_out_2.xml" ); //$NON-NLS-1$
-		compareTextFile( "ModuleTest_golden_2.xml", "ModuleTest_out_2.xml" ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "ModuleTest_golden_2.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -198,8 +198,8 @@ public class ModuleTest extends BaseTestCase
 		// save it
 
 		String goldenFileName = "ModuleTest_golden.xml"; //$NON-NLS-1$
-		saveAs( "ModuleTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( goldenFileName, "ModuleTest_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( goldenFileName) );
 	}
 
 	/**
@@ -324,5 +324,5 @@ public class ModuleTest extends BaseTestCase
 		assertEquals( "Data Set2", setHandle.getName( ) );//$NON-NLS-1$
 
 	}
-	
+
 }

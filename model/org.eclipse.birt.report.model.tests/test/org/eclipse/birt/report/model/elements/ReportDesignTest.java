@@ -102,7 +102,7 @@ public class ReportDesignTest extends BaseTestCase
 	{
 		//get design and instance of ElementFactory class
 
-		openDesign( fileName, ULocale.ENGLISH ); //$NON-NLS-1$
+		openDesign( fileName, ULocale.ENGLISH );
 		ElementFactory elementFactory = new ElementFactory( design );
 
 		//name is required but set name is null
@@ -140,8 +140,7 @@ public class ReportDesignTest extends BaseTestCase
 		assertTrue( design.isFileExist(
 				"ReportDesignTest.xml", IResourceLocator.IMAGE ) ); //$NON-NLS-1$
 
-		base = this.getClass( )
-				.getResource( "input/ReportDesignTest.xml" ).getFile( ); //$NON-NLS-1$
+		base = getResource( "input/ReportDesignTest.xml" ).getFile( ); //$NON-NLS-1$
 		base = URLDecoder.decode( base, "UTF-8" ); //$NON-NLS-1$
 		design.setFileName( base );
 		assertTrue( design.isFileExist(

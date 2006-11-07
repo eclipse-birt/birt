@@ -54,9 +54,8 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	private CssStyleSheetHandle loadStyleSheet( String fileName )
 			throws Exception
 	{
-		fileName = getFullQualifiedClassName( ) + INPUT_FOLDER + fileName;
-		InputStream is = StyleSheetLoaderTest.class
-				.getResourceAsStream( fileName );
+		fileName = INPUT_FOLDER + fileName;
+		InputStream is = getResourceAStream( fileName );
 		return designHandle.openCssStyleSheet( is );
 	}
 

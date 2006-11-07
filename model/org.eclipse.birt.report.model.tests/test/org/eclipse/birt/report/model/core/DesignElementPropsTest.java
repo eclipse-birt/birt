@@ -12,7 +12,8 @@
 package org.eclipse.birt.report.model.core;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -163,15 +164,16 @@ public class DesignElementPropsTest extends BaseTestCase
 			throws Exception
 	{
 		boolean isIdentical = true;
-		goldenFile = getClassFolder( ) + GOLDEN_FOLDER + goldenFile;
-		BufferedReader reader = new BufferedReader( new FileReader( goldenFile ) );
+		goldenFile = GOLDEN_FOLDER + goldenFile;
+		InputStream is = getResourceAStream( goldenFile );
+		BufferedReader reader = new BufferedReader( new InputStreamReader( is ) );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			String item = ( (PropertyDefn) list.get( i ) ).getName( );
 			String line = reader.readLine( );
 			if ( !item.equals( line ) )
 			{
-				 System.out.print( "line number:" + i ); //$NON-NLS-1$
+				System.out.print( "line number:" + i ); //$NON-NLS-1$
 				System.out.println( "\t" ); //$NON-NLS-1$
 				System.out.println( "item:" + item + "\tline:" + line + "\n" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 				isIdentical = false;

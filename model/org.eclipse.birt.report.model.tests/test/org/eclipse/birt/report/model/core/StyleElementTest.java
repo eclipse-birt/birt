@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.core;
 
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -109,7 +110,7 @@ public class StyleElementTest extends BaseTestCase
 	{
 		super.setUp( );
 
-		SessionHandle sessionHandle = DesignEngine.newSession( (ULocale) null );
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( )).newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 
 		DesignElementHandle handle = designHandle.getElementFactory( )
@@ -337,7 +338,7 @@ public class StyleElementTest extends BaseTestCase
 			NameException
 	{
 
-		sessionHandle = DesignEngine.newSession( (ULocale) null );
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle( (ULocale) null );
 		designHandle = sessionHandle.createDesign( );
 
 		tableSelector = designHandle.getElementFactory( ).newStyle( "table" ); //$NON-NLS-1$
@@ -513,6 +514,10 @@ public class StyleElementTest extends BaseTestCase
 		assertFalse( clientListenerList2.done );
 	}
 
+	/**
+	 * 
+	 * @throws SemanticException
+	 */
 	public void testBroadcastForReportSelector( ) throws SemanticException
 	{
 
@@ -541,14 +546,14 @@ public class StyleElementTest extends BaseTestCase
 	{
 
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"table" );
-		ListHandle list = designHandle.getElementFactory( ).newList( "list" );
+				"table" ); //$NON-NLS-1$
+		ListHandle list = designHandle.getElementFactory( ).newList( "list" ); //$NON-NLS-1$
 
 		designHandle.getBody( ).add( table );
 		designHandle.getBody( ).add( list );
 
 		StyleHandle style = designHandle.getElementFactory( )
-				.newStyle( "table" );
+				.newStyle( "table" ); //$NON-NLS-1$
 
 		designHandle.getStyles( ).add( style );
 
@@ -560,7 +565,7 @@ public class StyleElementTest extends BaseTestCase
 		assertFalse( clientListener1.done );
 		assertFalse( clientListener2.done );
 
-		style.setName( "list" );
+		style.setName( "list" ); //$NON-NLS-1$
 
 		assertTrue( clientListener1.done );
 		assertTrue( clientListener2.done );

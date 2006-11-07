@@ -123,10 +123,9 @@ public class DesignElementCloneTest extends BaseTestCase
 		designHandle.rename( grid.getHandle( design ) );
 		designHandle.getBody( ).paste( grid.getHandle( design ) );
 
-		saveAs( "DesignElementCloneTest_gridClone.xml" ); //$NON-NLS-1$
+		save( );
 
-		assertTrue( compareTextFile(
-				"DeisgnElementCloneTest_gridClone_golden.xml", "DesignElementCloneTest_gridClone.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue( compareTextFile( "DeisgnElementCloneTest_gridClone_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -167,9 +166,8 @@ public class DesignElementCloneTest extends BaseTestCase
 				GraphicMasterPage.CONTENT_SLOT ).paste(
 				image.getHandle( design ) );
 
-		saveAs( "DesignElementCloneTest_ImageClone_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"DesignElementCloneTest_ImageClone_golden.xml", "DesignElementCloneTest_ImageClone_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "DesignElementCloneTest_ImageClone_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -218,10 +216,8 @@ public class DesignElementCloneTest extends BaseTestCase
 		design.makeUniqueName( label );
 		designHandle.getBody( ).paste( label.getHandle( design ) );
 
-		saveAs( "DesignElementCloneTest_ExtendedClone_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"DesignElementCloneTest_ExtendedClone_golden.xml", //$NON-NLS-1$
-				"DesignElementCloneTest_ExtendedClone_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "DesignElementCloneTest_ExtendedClone_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -31,27 +29,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class StyleExceptionTest extends BaseTestCase
 {
 
-	private PrintWriter writer;
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		writer = new PrintWriter( new FileOutputStream( outputFolder
-				+ File.separator + "StyleExceptionError.out.txt" ) ); //$NON-NLS-1$
-
-	}
-
 	/**
 	 * Tests the error message.
 	 * 
@@ -60,34 +37,50 @@ public class StyleExceptionTest extends BaseTestCase
 
 	public void testErrorMessages( ) throws Exception
 	{
-
 		DesignElement table = new TableItem( );
+		os = new ByteArrayOutputStream( );
 		table.setName( "customerTable" ); //$NON-NLS-1$
 
-		StyleException error = new StyleException( table, "style1", StyleException.DESIGN_EXCEPTION_FORBIDDEN ); //$NON-NLS-1$
+		StyleException error = new StyleException( table,
+				"style1", StyleException.DESIGN_EXCEPTION_FORBIDDEN ); //$NON-NLS-1$
 		print( error );
 
-		error = new StyleException( table, "style1", StyleException.DESIGN_EXCEPTION_NOT_FOUND ); //$NON-NLS-1$
+		error = new StyleException( table,
+				"style1", StyleException.DESIGN_EXCEPTION_NOT_FOUND ); //$NON-NLS-1$
 		print( error );
 
-		writer.close( );
+		os.close( );
 
 		assertTrue( compareTextFile(
-				"StyleExceptionError.golden.txt", "StyleExceptionError.out.txt" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"StyleExceptionError.golden.txt") ); //$NON-NLS-1$
 
 	}
 
 	private void print( StyleException error )
 	{
-		writer.write( error.getErrorCode( ) );
-		for ( int i = error.getErrorCode( ).length( ); i < 60; i++ )
-			writer.write( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write( code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' ' );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
-	
+
+	/**
+	 * 
+	 *
+	 */
 	public void testModelException( )
 	{
-		ModelException e = new SemanticException( new Label( ), "test error code" ); //$NON-NLS-1$
+		ModelException e = new SemanticException( new Label( ),
+				"test error code" ); //$NON-NLS-1$
 		assertEquals( ModelException.PLUGIN_ID, e.getPluginId( ) );
 	}
 

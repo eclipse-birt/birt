@@ -23,8 +23,12 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CircularExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsEvent;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
+import org.eclipse.birt.report.model.api.command.InvalidParentException;
+import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -269,7 +273,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		catch ( ExtendsException e )
 		{
 			assertEquals( e.getErrorCode( ),
-					ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
+					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 		}
 
 		// 2. Parent can not be the real father of element, WRONG_TYPE
@@ -283,13 +287,13 @@ public class ExtendsCommandTest extends BaseTestCase
 
 		try
 		{
-			element.getHandle( design ).setExtendsName( parent.getName( ) ); //$NON-NLS-1$
+			element.getHandle( design ).setExtendsName( parent.getName( ) );
 			fail( );
 		}
 		catch ( ExtendsException e1 )
 		{
 			assertEquals( e1.getErrorCode( ),
-					ExtendsException.DESIGN_EXCEPTION_WRONG_TYPE );
+					WrongTypeException.DESIGN_EXCEPTION_WRONG_TYPE );
 		}
 
 		// 3. Self extends.
@@ -303,7 +307,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		catch ( ExtendsException e2 )
 		{
 			assertEquals( e2.getErrorCode( ),
-					ExtendsException.DESIGN_EXCEPTION_SELF_EXTEND );
+					CircularExtendsException.DESIGN_EXCEPTION_SELF_EXTEND );
 		}
 
 		// tests non-extendable element.
@@ -317,7 +321,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		catch ( ExtendsException e )
 		{
 			assertEquals( e.getErrorCode( ),
-					ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
+					ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND );
 		}
 
 	}
@@ -352,7 +356,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		catch ( ExtendsException e1 )
 		{
 			assertEquals( e1.getErrorCode( ),
-					ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
+					CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 
 		// circular references among three elements
@@ -368,7 +372,7 @@ public class ExtendsCommandTest extends BaseTestCase
 		catch ( ExtendsException e1 )
 		{
 			assertEquals( e1.getErrorCode( ),
-					ExtendsException.DESIGN_EXCEPTION_CIRCULAR );
+					CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 	}
 
@@ -457,7 +461,8 @@ public class ExtendsCommandTest extends BaseTestCase
 		}
 		catch ( ExtendsException e )
 		{
-			assertEquals( ExtendsException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN,
+			assertEquals(
+					ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN,
 					e.getErrorCode( ) );
 		}
 
@@ -469,7 +474,8 @@ public class ExtendsCommandTest extends BaseTestCase
 		}
 		catch ( ExtendsException e )
 		{
-			assertEquals( ExtendsException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN,
+			assertEquals(
+					ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN,
 					e.getErrorCode( ) );
 		}
 
@@ -477,11 +483,12 @@ public class ExtendsCommandTest extends BaseTestCase
 
 	/**
 	 * Test localize element.
+	 * 
 	 * @throws DesignFileException
 	 * @throws IOException
 	 * @throws SemanticException
 	 */
-	
+
 	public void testLocalizeElement( ) throws DesignFileException, IOException,
 			SemanticException
 	{
@@ -573,9 +580,9 @@ public class ExtendsCommandTest extends BaseTestCase
 		// defined on "Style1"
 
 		assertEquals( null, innerLabel1.getElement( ).getLocalProperty( module,
-				Style.COLOR_PROP ) ); //$NON-NLS-1$
+				Style.COLOR_PROP ) );
 		assertEquals( null, innerLabel1.getElement( ).getLocalProperty( module,
-				Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
+				Style.FONT_SIZE_PROP ) );
 
 		// list property on inner grid item.
 
@@ -594,18 +601,18 @@ public class ExtendsCommandTest extends BaseTestCase
 
 		List localMapRules = (List) grid1.getLocalProperty( module,
 				Style.MAP_RULES_PROP );
-		assertEquals( 2, localMapRules.size() );
+		assertEquals( 2, localMapRules.size( ) );
 
 		Structure numberFormat = (Structure) grid1.getLocalProperty( module,
 				Style.NUMBER_FORMAT_PROP );
 		assertEquals( "Currency", numberFormat.getProperty( module, //$NON-NLS-1$
 				NumberFormatValue.CATEGORY_MEMBER ) );
 
-		saveAs( "ExtendsCommandTest2.out" ); //$NON-NLS-1$
-		
-		design.getActivityStack().undo();
-		design.getActivityStack().undo();
-		saveAs( "ExtendsCommandTest3.out" ); //$NON-NLS-1$
+		save( );
+
+		design.getActivityStack( ).undo( );
+		design.getActivityStack( ).undo( );
+		save( );
 	}
 
 	/**

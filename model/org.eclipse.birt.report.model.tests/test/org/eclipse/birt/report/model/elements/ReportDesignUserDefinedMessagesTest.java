@@ -98,14 +98,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 {
 
-	/*
-	 * @see BaseTestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
 	/**
 	 * test getMessage().
 	 * <p>
@@ -153,30 +145,29 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 
 		title = design.getMessage( "ResourceKey.testKey1" ); //$NON-NLS-1$
 		assertEquals( "default translation1", title ); //$NON-NLS-1$
-        
-        designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
-		
-        // en_US
-        ThreadResources.setLocale( ULocale.US ); 
-        
-        // In default && en_US
-        assertEquals( "en_US for A", designHandle.getMessage( "A") );  //$NON-NLS-1$//$NON-NLS-2$
-        
-        // Only in en_US
-        assertEquals( "en_US for D", designHandle.getMessage( "D") );  //$NON-NLS-1$//$NON-NLS-2$
-        
-        // Only in en
-        assertEquals( "en for C", designHandle.getMessage( "C" )); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        // Only in default
-        assertEquals( "default for B", designHandle.getMessage( "B") );  //$NON-NLS-1$//$NON-NLS-2$
-        
-        // not found
-        assertEquals( "", designHandle.getMessage( "non-exsit-key") );  //$NON-NLS-1$//$NON-NLS-2$
-        
+
+		designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
+
+		// en_US
+		ThreadResources.setLocale( ULocale.US );
+
+		// In default && en_US
+		assertEquals( "en_US for A", designHandle.getMessage( "A" ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+		// Only in en_US
+		assertEquals( "en_US for D", designHandle.getMessage( "D" ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+		// Only in en
+		assertNull( designHandle.getMessage( "C" ) ); //$NON-NLS-1$
+
+		// Only in default
+		assertNull( designHandle.getMessage( "B" ) ); //$NON-NLS-1$
+
+		// not found
+		assertNull( designHandle.getMessage( "non-exsit-key" ) ); //$NON-NLS-1$
 	}
-    
-    /**
+
+	/**
 	 * Get a message.
 	 * 
 	 * @throws DesignFileException
@@ -201,37 +192,36 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 				"ResourceKey.testKey2", new ULocale( "fr", "CA" ) ); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 		assertEquals( "text default", text ); //$NON-NLS-1$
 
-        assertEquals( "", design.getMessage( "" ));  //$NON-NLS-1$//$NON-NLS-2$
-        assertEquals( "", design.getMessage( null ));  //$NON-NLS-1$//$NON-NLS-2$
+		assertNull( design.getMessage( "" ) ); //$NON-NLS-1$
+		assertNull( design.getMessage( null ) );
 	}
 
-    /**
-     * Test getMessageKeys().
-     * @throws DesignFileException
-     */
-    
-    public void testGetMessageKeys() throws DesignFileException
-    {
-    	openDesign( "ReportDesignUserDefinedMessagesTest2.xml", ULocale.ENGLISH ); //$NON-NLS-1$      
-        designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
-        ThreadResources.setLocale( ULocale.US );
+	/**
+	 * Test getMessageKeys().
+	 * 
+	 * @throws DesignFileException
+	 */
 
-        List keys = design.getMessageKeys();
-        assertEquals( 6, keys.size() );
-       
-        assertTrue( keys.contains( "ResourceKey.ReportDesign.Title" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "ResourceKey.ReportDesign.Description" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "A" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "B" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "C" ) ); //$NON-NLS-1$
-        assertTrue( keys.contains( "D" ) ); //$NON-NLS-1$
-        
-        designHandle.setIncludeResource( "none-exsit" ); //$NON-NLS-1$
-        keys = designHandle.getMessageKeys();
-        assertEquals( 2, keys.size() );
-        
-    }
-    
+	public void testGetMessageKeys( ) throws DesignFileException
+	{
+		openDesign( "ReportDesignUserDefinedMessagesTest2.xml", ULocale.ENGLISH ); //$NON-NLS-1$      
+		designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
+		ThreadResources.setLocale( ULocale.US );
+
+		List keys = design.getMessageKeys( );
+		assertEquals( 4, keys.size( ) );
+
+		assertTrue( keys.contains( "ResourceKey.ReportDesign.Title" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "ResourceKey.ReportDesign.Description" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "A" ) ); //$NON-NLS-1$
+		assertTrue( keys.contains( "D" ) ); //$NON-NLS-1$
+
+		designHandle.setIncludeResource( "none-exsit" ); //$NON-NLS-1$
+		keys = designHandle.getMessageKeys( );
+		assertEquals( 2, keys.size( ) );
+
+	}
+
 	/**
 	 * test getTranslations(). 1. 6 translations is defined in design file, the
 	 * list returned contains 6 translations.
@@ -272,7 +262,7 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 	 * <p>
 	 * 
 	 * @throws DesignFileException
-	 *  
+	 * 
 	 */
 	public void testFindTranslation( ) throws DesignFileException
 	{
@@ -285,8 +275,7 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 				"ResourceKey.ReportDesign.Description", "aa" ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( "\u5B9E\u4F8B\u62A5\u8868", translation.getText( ) ); //$NON-NLS-1$
 
-		translation = design.findTranslation(
-				"None-exsit-resource-key", "aa" ); //$NON-NLS-1$ //$NON-NLS-2$
+		translation = design.findTranslation( "None-exsit-resource-key", "aa" ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNull( translation );
 	}
 
@@ -312,7 +301,7 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 	 * Test semantic check.
 	 * 
 	 * @throws Exception
-	 *  
+	 * 
 	 */
 	public void testTranslationSemanticCheck( ) throws Exception
 	{
@@ -329,12 +318,14 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 
 			ErrorDetail detail = (ErrorDetail) list.get( 0 );
 
-			assertEquals( DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE,
+			assertEquals(
+					DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE,
 					detail.getErrorCode( ) );
 
 			detail = (ErrorDetail) list.get( 1 );
 
-			assertEquals( DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED,
+			assertEquals(
+					DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED,
 					detail.getErrorCode( ) );
 		}
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -101,7 +102,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class StyleCommandTest extends BaseTestCase
 {
 
-	StyleElement style;
+	SharedStyleHandle style;
 
 	private static final String fileName = "StyleCommandTest.xml";//$NON-NLS-1$
 
@@ -117,7 +118,7 @@ public class StyleCommandTest extends BaseTestCase
 		assertNotNull( design );
 		assertNotNull( designHandle );
 
-		style = design.findStyle( "My Style" ); //$NON-NLS-1$
+		style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -194,16 +195,16 @@ public class StyleCommandTest extends BaseTestCase
 
 		// set style value to helloStyle
 
-		element.getHandle( design ).setStyleElement( style );
+		element.getHandle( design ).setStyle( style );
 
-		assertEquals( style, element.getStyle( ) );
+		assertEquals( style.getElement( ), element.getStyle( ) );
 
 		// execute undo and redo operate to test if value is changed or not
 
 		undoOperate( element, cs );
 		redoOperate( element, cs );
 
-		element.getHandle( design ).setStyleElement( null ); //$NON-NLS-1$
+		element.getHandle( design ).setStyle( null );
 
 		assertNull( element.getStyle( ) );
 
@@ -224,8 +225,8 @@ public class StyleCommandTest extends BaseTestCase
 
 	public void testNotification( ) throws Exception
 	{
-		StyleElement style1 = design.findStyle( "Style1" ); //$NON-NLS-1$
-		assertNull( style1.getProperty( design, Style.HIGHLIGHT_RULES_PROP ) );
+		SharedStyleHandle style1 = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
+		assertNull( style1.getProperty( Style.HIGHLIGHT_RULES_PROP ) );
 
 		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
 		designHandle.getBody( ).add( label );
@@ -233,7 +234,7 @@ public class StyleCommandTest extends BaseTestCase
 
 		label.addListener( listener );
 
-		label.setStyleElement( style1 );
+		label.setStyle( style1 );
 
 		assertTrue( listener.styleChanged );
 
@@ -285,7 +286,7 @@ public class StyleCommandTest extends BaseTestCase
 		// first redo , then style is helloStyle
 
 		cs.redo( );
-		assertEquals( style, labelElement.getStyle( ) );
+		assertEquals( style.getElement( ), labelElement.getStyle( ) );
 		assertFalse( cs.canRedo( ) );
 		assertTrue( cs.canUndo( ) );
 
@@ -339,28 +340,30 @@ public class StyleCommandTest extends BaseTestCase
 
 		// no clients, must be 0
 
-		assertEquals( style.getClientList( ).size( ), 0 );
+		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
+				.size( ), 0 );
 
 		// sets one client to this style.
 
-		label.getHandle( design ).setStyleElement( style );
-		assertEquals( style.getClientList( ).size( ), 1 );
+		label.getHandle( design ).setStyle( style );
+		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
+				.size( ), 1 );
 
-		style.getHandle( design ).setName( "new style" ); //$NON-NLS-1$
+		style.setName( "new style" ); //$NON-NLS-1$
 		assertEquals( "new style", //$NON-NLS-1$
 				label.getStyleName( ) );
 
 		// remove the style from its client.
 
-		label.getHandle( design ).setStyleElement( null );
-		assertEquals( style.getClientList( ).size( ), 0 );
+		label.getHandle( design ).setStyle( null );
+		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
+				.size( ), 0 );
 
 		// restore style name.
 
-		style = new Style( "new named style" ); //$NON-NLS-1$
-		designHandle.getSlot( IReportDesignModel.STYLE_SLOT ).add(
-				style.getHandle( design ) );
-		label.getHandle( design ).setStyleElement( style );
+		style = designHandle.getElementFactory( ).newStyle( "new named style" ); //$NON-NLS-1$
+		designHandle.getSlot( IReportDesignModel.STYLE_SLOT ).add( style );
+		label.getHandle( design ).setStyle( style );
 
 		Label label1 = new Label( );
 		label.getHandle( design ).setName( "label" ); //$NON-NLS-1$
@@ -384,8 +387,8 @@ public class StyleCommandTest extends BaseTestCase
 		 * change style X to use Style T, then style Y should still use style S.
 		 */
 
-		label1.getHandle( design ).setStyleElement( style );
-		assertEquals( style.getClientList( ).size( ), 2 );
+		label1.getHandle( design ).setStyle( style );
+		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( ).size( ), 2 );
 		assertEquals( "new named style", //$NON-NLS-1$
 				label1.getStyleName( ) );
 

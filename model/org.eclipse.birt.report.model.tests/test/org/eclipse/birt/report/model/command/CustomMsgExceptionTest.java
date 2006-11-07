@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
@@ -29,27 +28,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class CustomMsgExceptionTest extends BaseTestCase
 {
 
-	private PrintWriter writer;
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		writer = new PrintWriter( new FileOutputStream( outputFolder
-				+ File.separator + "CustomMsgExceptionError.out.txt" ) ); //$NON-NLS-1$
-
-	}
-
 	/**
 	 * Tests the error message.
 	 * 
@@ -59,8 +37,10 @@ public class CustomMsgExceptionTest extends BaseTestCase
 	public void testErrorMessages( ) throws Exception
 	{
 
-		SessionHandle session = DesignEngine.newSession( TEST_LOCALE );
+		SessionHandle session = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( TEST_LOCALE );
 		ReportDesign report = session.createDesign( ).getDesign( );
+		os = new ByteArrayOutputStream();
 
 		CustomMsgException error = new CustomMsgException( report,
 				CustomMsgException.DESIGN_EXCEPTION_RESOURCE_KEY_REQUIRED );
@@ -80,19 +60,27 @@ public class CustomMsgExceptionTest extends BaseTestCase
 				CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND );
 		print( error );
 
-		writer.close();
-		
-		assertTrue( compareTextFile( "CustomMsgExceptionError.golden.txt", //$NON-NLS-1$
-				"CustomMsgExceptionError.out.txt" ) ); //$NON-NLS-1$
+		os.close( );
+
+		assertTrue( compareTextFile( "CustomMsgExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 
 	private void print( CustomMsgException error )
 	{
-		writer.write( error.getErrorCode( ) );
-		for ( int i = error.getErrorCode( ).length( ); i < 60; i++ )
-			writer.write( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write( code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' ' );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
 
 }

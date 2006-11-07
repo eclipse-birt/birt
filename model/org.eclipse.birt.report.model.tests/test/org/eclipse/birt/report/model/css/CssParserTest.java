@@ -24,109 +24,126 @@ import org.eclipse.birt.report.model.css.property.PropertyParser;
  * Test case
  * 
  * 
- * @version $Revision: 1.1 $ $Date: 2005/09/29 03:50:22 $
+ * @version $Revision: 1.1 $ $Date: 2006/10/30 02:40:08 $
  */
 public class CssParserTest extends TestCase
 {
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testBackground( ) throws Exception
 	{
-		String style = "url(\"chess.png\") gray 50% repeat fixed ";
+		String style = "url(\"chess.png\") gray 50% repeat fixed "; //$NON-NLS-1$
 		PropertyParser parser = new PropertyParser( new StringReader( style ) );
 		parser.parseBackground( );
 		HashMap result = parser.getCssProperties( );
-		assertEquals( result.get( "background-image" ), "url(\"chess.png\")" );
-		assertEquals( result.get( "background-color" ), "gray" );
-		assertEquals( result.get( "background-position" ), "50%" );
-		assertEquals( result.get( "background-repeat" ), "repeat" );
-		assertEquals( result.get( "background-attachment" ), "fixed" );
-		
-		style = "#ccc";
+		assertEquals( result.get( "background-image" ), "url(\"chess.png\")" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "background-color" ), "gray" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "background-position" ), "50%" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "background-repeat" ), "repeat" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "background-attachment" ), "fixed" ); //$NON-NLS-1$//$NON-NLS-2$
+
+		style = "#ccc"; //$NON-NLS-1$
 		parser.ReInit( new StringReader( style ) );
 		parser.parseBackground( );
 		result = parser.getCssProperties( );
-		assertEquals( "#ccc", result.get( "background-color" ) );
+		assertEquals( "#ccc", result.get( "background-color" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testFont( ) throws Exception
 	{
-		String style = "12px/14px sans-serif ";
+		String style = "12px/14px sans-serif "; //$NON-NLS-1$
 		PropertyParser parser = new PropertyParser( new StringReader( style ) );
 		parser.parseFont( );
 		HashMap result = parser.getCssProperties( );
-		//		assertEquals( result.get( "font-weight" ), "bold" );
-		//		assertEquals( result.get( "font-style" ), "italic" );
-		assertEquals( result.get( "font-size" ), "12px" );
-		assertEquals( result.get( "line-height" ), "14px" );
-		assertEquals( result.get( "font-family" ), "sans-serif" );
+		// assertEquals( result.get( "font-weight" ), "bold" );
+		// assertEquals( result.get( "font-style" ), "italic" );
+		assertEquals( result.get( "font-size" ), "12px" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "line-height" ), "14px" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-family" ), "sans-serif" ); //$NON-NLS-1$//$NON-NLS-2$
 
-		parser.ReInit( new StringReader( " 80% sans-serif " ) );
+		parser.ReInit( new StringReader( " 80% sans-serif " ) ); //$NON-NLS-1$
 		parser.parseFont( );
 		result = parser.getCssProperties( );
-		//		assertEquals( result.get( "font-weight" ), "bold" );
-		//		assertEquals( result.get( "font-style" ), "italic" );
-		assertEquals( result.get( "font-size" ), "80%" );
-		assertEquals( result.get( "font-family" ), "sans-serif" );
+		// assertEquals( result.get( "font-weight" ), "bold" );
+		// assertEquals( result.get( "font-style" ), "italic" );
+		assertEquals( result.get( "font-size" ), "80%" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-family" ), "sans-serif" ); //$NON-NLS-1$//$NON-NLS-2$
 
 		parser.ReInit( new StringReader(
-				" x-large/110% \"New Century Schoolbook\", serif " ) );
+				" x-large/110% \"New Century Schoolbook\", serif " ) ); //$NON-NLS-1$
 		parser.parseFont( );
 		result = parser.getCssProperties( );
-		assertEquals( result.get( "font-size" ), "x-large" );
-		assertEquals( result.get( "line-height" ), "110%" );
-		assertEquals( result.get( "font-family" ),
-				"\"New Century Schoolbook\",serif" );
+		assertEquals( result.get( "font-size" ), "x-large" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "line-height" ), "110%" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals(
+				result.get( "font-family" ), "\"New Century Schoolbook\",serif" ); //$NON-NLS-1$//$NON-NLS-2$
 
 		parser
 				.ReInit( new StringReader(
-						" bold italic large Palatino, serif " ) );
+						" bold italic large Palatino, serif " ) ); //$NON-NLS-1$
 		parser.parseFont( );
 		result = parser.getCssProperties( );
-		assertEquals( result.get( "font-weight" ), "bold" );
-		assertEquals( result.get( "font-style" ), "italic" );
-		assertEquals( result.get( "font-size" ), "large" );
-		assertEquals( result.get( "font-family" ), "Palatino,serif" );
+		assertEquals( result.get( "font-weight" ), "bold" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-style" ), "italic" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-size" ), "large" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-family" ), "Palatino,serif" ); //$NON-NLS-1$//$NON-NLS-2$
 
 		parser.ReInit( new StringReader(
-				" normal small-caps 120%/120% fantasy " ) );
+				" normal small-caps 120%/120% fantasy " ) ); //$NON-NLS-1$
 		parser.parseFont( );
 		result = parser.getCssProperties( );
-		assertEquals( result.get( "font-weight" ), "normal" );
-		assertEquals( result.get( "font-style" ), "normal" );
-		assertEquals( result.get( "font-variant" ), "small-caps" );
-		assertEquals( result.get( "font-size" ), "120%" );
-		assertEquals( result.get( "line-height" ), "120%" );
-		assertEquals( result.get( "font-family" ), "fantasy" );
+		assertEquals( result.get( "font-weight" ), "normal" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-style" ), "normal" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-variant" ), "small-caps" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-size" ), "120%" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "line-height" ), "120%" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "font-family" ), "fantasy" ); //$NON-NLS-1$//$NON-NLS-2$
 
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testBorderWidth( ) throws Exception
 	{
-		String style = "medium thin";
+		String style = "medium thin"; //$NON-NLS-1$
 		PropertyParser parser = new PropertyParser( new StringReader( style ) );
 		parser.parseBorderWidth( );
 		HashMap result = parser.getCssProperties( );
-		assertEquals( result.get( "border-top-width" ), "medium" );
-		assertEquals( result.get( "border-right-width" ), "thin" );
-		assertEquals( result.get( "border-bottom-width" ), "medium" );
-		assertEquals( result.get( "border-left-width" ), "thin" );
-		
-		style = "1em";
+		assertEquals( result.get( "border-top-width" ), "medium" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "border-right-width" ), "thin" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "border-bottom-width" ), "medium" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "border-left-width" ), "thin" ); //$NON-NLS-1$//$NON-NLS-2$
+
+		style = "1em"; //$NON-NLS-1$
 		parser.ReInit( new StringReader( style ) );
 		parser.parsePadding( );
 		result = parser.getCssProperties( );
-		assertEquals( result.get( "padding-top" ), "1em" );
-		assertEquals( result.get( "padding-right" ), "1em" );
-		assertEquals( result.get( "padding-bottom" ), "1em" );
-		assertEquals( result.get( "padding-left" ), "1em" );
-	}	
+		assertEquals( result.get( "padding-top" ), "1em" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "padding-right" ), "1em" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "padding-bottom" ), "1em" ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( result.get( "padding-left" ), "1em" ); //$NON-NLS-1$//$NON-NLS-2$
+	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testwithException1( ) throws Exception
 	{
 		try
 		{
-			String style = "1p red double";
-			PropertyParser parser = new PropertyParser( new StringReader( style ) );
+			String style = "1p red double"; //$NON-NLS-1$
+			PropertyParser parser = new PropertyParser(
+					new StringReader( style ) );
 			parser.parseBorder( );
 			fail( );
 		}
@@ -135,15 +152,21 @@ public class CssParserTest extends TestCase
 			assertNotNull( e );
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testFont1( ) throws Exception
 	{
-		// \"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif 2em/120% italic small-caps  bold
-		
-		String style = "italic small-caps  bold 2em/120% \"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif";
+		// \"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax,
+		// sans-serif 2em/120% italic small-caps bold
+
+		String style = "italic small-caps  bold 2em/120% \"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif"; //$NON-NLS-1$
 		PropertyParser parser = new PropertyParser( style );
 		parser.parseFont( );
 		HashMap result = parser.getCssProperties( );
-		assertEquals( "\"Bitstream Vera Sans\",Tahoma,Verdana,\"Myriad Web\",Syntax,sans-serif", result.get( "font-family" ) );
+		assertEquals(
+				"\"Bitstream Vera Sans\",Tahoma,Verdana,\"Myriad Web\",Syntax,sans-serif", result.get( "font-family" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

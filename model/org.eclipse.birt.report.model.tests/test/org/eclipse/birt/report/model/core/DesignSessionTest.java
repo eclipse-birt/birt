@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.net.URL;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -150,12 +151,12 @@ public class DesignSessionTest extends BaseTestCase
 		assertNotNull( design );
 		assertEquals( session, CoreTestUtil.getDesignSession( design ) );
 
-		design = session.openDesign( getClassFolder( )
-				+ "/input/DesignSessionTest.xml" ); //$NON-NLS-1$
+		design = session
+				.openDesign( getResource( "input/DesignSessionTest.xml" ).toString( ) ); //$NON-NLS-1$
 		assertEquals( session, CoreTestUtil.getDesignSession( design ) );
 
-		design = session.openDesign( getClassFolder( )
-				+ "/input/DesignSessionTest.xml" ); //$NON-NLS-1$
+		design = session
+				.openDesign( getResource( "input/DesignSessionTest.xml" ).toString( ) ); //$NON-NLS-1$
 
 		assertEquals( 3, CoreTestUtil.getDesigns( session ).size( ) );
 		session.drop( design );
@@ -176,15 +177,14 @@ public class DesignSessionTest extends BaseTestCase
 	public void testCreateDesignFromTemplate( ) throws DesignFileException
 	{
 		DesignSession session = new DesignSession( null );
-		design = session.createDesignFromTemplate( getClassFolder( )
-				+ "/input/CreateDesignFromTemplateTest.xml" ); //$NON-NLS-1$
+		URL url = getResource( "input/CreateDesignFromTemplateTest.xml" ); //$NON-NLS-1$
+		design = session.createDesignFromTemplate( url.toString( ) );
 
 		Label label = (Label) design.findElement( "Label1" ); //$NON-NLS-1$
 		assertNotNull( label );
 		assertEquals( "Test", label.getProperty( design.getRoot( ), "text" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertEquals(
-				getClassFolder( ) + "/input/CreateDesignFromTemplateTest.xml", design.getFileName( ) );//$NON-NLS-1$ 
+		assertEquals( url.toString( ), design.getFileName( ) );
 
 		TextItem text = (TextItem) design.findElement( "NewText" ); //$NON-NLS-1$ 
 		assertEquals( "blue", text.getProperty( design.getRoot( ), "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -272,7 +272,7 @@ public class DesignSessionTest extends BaseTestCase
 		session.setDefaultValue( Style.FONT_SIZE_PROP, "3cm" ); //$NON-NLS-1$
 
 		assertEquals(
-				"3cm", ( (DimensionValue) session.getDefaultValue( Style.FONT_SIZE_PROP ) ).toString( ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"3cm", ( (DimensionValue) session.getDefaultValue( Style.FONT_SIZE_PROP ) ).toString( ) ); //$NON-NLS-1$
 
 		// set the wrong value for font-size.
 		try

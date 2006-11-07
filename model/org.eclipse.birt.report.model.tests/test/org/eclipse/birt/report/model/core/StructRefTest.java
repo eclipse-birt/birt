@@ -53,6 +53,10 @@ public class StructRefTest extends BaseTestCase
 		super.setUp( );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testSemanticCheck( ) throws Exception
 	{
 		openDesign( fileName_1 );
@@ -63,6 +67,10 @@ public class StructRefTest extends BaseTestCase
 		assertEquals( 1, designHandle.getErrorList( ).size( ) );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testStructReferenceBySet( ) throws Exception
 	{
 		openDesign( fileName );
@@ -125,11 +133,19 @@ public class StructRefTest extends BaseTestCase
 		assertTrue( imageHandle.getElement( ).getErrors( ).size( ) > 0 );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testAddRemoveImageItem( ) throws Exception
 	{
 		openDesign( fileName );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testDeleteAndReplace( ) throws Exception
 	{
 		openDesign( fileName );
@@ -171,6 +187,10 @@ public class StructRefTest extends BaseTestCase
 		assertTrue( imageHandle.getElement( ).getErrors( ).size( ) > 0 );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testAdd( ) throws Exception
 	{
 		openDesign( fileName );
@@ -183,6 +203,10 @@ public class StructRefTest extends BaseTestCase
 		assertNotNull( images );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testSetProperty( ) throws Exception
 	{
 		openDesign( fileName );
@@ -202,6 +226,10 @@ public class StructRefTest extends BaseTestCase
 		assertEquals( "image new", imageHandle.getImageName( ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testSetMember( ) throws Exception
 	{
 		openDesign( fileName );
@@ -236,7 +264,7 @@ public class StructRefTest extends BaseTestCase
 	{
 
 		String imageName = null;
-		public static final String STATUS = " : notification"; //$NON-NLS-1$
+		static final String STATUS = " : notification"; //$NON-NLS-1$
 
 		/*
 		 * (non-Javadoc)
@@ -247,9 +275,13 @@ public class StructRefTest extends BaseTestCase
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )
 		{
-			imageName = focus.getName( ) + STATUS; //$NON-NLS-1$
+			imageName = focus.getName( ) + STATUS;
 		}
 
+		/**
+		 * 
+		 * @return image name
+		 */
 		public String getNotification( )
 		{
 			return imageName;

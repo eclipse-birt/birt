@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -28,27 +26,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class SemanticErrorTest extends BaseTestCase
 {
 
-	private PrintWriter writer;
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		writer = new PrintWriter( new FileOutputStream( outputFolder
-				+ File.separator + "SemanticError.out.txt" ) ); //$NON-NLS-1$
-
-	}
-
 	/**
 	 * Tests the error message.
 	 * 
@@ -59,6 +36,7 @@ public class SemanticErrorTest extends BaseTestCase
 	{
 
 		DesignElement table = new TableItem( );
+		os = new ByteArrayOutputStream( );
 		table.setName( "customerTable" ); //$NON-NLS-1$
 
 		print( table,
@@ -108,42 +86,67 @@ public class SemanticErrorTest extends BaseTestCase
 				SemanticError.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE );
 
 		JointDataSet jointDataSet = new JointDataSet( "JointDataSet" ); //$NON-NLS-1$
-		print2(
-				jointDataSet,
+		print2( jointDataSet,
 				new String[]{"jointDataSet", "leftDataSet"}, //$NON-NLS-1$ //$NON-NLS-2$
 				SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET );
-		writer.close( );
+		os.close( );
 
-		assertTrue( compareTextFile(
-				"SemanticError.golden.txt", "SemanticError.out.txt" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue( compareTextFile( "SemanticError.golden.txt" ) ); //$NON-NLS-1$
 	}
 
 	private void print( DesignElement element, String errorCode )
 	{
 		SemanticError error = new SemanticError( element, errorCode );
-		writer.print( errorCode );
-		for ( int i = errorCode.length( ); i < 60; i++ )
-			writer.print( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write( code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' ' );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
 
 	private void print1( DesignElement element, String value, String errorCode )
 	{
 		SemanticError error = new SemanticError( element, new String[]{value},
 				errorCode );
-		writer.print( errorCode );
-		for ( int i = errorCode.length( ); i < 60; i++ )
-			writer.print( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write( code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' ' );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
 
 	private void print2( DesignElement element, String[] params,
 			String errorCode )
 	{
 		SemanticError error = new SemanticError( element, params, errorCode );
-		writer.print( errorCode );
-		for ( int i = errorCode.length( ); i < 60; i++ )
-			writer.print( " " ); //$NON-NLS-1$
-		writer.println( error.getMessage( ) );
+		String code = error.getErrorCode( );
+		try
+		{
+			os.write( code.getBytes( ) );
+			for ( int i = code.length( ); i < 60; i++ )
+				os.write( ' ' );
+			os.write( error.getMessage( ).getBytes( ) );
+			os.write( '\n' );
+		}
+		catch ( IOException e )
+		{
+			assert false;
+		}
 	}
 }
