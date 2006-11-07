@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
+import org.eclipse.birt.report.context.BaseTaskBean;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 
 /**
@@ -60,7 +61,10 @@ public class BirtUtility
 		synchronized ( map )
 		{
 			if ( taskid != null )
-				map.put( taskid, task );
+			{
+				BaseTaskBean bean = new BaseTaskBean( taskid, task );
+				map.put( taskid, bean );
+			}
 		}
 	}
 
@@ -99,6 +103,46 @@ public class BirtUtility
 		}
 		catch ( Exception e )
 		{
+		}
+	}
+
+	/**
+	 * Cancel the current engine task by task id
+	 * 
+	 * @param request
+	 * @param taskid
+	 * @throws Exception
+	 */
+	public static void cancelTask( HttpServletRequest request, String taskid )
+			throws Exception
+	{
+		if ( taskid == null )
+			return;
+
+		// get task map
+		HttpSession session = request.getSession( );
+		if ( session == null )
+			return;
+
+		Map map = (Map) session.getAttribute( IBirtConstants.TASK_MAP );
+		if ( map != null && map.containsKey( taskid ) )
+		{
+			BaseTaskBean bean = (BaseTaskBean) map.get( taskid );
+			if ( bean == null )
+				return;
+
+			// cancel task
+			IEngineTask task = bean.getTask( );
+			if ( task != null )
+			{
+				task.cancel( );
+			}
+
+			// remove task from task map
+			synchronized ( map )
+			{
+				map.remove( taskid );
+			}
 		}
 	}
 }

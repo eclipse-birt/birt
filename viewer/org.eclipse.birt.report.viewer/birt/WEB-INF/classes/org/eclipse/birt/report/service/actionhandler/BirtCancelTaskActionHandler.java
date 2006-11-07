@@ -11,18 +11,12 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
-import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
-import org.eclipse.birt.report.soapengine.api.Oprand;
+import org.eclipse.birt.report.utility.BirtUtility;
 
 /**
  * This action handler is to handle cancel current task.
@@ -56,50 +50,9 @@ public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
-
-		// get task id
-		Oprand[] op = this.operation.getOprand( );
-		String taskid = null;
-		if ( op != null )
-		{
-			for ( int i = 0; i < op.length; i++ )
-			{
-				String paramName = op[i].getName( );
-				String paramValue = op[i].getValue( );
-
-				if ( IBirtConstants.OPRAND_TASKID.equalsIgnoreCase( paramName ) )
-				{
-					taskid = paramValue;
-					break;
-				}
-			}
-		}
-
-		if ( taskid == null )
-			return;
-
-		// get task map
-		HttpSession session = context.getRequest( ).getSession( );
-		if ( session == null )
-			return;
-
-		Map map = (Map) session.getAttribute( IBirtConstants.TASK_MAP );
-		if ( map != null && map.containsKey( taskid ) )
-		{
-			// cancel task
-			IEngineTask task = (IEngineTask) map.get( taskid );
-			if ( task != null )
-			{
-				task.cancel( );
-			}
-
-			// remove task from task map
-			synchronized ( map )
-			{
-				map.remove( taskid );
-			}
-		}
-
+		
+		// cancel task
+		BirtUtility.cancelTask( context.getRequest( ), attrBean.getTaskId( ) );
 		handleUpdate( );
 	}
 
