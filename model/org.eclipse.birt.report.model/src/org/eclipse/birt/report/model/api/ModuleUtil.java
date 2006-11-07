@@ -163,7 +163,7 @@ public class ModuleUtil
 			streamData = new BufferedInputStream( streamData );
 
 		assert streamData.markSupported( );
-		parse( handler, streamData );
+		parse( handler, streamData, "" ); //$NON-NLS-1$
 
 		ImageHandle imageHandle = (ImageHandle) image.getHandle( handler
 				.getModule( ) );
@@ -181,11 +181,13 @@ public class ModuleUtil
 	 *             any exception if error happens
 	 */
 
-	private static void parse( XMLParserHandler handler, InputStream streamData )
+	private static void parse( XMLParserHandler handler,
+			InputStream streamData, String filename )
 			throws DesignFileException
 	{
 		try
 		{
+			ModelUtil.checkUTFSignature( streamData, filename );
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
 			SAXParser parser = saxParserFactory.newSAXParser( );
 			InputSource inputSource = new InputSource( streamData );
@@ -486,7 +488,7 @@ public class ModuleUtil
 	 *         return list is 0, there is no auto-conversion.
 	 */
 
-	private static List checkVersion( InputStream streamData )
+	private static List checkVersion( InputStream streamData, String filename )
 			throws DesignFileException
 	{
 		VersionParserHandler handler = new VersionParserHandler( );
@@ -495,7 +497,7 @@ public class ModuleUtil
 		if ( !inputStreamToParse.markSupported( ) )
 			inputStreamToParse = new BufferedInputStream( streamData );
 
-		parse( handler, inputStreamToParse );
+		parse( handler, inputStreamToParse, filename );
 
 		return ModelUtil.checkVersion( handler.version );
 	}
@@ -555,7 +557,7 @@ public class ModuleUtil
 		try
 		{
 			inputStream = new BufferedInputStream( inputStream );
-			rtnList.addAll( checkVersion( inputStream ) );
+			rtnList.addAll( checkVersion( inputStream, fileName ) );
 		}
 		catch ( DesignFileException e1 )
 		{

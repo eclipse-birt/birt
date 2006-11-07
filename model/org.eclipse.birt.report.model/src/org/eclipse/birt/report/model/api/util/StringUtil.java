@@ -236,8 +236,9 @@ public class StringUtil
 
 		int dotPos = filePathName.lastIndexOf( '.' );
 		int slashPos = filePathName.lastIndexOf( '\\' );
-		if ( slashPos == -1 )
-			slashPos = filePathName.lastIndexOf( '/' );
+		
+		int backSlashPos = filePathName.lastIndexOf( '/' );		
+		slashPos = slashPos > backSlashPos ? slashPos : backSlashPos;
 
 		if ( dotPos > slashPos )
 		{
@@ -272,8 +273,9 @@ public class StringUtil
 			return null;
 
 		int slashPos = filePathName.lastIndexOf( '\\' );
-		if ( slashPos == -1 )
-			slashPos = filePathName.lastIndexOf( '/' );
+		int backSlashPos = filePathName.lastIndexOf( '/' );
+		
+		slashPos = slashPos > backSlashPos ? slashPos : backSlashPos;
 		return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0 );
 	}
 

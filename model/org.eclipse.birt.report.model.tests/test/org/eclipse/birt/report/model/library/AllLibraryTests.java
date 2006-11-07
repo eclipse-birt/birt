@@ -41,7 +41,8 @@ public class AllLibraryTests
 		test.addTestSuite( LibraryWithPropertyBinding.class );
 		test.addTestSuite( LibraryWithTableTest.class );
 		test.addTestSuite( ReferenceValueUtilTest.class );
-
+		test.addTestSuite( ReloadLibraryTest.class );
+		
 		// add all test classes here
 
 		return test;

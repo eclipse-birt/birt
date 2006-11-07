@@ -231,7 +231,25 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void openDesign( String fileName ) throws DesignFileException
 	{
-		openDesign( fileName, ULocale.getDefault( ) );
+		openDesign( fileName, true );
+	}
+
+	/**
+	 * Opens design file with default locale.
+	 * 
+	 * @param fileName
+	 *            design file name
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openDesign( String fileName, boolean inSingleJarMode )
+			throws DesignFileException
+	{
+		openDesign( fileName, ULocale.getDefault( ), inSingleJarMode );
 	}
 
 	/**
@@ -241,6 +259,42 @@ public abstract class BaseTestCase extends TestCase
 	 *            the design file to be opened
 	 * @param locale
 	 *            the user locale
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception.
+	 */
+
+	protected void openDesign( String fileName, ULocale locale,
+			boolean inSingleJarMode ) throws DesignFileException
+	{
+		if ( inSingleJarMode )
+			fileName = INPUT_FOLDER + fileName;
+
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( locale );
+		assertNotNull( sessionHandle );
+
+		if ( inSingleJarMode )
+			designHandle = sessionHandle.openDesign( getResource( fileName )
+					.toString( ) );
+		else
+			designHandle = sessionHandle.openDesign( fileName );
+
+		design = (ReportDesign) designHandle.getModule( );
+	}
+
+	/**
+	 * Opens design file providing the file name and the locale.
+	 * 
+	 * @param fileName
+	 *            the design file to be opened
+	 * @param locale
+	 *            the user locale
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
 	 * @throws DesignFileException
 	 *             if any exception.
 	 */
@@ -248,14 +302,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesign( String fileName, ULocale locale )
 			throws DesignFileException
 	{
-		fileName = INPUT_FOLDER + fileName;
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
-
-		designHandle = sessionHandle.openDesign( getResource( fileName )
-				.toString( ) );
-		design = designHandle.getDesign( );
+		openDesign( fileName, locale, true );
 	}
 
 	/**
@@ -269,7 +316,25 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void openLibrary( String fileName ) throws DesignFileException
 	{
-		openLibrary( fileName, ULocale.getDefault( ) );
+		openLibrary( fileName, true );
+	}
+
+	/**
+	 * Opens library file with given file name.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName, boolean inSingleJarMode )
+			throws DesignFileException
+	{
+		openLibrary( fileName, ULocale.getDefault( ), inSingleJarMode );
 	}
 
 	/**
@@ -286,13 +351,38 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( String fileName, ULocale locale )
 			throws DesignFileException
 	{
-		fileName = INPUT_FOLDER + fileName;
+		openLibrary( fileName, locale, true );
+	}
+
+	/**
+	 * Opens library file with given file name and locale.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param locale
+	 *            the user locale
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName, ULocale locale,
+			boolean inSingleJarMode ) throws DesignFileException
+	{
+		if ( inSingleJarMode )
+			fileName = INPUT_FOLDER + fileName;
+
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
-		libraryHandle = sessionHandle.openLibrary( getResource( fileName ),
-				getResourceAStream( fileName ) );
+		if ( inSingleJarMode )
+			libraryHandle = sessionHandle.openLibrary( getResource( fileName ),
+					getResourceAStream( fileName ) );
+		else
+			libraryHandle = sessionHandle.openLibrary( fileName );
 	}
 
 	/**
@@ -1026,7 +1116,17 @@ public abstract class BaseTestCase extends TestCase
 		URL url = getResource( resourceName );
 		InputStream is = url.openStream( );
 
-		String folder = getTempFolder( ) + "/" + INPUT_FOLDER; //$NON-NLS-1$
+		String folder = getTempFolder( );
+		
+		int index = resourceName.lastIndexOf( INPUT_FOLDER );
+		if (index != 0)
+		{
+			String relateDir = resourceName.substring( 0, index -1 );
+			folder = folder + "/" + relateDir; //$NON-NLS-1$
+		}
+		
+		folder = folder + "/" + INPUT_FOLDER; //$NON-NLS-1$
+		
 		File tmpFolder = new File( folder );
 		if ( !tmpFolder.exists( ) )
 			tmpFolder.mkdirs( );

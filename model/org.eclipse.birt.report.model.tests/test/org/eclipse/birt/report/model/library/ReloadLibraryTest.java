@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.model.library;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +83,13 @@ public class ReloadLibraryTest extends BaseTestCase
 
 	public void testReloadLibrary( ) throws Exception
 	{
-		openDesign( "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryToReload.xml" ); //$NON-NLS-1$
+
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String designFilePath = (String) filePaths.get( 0 );
+		openDesign( designFilePath, false );
 
 		// tests in name sapces,
 
@@ -122,7 +128,9 @@ public class ReloadLibraryTest extends BaseTestCase
 
 		// make modification on its library.
 
-		openLibrary( "LibraryToReload.xml" );//$NON-NLS-1$
+		String libFilePath = (String) filePaths.get( 1 );
+
+		openLibrary( libFilePath, false );
 
 		TableHandle libTable1 = (TableHandle) libraryHandle
 				.findElement( "libTable1" ); //$NON-NLS-1$
@@ -144,7 +152,7 @@ public class ReloadLibraryTest extends BaseTestCase
 		TableHandle libTable2 = (TableHandle) libraryHandle
 				.findElement( "libTable2" ); //$NON-NLS-1$
 		libTable2.drop( );
-		
+
 		libraryHandle.save( );
 
 		// setup the listener
@@ -183,12 +191,7 @@ public class ReloadLibraryTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canRedo( ) );
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 
-		// recover the original library file.
-
-		recoverOriginalLibrary( "LibraryToReload_backup.xml", //$NON-NLS-1$
-				"LibraryToReload.xml" ); //$NON-NLS-1$
-
-		save( ); 
+		save( );
 		compareTextFile( "DesignToReloadLibrary_golden.xml" ); //$NON-NLS-1$
 	}
 
@@ -205,11 +208,19 @@ public class ReloadLibraryTest extends BaseTestCase
 
 	public void testReloadLibraryWithInvalidExtends( ) throws Exception
 	{
-		openDesign( "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryToReload.xml" ); //$NON-NLS-1$
+
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String designFilePath = (String) filePaths.get( 0 );
+		openDesign( designFilePath, false );
+
+		String libFilePath = (String) filePaths.get( 1 );
 
 		// make modification on its library.
 
-		openLibrary( "LibraryToReload.xml" );//$NON-NLS-1$
+		openLibrary( libFilePath, false );
 
 		libraryHandle.findElement( "libTable2" ).drop( ); //$NON-NLS-1$
 
@@ -225,12 +236,6 @@ public class ReloadLibraryTest extends BaseTestCase
 		assertNull( table2.getExtends( ) );
 
 		assertEquals( "Lib1.libTable2", table2.getElement( ).getExtendsName( ) ); //$NON-NLS-1$
-
-		// recover the original library file.
-
-		recoverOriginalLibrary( "LibraryToReload_backup.xml", //$NON-NLS-1$
-				"LibraryToReload.xml" ); //$NON-NLS-1$
-
 	}
 
 	/**
@@ -241,11 +246,17 @@ public class ReloadLibraryTest extends BaseTestCase
 
 	public void testReloadLibraryWithException( ) throws Exception
 	{
-		openDesign( "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryToReload.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "Library_1.xml" ); //$NON-NLS-1$
 
-		// make modification on its library.
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String designFilePath = (String) filePaths.get( 0 );
+		openDesign( designFilePath, false );
 
-		openLibrary( "Library_1.xml" );//$NON-NLS-1$
+		String lib1FilePath = (String) filePaths.get( 2 );
+		openLibrary( lib1FilePath, false );
 
 		try
 		{
@@ -258,12 +269,11 @@ public class ReloadLibraryTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
-		recoverOriginalLibrary( "LibraryToReload_backup.xml", //$NON-NLS-1$
-				"LibraryToReload.xml" ); //$NON-NLS-1$
+		String libFilePath = (String) filePaths.get( 1 );
 
-		openLibrary( "LibraryToReload.xml" ); //$NON-NLS-1$
-		File f = new File( getClassFolder( ) + INPUT_FOLDER
-				+ "LibraryToReload.xml" ); //$NON-NLS-1$
+		openLibrary( libFilePath, false );
+
+		File f = new File( libFilePath );
 		if ( f.exists( ) )
 			f.delete( );
 
@@ -272,10 +282,8 @@ public class ReloadLibraryTest extends BaseTestCase
 		assertNotNull( designHandle
 				.findElement( "table1" ).getStringProperty( DesignElementHandle.EXTENDS_PROP ) ); //$NON-NLS-1$
 
-		File f1 = new File( getClassFolder( ) + INPUT_FOLDER
+		InputStream fis = getResourceAStream( INPUT_FOLDER
 				+ "LibraryToReload_errors.xml" ); //$NON-NLS-1$
-
-		FileInputStream fis = new FileInputStream( f1 );
 		FileOutputStream fos = new FileOutputStream( f );
 
 		byte[] data = new byte[10000];
@@ -292,13 +300,10 @@ public class ReloadLibraryTest extends BaseTestCase
 		}
 		catch ( LibraryException e )
 		{
-			save( ); 
+			save( );
 		}
 
-		recoverOriginalLibrary( "LibraryToReload_backup.xml", //$NON-NLS-1$
-				"LibraryToReload.xml" ); //$NON-NLS-1$
-
-		compareTextFile( "DesignToReloadLibrary_golden_1.xml"); //$NON-NLS-1$
+		compareTextFile( "DesignToReloadLibrary_golden_1.xml" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -317,12 +322,20 @@ public class ReloadLibraryTest extends BaseTestCase
 
 	public void testReloadLibrary1( ) throws Exception
 	{
-		openDesign( "DesignToReloadLibrary1.xml" ); //$NON-NLS-1$
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignToReloadLibrary1.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryToReload1.xml" ); //$NON-NLS-1$
+
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String designFilePath = (String) filePaths.get( 0 );
+		openDesign( designFilePath, false );
+
 		LabelHandle label1 = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
 
 		assertEquals( "aaa", label1.getText( ) ); //$NON-NLS-1$
 
-		openLibrary( "LibraryToReload1.xml" ); //$NON-NLS-1$
+		String libFilePath = (String) filePaths.get( 1 );
+		openLibrary( libFilePath, false );
 
 		LabelHandle libLabel1 = (LabelHandle) libraryHandle
 				.findElement( "libLabel1" ); //$NON-NLS-1$
@@ -347,9 +360,6 @@ public class ReloadLibraryTest extends BaseTestCase
 		assertEquals( 1, page.getPageHeader( ).getCount( ) );
 		libLabel1 = (LabelHandle) page.getPageHeader( ).get( 0 );
 		assertEquals( "ccc", libLabel1.getText( ) ); //$NON-NLS-1$
-
-		recoverOriginalLibrary( "LibraryToReload1_backup.xml", //$NON-NLS-1$
-				"LibraryToReload1.xml" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -368,16 +378,31 @@ public class ReloadLibraryTest extends BaseTestCase
 
 	public void testReloadLibrary2( ) throws Exception
 	{
-		String fileName = getClassFolder( ) + INPUT_FOLDER;
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryToReload.xml" ); //$NON-NLS-1$
+		fileNames.add( "../api/" + INPUT_FOLDER //$NON-NLS-1$
+				+ "LibraryToReload.xml" ); //$NON-NLS-1$
+
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( null );
 		assertNotNull( sessionHandle );
-		sessionHandle.setResourceFolder( getClassFolder( ) + "/../api" //$NON-NLS-1$
-				+ INPUT_FOLDER );
 
-		designHandle = sessionHandle.openDesign( fileName
-				+ "DesignToReloadLibrary.xml" ); //$NON-NLS-1$
-		design = (ReportDesign) designHandle.getModule( );
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String apiFilePath = (String) filePaths.get( 2 );
+		int lastSlash = apiFilePath.lastIndexOf( "/" ); //$NON-NLS-1$
+		String apiFileDir = ""; //$NON-NLS-1$
+		if ( lastSlash != -1 )
+		{
+			apiFileDir = apiFilePath.substring( 0, lastSlash + 1 );
+		}
+
+		sessionHandle.setResourceFolder( apiFileDir );
+
+		// must use the same session, cannot call openDesign.
+
+		String designFilePath = (String) filePaths.get( 0 );
+		designHandle = sessionHandle.openDesign( designFilePath );
 
 		libraryHandle = designHandle.getLibrary( "Lib1" ); //$NON-NLS-1$		
 		assertNotNull( libraryHandle );
@@ -394,7 +419,6 @@ public class ReloadLibraryTest extends BaseTestCase
 
 		assertFalse( location1.equalsIgnoreCase( location2 ) );
 	}
-	
 
 	private static class MyLibraryListener implements Listener
 	{
@@ -414,22 +438,29 @@ public class ReloadLibraryTest extends BaseTestCase
 			events.add( ev );
 		}
 	}
-	
 
 	/**
-	 * Restores changed library to the original one.
+	 * Copies a bunch of design/library files to the temporary folder.
 	 * 
+	 * @param fileNames
+	 *            the design/library file names. The first item is the main
+	 *            design file.
+	 * @return the file path of the design file
 	 * @throws Exception
-	 *             any error occurs
 	 */
 
-	private void recoverOriginalLibrary( String backup, String target )
+	private List dumpDesignAndLibrariesToFile( List fileNames )
 			throws Exception
 	{
-		openLibrary( backup );
-		libraryHandle.save( );
+		List filePaths = new ArrayList( );
+		for ( int i = 0; i < fileNames.size( ); i++ )
+		{
+			String resourceName = (String) fileNames.get( i );
+			filePaths.add( copyContentToFile( resourceName ) );
+		}
+
+		return filePaths;
 	}
-	
 
 	/**
 	 * Tests needSave method.
@@ -449,8 +480,16 @@ public class ReloadLibraryTest extends BaseTestCase
 
 	public void testErrorLibraryNeedsSave( ) throws Exception
 	{
-		openDesign( "DesignWithSaveStateTest.xml" ); //$NON-NLS-1$
-		openLibrary( "LibraryWithSaveStateTest.xml" );//$NON-NLS-1$
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "DesignWithSaveStateTest.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryWithSaveStateTest.xml" ); //$NON-NLS-1$
+
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String designFilePath = (String) filePaths.get( 0 );
+		openDesign( designFilePath, false );
+
+		String libFilePath = (String) filePaths.get( 1 );
+		openLibrary( libFilePath, false );
 
 		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
 				"new test label" );//$NON-NLS-1$
@@ -462,8 +501,7 @@ public class ReloadLibraryTest extends BaseTestCase
 
 		ActivityStack stack = (ActivityStack) designHandle.getCommandStack( );
 
-		File f = new File( getClassFolder( ) + INPUT_FOLDER
-				+ "LibraryWithSaveStateTest.xml" );//$NON-NLS-1$
+		File f = new File( libFilePath );
 		RandomAccessFile raf = new RandomAccessFile( f, "rw" );//$NON-NLS-1$
 
 		// Seek to end of file
@@ -493,8 +531,6 @@ public class ReloadLibraryTest extends BaseTestCase
 		// restore file
 
 		libraryHandle.close( );
-		recoverOriginalLibrary(
-				"LibraryWithSaveStateTest_BackUP.xml", "LibraryWithSaveStateTest.xml" );//$NON-NLS-1$//$NON-NLS-2$
-
+		libraryHandle = null;
 	}
 }
