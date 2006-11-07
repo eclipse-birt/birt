@@ -74,6 +74,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			    
 	    this.initializeBase( id );
 	    this.__local_installEventHandlers_extend( id );
+	    this.__adjust_select_width( );
 	},
 
 	/**
@@ -112,6 +113,36 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			this.__close( );
 		}
 	},
+
+	/**
+	 *	Adjust the select control width. If len is too long, set width as auto.
+	 *	
+	 *	@return, void
+	 */
+	__adjust_select_width : function( )
+	{
+		var oSC = document.getElementById( "parameter_table" ).getElementsByTagName( "select" );
+		for( var i = 0; i < oSC.length; i++ )
+		{
+			var maxLen = 0;
+			for( var j = 0; j < oSC[i].options.length; j++ )
+			{
+				var opText = oSC[i].options[j].text;
+				var reg = new RegExp( "[^\x00-\xff]", "gi" );
+				if ( opText.search( reg ) > -1 )
+				{
+					opText = opText.replace( reg, "aa" );
+				}
+												
+				if( maxLen - opText.length < 0 )
+					maxLen = opText.length;
+			}
+			
+			// According to the width 250px, about 35 ASCII chars.
+			if( maxLen > 35 )
+				oSC[i].style.width = "auto";
+		}
+	}, 
 
 	/**
 	 *	Intall the event handlers for cascade parameter.
