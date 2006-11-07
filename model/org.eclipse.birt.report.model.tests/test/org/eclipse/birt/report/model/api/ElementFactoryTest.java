@@ -47,7 +47,8 @@ public class ElementFactoryTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		designHandle = new SessionHandle( ULocale.getDefault( ) ).createDesign( );
+		designHandle = new SessionHandle( ULocale.getDefault( ) )
+				.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 	}
 
@@ -216,10 +217,8 @@ public class ElementFactoryTest extends BaseTestCase
 				baseParameterGroup, "newParaTwo" ); //$NON-NLS-1$
 		designHandle.getParameters( ).add( childParameterGroup );
 
-		saveAs( "ElementFactorytTest_out.xml" ); //$NON-NLS-1$
-
-		compareTextFile(
-				"ElementFactoryTest_golden.xml", "ElementFactorytTest_out.xml" ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		compareTextFile( "ElementFactoryTest_golden.xml" ); //$NON-NLS-1$
 
 		// clear the parameter slot and test again
 
@@ -233,10 +232,9 @@ public class ElementFactoryTest extends BaseTestCase
 				baseParameterGroup, "newPara" ); //$NON-NLS-1$
 
 		designHandle.getParameters( ).add( childParameterGroup );
-		saveAs( "ElementFactorytTest_out_1.xml" ); //$NON-NLS-1$
-
-//		compareTextFile(
-//				"ElementFactoryTest_golden_1.xml", "ElementFactorytTest_out_1.xml" ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		// assertTrue( compareTextFile( "ElementFactoryTest_golden_1.xml" ) );
+		// //$NON-NLS-1$
 
 	}
 
@@ -283,7 +281,7 @@ public class ElementFactoryTest extends BaseTestCase
 		handle = factory.newList( "new list" ); //$NON-NLS-1$
 		assertNotNull( handle );
 
-		handle = factory.newListGroup( ); //$NON-NLS-1$
+		handle = factory.newListGroup( );
 		assertNotNull( handle );
 
 		handle = factory.newParameterGroup( "new parameter group" ); //$NON-NLS-1$
@@ -310,16 +308,16 @@ public class ElementFactoryTest extends BaseTestCase
 		handle = factory.newStyle( "new style" ); //$NON-NLS-1$
 		assertNotNull( handle );
 
-		handle = factory.newTableColumn( ); //$NON-NLS-1$
+		handle = factory.newTableColumn( );
 		assertNotNull( handle );
 
-		handle = factory.newTableGroup( ); //$NON-NLS-1$
+		handle = factory.newTableGroup( );
 		assertNotNull( handle );
 
 		handle = factory.newTableItem( "new table" ); //$NON-NLS-1$
 		assertNotNull( handle );
 
-		handle = factory.newTableRow( ); //$NON-NLS-1$
+		handle = factory.newTableRow( );
 		assertNotNull( handle );
 
 		handle = factory.newTextItem( "new text" ); //$NON-NLS-1$
@@ -478,10 +476,10 @@ public class ElementFactoryTest extends BaseTestCase
 
 		assertEquals( "Table11", tableHandle2.getName( ) ); //$NON-NLS-1$
 
-		TableHandle tableHandle3 = factory.newTableItem( null ); 
+		TableHandle tableHandle3 = factory.newTableItem( null );
 		assertNull( tableHandle3.getName( ) );
 	}
-	
+
 	/**
 	 * New extended item from library.
 	 * 
@@ -491,9 +489,10 @@ public class ElementFactoryTest extends BaseTestCase
 	public void testNewExtendedItemFrom( ) throws Exception
 	{
 		new PeerExtensionLoader( ).load( );
-		
-		openDesign("ElementFactoryTest_2.xml");//$NON-NLS-1$
-		LibraryHandle libraryHandle = designHandle.getLibrary( "ElementFactoryLibTest" );//$NON-NLS-1$
+
+		openDesign( "ElementFactoryTest_2.xml" );//$NON-NLS-1$
+		LibraryHandle libraryHandle = designHandle
+				.getLibrary( "ElementFactoryLibTest" );//$NON-NLS-1$
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) libraryHandle
 				.getElementByID( 77 );
 
@@ -502,5 +501,5 @@ public class ElementFactoryTest extends BaseTestCase
 		assertNotNull( handle );
 		assertEquals( "NewMatrix", handle.getName( ) );//$NON-NLS-1$
 	}
-	
+
 }

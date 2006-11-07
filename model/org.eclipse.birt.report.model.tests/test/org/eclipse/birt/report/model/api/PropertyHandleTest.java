@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -262,9 +263,8 @@ public class PropertyHandleTest extends BaseTestCase
 		List rules = (List) myStyleHandle.getProperty( Style.MAP_RULES_PROP );
 		assertEquals( 1, rules.size( ) );
 
-		saveAs( "PropertyHandleTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "PropertyHandleTest_golden.xml", //$NON-NLS-1$
-				"PropertyHandleTest_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "PropertyHandleTest_golden.xml" ) ); //$NON-NLS-1$
 
 		propHandle.clearValue( );
 
@@ -371,9 +371,8 @@ public class PropertyHandleTest extends BaseTestCase
 		myStyle.getHandle( design ).getPropertyHandle( Style.WIDOWS_PROP )
 				.clearValue( );
 
-		saveAs( "PropertyHandleTest_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "PropertyHandleTest_golden_1.xml", //$NON-NLS-1$
-				"PropertyHandleTest_out_1.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "PropertyHandleTest_golden_1.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -674,10 +673,8 @@ public class PropertyHandleTest extends BaseTestCase
 		cell1.setStyleName( "style2" ); //$NON-NLS-1$
 		assertEquals( "bold", cell1.getStringProperty( "fontWeight" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		saveAs( "PropertyHandleTest_out2.xml" ); //$NON-NLS-1$
-		assertTrue( super
-				.compareTextFile(
-						"PropertyHandleTest_golden2.xml", "PropertyHandleTest_out2.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "PropertyHandleTest_golden2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -695,8 +692,9 @@ public class PropertyHandleTest extends BaseTestCase
 		assertEquals( 16711680, label.getIntProperty( IStyleModel.COLOR_PROP ) );
 		assertEquals( 16711680, label
 				.getPropertyHandle( IStyleModel.COLOR_PROP ).getIntValue( ) );
-		assertEquals( "red", label.getPropertyHandle( IStyleModel.COLOR_PROP )
-				.getStringValue( ) );
-		assertEquals( "red", label.getStringProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( IColorConstants.RED, label.getPropertyHandle(
+				IStyleModel.COLOR_PROP ).getStringValue( ) );
+		assertEquals( IColorConstants.RED, label
+				.getStringProperty( IStyleModel.COLOR_PROP ) );
 	}
 }

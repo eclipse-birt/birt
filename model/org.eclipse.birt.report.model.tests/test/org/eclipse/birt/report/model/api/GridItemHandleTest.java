@@ -129,7 +129,7 @@ public class GridItemHandleTest extends BaseTestCase
 		assertFalse( gridHandle.canCopyRow( parameters3 ) );
 		assertFalse( gridHandle.canCopyRow( parameters4 ) );
 
-		TableRow clonedRow = (TableRow)gridHandle.copyRow( parameters1 );
+		TableRow clonedRow = (TableRow) gridHandle.copyRow( parameters1 );
 
 		Cell cell = (Cell) clonedRow.getContentsSlot( ).get( 0 );
 		Object obj = cell.getSlot( 0 ).getContents( ).get( 0 );
@@ -159,8 +159,8 @@ public class GridItemHandleTest extends BaseTestCase
 		assertFalse( gridHandle.canPasteRow( clonedRow, parameters4 ) );
 
 		gridHandle.pasteRow( clonedRow, parameters2 );
-		saveAs( "GridRowCopy_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "GridRowCopy_golden_1.xml", "GridRowCopy_out_1.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "GridRowCopy_golden_1.xml" ) ); //$NON-NLS-1$
 
 		try
 		{
@@ -185,7 +185,7 @@ public class GridItemHandleTest extends BaseTestCase
 		// slotid is out of range.
 
 		assertFalse( gridHandle2.canInsertRow( parameters3 ) );
-		
+
 		clonedRow = (TableRow) clonedRow.clone( );
 
 		try
@@ -200,10 +200,10 @@ public class GridItemHandleTest extends BaseTestCase
 		}
 
 		gridHandle2.insertRow( parameters1 );
-		
+
 		gridHandle2.insertRow( parameters1 );
-		saveAs( "GridRowCopy_out_2.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "GridRowCopy_golden_2.xml", "GridRowCopy_out_2.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "GridRowCopy_golden_2.xml" ) ); //$NON-NLS-1$
 
 		clonedRow = (TableRow) clonedRow.clone( );
 
@@ -232,8 +232,8 @@ public class GridItemHandleTest extends BaseTestCase
 
 		parameters1.setSourceIndex( 1 );
 		gridHandle.shiftRow( parameters1 );
-		saveAs( "GridRowCopy_out_3.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "GridRowCopy_golden_3.xml", "GridRowCopy_out_3.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "GridRowCopy_golden_3.xml" ) ); //$NON-NLS-1$
 
 		// Test canInsertAndPaste method.
 
@@ -257,8 +257,8 @@ public class GridItemHandleTest extends BaseTestCase
 		}
 
 		gridHandle.insertAndPasteRow( clonedRow, parameters2 );
-		saveAs( "GridRowCopy_out_4.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "GridRowCopy_golden_4.xml", "GridRowCopy_out_4.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "GridRowCopy_golden_4.xml" ) ); //$NON-NLS-1$
 
 	}
 

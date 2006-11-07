@@ -175,8 +175,8 @@ public class TableItemHandleTest extends BaseTestCase
 		assertFalse( table1.canPasteRow( clonedRow, parameters3 ) );
 
 		table1.pasteRow( clonedRow, parameters6 );
-		saveAs( "TableRowCopy_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "TableRowCopy_golden_1.xml", "TableRowCopy_out_1.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TableRowCopy_golden_1.xml" )); //$NON-NLS-1$
 
 		// paste a null table row
 
@@ -225,14 +225,14 @@ public class TableItemHandleTest extends BaseTestCase
 		}
 
 		table2.insertRow( parameters4 );
-		saveAs( "TableRowCopy_out_2.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "TableRowCopy_golden_2.xml", "TableRowCopy_out_2.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TableRowCopy_golden_2.xml")); //$NON-NLS-1$
 
 		// can insert the same element twice.
 
 		table2.insertRow( parameters4 );
-		saveAs( "TableRowCopy_out_3.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "TableRowCopy_golden_3.xml", "TableRowCopy_out_3.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TableRowCopy_golden_3.xml")); //$NON-NLS-1$
 
 		// source row is the same as destination row.
 
@@ -263,8 +263,8 @@ public class TableItemHandleTest extends BaseTestCase
 		}
 
 		table2.shiftRow( parameters4 );
-		saveAs( "TableRowCopy_out_4.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "TableRowCopy_golden_4.xml", "TableRowCopy_out_4.xml" )); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TableRowCopy_golden_4.xml")); //$NON-NLS-1$
 
 		clonedRow = (TableRow) clonedRow.clone( );
 		
@@ -294,8 +294,8 @@ public class TableItemHandleTest extends BaseTestCase
 		}
 
 		table2.insertAndPasteRow( clonedRow, parameters4 );
-		saveAs( "TableRowCopy_out_5.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "TableRowCopy_golden_5.xml", "TableRowCopy_out_5.xml" ));//$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "TableRowCopy_golden_5.xml"));//$NON-NLS-1$
 
 	}
 

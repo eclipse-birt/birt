@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -24,6 +21,10 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
 
 import com.ibm.icu.util.ULocale;
+
+/**
+ * Test cases for ModuleUtil.
+ */
 
 public class ModuleUtilTest extends BaseTestCase
 {
@@ -90,25 +91,18 @@ public class ModuleUtilTest extends BaseTestCase
 		ImageHandle image2 = (ImageHandle) designHandle.findElement( "image2" ); //$NON-NLS-1$
 		ActionHandle action2 = image2.getActionHandle( );
 
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-
 		String str = ModuleUtil.serializeAction( action1 );
 
-		FileWriter writer1 = new FileWriter( new File( outputPath,
-				"ActionSerializeTest1_out.xml" ) ); //$NON-NLS-1$
-		writer1.write( str );
-		writer1.close( );
+		os = new ByteArrayOutputStream( );
+		os.write( str.getBytes( ) );
+		os.close( );
+		assertTrue( compareTextFile( "ActionSerializeTest1_golden.xml" ) ); //$NON-NLS-1$
 
-		String str2 = ModuleUtil.serializeAction( action2 );
-		FileWriter writer2 = new FileWriter( new File( outputPath,
-				"ActionSerializeTest2_out.xml" ) ); //$NON-NLS-1$
-		writer2.write( str2 );
-		writer2.close( );
-
-		compareTextFile(
-				"ActionSerializeTest1_golden.xml", "ActionSerializeTest1_out.xml" ); //$NON-NLS-1$//$NON-NLS-2$
-		compareTextFile(
-				"ActionSerializeTest2_golden.xml", "ActionSerializeTest2_out.xml" ); //$NON-NLS-1$//$NON-NLS-2$
+		str = ModuleUtil.serializeAction( action2 );
+		os = new ByteArrayOutputStream( );
+		os.write( str.getBytes( ) );
+		os.close( );
+		assertTrue( compareTextFile( "ActionSerializeTest2_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -131,27 +125,28 @@ public class ModuleUtilTest extends BaseTestCase
 				.newSessionHandle( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
-		String fileName = getClassFolder( ) + INPUT_FOLDER
-				+ "CellHandleTest.xml"; //$NON-NLS-1$
-		InputStream inputStream = new BufferedInputStream( new FileInputStream(
-				fileName ) );
-		int rtnType = ModuleUtil.checkModule( sessionHandle, fileName,
-				inputStream );
+		String fileName = INPUT_FOLDER + "CellHandleTest.xml"; //$NON-NLS-1$
+		InputStream inputStream = getResourceAStream( fileName );
+		int rtnType = ModuleUtil.checkModule( sessionHandle, getResource(
+				fileName ).toString( ), inputStream );
 		assertEquals( ModuleUtil.REPORT_DESIGN, rtnType );
 
-		fileName = getClassFolder( ) + INPUT_FOLDER + "Library_1.xml"; //$NON-NLS-1$
-		inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
-		rtnType = ModuleUtil.checkModule( sessionHandle, fileName, inputStream );
+		fileName = INPUT_FOLDER + "Library_1.xml"; //$NON-NLS-1$
+		inputStream = getResourceAStream( fileName );
+		rtnType = ModuleUtil.checkModule( sessionHandle, getResource( fileName )
+				.toString( ), inputStream );
 		assertEquals( ModuleUtil.LIBRARY, rtnType );
 
-		fileName = getClassFolder( ) + INPUT_FOLDER + "InValidDesign.xml"; //$NON-NLS-1$
-		inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
-		rtnType = ModuleUtil.checkModule( sessionHandle, fileName, inputStream );
+		fileName = INPUT_FOLDER + "InValidDesign.xml"; //$NON-NLS-1$
+		inputStream = getResourceAStream( fileName );
+		rtnType = ModuleUtil.checkModule( sessionHandle, getResource( fileName )
+				.toString( ), inputStream );
 		assertEquals( ModuleUtil.INVALID_MODULE, rtnType );
 
-		fileName = getClassFolder( ) + INPUT_FOLDER + "InValidLibrary.xml"; //$NON-NLS-1$
-		inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
-		rtnType = ModuleUtil.checkModule( sessionHandle, fileName, inputStream );
+		fileName = INPUT_FOLDER + "InValidLibrary.xml"; //$NON-NLS-1$
+		inputStream = getResourceAStream( fileName );
+		rtnType = ModuleUtil.checkModule( sessionHandle, getResource( fileName )
+				.toString( ), inputStream );
 		assertEquals( ModuleUtil.INVALID_MODULE, rtnType );
 	}
 
@@ -169,8 +164,8 @@ public class ModuleUtilTest extends BaseTestCase
 
 	public void testCheckVersion( ) throws Exception
 	{
-		List infos = ModuleUtil.checkVersion( getClassFolder( ) + INPUT_FOLDER
-				+ "DesignWithoutLibrary.xml" );//$NON-NLS-1$
+		List infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "DesignWithoutLibrary.xml" ).toString( ) );//$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
 
 		IVersionInfo versionInfo = (IVersionInfo) infos.get( 0 );
@@ -178,8 +173,8 @@ public class ModuleUtilTest extends BaseTestCase
 		assertEquals(
 				"The design file was created by an earlier version of BIRT. Click OK to convert it to a format supported by the current version of the product.", versionInfo.getLocalizedMessage( ) ); //$NON-NLS-1$
 
-		infos = ModuleUtil.checkVersion( getClassFolder( ) + INPUT_FOLDER
-				+ "ScalarParameterHandleTest.xml" );
+		infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "ScalarParameterHandleTest.xml" ).toString( ) ); //$NON-NLS-1$
 		assertEquals( 0, infos.size( ) );
 	}
 }

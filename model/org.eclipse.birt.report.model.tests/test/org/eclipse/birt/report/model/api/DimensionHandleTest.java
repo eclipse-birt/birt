@@ -144,7 +144,7 @@ import com.ibm.icu.util.ULocale;
  * <td>value is a dimension value of a highlight member</td>
  * <td>The unit matches with the set value.</td>
  * </tr>
- *  
+ * 
  */
 
 public class DimensionHandleTest extends BaseTestCase
@@ -176,7 +176,7 @@ public class DimensionHandleTest extends BaseTestCase
 		DimensionHandle backGroundPosXHandle = styleHandle
 				.getBackGroundPositionX( );
 
-		ThreadResources.setLocale( TEST_LOCALE ); //$NON-NLS-1$ //$NON-NLS-2$
+		ThreadResources.setLocale( TEST_LOCALE );
 
 		assertEquals( "\u5927\u4e00\u53f7", fontSizeHandle.getDisplayValue( ) ); //$NON-NLS-1$
 		assertEquals( "12,000.123cm", backGroundPosXHandle.getDisplayValue( ) ); //$NON-NLS-1$
@@ -194,7 +194,7 @@ public class DimensionHandleTest extends BaseTestCase
 		// the dimension in the first highlight rule.
 
 		DimensionHandle dimensionHandle = highlightHandle.getFontSize( );
-		ThreadResources.setLocale( TEST_LOCALE ); //$NON-NLS-1$
+		ThreadResources.setLocale( TEST_LOCALE );
 		assertEquals( "\u4e2d\u53f7", dimensionHandle.getDisplayValue( ) ); //$NON-NLS-1$
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		assertEquals( "Medium", dimensionHandle.getDisplayValue( ) ); //$NON-NLS-1$
@@ -221,7 +221,7 @@ public class DimensionHandleTest extends BaseTestCase
 	 * 1. value is from an choice, return should be the choice name.
 	 * <p>
 	 * 2. value is a real dimension, return should be the dimension in string.
-	 *  
+	 * 
 	 */
 
 	public void testGetStringValue( )
@@ -250,7 +250,7 @@ public class DimensionHandleTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getBorderTopWidth( );
 		assertNotNull( dimensionHandle );
 		assertEquals( DesignChoiceConstants.LINE_WIDTH_THIN, dimensionHandle
-				.getStringValue( ) ); //$NON-NLS-1$
+				.getStringValue( ) );
 
 		dimensionHandle = highlightHandle.getFontSize( );
 		assertNotNull( dimensionHandle );
@@ -352,10 +352,8 @@ public class DimensionHandleTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getFontSize( );
 		dimensionHandle.setValue( "22pt" ); //$NON-NLS-1$
 
-		saveAs( "DimensionHandleTest_out.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile(
-				"DimensionHandleTest_golden.xml", "DimensionHandleTest_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( );
+		assertTrue( compareTextFile( "DimensionHandleTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -397,7 +395,7 @@ public class DimensionHandleTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGER, fontSizeHandle
 				.getStringValue( ) );
 
-		assertEquals( 0.0d, fontSizeHandle.getMeasure( ), 0.1 ); //$NON-NLS-1$
+		assertEquals( 0.0d, fontSizeHandle.getMeasure( ), 0.1 );
 		fontSizeHandle.setValue( "12pt" ); //$NON-NLS-1$
 
 		assertEquals( 12d, fontSizeHandle.getMeasure( ), 0.1 );
@@ -435,10 +433,10 @@ public class DimensionHandleTest extends BaseTestCase
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 		assertEquals( "larger", fontSizeHandle.getStringValue( ) ); //$NON-NLS-1$
 
-		assertEquals( DimensionValue.DEFAULT_UNIT, fontSizeHandle.getUnits( ) ); //$NON-NLS-1$
+		assertEquals( DimensionValue.DEFAULT_UNIT, fontSizeHandle.getUnits( ) );
 
 		fontSizeHandle.setValue( "12pt" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.UNITS_PT, fontSizeHandle.getUnits( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.UNITS_PT, fontSizeHandle.getUnits( ) );
 
 		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
 		assertNotNull( highlightHandles );
@@ -540,7 +538,7 @@ public class DimensionHandleTest extends BaseTestCase
 		assertEquals( "60px", textHandle5.getDimensionProperty( //$NON-NLS-1$
 				Style.TEXT_INDENT_PROP ).getAbsoluteValue( ).toString( ) );
 
-		//  textIndent is computed with the font size from form6
+		// textIndent is computed with the font size from form6
 
 		FreeFormHandle freeFormHandle6 = (FreeFormHandle) designHandle
 				.findElement( "form6" ); //$NON-NLS-1$
@@ -602,9 +600,9 @@ public class DimensionHandleTest extends BaseTestCase
 		DimensionHandle fontSizeOnText = textHandle8
 				.getDimensionProperty( Style.FONT_SIZE_PROP );
 
-		fontSizeOnText.setStringValue( DesignChoiceConstants.FONT_SIZE_SMALL ); //$NON-NLS-1$
+		fontSizeOnText.setStringValue( DesignChoiceConstants.FONT_SIZE_SMALL );
 		assertEquals( DesignChoiceConstants.FONT_SIZE_SMALL, fontSizeOnText
-				.getValue( ).toString( ) ); //$NON-NLS-1$
+				.getValue( ).toString( ) );
 		assertEquals( "10px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		// The absolute font size in container
@@ -644,10 +642,10 @@ public class DimensionHandleTest extends BaseTestCase
 
 		// The no font size in container
 
-		fontSizeOnForm.setStringValue( null ); //$NON-NLS-1$
+		fontSizeOnForm.setStringValue( null );
 		assertEquals( "12px", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FONT_SIZE_MEDIUM, fontSizeOnForm
-				.getValue( ).toString( ) ); //$NON-NLS-1$
+				.getValue( ).toString( ) );
 
 		fontSizeOnText.setStringValue( "2em" ); //$NON-NLS-1$
 		assertEquals( "2em", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
@@ -663,10 +661,10 @@ public class DimensionHandleTest extends BaseTestCase
 
 		// The font size constant in container
 
-		fontSizeOnForm.setStringValue( DesignChoiceConstants.FONT_SIZE_LARGE ); //$NON-NLS-1$
+		fontSizeOnForm.setStringValue( DesignChoiceConstants.FONT_SIZE_LARGE );
 		assertEquals( "14px", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGE, fontSizeOnForm
-				.getValue( ).toString( ) ); //$NON-NLS-1$
+				.getValue( ).toString( ) );
 
 		fontSizeOnText.setStringValue( "2em" ); //$NON-NLS-1$
 		assertEquals( "2em", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
@@ -696,10 +694,12 @@ public class DimensionHandleTest extends BaseTestCase
 
 		// During parser, if a dimension has no unit, we will add
 		// the default unit to it.
-		
+
 		FreeFormHandle freeFormHandle1 = (FreeFormHandle) designHandle
 				.findElement( "form1" ); //$NON-NLS-1$
-		DimensionHandle dimensionHandle = freeFormHandle1.getDimensionProperty( IReportItemModel.X_PROP );
-		assertEquals( "12"+ dimensionHandle.getDefaultUnit( ), freeFormHandle1.getX( ).getStringValue( ) ); //$NON-NLS-1$
+		DimensionHandle dimensionHandle = freeFormHandle1
+				.getDimensionProperty( IReportItemModel.X_PROP );
+		assertEquals(
+				"12" + dimensionHandle.getDefaultUnit( ), freeFormHandle1.getX( ).getStringValue( ) ); //$NON-NLS-1$
 	}
 }

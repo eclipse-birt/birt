@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
@@ -74,7 +71,7 @@ public class LayoutTableTest extends BaseTestCase
 				IListingElementModel.DETAIL_SLOT, 0, 0 );
 		assertEquals( 3, cell.getColumn( ) );
 
-		saveAs( "LayoutTableTestRecovery1_out.xml" ); //$NON-NLS-1$
+		save( );
 	}
 
 	/**
@@ -87,8 +84,7 @@ public class LayoutTableTest extends BaseTestCase
 	public void testContentLayout( ) throws Exception
 	{
 		openDesign( fileName );
-
-		PrintStream out = getOutputStream( "LayoutTableTest1_output.txt" );//$NON-NLS-1$
+		os = new ByteArrayOutputStream( );
 
 		TableHandle table = (TableHandle) designHandle
 				.findElement( "My table1" ); //$NON-NLS-1$
@@ -96,116 +92,90 @@ public class LayoutTableTest extends BaseTestCase
 
 		LayoutTable layout = ( (TableItem) table.getElement( ) )
 				.getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table2" ); //$NON-NLS-1$
 		assertNotNull( table );
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table3" ); //$NON-NLS-1$
 		assertNotNull( table );
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table10" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table11" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table14" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table16" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table17" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table20" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table21" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table22" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table24" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table25" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table27" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table28" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table30" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table31" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table32" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table33" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table34" ); //$NON-NLS-1$
 		layout = ( (TableItem) table.getElement( ) ).getLayoutModel( design );
-		out.print( layout.getLayoutString( ) );
+		os.write( layout.getLayoutString( ).getBytes( ) );
 
-		assertTrue( compareTextFile( "LayoutTableTest1_golden.txt", //$NON-NLS-1$
-				"LayoutTableTest1_output.txt" ) ); //$NON-NLS-1$.
+		os.close( );
 
-		out.close( );
-	}
+		assertTrue( compareTextFile( "LayoutTableTest1_golden.txt" ) ); //$NON-NLS-1$.
 
-	/**
-	 * Returns a print stream for a given output file name. Note the output file
-	 * is flushed in the default output directory.
-	 * 
-	 * @param filename
-	 *            the file name
-	 * @return the print stream for the given file
-	 * @throws IOException
-	 *             if any IO error occurs.
-	 */
-
-	private PrintStream getOutputStream( String filename ) throws IOException
-	{
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		File file = new File( outputFolder, filename );
-		FileOutputStream fout = new FileOutputStream( file );
-		PrintStream pout = new PrintStream( fout );
-		return pout;
 	}
 
 	/**
@@ -287,7 +257,7 @@ public class LayoutTableTest extends BaseTestCase
 				design ) );
 
 		// overlapped area is OK.
-		
+
 		table = (TableHandle) designHandle.findElement( "My table2" ); //$NON-NLS-1$
 		assertTrue( LayoutUtil.isValidLayout( (TableItem) table.getElement( ),
 				design ) );

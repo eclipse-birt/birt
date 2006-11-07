@@ -54,9 +54,8 @@ public class APICompatibleTest extends BaseTestCase
 
 		designHandle.getBody( ).add( table );
 
-		saveAs( "DataCompatibleValueExpr_out.xml" ); //$NON-NLS-1$
-		compareTextFile( "DataCompatibleValueExpr_golden.xml", //$NON-NLS-1$
-				"DataCompatibleValueExpr_out.xml" ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "DataCompatibleValueExpr_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -158,9 +157,8 @@ public class APICompatibleTest extends BaseTestCase
 		textData.addColumnBinding( boundColumn, true );
 		textData.setValueExpr( "row[\"New Column\"]" ); //$NON-NLS-1$
 
-		saveAs( "CompatibleExpression_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleExpression_golden.xml", //$NON-NLS-1$
-				"CompatibleExpression_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleExpression_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -193,10 +191,8 @@ public class APICompatibleTest extends BaseTestCase
 		filter.setValue2( "row[\"filter1Value2\"]" ); //$NON-NLS-1$
 		table.getPropertyHandle( ListHandle.FILTER_PROP ).addItem( filter );
 
-		saveAs( "CompatibleExpression_out_1.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "CompatibleExpression_golden_1.xml", //$NON-NLS-1$
-				"CompatibleExpression_out_1.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleExpression_golden_1.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -237,9 +233,8 @@ public class APICompatibleTest extends BaseTestCase
 		table.getCell( GroupHandle.FOOTER_SLOT, 1, 1, 1 ).getContent( ).add(
 				data );
 
-		saveAs( "CompatibleExpression_out_2.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleExpression_golden_2.xml", //$NON-NLS-1$
-				"CompatibleExpression_out_2.xml" ) ); //$NON-NLS-1$		
+		save( );
+		assertTrue( compareTextFile( "CompatibleExpression_golden_2.xml") ); //$NON-NLS-1$		
 	}
 
 	/**

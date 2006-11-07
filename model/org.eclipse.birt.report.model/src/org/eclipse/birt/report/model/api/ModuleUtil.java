@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -411,7 +413,7 @@ public class ModuleUtil
 
 		return rtnModule instanceof Library ? LIBRARY : REPORT_DESIGN;
 	}
-	
+
 	/**
 	 * Parser handler used to parse only the version attribute of the module.
 	 * The existing report and library state is reused.
@@ -518,17 +520,42 @@ public class ModuleUtil
 		List rtnList = new ArrayList( );
 		InputStream inputStream = null;
 
+		URL url;
 		try
 		{
-			inputStream = new BufferedInputStream( new FileInputStream(
-					fileName ) );
-			rtnList.addAll( checkVersion( inputStream ) );
+			url = new URL( fileName );
+			inputStream = url.openStream( );
 		}
-		catch ( FileNotFoundException e1 )
+		catch ( MalformedURLException e2 )
+		{
+			// do nothing
+		}
+		catch ( IOException e )
 		{
 			rtnList
 					.add( new VersionInfo( null,
 							VersionInfo.INVALID_DESIGN_FILE ) );
+			return rtnList;
+		}
+
+		if ( inputStream == null )
+		{
+			try
+			{
+				inputStream = new FileInputStream( fileName );
+			}
+			catch ( FileNotFoundException e2 )
+			{
+				rtnList.add( new VersionInfo( null,
+						VersionInfo.INVALID_DESIGN_FILE ) );
+				return rtnList;
+			}
+		}
+
+		try
+		{
+			inputStream = new BufferedInputStream( inputStream );
+			rtnList.addAll( checkVersion( inputStream ) );
 		}
 		catch ( DesignFileException e1 )
 		{
@@ -540,8 +567,7 @@ public class ModuleUtil
 		{
 			try
 			{
-				if ( inputStream != null )
-					inputStream.close( );
+				inputStream.close( );
 			}
 			catch ( IOException e )
 			{

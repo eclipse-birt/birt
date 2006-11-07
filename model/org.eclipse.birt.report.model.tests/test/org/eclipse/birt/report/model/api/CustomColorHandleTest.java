@@ -201,8 +201,8 @@ public class CustomColorHandleTest extends BaseTestCase
 
 		handle2.setColor( "green" ); //$NON-NLS-1$
 
-		saveAs( OUTPUT_FILE_NAME );
-		assertTrue( compareTextFile( GOLDEN_FILE_NAME, OUTPUT_FILE_NAME ) );
+		save( );
+		assertTrue( compareTextFile( GOLDEN_FILE_NAME) );
 	}
 
 	/**

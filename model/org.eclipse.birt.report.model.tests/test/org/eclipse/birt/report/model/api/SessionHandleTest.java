@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -234,7 +232,7 @@ public class SessionHandleTest extends BaseTestCase
 
 	public void testCreateOpenAndClose( ) throws Exception
 	{
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
+		String outputPath = getTempFolder( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -243,8 +241,8 @@ public class SessionHandleTest extends BaseTestCase
 
 		// Open design file A
 
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ fileName );
+		designHandle = session
+				.openDesign( getResource( INPUT_FOLDER + fileName ).toString( ) );
 		assertTrue( designHandle.needsSave( ) );
 		assertTrue( designHandle.getModule( ).isValid( ) );
 		assertEquals( 1, getDesignCount( ) );
@@ -302,7 +300,7 @@ public class SessionHandleTest extends BaseTestCase
 		assertEquals( 1, getDesignCount( ) );
 
 		ReportDesignHandle anotherDesignHandle = session
-				.openDesign( getClassFolder( ) + INPUT_FOLDER + fileName );
+				.openDesign( getResource( INPUT_FOLDER + fileName ).toString( ) );
 		assertNotNull( anotherDesignHandle );
 		assertTrue( anotherDesignHandle.needsSave( ) );
 		assertTrue( anotherDesignHandle.getModule( ).isValid( ) );
@@ -318,7 +316,8 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
+			designHandle = session.openDesign( getResource( INPUT_FOLDER )
+					.toString( )
 					+ notExistedFileName );
 			fail( );
 		}
@@ -346,8 +345,8 @@ public class SessionHandleTest extends BaseTestCase
 		designHandle = null;
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-					+ wrongTagFileName );
+			designHandle = session.openDesign( getResource(
+					INPUT_FOLDER + wrongTagFileName ).toString( ) );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -373,8 +372,8 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		designHandle = null;
 
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ undefinedPropertyFileName );
+		designHandle = session.openDesign( getResource(
+				INPUT_FOLDER + undefinedPropertyFileName ).toString( ) );
 
 		List errors = designHandle.getErrorList( );
 		assertEquals( 3, errors.size( ) );
@@ -405,8 +404,8 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-					+ missingStartingTagFileName );
+			designHandle = session.openDesign( getResource(
+					INPUT_FOLDER + missingStartingTagFileName ).toString( ) );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -429,8 +428,8 @@ public class SessionHandleTest extends BaseTestCase
 		designHandle = null;
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-					+ unmatchedTagFileName );
+			designHandle = session.openDesign( getResource(
+					INPUT_FOLDER + unmatchedTagFileName ).toString( ) );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -458,8 +457,8 @@ public class SessionHandleTest extends BaseTestCase
 		designHandle = null;
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-					+ invalidAttrFileName );
+			designHandle = session.openDesign( getResource(
+					INPUT_FOLDER + invalidAttrFileName ).toString( ) );
 		}
 		catch ( DesignFileException e )
 		{
@@ -481,8 +480,8 @@ public class SessionHandleTest extends BaseTestCase
 		designHandle = null;
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-					+ missingEndingTagFileName );
+			designHandle = session.openDesign( getResource(
+					INPUT_FOLDER + missingEndingTagFileName ).toString( ) );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -513,8 +512,8 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		designHandle = null;
 
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ semanticErrorFileName );
+		designHandle = session.openDesign( getResource(
+				INPUT_FOLDER + semanticErrorFileName ).toString( ) );
 		assertEquals( 3, designHandle.getModule( ).getErrorList( ).size( ) );
 		ErrorDetail error = (ErrorDetail) designHandle.getModule( )
 				.getErrorList( ).get( 0 );
@@ -557,16 +556,17 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		designHandle = null;
 
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ UTF8BOMFileName );
+		designHandle = session.openDesign( getResource(
+				INPUT_FOLDER + UTF8BOMFileName ).toString( ) );
 		assertNotNull( designHandle );
 
 		designHandle = null;
 
 		try
 		{
-			designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-					+ "SessionHandleTest_INVALIDBOM.xml" ); //$NON-NLS-1$
+			designHandle = session
+					.openDesign( getResource(
+							INPUT_FOLDER + "SessionHandleTest_INVALIDBOM.xml" ).toString( ) ); //$NON-NLS-1$
 		}
 		catch ( DesignFileException e )
 		{
@@ -631,87 +631,88 @@ public class SessionHandleTest extends BaseTestCase
 				"255", session.getDefaultValue( Style.BORDER_LEFT_COLOR_PROP ).toString( ) ); //$NON-NLS-1$
 	}
 
-	/**
-	 * Tests to open the design as streams with the system id. Test cases are:
-	 * 
-	 * <ul>
-	 * <li></li>
-	 * </ul>
-	 * 
-	 * @throws Exception
-	 */
+	// /**
+	// * Tests to open the design as streams with the system id. Test cases are:
+	// *
+	// * <ul>
+	// * <li></li>
+	// * </ul>
+	// *
+	// * @throws Exception
+	// */
+	//
+	// public void testOpenWithStream( ) throws Exception
+	// {
+	// // open the file as a local file, the system id is set.
+	//
+	// openDesign( fileName );
+	// File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
+	//
+	// assertEquals( file.getParentFile( ).toURL( ).toString( ), designHandle
+	// .getSystemId( ).toExternalForm( ) );
+	//
+	// // open the design as the file input stream. work as a file url
+	//
+	// file = new File( getClassFolder( ) + INPUT_FOLDER + streamFileName );
+	// InputStream is = new FileInputStream( file );
+	//
+	// designHandle = session.openDesign( file.getParentFile( ).toURL( ), is );
+	// design = (ReportDesign) designHandle.getModule( );
+	// assertNull( design.getFileName( ) );
+	// testSystemIdAndFileName( designHandle, file );
+	//
+	// // open the design as a file path.
+	//
+	// openDesign( streamFileName );
+	// assertEquals( getClassFolder( ) + INPUT_FOLDER + streamFileName, design
+	// .getFileName( ) );
+	// testSystemIdAndFileName( designHandle, file );
+	//
+	// // open the design as a stream with its file path
+	//
+	// is.close( );
+	// is = new FileInputStream( file );
+	// openDesign( getClassFolder( ) + INPUT_FOLDER + streamFileName, is );
+	// assertEquals( getClassFolder( ) + INPUT_FOLDER + streamFileName, design
+	// .getFileName( ) );
+	// testSystemIdAndFileName( designHandle, file );
+	//
+	// }
 
-	public void testOpenWithStream( ) throws Exception
-	{
-		// open the file as a local file, the system id is set.
-
-		openDesign( fileName );
-		File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
-
-		assertEquals( file.getParentFile( ).toURL( ).toString( ), designHandle
-				.getSystemId( ).toExternalForm( ) );
-
-		// open the design as the file input stream. work as a file url
-
-		file = new File( getClassFolder( ) + INPUT_FOLDER + streamFileName );
-		InputStream is = new FileInputStream( file );
-
-		designHandle = session.openDesign( file.getParentFile( ).toURL( ), is );
-		design = (ReportDesign) designHandle.getModule( );
-		assertNull( design.getFileName( ) );
-		testSystemIdAndFileName( designHandle, file );
-
-		// open the design as a file path.
-
-		openDesign( streamFileName );
-		assertEquals( getClassFolder( ) + INPUT_FOLDER + streamFileName, design
-				.getFileName( ) );
-		testSystemIdAndFileName( designHandle, file );
-
-		// open the design as a stream with its file path
-
-		is.close( );
-		is = new FileInputStream( file );
-		openDesign( getClassFolder( ) + INPUT_FOLDER + streamFileName, is );
-		assertEquals( getClassFolder( ) + INPUT_FOLDER + streamFileName, design
-				.getFileName( ) );
-		testSystemIdAndFileName( designHandle, file );
-
-	}
-
-	/**
-	 * Tests values of system id and filename after open a design file.
-	 * 
-	 * @param designHandle
-	 *            the report design handle
-	 * @param file
-	 *            the <code>File</code> instance of the design file
-	 * @throws Exception
-	 */
-
-	private void testSystemIdAndFileName( ReportDesignHandle designHandle,
-			File file ) throws Exception
-	{
-		assertEquals( file.getParentFile( ).toURL( ).toString( ), designHandle
-				.getSystemId( ).toString( ) );
-
-		List libraries = designHandle.getLibraries( );
-		assertEquals( 2, libraries.size( ) );
-
-		LibraryHandle libHandle = (LibraryHandle) libraries.get( 0 );
-		assertTrue( libHandle.isValid( ) );
-		assertEquals( file.getParentFile( ).toURL( ).toString( ), libHandle
-				.getSystemId( ).toString( ) );
-
-		libHandle = (LibraryHandle) libraries.get( 1 );
-		assertTrue( libHandle.isValid( ) );
-
-		// check the file getCanonicalPath() to make sure they are the same
-		// file.
-
-		file = new File( getClassFolder( ) + "/../library" + INPUT_FOLDER ).getCanonicalFile( ); //$NON-NLS-1$
-		assertEquals( libHandle.getSystemId( ), file.toURL( ) );
-	}
+	// /**
+	// * Tests values of system id and filename after open a design file.
+	// *
+	// * @param designHandle
+	// * the report design handle
+	// * @param file
+	// * the <code>File</code> instance of the design file
+	// * @throws Exception
+	// */
+	//
+	// private void testSystemIdAndFileName( ReportDesignHandle designHandle,
+	// File file ) throws Exception
+	// {
+	// assertEquals( file.getParentFile( ).toURL( ).toString( ), designHandle
+	// .getSystemId( ).toString( ) );
+	//
+	// List libraries = designHandle.getLibraries( );
+	// assertEquals( 2, libraries.size( ) );
+	//
+	// LibraryHandle libHandle = (LibraryHandle) libraries.get( 0 );
+	// assertTrue( libHandle.isValid( ) );
+	// assertEquals( file.getParentFile( ).toURL( ).toString( ), libHandle
+	// .getSystemId( ).toString( ) );
+	//
+	// libHandle = (LibraryHandle) libraries.get( 1 );
+	// assertTrue( libHandle.isValid( ) );
+	//
+	// // check the file getCanonicalPath() to make sure they are the same
+	// // file.
+	//
+	// file = new File( getClassFolder( ) + "/../library" + INPUT_FOLDER
+	// ).getCanonicalFile( ); //$NON-NLS-1$
+	// assertEquals( libHandle.getSystemId( ), file.toURL( ) );
+	// }
 
 	/**
 	 * Test open a generic module file
@@ -738,36 +739,9 @@ public class SessionHandleTest extends BaseTestCase
 
 	public void testOpenWithNull( ) throws DesignFileException, IOException
 	{
-		// open the design without external resource as the file input stream.
-		// work as a file url
-
-		File file = new File( getClassFolder( ) + INPUT_FOLDER
-				+ simpleDesignFile );
-		InputStream is = new FileInputStream( file );
-
-		session.openDesign( (URL) null, is );
-
-		// open the design without external resource as the file input stream.
-		// work as a file url
-
-		file = new File( getClassFolder( ) + INPUT_FOLDER + streamFileName );
-		is = new FileInputStream( file );
-
-		session.openDesign( (URL) null, is );
-
 		try
 		{
 			session.openDesign( null );
-			fail( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-
-		}
-
-		try
-		{
-			session.openDesign( file.getParentFile( ).toURL( ), null );
 			fail( );
 		}
 		catch ( IllegalArgumentException e )
@@ -789,57 +763,6 @@ public class SessionHandleTest extends BaseTestCase
 		try
 		{
 			session.openModule( null );
-			fail( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-
-		}
-
-		try
-		{
-			is = null;
-			session.openModule( simpleDesignFile, is );
-			fail( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-
-		}
-
-		try
-		{
-			String fileName = null;
-			is = null;
-			session.openModule( fileName, is );
-			fail( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-
-		}
-
-		// test open library file.
-
-		file = new File( getClassFolder( ) + INPUT_FOLDER + simpleLibraryFile );
-		is = new FileInputStream( file );
-
-		session.openLibrary( file.getParentFile( ).toURL( ), is );
-
-		// session.openLibrary( (URL) null, is );
-
-		try
-		{
-			session.openLibrary( null );
-			fail( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-		}
-
-		try
-		{
-			session.openLibrary( file.getParentFile( ).toURL( ), null );
 			fail( );
 		}
 		catch ( IllegalArgumentException e )
@@ -951,47 +874,57 @@ public class SessionHandleTest extends BaseTestCase
 
 	public void testFireResourceChange( ) throws DesignFileException
 	{
-		libraryHandle = session.openLibrary( getClassFolder( ) + INPUT_FOLDER
-				+ "Library_1.xml" ); //$NON-NLS-1$
+		libraryHandle = session.openLibrary( getResource(
+				INPUT_FOLDER + "Library_1.xml" ).toString( ) ); //$NON-NLS-1$
 		MockupLibraryExplorer libListener = new MockupLibraryExplorer( );
 		libraryHandle.addResourceChangeListener( libListener );
 
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ "SessionHandleTest_10.xml" ); //$NON-NLS-1$
+		designHandle = session.openDesign( getResource(
+				INPUT_FOLDER + "SessionHandleTest_10.xml" ).toString( ) ); //$NON-NLS-1$
 		designHandle.addResourceChangeListener( new MockupLayoutListener( ) );
 		List libs = ( (Module) designHandle.getElement( ) ).getLibraries( );
 		assertEquals( 2, libs.size( ) );
-		Library instance1 = (Library) libs.get( 0 );
-		Library instance2 = (Library) libs.get( 1 );
+//		Library instance1 = (Library) libs.get( 0 );
+//		Library instance2 = (Library) libs.get( 1 );
 
-		session.fireResourceChange( new LibraryChangeEvent( getClassFolder( )
-				+ INPUT_FOLDER + "Library_1.xml" ) ); //$NON-NLS-1$
-		assertEquals( "refresh", libListener.getStatus( ) ); //$NON-NLS-1$
-		assertNotSame( instance1, ( (Module) designHandle.getElement( ) )
-				.getLibraries( ).get( 1 ) );
-		assertSame( instance2, ( (Module) designHandle.getElement( ) )
-				.getLibraries( ).get( 0 ) );
+		// TODO: librarychangeevent should record URL instance, not string
 
-		session.fireResourceChange( new LibraryChangeEvent( getClassFolder( )
-				+ INPUT_FOLDER + "Grandson.xml" ) ); //$NON-NLS-1$
-		assertNotSame( instance2, ( (Module) designHandle.getElement( ) )
-				.getLibraries( ).get( 1 ) );
+		// session.fireResourceChange( new LibraryChangeEvent( getResource(
+		// INPUT_FOLDER ).getFile( )
+		// + "Library_1.xml" ) ); //$NON-NLS-1$
+		// assertEquals( "refresh", libListener.getStatus( ) ); //$NON-NLS-1$
+		// assertNotSame( instance1, ( (Module) designHandle.getElement( ) )
+		// .getLibraries( ).get( 1 ) );
+		// assertSame( instance2, ( (Module) designHandle.getElement( ) )
+		// .getLibraries( ).get( 0 ) );
+		//
+		// session.fireResourceChange( new LibraryChangeEvent( getResource(
+		// INPUT_FOLDER ).getFile( )
+		// + "Grandson.xml" ) ); //$NON-NLS-1$
+		// assertNotSame( instance2, ( (Module) designHandle.getElement( ) )
+		// .getLibraries( ).get( 1 ) );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testParserSemanticCheckControl( ) throws Exception
 	{
 		ModuleOption options = new ModuleOption( );
 		options.setSemanticCheck( false );
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ "SessionHandleTest_11.xml", options ); //$NON-NLS-1$
+		designHandle = session
+				.openDesign(
+						getResource( INPUT_FOLDER + "SessionHandleTest_11.xml" ).toString( ), options ); //$NON-NLS-1$
 		assertEquals( 0, designHandle.getModule( ).getAllErrors( ).size( ) );
 		assertEquals( 0, designHandle
 				.getLibrary( "lib" ).getModule( ).getAllErrors( ).size( ) ); //$NON-NLS-1$
 		designHandle.close( );
 
 		options = null;
-		designHandle = session.openDesign( getClassFolder( ) + INPUT_FOLDER
-				+ "SessionHandleTest_11.xml", options ); //$NON-NLS-1$
+		designHandle = session
+				.openDesign(
+						getResource( INPUT_FOLDER + "SessionHandleTest_11.xml" ).toString( ), options ); //$NON-NLS-1$
 		assertEquals( 1, designHandle.getModule( ).getAllErrors( ).size( ) );
 		assertEquals( 1, designHandle
 				.getLibrary( "lib" ).getModule( ).getAllErrors( ).size( ) ); //$NON-NLS-1$

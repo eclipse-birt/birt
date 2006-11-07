@@ -29,7 +29,6 @@ public class AllLibraryTests
 	{
 		TestSuite test = new TestSuite( );
 
-		test.addTestSuite( AllLibraryTests.class );
 		test.addTestSuite( DesignLoadLibraryTest.class );
 		test.addTestSuite( LibraryChangeChartDataSetTest.class );
 		test.addTestSuite( LibraryCommandTest.class );

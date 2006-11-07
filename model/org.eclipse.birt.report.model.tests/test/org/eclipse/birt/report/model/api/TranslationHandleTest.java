@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class TranslationHandleTest extends BaseTestCase
 {
 
-    private final static String OUT_FILE = "TranslationHandleTest.out.xml"; //$NON-NLS-1$
     private final static String INPUT_FILE = "TranslationHandleTest.xml"; //$NON-NLS-1$
     private final static String GOLDEN_FILE = "TranslationHandleTest.golden.xml"; //$NON-NLS-1$
     
@@ -35,9 +34,13 @@ public class TranslationHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		openDesign( INPUT_FILE ); //$NON-NLS-1$
+		openDesign( INPUT_FILE );
 	}
 
+	/**
+	 * 
+	 * @throws CustomMsgException
+	 */
 	public void testGetSet( ) throws CustomMsgException
 	{
 		List translations = designHandle.getTranslations( );
@@ -73,6 +76,11 @@ public class TranslationHandleTest extends BaseTestCase
 
 	}
 
+	/**
+	 * 
+	 * 
+	 * @throws Exception
+	 */
 	public void testWriter( ) throws Exception
 	{
         // 1. change text and locale.
@@ -86,11 +94,10 @@ public class TranslationHandleTest extends BaseTestCase
         // 2. add a translation
         
         designHandle.addTranslation( "ResourceKey.testKey2", "en", "ABC" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        designHandle.addTranslation( "ResourceKey.testKey2", null, "DEFAULT" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        designHandle.addTranslation( "ResourceKey.testKey2", null, "DEFAULT" ); //$NON-NLS-1$ //$NON-NLS-2$
         
-		saveAs( OUT_FILE );
-        
-        assertTrue( compareTextFile( GOLDEN_FILE, OUT_FILE ));
+		save( );
+        assertTrue( compareTextFile( GOLDEN_FILE));
 	}
 
 }

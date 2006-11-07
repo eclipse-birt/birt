@@ -233,8 +233,7 @@ public class BoundDataColumnsUtilTest extends BaseTestCase
 		myTable = (TableHandle) designHandle.findElement( "MyTable3" ); //$NON-NLS-1$
 		myTable.removedUnusedColumnBindings( );
 
-		saveAs( "BoundDataColumnsUtilTest_out_2.xml" ); //$NON-NLS-1$		
-		assertTrue( compareTextFile( "BoundDataColumnsUtilTest_golden_2.xml", //$NON-NLS-1$
-				"BoundDataColumnsUtilTest_out_2.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "BoundDataColumnsUtilTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 }

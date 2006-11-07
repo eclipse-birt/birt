@@ -69,7 +69,6 @@ public class SimpleMasterPageHandleTest extends BaseTestCase
 
 	private final String INPUT_FILE_NAME = "SimpleMasterPageHandleTest.xml"; //$NON-NLS-1$
 	private final String GOLDEN_FILE_NAME = "SimpleMasterPageHandleTest_golden.xml"; //$NON-NLS-1$
-	private final String OUTPUT_FILE_NAME = "SimpleMasterPageHandleTest_out.xml"; //$NON-NLS-1$
 	private final String ERROR_INPUT_FILE_NAME = "SimpleMasterPageHandleTest_1.xml"; //$NON-NLS-1$
 
 	SimpleMasterPageHandle mHandle = null;
@@ -171,7 +170,7 @@ public class SimpleMasterPageHandleTest extends BaseTestCase
 
 		mHandle.getPageFooter( ).drop( 0 );
 
-		saveAs( OUTPUT_FILE_NAME );
-		compareTextFile( GOLDEN_FILE_NAME, OUTPUT_FILE_NAME );
+		save( );
+		assertTrue( compareTextFile( GOLDEN_FILE_NAME ) );
 	}
 }

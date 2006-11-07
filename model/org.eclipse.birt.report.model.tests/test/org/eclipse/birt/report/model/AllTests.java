@@ -15,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.activity.AllActivityTests;
+import org.eclipse.birt.report.model.api.AllApiTests;
 import org.eclipse.birt.report.model.extension.AllExtensionTests;
 import org.eclipse.birt.report.model.library.AllLibraryTests;
 
@@ -32,12 +33,13 @@ public class AllTests
 	public static Test suite( )
 	{
 		TestSuite test = new TestSuite( );
-		
+
 		// add all package tests here
 		test.addTest( AllActivityTests.suite( ) );
+		test.addTest( AllApiTests.suite( ) );
 		test.addTest( AllExtensionTests.suite( ) );
 		test.addTest( AllLibraryTests.suite( ) );
-		
+
 		return test;
 	}
 

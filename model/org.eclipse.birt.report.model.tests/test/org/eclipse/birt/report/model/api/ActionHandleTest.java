@@ -130,6 +130,10 @@ public class ActionHandleTest extends BaseTestCase
 		return imageHandle.getActionHandle( );
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testAdd( ) throws Exception
 	{
 		openDesign( "ActionHandleTest2.xml" ); //$NON-NLS-1$
@@ -151,7 +155,7 @@ public class ActionHandleTest extends BaseTestCase
 
 		// default is hyperlink.
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
-				actionHandle.getLinkType( ) ); //$NON-NLS-1$
+				actionHandle.getLinkType( ) );
 		actionHandle.setReportName( "report-name1" ); //$NON-NLS-1$
 
 		// switch to drill-through
@@ -176,9 +180,9 @@ public class ActionHandleTest extends BaseTestCase
 		actionHandle.addParamBinding( param1 ); // one way
 		actionHandle.getParamBindings( ).addItem( param2 ); // another way.
 
-		super.saveAs( "ActionHandleTest2.out" ); //$NON-NLS-1$
+		save( );
 		assertTrue( compareTextFile(
-				"ActionHandleTest2_golden.xml", "ActionHandleTest2.out" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"ActionHandleTest2_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -271,17 +275,17 @@ public class ActionHandleTest extends BaseTestCase
 		// 1.
 		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
-				actionHandle.getLinkType( ) ); //$NON-NLS-1$
+				actionHandle.getLinkType( ) );
 
 		// 2.
 		actionHandle = getAction( "Image2" ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH,
-				actionHandle.getLinkType( ) ); //$NON-NLS-1$
+				actionHandle.getLinkType( ) );
 
 		// 3.
 		actionHandle = getAction( "Image4" ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK,
-				actionHandle.getLinkType( ) ); //$NON-NLS-1$
+				actionHandle.getLinkType( ) );
 
 	}
 
@@ -412,7 +416,7 @@ public class ActionHandleTest extends BaseTestCase
 
 		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK,
-				actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
+				actionHandle.getTargetWindow( ) );
 
 		actionHandle.setTargetWindow( "new target windows" ); //$NON-NLS-1$
 		assertEquals( "new target windows", actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
@@ -440,10 +444,8 @@ public class ActionHandleTest extends BaseTestCase
 		
 		actionHandle.setFormatType( "userDefinedType" ); //$NON-NLS-1$
 
-		saveAs( "ActionHandleTest3_out.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ActionHandleTest3_golden.xml", //$NON-NLS-1$
-				"ActionHandleTest3_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "ActionHandleTest3_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -489,9 +491,7 @@ public class ActionHandleTest extends BaseTestCase
 							.getErrorCode( ) );
 		}
 
-		saveAs( "ActionHandleTest4_out.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ActionHandleTest4_golden.xml", //$NON-NLS-1$
-				"ActionHandleTest4_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "ActionHandleTest4_golden.xml") ); //$NON-NLS-1$
 	}
 }

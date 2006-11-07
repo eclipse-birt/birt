@@ -31,7 +31,6 @@ public class AutoTextHandleTest extends BaseTestCase
 	private final static String INPUT_FILE = "AutoTextHandleTest.xml"; //$NON-NLS-1$
 	private final static String OUTPUT_FILE = "AutoTextHandleTest_golden.xml";//$NON-NLS-1$
 	private final static String INPUT_FILE_ONE = "AutoTextHandleTest_1.xml";//$NON-NLS-1$
-	private final static String BLANK_OUTPUT_FILE = "AutoTextHandleTest_out.xml";//$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -105,7 +104,7 @@ public class AutoTextHandleTest extends BaseTestCase
 
 		sf.setStyleName( "myStyle" );//$NON-NLS-1$
 
-		saveAs( BLANK_OUTPUT_FILE );
-		assertTrue( compareTextFile( OUTPUT_FILE, BLANK_OUTPUT_FILE ) );
+		save( );
+		assertTrue( compareTextFile( OUTPUT_FILE ) );
 	}
 }
