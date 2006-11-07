@@ -225,21 +225,29 @@ public class ModelOdaAdapter
 
 		List resultRetColumns = new ResultSetsAdapter( ).newROMResultSets(
 				setDesign, setHandle, null );
-		List columns = new ArrayList( );
-		List hints = new ArrayList( );
 
-		ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
-				columns, hints );
+		List columns = null;
+		List hints = null;
 
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.RESULT_SET_PROP, columns );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
-				columns );
+		// if the return value is null, do not create an empty list.
 
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+		if ( resultRetColumns != null )
+		{
+			columns = new ArrayList( );
+			hints = new ArrayList( );
+
+			ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
+					columns, hints );
+
+			PropertyValueValidationUtil.validateProperty( setHandle,
+					OdaDataSetHandle.RESULT_SET_PROP, columns );
+			PropertyValueValidationUtil.validateProperty( setHandle,
+					OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+		}
 		setHandle.getElement( ).setProperty(
 				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
+				columns );
 
 		// set the query text.
 
@@ -912,7 +920,8 @@ public class ModelOdaAdapter
 				if ( !isSourceChanged
 						&& sourceHandle != null
 						&& !sourceHandle.getModuleHandle( ).isReadOnly( )
-						&& !( this.isEqualDataSourceDesign( createDataSourceDesign( sourceHandle ),
+						&& !( isEqualDataSourceDesign(
+								createDataSourceDesign( sourceHandle ),
 								sourceDesign ) ) )
 				{
 					updateDataSourceHandle( sourceDesign, sourceHandle );
@@ -1223,12 +1232,16 @@ public class ModelOdaAdapter
 	}
 
 	/**
-	 * Check equal between datasource design from handle and the latest datasource design
+	 * Check whether two data source design is equal.
 	 * 
 	 * @param designFromHandle
+	 *            the data source design created from data source handle
 	 * @param design
-	 * @return
+	 *            the data source design
+	 * @return <code>true</code> if two data source designs are equal.
+	 *         Otherwise <code>false</code>.
 	 */
+
 	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
 			DataSourceDesign design )
 	{
@@ -1243,13 +1256,14 @@ public class ModelOdaAdapter
 				String propName = prop.getName( );
 				if ( propValue == null )
 				{
-					String value = design.getPublicProperties( )
-							.getProperty( propName );
-					if ( value != null && value.trim( ).equals( "" ) )
-						prop.setNameValue( prop.getName( ), "" );
+					String value = design.getPublicProperties( ).getProperty(
+							propName );
+					if ( value != null && value.trim( ).equals( "" ) ) //$NON-NLS-1$
+						prop.setNameValue( prop.getName( ), "" ); //$NON-NLS-1$
 				}
 			}
 		}
-		return new EcoreUtil.EqualityHelper( ).equals( designFromHandle, design );
+		return new EcoreUtil.EqualityHelper( )
+				.equals( designFromHandle, design );
 	}
 }
