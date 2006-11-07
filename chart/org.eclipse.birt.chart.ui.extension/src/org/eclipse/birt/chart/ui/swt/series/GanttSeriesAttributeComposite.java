@@ -304,6 +304,10 @@ public class GanttSeriesAttributeComposite extends Composite implements
 						.setColor( (ColorDefinition) event.data );
 			}
 		}
+		else if ( event.widget.equals( fccFill ) )
+		{
+			( (GanttSeries) series ).setOutlineFill( (ColorDefinition) event.data );
+		}
 	}
 
 	private Marker createMarker( Marker marker )
