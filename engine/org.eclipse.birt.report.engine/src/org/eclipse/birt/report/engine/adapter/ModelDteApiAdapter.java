@@ -591,6 +591,8 @@ public class ModelDteApiAdapter
 
 		populateFilter( modelDataSet, dteDataSet );
 
+		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
+		
 		mergeHints( modelDataSet, dteDataSet );
 
 	}

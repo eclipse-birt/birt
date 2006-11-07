@@ -90,6 +90,8 @@ class DataAdapterUtil
 
 		populateFilter( modelDataSet, dteDataSet );
 
+		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
+		
 		mergeHints( modelDataSet, dteDataSet );
 
 	}
