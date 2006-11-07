@@ -120,7 +120,7 @@ public abstract class GroupBy
 	 * @return boolean value
 	 * @throws DataException
 	 */
-	boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey,
+	public boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey,
 			Object groupStartValue, int currRowPos ) throws DataException
 	{
 		return isInSameGroup( currentGroupKey, previousGroupKey );
@@ -135,7 +135,7 @@ public abstract class GroupBy
 	 * @return boolean
 	 * @throws DataException
 	 */
-	boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey )
+	public boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey )
 			throws DataException
 	{
 		if ( previousGroupKey == currentGroupKey )

@@ -1,0 +1,5 @@
+dset1::ID			dset1::CITY			dset1::STORE			dset2::ID			dset2::SKU			dset2::CATEGORY			dset2::PRICE			
+5			NEW YORK			BLUE LAND			5			666440003			Women			9.5			
+5			NEW YORK			BLUE LAND			5			666440002			Women			9.5			
+5			NEW YORK			ROCK AVENUE			5			666440003			Women			9.5			
+5			NEW YORK			ROCK AVENUE			5			666440002			Women			9.5			

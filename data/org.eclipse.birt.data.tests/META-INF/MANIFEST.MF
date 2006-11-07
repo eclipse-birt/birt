@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests Plug-in
+Bundle-SymbolicName: org.eclipse.birt.data.tests
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.birt.data.tests.plugin.Activator
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.data,
+ org.apache.derby.core
+Eclipse-LazyStart: true

@@ -39,7 +39,7 @@ public final class ComplexExpression extends BytecodeExpression
     /**
      * 
      */
-	int getType( )
+	public int getType( )
 	{
 		return CompiledExpression.TYPE_COMPLEX_EXPR;
 	}
@@ -163,7 +163,7 @@ public final class ComplexExpression extends BytecodeExpression
 	 * 
 	 * @return
 	 */
-	Collection getConstantExpressions( )
+	public Collection getConstantExpressions( )
 	{
 		return m_constantExpressions;
 	}
@@ -175,7 +175,7 @@ public final class ComplexExpression extends BytecodeExpression
 	 * @return	a <code>Collection</code> of subexpression associated 
 	 * 			with this <code>ComplexExpression</code>.
 	 */
-	Collection getSubExpressions()
+	public Collection getSubExpressions()
 	{
 		return m_subExpressions;
 	}

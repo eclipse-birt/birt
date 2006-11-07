@@ -1,0 +1,4 @@
+*****A new Report Start!*****
+S:0 E:1 CHINA    Beijing    2004-01-01 00:00:00.0    7000    
+S:1 E:0 US    Chicago    2004-03-02 00:00:00.0    700    
+

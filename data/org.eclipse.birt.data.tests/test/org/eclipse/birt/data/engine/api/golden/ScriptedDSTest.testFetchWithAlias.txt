@@ -1,0 +1,20 @@
+@@EVENT:DataSource.beforeOpen
+@@EVENT:DataSource.open
+@@EVENT:DataSource.afterOpen
+@@EVENT:DataSet.beforeOpen
+@@EVENT:ScriptDataSet.open
+@@EVENT:DataSet.afterOpen
+row.NUM2 value is:3    row.SQUARE2 value is:9.0    row.STR2 value is:row#3    row.ANY2 value is:true    
+row.NUM2 value is:4    row.SQUARE2 value is:16.0    row.STR2 value is:row#4    row.ANY2 value is:true    
+row.NUM2 value is:5    row.SQUARE2 value is:25.0    row.STR2 value is:row#5    row.ANY2 value is:false    
+row.NUM2 value is:6    row.SQUARE2 value is:36.0    row.STR2 value is:row#6    row.ANY2 value is:false    
+row.NUM2 value is:7    row.SQUARE2 value is:49.0    row.STR2 value is:row#7    row.ANY2 value is:false    
+row.NUM2 value is:8    row.SQUARE2 value is:64.0    row.STR2 value is:row#8    row.ANY2 value is:false    
+row.NUM2 value is:9    row.SQUARE2 value is:81.0    row.STR2 value is:row#9    row.ANY2 value is:false    
+row.NUM2 value is:10    row.SQUARE2 value is:100.0    row.STR2 value is:row#10    row.ANY2 value is:false    
+@@EVENT:DataSet.beforeClose
+@@EVENT:ScriptDataSet.close
+@@EVENT:DataSet.afterClose
+@@EVENT:DataSource.beforeClose
+@@EVENT:DataSource.close
+@@EVENT:DataSource.afterClose

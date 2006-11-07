@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * Memory implementation of ResultSetCache
  */
-class MemoryCache implements ResultSetCache
+public class MemoryCache implements ResultSetCache
 {
 	private int countOfResult;
 	private int currResultIndex = -1;
@@ -41,7 +41,7 @@ class MemoryCache implements ResultSetCache
 	 * @param resultObjects
 	 * @param comparator
 	 */
-	MemoryCache( IResultObject[] resultObjects, IResultClass rsMeta,
+	public MemoryCache( IResultObject[] resultObjects, IResultClass rsMeta,
 			Comparator comparator )
 	{
 		this.resultObjects = resultObjects;

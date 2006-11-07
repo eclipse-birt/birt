@@ -521,7 +521,7 @@ public class ResultIterator implements IResultIterator
 	/**
 	 * @return
 	 */
-	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult( )
+	public org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult( )
 	{
 		return odiResult;
 	}

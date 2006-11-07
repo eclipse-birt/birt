@@ -1,0 +1,4 @@
+oda-jdbc.jar
+plugin.xml
+*.log
+*.log.lck

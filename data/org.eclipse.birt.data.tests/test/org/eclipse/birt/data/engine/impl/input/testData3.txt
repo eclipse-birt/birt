@@ -1,0 +1,2 @@
+intCol,bigintCol,smallintCol,floatCol,realCol,charCol,varcharCol,textCol,nvarcharcol,ntextCol,decimalCol,datetimeCol,smalldatetimeCol,bitCol,moneyCol,binaryCol,varbinaryCol
+int,bigdecimal,int,double,double,string,string,string,string,string,bigdecimal,timestamp,timestamp,int,bigdecimal,string,string

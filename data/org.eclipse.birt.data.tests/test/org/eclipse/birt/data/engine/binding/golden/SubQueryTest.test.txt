@@ -1,0 +1,9 @@
+sub query data
+0    0    0    1    
+0    0    0    2    
+
+sub query of sub query data
+0    0    0    0    
+0    0    0    1    
+0    0    0    2    
+

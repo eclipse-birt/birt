@@ -1,0 +1,17 @@
+@@EVENT:DataSource.beforeOpen
+@@EVENT:DataSource.open
+@@EVENT:DataSource.afterOpen
+@@EVENT:DataSet.beforeOpen
+@@EVENT:ScriptDataSet.open
+@@EVENT:DataSet.afterOpen
+row.NUM value is:10    row.SQUARE value is:100.0    row.STR value is:row#10    row.ANY value is:false    
+row.NUM value is:9    row.SQUARE value is:81.0    row.STR value is:row#9    row.ANY value is:false    
+row.NUM value is:8    row.SQUARE value is:64.0    row.STR value is:row#8    row.ANY value is:false    
+row.NUM value is:7    row.SQUARE value is:49.0    row.STR value is:row#7    row.ANY value is:false    
+row.NUM value is:6    row.SQUARE value is:36.0    row.STR value is:row#6    row.ANY value is:false    
+@@EVENT:DataSet.beforeClose
+@@EVENT:ScriptDataSet.close
+@@EVENT:DataSet.afterClose
+@@EVENT:DataSource.beforeClose
+@@EVENT:DataSource.close
+@@EVENT:DataSource.afterClose

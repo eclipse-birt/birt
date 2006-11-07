@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.thirdparty.aggregation"
+   name="Aggr"
+   version="1.0.1"
+   provider-name="Eclipse.org">
+      <runtime>
+      <library name="aggregation.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.birt.data"/>
+   </requires>
+   
+   <extension
+         point="org.eclipse.birt.data.aggregation">
+         <Aggregations>
+         
+	         	<Aggregation
+	         		name= "NewAve"
+	         		aggregationClass = "org.eclipse.birt.thirdparty.aggregation.TotalAve"
+	         		 >
+	     			     			         	 
+		         	 <UIInfo
+		         	 	tip="New Ave tip~"
+		         	 	textData="Total.NewAve()"
+		         	 	parameterMetaInfo="String a, String b,Stringc"
+		         	 />
+	          	</Aggregation>
+	          	 
+
+	            
+	             <Aggregation
+	             	name="NewCount"
+             	 	aggregationClass = "org.eclipse.birt.thirdparty.aggregation.TotalCount"
+	             >	 
+		       	 <UIInfo
+		         	 	tip="New Count tip~"
+		         	 	textData="Total.NewCount()"
+		         	 	parameterMetaInfo="String aa, String bb,String cc"
+		         	 />
+	         	 </Aggregation>
+	         	 
+	         	 <Aggregation
+					  name ="NewSum"
+	         	 	  aggregationClass = "org.eclipse.birt.thirdparty.aggregation.TotalSum"
+		         	>
+		         	<UIInfo
+		         	 	tip="New Sum tip~"
+		         	 	textData="Total.NewSum()"
+		         	 	parameterMetaInfo="String aaa, String bbb,String ccc"
+		         	 />
+	         	 </Aggregation>
+
+          </Aggregations>
+   </extension>
+   
+</plugin>

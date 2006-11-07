@@ -1,0 +1,5 @@
+Index	Name	Alias	Label	Type	TypeName
+1:	floatCol,	null,	floatCol,	3,	Double
+2:	varbinaryCol,	null,	varbinaryCol,	5,	String
+3:	intCol,	intCol_alias,	intCol,	2,	Integer
+4:	ComputedCol1,	null,	ComputedCol1,	0,	Any

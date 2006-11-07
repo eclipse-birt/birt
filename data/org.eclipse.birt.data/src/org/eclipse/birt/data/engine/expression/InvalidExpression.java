@@ -38,7 +38,7 @@ public class InvalidExpression extends CompiledExpression
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.CompiledExpression#getType()
 	 */
-	int getType( )
+	public int getType( )
 	{
 		return TYPE_INVALID_EXPR;
 	}

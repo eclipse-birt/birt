@@ -1,0 +1,36 @@
+dset1::ID			dset1::CITY			dset1::STORE			dset2::ID			dset2::SKU			dset2::CATEGORY			dset2::PRICE			
+null			null			null			1			4422236S			Men			19.99			
+null			null			null			2			665523600			Women			99.0			
+null			null			null			3			T55224			Cosmetics			24.99			
+null			null			null			4			666440002			Women			9.5			
+5			NEW YORK			BLUE LAND			5			666440003			Women			9.5			
+5			NEW YORK			BLUE LAND			5			666440002			Women			9.5			
+5			NEW YORK			BLUE LAND			5			666440001			Women			19.5			
+5			NEW YORK			ROCK AVENUE			5			666440003			Women			9.5			
+5			NEW YORK			ROCK AVENUE			5			666440002			Women			9.5			
+5			NEW YORK			ROCK AVENUE			5			666440001			Women			19.5			
+5			NEW YORK			Empire Building			5			666440003			Women			9.5			
+5			NEW YORK			Empire Building			5			666440002			Women			9.5			
+5			NEW YORK			Empire Building			5			666440001			Women			19.5			
+6			NEW YORK			5th Ave			6			5112007			Cosmetics			26.99			
+null			null			null			7			4422236S			Men			17.99			
+8			NEW YORK			EmpireBuilding			8			U882X223			Women			189.0			
+8			NEW YORK			EmpireBuilding			8			U882X223			Women			189.0			
+8			NEW YORK			Chelsea			8			U882X223			Women			189.0			
+8			NEW YORK			Chelsea			8			U882X223			Women			189.0			
+null			null			null			9			6772344S			Men			299.99			
+10			NEW YORK			Chelsea			null			null			null			null			
+11			LONDON			Chelsea			11			T55224			Cosmetics			27.99			
+12			LONDON			Chelsea			12			4423T662			Men			24.11			
+13			LONDON			Chelsea			null			null			null			null			
+14			LONDON			Chelsea			14			9774422322			Cosmetics			2.66			
+15			LONDON			Chelsea			15			U882X223			Women			189.0			
+16			LONDON			West End			16			9774422322			Cosmetics			3.0			
+17			LONDON			West End			17			4423T662			Men			26.21			
+18			LONDON			West End			18			T55224			Cosmetics			27.99			
+19			LONDON			West End			19			4422236S			Men			20.85			
+20			LONDON			West End			null			null			null			null			
+21			HONG KONG			Central			null			null			null			null			
+22			HONG KONG			Central			null			null			null			null			
+23			HONG KONG			Central			null			null			null			null			
+24			HONG KONG			Central			null			null			null			null			

@@ -1,0 +1,161 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */ 
+package org.eclipse.birt.data.engine.api;
+
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+
+import testutil.ConfigText;
+
+/**
+ * Test cases for data engine scripting features
+ */
+public class ScriptTest extends APITestCase
+{
+
+	private static String dumpDataSourceScript = ConfigText.getString("Script.DumpDataSource");
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
+	 */
+	protected DataSourceInfo getDataSourceInfo( )
+	{
+		return new DataSourceInfo( "ScriptTestTable",
+				"CREATE TABLE ScriptTestTable (COUNTRY varchar(10), CITY varchar(10), SALE_DATE timestamp, AMOUNT int, ORDERED int, NULL_COLUMN varchar(10))",
+				ConfigText.getString( "Api.TestData.TestDataFileName" ) );
+	}
+
+	/** Test data source script object */
+	public void test1_ReadDataSource() throws Exception
+	{
+		// Before-Open: read data source properties
+		this.dataSource.setBeforeOpenScript(
+				"testPrintln(\"DataSource.beforeOpen:\"); " + dumpDataSourceScript);
+		
+		// After-Open: read data source properties
+		this.dataSource.setAfterOpenScript(
+				"testPrintln(\"DataSource.afterOpen:\"); " + dumpDataSourceScript);
+
+		this.dataSource.setBeforeCloseScript(
+				"testPrintln(\"DataSource.beforeClose:\"); " + dumpDataSourceScript);
+		
+		this.dataSource.setAfterCloseScript(
+				"testPrintln(\"DataSource.afterClose:\"); " + dumpDataSourceScript);
+		
+		createAndRunQuery();
+		// Force close data source to verify beforeClose and afterClose
+		this.dataEngine.shutdown();
+		
+		checkOutputFile();
+	}
+	
+	public void test2_UpdateDataSource() throws Exception
+	{
+		// Before-open: change user name. This is expected to cause SELECT SQL to fail since
+		// we are running against a different name space (in Derby)
+		// Also, update to extensionID should be ignored
+		final String INVALID_USER = "fake_user";
+		this.dataSource.setBeforeOpenScript(
+				"extensionProperties.odaUser=\"" + INVALID_USER + 
+				"\"; this.extensionID=\"invalid_extension\"; " +
+				"testPrintln(\"DataSource.beforeOpen:\"); " + dumpDataSourceScript);
+		
+		try
+		{
+			createAndRunQuery();
+		}
+		catch (DataException e )
+		{
+			// Expect an exception since SQL will not run
+			assertEquals( e.getErrorCode(), ResourceConstants.CANNOT_PREPARE_STATEMENT );
+		}
+		checkOutputFile();
+	}
+	
+	static private final String dumpDataSetScript = ConfigText.getString("Script.DumpDataSet");
+	
+	public void test3_ReadDataSet() throws Exception
+	{
+		// Before-Open: read data source properties
+		this.dataSet.setBeforeOpenScript(
+				"testPrintln(\"DataSet.beforeOpen:\"); " + dumpDataSetScript);
+		this.dataSet.setAfterOpenScript(
+				"testPrintln(\"DataSet.AfterOpen:\"); " + dumpDataSetScript);
+		this.dataSet.setBeforeCloseScript(
+				"testPrintln(\"DataSet.beforeClose:\"); " + dumpDataSetScript);
+		this.dataSet.setAfterCloseScript(
+				"testPrintln(\"DataSet.afterClose:\"); " + dumpDataSetScript);
+		this.dataSet.setOnFetchScript(
+				ConfigText.getString("Script.OnFetch") );
+		createAndRunQuery();
+		this.dataEngine.shutdown();
+		checkOutputFile();
+	}
+	
+	public void test4_UpdateQueryText() throws Exception
+	{
+		// Before-Open: 
+		// (1)update queryText to include a WHERE clause
+		// (2) Attempts to update dataSet.extensionID, which should be ignored
+		this.dataSet.setBeforeOpenScript(
+				"queryText = queryText + \" WHERE COUNTRY = 'US' \"; " +
+				"extensionID = \"bad_id\"; " +
+				"testPrintln(\"DataSet.beforeOpen:\"); " + dumpDataSetScript);
+		createAndRunQuery();
+		checkOutputFile();
+	}
+	
+	public void test5_UpdateProps() throws Exception
+	{
+		// Before-Open: 
+		// Add a data set property fake_property, which should result in a driver error
+		String badPropertyName = "fake_property";
+		String badPropertyValue = "fake_prop_value";
+		this.dataSet.setBeforeOpenScript(
+				"extensionProperties[\"" + badPropertyName + "\"] = \"" + badPropertyValue + "\";" +
+				"testPrintln(\"DataSet.beforeOpen:\"); " + dumpDataSetScript);
+		try
+		{
+			createAndRunQuery();
+		}
+		catch (DataException e )
+		{
+			// Exception mesasge should contain bad property name
+			assertTrue( e.getMessage().indexOf(badPropertyName) >=0 );
+		}
+		checkOutputFile();
+	}
+	
+	private void createAndRunQuery( ) throws Exception
+	{
+		// define a query design		
+		QueryDefinition queryDefn = newReportQuery( );
+
+		ScriptExpression exprs[] = new ScriptExpression[1];
+		String names[] = new String[1];
+		exprs[0] = new ScriptExpression("dataSetRow.COUNTRY");
+		names[0] = new String("_COUNTRY");
+		queryDefn.addResultSetExpression( names[0], exprs[0] );
+		
+		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
+		IQueryResults queryResults = preparedQuery.execute( null );
+		IResultIterator it = queryResults.getResultIterator();
+		outputQueryResult( it, names );
+		it.close();
+		queryResults.close();
+	}
+
+}

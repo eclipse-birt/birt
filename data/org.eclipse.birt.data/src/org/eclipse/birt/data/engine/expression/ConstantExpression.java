@@ -66,7 +66,7 @@ public final class ConstantExpression extends CompiledExpression
 		return m_value;
 	}
 	
-	int getType()
+	public int getType()
 	{
 		return TYPE_CONSTANT_EXPR;
 	}

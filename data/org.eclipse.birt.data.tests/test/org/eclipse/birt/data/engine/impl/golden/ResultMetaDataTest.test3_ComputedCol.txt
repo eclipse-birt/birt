@@ -1,0 +1,5 @@
+Index	Name	Alias	Label	Type	TypeName
+1:	intCol,	null,	intCol,	2,	Integer
+2:	intCol_plus_intCol,	null,	,	2,	Integer
+3:	,	null,	,	3,	Double
+4:	ComputedCol1,	ComputedCol1_alias,	ComputedCol1,	-1,	Unknown

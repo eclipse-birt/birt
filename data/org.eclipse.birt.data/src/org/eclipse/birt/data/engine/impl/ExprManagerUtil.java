@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * This is a utility class which is used to validate the colum bindings defined 
  * in ExprManager instance.
  */
-class ExprManagerUtil
+public class ExprManagerUtil
 {
 	private ExprManager exprManager;
 	
@@ -355,7 +355,7 @@ class ExprManagerUtil
 	/**
 	 *
 	 */
-	static class Node
+	public static class Node
 	{
 		private List children;
 		private String value;
@@ -363,7 +363,7 @@ class ExprManagerUtil
 		/**
 		 * @param value
 		 */
-		Node( String value )
+		public Node( String value )
 		{
 			this.value = value;
 			this.children = new ArrayList( );

@@ -1,0 +1,16 @@
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+CHINA, Beijing, CHINA, Beijing
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, Chicago, US, Chicago
+US, New York, US, New York
+US, New York, US, New York
+US, New York, US, New York
+US, New York, US, New York
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai
+CHINA, Shanghai, CHINA, Shanghai

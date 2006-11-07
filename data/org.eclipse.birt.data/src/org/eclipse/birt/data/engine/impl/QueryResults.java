@@ -41,7 +41,7 @@ import org.mozilla.javascript.Scriptable;
  * Beyond Release 1, this would include methods to save and restore
  * results in a persisted Report Document.
  */
-class QueryResults implements IQueryResults, IQueryService
+public class QueryResults implements IQueryResults, IQueryService
 {
 	// query service instance
 	private IServiceForQueryResults 	queryService;

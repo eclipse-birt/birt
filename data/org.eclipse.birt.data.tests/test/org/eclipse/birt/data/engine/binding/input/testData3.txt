@@ -1,0 +1,13 @@
+COUNTRY,CITY,SALE_DATE,AMOUNT,ORDERED,NULL_COLUMN
+STRING,STRING,TIMESTAMP,INT,INT,STRING
+'CHINA','Beijing','2004-01-01 00:00:00',7000,1,null
+'CHINA','Beijing','2004-01-01 00:00:00',7000,1,null
+'US','New York','2004-05-01 00:00:00',100,1,null
+'US','New York','2004-05-01 00:00:00',100,1,null
+'US','New York','2004-05-01 00:00:00',100,1,null
+'CHINA','Shanghai','2004-06-01 00:00:00',100,0,null
+'US','Chicago','2004-03-02 00:00:00',700,0,null
+'US','New York','2004-06-01 00:00:00',100,0,null
+'CHINA','Shanghai','2004-01-01 00:00:00',100,1,null
+'CHINA','Beijing','2004-06-05 00:00:00',400,0,null
+'CHINA','Shanghai','2004-06-01 00:00:00',100,0,null

@@ -1,0 +1,12 @@
+7000, A large amount!, A large amount!7000
+100, A small amount!, A small amount!100
+100, A small amount!, A small amount!100
+700, A large amount!, A large amount!700
+100, A small amount!, A small amount!100
+100, A small amount!, A small amount!100
+400, A large amount!, A large amount!400
+400, A large amount!, A large amount!400
+600, A large amount!, A large amount!600
+700, A large amount!, A large amount!700
+800, A large amount!, A large amount!800
+1000, A large amount!, A large amount!1000

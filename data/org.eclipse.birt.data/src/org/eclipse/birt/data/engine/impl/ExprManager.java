@@ -39,7 +39,7 @@ public class ExprManager
 	/**
 	 * 
 	 */
-	ExprManager( )
+	public ExprManager( )
 	{
 		bindingExprs = new ArrayList( );
 		autoBindingExprMap = new HashMap( );
@@ -50,7 +50,7 @@ public class ExprManager
 	 * @param resultsExprMap
 	 * @param groupLevel
 	 */
-	void addBindingExpr( String groupKey, Map resultsExprMap, int groupLevel )
+	public void addBindingExpr( String groupKey, Map resultsExprMap, int groupLevel )
 	{
 		if ( resultsExprMap == null )
 			return;

@@ -60,7 +60,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 				"ColumnReferenceExpression" );
 	}
 	
-	int getType()
+	public int getType()
 	{
 		return TYPE_DIRECT_COL_REF;
 	}

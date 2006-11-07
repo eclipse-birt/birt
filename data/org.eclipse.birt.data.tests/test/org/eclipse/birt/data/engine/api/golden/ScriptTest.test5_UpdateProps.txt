@@ -1,0 +1,9 @@
+DataSet.beforeOpen:
+  extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
+  queryText=select * from ScriptTestTable
+  row is null=false
+  rows is null=false
+  dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
+  extensionProperties:
+    fake_property=fake_prop_value
+  columnDefns:

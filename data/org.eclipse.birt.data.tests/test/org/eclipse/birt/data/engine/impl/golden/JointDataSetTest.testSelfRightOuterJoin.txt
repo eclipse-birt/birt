@@ -1,0 +1,36 @@
+dset1::ID			dset1::CITY			dset1::STORE			dset2::ID			dset2::CITY			dset2::STORE			
+1			NEW YORK			5th Ave			1			NEW YORK			5th Ave			
+2			NEW YORK			5th Ave			2			NEW YORK			5th Ave			
+3			NEW YORK			5th Ave			3			NEW YORK			5th Ave			
+4			NEW YORK			5th Ave			4			NEW YORK			5th Ave			
+5			NEW YORK			BLUE LAND			5			NEW YORK			BLUE LAND			
+5			NEW YORK			ROCK AVENUE			5			NEW YORK			BLUE LAND			
+5			NEW YORK			Empire Building			5			NEW YORK			BLUE LAND			
+5			NEW YORK			BLUE LAND			5			NEW YORK			ROCK AVENUE			
+5			NEW YORK			ROCK AVENUE			5			NEW YORK			ROCK AVENUE			
+5			NEW YORK			Empire Building			5			NEW YORK			ROCK AVENUE			
+5			NEW YORK			BLUE LAND			5			NEW YORK			Empire Building			
+5			NEW YORK			ROCK AVENUE			5			NEW YORK			Empire Building			
+5			NEW YORK			Empire Building			5			NEW YORK			Empire Building			
+6			NEW YORK			5th Ave			6			NEW YORK			5th Ave			
+7			NEW YORK			Chelsea			7			NEW YORK			Chelsea			
+8			NEW YORK			EmpireBuilding			8			NEW YORK			EmpireBuilding			
+8			NEW YORK			Chelsea			8			NEW YORK			EmpireBuilding			
+8			NEW YORK			EmpireBuilding			8			NEW YORK			Chelsea			
+8			NEW YORK			Chelsea			8			NEW YORK			Chelsea			
+9			NEW YORK			Chelsea			9			NEW YORK			Chelsea			
+10			NEW YORK			Chelsea			10			NEW YORK			Chelsea			
+11			LONDON			Chelsea			11			LONDON			Chelsea			
+12			LONDON			Chelsea			12			LONDON			Chelsea			
+13			LONDON			Chelsea			13			LONDON			Chelsea			
+14			LONDON			Chelsea			14			LONDON			Chelsea			
+15			LONDON			Chelsea			15			LONDON			Chelsea			
+16			LONDON			West End			16			LONDON			West End			
+17			LONDON			West End			17			LONDON			West End			
+18			LONDON			West End			18			LONDON			West End			
+19			LONDON			West End			19			LONDON			West End			
+20			LONDON			West End			20			LONDON			West End			
+21			HONG KONG			Central			21			HONG KONG			Central			
+22			HONG KONG			Central			22			HONG KONG			Central			
+23			HONG KONG			Central			23			HONG KONG			Central			
+24			HONG KONG			Central			24			HONG KONG			Central			

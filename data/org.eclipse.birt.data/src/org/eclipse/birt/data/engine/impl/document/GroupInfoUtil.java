@@ -251,7 +251,7 @@ public class GroupInfoUtil {
 	/**
 	 * 
 	 */
-	static List[] cleanUnUsedGroupInstance( List[] groups )
+	public static List[] cleanUnUsedGroupInstance( List[] groups )
 	{
 		List[] savedList = groups;
 		groups = new List[groups.length];

@@ -1,0 +1,50 @@
+DataSet.beforeOpen:
+  extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
+  queryText=select * from ScriptTestTable
+  row is null=false
+  rows is null=false
+  dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
+  extensionProperties:
+  columnDefns:
+DataSet.AfterOpen:
+  extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
+  queryText=select * from ScriptTestTable
+  row is null=false
+  rows is null=false
+  dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
+  extensionProperties:
+  columnDefns:
+-->OnFetch: row[1]=CHINA. Success=true
+-->OnFetch: row[1]=US. Success=true
+-->OnFetch: row[1]=CHINA. Success=true
+-->OnFetch: row[1]=US. Success=true
+-->OnFetch: row[1]=US. Success=true
+-->OnFetch: row[1]=CHINA. Success=true
+-->OnFetch: row[1]=CHINA. Success=true
+-->OnFetch: row[1]=US. Success=true
+*****A new Report Start!*****
+S:0 E:1 CHINA    
+S:1 E:1 US    
+S:1 E:1 CHINA    
+S:1 E:1 US    
+S:1 E:1 US    
+S:1 E:1 CHINA    
+S:1 E:1 CHINA    
+S:1 E:0 US    
+
+DataSet.beforeClose:
+  extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
+  queryText=select * from ScriptTestTable
+  row is null=false
+  rows is null=false
+  dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
+  extensionProperties:
+  columnDefns:
+DataSet.afterClose:
+  extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
+  queryText=select * from ScriptTestTable
+  row is null=true
+  rows is null=true
+  dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
+  extensionProperties:
+  columnDefns:

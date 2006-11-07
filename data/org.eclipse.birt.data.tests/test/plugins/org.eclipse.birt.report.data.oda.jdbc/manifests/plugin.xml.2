@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.data.oda.jdbc"
+   name="BIRT ODA-JDBC Bridge Driver"
+   version="1.0.0"
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.data.oda.plugin.OdaJdbcPlugin">
+   <runtime>
+      <library name="oda-jdbc.jar">
+         <export name="*"/>
+      </library>
+      <library name="derby.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
+   </requires>
+   
+   <extension-point id="driverinfo" name="JDBC Driver Information Extension" 
+   			schema="schema/driverinfo.exsd"/>
+   			
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource
+            odaVersion="3.0"
+            driverClass="org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver"
+            defaultDisplayName="JDBC Data Source"
+            setThreadContextClassLoader="false"
+            id="org.eclipse.birt.report.data.oda.jdbc">
+         <properties>
+            <propertyGroup
+                  defaultDisplayName="Connection Properties"
+                  name="connectionProperties">
+               <property
+                  type="string"
+                  defaultDisplayName="JDBC Driver Class"
+                  canInherit="true"
+                  name="odaDriverClass"/>
+               <property
+                  type="string"
+                  defaultDisplayName="JDBC Driver URL"
+                  canInherit="true"
+                  name="odaURL"/>
+               <property
+                  type="string"
+                  defaultDisplayName="Data Source"
+                  canInherit="true"
+                  name="odaDataSource"/>
+               <property
+                  type="string"
+                  defaultDisplayName="User Name"
+                  canInherit="true"
+                  name="odaUser"/>
+               <property
+                     isEncryptable="true"
+                     type="string"
+                     canInherit="true"
+                     defaultDisplayName="Password"
+                     name="odaPassword"/>
+            </propertyGroup>
+         </properties>
+         <traceLogging
+               logLevel="500"
+               logFileNamePrefix="OdaJdbcLog"
+               logFormatterClass="java.util.logging.SimpleFormatter"/>
+      </dataSource>
+      <dataSet
+            defaultDisplayName="SQL Select Query"
+            id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+         <dataTypeMapping
+               nativeDataType="BIT"
+               nativeDataTypeCode="-7"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="TINYINT"
+               nativeDataTypeCode="-6"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="SMALLINT"
+               nativeDataTypeCode="5"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="INTEGER"
+               nativeDataTypeCode="4"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="BIGINT"
+               nativeDataTypeCode="-5"
+               odaScalarDataType="Decimal"/>
+         <dataTypeMapping
+               nativeDataType="FLOAT"
+               nativeDataTypeCode="6"
+               odaScalarDataType="Double"/>
+         <dataTypeMapping
+               nativeDataType="REAL"
+               nativeDataTypeCode="7"
+               odaScalarDataType="Double"/>
+         <dataTypeMapping
+               nativeDataType="DOUBLE"
+               nativeDataTypeCode="8"
+               odaScalarDataType="Double"/>
+         <dataTypeMapping
+               nativeDataType="NUMERIC"
+               nativeDataTypeCode="2"
+               odaScalarDataType="Decimal"/>
+         <dataTypeMapping
+               nativeDataType="DECIMAL"
+               nativeDataTypeCode="3"
+               odaScalarDataType="Decimal"/>
+         <dataTypeMapping
+               nativeDataType="CHAR"
+               nativeDataTypeCode="1"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="VARCHAR"
+               nativeDataTypeCode="12"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="LONGVARCHAR"
+               nativeDataTypeCode="-1"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="DATE"
+               nativeDataTypeCode="91"
+               odaScalarDataType="Date"/>
+         <dataTypeMapping
+               nativeDataType="TIME"
+               nativeDataTypeCode="92"
+               odaScalarDataType="Time"/>
+         <dataTypeMapping
+               nativeDataType="TIMESTAMP"
+               nativeDataTypeCode="93"
+               odaScalarDataType="Timestamp"/>
+         <dataTypeMapping
+               nativeDataType="BOOLEAN"
+               nativeDataTypeCode="16"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="BINARY"
+               nativeDataTypeCode="-2"
+               odaScalarDataType="Blob"/>
+         <dataTypeMapping
+               nativeDataType="VARBINARY"
+               nativeDataTypeCode="-3"
+               odaScalarDataType="Blob"/>
+         <dataTypeMapping
+               nativeDataType="LONGVARBINARY"
+               nativeDataTypeCode="-4"
+               odaScalarDataType="Blob"/>
+         <dataTypeMapping
+               nativeDataType="BLOB"
+               nativeDataTypeCode="2004"
+               odaScalarDataType="Blob"/>
+         <dataTypeMapping
+               nativeDataType="CLOB"
+               nativeDataTypeCode="2005"
+               odaScalarDataType="Clob"/>
+         <properties>
+            <propertyGroup
+                  defaultDisplayName="Query Properties"
+                  name="queryProperties">
+               <property
+                     type="string"
+                     defaultDisplayName="Query Time Out (in seconds)"
+                     canInherit="true"
+                     name="queryTimeOut"/>
+            </propertyGroup>
+         </properties>
+      </dataSet>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
+      <jdbcDriver
+            driverClass="sun.jdbc.odbc.JdbcOdbcDriver"
+            urlTemplate="jdbc:odbc:&lt;data source name&gt;"
+            name="Sun JDBC-ODBC Bridge Driver"/>
+      <jdbcDriver
+            driverClass="org.apache.derby.jdbc.EmbeddedDriver"
+            urlTemplate="jdbc:derby:[subsubprotocol:]DATABASE[;ATTRIBUTE=VALUE]*"
+            name="Apache Derby Embedded Driver"/>
+   </extension>
+</plugin>

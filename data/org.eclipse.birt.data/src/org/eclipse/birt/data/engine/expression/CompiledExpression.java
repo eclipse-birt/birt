@@ -57,7 +57,7 @@ public abstract class CompiledExpression
 	/**
 	 * gets the type of the compiled expression
 	 */
-	abstract int getType();
+	public abstract int getType();
 	
 	/**
 	 * Evaluates this expression

@@ -1,0 +1,13 @@
+*****A new Report Start!*****
+Customer Name:Bill  Address:NY
+Starting Balance: $100.0
+
+Customer Name:Alan  Address:SH
+Starting Balance: $10.5
+2005-01-02 10:57:00.0 1381231000           80 1.6 2 2 10.5 true 
+2005-01-04 13:57:00.0 1381231000           72 1.44 2 2 10.5 true 
+2005-01-05 10:53:20.0 1381231000           270 5.4 2 2 10.5 true 
+
+Customer Name:Mary  Address:SH
+Starting Balance: $20.5
+
