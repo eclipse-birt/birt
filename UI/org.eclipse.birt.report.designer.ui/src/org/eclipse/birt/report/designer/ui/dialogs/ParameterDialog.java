@@ -876,10 +876,10 @@ public class ParameterDialog extends BaseDialog
 		{
 			columnChooser.setText( originalSelection );
 		}
-		else if ( columnChooser.getItemCount( ) > 0 )
-		{
-			columnChooser.select( 0 );
-		}
+//		else if ( columnChooser.getItemCount( ) > 0 )
+//		{
+//			columnChooser.select( 0 );
+//		}
 		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
 		updateMessageLine( );
 	}
@@ -1327,7 +1327,8 @@ public class ParameterDialog extends BaseDialog
 		} );
 
 		createLabel( composite, LABEL_SELECT_VALUE_COLUMN );
-		columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		// columnChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		columnChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		columnChooser.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1336,12 +1337,50 @@ public class ParameterDialog extends BaseDialog
 				updateButtons( );
 			}
 		} );
+		
+		Button valueColumnExprButton = new Button( composite, SWT.PUSH );
+		valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
+		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
+		valueColumnExprButton.addSelectionListener( new SelectionAdapter( ) {
 
-		createLabel( composite, null );
+			public void widgetSelected( SelectionEvent event )
+			{
+
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getExpression( columnChooser.getText( ) ) );
+				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter, dataSetChooser.getText( ) ) );
+
+				if ( expressionBuilder.open( ) == OK )
+				{
+					setExpression( columnChooser, expressionBuilder.getResult( ).trim( ) );
+				}
+			}
+		} );
+
+		//createLabel( composite, null );
 		createLabel( composite, LABEL_SELECT_DISPLAY_TEXT );
-		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		// displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createLabel( composite, null );
+		
+		Button displayTextExprButton = new Button( composite, SWT.PUSH );
+		displayTextExprButton.setText( "..." ); //$NON-NLS-1$
+		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
+		displayTextExprButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getExpression( displayTextChooser.getText( ) ) );
+				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter, dataSetChooser.getText( ) ) );
+
+				if ( expressionBuilder.open( ) == OK )
+				{
+					setExpression( displayTextChooser, expressionBuilder.getResult( ).trim( ) );
+				}
+			}
+		} );
+		
+		// createLabel( composite, null );
 		createDefaultEditor( );
 		listLimit.setEditable( true );
 	}
@@ -2160,8 +2199,8 @@ public class ParameterDialog extends BaseDialog
 				return DEUtil.getExpression( cachedColumn );
 			}
 		}
-		return null;
-
+		// return null;
+		return columnName;
 	}
 
 	private String getColumnName( String expression )
@@ -2174,7 +2213,8 @@ public class ParameterDialog extends BaseDialog
 				return cachedColumn.getColumnName( );
 			}
 		}
-		return null;
+		// return null;
+		return expression;
 	}
 
 	private String getInputControlDisplayName( )
@@ -2239,5 +2279,24 @@ public class ParameterDialog extends BaseDialog
 		}
 		return false;
 	}
-
+	
+	private void setExpression( Combo chooser, String key )
+	{
+		chooser.deselectAll( );
+		key = StringUtil.trimString( key );
+		if ( StringUtil.isBlank( key ) )
+		{
+			chooser.setText( "" ); //$NON-NLS-1$
+			return;
+		}
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+			{
+				chooser.select( i );
+				return;
+			}
+		}
+		chooser.setText( key );
+	}
 }
