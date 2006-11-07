@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -40,15 +38,8 @@ public class PropertyValueExceptionTest extends BaseTestCase
 	{
 		super.setUp( );
 
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		writer = new PrintWriter( new FileOutputStream( outputFolder
-				+ File.separator + "PropertyValueExceptionError.out.txt" ) ); //$NON-NLS-1$
+		os = new ByteArrayOutputStream( );
+		writer = new PrintWriter( os ); 
 
 	}
 
@@ -66,7 +57,8 @@ public class PropertyValueExceptionTest extends BaseTestCase
 		String value = "badValue";//$NON-NLS-1$
 
 		PropertyValueException error = new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, PropertyType.BOOLEAN_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				PropertyType.BOOLEAN_TYPE );
 		print( error );
 
 		error = new PropertyValueException( value,
@@ -83,7 +75,8 @@ public class PropertyValueExceptionTest extends BaseTestCase
 		print( error );
 
 		error = new PropertyValueException( table, TableItem.VISIBILITY_PROP,
-				new EmbeddedImage( ), PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
+				new EmbeddedImage( ),
+				PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE );
 		print( error );
 
 		error = new PropertyValueException( table.getName( ),
@@ -117,18 +110,16 @@ public class PropertyValueExceptionTest extends BaseTestCase
 				-12.0d, DesignChoiceConstants.UNITS_CM ),
 				PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE );
 		print( error );
-        
-        error = new PropertyValueException( null, table
-                .getPropertyDefn( TableItem.HEIGHT_PROP ), new DimensionValue(
-                -12.0d, DesignChoiceConstants.UNITS_CM ),
-                PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE );
-        print( error );
 
+		error = new PropertyValueException( null, table
+				.getPropertyDefn( TableItem.HEIGHT_PROP ), new DimensionValue(
+				-12.0d, DesignChoiceConstants.UNITS_CM ),
+				PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE );
+		print( error );
 
 		writer.close( );
 
-		assertTrue( compareTextFile( "PropertyValueExceptionError.golden.txt", //$NON-NLS-1$
-				"PropertyValueExceptionError.out.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "PropertyValueExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 

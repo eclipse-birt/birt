@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -325,9 +324,8 @@ public class ReportItemParseTest extends BaseTestCase
 
 		dataHandle.setTocExpression( null );
 
-		saveAs( "ReportItemParseTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "ReportItemParseTest_golden.xml", //$NON-NLS-1$
-				"ReportItemParseTest_out.xml" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "ReportItemParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 }

@@ -224,7 +224,7 @@ public class ListItemParseTest extends ParserTestCase
 				FreeForm.COMMENTS_PROP ) );
 
 		assertEquals( "week", groupHandle.getInterval( ) ); //$NON-NLS-1$
-		assertTrue( 3.0 == groupHandle.getIntervalRange( ) ); //$NON-NLS-1$
+		assertTrue( 3.0 == groupHandle.getIntervalRange( ) ); 
 		assertEquals( "desc", groupHandle.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "complex-sort", groupHandle.getSortType( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", groupHandle.getKeyExpr( ) ); //$NON-NLS-1$
@@ -275,8 +275,8 @@ public class ListItemParseTest extends ParserTestCase
 		groupHandle.setSortType( "none" ); //$NON-NLS-1$
 		groupHandle.setOnPageBreak( "new page break" );//$NON-NLS-1$
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 	}
 
 	/**

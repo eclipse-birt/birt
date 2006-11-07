@@ -39,10 +39,9 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	public void testExpressionCompatible( ) throws Exception
 	{
 		openDesign( "CompatibleBirt2_1M5Expr.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleBirt2_1M5Expr_out.xml" );//$NON-NLS-1$
+		save( );
 
-		assertTrue( compareTextFile( "CompatibleBirt2_1M5Expr_golden.xml", //$NON-NLS-1$
-				"CompatibleBirt2_1M5Expr_out.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "CompatibleBirt2_1M5Expr_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -58,10 +57,9 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	public void testDataValueExpr( ) throws Exception
 	{
 		openDesign( "Birt2_1_0Expr.xml" ); //$NON-NLS-1$
-		saveAs( "Birt2_1_0Expr_out.xml" );//$NON-NLS-1$
+		save( );
 
-		assertTrue( compareTextFile( "Birt2_1_0Expr_golden.xml", //$NON-NLS-1$
-				"Birt2_1_0Expr_out.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "Birt2_1_0Expr_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -78,10 +76,9 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	public void testTextContent( ) throws Exception
 	{
 		openDesign( "Birt2_1_M5TextContent.xml" ); //$NON-NLS-1$
-		saveAs( "Birt2_1_M5TextContent_out.xml" );//$NON-NLS-1$
+		save( );
 
-		assertTrue( compareTextFile( "Birt2_1_M5TextContent_golden.xml", //$NON-NLS-1$
-				"Birt2_1_M5TextContent_out.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "Birt2_1_M5TextContent_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -97,11 +94,9 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	public void testNestedTable( ) throws Exception
 	{
 		openDesign( "CompatibleBoundColumnNestedTable.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleBoundColumnNestedTable_out.xml" );//$NON-NLS-1$
+		save( );
 
-		assertTrue( compareTextFile(
-				"CompatibleBoundColumnNestedTable_golden.xml", //$NON-NLS-1$
-				"CompatibleBoundColumnNestedTable_out.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "CompatibleBoundColumnNestedTable_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -119,11 +114,9 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	public void testDataValueExprWithGroup( ) throws Exception
 	{
 		openDesign( "CompatibleDataValueExprWithGroup.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleDataValueExprWithGroup_out.xml" );//$NON-NLS-1$
+		save( );
 
-		assertTrue( compareTextFile(
-				"CompatibleDataValueExprWithGroup_golden.xml", //$NON-NLS-1$
-				"CompatibleDataValueExprWithGroup_out.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "CompatibleDataValueExprWithGroup_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -148,7 +141,7 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 
 		structure = (ComputedColumnHandle) iter.next( );
 		assertEquals( "column2", structure.getName( ) );//$NON-NLS-1$
-		assertEquals( group.getName( ), structure.getAggregrateOn( ) );
+		assertEquals( group.getName( ), structure.getAggregateOn( ) );
 
 		tableHandle = (ListingHandle) designHandle.findElement( "MyTable2" ); //$NON-NLS-1$
 
@@ -162,7 +155,7 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 		structure = (ComputedColumnHandle) iter.next( );
 		structure = (ComputedColumnHandle) iter.next( );
 		assertEquals( "column3", structure.getName( ) );//$NON-NLS-1$
-		assertEquals( group.getName( ), structure.getAggregrateOn( ) );
+		assertEquals( group.getName( ), structure.getAggregateOn( ) );
 		structure = (ComputedColumnHandle) iter.next( );
 		assertFalse( iter.hasNext( ) );
 	}
@@ -193,15 +186,13 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	{
 		openDesign( "CompatibleGroupExpression.xml" ); //$NON-NLS-1$
 
-		saveAs( "CompatibleGroupExpression_out.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleGroupExpression_golden.xml", //$NON-NLS-1$
-				"CompatibleGroupExpression_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleGroupExpression_golden.xml" ) ); //$NON-NLS-1$
 
 		openDesign( "CompatibleGroupExpression_1.xml" ); //$NON-NLS-1$
 
-		saveAs( "CompatibleGroupExpression_out_1.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleGroupExpression_golden_1.xml", //$NON-NLS-1$
-				"CompatibleGroupExpression_out_1.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleGroupExpression_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -248,28 +239,23 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 	public void testRows( ) throws Exception
 	{
 		openDesign( "CompatibleRowsExpr_1.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleRowsExpr_out_1.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_1.xml", //$NON-NLS-1$
-				"CompatibleRowsExpr_out_1.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_1.xml" ) ); //$NON-NLS-1$
 
 		openDesign( "CompatibleRowsExpr_2.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleRowsExpr_out_2.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_2.xml", //$NON-NLS-1$
-				"CompatibleRowsExpr_out_2.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_2.xml" ) ); //$NON-NLS-1$
 
 		openDesign( "CompatibleRowsExpr_3.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleRowsExpr_out_3.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_3.xml", //$NON-NLS-1$
-				"CompatibleRowsExpr_out_3.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_3.xml" ) ); //$NON-NLS-1$
 
 		openDesign( "CompatibleRowsExpr_NoChange.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleRowsExpr_NoChange_out.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleRowsExpr_NoChange_golden.xml", //$NON-NLS-1$
-				"CompatibleRowsExpr_NoChange_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleRowsExpr_NoChange_golden.xml" ) ); //$NON-NLS-1$
 
 		openDesign( "CompatibleRowsExpr_4.xml" ); //$NON-NLS-1$
-		saveAs( "CompatibleRowsExpr_out_4.xml" );//$NON-NLS-1$
-		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_4.xml", //$NON-NLS-1$
-				"CompatibleRowsExpr_out_4.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "CompatibleRowsExpr_golden_4.xml" ) ); //$NON-NLS-1$
 	}
 }

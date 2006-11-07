@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.Iterator;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;

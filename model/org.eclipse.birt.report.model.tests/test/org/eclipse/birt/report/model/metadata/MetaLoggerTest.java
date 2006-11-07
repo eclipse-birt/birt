@@ -11,19 +11,15 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test case to test meta-data error logging. Test to check that all the
@@ -81,180 +77,6 @@ public class MetaLoggerTest extends BaseTestCase
 			MetaLogManager.removeLogger( logger );
 
 		logger = null;
-	}
-
-	/**
-	 * The golden and output file has a date-time in the front of the log file,
-	 * we need to ignore this when doing the compare.
-	 * 
-	 * @param goldenFileName
-	 *            golden file name.
-	 * @param outputFileName
-	 *            output file name.
-	 * @return return true if two files are equals according to the logic.
-	 * 
-	 */
-
-	protected boolean compareFileIgnoreDateTime( String goldenFileName,
-			String outputFileName )
-	{
-		// release the output file first.
-		clearup( );
-
-		BufferedReader lineReaderA = null;
-		BufferedReader lineReaderB = null;
-		boolean same = true;
-
-		try
-		{
-			goldenFileName = getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
-			outputFileName = getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
-
-			lineReaderA = new BufferedReader( new FileReader( goldenFileName ) );
-			lineReaderB = new BufferedReader( new FileReader( outputFileName ) );
-
-			String strA = lineReaderA.readLine( ).trim( );
-			String strB = lineReaderB.readLine( ).trim( );
-
-			int prefixLen = FileMetaLogger.df.toPattern( ).length( );
-			String datePrefix = null;
-
-			while ( strA != null )
-			{
-				if ( strA.length( ) >= prefixLen )
-				{
-					// cut the dataTime prefix.
-
-					datePrefix = strA.substring( 0, prefixLen ).trim( );
-
-					try
-					{
-						FileMetaLogger.df.parse( datePrefix );
-
-						// get the first line of the exception from A.
-
-						strA = strA.substring( prefixLen );
-
-						// get the first line of the corresponding exception
-						// from B.
-
-						while ( strB != null )
-						{
-							if ( strB.length( ) >= prefixLen )
-							{
-								datePrefix = strB.substring( 0, prefixLen )
-										.trim( );
-								try
-								{
-									FileMetaLogger.df.parse( datePrefix );
-
-									strB = strB.substring( prefixLen );
-									break;
-								}
-								catch ( ParseException e1 )
-								{
-
-								}
-							}
-
-							strB = lineReaderB.readLine( ).trim( );
-						}
-
-						same = strA.trim( ).equals( strB.trim( ) );
-
-						if ( !same )
-							return false;
-
-						// read in the second line.
-						strA = lineReaderA.readLine( ).trim( );
-						strB = lineReaderB.readLine( ).trim( );
-
-						same = strA.trim( ).equals( strB.trim( ) );
-
-						if ( !same )
-							return false;
-
-					}
-					catch ( ParseException e1 )
-					{
-						// ignore, strA has not been re-assigned.
-					}
-				}
-
-				strA = lineReaderA.readLine( );
-			}
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
-		}
-		finally
-		{
-			try
-			{
-				if ( lineReaderA != null )
-					lineReaderA.close( );
-				if ( lineReaderB != null )
-					lineReaderB.close( );
-			}
-			catch ( Exception e )
-			{
-				lineReaderA = null;
-				lineReaderB = null;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Create a new FileMetaLogger which will log the errors into a file
-	 * specified by <code>fileName</code>. And then registered the logger
-	 * onto the <code>MetaLogManager</code>.
-	 * <p>
-	 * For test case purpose, the log file will be deleted before passed on to
-	 * the <code>FileMetaLogger</code>, because the
-	 * <code>FileMetaLogger</code> will always append the errors to the
-	 * existing log file. While in test case, we care only the errors caught in
-	 * the current metadata loading.
-	 * 
-	 * @param fileName
-	 *            file name of the log file
-	 * @return The new <code>IMetaLogger</code> that was created which bound
-	 *         to a file.
-	 */
-
-	private IMetaLogger createAndRegisterLogger( String fileName )
-	{
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
-
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) )
-		{
-			outputFolder.mkdir( );
-		}
-
-		File logFile = new File( outputPath + fileName );
-		if ( logFile.exists( ) )
-		{
-			logFile.delete( );
-		}
-		else
-		{
-			try
-			{
-				logFile.createNewFile( );
-			}
-			catch ( IOException e )
-			{
-			}
-		}
-
-		String name = getClassFolder( ) + OUTPUT_FOLDER + fileName;
-		IMetaLogger logger = new FileMetaLogger( name );
-		MetaLogManager.registerLogger( logger );
-
-		return logger;
 	}
 
 	/**
@@ -1033,11 +855,6 @@ public class MetaLoggerTest extends BaseTestCase
 		assertErrorCode(
 				MetaDataException.DESIGN_EXCEPTION_ILLEGAL_ABSTRACT_ELEMENT, 0,
 				METADATA_EXCEPTION );
-	}
-
-	public void test_INVALID_STYLE_PROP_OPTION( )
-	{
-		// sanity check, can not construct the case.
 	}
 
 	/**

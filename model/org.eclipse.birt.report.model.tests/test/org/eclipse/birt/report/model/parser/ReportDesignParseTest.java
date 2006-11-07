@@ -344,8 +344,8 @@ public class ReportDesignParseTest extends BaseTestCase
 				"newthumbnailimageAAA" ) //$NON-NLS-1$
 				.getBytes( IReportDesignModel.CHARSET ) ) );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save( );
+		assertTrue( compareTextFile( goldenFileName ) );
 	}
 
 	/**
@@ -654,12 +654,12 @@ public class ReportDesignParseTest extends BaseTestCase
 
 		try
 		{
-			EmbeddedImage tmp = new EmbeddedImage( "VarToAdd" ); //$NON-NLS-1$//$NON-NLS-2$
+			EmbeddedImage tmp = new EmbeddedImage( "VarToAdd" ); //$NON-NLS-1$
 			tmp.setData( "data".getBytes( EmbeddedImage.CHARSET ) ); //$NON-NLS-1$
 			designHandle.addImage( tmp );
 
 			tmp = new EmbeddedImage(
-					"VarToAdd", DesignChoiceConstants.IMAGE_TYPE_IMAGE_BMP ); //$NON-NLS-1$//$NON-NLS-2$
+					"VarToAdd", DesignChoiceConstants.IMAGE_TYPE_IMAGE_BMP ); //$NON-NLS-1$
 			tmp.setData( "data".getBytes( EmbeddedImage.CHARSET ) ); //$NON-NLS-1$
 			designHandle.addImage( tmp );
 			fail( );
@@ -742,8 +742,8 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( datasourceBindingsFileName, ULocale.ENGLISH );
 
-		saveAs( outFileName_2 );
-		assertTrue( compareTextFile( goldenFileName_2, outFileName_2 ) );
+		save( );
+		assertTrue( compareTextFile( goldenFileName_2 ) );
 	}
 
 	/**
@@ -754,9 +754,12 @@ public class ReportDesignParseTest extends BaseTestCase
 
 	public void testParseDesignInJarFile( ) throws Exception
 	{
+		String jarFileName = copyContentToFile( "input/" //$NON-NLS-1$
+				+ "testRead.jar" ); //$NON-NLS-1$
+
 		SessionHandle session = DesignEngine.newSession( ULocale.getDefault( ) );
-		designHandle = session
-				.openDesign( "jar:file:" + getClassFolder( ) + INPUT_FOLDER + "testRead.jar!/test/testRead.rptdesign" ); //$NON-NLS-1$
+		designHandle = session.openDesign( "jar:file:" + jarFileName //$NON-NLS-1$
+				+ "!/test/testRead.rptdesign" ); //$NON-NLS-1$
 		assertNotNull( designHandle );
 
 		assertNotNull( designHandle.getSystemId( ) );
@@ -764,8 +767,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		LabelHandle label = (LabelHandle) designHandle
 				.findElement( "labelfromLib" ); //$NON-NLS-1$
 		assertNotNull( label );
-		assertEquals( "a.labelfromLib", label.getElement( ).getExtendsName( ) );
-		assertEquals( "blue", label.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( "a.labelfromLib", label.getElement( ).getExtendsName( ) ); //$NON-NLS-1$
+		assertEquals( "blue", label.getProperty( IStyleModel.COLOR_PROP ) ); //$NON-NLS-1$
 
 	}
 
@@ -801,12 +804,12 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( "LineNumberParseTest.xml" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" );//$NON-NLS-1$
-		assertEquals(373, design.getLineNoByID( table.getID( ) ));
-		
-		Cell cell = (Cell)design.getElementByID( 45 );
-		assertEquals(395, design.getLineNoByID( cell.getID( ) ));
-		
-		ExtendedItem chart = (ExtendedItem)design.getElementByID( 34023 );
-		assertEquals(400, design.getLineNoByID( chart.getID( ) ));
+		assertEquals( 373, design.getLineNoByID( table.getID( ) ) );
+
+		Cell cell = (Cell) design.getElementByID( 45 );
+		assertEquals( 395, design.getLineNoByID( cell.getID( ) ) );
+
+		ExtendedItem chart = (ExtendedItem) design.getElementByID( 34023 );
+		assertEquals( 400, design.getLineNoByID( chart.getID( ) ) );
 	}
 }

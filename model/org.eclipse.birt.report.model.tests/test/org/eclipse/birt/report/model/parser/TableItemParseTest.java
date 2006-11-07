@@ -30,8 +30,6 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
 
@@ -184,7 +182,7 @@ public class TableItemParseTest extends ParserTestCase
 	{
 		openDesign( fileName );
 
-		saveAs( outFileName );
+		save();
 
 		TableHandle table = (TableHandle) designHandle.findElement( "My table" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -558,8 +556,8 @@ public class TableItemParseTest extends ParserTestCase
 		cell.setOnPrepare( "new prepare on cell" ); //$NON-NLS-1$
 		cell.setOnRender( "new render on cell" ); //$NON-NLS-1$
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 
 	}
 

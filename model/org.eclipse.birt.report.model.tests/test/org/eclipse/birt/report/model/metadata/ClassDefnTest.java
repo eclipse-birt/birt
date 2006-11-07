@@ -107,7 +107,7 @@ public class ClassDefnTest extends BaseTestCase
 
 		method = (MethodInfo) methods.get( 1 );
 		assertEquals( "addColumn", method.getName( ) ); //$NON-NLS-1$
-		assertEquals( null, method.getReturnType( ) ); //$NON-NLS-1$
+		assertEquals( null, method.getReturnType( ) ); 
 		assertEquals( "Class.MyClass.addColumn", method.getDisplayNameKey( ) ); //$NON-NLS-1$
 		assertEquals( "Class.MyClass.addColumn.toolTip", method.getToolTipKey( ) ); //$NON-NLS-1$
 		assertTrue( method.isStatic( ) );

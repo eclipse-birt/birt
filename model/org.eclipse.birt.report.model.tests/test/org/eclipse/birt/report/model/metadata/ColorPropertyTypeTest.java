@@ -82,10 +82,10 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 				Integer.decode( "#FF0000" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
 
 		value = "RGB(65%,0%,0%)"; //$NON-NLS-1$
-		assertNotNull( type.validateXml( design, null, value ) ); //$NON-NLS-1$
+		assertNotNull( type.validateXml( design, null, value ) ); 
 
 		value = "RGB(65.01%,0%,0%)"; //$NON-NLS-1$
-		assertNotNull( type.validateXml( design, null, value ) ); //$NON-NLS-1$
+		assertNotNull( type.validateXml( design, null, value ) ); 
 
 		value = "RGB(  255 % , 0 % , 0 % )"; //$NON-NLS-1$
 		assertEquals(
@@ -160,7 +160,7 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 		assertEquals(
 				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "0xFF00FF" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals( new Integer( 1234567 ), type.validateValue( design,
-				propDefn, "1234567" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				propDefn, "1234567" ) ); //$NON-NLS-1$
 
 		assertEquals( "red", type.validateValue( design, propDefn, "red" ) ); //$NON-NLS-1$//$NON-NLS-2$
 

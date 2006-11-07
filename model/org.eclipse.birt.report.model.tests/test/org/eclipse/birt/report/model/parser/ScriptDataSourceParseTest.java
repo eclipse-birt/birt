@@ -89,8 +89,8 @@ public class ScriptDataSourceParseTest extends BaseTestCase
 		dataSource.setOpen( "My open script" ); //$NON-NLS-1$
 		dataSource.setClose( "My close script" ); //$NON-NLS-1$
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 	}
 
 //	/**

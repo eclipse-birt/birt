@@ -11,14 +11,11 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * The test case of <code>ExtendedDataSource</code> parser and writer.
@@ -70,8 +67,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		
-		design = DesignEngine.newSession( ULocale.ENGLISH ).createDesign( )
-				.getDesign( );
+		createDesign( );
 
 	}
 
@@ -173,8 +169,8 @@ public class OdaDataSourceParseTest extends BaseTestCase
 		dataSourceHandle.setDesigerStateContentAsBlob( strBlob
 				.getBytes( OdaDesignerState.CHARSET ) );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 
 	}
 

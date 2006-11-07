@@ -118,7 +118,7 @@ public class ReportElementParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE,
 				memberHandle.getStringValue( ) );
 		memberHandle = structHandle.getMember( PropertyMask.NAME_MEMBER );
-		assertNull( memberHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertNull( memberHandle.getStringValue( ) ); 
 
 		structHandle = propHandle.getAt( 4 );
 		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
@@ -178,9 +178,8 @@ public class ReportElementParseTest extends BaseTestCase
 				DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK );
 		propHandle.addItem( mask );
 
-		saveAs( "ReportElementParseTest_out.xml" ); //$NON-NLS-1$		
-		assertTrue( compareTextFile( "ReportElementParseTest_golden.xml", //$NON-NLS-1$
-				"ReportElementParseTest_out.xml" ) ); //$NON-NLS-1$
+		save(); 		
+		assertTrue( compareTextFile( "ReportElementParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

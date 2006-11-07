@@ -173,8 +173,8 @@ public class DataItemParseTest extends BaseTestCase
 		action = dataHandle.getActionHandle( );
 		assertNotNull( action );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 
 	}
 

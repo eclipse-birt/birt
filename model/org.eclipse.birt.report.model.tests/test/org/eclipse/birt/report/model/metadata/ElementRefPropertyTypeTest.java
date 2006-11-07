@@ -111,7 +111,7 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 		try
 		{
 			// wrong element type.
-			type.validateValue( design, propDefn, label1 ); //$NON-NLS-1$
+			type.validateValue( design, propDefn, label1 ); 
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -125,7 +125,7 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 		try
 		{
 			// wrong element type.
-			type.validateValue( design, propDefn, new Object( ) ); //$NON-NLS-1$
+			type.validateValue( design, propDefn, new Object( ) ); 
 			fail( );
 		}
 		catch ( PropertyValueException e )

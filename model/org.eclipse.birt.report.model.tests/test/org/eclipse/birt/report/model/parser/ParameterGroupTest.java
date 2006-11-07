@@ -91,12 +91,12 @@ public class ParameterGroupTest extends BaseTestCase
 				"This group contains a bunch of parameters.", h.getHelpText( ) ); //$NON-NLS-1$
 
 		assertEquals( "group key", h.getHelpTextKey( ) ); //$NON-NLS-1$
-		assertTrue( h.startExpanded( ) ); //$NON-NLS-1$
+		assertTrue( h.startExpanded( ) ); 
 
 		h.setStartExpanded( false );
 		h.setStringProperty( ParameterGroup.START_EXPANDED_PROP, "false" ); //$NON-NLS-1$
 
-		assertFalse( h.startExpanded( ) ); //$NON-NLS-1$
+		assertFalse( h.startExpanded( ) ); 
 		
 		// cascading
 		ParameterGroupHandle countryStateCity = getParameterGroup( "Country-State-City" ); //$NON-NLS-1$
@@ -157,7 +157,7 @@ public class ParameterGroupTest extends BaseTestCase
 	 */
 	public void testSortedSlotIterator( ) throws Exception
 	{
-		String[] goldenArray = { "Group 1", "Group 2", "Param 1", "Param 3" }; //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+		String[] goldenArray = { "Group 1", "Group 2", "Param 1", "Param 3" }; //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$  
 
 		SlotHandle handle = designHandle.getParameters( );
 		SortedSlotIterator it = new SortedSlotIterator( handle );
@@ -209,8 +209,7 @@ public class ParameterGroupTest extends BaseTestCase
 		h.setHelpText( "new help text" ); //$NON-NLS-1$		
 		h.setHelpTextKey( "key of new help text" ); //$NON-NLS-1$
 
-		saveAs( "ParameterGroupTest.out" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "ParameterGroupTest_golden.xml", //$NON-NLS-1$
-				"ParameterGroupTest.out" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "ParameterGroupTest_golden.xml") ); //$NON-NLS-1$
 	}
 }

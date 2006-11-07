@@ -101,21 +101,19 @@ public class JointDataSetParseTest extends BaseTestCase
 	public void testParser( ) throws DesignFileException
 	{
 		openDesign( inputFileName );
-		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle
+		JointDataSetHandle dataSet = designHandle
 				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
 		assertEquals( 0, dataSet.getRowFetchLimit( ) );
 
 		List dataSets = dataSet.getListProperty( JointDataSet.DATA_SETS_PROP );
 		assertEquals( 2, dataSets.size( ) );
-		DataSetHandle ds1 = (DataSetHandle) designHandle
-				.findDataSet( "DataSet1" );//$NON-NLS-1$
+		DataSetHandle ds1 = designHandle.findDataSet( "DataSet1" );//$NON-NLS-1$
 		assertSame( ds1.getElement( ), ( (ElementRefValue) dataSets.get( 0 ) )
 				.getElement( ) );
 		assertEquals( 30, ds1.getRowFetchLimit( ) );
 
-		DataSetHandle ds2 = (DataSetHandle) designHandle
-				.findDataSet( "DataSet2" );//$NON-NLS-1$
+		DataSetHandle ds2 = designHandle.findDataSet( "DataSet2" );//$NON-NLS-1$
 		assertEquals( 0, ds2.getRowFetchLimit( ) );
 		assertSame( ds2.getElement( ), ( (ElementRefValue) dataSets.get( 1 ) )
 				.getElement( ) );
@@ -153,7 +151,7 @@ public class JointDataSetParseTest extends BaseTestCase
 				.getDataType( ) );
 		assertTrue( parameter.isOptional( ) );
 		assertEquals( "default value 1", parameter.getDefaultValue( ) ); //$NON-NLS-1$
-		assertEquals( true, parameter.allowNull( ) ); //$NON-NLS-1$
+		assertEquals( true, parameter.allowNull( ) );
 
 		// Test "result-set" on DataSet
 
@@ -192,15 +190,15 @@ public class JointDataSetParseTest extends BaseTestCase
 		member = (PropertyDefn) columnHint.getDefn( ).getMember(
 				ColumnHint.SEARCHING_MEMBER );
 		assertEquals( DesignChoiceConstants.SEARCH_TYPE_NONE, columnHint
-				.getProperty( design, member ) ); //$NON-NLS-1$
+				.getProperty( design, member ) );
 		member = (PropertyDefn) columnHint.getDefn( ).getMember(
 				ColumnHint.EXPORT_MEMBER );
 		assertEquals( DesignChoiceConstants.EXPORT_TYPE_ALWAYS, columnHint
-				.getProperty( design, member ) ); //$NON-NLS-1$
+				.getProperty( design, member ) );
 		member = (PropertyDefn) columnHint.getDefn( ).getMember(
 				ColumnHint.ANALYSIS_MEMBER );
 		assertEquals( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION, columnHint
-				.getProperty( design, member ) ); //$NON-NLS-1$
+				.getProperty( design, member ) );
 		member = (PropertyDefn) columnHint.getDefn( ).getMember(
 				ColumnHint.PARENT_LEVEL_MEMBER );
 		assertEquals( "4", columnHint.getProperty( design, member ) ); //$NON-NLS-1$
@@ -249,14 +247,14 @@ public class JointDataSetParseTest extends BaseTestCase
 	public void testWriter( ) throws Exception
 	{
 		openDesign( inputFileName );
-		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle
+		JointDataSetHandle dataSet = designHandle
 				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
 		dataSet.setRowFetchLimit( 10 );
 
 		DataSetHandle ds1 = designHandle.findDataSet( "DataSet1" );//$NON-NLS-1$
 		ds1.setRowFetchLimit( 50 );
-		
+
 		DataSetHandle ds2 = designHandle.findDataSet( "DataSet2" );//$NON-NLS-1$
 		ds2.setRowFetchLimit( 20 );
 
@@ -273,8 +271,8 @@ public class JointDataSetParseTest extends BaseTestCase
 		PropertyHandle conditionHandle = dataSet
 				.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP );
 		conditionHandle.addItem( condition );
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save( );
+		assertTrue( compareTextFile( goldenFileName ) );
 	}
 
 	/**

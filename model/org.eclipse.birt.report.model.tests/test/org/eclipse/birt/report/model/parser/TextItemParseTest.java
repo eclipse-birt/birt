@@ -123,9 +123,8 @@ public class TextItemParseTest extends BaseTestCase
 		textHandle = text.handle( design );
 		textHandle.setContentKey( "odd 1" ); //$NON-NLS-1$
 
-		saveAs( "TextItemParseTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "TextItemParseTest_golden.xml", //$NON-NLS-1$
-				"TextItemParseTest_out.xml" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "TextItemParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

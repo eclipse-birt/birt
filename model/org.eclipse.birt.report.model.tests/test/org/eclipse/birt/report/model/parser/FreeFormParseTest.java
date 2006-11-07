@@ -173,7 +173,7 @@ public class FreeFormParseTest extends ParserTestCase
 		assertEquals (
 				"new comment", freeFormHandle.getStringProperty ( FreeForm.COMMENTS_PROP ) ); //$NON-NLS-1$
 
-		freeFormHandle.setProperty ( FreeForm.STYLE_PROP, null ); //$NON-NLS-1$
+		freeFormHandle.setProperty ( FreeForm.STYLE_PROP, null ); 
 		SlotHandle reportItem = freeFormHandle.getSlot ( 0 );
 		FreeFormHandle freeForm1 = ( FreeFormHandle ) reportItem.get ( 1 );
 
@@ -184,8 +184,8 @@ public class FreeFormParseTest extends ParserTestCase
 		FreeFormHandle freeForm2 = ( FreeFormHandle ) reportItem.get ( 2 );
 		reportItem.dropAndClear ( 2 );
 		innerReportItem.add ( freeForm2);
-		saveAs ( outFileName );
-		assertTrue ( compareTextFile ( goldenFileName, outFileName ) );
+		save();
+		assertTrue ( compareTextFile ( goldenFileName) );
 
 	}
 

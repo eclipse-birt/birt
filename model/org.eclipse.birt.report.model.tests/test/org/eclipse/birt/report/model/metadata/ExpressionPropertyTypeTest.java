@@ -52,7 +52,7 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	public void testValidateValue( ) throws PropertyValueException
 	{
 		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertNull( type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNull( type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$ 
 		assertEquals( "abc", type.validateValue( design, propDefn, "abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( "    abc ", type.validateValue( design, propDefn, "    abc " ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}

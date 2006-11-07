@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
@@ -67,8 +66,7 @@ public class CachedMetaDataParserTest extends BaseTestCase
 	{
 		openDesign( INPUT_FILE );
 
-		dataSetHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "firstDataSet" ); //$NON-NLS-1$
+		dataSetHandle = designHandle.findDataSet( "firstDataSet" ); //$NON-NLS-1$
 		assert dataSetHandle != null;
 		
 		parser( );
@@ -85,8 +83,7 @@ public class CachedMetaDataParserTest extends BaseTestCase
 	{
 		openDesign( INPUT_FILE );
 
-		dataSetHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "firstDataSet" ); //$NON-NLS-1$
+		dataSetHandle = designHandle.findDataSet( "firstDataSet" ); //$NON-NLS-1$
 		assert dataSetHandle != null;		
 		writer( );
 	}
@@ -156,8 +153,8 @@ public class CachedMetaDataParserTest extends BaseTestCase
 		resultSet1.setPosition( new Integer( 6 ) );
 		resultSetHandle.addItem( resultSet1 );
 
-		saveAs( OUTPUT_FILE );
-		compareTextFile( GOLDEN_FILE, OUTPUT_FILE );
+		save();
+		compareTextFile( GOLDEN_FILE);
 	}
 
 }

@@ -18,6 +18,11 @@ import org.eclipse.birt.report.model.activity.AllActivityTests;
 import org.eclipse.birt.report.model.api.AllApiTests;
 import org.eclipse.birt.report.model.extension.AllExtensionTests;
 import org.eclipse.birt.report.model.library.AllLibraryTests;
+import org.eclipse.birt.report.model.metadata.AllMetadataTests;
+import org.eclipse.birt.report.model.parser.AllParserTests;
+import org.eclipse.birt.report.model.util.AllUtilTests;
+import org.eclipse.birt.report.model.validators.AllValidatorTests;
+import org.eclipse.birt.report.model.writer.AllWriterTests;
 
 /**
  * Tests cases run in the build script.
@@ -33,13 +38,18 @@ public class AllTests
 	public static Test suite( )
 	{
 		TestSuite test = new TestSuite( );
-
+		
 		// add all package tests here
 		test.addTest( AllActivityTests.suite( ) );
 		test.addTest( AllApiTests.suite( ) );
 		test.addTest( AllExtensionTests.suite( ) );
 		test.addTest( AllLibraryTests.suite( ) );
-
+		test.addTest( AllMetadataTests.suite( ) );
+		test.addTest( AllParserTests.suite( ) );
+		test.addTest( AllUtilTests.suite( ) );		
+		test.addTest( AllValidatorTests.suite( ) );
+		test.addTest( AllWriterTests.suite( ) );
+		
 		return test;
 	}
 

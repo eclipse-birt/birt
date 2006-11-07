@@ -53,7 +53,7 @@ public class DimensionValueTest extends BaseTestCase
 			assertTrue( e instanceof IllegalArgumentException );
 		}
 
-		value = new DimensionValue( 12.89, DesignChoiceConstants.UNITS_MM ); //$NON-NLS-1$
+		value = new DimensionValue( 12.89, DesignChoiceConstants.UNITS_MM ); 
 		assertTrue( 12.89 == value.getMeasure( ) );
 		assertTrue( DesignChoiceConstants.UNITS_MM == value.getUnits( ) );
 

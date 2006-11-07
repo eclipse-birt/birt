@@ -133,9 +133,8 @@ public class UserPropertyTest extends BaseTestCase
 	{
 		openDesign( "UserPropertyTest.xml" ); //$NON-NLS-1$ 	
 
-		saveAs( "UserPropertyTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "UserPropertyTest_golden.xml", //$NON-NLS-1$
-				"UserPropertyTest_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "UserPropertyTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -191,16 +190,23 @@ public class UserPropertyTest extends BaseTestCase
 		ListItem list = (ListItem) design.findElement( "My List" ); //$NON-NLS-1$
 		assertNotNull( list );
 		assertEquals( 7, list.getUserProperties( ).size( ) );
-		
-		List userProperties = (List)list.getUserProperties();
-		assertEquals( "myProp", ((UserPropertyDefn) userProperties.get( 0 )).getName() );  //$NON-NLS-1$
-		assertEquals( "myProp1", ((UserPropertyDefn) userProperties.get( 1 )).getName() ); //$NON-NLS-1$
-		assertEquals( "myProp5", ((UserPropertyDefn) userProperties.get( 2 )).getName() ); //$NON-NLS-1$
-		assertEquals( "myProp6", ((UserPropertyDefn) userProperties.get( 3 )).getName() ); //$NON-NLS-1$
-		assertEquals( "myProp3", ((UserPropertyDefn) userProperties.get( 4 )).getName() ); //$NON-NLS-1$
-		assertEquals( "myProp2", ((UserPropertyDefn) userProperties.get( 5 )).getName() ); //$NON-NLS-1$
-		assertEquals( "parentProp", ((UserPropertyDefn) userProperties.get( 6 )).getName() ); //$NON-NLS-1$
-		
+
+		List userProperties = list.getUserProperties( );
+		assertEquals(
+				"myProp", ( (UserPropertyDefn) userProperties.get( 0 ) ).getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"myProp1", ( (UserPropertyDefn) userProperties.get( 1 ) ).getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"myProp5", ( (UserPropertyDefn) userProperties.get( 2 ) ).getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"myProp6", ( (UserPropertyDefn) userProperties.get( 3 ) ).getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"myProp3", ( (UserPropertyDefn) userProperties.get( 4 ) ).getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"myProp2", ( (UserPropertyDefn) userProperties.get( 5 ) ).getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"parentProp", ( (UserPropertyDefn) userProperties.get( 6 ) ).getName( ) ); //$NON-NLS-1$
+
 		UserPropertyDefn propDefn = list.getUserPropertyDefn( "myProp1" ); //$NON-NLS-1$
 		assertNotNull( propDefn );
 		assertEquals( "string", propDefn.getType( ).getName( ) ); //$NON-NLS-1$

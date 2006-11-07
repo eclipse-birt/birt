@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -1012,5 +1011,44 @@ public abstract class BaseTestCase extends TestCase
 	{
 		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
 				"windows" ) >= 0; //$NON-NLS-1$
+	}
+
+	/**
+	 * Copies the file to the temporary folder.
+	 * 
+	 * @param resourceName
+	 *            the resource name. Based on the class folder.
+	 * @throws Exception
+	 */
+
+	protected String copyContentToFile( String resourceName ) throws Exception
+	{
+		URL url = getResource( resourceName );
+		InputStream is = url.openStream( );
+
+		String folder = getTempFolder( ) + "/" + INPUT_FOLDER; //$NON-NLS-1$
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+
+		String filename = ""; //$NON-NLS-1$
+		int lastSlash = resourceName.lastIndexOf( "/" ); //$NON-NLS-1$
+		if ( lastSlash != -1 )
+		{
+			filename = resourceName.substring( lastSlash + 1 );
+		}
+
+		FileOutputStream fos = new FileOutputStream( folder + filename );
+		byte[] fileData = new byte[5120];
+		int readCount = -1;
+		while ( ( readCount = is.read( fileData ) ) != -1 )
+		{
+			fos.write( fileData, 0, readCount );
+		}
+
+		fos.close( );
+		is.close( );
+
+		return folder + filename;
 	}
 }

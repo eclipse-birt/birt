@@ -98,7 +98,7 @@ public class SortingParserTest extends BaseTestCase
 	 */
 	public void testWriter( ) throws Exception
 	{
-		saveAs( FILE_OUT_NAME );
-		assertTrue( compareTextFile( GOLDEN_FILE_NAME, FILE_OUT_NAME ) );
+		save();
+		assertTrue( compareTextFile( GOLDEN_FILE_NAME) );
 	}
 }

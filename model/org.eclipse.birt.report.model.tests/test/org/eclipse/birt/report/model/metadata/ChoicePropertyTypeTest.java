@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
  * Test case for ChoicePropertyType.
- *  
+ * 
  */
 public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 {
@@ -32,7 +32,7 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 		super.setUp( );
 
 		ChoiceSet choiceSet = new ChoiceSet(
-				DesignChoiceConstants.CHOICE_FONT_FAMILY ); //$NON-NLS-1$
+				DesignChoiceConstants.CHOICE_FONT_FAMILY ); 
 		Choice[] choice = new Choice[3];
 		choice[0] = new Choice( "sans-serif", "Choices.fontFamily.sans-serif" ); //$NON-NLS-1$//$NON-NLS-2$
 		choice[1] = new Choice( "cursive", "Choices.fontFamily.cursive" ); //$NON-NLS-1$//$NON-NLS-2$
@@ -83,8 +83,9 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-					.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -97,10 +98,10 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	{
 		assertEquals(
 				"sans-serif", type.validateInputString( design, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( null, type.validateInputString( design, propDefn, " " ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( null, type.validateInputString( design, propDefn, " " ) ); //$NON-NLS-1$
 		assertEquals( null, type.validateInputString( design, propDefn, "" ) ); //$NON-NLS-1$
 
-		ThreadResources.setLocale( TEST_LOCALE ); //$NON-NLS-1$ //$NON-NLS-2$
+		ThreadResources.setLocale( TEST_LOCALE );
 		assertEquals(
 				"cursive", type.validateInputString( design, propDefn, "\u8fde\u4f53" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
@@ -114,7 +115,7 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	{
 		assertEquals(
 				"sans-serif", type.validateXml( design, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( null, type.validateXml( design, propDefn, null ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( null, type.validateXml( design, propDefn, null ) );
 		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
 	}
 
@@ -175,7 +176,7 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 		assertEquals(
 				"Cursive", type.toDisplayString( design, propDefn, "cursive" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		ThreadResources.setLocale( TEST_LOCALE ); //$NON-NLS-1$ //$NON-NLS-2$
+		ThreadResources.setLocale( TEST_LOCALE );
 		assertEquals(
 				"\u8fde\u4f53", type.toDisplayString( design, propDefn, "cursive" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}

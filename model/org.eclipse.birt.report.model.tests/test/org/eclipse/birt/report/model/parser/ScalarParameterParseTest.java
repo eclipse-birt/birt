@@ -138,9 +138,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle2.setPromptText( "new Text" ); //$NON-NLS-1$
 		handle2.setListlimit( 300 );
 
-		saveAs( "ScalarParameterParseTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "ScalarParameterParseTest_golden.xml", //$NON-NLS-1$
-				"ScalarParameterParseTest_out.xml" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "ScalarParameterParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -211,10 +210,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle.setPromptText( "new Text" ); //$NON-NLS-1$
 		assertEquals( "new Text", handle.getPromptText( ) ); //$NON-NLS-1$
 
-		assertEquals( 100, handle.getListlimit( ) ); //$NON-NLS-1$
+		assertEquals( 100, handle.getListlimit( ) ); 
 
 		handle.setListlimit( 200 );
-		assertEquals( 200, handle.getListlimit( ) ); //$NON-NLS-1$
+		assertEquals( 200, handle.getListlimit( ) ); 
 
 	}
 
@@ -233,6 +232,6 @@ public class ScalarParameterParseTest extends BaseTestCase
 	{
 		SlotHandle params = designHandle.getParameters( );
 		ScalarParameterHandle param = (ScalarParameterHandle) params.get( 2 );
-		assertEquals( "default value", param.getDefaultValue( ) );
+		assertEquals( "default value", param.getDefaultValue( ) ); //$NON-NLS-1$
 	}
 }

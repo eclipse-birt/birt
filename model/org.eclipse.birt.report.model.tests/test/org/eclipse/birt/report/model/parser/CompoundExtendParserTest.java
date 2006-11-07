@@ -214,8 +214,8 @@ public class CompoundExtendParserTest extends BaseTestCase
 				DesignParserException.DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND,
 				error4.getErrorCode( ) );
 
-		saveAs( OUTPUT_FILE2 );
-		compareTextFile( GOLDEN_FILE2, OUTPUT_FILE2 );
+		save();
+		compareTextFile( GOLDEN_FILE2);
 	}
 
 	/**
@@ -294,7 +294,7 @@ public class CompoundExtendParserTest extends BaseTestCase
 		label1.setName( "new label" ); //$NON-NLS-1$
 		label1.setStyleName( "style1" ); //$NON-NLS-1$
 
-		saveAs( OUTPUT_FILE );
-		assertTrue( compareTextFile( GOLDEN_FILE, OUTPUT_FILE ) );
+		save();
+		assertTrue( compareTextFile( GOLDEN_FILE) );
 	}
 }

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * In this setUp method , prepare test datas and expected datas for supporting
  * testGetterSetters , testBuild , testValidateValue method in
  * PropertyTypeTestCase class
- *  
+ * 
  */
 public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 {
@@ -76,33 +76,33 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 
 		// Boolean
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				Boolean.TRUE ) ); //$NON-NLS-1$
+				Boolean.TRUE ) );
 		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
-				Boolean.FALSE ) ); //$NON-NLS-1$
+				Boolean.FALSE ) );
 
 		// Integer
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				new Integer( 1 ) ) ); //$NON-NLS-1$
+				new Integer( 1 ) ) );
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				new Integer( 2 ) ) ); //$NON-NLS-1$
+				new Integer( 2 ) ) );
 		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
-				new Integer( 0 ) ) ); //$NON-NLS-1$
+				new Integer( 0 ) ) );
 
 		// Double
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				new Double( 1.0d ) ) ); //$NON-NLS-1$
+				new Double( 1.0d ) ) );
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				new Double( 2.0d ) ) ); //$NON-NLS-1$
+				new Double( 2.0d ) ) );
 		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
-				new Double( 0.0d ) ) ); //$NON-NLS-1$
+				new Double( 0.0d ) ) );
 
 		// BigDecimal
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				new BigDecimal( 1.0d ) ) ); //$NON-NLS-1$
+				new BigDecimal( 1.0d ) ) );
 		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
-				new BigDecimal( 2.0d ) ) ); //$NON-NLS-1$
+				new BigDecimal( 2.0d ) ) );
 		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
-				new BigDecimal( 0.0d ) ) ); //$NON-NLS-1$
+				new BigDecimal( 0.0d ) ) );
 
 		// Wrong type
 		try
@@ -112,8 +112,9 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-					.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -146,8 +147,9 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-					.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -171,8 +173,9 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-					.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -231,7 +234,7 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testToDisplayString( )
 	{
-		assertEquals( null, type.toDisplayString( design, propDefn, null ) ); //$NON-NLS-1$
+		assertEquals( null, type.toDisplayString( design, propDefn, null ) );
 
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		assertEquals(

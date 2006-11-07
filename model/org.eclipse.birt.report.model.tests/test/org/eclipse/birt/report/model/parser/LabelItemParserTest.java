@@ -86,10 +86,10 @@ public class LabelItemParserTest extends ParserTestCase
 
 		LabelHandle labelHandle = getLabel( );
 
-		assertEquals( "6mm", labelHandle.getStringProperty( Label.X_PROP ) ); //$NON-NLS-2$ //$NON-NLS-1$
-		assertEquals( "0.5mm", labelHandle.getStringProperty( Label.Y_PROP ) ); //$NON-NLS-2$ //$NON-NLS-1$
-		assertEquals( "0.25mm", labelHandle.getStringProperty( Label.HEIGHT_PROP ) ); //$NON-NLS-2$ //$NON-NLS-1$
-		assertEquals( "1mm", labelHandle.getStringProperty( Label.WIDTH_PROP ) ); //$NON-NLS-2$ //$NON-NLS-1$
+		assertEquals( "6mm", labelHandle.getStringProperty( Label.X_PROP ) );  //$NON-NLS-1$
+		assertEquals( "0.5mm", labelHandle.getStringProperty( Label.Y_PROP ) );  //$NON-NLS-1$
+		assertEquals( "0.25mm", labelHandle.getStringProperty( Label.HEIGHT_PROP ) );  //$NON-NLS-1$
+		assertEquals( "1mm", labelHandle.getStringProperty( Label.WIDTH_PROP ) );  //$NON-NLS-1$
 		assertEquals(
 				"Today's Date", labelHandle.getStringProperty( Label.TEXT_PROP ) ); //$NON-NLS-1$
 		OdaDataSet dataSet = (OdaDataSet) design.findDataSet( "firstDataSet" ); //$NON-NLS-1$
@@ -112,12 +112,12 @@ public class LabelItemParserTest extends ParserTestCase
 
 		// test the style property which does not belong to label
 
-		assertEquals( null, labelHandle.getStringProperty( Style.WIDOWS_PROP ) ); //$NON-NLS-1$
+		assertEquals( null, labelHandle.getStringProperty( Style.WIDOWS_PROP ) ); 
 
 		ActionHandle action = labelHandle.getActionHandle( );
 		assertNotNull( action );
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, action
-				.getLinkType( ) ); //$NON-NLS-1$
+				.getLinkType( ) ); 
 		assertEquals( "http://localhost:8080/", action.getURI() ); //$NON-NLS-1$
 
 		// reads in a lable that exists in the body.
@@ -127,7 +127,7 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( "<hello></hello><test><test1></test1></test>", //$NON-NLS-1$
 				labelHandle.getCustomXml( ) );
 		assertEquals(
-				"yellow", labelHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"yellow", labelHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$ 
 
 		assertEquals( "Body's slot", labelHandle.getText( ) ); //$NON-NLS-1$
 		assertEquals( "label help text", labelHandle.getHelpText( ) ); //$NON-NLS-1$
@@ -253,8 +253,8 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( ReportDesign.BODY_SLOT, labelHandle.getContainer( )
 				.findContentSlot( labelHandle ) );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 	}
 
 	/**
@@ -290,7 +290,7 @@ public class LabelItemParserTest extends ParserTestCase
 	{
 		openDesign( fileName );
 		MasterPageHandle masterPageHandle = (MasterPageHandle) designHandle
-				.getMasterPages( ).get( 0 ); //$NON-NLS-1$
+				.getMasterPages( ).get( 0 ); 
 		assertEquals( 2, masterPageHandle.getSlot( 0 ).getCount( ) );
 
 		Iterator it = masterPageHandle.getSlot( 0 ).iterator( );

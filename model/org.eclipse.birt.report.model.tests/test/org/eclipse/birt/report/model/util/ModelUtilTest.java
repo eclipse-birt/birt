@@ -37,8 +37,7 @@ public class ModelUtilTest extends BaseTestCase
 
 	public void testSortElementsByName( )
 	{
-		SessionHandle session = DesignEngine.newSession( (ULocale) null );
-		ReportDesignHandle designHandle = session.createDesign( );
+		createDesign( );
 		ElementFactory factory = new ElementFactory( designHandle.getModule( ) );
 		DataSetHandle ds1 = factory.newScriptDataSet( "b" ); //$NON-NLS-1$
 		DataSetHandle ds2 = factory.newScriptDataSet( "a" ); //$NON-NLS-1$

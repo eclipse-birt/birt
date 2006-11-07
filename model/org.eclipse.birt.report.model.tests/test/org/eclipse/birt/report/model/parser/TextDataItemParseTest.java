@@ -102,8 +102,8 @@ public class TextDataItemParseTest extends BaseTestCase
 		dataHandle
 				.setContentType( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 
 	}
 

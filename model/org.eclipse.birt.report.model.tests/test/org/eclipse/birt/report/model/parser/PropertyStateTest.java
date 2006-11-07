@@ -149,9 +149,9 @@ public class PropertyStateTest extends BaseTestCase
 
 		// Save it and compare with golden file
 
-		saveAs( "PropertyStateTest_out_1.xml" ); //$NON-NLS-1$
+		save(); 
 		assertTrue( compareTextFile(
-				"PropertyStateTest_golden.xml", "PropertyStateTest_out_1.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"PropertyStateTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -452,7 +452,7 @@ public class PropertyStateTest extends BaseTestCase
 
 		GraphicMasterPageHandle pageHandle = (GraphicMasterPageHandle) designHandle
 				.findMasterPage( "parent" ); //$NON-NLS-1$
-		assertEquals( 0, pageHandle.getColumnCount( ) ); //$NON-NLS-1$
+		assertEquals( 0, pageHandle.getColumnCount( ) ); 
 
 		FreeFormHandle handle = (FreeFormHandle) designHandle
 				.findElement( "form1" ); //$NON-NLS-1$

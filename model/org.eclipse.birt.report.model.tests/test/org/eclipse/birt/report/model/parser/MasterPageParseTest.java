@@ -134,8 +134,8 @@ public class MasterPageParseTest extends BaseTestCase
 		page.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE );
 		page.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LEGAL );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 	}
 
 	/**
@@ -162,9 +162,9 @@ public class MasterPageParseTest extends BaseTestCase
 		assertEquals(
 				"1.2cm", ( (DimensionHandle) simplePage.getFooterHeight( ) ).getValue( ).toString( ) ); //$NON-NLS-1$
 
-		saveAs( "TestSimpleMasterPageOut.xml" ); //$NON-NLS-1$
+		save();
 		assertTrue( compareTextFile(
-				"TestSimpleMasterPage_golden.xml", "TestSimpleMasterPageOut.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"TestSimpleMasterPage_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

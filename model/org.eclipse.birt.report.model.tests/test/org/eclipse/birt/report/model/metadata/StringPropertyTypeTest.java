@@ -95,7 +95,7 @@ public class StringPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testToDouble( )
 	{
-		assertEquals( 0.0d, type.toDouble( design, "any-input" ), 1 ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( 0.0d, type.toDouble( design, "any-input" ), 1 ); //$NON-NLS-1$
 	}
 
 	/*
@@ -106,7 +106,7 @@ public class StringPropertyTypeTest extends PropertyTypeTestCase
 	public void testToInteger( )
 	{
 		assertEquals( 123, type.toInteger( design, "123" ) ); //$NON-NLS-1$
-		assertEquals( 0, type.toInteger( design, null ) ); //$NON-NLS-1$
+		assertEquals( 0, type.toInteger( design, null ) ); 
 	}
 
 	/*

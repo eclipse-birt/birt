@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.FontHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -653,8 +652,8 @@ public class StyleParseTest extends BaseTestCase
 		style
 				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save();
+		assertTrue( compareTextFile( goldenFileName) );
 	}
 
 	/**
@@ -817,9 +816,8 @@ public class StyleParseTest extends BaseTestCase
 		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
 		assertNull( highlightHandle );
 
-		saveAs( "StyleParseTest_1.out" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "StyleParseTest_golden_1.xml", //$NON-NLS-1$
-				"StyleParseTest_1.out" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "StyleParseTest_golden_1.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1168,9 +1166,9 @@ public class StyleParseTest extends BaseTestCase
 		LabelHandle label = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
 		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
 		
-		saveAs("testWriterPageBreak_out.xml");//$NON-NLS-1$
+		save();
 		assertTrue( compareTextFile(
-				"testWriterPageBreak_golden.xml", "testWriterPageBreak_out.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
+				"testWriterPageBreak_golden.xml") ); //$NON-NLS-1$  
 
 	}
 
@@ -1184,8 +1182,7 @@ public class StyleParseTest extends BaseTestCase
 	{
 		openDesign( "StyleParseTest_obsolete.xml" ); //$NON-NLS-1$
 
-		saveAs( "StyleParseTest_obsolete_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "StyleParseTest_obsolete_golden.xml", //$NON-NLS-1$
-				"StyleParseTest_obsolete_out.xml" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "StyleParseTest_obsolete_golden.xml") ); //$NON-NLS-1$
 	}
 }

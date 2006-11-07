@@ -15,7 +15,6 @@ package org.eclipse.birt.report.model.util;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.core.DesignElement;
 

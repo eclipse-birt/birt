@@ -210,9 +210,8 @@ public class ChoiceParseTest extends BaseTestCase
 		label2.getHandle( design ).setProperty( Style.FONT_SIZE_PROP,
 				new DimensionValue( 12.0, DesignChoiceConstants.UNITS_IN ) );
 
-		saveAs( OUTPUTFILE );
-		assertTrue( compareTextFile( "ChoiceParseTest_golden.xml", //$NON-NLS-1$
-				OUTPUTFILE ) );
+		save();
+		assertTrue( compareTextFile( "ChoiceParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

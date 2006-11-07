@@ -154,9 +154,9 @@ public class PropertyBindingTest extends BaseTestCase
 
 		// save and compare
 
-		saveAs( "PropertyBindingTest_out.xml" ); //$NON-NLS-1$
+		save(); 
 		assertTrue( compareTextFile(
-				"PropertyBindingTest_golden.xml", "PropertyBindingTest_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"PropertyBindingTest_golden.xml") ); //$NON-NLS-1$
 
 		// test exception
 
@@ -206,9 +206,9 @@ public class PropertyBindingTest extends BaseTestCase
 
 		// save and compare
 
-		saveAs( "PropertyBindingTest_out_1.xml" ); //$NON-NLS-1$
+		save(); 
 		assertTrue( compareTextFile(
-				"PropertyBindingTest_golden_1.xml", "PropertyBindingTest_out_1.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"PropertyBindingTest_golden_1.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -233,9 +233,9 @@ public class PropertyBindingTest extends BaseTestCase
 
 		// save and compare, the input and the output is the same
 
-		saveAs( copyHandle, "PropertyBindingTest_out_2.xml" ); //$NON-NLS-1$
+		save(); 
 		assertTrue( compareTextFile(
-				"PropertyBindingTest_golden_2.xml", "PropertyBindingTest_out_2.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"PropertyBindingTest_golden_2.xml") ); //$NON-NLS-1$
 
 	}
 }

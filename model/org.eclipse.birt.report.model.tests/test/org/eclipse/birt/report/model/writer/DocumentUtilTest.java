@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.writer;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
@@ -56,12 +56,8 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( DESIGN_WITH_ELEMENT_EXTENDS );
 		assertNotNull( designHandle );
 
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
-		assertTrue( compareTextFile(
-				"DocumentUtilTest_golden.xml", "DocumentUtilTest_out.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		serializeDocument( );
+		assertTrue( compareTextFile( "DocumentUtilTest_golden.xml" ) ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -75,12 +71,8 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( DESIGN_WITH_STRUCTURE_REFERENCE );
 		assertNotNull( designHandle );
 
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out_1.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
-		assertTrue( compareTextFile(
-				"DocumentUtilTest_golden_1.xml", "DocumentUtilTest_out_1.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		serializeDocument( );
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -95,12 +87,8 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( DESIGN_WITH_INDIRECT_REFERENCE );
 		assertNotNull( designHandle );
 
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out_2.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
-		assertTrue( compareTextFile(
-				"DocumentUtilTest_golden_2.xml", "DocumentUtilTest_out_2.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		serializeDocument( );
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_2.xml" ) ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -114,12 +102,8 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( "TemplateElementParserTest.xml" ); //$NON-NLS-1$
 		assertNotNull( designHandle );
 
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out_3.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
-		assertTrue( compareTextFile(
-				"DocumentUtilTest_golden_3.xml", "DocumentUtilTest_out_3.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		serializeDocument( );
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_3.xml" ) ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -133,13 +117,8 @@ public class DocumentUtilTest extends BaseTestCase
 		String string = "TestSerializeEmbeddeImage.xml"; //$NON-NLS-1$
 		openDesign( string );
 		assertNotNull( designHandle );
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out_EmbeddedImage.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
-
-		assertTrue( compareTextFile(
-				"DocumentUtilTest_golden_4.xml", "DocumentUtilTest_out_EmbeddedImage.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		serializeDocument( );
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_4.xml" ) ); //$NON-NLS-1$ 
 
 	}
 
@@ -155,13 +134,9 @@ public class DocumentUtilTest extends BaseTestCase
 	{
 		openDesign( "DocumnetUtilTest_ExternalResource.xml" ); //$NON-NLS-1$
 		assertNotNull( designHandle );
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out_ExternalResource.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
+		serializeDocument( );
 
-		assertTrue( compareTextFile(
-				"DocumentUtilTest_golden_5.xml", "DocumentUtilTest_out_ExternalResource.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_5.xml" ) ); //$NON-NLS-1$ 
 
 	}
 
@@ -174,22 +149,29 @@ public class DocumentUtilTest extends BaseTestCase
 
 	public void testExtendedItem( ) throws Exception
 	{
-		new PeerExtensionLoader().load( );
-		
+		new PeerExtensionLoader( ).load( );
+
 		openDesign( "DocumentUtilTest_ExtendedItem.xml" ); //$NON-NLS-1$
 
 		assertNotNull( designHandle );
-		String fileName = getClassFolder( ) + OUTPUT_FOLDER
-				+ "DocumentUtilTest_out_ExtendedItem.xml"; //$NON-NLS-1$
-		FileOutputStream os = new FileOutputStream( fileName );
-		DocumentUtil.serialize( designHandle, os );
-
+		serializeDocument( );
 		ExtendedItemHandle matrix1 = (ExtendedItemHandle) designHandle
 				.findElement( "matrix1" ); //$NON-NLS-1$
 		assertNotNull( ( (ExtendedItem) matrix1.getElement( ) ).getExtDefn( ) );
 
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_6.xml", //$NON-NLS-1$
-				"DocumentUtilTest_out_ExtendedItem.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "DocumentUtilTest_golden_6.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Writes the document to the internal output stream.
+	 * 
+	 * @throws Exception
+	 */
+
+	private void serializeDocument( ) throws Exception
+	{
+		os = new ByteArrayOutputStream( );
+		DocumentUtil.serialize( designHandle, os );
 	}
 }

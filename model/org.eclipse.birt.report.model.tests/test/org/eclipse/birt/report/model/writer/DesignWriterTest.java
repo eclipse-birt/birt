@@ -13,10 +13,9 @@ package org.eclipse.birt.report.model.writer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ErrorDetail;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -49,10 +47,9 @@ import org.eclipse.birt.report.model.util.XMLParserException;
  * <td>Save the opened design file by calling
  * {@link ReportDesignHandle#serialize}</td>
  * <td>Get the output stream after save, reopen the design from the output
- * stream, then save again by calling
- * {@link ReportDesignHandle#saveAs( String )}, finally compare the final
- * output file to a golden file, they should be identical except the
- * modification date</td>
+ * stream, then save again by calling {@link ReportDesignHandle#save()},
+ * finally compare the final output file to a golden file, they should be
+ * identical except the modification date</td>
  * </tr>
  * 
  * <tr>
@@ -96,9 +93,8 @@ public class DesignWriterTest extends BaseTestCase
 		openDesign( "", is ); //$NON-NLS-1$
 		assertNotNull( design );
 
-		saveAs( "DesignWriterTest_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "DesignWriterTest_golden.xml", //$NON-NLS-1$
-				"DesignWriterTest_out.xml" ) ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareTextFile( "DesignWriterTest_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -143,11 +139,9 @@ public class DesignWriterTest extends BaseTestCase
 		// set two ' in chinese.
 
 		handle.setContent( "doesn\u2019t have" ); //$NON-NLS-1$
-		saveAs( "DesignWriterTest_1_out.xml" ); //$NON-NLS-1$
+		save( );
 
-		designHandle = sessionHandle.openDesign( getClassFolder( )
-				+ OUTPUT_FOLDER + "DesignWriterTest_1_out.xml" ); //$NON-NLS-1$
-		design = designHandle.getDesign( );
+		readOutputFile( "DesignWriterTest_1_out.xml" ); //$NON-NLS-1$
 
 		handle = (TextItemHandle) designHandle.findElement( "bodyText" ); //$NON-NLS-1$
 		assertEquals( "doesn\u2019t have", handle.getContent( ) ); //$NON-NLS-1$
@@ -170,17 +164,18 @@ public class DesignWriterTest extends BaseTestCase
 	{
 		openDesign( "DesignWriterTest_UTF8BOM.xml" ); //$NON-NLS-1$
 		assertNotNull( designHandle );
-		saveAs( "DesignWriterTest_UTF8BOM_out.xml" ); //$NON-NLS-1$
-
+		save( );
 		createDesign( );
 
-		designHandle = sessionHandle.openDesign( getClassFolder( )
-				+ OUTPUT_FOLDER + "DesignWriterTest_UTF8BOM_out.xml" ); //$NON-NLS-1$
-		design = designHandle.getDesign( );
+		readOutputFile( "DesignWriterTest_UTF8BOM_out.xml" ); //$NON-NLS-1$
 
 		assertEquals( UnicodeUtil.SIGNATURE_UTF_8, design.getUTFSignature( ) );
 		assertNotNull( designHandle );
 	}
+
+	/**
+	 * @throws Exception
+	 */
 
 	public void testWriter( ) throws Exception
 	{
@@ -200,14 +195,13 @@ public class DesignWriterTest extends BaseTestCase
 
 		designHandle.getBody( ).add( image );
 
-		saveAs( "testWriter_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"testWriter_golden.xml", "testWriter_out.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		save( );
+		assertTrue( compareTextFile( "testWriter_golden.xml" ) ); //$NON-NLS-1$  
 
 	}
 
 	/**
-	 * Tests the saveAs() to give a file name like "file:/c:/test" -- containing
+	 * Tests the save() to give a file name like "file:/c:/test" -- containing
 	 * file schema.
 	 * 
 	 * @throws Exception
@@ -215,17 +209,33 @@ public class DesignWriterTest extends BaseTestCase
 
 	public void testSave( ) throws Exception
 	{
-		String fileName = URIUtil.FILE_SCHEMA
-				+ ":" + getClassFolder( ) + INPUT_FOLDER + "DesignWriterTest.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( null );
-		assertNotNull( sessionHandle );
+		openDesign( "DesignWriterTest.xml" ); //$NON-NLS-1$
 
-		designHandle = sessionHandle.openDesign( fileName );
-		design = designHandle.getDesign( );
-		designHandle
-				.saveAs( URIUtil.FILE_SCHEMA
-						+ ":" + getClassFolder( ) + OUTPUT_FOLDER + "DesignWriterTest_out_2.xml" ); //$NON-NLS-1$ //$NON-NLS-2$
+		String folder = getTempFolder( ) + OUTPUT_FOLDER;
 
+		File f = new File( folder );
+		if ( !f.exists( ) )
+			f.mkdirs( );
+
+		designHandle.setFileName( f.toURL( ) + "DesignWriterTest.xml" ); //$NON-NLS-1$
+		designHandle.save( );
+	}
+
+	/**
+	 * Reads the content in the output stream as a design file. Design handle
+	 * and design are updated.
+	 * 
+	 * @throws Exception
+	 */
+
+	private void readOutputFile( String outputFileName ) throws Exception
+	{
+		String fileContent = os.toString( "utf-8" ); //$NON-NLS-1$
+		ByteArrayInputStream is = new ByteArrayInputStream( fileContent
+				.getBytes( "utf-8" ) ); //$NON-NLS-1$
+
+		// the design name can be empty
+
+		openDesign( outputFileName, is );
 	}
 }

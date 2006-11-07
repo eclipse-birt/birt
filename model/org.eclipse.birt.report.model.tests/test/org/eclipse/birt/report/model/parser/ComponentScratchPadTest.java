@@ -95,9 +95,8 @@ public class ComponentScratchPadTest extends BaseTestCase
 		ByteArrayInputStream is = new ByteArrayInputStream( out.toByteArray( ) );
 		openDesign( "", is ); //$NON-NLS-1$
 		assertNotNull( design );
-		saveAs( "ComponentScratchPadTest.out" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "ComponentScratchPadTest_golden.xml", //$NON-NLS-1$
-				"ComponentScratchPadTest.out" ) ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareTextFile( "ComponentScratchPadTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -221,6 +220,6 @@ public class ComponentScratchPadTest extends BaseTestCase
 				.findElement( "parent" ).setExtendsElement( design.findElement( "grand" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		design
 				.findElement( "label" ).setExtendsElement( design.findElement( "labelParent" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		saveAs( "ComponentScratchPadTest_1.out" ); //$NON-NLS-1$
+		save(); //$NON-NLS-1$
 	}
 }
