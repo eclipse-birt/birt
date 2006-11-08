@@ -13,7 +13,6 @@ package org.eclipse.birt.report.data.oda.xml.impl;
 
 import java.util.Map;
 
-import org.eclipse.birt.report.data.oda.xml.Constants;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.enablement.oda.xml.i18n.Messages;
 
@@ -37,16 +36,16 @@ public class Connection
 		if ( !( context instanceof Map ) )
 			throw new OdaException( Messages.getString( "Connection.InvalidAppContext" ) );
 		Map appContext = (Map) context;
-		if ( appContext.get( Constants.APPCONTEXT_INPUTSTREAM ) != null )
+		if ( appContext.get( "org.eclipse.birt.report.data.oda.xml.inputStream" ) != null )
 		{
 			appContext.put( org.eclipse.datatools.enablement.oda.xml.Constants.APPCONTEXT_INPUTSTREAM,
-					appContext.get( Constants.APPCONTEXT_INPUTSTREAM ) );
+					appContext.get( "org.eclipse.birt.report.data.oda.xml.inputStream" ) );
 		}
 
-		if ( appContext.get( Constants.APPCONTEXT_CLOSEINPUTSTREAM ) != null )
+		if ( appContext.get( "org.eclipse.birt.report.data.oda.xml.closeInputStream" ) != null )
 		{
 			appContext.put( org.eclipse.datatools.enablement.oda.xml.Constants.APPCONTEXT_CLOSEINPUTSTREAM,
-					appContext.get( Constants.APPCONTEXT_CLOSEINPUTSTREAM ) );
+					appContext.get( "org.eclipse.birt.report.data.oda.xml.closeInputStream" ) );
 		}
 		super.setAppContext( (Map) context );
 	}

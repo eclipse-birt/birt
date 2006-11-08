@@ -28,8 +28,8 @@ public final class Constants
 	public static final int DATA_SOURCE_MINOR_VERSION = 0;
 	public static final String DATA_SOURCE_PRODUCT_NAME = Messages.getString( "Constants.DriverName" );
 	public static final int CACHED_RESULT_SET_LENGTH = 10000;
-	public static final String APPCONTEXT_INPUTSTREAM = "org.eclipse.birt.report.data.oda.xml.inputStream";
-	public static final String APPCONTEXT_CLOSEINPUTSTREAM = "org.eclipse.birt.report.data.oda.xml.closeInputStream";
+	public static final String APPCONTEXT_INPUTSTREAM = "org.eclipse.datatools.enablement.oda.xml.inputStream";
+	public static final String APPCONTEXT_CLOSEINPUTSTREAM = "org.eclipse.datatools.enablement.oda.xml.closeInputStream";
 	// The connection proporty that is used to give the relation information
 	// string
 	// to the driver.
