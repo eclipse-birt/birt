@@ -173,7 +173,8 @@ public class ResultClass implements IResultClass
 			{
 				ResultFieldMetadata column = projectedCols[i];
 
-				if ( resultSetNameSet.contains( column.getName( ) ) )
+				if ( resultSetNameSet.contains( column.getName( ) ) ||
+					 resultSetNameSet.contains( column.getAlias()))
 				{
 					IOUtil.writeInt( dos, column.getDriverPosition( ) );
 					IOUtil.writeString( dos, column.getName( ) );
