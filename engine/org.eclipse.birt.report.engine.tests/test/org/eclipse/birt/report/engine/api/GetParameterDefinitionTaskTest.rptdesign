@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060714-0934 Build &lt;20060714-0934></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -62,7 +62,7 @@
             <property name="allowBlank">false</property>
             <property name="allowNull">true</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
             <property name="defaultValue">2</property>
             <structure name="format">
@@ -121,7 +121,7 @@
             <property name="dataType">string</property>
             <property name="allowNull">true</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
+            <property name="mustMatch">false</property>
             <property name="fixedOrder">false</property>
             <property name="defaultValue">item2</property>
             <structure name="format">
@@ -159,7 +159,7 @@
             <property name="dataSetName">Data Set</property>
             <expression name="valueExpr">dataSetRow["CUSTOMERNUMBER"]</expression>
             <expression name="labelExpr">dataSetRow["CUSTOMERNUMBER"]</expression>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
             <property name="defaultValue">0</property>
             <structure name="format">

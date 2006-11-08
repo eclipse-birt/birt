@@ -281,11 +281,11 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 	{
 		scalarParam = (IScalarParameterDefn) gpdTask
 				.getParameterDefn( "paramList" );
-		assertTrue( scalarParam.allowNewValues( ) );
+		assertFalse( scalarParam.allowNewValues( ) );
 
 		scalarParam = (IScalarParameterDefn) gpdTask
 				.getParameterDefn( "paramComboSort" );
-		assertFalse( scalarParam.allowNewValues( ) );
+		assertTrue( scalarParam.allowNewValues( ) );
 	}
 	
 	/*

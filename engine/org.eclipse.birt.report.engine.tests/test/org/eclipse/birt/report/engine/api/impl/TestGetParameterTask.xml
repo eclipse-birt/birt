@@ -20,6 +20,7 @@
     <parameters>
         <cascading-parameter-group name="NewCascadingParameterGroup" id="16">
             <property name="dataSet">Data Set</property>
+            <property name="dataSetMode">multiple</property>
             <parameters>
                 <scalar-parameter name="NewParameter2" id="17">
                     <property name="dataSet">Data Set1</property>

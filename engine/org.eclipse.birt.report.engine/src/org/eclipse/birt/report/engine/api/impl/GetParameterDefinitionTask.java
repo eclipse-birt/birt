@@ -322,14 +322,18 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 				.equals( selectionType ) )
 		{
-			if ( parameter.getDataSetName( ) != null )
+			CascadingParameterGroupHandle group = getCascadingGroup( parameter );
+			if ( DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals(group.getDataSetMode( )))
+			{
+				return getCascadingParameterList( parameter );
+			}
+			else if ( parameter.getDataSetName( ) != null )
 			{
 				return getChoicesFromParameterQuery( parameter );
 			}
 			else if ( isCascadingParameter( parameter ))
 			{
-				Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
-				return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
+				return getCascadingParameterList( parameter );
 			}
 		}
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
@@ -359,6 +363,12 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		}
 		return Collections.EMPTY_LIST;
+	}
+
+	private Collection getCascadingParameterList( ScalarParameterHandle parameter )
+	{
+		Object[] parameterValuesAhead =  getParameterValuesAhead( parameter );
+		return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
 	}
 
 	/**
