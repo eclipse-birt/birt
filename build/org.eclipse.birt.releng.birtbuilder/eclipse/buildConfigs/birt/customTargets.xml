@@ -116,12 +116,6 @@
 		<replace dir="${buildDirectory}/plugins" value="2.2.0.${buildId}" token="Replace_By_Version">
 			<include name="**/about.properties" />
 		</replace>
-		<!-- Copy itext jar-->
-		<copy todir="${baseLocation}/plugins/com.lowagie.itext/lib">
-			<fileset dir="${p4.home}/iText">
-				<include name="*.jar"/>
-			</fileset>
-		</copy>
 	</target>
 
 	<!-- ===================================================================== -->
