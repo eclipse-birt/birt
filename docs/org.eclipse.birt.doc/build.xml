@@ -51,7 +51,7 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<zip destfile="${plugin.destination}/org.eclipse.birt.doc_${Bundle-Version}.jar" basedir="${temp.folder}/org.eclipse.birt.doc_${Bundle-Version}" filesonly="false" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}.jar" basedir="${temp.folder}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -63,11 +63,11 @@
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.eclipse.birt.doc_${Bundle-Version}"/>
-		<copy todir="${destination.temp.folder}/org.eclipse.birt.doc_${Bundle-Version}" failonerror="true" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}"/>
+		<copy todir="${destination.temp.folder}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}" failonerror="true" overwrite="false">
 			<fileset dir="${basedir}" includes="META-INF/,about.html,about.ini,about.mappings,about.properties,BIRTToc.xml,RefToc.xml,UserToc.xml,notices.html,plugin.xml,eclipse32.gif,doc.zip"			/>
 		</copy>
-		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.birt.doc_${Bundle-Version}" version="${forceContextQualifier}"/>
+		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}" version="${forceContextQualifier}"/>
 	</target>
 
 	<target name="build.zips" depends="init">
@@ -80,8 +80,8 @@
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.birt.doc of all the zips, jars and logs created.">
-		<delete file="${plugin.destination}/org.eclipse.birt.doc_${Bundle-Version}.jar"/>
-		<delete file="${plugin.destination}/org.eclipse.birt.doc_${Bundle-Version}.zip"/>
+		<delete file="${plugin.destination}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}.jar"/>
+		<delete file="${plugin.destination}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}.zip"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -104,7 +104,7 @@
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin${logExtension}"			/>
 		</delete>
-		<zip destfile="${plugin.destination}/org.eclipse.birt.doc_2.2.0.200609201735.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/org.eclipse.birt.doc_2.2.0.${forceContextQualifier}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
