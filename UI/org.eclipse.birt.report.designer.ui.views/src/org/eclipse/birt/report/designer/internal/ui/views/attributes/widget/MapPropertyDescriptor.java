@@ -2,7 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.util.ColorManager;
 
 public class MapPropertyDescriptor extends PreviewPropertyDescriptor
@@ -13,13 +13,13 @@ public class MapPropertyDescriptor extends PreviewPropertyDescriptor
 		super( formStyle );
 	}
 
-	protected MapPropertyDescriptorProvider provider;
+	protected MapDescriptorProvider provider;
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
 		super.setDescriptorProvider( provider );
-		if ( provider instanceof MapPropertyDescriptorProvider )
-			this.provider = (MapPropertyDescriptorProvider) provider;
+		if ( provider instanceof MapDescriptorProvider )
+			this.provider = (MapDescriptorProvider) provider;
 	}
 
 	protected void updatePreview( Object handle )

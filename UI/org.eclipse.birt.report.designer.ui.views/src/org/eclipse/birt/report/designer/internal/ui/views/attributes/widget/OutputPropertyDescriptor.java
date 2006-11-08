@@ -63,7 +63,6 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				System.err.println( e.item );
 				setOutputEnable( hideCheckbox.getSelection( ) );
 				if ( hideCheckbox.getSelection( ) )
 				{

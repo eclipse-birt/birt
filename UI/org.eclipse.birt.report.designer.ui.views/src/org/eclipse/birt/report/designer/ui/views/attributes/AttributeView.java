@@ -21,6 +21,11 @@ public class AttributeView extends PageBookView
 
 	private String defaultText = Messages.getString( "AttributeView.defaultText.noAttributeView" ); //$NON-NLS-1$
 
+	public AttributeView( )
+	{
+		super( );
+	}
+	
 	protected IPage createDefaultPage( PageBook book )
 	{
 		MessagePage page = new MessagePage( );

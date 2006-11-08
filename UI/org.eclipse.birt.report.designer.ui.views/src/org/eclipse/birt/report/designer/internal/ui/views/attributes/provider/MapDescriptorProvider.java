@@ -1,0 +1,478 @@
+
+package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MapRuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IViewPart;
+
+public class MapDescriptorProvider extends MapHandleProvider implements
+		PreviewPropertyDescriptorProvider
+{
+
+	class MapLabelProvider extends LabelProvider implements ITableLabelProvider
+	{
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			return MapDescriptorProvider.this.getColumnText( element, 1 );
+		}
+
+	}
+
+	class MapContentProvider implements IStructuredContentProvider
+	{
+
+		private Listener listener;
+
+		public MapContentProvider( Listener listener )
+		{
+			this.listener = listener;
+		}
+
+		public Object[] getElements( Object inputElement )
+		{
+			Object[] elements = MapDescriptorProvider.this.getElements( inputElement );
+
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				if ( elements[i] instanceof DesignElementHandle )
+				{
+					DesignElementHandle element = (DesignElementHandle) elements[i];
+					element.removeListener( listener );
+					element.addListener( listener );
+				}
+			}
+
+			return elements;
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+		}
+
+		public void dispose( )
+		{
+			Object[] elements = MapDescriptorProvider.this.getElements( DEUtil.getInputElements( input ) );
+
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				if ( elements[i] instanceof DesignElementHandle )
+				{
+					DesignElementHandle element = (DesignElementHandle) elements[i];
+					element.removeListener( listener );
+				}
+			}
+		}
+
+	}
+
+	public String getColumnText( Object element, int columnIndex )
+	{
+		MapRuleHandle handle = (MapRuleHandle) element;
+
+		switch ( columnIndex )
+		{
+			case 0 :
+				String pv = handle.getDisplay( );
+
+				return pv == null ? "" : pv; //$NON-NLS-1$
+
+			case 1 :
+				// String exp = resolveNull( getTestExpression( ) )
+				String exp = resolveNull( handle.getTestExpression( ) ) + " " //$NON-NLS-1$
+						+ MapRuleBuilder.getNameForOperator( handle.getOperator( ) );
+
+				int vv = MapRuleBuilder.determineValueVisible( handle.getOperator( ) );
+
+				if ( vv == 1 )
+				{
+					exp += " " + resolveNull( handle.getValue1( ) ); //$NON-NLS-1$
+				}
+				else if ( vv == 2 )
+				{
+					exp += " " //$NON-NLS-1$
+							+ resolveNull( handle.getValue1( ) )
+							+ " , " //$NON-NLS-1$
+							+ resolveNull( handle.getValue2( ) );
+				}
+
+				return exp;
+
+			default :
+				return ""; //$NON-NLS-1$
+		}
+	}
+
+	private String resolveNull( String src )
+	{
+		if ( src == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+
+		return src;
+	}
+
+	public boolean doSwapItem( int pos, int direction )
+			throws PropertyValueException
+	{
+		PropertyHandle phandle = elementHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+
+		if ( direction < 0 )
+		{
+			phandle.moveItem( pos, pos - 1 );
+		}
+		else
+		{
+			/**
+			 * Original code: phandle.moveItem( pos, pos + 1 );
+			 * 
+			 * Changes due to model api changes. since property handle now
+			 * treats moving from 0-0, 0-1 as the same.
+			 */
+			phandle.moveItem( pos, pos + 1 );
+		}
+
+		return true;
+	}
+
+	public IStructuredContentProvider getContentProvider( Listener listener )
+	{
+		return new MapContentProvider( listener );
+	}
+
+	public LabelProvider getLabelProvider( )
+	{
+		return new MapLabelProvider( );
+	}
+
+	private static final MapRuleHandle[] EMPTY = new MapRuleHandle[0];
+
+	public Object[] getElements( Object inputElement )
+	{
+		if ( inputElement instanceof List )
+		{
+			if ( ( (List) inputElement ).size( ) > 0 )
+			{
+				inputElement = ( (List) inputElement ).get( 0 );
+			}
+			else
+			{
+				inputElement = null;
+			}
+		}
+
+		if ( inputElement instanceof DesignElementHandle )
+		{
+			elementHandle = (DesignElementHandle) inputElement;
+
+			PropertyHandle mapRules = elementHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+
+			ArrayList list = new ArrayList( );
+
+			for ( Iterator itr = mapRules.iterator( ); itr.hasNext( ); )
+			{
+				Object o = itr.next( );
+
+				list.add( o );
+			}
+
+			return (MapRuleHandle[]) list.toArray( new MapRuleHandle[0] );
+		}
+
+		return EMPTY;
+	}
+
+	public boolean doDeleteItem( int pos ) throws PropertyValueException
+	{
+		PropertyHandle phandle = elementHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+
+		phandle.removeItem( pos );
+
+		return true;
+	}
+
+	public MapRuleHandle doAddItem( MapRule rule, int pos )
+	{
+		PropertyHandle phandle = elementHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+
+		try
+		{
+			phandle.addItem( rule );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		StructureHandle handle = rule.getHandle( phandle, pos );
+
+		return (MapRuleHandle) handle;
+	}
+
+	public boolean edit( Object input, int handleCount )
+	{
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "MapPage.transName.editMapRule" ) ); //$NON-NLS-1$
+
+			MapRuleBuilder builder = new MapRuleBuilder( UIUtil.getDefaultShell( ),
+					MapRuleBuilder.DLG_TITLE_EDIT, //$NON-NLS-1$
+					this );
+
+			MapRuleHandle handle = (MapRuleHandle) input;
+
+			builder.updateHandle( handle, handleCount );
+
+			builder.setDesignHandle( getDesignElementHandle( ) );
+
+			if ( builder.open( ) == Window.OK )
+			{
+				result = true;
+			}
+			stack.commit( );
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	public boolean add( int handleCount )
+	{
+		boolean result = false;;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "MapPage.transName.addMapRule" ) ); //$NON-NLS-1$
+
+			Dialog dialog = createAddDialog( handleCount );
+
+			if ( dialog.open( ) == Window.OK )
+			{
+				result = true;
+			}
+
+			stack.commit( );
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	protected MapRuleBuilder createAddDialog( int handleCount )
+	{
+		MapRuleBuilder builder = new MapRuleBuilder( UIUtil.getDefaultShell( ),
+				MapRuleBuilder.DLG_TITLE_NEW, //$NON-NLS-1$
+				this );
+
+		builder.updateHandle( null, handleCount );
+
+		builder.setDesignHandle( getDesignElementHandle( ) );
+		return builder;
+	}
+
+	public boolean delete( int index )
+	{
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "MapPage.transName.deleteMapRule" ) ); //$NON-NLS-1$
+
+			doDeleteItem( index );
+
+			stack.commit( );
+
+			result = true;
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	public boolean moveUp( int index )
+	{
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "MapPage.transName.moveUpMapRule" ) ); //$NON-NLS-1$
+
+			doSwapItem( index, -1 );
+
+			stack.commit( );
+
+			result = true;
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	public boolean moveDown( int index )
+	{
+
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "MapPage.transName.moveDownRule" ) ); //$NON-NLS-1$
+
+			doSwapItem( index, 1 );
+
+			stack.commit( );
+
+			result = true;
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	protected Object input;
+
+	public void setInput( Object input )
+	{
+		this.input = input;
+	}
+
+	public String getDisplayName( )
+	{
+		// TODO Auto-generated method stub
+		return Messages.getString( "MapPage.label.mapList" );
+	}
+
+	public Object load( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void save( Object value ) throws SemanticException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public String getText( int key )
+	{
+		switch ( key )
+		{
+			case 0 :
+				return Messages.getString( "MapPage.label.mapList" );
+			case 1 :
+				return Messages.getString( "MapPage.label.add" );
+			case 2 :
+				return Messages.getString( "MapPage.label.delete" );
+			case 3 :
+				return Messages.getString( "FormPage.Button.Up" );
+			case 4 :
+				return Messages.getString( "MapPage.toolTipText.moveUp" );
+			case 5 :
+				return Messages.getString( "FormPage.Button.Down" );
+			case 6 :
+				return Messages.getString( "MapPage.toolTipText.moveDown" );
+			case 7 :
+				return Messages.getString( "MapPage.label.displayValue" );
+			case 8 :
+				return Messages.getString( "MapPage.label.condition" );
+			case 9 :
+				return Messages.getString( "" );
+		}
+		return "";
+	}
+
+	public String getDisplayText( Object handle )
+	{
+		return ( (MapRuleHandle) handle ).getDisplay( );
+	}
+	
+	protected void refreshRestoreProperty( )
+	{
+		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
+		if ( view != null
+				&& view instanceof AttributeView
+				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
+		{
+
+			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
+
+		}
+	}
+}

@@ -1,7 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.util.ColorManager;
 
@@ -13,13 +13,13 @@ public class HighlightPropertyDescriptor extends PreviewPropertyDescriptor
 		super( formStyle );
 	}
 
-	protected HighlightPropertyDescriptorProvider provider;
+	protected HighlightDescriptorProvider provider;
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
 		super.setDescriptorProvider( provider );
-		if ( provider instanceof HighlightPropertyDescriptorProvider )
-			this.provider = (HighlightPropertyDescriptorProvider) provider;
+		if ( provider instanceof HighlightDescriptorProvider )
+			this.provider = (HighlightDescriptorProvider) provider;
 	}
 
 	protected void updatePreview( Object handle )

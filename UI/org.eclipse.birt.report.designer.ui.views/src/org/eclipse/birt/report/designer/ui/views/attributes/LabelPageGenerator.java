@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
@@ -39,7 +39,7 @@ public class LabelPageGenerator extends AbstractPageGenerator
 				case 1 :
 					highlightsPage = new PreviewPage( true );
 					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-					highlightsPage.setProvider( new HighlightPropertyDescriptorProvider( ) );
+					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
 					setPageInput( highlightsPage );
 					refresh(tabFolder,highlightsPage, true);
 					item.setControl( highlightsPage.getControl( ) );

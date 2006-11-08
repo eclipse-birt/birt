@@ -1,0 +1,571 @@
+
+package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.HighlightRuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IViewPart;
+
+public class HighlightDescriptorProvider extends
+		HighlightHandleProvider implements PreviewPropertyDescriptorProvider
+{
+
+	class HighlightLabelProvider extends LabelProvider implements
+			ITableLabelProvider
+	{
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			return HighlightDescriptorProvider.this.getColumnText( element,
+					1 );
+		}
+
+	}
+
+	class HighlightContentProvider implements IStructuredContentProvider
+	{
+
+		private Listener listener;
+
+		public HighlightContentProvider( Listener listener )
+		{
+			this.listener = listener;
+		}
+
+		public Object[] getElements( Object inputElement )
+		{
+			Object[] elements = HighlightDescriptorProvider.this.getElements( inputElement );
+
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				if ( elements[i] instanceof DesignElementHandle )
+				{
+					DesignElementHandle element = (DesignElementHandle) elements[i];
+					element.removeListener( listener );
+					element.addListener( listener );
+				}
+			}
+
+			return elements;
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+		}
+
+		public void dispose( )
+		{
+			Object[] elements = HighlightDescriptorProvider.this.getElements( DEUtil.getInputElements( input ) );
+
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				if ( elements[i] instanceof DesignElementHandle )
+				{
+					DesignElementHandle element = (DesignElementHandle) elements[i];
+					element.removeListener( listener );
+				}
+			}
+		}
+
+	}
+
+	public String getColumnText( Object element, int columnIndex )
+	{
+		HighlightRuleHandle handle = (HighlightRuleHandle) element;
+
+		switch ( columnIndex )
+		{
+			case 0 :
+				return Messages.getString( "HighlightHandleProvider.text.Preview" ) //$NON-NLS-1$
+						+ DEUtil.getFontSize( handle.getFontSize( )
+								.getStringValue( ) )
+						+ ")"; //$NON-NLS-1$
+
+			case 1 :
+				// String exp = resolveNull( getTestExpression( ) )
+				String exp = resolveNull( handle.getTestExpression( ) ) + " " //$NON-NLS-1$
+						+ HighlightRuleBuilder.getNameForOperator( handle.getOperator( ) );
+
+				int vv = HighlightRuleBuilder.determineValueVisible( handle.getOperator( ) );
+
+				if ( vv == 1 )
+				{
+					exp += " " + resolveNull( handle.getValue1( ) ); //$NON-NLS-1$
+				}
+				else if ( vv == 2 )
+				{
+					exp += " " //$NON-NLS-1$
+							+ resolveNull( handle.getValue1( ) )
+							+ " , " //$NON-NLS-1$
+							+ resolveNull( handle.getValue2( ) );
+				}
+
+				return exp;
+
+			default :
+				return ""; //$NON-NLS-1$
+		}
+	}
+
+	private String resolveNull( String src )
+	{
+		if ( src == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+
+		return src;
+	}
+
+	public boolean doSwapItem( int pos, int direction )
+			throws PropertyValueException
+	{
+		PropertyHandle phandle = getDesignElementHandle( ).getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+
+		if ( direction < 0 )
+		{
+			phandle.moveItem( pos, pos - 1 );
+		}
+		else
+		{
+			/**
+			 * Original code: phandle.moveItem( pos, pos + 1 );
+			 * 
+			 * Changes due to model api changes. since property handle now
+			 * treats moving from 0-0, 0-1 as the same.
+			 */
+			phandle.moveItem( pos, pos + 1 );
+		}
+
+		return true;
+	}
+
+	public IStructuredContentProvider getContentProvider( Listener listener )
+	{
+		return new HighlightContentProvider( listener );
+	}
+
+	public LabelProvider getLabelProvider( )
+	{
+		return new HighlightLabelProvider( );
+	}
+
+	private static final HighlightRuleHandle[] EMPTY = new HighlightRuleHandle[0];
+
+	public Object[] getElements( Object inputElement )
+	{
+		if ( inputElement instanceof List )
+		{
+			if ( ( (List) inputElement ).size( ) > 0 )
+			{
+				inputElement = ( (List) inputElement ).get( 0 );
+			}
+			else
+			{
+				inputElement = null;
+			}
+		}
+
+		if ( inputElement instanceof DesignElementHandle )
+		{
+			elementHandle = (DesignElementHandle) inputElement;
+
+			PropertyHandle highRules = elementHandle.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+
+			ArrayList list = new ArrayList( );
+
+			for ( Iterator itr = highRules.iterator( ); itr.hasNext( ); )
+			{
+				Object o = itr.next( );
+
+				list.add( o );
+			}
+
+			return (HighlightRuleHandle[]) list.toArray( new HighlightRuleHandle[0] );
+		}
+
+		return EMPTY;
+	}
+
+	public static String getFontFamily( String fontFamily )
+	{
+		String destFontName = (String) DesignerConstants.familyMap.get( fontFamily );
+
+		if ( destFontName == null )
+		{
+			destFontName = fontFamily;
+		}
+
+		return destFontName;
+	}
+
+	/**
+	 * Returns the style handle for current design element.
+	 * 
+	 * @return
+	 */
+	public StyleHandle getStyleHandle( )
+	{
+		return getDesignElementHandle( ).getStyle( );
+	}
+
+	public boolean doDeleteItem( int pos ) throws PropertyValueException
+	{
+		PropertyHandle phandle = getDesignElementHandle( ).getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+
+		phandle.removeItem( pos );
+
+		return true;
+	}
+
+	public HighlightRuleHandle doAddItem( HighlightRule rule, int pos )
+	{
+		PropertyHandle phandle = getDesignElementHandle( ).getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+
+		try
+		{
+			phandle.addItem( rule );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		StructureHandle handle = rule.getHandle( phandle, pos );
+
+		return (HighlightRuleHandle) handle;
+	}
+
+	public boolean edit( Object input, int handleCount )
+	{
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "HighlightsPage.trans.Edit" ) ); //$NON-NLS-1$
+
+			HighlightRuleBuilder builder = new HighlightRuleBuilder( UIUtil.getDefaultShell( ),
+					Messages.getString( "HighlightsPage.Dialog.EditHighlight" ), //$NON-NLS-1$
+					this );
+
+			HighlightRuleHandle handle = (HighlightRuleHandle) input;
+
+			builder.updateHandle( handle, handleCount );
+
+			builder.setDesignHandle( getDesignElementHandle( ) );
+
+			if ( builder.open( ) == Window.OK )
+			{
+				result = true;
+			}
+			stack.commit( );
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	public boolean add( int handleCount )
+	{
+		boolean result = false;;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "HighlightsPage.trans.Add" ) ); //$NON-NLS-1$
+
+			Dialog dialog = createAddDialog( handleCount );
+
+			if ( dialog.open( ) == Window.OK )
+			{
+				result = true;
+			}
+
+			stack.commit( );
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	protected HighlightRuleBuilder createAddDialog( int handleCount )
+	{
+		HighlightRuleBuilder builder = new HighlightRuleBuilder( UIUtil.getDefaultShell( ),
+				Messages.getString( "HighlightsPage.Dialog.NewHighlight" ), //$NON-NLS-1$
+				this );
+
+		builder.updateHandle( null, handleCount );
+
+		builder.setDesignHandle( getDesignElementHandle( ) );
+		return builder;
+	}
+
+	public boolean delete( int index )
+	{
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "HighlightsPage.trans.Delete" ) ); //$NON-NLS-1$
+
+			doDeleteItem( index );
+
+			stack.commit( );
+
+			result = true;
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	public boolean moveUp( int index )
+	{
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "HighlightsPage.trans.MoveUp" ) ); //$NON-NLS-1$
+
+			doSwapItem( index, -1 );
+
+			stack.commit( );
+
+			result = true;
+			
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	public boolean moveDown( int index )
+	{
+
+		boolean result = false;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "HighlightsPage.trans.MoveDown" ) ); //$NON-NLS-1$
+
+			doSwapItem( index, 1 );
+
+			stack.commit( );
+
+			result = true;
+			refreshRestoreProperty( );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionHandler.handle( e );
+			result = false;
+		}
+		return result;
+	}
+
+	protected Object input;
+
+	public void setInput( Object input )
+	{
+		this.input = input;
+	}
+
+	public String getDisplayName( )
+	{
+		// TODO Auto-generated method stub
+		return Messages.getString( "HighlightsPage.Label.Highlights" );
+	}
+
+	public Object load( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void save( Object value ) throws SemanticException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public String getFontFamily( Object object )
+	{
+		HighlightRuleHandle hrHandle = (HighlightRuleHandle) object;
+		String rfm = hrHandle.getFontFamilyHandle( ).getStringValue( );
+
+		if ( rfm == null || rfm.length( ) == 0 )
+		{
+			if ( getDesignElementHandle( ) != null )
+			{
+				rfm = getDesignElementHandle( ).getPrivateStyle( )
+						.getFontFamilyHandle( )
+						.getStringValue( );
+			}
+			else
+			{
+				rfm = DesignChoiceConstants.FONT_FAMILY_SERIF;
+			}
+		}
+
+		return HighlightHandleProvider.getFontFamily( rfm );
+	}
+
+	public int getFontSize( Object object )
+	{
+		HighlightRuleHandle hrHandle = (HighlightRuleHandle) object;
+		String rfs = hrHandle.getFontSize( ).getStringValue( );
+
+		if ( ( rfs == null || rfs.length( ) == 0 )
+				&& getDesignElementHandle( ) != null )
+		{
+			rfs = getDesignElementHandle( ).getPrivateStyle( )
+					.getFontSize( )
+					.getStringValue( );
+		}
+
+		return DEUtil.getFontSize( rfs );
+	}
+
+	public boolean isBold( Object object )
+	{
+		return DesignChoiceConstants.FONT_WEIGHT_BOLD.equals( ( (HighlightRuleHandle) object ).getFontWeight( ) );
+	}
+
+	public boolean isItalic( Object object )
+	{
+		return DesignChoiceConstants.FONT_STYLE_ITALIC.equals( ( (HighlightRuleHandle) object ).getFontStyle( ) );
+	}
+
+	public boolean isUnderline( Object object )
+	{
+		return DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( ( (HighlightRuleHandle) object ).getTextUnderline( ) );
+	}
+
+	public boolean isLinethrough( Object object )
+	{
+		return DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( ( (HighlightRuleHandle) object ).getTextLineThrough( ) );
+	}
+
+	public Color getColor( Object object )
+	{
+		return ColorManager.getColor( ( (HighlightRuleHandle) object ).getColor( )
+				.getRGB( ) );
+	}
+
+	public Color getBackgroundColor( Object object )
+	{
+		return ColorManager.getColor( ( (HighlightRuleHandle) object ).getBackgroundColor( )
+				.getRGB( ) );
+	}
+
+	public String getText( int key )
+	{
+		switch ( key )
+		{
+			case 0 :
+				return Messages.getString( "HighlightsPage.Label.Highlights" );
+			case 1 :
+				return Messages.getString( "HighlightsPage.Button.Add" );
+			case 2 :
+				return Messages.getString( "HighlightsPage.Button.Delete" );
+			case 3 :
+				return Messages.getString( "FormPage.Button.Up" );
+			case 4 :
+				return Messages.getString( "HighlightsPage.toolTipText.MoveUp" );
+			case 5 :
+				return Messages.getString( "FormPage.Button.Down" );
+			case 6 :
+				return Messages.getString( "HighlightsPage.toolTipText.MoveDown" );
+			case 7 :
+				return Messages.getString( "HighlightsPage.TableColumn.Preview" );
+			case 8 :
+				return Messages.getString( "HighlightsPage.TableColumn.Condition" );
+			case 9 :
+				return Messages.getString( "HighlightRuleBuilderDialog.text.PreviewContent" );
+		}
+		return "";
+	}
+	
+	protected void refreshRestoreProperty( )
+	{
+		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
+		if ( view != null
+				&& view instanceof AttributeView
+				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
+		{
+
+			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
+
+		}
+	}
+}

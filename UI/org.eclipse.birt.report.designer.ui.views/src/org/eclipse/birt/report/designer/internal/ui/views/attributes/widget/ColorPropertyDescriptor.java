@@ -131,7 +131,11 @@ public class ColorPropertyDescriptor extends PropertyDescriptor implements
 			colorValue = ColorUtil.formRGB( rgb.red, rgb.green, rgb.blue );
 
 		if ( oldValue == colorValue )
+		{
+			String colorString = getDescriptorProvider( ).load( ).toString( );
+			builder.setColorValue( colorString );
 			return;
+		}
 
 		String value = builder.getPredefinedColor( );
 		if ( value == null && rgb != null )

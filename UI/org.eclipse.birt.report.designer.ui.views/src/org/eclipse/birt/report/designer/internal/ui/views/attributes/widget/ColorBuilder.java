@@ -105,7 +105,7 @@ public class ColorBuilder extends Composite
 		} );
 
 		if ( isFormStyle )
-			combo = FormWidgetFactory.getInstance( ).createCCombo( this );
+			combo = FormWidgetFactory.getInstance( ).createCCombo( this,false );
 		else
 			combo = new CCombo( this, SWT.DROP_DOWN );
 		data = new GridData( );
@@ -412,11 +412,13 @@ public class ColorBuilder extends Composite
 
 		if ( oldRgb == null && rgb == null )
 		{
+			notifyListeners( SWT.Modify, null );
 			return;
 		}
 
 		if ( rgb != null && rgb.equals( oldRgb ) )
 		{
+			notifyListeners( SWT.Modify, null );
 			return;
 		}
 
@@ -622,7 +624,8 @@ public class ColorBuilder extends Composite
 		if ( rgb == null )
 		{
 			combo.deselectAll( );
+			notifyListeners( SWT.Modify, null );
 		}
-		// processAction( rgb );
+		else processAction( rgb );
 	}
 }

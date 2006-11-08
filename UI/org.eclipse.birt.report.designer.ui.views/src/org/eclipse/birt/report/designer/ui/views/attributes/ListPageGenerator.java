@@ -18,8 +18,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPa
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.GroupHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
@@ -101,7 +101,7 @@ public class ListPageGenerator extends AbstractPageGenerator
 				case 4 :
 					mapPage = new PreviewPage( true );
 					mapPage.setPreview( new MapPropertyDescriptor( true ) );
-					mapPage.setProvider( new MapPropertyDescriptorProvider( ) );
+					mapPage.setProvider( new MapDescriptorProvider( ) );
 					setPageInput( mapPage );
 					refresh(tabFolder,mapPage, true);
 					item.setControl( mapPage.getControl( ) );
@@ -110,7 +110,7 @@ public class ListPageGenerator extends AbstractPageGenerator
 				case 5 :
 					highlightsPage = new PreviewPage( true );
 					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-					highlightsPage.setProvider( new HighlightPropertyDescriptorProvider( ) );
+					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
 					setPageInput( highlightsPage );
 					refresh(tabFolder,highlightsPage, true);
 					item.setControl( highlightsPage.getControl( ) );

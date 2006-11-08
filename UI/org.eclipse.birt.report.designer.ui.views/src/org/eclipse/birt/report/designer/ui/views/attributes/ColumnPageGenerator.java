@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -43,7 +43,7 @@ public class ColumnPageGenerator extends AbstractPageGenerator
 				case 1 :
 					mapPage = new PreviewPage( true );
 					mapPage.setPreview( new MapPropertyDescriptor( true ) );
-					mapPage.setProvider( new MapPropertyDescriptorProvider( ) );
+					mapPage.setProvider( new MapDescriptorProvider( ) );
 					setPageInput( mapPage );
 					refresh(tabFolder,mapPage, true);
 					item.setControl( mapPage.getControl( ) );
@@ -52,7 +52,7 @@ public class ColumnPageGenerator extends AbstractPageGenerator
 				case 2 :
 					highlightsPage = new PreviewPage( true );
 					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-					highlightsPage.setProvider( new HighlightPropertyDescriptorProvider( ) );
+					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
 					setPageInput( highlightsPage );
 					refresh(tabFolder,highlightsPage, true);
 					item.setControl( highlightsPage.getControl( ) );

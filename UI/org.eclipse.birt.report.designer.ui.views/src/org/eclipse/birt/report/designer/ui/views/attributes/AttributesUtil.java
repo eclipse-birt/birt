@@ -36,7 +36,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TOCExp
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPropertiesPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -318,7 +318,7 @@ public class AttributesUtil
 		parent.setLayout( gl );
 		PreviewPage page = new PreviewPage( true );
 		page.setPreview( new HighlightPropertyDescriptor( true ) );
-		page.setProvider( new HighlightPropertyDescriptorProvider( ) );
+		page.setProvider( new HighlightDescriptorProvider( ) );
 		page.setInput( input );
 		page.buildUI( parent );
 		
