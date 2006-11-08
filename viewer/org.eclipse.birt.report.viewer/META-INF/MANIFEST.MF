@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Web Viewer
 Bundle-SymbolicName: org.eclipse.birt.report.viewer; singleton:=true
 Bundle-Version: 2.2.0.qualifier
-Bundle-ClassPath: .,
- viewer.jar
+Bundle-ClassPath: viewer.jar
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
