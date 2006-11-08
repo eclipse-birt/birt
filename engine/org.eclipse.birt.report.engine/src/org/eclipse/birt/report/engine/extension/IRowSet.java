@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 
 /**
@@ -79,4 +80,11 @@ public interface IRowSet {
 	 * clse the row set
 	 */
 	void close();
+	
+    /**
+	 * Judges if the IRowSet is empty or not
+	 * 
+	 * @return true if IRowSet is empty. false if it is not empty.
+	 */
+	boolean isEmpty( ) throws BirtException;
 }

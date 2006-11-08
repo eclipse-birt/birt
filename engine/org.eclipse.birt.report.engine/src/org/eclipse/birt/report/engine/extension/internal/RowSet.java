@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 /**
  * 
  * 
- * @version $Revision: 1.10 $ $Date: 2006/04/06 12:35:25 $
+ * @version $Revision: 1.11 $ $Date: 2006/04/19 08:20:25 $
  */
 public class RowSet implements IRowSet
 {
@@ -178,6 +178,16 @@ public class RowSet implements IRowSet
 				rset.close( );
 			}
 		}
+	}
+
+	public boolean isEmpty( ) throws BirtException
+	{
+		if ( rset == null )
+		{
+			return true;
+		}
+			
+		return rset.isEmpty( );
 	}
 
 }
