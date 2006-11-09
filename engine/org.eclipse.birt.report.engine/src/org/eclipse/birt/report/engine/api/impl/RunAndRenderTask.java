@@ -101,14 +101,14 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
 					format ); // $NON-NLS-1$
 			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, t );
+					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format, t );
 		}
 		if ( emitter == null )
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
 					format ); // $NON-NLS-1$
 			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION );
+					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format );
 		}
 
 		return emitter;
