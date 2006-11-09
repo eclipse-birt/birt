@@ -81,7 +81,6 @@
             <list-property name="parameters">
                 <structure>
                     <property name="name">new name</property>
-                    <property name="nativeName">name</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">22</property>
                     <property name="position">91</property>
@@ -93,7 +92,6 @@
                 </structure>
                 <structure>
                     <property name="name">new date</property>
-                    <property name="nativeName">date</property>
                     <property name="dataType">dateTime</property>
                     <property name="position">92</property>
                     <property name="isOptional">false</property>
@@ -103,7 +101,6 @@
                 </structure>
                 <structure>
                     <property name="name">new id</property>
-                    <property name="nativeName">id</property>
                     <property name="dataType">decimal</property>
                     <property name="position">93</property>
                     <property name="isOptional">false</property>
@@ -111,13 +108,11 @@
                 </structure>
                 <structure>
                     <property name="name">new name</property>
-                    <property name="nativeName">birth</property>
                     <property name="dataType">float</property>
                     <property name="isOutput">true</property>
                 </structure>
                 <structure>
                     <property name="name">new date</property>
-                    <property name="nativeName">title</property>
                     <property name="dataType">string</property>
                     <property name="isOutput">true</property>
                 </structure>

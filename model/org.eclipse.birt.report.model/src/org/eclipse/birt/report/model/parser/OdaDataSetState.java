@@ -361,7 +361,6 @@ public class OdaDataSetState extends SimpleDataSetState
 
 		if ( resultSetHints == null )
 		{
-			updateOdaResultSetColumn( resultSets );
 			return;
 		}
 
@@ -405,10 +404,6 @@ public class OdaDataSetState extends SimpleDataSetState
 
 				if ( currentColumn.getNativeDataType( ) == null )
 					currentColumn.setNativeDataType( hint.getNativeDataType( ) );
-
-				if ( currentColumn.getNativeName( ) == null )
-					currentColumn
-							.setNativeName( currentColumn.getColumnName( ) );
 
 				if ( currentColumn.getColumnName( ) == null )
 					currentColumn
@@ -463,31 +458,8 @@ public class OdaDataSetState extends SimpleDataSetState
 		newColumn.setDataType( oldColumn.getDataType( ) );
 		newColumn.setNativeDataType( oldColumn.getNativeDataType( ) );
 
-		// in default, native name is equal to name
-
-		newColumn.setNativeName( oldColumn.getColumnName( ) );
-
 		newColumn.setPosition( oldColumn.getPosition( ) );
 		return newColumn;
 	}
 
-	/**
-	 * Updates the native name in the oda result set columns
-	 * 
-	 * @param resultSets
-	 *            a list containing ODA result set columns
-	 */
-
-	private static void updateOdaResultSetColumn( List resultSets )
-	{
-		if ( resultSets == null )
-			return;
-
-		for ( int i = 0; i < resultSets.size( ); i++ )
-		{
-			OdaResultSetColumn newColumn = (OdaResultSetColumn) resultSets
-					.get( i );
-			newColumn.setNativeName( newColumn.getColumnName( ) );
-		}
-	}
 }

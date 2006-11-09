@@ -30,7 +30,6 @@
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
-                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">-100</property>
                     <property name="position">1</property>

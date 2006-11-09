@@ -17,12 +17,11 @@
                 <structure>
                     <property name="position">2</property>
                     <property name="name">column 2</property>
-                    <property name="nativeName">column 2</property>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">id</property>
+                    <property name="name">id</property>                    
                     <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                 </structure>

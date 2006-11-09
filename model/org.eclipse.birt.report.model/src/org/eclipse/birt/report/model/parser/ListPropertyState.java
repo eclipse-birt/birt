@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -167,7 +166,7 @@ public class ListPropertyState extends AbstractPropertyState
 			{
 				// ROM does not contain public driver properties any more.
 
-				if ( IOdaDataSourceModel.PUBLIC_DRIVER_PROPERTIES_PROP.equals( name ) )
+				if ( "publicDriverProperties".equals( name ) ) //$NON-NLS-1$
 					return;
 
 				// compatible for "includeLibrary" in the module
@@ -367,20 +366,6 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_6
-				&& element instanceof OdaDataSet && struct == null )
-		{
-			AbstractParseState state = null;
-
-			if ( "parameters".equals( name ) ) //$NON-NLS-1$
-			{
-				state = new CompatibleDataSetParamListPropertyState( handler,
-						element );
-				( (CompatibleDataSetParamListPropertyState) state )
-						.setName( IDataSetModel.PARAMETERS_PROP );
-				return state;
-			}
-		}
 		return super.versionConditionalJumpTo( );
 	}
 }
