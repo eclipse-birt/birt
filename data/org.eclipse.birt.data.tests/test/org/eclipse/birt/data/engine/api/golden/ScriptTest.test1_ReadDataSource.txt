@@ -2,18 +2,18 @@ DataSource.beforeOpen:
   extensionID=org.eclipse.birt.report.data.oda.jdbc
   isOpen=false
   extensionProperties:
-    odaPassword=password
-    odaURL=jdbc:derby:DTETest
-    odaDriverClass=org.apache.derby.jdbc.EmbeddedDriver
-    odaUser=user
+    odaPassword
+    odaURL
+    odaDriverClass
+    odaUser
 DataSource.afterOpen:
   extensionID=org.eclipse.birt.report.data.oda.jdbc
   isOpen=true
   extensionProperties:
-    odaPassword=password
-    odaURL=jdbc:derby:DTETest
-    odaDriverClass=org.apache.derby.jdbc.EmbeddedDriver
-    odaUser=user
+    odaPassword
+    odaURL
+    odaDriverClass
+    odaUser
 *****A new Report Start!*****
 S:0 E:1 CHINA    
 S:1 E:1 US    
@@ -28,15 +28,15 @@ DataSource.beforeClose:
   extensionID=org.eclipse.birt.report.data.oda.jdbc
   isOpen=true
   extensionProperties:
-    odaPassword=password
-    odaURL=jdbc:derby:DTETest
-    odaDriverClass=org.apache.derby.jdbc.EmbeddedDriver
-    odaUser=user
+    odaPassword
+    odaURL
+    odaDriverClass
+    odaUser
 DataSource.afterClose:
   extensionID=org.eclipse.birt.report.data.oda.jdbc
   isOpen=false
   extensionProperties:
-    odaPassword=password
-    odaURL=jdbc:derby:DTETest
-    odaDriverClass=org.apache.derby.jdbc.EmbeddedDriver
-    odaUser=user
+    odaPassword
+    odaURL
+    odaDriverClass
+    odaUser

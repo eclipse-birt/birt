@@ -45,9 +45,9 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-import com.ibm.icu.util.TimeZone;
-
 import testutil.ConfigText;
+
+import com.ibm.icu.util.TimeZone;
 
 /**
  * Notice:
@@ -1240,12 +1240,7 @@ public class ColumnBindingTest extends APITestCase
 	 */
 	private String getOutputFolder( )
 	{
-		String className = getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." );
-		className = className.substring( 0, lastDotIndex );
-		File classFolder = new File( "test", className.replace( '.', '/' ) );
-		return classFolder.getAbsolutePath( )
-				+ File.separator + "output" + File.separator;
+		return new File(new File(System.getProperty("java.io.tmpdir")), "output").getAbsolutePath();
 	}
 		
 	/**

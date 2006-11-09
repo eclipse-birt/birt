@@ -5,5 +5,5 @@ DataSet.beforeOpen:
   rows is null=false
   dataSource.extensionID=org.eclipse.birt.report.data.oda.jdbc
   extensionProperties:
-    fake_property=fake_prop_value
+    fake_property
   columnDefns:

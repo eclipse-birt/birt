@@ -16,10 +16,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.URL;
-import java.security.CodeSource;
-import java.security.ProtectionDomain;
 
 import junit.framework.TestCase;
 
@@ -38,11 +37,11 @@ abstract public class BaseTestCase extends TestCase
 	protected Context jsContext;
 	protected Scriptable jsScope;
 
-	private static final String TEST_FOLDER = "test";
+	//private static final String TEST_FOLDER = "test";
 	private static final String OUTPUT_FOLDER = "output";
 	private static final String INPUT_FOLDER = "input";
 	private static final String GOLDEN_FOLDER = "golden";
-	private String classFolder;
+	//private String classFolder;
 
 	/*
 	 * @see junit.framework.TestCase#setUp()
@@ -82,22 +81,23 @@ abstract public class BaseTestCase extends TestCase
 	}
 	
 	/** return input folder */
-	protected File getInputFolder( )
+	protected InputStream getInputFolder( String dataFileName )
 	{
-		return new File( getBaseFolder( ), INPUT_FOLDER );
+		return this.getClass().getResourceAsStream( INPUT_FOLDER + File.separator + dataFileName );
 	}
 	
 	/** return output folder */
 	private File getOutputFolder()
 	{
-		return new File( getBaseFolder(), OUTPUT_FOLDER );
+		return new File( new File(System.getProperty("java.io.tmpdir")),
+				OUTPUT_FOLDER );
 	}
-	
-	/** return golder folder */
+
+	/** return golder folder *//*
 	private File getGoldenFolder( )
 	{
 		return new File( getBaseFolder( ), GOLDEN_FOLDER );
-	}
+	}*/
 	
 	/** open output folder */
 	private void openOutputFolder( )
@@ -142,7 +142,7 @@ abstract public class BaseTestCase extends TestCase
 	 * 
 	 * @return the path where the test java source file locates.
 	 */
-	private File getBaseFolder( )
+/*	private File getBaseFolder( )
 	{
 		if ( classFolder == null )
 		{
@@ -178,7 +178,7 @@ abstract public class BaseTestCase extends TestCase
 		return new File( className );
 	}
 	
-	/**
+*/	/**
 	 * Asserts that output file matches the golden file. Default file name for
 	 * current test case is used for both files
 	 */
@@ -197,9 +197,9 @@ abstract public class BaseTestCase extends TestCase
 	private void checkOutputFile( String goldenFileName, String outputFileName )
 		throws IOException
 	{
-		File goldenFile = new File( getGoldenFolder(),  goldenFileName);
+		InputStream golden = this.getClass().getResourceAsStream( GOLDEN_FOLDER + File.separator + goldenFileName );
 		File outputFile = new File( getOutputFolder(),  outputFileName);
-		assertTrue( compareTextFile( goldenFile, outputFile ));
+		assertTrue( compareTextFile( golden, outputFile ));
 	}
 
 	/**
@@ -212,12 +212,12 @@ abstract public class BaseTestCase extends TestCase
 	 *            the 2nd file name to be compared.
 	 * @return True if two text file is same line by line
 	 */
-	private boolean compareTextFile( File goldenFile, File outputFile )
+	private boolean compareTextFile( InputStream golden, File outputFile )
 			throws IOException
 	{
 		boolean same = true;
 	
-		FileReader readerA = new FileReader( goldenFile);
+		InputStreamReader readerA = new InputStreamReader( golden );
 		FileReader readerB = new FileReader( outputFile );
 		BufferedReader	lineReaderA = new BufferedReader( readerA );
 		BufferedReader	lineReaderB = new BufferedReader( readerB );
@@ -236,7 +236,7 @@ abstract public class BaseTestCase extends TestCase
 			strB = lineReaderB.readLine( );
 		}
 		same = strA == null && strB == null;
-			
+		golden.close();	
 		readerA.close( );
 		readerB.close( );
 		lineReaderA.close( );

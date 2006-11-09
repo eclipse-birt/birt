@@ -198,14 +198,10 @@ public class ReportDocumentTest2 extends APITestCase
 	/**
 	 * @return folder for report document
 	 */
-	private String getOutputFolder( )
+	private String getOutputFolder() 
 	{
-		String className = getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." );
-		className = className.substring( 0, lastDotIndex );
-		File classFolder = new File( "test", className.replace( '.', '/' ) );
-		return classFolder.getAbsolutePath( )
-				+ File.separator + "output" + File.separator;
+		return new File(new File(System.getProperty("java.io.tmpdir")),
+				"output").getAbsolutePath();
 	}
 	
 	/**

@@ -11,8 +11,8 @@
 
 package testutil;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
@@ -74,10 +74,10 @@ public class JDBCDataSource implements TestDataSource
 	/*
 	 * @see testutil.TestDataSource#populateTestTable(java.lang.String, java.io.File)
 	 */
-	public void populateTable( String testTableName, File testTableDataFile )
+	public void populateTable( String testTableName, InputStream stream )
 			throws SQLException, IOException
 	{
-		jdbcDataSourceUtil.populateTable( testTableName, testTableDataFile );
+		jdbcDataSourceUtil.populateTable( testTableName, stream );
 	}
 
 	/*

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.binding;
 
-import java.io.File;
-
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -33,12 +31,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 
-import com.ibm.icu.util.TimeZone;
-
 import testutil.BaseTestCase;
 import testutil.JDBCDataSource;
 import testutil.JDBCOdaDataSource;
 import testutil.TestDataSource;
+
+import com.ibm.icu.util.TimeZone;
 
 /**
  * Base class for test cases that work with Data Engine public API
@@ -103,7 +101,7 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	private void prepareDataSource( ) throws Exception
 	{
-		prepareDataSourceProperty( );
+		//prepareDataSourceProperty( );
 		
 		DataSourceInfo dataSourceInfo = getDataSourceInfo( );
 		if ( dataSourceInfo != null )
@@ -124,7 +122,7 @@ abstract public class APITestCase extends BaseTestCase
 	 * Prepare data source connection property, these properties will be used in
 	 * test table preparation and oda data source preparation.
 	 */
-	private void prepareDataSourceProperty()
+/*	private void prepareDataSourceProperty()
 	{
 		if ( DriverClass == null )
 			DriverClass = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -138,7 +136,7 @@ abstract public class APITestCase extends BaseTestCase
 		System.setProperty( "DTETest.url", URL );
 		System.setProperty( "DTETest.user",User);
 		System.setProperty( "DTETest.password",Password);	
-	}
+	}*/
 	
 	/**
 	 * Prepare test table. This method is defined separatelly since in some test
@@ -186,7 +184,7 @@ abstract public class APITestCase extends BaseTestCase
 		
 		// insert data into table
 		this.dataSourceInstance.populateTable( tableName,
-				new File( getInputFolder(), dataFileName) );
+				getInputFolder( dataFileName ) );
 	}
 	
 	/**

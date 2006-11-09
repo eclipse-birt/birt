@@ -2,7 +2,7 @@ DataSource.beforeOpen:
   extensionID=org.eclipse.birt.report.data.oda.jdbc
   isOpen=false
   extensionProperties:
-    odaPassword=password
-    odaURL=jdbc:derby:DTETest
-    odaDriverClass=org.apache.derby.jdbc.EmbeddedDriver
-    odaUser=fake_user
+    odaPassword
+    odaURL
+    odaDriverClass
+    odaUser

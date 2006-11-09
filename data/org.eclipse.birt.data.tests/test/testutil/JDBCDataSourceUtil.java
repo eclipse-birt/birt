@@ -13,9 +13,10 @@ package testutil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -124,10 +125,10 @@ public class JDBCDataSourceUtil
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void populateTable( String testTableName, File testTableDataFile )
+	public void populateTable( String testTableName, InputStream testTableDataFile )
 			throws SQLException, IOException
 	{
-		FileReader inputFile = new FileReader( testTableDataFile );
+		InputStreamReader inputFile = new InputStreamReader( testTableDataFile );
 		BufferedReader lineReader = new BufferedReader( inputFile );
 		//skip first two lines which store metadata information
 		lineReader.readLine( );
@@ -165,6 +166,10 @@ public class JDBCDataSourceUtil
 				statementExecute( (String) ob[0], (Object[]) ob[1] );
 			}
 		}
+		
+		lineReader.close();
+		inputFile.close();
+		testTableDataFile.close();
 	}
 
 	/**
@@ -383,13 +388,13 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @return
 	 */
-	static String getURL( )
+	public static String getURL( )
 	{
 		String url = System.getProperty( "DTETest.url" );
 		if ( url != null )
 			return url;
 		else
-			return "jdbc:derby:" + getDatabase( );
+			return "jdbc:derby:" + System.getProperty("java.io.tmpdir")+File.separator+ "DTETest";
 	}
 	
 	/**
@@ -397,14 +402,14 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @return
 	 */
-	private static String getDatabase( )
+/*	private static String getDatabase( )
 	{
 		String database = System.getProperty( "DTETest.database" );
 		if ( database != null )
 			return database;
 		else
-			return "DTETest";
-	}
+			return System.getProperty("java.io.temp")+File.pathSeparator+ "DTETest";
+	}*/
 	
 	/**
 	 * Return user for test table

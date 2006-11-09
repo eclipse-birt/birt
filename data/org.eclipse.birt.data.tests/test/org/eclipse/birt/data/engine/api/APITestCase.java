@@ -11,17 +11,6 @@
 
 package org.eclipse.birt.data.engine.api;
 
-import java.io.File;
-
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
@@ -95,8 +84,6 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	private void prepareDataSource( ) throws Exception
 	{
-		prepareDataSourceProperty( );
-		
 		DataSourceInfo dataSourceInfo = getDataSourceInfo( );
 		if ( dataSourceInfo != null )
 		{
@@ -116,12 +103,12 @@ abstract public class APITestCase extends BaseTestCase
 	 * Prepare data source connection property, these properties will be used in
 	 * test table preparation and oda data source preparation.
 	 */
-	private void prepareDataSourceProperty()
+/*	private void prepareDataSourceProperty()
 	{
 		if ( DriverClass == null )
 			DriverClass = "org.apache.derby.jdbc.EmbeddedDriver";
 		if ( URL == null )
-			URL = "jdbc:derby:DTETest";
+			URL = JDBCDataSourceUtil.getURL();
 		if ( User == null )
 			User = "user";
 		if ( Password == null )
@@ -131,7 +118,7 @@ abstract public class APITestCase extends BaseTestCase
 		System.setProperty( "DTETest.user",User);
 		System.setProperty( "DTETest.password",Password);	
 	}
-	
+	*/
 	/**
 	 * Prepare test table. This method is defined separatelly since in some test
 	 * cases, they might use more than one data set, although they share the
@@ -178,7 +165,7 @@ abstract public class APITestCase extends BaseTestCase
 		
 		// insert data into table
 		this.dataSourceInstance.populateTable( tableName,
-				new File( getInputFolder(), dataFileName) );
+				getInputFolder(dataFileName) );
 	}
 	
 	/**
