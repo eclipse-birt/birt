@@ -1,0 +1,72 @@
+ChartReportItemPresentationImpl.error.NoData=El conjunto de datos enlazado al diagrama no ha devuelto ninguna fila.
+ChartReportItemPresentationImpl.log.UnableToLocateWrapper=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
+ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - inicio
+ChartReportItemPresentationImpl.log.onRowSetsBuilding=ChartReportItemPresentationImpl: onRowSets(...) - diagrama de compilación
+ChartReportItemPresentationImpl.log.WritingFile=Escribiendo el archivo {0} a las {1}
+ChartReportItemPresentationImpl.exception.tmpPngFileCreation=Creación de archivo PNG temporal
+ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo=La presentación utiliza enlaces: {0}
+ChartReportItemPresentationImpl.log.onRowSetsRendering=ChartReportItemPresentationImpl: onRowSets(...) - diagrama de procesamiento
+ChartReportItemPresentationImpl.exception.inputStreamCreation=creación de secuencia de entrada
+ChartReportItemPresentationImpl.log.onRowSetsFailed=ChartReportItemPresentationImpl: onRowSets(...) - error
+ChartReportItemPresentationImpl.exception.UnexpectedError=Error inesperado
+ChartReportItemPresentationImpl.onRowSetsEnd=ChartReportItemPresentationImpl: onRowSets(...) - final
+ChartReportItemPresentationImpl.log.getSizeStart=ChartReportItemPresentationImpl: getSize(...) - inicio
+ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: getSize(...) - final
+ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=Archivo {0} temporal eliminado con éxito en {1}. 
+ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - final
+ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - inicio
+ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=No se ha podido eliminar el archivo {0} temporal creado en {1}.
+
+ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - excepción
+ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - final
+ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - inicio
+ChartReportItemQueryImpl.exception.getReportQueries=Obteniendo consultas de informe
+ChartReportItemQueryImpl.log.UnableToLocate=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
+
+ChartReportItemImpl.log.validate=validando(...)
+ChartReportItemImpl.log.getProperty=getProperty(...) - {0}
+ChartReportItemImpl.log.CannotSetState=No se puede establecer el estado 'transpuesto' en un diagrama sin ejes.
+ChartReportItemImpl.log.UnexpectedChoiceName=Encontrado nombre de selección inesperado: 
+ChartReportItemImpl.log.RequestForPropertyDefn=Se ha recibido la solicitud para las definiciones de propiedades antes de que se creara el modelo.
+ChartReportItemImpl.log.RequestForScriptPropertyDefn=Solicite la definición de propiedades del script.
+ChartReportItemImpl.log.checkProperty=CheckProperty(...) - {0} con valor {1}
+ChartReportItemImpl.log.setProperty=SetProperty(...) - {0} con valor {1}
+
+QueryHelper.exception.UnexpectedNull=Definición de consulta 'nula' inesperada proporcionada por el frame de la extesión: motor/generación de informe.
+QueryHelper.Text.CategroySeries=Serie de categoría
+QueryHelper.Text.ValueSeries=Serie del valor
+QueryHelper.Text.XSeries=Serie X
+QueryHelper.Text.YSeries=Serie Y
+
+SeriesQueries.NoDataDefinitionFor=No existen entradas de definición de datos para {0}
+SeriesQueries.dataDefnUndefined=No se ha definido una entrada de definición de datos para {0}.
+ChartElementCommandImpl.editChart=Editar diagrama
+ChartElementCommandImpl.setProperty.chart.dimension=Establecer dimensión
+ChartElementCommandImpl.setProperty.plot.transposed=Establecer como transpuesto
+ChartElementCommandImpl.setProperty.script=Editar script de diagrama
+
+################################################
+# Display names for report model extension 
+################################################
+
+Element.Chart=Diagrama
+Element.Chart.xmlRepresentation=Modelo XML
+Element.Chart.outputFormat=Formato de salida
+
+choice.chart.dimension.two_dimensional=2D
+choice.chart.dimension.two_dimensional_with_depth=2D con profundidad
+choice.chart.dimension.three_dimensional=3D
+
+property.category.general=General
+property.category.types=Tipos
+
+property.label.title.value=Título:
+property.label.title.font.rotation=Rotación de título:
+property.label.legend.position=Posición de la leyenda:
+property.label.legend.anchor=Delimitador de la leyenda:
+property.label.chart.dimension=Dimensión:
+property.label.chart.plot.transposed=Transpuesto
+property.script=Script
+
+exception.script.syntaxError=Error de sintaxis de script: {0}
+
