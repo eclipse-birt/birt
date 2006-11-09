@@ -630,10 +630,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		File reportDocFile = new File( this.reportDocumentName );
 		File reportDesignDocFile = new File( reportDesignName );
 
-		if ( reportDesignDocFile != null && reportDesignDocFile.exists( )
-				&& reportDesignDocFile.isFile( ) && reportDocFile != null
-				&& reportDocFile.exists( ) && reportDocFile.isFile( )
-				&& "get".equalsIgnoreCase( request.getMethod( ) ) ) //$NON-NLS-1$
+		// if request is SOAP Post, don't delete document file
+		String requestType = request
+				.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+
+		if ( reportDesignDocFile != null
+				&& reportDesignDocFile.exists( )
+				&& reportDesignDocFile.isFile( )
+				&& reportDocFile != null
+				&& reportDocFile.exists( )
+				&& reportDocFile.isFile( )
+				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+						.equalsIgnoreCase( requestType ) )
 		{
 			if ( reportDesignDocFile.lastModified( ) > reportDocFile
 					.lastModified( )

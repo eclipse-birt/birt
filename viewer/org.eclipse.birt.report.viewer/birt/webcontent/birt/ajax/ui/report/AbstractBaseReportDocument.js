@@ -140,7 +140,8 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	/**
 	 *	Birt event handler for "getpage" event.
 	 *
-	 *	@id, document id (optional since there's only one document instance)
+	 *	@param id, document id (optional since there's only one document instance)
+	 *  @param object, pass some settings, for example: page,bookmark...
 	 *	@return, true indicating server call
 	 */
 	__beh_getPage : function( id, object )
@@ -163,6 +164,39 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 										  "GetPage", null,
 										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
 										  { name : this.__task_id, value : taskid } );
+		}
+
+		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
+		return true;
+	},
+
+	/**
+	 *	Birt event handler for "getpage" event with collected parameters.
+	 *
+	 *	@param id, document id (optional since there's only one document instance)
+	 *  @param object, pass some settings, for example: page...
+	 *	@return, true indicating server call
+	 */
+	__beh_getPageInit : function( id, object, flag )
+	{
+		// set task id
+		var taskid = birtUtility.setTaskId( );
+		
+		birtSoapRequest.setURL( document.location );
+		if ( object )
+		{
+			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+										  "GetPage", null, birtParameterDialog.__parameter,
+										  object,
+										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+										  { name : this.__task_id, value : taskid } );
+		}
+		else
+		{
+			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+										  "GetPage", null, birtParameterDialog.__parameter,
+										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+										  { name : this.__task_id, value : taskid } );				
 		}
 
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.

@@ -31,6 +31,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		//	Prepare closures.
 		this.__neh_resize_closure = this.__neh_resize.bindAsEventListener( this );
 		this.__beh_getPage_closure = this.__beh_getPage.bind( this );
+		this.__beh_getPageInit_closure = this.__beh_getPageInit.bind( this );
 		this.__beh_changeParameter_closure = this.__beh_changeParameter.bind( this );
 		this.__beh_toc_closure = this.__beh_toc.bindAsEventListener( this );
 		this.__beh_cacheParameter_closure = this.__beh_cacheParameter.bind( this );
@@ -42,6 +43,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_GETPAGE, this.__instance.id, this.__beh_getPage_closure );
+		birtEventDispatcher.registerEventHandler( birtEvent.__E_GETPAGE_INIT, this.__instance.id, this.__beh_getPageInit_closure );		
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_PARAMETER, this.__instance.id, this.__beh_parameter );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CHANGE_PARAMETER, this.__instance.id, this.__beh_changeParameter_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CASCADING_PARAMETER, this.__instance.id, this.__beh_cascadingParameter );

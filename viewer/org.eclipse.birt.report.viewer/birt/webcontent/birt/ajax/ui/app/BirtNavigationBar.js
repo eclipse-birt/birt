@@ -218,14 +218,17 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 	 */
 	__init_page : function( )
 	{
-		if ( this.__oPageNumber.firstChild )
-		{
-			var pageNumber = parseInt( this.__oPageNumber.firstChild.data );
-			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : "page", value : pageNumber } );
-		}
-		else
-		{
-			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE );
+		if( birtParameterDialog.collect_parameter( ) )
+		{			
+			if ( this.__oPageNumber.firstChild )
+			{
+				var pageNumber = parseInt( this.__oPageNumber.firstChild.data );
+				birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_INIT, { name : "page", value : pageNumber } );
+			}
+			else
+			{
+				birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_INIT );
+			}
 		}
 	}
 }

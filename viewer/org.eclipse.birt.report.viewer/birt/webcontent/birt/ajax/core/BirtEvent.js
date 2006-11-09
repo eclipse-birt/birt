@@ -18,7 +18,8 @@ BirtEvent.prototype =
 {
 	__E_WARN : '__E_WARN',
 	__E_BLUR : '__E_BLUR', // Blur current selection.
-	__E_GETPAGE : '__E_GETPAGE', // Getting designated page.
+	__E_GETPAGE : '__E_GETPAGE', // Getting pagination page.
+	__E_GETPAGE_INIT : '__E_GETPAGE_INIT', // Getting pagination page with parameters.
 	__E_PRINT : '__E_PRINT', // Print event.
 	__E_QUERY_EXPORT : '__E_QUERY_EXPORT',
 	__E_TOC : '__E_TOC',
