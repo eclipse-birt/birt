@@ -1,0 +1,19 @@
+###############################################################################
+# Copyright (c) 2005 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+
+Sum.displayName=합
+Average.displayName=평균
+Count.displayName=카운트
+DistinctCount.displayName=고유 카운트
+First.displayName=첫째
+Last.displayName=마지막
+Min.displayName=최소값
+Max.displayName=최대값
