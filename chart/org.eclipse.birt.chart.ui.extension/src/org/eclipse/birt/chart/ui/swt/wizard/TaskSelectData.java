@@ -1138,11 +1138,15 @@ public class TaskSelectData extends SimpleTask implements
 						}
 						WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 								new String[]{
-										expression, sSeries
+										ce.getMessage( ), sSeries
 								} ) ) );
 					}
-					query.setDefinition( "" ); //$NON-NLS-1$
-					DataDefinitionTextManager.getInstance( ).updateText( query );
+					if ( ce.getMessage( ).equals( expression ) )
+					{
+						query.setDefinition( "" ); //$NON-NLS-1$
+						DataDefinitionTextManager.getInstance( )
+								.updateText( query );
+					}
 				}
 
 				if ( getChartModel( ) instanceof ChartWithAxes )

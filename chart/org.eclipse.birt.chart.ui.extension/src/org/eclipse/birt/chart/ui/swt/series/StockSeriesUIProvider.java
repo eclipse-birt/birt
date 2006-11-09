@@ -114,7 +114,7 @@ public class StockSeriesUIProvider extends DefaultSeriesUIProvider
 			{
 				throw new ChartException( ChartUIExtensionPlugin.ID,
 						ChartException.DATA_BINDING,
-						"" ); //$NON-NLS-1$
+						query.getDefinition( ) ); 
 			}
 		}
 	}
