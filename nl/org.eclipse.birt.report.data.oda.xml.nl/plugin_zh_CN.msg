@@ -1,0 +1,20 @@
+###############################################################################
+# Copyright (c) 2004,2005 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+
+
+###############################################################################
+# NLS String
+###############################################################################
+datasource.name=BIRT XML 数据源
+dataset.name=BIRT XML 数据集
+
+datasource.property.xmlFile=XML 数据源文件
+datasource.property.schemaFile=XML 架构文件
