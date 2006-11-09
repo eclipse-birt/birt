@@ -641,7 +641,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				&& reportDocFile.exists( )
 				&& reportDocFile.isFile( )
 				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-						.equalsIgnoreCase( requestType ) )
+						.equalsIgnoreCase( requestType )
+				&& !ParameterAccessor.SERVLET_PATH_DOWNLOAD
+						.equalsIgnoreCase( request.getServletPath( ) ) )
 		{
 			if ( reportDesignDocFile.lastModified( ) > reportDocFile
 					.lastModified( )
