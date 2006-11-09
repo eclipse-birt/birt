@@ -103,8 +103,9 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_NAME = Messages.getString( "ParameterDialog.Label.Name" ); //$NON-NLS-1$
 
-	// private static final String LABEL_DATETIME_PROMPT = Messages.getString( "ParameterDialog.Label.DateTImePrompt" ); //$NON-NLS-1$
-	
+	// private static final String LABEL_DATETIME_PROMPT = Messages.getString(
+	// "ParameterDialog.Label.DateTImePrompt" ); //$NON-NLS-1$
+
 	private static final String LABEL_DATETIME_PROMPT = "Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM"; //$NON-NLS-1$
 
 	private static final String LABEL_PROMPT_TEXT = Messages.getString( "ParameterDialog.Label.PromptText" ); //$NON-NLS-1$
@@ -876,10 +877,10 @@ public class ParameterDialog extends BaseDialog
 		{
 			columnChooser.setText( originalSelection );
 		}
-//		else if ( columnChooser.getItemCount( ) > 0 )
-//		{
-//			columnChooser.select( 0 );
-//		}
+		// else if ( columnChooser.getItemCount( ) > 0 )
+		// {
+		// columnChooser.select( 0 );
+		// }
 		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
 		updateMessageLine( );
 	}
@@ -922,11 +923,13 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( inputParameter.isMustMatch( ) )
 			{
-				type = PARAM_CONTROL_COMBO;
+				// type = PARAM_CONTROL_COMBO;
+				type = PARAM_CONTROL_LIST;
 			}
 			else
 			{
-				type = PARAM_CONTROL_LIST;
+				// type = PARAM_CONTROL_LIST;
+				type = PARAM_CONTROL_COMBO;
 			}
 		}
 		else
@@ -971,7 +974,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			return PARAM_CONTROL_LIST;
 		}
-		return CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText ).getName( );
+		return CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText )
+				.getName( );
 	}
 
 	private void changeDataType( )
@@ -1031,10 +1035,10 @@ public class ParameterDialog extends BaseDialog
 				{
 					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
 							.getDisplayName( );
-//					choices[1] = DISPLAY_NAME_CONTROL_LIST;
+					// choices[1] = DISPLAY_NAME_CONTROL_LIST;
 					choices[1] = DISPLAY_NAME_CONTROL_COMBO;
 				}
-//				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
+				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
 				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_LIST;
 				choices[choices.length - 1] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
 						.getDisplayName( );
@@ -1337,7 +1341,7 @@ public class ParameterDialog extends BaseDialog
 				updateButtons( );
 			}
 		} );
-		
+
 		Button valueColumnExprButton = new Button( composite, SWT.PUSH );
 		valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
 		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
@@ -1347,21 +1351,24 @@ public class ParameterDialog extends BaseDialog
 			{
 
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getExpression( columnChooser.getText( ) ) );
-				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter, dataSetChooser.getText( ) ) );
+				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter,
+						dataSetChooser.getText( ) ) );
 
 				if ( expressionBuilder.open( ) == OK )
 				{
-					setExpression( columnChooser, expressionBuilder.getResult( ).trim( ) );
+					setExpression( columnChooser, expressionBuilder.getResult( )
+							.trim( ) );
 				}
 			}
 		} );
 
-		//createLabel( composite, null );
+		// createLabel( composite, null );
 		createLabel( composite, LABEL_SELECT_DISPLAY_TEXT );
-		// displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		// displayTextChooser = new Combo( composite, SWT.BORDER | SWT.READ_ONLY
+		// );
 		displayTextChooser = new Combo( composite, SWT.BORDER | SWT.DROP_DOWN );
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
+
 		Button displayTextExprButton = new Button( composite, SWT.PUSH );
 		displayTextExprButton.setText( "..." ); //$NON-NLS-1$
 		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
@@ -1371,15 +1378,17 @@ public class ParameterDialog extends BaseDialog
 			{
 
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder( getExpression( displayTextChooser.getText( ) ) );
-				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter, dataSetChooser.getText( ) ) );
+				expressionBuilder.setExpressionProvier( new ParameterExpressionProvider( inputParameter,
+						dataSetChooser.getText( ) ) );
 
 				if ( expressionBuilder.open( ) == OK )
 				{
-					setExpression( displayTextChooser, expressionBuilder.getResult( ).trim( ) );
+					setExpression( displayTextChooser,
+							expressionBuilder.getResult( ).trim( ) );
 				}
 			}
 		} );
-		
+
 		// createLabel( composite, null );
 		createDefaultEditor( );
 		listLimit.setEditable( true );
@@ -1423,12 +1432,14 @@ public class ParameterDialog extends BaseDialog
 			if ( PARAM_CONTROL_COMBO.equals( newControlType ) )
 			{
 				newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
-				inputParameter.setMustMatch( true );
+				// inputParameter.setMustMatch( true );
+				inputParameter.setMustMatch( false );
 			}
 			else if ( PARAM_CONTROL_LIST.equals( newControlType ) )
 			{
 				newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
-				inputParameter.setMustMatch( false );
+				// inputParameter.setMustMatch( false );
+				inputParameter.setMustMatch( true );
 			}
 			else
 			{
@@ -2223,7 +2234,8 @@ public class ParameterDialog extends BaseDialog
 		String displayName = null;
 		if ( CONTROL_TYPE_CHOICE_SET.findChoice( type ) != null )
 		{
-			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type ).getDisplayName( );
+			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type )
+					.getDisplayName( );
 		}
 		else
 		{
@@ -2279,7 +2291,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		return false;
 	}
-	
+
 	private void setExpression( Combo chooser, String key )
 	{
 		chooser.deselectAll( );
