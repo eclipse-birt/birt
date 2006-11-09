@@ -258,7 +258,7 @@ public class ActionContent implements IHyperlinkAction
 		}
 		if ( isDrillThrough( ) )
 		{
-			if ( isBookmark )
+			if ( drillThrough.isBookmark( ) )
 			{
 				IOUtil.writeInt( out, FIELD_ISBOOKMARK );
 				IOUtil.writeBool( out, drillThrough.isBookmark( ) );
