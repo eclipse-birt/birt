@@ -218,7 +218,24 @@ public class DataAdapterTopLevelScopeTest extends TestCase
 		r = evaluateScript("params[\"bool_2\"].value");
 		assertEquals( r.getClass(), Boolean.class);
 		assertFalse( ((Boolean)r).booleanValue() );
+		
+		// Test put params value
+		r = evaluateScript("params[\"string_1\"].value =\"param1\"");
+		assertEquals( r.getClass(), String.class);
+		assertEquals( r, "param1" );
 
+		// Test dispayText params value
+		r = evaluateScript("params[\"string_1\"].displayText =\"displayText\";params[\"string_1\"].displayText");
+		assertEquals( r.getClass(), String.class);
+		assertEquals( r, "displayText" );
+
+		// Test error attribute name
+		r = evaluateScript("params[\"string_1\"].displyText =\"displayText\";params[\"string_1\"].displyText");
+		assertEquals( r, null );
+
+		r = evaluateScript("params[\"string_2\"]=params[\"string_1\"]");
+		assertEquals( r.getClass(), String.class );
+		assertEquals( r, "param1" );
 	}
 
 	/**
