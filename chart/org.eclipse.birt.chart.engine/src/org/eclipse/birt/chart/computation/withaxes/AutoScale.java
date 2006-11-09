@@ -1299,6 +1299,18 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 
+			// To make sure the boundary is always 100, -100 in percent type
+			if ( ( iType & PERCENT ) == PERCENT )
+			{
+				if ( dMaxAxis > 0 )
+				{
+					dMaxAxis = 100;
+				}
+				if ( dMinAxis < 0 )
+				{
+					dMinAxis = -100;
+				}
+			}
 			if ( !bMaximumFixed )
 			{
 				oMaximum = new Double( dMaxAxis );
