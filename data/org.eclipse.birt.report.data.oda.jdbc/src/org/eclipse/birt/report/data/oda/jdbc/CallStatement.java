@@ -72,6 +72,11 @@ public class CallStatement implements IAdvancedQuery
 	protected String procedureName;
 
 	protected String[] resultSetNames;
+	
+	/* database-specific dataType */
+	private static final String ORACLE_FLOAT_NAME = "FLOAT";//$NON-NLS-1$
+	private static final String ORACLE_CURSOR_NAME = "REF CURSOR";//$NON-NLS-1$
+	private static final int ORACLE_CURSOR_TYPE = -10;
 
 	/**
 	 * assertNull(Object o)
@@ -352,14 +357,38 @@ public class CallStatement implements IAdvancedQuery
 			this.callStat.execute( );
 			if ( this.callStat.getResultSet( ) != null )
 				return new ResultSet( this.callStat.getResultSet( ) );
-			else
-				return new SPResultSet( null );
+			
+			java.sql.ResultSet resultSet = getOutputParamResultSet( );
+			return resultSet != null ? new ResultSet( resultSet )
+					: new SPResultSet( null );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_RETURN,
 					e );
 		}
+	}
+	
+	/*
+	 * The method is for retrieving resultSet from database-specific
+	 * outPutParams. Note in 2.2.0M2 only the first resultSet will be returned
+	 * due to single IResultSet policy, assuming there is one or more. null will
+	 * be returned otherwise for a pseudo resultSet.
+	 */
+	private java.sql.ResultSet getOutputParamResultSet( ) throws OdaException,
+			SQLException
+	{
+		for ( int i = 0; i < parameterDefn.getParameterCount( ); i++ )
+		{
+			if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
+			{
+				Object expected = callStat.getObject( i + 1 );
+				if ( expected instanceof java.sql.ResultSet )
+					return (java.sql.ResultSet) expected;
+			}
+		}
+
+		return null;
 	}
 	
 	/**
@@ -379,11 +408,26 @@ public class CallStatement implements IAdvancedQuery
 				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut
 						|| parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeInOut )
 				{
-					registerOutParameter( i + 1,
-							parameterDefn.getParameterType( i ) );
+					registerOutParameter( i + 1, getParameterType( i ) );
 				}
 			}
 		}
+	}
+	
+	/*
+	 * Added to deal with database-specific cases. for instance,
+	 * Types.OTHER->REF CURSOR->Any(odi)->Types.CHAR(oda). In above scenarios,
+	 * metaData will be fetched again to correct the parameterDataType in case
+	 * they've been changed already. Note there would be some extra tradeoff
+	 * even the paramDataType is recognizable to us as we just can't tell for
+	 * sure on jdbc level
+	 */
+	private int getParameterType( int i ) throws OdaException
+	{
+		if ( parameterDefn.getParameterType( i ) != Types.CHAR )
+			return parameterDefn.getParameterType( i );
+
+		return ( (ParameterDefn) getCallableParamMetaData( ).get( i ) ).getParamType( );
 	}
 	
 	/**
@@ -1311,18 +1355,17 @@ public class CallStatement implements IAdvancedQuery
 		return paramMetaDataList;
 	}
 	
-	/**
-	 * temporary solution for driver specific problem: Oracle
-	 * @param parameterDefn
+	/*
+	 * Temporary solution for database-specific dataType issues
 	 */
 	private void correctParamType( ParameterDefn parameterDefn )
 	{
 		String parameterName = parameterDefn.getParamTypeName( ).toUpperCase( );
-		if ( parameterName.equals( "FLOAT" ) )
+
+		if ( parameterName.equals( ORACLE_FLOAT_NAME ) )
 			parameterDefn.setParamType( Types.FLOAT );
-		else if ( parameterName.equals( "NCHAR" )
-				|| parameterName.equals( "NVARCHAR2" ) )
-			parameterDefn.setParamType( Types.VARCHAR );
+		else if ( parameterName.equals( ORACLE_CURSOR_NAME ) )
+			parameterDefn.setParamType( ORACLE_CURSOR_TYPE );
 		else
 			parameterDefn.setParamType( Types.VARCHAR );
 	}
