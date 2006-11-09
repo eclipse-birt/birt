@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -35,7 +36,7 @@ import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
@@ -277,7 +278,7 @@ public abstract class PropertyDefn
 
 		switch ( getTypeCode( ) )
 		{
-			case PropertyType.CHOICE_TYPE :
+			case IPropertyType.CHOICE_TYPE :
 
 				// Build the set of choices. The list is required if this
 				// property
@@ -289,7 +290,7 @@ public abstract class PropertyDefn
 							MetaDataException.DESIGN_EXCEPTION_MISSING_PROP_CHOICES );
 				break;
 
-			case PropertyType.STRUCT_TYPE :
+			case IPropertyType.STRUCT_TYPE :
 
 				// A structure definition must be provided.
 
@@ -331,11 +332,11 @@ public abstract class PropertyDefn
 				}
 				break;
 
-			case PropertyType.ELEMENT_REF_TYPE :
+			case IPropertyType.ELEMENT_REF_TYPE :
 				buildElementType( );
 				break;
 
-			case PropertyType.STRUCT_REF_TYPE :
+			case IPropertyType.STRUCT_REF_TYPE :
 
 				// A structure definition must be provided.
 
@@ -365,7 +366,7 @@ public abstract class PropertyDefn
 				for ( int i = 0; i < properties.size( ); i++ )
 				{
 					IPropertyDefn property = (IPropertyDefn) properties.get( i );
-					if ( property.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+					if ( property.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 					{
 						if ( property.getStructDefn( ) == getStructDefn( ) )
 						{
@@ -388,7 +389,7 @@ public abstract class PropertyDefn
 
 				break;
 
-			case PropertyType.LIST_TYPE :
+			case IPropertyType.LIST_TYPE :
 
 				// list property must provide the subtype
 
@@ -414,7 +415,7 @@ public abstract class PropertyDefn
 
 				// sub-type is element, then do some checks for it
 
-				if ( subType.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+				if ( subType.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 					buildElementType( );
 
 				break;
@@ -431,7 +432,7 @@ public abstract class PropertyDefn
 
 		// add extension validator on exteion xml property
 		if ( getValueType( ) == EXTENSION_PROPERTY
-				&& getTypeCode( ) == PropertyType.XML_TYPE )
+				&& getTypeCode( ) == IPropertyType.XML_TYPE )
 		{
 			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 					ExtensionValidator.NAME );
@@ -440,7 +441,7 @@ public abstract class PropertyDefn
 			getTriggerDefnSet( ).add( triggerDefn );
 		}
 
-		if ( getTypeCode( ) != PropertyType.LIST_TYPE && subType != null )
+		if ( getTypeCode( ) != IPropertyType.LIST_TYPE && subType != null )
 		{
 			// only when the type is list, the subtype is set
 
@@ -448,7 +449,7 @@ public abstract class PropertyDefn
 					MetaDataException.DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN );
 		}
 
-		if ( getTypeCode( ) != PropertyType.STRUCT_TYPE && isList == true )
+		if ( getTypeCode( ) != IPropertyType.STRUCT_TYPE && isList == true )
 		{
 			// only support list of structures.
 
@@ -487,9 +488,9 @@ public abstract class PropertyDefn
 		getTriggerDefnSet( ).build( );
 
 		// default unit check
-		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE
-				|| ( getTypeCode( ) == PropertyType.LIST_TYPE && subType
-						.getTypeCode( ) == PropertyType.DIMENSION_TYPE ) )
+		if ( getTypeCode( ) == IPropertyType.DIMENSION_TYPE
+				|| ( getTypeCode( ) == IPropertyType.LIST_TYPE && subType
+						.getTypeCode( ) == IPropertyType.DIMENSION_TYPE ) )
 		{
 			String defaultUnit = getDefaultUnit( );
 			if ( !StringUtil.isBlank( defaultUnit ) )
@@ -545,7 +546,7 @@ public abstract class PropertyDefn
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 
-		if ( !name.equalsIgnoreCase( StyledElement.STYLE_PROP ) )
+		if ( !name.equalsIgnoreCase( IStyledElementModel.STYLE_PROP ) )
 		{
 			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 					ElementReferenceValidator.NAME );
@@ -699,7 +700,7 @@ public abstract class PropertyDefn
 
 		// Validates from extended choices.
 
-		if ( hasChoices( ) && getTypeCode( ) != PropertyType.CHOICE_TYPE )
+		if ( hasChoices( ) && getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 		{
 			retValue = validateExtendedChoicesByName( value );
 
@@ -747,7 +748,7 @@ public abstract class PropertyDefn
 
 		// Validates from extended choices.
 
-		if ( hasChoices( ) && getTypeCode( ) != PropertyType.CHOICE_TYPE )
+		if ( hasChoices( ) && getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 		{
 			retValue = validateExtendedChoicesByName( value );
 
@@ -1098,7 +1099,7 @@ public abstract class PropertyDefn
 		if ( allowedChoices != null )
 			return allowedChoices;
 
-		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		if ( getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
 			return MetaDataDictionary.getInstance( ).getChoiceSet(
 					DesignChoiceConstants.CHOICE_UNITS );
 
@@ -1215,7 +1216,7 @@ public abstract class PropertyDefn
 
 	public String getDefaultUnit( )
 	{
-		if ( getTypeCode( ) != PropertyType.DIMENSION_TYPE )
+		if ( getTypeCode( ) != IPropertyType.DIMENSION_TYPE )
 			return DimensionValue.DEFAULT_UNIT;
 
 		return defaultUnit;
@@ -1230,7 +1231,7 @@ public abstract class PropertyDefn
 
 	void setDefaultUnit( String defaultUnit )
 	{
-		assert getTypeCode( ) == PropertyType.DIMENSION_TYPE;
+		assert getTypeCode( ) == IPropertyType.DIMENSION_TYPE;
 		this.defaultUnit = defaultUnit;
 	}
 
@@ -1385,13 +1386,13 @@ public abstract class PropertyDefn
 			int type = propType.getTypeCode( );
 			switch ( type )
 			{
-				case PropertyType.STRING_TYPE :
-				case PropertyType.BOOLEAN_TYPE :
-				case PropertyType.DATE_TIME_TYPE :
-				case PropertyType.FLOAT_TYPE :
-				case PropertyType.INTEGER_TYPE :
-				case PropertyType.EXPRESSION_TYPE :
-				case PropertyType.ELEMENT_REF_TYPE :
+				case IPropertyType.STRING_TYPE :
+				case IPropertyType.BOOLEAN_TYPE :
+				case IPropertyType.DATE_TIME_TYPE :
+				case IPropertyType.FLOAT_TYPE :
+				case IPropertyType.INTEGER_TYPE :
+				case IPropertyType.EXPRESSION_TYPE :
+				case IPropertyType.ELEMENT_REF_TYPE :
 					supportedSubTypes.add( propType );
 					break;
 				default :

@@ -29,6 +29,9 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -142,7 +145,7 @@ public class ElementStructureUtil
 
 				// the intrinsic style property must use setStyle().
 
-				if ( StyledElement.STYLE_PROP.equals( prop.getName( ) ) )
+				if ( IStyledElementModel.STYLE_PROP.equals( prop.getName( ) ) )
 					( (StyledElement) content ).setStyleName( (String) prop
 							.getValue( ) );
 				else
@@ -194,14 +197,14 @@ public class ElementStructureUtil
 			for ( int i = 0; i < propDefns.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
-				if ( DesignElement.NAME_PROP.equalsIgnoreCase( propDefn
+				if ( IDesignElementModel.NAME_PROP.equalsIgnoreCase( propDefn
 						.getName( ) )
-						|| DesignElement.EXTENDS_PROP
+						|| IDesignElementModel.EXTENDS_PROP
 								.equalsIgnoreCase( propDefn.getName( ) ) )
 					continue;
 
 				if ( content instanceof ExtendedItem
-						&& ExtendedItem.EXTENSION_NAME_PROP
+						&& IExtendedItemModel.EXTENSION_NAME_PROP
 								.equalsIgnoreCase( propDefn.getName( ) ) )
 					continue;
 
@@ -210,7 +213,7 @@ public class ElementStructureUtil
 				if ( propValue == null )
 					continue;
 
-				if ( StyledElement.STYLE_PROP.equals( propName ) )
+				if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
 				{
 					ReferenceValue refValue = (ReferenceValue) propValue;
 					propValue = refValue.getName( );
@@ -276,9 +279,9 @@ public class ElementStructureUtil
 					ExtendedItem extendedItem = (ExtendedItem) sourceContent;
 					targetContent = new ExtendedItem( sourceContent.getName( ) );
 					targetContent.setProperty(
-							ExtendedItem.EXTENSION_NAME_PROP, extendedItem
+							IExtendedItemModel.EXTENSION_NAME_PROP, extendedItem
 									.getProperty( extendedItem.getRoot( ),
-											ExtendedItem.EXTENSION_NAME_PROP ) );
+											IExtendedItemModel.EXTENSION_NAME_PROP ) );
 				}
 				else if ( sourceContent instanceof OdaDataSet )
 				{
@@ -545,10 +548,10 @@ public class ElementStructureUtil
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( StyledElement.STYLE_PROP.equals( propName )
-					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
-					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
+			if ( IStyledElementModel.STYLE_PROP.equals( propName )
+					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+					|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName )
+					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
 							.equals( propName ) )
 				continue;
 

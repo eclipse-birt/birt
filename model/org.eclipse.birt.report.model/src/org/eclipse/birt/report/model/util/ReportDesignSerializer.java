@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -128,7 +129,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		sourceDesign = obj;
 		targetDesign = localizeDesign( obj );
 
-		visitSlots( obj, targetDesign, ReportDesign.SLOT_COUNT );
+		visitSlots( obj, targetDesign, IReportDesignModel.SLOT_COUNT );
 
 		addExternalElements( );
 		addExternalStructures( );
@@ -1138,7 +1139,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			tmpEmeddedImage = (EmbeddedImage) refValue.getTargetStructure( );
 		}
 
-		targetEmeddedImage.setProperty( EmbeddedImage.LIB_REFERENCE_MEMBER,
+		targetEmeddedImage.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
 				null );
 
 	}

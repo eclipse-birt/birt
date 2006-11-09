@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -211,7 +212,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 	public boolean isEditable( )
 	{
-		return !( getTypeCode( ) == PropertyType.CHOICE_TYPE );
+		return !( getTypeCode( ) == IPropertyType.CHOICE_TYPE );
 	}
 
 	/**
@@ -223,7 +224,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 	public IMethodInfo getMethodInfo( )
 	{
-		if ( getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+		if ( getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			return (IMethodInfo) details;
 
 		return null;

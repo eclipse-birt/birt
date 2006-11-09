@@ -53,6 +53,10 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -306,11 +310,11 @@ public class StructureState extends AbstractPropertyState
 	protected AbstractParseState generalJumpTo( )
 	{
 		if ( element instanceof Label
-				&& Label.ACTION_PROP.equalsIgnoreCase( name )
+				&& ILabelModel.ACTION_PROP.equalsIgnoreCase( name )
 				|| element instanceof ImageItem
-				&& ImageItem.ACTION_PROP.equalsIgnoreCase( name )
+				&& IImageItemModel.ACTION_PROP.equalsIgnoreCase( name )
 				|| element instanceof DataItem
-				&& DataItem.ACTION_PROP.equalsIgnoreCase( name ) )
+				&& IDataItemModel.ACTION_PROP.equalsIgnoreCase( name ) )
 		{
 			ActionStructureState state = new ActionStructureState( handler,
 					element );
@@ -322,7 +326,7 @@ public class StructureState extends AbstractPropertyState
 
 		if ( ( element instanceof DataSet ) )
 		{
-			if ( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			if ( IDataSetModel.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
 						handler, element, propDefn, list );

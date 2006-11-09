@@ -27,6 +27,12 @@ public class XMLParserException extends SAXException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = -6489371474593098521L;
+
+	/**
 	 * The line of the file on which the error occurred.
 	 */
 

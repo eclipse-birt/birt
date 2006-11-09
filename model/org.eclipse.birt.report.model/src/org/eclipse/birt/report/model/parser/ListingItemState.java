@@ -25,6 +25,10 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
@@ -84,7 +88,7 @@ public abstract class ListingItemState extends ReportItemState
 		makeTestExpressionCompatible( );
 
 		Set elements = handler.tempValue.keySet( );
-		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
+		ContainerSlot groups = element.getSlot( IListingElementModel.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
@@ -92,7 +96,7 @@ public abstract class ListingItemState extends ReportItemState
 			handler.getModule( ).getNameManager( ).makeUniqueName( group );
 
 			String groupName = (String) group.getLocalProperty( handler
-					.getModule( ), GroupElement.GROUP_NAME_PROP );
+					.getModule( ), IGroupElementModel.GROUP_NAME_PROP );
 
 			if ( !elements.contains( group ) )
 				continue;
@@ -107,12 +111,12 @@ public abstract class ListingItemState extends ReportItemState
 				continue;
 
 			List tmpList = (List) element.getLocalProperty( handler.module,
-					ListingElement.BOUND_DATA_COLUMNS_PROP );
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 			if ( tmpList == null )
 			{
 				tmpList = new ArrayList( );
-				element.setProperty( ListingElement.BOUND_DATA_COLUMNS_PROP,
+				element.setProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP,
 						tmpList );
 			}
 
@@ -223,7 +227,7 @@ public abstract class ListingItemState extends ReportItemState
 				continue;
 
 			String resultSetColumn = (String) item.getLocalProperty(
-					handler.module, DataItem.RESULT_SET_COLUMN_PROP );
+					handler.module, IDataItemModel.RESULT_SET_COLUMN_PROP );
 
 			if ( StringUtil.isBlank( resultSetColumn ) )
 				continue;
@@ -235,9 +239,9 @@ public abstract class ListingItemState extends ReportItemState
 
 			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
 					.getExpression( ), (String) group.getLocalProperty(
-					handler.module, GroupElement.GROUP_NAME_PROP ) );
+					handler.module, IGroupElementModel.GROUP_NAME_PROP ) );
 
-			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
+			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, foundColumn
 					.getName( ) );
 		}
 	}

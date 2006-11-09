@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -120,7 +121,7 @@ public class ExtendsPropertyType extends PropertyType
 				"The value of the extends property is not a valid type " ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.EXTENDS_TYPE );
+				IPropertyType.EXTENDS_TYPE );
 	}
 
 	/**

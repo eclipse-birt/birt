@@ -18,13 +18,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
@@ -106,7 +106,7 @@ public class SimpleListValidator extends AbstractPropertyValidator
 	{
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 
-		assert propDefn.getTypeCode( ) == PropertyType.LIST_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE;
 
 		List list = (List) element.getLocalProperty( module, propDefn );
 
@@ -136,11 +136,11 @@ public class SimpleListValidator extends AbstractPropertyValidator
 			IPropertyDefn propDefn, List list, Object toAdd )
 	{
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.LIST_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE;
 
 		if ( list == null
 				|| list.size( ) == 0
-				|| ( (PropertyDefn) propDefn ).getSubTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+				|| ( (PropertyDefn) propDefn ).getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List errorList = new ArrayList( );

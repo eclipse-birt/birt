@@ -15,8 +15,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 /**
@@ -161,7 +161,7 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == DesignElement.FULL_LABEL )
+		if ( level == IDesignElementModel.FULL_LABEL )
 		{
 			displayLabel += "("; //$NON-NLS-1$
 

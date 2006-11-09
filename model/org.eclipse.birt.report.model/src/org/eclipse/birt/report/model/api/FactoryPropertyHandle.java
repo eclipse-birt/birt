@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -198,7 +199,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 		// do not
 		// need get value from property definition.
 
-		if ( type.getTypeCode( ) == PropertyType.COLOR_TYPE )
+		if ( type.getTypeCode( ) == IPropertyType.COLOR_TYPE )
 			return ( (ColorPropertyType) type )
 					.toCssColor( getModule( ), value );
 		return null;

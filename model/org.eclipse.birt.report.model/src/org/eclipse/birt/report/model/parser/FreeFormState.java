@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
+import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -109,50 +110,52 @@ public class FreeFormState extends ReportItemState
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
 				return new LabelState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
 				return new DataItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 				return new TextItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
 				return new ImageState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
 				return new LineItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
 				return new GridItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
 				return new ListItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
 				return new TableItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
 				return new FreeFormState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
 				return new ExtendedItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
 					|| tagName
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, element,
-						FreeForm.REPORT_ITEMS_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
-				return new TemplateReportItemState( handler, element, FreeForm.REPORT_ITEMS_SLOT );
+						IFreeFormModel.REPORT_ITEMS_SLOT );
+			if ( tagName
+					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+				return new TemplateReportItemState( handler, element,
+						IFreeFormModel.REPORT_ITEMS_SLOT );
 			return super.startElement( tagName );
 		}
 	}

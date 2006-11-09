@@ -13,6 +13,9 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * Provides methods for finding a cell. Currently, only TableItem and GridItem
@@ -44,16 +47,16 @@ public class CellHelper
 			return null;
 		if ( colNum > grid.findMaxCols( module ) )
 			return null;
-		ContainerSlot rowSlot = grid.getSlot( GridItem.ROW_SLOT );
+		ContainerSlot rowSlot = grid.getSlot( IGridItemModel.ROW_SLOT );
 		for ( int i = 0; i < rowSlot.getCount( ); i++ )
 		{
 			TableRow row = (TableRow)rowSlot.getContent( i );
-			ContainerSlot cellSlot = row.getSlot( TableRow.CONTENT_SLOT );
+			ContainerSlot cellSlot = row.getSlot( ITableRowModel.CONTENT_SLOT );
 			for ( int j = 0; j < cellSlot.getCount( ); j++ )
 			{
 				int rowIndex = i;
 				Cell cell = (Cell)cellSlot.getContent( j );
-				int rowSpan = cell.getIntProperty( module, Cell.ROW_SPAN_PROP );
+				int rowSpan = cell.getIntProperty( module, ICellModel.ROW_SPAN_PROP );
 				rowSpan = ( rowSpan < 1 ) ? 1 : rowSpan;
 				
 				// compute the logic row position				
@@ -67,7 +70,7 @@ public class CellHelper
 					int colIndex = 0;
 					int column = grid.getCellPositionInColumn( module, cell );
 					assert column > 0;					
-					int colSpan = cell.getIntProperty( module, Cell.COL_SPAN_PROP );
+					int colSpan = cell.getIntProperty( module, ICellModel.COL_SPAN_PROP );
 					colSpan = ( colSpan < 1 ) ? 1 : colSpan;
 					colIndex = column + colSpan - 1;
 					if ( colIndex >= colNum )

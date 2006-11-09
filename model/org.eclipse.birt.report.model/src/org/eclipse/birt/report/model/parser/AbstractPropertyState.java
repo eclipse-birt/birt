@@ -18,14 +18,18 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.ObjectDefn;
@@ -230,8 +234,8 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 		assert propName != null;
 
-		if ( propName.equalsIgnoreCase( DesignElement.NAME_PROP )
-				|| propName.equalsIgnoreCase( DesignElement.EXTENDS_PROP ) )
+		if ( propName.equalsIgnoreCase( IDesignElementModel.NAME_PROP )
+				|| propName.equalsIgnoreCase( IDesignElementModel.EXTENDS_PROP ) )
 		{
 			DesignParserException e = new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
@@ -246,10 +250,10 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			if ( element instanceof Cell )
 			{
-				if ( Cell.COL_SPAN_PROP.equalsIgnoreCase( propName )
-						|| Cell.ROW_SPAN_PROP.equalsIgnoreCase( propName )
-						|| Cell.DROP_PROP.equalsIgnoreCase( propName )
-						|| Cell.COLUMN_PROP.equalsIgnoreCase( propName ) )
+				if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
+						|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+						|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
+						|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
 				{
 					PropertyValueException e = new PropertyValueException(
 							element,
@@ -374,15 +378,15 @@ public class AbstractPropertyState extends AbstractParseState
 						.equalsIgnoreCase( errorCode ) )
 		{
 			if ( element instanceof TextDataItem
-					&& TextDataItem.CONTENT_TYPE_PROP
+					&& ITextDataItemModel.CONTENT_TYPE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
-			if ( Style.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
+			if ( IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
 					.getName( ) )
-					|| Style.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( propDefn
+					|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( propDefn
 							.getName( ) )
-					|| Style.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( propDefn
+					|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( propDefn
 							.getName( ) ) )
 				return true;
 
@@ -413,8 +417,8 @@ public class AbstractPropertyState extends AbstractParseState
 						|| HighlightRule.STRUCTURE_NAME.equals( objDefn
 								.getName( ) ) )
 				{
-					if ( MapRule.OPERATOR_MEMBER.equals( propDefn.getName( ) )
-							|| HighlightRule.OPERATOR_MEMBER.equals( propDefn
+					if ( StyleRule.OPERATOR_MEMBER.equals( propDefn.getName( ) )
+							|| StyleRule.OPERATOR_MEMBER.equals( propDefn
 									.getName( ) ) )
 					{
 						return "any".equalsIgnoreCase( invalidValue.toString( ) ); //$NON-NLS-1$

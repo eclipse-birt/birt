@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
 
 /**
@@ -38,7 +38,7 @@ public abstract class MasterPageState extends ReportElementState
 
 	public MasterPageState( ModuleParserHandler handler )
 	{
-		super( handler, handler.getModule( ), Module.PAGE_SLOT );
+		super( handler, handler.getModule( ), IModuleModel.PAGE_SLOT );
 	}
 
 	/*

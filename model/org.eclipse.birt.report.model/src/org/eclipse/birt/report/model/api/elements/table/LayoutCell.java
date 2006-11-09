@@ -12,6 +12,7 @@ package org.eclipse.birt.report.model.api.elements.table;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
 /**
  * The minimal item in the table.
@@ -339,7 +340,7 @@ public class LayoutCell
 	protected boolean isEmptyContent( )
 	{
 		return isUsed( )
-				&& content.getSlot( Cell.CONTENT_SLOT ).getCount( ) == 0;
+				&& content.getSlot( ICellModel.CONTENT_SLOT ).getCount( ) == 0;
 	}
 
 	/**
@@ -354,7 +355,7 @@ public class LayoutCell
 		if ( content == null )
 			return false;
 
-		String drop = (String) content.getLocalProperty( null, Cell.DROP_PROP );
+		String drop = (String) content.getLocalProperty( null, ICellModel.DROP_PROP );
 		if ( drop == null
 				|| DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase( drop ) )
 			return false;

@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -194,7 +195,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		String themeName = ( (Module) getElement( ) ).getThemeName( );
 
 		if ( themeName == null )
-			themeName = ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME );
+			themeName = ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME );
 
 		importCssStyles( stylesheet, selectedStyles, themeName );
 

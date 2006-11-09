@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.JointDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -447,7 +447,7 @@ public class JoinCondition extends Structure
 		}
 
 		List dataSetsReferences = (List) element.getProperty( module,
-				JointDataSet.DATA_SETS_PROP );
+				IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetsReferences != null )
 		{
 			int dataSetIndex;

@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -305,14 +307,14 @@ public class UserPropertyStructureState extends StructureState
 		{
 			String value = text.toString( );
 
-			if ( UserChoice.NAME_PROP.equalsIgnoreCase( choiceName ) )
+			if ( Choice.NAME_PROP.equalsIgnoreCase( choiceName ) )
 				choice.setName( value );
 			else if ( UserChoice.VALUE_PROP.equalsIgnoreCase( choiceName ) )
 			{
 				UserPropertyDefn propDefn = (UserPropertyDefn) struct;
 				Object objValue = value;
 
-				if ( propDefn.getTypeCode( ) != PropertyType.CHOICE_TYPE )
+				if ( propDefn.getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 				{
 					try
 					{
@@ -420,7 +422,7 @@ public class UserPropertyStructureState extends StructureState
 						.getInstance( );
 				if ( StringUtil.isBlank( value ) )
 				{
-					value = PropertyType.STRING_TYPE_NAME;
+					value = IPropertyType.STRING_TYPE_NAME;
 				}
 
 				PropertyType typeDefn = dictionary.getPropertyType( value );

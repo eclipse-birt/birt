@@ -14,12 +14,13 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -131,7 +132,7 @@ public class ElementRefPropertyType extends PropertyType
 		logger.log( Level.SEVERE, "Invalid value type: " + value ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.ELEMENT_REF_TYPE );
+				IPropertyType.ELEMENT_REF_TYPE );
 	}
 
 	/**
@@ -181,7 +182,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( !target.getDefn( ).isKindOf( targetDefn ) )
 			throw new PropertyValueException( target.getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					PropertyType.ELEMENT_REF_TYPE );
+					IPropertyType.ELEMENT_REF_TYPE );
 
 		// Resolved reference.
 
@@ -215,7 +216,7 @@ public class ElementRefPropertyType extends PropertyType
 		if ( !target.getDefn( ).isKindOf( targetDefn ) )
 			throw new PropertyValueException( target.getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					PropertyType.ELEMENT_REF_TYPE );
+					IPropertyType.ELEMENT_REF_TYPE );
 
 		// Resolved reference.
 
@@ -240,7 +241,7 @@ public class ElementRefPropertyType extends PropertyType
 
 		ElementRefValue refValue = (ElementRefValue) value;
 
-		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) ) )
+		if ( !IStyledElementModel.STYLE_PROP.equals( defn.getName( ) ) )
 		{
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, module );

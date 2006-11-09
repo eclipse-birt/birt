@@ -15,11 +15,11 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 
@@ -63,7 +63,7 @@ public class StructureValidator extends AbstractPropertyValidator
         List errorList = new ArrayList( );
         ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 
-        assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE
+        assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE
                 && !propDefn.isList( );
         
         Structure struct = (Structure) element.getLocalProperty( module, propDefn );

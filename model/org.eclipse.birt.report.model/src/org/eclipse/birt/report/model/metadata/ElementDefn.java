@@ -22,13 +22,14 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
 /**
@@ -511,7 +512,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public List getMethods( )
 	{
 		return getPropertyListWithType( getProperties( ),
-				PropertyType.SCRIPT_TYPE );
+				IPropertyType.SCRIPT_TYPE );
 	}
 
 	/**
@@ -524,7 +525,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public List getLocalMethods( )
 	{
 		return getPropertyListWithType( getLocalProperties( ),
-				PropertyType.SCRIPT_TYPE );
+				IPropertyType.SCRIPT_TYPE );
 	}
 
 	/**
@@ -538,7 +539,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public List getExpressions( )
 	{
 		return getPropertyListWithType( getProperties( ),
-				PropertyType.EXPRESSION_TYPE );
+				IPropertyType.EXPRESSION_TYPE );
 	}
 
 	/**
@@ -551,7 +552,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public List getLocalExpressions( )
 	{
 		return getPropertyListWithType( getLocalProperties( ),
-				PropertyType.EXPRESSION_TYPE );
+				IPropertyType.EXPRESSION_TYPE );
 	}
 
 	/**
@@ -684,8 +685,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( ( parent == null || !parent.hasStyle( ) ) && hasStyle )
 		{
 			SystemPropertyDefn prop = new SystemPropertyDefn( );
-			prop.setName( StyledElement.STYLE_PROP );
-			prop.setType( dd.getPropertyType( PropertyType.ELEMENT_REF_TYPE ) );
+			prop.setName( IStyledElementModel.STYLE_PROP );
+			prop.setType( dd.getPropertyType( IPropertyType.ELEMENT_REF_TYPE ) );
 
 			prop.setDisplayNameID( "Element.ReportElement.style" ); //$NON-NLS-1$
 			prop.setDetails( MetaDataConstants.STYLE_NAME );
@@ -1565,7 +1566,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( propDefn == null )
 			return false;
 
-		if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			return false;
 
 		String visibility = getPropertyVisibility( propDefn.getName( ) );

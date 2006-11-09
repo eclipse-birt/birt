@@ -17,8 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 /**
  * Represents an object of copied objects when do copy/paste operations between
@@ -200,7 +200,7 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 
 			if ( ReportDesignConstants.TABLE_GROUP_ELEMENT
 					.equals( containerDefnName )
-					&& slotId == TableGroup.HEADER_SLOT
+					&& slotId == IGroupElementModel.HEADER_SLOT
 					&& !DesignChoiceConstants.DROP_TYPE_NONE
 							.equalsIgnoreCase( cellInfo.getDrop( ) ) )
 				return true;

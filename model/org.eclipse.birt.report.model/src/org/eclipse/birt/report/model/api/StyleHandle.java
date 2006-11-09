@@ -21,13 +21,12 @@ import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents the style properties for either a shared style or an element with
- * a style. A style is defined by a name and a set of style property values.
+ * a IStyleModel. A style is defined by a name and a set of style property values.
  * Most styles define values for a small subset of possible values.
  * <p>
  * A style includes a collection of properties such as font face name, font
@@ -85,7 +84,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBackgroundAttachment( )
 	{
-		return getStringProperty( Style.BACKGROUND_ATTACHMENT_PROP );
+		return getStringProperty( IStyleModel.BACKGROUND_ATTACHMENT_PROP );
 	}
 
 	/**
@@ -105,7 +104,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setBackgroundAttachment( String value )
 			throws SemanticException
 	{
-		setStringProperty( Style.BACKGROUND_ATTACHMENT_PROP, value );
+		setStringProperty( IStyleModel.BACKGROUND_ATTACHMENT_PROP, value );
 	}
 
 	/**
@@ -116,7 +115,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBackgroundImage( )
 	{
-		return getStringProperty( Style.BACKGROUND_IMAGE_PROP );
+		return getStringProperty( IStyleModel.BACKGROUND_IMAGE_PROP );
 	}
 
 	/**
@@ -130,7 +129,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setBackgroundImage( String value ) throws SemanticException
 	{
-		setStringProperty( Style.BACKGROUND_IMAGE_PROP, value );
+		setStringProperty( IStyleModel.BACKGROUND_IMAGE_PROP, value );
 	}
 
 	/**
@@ -149,7 +148,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBackgroundRepeat( )
 	{
-		return getStringProperty( Style.BACKGROUND_REPEAT_PROP );
+		return getStringProperty( IStyleModel.BACKGROUND_REPEAT_PROP );
 	}
 
 	/**
@@ -170,7 +169,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setBackgroundRepeat( String value ) throws SemanticException
 	{
-		setStringProperty( Style.BACKGROUND_REPEAT_PROP, value );
+		setStringProperty( IStyleModel.BACKGROUND_REPEAT_PROP, value );
 	}
 
 	/**
@@ -193,7 +192,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBorderBottomStyle( )
 	{
-		return getStringProperty( Style.BORDER_BOTTOM_STYLE_PROP );
+		return getStringProperty( IStyleModel.BORDER_BOTTOM_STYLE_PROP );
 	}
 
 	/**
@@ -219,7 +218,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setBorderBottomStyle( String value ) throws SemanticException
 	{
-		setStringProperty( Style.BORDER_BOTTOM_STYLE_PROP, value );
+		setStringProperty( IStyleModel.BORDER_BOTTOM_STYLE_PROP, value );
 	}
 
 	/**
@@ -242,7 +241,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBorderLeftStyle( )
 	{
-		return getStringProperty( Style.BORDER_LEFT_STYLE_PROP );
+		return getStringProperty( IStyleModel.BORDER_LEFT_STYLE_PROP );
 	}
 
 	/**
@@ -268,7 +267,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setBorderLeftStyle( String value ) throws SemanticException
 	{
-		setStringProperty( Style.BORDER_LEFT_STYLE_PROP, value );
+		setStringProperty( IStyleModel.BORDER_LEFT_STYLE_PROP, value );
 	}
 
 	/**
@@ -291,7 +290,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBorderRightStyle( )
 	{
-		return getStringProperty( Style.BORDER_RIGHT_STYLE_PROP );
+		return getStringProperty( IStyleModel.BORDER_RIGHT_STYLE_PROP );
 	}
 
 	/**
@@ -317,7 +316,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setBorderRightStyle( String value ) throws SemanticException
 	{
-		setStringProperty( Style.BORDER_RIGHT_STYLE_PROP, value );
+		setStringProperty( IStyleModel.BORDER_RIGHT_STYLE_PROP, value );
 	}
 
 	/**
@@ -340,7 +339,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getBorderTopStyle( )
 	{
-		return getStringProperty( Style.BORDER_TOP_STYLE_PROP );
+		return getStringProperty( IStyleModel.BORDER_TOP_STYLE_PROP );
 	}
 
 	/**
@@ -366,7 +365,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setBorderTopStyle( String value ) throws SemanticException
 	{
-		setStringProperty( Style.BORDER_TOP_STYLE_PROP, value );
+		setStringProperty( IStyleModel.BORDER_TOP_STYLE_PROP, value );
 	}
 
 	/**
@@ -379,7 +378,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public boolean canShrink( )
 	{
-		return getBooleanProperty( Style.CAN_SHRINK_PROP );
+		return getBooleanProperty( IStyleModel.CAN_SHRINK_PROP );
 	}
 
 	/**
@@ -395,7 +394,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setCanShrink( boolean value ) throws SemanticException
 	{
-		setProperty( Style.CAN_SHRINK_PROP, Boolean.valueOf( value ) );
+		setProperty( IStyleModel.CAN_SHRINK_PROP, Boolean.valueOf( value ) );
 	}
 
 	/**
@@ -406,7 +405,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getStringFormat( )
 	{
-		Object value = getProperty( Style.STRING_FORMAT_PROP );
+		Object value = getProperty( IStyleModel.STRING_FORMAT_PROP );
 		if ( value == null )
 			return null;
 
@@ -423,7 +422,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getStringFormatCategory( )
 	{
-		Object value = getProperty( Style.STRING_FORMAT_PROP );
+		Object value = getProperty( IStyleModel.STRING_FORMAT_PROP );
 		if ( value == null )
 			return null;
 
@@ -443,7 +442,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setStringFormat( String pattern ) throws SemanticException
 	{
-		setFormatValue( Style.STRING_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
+		setFormatValue( IStyleModel.STRING_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
 				pattern );
 	}
 
@@ -472,19 +471,19 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setStringFormatCategory( String pattern )
 			throws SemanticException
 	{
-		setFormatValue( Style.STRING_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
+		setFormatValue( IStyleModel.STRING_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
 				pattern );
 	}
 
 	/**
-	 * Returns the pattern of a number format for a style.
+	 * Returns the pattern of a number format for a IStyleModel.
 	 * 
 	 * @return the pattern of a number format
 	 */
 
 	public String getNumberFormat( )
 	{
-		Object value = getProperty( Style.NUMBER_FORMAT_PROP );
+		Object value = getProperty( IStyleModel.NUMBER_FORMAT_PROP );
 		if ( value == null )
 			return null;
 
@@ -494,14 +493,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Returns the category of a number format for a style.
+	 * Returns the category of a number format for a IStyleModel.
 	 * 
 	 * @return the category of a number format
 	 */
 
 	public String getNumberFormatCategory( )
 	{
-		Object value = getProperty( Style.NUMBER_FORMAT_PROP );
+		Object value = getProperty( IStyleModel.NUMBER_FORMAT_PROP );
 		if ( value == null )
 			return null;
 
@@ -521,7 +520,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setNumberFormat( String pattern ) throws SemanticException
 	{
-		setFormatValue( Style.NUMBER_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
+		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
 				pattern );
 	}
 
@@ -549,7 +548,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setNumberFormatCategory( String category )
 			throws SemanticException
 	{
-		setFormatValue( Style.NUMBER_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
+		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
 				category );
 	}
 
@@ -561,7 +560,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getDateTimeFormat( )
 	{
-		Object value = getProperty( Style.DATE_TIME_FORMAT_PROP );
+		Object value = getProperty( IStyleModel.DATE_TIME_FORMAT_PROP );
 		if ( value == null )
 			return null;
 
@@ -578,7 +577,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getDateTimeFormatCategory( )
 	{
-		Object value = getProperty( Style.DATE_TIME_FORMAT_PROP );
+		Object value = getProperty( IStyleModel.DATE_TIME_FORMAT_PROP );
 		if ( value == null )
 			return null;
 
@@ -598,7 +597,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setDateTimeFormat( String pattern ) throws SemanticException
 	{
-		setFormatValue( Style.DATE_TIME_FORMAT_PROP,
+		setFormatValue( IStyleModel.DATE_TIME_FORMAT_PROP,
 				FormatValue.PATTERN_MEMBER, pattern );
 	}
 
@@ -627,7 +626,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setDateTimeFormatCategory( String pattern )
 			throws SemanticException
 	{
-		setFormatValue( Style.DATE_TIME_FORMAT_PROP,
+		setFormatValue( IStyleModel.DATE_TIME_FORMAT_PROP,
 				FormatValue.CATEGORY_MEMBER, pattern );
 	}
 
@@ -654,11 +653,11 @@ public abstract class StyleHandle extends ReportElementHandle
 		{
 			FormatValue formatValueToSet = null;
 
-			if ( Style.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
+			if ( IStyleModel.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new DateTimeFormatValue( );
-			else if ( Style.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
+			else if ( IStyleModel.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new NumberFormatValue( );
-			else if ( Style.STRING_FORMAT_PROP.equalsIgnoreCase( propName ) )
+			else if ( IStyleModel.STRING_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new StringFormatValue( );
 			else
 				assert false;
@@ -704,7 +703,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getDisplay( )
 	{
-		return getStringProperty( Style.DISPLAY_PROP );
+		return getStringProperty( IStyleModel.DISPLAY_PROP );
 	}
 
 	/**
@@ -725,7 +724,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setDisplay( String value ) throws SemanticException
 	{
-		setStringProperty( Style.DISPLAY_PROP, value );
+		setStringProperty( IStyleModel.DISPLAY_PROP, value );
 	}
 
 	/**
@@ -737,7 +736,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getMasterPage( )
 	{
-		return getStringProperty( Style.MASTER_PAGE_PROP );
+		return getStringProperty( IStyleModel.MASTER_PAGE_PROP );
 	}
 
 	/**
@@ -755,7 +754,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setMasterPage( String value ) throws SemanticException
 	{
-		setProperty( Style.MASTER_PAGE_PROP, value );
+		setProperty( IStyleModel.MASTER_PAGE_PROP, value );
 	}
 
 	/**
@@ -771,7 +770,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getOrphans( )
 	{
-		return getStringProperty( Style.ORPHANS_PROP );
+		return getStringProperty( IStyleModel.ORPHANS_PROP );
 	}
 
 	/**
@@ -792,7 +791,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setOrphans( String value ) throws SemanticException
 	{
-		setStringProperty( Style.ORPHANS_PROP, value );
+		setStringProperty( IStyleModel.ORPHANS_PROP, value );
 	}
 
 	/**
@@ -813,7 +812,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getPageBreakAfter( )
 	{
-		return getStringProperty( Style.PAGE_BREAK_AFTER_PROP );
+		return getStringProperty( IStyleModel.PAGE_BREAK_AFTER_PROP );
 	}
 
 	/**
@@ -836,7 +835,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setPageBreakAfter( String value ) throws SemanticException
 	{
-		setStringProperty( Style.PAGE_BREAK_AFTER_PROP, value );
+		setStringProperty( IStyleModel.PAGE_BREAK_AFTER_PROP, value );
 	}
 
 	/**
@@ -857,7 +856,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getPageBreakBefore( )
 	{
-		return getStringProperty( Style.PAGE_BREAK_BEFORE_PROP );
+		return getStringProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP );
 	}
 
 	/**
@@ -880,7 +879,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setPageBreakBefore( String value ) throws SemanticException
 	{
-		setStringProperty( Style.PAGE_BREAK_BEFORE_PROP, value );
+		setStringProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP, value );
 	}
 
 	/**
@@ -898,7 +897,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getPageBreakInside( )
 	{
-		return getStringProperty( Style.PAGE_BREAK_INSIDE_PROP );
+		return getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP );
 	}
 
 	/**
@@ -918,7 +917,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setPageBreakInside( String value ) throws SemanticException
 	{
-		setStringProperty( Style.PAGE_BREAK_INSIDE_PROP, value );
+		setStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP, value );
 	}
 
 	/**
@@ -933,7 +932,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public boolean showIfBlank( )
 	{
-		return getBooleanProperty( Style.SHOW_IF_BLANK_PROP );
+		return getBooleanProperty( IStyleModel.SHOW_IF_BLANK_PROP );
 	}
 
 	/**
@@ -950,7 +949,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setShowIfBlank( boolean value ) throws SemanticException
 	{
-		setProperty( Style.SHOW_IF_BLANK_PROP, Boolean.valueOf( value ) );
+		setProperty( IStyleModel.SHOW_IF_BLANK_PROP, Boolean.valueOf( value ) );
 	}
 
 	/**
@@ -967,7 +966,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getTextUnderline( )
 	{
-		return getStringProperty( Style.TEXT_UNDERLINE_PROP );
+		return getStringProperty( IStyleModel.TEXT_UNDERLINE_PROP );
 	}
 
 	/**
@@ -986,7 +985,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setTextUnderline( String value ) throws SemanticException
 	{
-		setStringProperty( Style.TEXT_UNDERLINE_PROP, value );
+		setStringProperty( IStyleModel.TEXT_UNDERLINE_PROP, value );
 	}
 
 	/**
@@ -1002,7 +1001,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getTextOverline( )
 	{
-		return getStringProperty( Style.TEXT_OVERLINE_PROP );
+		return getStringProperty( IStyleModel.TEXT_OVERLINE_PROP );
 	}
 
 	/**
@@ -1021,7 +1020,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setTextOverline( String value ) throws SemanticException
 	{
-		setStringProperty( Style.TEXT_OVERLINE_PROP, value );
+		setStringProperty( IStyleModel.TEXT_OVERLINE_PROP, value );
 	}
 
 	/**
@@ -1038,7 +1037,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getTextLineThrough( )
 	{
-		return getStringProperty( Style.TEXT_LINE_THROUGH_PROP );
+		return getStringProperty( IStyleModel.TEXT_LINE_THROUGH_PROP );
 	}
 
 	/**
@@ -1057,7 +1056,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setTextLineThrough( String value ) throws SemanticException
 	{
-		setStringProperty( Style.TEXT_LINE_THROUGH_PROP, value );
+		setStringProperty( IStyleModel.TEXT_LINE_THROUGH_PROP, value );
 	}
 
 	/**
@@ -1075,7 +1074,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getTextAlign( )
 	{
-		return getStringProperty( Style.TEXT_ALIGN_PROP );
+		return getStringProperty( IStyleModel.TEXT_ALIGN_PROP );
 	}
 
 	/**
@@ -1096,7 +1095,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setTextAlign( String value ) throws SemanticException
 	{
-		setStringProperty( Style.TEXT_ALIGN_PROP, value );
+		setStringProperty( IStyleModel.TEXT_ALIGN_PROP, value );
 	}
 
 	/**
@@ -1114,7 +1113,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getTextTransform( )
 	{
-		return getStringProperty( Style.TEXT_TRANSFORM_PROP );
+		return getStringProperty( IStyleModel.TEXT_TRANSFORM_PROP );
 	}
 
 	/**
@@ -1135,7 +1134,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setTextTransform( String value ) throws SemanticException
 	{
-		setStringProperty( Style.TEXT_TRANSFORM_PROP, value );
+		setStringProperty( IStyleModel.TEXT_TRANSFORM_PROP, value );
 	}
 
 	/**
@@ -1158,7 +1157,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getVerticalAlign( )
 	{
-		return getStringProperty( Style.VERTICAL_ALIGN_PROP );
+		return getStringProperty( IStyleModel.VERTICAL_ALIGN_PROP );
 	}
 
 	/**
@@ -1184,7 +1183,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setVerticalAlign( String value ) throws SemanticException
 	{
-		setStringProperty( Style.VERTICAL_ALIGN_PROP, value );
+		setStringProperty( IStyleModel.VERTICAL_ALIGN_PROP, value );
 	}
 
 	/**
@@ -1201,7 +1200,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getWhiteSpace( )
 	{
-		return getStringProperty( Style.WHITE_SPACE_PROP );
+		return getStringProperty( IStyleModel.WHITE_SPACE_PROP );
 	}
 
 	/**
@@ -1221,7 +1220,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setWhiteSpace( String value ) throws SemanticException
 	{
-		setStringProperty( Style.WHITE_SPACE_PROP, value );
+		setStringProperty( IStyleModel.WHITE_SPACE_PROP, value );
 	}
 
 	/**
@@ -1237,7 +1236,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getWidows( )
 	{
-		return getStringProperty( Style.WIDOWS_PROP );
+		return getStringProperty( IStyleModel.WIDOWS_PROP );
 	}
 
 	/**
@@ -1258,7 +1257,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setWidows( String value ) throws SemanticException
 	{
-		setStringProperty( Style.WIDOWS_PROP, value );
+		setStringProperty( IStyleModel.WIDOWS_PROP, value );
 	}
 
 	/**
@@ -1296,7 +1295,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public Iterator mapRulesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( Style.MAP_RULES_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IStyleModel.MAP_RULES_PROP );
 		if ( propHandle == null )
 			return Collections.EMPTY_LIST.iterator( );
 
@@ -1342,7 +1341,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public Iterator highlightRulesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
 		if ( propHandle == null )
 			return Collections.EMPTY_LIST.iterator( );
 
@@ -1357,7 +1356,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public ColorHandle getColor( )
 	{
-		return super.getColorProperty( Style.COLOR_PROP );
+		return super.getColorProperty( IStyleModel.COLOR_PROP );
 	}
 
 	/**
@@ -1368,7 +1367,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public ColorHandle getBackgroundColor( )
 	{
-		return super.getColorProperty( Style.BACKGROUND_COLOR_PROP );
+		return super.getColorProperty( IStyleModel.BACKGROUND_COLOR_PROP );
 	}
 
 	/**
@@ -1379,7 +1378,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public ColorHandle getBorderTopColor( )
 	{
-		return super.getColorProperty( Style.BORDER_TOP_COLOR_PROP );
+		return super.getColorProperty( IStyleModel.BORDER_TOP_COLOR_PROP );
 	}
 
 	/**
@@ -1391,7 +1390,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public ColorHandle getBorderLeftColor( )
 	{
-		return super.getColorProperty( Style.BORDER_LEFT_COLOR_PROP );
+		return super.getColorProperty( IStyleModel.BORDER_LEFT_COLOR_PROP );
 	}
 
 	/**
@@ -1403,7 +1402,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public ColorHandle getBorderRightColor( )
 	{
-		return super.getColorProperty( Style.BORDER_RIGHT_COLOR_PROP );
+		return super.getColorProperty( IStyleModel.BORDER_RIGHT_COLOR_PROP );
 	}
 
 	/**
@@ -1415,7 +1414,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public ColorHandle getBorderBottomColor( )
 	{
-		return super.getColorProperty( Style.BORDER_BOTTOM_COLOR_PROP );
+		return super.getColorProperty( IStyleModel.BORDER_BOTTOM_COLOR_PROP );
 	}
 
 	/**
@@ -1433,7 +1432,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBackGroundPositionX( )
 	{
-		return super.getDimensionProperty( Style.BACKGROUND_POSITION_X_PROP );
+		return super.getDimensionProperty( IStyleModel.BACKGROUND_POSITION_X_PROP );
 	}
 
 	/**
@@ -1451,7 +1450,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBackGroundPositionY( )
 	{
-		return super.getDimensionProperty( Style.BACKGROUND_POSITION_Y_PROP );
+		return super.getDimensionProperty( IStyleModel.BACKGROUND_POSITION_Y_PROP );
 	}
 
 	/**
@@ -1467,7 +1466,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getLetterSpacing( )
 	{
-		return super.getDimensionProperty( Style.LETTER_SPACING_PROP );
+		return super.getDimensionProperty( IStyleModel.LETTER_SPACING_PROP );
 	}
 
 	/**
@@ -1483,7 +1482,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getLineHeight( )
 	{
-		return super.getDimensionProperty( Style.LINE_HEIGHT_PROP );
+		return super.getDimensionProperty( IStyleModel.LINE_HEIGHT_PROP );
 	}
 
 	/**
@@ -1494,7 +1493,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getTextIndent( )
 	{
-		return super.getDimensionProperty( Style.TEXT_INDENT_PROP );
+		return super.getDimensionProperty( IStyleModel.TEXT_INDENT_PROP );
 	}
 
 	/**
@@ -1510,7 +1509,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getWordSpacing( )
 	{
-		return super.getDimensionProperty( Style.WORD_SPACING_PROP );
+		return super.getDimensionProperty( IStyleModel.WORD_SPACING_PROP );
 	}
 
 	/**
@@ -1528,7 +1527,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBorderTopWidth( )
 	{
-		return super.getDimensionProperty( Style.BORDER_TOP_WIDTH_PROP );
+		return super.getDimensionProperty( IStyleModel.BORDER_TOP_WIDTH_PROP );
 	}
 
 	/**
@@ -1546,7 +1545,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBorderLeftWidth( )
 	{
-		return super.getDimensionProperty( Style.BORDER_LEFT_WIDTH_PROP );
+		return super.getDimensionProperty( IStyleModel.BORDER_LEFT_WIDTH_PROP );
 	}
 
 	/**
@@ -1564,7 +1563,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBorderRightWidth( )
 	{
-		return super.getDimensionProperty( Style.BORDER_RIGHT_WIDTH_PROP );
+		return super.getDimensionProperty( IStyleModel.BORDER_RIGHT_WIDTH_PROP );
 	}
 
 	/**
@@ -1582,7 +1581,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getBorderBottomWidth( )
 	{
-		return super.getDimensionProperty( Style.BORDER_BOTTOM_WIDTH_PROP );
+		return super.getDimensionProperty( IStyleModel.BORDER_BOTTOM_WIDTH_PROP );
 	}
 
 	/**
@@ -1598,7 +1597,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getMarginTop( )
 	{
-		return super.getDimensionProperty( Style.MARGIN_TOP_PROP );
+		return super.getDimensionProperty( IStyleModel.MARGIN_TOP_PROP );
 	}
 
 	/**
@@ -1614,7 +1613,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getMarginRight( )
 	{
-		return super.getDimensionProperty( Style.MARGIN_RIGHT_PROP );
+		return super.getDimensionProperty( IStyleModel.MARGIN_RIGHT_PROP );
 	}
 
 	/**
@@ -1630,7 +1629,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getMarginLeft( )
 	{
-		return super.getDimensionProperty( Style.MARGIN_LEFT_PROP );
+		return super.getDimensionProperty( IStyleModel.MARGIN_LEFT_PROP );
 	}
 
 	/**
@@ -1646,7 +1645,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getMarginBottom( )
 	{
-		return super.getDimensionProperty( Style.MARGIN_BOTTOM_PROP );
+		return super.getDimensionProperty( IStyleModel.MARGIN_BOTTOM_PROP );
 	}
 
 	/**
@@ -1657,7 +1656,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getPaddingTop( )
 	{
-		return super.getDimensionProperty( Style.PADDING_TOP_PROP );
+		return super.getDimensionProperty( IStyleModel.PADDING_TOP_PROP );
 	}
 
 	/**
@@ -1668,7 +1667,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getPaddingRight( )
 	{
-		return super.getDimensionProperty( Style.PADDING_RIGHT_PROP );
+		return super.getDimensionProperty( IStyleModel.PADDING_RIGHT_PROP );
 	}
 
 	/**
@@ -1679,7 +1678,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getPaddingLeft( )
 	{
-		return super.getDimensionProperty( Style.PADDING_LEFT_PROP );
+		return super.getDimensionProperty( IStyleModel.PADDING_LEFT_PROP );
 	}
 
 	/**
@@ -1690,7 +1689,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getPaddingBottom( )
 	{
-		return super.getDimensionProperty( Style.PADDING_BOTTOM_PROP );
+		return super.getDimensionProperty( IStyleModel.PADDING_BOTTOM_PROP );
 	}
 
 	/**
@@ -1701,7 +1700,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public DimensionHandle getFontSize( )
 	{
-		return super.getDimensionProperty( Style.FONT_SIZE_PROP );
+		return super.getDimensionProperty( IStyleModel.FONT_SIZE_PROP );
 	}
 
 	/**
@@ -1740,7 +1739,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getFontWeight( )
 	{
-		return super.getStringProperty( Style.FONT_WEIGHT_PROP );
+		return super.getStringProperty( IStyleModel.FONT_WEIGHT_PROP );
 	}
 
 	/**
@@ -1770,7 +1769,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setFontWeight( String fontWeight ) throws SemanticException
 	{
-		setStringProperty( Style.FONT_WEIGHT_PROP, fontWeight );
+		setStringProperty( IStyleModel.FONT_WEIGHT_PROP, fontWeight );
 	}
 
 	/**
@@ -1786,7 +1785,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getFontVariant( )
 	{
-		return super.getStringProperty( Style.FONT_VARIANT_PROP );
+		return super.getStringProperty( IStyleModel.FONT_VARIANT_PROP );
 	}
 
 	/**
@@ -1805,7 +1804,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setFontVariant( String fontVariant ) throws SemanticException
 	{
-		setStringProperty( Style.FONT_VARIANT_PROP, fontVariant );
+		setStringProperty( IStyleModel.FONT_VARIANT_PROP, fontVariant );
 	}
 
 	/**
@@ -1822,7 +1821,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public String getFontStyle( )
 	{
-		return super.getStringProperty( Style.FONT_STYLE_PROP );
+		return super.getStringProperty( IStyleModel.FONT_STYLE_PROP );
 	}
 
 	/**
@@ -1835,14 +1834,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * </ul>
 	 * 
 	 * @param fontStyle
-	 *            the new font style.
+	 *            the new font IStyleModel.
 	 * @throws SemanticException
 	 *             if the input value is not one of the above.
 	 */
 
 	public void setFontStyle( String fontStyle ) throws SemanticException
 	{
-		setStringProperty( Style.FONT_STYLE_PROP, fontStyle );
+		setStringProperty( IStyleModel.FONT_STYLE_PROP, fontStyle );
 	}
 
 	/**

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -194,7 +195,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		{
 			GroupElement group1 = (GroupElement) groupList.get( i );
 			String groupName1 = group1.getStringProperty( module,
-					GroupElement.GROUP_NAME_PROP );
+					IGroupElementModel.GROUP_NAME_PROP );
 			assert groupName1 != null;
 
 			// Let's see the case: 1, 3, 5, 1, 2, 1
@@ -209,7 +210,7 @@ public class GroupNameValidator extends AbstractElementValidator
 			{
 				GroupElement group2 = (GroupElement) groupList.get( j );
 				String groupName2 = group2.getStringProperty( module,
-						GroupElement.GROUP_NAME_PROP );
+						IGroupElementModel.GROUP_NAME_PROP );
 				assert groupName2 != null;
 
 				if ( groupName1.equalsIgnoreCase( groupName2 ) )
@@ -295,7 +296,7 @@ public class GroupNameValidator extends AbstractElementValidator
 			GroupElement group = (GroupElement) iter.next( );
 
 			String groupName = group.getStringProperty( module,
-					GroupElement.GROUP_NAME_PROP );
+					IGroupElementModel.GROUP_NAME_PROP );
 			if ( !StringUtil.isBlank( groupName ) )
 			{
 				list.add( group );
@@ -351,7 +352,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		{
 			GroupElement group = (GroupElement) iter.next( );
 			String tmpName = group.getStringProperty( module,
-					GroupElement.GROUP_NAME_PROP );
+					IGroupElementModel.GROUP_NAME_PROP );
 			assert tmpName != null;
 
 			if ( tmpName.equalsIgnoreCase( groupName ) )

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 
 /**
  * Represents the handle of map rule. The Map rule represents a style mapping
@@ -91,7 +92,7 @@ public class MapRuleHandle extends StyleRuleHandle
 	
 	public void setTestExpression(String expression){
 		
-		setPropertySilently(MapRule.TEST_EXPR_MEMBER, expression);		
+		setPropertySilently(StyleRule.TEST_EXPR_MEMBER, expression);		
 	}
 	
 	/**
@@ -102,7 +103,7 @@ public class MapRuleHandle extends StyleRuleHandle
 	 */
 	public String getTestExpression(){
 		
-		return getStringProperty(MapRule.TEST_EXPR_MEMBER);
+		return getStringProperty(StyleRule.TEST_EXPR_MEMBER);
 		
 	}
 }

@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Base class for parsing all kinds of parameter.
@@ -49,6 +49,6 @@ public abstract class ParameterState extends ReportElementState
 
 	ParameterState( ModuleParserHandler handler )
 	{
-		super( handler, handler.getModule( ), Module.PARAMETER_SLOT );
+		super( handler, handler.getModule( ), IModuleModel.PARAMETER_SLOT );
 	}
 }

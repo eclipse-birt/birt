@@ -18,9 +18,11 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -83,12 +85,12 @@ class ExpressionState extends PropertyState
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, "contentTypeExpr" ); //$NON-NLS-1$
-			state.setName( TextDataItem.CONTENT_TYPE_PROP );
+			state.setName( ITextDataItemModel.CONTENT_TYPE_PROP );
 			return state;
 		}
 		if ( "mapTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 			return new CompatibleTestExpreState( handler, element,
-					Style.MAP_RULES_PROP );
+					IStyleModel.MAP_RULES_PROP );
 		return super.generalJumpTo( );
 	}
 
@@ -105,7 +107,7 @@ class ExpressionState extends PropertyState
 			if ( handler.isVersion( VersionUtil.VERSION_0 )
 					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
 				return new CompatibleTestExpreState( handler, element,
-						Style.HIGHLIGHT_RULES_PROP );
+						IStyleModel.HIGHLIGHT_RULES_PROP );
 		}
 		if ( element instanceof DataItem
 				&& ( "valueExpr" ).equalsIgnoreCase( name ) //$NON-NLS-1$
@@ -122,7 +124,7 @@ class ExpressionState extends PropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
 				&& element instanceof ImageItem && struct == null
-				&& ImageItem.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
+				&& IImageItemModel.IMAGE_NAME_PROP.equalsIgnoreCase( name ) )
 		{
 			PropertyState state = new PropertyState( handler, element );
 			state.setName( name );

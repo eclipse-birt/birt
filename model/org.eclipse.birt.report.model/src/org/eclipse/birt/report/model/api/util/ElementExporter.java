@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -32,10 +33,12 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -113,17 +116,17 @@ class ElementExporter
 		String structName = structToExport.getDefn( ).getName( );
 		if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equals( structName ) )
 		{
-			propName = Module.IMAGES_PROP;
+			propName = IModuleModel.IMAGES_PROP;
 			memberName = EmbeddedImage.NAME_MEMBER;
 		}
 		else if ( CustomColor.CUSTOM_COLOR_STRUCT.equals( structName ) )
 		{
-			propName = Module.COLOR_PALETTE_PROP;
+			propName = IModuleModel.COLOR_PALETTE_PROP;
 			memberName = CustomColor.NAME_MEMBER;
 		}
 		else if ( ConfigVariable.CONFIG_VAR_STRUCT.equals( structName ) )
 		{
-			propName = Module.CONFIG_VARS_PROP;
+			propName = IModuleModel.CONFIG_VARS_PROP;
 			memberName = ConfigVariable.NAME_MEMBER;
 		}
 		else
@@ -200,21 +203,21 @@ class ElementExporter
 			nameMemberName = EmbeddedImage.NAME_MEMBER;
 			newStruct = StructureFactory.createEmbeddedImage( );
 			newPropertyHandle = targetLibraryHandle
-					.getPropertyHandle( Module.IMAGES_PROP );
+					.getPropertyHandle( IModuleModel.IMAGES_PROP );
 		}
 		else if ( CustomColor.CUSTOM_COLOR_STRUCT.equals( structName ) )
 		{
 			nameMemberName = CustomColor.NAME_MEMBER;
 			newStruct = StructureFactory.createCustomColor( );
 			newPropertyHandle = targetLibraryHandle
-					.getPropertyHandle( Module.COLOR_PALETTE_PROP );
+					.getPropertyHandle( IModuleModel.COLOR_PALETTE_PROP );
 		}
 		else if ( ConfigVariable.CONFIG_VAR_STRUCT.equals( structName ) )
 		{
 			nameMemberName = ConfigVariable.NAME_MEMBER;
 			newStruct = StructureFactory.createConfigVar( );
 			newPropertyHandle = targetLibraryHandle
-					.getPropertyHandle( Module.CONFIG_VARS_PROP );
+					.getPropertyHandle( IModuleModel.CONFIG_VARS_PROP );
 		}
 		else
 		{
@@ -255,7 +258,7 @@ class ElementExporter
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
 			String memberName = memberDefn.getName( );
 			
-			if ( EmbeddedImage.LIB_REFERENCE_MEMBER.equals( memberName ) )
+			if ( ReferencableStructure.LIB_REFERENCE_MEMBER.equals( memberName ) )
 				continue;
 				
 			Object value = structToExport.getMember( memberName ).getValue( );
@@ -308,17 +311,17 @@ class ElementExporter
 
 		// The element in body slot should be added into components slot.
 
-		if ( slotID == ReportDesign.BODY_SLOT )
-			slotID = Module.COMPONENT_SLOT;
-		else if ( slotID == Module.PAGE_SLOT
+		if ( slotID == IReportDesignModel.BODY_SLOT )
+			slotID = IModuleModel.COMPONENT_SLOT;
+		else if ( slotID == IModuleModel.PAGE_SLOT
 				&& elementToExport.getContainer( ) != elementToExport
 						.getModuleHandle( ) )
-			slotID = Module.COMPONENT_SLOT;
+			slotID = IModuleModel.COMPONENT_SLOT;
 
 		// if the element only exist in the report design such as template
 		// element definition, do not export it.
 
-		if ( slotID >= Library.SLOT_COUNT )
+		if ( slotID >= ILibraryModel.SLOT_COUNT )
 			return;
 
 		DesignElementHandle newElementHandle = duplicateElement(
@@ -345,7 +348,7 @@ class ElementExporter
 	{
 		SlotHandle themes = targetLibraryHandle.getThemes( );
 		String defaultThemeName = ModelMessages
-				.getMessage( Theme.DEFAULT_THEME_NAME );
+				.getMessage( IThemeModel.DEFAULT_THEME_NAME );
 
 		// find the default theme
 

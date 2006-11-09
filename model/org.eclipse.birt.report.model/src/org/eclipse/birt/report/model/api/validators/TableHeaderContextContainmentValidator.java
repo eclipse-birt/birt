@@ -21,7 +21,8 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -77,7 +78,7 @@ public class TableHeaderContextContainmentValidator
 		if ( !( element instanceof ListingElement ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, element, DesignElement.NO_SLOT );
+		return doValidate( module, element, IDesignElementModel.NO_SLOT );
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class TableHeaderContextContainmentValidator
 		DesignElement curContainer = toValidate;
 		int curSlotID = slotId;
 
-		if ( slotId == DesignElement.NO_SLOT )
+		if ( slotId == IDesignElementModel.NO_SLOT )
 		{
 			curContainer = toValidate.getContainer( );
 			curSlotID = toValidate.getContainerSlot( );
@@ -114,7 +115,7 @@ public class TableHeaderContextContainmentValidator
 
 			if ( ReportDesignConstants.TABLE_ITEM
 					.equalsIgnoreCase( containerDefn.getName( ) )
-					&& curSlotID == TableItem.HEADER_SLOT )
+					&& curSlotID == IListingElementModel.HEADER_SLOT )
 			{
 				list
 						.add( new ContentException(
@@ -181,6 +182,6 @@ public class TableHeaderContextContainmentValidator
 		if ( !toAdd.isKindOf( listingDefn ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, element, DesignElement.NO_SLOT );
+		return doValidate( module, element, IDesignElementModel.NO_SLOT );
 	}
 }

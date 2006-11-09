@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 
 /**
@@ -58,7 +57,7 @@ public class TextDataHandle extends ReportItemHandle
 
 	public String getValueExpr( )
 	{
-		return getStringProperty( TextDataItem.VALUE_EXPR_PROP );
+		return getStringProperty( ITextDataItemModel.VALUE_EXPR_PROP );
 	}
 
 	/**
@@ -73,7 +72,7 @@ public class TextDataHandle extends ReportItemHandle
 
 	public void setValueExpr( String expr ) throws SemanticException
 	{
-		setProperty( TextDataItem.VALUE_EXPR_PROP, expr );
+		setProperty( ITextDataItemModel.VALUE_EXPR_PROP, expr );
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class TextDataHandle extends ReportItemHandle
 
 	public String getContentTypeExpr( )
 	{
-		return getStringProperty( TextDataItem.CONTENT_TYPE_PROP );
+		return getStringProperty( ITextDataItemModel.CONTENT_TYPE_PROP );
 	}
 
 	/**
@@ -108,7 +107,7 @@ public class TextDataHandle extends ReportItemHandle
 
 	public void setContentTypeExpr( String expr ) throws SemanticException
 	{
-		setProperty( TextDataItem.CONTENT_TYPE_PROP, expr );
+		setProperty( ITextDataItemModel.CONTENT_TYPE_PROP, expr );
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class TextDataHandle extends ReportItemHandle
 
 	public String getContentType( )
 	{
-		return getStringProperty( TextDataItem.CONTENT_TYPE_PROP );
+		return getStringProperty( ITextDataItemModel.CONTENT_TYPE_PROP );
 	}
 
 	/**
@@ -158,6 +157,6 @@ public class TextDataHandle extends ReportItemHandle
 
 	public void setContentType( String contentType ) throws SemanticException
 	{
-		setProperty( TextDataItem.CONTENT_TYPE_PROP, contentType );
+		setProperty( ITextDataItemModel.CONTENT_TYPE_PROP, contentType );
 	}
 }

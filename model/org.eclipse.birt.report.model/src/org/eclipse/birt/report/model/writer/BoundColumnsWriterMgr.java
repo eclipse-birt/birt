@@ -43,6 +43,10 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BoundColumnsMgr;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
@@ -308,7 +312,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	{
 
 		String valueExpr = (String) obj.getLocalProperty( module,
-				DataItem.RESULT_SET_COLUMN_PROP );
+				IDataItemModel.RESULT_SET_COLUMN_PROP );
 		if ( valueExpr == null )
 			return;
 
@@ -348,7 +352,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				// set the property for the result set column property of
 				// DataItem.
 
-				obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
+				obj.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, newName );
 
 				return;
 			}
@@ -392,7 +396,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 
 		// set the property for the result set column property of DataItem.
 
-		obj.setProperty( DataItem.RESULT_SET_COLUMN_PROP, newName );
+		obj.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, newName );
 	}
 
 	/*
@@ -654,7 +658,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				continue;
 
 			String resultSetColumn = (String) item.getLocalProperty( module,
-					DataItem.RESULT_SET_COLUMN_PROP );
+					IDataItemModel.RESULT_SET_COLUMN_PROP );
 
 			if ( StringUtil.isBlank( resultSetColumn ) )
 				continue;
@@ -667,12 +671,12 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 
 			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
 					.getExpression( ), (String) group.getLocalProperty( module,
-					GroupElement.GROUP_NAME_PROP ) );
+					IGroupElementModel.GROUP_NAME_PROP ) );
 
 			if ( foundColumn == null )
 				continue;
 
-			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
+			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, foundColumn
 					.getName( ) );
 		}
 	}
@@ -687,7 +691,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	{
 
 		Set elements = cachedGroup.keySet( );
-		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
+		ContainerSlot groups = element.getSlot( IListingElementModel.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
@@ -695,7 +699,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			module.getNameManager( ).makeUniqueName( group );
 
 			String groupName = (String) group.getLocalProperty( module,
-					GroupElement.GROUP_NAME_PROP );
+					IGroupElementModel.GROUP_NAME_PROP );
 
 			if ( !elements.contains( group ) )
 				continue;
@@ -705,12 +709,12 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				continue;
 
 			List tmpList = (List) element.getLocalProperty( module,
-					ListingElement.BOUND_DATA_COLUMNS_PROP );
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 			if ( tmpList == null )
 			{
 				tmpList = new ArrayList( );
-				element.setProperty( ListingElement.BOUND_DATA_COLUMNS_PROP,
+				element.setProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP,
 						tmpList );
 			}
 

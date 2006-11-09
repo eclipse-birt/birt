@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.PropertyCommand;
@@ -30,7 +31,6 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Abstract base class that represents a handle for the value to either a
@@ -505,7 +505,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	protected boolean isList( )
 	{
-		return getDefn( ).getTypeCode( ) == PropertyType.STRUCT_TYPE
+		return getDefn( ).getTypeCode( ) == IPropertyType.STRUCT_TYPE
 				&& getDefn( ).isList( );
 	}
 
@@ -518,7 +518,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public String getDefaultUnit( )
 	{
-		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		if ( getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
 		{
 			PropertyDefn defn = (PropertyDefn) getDefn( );
 			String unit = defn.getDefaultUnit( );

@@ -20,6 +20,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
@@ -265,7 +266,7 @@ public abstract class ExtensionLoader
 					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
 			choice.setName( name );
-			if ( propDefn.getTypeCode( ) != PropertyType.CHOICE_TYPE )
+			if ( propDefn.getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 			{
 				try
 				{

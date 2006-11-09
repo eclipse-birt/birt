@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
@@ -68,7 +67,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public SlotHandle getHeader( )
 	{
-		return getSlot( ListingElement.HEADER_SLOT );
+		return getSlot( IListingElementModel.HEADER_SLOT );
 	}
 
 	/**
@@ -80,7 +79,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public SlotHandle getFooter( )
 	{
-		return getSlot( ListingElement.FOOTER_SLOT );
+		return getSlot( IListingElementModel.FOOTER_SLOT );
 	}
 
 	/**
@@ -92,7 +91,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public SlotHandle getDetail( )
 	{
-		return getSlot( ListingElement.DETAIL_SLOT );
+		return getSlot( IListingElementModel.DETAIL_SLOT );
 	}
 
 	/**
@@ -105,7 +104,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public SlotHandle getGroups( )
 	{
-		return getSlot( ListingElement.GROUP_SLOT );
+		return getSlot( IListingElementModel.GROUP_SLOT );
 	}
 
 	/**
@@ -119,7 +118,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public Iterator sortsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ListingElement.SORT_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IListingElementModel.SORT_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -135,7 +134,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public Iterator filtersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ListingElement.FILTER_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IListingElementModel.FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -148,7 +147,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public int getPageBreakInterval( )
 	{
-		return getIntProperty( ListingElement.PAGE_BREAK_INTERVAL_PROP );
+		return getIntProperty( IListingElementModel.PAGE_BREAK_INTERVAL_PROP );
 	}
 
 	/**

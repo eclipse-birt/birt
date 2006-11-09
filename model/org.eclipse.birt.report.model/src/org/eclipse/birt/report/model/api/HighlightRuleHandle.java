@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 
@@ -262,7 +263,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 */
 	public String getTestExpression( )
 	{
-		return getStringProperty( HighlightRule.TEST_EXPR_MEMBER );
+		return getStringProperty( StyleRule.TEST_EXPR_MEMBER );
 	}
 
 	/**
@@ -274,7 +275,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	public void setTestExpression( String expression )
 	{
-		setPropertySilently( HighlightRule.TEST_EXPR_MEMBER, expression );
+		setPropertySilently( StyleRule.TEST_EXPR_MEMBER, expression );
 	}
 
 	/**

@@ -16,7 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
@@ -57,7 +57,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public SlotHandle getCells( )
 	{
-		return getSlot( TableRow.CONTENT_SLOT );
+		return getSlot( ITableRowModel.CONTENT_SLOT );
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public DimensionHandle getHeight( )
 	{
-		return super.getDimensionProperty( TableRow.HEIGHT_PROP );
+		return super.getDimensionProperty( ITableRowModel.HEIGHT_PROP );
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public String getBookmark( )
 	{
-		return getStringProperty( TableRow.BOOKMARK_PROP );
+		return getStringProperty( ITableRowModel.BOOKMARK_PROP );
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setBookmark( String value ) throws SemanticException
 	{
-		setStringProperty( TableRow.BOOKMARK_PROP, value );
+		setStringProperty( ITableRowModel.BOOKMARK_PROP, value );
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public Iterator visibilityRulesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( TableRow.VISIBILITY_PROP );
+		PropertyHandle propHandle = getPropertyHandle( ITableRowModel.VISIBILITY_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -209,7 +209,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public String getEventHandleClass( )
 	{
-		return getStringProperty( TableRow.EVENT_HANDLER_CLASS_PROP );
+		return getStringProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 	}
 
 	/**
@@ -225,14 +225,14 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setEventHandleClass( String expr ) throws SemanticException
 	{
-		setProperty( TableRow.EVENT_HANDLER_CLASS_PROP, expr );
+		setProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP, expr );
 	}
 
 	/**
 	 * Tests whether to suppress duplicates rows with same content.
 	 * 
-	 * @return <code>true</code> if suppress duplicates rows with same content,
-	 *         otherwise <code>false</code>.
+	 * @return <code>true</code> if suppress duplicates rows with same
+	 *         content, otherwise <code>false</code>.
 	 * 
 	 * @see #setSuppressDuplicates(boolean)
 	 */

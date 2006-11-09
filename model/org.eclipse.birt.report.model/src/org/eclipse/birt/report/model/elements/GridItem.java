@@ -19,9 +19,10 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * This class represents a Grid item. A grid item contains a set of report
@@ -210,7 +211,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 		for ( int i = 0; i < colDefnCount; i++ )
 		{
 			TableColumn col = (TableColumn) cols.getContent( i );
-			colCount += col.getIntProperty( module, TableColumn.REPEAT_PROP );
+			colCount += col.getIntProperty( module, ITableColumnModel.REPEAT_PROP );
 		}
 		return colCount;
 	}
@@ -306,7 +307,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == DesignElement.FULL_LABEL )
+		if ( level == IDesignElementModel.FULL_LABEL )
 		{
 			GridHandle handle = handle( module );
 			int rows = handle.getRows( ).getCount( );

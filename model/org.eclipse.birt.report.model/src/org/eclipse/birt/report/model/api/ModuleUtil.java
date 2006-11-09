@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -154,7 +155,7 @@ public class ModuleUtil
 		if ( streamData == null )
 		{
 			Action action = StructureFactory.createAction( );
-			image.setProperty( ImageHandle.ACTION_PROP, action );
+			image.setProperty( IImageItemModel.ACTION_PROP, action );
 			return ( (ImageHandle) image.getHandle( handler.getModule( ) ) )
 					.getActionHandle( );
 		}
@@ -310,7 +311,7 @@ public class ModuleUtil
 		public void write( OutputStream os, Action action ) throws IOException
 		{
 			writer = new SectionXMLWriter( os, UnicodeUtil.SIGNATURE_UTF_8 );
-			writeAction( action, ImageItem.ACTION_PROP );
+			writeAction( action, IImageItemModel.ACTION_PROP );
 		}
 
 		protected Module getModule( )

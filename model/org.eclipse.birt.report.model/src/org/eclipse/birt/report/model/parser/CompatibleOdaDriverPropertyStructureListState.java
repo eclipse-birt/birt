@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -80,7 +80,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 	{
 		super( theHandler, element );
 
-		setProperty( OdaDataSource.EXTENSION_ID_PROP,
+		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 				"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
 	}
 

@@ -181,6 +181,6 @@ public class TemplateParameterDefinitionHandle extends ReportElementHandle
 
 	SlotHandle getDefault( )
 	{
-		return getSlot( TemplateParameterDefinition.DEFAULT_SLOT );
+		return getSlot( ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 	}
 }

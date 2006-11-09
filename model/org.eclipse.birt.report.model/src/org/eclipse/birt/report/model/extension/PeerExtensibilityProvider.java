@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -488,7 +487,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		{
 			IPropertyDefn propDefn = extDefn.getProperty( propName );
 			if ( propDefn != null
-					&& PropertyType.XML_TYPE == propDefn.getTypeCode( ) )
+					&& IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
 				return true;
 		}
 

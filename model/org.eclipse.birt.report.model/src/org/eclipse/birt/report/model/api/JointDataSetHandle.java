@@ -135,7 +135,7 @@ public class JointDataSetHandle extends DataSetHandle
 
 	public Iterator joinConditionsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IJointDataSetModel.JOIN_CONDITONS_PROP );
 
 		assert propHandle != null;
 

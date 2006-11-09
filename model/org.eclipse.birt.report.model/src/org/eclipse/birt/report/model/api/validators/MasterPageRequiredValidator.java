@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -67,7 +68,7 @@ public class MasterPageRequiredValidator extends AbstractElementValidator
 
 		ReportDesign report = (ReportDesign) element;
 
-		if ( report.getSlot( ReportDesign.PAGE_SLOT ).getCount( ) == 0 )
+		if ( report.getSlot( IModuleModel.PAGE_SLOT ).getCount( ) == 0 )
 		{
 			list.add( new SemanticError( report,
 					SemanticError.DESIGN_EXCEPTION_MISSING_MASTER_PAGE ) );

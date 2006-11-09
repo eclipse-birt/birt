@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -88,7 +89,7 @@ public class StyleReferenceValidator extends AbstractElementValidator
 		{
 			DesignElement resolvedElement = module.resolveElement( styleName,
 					Module.STYLE_NAME_SPACE, toValidate
-							.getPropertyDefn( StyledElement.STYLE_PROP ) );
+							.getPropertyDefn( IStyledElementModel.STYLE_PROP ) );
 
 			// IModuleNameSpace nameSpace = module.getModuleNameSpace(
 			// Module.STYLE_NAME_SPACE );

@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -25,8 +27,12 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -155,13 +161,13 @@ public class ListPropertyState extends AbstractPropertyState
 
 		// prop maybe is null, for example, user properties.
 
-		if ( !DesignElement.USER_PROPERTIES_PROP.equals( name ) )
+		if ( !IDesignElementModel.USER_PROPERTIES_PROP.equals( name ) )
 		{
 			if ( propDefn == null )
 			{
 				// ROM does not contain public driver properties any more.
 
-				if ( OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP.equals( name ) )
+				if ( IOdaDataSourceModel.PUBLIC_DRIVER_PROPERTIES_PROP.equals( name ) )
 					return;
 
 				// compatible for "includeLibrary" in the module
@@ -195,7 +201,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 			else
 			{
-				if ( PropertyType.STRUCT_TYPE != propDefn.getTypeCode( ) )
+				if ( IPropertyType.STRUCT_TYPE != propDefn.getTypeCode( ) )
 				{
 					DesignParserException e = new DesignParserException(
 							DesignParserException.DESIGN_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE );
@@ -252,7 +258,7 @@ public class ListPropertyState extends AbstractPropertyState
 
 	protected AbstractParseState generalJumpTo( )
 	{
-		if ( DesignElement.USER_PROPERTIES_PROP.equalsIgnoreCase( name ) )
+		if ( IDesignElementModel.USER_PROPERTIES_PROP.equalsIgnoreCase( name ) )
 		{
 			AbstractPropertyState state = new UserPropertyListState( handler,
 					element );
@@ -261,7 +267,7 @@ public class ListPropertyState extends AbstractPropertyState
 		}
 		if ( element instanceof Module )
 		{
-			if ( Module.INCLUDE_SCRIPTS_PROP.equalsIgnoreCase( name ) )
+			if ( IModuleModel.INCLUDE_SCRIPTS_PROP.equalsIgnoreCase( name ) )
 			{
 				SimpleStructureListState state = new SimpleStructureListState(
 						handler, element );
@@ -270,17 +276,17 @@ public class ListPropertyState extends AbstractPropertyState
 				return state;
 			}
 
-			if ( ( Module.LIBRARIES_PROP.equalsIgnoreCase( name ) )
+			if ( ( IModuleModel.LIBRARIES_PROP.equalsIgnoreCase( name ) )
 					|| ( "includeLibraries".equals( name ) ) ) //$NON-NLS-1$
 			{
 				AbstractPropertyState state = new IncludedLibrariesStructureListState(
 						handler, element );
-				state.setName( Module.LIBRARIES_PROP );
+				state.setName( IModuleModel.LIBRARIES_PROP );
 				return state;
 			}
 
 		}
-		if ( ScalarParameter.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+		if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 				&& element instanceof ScalarParameter )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -289,7 +295,7 @@ public class ListPropertyState extends AbstractPropertyState
 			return state;
 		}
 		
-		if ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+		if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -311,9 +317,9 @@ public class ListPropertyState extends AbstractPropertyState
 	{
 		if ( element instanceof OdaDataSource )
 		{
-			if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
+			if ( IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP
 					.equalsIgnoreCase( name )
-					|| OdaDataSource.PUBLIC_DRIVER_PROPERTIES_PROP
+					|| IOdaDataSourceModel.PUBLIC_DRIVER_PROPERTIES_PROP
 							.equalsIgnoreCase( name ) )
 			{
 				if ( handler.isVersion( VersionUtil.VERSION_0 ) )
@@ -326,7 +332,7 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
-				&& ( ReportItem.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) )
+				&& ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) )
 				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -357,7 +363,7 @@ public class ListPropertyState extends AbstractPropertyState
 		{
 			CompatibleRenameListPropertyState state = new CompatibleRenameListPropertyState(
 					handler, element, name );
-			state.setName( ScriptDataSet.RESULT_SET_HINTS_PROP );
+			state.setName( IDataSetModel.RESULT_SET_HINTS_PROP );
 			return state;
 		}
 
@@ -371,7 +377,7 @@ public class ListPropertyState extends AbstractPropertyState
 				state = new CompatibleDataSetParamListPropertyState( handler,
 						element );
 				( (CompatibleDataSetParamListPropertyState) state )
-						.setName( OdaDataSet.PARAMETERS_PROP );
+						.setName( IDataSetModel.PARAMETERS_PROP );
 				return state;
 			}
 		}

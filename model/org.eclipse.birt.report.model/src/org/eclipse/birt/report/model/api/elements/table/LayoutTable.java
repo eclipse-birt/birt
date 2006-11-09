@@ -17,9 +17,9 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
  * The table model for the content layout.
@@ -80,11 +80,11 @@ public class LayoutTable
 		this.table = table;
 		this.module = module;
 
-		tableSlots = new LayoutSlot[TableItem.FOOTER_SLOT + 1];
+		tableSlots = new LayoutSlot[IListingElementModel.FOOTER_SLOT + 1];
 		for ( int i = 0; i < tableSlots.length; i++ )
 			tableSlots[i] = null;
 
-		groupSlots = new LayoutGroupBand[GroupElement.SLOT_COUNT];
+		groupSlots = new LayoutGroupBand[IGroupElementModel.SLOT_COUNT];
 		for ( int i = 0; i < groupSlots.length; i++ )
 			groupSlots[i] = null;
 	}
@@ -278,9 +278,9 @@ public class LayoutTable
 
 	public int getColumnPos( int slotId, int rowId, Cell cell )
 	{
-		assert slotId == TableItem.DETAIL_SLOT
-				|| slotId == TableItem.HEADER_SLOT
-				|| slotId == TableItem.FOOTER_SLOT;
+		assert slotId == IListingElementModel.DETAIL_SLOT
+				|| slotId == IListingElementModel.HEADER_SLOT
+				|| slotId == IListingElementModel.FOOTER_SLOT;
 
 		LayoutSlot slot = getSimpleSlot( slotId );
 		int colPosn = slot.getColumnPos( rowId, cell );
@@ -356,9 +356,9 @@ public class LayoutTable
 
 	public LayoutSlot getLayoutSlot( int slotId )
 	{
-		assert slotId == TableItem.DETAIL_SLOT
-				|| slotId == TableItem.HEADER_SLOT
-				|| slotId == TableItem.FOOTER_SLOT;
+		assert slotId == IListingElementModel.DETAIL_SLOT
+				|| slotId == IListingElementModel.HEADER_SLOT
+				|| slotId == IListingElementModel.FOOTER_SLOT;
 
 		return getSimpleSlot( slotId );
 	}
@@ -413,7 +413,7 @@ public class LayoutTable
 
 	public LayoutSlot getHeader( )
 	{
-		return getSimpleSlot( TableItem.HEADER_SLOT );
+		return getSimpleSlot( IListingElementModel.HEADER_SLOT );
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class LayoutTable
 
 	public LayoutSlot getDetail( )
 	{
-		return getSimpleSlot( TableItem.DETAIL_SLOT );
+		return getSimpleSlot( IListingElementModel.DETAIL_SLOT );
 	}
 
 	/**
@@ -435,7 +435,7 @@ public class LayoutTable
 
 	public LayoutSlot getFooter( )
 	{
-		return getSimpleSlot( TableItem.FOOTER_SLOT );
+		return getSimpleSlot( IListingElementModel.FOOTER_SLOT );
 	}
 
 	/**
@@ -494,7 +494,7 @@ public class LayoutTable
 
 	protected LayoutGroupBand getGroupHeaders( )
 	{
-		return getComplexSlot( TableGroup.HEADER_SLOT );
+		return getComplexSlot( IGroupElementModel.HEADER_SLOT );
 	}
 
 	/**
@@ -505,7 +505,7 @@ public class LayoutTable
 
 	protected LayoutGroupBand getGroupFooters( )
 	{
-		return getComplexSlot( TableGroup.FOOTER_SLOT );
+		return getComplexSlot( IGroupElementModel.FOOTER_SLOT );
 	}
 
 	/**

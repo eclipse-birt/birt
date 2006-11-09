@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -34,15 +35,18 @@ import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -69,7 +73,6 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
@@ -88,8 +91,46 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
+import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
+import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -268,17 +309,17 @@ public abstract class ModuleWriter extends ElementVisitor
 	protected String getTagByPropertyType( PropertyDefn prop )
 	{
 		assert prop != null;
-		assert prop.getTypeCode( ) != PropertyType.STRUCT_TYPE;
+		assert prop.getTypeCode( ) != IPropertyType.STRUCT_TYPE;
 
 		switch ( prop.getTypeCode( ) )
 		{
-			case PropertyType.EXPRESSION_TYPE :
+			case IPropertyType.EXPRESSION_TYPE :
 				return DesignSchemaConstants.EXPRESSION_TAG;
 
-			case PropertyType.XML_TYPE :
+			case IPropertyType.XML_TYPE :
 				return DesignSchemaConstants.XML_PROPERTY_TAG;
 
-			case PropertyType.SCRIPT_TYPE :
+			case IPropertyType.SCRIPT_TYPE :
 				return DesignSchemaConstants.METHOD_TAG;
 
 			default :
@@ -408,7 +449,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xmlKey == null && xml == null )
 			return;
 
-		if ( nameProp.getTypeCode( ) == PropertyType.HTML_TYPE )
+		if ( nameProp.getTypeCode( ) == IPropertyType.HTML_TYPE )
 		{
 			writeResouceKey( DesignSchemaConstants.HTML_PROPERTY_TAG,
 					resourceName, xmlKey, xml, cdata );
@@ -453,7 +494,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xmlKey == null && xml == null )
 			return;
 
-		if ( nameProp.getTypeCode( ) == PropertyType.HTML_TYPE )
+		if ( nameProp.getTypeCode( ) == IPropertyType.HTML_TYPE )
 		{
 			writeResouceKey( DesignSchemaConstants.HTML_PROPERTY_TAG,
 					resourceName, xmlKey, xml, false );
@@ -617,7 +658,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( tag == null )
 			tag = getTagByPropertyType( propDefn );
 
-		if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			cdata = true;
 
 		writeEntry( tag, propDefn.getName( ), xml, cdata );
@@ -666,7 +707,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( tag == null )
 			tag = getTagByPropertyType( propDefn );
 
-		if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			cdata = true;
 
 		if ( withoutName )
@@ -727,7 +768,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
 				propName );
 		assert prop != null;
-		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
+		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
+				&& prop.isList( );
 
 		List list = (List) obj.getLocalProperty( getModule( ), propName );
 		if ( list == null || list.size( ) == 0 )
@@ -802,7 +844,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
 				propName );
-		if ( prop == null || prop.getTypeCode( ) != PropertyType.LIST_TYPE )
+		if ( prop == null || prop.getTypeCode( ) != IPropertyType.LIST_TYPE )
 			return;
 
 		List values = (List) obj.getLocalProperty( getModule( ), propName );
@@ -878,7 +920,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
 				propName );
 		assert prop != null;
-		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
+		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
+				&& prop.isList( );
 
 		List list = (List) obj.getLocalProperty( getModule( ), propName );
 		if ( list == null || list.size( ) == 0 )
@@ -921,7 +964,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		PropertyDefn prop = (PropertyDefn) obj.getDefn( )
 				.getMember( memberName );
 		assert prop != null;
-		assert prop.getTypeCode( ) == PropertyType.STRUCT_TYPE && prop.isList( );
+		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
+				&& prop.isList( );
 
 		List list = (List) obj.getLocalProperty( getModule( ), prop );
 		if ( list == null || list.size( ) == 0 )
@@ -964,7 +1008,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
-				DesignElement.USER_PROPERTIES_PROP );
+				IDesignElementModel.USER_PROPERTIES_PROP );
 
 		Iterator iter = props.iterator( );
 		while ( iter.hasNext( ) )
@@ -1002,7 +1046,7 @@ public abstract class ModuleWriter extends ElementVisitor
 					writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-							UserChoice.NAME_PROP, choice.getName( ), false );
+							Choice.NAME_PROP, choice.getName( ), false );
 
 					if ( choice.getValue( ) != null )
 					{
@@ -1065,28 +1109,29 @@ public abstract class ModuleWriter extends ElementVisitor
 				DesignSchemaConstants.REPORT_VERSION );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
-		property( obj, Module.AUTHOR_PROP );
-		property( obj, Module.HELP_GUIDE_PROP );
-		property( obj, Module.CREATED_BY_PROP );
-		property( obj, Module.UNITS_PROP );
-		property( obj, Module.BASE_PROP );
-		property( obj, Module.INCLUDE_RESOURCE_PROP );
+		property( obj, IModuleModel.AUTHOR_PROP );
+		property( obj, IModuleModel.HELP_GUIDE_PROP );
+		property( obj, IModuleModel.CREATED_BY_PROP );
+		property( obj, IModuleModel.UNITS_PROP );
+		property( obj, IModuleModel.BASE_PROP );
+		property( obj, IModuleModel.INCLUDE_RESOURCE_PROP );
 
-		resourceKey( obj, Module.TITLE_ID_PROP, Module.TITLE_PROP );
-		property( obj, Module.COMMENTS_PROP );
+		resourceKey( obj, IModuleModel.TITLE_ID_PROP, IModuleModel.TITLE_PROP );
+		property( obj, IDesignElementModel.COMMENTS_PROP );
 
-		resourceKey( obj, Module.DESCRIPTION_ID_PROP, Module.DESCRIPTION_PROP );
+		resourceKey( obj, IModuleModel.DESCRIPTION_ID_PROP,
+				IModuleModel.DESCRIPTION_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 
 		// write property bindings
 
-		writeStructureList( obj, Module.PROPERTY_BINDINGS_PROP );
+		writeStructureList( obj, IModuleModel.PROPERTY_BINDINGS_PROP );
 
 		// write script libs
 
-		writeStructureList( obj, Module.SCRIPTLIBS_PROP );
+		writeStructureList( obj, IModuleModel.SCRIPTLIBS_PROP );
 	}
 
 	/**
@@ -1098,12 +1143,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	protected void writeEmbeddedImages( Module obj )
 	{
-		List list = (List) obj.getLocalProperty( obj, Module.IMAGES_PROP );
+		List list = (List) obj.getLocalProperty( obj, IModuleModel.IMAGES_PROP );
 		if ( list != null && list.size( ) > 0 )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
-					ReportDesign.IMAGES_PROP );
+					IModuleModel.IMAGES_PROP );
 
 			for ( int i = 0; i < list.size( ); i++ )
 			{
@@ -1112,7 +1157,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 				property( image, EmbeddedImage.NAME_MEMBER );
 				property( image, EmbeddedImage.TYPE_MEMBER );
-				property( image, EmbeddedImage.LIB_REFERENCE_MEMBER );
+				property( image, ReferencableStructure.LIB_REFERENCE_MEMBER );
 
 				try
 				{
@@ -1191,13 +1236,13 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	protected void writeCustomColors( Module obj )
 	{
-		List list = (List) obj
-				.getLocalProperty( obj, Module.COLOR_PALETTE_PROP );
+		List list = (List) obj.getLocalProperty( obj,
+				IModuleModel.COLOR_PALETTE_PROP );
 		if ( list != null && list.size( ) > 0 )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
-					ReportDesign.COLOR_PALETTE_PROP );
+					IModuleModel.COLOR_PALETTE_PROP );
 
 			for ( int i = 0; i < list.size( ); i++ )
 			{
@@ -1227,8 +1272,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScriptDataSource( obj );
 
-		property( obj, ScriptDataSource.OPEN_METHOD );
-		property( obj, ScriptDataSource.CLOSE_METHOD );
+		property( obj, IScriptDataSourceModel.OPEN_METHOD );
+		property( obj, IScriptDataSourceModel.CLOSE_METHOD );
 
 		writer.endElement( );
 	}
@@ -1242,18 +1287,19 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.ODA_DATA_SOURCE_TAG );
 		attribute( obj, DesignSchemaConstants.EXTENSION_ID_ATTRIB,
-				OdaDataSource.EXTENSION_ID_PROP );
+				IOdaExtendableElementModel.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSource( obj );
 
-		writeOdaDesignerState( obj, OdaDataSource.DESIGNER_STATE_PROP );
+		writeOdaDesignerState( obj, IOdaDataSourceModel.DESIGNER_STATE_PROP );
 
 		List properties = (List) obj.getLocalProperty( getModule( ),
-				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
+				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
+				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 
-		writeOdaExtensionProperties( obj, OdaDataSource.EXTENSION_ID_PROP );
+		writeOdaExtensionProperties( obj,
+				IOdaExtendableElementModel.EXTENSION_ID_PROP );
 
 		writer.endElement( );
 	}
@@ -1304,8 +1350,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				boolean cdata = false;
 
-				if ( prop.getTypeCode( ) == PropertyType.XML_TYPE
-						|| prop.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+				if ( prop.getTypeCode( ) == IPropertyType.XML_TYPE
+						|| prop.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					cdata = true;
 				writeProperty( obj, getTagByPropertyType( prop ), prop
 						.getName( ), cdata );
@@ -1336,8 +1382,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			String value = dummyProvider.getValue( propName );
 
 			boolean cdata = false;
-			if ( dummyProvider.getPropertyTypeCode( propName ) == PropertyType.SCRIPT_TYPE
-					|| dummyProvider.getPropertyTypeCode( propName ) == PropertyType.XML_TYPE )
+			if ( dummyProvider.getPropertyTypeCode( propName ) == IPropertyType.SCRIPT_TYPE
+					|| dummyProvider.getPropertyTypeCode( propName ) == IPropertyType.XML_TYPE )
 				cdata = true;
 			writeEntry( tagName, propName, value, cdata );
 
@@ -1355,11 +1401,11 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScriptDataSet( obj );
 
-		writeStructureList( obj, DataSet.PARAMETERS_PROP );
-		property( obj, ScriptDataSet.OPEN_METHOD );
-		property( obj, ScriptDataSet.DESCRIBE_METHOD );
-		property( obj, ScriptDataSet.FETCH_METHOD );
-		property( obj, ScriptDataSet.CLOSE_METHOD );
+		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
+		property( obj, IScriptDataSetModel.OPEN_METHOD );
+		property( obj, IScriptDataSetModel.DESCRIBE_METHOD );
+		property( obj, IScriptDataSetModel.FETCH_METHOD );
+		property( obj, IScriptDataSetModel.CLOSE_METHOD );
 
 		writer.endElement( );
 	}
@@ -1376,7 +1422,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitFreeForm( obj );
 
-		writeContents( obj, FreeForm.REPORT_ITEMS_SLOT,
+		writeContents( obj, IFreeFormModel.REPORT_ITEMS_SLOT,
 				DesignSchemaConstants.REPORT_ITEMS_TAG );
 
 		writer.endElement( );
@@ -1398,11 +1444,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitDataItem( obj );
 
-		property( obj, DataItem.RESULT_SET_COLUMN_PROP );
+		property( obj, IDataItemModel.RESULT_SET_COLUMN_PROP );
 
-		resourceKey( obj, DataItem.HELP_TEXT_KEY_PROP, DataItem.HELP_TEXT_PROP );
+		resourceKey( obj, IDataItemModel.HELP_TEXT_KEY_PROP,
+				IDataItemModel.HELP_TEXT_PROP );
 
-		writeAction( obj, DataItem.ACTION_PROP );
+		writeAction( obj, IDataItemModel.ACTION_PROP );
 
 		writer.endElement( );
 	}
@@ -1423,8 +1470,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitTextDataItem( obj );
 
-		property( obj, TextDataItem.VALUE_EXPR_PROP );
-		property( obj, TextDataItem.CONTENT_TYPE_PROP );
+		property( obj, ITextDataItemModel.VALUE_EXPR_PROP );
+		property( obj, ITextDataItemModel.CONTENT_TYPE_PROP );
 
 		writer.endElement( );
 	}
@@ -1437,25 +1484,25 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitExtendedItem( ExtendedItem obj )
 	{
-        // provide bound column compatibility
+		// provide bound column compatibility
 		boundColumnsMgr.dealExtendedItem( obj, getModule( ) );
-		
+
 		writer.startElement( DesignSchemaConstants.EXTENDED_ITEM_TAG );
-		
+
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn == null )
 		{
 			attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
-					ExtendedItem.EXTENSION_NAME_PROP );
+					IExtendedItemModel.EXTENSION_NAME_PROP );
 
 			super.visitExtendedItem( obj );
 
-			resourceKey( obj, ExtendedItem.ALT_TEXT_KEY_PROP,
-					ExtendedItem.ALT_TEXT_PROP );
+			resourceKey( obj, IExtendedItemModel.ALT_TEXT_KEY_PROP,
+					IExtendedItemModel.ALT_TEXT_PROP );
 
 			// write filter properties for the extended item
 
-			writeStructureList( obj, ExtendedItem.FILTER_PROP );
+			writeStructureList( obj, IExtendedItemModel.FILTER_PROP );
 
 			// write other un-organized strings
 			ContentTree tree = obj.getContentTree( );
@@ -1465,9 +1512,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			// write some attributes
 			attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
-					ExtendedItem.EXTENSION_NAME_PROP );
+					IExtendedItemModel.EXTENSION_NAME_PROP );
 			String name = (String) obj.getLocalProperty( getModule( ),
-					DesignElement.NAME_PROP );
+					IDesignElementModel.NAME_PROP );
 			if ( !StringUtil.isBlank( name ) )
 				writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
 			String extendsFrom = obj.getExtendsName( );
@@ -1483,11 +1530,12 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				PropertyDefn prop = (PropertyDefn) props.get( i );
 				String propName = prop.getName( );
-				if ( ExtendedItem.NAME_PROP.equals( propName )
-						|| ExtendedItem.EXTENSION_NAME_PROP.equals( propName )
-						|| ExtendedItem.EXTENDS_PROP.equals( propName ) )
+				if ( IDesignElementModel.NAME_PROP.equals( propName )
+						|| IExtendedItemModel.EXTENSION_NAME_PROP
+								.equals( propName )
+						|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 					continue;
-				
+
 				// TODO: support extending those xml properties.
 				// Now, each time a child is initialized, its xml-properties are
 				// serialized on the IReportItem itself, never minding whether
@@ -1495,14 +1543,14 @@ public abstract class ModuleWriter extends ElementVisitor
 				// parent.
 				switch ( prop.getTypeCode( ) )
 				{
-					case PropertyType.LIST_TYPE :
+					case IPropertyType.LIST_TYPE :
 						writeSimplePropertyList( obj, propName );
 						break;
-					case PropertyType.XML_TYPE :
+					case IPropertyType.XML_TYPE :
 						writeProperty( obj, getTagByPropertyType( prop ),
 								propName, true );
 						break;
-					case PropertyType.STRUCT_TYPE :
+					case IPropertyType.STRUCT_TYPE :
 						if ( prop.isList( ) )
 							writeStructureList( obj, propName );
 						else
@@ -1514,7 +1562,7 @@ public abstract class ModuleWriter extends ElementVisitor
 						break;
 				}
 			}
-			
+
 			// write the slot content
 			if ( extDefn.isContainer( ) )
 			{
@@ -1526,7 +1574,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			}
 
 		}
-		
+
 		writer.endElement( );
 	}
 
@@ -1546,9 +1594,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitTextItem( obj );
 
-		property( obj, TextItem.CONTENT_TYPE_PROP );
-		resourceKeyCDATA( obj, TextItem.CONTENT_RESOURCE_KEY_PROP,
-				TextItem.CONTENT_PROP );
+		property( obj, ITextItemModel.CONTENT_TYPE_PROP );
+		resourceKeyCDATA( obj, ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
+				ITextItemModel.CONTENT_PROP );
 
 		writer.endElement( );
 	}
@@ -1569,10 +1617,11 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitLabel( obj );
 
-		resourceKey( obj, Label.TEXT_ID_PROP, Label.TEXT_PROP );
-		resourceKey( obj, Label.HELP_TEXT_ID_PROP, Label.HELP_TEXT_PROP );
+		resourceKey( obj, ILabelModel.TEXT_ID_PROP, ILabelModel.TEXT_PROP );
+		resourceKey( obj, ILabelModel.HELP_TEXT_ID_PROP,
+				ILabelModel.HELP_TEXT_PROP );
 
-		writeAction( obj, Label.ACTION_PROP );
+		writeAction( obj, ILabelModel.ACTION_PROP );
 
 		writer.endElement( );
 	}
@@ -1589,7 +1638,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitAutoText( obj );
 
-		property( obj, AutoText.AUTOTEXT_TYPE_PROP );
+		property( obj, IAutoTextModel.AUTOTEXT_TYPE_PROP );
 
 		writer.endElement( );
 
@@ -1611,16 +1660,16 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitList( obj );
 
-		writeContents( obj, ListItem.HEADER_SLOT,
+		writeContents( obj, IListingElementModel.HEADER_SLOT,
 				DesignSchemaConstants.HEADER_TAG );
 
 		// There is no groups tag for this slot. All groups are written under
 		// list tag.
 
-		writeContents( obj, ListItem.GROUP_SLOT, null );
-		writeContents( obj, ListItem.DETAIL_SLOT,
+		writeContents( obj, IListingElementModel.GROUP_SLOT, null );
+		writeContents( obj, IListingElementModel.DETAIL_SLOT,
 				DesignSchemaConstants.DETAIL_TAG );
-		writeContents( obj, ListItem.FOOTER_SLOT,
+		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 
 		writer.endElement( );
@@ -1638,9 +1687,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitListGroup( obj );
 
-		writeContents( obj, ListGroup.HEADER_SLOT,
+		writeContents( obj, IGroupElementModel.HEADER_SLOT,
 				DesignSchemaConstants.HEADER_TAG );
-		writeContents( obj, ListGroup.FOOTER_SLOT,
+		writeContents( obj, IGroupElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 
 		writer.endElement( );
@@ -1662,24 +1711,25 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitTable( obj );
 
-		resourceKey( obj, TableItem.CAPTION_KEY_PROP, TableItem.CAPTION_PROP );
+		resourceKey( obj, ITableItemModel.CAPTION_KEY_PROP,
+				ITableItemModel.CAPTION_PROP );
 
 		// There is no columns tag for this slot. All columns are written under
 		// table tag.
 
-		writeColumns( obj, TableItem.COLUMN_SLOT );
+		writeColumns( obj, ITableItemModel.COLUMN_SLOT );
 
-		writeContents( obj, TableItem.HEADER_SLOT,
+		writeContents( obj, IListingElementModel.HEADER_SLOT,
 				DesignSchemaConstants.HEADER_TAG );
 
 		// There is no groups tag for this slot. All groups are written under
 		// table tag.
 
-		writeContents( obj, TableItem.GROUP_SLOT, null );
+		writeContents( obj, IListingElementModel.GROUP_SLOT, null );
 
-		writeContents( obj, TableItem.DETAIL_SLOT,
+		writeContents( obj, IListingElementModel.DETAIL_SLOT,
 				DesignSchemaConstants.DETAIL_TAG );
-		writeContents( obj, TableItem.FOOTER_SLOT,
+		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 
 		writer.endElement( );
@@ -1697,9 +1747,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitTableGroup( obj );
 
-		writeContents( obj, TableGroup.HEADER_SLOT,
+		writeContents( obj, IGroupElementModel.HEADER_SLOT,
 				DesignSchemaConstants.HEADER_TAG );
-		writeContents( obj, TableGroup.FOOTER_SLOT,
+		writeContents( obj, IGroupElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 
 		writer.endElement( );
@@ -1720,14 +1770,14 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
-				DesignElement.VIEW_ACTION_PROP );
+				IDesignElementModel.VIEW_ACTION_PROP );
 
 		super.visitColumn( obj );
 
-		property( obj, TableColumn.WIDTH_PROP );
-		property( obj, TableColumn.REPEAT_PROP );
-		property( obj, TableColumn.SUPPRESS_DUPLICATES_PROP );
-		writeStructureList( obj, TableColumn.VISIBILITY_PROP );
+		property( obj, ITableColumnModel.WIDTH_PROP );
+		property( obj, ITableColumnModel.REPEAT_PROP );
+		property( obj, ITableColumnModel.SUPPRESS_DUPLICATES_PROP );
+		writeStructureList( obj, ITableColumnModel.VISIBILITY_PROP );
 
 		writeStyle( obj );
 
@@ -1746,18 +1796,18 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
-				DesignElement.VIEW_ACTION_PROP );
+				IDesignElementModel.VIEW_ACTION_PROP );
 
 		super.visitRow( obj );
 
-		property( obj, TableRow.HEIGHT_PROP );
-		property( obj, TableRow.BOOKMARK_PROP );
-		property( obj, TableRow.SUPPRESS_DUPLICATES_PROP );
+		property( obj, ITableRowModel.HEIGHT_PROP );
+		property( obj, ITableRowModel.BOOKMARK_PROP );
+		property( obj, ITableRowModel.SUPPRESS_DUPLICATES_PROP );
 
-		property( obj, TableRow.EVENT_HANDLER_CLASS_PROP );
-		property( obj, TableRow.ON_PREPARE_METHOD );
-		property( obj, TableRow.ON_CREATE_METHOD );
-		property( obj, TableRow.ON_RENDER_METHOD );
+		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, ITableRowModel.ON_PREPARE_METHOD );
+		property( obj, ITableRowModel.ON_CREATE_METHOD );
+		property( obj, ITableRowModel.ON_RENDER_METHOD );
 
 		// write user property definitions and values
 
@@ -1765,9 +1815,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeUserPropertyValues( obj );
 
 		writeStyle( obj );
-		writeStructureList( obj, TableRow.VISIBILITY_PROP );
+		writeStructureList( obj, ITableRowModel.VISIBILITY_PROP );
 
-		writeContents( obj, TableRow.CONTENT_SLOT, null );
+		writeContents( obj, ITableRowModel.CONTENT_SLOT, null );
 
 		writer.endElement( );
 	}
@@ -1784,24 +1834,24 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
-				DesignElement.VIEW_ACTION_PROP );
+				IDesignElementModel.VIEW_ACTION_PROP );
 
 		super.visitCell( obj );
 
-		property( obj, Cell.COLUMN_PROP );
-		property( obj, Cell.COL_SPAN_PROP );
-		property( obj, Cell.ROW_SPAN_PROP );
-		property( obj, Cell.DROP_PROP );
-		property( obj, Cell.HEIGHT_PROP );
-		property( obj, Cell.WIDTH_PROP );
-		property( obj, Cell.EVENT_HANDLER_CLASS_PROP );
-		property( obj, Cell.ON_PREPARE_METHOD );
-		property( obj, Cell.ON_CREATE_METHOD );
-		property( obj, Cell.ON_RENDER_METHOD );
+		property( obj, ICellModel.COLUMN_PROP );
+		property( obj, ICellModel.COL_SPAN_PROP );
+		property( obj, ICellModel.ROW_SPAN_PROP );
+		property( obj, ICellModel.DROP_PROP );
+		property( obj, ICellModel.HEIGHT_PROP );
+		property( obj, ICellModel.WIDTH_PROP );
+		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, ICellModel.ON_PREPARE_METHOD );
+		property( obj, ICellModel.ON_CREATE_METHOD );
+		property( obj, ICellModel.ON_RENDER_METHOD );
 
 		writeStyle( obj );
 
-		writeContents( obj, Cell.CONTENT_SLOT, null );
+		writeContents( obj, ICellModel.CONTENT_SLOT, null );
 
 		writer.endElement( );
 	}
@@ -1822,8 +1872,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitGrid( obj );
 
-		writeColumns( obj, GridItem.COLUMN_SLOT );
-		writeContents( obj, GridItem.ROW_SLOT, null );
+		writeColumns( obj, IGridItemModel.COLUMN_SLOT );
+		writeContents( obj, IGridItemModel.ROW_SLOT, null );
 
 		writer.endElement( );
 	}
@@ -1840,7 +1890,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitLine( obj );
 
-		property( obj, LineItem.ORIENTATION_PROP );
+		property( obj, ILineItemModel.ORIENTATION_PROP );
 
 		writer.endElement( );
 	}
@@ -1857,10 +1907,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitGraphicMasterPage( obj );
 
-		property( obj, GraphicMasterPage.COLUMNS_PROP );
-		property( obj, GraphicMasterPage.COLUMN_SPACING_PROP );
+		property( obj, IGraphicMaterPageModel.COLUMNS_PROP );
+		property( obj, IGraphicMaterPageModel.COLUMN_SPACING_PROP );
 
-		writeContents( obj, GraphicMasterPage.CONTENT_SLOT,
+		writeContents( obj, IGraphicMaterPageModel.CONTENT_SLOT,
 				DesignSchemaConstants.CONTENTS_TAG );
 
 		writer.endElement( );
@@ -1878,15 +1928,15 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitSimpleMasterPage( obj );
 
-		property( obj, SimpleMasterPage.SHOW_HEADER_ON_FIRST_PROP );
-		property( obj, SimpleMasterPage.SHOW_FOOTER_ON_LAST_PROP );
-		property( obj, SimpleMasterPage.FLOATING_FOOTER );
-		property( obj, SimpleMasterPage.HEADER_HEIGHT_PROP );
-		property( obj, SimpleMasterPage.FOOTER_HEIGHT_PROP );
+		property( obj, ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP );
+		property( obj, ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP );
+		property( obj, ISimpleMasterPageModel.FLOATING_FOOTER );
+		property( obj, ISimpleMasterPageModel.HEADER_HEIGHT_PROP );
+		property( obj, ISimpleMasterPageModel.FOOTER_HEIGHT_PROP );
 
-		writeContents( obj, SimpleMasterPage.PAGE_HEADER_SLOT,
+		writeContents( obj, ISimpleMasterPageModel.PAGE_HEADER_SLOT,
 				DesignSchemaConstants.PAGE_HEADER_TAG );
-		writeContents( obj, SimpleMasterPage.PAGE_FOOTER_SLOT,
+		writeContents( obj, ISimpleMasterPageModel.PAGE_FOOTER_SLOT,
 				DesignSchemaConstants.PAGE_FOOTER_TAG );
 
 		writer.endElement( );
@@ -1904,12 +1954,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitParameterGroup( obj );
 
-		property( obj, ParameterGroup.START_EXPANDED_PROP );
+		property( obj, IParameterGroupModel.START_EXPANDED_PROP );
 
-		resourceKey( obj, ParameterGroup.HELP_TEXT_KEY_PROP,
-				ParameterGroup.HELP_TEXT_PROP );
+		resourceKey( obj, IParameterGroupModel.HELP_TEXT_KEY_PROP,
+				IParameterGroupModel.HELP_TEXT_PROP );
 
-		writeContents( obj, ParameterGroup.PARAMETERS_SLOT,
+		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
 
 		writer.endElement( );
@@ -1928,14 +1978,14 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitParameterGroup( obj );
 
-		property( obj, CascadingParameterGroup.START_EXPANDED_PROP );
-		resourceKey( obj, CascadingParameterGroup.HELP_TEXT_KEY_PROP,
-				CascadingParameterGroup.HELP_TEXT_PROP );
-		property( obj, CascadingParameterGroup.DATA_SET_PROP );
-		property( obj, CascadingParameterGroup.PROMPT_TEXT_PROP );
-		property( obj, CascadingParameterGroup.DATA_SET_MODE_PROP );
+		property( obj, IParameterGroupModel.START_EXPANDED_PROP );
+		resourceKey( obj, IParameterGroupModel.HELP_TEXT_KEY_PROP,
+				IParameterGroupModel.HELP_TEXT_PROP );
+		property( obj, ICascadingParameterGroupModel.DATA_SET_PROP );
+		property( obj, ICascadingParameterGroupModel.PROMPT_TEXT_PROP );
+		property( obj, ICascadingParameterGroupModel.DATA_SET_MODE_PROP );
 
-		writeContents( obj, CascadingParameterGroup.PARAMETERS_SLOT,
+		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
 		writeOverridenPropertyValues( obj );
 
@@ -1958,26 +2008,26 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScalarParameter( obj );
 
-		property( obj, ScalarParameter.VALUE_TYPE_PROP );
-		property( obj, ScalarParameter.DATA_TYPE_PROP );
-		resourceKey( obj, ScalarParameter.PROMPT_TEXT_ID_PROP,
-				ScalarParameter.PROMPT_TEXT_PROP );
-		property( obj, ScalarParameter.LIST_LIMIT_PROP );
-		property( obj, ScalarParameter.CONCEAL_VALUE_PROP );
-		property( obj, ScalarParameter.ALLOW_BLANK_PROP );
-		property( obj, ScalarParameter.ALLOW_NULL_PROP );
-		property( obj, ScalarParameter.CONTROL_TYPE_PROP );
-		property( obj, ScalarParameter.ALIGNMENT_PROP );
-		property( obj, ScalarParameter.DATASET_NAME_PROP );
-		property( obj, ScalarParameter.VALUE_EXPR_PROP );
-		property( obj, ScalarParameter.LABEL_EXPR_PROP );
-		property( obj, ScalarParameter.MUCH_MATCH_PROP );
-		property( obj, ScalarParameter.FIXED_ORDER_PROP );
-		property( obj, ScalarParameter.DEFAULT_VALUE_PROP );
+		property( obj, IScalarParameterModel.VALUE_TYPE_PROP );
+		property( obj, IScalarParameterModel.DATA_TYPE_PROP );
+		resourceKey( obj, IScalarParameterModel.PROMPT_TEXT_ID_PROP,
+				IScalarParameterModel.PROMPT_TEXT_PROP );
+		property( obj, IScalarParameterModel.LIST_LIMIT_PROP );
+		property( obj, IScalarParameterModel.CONCEAL_VALUE_PROP );
+		property( obj, IScalarParameterModel.ALLOW_BLANK_PROP );
+		property( obj, IScalarParameterModel.ALLOW_NULL_PROP );
+		property( obj, IScalarParameterModel.CONTROL_TYPE_PROP );
+		property( obj, IScalarParameterModel.ALIGNMENT_PROP );
+		property( obj, IScalarParameterModel.DATASET_NAME_PROP );
+		property( obj, IScalarParameterModel.VALUE_EXPR_PROP );
+		property( obj, IScalarParameterModel.LABEL_EXPR_PROP );
+		property( obj, IScalarParameterModel.MUCH_MATCH_PROP );
+		property( obj, IScalarParameterModel.FIXED_ORDER_PROP );
+		property( obj, IScalarParameterModel.DEFAULT_VALUE_PROP );
 
-		writeStructure( obj, ScalarParameter.FORMAT_PROP );
-		writeStructureList( obj, ScalarParameter.SELECTION_LIST_PROP );
-		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );
+		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );
+		writeStructureList( obj, IScalarParameterModel.SELECTION_LIST_PROP );
+		writeStructureList( obj, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 		writer.endElement( );
 	}
@@ -2004,13 +2054,13 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitTemplateElement( TemplateElement obj )
 	{
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
-				DesignElement.NAME_PROP );
+				IDesignElementModel.NAME_PROP );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
-		resourceKey( obj, DesignElement.DISPLAY_NAME_ID_PROP,
-				DesignElement.DISPLAY_NAME_PROP );
+		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
+				IDesignElementModel.DISPLAY_NAME_PROP );
 
-		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );
+		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 	}
 
 	/*
@@ -2024,15 +2074,16 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer
 				.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
-				DesignElement.NAME_PROP );
+				IDesignElementModel.NAME_PROP );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 
-		property( obj, TemplateParameterDefinition.ALLOWED_TYPE_PROP );
-		resourceKey( obj, TemplateParameterDefinition.DESCRIPTION_ID_PROP,
-				TemplateParameterDefinition.DESCRIPTION_PROP );
+		property( obj, ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP );
+		resourceKey( obj,
+				ITemplateParameterDefinitionModel.DESCRIPTION_ID_PROP,
+				ITemplateParameterDefinitionModel.DESCRIPTION_PROP );
 
-		writeContents( obj, TemplateParameterDefinition.DEFAULT_SLOT,
+		writeContents( obj, ITemplateParameterDefinitionModel.DEFAULT_SLOT,
 				DesignSchemaConstants.DEFAULT_TAG );
 		writer.endElement( );
 	}
@@ -2089,101 +2140,101 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		// Background
 
-		property( obj, Style.BACKGROUND_ATTACHMENT_PROP );
-		property( obj, Style.BACKGROUND_COLOR_PROP );
-		property( obj, Style.BACKGROUND_IMAGE_PROP );
-		property( obj, Style.BACKGROUND_POSITION_X_PROP );
-		property( obj, Style.BACKGROUND_POSITION_Y_PROP );
-		property( obj, Style.BACKGROUND_REPEAT_PROP );
+		property( obj, IStyleModel.BACKGROUND_ATTACHMENT_PROP );
+		property( obj, IStyleModel.BACKGROUND_COLOR_PROP );
+		property( obj, IStyleModel.BACKGROUND_IMAGE_PROP );
+		property( obj, IStyleModel.BACKGROUND_POSITION_X_PROP );
+		property( obj, IStyleModel.BACKGROUND_POSITION_Y_PROP );
+		property( obj, IStyleModel.BACKGROUND_REPEAT_PROP );
 
 		// Font
 
-		property( obj, Style.FONT_FAMILY_PROP );
-		property( obj, Style.FONT_SIZE_PROP );
-		property( obj, Style.FONT_WEIGHT_PROP );
-		property( obj, Style.FONT_STYLE_PROP );
-		property( obj, Style.FONT_VARIANT_PROP );
-		property( obj, Style.COLOR_PROP );
-		property( obj, Style.TEXT_LINE_THROUGH_PROP );
-		property( obj, Style.TEXT_OVERLINE_PROP );
-		property( obj, Style.TEXT_UNDERLINE_PROP );
+		property( obj, IStyleModel.FONT_FAMILY_PROP );
+		property( obj, IStyleModel.FONT_SIZE_PROP );
+		property( obj, IStyleModel.FONT_WEIGHT_PROP );
+		property( obj, IStyleModel.FONT_STYLE_PROP );
+		property( obj, IStyleModel.FONT_VARIANT_PROP );
+		property( obj, IStyleModel.COLOR_PROP );
+		property( obj, IStyleModel.TEXT_LINE_THROUGH_PROP );
+		property( obj, IStyleModel.TEXT_OVERLINE_PROP );
+		property( obj, IStyleModel.TEXT_UNDERLINE_PROP );
 
 		// Border
 
-		property( obj, Style.BORDER_BOTTOM_COLOR_PROP );
-		property( obj, Style.BORDER_BOTTOM_STYLE_PROP );
-		property( obj, Style.BORDER_BOTTOM_WIDTH_PROP );
-		property( obj, Style.BORDER_LEFT_COLOR_PROP );
-		property( obj, Style.BORDER_LEFT_STYLE_PROP );
-		property( obj, Style.BORDER_LEFT_WIDTH_PROP );
-		property( obj, Style.BORDER_RIGHT_COLOR_PROP );
-		property( obj, Style.BORDER_RIGHT_STYLE_PROP );
-		property( obj, Style.BORDER_RIGHT_WIDTH_PROP );
-		property( obj, Style.BORDER_TOP_COLOR_PROP );
-		property( obj, Style.BORDER_TOP_STYLE_PROP );
-		property( obj, Style.BORDER_TOP_WIDTH_PROP );
+		property( obj, IStyleModel.BORDER_BOTTOM_COLOR_PROP );
+		property( obj, IStyleModel.BORDER_BOTTOM_STYLE_PROP );
+		property( obj, IStyleModel.BORDER_BOTTOM_WIDTH_PROP );
+		property( obj, IStyleModel.BORDER_LEFT_COLOR_PROP );
+		property( obj, IStyleModel.BORDER_LEFT_STYLE_PROP );
+		property( obj, IStyleModel.BORDER_LEFT_WIDTH_PROP );
+		property( obj, IStyleModel.BORDER_RIGHT_COLOR_PROP );
+		property( obj, IStyleModel.BORDER_RIGHT_STYLE_PROP );
+		property( obj, IStyleModel.BORDER_RIGHT_WIDTH_PROP );
+		property( obj, IStyleModel.BORDER_TOP_COLOR_PROP );
+		property( obj, IStyleModel.BORDER_TOP_STYLE_PROP );
+		property( obj, IStyleModel.BORDER_TOP_WIDTH_PROP );
 
 		// Margin
 
-		property( obj, Style.MARGIN_TOP_PROP );
-		property( obj, Style.MARGIN_LEFT_PROP );
-		property( obj, Style.MARGIN_BOTTOM_PROP );
-		property( obj, Style.MARGIN_RIGHT_PROP );
+		property( obj, IStyleModel.MARGIN_TOP_PROP );
+		property( obj, IStyleModel.MARGIN_LEFT_PROP );
+		property( obj, IStyleModel.MARGIN_BOTTOM_PROP );
+		property( obj, IStyleModel.MARGIN_RIGHT_PROP );
 
 		// Padding
 
-		property( obj, Style.PADDING_TOP_PROP );
-		property( obj, Style.PADDING_LEFT_PROP );
-		property( obj, Style.PADDING_BOTTOM_PROP );
-		property( obj, Style.PADDING_RIGHT_PROP );
+		property( obj, IStyleModel.PADDING_TOP_PROP );
+		property( obj, IStyleModel.PADDING_LEFT_PROP );
+		property( obj, IStyleModel.PADDING_BOTTOM_PROP );
+		property( obj, IStyleModel.PADDING_RIGHT_PROP );
 
 		// Formats
 
-		property( obj, Style.NUMBER_ALIGN_PROP );
+		property( obj, IStyleModel.NUMBER_ALIGN_PROP );
 
-		writeStructure( obj, Style.DATE_TIME_FORMAT_PROP );
-		writeStructure( obj, Style.NUMBER_FORMAT_PROP );
-		writeStructure( obj, Style.STRING_FORMAT_PROP );
+		writeStructure( obj, IStyleModel.DATE_TIME_FORMAT_PROP );
+		writeStructure( obj, IStyleModel.NUMBER_FORMAT_PROP );
+		writeStructure( obj, IStyleModel.STRING_FORMAT_PROP );
 
 		// Text format
 
-		property( obj, Style.TEXT_ALIGN_PROP );
-		property( obj, Style.TEXT_INDENT_PROP );
-		property( obj, Style.LETTER_SPACING_PROP );
-		property( obj, Style.LINE_HEIGHT_PROP );
-		property( obj, Style.ORPHANS_PROP );
-		property( obj, Style.TEXT_TRANSFORM_PROP );
-		property( obj, Style.VERTICAL_ALIGN_PROP );
-		property( obj, Style.WHITE_SPACE_PROP );
-		property( obj, Style.WIDOWS_PROP );
-		property( obj, Style.WORD_SPACING_PROP );
+		property( obj, IStyleModel.TEXT_ALIGN_PROP );
+		property( obj, IStyleModel.TEXT_INDENT_PROP );
+		property( obj, IStyleModel.LETTER_SPACING_PROP );
+		property( obj, IStyleModel.LINE_HEIGHT_PROP );
+		property( obj, IStyleModel.ORPHANS_PROP );
+		property( obj, IStyleModel.TEXT_TRANSFORM_PROP );
+		property( obj, IStyleModel.VERTICAL_ALIGN_PROP );
+		property( obj, IStyleModel.WHITE_SPACE_PROP );
+		property( obj, IStyleModel.WIDOWS_PROP );
+		property( obj, IStyleModel.WORD_SPACING_PROP );
 
 		// Section Options
 
-		property( obj, Style.DISPLAY_PROP );
-		property( obj, Style.MASTER_PAGE_PROP );
-		property( obj, Style.PAGE_BREAK_AFTER_PROP );
-		property( obj, Style.PAGE_BREAK_BEFORE_PROP );
-		property( obj, Style.PAGE_BREAK_INSIDE_PROP );
-		property( obj, Style.SHOW_IF_BLANK_PROP );
-		property( obj, Style.CAN_SHRINK_PROP );
+		property( obj, IStyleModel.DISPLAY_PROP );
+		property( obj, IStyleModel.MASTER_PAGE_PROP );
+		property( obj, IStyleModel.PAGE_BREAK_AFTER_PROP );
+		property( obj, IStyleModel.PAGE_BREAK_BEFORE_PROP );
+		property( obj, IStyleModel.PAGE_BREAK_INSIDE_PROP );
+		property( obj, IStyleModel.SHOW_IF_BLANK_PROP );
+		property( obj, IStyleModel.CAN_SHRINK_PROP );
 
 		// Highlight
 
 		List list = (ArrayList) obj.getLocalProperty( getModule( ),
-				Style.HIGHLIGHT_RULES_PROP );
+				IStyleModel.HIGHLIGHT_RULES_PROP );
 		if ( list != null && list.size( ) > 0 )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
-					Style.HIGHLIGHT_RULES_PROP );
+					IStyleModel.HIGHLIGHT_RULES_PROP );
 
 			for ( int i = 0; i < list.size( ); i++ )
 			{
 				HighlightRule rule = (HighlightRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
-				property( rule, HighlightRule.OPERATOR_MEMBER );
+				property( rule, StyleRule.OPERATOR_MEMBER );
 
 				property( rule, HighlightRule.BACKGROUND_COLOR_MEMBER );
 
@@ -2225,9 +2276,9 @@ public abstract class ModuleWriter extends ElementVisitor
 				writeStructure( rule, HighlightRule.NUMBER_FORMAT_MEMBER );
 				writeStructure( rule, HighlightRule.STRING_FORMAT_MEMBER );
 
-				property( rule, HighlightRule.TEST_EXPR_MEMBER );
-				property( rule, HighlightRule.VALUE1_MEMBER );
-				property( rule, HighlightRule.VALUE2_MEMBER );
+				property( rule, StyleRule.TEST_EXPR_MEMBER );
+				property( rule, StyleRule.VALUE1_MEMBER );
+				property( rule, StyleRule.VALUE2_MEMBER );
 
 				writer.endElement( );
 			}
@@ -2237,22 +2288,22 @@ public abstract class ModuleWriter extends ElementVisitor
 		// Map
 
 		list = (ArrayList) obj.getLocalProperty( getModule( ),
-				Style.MAP_RULES_PROP );
+				IStyleModel.MAP_RULES_PROP );
 		if ( list != null && list.size( ) > 0 )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
-					Style.MAP_RULES_PROP );
+					IStyleModel.MAP_RULES_PROP );
 
 			for ( int i = 0; i < list.size( ); i++ )
 			{
 				MapRule rule = (MapRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
-				property( rule, MapRule.TEST_EXPR_MEMBER );
-				property( rule, MapRule.OPERATOR_MEMBER );
-				property( rule, MapRule.VALUE1_MEMBER );
-				property( rule, MapRule.VALUE2_MEMBER );
+				property( rule, StyleRule.TEST_EXPR_MEMBER );
+				property( rule, StyleRule.OPERATOR_MEMBER );
+				property( rule, StyleRule.VALUE1_MEMBER );
+				property( rule, StyleRule.VALUE2_MEMBER );
 
 				resourceKey( rule, MapRule.DISPLAY_ID_MEMBER,
 						MapRule.DISPLAY_MEMBER );
@@ -2392,35 +2443,37 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitImage( obj );
 
-		property( obj, ImageItem.SIZE_PROP );
-		property( obj, ImageItem.SCALE_PROP );
-		property( obj, ImageItem.SOURCE_PROP );
+		property( obj, IImageItemModel.SIZE_PROP );
+		property( obj, IImageItemModel.SCALE_PROP );
+		property( obj, IImageItemModel.SOURCE_PROP );
 
 		String source = (String) obj.getLocalProperty( getModule( ),
-				ImageItem.SOURCE_PROP );
+				IImageItemModel.SOURCE_PROP );
 
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( source )
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 						.equalsIgnoreCase( source ) )
 		{
-			property( obj, ImageItem.URI_PROP );
+			property( obj, IImageItemModel.URI_PROP );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
 				.equalsIgnoreCase( source ) )
 		{
-			property( obj, ImageItem.IMAGE_NAME_PROP );
+			property( obj, IImageItemModel.IMAGE_NAME_PROP );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( source ) )
 		{
-			property( obj, ImageItem.TYPE_EXPR_PROP );
-			property( obj, ImageItem.VALUE_EXPR_PROP );
+			property( obj, IImageItemModel.TYPE_EXPR_PROP );
+			property( obj, IImageItemModel.VALUE_EXPR_PROP );
 		}
 
-		resourceKey( obj, ImageItem.ALT_TEXT_KEY_PROP, ImageItem.ALT_TEXT_PROP );
-		resourceKey( obj, ImageItem.HELP_TEXT_ID_PROP, ImageItem.HELP_TEXT_PROP );
+		resourceKey( obj, IImageItemModel.ALT_TEXT_KEY_PROP,
+				IImageItemModel.ALT_TEXT_PROP );
+		resourceKey( obj, IImageItemModel.HELP_TEXT_ID_PROP,
+				IImageItemModel.HELP_TEXT_PROP );
 
-		writeAction( obj, ImageItem.ACTION_PROP );
+		writeAction( obj, IImageItemModel.ACTION_PROP );
 
 		writer.endElement( );
 	}
@@ -2457,7 +2510,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				Action.LINK_TYPE_MEMBER );
 
 		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-		writer.attribute( DesignElement.NAME_PROP, propName );
+		writer.attribute( IDesignElementModel.NAME_PROP, propName );
 
 		property( action, Action.FORMAT_TYPE_MEMBER );
 		property( action, Action.LINK_TYPE_MEMBER );
@@ -2516,26 +2569,26 @@ public abstract class ModuleWriter extends ElementVisitor
 		// The element name, id and extends should be written in the tag.
 
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
-				DesignElement.NAME_PROP );
+				IDesignElementModel.NAME_PROP );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.EXTENDS_ATTRIB,
-				DesignElement.EXTENDS_PROP );
+				IDesignElementModel.EXTENDS_PROP );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
-				DesignElement.VIEW_ACTION_PROP );
+				IDesignElementModel.VIEW_ACTION_PROP );
 
-		property( obj, DesignElement.COMMENTS_PROP );
-		propertyCDATA( obj, DesignElement.CUSTOM_XML_PROP );
+		property( obj, IDesignElementModel.COMMENTS_PROP );
+		propertyCDATA( obj, IDesignElementModel.CUSTOM_XML_PROP );
 
-		resourceKey( obj, DesignElement.DISPLAY_NAME_ID_PROP,
-				DesignElement.DISPLAY_NAME_PROP );
+		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
+				IDesignElementModel.DISPLAY_NAME_PROP );
 
-		property( obj, DesignElement.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 
-		writeStructureList( obj, DesignElement.PROPERTY_MASKS_PROP );
+		writeStructureList( obj, IDesignElementModel.PROPERTY_MASKS_PROP );
 	}
 
 	/*
@@ -2548,20 +2601,20 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDataSet( obj );
 
-		writeStructureList( obj, DataSet.RESULT_SET_HINTS_PROP );
-		writeStructureList( obj, DataSet.COMPUTED_COLUMNS_PROP );
-		writeStructureList( obj, DataSet.COLUMN_HINTS_PROP );
-		writeStructureList( obj, DataSet.FILTER_PROP );
+		writeStructureList( obj, IDataSetModel.RESULT_SET_HINTS_PROP );
+		writeStructureList( obj, IDataSetModel.COMPUTED_COLUMNS_PROP );
+		writeStructureList( obj, IDataSetModel.COLUMN_HINTS_PROP );
+		writeStructureList( obj, IDataSetModel.FILTER_PROP );
 
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
-				getModule( ), DataSet.CACHED_METADATA_PROP );
+				getModule( ), IDataSetModel.CACHED_METADATA_PROP );
 		if ( metadata != null )
 		{
 			// Writing cached data set meta-data information.
 
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-			writer.attribute( DesignElement.NAME_PROP,
-					SimpleDataSet.CACHED_METADATA_PROP );
+			writer.attribute( IDesignElementModel.NAME_PROP,
+					IDataSetModel.CACHED_METADATA_PROP );
 
 			writeStructureList( metadata, CachedMetaData.PARAMETERS_MEMBER );
 			writeStructureList( metadata, CachedMetaData.RESULT_SET_MEMBER );
@@ -2570,8 +2623,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			// end of writing meta-data information.
 		}
-		
-		property( obj, DataSet.ROW_FETCH_LIMIT_PROP );
+
+		property( obj, IDataSetModel.ROW_FETCH_LIMIT_PROP );
 	}
 
 	/*
@@ -2584,17 +2637,17 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitSimpleDataSet( obj );
 
-		property( obj, SimpleDataSet.DATA_SOURCE_PROP );
+		property( obj, ISimpleDataSetModel.DATA_SOURCE_PROP );
 
-		property( obj, SimpleDataSet.BEFORE_OPEN_METHOD );
-		property( obj, SimpleDataSet.BEFORE_CLOSE_METHOD );
-		property( obj, SimpleDataSet.ON_FETCH_METHOD );
-		property( obj, SimpleDataSet.AFTER_OPEN_METHOD );
-		property( obj, SimpleDataSet.AFTER_CLOSE_METHOD );
-		property( obj, SimpleDataSet.REF_TEMPLATE_PARAMETER_PROP );
-		property( obj, SimpleDataSet.CACHED_ROW_COUNT_PROP );
+		property( obj, ISimpleDataSetModel.BEFORE_OPEN_METHOD );
+		property( obj, ISimpleDataSetModel.BEFORE_CLOSE_METHOD );
+		property( obj, ISimpleDataSetModel.ON_FETCH_METHOD );
+		property( obj, ISimpleDataSetModel.AFTER_OPEN_METHOD );
+		property( obj, ISimpleDataSetModel.AFTER_CLOSE_METHOD );
+		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
+		property( obj, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
 
-		writeStructureList( obj, SimpleDataSet.PARAM_BINDINGS_PROP );
+		writeStructureList( obj, ISimpleDataSetModel.PARAM_BINDINGS_PROP );
 
 	}
 
@@ -2608,10 +2661,10 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDataSource( obj );
 
-		property( obj, DataSource.BEFORE_OPEN_METHOD );
-		property( obj, DataSource.BEFORE_CLOSE_METHOD );
-		property( obj, DataSource.AFTER_OPEN_METHOD );
-		property( obj, DataSource.AFTER_CLOSE_METHOD );
+		property( obj, IDataSourceModel.BEFORE_OPEN_METHOD );
+		property( obj, IDataSourceModel.BEFORE_CLOSE_METHOD );
+		property( obj, IDataSourceModel.AFTER_OPEN_METHOD );
+		property( obj, IDataSourceModel.AFTER_CLOSE_METHOD );
 	}
 
 	/*
@@ -2624,11 +2677,11 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitParameter( obj );
 
-		property( obj, Parameter.HIDDEN_PROP );
+		property( obj, IParameterModel.HIDDEN_PROP );
 
-		resourceKey( obj, Parameter.HELP_TEXT_KEY_PROP,
-				Parameter.HELP_TEXT_PROP );
-		property( obj, Parameter.VALIDATE_PROP );
+		resourceKey( obj, IParameterModel.HELP_TEXT_KEY_PROP,
+				IParameterModel.HELP_TEXT_PROP );
+		property( obj, IParameterModel.VALIDATE_PROP );
 	}
 
 	/*
@@ -2641,24 +2694,24 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitReportItem( obj );
 
-		property( obj, ReportItem.X_PROP );
-		property( obj, ReportItem.Y_PROP );
-		property( obj, ReportItem.HEIGHT_PROP );
-		property( obj, ReportItem.WIDTH_PROP );
-		property( obj, ReportItem.DATA_SET_PROP );
-		property( obj, ReportItem.REF_TEMPLATE_PARAMETER_PROP );
+		property( obj, IReportItemModel.X_PROP );
+		property( obj, IReportItemModel.Y_PROP );
+		property( obj, IReportItemModel.HEIGHT_PROP );
+		property( obj, IReportItemModel.WIDTH_PROP );
+		property( obj, IReportItemModel.DATA_SET_PROP );
+		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 
-		writeStructureList( obj, ReportItem.VISIBILITY_PROP );
-		writeStructureList( obj, ReportItem.PARAM_BINDINGS_PROP );
-		writeStructureList( obj, ReportItem.BOUND_DATA_COLUMNS_PROP );
+		writeStructureList( obj, IReportItemModel.VISIBILITY_PROP );
+		writeStructureList( obj, IReportItemModel.PARAM_BINDINGS_PROP );
+		writeStructureList( obj, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
-		property( obj, ReportItem.BOOKMARK_PROP );
-		property( obj, ReportItem.TOC_PROP );
+		property( obj, IReportItemModel.BOOKMARK_PROP );
+		property( obj, IReportItemModel.TOC_PROP );
 
-		property( obj, ReportItem.ON_PREPARE_METHOD );
-		property( obj, ReportItem.ON_CREATE_METHOD );
-		property( obj, ReportItem.ON_RENDER_METHOD );
-		property( obj, ReportItem.ON_PAGE_BREAK_METHOD );
+		property( obj, IReportItemModel.ON_PREPARE_METHOD );
+		property( obj, IReportItemModel.ON_CREATE_METHOD );
+		property( obj, IReportItemModel.ON_RENDER_METHOD );
+		property( obj, IReportItemModel.ON_PAGE_BREAK_METHOD );
 
 		writeOverridenPropertyValues( obj );
 	}
@@ -2673,23 +2726,23 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitMasterPage( obj );
 
-		property( obj, MasterPage.TYPE_PROP );
+		property( obj, IMasterPageModel.TYPE_PROP );
 
 		// Only when type is custom, height and width can be output.
 
 		String type = (String) obj.getLocalProperty( getModule( ),
-				MasterPage.TYPE_PROP );
+				IMasterPageModel.TYPE_PROP );
 		if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase( type ) )
 		{
-			property( obj, MasterPage.HEIGHT_PROP );
-			property( obj, MasterPage.WIDTH_PROP );
+			property( obj, IMasterPageModel.HEIGHT_PROP );
+			property( obj, IMasterPageModel.WIDTH_PROP );
 		}
 
-		property( obj, MasterPage.ORIENTATION_PROP );
-		property( obj, MasterPage.TOP_MARGIN_PROP );
-		property( obj, MasterPage.LEFT_MARGIN_PROP );
-		property( obj, MasterPage.BOTTOM_MARGIN_PROP );
-		property( obj, MasterPage.RIGHT_MARGIN_PROP );
+		property( obj, IMasterPageModel.ORIENTATION_PROP );
+		property( obj, IMasterPageModel.TOP_MARGIN_PROP );
+		property( obj, IMasterPageModel.LEFT_MARGIN_PROP );
+		property( obj, IMasterPageModel.BOTTOM_MARGIN_PROP );
+		property( obj, IMasterPageModel.RIGHT_MARGIN_PROP );
 
 		writeStyle( obj );
 		writeOverridenPropertyValues( obj );
@@ -2717,7 +2770,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	private void writeStyle( StyledElement obj )
 	{
-		property( obj, ReportItem.STYLE_PROP );
+		property( obj, IStyledElementModel.STYLE_PROP );
 		writeStyleProps( obj );
 	}
 
@@ -2731,11 +2784,11 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitListing( obj );
 
-		property( obj, ListingElement.REPEAT_HEADER_PROP );
-		property( obj, ListingElement.PAGE_BREAK_INTERVAL_PROP );
+		property( obj, IListingElementModel.REPEAT_HEADER_PROP );
+		property( obj, IListingElementModel.PAGE_BREAK_INTERVAL_PROP );
 
-		writeStructureList( obj, ListingElement.SORT_PROP );
-		writeStructureList( obj, ListingElement.FILTER_PROP );
+		writeStructureList( obj, IListingElementModel.SORT_PROP );
+		writeStructureList( obj, IListingElementModel.FILTER_PROP );
 	}
 
 	/*
@@ -2748,36 +2801,36 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
-				DesignElement.VIEW_ACTION_PROP );
+				IDesignElementModel.VIEW_ACTION_PROP );
 
 		super.visitGroup( obj );
 
-		property( obj, GroupElement.GROUP_NAME_PROP );
-		property( obj, GroupElement.INTERVAL_BASE_PROP );
-		property( obj, GroupElement.INTERVAL_PROP );
-		property( obj, GroupElement.INTERVAL_RANGE_PROP );
-		property( obj, GroupElement.SORT_DIRECTION_PROP );
-		property( obj, GroupElement.SORT_TYPE_PROP );
-		property( obj, GroupElement.KEY_EXPR_PROP );
-		property( obj, GroupElement.TOC_PROP );
+		property( obj, IGroupElementModel.GROUP_NAME_PROP );
+		property( obj, IGroupElementModel.INTERVAL_BASE_PROP );
+		property( obj, IGroupElementModel.INTERVAL_PROP );
+		property( obj, IGroupElementModel.INTERVAL_RANGE_PROP );
+		property( obj, IGroupElementModel.SORT_DIRECTION_PROP );
+		property( obj, IGroupElementModel.SORT_TYPE_PROP );
+		property( obj, IGroupElementModel.KEY_EXPR_PROP );
+		property( obj, IGroupElementModel.TOC_PROP );
 
-		property( obj, GroupElement.EVENT_HANDLER_CLASS_PROP );
-		property( obj, GroupElement.ON_PREPARE_METHOD );
-		property( obj, GroupElement.ON_PAGE_BREAK_METHOD );
-		property( obj, GroupElement.REPEAT_HEADER_PROP );
-		property( obj, GroupElement.HIDE_DETAIL_PROP );
+		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IGroupElementModel.ON_PREPARE_METHOD );
+		property( obj, IGroupElementModel.ON_PAGE_BREAK_METHOD );
+		property( obj, IGroupElementModel.REPEAT_HEADER_PROP );
+		property( obj, IGroupElementModel.HIDE_DETAIL_PROP );
 
-		property( obj, Style.PAGE_BREAK_AFTER_PROP );
-		property( obj, Style.PAGE_BREAK_BEFORE_PROP );
-		property( obj, Style.PAGE_BREAK_INSIDE_PROP );
+		property( obj, IStyleModel.PAGE_BREAK_AFTER_PROP );
+		property( obj, IStyleModel.PAGE_BREAK_BEFORE_PROP );
+		property( obj, IStyleModel.PAGE_BREAK_INSIDE_PROP );
 
 		// write user property definitions and values
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 
-		writeStructureList( obj, GroupElement.SORT_PROP );
-		writeStructureList( obj, GroupElement.FILTER_PROP );
+		writeStructureList( obj, IGroupElementModel.SORT_PROP );
+		writeStructureList( obj, IGroupElementModel.FILTER_PROP );
 	}
 
 	/*
@@ -2789,30 +2842,31 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitOdaDataSet( OdaDataSet obj )
 	{
 		writer.startElement( DesignSchemaConstants.ODA_DATA_SET_TAG );
-		attribute( obj, OdaDataSet.EXTENSION_ID_PROP,
-				OdaDataSet.EXTENSION_ID_PROP );
+		attribute( obj, IOdaExtendableElementModel.EXTENSION_ID_PROP,
+				IOdaExtendableElementModel.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
 
-		writeStructureList( obj, DataSet.PARAMETERS_PROP );
-		writeStructureList( obj, DataSet.RESULT_SET_PROP );
+		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
+		writeStructureList( obj, IDataSetModel.RESULT_SET_PROP );
 
 		if ( (String) obj.getLocalProperty( getModule( ),
-				OdaDataSet.QUERY_TEXT_PROP ) != null )
+				IOdaDataSetModel.QUERY_TEXT_PROP ) != null )
 		{
-			property( obj, OdaDataSet.QUERY_TEXT_PROP );
+			property( obj, IOdaDataSetModel.QUERY_TEXT_PROP );
 		}
 
-		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
-		writeOdaDesignerState( obj, OdaDataSet.DESIGNER_STATE_PROP );
-		propertyCDATA( obj, OdaDataSet.DESIGNER_VALUES_PROP );
+		property( obj, IOdaDataSetModel.RESULT_SET_NAME_PROP );
+		writeOdaDesignerState( obj, IOdaDataSetModel.DESIGNER_STATE_PROP );
+		propertyCDATA( obj, IOdaDataSetModel.DESIGNER_VALUES_PROP );
 
 		List properties = (List) obj.getLocalProperty( getModule( ),
-				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
+				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
-				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
+				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 
-		writeOdaExtensionProperties( obj, OdaDataSet.EXTENSION_ID_PROP );
+		writeOdaExtensionProperties( obj,
+				IOdaExtendableElementModel.EXTENSION_ID_PROP );
 
 		writer.endElement( );
 	}
@@ -2830,7 +2884,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	private void writeColumns( DesignElement obj, int slot )
 	{
 		assert obj instanceof GridItem || obj instanceof TableItem;
-		assert slot == GridItem.COLUMN_SLOT || slot == TableItem.COLUMN_SLOT;
+		assert slot == IGridItemModel.COLUMN_SLOT
+				|| slot == ITableItemModel.COLUMN_SLOT;
 
 		// TODO: UI requires the column to keep the table layout information, so
 		// the unnecessary columns can not be remove this moment. The related
@@ -2938,28 +2993,28 @@ public abstract class ModuleWriter extends ElementVisitor
 			for ( int i = 0; i < propDefns.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
-				if ( DesignElement.NAME_PROP.equalsIgnoreCase( propDefn
+				if ( IDesignElementModel.NAME_PROP.equalsIgnoreCase( propDefn
 						.getName( ) ) )
 					continue;
 
 				if ( virtualElement instanceof ExtendedItem
-						&& ExtendedItem.EXTENSION_NAME_PROP
+						&& IExtendedItemModel.EXTENSION_NAME_PROP
 								.equalsIgnoreCase( propDefn.getName( ) ) )
 					continue;
 
 				boolean cdata = false;
-				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE
-						|| propDefn.getTypeCode( ) == PropertyType.XML_TYPE )
+				if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE
+						|| propDefn.getTypeCode( ) == IPropertyType.XML_TYPE )
 					cdata = true;
 
-				if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+				if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				{
 					if ( propDefn.isList( ) )
 						writeStructureList( virtualElement, propDefn.getName( ) );
 					else
 						writeStructure( virtualElement, propDefn.getName( ) );
 				}
-				else if ( propDefn.getTypeCode( ) == PropertyType.LIST_TYPE )
+				else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 					writeSimplePropertyList( virtualElement, propDefn.getName( ) );
 				else
 					writeProperty( virtualElement,
@@ -2987,11 +3042,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
-		writeStructureList( obj, DataSet.PARAMETERS_PROP );
-		writeStructureList( obj, DataSet.RESULT_SET_PROP );
-		writeSimplePropertyList( obj, JointDataSet.DATA_SETS_PROP );
+		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
+		writeStructureList( obj, IDataSetModel.RESULT_SET_PROP );
+		writeSimplePropertyList( obj, IJointDataSetModel.DATA_SETS_PROP );
 
-		writeStructureList( obj, JointDataSet.JOIN_CONDITONS_PROP );
+		writeStructureList( obj, IJointDataSetModel.JOIN_CONDITONS_PROP );
 		writer.endElement( );
 	}
 
@@ -3011,8 +3066,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			return;
 
 		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-		writer.attribute( DesignElement.NAME_PROP,
-				OdaDataSet.DESIGNER_STATE_PROP );
+		writer.attribute( IDesignElementModel.NAME_PROP,
+				IOdaDataSetModel.DESIGNER_STATE_PROP );
 
 		property( designerState, OdaDesignerState.VERSION_MEMBER );
 		property( designerState, OdaDesignerState.CONTENT_AS_STRING_MEMBER );

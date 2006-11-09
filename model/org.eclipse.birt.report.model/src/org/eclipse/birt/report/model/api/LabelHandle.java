@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 
 /**
@@ -56,7 +55,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getText( )
 	{
-		return getStringProperty( Label.TEXT_PROP );
+		return getStringProperty( ILabelModel.TEXT_PROP );
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getDisplayText( )
 	{
-		return getExternalizedValue( Label.TEXT_ID_PROP , Label.TEXT_PROP );
+		return getExternalizedValue( ILabelModel.TEXT_ID_PROP , ILabelModel.TEXT_PROP );
 	}
 
 	/**
@@ -84,7 +83,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setText( String text ) throws SemanticException
 	{
-		setStringProperty( Label.TEXT_PROP, text );
+		setStringProperty( ILabelModel.TEXT_PROP, text );
 	}
 
 	/**
@@ -95,7 +94,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getTextKey( )
 	{
-		return getStringProperty( Label.TEXT_ID_PROP );
+		return getStringProperty( ILabelModel.TEXT_ID_PROP );
 	}
 
 	/**
@@ -110,7 +109,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setTextKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( Label.TEXT_ID_PROP, resourceKey );
+		setStringProperty( ILabelModel.TEXT_ID_PROP, resourceKey );
 	}
 
 	/**
@@ -124,7 +123,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( Label.ACTION_PROP );
+		PropertyHandle propHandle = getPropertyHandle( ILabelModel.ACTION_PROP );
 		Action action = (Action) propHandle.getValue( );
 
 		if ( action == null )
@@ -148,12 +147,12 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( Label.ACTION_PROP, action );
+		setProperty( ILabelModel.ACTION_PROP, action );
 
 		if ( action == null )
 			return null;
 		return (ActionHandle) action
-				.getHandle( getPropertyHandle( Label.ACTION_PROP ) );
+				.getHandle( getPropertyHandle( ILabelModel.ACTION_PROP ) );
 	}
 
 	/**
@@ -164,7 +163,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getHelpText( )
 	{
-		return getStringProperty( Label.HELP_TEXT_PROP );
+		return getStringProperty( ILabelModel.HELP_TEXT_PROP );
 	}
 
 	/**
@@ -179,7 +178,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setHelpText( String text ) throws SemanticException
 	{
-		setStringProperty( Label.HELP_TEXT_PROP, text );
+		setStringProperty( ILabelModel.HELP_TEXT_PROP, text );
 	}
 
 	/**
@@ -190,7 +189,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getHelpTextKey( )
 	{
-		return getStringProperty( Label.HELP_TEXT_ID_PROP );
+		return getStringProperty( ILabelModel.HELP_TEXT_ID_PROP );
 	}
 
 	/**
@@ -205,6 +204,6 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setHelpTextKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( Label.HELP_TEXT_ID_PROP, resourceKey );
+		setStringProperty( ILabelModel.HELP_TEXT_ID_PROP, resourceKey );
 	}
 }

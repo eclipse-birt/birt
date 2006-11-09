@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -59,27 +60,27 @@ public class LibraryWriter extends ModuleWriter
 	{
 		writer.startElement( DesignSchemaConstants.LIBRARY_TAG );
 		super.visitLibrary( obj );
-		property( obj, Module.INITIALIZE_METHOD );
+		property( obj, IModuleModel.INITIALIZE_METHOD );
 		property( obj, IModuleModel.THEME_PROP );
 		
 		// include libraries and scripts
 
 		// Library including library is not supported.
 		//
-		writeStructureList( obj, Library.LIBRARIES_PROP );
-		writeSimpleStructureList( obj, Library.INCLUDE_SCRIPTS_PROP,
+		writeStructureList( obj, IModuleModel.LIBRARIES_PROP );
+		writeSimpleStructureList( obj, IModuleModel.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
 
 
 		// config variables
 
-		writeStructureList( obj, Library.CONFIG_VARS_PROP );
+		writeStructureList( obj, IModuleModel.CONFIG_VARS_PROP );
 
-		writeArrangedContents( obj, Library.PARAMETER_SLOT,
+		writeArrangedContents( obj, IModuleModel.PARAMETER_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
-		writeArrangedContents( obj, Library.DATA_SOURCE_SLOT,
+		writeArrangedContents( obj, IModuleModel.DATA_SOURCE_SLOT,
 				DesignSchemaConstants.DATA_SOURCES_TAG );
-		writeArrangedContents( obj, Library.DATA_SET_SLOT,
+		writeArrangedContents( obj, IModuleModel.DATA_SET_SLOT,
 				DesignSchemaConstants.DATA_SETS_TAG );
 
 		// ColorPalette tag
@@ -92,9 +93,9 @@ public class LibraryWriter extends ModuleWriter
 
 		writeContents( obj, ILibraryModel.THEMES_SLOT,
 				DesignSchemaConstants.THEMES_TAG );
-		writeArrangedContents( obj, Library.COMPONENT_SLOT,
+		writeArrangedContents( obj, IModuleModel.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );
-		writeArrangedContents( obj, Library.PAGE_SLOT,
+		writeArrangedContents( obj, IModuleModel.PAGE_SLOT,
 				DesignSchemaConstants.PAGE_SETUP_TAG );
 
 		// Embedded images
@@ -116,7 +117,7 @@ public class LibraryWriter extends ModuleWriter
 		
 		super.visitDesignElement( obj );
 		
-		writeContents( obj, Theme.STYLES_SLOT, DesignSchemaConstants.STYLES_TAG );
+		writeContents( obj, IThemeModel.STYLES_SLOT, DesignSchemaConstants.STYLES_TAG );
 		writer.endElement( );
 	}
 }

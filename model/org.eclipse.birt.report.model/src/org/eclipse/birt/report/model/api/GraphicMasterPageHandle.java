@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
 /**
@@ -62,7 +61,7 @@ public class GraphicMasterPageHandle extends MasterPageHandle
 
 	public SlotHandle getContent( )
 	{
-		return getSlot( GraphicMasterPage.CONTENT_SLOT );
+		return getSlot( IGraphicMaterPageModel.CONTENT_SLOT );
 	}
 
 	/**
@@ -73,7 +72,7 @@ public class GraphicMasterPageHandle extends MasterPageHandle
 
 	public int getColumnCount( )
 	{
-		return getIntProperty( GraphicMasterPage.COLUMNS_PROP );
+		return getIntProperty( IGraphicMaterPageModel.COLUMNS_PROP );
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class GraphicMasterPageHandle extends MasterPageHandle
 
 	public void setColumnCount( int count ) throws SemanticException
 	{
-		setIntProperty( GraphicMasterPage.COLUMNS_PROP, count );
+		setIntProperty( IGraphicMaterPageModel.COLUMNS_PROP, count );
 	}
 
 	/**
@@ -99,7 +98,7 @@ public class GraphicMasterPageHandle extends MasterPageHandle
 	public DimensionHandle getColumnSpacing( )
 	{
 		return super
-				.getDimensionProperty( GraphicMasterPage.COLUMN_SPACING_PROP );
+				.getDimensionProperty( IGraphicMaterPageModel.COLUMN_SPACING_PROP );
 	}
 
 }

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 
 /**

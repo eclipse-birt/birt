@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -28,9 +29,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -221,7 +222,7 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		DesignElement element = getElement( );
 
-		String name = attrs.getValue( DesignElement.NAME_PROP );
+		String name = attrs.getValue( IDesignElementModel.NAME_PROP );
 		if ( StringUtil.isBlank( name ) )
 		{
 			if ( nameRequired )
@@ -349,7 +350,7 @@ public abstract class ReportElementState extends DesignParseState
 				.getValue( DesignSchemaConstants.VIEW_ACTION_ATTRIB );
 		if ( !StringUtil.isBlank( viewAction ) )
 		{
-			setProperty( DesignElement.VIEW_ACTION_PROP, viewAction );
+			setProperty( IDesignElementModel.VIEW_ACTION_PROP, viewAction );
 		}
 
 		if ( !addToSlot( container, slotID, element ) )
@@ -452,7 +453,7 @@ public abstract class ReportElementState extends DesignParseState
 			DesignElement parent = content.getExtendsElement( );
 			if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
 			{
-				if ( parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
+				if ( parent.getContainerSlot( ) != IModuleModel.COMPONENT_SLOT )
 				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
 				// parent ) )
 				{
@@ -555,10 +556,10 @@ public abstract class ReportElementState extends DesignParseState
 		DesignElement element = getElement( );
 
 		// check whether the value of "highlightTestExpre" is in tempt map.
-		if ( handler.tempValue.get( Style.HIGHLIGHT_RULES_PROP ) != null )
+		if ( handler.tempValue.get( IStyleModel.HIGHLIGHT_RULES_PROP ) != null )
 		{
 			List highlightRules = element.getListProperty(
-					handler.getModule( ), Style.HIGHLIGHT_RULES_PROP );
+					handler.getModule( ), IStyleModel.HIGHLIGHT_RULES_PROP );
 			if ( highlightRules != null )
 			{
 				for ( int i = 0; i < highlightRules.size( ); i++ )
@@ -566,16 +567,16 @@ public abstract class ReportElementState extends DesignParseState
 					HighlightRule highlightRule = (HighlightRule) highlightRules
 							.get( i );
 					highlightRule.setTestExpression( (String) handler.tempValue
-							.get( Style.HIGHLIGHT_RULES_PROP ) );
+							.get( IStyleModel.HIGHLIGHT_RULES_PROP ) );
 				}
-				handler.tempValue.remove( Style.HIGHLIGHT_RULES_PROP );
+				handler.tempValue.remove( IStyleModel.HIGHLIGHT_RULES_PROP );
 			}
 		}
 		// check whether the value of "mapTestExpre" is in tempt map.
-		if ( handler.tempValue.get( Style.MAP_RULES_PROP ) != null )
+		if ( handler.tempValue.get( IStyleModel.MAP_RULES_PROP ) != null )
 		{
 			List mapRules = element.getListProperty( handler.getModule( ),
-					Style.MAP_RULES_PROP );
+					IStyleModel.MAP_RULES_PROP );
 			if ( mapRules != null )
 			{
 
@@ -583,9 +584,9 @@ public abstract class ReportElementState extends DesignParseState
 				{
 					MapRule mapRule = (MapRule) mapRules.get( i );
 					mapRule.setTestExpression( (String) handler.tempValue
-							.get( Style.MAP_RULES_PROP ) );
+							.get( IStyleModel.MAP_RULES_PROP ) );
 				}
-				handler.tempValue.remove( Style.MAP_RULES_PROP );
+				handler.tempValue.remove( IStyleModel.MAP_RULES_PROP );
 			}
 		}
 	}

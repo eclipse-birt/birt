@@ -110,7 +110,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public String getPageType( )
 	{
-		return getStringProperty( MasterPage.TYPE_PROP );
+		return getStringProperty( IMasterPageModel.TYPE_PROP );
 	}
 
 	/**
@@ -134,7 +134,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public void setPageType( String type ) throws SemanticException
 	{
-		setStringProperty( MasterPage.TYPE_PROP, type );
+		setStringProperty( IMasterPageModel.TYPE_PROP, type );
 	}
 
 	/**
@@ -152,7 +152,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public String getOrientation( )
 	{
-		return getStringProperty( MasterPage.ORIENTATION_PROP );
+		return getStringProperty( IMasterPageModel.ORIENTATION_PROP );
 	}
 
 	/**
@@ -174,7 +174,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public void setOrientation( String orientation ) throws SemanticException
 	{
-		setStringProperty( MasterPage.ORIENTATION_PROP, orientation );
+		setStringProperty( IMasterPageModel.ORIENTATION_PROP, orientation );
 	}
 
 	/**
@@ -185,7 +185,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionHandle getHeight( )
 	{
-		return super.getDimensionProperty( MasterPage.HEIGHT_PROP );
+		return super.getDimensionProperty( IMasterPageModel.HEIGHT_PROP );
 	}
 
 	/**
@@ -196,7 +196,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionHandle getWidth( )
 	{
-		return super.getDimensionProperty( MasterPage.WIDTH_PROP );
+		return super.getDimensionProperty( IMasterPageModel.WIDTH_PROP );
 	}
 
 	/**
@@ -207,7 +207,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionHandle getBottomMargin( )
 	{
-		return super.getDimensionProperty( MasterPage.BOTTOM_MARGIN_PROP );
+		return super.getDimensionProperty( IMasterPageModel.BOTTOM_MARGIN_PROP );
 	}
 
 	/**
@@ -218,7 +218,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionHandle getLeftMargin( )
 	{
-		return super.getDimensionProperty( MasterPage.LEFT_MARGIN_PROP );
+		return super.getDimensionProperty( IMasterPageModel.LEFT_MARGIN_PROP );
 	}
 
 	/**
@@ -229,7 +229,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionHandle getRightMargin( )
 	{
-		return super.getDimensionProperty( MasterPage.RIGHT_MARGIN_PROP );
+		return super.getDimensionProperty( IMasterPageModel.RIGHT_MARGIN_PROP );
 	}
 
 	/**
@@ -240,7 +240,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionHandle getTopMargin( )
 	{
-		return super.getDimensionProperty( MasterPage.TOP_MARGIN_PROP );
+		return super.getDimensionProperty( IMasterPageModel.TOP_MARGIN_PROP );
 	}
 
 	/**
@@ -251,7 +251,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionValue getPageHeight( )
 	{
-		return (DimensionValue) getProperty( MasterPage.HEIGHT_PROP );
+		return (DimensionValue) getProperty( IMasterPageModel.HEIGHT_PROP );
 	}
 
 	/**
@@ -262,6 +262,6 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionValue getPageWidth( )
 	{
-		return (DimensionValue) getProperty( MasterPage.WIDTH_PROP );
+		return (DimensionValue) getProperty( IMasterPageModel.WIDTH_PROP );
 	}
 }

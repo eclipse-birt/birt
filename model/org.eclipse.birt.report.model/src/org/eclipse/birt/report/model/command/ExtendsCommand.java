@@ -21,23 +21,24 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -182,7 +183,7 @@ public class ExtendsCommand extends AbstractElementCommand
 						.getElement( ReportDesignConstants.MODULE_ELEMENT );
 
 				if ( !parent.getContainer( ).getDefn( ).isKindOf( moduleDefn )
-						|| parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
+						|| parent.getContainerSlot( ) != IModuleModel.COMPONENT_SLOT )
 				{
 					throw new ExtendsForbiddenException(
 							element,
@@ -380,9 +381,9 @@ public class ExtendsCommand extends AbstractElementCommand
 				// The properties inherited from style or parent will be
 				// flatten to new element.
 
-				if ( StyledElement.STYLE_PROP.equals( propName )
-						|| DesignElement.EXTENDS_PROP.equals( propName )
-						|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+				if ( IStyledElementModel.STYLE_PROP.equals( propName )
+						|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+						|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) )
 					continue;
 
 				Object localValue = element.getLocalProperty( module, propDefn );
@@ -394,7 +395,7 @@ public class ExtendsCommand extends AbstractElementCommand
 					PropertyCommand command = new PropertyCommand( module,
 							element );
 
-					if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+					if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 					{
 						command.makeLocalCompositeValue( new CachedMemberRef(
 								propDefn ) );

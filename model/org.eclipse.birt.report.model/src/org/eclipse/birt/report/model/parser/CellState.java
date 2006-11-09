@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -84,41 +85,41 @@ public class CellState extends ReportElementState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
-			return new TextItemState( handler, element, Cell.CONTENT_SLOT );
+			return new TextItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.AUTO_TEXT_TAG ) )
-			return new AutoTextState( handler, element, Cell.CONTENT_SLOT );
+			return new AutoTextState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
-			return new LabelState( handler, element, Cell.CONTENT_SLOT );
+			return new LabelState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
-			return new DataItemState( handler, element, Cell.CONTENT_SLOT );
+			return new DataItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
-			return new ListItemState( handler, element, Cell.CONTENT_SLOT );
+			return new ListItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
-			return new TableItemState( handler, element, Cell.CONTENT_SLOT );
+			return new TableItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
-			return new FreeFormState( handler, element, Cell.CONTENT_SLOT );
+			return new FreeFormState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
-			return new GridItemState( handler, element, Cell.CONTENT_SLOT );
+			return new GridItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 			return new AnyElementState( handler );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
-			return new ImageState( handler, element, Cell.CONTENT_SLOT );
+			return new ImageState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
-			return new LineItemState( handler, element, Cell.CONTENT_SLOT );
+			return new LineItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
 			return new AnyElementState( handler );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
-			return new ExtendedItemState( handler, element, Cell.CONTENT_SLOT );
+			return new ExtendedItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
 				|| tagName
 						.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
-			return new TextDataItemState( handler, element, Cell.CONTENT_SLOT );
+			return new TextDataItemState( handler, element, ICellModel.CONTENT_SLOT );
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
 			return new TemplateReportItemState( handler, element,
-					Cell.CONTENT_SLOT );
+					ICellModel.CONTENT_SLOT );
 		return super.startElement( tagName );
 	}
 

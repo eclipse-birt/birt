@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;

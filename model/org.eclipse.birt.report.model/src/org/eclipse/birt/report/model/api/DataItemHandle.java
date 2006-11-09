@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 
 /**
@@ -58,7 +57,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DataItem.ACTION_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IDataItemModel.ACTION_PROP );
 		Action action = (Action) propHandle.getValue( );
 
 		if ( action == null )
@@ -82,12 +81,12 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( DataItem.ACTION_PROP, action );
+		setProperty( IDataItemModel.ACTION_PROP, action );
 
 		if ( action == null )
 			return null;
 		return (ActionHandle) action
-				.getHandle( getPropertyHandle( DataItem.ACTION_PROP ) );
+				.getHandle( getPropertyHandle( IDataItemModel.ACTION_PROP ) );
 	}
 
 	/**
@@ -188,7 +187,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public void setValueExpr( String expr ) throws SemanticException
 	{
-		setStringProperty( DataItemHandle.RESULT_SET_COLUMN_PROP, expr );
+		setStringProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, expr );
 	}
 
 	/**
@@ -199,7 +198,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public String getHelpText( )
 	{
-		return getStringProperty( DataItem.HELP_TEXT_PROP );
+		return getStringProperty( IDataItemModel.HELP_TEXT_PROP );
 	}
 
 	/**
@@ -214,7 +213,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public void setHelpText( String value ) throws SemanticException
 	{
-		setStringProperty( DataItem.HELP_TEXT_PROP, value );
+		setStringProperty( IDataItemModel.HELP_TEXT_PROP, value );
 	}
 
 	/**
@@ -225,7 +224,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public String getHelpTextKey( )
 	{
-		return getStringProperty( DataItem.HELP_TEXT_KEY_PROP );
+		return getStringProperty( IDataItemModel.HELP_TEXT_KEY_PROP );
 	}
 
 	/**
@@ -240,7 +239,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public void setHelpTextKey( String value ) throws SemanticException
 	{
-		setStringProperty( DataItem.HELP_TEXT_KEY_PROP, value );
+		setStringProperty( IDataItemModel.HELP_TEXT_KEY_PROP, value );
 	}
 
 	/**
@@ -280,7 +279,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public String getResultSetColumn( )
 	{
-		return getStringProperty( DataItemHandle.RESULT_SET_COLUMN_PROP );
+		return getStringProperty( IDataItemModel.RESULT_SET_COLUMN_PROP );
 	}
 
 	/**
@@ -294,6 +293,6 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	public void setResultSetColumn( String columnName )
 			throws SemanticException
 	{
-		setStringProperty( DataItemHandle.RESULT_SET_COLUMN_PROP, columnName );
+		setStringProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, columnName );
 	}
 }

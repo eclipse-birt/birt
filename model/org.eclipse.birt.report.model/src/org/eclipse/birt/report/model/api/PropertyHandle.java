@@ -16,12 +16,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -29,10 +30,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -189,8 +189,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE
-				&& propDefn.getSubTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List list = new ArrayList( );
@@ -237,14 +237,14 @@ public class PropertyHandle extends SimpleValueHandle
 		{
 			switch ( propDefn.getValueType( ) )
 			{
-				case PropertyDefn.SYSTEM_PROPERTY :
-				case PropertyDefn.EXTENSION_PROPERTY :
-				case PropertyDefn.ODA_PROPERTY :
+				case IPropertyDefn.SYSTEM_PROPERTY :
+				case IPropertyDefn.EXTENSION_PROPERTY :
+				case IPropertyDefn.ODA_PROPERTY :
 					IElementDefn elementDefn = getElementHandle( ).getDefn( );
 					if ( elementDefn.isPropertyReadOnly( propDefn.getName( ) ) )
 						isReadOnly = true;
 					break;
-				case PropertyDefn.EXTENSION_MODEL_PROPERTY :
+				case IPropertyDefn.EXTENSION_MODEL_PROPERTY :
 					if ( propDefn.isReadOnly( ) )
 						isReadOnly = true;
 					break;
@@ -268,14 +268,14 @@ public class PropertyHandle extends SimpleValueHandle
 		boolean isVisible = true;
 		switch ( propDefn.getValueType( ) )
 		{
-			case PropertyDefn.SYSTEM_PROPERTY :
-			case PropertyDefn.EXTENSION_PROPERTY :
-			case PropertyDefn.ODA_PROPERTY :
+			case IPropertyDefn.SYSTEM_PROPERTY :
+			case IPropertyDefn.EXTENSION_PROPERTY :
+			case IPropertyDefn.ODA_PROPERTY :
 				IElementDefn elementDefn = getElementHandle( ).getDefn( );
 				if ( !elementDefn.isPropertyVisible( propDefn.getName( ) ) )
 					isVisible = false;
 				break;
-			case PropertyDefn.EXTENSION_MODEL_PROPERTY :
+			case IPropertyDefn.EXTENSION_MODEL_PROPERTY :
 				if ( !propDefn.isVisible( ) )
 					isVisible = false;
 				break;
@@ -339,7 +339,7 @@ public class PropertyHandle extends SimpleValueHandle
 	 */
 	public void removeItem( int posn ) throws PropertyValueException
 	{
-		if ( propDefn.getTypeCode( ) == PropertyType.LIST_TYPE )
+		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 		{
 			PropertyCommand cmd = new PropertyCommand( getModule( ) , getElement( ));
 			cmd.removeItem( propDefn, posn );
@@ -364,8 +364,8 @@ public class PropertyHandle extends SimpleValueHandle
 			if ( !masterPage.isCustomType( getModule( ) ) )
 			{
 				String propName = propDefn.getName( );
-				if ( MasterPage.HEIGHT_PROP.equals( propName )
-						|| MasterPage.WIDTH_PROP.equals( propName ) )
+				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
+						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
 					return true;
 			}
 		}

@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
@@ -123,7 +123,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 
 		refType = PROPERTY;
 		index[0] = -1;
@@ -146,7 +146,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		assert propDefn.isList( );
 		assert n >= 0;
 
@@ -172,7 +172,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		assert !propDefn.isList( );
 
 		IPropertyDefn memberDefn = propDefn.getStructDefn( ).getMember(
@@ -203,7 +203,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		assert !propDefn.isList( );
 
 		refType = PROPERTY_MEMBER;
@@ -231,7 +231,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		assert propDefn.isList( );
 		assert n >= 0;
 
@@ -264,7 +264,7 @@ public class MemberRef
 		propDefn = prop;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		assert propDefn.isList( );
 		assert n >= 0;
 		assert memberDef != null;

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -130,56 +131,56 @@ public class TemplateParameterDefinitionState extends ReportElementState
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 				return new TextItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
 				return new LabelState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
 				return new DataItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
 				return new ListItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
 				return new TableItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
 				return new FreeFormState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
 				return new GridItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
 				return new ImageState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
 				return new LineItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
 				return new ExtendedItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
 					|| tagName
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SET_TAG ) )
 				return new ScriptDataSetState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SET_TAG )
 					|| tagName.equalsIgnoreCase( "extended-data-set" ) ) //$NON-NLS-1$
 			{
 				return new OdaDataSetState( handler, element,
-						TemplateParameterDefinition.DEFAULT_SLOT );
+						ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			}
 			return super.startElement( tagName );
 		}
@@ -217,7 +218,7 @@ public class TemplateParameterDefinitionState extends ReportElementState
 			if ( defaultElement instanceof ReportItem )
 			{
 				if ( !defaultElement.getElementName( ).equals( allowedType ) )
-					setProperty( TemplateParameterDefinition.ALLOWED_TYPE_PROP,
+					setProperty( ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP,
 							defaultElement.getElementName( ) );
 			}
 			else if ( defaultElement instanceof SimpleDataSet )
@@ -225,7 +226,7 @@ public class TemplateParameterDefinitionState extends ReportElementState
 				if ( !DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET
 						.equals( allowedType ) )
 					setProperty(
-							TemplateParameterDefinition.ALLOWED_TYPE_PROP,
+							ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP,
 							DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET );
 			}
 			else

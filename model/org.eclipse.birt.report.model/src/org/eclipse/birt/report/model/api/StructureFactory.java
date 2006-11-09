@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -358,7 +359,7 @@ public class StructureFactory
 				.getNamespace( ) : null;
 		StructRefValue libReference = new StructRefValue( namespace, baseImage
 				.getName( ) );
-		image.setProperty( EmbeddedImage.LIB_REFERENCE_MEMBER, libReference );
+		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER, libReference );
 		return image;
 	}
 
@@ -405,7 +406,7 @@ public class StructureFactory
 		String namespace = lib.getNamespace( );
 		StructRefValue libReference = new StructRefValue( namespace, baseImage
 				.getName( ) );
-		image.setProperty( EmbeddedImage.LIB_REFERENCE_MEMBER, libReference );
+		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER, libReference );
 		image.setName( name );
 
 		return image;

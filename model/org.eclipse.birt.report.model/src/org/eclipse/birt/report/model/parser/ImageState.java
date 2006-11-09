@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -92,19 +93,19 @@ public class ImageState extends ReportItemState
 		Module module = handler.getModule( );
 
 		String uri = (String) image.getLocalProperty( module,
-				ImageItem.URI_PROP );
+				IImageItemModel.URI_PROP );
 		if ( !StringUtil.isEmpty( uri ) )
 		{
 			uri = StringUtil.trimQuotes( uri );
 			try
 			{
-				URL url = new URL( uri );
-				setProperty( ImageItem.SOURCE_PROP,
+				new URL( uri );
+				setProperty( IImageItemModel.SOURCE_PROP,
 						DesignChoiceConstants.IMAGE_REF_TYPE_URL );
 			}
 			catch ( MalformedURLException e )
 			{
-				setProperty( ImageItem.SOURCE_PROP,
+				setProperty( IImageItemModel.SOURCE_PROP,
 						DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
 			}
 
@@ -112,22 +113,22 @@ public class ImageState extends ReportItemState
 		}
 
 		StructRefValue imageName = (StructRefValue) image.getLocalProperty(
-				module, ImageItem.IMAGE_NAME_PROP );
+				module, IImageItemModel.IMAGE_NAME_PROP );
 		if ( imageName != null )
 		{
-			setProperty( ImageItem.SOURCE_PROP,
+			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );
 			type++;
 		}
 
 		String typeExpr = (String) image.getLocalProperty( module,
-				ImageItem.TYPE_EXPR_PROP );
+				IImageItemModel.TYPE_EXPR_PROP );
 		String valueExpr = (String) image.getLocalProperty( module,
-				ImageItem.VALUE_EXPR_PROP );
+				IImageItemModel.VALUE_EXPR_PROP );
 
 		if ( !StringUtil.isEmpty( typeExpr ) || !StringUtil.isEmpty( valueExpr ) )
 		{
-			setProperty( ImageItem.SOURCE_PROP,
+			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
 			type++;
 		}
@@ -150,18 +151,18 @@ public class ImageState extends ReportItemState
 	{
 		Module module = handler.getModule( );
 
-		if ( image.getLocalProperty( module, ImageItem.SOURCE_PROP ) == null
+		if ( image.getLocalProperty( module, IImageItemModel.SOURCE_PROP ) == null
 				&& handler.versionNumber <= VersionUtil.VERSION_3_2_3 )
 			checkImageType( );
 
 		String refType = image
-				.getStringProperty( module, ImageItem.SOURCE_PROP );
+				.getStringProperty( module, IImageItemModel.SOURCE_PROP );
 
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( refType ) )
 		{
 			String valueExpr = image.getStringProperty( module,
-					ImageItem.VALUE_EXPR_PROP );
+					IImageItemModel.VALUE_EXPR_PROP );
 			if ( StringUtil.isEmpty( valueExpr ) )
 			{
 				handler
@@ -176,7 +177,7 @@ public class ImageState extends ReportItemState
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 						.equalsIgnoreCase( refType ) )
 		{
-			String uri = image.getStringProperty( module, ImageItem.URI_PROP );
+			String uri = image.getStringProperty( module, IImageItemModel.URI_PROP );
 			if ( StringUtil.isEmpty( uri ) )
 			{
 				handler
@@ -190,7 +191,7 @@ public class ImageState extends ReportItemState
 				.equalsIgnoreCase( refType ) )
 		{
 			String name = image.getStringProperty( module,
-					ImageItem.IMAGE_NAME_PROP );
+					IImageItemModel.IMAGE_NAME_PROP );
 
 			if ( StringUtil.isEmpty( name ) )
 			{

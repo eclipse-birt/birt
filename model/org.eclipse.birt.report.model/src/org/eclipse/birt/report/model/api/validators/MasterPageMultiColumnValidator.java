@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.util.Rectangle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -92,9 +93,9 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator
 				|| margins.height <= 0 || margins.width <= 0 ) )
 		{
 			int columns = toValidate.getIntProperty( module,
-					GraphicMasterPage.COLUMNS_PROP );
+					IGraphicMaterPageModel.COLUMNS_PROP );
 			double columnSpacing = toValidate.getFloatProperty( module,
-					GraphicMasterPage.COLUMN_SPACING_PROP );
+					IGraphicMaterPageModel.COLUMN_SPACING_PROP );
 			if ( margins.width < ( columns - 1 ) * columnSpacing )
 			{
 				list.add( new SemanticError( toValidate,

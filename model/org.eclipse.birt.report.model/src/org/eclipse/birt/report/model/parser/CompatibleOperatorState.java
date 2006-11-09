@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.xml.sax.SAXException;
@@ -72,7 +72,7 @@ class CompatibleOperatorState extends CompatiblePropertyState
 			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.FILTER_OPERATOR_NULL;
-			else if ( MapRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
+			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.MAP_OPERATOR_NULL;
 		}
@@ -82,7 +82,7 @@ class CompatibleOperatorState extends CompatiblePropertyState
 			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL;
-			else if ( MapRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
+			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.MAP_OPERATOR_NOT_NULL;
 		}
@@ -92,7 +92,7 @@ class CompatibleOperatorState extends CompatiblePropertyState
 			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.FILTER_OPERATOR_TRUE;
-			else if ( MapRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
+			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.MAP_OPERATOR_TRUE;
 		}
@@ -102,7 +102,7 @@ class CompatibleOperatorState extends CompatiblePropertyState
 			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.FILTER_OPERATOR_FALSE;
-			else if ( MapRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
+			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
 				value = DesignChoiceConstants.MAP_OPERATOR_FALSE;
 		}

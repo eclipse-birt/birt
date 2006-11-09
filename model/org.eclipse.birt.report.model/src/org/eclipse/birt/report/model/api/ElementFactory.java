@@ -50,7 +50,11 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -442,29 +446,29 @@ public class ElementFactory
 		for ( int i = 0; i < columnNum; i++ )
 		{
 			TableColumn column = new TableColumn( );
-			table.getSlot( TableItem.COLUMN_SLOT ).add( column );
-			column.setContainer( table, TableItem.COLUMN_SLOT );
+			table.getSlot( ITableItemModel.COLUMN_SLOT ).add( column );
+			column.setContainer( table, ITableItemModel.COLUMN_SLOT );
 		}
 
 		for ( int i = 0; i < headerRow; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.getSlot( TableItem.HEADER_SLOT ).add( row );
-			row.setContainer( table, TableItem.HEADER_SLOT );
+			table.getSlot( IListingElementModel.HEADER_SLOT ).add( row );
+			row.setContainer( table, IListingElementModel.HEADER_SLOT );
 		}
 
 		for ( int i = 0; i < footerRow; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.getSlot( TableItem.FOOTER_SLOT ).add( row );
-			row.setContainer( table, TableItem.FOOTER_SLOT );
+			table.getSlot( IListingElementModel.FOOTER_SLOT ).add( row );
+			row.setContainer( table, IListingElementModel.FOOTER_SLOT );
 		}
 
 		for ( int i = 0; i < detailRow; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.getSlot( TableItem.DETAIL_SLOT ).add( row );
-			row.setContainer( table, TableItem.DETAIL_SLOT );
+			table.getSlot( IListingElementModel.DETAIL_SLOT ).add( row );
+			row.setContainer( table, IListingElementModel.DETAIL_SLOT );
 		}
 
 		table.refreshRenderModel( module );
@@ -529,8 +533,8 @@ public class ElementFactory
 		for ( int j = 0; j < cellNum; j++ )
 		{
 			Cell cell = new Cell( );
-			row.getSlot( TableRow.CONTENT_SLOT ).add( cell );
-			cell.setContainer( row, TableRow.CONTENT_SLOT );
+			row.getSlot( ITableRowModel.CONTENT_SLOT ).add( cell );
+			cell.setContainer( row, ITableRowModel.CONTENT_SLOT );
 		}
 
 		return rowHandle;
@@ -590,15 +594,15 @@ public class ElementFactory
 		for ( int i = 0; i < columnNum; i++ )
 		{
 			TableColumn column = new TableColumn( );
-			grid.getSlot( GridItem.COLUMN_SLOT ).add( column );
-			column.setContainer( grid, GridItem.COLUMN_SLOT );
+			grid.getSlot( IGridItemModel.COLUMN_SLOT ).add( column );
+			column.setContainer( grid, IGridItemModel.COLUMN_SLOT );
 		}
 
 		for ( int i = 0; i < rowNum; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			grid.getSlot( GridItem.ROW_SLOT ).add( row );
-			row.setContainer( grid, GridItem.ROW_SLOT );
+			grid.getSlot( IGridItemModel.ROW_SLOT ).add( row );
+			row.setContainer( grid, IGridItemModel.ROW_SLOT );
 		}
 
 		return gridHandle;
@@ -708,7 +712,7 @@ public class ElementFactory
 		
 		//init provider.
 		
-		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
+		element.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP, extensionName );
 		
 		if ( parent != null )
 		{
@@ -808,7 +812,7 @@ public class ElementFactory
 		}
 		OdaDataSource element = new OdaDataSource( name );
 		module.makeUniqueName( element );
-		element.setProperty( OdaDataSource.EXTENSION_ID_PROP, extensionID );
+		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
 		return element.handle( module );
 	}
@@ -875,7 +879,7 @@ public class ElementFactory
 		}
 		OdaDataSet element = new OdaDataSet( name );
 		module.makeUniqueName( element );
-		element.setProperty( OdaDataSet.EXTENSION_ID_PROP, extensionID );
+		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
 		return element.handle( module );
 	}

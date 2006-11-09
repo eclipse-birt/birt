@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -71,9 +72,9 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 		List list = new ArrayList( );
 
 		String labelExpr = toValidate.getStringProperty( module,
-				ScalarParameter.LABEL_EXPR_PROP );
+				IScalarParameterModel.LABEL_EXPR_PROP );
 		String valueExpr = toValidate.getStringProperty( module,
-				ScalarParameter.VALUE_EXPR_PROP );
+				IScalarParameterModel.VALUE_EXPR_PROP );
 
 		if ( toValidate.getContainer( ) instanceof CascadingParameterGroup )
 			return list;
@@ -82,13 +83,13 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 				|| !StringUtil.isBlank( valueExpr ) )
 		{
 			String dataSetName = toValidate.getStringProperty( module,
-					ScalarParameter.DATASET_NAME_PROP );
+					IScalarParameterModel.DATASET_NAME_PROP );
 
 			if ( StringUtil.isBlank( dataSetName ) )
 				list
 						.add( new PropertyValueException(
 								toValidate,
-								ScalarParameter.DATASET_NAME_PROP,
+								IScalarParameterModel.DATASET_NAME_PROP,
 								null,
 								PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

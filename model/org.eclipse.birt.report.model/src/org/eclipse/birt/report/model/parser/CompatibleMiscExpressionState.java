@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;

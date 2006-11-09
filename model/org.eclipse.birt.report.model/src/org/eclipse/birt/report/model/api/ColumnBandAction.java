@@ -17,10 +17,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  * Provides the fundmental operations to column band operations such as:
@@ -184,7 +185,7 @@ abstract class ColumnBandAction
 		CellContextInfo cellInfo = new CellContextInfo( cell, cell
 				.getRowSpan( adapter.getModule( ) ), cell.getColSpan( adapter
 				.getModule( ) ), cell.getStringProperty( adapter.getModule( ),
-				Cell.DROP_PROP ) );
+				ICellModel.DROP_PROP ) );
 
 		int rowNumber = slot.findPosn( row );
 		cellInfo.setContainerDefnName( rowContainer.getDefn( ).getName( ) );
@@ -243,7 +244,7 @@ abstract class ColumnBandAction
 			Object obj = cells.get( i );
 
 			String tmpDefnName = null;
-			int tmpSlotId = DesignElement.NO_SLOT;
+			int tmpSlotId = IDesignElementModel.NO_SLOT;
 			int tmpGroupId = -1;
 
 			CellContextInfo contextInfo = (CellContextInfo) obj;
@@ -281,7 +282,7 @@ abstract class ColumnBandAction
 			throws SemanticException
 	{
 		String oldContainerDefnName = null;
-		int oldSlotId = DesignElement.NO_SLOT;
+		int oldSlotId = IDesignElementModel.NO_SLOT;
 		int oldGroupId = -1;
 
 		for ( int i = 0; i < copiedCells.size( ); i++ )

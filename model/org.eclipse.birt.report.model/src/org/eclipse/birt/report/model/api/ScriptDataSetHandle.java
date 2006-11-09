@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 
 /**
@@ -55,7 +54,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public String getOpen( )
 	{
-		return getStringProperty( ScriptDataSet.OPEN_METHOD );
+		return getStringProperty( IScriptDataSetModel.OPEN_METHOD );
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public void setOpen( String value ) throws SemanticException
 	{
-		setProperty( ScriptDataSet.OPEN_METHOD, value );
+		setProperty( IScriptDataSetModel.OPEN_METHOD, value );
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public String getDescribe( )
 	{
-		return getStringProperty( ScriptDataSet.DESCRIBE_METHOD );
+		return getStringProperty( IScriptDataSetModel.DESCRIBE_METHOD );
 	}
 
 	/**
@@ -94,7 +93,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public void setDescribe( String value ) throws SemanticException
 	{
-		setProperty( ScriptDataSet.DESCRIBE_METHOD, value );
+		setProperty( IScriptDataSetModel.DESCRIBE_METHOD, value );
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public String getFetch( )
 	{
-		return getStringProperty( ScriptDataSet.FETCH_METHOD );
+		return getStringProperty( IScriptDataSetModel.FETCH_METHOD );
 	}
 
 	/**
@@ -126,7 +125,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public void setFetch( String value ) throws SemanticException
 	{
-		setProperty( ScriptDataSet.FETCH_METHOD, value );
+		setProperty( IScriptDataSetModel.FETCH_METHOD, value );
 	}
 
 	/**
@@ -137,7 +136,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public String getClose( )
 	{
-		return getStringProperty( ScriptDataSet.CLOSE_METHOD );
+		return getStringProperty( IScriptDataSetModel.CLOSE_METHOD );
 	}
 
 	/**
@@ -151,7 +150,7 @@ public class ScriptDataSetHandle extends DataSetHandle
 
 	public void setClose( String value ) throws SemanticException
 	{
-		setStringProperty( ScriptDataSet.CLOSE_METHOD, value );
+		setStringProperty( IScriptDataSetModel.CLOSE_METHOD, value );
 	}
 
 	/**

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * Provides methods for style property values on the column. Currently, only
@@ -45,7 +46,7 @@ public final class ColumnHelper
 		{
 			TableColumn column = (TableColumn) ( columnSlot.getContent( i ) );
 			int repeat = column
-					.getIntProperty( module, TableColumn.REPEAT_PROP );
+					.getIntProperty( module, ITableColumnModel.REPEAT_PROP );
 
 			// in default, repeat is one.
 

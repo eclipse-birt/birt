@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -39,7 +39,7 @@ public class ExtendedPropertyState extends StructureState
 		// till now, there is structure ODAProperty can be written as
 		// ex-property.
 
-		if ( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP
+		if ( IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP
 				.equalsIgnoreCase( propDefn.getName( ) ) )
 			struct = new ExtendedProperty( );
 		else

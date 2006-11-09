@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -252,7 +253,7 @@ public class SlotHandle extends ElementDetailHandle
 			nameSpace = ( (Library) currentModule ).getNamespace( );
 
 		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
-				.getDefn( ).getProperty( DesignElement.EXTENDS_PROP ),
+				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ),
 				nameSpace );
 
 		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );

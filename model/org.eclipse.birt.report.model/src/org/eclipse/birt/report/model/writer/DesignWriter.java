@@ -16,9 +16,9 @@ import java.io.UnsupportedEncodingException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
@@ -73,36 +73,36 @@ public class DesignWriter extends ModuleWriter
 
 		super.visitReportDesign( obj );
 
-		property( obj, ReportDesign.REFRESH_RATE_PROP );
-		property( obj, Module.INITIALIZE_METHOD );
-		property( obj, ReportDesign.BEFORE_FACTORY_METHOD );
-		property( obj, ReportDesign.AFTER_FACTORY_METHOD );
-		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
-		property( obj, ReportDesign.AFTER_RENDER_METHOD );
+		property( obj, IReportDesignModel.REFRESH_RATE_PROP );
+		property( obj, IModuleModel.INITIALIZE_METHOD );
+		property( obj, IReportDesignModel.BEFORE_FACTORY_METHOD );
+		property( obj, IReportDesignModel.AFTER_FACTORY_METHOD );
+		property( obj, IReportDesignModel.BEFORE_RENDER_METHOD );
+		property( obj, IReportDesignModel.AFTER_RENDER_METHOD );
 		property( obj, IModuleModel.THEME_PROP );
-		resourceKey( obj, DesignElement.DISPLAY_NAME_ID_PROP,
-				DesignElement.DISPLAY_NAME_PROP );
-		property( obj, ReportDesign.ICON_FILE_PROP );
-		property( obj, ReportDesign.CHEAT_SHEET_PROP );
-		property( obj, ReportDesign.EVENT_HANDLER_CLASS_PROP );
+		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
+				IDesignElementModel.DISPLAY_NAME_PROP );
+		property( obj, IReportDesignModel.ICON_FILE_PROP );
+		property( obj, IReportDesignModel.CHEAT_SHEET_PROP );
+		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 
 		// include libraries and scripts
 
-		writeStructureList( obj, ReportDesign.LIBRARIES_PROP );
-		writeSimpleStructureList( obj, ReportDesign.INCLUDE_SCRIPTS_PROP,
+		writeStructureList( obj, IModuleModel.LIBRARIES_PROP );
+		writeSimpleStructureList( obj, IModuleModel.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
 
 		// config variables
 
-		writeStructureList( obj, ReportDesign.CONFIG_VARS_PROP );
+		writeStructureList( obj, IModuleModel.CONFIG_VARS_PROP );
 
-		writeContents( obj, ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
+		writeContents( obj, IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT,
 				DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG );
-		writeArrangedContents( obj, ReportDesign.PARAMETER_SLOT,
+		writeArrangedContents( obj, IModuleModel.PARAMETER_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
-		writeArrangedContents( obj, ReportDesign.DATA_SOURCE_SLOT,
+		writeArrangedContents( obj, IModuleModel.DATA_SOURCE_SLOT,
 				DesignSchemaConstants.DATA_SOURCES_TAG );
-		writeArrangedContents( obj, ReportDesign.DATA_SET_SLOT,
+		writeArrangedContents( obj, IModuleModel.DATA_SET_SLOT,
 				DesignSchemaConstants.DATA_SETS_TAG );
 
 		// ColorPalette tag
@@ -115,13 +115,13 @@ public class DesignWriter extends ModuleWriter
 
 		writeContents( obj, IReportDesignModel.STYLE_SLOT,
 				DesignSchemaConstants.STYLES_TAG );
-		writeArrangedContents( obj, ReportDesign.COMPONENT_SLOT,
+		writeArrangedContents( obj, IModuleModel.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );
-		writeArrangedContents( obj, ReportDesign.PAGE_SLOT,
+		writeArrangedContents( obj, IModuleModel.PAGE_SLOT,
 				DesignSchemaConstants.PAGE_SETUP_TAG );
-		writeContents( obj, ReportDesign.BODY_SLOT,
+		writeContents( obj, IReportDesignModel.BODY_SLOT,
 				DesignSchemaConstants.BODY_TAG );
-		writeContents( obj, ReportDesign.SCRATCH_PAD_SLOT,
+		writeContents( obj, IReportDesignModel.SCRATCH_PAD_SLOT,
 				DesignSchemaConstants.SCRATCH_PAD_TAG );
 
 		// write thumbnail

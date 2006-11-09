@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -162,7 +163,7 @@ public class DimensionPropertyType extends PropertyType
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.DIMENSION_TYPE );
+				IPropertyType.DIMENSION_TYPE );
 	}
 
 	/**

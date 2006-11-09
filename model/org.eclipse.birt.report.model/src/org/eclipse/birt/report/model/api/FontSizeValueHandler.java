@@ -16,7 +16,7 @@ import java.util.Stack;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Represents the handler which processes the font size computation as CSS
@@ -73,7 +73,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 		while ( e != null )
 		{
 			DimensionHandle fontSizeHandle = e
-					.getDimensionProperty( Style.FONT_SIZE_PROP );
+					.getDimensionProperty( IStyleModel.FONT_SIZE_PROP );
 			if ( fontSizeHandle == null )
 				break;
 
@@ -197,7 +197,7 @@ final class FontSizeValueHandler extends CSSLengthValueHandler
 			DimensionValue relativeDimensionValue )
 	{
 		assert relativeDimensionValue != null;
-		assert !ComputedValueHandler.isAbsoluteUnit( relativeDimensionValue
+		assert !CSSLengthValueHandler.isAbsoluteUnit( relativeDimensionValue
 				.getUnits( ) );
 
 		// Get the absolute dimension value of the container element.

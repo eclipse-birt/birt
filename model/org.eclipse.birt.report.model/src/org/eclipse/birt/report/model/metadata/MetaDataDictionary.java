@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -133,7 +134,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * constants in the MetaDataConstants class.
 	 */
 
-	private PropertyType[] propertyTypes = new PropertyType[PropertyType.TYPE_COUNT];
+	private PropertyType[] propertyTypes = new PropertyType[IPropertyType.TYPE_COUNT];
 
 	/**
 	 * Map of choice types. A choice type is a named set of property choices. It

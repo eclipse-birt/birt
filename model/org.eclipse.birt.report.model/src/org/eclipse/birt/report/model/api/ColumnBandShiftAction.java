@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
  * The action to shift one column from one position to another in the same
@@ -66,7 +67,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 			try
 			{
 				column = (TableColumn) column.clone( );
-				column.setProperty( TableColumn.REPEAT_PROP, new Integer( 1 ) );
+				column.setProperty( ITableColumnModel.REPEAT_PROP, new Integer( 1 ) );
 				data.setColumn( column );
 			}
 			catch ( CloneNotSupportedException e )

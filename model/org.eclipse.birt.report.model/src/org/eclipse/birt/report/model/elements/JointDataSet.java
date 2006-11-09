@@ -127,7 +127,7 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	public List getDataSetNames( Module module )
 	{
 		List dataSetsReferences = getListProperty( module,
-				JointDataSet.DATA_SETS_PROP );
+				IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetsReferences == null )
 		{
 			return Collections.EMPTY_LIST;

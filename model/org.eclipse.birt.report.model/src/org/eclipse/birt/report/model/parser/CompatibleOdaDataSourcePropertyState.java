@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.xml.sax.SAXException;
 
 /**
@@ -87,7 +88,7 @@ public class CompatibleOdaDataSourcePropertyState extends CompatiblePropertyStat
 	{
 		if ( isOldOdaDriverProperty( name ) || isOdaDriverModelProperty( name ) )
 		{
-			setProperty( OdaDataSource.EXTENSION_ID_PROP,
+			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 					"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
 
 			String newPropertyName = CompatibleOdaDataSourcePropertyState
@@ -104,7 +105,7 @@ public class CompatibleOdaDataSourcePropertyState extends CompatiblePropertyStat
 		{
 			String convertedValue = convertToExtensionID( text.toString() );
 
-			setProperty( OdaDataSource.EXTENSION_ID_PROP, convertedValue );
+			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, convertedValue );
 			
 			return;
 		}

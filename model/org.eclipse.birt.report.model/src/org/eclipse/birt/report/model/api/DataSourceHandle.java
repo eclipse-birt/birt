@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 
 /**
@@ -57,7 +56,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public String getBeforeOpen( )
 	{
-		return getStringProperty( DataSource.BEFORE_OPEN_METHOD );
+		return getStringProperty( IDataSourceModel.BEFORE_OPEN_METHOD );
 	}
 
 	/**
@@ -72,7 +71,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public void setBeforeOpen( String code ) throws SemanticException
 	{
-		setProperty( DataSource.BEFORE_OPEN_METHOD, code );
+		setProperty( IDataSourceModel.BEFORE_OPEN_METHOD, code );
 	}
 
 	/**
@@ -84,7 +83,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public String getBeforeClose( )
 	{
-		return getStringProperty( DataSource.BEFORE_CLOSE_METHOD );
+		return getStringProperty( IDataSourceModel.BEFORE_CLOSE_METHOD );
 	}
 
 	/**
@@ -99,7 +98,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public void setBeforeClose( String code ) throws SemanticException
 	{
-		setProperty( DataSource.BEFORE_CLOSE_METHOD, code );
+		setProperty( IDataSourceModel.BEFORE_CLOSE_METHOD, code );
 	}
 
 	/**
@@ -111,7 +110,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public String getAfterOpen( )
 	{
-		return getStringProperty( DataSource.AFTER_OPEN_METHOD );
+		return getStringProperty( IDataSourceModel.AFTER_OPEN_METHOD );
 	}
 
 	/**
@@ -126,7 +125,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public void setAfterOpen( String code ) throws SemanticException
 	{
-		setProperty( DataSource.AFTER_OPEN_METHOD, code );
+		setProperty( IDataSourceModel.AFTER_OPEN_METHOD, code );
 	}
 
 	/**
@@ -138,7 +137,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public String getAfterClose( )
 	{
-		return getStringProperty( DataSource.AFTER_CLOSE_METHOD );
+		return getStringProperty( IDataSourceModel.AFTER_CLOSE_METHOD );
 	}
 
 	/**
@@ -153,7 +152,7 @@ public abstract class DataSourceHandle extends ReportElementHandle
 
 	public void setAfterClose( String code ) throws SemanticException
 	{
-		setProperty( DataSource.AFTER_CLOSE_METHOD, code );
+		setProperty( IDataSourceModel.AFTER_CLOSE_METHOD, code );
 	}
 
 }

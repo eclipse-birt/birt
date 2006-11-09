@@ -18,12 +18,11 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.validators.SimpleValueValidator;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -104,9 +103,8 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
 
-
 	private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
-	
+
 	private String groupNameID;
 
 	// Cached state. Can be done here because nothing in this grammar is
@@ -403,13 +401,13 @@ class MetaDataHandler extends XMLParserHandler
 			switch ( typeDefn.getTypeCode( ) )
 			{
 
-				case PropertyType.DIMENSION_TYPE :
-				case PropertyType.DATE_TIME_TYPE :
-				case PropertyType.STRING_TYPE :
-				case PropertyType.LITERAL_STRING_TYPE :
-				case PropertyType.FLOAT_TYPE :
-				case PropertyType.INTEGER_TYPE :
-				case PropertyType.NUMBER_TYPE :
+				case IPropertyType.DIMENSION_TYPE :
+				case IPropertyType.DATE_TIME_TYPE :
+				case IPropertyType.STRING_TYPE :
+				case IPropertyType.LITERAL_STRING_TYPE :
+				case IPropertyType.FLOAT_TYPE :
+				case IPropertyType.INTEGER_TYPE :
+				case IPropertyType.NUMBER_TYPE :
 
 					if ( detailName != null )
 					{
@@ -420,7 +418,7 @@ class MetaDataHandler extends XMLParserHandler
 
 					break;
 
-				case PropertyType.CHOICE_TYPE :
+				case IPropertyType.CHOICE_TYPE :
 
 					if ( detailName == null )
 					{
@@ -436,7 +434,7 @@ class MetaDataHandler extends XMLParserHandler
 
 					break;
 
-				case PropertyType.COLOR_TYPE :
+				case IPropertyType.COLOR_TYPE :
 
 					choiceSet = validateChoiceSet( ColorPropertyType.COLORS_CHOICE_SET );
 					if ( choiceSet == null )
@@ -444,8 +442,8 @@ class MetaDataHandler extends XMLParserHandler
 
 					break;
 
-				case PropertyType.STRUCT_TYPE :
-				case PropertyType.STRUCT_REF_TYPE :
+				case IPropertyType.STRUCT_TYPE :
+				case IPropertyType.STRUCT_REF_TYPE :
 					if ( detailName == null )
 					{
 						errorHandler
@@ -455,8 +453,8 @@ class MetaDataHandler extends XMLParserHandler
 					}
 					structDefn = detailName;
 					break;
-					
-				case PropertyType.ELEMENT_REF_TYPE :
+
+				case IPropertyType.ELEMENT_REF_TYPE :
 					if ( detailName == null )
 					{
 						errorHandler
@@ -479,7 +477,7 @@ class MetaDataHandler extends XMLParserHandler
 			memberDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			memberDefn.setRuntimeSettable( getBooleanAttrib( attrs,
 					RUNTIME_SETTABLE_ATTRIB, true ) );
-			if ( memberDefn.getTypeCode( ) == PropertyType.EXPRESSION_TYPE )
+			if ( memberDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				memberDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
 				memberDefn.setContext( attrs.getValue( CONTEXT_ATTRIB ) );
@@ -490,7 +488,7 @@ class MetaDataHandler extends XMLParserHandler
 				memberDefn.setValueValidator( validator );
 			}
 
-			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			if ( typeDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				memberDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
 						false ) );
 
@@ -500,7 +498,7 @@ class MetaDataHandler extends XMLParserHandler
 				memberDefn.setDetails( structDefn );
 			else if ( detailName != null )
 				memberDefn.setDetails( detailName );
-			
+
 			memberDefn.setIntrinsic( getBooleanAttrib( attrs,
 					IS_INTRINSIC_ATTRIB, false ) );
 			try
@@ -592,9 +590,9 @@ class MetaDataHandler extends XMLParserHandler
 				// Inherit default name space
 			}
 			else if ( ns.equalsIgnoreCase( STYLE_NS_NAME ) )
-				elementDefn.setNameSpaceID( ReportDesign.STYLE_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.STYLE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( THEME_NS_NAME ) )
-				elementDefn.setNameSpaceID( Library.THEME_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.THEME_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( DATA_SET_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.DATA_SET_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )
@@ -610,7 +608,7 @@ class MetaDataHandler extends XMLParserHandler
 			else if ( ns
 					.equalsIgnoreCase( TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
 				elementDefn
-						.setNameSpaceID( ReportDesign.TEMPLATE_PARAMETER_NAME_SPACE );
+						.setNameSpaceID( Module.TEMPLATE_PARAMETER_NAME_SPACE );
 			else
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -721,7 +719,6 @@ class MetaDataHandler extends XMLParserHandler
 	class PropertyState extends InnerParseState
 	{
 
-
 		public void parseAttrs( Attributes attrs )
 		{
 			choices.clear( );
@@ -777,13 +774,13 @@ class MetaDataHandler extends XMLParserHandler
 
 			switch ( typeDefn.getTypeCode( ) )
 			{
-				case PropertyType.DIMENSION_TYPE :
-				case PropertyType.DATE_TIME_TYPE :
-				case PropertyType.STRING_TYPE :
-				case PropertyType.LITERAL_STRING_TYPE :
-				case PropertyType.FLOAT_TYPE :
-				case PropertyType.INTEGER_TYPE :
-				case PropertyType.NUMBER_TYPE :
+				case IPropertyType.DIMENSION_TYPE :
+				case IPropertyType.DATE_TIME_TYPE :
+				case IPropertyType.STRING_TYPE :
+				case IPropertyType.LITERAL_STRING_TYPE :
+				case IPropertyType.FLOAT_TYPE :
+				case IPropertyType.INTEGER_TYPE :
+				case IPropertyType.NUMBER_TYPE :
 
 					if ( detailName != null )
 					{
@@ -794,7 +791,7 @@ class MetaDataHandler extends XMLParserHandler
 
 					break;
 
-				case PropertyType.CHOICE_TYPE :
+				case IPropertyType.CHOICE_TYPE :
 
 					if ( detailName == null )
 					{
@@ -809,7 +806,7 @@ class MetaDataHandler extends XMLParserHandler
 
 					break;
 
-				case PropertyType.COLOR_TYPE :
+				case IPropertyType.COLOR_TYPE :
 
 					choiceSet = validateChoiceSet( ColorPropertyType.COLORS_CHOICE_SET );
 					if ( choiceSet == null )
@@ -817,8 +814,8 @@ class MetaDataHandler extends XMLParserHandler
 
 					break;
 
-				case PropertyType.STRUCT_TYPE :
-				case PropertyType.STRUCT_REF_TYPE :
+				case IPropertyType.STRUCT_TYPE :
+				case IPropertyType.STRUCT_REF_TYPE :
 					if ( detailName == null )
 					{
 						errorHandler
@@ -837,7 +834,7 @@ class MetaDataHandler extends XMLParserHandler
 					}
 					break;
 
-				case PropertyType.ELEMENT_REF_TYPE :
+				case IPropertyType.ELEMENT_REF_TYPE :
 					if ( detailName == null )
 					{
 						errorHandler
@@ -848,7 +845,7 @@ class MetaDataHandler extends XMLParserHandler
 					if ( detailName.equals( THIS_KEYWORD ) )
 						detailName = elementDefn.getName( );
 					break;
-				case PropertyType.LIST_TYPE :
+				case IPropertyType.LIST_TYPE :
 					if ( subType == null )
 					{
 						errorHandler
@@ -865,7 +862,7 @@ class MetaDataHandler extends XMLParserHandler
 											MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
 							return;
 						}
-						else if ( subTypeDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+						else if ( subTypeDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 						{
 							if ( detailName == null )
 							{
@@ -891,7 +888,7 @@ class MetaDataHandler extends XMLParserHandler
 			propDefn.setName( name );
 			propDefn.setDisplayNameID( displayNameID );
 			propDefn.setType( typeDefn );
-			if ( typeDefn.getTypeCode( ) == PropertyType.LIST_TYPE )
+			if ( typeDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 				propDefn.setSubType( subTypeDefn );
 			propDefn.setGroupNameKey( groupNameID );
 			propDefn.setCanInherit( getBooleanAttrib( attrs,
@@ -905,7 +902,7 @@ class MetaDataHandler extends XMLParserHandler
 			propDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			propDefn.setRuntimeSettable( getBooleanAttrib( attrs,
 					RUNTIME_SETTABLE_ATTRIB, true ) );
-			if ( propDefn.getTypeCode( ) == PropertyType.EXPRESSION_TYPE )
+			if ( propDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				propDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
 				propDefn.setContext( attrs.getValue( CONTEXT_ATTRIB ) );
@@ -916,7 +913,7 @@ class MetaDataHandler extends XMLParserHandler
 				propDefn.setValueValidator( validator );
 			}
 
-			if ( typeDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			if ( typeDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
 						false ) );
 
@@ -969,7 +966,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			int type = propDefn.getTypeCode( );
 
-			if ( type != PropertyType.DIMENSION_TYPE )
+			if ( type != IPropertyType.DIMENSION_TYPE )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -998,8 +995,8 @@ class MetaDataHandler extends XMLParserHandler
 
 			int type = tmpPropDefn.getTypeCode( );
 
-			if ( type != PropertyType.DIMENSION_TYPE
-					&& type != PropertyType.CHOICE_TYPE )
+			if ( type != IPropertyType.DIMENSION_TYPE
+					&& type != IPropertyType.CHOICE_TYPE )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -1020,7 +1017,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			String[] nameArray = choicesStr.split( "," ); //$NON-NLS-1$
 
-			if ( type == PropertyType.DIMENSION_TYPE )
+			if ( type == IPropertyType.DIMENSION_TYPE )
 			{
 				// units restriction on a dimension property.
 
@@ -1190,9 +1187,9 @@ class MetaDataHandler extends XMLParserHandler
 			try
 			{
 				Class c = Class.forName( className );
-				Method m = c.getMethod( "getInstance", null ); //$NON-NLS-1$
+				Method m = c.getMethod( "getInstance", (Class[]) null ); //$NON-NLS-1$
 				AbstractSemanticValidator validator = (AbstractSemanticValidator) m
-						.invoke( null, null );
+						.invoke( null, (Object[]) null );
 				validator.setName( name );
 				validator.setModules( modules );
 
@@ -1534,7 +1531,7 @@ class MetaDataHandler extends XMLParserHandler
 			assert owner instanceof ElementDefn;
 
 			PropertyType typeDefn = dictionary
-					.getPropertyType( PropertyType.SCRIPT_TYPE );
+					.getPropertyType( IPropertyType.SCRIPT_TYPE );
 
 			String name = methodInfo.getName( );
 			String displayNameID = methodInfo.getDisplayNameKey( );

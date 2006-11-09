@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
@@ -127,7 +128,7 @@ public class StructRefPropertyType extends PropertyType
 				"The value of the structure property is invalid type" ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.ELEMENT_REF_TYPE );
+				IPropertyType.ELEMENT_REF_TYPE );
 	}
 
 	/*

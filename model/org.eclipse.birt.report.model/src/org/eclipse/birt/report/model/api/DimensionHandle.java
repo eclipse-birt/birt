@@ -15,12 +15,12 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Simplifies working with dimension properties. A dimension property consists
@@ -243,7 +243,7 @@ public class DimensionHandle extends ComplexValueHandle
 			// Only font size has string constant, which are relative or
 			// absolute font size constants.
 
-			if ( Style.FONT_SIZE_PROP.equals( getDefn( ).getName( ) ) )
+			if ( IStyleModel.FONT_SIZE_PROP.equals( getDefn( ).getName( ) ) )
 			{
 				FontSizeValueHandler fontSizeValueHandle = new FontSizeValueHandler(
 						this );
@@ -259,7 +259,7 @@ public class DimensionHandle extends ComplexValueHandle
 
 			// If the value is absolute value.
 
-			if ( ComputedValueHandler
+			if ( CSSLengthValueHandler
 					.isAbsoluteUnit( dimensionValue.getUnits( ) ) )
 				return dimensionValue;
 
@@ -271,7 +271,7 @@ public class DimensionHandle extends ComplexValueHandle
 
 			// Font size has its specific algorithm for getting absolute value.
 
-			if ( Style.FONT_SIZE_PROP.equalsIgnoreCase( getPropertyDefn( )
+			if ( IStyleModel.FONT_SIZE_PROP.equalsIgnoreCase( getPropertyDefn( )
 					.getName( ) ) )
 			{
 				FontSizeValueHandler fontSizeValueHandler = new FontSizeValueHandler(
@@ -299,7 +299,7 @@ public class DimensionHandle extends ComplexValueHandle
 	public String getDefaultUnit( )
 	{
 		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( );
-		if ( defn.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		if ( defn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
 		{
 			String unit = defn.getDefaultUnit( );
 			if ( !StringUtil.isBlank( unit ) )

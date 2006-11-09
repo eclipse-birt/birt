@@ -92,7 +92,7 @@ class CompatibleLibraryStylesState extends ReportElementState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-			return new StyleState( handler, theme, Theme.STYLES_SLOT );
+			return new StyleState( handler, theme, IThemeModel.STYLES_SLOT );
 		return super.startElement( tagName );
 	}
 

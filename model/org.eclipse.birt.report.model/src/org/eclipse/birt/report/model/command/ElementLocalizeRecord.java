@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -108,7 +110,7 @@ public class ElementLocalizeRecord extends SimpleRecord
 
 			// virtual child can not define "extends" property.
 
-			if ( DesignElement.EXTENDS_PROP.equals( propDefn.getName( ) ) )
+			if ( IDesignElementModel.EXTENDS_PROP.equals( propDefn.getName( ) ) )
 				continue;
 
 			Object value = element
@@ -146,9 +148,9 @@ public class ElementLocalizeRecord extends SimpleRecord
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( StyledElement.STYLE_PROP.equals( propName )
-					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+			if ( IStyledElementModel.STYLE_PROP.equals( propName )
+					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+					|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) )
 				continue;
 
 			Object localValue = to.getLocalProperty( module, propDefn );
@@ -183,9 +185,9 @@ public class ElementLocalizeRecord extends SimpleRecord
 		while ( propNames.hasNext( ) )
 		{
 			String propName = (String) propNames.next( );
-			assert !DesignElement.EXTENDS_PROP.equals( propName );
+			assert !IDesignElementModel.EXTENDS_PROP.equals( propName );
 
-			if ( StyledElement.STYLE_PROP.equals( propName ) )
+			if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
 			{
 				ElementRefValue refValue = (ElementRefValue) propValues
 						.get( propName );

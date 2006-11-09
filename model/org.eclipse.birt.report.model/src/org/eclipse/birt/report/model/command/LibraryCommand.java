@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.LibraryReloadedEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -36,6 +37,8 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
@@ -149,7 +152,7 @@ public class LibraryCommand extends AbstractElementCommand
 		{
 			for ( int slotID = 0; slotID < library.getDefn( ).getSlotCount( ); slotID++ )
 			{
-				if ( slotID == Library.THEMES_SLOT )
+				if ( slotID == ILibraryModel.THEMES_SLOT )
 					continue;
 
 				for ( Iterator iter = library.getSlot( slotID ).iterator( ); iter
@@ -564,7 +567,7 @@ public class LibraryCommand extends AbstractElementCommand
 		includeLibrary.setNamespace( namespace );
 
 		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( Module.LIBRARIES_PROP );
+				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 		PropertyCommand propCommand = new PropertyCommand( module, module );
 		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
 	}
@@ -590,7 +593,7 @@ public class LibraryCommand extends AbstractElementCommand
 			throws SemanticException
 	{
 		ElementRefValue value = (ElementRefValue) child.getLocalProperty(
-				module, DesignElement.EXTENDS_PROP );
+				module, IDesignElementModel.EXTENDS_PROP );
 
 		DesignElement parent = value.getElement( );
 		assert parent != null;
@@ -689,7 +692,7 @@ public class LibraryCommand extends AbstractElementCommand
 				continue;
 
 			ElementPropertyDefn propDefn = module
-					.getPropertyDefn( Module.LIBRARIES_PROP );
+					.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 			PropertyCommand propCommand = new PropertyCommand( module, module );
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					includeLibrary );

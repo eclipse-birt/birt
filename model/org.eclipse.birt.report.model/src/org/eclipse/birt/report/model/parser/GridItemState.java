@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -71,9 +72,9 @@ public class GridItemState extends ReportItemState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
-			return new TableColumnState( handler, element, GridItem.COLUMN_SLOT );
+			return new TableColumnState( handler, element, IGridItemModel.COLUMN_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ROW_TAG ) )
-			return new TableRowState( handler, element, GridItem.ROW_SLOT );
+			return new TableRowState( handler, element, IGridItemModel.ROW_SLOT );
 		return super.startElement( tagName );
 	}
 

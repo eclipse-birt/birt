@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -156,7 +157,7 @@ public class ContentReplaceRecord extends SimpleRecord
 		slot.remove( oldElement );
 		if ( oldElement.getRoot( ) != null )
 			module.manageId( oldElement, false );
-		oldElement.setContainer( null, DesignElement.NO_SLOT );
+		oldElement.setContainer( null, IDesignElementModel.NO_SLOT );
 
 		// add new one
 

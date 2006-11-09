@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -116,8 +116,8 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 					.getInstance( ).getElement(
 							ReportDesignConstants.EXTENDED_ITEM );
 			PropertyDefn extensionName = (PropertyDefn) extendedItem
-					.getProperty( ExtendedItem.EXTENSION_NAME_PROP );
-			if ( getProperty( ExtendedItem.EXTENSION_NAME_PROP ) == null )
+					.getProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
+			if ( getProperty( IExtendedItemModel.EXTENSION_NAME_PROP ) == null )
 			{
 				properties.put( extensionName.getName( ), extensionName );
 				cachedProperties.put( extensionName.getName( ), extensionName );

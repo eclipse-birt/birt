@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -53,6 +55,7 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -62,7 +65,6 @@ import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -1061,12 +1063,12 @@ public abstract class DesignElement
 
 		switch ( prop.getTypeCode( ) )
 		{
-			case PropertyType.ELEMENT_REF_TYPE :
+			case IPropertyType.ELEMENT_REF_TYPE :
 				return resolveElementReference( module, prop );
-			case PropertyType.STRUCT_REF_TYPE :
+			case IPropertyType.STRUCT_REF_TYPE :
 				return resolveStructReference( module, prop );
-			case PropertyType.LIST_TYPE :
-				if ( prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+			case IPropertyType.LIST_TYPE :
+				if ( prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 					return resolveElementReferenceList( module, prop );
 		}
 
@@ -1194,7 +1196,7 @@ public abstract class DesignElement
 
 		// Handle caching for element references.
 
-		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			ElementRefValue oldRef = (ElementRefValue) propValues
 					.get( propName );
@@ -1203,7 +1205,7 @@ public abstract class DesignElement
 
 		// handle caching for structure references.
 
-		if ( prop.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
+		if ( prop.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
 		{
 			StructRefValue oldRef = (StructRefValue) propValues.get( propName );
 			updateReference( oldRef, (StructRefValue) value, prop );
@@ -1239,7 +1241,7 @@ public abstract class DesignElement
 		do
 		{
 			ArrayList masks = (ArrayList) e.getLocalProperty( module,
-					DesignElement.PROPERTY_MASKS_PROP );
+					IDesignElementModel.PROPERTY_MASKS_PROP );
 
 			if ( masks != null )
 			{
@@ -2580,7 +2582,7 @@ public abstract class DesignElement
 
 		if ( container instanceof TemplateParameterDefinition )
 		{
-			assert containerSlotID == TemplateParameterDefinition.DEFAULT_SLOT;
+			assert containerSlotID == ITemplateParameterDefinitionModel.DEFAULT_SLOT;
 			return false;
 		}
 
@@ -2897,7 +2899,7 @@ public abstract class DesignElement
 			int slot = slotID;
 			while ( container != null )
 			{
-				if ( ( container instanceof Module && slot == Module.COMPONENT_SLOT )
+				if ( ( container instanceof Module && slot == IModuleModel.COMPONENT_SLOT )
 						|| container instanceof Library )
 					return false;
 				slot = container.getContainerSlot( );
@@ -3092,7 +3094,7 @@ public abstract class DesignElement
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof ElementRefValue;
-		assert prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE;
+		assert prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
 		return resolveElementReference( module, prop, (ElementRefValue) value );
 
@@ -3617,8 +3619,8 @@ public abstract class DesignElement
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof List;
-		assert prop.getTypeCode( ) == PropertyType.LIST_TYPE
-				&& prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE;
+		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE
+				&& prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
 		if ( value == null )
 			return null;
@@ -3670,11 +3672,11 @@ public abstract class DesignElement
 		// property may be a list type of element reference or the element
 		// reference type
 
-		assert prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
-				|| prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE;
+		assert prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+				|| prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
 		ElementRefPropertyType refType = null;
-		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			refType = (ElementRefPropertyType) prop.getType( );
 		else
 			refType = (ElementRefPropertyType) prop.getSubType( );

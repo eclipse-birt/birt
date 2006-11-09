@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 
 /**
@@ -64,7 +63,7 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 
 	public String getAutoTextType( )
 	{
-		return getStringProperty( AutoText.AUTOTEXT_TYPE_PROP );
+		return getStringProperty( IAutoTextModel.AUTOTEXT_TYPE_PROP );
 	}
 
 	/**
@@ -88,7 +87,7 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 
 	public void setAutoTextType( String type ) throws SemanticException
 	{
-		setStringProperty( AutoText.AUTOTEXT_TYPE_PROP, type );
+		setStringProperty( IAutoTextModel.AUTOTEXT_TYPE_PROP, type );
 	}
 
 }

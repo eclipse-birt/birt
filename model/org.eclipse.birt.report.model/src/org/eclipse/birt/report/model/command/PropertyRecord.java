@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -203,10 +204,10 @@ public class PropertyRecord extends SimpleRecord
 
 		String propName = propDefn.getName( );
 
-		if ( !Cell.COL_SPAN_PROP.equalsIgnoreCase( propName )
-				&& !Cell.ROW_SPAN_PROP.equalsIgnoreCase( propName )
-				&& !Cell.COLUMN_PROP.equalsIgnoreCase( propName )
-				&& !Cell.DROP_PROP.equalsIgnoreCase( propName ) )
+		if ( !ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
+				&& !ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+				&& !ICellModel.COLUMN_PROP.equalsIgnoreCase( propName )
+				&& !ICellModel.DROP_PROP.equalsIgnoreCase( propName ) )
 			return retValue;
 
 		ReportItem compoundElement = LayoutUtil.getCompoundContainer( element );

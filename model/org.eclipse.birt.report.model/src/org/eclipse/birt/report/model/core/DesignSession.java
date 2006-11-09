@@ -33,12 +33,14 @@ import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ModelResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -46,7 +48,6 @@ import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvid
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
@@ -633,7 +634,7 @@ public class DesignSession
 		Library library = new Library( this );
 
 		Theme theme = new Theme( ModelMessages
-				.getMessage( Theme.DEFAULT_THEME_NAME ) );
+				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
 		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
 				null, theme ) );
 		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
@@ -762,7 +763,7 @@ public class DesignSession
 		else
 			throw new PropertyValueException( newUnits,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					PropertyType.CHOICE_TYPE );
+					IPropertyType.CHOICE_TYPE );
 	}
 
 	/**
@@ -799,7 +800,7 @@ public class DesignSession
 		else
 			throw new PropertyValueException( new Integer( format ),
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					PropertyType.CHOICE_TYPE );
+					IPropertyType.CHOICE_TYPE );
 	}
 
 	/**

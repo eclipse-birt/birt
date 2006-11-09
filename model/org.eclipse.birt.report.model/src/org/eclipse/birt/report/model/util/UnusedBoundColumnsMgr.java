@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
@@ -229,7 +230,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		// are the value of resultSetColumn.
 
 		String value = (String) element.getLocalProperty( module,
-				DataItem.RESULT_SET_COLUMN_PROP );
+				IDataItemModel.RESULT_SET_COLUMN_PROP );
 		if ( value == null )
 			return;
 
@@ -248,7 +249,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		super.dealReportItem( element, module );
 
 		List columnBindings = (List) element.getLocalProperty( module,
-				ReportItem.BOUND_DATA_COLUMNS_PROP );
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		if ( columnBindings != null )
 		{
 			for ( int i = 0; i < columnBindings.size( ); i++ )
@@ -273,7 +274,7 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 		super.dealScalarParameter( element, module );
 
 		List columnBindings = (List) element.getLocalProperty( module,
-				ScalarParameterHandle.BOUND_DATA_COLUMNS_PROP );
+				IScalarParameterModel.BOUND_DATA_COLUMNS_PROP );
 		if ( columnBindings != null )
 		{
 			for ( int i = 0; i < columnBindings.size( ); i++ )

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
@@ -113,7 +114,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	public UserPropertyDefn( )
 	{
 		PropertyType typeDefn = MetaDataDictionary.getInstance( )
-				.getPropertyType( PropertyType.STRING_TYPE_NAME );
+				.getPropertyType( IPropertyType.STRING_TYPE_NAME );
 		setType( typeDefn );
 	}
 
@@ -138,12 +139,12 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			int type = propType.getTypeCode( );
 			switch ( type )
 			{
-				case PropertyType.STRING_TYPE :
-				case PropertyType.BOOLEAN_TYPE :
-				case PropertyType.DATE_TIME_TYPE :
-				case PropertyType.FLOAT_TYPE :
-				case PropertyType.INTEGER_TYPE :
-				case PropertyType.EXPRESSION_TYPE :
+				case IPropertyType.STRING_TYPE :
+				case IPropertyType.BOOLEAN_TYPE :
+				case IPropertyType.DATE_TIME_TYPE :
+				case IPropertyType.FLOAT_TYPE :
+				case IPropertyType.INTEGER_TYPE :
+				case IPropertyType.EXPRESSION_TYPE :
 					allowedTypes.add( propType );
 					break;
 				default :
@@ -449,8 +450,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		if ( dd.getPropertyType( getTypeCode( ) ) == null
-				|| getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
-				|| getTypeCode( ) == PropertyType.STRUCT_TYPE )
+				|| getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+				|| getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			throw new UserPropertyException( element, name,
 					UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE );
 
@@ -458,7 +459,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 		// Ensure choices exist if this is a choice typeCode.
 
-		if ( getTypeCode( ) == PropertyType.CHOICE_TYPE )
+		if ( getTypeCode( ) == IPropertyType.CHOICE_TYPE )
 		{
 			IChoiceSet choices = getChoices( );
 			if ( choices == null || choices.getChoices( ).length == 0 )
@@ -490,7 +491,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 							element,
 							name,
 							UserPropertyException.DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED );
-				if ( getTypeCode( ) != PropertyType.CHOICE_TYPE )
+				if ( getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 				{
 					try
 					{

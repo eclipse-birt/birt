@@ -20,7 +20,10 @@ import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * This class represents the properties and slots common to the List and Table
@@ -32,6 +35,7 @@ public abstract class ListingElement extends ReportItem
 		implements
 			IListingElementModel
 {
+
 	/**
 	 * Default constructor.
 	 */
@@ -93,9 +97,10 @@ public abstract class ListingElement extends ReportItem
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == DesignElement.FULL_LABEL )
+		if ( level == IDesignElementModel.FULL_LABEL )
 		{
-			String name = getStringProperty( module, ReportItem.DATA_SET_PROP );
+			String name = getStringProperty( module,
+					IReportItemModel.DATA_SET_PROP );
 			name = limitStringLength( name );
 			if ( !StringUtil.isBlank( name ) )
 			{
@@ -157,7 +162,7 @@ public abstract class ListingElement extends ReportItem
 		if ( content instanceof GroupElement )
 		{
 			String checkedName = (String) content.getLocalProperty( module,
-					GroupElement.GROUP_NAME_PROP );
+					IGroupElementModel.GROUP_NAME_PROP );
 			if ( StringUtil.isBlank( checkedName ) )
 				return errors;
 

@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Representation of a dimension property value. A dimension has two parts: the
@@ -241,7 +240,7 @@ public class DimensionValue
 		{
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					PropertyType.DIMENSION_TYPE );
+					IPropertyType.DIMENSION_TYPE );
 		}
 
 		return new DimensionValue( measure, units );
@@ -269,7 +268,7 @@ public class DimensionValue
 			if ( !dotSeparatorPattern.matcher( value ).matches( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						PropertyType.DIMENSION_TYPE );
+						IPropertyType.DIMENSION_TYPE );
 		}
 
 		else if ( separator == ',' )
@@ -277,7 +276,7 @@ public class DimensionValue
 			if ( !commaSeparatorPattern.matcher( value ).matches( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						PropertyType.DIMENSION_TYPE );
+						IPropertyType.DIMENSION_TYPE );
 		}
 		else
 			assert false;
@@ -329,7 +328,7 @@ public class DimensionValue
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.DIMENSION_TYPE );
+				IPropertyType.DIMENSION_TYPE );
 	}
 
 	/**

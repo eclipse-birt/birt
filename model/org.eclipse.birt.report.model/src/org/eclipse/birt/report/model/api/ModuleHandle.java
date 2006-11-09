@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -64,10 +65,10 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
@@ -1595,7 +1596,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public List getAllStyles( )
 	{
 		List elementList = module.getModuleNameSpace( Module.STYLE_NAME_SPACE )
-				.getElements( IModuleNameScope.ARBITARY_LEVEL );
+				.getElements( IAccessControl.ARBITARY_LEVEL );
 
 		return generateHandleList( elementList );
 	}
@@ -1652,7 +1653,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameScope.ARBITARY_LEVEL );
+				.getElements( IAccessControl.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 
 	}
@@ -1669,9 +1670,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameScope.NATIVE_LEVEL );
+				.getElements( IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
-				IModuleNameScope.NATIVE_LEVEL ) );
+				IAccessControl.NATIVE_LEVEL ) );
 	}
 
 	/**
@@ -1688,7 +1689,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameScope.ARBITARY_LEVEL );
+				.getElements( IAccessControl.ARBITARY_LEVEL );
 		return generateHandleList( elementList );
 	}
 
@@ -1704,9 +1705,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
 
 		List elementList = namescope
-				.getElements( IModuleNameScope.NATIVE_LEVEL );
+				.getElements( IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
-				IModuleNameScope.NATIVE_LEVEL ) );
+				IAccessControl.NATIVE_LEVEL ) );
 
 	}
 
@@ -1719,7 +1720,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 */
 	public List getVisibleImages( )
 	{
-		List images = getNativeStructureList( Module.IMAGES_PROP );
+		List images = getNativeStructureList( IModuleModel.IMAGES_PROP );
 		return images;
 	}
 
@@ -1789,7 +1790,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getAllLibraries( )
 	{
-		return getLibraries( IModuleNameScope.ARBITARY_LEVEL );
+		return getLibraries( IAccessControl.ARBITARY_LEVEL );
 	}
 
 	/**
@@ -1824,7 +1825,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getLibraries( )
 	{
-		return getLibraries( IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
+		return getLibraries( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 	}
 
 	/**
@@ -1838,7 +1839,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public LibraryHandle getLibrary( String namespace )
 	{
 		Module library = module.getLibraryWithNamespace( namespace,
-				IModuleNameScope.DIRECTLY_INCLUDED_LEVEL );
+				IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 		if ( library == null )
 			return null;
 
@@ -2007,7 +2008,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void reloadLibraries( ) throws SemanticException,
 			DesignFileException
 	{
-		List libs = getListProperty( ReportDesign.LIBRARIES_PROP );
+		List libs = getListProperty( IModuleModel.LIBRARIES_PROP );
 		if ( libs == null || libs.isEmpty( ) )
 			return;
 		for ( int i = 0; i < libs.size( ); i++ )
@@ -2436,7 +2437,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		List elementList = module.getModuleNameSpace(
 				Module.TEMPLATE_PARAMETER_NAME_SPACE ).getElements(
-				IModuleNameScope.NATIVE_LEVEL );
+				IAccessControl.NATIVE_LEVEL );
 
 		return generateHandleList( elementList );
 	}
@@ -2449,7 +2450,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public String getDescription( )
 	{
-		return getStringProperty( Module.DESCRIPTION_PROP );
+		return getStringProperty( IModuleModel.DESCRIPTION_PROP );
 	}
 
 	/**
@@ -2462,8 +2463,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public String getDisplayDescription( )
 	{
-		return getExternalizedValue( Module.DESCRIPTION_ID_PROP,
-				Module.DESCRIPTION_PROP );
+		return getExternalizedValue( IModuleModel.DESCRIPTION_ID_PROP,
+				IModuleModel.DESCRIPTION_PROP );
 	}
 
 	/**
@@ -2479,7 +2480,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void setDescription( String description ) throws SemanticException
 	{
-		setStringProperty( Module.DESCRIPTION_PROP, description );
+		setStringProperty( IModuleModel.DESCRIPTION_PROP, description );
 	}
 
 	/**
@@ -2490,7 +2491,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public String getDescriptionKey( )
 	{
-		return getStringProperty( Module.DESCRIPTION_ID_PROP );
+		return getStringProperty( IModuleModel.DESCRIPTION_ID_PROP );
 	}
 
 	/**
@@ -2506,7 +2507,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void setDescriptionKey( String resourceKey )
 			throws SemanticException
 	{
-		setStringProperty( Module.DESCRIPTION_ID_PROP, resourceKey );
+		setStringProperty( IModuleModel.DESCRIPTION_ID_PROP, resourceKey );
 	}
 
 	/**
@@ -2797,7 +2798,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
 		int slotID = element.getContainerSlot( );
-		assert slotID != DesignElement.NO_SLOT;
+		assert slotID != IDesignElementModel.NO_SLOT;
 
 		// Libraries
 		modules.add( this );

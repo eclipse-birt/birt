@@ -14,12 +14,12 @@ package org.eclipse.birt.report.model.api;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
@@ -77,7 +77,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public double getScale( )
 	{
-		return getFloatProperty( ImageItem.SCALE_PROP );
+		return getFloatProperty( IImageItemModel.SCALE_PROP );
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getSize( )
 	{
-		return getStringProperty( ImageItem.SIZE_PROP );
+		return getStringProperty( IImageItemModel.SIZE_PROP );
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getAltText( )
 	{
-		return getStringProperty( ImageItem.ALT_TEXT_PROP );
+		return getStringProperty( IImageItemModel.ALT_TEXT_PROP );
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getAltTextKey( )
 	{
-		return getStringProperty( ImageItem.ALT_TEXT_KEY_PROP );
+		return getStringProperty( IImageItemModel.ALT_TEXT_KEY_PROP );
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getSource( )
 	{
-		return getStringProperty( ImageItem.SOURCE_PROP );
+		return getStringProperty( IImageItemModel.SOURCE_PROP );
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setSource( String source ) throws SemanticException
 	{
-		setProperty( ImageItem.SOURCE_PROP, source );
+		setProperty( IImageItemModel.SOURCE_PROP, source );
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 						.equalsIgnoreCase( getSource( ) ) )
 		{
-			return getStringProperty( ImageItem.URI_PROP );
+			return getStringProperty( IImageItemModel.URI_PROP );
 		}
 		return null;
 	}
@@ -201,7 +201,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
 				.equalsIgnoreCase( getSource( ) ) )
-			return getStringProperty( ImageItem.URI_PROP );
+			return getStringProperty( IImageItemModel.URI_PROP );
 
 		return null;
 	}
@@ -219,7 +219,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 				.equalsIgnoreCase( getSource( ) ) )
-			return getStringProperty( ImageItem.URI_PROP );
+			return getStringProperty( IImageItemModel.URI_PROP );
 
 		return null;
 	}
@@ -239,7 +239,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( getSource( ) ) )
 		{
-			return getStringProperty( ImageItem.TYPE_EXPR_PROP );
+			return getStringProperty( IImageItemModel.TYPE_EXPR_PROP );
 		}
 		return null;
 
@@ -259,7 +259,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( getSource( ) ) )
 		{
-			return getStringProperty( ImageItem.VALUE_EXPR_PROP );
+			return getStringProperty( IImageItemModel.VALUE_EXPR_PROP );
 		}
 		return null;
 
@@ -278,7 +278,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	public String getImageName( )
 	{
 		if ( !DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
-				.equalsIgnoreCase( getStringProperty( ImageItem.SOURCE_PROP ) ) )
+				.equalsIgnoreCase( getStringProperty( IImageItemModel.SOURCE_PROP ) ) )
 			return null;
 
 		return getStringProperty( IImageItemModel.IMAGE_NAME_PROP );
@@ -297,7 +297,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	public EmbeddedImageHandle getEmbeddedImage( )
 	{
 		if ( !DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
-				.equals( getStringProperty( ImageItem.SOURCE_PROP ) ) )
+				.equals( getStringProperty( IImageItemModel.SOURCE_PROP ) ) )
 			return null;
 
 		StructRefValue imageRef = (StructRefValue) getElement( ).getProperty(
@@ -345,14 +345,14 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 					// construct the handle
 
 					List images = targetModule.getListProperty( targetModule,
-							Module.IMAGES_PROP );
+							IModuleModel.IMAGES_PROP );
 					if ( images == null || images.isEmpty( ) )
 						continue;
 
 					int posn = images.indexOf( image );
 					PropertyHandle propHandle = targetModule.getHandle(
 							targetModule ).getPropertyHandle(
-							Module.IMAGES_PROP );
+							IModuleModel.IMAGES_PROP );
 					assert posn != -1;
 					EmbeddedImageHandle imageHandle = new EmbeddedImageHandle(
 							propHandle, posn );
@@ -389,9 +389,9 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		{
 			module.getActivityStack( ).startTrans( );
 
-			setProperty( ImageItem.SOURCE_PROP,
+			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );
-			setProperty( ImageItem.IMAGE_NAME_PROP, name );
+			setProperty( IImageItemModel.IMAGE_NAME_PROP, name );
 		}
 		catch ( SemanticException e )
 		{
@@ -473,8 +473,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		{
 			module.getActivityStack( ).startTrans( );
 
-			setProperty( ImageItem.SOURCE_PROP, source );
-			setProperty( ImageItem.URI_PROP, prop );
+			setProperty( IImageItemModel.SOURCE_PROP, source );
+			setProperty( IImageItemModel.URI_PROP, prop );
 		}
 		catch ( SemanticException e )
 		{
@@ -496,7 +496,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setScale( double scale ) throws SemanticException
 	{
-		setFloatProperty( ImageItem.SCALE_PROP, scale );
+		setFloatProperty( IImageItemModel.SCALE_PROP, scale );
 	}
 
 	/**
@@ -519,7 +519,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setSize( String size ) throws SemanticException
 	{
-		setStringProperty( ImageItem.SIZE_PROP, size );
+		setStringProperty( IImageItemModel.SIZE_PROP, size );
 
 	}
 
@@ -539,9 +539,9 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		{
 			module.getActivityStack( ).startTrans( );
 
-			setProperty( ImageItem.SOURCE_PROP,
+			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
-			setProperty( ImageItem.TYPE_EXPR_PROP, value );
+			setProperty( IImageItemModel.TYPE_EXPR_PROP, value );
 		}
 		catch ( SemanticException e )
 		{
@@ -567,9 +567,9 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		{
 			module.getActivityStack( ).startTrans( );
 
-			setProperty( ImageItem.SOURCE_PROP,
+			setProperty( IImageItemModel.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
-			setProperty( ImageItem.VALUE_EXPR_PROP, value );
+			setProperty( IImageItemModel.VALUE_EXPR_PROP, value );
 		}
 		catch ( SemanticException e )
 		{
@@ -590,7 +590,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ImageItem.ACTION_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IImageItemModel.ACTION_PROP );
 		Action action = (Action) propHandle.getValue( );
 
 		if ( action == null )
@@ -613,12 +613,12 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( ImageItem.ACTION_PROP, action );
+		setProperty( IImageItemModel.ACTION_PROP, action );
 
 		if ( action == null )
 			return null;
 		return (ActionHandle) action
-				.getHandle( getPropertyHandle( ImageItem.ACTION_PROP ) );
+				.getHandle( getPropertyHandle( IImageItemModel.ACTION_PROP ) );
 	}
 
 	/**
@@ -629,7 +629,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getHelpText( )
 	{
-		return getStringProperty( ImageItem.HELP_TEXT_PROP );
+		return getStringProperty( IImageItemModel.HELP_TEXT_PROP );
 	}
 
 	/**
@@ -644,7 +644,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setHelpText( String helpText ) throws SemanticException
 	{
-		setStringProperty( ImageItem.HELP_TEXT_PROP, helpText );
+		setStringProperty( IImageItemModel.HELP_TEXT_PROP, helpText );
 	}
 
 	/**
@@ -655,7 +655,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public String getHelpTextKey( )
 	{
-		return getStringProperty( ImageItem.HELP_TEXT_ID_PROP );
+		return getStringProperty( IImageItemModel.HELP_TEXT_ID_PROP );
 	}
 
 	/**
@@ -670,7 +670,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public void setHelpTextKey( String helpTextKey ) throws SemanticException
 	{
-		setStringProperty( ImageItem.HELP_TEXT_ID_PROP, helpTextKey );
+		setStringProperty( IImageItemModel.HELP_TEXT_ID_PROP, helpTextKey );
 	}
 
 }

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -60,6 +59,8 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -819,7 +820,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			if ( templateParam != null && templateParam.getRoot( ) != module )
 			{
 				element.setProperty(
-						TemplateElement.REF_TEMPLATE_PARAMETER_PROP,
+						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 						new ElementRefValue( null, templateParam.getName( ) ) );
 			}
 		}
@@ -1034,23 +1035,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 				locale );
 
 		return msg;
-	}
-
-	/**
-	 * Return the folder in which the design file is located. The search depend
-	 * on the {@link #getFileName()}.
-	 * 
-	 * @return the folder in which the design file is located. Return
-	 *         <code>null</code> if the folder can not be found.
-	 * @deprecated since BIRT 2.1. find the message in resource path.
-	 */
-
-	private File getModuleFolder( )
-	{
-		if ( systemId == null )
-			return null;
-
-		return new File( systemId.getFile( ) );
 	}
 
 	/**
@@ -1421,7 +1405,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( module instanceof ReportDesign )
 		{
 			ContainerSlot slot = module
-					.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+					.getSlot( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			assert slot != null;
 			for ( int i = slot.getCount( ) - 1; i >= 0; i-- )
 			{

@@ -22,10 +22,13 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -155,7 +158,7 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		if ( element instanceof GridItem )
 			return false;
 
-		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
+		ContainerSlot groups = element.getSlot( IListingElementModel.GROUP_SLOT );
 		int groupCount = groups.getCount( );
 
 		// check on group header by group header. From the outer to the
@@ -164,7 +167,7 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		for ( int groupIndex = 0; groupIndex < groupCount; groupIndex++ )
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
-			ContainerSlot header = group.getSlot( TableGroup.HEADER_SLOT );
+			ContainerSlot header = group.getSlot( IGroupElementModel.HEADER_SLOT );
 
 			if ( header.getCount( ) <= 0 )
 				continue;
@@ -173,13 +176,13 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 
 			TableRow row = (TableRow) header
 					.getContent( header.getCount( ) - 1 );
-			ContainerSlot cells = row.getSlot( TableRow.CONTENT_SLOT );
+			ContainerSlot cells = row.getSlot( ITableRowModel.CONTENT_SLOT );
 
 			for ( int cellIndex = 0; cellIndex < cells.getCount( ); cellIndex++ )
 			{
 				Cell cell = (Cell) cells.getContent( cellIndex );
 				String drop = (String) cell.getLocalProperty( null,
-						Cell.DROP_PROP );
+						ICellModel.DROP_PROP );
 
 				if ( DesignChoiceConstants.DROP_TYPE_ALL
 						.equalsIgnoreCase( drop )

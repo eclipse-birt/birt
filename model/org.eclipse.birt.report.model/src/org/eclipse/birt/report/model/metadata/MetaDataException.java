@@ -479,7 +479,7 @@ public class MetaDataException extends ModelException
 
 			assert msg != null : "Error information for error code: " + errCode + " not found in MetaError.properties."; //$NON-NLS-1$ //$NON-NLS-2$
 			this.message = params == null ? msg : MessageFormat.format( msg,
-					params );
+					(Object[]) params );
 		}
 	}
 

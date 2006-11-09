@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -95,7 +96,7 @@ class ThemeState extends ReportElementState
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-				return new StyleState( handler, element, Theme.STYLES_SLOT );
+				return new StyleState( handler, element, IThemeModel.STYLES_SLOT );
 			return super.startElement( tagName );
 		}
 

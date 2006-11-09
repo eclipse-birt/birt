@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 
 /**
@@ -52,7 +51,7 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public String getContent( )
 	{
-		return getStringProperty( TextItem.CONTENT_PROP );
+		return getStringProperty( ITextItemModel.CONTENT_PROP );
 	}
 
 	/**
@@ -65,8 +64,8 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public String getDisplayContent( )
 	{
-		return super.getExternalizedValue( TextItem.CONTENT_RESOURCE_KEY_PROP,
-				TextItem.CONTENT_PROP );
+		return super.getExternalizedValue( ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
+				ITextItemModel.CONTENT_PROP );
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public void setContent( String value ) throws SemanticException
 	{
-		setStringProperty( TextItem.CONTENT_PROP, value );
+		setStringProperty( ITextItemModel.CONTENT_PROP, value );
 	}
 
 	/**
@@ -102,7 +101,7 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public String getContentType( )
 	{
-		return getStringProperty( TextItem.CONTENT_TYPE_PROP );
+		return getStringProperty( ITextItemModel.CONTENT_TYPE_PROP );
 	}
 
 	/**
@@ -127,7 +126,7 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public void setContentType( String contentType ) throws SemanticException
 	{
-		setStringProperty( TextItem.CONTENT_TYPE_PROP, contentType );
+		setStringProperty( ITextItemModel.CONTENT_TYPE_PROP, contentType );
 	}
 
 	/**
@@ -138,7 +137,7 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public String getContentKey( )
 	{
-		return getStringProperty( TextItem.CONTENT_RESOURCE_KEY_PROP );
+		return getStringProperty( ITextItemModel.CONTENT_RESOURCE_KEY_PROP );
 	}
 
 	/**
@@ -152,6 +151,6 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public void setContentKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( TextItem.CONTENT_RESOURCE_KEY_PROP, resourceKey );
+		setStringProperty( ITextItemModel.CONTENT_RESOURCE_KEY_PROP, resourceKey );
 	}
 }

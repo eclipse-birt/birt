@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 
 public class ElementRefRecord extends SimpleRecord
 {
@@ -63,7 +63,7 @@ public class ElementRefRecord extends SimpleRecord
 	
 	public NotificationEvent getEvent( )
 	{
-		if ( StyledElement.STYLE_PROP.equals( propName ) )
+		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
 			return new StyleEvent( reference );
 		return new PropertyEvent( reference, propName );
 	}

@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -245,7 +246,7 @@ public class ContentRecord extends SimpleRecord
 
 			// Clear the inverse relationship.
 
-			content.setContainer( null, DesignElement.NO_SLOT );
+			content.setContainer( null, IDesignElementModel.NO_SLOT );
 
 		}
 	}

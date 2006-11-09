@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Simplifies working with the font family property. The font family can be for
@@ -67,7 +67,7 @@ public class FontHandle extends ComplexValueHandle
 	public FontHandle( DesignElementHandle handle )
 	{
 		super( handle, handle.getElement( ).getPropertyDefn(
-				Style.FONT_FAMILY_PROP ) );
+				IStyleModel.FONT_FAMILY_PROP ) );
 
 		assert propDefn != null;
 	}
@@ -86,7 +86,7 @@ public class FontHandle extends ComplexValueHandle
 	{
 		super( handle, memberRef );
 
-		propDefn = getElement( ).getPropertyDefn( Style.HIGHLIGHT_RULES_PROP );
+		propDefn = getElement( ).getPropertyDefn( IStyleModel.HIGHLIGHT_RULES_PROP );
 		assert propDefn != null;
 	}
 

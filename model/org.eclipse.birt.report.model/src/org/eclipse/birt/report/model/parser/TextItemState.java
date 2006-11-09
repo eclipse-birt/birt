@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -95,7 +96,7 @@ public class TextItemState extends ReportItemState
 			return;
 
 		String content = (String) element.getLocalProperty(
-				handler.getModule( ), TextItem.CONTENT_PROP );
+				handler.getModule( ), ITextItemModel.CONTENT_PROP );
 		if ( StringUtil.isBlank( content ) )
 			return;
 
@@ -122,7 +123,7 @@ public class TextItemState extends ReportItemState
 			return;
 
 		String contentType = (String) element.getProperty(
-				handler.getModule( ), TextItem.CONTENT_TYPE_PROP );
+				handler.getModule( ), ITextItemModel.CONTENT_TYPE_PROP );
 
 		if ( !( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO
 				.equalsIgnoreCase( contentType ) || ( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML
@@ -138,7 +139,7 @@ public class TextItemState extends ReportItemState
 
 		// reset the content.
 
-		element.setProperty( TextItem.CONTENT_PROP, content );
+		element.setProperty( ITextItemModel.CONTENT_PROP, content );
 	}
 
 }

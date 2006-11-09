@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.elements.TemplateFactory;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForTemplatePolicy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -92,7 +94,7 @@ public class TemplateCommand extends AbstractElementCommand
 		// definition
 
 		if ( ( element instanceof ReportItem || element instanceof TemplateReportItem )
-				&& DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( prop
+				&& IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
 						.getName( ) ) )
 		{
 			assert value instanceof ElementRefValue;
@@ -111,7 +113,7 @@ public class TemplateCommand extends AbstractElementCommand
 		}
 
 		if ( ( element instanceof SimpleDataSet || element instanceof TemplateDataSet )
-				&& DesignElement.REF_TEMPLATE_PARAMETER_PROP.equals( prop
+				&& IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
 						.getName( ) ) )
 		{
 			assert value instanceof ElementRefValue;
@@ -145,7 +147,7 @@ public class TemplateCommand extends AbstractElementCommand
 			Module module, String name )
 	{
 		PropertyDefn prop = element
-				.getPropertyDefn( DesignElement.REF_TEMPLATE_PARAMETER_PROP );
+				.getPropertyDefn( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 		if ( prop == null )
 			return null;
 		ElementDefn targetDefn = (ElementDefn) prop.getTargetElementType( );
@@ -176,7 +178,7 @@ public class TemplateCommand extends AbstractElementCommand
 		{
 			DesignElement element = (DesignElement) content;
 			obj = element.getProperty( module,
-					DesignElement.REF_TEMPLATE_PARAMETER_PROP );
+					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 			if ( obj == null )
 			{
 				int count = ( (DesignElement) content ).getDefn( )
@@ -276,11 +278,11 @@ public class TemplateCommand extends AbstractElementCommand
 				module.makeUniqueName( copyTemplateParam );
 				ContentCommand cmd = new ContentCommand( module, module );
 				cmd.add( copyTemplateParam,
-						ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+						IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 				PropertyCommand propertyCmd = new PropertyCommand( module,
 						content );
 				propertyCmd.setProperty(
-						TemplateElement.REF_TEMPLATE_PARAMETER_PROP,
+						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 						copyTemplateParam );
 
 			}
@@ -428,15 +430,15 @@ public class TemplateCommand extends AbstractElementCommand
 					templateParam );
 			if ( base instanceof SimpleDataSet )
 				propertyCmd.setProperty(
-						TemplateParameterDefinition.ALLOWED_TYPE_PROP,
+						ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP,
 						DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_DATA_SET );
 			else
 				propertyCmd.setProperty(
-						TemplateParameterDefinition.ALLOWED_TYPE_PROP, base
-								.getElementName( ) );
+						ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP,
+						base.getElementName( ) );
 
 			ContainerSlot defaultSlot = templateParam
-					.getSlot( TemplateParameterDefinition.DEFAULT_SLOT );
+					.getSlot( ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 			assert defaultSlot != null;
 
 			// clone the base element and add it to the default slot
@@ -465,18 +467,18 @@ public class TemplateCommand extends AbstractElementCommand
 
 			contentCmd = new ContentCommand( module, templateParam );
 			contentCmd.add( defaultElement,
-					TemplateParameterDefinition.DEFAULT_SLOT );
+					ITemplateParameterDefinitionModel.DEFAULT_SLOT );
 
 			contentCmd = new ContentCommand( module, module );
 			contentCmd.add( templateParam,
-					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+					IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 
 			// let the template handle refer the template parameter definition
 
 			propertyCmd = new PropertyCommand( module, template );
 			propertyCmd.setProperty(
-					TemplateElement.REF_TEMPLATE_PARAMETER_PROP, templateParam
-							.getName( ) );
+					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
+					templateParam.getName( ) );
 		}
 		catch ( ContentException e )
 		{
@@ -532,7 +534,7 @@ public class TemplateCommand extends AbstractElementCommand
 		try
 		{
 			PropertyCommand pcmd = new PropertyCommand( module, reportItem );
-			pcmd.setProperty( ReportItem.REF_TEMPLATE_PARAMETER_PROP,
+			pcmd.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 					templateparam.getName( ) );
 
 			ContentCommand cmd = new ContentCommand( module, element );
@@ -581,7 +583,7 @@ public class TemplateCommand extends AbstractElementCommand
 		try
 		{
 			PropertyCommand pcmd = new PropertyCommand( module, dataSet );
-			pcmd.setProperty( SimpleDataSet.REF_TEMPLATE_PARAMETER_PROP,
+			pcmd.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 					templateparam.getName( ) );
 
 			ContentCommand cmd = new ContentCommand( module, element );
@@ -650,8 +652,8 @@ public class TemplateCommand extends AbstractElementCommand
 		{
 			PropertyCommand propertyCmd = new PropertyCommand( module, template );
 			propertyCmd.setProperty(
-					TemplateElement.REF_TEMPLATE_PARAMETER_PROP, templateParam
-							.getName( ) );
+					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
+					templateParam.getName( ) );
 		}
 		catch ( SemanticException e )
 		{

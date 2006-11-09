@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
 
 /**
@@ -54,7 +53,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public String getHelpText( )
 	{
-		return getStringProperty( Parameter.HELP_TEXT_PROP );
+		return getStringProperty( IParameterModel.HELP_TEXT_PROP );
 	}
 
 	/**
@@ -70,7 +69,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public void setHelpText( String helpText ) throws SemanticException
 	{
-		setStringProperty( Parameter.HELP_TEXT_PROP, helpText );
+		setStringProperty( IParameterModel.HELP_TEXT_PROP, helpText );
 	}
 
 	/**
@@ -82,7 +81,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public String getHelpTextKey( )
 	{
-		return getStringProperty( Parameter.HELP_TEXT_KEY_PROP );
+		return getStringProperty( IParameterModel.HELP_TEXT_KEY_PROP );
 	}
 
 	/**
@@ -98,7 +97,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public void setHelpTextKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( Parameter.HELP_TEXT_KEY_PROP, resourceKey );
+		setStringProperty( IParameterModel.HELP_TEXT_KEY_PROP, resourceKey );
 	}
 
 	/**
@@ -111,7 +110,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public boolean isHidden( )
 	{
-		return getBooleanProperty( Parameter.HIDDEN_PROP );
+		return getBooleanProperty( IParameterModel.HIDDEN_PROP );
 	}
 
 	/**
@@ -128,7 +127,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public void setHidden( boolean hidden ) throws SemanticException
 	{
-		setProperty( Parameter.HIDDEN_PROP, Boolean.valueOf( hidden ) );
+		setProperty( IParameterModel.HIDDEN_PROP, Boolean.valueOf( hidden ) );
 	}
 
 	/**
@@ -139,7 +138,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public String getValidate( )
 	{
-		return getStringProperty( Parameter.VALIDATE_PROP );
+		return getStringProperty( IParameterModel.VALIDATE_PROP );
 	}
 
 	/**
@@ -153,6 +152,6 @@ public abstract class ParameterHandle extends ReportElementHandle
 	
 	public void setValidate( String validation ) throws SemanticException
 	{
-		setProperty( Parameter.VALIDATE_PROP, validation );
+		setProperty( IParameterModel.VALIDATE_PROP, validation );
 	}
 }

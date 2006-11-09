@@ -16,7 +16,8 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -105,9 +106,10 @@ public class CopyForPastePolicy extends CopyPolicy
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( StyledElement.STYLE_PROP.equals( propName )
-					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+			if ( IStyledElementModel.STYLE_PROP.equals( propName )
+					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+					|| IDesignElementModel.USER_PROPERTIES_PROP
+							.equals( propName ) )
 				continue;
 
 			if ( destination.getLocalProperty( null, propDefn ) != null )
@@ -144,13 +146,15 @@ public class CopyForPastePolicy extends CopyPolicy
 	private void clearDisplayName( DesignElement e )
 	{
 		// clear text-property of displayName
-		if ( e.getLocalProperty( null, DesignElement.DISPLAY_NAME_PROP ) != null )
-			e.setProperty( DesignElement.DISPLAY_NAME_PROP, null );
+		if ( e.getLocalProperty( null, IDesignElementModel.DISPLAY_NAME_PROP ) != null )
+			e.setProperty( IDesignElementModel.DISPLAY_NAME_PROP, null );
 
 		// clear text-property of displayNameID
 
-		if ( e.getLocalProperty( null, DesignElement.DISPLAY_NAME_ID_PROP ) != null )
-			e.setProperty( DesignElement.DISPLAY_NAME_ID_PROP, null );
+		if ( e
+				.getLocalProperty( null,
+						IDesignElementModel.DISPLAY_NAME_ID_PROP ) != null )
+			e.setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, null );
 	}
 
 	/**

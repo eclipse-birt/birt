@@ -18,9 +18,11 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -230,19 +232,19 @@ public abstract class StyleElement extends ReferenceableElement
 			else
 			{
 				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( Module.COMPONENT_SLOT ), selectorName );
+						.getSlot( IModuleModel.COMPONENT_SLOT ), selectorName );
 				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( Module.PAGE_SLOT ), selectorName );
+						.getSlot( IModuleModel.PAGE_SLOT ), selectorName );
 
 				// only report design has the body, scratch pad slots.
 
 				if ( module instanceof ReportDesign )
 				{
 					broadcastToSelectedElementsInSlot( module, module
-							.getSlot( ReportDesign.BODY_SLOT ), selectorName );
+							.getSlot( IReportDesignModel.BODY_SLOT ), selectorName );
 
 					broadcastToSelectedElementsInSlot( module, module
-							.getSlot( ReportDesign.SCRATCH_PAD_SLOT ),
+							.getSlot( IReportDesignModel.SCRATCH_PAD_SLOT ),
 							selectorName );
 				}
 			}

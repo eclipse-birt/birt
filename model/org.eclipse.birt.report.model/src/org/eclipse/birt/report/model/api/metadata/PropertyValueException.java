@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Indicates an invalid property value.
@@ -381,7 +380,7 @@ public class PropertyValueException extends SemanticException
 
 			assert invalidValue instanceof IStructure;
 			assert propDefn != null;
-			assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+			assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					( (IStructure) invalidValue ).getStructName( ),

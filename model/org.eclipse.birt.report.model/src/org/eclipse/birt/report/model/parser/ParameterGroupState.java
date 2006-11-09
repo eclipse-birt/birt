@@ -10,9 +10,10 @@
 *******************************************************************************/ 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -39,7 +40,7 @@ public class ParameterGroupState extends ReportElementState
     
     public ParameterGroupState(ModuleParserHandler handler)
     {
-        super( handler, handler.getModule(), Module.PARAMETER_SLOT );
+        super( handler, handler.getModule(), IModuleModel.PARAMETER_SLOT );
     }
 
     /*
@@ -63,7 +64,7 @@ public class ParameterGroupState extends ReportElementState
     {
         if( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
             return new ParametersState( handler, paramGroup,
-                    ParameterGroup.PARAMETERS_SLOT );
+                    IParameterGroupModel.PARAMETERS_SLOT );
 
         return super.startElement( tagName );
     }

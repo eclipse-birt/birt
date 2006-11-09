@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Represents both list and table groups in the design. Groups provide a way of
@@ -66,7 +65,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public SlotHandle getHeader( )
 	{
-		return getSlot( GroupElement.HEADER_SLOT );
+		return getSlot( IGroupElementModel.HEADER_SLOT );
 	}
 
 	/**
@@ -78,7 +77,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public SlotHandle getFooter( )
 	{
-		return getSlot( GroupElement.FOOTER_SLOT );
+		return getSlot( IGroupElementModel.FOOTER_SLOT );
 	}
 
 	/**
@@ -92,7 +91,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getKeyExpr( )
 	{
-		return getStringProperty( GroupElement.KEY_EXPR_PROP );
+		return getStringProperty( IGroupElementModel.KEY_EXPR_PROP );
 	}
 
 	/**
@@ -103,7 +102,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getName( )
 	{
-		return getStringProperty( GroupElement.GROUP_NAME_PROP );
+		return getStringProperty( IGroupElementModel.GROUP_NAME_PROP );
 	}
 
 	/**
@@ -120,7 +119,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 		try
 		{
-			setProperty( GroupElement.GROUP_NAME_PROP, StringUtil
+			setProperty( IGroupElementModel.GROUP_NAME_PROP, StringUtil
 					.trimString( theName ) );
 		}
 		catch ( NameException e )
@@ -147,7 +146,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setKeyExpr( String expr ) throws SemanticException
 	{
-		setProperty( GroupElement.KEY_EXPR_PROP, expr );
+		setProperty( IGroupElementModel.KEY_EXPR_PROP, expr );
 	}
 
 	/**
@@ -160,7 +159,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public Iterator sortsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( GroupElement.SORT_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IGroupElementModel.SORT_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -175,7 +174,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public Iterator filtersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( GroupElement.FILTER_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IGroupElementModel.FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -223,7 +222,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setIntervalBase( String intervalBase ) throws SemanticException
 	{
-		setStringProperty( GroupElement.INTERVAL_BASE_PROP, intervalBase );
+		setStringProperty( IGroupElementModel.INTERVAL_BASE_PROP, intervalBase );
 	}
 
 	/**
@@ -234,7 +233,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getIntervalBase( )
 	{
-		return getStringProperty( GroupElement.INTERVAL_BASE_PROP );
+		return getStringProperty( IGroupElementModel.INTERVAL_BASE_PROP );
 	}
 
 	/**
@@ -261,7 +260,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getInterval( )
 	{
-		return getStringProperty( GroupElement.INTERVAL_PROP );
+		return getStringProperty( IGroupElementModel.INTERVAL_PROP );
 	}
 
 	/**
@@ -292,7 +291,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setInterval( String interval ) throws SemanticException
 	{
-		setStringProperty( GroupElement.INTERVAL_PROP, interval );
+		setStringProperty( IGroupElementModel.INTERVAL_PROP, interval );
 	}
 
 	/**
@@ -303,7 +302,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public double getIntervalRange( )
 	{
-		return this.getFloatProperty( GroupElement.INTERVAL_RANGE_PROP );
+		return this.getFloatProperty( IGroupElementModel.INTERVAL_RANGE_PROP );
 	}
 
 	/**
@@ -318,7 +317,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setIntervalRange( double intervalRange )
 			throws SemanticException
 	{
-		setFloatProperty( GroupElement.INTERVAL_RANGE_PROP, intervalRange );
+		setFloatProperty( IGroupElementModel.INTERVAL_RANGE_PROP, intervalRange );
 	}
 
 	/**
@@ -334,7 +333,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setIntervalRange( String intervalRange )
 			throws SemanticException
 	{
-		setStringProperty( GroupElement.INTERVAL_RANGE_PROP, intervalRange );
+		setStringProperty( IGroupElementModel.INTERVAL_RANGE_PROP, intervalRange );
 	}
 
 	/**
@@ -352,7 +351,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getSortDirection( )
 	{
-		return getStringProperty( GroupElement.SORT_DIRECTION_PROP );
+		return getStringProperty( IGroupElementModel.SORT_DIRECTION_PROP );
 	}
 
 	/**
@@ -375,7 +374,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setSortDirection( String direction ) throws SemanticException
 	{
-		setStringProperty( GroupElement.SORT_DIRECTION_PROP, direction );
+		setStringProperty( IGroupElementModel.SORT_DIRECTION_PROP, direction );
 	}
 
 	/**
@@ -417,7 +416,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
-		setStringProperty( GroupElement.TOC_PROP, expression );
+		setStringProperty( IGroupElementModel.TOC_PROP, expression );
 	}
 
 	/**
@@ -431,7 +430,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getTocExpression( )
 	{
-		return getStringProperty( GroupElement.TOC_PROP );
+		return getStringProperty( IGroupElementModel.TOC_PROP );
 	}
 
 	/**
@@ -445,7 +444,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setSortType( String sortType ) throws SemanticException
 	{
-		setStringProperty( GroupElement.SORT_TYPE_PROP, sortType );
+		setStringProperty( IGroupElementModel.SORT_TYPE_PROP, sortType );
 	}
 
 	/**
@@ -456,7 +455,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getSortType( )
 	{
-		return getStringProperty( GroupElement.SORT_TYPE_PROP );
+		return getStringProperty( IGroupElementModel.SORT_TYPE_PROP );
 	}
 
 	/**
@@ -469,7 +468,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getOnPrepare( )
 	{
-		return getStringProperty( GroupElement.ON_PREPARE_METHOD );
+		return getStringProperty( IGroupElementModel.ON_PREPARE_METHOD );
 	}
 
 	/**
@@ -485,7 +484,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setOnPrepare( String script ) throws SemanticException
 	{
-		setProperty( GroupElement.ON_PREPARE_METHOD, script );
+		setProperty( IGroupElementModel.ON_PREPARE_METHOD, script );
 	}
 
 	/**
@@ -523,7 +522,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getPageBreakAfter( )
 	{
-		return getStringProperty( Style.PAGE_BREAK_AFTER_PROP );
+		return getStringProperty( IStyleModel.PAGE_BREAK_AFTER_PROP );
 	}
 
 	/**
@@ -537,7 +536,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setPageBreakAfter( String value ) throws SemanticException
 	{
-		setProperty( Style.PAGE_BREAK_AFTER_PROP, value );
+		setProperty( IStyleModel.PAGE_BREAK_AFTER_PROP, value );
 	}
 
 	/**
@@ -548,7 +547,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getPageBreakInside( )
 	{
-		return getStringProperty( Style.PAGE_BREAK_INSIDE_PROP );
+		return getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP );
 	}
 
 	/**
@@ -562,7 +561,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setPageBreakInside( String value ) throws SemanticException
 	{
-		setProperty( Style.PAGE_BREAK_INSIDE_PROP , value );
+		setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , value );
 	}
 
 	/**
@@ -573,7 +572,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public String getPageBreakBefore( )
 	{
-		return getStringProperty( Style.PAGE_BREAK_BEFORE_PROP );
+		return getStringProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP );
 	}
 
 	/**
@@ -587,7 +586,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setPageBreakBefore( String value ) throws SemanticException
 	{
-		setProperty( Style.PAGE_BREAK_BEFORE_PROP, value );
+		setProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP, value );
 	}
 
 	/**

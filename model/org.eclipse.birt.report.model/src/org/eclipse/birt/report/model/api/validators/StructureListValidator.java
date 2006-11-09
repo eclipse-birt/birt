@@ -22,13 +22,13 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
@@ -121,7 +121,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	{
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE
 				&& propDefn.isList( );
 
 		List list = (List) element.getLocalProperty( module, propDefn );
@@ -160,7 +160,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 			return errorList;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 
 		boolean checkID = propDefn.getStructDefn( ).getName( ).equals(
 				PropertyBinding.PROPERTY_BINDING_STRUCT );
@@ -180,8 +180,8 @@ public class StructureListValidator extends AbstractPropertyValidator
 				StructPropertyDefn memberDefn = (StructPropertyDefn) iter
 						.next( );
 
-				if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE
-						|| memberDefn.getTypeCode( ) == PropertyType.MEMBER_KEY_TYPE )
+				if ( memberDefn.getTypeCode( ) == IPropertyType.NAME_TYPE
+						|| memberDefn.getTypeCode( ) == IPropertyType.MEMBER_KEY_TYPE )
 				{
 					uniqueMember = memberDefn;
 					break;
@@ -339,7 +339,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 			return errorList;
 
 		assert propDefn != null;
-		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		assert memberDefn != null;
 
 		// Check whether there two structure has the same value of

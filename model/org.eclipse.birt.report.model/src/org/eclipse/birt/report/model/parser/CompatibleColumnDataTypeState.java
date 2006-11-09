@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 import org.xml.sax.SAXException;
 

@@ -13,8 +13,8 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -47,7 +47,7 @@ public class JointDataSetState extends ReportElementState
 
 	public JointDataSetState( ModuleParserHandler handler )
 	{
-		super( handler, handler.getModule( ), Module.DATA_SET_SLOT );
+		super( handler, handler.getModule( ), IModuleModel.DATA_SET_SLOT );
 		element = new JointDataSet( );
 	}
 

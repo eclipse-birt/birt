@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -82,7 +83,7 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 
 		PropertyCommand cmd = new PropertyCommand( module, module );
 		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( Module.LIBRARIES_PROP );
+				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 		cmd.moveItem( new CachedMemberRef( propDefn ), oldPosn, newPosn );
 
 		getActivityStack( ).commit( );

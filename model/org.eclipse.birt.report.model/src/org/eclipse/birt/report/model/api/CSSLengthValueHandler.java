@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -66,7 +66,7 @@ class CSSLengthValueHandler
 							ReportDesignConstants.STYLE_ELEMENT );
 
 			ElementPropertyDefn fontSizePropDefn = (ElementPropertyDefn) styleDefn
-					.getProperty( Style.FONT_SIZE_PROP );
+					.getProperty( IStyleModel.FONT_SIZE_PROP );
 
 			Object defaultValue = fontSizePropDefn.getDefault( );
 			if ( defaultValue instanceof DimensionValue )
@@ -106,15 +106,15 @@ class CSSLengthValueHandler
 	DimensionValue computeRelativeValue( DimensionValue fontSizeValue,
 			DimensionValue relativeValue )
 	{
-		assert ComputedValueHandler.isAbsoluteUnit( fontSizeValue.getUnits( ) );
+		assert CSSLengthValueHandler.isAbsoluteUnit( fontSizeValue.getUnits( ) );
 
-		if ( !ComputedValueHandler.isAbsoluteUnit( fontSizeValue.getUnits( ) ) )
+		if ( !CSSLengthValueHandler.isAbsoluteUnit( fontSizeValue.getUnits( ) ) )
 		{
 			throw new IllegalArgumentException(
 					"The argument \"fontSizeValue\" should be absolute." ); //$NON-NLS-1$
 		}
 
-		if ( ComputedValueHandler.isAbsoluteUnit( relativeValue.getUnits( ) ) )
+		if ( CSSLengthValueHandler.isAbsoluteUnit( relativeValue.getUnits( ) ) )
 		{
 			return relativeValue;
 		}

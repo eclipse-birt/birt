@@ -20,6 +20,7 @@ import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -279,7 +280,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String subType = propTag.getAttribute( SUB_TYPE_ATTRIB );
 			// by default set it to 'string' type
 			if ( StringUtil.isBlank( subType ) )
-				subType = PropertyType.STRING_TYPE_NAME;
+				subType = IPropertyType.STRING_TYPE_NAME;
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 			PropertyType propType = dd.getPropertyType( type );
 
@@ -288,9 +289,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 					|| !getAllowedPropertyTypes( ).contains( propType ) )
 				throw new ExtensionException(
 						new String[]{type},
-						ExtensionException.DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE );
 			PropertyType subPropType = null;
-			if ( propType.getTypeCode( ) == PropertyType.LIST_TYPE )
+			if ( propType.getTypeCode( ) == IPropertyType.LIST_TYPE )
 			{
 				subPropType = MetaDataDictionary.getInstance( )
 						.getPropertyType( subType );
@@ -369,7 +370,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 				{
 					throw new ExtensionException(
 							new String[]{name, elementDefn.getName( )},
-							ExtensionException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
+							MetaDataException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
 				}
 			}
 
@@ -405,7 +406,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			if ( name == null )
 			{
 				throw new ExtensionException( new String[]{},
-						ExtensionException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
+						MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
 			}
 			if ( displayNameID == null )
 			{
@@ -448,7 +449,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					{
 						throw new ExtensionException(
 								new String[]{},
-								ExtensionException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
+								MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
 					}
 
 				}
@@ -653,23 +654,23 @@ public class PeerExtensionLoader extends ExtensionLoader
 				int type = propType.getTypeCode( );
 				switch ( type )
 				{
-					case PropertyType.STRING_TYPE :
-					case PropertyType.NUMBER_TYPE :
-					case PropertyType.INTEGER_TYPE :
-					case PropertyType.DIMENSION_TYPE :
-					case PropertyType.COLOR_TYPE :
-					case PropertyType.CHOICE_TYPE :
-					case PropertyType.BOOLEAN_TYPE :
-					case PropertyType.EXPRESSION_TYPE :
-					case PropertyType.HTML_TYPE :
-					case PropertyType.RESOURCE_KEY_TYPE :
-					case PropertyType.URI_TYPE :
-					case PropertyType.DATE_TIME_TYPE :
-					case PropertyType.XML_TYPE :
-					case PropertyType.NAME_TYPE :
-					case PropertyType.FLOAT_TYPE :
-					case PropertyType.LITERAL_STRING_TYPE :
-					case PropertyType.LIST_TYPE :
+					case IPropertyType.STRING_TYPE :
+					case IPropertyType.NUMBER_TYPE :
+					case IPropertyType.INTEGER_TYPE :
+					case IPropertyType.DIMENSION_TYPE :
+					case IPropertyType.COLOR_TYPE :
+					case IPropertyType.CHOICE_TYPE :
+					case IPropertyType.BOOLEAN_TYPE :
+					case IPropertyType.EXPRESSION_TYPE :
+					case IPropertyType.HTML_TYPE :
+					case IPropertyType.RESOURCE_KEY_TYPE :
+					case IPropertyType.URI_TYPE :
+					case IPropertyType.DATE_TIME_TYPE :
+					case IPropertyType.XML_TYPE :
+					case IPropertyType.NAME_TYPE :
+					case IPropertyType.FLOAT_TYPE :
+					case IPropertyType.LITERAL_STRING_TYPE :
+					case IPropertyType.LIST_TYPE :
 						allowedPropertyTypes.add( propType );
 						break;
 					default :
@@ -701,12 +702,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 				int type = propType.getTypeCode( );
 				switch ( type )
 				{
-					case PropertyType.STRING_TYPE :
-					case PropertyType.BOOLEAN_TYPE :
-					case PropertyType.DATE_TIME_TYPE :
-					case PropertyType.FLOAT_TYPE :
-					case PropertyType.INTEGER_TYPE :
-					case PropertyType.EXPRESSION_TYPE :
+					case IPropertyType.STRING_TYPE :
+					case IPropertyType.BOOLEAN_TYPE :
+					case IPropertyType.DATE_TIME_TYPE :
+					case IPropertyType.FLOAT_TYPE :
+					case IPropertyType.INTEGER_TYPE :
+					case IPropertyType.EXPRESSION_TYPE :
 						allowedSubPropertyTypes.add( propType );
 						break;
 					default :
@@ -737,7 +738,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 						.getReportItemFactory( ).getMessages( ) );
 
 		PropertyType typeDefn = MetaDataDictionary.getInstance( )
-				.getPropertyType( PropertyType.SCRIPT_TYPE );
+				.getPropertyType( IPropertyType.SCRIPT_TYPE );
 
 		String name = methodInfo.getName( );
 		String displayNameID = methodInfo.getDisplayNameKey( );

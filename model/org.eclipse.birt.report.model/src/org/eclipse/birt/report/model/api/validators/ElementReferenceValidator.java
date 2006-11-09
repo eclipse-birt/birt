@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
@@ -76,7 +76,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 
-		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			if ( !checkElementReference( module, element, prop ) )
 			{
@@ -87,8 +87,8 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 						SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
 			}
 		}
-		else if ( prop.getTypeCode( ) == PropertyType.LIST_TYPE
-				&& prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		else if ( prop.getTypeCode( ) == IPropertyType.LIST_TYPE
+				&& prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			List valueList = element.resolveElementReferenceList( module, prop );
 			if ( valueList != null )
@@ -138,7 +138,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	{
 		// This must be an element reference property 
 
-		assert PropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
+		assert IPropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
 
 		// Attempt to resolve the reference.
 

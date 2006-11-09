@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
@@ -78,14 +78,14 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 			assert false;
 
 			return dimensionHandle.elementHandle
-					.getDimensionProperty( Style.FONT_SIZE_PROP );
+					.getDimensionProperty( IStyleModel.FONT_SIZE_PROP );
 		}
 
 		Object propValue = null;
 		ElementPropertyDefn fontSizePropDefn = (ElementPropertyDefn) MetaDataDictionary
 				.getInstance( )
 				.getElement( ReportDesignConstants.STYLE_ELEMENT ).getProperty(
-						Style.FONT_SIZE_PROP );
+						IStyleModel.FONT_SIZE_PROP );
 
 		DesignElementHandle e = dimensionHandle.getElementHandle( );
 
@@ -122,7 +122,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 		}
 
 		if ( e != null )
-			return e.getDimensionProperty( Style.FONT_SIZE_PROP );
+			return e.getDimensionProperty( IStyleModel.FONT_SIZE_PROP );
 
 		return null;
 	}

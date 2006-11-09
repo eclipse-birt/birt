@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -84,7 +85,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public Iterator propertyMaskIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( DesignElement.PROPERTY_MASKS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IDesignElementModel.PROPERTY_MASKS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -162,11 +163,11 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	public void setPropertyMask( String propName, String maskValue )
 			throws SemanticException
 	{
-		if ( DesignElement.PROPERTY_MASKS_PROP.equalsIgnoreCase( propName ) )
+		if ( IDesignElementModel.PROPERTY_MASKS_PROP.equalsIgnoreCase( propName ) )
 			return;
 
 		ElementPropertyDefn maskProp = getElement( ).getPropertyDefn(
-				DesignElement.PROPERTY_MASKS_PROP );
+				IDesignElementModel.PROPERTY_MASKS_PROP );
 		if ( maskProp == null )
 		{
 			throw new PropertyNameException( element, propName );
@@ -177,7 +178,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 			return;
 
 		ArrayList masks = (ArrayList) getElement( ).getLocalProperty(
-				getModule( ), DesignElement.PROPERTY_MASKS_PROP );
+				getModule( ), IDesignElementModel.PROPERTY_MASKS_PROP );
 
 		PropertyMask mask = null;
 
@@ -185,7 +186,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		{
 			masks = new ArrayList( );
 			getElement( )
-					.setProperty( DesignElement.PROPERTY_MASKS_PROP, masks );
+					.setProperty( IDesignElementModel.PROPERTY_MASKS_PROP, masks );
 		}
 
 		for ( int i = 0; i < masks.size( ); i++ )
@@ -252,7 +253,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	public void setDisplayNameKey( String displayNameKey )
 			throws SemanticException
 	{
-		setStringProperty( DesignElement.DISPLAY_NAME_ID_PROP, displayNameKey );
+		setStringProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey );
 	}
 
 	/**
@@ -263,7 +264,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public String getDisplayNameKey( )
 	{
-		return getStringProperty( DesignElement.DISPLAY_NAME_ID_PROP );
+		return getStringProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP );
 	}
 
 	/**
@@ -278,7 +279,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public void setDisplayName( String displayName ) throws SemanticException
 	{
-		setStringProperty( DesignElement.DISPLAY_NAME_PROP, displayName );
+		setStringProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
 	}
 
 	/**
@@ -289,7 +290,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public String getDisplayName( )
 	{
-		return getStringProperty( DesignElement.DISPLAY_NAME_PROP );
+		return getStringProperty( IDesignElementModel.DISPLAY_NAME_PROP );
 	}
 
 	/**
@@ -303,7 +304,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public void setCustomXml( String customXml ) throws SemanticException
 	{
-		setStringProperty( DesignElement.CUSTOM_XML_PROP, customXml );
+		setStringProperty( IDesignElementModel.CUSTOM_XML_PROP, customXml );
 	}
 
 	/**
@@ -314,7 +315,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public String getCustomXml( )
 	{
-		return getStringProperty( DesignElement.CUSTOM_XML_PROP );
+		return getStringProperty( IDesignElementModel.CUSTOM_XML_PROP );
 	}
 
 	/**
@@ -329,7 +330,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public void setComments( String theComments ) throws SemanticException
 	{
-		setStringProperty( DesignElement.COMMENTS_PROP, theComments );
+		setStringProperty( IDesignElementModel.COMMENTS_PROP, theComments );
 	}
 
 	/**
@@ -340,7 +341,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 	public String getComments( )
 	{
-		return getStringProperty( DesignElement.COMMENTS_PROP );
+		return getStringProperty( IDesignElementModel.COMMENTS_PROP );
 	}
 
 	/**

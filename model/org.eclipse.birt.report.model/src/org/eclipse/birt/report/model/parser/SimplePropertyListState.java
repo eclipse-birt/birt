@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -64,7 +64,7 @@ public class SimplePropertyListState extends AbstractPropertyState
 	{
 		assert valueToSet != null;
 
-		if ( propDefn.getTypeCode( ) != PropertyType.LIST_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.LIST_TYPE )
 		{
 			DesignParserException e = new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE );
@@ -101,7 +101,7 @@ public class SimplePropertyListState extends AbstractPropertyState
 		}
 
 		if ( !valueList.isEmpty( )
-				&& !StyledElement.STYLE_PROP.equals( propDefn.getName( ) ) )
+				&& !IStyledElementModel.STYLE_PROP.equals( propDefn.getName( ) ) )
 			element.setProperty( propDefn, valueList );
 	}
 

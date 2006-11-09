@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -78,7 +79,7 @@ public class TextPropertyState extends AbstractPropertyState
 			return;
 		}
 
-		String keyName = name + DesignElement.ID_SUFFIX;
+		String keyName = name + IDesignElementModel.ID_SUFFIX;
 
 		if ( struct != null )
 		{
@@ -134,7 +135,7 @@ public class TextPropertyState extends AbstractPropertyState
 		{
 			setProperty( name, value );
 			if ( !StringUtil.isBlank( keyValue ) )
-				setProperty( name + DesignElement.ID_SUFFIX, keyValue );
+				setProperty( name + IDesignElementModel.ID_SUFFIX, keyValue );
 		}
 	}
 

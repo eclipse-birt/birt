@@ -16,9 +16,8 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.TableColumn;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * Represents a column within a table. The application generally does not create
@@ -63,7 +62,7 @@ public class ColumnHandle extends ReportElementHandle
 
 	public int getRepeatCount( )
 	{
-		return getIntProperty( TableColumn.REPEAT_PROP );
+		return getIntProperty( ITableColumnModel.REPEAT_PROP );
 	}
 
 	/**
@@ -81,7 +80,7 @@ public class ColumnHandle extends ReportElementHandle
 
 	public void setRepeatCount( int count ) throws SemanticException
 	{
-		setIntProperty( TableColumn.REPEAT_PROP, count );
+		setIntProperty( ITableColumnModel.REPEAT_PROP, count );
 	}
 
 	/**
@@ -92,7 +91,7 @@ public class ColumnHandle extends ReportElementHandle
 
 	public DimensionHandle getWidth( )
 	{
-		return super.getDimensionProperty( TableColumn.WIDTH_PROP );
+		return super.getDimensionProperty( ITableColumnModel.WIDTH_PROP );
 	}
 
 	/**
@@ -166,7 +165,7 @@ public class ColumnHandle extends ReportElementHandle
 
 	public Iterator visibilityRulesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( TableRow.VISIBILITY_PROP );
+		PropertyHandle propHandle = getPropertyHandle( ITableRowModel.VISIBILITY_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}

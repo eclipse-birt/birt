@@ -18,10 +18,12 @@ import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -143,7 +145,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert prop.isStyleProperty( );
 
-		ContainerSlot columnSlot = table.getSlot( TableItem.COLUMN_SLOT );
+		ContainerSlot columnSlot = table.getSlot( ITableItemModel.COLUMN_SLOT );
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
 
@@ -186,7 +188,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert prop.isStyleProperty( );
 
-		ContainerSlot columnSlot = grid.getSlot( GridItem.COLUMN_SLOT );
+		ContainerSlot columnSlot = grid.getSlot( IGridItemModel.COLUMN_SLOT );
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
 
@@ -217,7 +219,7 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert prop != null;
 
-		if ( Style.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
+		if ( IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
 				&& element.getContainer( ) instanceof TableRow )
 			return true;
 

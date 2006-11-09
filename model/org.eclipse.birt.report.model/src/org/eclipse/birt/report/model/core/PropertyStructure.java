@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
@@ -143,7 +143,7 @@ public abstract class PropertyStructure extends Structure
 			IPropertyDefn memberDefn = getDefn( ).getMember( memberName );
 
 			Object value = null;
-			if ( memberDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			{
 				if ( memberDefn.isList( ) )
 				{

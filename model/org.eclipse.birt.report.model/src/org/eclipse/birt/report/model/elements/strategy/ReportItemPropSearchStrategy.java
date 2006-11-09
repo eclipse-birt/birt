@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.elements.strategy;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -61,7 +61,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert prop != null;
 
-		if ( Style.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
+		if ( IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
 				&& element.getContainer( ) instanceof Cell )
 			return true;
 

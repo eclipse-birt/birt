@@ -17,6 +17,9 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * The strategy to fill empty areas with <code>LayoutCell</code>s and
@@ -81,20 +84,20 @@ public class FillCellsStrategy
 		int columnCount = layoutTable.getColumnCount( );
 		TableItem table = layoutTable.table;
 
-		fillsEmptyCellsForSlot( table.getSlot( TableItem.HEADER_SLOT ),
+		fillsEmptyCellsForSlot( table.getSlot( IListingElementModel.HEADER_SLOT ),
 				layoutTable.getHeader( ), columnCount );
 
-		ContainerSlot groups = table.getSlot( TableItem.GROUP_SLOT );
+		ContainerSlot groups = table.getSlot( IListingElementModel.GROUP_SLOT );
 		int groupCount = groups.getCount( );
 		for ( int i = 0; i < groupCount; i++ )
 		{
 			TableGroup group = (TableGroup) groups.getContent( i );
-			fillsEmptyCellsForSlot( group.getSlot( TableGroup.HEADER_SLOT ),
+			fillsEmptyCellsForSlot( group.getSlot( IGroupElementModel.HEADER_SLOT ),
 					layoutTable.getGroupHeaders( ).getLayoutSlot( i ),
 					columnCount );
 		}
 
-		fillsEmptyCellsForSlot( table.getSlot( TableItem.DETAIL_SLOT ),
+		fillsEmptyCellsForSlot( table.getSlot( IListingElementModel.DETAIL_SLOT ),
 				layoutTable.getDetail( ), columnCount );
 
 		// the group level in the group is from 0 to groupCount - 1;
@@ -104,12 +107,12 @@ public class FillCellsStrategy
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupCount - i
 					- 1 );
-			fillsEmptyCellsForSlot( group.getSlot( TableGroup.FOOTER_SLOT ),
+			fillsEmptyCellsForSlot( group.getSlot( IGroupElementModel.FOOTER_SLOT ),
 					layoutTable.getGroupFooters( ).getLayoutSlot( i ),
 					columnCount );
 		}
 
-		fillsEmptyCellsForSlot( table.getSlot( TableItem.FOOTER_SLOT ),
+		fillsEmptyCellsForSlot( table.getSlot( IListingElementModel.FOOTER_SLOT ),
 				layoutTable.getFooter( ), columnCount );
 	}
 
@@ -243,8 +246,8 @@ public class FillCellsStrategy
 				continue;
 
 			Cell cell = new Cell( );
-			cell.setContainer( row, TableRow.CONTENT_SLOT );
-			row.getSlot( TableRow.CONTENT_SLOT ).insert( cell, posn );
+			cell.setContainer( row, ITableRowModel.CONTENT_SLOT );
+			row.getSlot( ITableRowModel.CONTENT_SLOT ).insert( cell, posn );
 
 			layoutRow.fillCells( layoutTable.getNextCellId( ),
 					positionsToFillLayoutCells[i], 1, 0, cell, false );

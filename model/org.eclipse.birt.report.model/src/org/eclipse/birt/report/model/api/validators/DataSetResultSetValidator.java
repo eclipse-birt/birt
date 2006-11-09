@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -75,7 +76,7 @@ public class DataSetResultSetValidator extends AbstractElementValidator
 		List list = new ArrayList( );
 
 		List columns = (List) toValidate.getProperty( module,
-				SimpleDataSet.RESULT_SET_PROP );
+				IDataSetModel.RESULT_SET_PROP );
 		if ( columns != null && columns.size( ) == 0 )
 		{
 			list.add( new SemanticError( toValidate,

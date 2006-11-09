@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -53,19 +55,17 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -227,7 +227,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		PropertyDefn defn = (PropertyDefn) getPropertyDefn( propName );
 		if ( value instanceof List && defn != null
-				&& defn.getSubTypeCode( ) == PropertyType.LIST_TYPE )
+				&& defn.getSubTypeCode( ) == IPropertyType.LIST_TYPE )
 		{
 			List valueList = (List) value;
 			List names = new ArrayList( );
@@ -347,7 +347,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( propDefn == null )
 			return null;
 
-		if ( propDefn.getTypeCode( ) != PropertyType.DIMENSION_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.DIMENSION_TYPE )
 			return null;
 
 		return new DimensionHandle( this, propDefn );
@@ -372,7 +372,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( propDefn == null )
 			return null;
 
-		if ( propDefn.getTypeCode( ) != PropertyType.COLOR_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.COLOR_TYPE )
 			return null;
 
 		return new ColorHandle( this, propDefn );
@@ -391,7 +391,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	protected FontHandle getFontProperty( )
 	{
 		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn(
-				Style.FONT_FAMILY_PROP );
+				IStyleModel.FONT_FAMILY_PROP );
 
 		if ( propDefn == null )
 			return null;
@@ -586,7 +586,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			PropertyDefn propDefn = (PropertyDefn) props.get( i );
 			String propName = propDefn.getName( );
 
-			if ( ( DesignElement.NAME_PROP.equals( propName ) ) )
+			if ( ( IDesignElementModel.NAME_PROP.equals( propName ) ) )
 			{
 				NameCommand nameCmd = new NameCommand( module, getElement( ) );
 				try
@@ -1260,7 +1260,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content.getContainer( ).getElement( ) == getElement( ) )
 			return content.getElement( ).getContainerSlot( );
 
-		return DesignElement.NO_SLOT;
+		return IDesignElementModel.NO_SLOT;
 	}
 
 	/**
@@ -1277,7 +1277,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return null;
 
 		int slotID = containerHandle.findContentSlot( this );
-		assert slotID != DesignElement.NO_SLOT;
+		assert slotID != IDesignElementModel.NO_SLOT;
 		return containerHandle.getSlot( slotID );
 	}
 
@@ -1417,7 +1417,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayLabel( )
 	{
-		return getDisplayLabel( DesignElement.SHORT_LABEL );
+		return getDisplayLabel( IDesignElementModel.SHORT_LABEL );
 	}
 
 	/**
@@ -1458,9 +1458,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayLabel( int level )
 	{
-		assert level == DesignElement.USER_LABEL
-				|| level == DesignElement.SHORT_LABEL
-				|| level == DesignElement.FULL_LABEL;
+		assert level == IDesignElementModel.USER_LABEL
+				|| level == IDesignElementModel.SHORT_LABEL
+				|| level == IDesignElementModel.FULL_LABEL;
 
 		return getElement( ).getDisplayLabel( module, level );
 	}
@@ -1595,7 +1595,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new PropertyValueException(
 					targetHandle.getDefn( ).getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					PropertyType.ELEMENT_REF_TYPE );
+					IPropertyType.ELEMENT_REF_TYPE );
 
 		PropertyDefn propDefn = (ElementPropertyDefn) getDefn( ).getProperty(
 				propName );
@@ -1616,8 +1616,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		}
 
-		if ( DesignElement.NAME_PROP.equals( propName )
-				|| DesignElement.EXTENDS_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName )
+				|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
@@ -1625,7 +1625,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		switch ( propDefn.getTypeCode( ) )
 		{
-			case PropertyType.ELEMENT_REF_TYPE :
+			case IPropertyType.ELEMENT_REF_TYPE :
 				ElementRefValue refValue = (ElementRefValue) value;
 
 				if ( refValue.isResolved( ) )
@@ -1640,7 +1640,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				}
 				break;
 
-			case PropertyType.STRUCT_REF_TYPE :
+			case IPropertyType.STRUCT_REF_TYPE :
 				StructRefValue structRefValue = (StructRefValue) value;
 
 				if ( structRefValue.isResolved( ) )
@@ -1651,7 +1651,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 							structRefValue.getName( ) );
 				break;
 
-			case PropertyType.STRUCT_TYPE :
+			case IPropertyType.STRUCT_TYPE :
 				if ( propDefn.isList( ) )
 				{
 					PropertyHandle propHandle = targetHandle
@@ -1671,7 +1671,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				}
 				break;
 
-			case PropertyType.LIST_TYPE :
+			case IPropertyType.LIST_TYPE :
 
 				assert value instanceof List;
 				List valueList = (List) value;
@@ -1680,7 +1680,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				for ( int i = 0; i < valueList.size( ); i++ )
 				{
 					Object item = valueList.get( i );
-					if ( propDefn.getSubTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+					if ( propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 						propHandle.addItem( item );
 					else
 					{
@@ -1957,7 +1957,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 */
 	public String getEventHandlerClass( )
 	{
-		return getStringProperty( GroupElement.EVENT_HANDLER_CLASS_PROP );
+		return getStringProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 	}
 
 	/**
@@ -1972,7 +1972,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 */
 	public void setEventHandlerClass( String expr ) throws SemanticException
 	{
-		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
+		setProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP, expr );
 	}
 
 	/**
@@ -2211,7 +2211,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( defn == null )
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
-		if ( Module.PROPERTY_BINDINGS_PROP.equals( defn.getName( ) ) )
+		if ( IModuleModel.PROPERTY_BINDINGS_PROP.equals( defn.getName( ) ) )
 			return;
 
 		// check the element is in the id-map of the root module
@@ -2223,7 +2223,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		assert root.getElementByID( getID( ) ) == getElement( );
 
 		ArrayList bindingList = (ArrayList) root.getLocalProperty( root,
-				Module.PROPERTY_BINDINGS_PROP );
+				IModuleModel.PROPERTY_BINDINGS_PROP );
 
 		PropertyBinding binding = root.findPropertyBinding( getElement( ),
 				propName );
@@ -2238,10 +2238,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			assert value != null;
 
 			bindingList = new ArrayList( );
-			root.setProperty( Module.PROPERTY_BINDINGS_PROP, bindingList );
+			root.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP, bindingList );
 		}
 
-		defn = root.getPropertyDefn( Module.PROPERTY_BINDINGS_PROP );
+		defn = root.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
 		assert defn != null;
 
 		PropertyCommand cmd = new PropertyCommand( module, root );

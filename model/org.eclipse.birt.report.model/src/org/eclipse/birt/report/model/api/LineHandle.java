@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
 
 /**
@@ -57,7 +56,7 @@ public class LineHandle extends ReportItemHandle implements ILineItemModel
 
 	public String getOrientation( )
 	{
-		return getStringProperty( LineItem.ORIENTATION_PROP );
+		return getStringProperty( ILineItemModel.ORIENTATION_PROP );
 	}
 
 	/**
@@ -77,6 +76,6 @@ public class LineHandle extends ReportItemHandle implements ILineItemModel
 
 	public void setOrientation( String orientation ) throws SemanticException
 	{
-		setStringProperty( LineItem.ORIENTATION_PROP, orientation );
+		setStringProperty( ILineItemModel.ORIENTATION_PROP, orientation );
 	}
 }

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -78,12 +79,12 @@ public class CompatibilityUtil
 		metaData.setProperty( CachedMetaData.RESULT_SET_MEMBER, resultColumns );
 
 		PropertyValueValidationUtil.validateProperty( setHandle,
-				DataSetHandle.CACHED_METADATA_PROP, metaData );
+				IDataSetModel.CACHED_METADATA_PROP, metaData );
 
 		if ( originalMetaData == null )
 		{
 			setHandle.getElement( ).setProperty(
-					DataSetHandle.CACHED_METADATA_PROP, metaData );
+					IDataSetModel.CACHED_METADATA_PROP, metaData );
 		}
 		else
 		{
@@ -161,6 +162,6 @@ public class CompatibilityUtil
 			return;
 
 		addStructures( dataSetHandle
-				.getPropertyHandle( DataSetHandle.RESULT_SET_PROP ), columns );
+				.getPropertyHandle( IDataSetModel.RESULT_SET_PROP ), columns );
 	}
 }

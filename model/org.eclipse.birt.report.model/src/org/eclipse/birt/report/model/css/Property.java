@@ -22,6 +22,10 @@ import org.w3c.dom.css.CSSValue;
 public class Property implements Serializable
 {
 
+	/**
+	 * Document for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = 3064124971792953691L;
 	private String name;
 	private CSSValue value;
 

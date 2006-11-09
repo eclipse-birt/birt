@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -81,7 +82,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public String getQueryText( )
 	{
-		return getStringProperty( OdaDataSet.QUERY_TEXT_PROP );
+		return getStringProperty( IOdaDataSetModel.QUERY_TEXT_PROP );
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public String getResultSetName( )
 	{
-		return getStringProperty( OdaDataSet.RESULT_SET_NAME_PROP );
+		return getStringProperty( IOdaDataSetModel.RESULT_SET_NAME_PROP );
 	}
 
 	/**
@@ -149,7 +150,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public void setQueryText( String text ) throws SemanticException
 	{
-		setStringProperty( OdaDataSet.QUERY_TEXT_PROP, text );
+		setStringProperty( IOdaDataSetModel.QUERY_TEXT_PROP, text );
 	}
 
 	/**
@@ -177,7 +178,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public void setResultSetName( String name ) throws SemanticException
 	{
-		setStringProperty( OdaDataSet.RESULT_SET_NAME_PROP, name );
+		setStringProperty( IOdaDataSetModel.RESULT_SET_NAME_PROP, name );
 	}
 
 	/**
@@ -200,7 +201,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public String getExtensionID( )
 	{
-		return getStringProperty( OdaDataSet.EXTENSION_ID_PROP );
+		return getStringProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
 	}
 
 	/**
@@ -215,7 +216,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public Iterator privateDriverPropertiesIterator( )
 	{
-		PropertyHandle propertyHandle = getPropertyHandle( OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
+		PropertyHandle propertyHandle = getPropertyHandle( IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		assert propertyHandle != null;
 
 		return propertyHandle.iterator( );
@@ -233,7 +234,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	public String getPrivateDriverProperty( String name )
 	{
 		return ExtendedPropertyHelper.getExtendedProperty( this,
-				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP, name );
+				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP, name );
 	}
 
 	/**
@@ -256,7 +257,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 			throws SemanticException
 	{
 		ExtendedPropertyHelper.setExtendedProperty( this,
-				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
+				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
 	}
 
 	/**
@@ -455,7 +456,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public OdaDesignerStateHandle getDesignerState( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IOdaDataSetModel.DESIGNER_STATE_PROP );
 		OdaDesignerState designerState = (OdaDesignerState) propHandle
 				.getValue( );
 
@@ -479,12 +480,12 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	public OdaDesignerStateHandle setDesignerState(
 			OdaDesignerState designerState ) throws SemanticException
 	{
-		setProperty( OdaDataSet.DESIGNER_STATE_PROP, designerState );
+		setProperty( IOdaDataSetModel.DESIGNER_STATE_PROP, designerState );
 
 		if ( designerState == null )
 			return null;
 		return (OdaDesignerStateHandle) designerState
-				.getHandle( getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP ) );
+				.getHandle( getPropertyHandle( IOdaDataSetModel.DESIGNER_STATE_PROP ) );
 	}
 
 	/**

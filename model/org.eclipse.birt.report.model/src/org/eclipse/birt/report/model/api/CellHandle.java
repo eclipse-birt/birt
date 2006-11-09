@@ -14,8 +14,8 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  * Represents a cell within a table or grid. A cell can span multiple rows
@@ -59,7 +59,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public int getColumnSpan( )
 	{
-		return getIntProperty( Cell.COL_SPAN_PROP );
+		return getIntProperty( ICellModel.COL_SPAN_PROP );
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setColumnSpan( int span ) throws SemanticException
 	{
-		setIntProperty( Cell.COL_SPAN_PROP, span );
+		setIntProperty( ICellModel.COL_SPAN_PROP, span );
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public int getRowSpan( )
 	{
-		return getIntProperty( Cell.ROW_SPAN_PROP );
+		return getIntProperty( ICellModel.ROW_SPAN_PROP );
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setRowSpan( int span ) throws SemanticException
 	{
-		setIntProperty( Cell.ROW_SPAN_PROP, span );
+		setIntProperty( ICellModel.ROW_SPAN_PROP, span );
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getDrop( )
 	{
-		return getStringProperty( Cell.DROP_PROP );
+		return getStringProperty( ICellModel.DROP_PROP );
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setDrop( String drop ) throws SemanticException
 	{
-		setStringProperty( Cell.DROP_PROP, drop );
+		setStringProperty( ICellModel.DROP_PROP, drop );
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public SlotHandle getContent( )
 	{
-		return getSlot( Cell.CONTENT_SLOT );
+		return getSlot( ICellModel.CONTENT_SLOT );
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public int getColumn( )
 	{
-		return getIntProperty( Cell.COLUMN_PROP );
+		return getIntProperty( ICellModel.COLUMN_PROP );
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setColumn( int column ) throws SemanticException
 	{
-		setIntProperty( Cell.COLUMN_PROP, column );
+		setIntProperty( ICellModel.COLUMN_PROP, column );
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public DimensionHandle getHeight( )
 	{
-		return getDimensionProperty( Cell.HEIGHT_PROP );
+		return getDimensionProperty( ICellModel.HEIGHT_PROP );
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public DimensionHandle getWidth( )
 	{
-		return getDimensionProperty( Cell.WIDTH_PROP );
+		return getDimensionProperty( ICellModel.WIDTH_PROP );
 	}
 	
 	/**
@@ -308,7 +308,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getEventHandleClass( )
 	{
-		return getStringProperty( Cell.EVENT_HANDLER_CLASS_PROP );
+		return getStringProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 	}
 	
 	/**
@@ -324,6 +324,6 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setEventHandleClass( String expr ) throws SemanticException
 	{
-		setProperty( Cell.EVENT_HANDLER_CLASS_PROP, expr );
+		setProperty( IDesignElementModel.EVENT_HANDLER_CLASS_PROP, expr );
 	}
 }

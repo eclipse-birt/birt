@@ -15,9 +15,9 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  * This class represents a data item element: one that displays the value of an
@@ -108,7 +108,7 @@ public class DataItem extends ReportItem implements IDataItemModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == DesignElement.FULL_LABEL )
+		if ( level == IDesignElementModel.FULL_LABEL )
 		{
 			String valueExpr = handle( module ).getResultSetExpression( );
 			if ( !StringUtil.isBlank( valueExpr ) )

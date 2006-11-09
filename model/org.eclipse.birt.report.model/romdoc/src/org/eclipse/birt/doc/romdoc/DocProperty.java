@@ -17,9 +17,9 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 public class DocProperty extends DocObject
 {
@@ -49,17 +49,17 @@ public class DocProperty extends DocObject
 	public String getType( )
 	{
 		String type;
-		if ( defn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+		if ( defn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 		{
 			type = makeStructureLink( defn.getStructDefn( ), "element" ) + //$NON-NLS-1$
 			       " Structure"; //$NON-NLS-1$
 		}
-		else if ( defn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		else if ( defn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			type = makeElementLink( defn.getTargetElementType( ).getName( ), "element" ) + //$NON-NLS-1$
 				   " Reference"; //$NON-NLS-1$
 		}
-		else if ( defn.getTypeCode( ) == PropertyType.CHOICE_TYPE )
+		else if ( defn.getTypeCode( ) == IPropertyType.CHOICE_TYPE )
 		{
 			type = makeTypeLink( defn.getType( ), "element" ) + //$NON-NLS-1$
 			       " (" + defn.getChoices( ).getName( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -174,7 +174,7 @@ public class DocProperty extends DocObject
 
 	public boolean isExpression( )
 	{
-		return defn.getTypeCode( ) == PropertyType.EXPRESSION_TYPE;
+		return defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE;
 	}
 
 	public String getContext( )

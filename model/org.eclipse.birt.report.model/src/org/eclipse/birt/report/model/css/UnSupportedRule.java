@@ -25,6 +25,11 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 {
 
 	/**
+	 * Document for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = -1643330060195374902L;
+	
+	/**
 	 * The text of the rule.
 	 */
 

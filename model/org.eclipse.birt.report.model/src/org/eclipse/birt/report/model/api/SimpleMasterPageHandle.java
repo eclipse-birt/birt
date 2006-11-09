@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 
 /**
@@ -54,7 +53,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public boolean showHeaderOnFirst( )
 	{
-		return getBooleanProperty( SimpleMasterPage.SHOW_HEADER_ON_FIRST_PROP );
+		return getBooleanProperty( ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP );
 	}
 
 	/**
@@ -70,7 +69,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	public void setShowHeaderOnFirst( boolean showHeaderOnFirst )
 			throws SemanticException
 	{
-		setProperty( SimpleMasterPage.SHOW_HEADER_ON_FIRST_PROP, Boolean
+		setProperty( ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP, Boolean
 				.valueOf( showHeaderOnFirst ) );
 	}
 
@@ -83,7 +82,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public boolean showFooterOnLast( )
 	{
-		return getBooleanProperty( SimpleMasterPage.SHOW_FOOTER_ON_LAST_PROP );
+		return getBooleanProperty( ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP );
 	}
 
 	/**
@@ -99,7 +98,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	public void setShowFooterOnLast( boolean showFooterOnLast )
 			throws SemanticException
 	{
-		setProperty( SimpleMasterPage.SHOW_FOOTER_ON_LAST_PROP, Boolean
+		setProperty( ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP, Boolean
 				.valueOf( showFooterOnLast ) );
 	}
 
@@ -113,7 +112,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public boolean isFloatingFooter( )
 	{
-		return getBooleanProperty( SimpleMasterPage.FLOATING_FOOTER );
+		return getBooleanProperty( ISimpleMasterPageModel.FLOATING_FOOTER );
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	public void setFloatingFooter( boolean isFloatingFooter )
 			throws SemanticException
 	{
-		setProperty( SimpleMasterPage.FLOATING_FOOTER, Boolean
+		setProperty( ISimpleMasterPageModel.FLOATING_FOOTER, Boolean
 				.valueOf( isFloatingFooter ) );
 	}
 
@@ -141,7 +140,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public SlotHandle getPageHeader( )
 	{
-		return getSlot( SimpleMasterPage.PAGE_HEADER_SLOT );
+		return getSlot( ISimpleMasterPageModel.PAGE_HEADER_SLOT );
 	}
 
 	/**
@@ -152,7 +151,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public SlotHandle getPageFooter( )
 	{
-		return getSlot( SimpleMasterPage.PAGE_FOOTER_SLOT );
+		return getSlot( ISimpleMasterPageModel.PAGE_FOOTER_SLOT );
 	}
 	/**
 	 * Gets a dimension handle to work with the height on page header.
@@ -162,7 +161,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public DimensionHandle getHeaderHeight( )
 	{
-		return super.getDimensionProperty( SimpleMasterPage.HEADER_HEIGHT_PROP );
+		return super.getDimensionProperty( ISimpleMasterPageModel.HEADER_HEIGHT_PROP );
 	}
 
 	/**
@@ -173,6 +172,6 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 
 	public DimensionHandle getFooterHeight( )
 	{
-		return super.getDimensionProperty( SimpleMasterPage.FOOTER_HEIGHT_PROP );
+		return super.getDimensionProperty( ISimpleMasterPageModel.FOOTER_HEIGHT_PROP );
 	}
 }

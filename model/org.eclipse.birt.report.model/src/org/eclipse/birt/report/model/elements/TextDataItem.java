@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 
 /**
@@ -117,7 +117,7 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == DesignElement.FULL_LABEL )
+		if ( level == IDesignElementModel.FULL_LABEL )
 		{
 			String valueExpr = handle( module ).getValueExpr( );
 			if ( !StringUtil.isBlank( valueExpr ) )

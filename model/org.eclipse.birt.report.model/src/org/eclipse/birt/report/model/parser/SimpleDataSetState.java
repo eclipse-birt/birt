@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -43,7 +43,7 @@ class SimpleDataSetState extends ReportElementState
 
 	public SimpleDataSetState( ModuleParserHandler theHandler )
 	{
-		super( theHandler, theHandler.getModule( ), Module.DATA_SET_SLOT );
+		super( theHandler, theHandler.getModule( ), IModuleModel.DATA_SET_SLOT );
 	}
 
 	/**

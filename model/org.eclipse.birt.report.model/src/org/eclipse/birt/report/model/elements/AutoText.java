@@ -111,7 +111,7 @@ public class AutoText extends ReportItem implements IAutoTextModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String value = getStringProperty( module,
-				AutoText.AUTOTEXT_TYPE_PROP );
+				IAutoTextModel.AUTOTEXT_TYPE_PROP );
 
 		if ( value == null )
 			return super.getDisplayLabel( module, level );

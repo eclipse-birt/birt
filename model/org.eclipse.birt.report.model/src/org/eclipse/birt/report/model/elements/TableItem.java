@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmen
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
@@ -172,7 +173,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 		for ( int i = 0; i < colDefnCount; i++ )
 		{
 			TableColumn col = (TableColumn) cols.getContent( i );
-			colCount += col.getIntProperty( module, TableColumn.REPEAT_PROP );
+			colCount += col.getIntProperty( module, ITableColumnModel.REPEAT_PROP );
 		}
 		return colCount;
 	}

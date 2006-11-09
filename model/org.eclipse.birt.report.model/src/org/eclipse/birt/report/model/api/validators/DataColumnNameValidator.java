@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -91,7 +92,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 		// logs the error.
 
 		String columnName = (String) toValidate.getLocalProperty( module,
-				DataItem.RESULT_SET_COLUMN_PROP );
+				IDataItemModel.RESULT_SET_COLUMN_PROP );
 
 		if ( columnName == null )
 			return list;

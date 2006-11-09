@@ -19,6 +19,9 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * The strategy to apply drop to the table layout. A drop heading follows these
@@ -123,7 +126,8 @@ class DropStrategy
 	private void resolveDropInSlot( TableGroup group, int groupLevel,
 			LayoutSlot layoutGH )
 	{
-		ContainerSlot groupHeader = group.getSlot( TableGroup.HEADER_SLOT );
+		ContainerSlot groupHeader = group
+				.getSlot( IGroupElementModel.HEADER_SLOT );
 		if ( groupHeader.getCount( ) < 1 )
 			return;
 
@@ -149,7 +153,7 @@ class DropStrategy
 	private void resolveDropInRow( TableRow row, int rowId, int groupLevel,
 			LayoutRow layoutRow )
 	{
-		ContainerSlot cells = row.getSlot( TableRow.CONTENT_SLOT );
+		ContainerSlot cells = row.getSlot( ITableRowModel.CONTENT_SLOT );
 		for ( int i = 0; i < cells.getCount( ); i++ )
 		{
 			Cell cell = (Cell) cells.getContent( i );
@@ -173,7 +177,8 @@ class DropStrategy
 	private void resolveDropForCell( Cell cell, int rowId, int groupLevel,
 			LayoutRow layoutRow )
 	{
-		String drop = (String) cell.getLocalProperty( null, Cell.DROP_PROP );
+		String drop = (String) cell.getLocalProperty( null,
+				ICellModel.DROP_PROP );
 		if ( drop == null
 				|| DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase( drop ) )
 			return;

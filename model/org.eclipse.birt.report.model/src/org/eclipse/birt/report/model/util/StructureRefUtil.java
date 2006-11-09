@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
@@ -22,7 +23,6 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 
@@ -57,7 +57,7 @@ public class StructureRefUtil
 
 		if ( defn == null )
 			return null;
-		assert defn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
+		assert defn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 
 		if ( defn.isList( ) )
 		{
@@ -244,7 +244,7 @@ public class StructureRefUtil
 		if ( StringUtil.isBlank( name ) || defn == null || module == null )
 			return null;
 
-		assert defn.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE;
+		assert defn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE;
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
 		assert targetDefn != null;
 
@@ -307,13 +307,13 @@ public class StructureRefUtil
 		if ( target == null || module == null || defn == null )
 			return null;
 
-		assert defn.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE;
+		assert defn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE;
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
 		if ( targetDefn != target.getDefn( ) )
 			throw new PropertyValueException(
 					target.getReferencableProperty( ),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE,
-					PropertyType.STRUCT_REF_TYPE );
+					IPropertyType.STRUCT_REF_TYPE );
 
 		// TODO: target need the root namespace now
 

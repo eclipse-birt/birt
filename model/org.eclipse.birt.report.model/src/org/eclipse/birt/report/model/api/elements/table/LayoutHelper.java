@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
  * An algorithm to support rowSpan, colSpan for BIRT table elements. "column"
@@ -150,9 +152,9 @@ public final class LayoutHelper
 		// for any semantic error, ignore all dropping properties.
 
 		applyLayoutOnSlot( mappingTable.getHeader( ), table
-				.getSlot( TableItem.HEADER_SLOT ), module );
+				.getSlot( IListingElementModel.HEADER_SLOT ), module );
 
-		ContainerSlot groups = table.getSlot( TableItem.GROUP_SLOT );
+		ContainerSlot groups = table.getSlot( IListingElementModel.GROUP_SLOT );
 		int groupCount = groups.getCount( );
 
 		// check on group header by group header. From the outer to the
@@ -161,7 +163,7 @@ public final class LayoutHelper
 		for ( int groupIndex = 0; groupIndex < groupCount; groupIndex++ )
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
-			ContainerSlot header = group.getSlot( TableGroup.HEADER_SLOT );
+			ContainerSlot header = group.getSlot( IGroupElementModel.HEADER_SLOT );
 
 			LayoutSlot slot = mappingTable.getGroupHeaders( ).addSlot(
 					group.getGroupLevel( ), mappingTable.getColumnCount( ) );
@@ -169,7 +171,7 @@ public final class LayoutHelper
 		}
 
 		applyLayoutOnSlot( mappingTable.getDetail( ), table
-				.getSlot( TableItem.DETAIL_SLOT ), module );
+				.getSlot( IListingElementModel.DETAIL_SLOT ), module );
 
 		// check on group footer by group footer. From the outer to the
 		// inner-most.
@@ -177,7 +179,7 @@ public final class LayoutHelper
 		for ( int groupIndex = groupCount - 1; groupIndex >= 0; groupIndex-- )
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupIndex );
-			ContainerSlot header = group.getSlot( TableGroup.FOOTER_SLOT );
+			ContainerSlot header = group.getSlot( IGroupElementModel.FOOTER_SLOT );
 
 			LayoutSlot slot = mappingTable.getGroupFooters( ).addSlot(
 					group.getGroupLevel( ), mappingTable.getColumnCount( ) );
@@ -185,7 +187,7 @@ public final class LayoutHelper
 		}
 
 		applyLayoutOnSlot( mappingTable.getFooter( ), table
-				.getSlot( TableItem.FOOTER_SLOT ), module );
+				.getSlot( IListingElementModel.FOOTER_SLOT ), module );
 
 		return mappingTable;
 	}

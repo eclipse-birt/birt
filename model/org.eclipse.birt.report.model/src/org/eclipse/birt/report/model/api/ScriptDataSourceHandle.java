@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 
 /**
@@ -60,7 +59,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle
 
 	public void setOpen( String value ) throws SemanticException
 	{
-		setProperty( ScriptDataSource.OPEN_METHOD, value );
+		setProperty( IScriptDataSourceModel.OPEN_METHOD, value );
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle
 
 	public String getOpen( )
 	{
-		return getStringProperty( ScriptDataSource.OPEN_METHOD );
+		return getStringProperty( IScriptDataSourceModel.OPEN_METHOD );
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle
 
 	public void setClose( String value ) throws SemanticException
 	{
-		setProperty( ScriptDataSource.CLOSE_METHOD, value );
+		setProperty( IScriptDataSourceModel.CLOSE_METHOD, value );
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class ScriptDataSourceHandle extends DataSourceHandle
 
 	public String getClose( )
 	{
-		return getStringProperty( ScriptDataSource.CLOSE_METHOD );
+		return getStringProperty( IScriptDataSourceModel.CLOSE_METHOD );
 	}
 
 }

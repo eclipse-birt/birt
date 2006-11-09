@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 
 /**
@@ -57,7 +56,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public SlotHandle getParameters( )
 	{
-		return getSlot( ParameterGroup.PARAMETERS_SLOT );
+		return getSlot( IParameterGroupModel.PARAMETERS_SLOT );
 	}
 
 	/**
@@ -68,7 +67,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public String getHelpText( )
 	{
-		return getStringProperty( ParameterGroup.HELP_TEXT_PROP );
+		return getStringProperty( IParameterGroupModel.HELP_TEXT_PROP );
 	}
 
 	/**
@@ -83,7 +82,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public void setHelpText( String text ) throws SemanticException
 	{
-		setStringProperty( ParameterGroup.HELP_TEXT_PROP, text );
+		setStringProperty( IParameterGroupModel.HELP_TEXT_PROP, text );
 	}
 
 	/**
@@ -94,7 +93,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public String getHelpTextKey( )
 	{
-		return getStringProperty( ParameterGroup.HELP_TEXT_KEY_PROP );
+		return getStringProperty( IParameterGroupModel.HELP_TEXT_KEY_PROP );
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public void setHelpTextKey( String text ) throws SemanticException
 	{
-		setStringProperty( ParameterGroup.HELP_TEXT_KEY_PROP, text );
+		setStringProperty( IParameterGroupModel.HELP_TEXT_KEY_PROP, text );
 	}
 
 	/**
@@ -120,7 +119,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public boolean startExpanded( )
 	{
-		return getBooleanProperty( ParameterGroup.START_EXPANDED_PROP );
+		return getBooleanProperty( IParameterGroupModel.START_EXPANDED_PROP );
 	}
 
 	/**
@@ -134,7 +133,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public void setStartExpanded( boolean value ) throws SemanticException
 	{
-		setProperty( ParameterGroup.START_EXPANDED_PROP, Boolean
+		setProperty( IParameterGroupModel.START_EXPANDED_PROP, Boolean
 				.valueOf( value ) );
 	}
 

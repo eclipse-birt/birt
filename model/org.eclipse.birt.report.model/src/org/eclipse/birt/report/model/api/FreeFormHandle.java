@@ -51,6 +51,6 @@ public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel
 
 	public SlotHandle getReportItems( )
 	{
-		return getSlot( FreeForm.REPORT_ITEMS_SLOT );
+		return getSlot( IFreeFormModel.REPORT_ITEMS_SLOT );
 	}
 }

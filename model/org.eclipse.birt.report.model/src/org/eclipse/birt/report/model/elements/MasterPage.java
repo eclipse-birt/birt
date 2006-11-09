@@ -280,7 +280,7 @@ public abstract class MasterPage extends StyledElement
 			boolean isLandScape, String predefinedWidth, String predefinedHeight )
 			throws PropertyValueException
 	{
-		if ( MasterPage.HEIGHT_PROP.equals( propName ) )
+		if ( IMasterPageModel.HEIGHT_PROP.equals( propName ) )
 		{
 			if ( !isLandScape )
 				return DimensionValue.parse( predefinedHeight );
@@ -289,7 +289,7 @@ public abstract class MasterPage extends StyledElement
 
 		}
 
-		if ( MasterPage.WIDTH_PROP.equals( propName ) )
+		if ( IMasterPageModel.WIDTH_PROP.equals( propName ) )
 		{
 			if ( !isLandScape )
 				return DimensionValue.parse( predefinedWidth );
@@ -314,8 +314,8 @@ public abstract class MasterPage extends StyledElement
 	{
 		String propName = prop.getName( );
 
-		if ( MasterPage.HEIGHT_PROP.equals( propName )
-				|| MasterPage.WIDTH_PROP.equals( propName ) )
+		if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
+				|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
 		{
 			String pageType = (String) getProperty( module, TYPE_PROP );
 
@@ -332,21 +332,21 @@ public abstract class MasterPage extends StyledElement
 						.equalsIgnoreCase( pageType ) )
 				{
 					return getPredefinedDimension( propName, isLandScape,
-							MasterPage.A4_WIDTH, MasterPage.A4_HEIGHT );
+							IMasterPageModel.A4_WIDTH, IMasterPageModel.A4_HEIGHT );
 				}
 				else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL
 						.equalsIgnoreCase( pageType ) )
 				{
 					return getPredefinedDimension( propName, isLandScape,
-							MasterPage.US_LEGAL_WIDTH,
-							MasterPage.US_LEGAL_HEIGHT );
+							IMasterPageModel.US_LEGAL_WIDTH,
+							IMasterPageModel.US_LEGAL_HEIGHT );
 				}
 				else if ( DesignChoiceConstants.PAGE_SIZE_US_LETTER
 						.equalsIgnoreCase( pageType ) )
 				{
 					return getPredefinedDimension( propName, isLandScape,
-							MasterPage.US_LETTER_WIDTH,
-							MasterPage.US_LETTER_HEIGHT );
+							IMasterPageModel.US_LETTER_WIDTH,
+							IMasterPageModel.US_LETTER_HEIGHT );
 				}
 			}
 			catch ( PropertyValueException e )

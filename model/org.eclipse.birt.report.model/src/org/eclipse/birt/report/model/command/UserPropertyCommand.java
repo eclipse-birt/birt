@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -29,7 +30,6 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Creates, modifies and deletes user-defined property, which is also known as
@@ -230,7 +230,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 			// it. In this situation, we still validate the old value.
 
 			if ( oldType != newType
-					|| ( oldType == PropertyType.CHOICE_TYPE && newType == PropertyType.CHOICE_TYPE ) )
+					|| ( oldType == IPropertyType.CHOICE_TYPE && newType == IPropertyType.CHOICE_TYPE ) )
 			{
 				if ( value != null )
 				{
@@ -338,7 +338,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		// Ensure choices exist if this is a choice typeCode.
 
-		if ( prop.getTypeCode( ) == PropertyType.CHOICE_TYPE )
+		if ( prop.getTypeCode( ) == IPropertyType.CHOICE_TYPE )
 		{
 			IChoiceSet choices = prop.getChoices( );
 			if ( choices == null || choices.getChoices( ).length == 0 )
@@ -370,7 +370,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 							element,
 							name,
 							UserPropertyException.DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED );
-				if ( prop.getTypeCode( ) != PropertyType.CHOICE_TYPE )
+				if ( prop.getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 				{
 					try
 					{

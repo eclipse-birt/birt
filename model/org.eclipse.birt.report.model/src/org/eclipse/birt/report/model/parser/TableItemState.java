@@ -18,6 +18,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -72,15 +76,15 @@ public class TableItemState extends ListingItemState
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
 			return new TableColumnState( handler, element,
-					TableItem.COLUMN_SLOT );
+					ITableItemModel.COLUMN_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-			return new TableBandState( element, TableItem.HEADER_SLOT );
+			return new TableBandState( element, IListingElementModel.HEADER_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GROUP_TAG ) )
-			return new TableGroupState( handler, element, TableItem.GROUP_SLOT );
+			return new TableGroupState( handler, element, IListingElementModel.GROUP_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DETAIL_TAG ) )
-			return new TableBandState( element, TableItem.DETAIL_SLOT );
+			return new TableBandState( element, IListingElementModel.DETAIL_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-			return new TableBandState( element, TableItem.FOOTER_SLOT );
+			return new TableBandState( element, IListingElementModel.FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -113,7 +117,7 @@ public class TableItemState extends ListingItemState
 		if ( onRowValue == null )
 			return;
 
-		ContainerSlot detail = element.getSlot( TableItem.DETAIL_SLOT );
+		ContainerSlot detail = element.getSlot( IListingElementModel.DETAIL_SLOT );
 		for ( int i = 0; i < detail.getCount( ); i++ )
 		{
 			TableRow row = (TableRow) detail.getContent( i );
@@ -122,8 +126,8 @@ public class TableItemState extends ListingItemState
 			// value. Otherwise not.
 
 			if ( row.getLocalProperty( handler.getModule( ),
-					TableRow.ON_CREATE_METHOD ) == null )
-				row.setProperty( TableRow.ON_CREATE_METHOD, onRowValue );
+					ITableRowModel.ON_CREATE_METHOD ) == null )
+				row.setProperty( ITableRowModel.ON_CREATE_METHOD, onRowValue );
 		}
 	}
 
@@ -173,9 +177,9 @@ public class TableItemState extends ListingItemState
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-				return new TableBandState( group, TableGroup.HEADER_SLOT );
+				return new TableBandState( group, IGroupElementModel.HEADER_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-				return new TableBandState( group, TableGroup.FOOTER_SLOT );
+				return new TableBandState( group, IGroupElementModel.FOOTER_SLOT );
 			return super.startElement( tagName );
 		}
 

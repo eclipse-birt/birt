@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -24,7 +26,6 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Handle to work with a color property. Works with element properties and
@@ -66,7 +67,7 @@ public class ColorHandle extends ComplexValueHandle
 	 */
 
 	private static final ColorPropertyType type = (ColorPropertyType) MetaDataDictionary
-			.getInstance( ).getPropertyType( PropertyType.COLOR_TYPE );
+			.getInstance( ).getPropertyType( IPropertyType.COLOR_TYPE );
 
 	/**
 	 * Constructs a color handle for a member in a structure. This member must
@@ -158,7 +159,7 @@ public class ColorHandle extends ComplexValueHandle
 		List retList = getCSSColors( );
 
 		List colors = getModule( ).getListProperty( getModule( ),
-				Module.COLOR_PALETTE_PROP );
+				IModuleModel.COLOR_PALETTE_PROP );
 		if ( colors == null )
 			return retList;
 

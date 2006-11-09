@@ -32,13 +32,6 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 public class OdaDummyProvider implements ODAProvider
 {
-
-	/**
-	 * ID of the extension which is used to extend the extendable element.
-	 */
-
-	private String extensionID = null;
-
 	/**
 	 * Values of ODA datasource/datasets.
 	 */
@@ -54,7 +47,6 @@ public class OdaDummyProvider implements ODAProvider
 
 	public OdaDummyProvider( String extensionID )
 	{
-		this.extensionID = extensionID;
 	}
 
 	/*
@@ -220,14 +212,11 @@ public class OdaDummyProvider implements ODAProvider
 
 	static class OdaProperty
 	{
-
-		private String name;
 		private String tagName;
 		private String value;
 
 		OdaProperty( String name, String value, String tagName )
 		{
-			this.name = name;
 			this.value = value;
 			this.tagName = tagName;
 		}

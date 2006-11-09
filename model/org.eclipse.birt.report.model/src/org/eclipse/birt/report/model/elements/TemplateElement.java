@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -172,14 +173,14 @@ public abstract class TemplateElement extends DesignElement
 		// element to the result
 
 		ElementRefValue templateParam = (ElementRefValue) propValues
-				.get( TemplateElement.REF_TEMPLATE_PARAMETER_PROP );
+				.get( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 		if ( templateParam != null )
 		{
 			if ( templateParam.getElement( ) != null )
 			{
 				ElementRefValue ref = new ElementRefValue( null, templateParam
 						.getElement( ) );
-				element.setProperty( DesignElement.REF_TEMPLATE_PARAMETER_PROP,
+				element.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 						ref );
 			}
 

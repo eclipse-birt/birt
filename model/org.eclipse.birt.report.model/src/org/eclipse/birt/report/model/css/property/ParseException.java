@@ -12,6 +12,11 @@ package  org.eclipse.birt.report.model.css.property;
  */
 public class ParseException extends Exception {
 
+    /**
+	 * Document for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = -309874593942017647L;
+
   /**
    * This constructor is used by the method "generateParseException"
    * in the generated parser.  Calling this constructor generates

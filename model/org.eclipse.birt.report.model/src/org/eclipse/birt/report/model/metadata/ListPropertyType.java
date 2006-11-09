@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 
@@ -92,7 +93,7 @@ public class ListPropertyType extends PropertyType
 		logger.log( Level.SEVERE, "Invalid value type: " + value ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				PropertyType.LIST_TYPE );
+				IPropertyType.LIST_TYPE );
 	}
 
 	/*

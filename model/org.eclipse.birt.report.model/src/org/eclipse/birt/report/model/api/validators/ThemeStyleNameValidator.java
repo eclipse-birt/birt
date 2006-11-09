@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -125,7 +126,7 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 			return Collections.EMPTY_LIST;
 
 		Theme theme = (Theme) element;
-		ContainerSlot slot = theme.getSlot( Theme.STYLES_SLOT );
+		ContainerSlot slot = theme.getSlot( IThemeModel.STYLES_SLOT );
 
 		List list = new ArrayList( );
 		Set set = new HashSet( );

@@ -28,6 +28,11 @@ import org.w3c.dom.css.CSSStyleSheet;
 public class StyleRule implements CSSStyleRule, Serializable
 {
 
+	/**
+	 * Document for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = 5350775872002094538L;
+	
 	private SelectorList selectors = null;
 	private CSSStyleDeclaration style = null;
 

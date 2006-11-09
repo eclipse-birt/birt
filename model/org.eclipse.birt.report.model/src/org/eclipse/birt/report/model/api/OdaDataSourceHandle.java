@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -75,7 +75,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 	public String getExtensionID( )
 	{
-		return getStringProperty( OdaDataSource.EXTENSION_ID_PROP );
+		return getStringProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 	public Iterator privateDriverPropertiesIterator( )
 	{
-		PropertyHandle propertyHandle = getPropertyHandle( OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
+		PropertyHandle propertyHandle = getPropertyHandle( IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		assert propertyHandle != null;
 
 		return propertyHandle.iterator( );
@@ -134,7 +134,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	public String getPrivateDriverProperty( String name )
 	{
 		return ExtendedPropertyHelper.getExtendedProperty( this,
-				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP, name );
+				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP, name );
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 			throws SemanticException
 	{
 		ExtendedPropertyHelper.setExtendedProperty( this,
-				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
+				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP, name, value );
 	}
 
 	/**
@@ -356,7 +356,7 @@ public class OdaDataSourceHandle extends DataSourceHandle
 
 	public OdaDesignerStateHandle getDesignerState( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( OdaDataSet.DESIGNER_STATE_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IOdaDataSetModel.DESIGNER_STATE_PROP );
 
 		OdaDesignerState designerState = (OdaDesignerState) propHandle
 				.getValue( );
@@ -381,12 +381,12 @@ public class OdaDataSourceHandle extends DataSourceHandle
 	public OdaDesignerStateHandle setDesignerState(
 			OdaDesignerState designerState ) throws SemanticException
 	{
-		setProperty( OdaDataSource.DESIGNER_STATE_PROP, designerState );
+		setProperty( IOdaDataSourceModel.DESIGNER_STATE_PROP, designerState );
 
 		if ( designerState == null )
 			return null;
 		return (OdaDesignerStateHandle) designerState
-				.getHandle( getPropertyHandle( OdaDataSource.DESIGNER_STATE_PROP ) );
+				.getHandle( getPropertyHandle( IOdaDataSourceModel.DESIGNER_STATE_PROP ) );
 	}
 
 }

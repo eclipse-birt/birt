@@ -20,8 +20,9 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.ContentIterator;
@@ -172,9 +173,9 @@ class LibraryRecord extends AbstractLibraryRecord
 		for ( int i = 0; i < module.getDefn( ).getSlotCount( ); i++ )
 		{
 			int slotId = i;
-			if ( slotId == ReportDesign.STYLE_SLOT
-					|| slotId == Library.THEMES_SLOT
-					|| slotId == ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT )
+			if ( slotId == IReportDesignModel.STYLE_SLOT
+					|| slotId == ILibraryModel.THEMES_SLOT
+					|| slotId == IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT )
 				continue;
 
 			resolveElementDescendantsInSlot( slotId );

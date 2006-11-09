@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -19,12 +20,12 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -37,11 +38,13 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -132,7 +135,7 @@ class PropertyState extends AbstractPropertyState
 			return;
 		}
 
-		if ( StyledElement.STYLE_PROP.equalsIgnoreCase( name ) )
+		if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( name ) )
 		{
 			// Ensure that the element can have a style.
 
@@ -170,11 +173,11 @@ class PropertyState extends AbstractPropertyState
 			jmpDefn = element.getPropertyDefn( name );
 
 		if ( element instanceof ListGroup
-				&& ListGroup.GROUP_START_PROP.equalsIgnoreCase( name ) )
+				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, ListGroup.GROUP_START_PROP );
-			state.setName( ListGroup.INTERVAL_BASE_PROP );
+					handler, element, IGroupElementModel.GROUP_START_PROP );
+			state.setName( IGroupElementModel.INTERVAL_BASE_PROP );
 			return state;
 		}
 
@@ -183,7 +186,7 @@ class PropertyState extends AbstractPropertyState
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, "cheetSheet" ); //$NON-NLS-1$
-			state.setName( ReportDesign.CHEAT_SHEET_PROP );
+			state.setName( IReportDesignModel.CHEAT_SHEET_PROP );
 			return state;
 		}
 
@@ -191,13 +194,13 @@ class PropertyState extends AbstractPropertyState
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
 					handler, element, "msgBaseName" ); //$NON-NLS-1$
-			state.setName( ReportDesign.INCLUDE_RESOURCE_PROP );
+			state.setName( IModuleModel.INCLUDE_RESOURCE_PROP );
 			return state;
 		}
 
 		if ( jmpDefn != null
 				&& ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( jmpDefn
-						.getName( ) ) || MapRule.OPERATOR_MEMBER
+						.getName( ) ) || StyleRule.OPERATOR_MEMBER
 						.equalsIgnoreCase( jmpDefn.getName( ) ) ) )
 		{
 			CompatibleOperatorState state = new CompatibleOperatorState(
@@ -328,11 +331,11 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& ( element instanceof ScalarParameter )
-				&& ( ScalarParameter.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
+				&& ( IScalarParameterModel.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
 		{
 			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
 					handler, element );
-			state.setName( ScalarParameter.DEFAULT_VALUE_PROP );
+			state.setName( IScalarParameterModel.DEFAULT_VALUE_PROP );
 			return state;
 		}
 		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_0

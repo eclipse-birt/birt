@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.xml.sax.SAXException;
 
 /**
@@ -64,7 +65,7 @@ public class CompatibleOdaDataSetPropertyState extends CompatiblePropertyState
 		{
 			String convertedValue = convertToExtensionID( text.toString( ) );
 
-			setProperty( OdaDataSet.EXTENSION_ID_PROP, convertedValue );
+			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, convertedValue );
 
 			return;
 		}

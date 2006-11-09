@@ -30,6 +30,12 @@ import org.w3c.dom.css.Rect;
 public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable
 {
 
+	/**
+	 * Document for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = 2788990763692505765L;
+	
 	private Object value = null;
 
 	/**

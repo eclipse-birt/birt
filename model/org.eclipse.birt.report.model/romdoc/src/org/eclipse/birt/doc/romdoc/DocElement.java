@@ -16,11 +16,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 
 public class DocElement extends DocComposite
@@ -42,7 +42,7 @@ public class DocElement extends DocComposite
 			
 			if ( propDefn.definedBy( ) == elementDefn )
 			{
-				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+				if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					methods.add( new DocMethod( propDefn ) );
 				else
 					properties.add( new DocProperty( propDefn ) );
@@ -177,7 +177,7 @@ public class DocElement extends DocComposite
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
 			if ( propDefn.definedBy( ) != defn  &&
-				 propDefn.getTypeCode( ) != PropertyType.SCRIPT_TYPE  &&
+				 propDefn.getTypeCode( ) != IPropertyType.SCRIPT_TYPE  &&
 				 ! propDefn.isStyleProperty( ) )
 			{
 				inherited.add( propDefn );
@@ -195,7 +195,7 @@ public class DocElement extends DocComposite
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
 			if ( propDefn.definedBy( ) != defn  &&
-				 propDefn.getTypeCode( ) != PropertyType.SCRIPT_TYPE  &&
+				 propDefn.getTypeCode( ) != IPropertyType.SCRIPT_TYPE  &&
 				 propDefn.isStyleProperty( ) )
 			{
 				inherited.add( propDefn );
@@ -218,7 +218,7 @@ public class DocElement extends DocComposite
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
 			if ( propDefn.definedBy( ) != defn  &&
-				 propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+				 propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			{
 				inherited.add( propDefn );
 			}

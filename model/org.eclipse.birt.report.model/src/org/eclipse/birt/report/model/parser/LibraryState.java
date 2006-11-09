@@ -14,9 +14,9 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -65,7 +65,7 @@ public class LibraryState extends ModuleState
 		for ( int i = 0; i < themes.getCount( ); i++ )
 		{
 			Theme tmpTheme = (Theme) themes.getContent( i );
-			if ( ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME )
+			if ( ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
 					.equalsIgnoreCase( tmpTheme.getName( ) ) )
 			{
 				theme = tmpTheme;
@@ -76,7 +76,7 @@ public class LibraryState extends ModuleState
 		if ( theme == null )
 		{
 			theme = new Theme( ModelMessages
-					.getMessage( Theme.DEFAULT_THEME_NAME ) );
+					.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
 			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
 			handler.unhandleIDElements.add( theme );
 		}
@@ -107,11 +107,11 @@ public class LibraryState extends ModuleState
 			return new ThemesState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG ) )
 			return new CompatibleLibraryStylesState( handler, getElement( ),
-					Library.THEMES_SLOT );
+					ILibraryModel.THEMES_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_SETUP_TAG ) )
 			return new PageSetupState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COMPONENTS_TAG ) )
-			return new SlotState( ReportDesign.COMPONENT_SLOT );
+			return new SlotState( IModuleModel.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
 		return super.startElement( tagName );
@@ -134,7 +134,7 @@ public class LibraryState extends ModuleState
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEME_TAG ) )
-				return new ThemeState( handler, module, Library.THEMES_SLOT );
+				return new ThemeState( handler, module, ILibraryModel.THEMES_SLOT );
 			return super.startElement( tagName );
 		}
 	}

@@ -61,7 +61,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 	public SlotHandle getColumns( )
 	{
-		return getSlot( GridItem.COLUMN_SLOT );
+		return getSlot( IGridItemModel.COLUMN_SLOT );
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 	public SlotHandle getRows( )
 	{
-		return getSlot( GridItem.ROW_SLOT );
+		return getSlot( IGridItemModel.ROW_SLOT );
 	}
 
 	/**

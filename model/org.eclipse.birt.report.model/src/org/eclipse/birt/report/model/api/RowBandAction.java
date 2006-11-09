@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
@@ -221,8 +222,8 @@ abstract class RowBandAction
 					return null;
 				GroupHandle groupHandle = (GroupHandle) groups.get( groupId );
 
-				if ( slotId != GroupHandle.HEADER_SLOT
-						&& slotId != GroupHandle.FOOTER_SLOT )
+				if ( slotId != IGroupElementModel.HEADER_SLOT
+						&& slotId != IGroupElementModel.FOOTER_SLOT )
 					return null;
 
 				slotHandle = groupHandle.getSlot( slotId );

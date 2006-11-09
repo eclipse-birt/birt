@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -57,7 +58,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -67,8 +67,12 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -77,7 +81,6 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -125,7 +128,7 @@ public class ModelUtil
 		if ( source.getDefn( ).allowsUserProperties( ) )
 		{
 			PropertyHandle propHandle = source
-					.getPropertyHandle( DesignElement.USER_PROPERTIES_PROP );
+					.getPropertyHandle( IDesignElementModel.USER_PROPERTIES_PROP );
 
 			Object value = source.getElement( ).getUserProperties( );
 
@@ -164,15 +167,16 @@ public class ModelUtil
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( StyledElement.STYLE_PROP.equals( propName )
-					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName )
+			if ( IStyledElementModel.STYLE_PROP.equals( propName )
+					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
+					|| IDesignElementModel.USER_PROPERTIES_PROP
+							.equals( propName )
 					|| IOdaExtendableElementModel.EXTENSION_ID_PROP
 							.equals( propName )
 					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
-					|| DesignElement.REF_TEMPLATE_PARAMETER_PROP
+					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
 							.equals( propName )
-					|| DesignElement.VIEW_ACTION_PROP.equals( propName ) )
+					|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
@@ -188,21 +192,22 @@ public class ModelUtil
 
 			// for toc the default value is the group expression.
 			if ( propHandle.getElement( ) instanceof GroupElement
-					&& ( GroupElement.TOC_PROP.equals( propName )
+					&& ( IGroupElementModel.TOC_PROP.equals( propName )
 							|| IStyleModel.PAGE_BREAK_AFTER_PROP
-									.equals( propName ) || IStyleModel.PAGE_BREAK_BEFORE_PROP
-							.equals( propName ) || IStyleModel.PAGE_BREAK_INSIDE_PROP
+									.equals( propName )
+							|| IStyleModel.PAGE_BREAK_BEFORE_PROP
+									.equals( propName ) || IStyleModel.PAGE_BREAK_INSIDE_PROP
 							.equals( propName ) ) )
 				value = propHandle.getElement( ).getLocalProperty(
 						propHandle.getModule( ), propDefn );
 			else if ( onlyFactoryProperty )
 				value = propHandle.getElement( ).getFactoryProperty(
 						propHandle.getModule( ), propDefn );
-			else if ( Module.IMAGES_PROP.equals( propName ) )
+			else if ( IModuleModel.IMAGES_PROP.equals( propName ) )
 			{
 				// Copy the embedded images
-				Iterator images = source.getPropertyHandle( Module.IMAGES_PROP )
-						.iterator( );
+				Iterator images = source.getPropertyHandle(
+						IModuleModel.IMAGES_PROP ).iterator( );
 				while ( images.hasNext( ) )
 				{
 					StructureHandle image = (StructureHandle) images.next( );
@@ -341,20 +346,20 @@ public class ModelUtil
 
 		switch ( propDefn.getTypeCode( ) )
 		{
-			case PropertyType.STRUCT_TYPE :
+			case IPropertyType.STRUCT_TYPE :
 
 				if ( propDefn.isList( ) )
 					return ModelUtil.cloneStructList( (List) value );
 
 				return ( (Structure) value ).copy( );
 
-			case PropertyType.ELEMENT_REF_TYPE :
-			case PropertyType.STRUCT_REF_TYPE :
+			case IPropertyType.ELEMENT_REF_TYPE :
+			case IPropertyType.STRUCT_REF_TYPE :
 
 				ReferenceValue refValue = (ReferenceValue) value;
 				return refValue.copy( );
 
-			case PropertyType.LIST_TYPE :
+			case IPropertyType.LIST_TYPE :
 				return ModelUtil.clonePropertyList( (List) value );
 		}
 
@@ -643,22 +648,22 @@ public class ModelUtil
 
 		String name = theme.getName( );
 		assert !StringUtil.isBlank( name )
-				&& ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME ).equals(
-						name );
+				&& ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
+						.equals( name );
 
-		NameSpace ns = library.getNameSpace( Library.THEME_NAME_SPACE );
-		assert library.getModuleNameSpace( Library.THEME_NAME_SPACE )
+		NameSpace ns = library.getNameSpace( Module.THEME_NAME_SPACE );
+		assert library.getModuleNameSpace( Module.THEME_NAME_SPACE )
 				.canContain( name );
 
 		ns.insert( theme );
 
 		// Add the item to the container.
 
-		library.getSlot( Library.THEMES_SLOT ).add( theme );
+		library.getSlot( ILibraryModel.THEMES_SLOT ).add( theme );
 
 		// Cache the inverse relationship.
 
-		theme.setContainer( library, Library.THEMES_SLOT );
+		theme.setContainer( library, ILibraryModel.THEMES_SLOT );
 	}
 
 	/**
@@ -1148,7 +1153,7 @@ public class ModelUtil
 				Constructor constructor = c
 						.getConstructor( new Class[]{String.class} );
 				element = (DesignElement) constructor
-						.newInstance( new String[]{name} );
+						.newInstance( (Object[]) new String[]{name} );
 				return element;
 			}
 			catch ( NoSuchMethodException e1 )

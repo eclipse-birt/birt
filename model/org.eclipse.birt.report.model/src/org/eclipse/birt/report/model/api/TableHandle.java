@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
 /**
@@ -68,7 +69,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public SlotHandle getColumns( )
 	{
-		return getSlot( TableItem.COLUMN_SLOT );
+		return getSlot( ITableItemModel.COLUMN_SLOT );
 	}
 
 	/**
@@ -92,7 +93,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public String getCaption( )
 	{
-		return getStringProperty( TableItem.CAPTION_PROP );
+		return getStringProperty( ITableItemModel.CAPTION_PROP );
 	}
 
 	/**
@@ -106,7 +107,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public void setCaption( String caption ) throws SemanticException
 	{
-		setStringProperty( TableItem.CAPTION_PROP, caption );
+		setStringProperty( ITableItemModel.CAPTION_PROP, caption );
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public String getCaptionKey( )
 	{
-		return getStringProperty( TableItem.CAPTION_KEY_PROP );
+		return getStringProperty( ITableItemModel.CAPTION_KEY_PROP );
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public void setCaptionKey( String captionKey ) throws SemanticException
 	{
-		setStringProperty( TableItem.CAPTION_KEY_PROP, captionKey );
+		setStringProperty( ITableItemModel.CAPTION_KEY_PROP, captionKey );
 	}
 
 	/**
@@ -720,7 +721,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 		for ( int i = 0; i < detail.getCount( ); i++ )
 		{
-			CellHandle detailcell = getCell( TableHandle.DETAIL_SLOT, -1,
+			CellHandle detailcell = getCell( IListingElementModel.DETAIL_SLOT, -1,
 					i + 1, columnIndex + 1 );
 			if ( detailcell == null )
 				continue;

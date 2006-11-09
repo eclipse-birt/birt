@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -67,13 +69,17 @@ public class ListItemState extends ListingItemState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-			return new ListBandState( handler, element, ListItem.HEADER_SLOT );
+			return new ListBandState( handler, element,
+					IListingElementModel.HEADER_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GROUP_TAG ) )
-			return new ListGroupState( handler, element, ListItem.GROUP_SLOT );
+			return new ListGroupState( handler, element,
+					IListingElementModel.GROUP_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DETAIL_TAG ) )
-			return new ListBandState( handler, element, ListItem.DETAIL_SLOT );
+			return new ListBandState( handler, element,
+					IListingElementModel.DETAIL_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-			return new ListBandState( handler, element, ListItem.FOOTER_SLOT );
+			return new ListBandState( handler, element,
+					IListingElementModel.FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -123,9 +129,11 @@ public class ListItemState extends ListingItemState
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HEADER_TAG ) )
-				return new ListBandState( handler, group, ListGroup.HEADER_SLOT );
+				return new ListBandState( handler, group,
+						IGroupElementModel.HEADER_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
-				return new ListBandState( handler, group, ListGroup.FOOTER_SLOT );
+				return new ListBandState( handler, group,
+						IGroupElementModel.FOOTER_SLOT );
 			return super.startElement( tagName );
 		}
 	}
@@ -201,7 +209,8 @@ public class ListItemState extends ListingItemState
 					|| tagName
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, container, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+			if ( tagName
+					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
 				return new TemplateReportItemState( handler, container, slotID );
 			return super.startElement( tagName );
 		}

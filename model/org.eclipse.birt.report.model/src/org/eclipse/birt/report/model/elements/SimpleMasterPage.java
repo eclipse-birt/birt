@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.SingleElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 
 /**

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -42,15 +43,17 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -152,10 +155,10 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( element.isVirtualElement( ) && element instanceof Cell )
 		{
 			String propName = prop.getName( );
-			if ( Cell.COL_SPAN_PROP.equalsIgnoreCase( propName )
-					|| Cell.ROW_SPAN_PROP.equalsIgnoreCase( propName )
-					|| Cell.DROP_PROP.equalsIgnoreCase( propName )
-					|| Cell.COLUMN_PROP.equalsIgnoreCase( propName ) )
+			if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
+					|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+					|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
+					|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
 			{
 				throw new PropertyValueException(
 						element,
@@ -175,7 +178,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 			String propName = prop.getName( );
 			if ( !( (MasterPage) element ).isCustomType( module )
-					&& ( MasterPage.WIDTH_PROP.equals( propName ) || MasterPage.HEIGHT_PROP
+					&& ( IMasterPageModel.WIDTH_PROP.equals( propName ) || IMasterPageModel.HEIGHT_PROP
 							.equals( propName ) ) )
 			{
 				throw new SemanticError( element,
@@ -186,7 +189,7 @@ public class PropertyCommand extends AbstractElementCommand
 		value = validateValue( prop, value );
 
 		if ( element instanceof GroupElement
-				&& GroupElement.GROUP_NAME_PROP.equals( prop.getName( ) ) )
+				&& IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
 		{
 			if ( !isGroupNameValidInContext( (String) value ) )
 				throw new NameException( element, (String) value,
@@ -423,26 +426,26 @@ public class PropertyCommand extends AbstractElementCommand
 	{
 		String propName = prop.getName( );
 
-		if ( DesignElement.NAME_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName ) )
 		{
 			String name = (String) value;
 
 			NameCommand cmd = new NameCommand( module, element );
 			cmd.setName( name );
 		}
-		else if ( DesignElement.EXTENDS_PROP.equals( propName ) )
+		else if ( IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
 			ExtendsCommand cmd = new ExtendsCommand( module, element );
 			cmd.setExtendsRefValue( (ElementRefValue) value );
 		}
-		else if ( StyledElement.STYLE_PROP.equals( propName ) )
+		else if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
 		{
 			// the value must be a type of ElementRefValue or null
 
 			StyleCommand cmd = new StyleCommand( module, element );
 			cmd.setStyleRefValue( (ElementRefValue) value );
 		}
-		else if ( ReportDesign.UNITS_PROP.equals( propName ) )
+		else if ( IModuleModel.UNITS_PROP.equals( propName ) )
 		{
 			doSetProperty( prop, value );
 		}
@@ -450,7 +453,7 @@ public class PropertyCommand extends AbstractElementCommand
 		{
 			doSetProperty( prop, value );
 		}
-		else if ( Module.THEME_PROP.equals( propName ) )
+		else if ( IModuleModel.THEME_PROP.equals( propName ) )
 		{
 			assert module == element;
 
@@ -537,8 +540,8 @@ public class PropertyCommand extends AbstractElementCommand
 		// if set the value to the name of a structure, must ensure this
 		// would not create duplicates.
 
-		if ( memberDefn.getTypeCode( ) == PropertyType.NAME_TYPE
-				|| memberDefn.getTypeCode( ) == PropertyType.MEMBER_KEY_TYPE )
+		if ( memberDefn.getTypeCode( ) == IPropertyType.NAME_TYPE
+				|| memberDefn.getTypeCode( ) == IPropertyType.MEMBER_KEY_TYPE )
 			checkItemName( ref, (String) value );
 
 		if ( value instanceof ElementRefValue
@@ -911,7 +914,7 @@ public class PropertyCommand extends AbstractElementCommand
 		{
 			StructPropertyDefn memberDefn = (StructPropertyDefn) memberDefns
 					.next( );
-			if ( memberDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+			if ( memberDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 				continue;
 
 			ReferenceValue refValue = (ReferenceValue) referred
@@ -1377,7 +1380,7 @@ public class PropertyCommand extends AbstractElementCommand
 	private void checkListProperty( ElementPropertyDefn prop )
 			throws PropertyValueException
 	{
-		if ( prop.getTypeCode( ) != PropertyType.LIST_TYPE )
+		if ( prop.getTypeCode( ) != IPropertyType.LIST_TYPE )
 			throw new PropertyValueException( element, prop, null,
 					PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
 	}
@@ -1399,7 +1402,7 @@ public class PropertyCommand extends AbstractElementCommand
 			throws PropertyValueException
 	{
 		assert item != null;
-		assert prop.getTypeCode( ) == PropertyType.LIST_TYPE;
+		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE;
 		Object value = item;
 		if ( item instanceof DesignElementHandle )
 			value = ( (DesignElementHandle) item ).getElement( );
@@ -1548,7 +1551,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		Object value = null;
 
-		if ( prop.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+		if ( prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			value = checkItem( prop, item );
 		else
 			value = item;

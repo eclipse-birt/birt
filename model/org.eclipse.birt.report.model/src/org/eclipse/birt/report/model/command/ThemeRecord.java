@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -135,7 +136,7 @@ public class ThemeRecord extends SimpleRecord
 			return;
 
 		Iterator iter = ( (Theme) theme.getElement( ) ).getSlot(
-				Theme.STYLES_SLOT ).iterator( );
+				IThemeModel.STYLES_SLOT ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );

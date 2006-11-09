@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
@@ -116,7 +116,7 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 		// This must be a structure reference property.
 
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
-		assert PropertyType.STRUCT_REF_TYPE == prop.getTypeCode( );
+		assert IPropertyType.STRUCT_REF_TYPE == prop.getTypeCode( );
 
 		// Attempt to resolve the reference.
 

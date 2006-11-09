@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -121,7 +121,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		// Since element in components slot is considered as incompletely
 		// defined, the data set is not required on table in components.
 
-		if ( !dataSetFound && ReportDesign.COMPONENT_SLOT != slot )
+		if ( !dataSetFound && IModuleModel.COMPONENT_SLOT != slot )
 		{
 			list.add( new SemanticError( toValidate,
 					SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );

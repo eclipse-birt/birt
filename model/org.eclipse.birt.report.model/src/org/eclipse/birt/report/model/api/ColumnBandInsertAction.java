@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableColumn;
-import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * Provides the insert and paste operation to the column band in the grid/table.
@@ -25,13 +25,6 @@ import org.eclipse.birt.report.model.elements.TableRow;
 
 class ColumnBandInsertAction extends ColumnBandCopyAction
 {
-
-	/**
-	 * The target position is one ahead specified column.
-	 */
-
-	private static final int INSERT_AFTER = 1;
-
 	/**
 	 * The target position is one after specified column.
 	 */
@@ -255,10 +248,10 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 		if ( pos != -1 )
 			row.addElement( new Cell( ).getHandle( adapter.getModule( ) ),
-					TableRow.CONTENT_SLOT, pos );
+					ITableRowModel.CONTENT_SLOT, pos );
 		else
 			row.addElement( new Cell( ).getHandle( adapter.getModule( ) ),
-					TableRow.CONTENT_SLOT );
+					ITableRowModel.CONTENT_SLOT );
 
 	}
 

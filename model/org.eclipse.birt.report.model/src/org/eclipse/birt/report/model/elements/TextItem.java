@@ -15,8 +15,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 
 /**
@@ -108,9 +108,9 @@ public class TextItem extends ReportItem implements ITextItemModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == DesignElement.FULL_LABEL )
+		if ( level == IDesignElementModel.FULL_LABEL )
 		{
-			String text = getStringProperty( module, TextItem.CONTENT_PROP );
+			String text = getStringProperty( module, ITextItemModel.CONTENT_PROP );
 
 			if ( !StringUtil.isBlank( text ) )
 			{
@@ -120,7 +120,7 @@ public class TextItem extends ReportItem implements ITextItemModel
 			}
 
 			String resourceKey = getStringProperty( module,
-					TextItem.CONTENT_RESOURCE_KEY_PROP );
+					ITextItemModel.CONTENT_RESOURCE_KEY_PROP );
 			if ( !StringUtil.isBlank( resourceKey ) )
 			{
 				resourceKey = limitStringLength( resourceKey );

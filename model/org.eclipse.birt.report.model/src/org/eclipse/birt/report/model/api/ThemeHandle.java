@@ -59,7 +59,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 
 	public SlotHandle getStyles( )
 	{
-		return getSlot( Theme.STYLES_SLOT );
+		return getSlot( IThemeModel.STYLES_SLOT );
 	}
 
 	/**

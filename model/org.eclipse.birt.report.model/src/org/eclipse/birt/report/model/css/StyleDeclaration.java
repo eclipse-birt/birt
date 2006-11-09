@@ -28,6 +28,11 @@ public class StyleDeclaration implements CSSStyleDeclaration, Serializable
 {
 
 	/**
+	 * Document for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = -1098407039390450722L;
+	
+	/**
 	 * The properties of the declaration.
 	 */
 

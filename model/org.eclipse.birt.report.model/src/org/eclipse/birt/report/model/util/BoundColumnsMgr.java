@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
@@ -46,6 +45,20 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 
 /**
  * The utility to provide the way to visit all expressions for the given
@@ -69,22 +82,22 @@ public abstract class BoundColumnsMgr
 	{
 		dealStyle( element, module );
 		String value = (String) element.getLocalProperty( module,
-				ReportItem.TOC_PROP );
+				IReportItemModel.TOC_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		value = (String) element.getLocalProperty( module,
-				ReportItem.BOOKMARK_PROP );
+				IReportItemModel.BOOKMARK_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		value = (String) element.getLocalProperty( module,
-				ReportItem.ON_CREATE_METHOD );
+				IReportItemModel.ON_CREATE_METHOD );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		List paramBindings = (List) element.getLocalProperty( module,
-				ReportItem.PARAM_BINDINGS_PROP );
+				IReportItemModel.PARAM_BINDINGS_PROP );
 		if ( paramBindings != null && paramBindings.size( ) > 0 )
 		{
 			for ( int i = 0; i < paramBindings.size( ); i++ )
@@ -96,7 +109,7 @@ public abstract class BoundColumnsMgr
 		}
 
 		List hideRules = (List) element.getLocalProperty( module,
-				ReportItem.VISIBILITY_PROP );
+				IReportItemModel.VISIBILITY_PROP );
 		if ( hideRules != null && hideRules.size( ) > 0 )
 		{
 			for ( int i = 0; i < hideRules.size( ); i++ )
@@ -178,7 +191,7 @@ public abstract class BoundColumnsMgr
 	{
 		dealReportItem( element, module );
 		List values = (List) element.getLocalProperty( module,
-				ExtendedItem.FILTER_PROP );
+				IExtendedItemModel.FILTER_PROP );
 		if ( !( values == null || values.size( ) < 1 ) )
 		{
 			for ( int i = 0; i < values.size( ); i++ )
@@ -218,17 +231,17 @@ public abstract class BoundColumnsMgr
 	private void dealListingGroup( GroupElement element, Module module )
 	{
 		String value = (String) element.getLocalProperty( module,
-				GroupElement.KEY_EXPR_PROP );
+				IGroupElementModel.KEY_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		value = (String) element.getLocalProperty( module,
-				GroupElement.TOC_PROP );
+				IGroupElementModel.TOC_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		List values = (List) element.getLocalProperty( module,
-				GroupElement.FILTER_PROP );
+				IGroupElementModel.FILTER_PROP );
 		if ( !( values == null || values.size( ) < 1 ) )
 		{
 			for ( int i = 0; i < values.size( ); i++ )
@@ -241,7 +254,7 @@ public abstract class BoundColumnsMgr
 		}
 
 		values = (List) element.getLocalProperty( module,
-				GroupElement.SORT_PROP );
+				IGroupElementModel.SORT_PROP );
 		if ( !( values == null || values.size( ) < 1 ) )
 		{
 			for ( int i = 0; i < values.size( ); i++ )
@@ -265,7 +278,7 @@ public abstract class BoundColumnsMgr
 	{
 		dealReportItem( element, module );
 		List values = (List) element.getLocalProperty( module,
-				ListingElement.FILTER_PROP );
+				IListingElementModel.FILTER_PROP );
 		if ( !( values == null || values.size( ) < 1 ) )
 		{
 			for ( int i = 0; i < values.size( ); i++ )
@@ -278,7 +291,7 @@ public abstract class BoundColumnsMgr
 		}
 
 		values = (List) element.getLocalProperty( module,
-				ListingElement.SORT_PROP );
+				IListingElementModel.SORT_PROP );
 		if ( !( values == null || values.size( ) < 1 ) )
 		{
 			for ( int i = 0; i < values.size( ); i++ )
@@ -385,7 +398,7 @@ public abstract class BoundColumnsMgr
 		{
 			int level = 3;
 
-			if ( i == TableItem.GROUP_SLOT )
+			if ( i == IListingElementModel.GROUP_SLOT )
 				level = 1;
 
 			LevelContentIterator contents = new LevelContentIterator( element,
@@ -457,17 +470,17 @@ public abstract class BoundColumnsMgr
 	private void dealRow( TableRow element, Module module )
 	{
 		String value = (String) element.getLocalProperty( module,
-				TableRow.BOOKMARK_PROP );
+				ITableRowModel.BOOKMARK_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		value = (String) element.getLocalProperty( module,
-				TableRow.ON_CREATE_METHOD );
+				ITableRowModel.ON_CREATE_METHOD );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		List hideRules = (List) element.getLocalProperty( module,
-				TableRow.VISIBILITY_PROP );
+				ITableRowModel.VISIBILITY_PROP );
 		if ( hideRules == null || hideRules.size( ) < 1 )
 			return;
 
@@ -490,7 +503,7 @@ public abstract class BoundColumnsMgr
 	private void dealCell( Cell element, Module module )
 	{
 		String value = (String) element.getLocalProperty( module,
-				Cell.ON_CREATE_METHOD );
+				ICellModel.ON_CREATE_METHOD );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 	}
@@ -510,20 +523,20 @@ public abstract class BoundColumnsMgr
 		dealReportItem( element, module );
 
 		String value = (String) element.getLocalProperty( module,
-				ImageItem.URI_PROP );
+				IImageItemModel.URI_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 		value = (String) element.getLocalProperty( module,
-				ImageItem.VALUE_EXPR_PROP );
+				IImageItemModel.VALUE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 		value = (String) element.getLocalProperty( module,
-				ImageItem.TYPE_EXPR_PROP );
+				IImageItemModel.TYPE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
 		Action action = (Action) element.getLocalProperty( module,
-				ImageItem.ACTION_PROP );
+				IImageItemModel.ACTION_PROP );
 		dealAction( element, module, action );
 	}
 
@@ -540,7 +553,7 @@ public abstract class BoundColumnsMgr
 	{
 		dealReportItem( element, module );
 		Action action = (Action) element.getLocalProperty( module,
-				Label.ACTION_PROP );
+				ILabelModel.ACTION_PROP );
 		dealAction( element, module, action );
 	}
 
@@ -557,7 +570,7 @@ public abstract class BoundColumnsMgr
 	{
 		dealReportItem( element, module );
 		Action action = (Action) element.getLocalProperty( module,
-				DataItem.ACTION_PROP );
+				IDataItemModel.ACTION_PROP );
 		dealAction( element, module, action );
 	}
 
@@ -622,7 +635,7 @@ public abstract class BoundColumnsMgr
 	private void dealStyle( ReportItem element, Module module )
 	{
 		List values = (List) element.getLocalProperty( module,
-				Style.MAP_RULES_PROP );
+				IStyleModel.MAP_RULES_PROP );
 		if ( values != null )
 			for ( int i = 0; i < values.size( ); i++ )
 			{
@@ -634,7 +647,7 @@ public abstract class BoundColumnsMgr
 			}
 
 		values = (List) element.getLocalProperty( module,
-				Style.HIGHLIGHT_RULES_PROP );
+				IStyleModel.HIGHLIGHT_RULES_PROP );
 		if ( values != null )
 			for ( int i = 0; i < values.size( ); i++ )
 			{
@@ -659,7 +672,7 @@ public abstract class BoundColumnsMgr
 	{
 		dealReportItem( element, module );
 		String value = (String) element.getLocalProperty( module,
-				TextDataItem.VALUE_EXPR_PROP );
+				ITextDataItemModel.VALUE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 	}
@@ -678,7 +691,7 @@ public abstract class BoundColumnsMgr
 		dealReportItem( element, module );
 
 		String content = (String) element.getLocalProperty( module,
-				TextItem.CONTENT_PROP );
+				ITextItemModel.CONTENT_PROP );
 		if ( StringUtil.isBlank( content ) )
 			return;
 
@@ -700,11 +713,11 @@ public abstract class BoundColumnsMgr
 	protected void dealScalarParameter( ScalarParameter element, Module module )
 	{
 		String value = (String) element.getLocalProperty( module,
-				ScalarParameter.VALUE_EXPR_PROP );
+				IScalarParameterModel.VALUE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 		value = (String) element.getLocalProperty( module,
-				ScalarParameter.LABEL_EXPR_PROP );
+				IScalarParameterModel.LABEL_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 	}
@@ -722,7 +735,7 @@ public abstract class BoundColumnsMgr
 			Module module )
 	{
 		List hideRules = (List) element.getLocalProperty( module,
-				TableRow.VISIBILITY_PROP );
+				ITableRowModel.VISIBILITY_PROP );
 		if ( hideRules == null || hideRules.size( ) < 1 )
 			return;
 
@@ -745,7 +758,7 @@ public abstract class BoundColumnsMgr
 	private void dealColumn( TableColumn element, Module module )
 	{
 		List hideRules = (List) element.getLocalProperty( module,
-				TableColumn.VISIBILITY_PROP );
+				ITableColumnModel.VISIBILITY_PROP );
 		if ( hideRules == null || hideRules.size( ) < 1 )
 			return;
 

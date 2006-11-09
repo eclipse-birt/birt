@@ -106,7 +106,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				valueToSet = StringUtil.buildQualifiedReference( namespace,
 						handle.getName( ) );
 			}
-			setStringProperty( ReportItem.DATA_SET_PROP, valueToSet );
+			setStringProperty( IReportItemModel.DATA_SET_PROP, valueToSet );
 		}
 	}
 
@@ -118,7 +118,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public DimensionHandle getX( )
 	{
-		return super.getDimensionProperty( ReportItem.X_PROP );
+		return super.getDimensionProperty( IReportItemModel.X_PROP );
 	}
 
 	/**
@@ -129,7 +129,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public DimensionHandle getY( )
 	{
-		return super.getDimensionProperty( ReportItem.Y_PROP );
+		return super.getDimensionProperty( IReportItemModel.Y_PROP );
 	}
 
 	/**
@@ -146,7 +146,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setX( String dimension ) throws SemanticException
 	{
-		setProperty( ReportItem.X_PROP, dimension );
+		setProperty( IReportItemModel.X_PROP, dimension );
 	}
 
 	/**
@@ -162,7 +162,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setX( double dimension ) throws SemanticException
 	{
-		setFloatProperty( ReportItem.X_PROP, dimension );
+		setFloatProperty( IReportItemModel.X_PROP, dimension );
 	}
 
 	/**
@@ -179,7 +179,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setY( String dimension ) throws SemanticException
 	{
-		setProperty( ReportItem.Y_PROP, dimension );
+		setProperty( IReportItemModel.Y_PROP, dimension );
 	}
 
 	/**
@@ -195,7 +195,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setY( double dimension ) throws SemanticException
 	{
-		setFloatProperty( ReportItem.Y_PROP, dimension );
+		setFloatProperty( IReportItemModel.Y_PROP, dimension );
 	}
 
 	/**
@@ -212,7 +212,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setHeight( String dimension ) throws SemanticException
 	{
-		setProperty( ReportItem.HEIGHT_PROP, dimension );
+		setProperty( IReportItemModel.HEIGHT_PROP, dimension );
 	}
 
 	/**
@@ -228,7 +228,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setHeight( double dimension ) throws SemanticException
 	{
-		setFloatProperty( ReportItem.HEIGHT_PROP, dimension );
+		setFloatProperty( IReportItemModel.HEIGHT_PROP, dimension );
 	}
 
 	/**
@@ -245,7 +245,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setWidth( String dimension ) throws SemanticException
 	{
-		setProperty( ReportItem.WIDTH_PROP, dimension );
+		setProperty( IReportItemModel.WIDTH_PROP, dimension );
 	}
 
 	/**
@@ -261,7 +261,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setWidth( double dimension ) throws SemanticException
 	{
-		setFloatProperty( ReportItem.WIDTH_PROP, dimension );
+		setFloatProperty( IReportItemModel.WIDTH_PROP, dimension );
 	}
 
 	/**
@@ -272,7 +272,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public DimensionHandle getWidth( )
 	{
-		return super.getDimensionProperty( ReportItem.WIDTH_PROP );
+		return super.getDimensionProperty( IReportItemModel.WIDTH_PROP );
 	}
 
 	/**
@@ -282,7 +282,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 */
 	public DimensionHandle getHeight( )
 	{
-		return super.getDimensionProperty( ReportItem.HEIGHT_PROP );
+		return super.getDimensionProperty( IReportItemModel.HEIGHT_PROP );
 	}
 
 	/**
@@ -293,7 +293,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public String getBookmark( )
 	{
-		return getStringProperty( ReportItem.BOOKMARK_PROP );
+		return getStringProperty( IReportItemModel.BOOKMARK_PROP );
 	}
 
 	/**
@@ -307,7 +307,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setBookmark( String value ) throws SemanticException
 	{
-		setStringProperty( ReportItem.BOOKMARK_PROP, value );
+		setStringProperty( IReportItemModel.BOOKMARK_PROP, value );
 	}
 
 	/**
@@ -322,7 +322,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public Iterator visibilityRulesIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ReportItem.VISIBILITY_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -337,7 +337,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public String getOnCreate( )
 	{
-		return getStringProperty( ReportItem.ON_CREATE_METHOD );
+		return getStringProperty( IReportItemModel.ON_CREATE_METHOD );
 	}
 
 	/**
@@ -353,7 +353,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setOnCreate( String value ) throws SemanticException
 	{
-		setProperty( ReportItem.ON_CREATE_METHOD, value );
+		setProperty( IReportItemModel.ON_CREATE_METHOD, value );
 	}
 
 	/**
@@ -365,7 +365,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public String getOnRender( )
 	{
-		return getStringProperty( ReportItem.ON_RENDER_METHOD );
+		return getStringProperty( IReportItemModel.ON_RENDER_METHOD );
 	}
 
 	/**
@@ -380,7 +380,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setOnRender( String value ) throws SemanticException
 	{
-		setProperty( ReportItem.ON_RENDER_METHOD, value );
+		setProperty( IReportItemModel.ON_RENDER_METHOD, value );
 	}
 
 	/**
@@ -397,7 +397,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public Iterator paramBindingsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ReportItem.PARAM_BINDINGS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IReportItemModel.PARAM_BINDINGS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -417,7 +417,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
-		setStringProperty( ReportItem.TOC_PROP, expression );
+		setStringProperty( IReportItemModel.TOC_PROP, expression );
 	}
 
 	/**
@@ -431,7 +431,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public String getTocExpression( )
 	{
-		return getStringProperty( ReportItem.TOC_PROP );
+		return getStringProperty( IReportItemModel.TOC_PROP );
 	}
 
 	/**
@@ -444,7 +444,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public String getOnPrepare( )
 	{
-		return getStringProperty( ReportItem.ON_PREPARE_METHOD );
+		return getStringProperty( IReportItemModel.ON_PREPARE_METHOD );
 	}
 
 	/**
@@ -460,7 +460,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setOnPrepare( String script ) throws SemanticException
 	{
-		setProperty( ReportItem.ON_PREPARE_METHOD, script );
+		setProperty( IReportItemModel.ON_PREPARE_METHOD, script );
 	}
 
 	/**

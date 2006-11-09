@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
@@ -105,7 +107,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 
 		// update clients of embedded images
 
-		List images = library.getListProperty( library, Module.IMAGES_PROP );
+		List images = library.getListProperty( library, IModuleModel.IMAGES_PROP );
 		if ( images == null || images.isEmpty( ) )
 			return;
 		boolean sendEvent = false;
@@ -148,7 +150,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 		// send the property event to current module
 
 		if ( sendEvent )
-			module.broadcast( new PropertyEvent( module, Module.IMAGES_PROP ) );
+			module.broadcast( new PropertyEvent( module, IModuleModel.IMAGES_PROP ) );
 	}
 
 	/**
@@ -179,7 +181,7 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 
 			if ( referenceableElement instanceof Theme )
 				updateReferenceableClients( referenceableElement,
-						Theme.STYLES_SLOT );
+						IThemeModel.STYLES_SLOT );
 		}
 	}
 

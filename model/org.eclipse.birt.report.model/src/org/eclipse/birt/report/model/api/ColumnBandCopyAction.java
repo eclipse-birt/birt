@@ -18,7 +18,9 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
-import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 /**
  * Provides the copy operation to the column band in the grid/table.
@@ -137,7 +139,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		CellContextInfo cellInfo = new CellContextInfo( cell, cell
 				.getRowSpan( adapter.getModule( ) ), cell.getColSpan( adapter
 				.getModule( ) ), cell.getStringProperty( adapter.getModule( ),
-				Cell.DROP_PROP ) );
+				ICellModel.DROP_PROP ) );
 
 		int rowNumber = slot.findPosn( row );
 		cellInfo.setContainerDefnName( rowContainer.getDefn( ).getName( ) );
@@ -247,7 +249,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 			assert row != null;
 
 			// get correct insertion position information
-			
+
 			int pos;
 			if ( insertPosition == null )
 				pos = adapter.findCellPosition( row, columnIndex, isInsert );
@@ -262,9 +264,9 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 			adapter.getModule( ).getModuleHandle( ).rename( cell );
 
 			if ( pos != -1 )
-				row.addElement( cell, TableRow.CONTENT_SLOT, pos );
+				row.addElement( cell, ITableRowModel.CONTENT_SLOT, pos );
 			else
-				row.addElement( cell, TableRow.CONTENT_SLOT );
+				row.addElement( cell, ITableRowModel.CONTENT_SLOT );
 		}
 	}
 
@@ -291,8 +293,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		try
 		{
 			clonedColumn = (TableColumn) column.clone( );
-			clonedColumn
-					.setProperty( TableColumn.REPEAT_PROP, new Integer( 1 ) );
+			clonedColumn.setProperty( ITableColumnModel.REPEAT_PROP,
+					new Integer( 1 ) );
 		}
 		catch ( CloneNotSupportedException e )
 		{

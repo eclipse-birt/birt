@@ -19,12 +19,12 @@ import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -205,7 +205,7 @@ public abstract class Structure implements IStructure
 	protected ElementRefValue resolveElementReference( Module module,
 			StructPropertyDefn prop )
 	{
-		if ( prop.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
+		if ( prop.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return null;
 
 		Object value = getIntrinsicProperty( prop.getName( ) );
@@ -322,7 +322,7 @@ public abstract class Structure implements IStructure
 	protected void updateReference( PropertyDefn prop, Object value )
 	{
 		if ( value instanceof ElementRefValue
-				&& prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			ElementRefValue oldRef = (ElementRefValue) getLocalProperty( null,
 					prop.getName( ) );

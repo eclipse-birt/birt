@@ -11,7 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 
@@ -56,14 +57,15 @@ public class ReportState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_SETUP_TAG ) )
 			return new PageSetupState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COMPONENTS_TAG ) )
-			return new SlotState( ReportDesign.COMPONENT_SLOT );
+			return new SlotState( IModuleModel.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.BODY_TAG ) )
 			return new BodyState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
-			return new SlotState( ReportDesign.SCRATCH_PAD_SLOT );
+			return new SlotState( IReportDesignModel.SCRATCH_PAD_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG ) )
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG ) )
 			return new TemplateParameterDefinitionsState( );
 		return super.startElement( tagName );
 	}
@@ -86,26 +88,28 @@ public class ReportState extends ModuleState
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 				return new TextItemState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
 				return new GridItemState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
 				return new FreeFormState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
 				return new ListItemState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
 				return new TableItemState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
-				return new LabelState( handler, module, ReportDesign.BODY_SLOT );
+				return new LabelState( handler, module,
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
-				return new ImageState( handler, module, ReportDesign.BODY_SLOT );
+				return new ImageState( handler, module,
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
 				return new DataItemState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 				return new AnyElementState( handler );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
@@ -113,15 +117,17 @@ public class ReportState extends ModuleState
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
 				return new ExtendedItemState( handler, module,
-						ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
 					|| tagName
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, module,
-						ReportDesign.BODY_SLOT );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
-				return new TemplateReportItemState( handler, module, ReportDesign.BODY_SLOT );
+						IReportDesignModel.BODY_SLOT );
+			if ( tagName
+					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+				return new TemplateReportItemState( handler, module,
+						IReportDesignModel.BODY_SLOT );
 			return super.startElement( tagName );
 		}
 	}
@@ -146,7 +152,7 @@ public class ReportState extends ModuleState
 			return super.startElement( tagName );
 		}
 	}
-	
+
 	/**
 	 * Parses the contents of the list of data sources.
 	 */
@@ -164,7 +170,8 @@ public class ReportState extends ModuleState
 		{
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG ) )
-				return new TemplateParameterDefinitionState( handler, module, ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+				return new TemplateParameterDefinitionState( handler, module,
+						IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			return super.startElement( tagName );
 		}
 	}

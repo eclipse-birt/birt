@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -58,9 +59,9 @@ public class SimpleMasterPageState extends MasterPageState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_HEADER_TAG ) )
-			return new PageState( SimpleMasterPage.PAGE_HEADER_SLOT );
+			return new PageState( ISimpleMasterPageModel.PAGE_HEADER_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_FOOTER_TAG ) )
-			return new PageState( SimpleMasterPage.PAGE_FOOTER_SLOT );
+			return new PageState( ISimpleMasterPageModel.PAGE_FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
 

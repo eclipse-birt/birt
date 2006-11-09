@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -76,11 +77,11 @@ public class MasterPageTypeValidator extends AbstractElementValidator
 	{
 		List list = new ArrayList( );
 	
-		String type = toValidate.getStringProperty( module, MasterPage.TYPE_PROP );
+		String type = toValidate.getStringProperty( module, IMasterPageModel.TYPE_PROP );
 		String height = toValidate.getStringProperty( module,
-				MasterPage.HEIGHT_PROP );
+				IMasterPageModel.HEIGHT_PROP );
 		String width = toValidate
-				.getStringProperty( module, MasterPage.WIDTH_PROP );
+				.getStringProperty( module, IMasterPageModel.WIDTH_PROP );
 
 		// if type is CUSTOM type, height and width must be specified.
 

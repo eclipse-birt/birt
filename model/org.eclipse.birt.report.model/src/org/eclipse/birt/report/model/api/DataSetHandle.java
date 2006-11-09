@@ -23,10 +23,9 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ImageItem;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -111,7 +110,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public DataSourceHandle getDataSource( )
 	{
-		return (DataSourceHandle) getElementProperty( SimpleDataSet.DATA_SOURCE_PROP );
+		return (DataSourceHandle) getElementProperty( ISimpleDataSetModel.DATA_SOURCE_PROP );
 	}
 
 	/**
@@ -124,7 +123,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getDataSourceName( )
 	{
-		return getStringProperty( SimpleDataSet.DATA_SOURCE_PROP );
+		return getStringProperty( ISimpleDataSetModel.DATA_SOURCE_PROP );
 	}
 
 	/**
@@ -141,7 +140,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setDataSource( String name ) throws SemanticException
 	{
-		setStringProperty( SimpleDataSet.DATA_SOURCE_PROP, name );
+		setStringProperty( ISimpleDataSetModel.DATA_SOURCE_PROP, name );
 	}
 
 	/**
@@ -155,7 +154,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator parametersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.PARAMETERS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IDataSetModel.PARAMETERS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -172,7 +171,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator paramBindingsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.PARAM_BINDINGS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( ISimpleDataSetModel.PARAM_BINDINGS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -222,7 +221,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator computedColumnsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.COMPUTED_COLUMNS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IDataSetModel.COMPUTED_COLUMNS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -238,7 +237,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator columnHintsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.COLUMN_HINTS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IDataSetModel.COLUMN_HINTS_PROP );
 
 		assert propHandle != null;
 		return propHandle.iterator( );
@@ -256,7 +255,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator filtersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( SimpleDataSet.FILTER_PROP );
+		PropertyHandle propHandle = getPropertyHandle( IDataSetModel.FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
@@ -270,7 +269,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getBeforeOpen( )
 	{
-		return getStringProperty( SimpleDataSet.BEFORE_OPEN_METHOD );
+		return getStringProperty( ISimpleDataSetModel.BEFORE_OPEN_METHOD );
 	}
 
 	/**
@@ -285,7 +284,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setBeforeOpen( String code ) throws SemanticException
 	{
-		setProperty( SimpleDataSet.BEFORE_OPEN_METHOD, code );
+		setProperty( ISimpleDataSetModel.BEFORE_OPEN_METHOD, code );
 	}
 
 	/**
@@ -297,7 +296,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getBeforeClose( )
 	{
-		return getStringProperty( SimpleDataSet.BEFORE_CLOSE_METHOD );
+		return getStringProperty( ISimpleDataSetModel.BEFORE_CLOSE_METHOD );
 	}
 
 	/**
@@ -312,7 +311,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setBeforeClose( String code ) throws SemanticException
 	{
-		setProperty( SimpleDataSet.BEFORE_CLOSE_METHOD, code );
+		setProperty( ISimpleDataSetModel.BEFORE_CLOSE_METHOD, code );
 	}
 
 	/**
@@ -324,7 +323,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getAfterOpen( )
 	{
-		return getStringProperty( SimpleDataSet.AFTER_OPEN_METHOD );
+		return getStringProperty( ISimpleDataSetModel.AFTER_OPEN_METHOD );
 	}
 
 	/**
@@ -339,7 +338,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setAfterOpen( String code ) throws SemanticException
 	{
-		setProperty( SimpleDataSet.AFTER_OPEN_METHOD, code );
+		setProperty( ISimpleDataSetModel.AFTER_OPEN_METHOD, code );
 	}
 
 	/**
@@ -351,7 +350,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getAfterClose( )
 	{
-		return getStringProperty( SimpleDataSet.AFTER_CLOSE_METHOD );
+		return getStringProperty( ISimpleDataSetModel.AFTER_CLOSE_METHOD );
 	}
 
 	/**
@@ -366,7 +365,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setAfterClose( String code ) throws SemanticException
 	{
-		setProperty( SimpleDataSet.AFTER_CLOSE_METHOD, code );
+		setProperty( ISimpleDataSetModel.AFTER_CLOSE_METHOD, code );
 	}
 
 	/**
@@ -378,7 +377,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public String getOnFetch( )
 	{
-		return getStringProperty( SimpleDataSet.ON_FETCH_METHOD );
+		return getStringProperty( ISimpleDataSetModel.ON_FETCH_METHOD );
 	}
 
 	/**
@@ -393,7 +392,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setOnFetch( String code ) throws SemanticException
 	{
-		setProperty( SimpleDataSet.ON_FETCH_METHOD, code );
+		setProperty( ISimpleDataSetModel.ON_FETCH_METHOD, code );
 	}
 
 	/**
@@ -409,7 +408,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	public CachedMetaDataHandle getCachedMetaDataHandle( )
 	{
 		PropertyHandle propHandle = this
-				.getPropertyHandle( SimpleDataSet.CACHED_METADATA_PROP );
+				.getPropertyHandle( IDataSetModel.CACHED_METADATA_PROP );
 		assert propHandle != null;
 
 		CachedMetaData value = (CachedMetaData) propHandle.getValue( );
@@ -790,13 +789,13 @@ public abstract class DataSetHandle extends ReportElementHandle
 				// Remove bindings from report items
 
 				PropertyHandle paramBindingsPropHandle = client
-						.getPropertyHandle( ReportItem.PARAM_BINDINGS_PROP );
+						.getPropertyHandle( IReportItemModel.PARAM_BINDINGS_PROP );
 				removeParamBindingFor( paramBindingsPropHandle, paramName );
 
 				// Remove binding from action
 
 				PropertyHandle actionPropHandle = client
-						.getPropertyHandle( ImageItem.ACTION_PROP );
+						.getPropertyHandle( IImageItemModel.ACTION_PROP );
 				if ( actionPropHandle != null )
 				{
 					Action action = (Action) actionPropHandle.getValue( );
@@ -876,14 +875,14 @@ public abstract class DataSetHandle extends ReportElementHandle
 				// Update parameter name in report items
 
 				PropertyHandle paramBindingsPropHandle = client
-						.getPropertyHandle( ReportItem.PARAM_BINDINGS_PROP );
+						.getPropertyHandle( IReportItemModel.PARAM_BINDINGS_PROP );
 				updateParamBindings( paramBindingsPropHandle, oldParamName,
 						newParamName );
 
 				// Update parameter name in action
 
 				PropertyHandle actionPropHandle = client
-						.getPropertyHandle( ImageItem.ACTION_PROP );
+						.getPropertyHandle( IImageItemModel.ACTION_PROP );
 				if ( actionPropHandle != null )
 				{
 					Action action = (Action) actionPropHandle.getValue( );

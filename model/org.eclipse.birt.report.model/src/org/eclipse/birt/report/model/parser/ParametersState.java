@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -42,7 +42,7 @@ public class ParametersState extends AbstractParseState
 	{
 		this.handler = handler;
 		container = handler.getModule( );
-		slotID = Module.PARAMETER_SLOT;
+		slotID = IModuleModel.PARAMETER_SLOT;
 	}
 
 	/**
