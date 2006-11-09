@@ -94,10 +94,6 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
 					.findParameter( parameter.getName( ) );
 
-			// prepare default value
-			String defaultValue = DataUtil.getDefaultValue( parameterHandle
-					.getDataType( ), parameterBean.getDefaultValue( ) );
-
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
@@ -133,7 +129,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				}
 
 				// If parameter default value is in the selection list
-				if ( value.equals( defaultValue ) )
+				if ( value.equals( parameterBean.getDefaultValue( ) ) )
 				{
 					parameterBean.setDefaultValueInList( true );
 				}
