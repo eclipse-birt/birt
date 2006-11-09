@@ -322,8 +322,14 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 				.equals( selectionType ) )
 		{
-			CascadingParameterGroupHandle group = getCascadingGroup( parameter );
-			if ( DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals(group.getDataSetMode( )))
+			CascadingParameterGroupHandle group = null;
+			if ( isCascadingParameter( parameter ) )
+			{
+				group = getCascadingGroup( parameter );
+			}
+			if ( group != null
+					&& DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( group
+							.getDataSetMode( ) ) )
 			{
 				return getCascadingParameterList( parameter );
 			}
@@ -331,7 +337,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				return getChoicesFromParameterQuery( parameter );
 			}
-			else if ( isCascadingParameter( parameter ))
+			else if ( group != null )
 			{
 				return getCascadingParameterList( parameter );
 			}
