@@ -358,7 +358,7 @@ public class Statement implements IQuery
 	 * TODO: used by junit tests only;
 	 * to be removed after update of tests
 	 */
-	boolean execute( ) throws OdaException
+	public boolean execute( ) throws OdaException
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
