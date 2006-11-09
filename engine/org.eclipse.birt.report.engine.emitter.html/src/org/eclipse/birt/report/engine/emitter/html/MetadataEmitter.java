@@ -362,7 +362,7 @@ public class MetadataEmitter
 			{
 				IContent content = (IContent)parent;
 				ReportItemDesign design = ( ReportItemDesign )content.getGenerateBy( );
-				if ( design.getQuery( ) != null )
+				if ( design != null && design.getQuery( ) != null )
 				{
 					return false;
 				}

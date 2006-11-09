@@ -467,7 +467,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 				{
 					GroupDesign groupDesign = (GroupDesign) genBy;
 					int bandType = bandContent.getBandType( );
-					if ( bandType == IBandContent.BAND_GROUP_FOOTER )
+					if ( bandType == IBandContent.BAND_GROUP_HEADER )
 					{
 						bandContent.setGenerateBy( groupDesign.getHeader( ) );
 					}
