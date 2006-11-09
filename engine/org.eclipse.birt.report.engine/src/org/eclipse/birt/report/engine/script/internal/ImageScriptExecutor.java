@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
 import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
@@ -45,7 +44,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( ImageContent content,
+	public static void handleOnCreate( IImageContent content,
 			ExecutionContext context )
 	{
 		try

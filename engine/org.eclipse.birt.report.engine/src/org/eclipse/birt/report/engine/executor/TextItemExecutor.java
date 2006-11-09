@@ -21,13 +21,12 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.36 $ $Date: 2006/06/23 03:37:41 $
+ * @version $Revision: 1.37 $ $Date: 2006/08/25 03:24:04 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {
@@ -122,8 +121,7 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( textContent,
-					context );
+			handleOnCreate( textContent );
 		}
 		
 		startTOCEntry( content );
@@ -162,8 +160,7 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			TextItemScriptExecutor.handleOnCreate( textContent,
-					context );
+			handleOnCreate( textContent );
 		}
 
 		startTOCEntry( content );

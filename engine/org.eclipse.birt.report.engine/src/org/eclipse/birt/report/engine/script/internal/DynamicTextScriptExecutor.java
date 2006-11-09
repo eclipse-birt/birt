@@ -15,8 +15,6 @@ import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
@@ -46,43 +44,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( IDataContent content,
-			ExecutionContext context )
-	{
-		internalOnCreate( content, context );
-	}
-
-	public static void handleOnRender( IDataContent content,
-			ExecutionContext context )
-	{
-		internalOnRender( content, context );
-	}
-
-	public static void handleOnPageBreak( IDataContent content,
-			ExecutionContext context )
-	{
-		internalOnPageBreak( content, context );
-	}
-
-	public static void handleOnCreate( IForeignContent content,
-			ExecutionContext context )
-	{
-		internalOnCreate( content, context );
-	}
-
-	public static void handleOnRender( IForeignContent content,
-			ExecutionContext context )
-	{
-		internalOnRender( content, context );
-	}
-
-	public static void handleOnPageBreak( IForeignContent content,
-			ExecutionContext context )
-	{
-		internalOnPageBreak( content, context );
-	}
-
-	public static void internalOnCreate( IContent content,
+	public static void handleOnCreate( IContent content,
 			ExecutionContext context )
 	{
 		try
@@ -105,7 +67,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void internalOnRender( IContent content,
+	public static void handleOnRender( IContent content,
 			ExecutionContext context )
 	{
 		try
@@ -128,7 +90,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void internalOnPageBreak( IContent content,
+	public static void handleOnPageBreak( IContent content,
 			ExecutionContext context )
 	{
 		try

@@ -14,12 +14,11 @@ package org.eclipse.birt.report.engine.executor;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.41 $ $Date: 2006/09/05 06:28:51 $
+ * @version $Revision: 1.42 $ $Date: 2006/10/12 03:54:03 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -74,8 +73,7 @@ public class ListItemExecutor extends ListingElementExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			ListScriptExecutor.handleOnCreate(
-					listContent, context );
+			handleOnCreate( listContent );
 		}
 		startTOCEntry( listContent );
 		if ( emitter != null )

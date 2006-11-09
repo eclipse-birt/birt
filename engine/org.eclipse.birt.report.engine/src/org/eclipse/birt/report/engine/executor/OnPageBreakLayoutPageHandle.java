@@ -13,28 +13,13 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
 
-import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.ILabelContent;
-import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.ListGroupContent;
-import org.eclipse.birt.report.engine.content.impl.TableGroupContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
-import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
@@ -42,18 +27,7 @@ import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.DynamicTextScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.ListGroupScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableGroupScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.OnPageBreakScriptVisitor;
 
 /**
  * 
@@ -217,95 +191,15 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		{
 			return;
 		}
-
+		
+		OnPageBreakScriptVisitor onPageBreakVisitor = new OnPageBreakScriptVisitor( executionContext );
+		
 		LinkedContent nextContent = firstContent.next;
 		while (nextContent != lastContent)
 		{
 			IContent content = nextContent.content;
 			nextContent = nextContent.next;
-			ReportItemDesign design = (ReportItemDesign) content
-					.getGenerateBy( );
-			int contentType = content.getContentType( );
-			switch ( contentType )
-			{
-				case IContent.CELL_CONTENT :
-					CellScriptExecutor.handleOnPageBreak(
-							(ICellContent) content, executionContext );
-					break;
-				case IContent.DATA_CONTENT :
-					if ( design instanceof MultiLineItemDesign )
-					{
-						DynamicTextScriptExecutor.handleOnPageBreak(
-								(IDataContent) content, executionContext );
-					}
-					else
-					{
-						DataItemScriptExecutor.handleOnPageBreak(
-								(IDataContent) content, executionContext );
-					}
-					break;
-				case IContent.FOREIGN_CONTENT :
-					// FIXME: handle the onPageBreak for other items
-					if ( design instanceof MultiLineItemDesign )
-					{
-						DynamicTextScriptExecutor.handleOnPageBreak(
-								(IForeignContent) content, executionContext );
-					}
-					else if ( design instanceof TextItemDesign )
-					{
-						TextItemScriptExecutor.handleOnPageBreak(
-								(IForeignContent) content, executionContext );
-					}
-					break;
-				case IContent.IMAGE_CONTENT :
-					ImageScriptExecutor.handleOnPageBreak(
-							(IImageContent) content, executionContext );
-					break;
-				case IContent.LABEL_CONTENT :
-					if ( design instanceof TextItemDesign )
-					{
-						TextItemScriptExecutor.handleOnPageBreak(
-								(ITextContent) content, executionContext );
-					}
-					else
-					{
-						LabelScriptExecutor.handleOnPageBreak(
-								(ILabelContent) content, executionContext );
-					}
-					break;
-				case IContent.ROW_CONTENT :
-					RowScriptExecutor.handleOnPageBreak( (IRowContent) content,
-							executionContext );
-					break;
-				case IContent.LIST_CONTENT :
-					ListScriptExecutor.handleOnPageBreak(
-							(IListContent) content, executionContext );
-					break;
-				case IContent.TABLE_CONTENT :
-					if ( design instanceof TableItemDesign )
-					{
-						TableScriptExecutor.handleOnPageBreak(
-								(ITableContent) content, executionContext );
-					}
-					else if ( design instanceof GridItemDesign )
-					{
-						GridScriptExecutor.handleOnPageBreak(
-								(ITableContent) content, executionContext );
-					}
-					break;
-				case IContent.TABLE_GROUP_CONTENT :
-					TableGroupScriptExecutor.handleOnPageBreak(
-							(TableGroupContent) content, executionContext );
-					break;
-				case IContent.LIST_GROUP_CONTENT :
-					ListGroupScriptExecutor.handleOnPageBreak(
-							(ListGroupContent) content, executionContext );
-					break;
-				case IContent.TEXT_CONTENT :
-					TextItemScriptExecutor.handleOnPageBreak(
-							(ITextContent) content, executionContext );
-					break;
-			}
+			onPageBreakVisitor.onPageBreak( content );			
 		}
 		//clear all contents
 		firstContent.next = lastContent;

@@ -45,43 +45,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( ITextContent content,
-			ExecutionContext context )
-	{
-		internalOnCreate( content, context );
-	}
-
-	public static void handleOnRender( ITextContent content,
-			ExecutionContext context )
-	{
-		internalOnRender( content, context );
-	}
-	
-	public static void handleOnPageBreak( ITextContent content,
-			ExecutionContext context )
-	{
-		internalOnPageBreak( content, context );
-	}
-
-	public static void handleOnCreate( IForeignContent content,
-			ExecutionContext context )
-	{
-		internalOnCreate( content, context );
-	}
-
-	public static void handleOnRender( IForeignContent content,
-			ExecutionContext context )
-	{
-		internalOnRender( content, context );
-	}
-	
-	public static void handleOnPageBreak( IForeignContent content,
-			ExecutionContext context )
-	{
-		internalOnPageBreak( content, context );
-	}
-
-	private static void internalOnCreate( IContent content,
+	public static void handleOnCreate( IContent content,
 			ExecutionContext context )
 	{
 		try
@@ -110,7 +74,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	private static void internalOnRender( IContent content,
+	public static void handleOnRender( IContent content,
 			ExecutionContext context )
 	{
 		try
@@ -138,7 +102,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	private static void internalOnPageBreak( IContent content,
+	public static void handleOnPageBreak( IContent content,
 			ExecutionContext context )
 	{
 		try

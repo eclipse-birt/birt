@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
+import org.eclipse.birt.report.engine.script.internal.OnCreateScriptVisitor;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
 
@@ -50,7 +51,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.41 $ $Date: 2006/10/31 08:00:18 $
+ * @version $Revision: 1.42 $ $Date: 2006/11/02 02:34:28 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -104,6 +105,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * toc created by this report item
 	 */
 	protected TOCEntry tocEntry;
+	
+	/**
+	 * 
+	 */
+	protected OnCreateScriptVisitor onCreateVisitor;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -120,6 +126,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.emitter = manager.emitter;
 		this.context = manager.context;
 		this.report = context.getReportContent( );
+		this.onCreateVisitor = new OnCreateScriptVisitor( context );
 	}
 
 	/**
@@ -627,5 +634,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected void restoreResultSet()
 	{
 		context.setResultSet( getParentResultSet( ) );
+	}
+	
+	protected void handleOnCreate( IContent content )
+	{
+		onCreateVisitor.onCreate( content );
 	}
 }

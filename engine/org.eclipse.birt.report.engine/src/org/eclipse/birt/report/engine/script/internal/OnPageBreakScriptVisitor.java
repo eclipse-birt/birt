@@ -1,0 +1,197 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.script.internal;
+
+import java.util.logging.Logger;
+
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
+import org.eclipse.birt.report.engine.ir.BandDesign;
+import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
+import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.GroupDesign;
+import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.ir.LabelItemDesign;
+import org.eclipse.birt.report.engine.ir.ListBandDesign;
+import org.eclipse.birt.report.engine.ir.ListGroupDesign;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.ListingDesign;
+import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.eclipse.birt.report.engine.ir.TableGroupDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
+
+/**
+ * 
+ */
+
+public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
+{
+
+	protected static Logger logger = Logger
+			.getLogger( LocalizedContentVisitor.class.getName( ) );
+
+	private ExecutionContext context;
+
+	public OnPageBreakScriptVisitor( ExecutionContext context )
+	{
+		this.context = context;
+	}
+
+	public IContent onPageBreak( IContent content )
+	{
+		Object design = content.getGenerateBy( );
+		assert design instanceof ReportItemDesign;
+		Object value = ( (ReportItemDesign) design ).accept( this, content );
+		return (IContent) value;
+	}
+
+	public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
+	{
+		// FIXME: need to support auto text item script		
+		return visitReportItem( autoText, value );
+	}
+
+	public Object visitBand( BandDesign band, Object value )
+	{
+		return visitReportItem( band, value );
+	}
+
+	public Object visitCell( CellDesign cell, Object value )
+	{
+		CellScriptExecutor.handleOnPageBreak( (ICellContent) value, context );
+		return value;
+	}
+
+	public Object visitDataItem( DataItemDesign data, Object value )
+	{
+		DataItemScriptExecutor.handleOnPageBreak( (IDataContent) value, context );
+		return value;
+	}
+
+	public Object visitExtendedItem( ExtendedItemDesign item, Object value )
+	{
+		return visitReportItem( item, value );
+	}
+
+	public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
+	{
+		return visitReportItem( container, value );
+	}
+
+	public Object visitGridItem( GridItemDesign grid, Object value )
+	{
+		GridScriptExecutor.handleOnPageBreak( (ITableContent) value, context );
+		return value;
+	}
+
+	public Object visitGroup( GroupDesign group, Object value )
+	{
+		return visitReportItem( group, value );
+	}
+
+	public Object visitImageItem( ImageItemDesign image, Object value )
+	{
+		ImageScriptExecutor.handleOnPageBreak( (IImageContent) value, context );
+		return value;
+	}
+
+	public Object visitLabelItem( LabelItemDesign label, Object value )
+	{
+		LabelScriptExecutor.handleOnPageBreak( (ILabelContent) value, context );
+		return value;
+	}
+
+	public Object visitListBand( ListBandDesign band, Object value )
+	{
+		return visitReportItem( band, value );
+	}
+
+	public Object visitListGroup( ListGroupDesign group, Object value )
+	{
+		ListGroupScriptExecutor.handleOnPageBreak( (IListGroupContent)value, context );
+		return value;
+	}
+
+	public Object visitListItem( ListItemDesign list, Object value )
+	{
+		ListScriptExecutor.handleOnPageBreak( (IListContent) value, context );
+		return value;
+	}
+
+	public Object visitListing( ListingDesign listing, Object value )
+	{
+		return visitReportItem( listing, value );
+	}
+
+	public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+			Object value )
+	{
+		DynamicTextScriptExecutor.handleOnPageBreak( (IContent) value, context );
+		return value;
+	}
+
+	public Object visitRow( RowDesign row, Object value )
+	{
+		RowScriptExecutor.handleOnPageBreak( (IRowContent) value, context );
+		return value;
+	}
+
+	public Object visitTableBand( TableBandDesign band, Object value )
+	{
+		return visitReportItem( band, value );
+	}
+
+	public Object visitTableGroup( TableGroupDesign group, Object value )
+	{
+		TableGroupScriptExecutor.handleOnPageBreak( (ITableGroupContent)value, context );
+		return value;
+	}
+
+	public Object visitTableItem( TableItemDesign table, Object value )
+	{
+		TableScriptExecutor.handleOnPageBreak( (ITableContent) value, context );
+		return value;
+	}
+
+	public Object visitTemplate( TemplateDesign template, Object value )
+	{
+		TextItemScriptExecutor.handleOnPageBreak( (IContent) value, context );
+		return value;
+	}
+
+	public Object visitTextItem( TextItemDesign text, Object value )
+	{
+		TextItemScriptExecutor.handleOnPageBreak( (IContent) value, context );
+		return value;
+	}
+
+}

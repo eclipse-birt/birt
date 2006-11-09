@@ -15,12 +15,11 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
-import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.21 $ $Date: 2006/06/23 03:37:41 $
+ * @version $Revision: 1.22 $ $Date: 2006/08/25 03:24:04 $
  */
 public class LabelItemExecutor extends QueryItemExecutor
 {
@@ -68,8 +67,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			LabelScriptExecutor.handleOnCreate( labelContent,
-					context );
+			handleOnCreate( labelContent );
 		}
 
 		startTOCEntry( labelContent );

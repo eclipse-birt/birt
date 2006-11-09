@@ -17,10 +17,8 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
-import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 
 /**
  * Defines execution logic for a List report item.
@@ -33,7 +31,7 @@ import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.53 $ $Date: 2006/08/25 03:24:04 $
+ * @version $Revision: 1.54 $ $Date: 2006/10/12 03:54:03 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -95,8 +93,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 		if ( context.isInFactory( ) )
 		{
-			TableScriptExecutor.handleOnCreate( ( TableContent ) tableContent,
-					context );
+			handleOnCreate( tableContent );
 		}
 
 		startTOCEntry( tableContent );

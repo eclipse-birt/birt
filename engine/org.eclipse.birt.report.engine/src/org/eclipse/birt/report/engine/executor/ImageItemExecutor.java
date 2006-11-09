@@ -17,10 +17,8 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
-import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -52,7 +50,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.42 $ $Date: 2006/08/25 03:24:04 $
+ * @version $Revision: 1.43 $ $Date: 2006/11/06 08:06:20 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {
@@ -109,8 +107,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		// execute the onCreate
 		if ( context.isInFactory( ) )
 		{
-			ImageScriptExecutor.handleOnCreate( (ImageContent) imageContent,
-					context );
+			handleOnCreate( imageContent );
 		}
 		
 		startTOCEntry( imageContent );

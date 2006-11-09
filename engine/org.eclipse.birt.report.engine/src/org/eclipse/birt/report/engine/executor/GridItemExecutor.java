@@ -19,12 +19,11 @@ import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.39 $ $Date: 2006/06/23 03:37:41 $
+ * @version $Revision: 1.40 $ $Date: 2006/08/25 03:24:02 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {
@@ -88,7 +87,7 @@ public class GridItemExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			GridScriptExecutor.handleOnCreate( tableContent, context );
+			handleOnCreate( tableContent );
 		}
 		
 		startTOCEntry( tableContent );

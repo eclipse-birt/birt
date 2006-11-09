@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Table;
@@ -42,7 +41,7 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( TableContent content,
+	public static void handleOnCreate( ITableContent content,
 			ExecutionContext context )
 	{
 		try

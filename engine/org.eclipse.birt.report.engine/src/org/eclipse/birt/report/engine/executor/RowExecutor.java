@@ -7,7 +7,6 @@ import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 
 public class RowExecutor extends QueryItemExecutor
 {
@@ -73,7 +72,7 @@ public class RowExecutor extends QueryItemExecutor
 
 		if ( context.isInFactory( ) )
 		{
-			RowScriptExecutor.handleOnCreate( rowContent, context );
+			handleOnCreate( rowContent );
 		}
 
 		startTOCEntry( rowContent );

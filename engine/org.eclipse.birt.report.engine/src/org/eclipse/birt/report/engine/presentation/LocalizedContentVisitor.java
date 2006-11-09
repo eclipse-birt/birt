@@ -51,23 +51,10 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.DynamicTextScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.OnRenderScriptVisitor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -87,12 +74,14 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	private Locale locale;
 	private String outputFormat;
 	protected HashMap templates = new HashMap( );
+	private OnRenderScriptVisitor onRenderVisitor;
 	
 	public LocalizedContentVisitor( ExecutionContext context )
 	{
 		this.context = context;
 		this.locale = context.getLocale( );
 		this.outputFormat = context.getOutputFormat( );
+		this.onRenderVisitor = new OnRenderScriptVisitor( context );
 	}
 	
 	IReportContent getReportContent( )
@@ -169,18 +158,14 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	{
 		if ( list.getGenerateBy( ) instanceof ListItemDesign )
 		{
-			ListScriptExecutor.handleOnRender( list,
-					context );
+			handleOnRender( list );
 		}
 		return list;
 	}
 
 	public Object visitTable( ITableContent table, Object value )
 	{
-		if ( table.getGenerateBy( ) instanceof TableItemDesign )
-			TableScriptExecutor.handleOnRender( table, context );
-		else if ( table.getGenerateBy( ) instanceof GridItemDesign )
-			GridScriptExecutor.handleOnRender( table, context );
+		handleOnRender( table );
 		
 		String captionText = table.getCaption( );
 		String captionKey = table.getCaptionKey( );
@@ -193,13 +178,13 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitRow( IRowContent row, Object value )
 	{
-		RowScriptExecutor.handleOnRender( row, context );
+		handleOnRender( row );
 		return row;
 	}
 
 	public Object visitCell( ICellContent cell, Object value )
 	{
-		CellScriptExecutor.handleOnRender( cell, context );
+		handleOnRender( cell );
 		return cell;
 	}
 
@@ -211,7 +196,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	public Object visitData( IDataContent data, Object value )
 	{
-		DataItemScriptExecutor.handleOnRender( data, context );
+		handleOnRender( data );
 		processData( data );
 		return data;
 	}
@@ -295,10 +280,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 */
 	public Object visitLabel( ILabelContent label, Object value )
 	{
-		if ( label.getGenerateBy( ) instanceof LabelItemDesign )
-			LabelScriptExecutor.handleOnRender( label, context );
-		else if ( label.getGenerateBy( ) instanceof TextItemDesign )
-			TextItemScriptExecutor.handleOnRender( label, context );
+		handleOnRender( label );
 		processLabel( label );
 		return label;
 	}
@@ -324,7 +306,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitText( ITextContent text, Object value )
 	{
-		TextItemScriptExecutor.handleOnRender( text, context );
+		handleOnRender( text );
 		return value;
 	}
 
@@ -349,7 +331,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 		if ( IForeignContent.TEMPLATE_TYPE.equals( rawFormat ) )
 		{
-			TextItemScriptExecutor.handleOnRender( foreignContent, context );
+			handleOnRender( foreignContent );
 			processTemplateContent( foreignContent );
 			return foreignContent;
 		}
@@ -380,7 +362,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.TEXT_TYPE.equals( rawFormat ) )
 		{
-			TextItemScriptExecutor.handleOnRender( foreignContent, context );
+			handleOnRender( foreignContent );
 			ITextContent textContent = reportContent
 					.createDataContent( foreignContent );
 			textContent.setText( rawValue == null ? "" : rawValue.toString( ) ); //$NON-NLS-1$
@@ -389,15 +371,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.HTML_TYPE.equals( rawFormat ) )
 		{
-			Object genBy = foreignContent.getGenerateBy( );
-			if ( genBy instanceof MultiLineItemDesign )
-			{
-				DynamicTextScriptExecutor.handleOnRender( foreignContent, context );
-			}
-			else if ( genBy instanceof TextItemDesign )
-			{			
-				TextItemScriptExecutor.handleOnRender( foreignContent, context );
-			}
+			handleOnRender( foreignContent );
 			String key = foreignContent.getRawKey( );
 			if (key != null)
 			{
@@ -412,7 +386,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.VALUE_TYPE.equals( rawFormat ) )
 		{
-			DynamicTextScriptExecutor.handleOnRender( foreignContent, context );
+			handleOnRender( foreignContent );
 			IDataContent dataContent = reportContent
 					.createDataContent( foreignContent );
 			dataContent.setValue( rawValue );
@@ -451,7 +425,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitImage( IImageContent image, Object value )
 	{
-		ImageScriptExecutor.handleOnRender( image, context );
+		handleOnRender( image );
 		processImage( image );
 		return image;
 	}
@@ -855,5 +829,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				}
 			}
 		}
+	}
+	
+	protected void handleOnRender( IContent content )
+	{
+		onRenderVisitor.onRender( content );
 	}
 }

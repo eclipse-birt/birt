@@ -5,7 +5,6 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 
 public class CellExecutor extends QueryItemExecutor
 {
@@ -45,7 +44,7 @@ public class CellExecutor extends QueryItemExecutor
 		
 		if ( context.isInFactory( ) )
 		{
-			CellScriptExecutor.handleOnCreate( cellContent, context, true );
+			handleOnCreate( cellContent );
 		}
 
 		startTOCEntry( cellContent );
