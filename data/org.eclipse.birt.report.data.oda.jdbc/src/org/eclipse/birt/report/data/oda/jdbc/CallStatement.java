@@ -359,8 +359,11 @@ public class CallStatement implements IAdvancedQuery
 				return new ResultSet( this.callStat.getResultSet( ) );
 			
 			java.sql.ResultSet resultSet = getOutputParamResultSet( );
-			return resultSet != null ? new ResultSet( resultSet )
-					: new SPResultSet( null );
+			
+			if( resultSet != null )
+				return new ResultSet( resultSet );
+			else
+				return new SPResultSet( null );
 		}
 		catch ( SQLException e )
 		{
