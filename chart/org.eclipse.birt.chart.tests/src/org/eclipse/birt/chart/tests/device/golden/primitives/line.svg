@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.0" height="333.0"><g id="outerG" style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
+<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="333.0" initialHeight="333.0" initialWidth="533.0" width="533.0"><g id="outerG" style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
 	this.tag = tag;
 	this.attrList = attrList;
 	this.text       = text;
@@ -64,6 +63,13 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	this.mainSvg = mainSvg	
 	}	
 		
+	TM.toggleToolTip = function TooltipManager_toggleToolTip(evt){	
+	if (typeof this.group != 'undefined'){	
+	  TM.remove();
+	}else{	
+	  TM.show(evt);
+	}	
+	}	
 	TM.remove = function TooltipManager_removeTooltip(){	
 	if (typeof this.group != 'undefined'){	
 	  this.group.removeNode();
@@ -126,8 +132,22 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 		   textObj.addToParent(this.group.element);
 	           TM.setContent(textObj, text);
 	           var outline = textObj.element.getBBox();
-		   this.rectangle.element.setAttributeNS(null, "width", (outline.width+2*this.xPadding));
-		   this.rectangle.element.setAttributeNS(null, "height", (outline.height+6));
+                   var tooltipHeight = outline.height+6;
+                   var tooltipWidth = outline.width+2*this.xPadding;
+                   var root=evt.target.ownerDocument.documentElement;
+                   var rootWidth =root.getAttribute('width');
+                   var rootHeight = root.getAttribute('height');
+                   if (((y+tooltipHeight)> rootHeight) || ((x+tooltipWidth)> rootWidth)){
+                      var transformX = x + this.xPadding;
+                      var transformY = y+ this.yPadding;
+                      if ((y+tooltipHeight)> rootHeight)
+                        transformY  = (rootHeight-tooltipHeight)-this.yPadding;
+                   if ((x+tooltipWidth)> rootWidth)
+                        transformX  = (rootWidth-tooltipWidth)-this.xPadding;
+                      this.group.element.setAttributeNS(null, "transform", "translate("+(transformX*xScale)+", "+(transformY*yScale)+")");
+                   }
+                   this.rectangle.element.setAttributeNS(null, "width", tooltipWidth);
+                   this.rectangle.element.setAttributeNS(null, "height", tooltipHeight);
 		  }
 		}
 		TM.setContent = function TooltipManager_setContent(textElement, text){
@@ -305,13 +325,30 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	   comp.setAttributeNS(null, "style", styleStr);
 	     }
 	     }
-	function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id){
+    	function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id){
 	     color = style.substring(index+styleAttr.length, style.length );
-	     rgbIndex = color.search("rgb");
-	     if (rgbIndex == -1){
+             if (color.substring(0, 6).search("none")  != -1) return style;
+              rgbIndex = color.search("rgb");
+              if (rgbIndex == -1){
+          if (styleAttr == "fill:")
+             urlStr = /fill:\s*url\(#([^\x27]+)\);/g;
+         else
+             urlStr = /stroke:\s*url\(#([^\x27]+)\);/g;
+        result = urlStr.exec(style);
+        if (result != null){
+    		endOf= /\w+h\b/g;
+    		if (endOf.exec(result[1])== null){
+             return style.replace(urlStr, styleAttr+"url(#"+result[1]+"h);");
+          }
+          else{
+             return style.replace(urlStr, styleAttr+"url(#"+result[1].substring(0, result[1].length-1)+");");
+          }
+        }
+               else{
 	        hexColor = color.substring(1, 7);
 	        hc = getHighlight(hexColor, highlight, lookUpTable, id);
 	        return style.replace(styleAttr+"#"+hexColor,styleAttr+hc);
+               }
 	     }
 	     else{
 	        bracketIndex = color.search("\\)");
@@ -321,20 +358,44 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 	        return style.substring(0, index) + styleAttr+hc+ style.substring(index+bracketIndex+styleAttr.length+1, style.length);
 	   }    
 	}
+	function redirect(target, url){
+		if (target =='_blank'){
+			open(url);
+		}
+		else if (target == '_top'){
+          window.top.location.href=url;
+		}
+		else if (target == '_parent'){
+          parent.location.href=url;
+		}
+		else if (target == '_self'){
+          parent.location.href=url;
+		}
+		else if (target == '_self'){
+          parent.location.href=url;
+		}
+		else{
+			open(url);
+		}
+	}
 	function isIE(){
    var agt=parent.navigator.userAgent.toLowerCase();
    return (agt.indexOf("msie")!=-1);
 }  
+       var xScale = 1;
+       var yScale = 1;
 	function resizeSVG(e){
-    if(isIE()){
+    try{
        var root=e.target.ownerDocument.documentElement;
        var hotSpot = e.target.ownerDocument.getElementById('hotSpots');
        var g = e.target.ownerDocument.getElementById('outerG');
-       var xScale = (innerWidth) / root.getAttribute('width');
-       var yScale = (innerHeight) / root.getAttribute('height');
+       xScale = (innerWidth) / root.getAttribute('initialWidth');
+       yScale = (innerHeight) / root.getAttribute('initialHeight');
+       root.setAttribute('width', xScale*root.getAttribute('initialWidth'));
+       root.setAttribute('height', yScale*root.getAttribute('initialHeight'));
        g.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');
        hotSpot.setAttributeNS(null, 'transform', 'scale('+xScale+','+yScale+')');
-     }
+    }catch(e){}
   }
         function getHighlight(color, highlight, lookupTable, id){
         if (!(highlight)){

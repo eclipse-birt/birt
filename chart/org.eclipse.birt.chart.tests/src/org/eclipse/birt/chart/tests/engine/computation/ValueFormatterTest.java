@@ -31,7 +31,6 @@ public class ValueFormatterTest extends TestCase
 	{
 		assertEquals( null, ValueFormatter.format( null, null, null, null ) );
 		assertEquals( "ABC", ValueFormatter.format( "ABC", null, null, null ) );//$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "12.2", ValueFormatter.format( NumberDataElementImpl.create( 12.2 ), null, null, null ) );//$NON-NLS-1$ 
 	}
 
 	public void testFormat2( ) throws ChartException
