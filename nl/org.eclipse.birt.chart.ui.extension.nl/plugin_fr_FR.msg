@@ -1,0 +1,12 @@
+Series=Série
+CategoryXSeries=Série horizontale de catégories
+ValueYSeries=Série verticale de valeurs
+CategorySeries=Série de catégories
+ValueSeries=Série de valeurs
+ChartArea=Zone graphique
+Axis=Axe
+XAxis=Axe horizontal
+YAxis=Axe vertical
+ZAxis=Axe de profondeur
+Plot=Tracé
+Legend=Légende

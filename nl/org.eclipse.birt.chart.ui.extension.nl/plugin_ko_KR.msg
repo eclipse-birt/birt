@@ -1,0 +1,12 @@
+Series=계열
+CategoryXSeries=범주 (X) 계열
+ValueYSeries=값 (Y) 계열
+CategorySeries=범주 계열
+ValueSeries=값 계열
+ChartArea=차트 영역
+Axis=축
+XAxis=X 축
+YAxis=Y축
+ZAxis=Z축
+Plot=그리기
+Legend=범례

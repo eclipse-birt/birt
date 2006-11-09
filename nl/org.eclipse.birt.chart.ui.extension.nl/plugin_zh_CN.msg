@@ -1,0 +1,12 @@
+Series=系列
+CategoryXSeries=类别 (X) 系列
+ValueYSeries=值 (Y) 系列
+CategorySeries=类别系列
+ValueSeries=值系列
+ChartArea=图表区域
+Axis=坐标轴
+XAxis=X 轴
+YAxis=Y 轴
+ZAxis=Z 轴
+Plot=图形
+Legend=图例
