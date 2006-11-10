@@ -1698,7 +1698,7 @@ HyperLinkPage.toolTipText.Button=Optionen für Öffnen des Hyperlink
 ###########################################################
 #I18nPage properties
 
-I18nPage.text.Note=Hinweis: Um die Lokalisierung einzustellen, wählen Sie den Bericht aus, und legen Sie den Namen der Ressourcendatei in der Registerkarte "Allgemein" im Eigenschaftseditor fest.
+I18nPage.text.Note=Hinweis: Um die Lokalisierung einzustellen, wählen Sie den Bericht aus, und legen Sie den Namen der Ressourcendatei im Eigenschaftseditor auf der Registerkarte 'Ressourcen' fest.
 
 ###########################################################
 #ImageBuilder properties

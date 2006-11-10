@@ -260,7 +260,7 @@ MarkerType.Cross.displayName=Cruce
 RiserType.Rectangle.displayName=Rectángulo
 RiserType.Triangle.displayName=Triángulo
 RiserType.Tube.displayName=Tubo
-RiserType.Cone.displayName=Cone
+RiserType.Cone.displayName=Cono
 
 Anchor.North.displayName=Norte
 Anchor.NorthEast.displayName=Noreste

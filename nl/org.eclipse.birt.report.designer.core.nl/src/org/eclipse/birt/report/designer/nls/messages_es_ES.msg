@@ -1698,7 +1698,7 @@ HyperLinkPage.toolTipText.Button=Abrir opciones de hiperlink
 ###########################################################
 #I18nPage properties
 
-I18nPage.text.Note=Nota: Para establecer la localización, seleccione el informe y defina el nombre del archivo de recursos en la ficha General del editor de propiedades.
+I18nPage.text.Note=Nota: Para establecer la localización, seleccione el informe y defina el nombre del archivo de recursos en la ficha Recursos del editor de propiedades.
 
 ###########################################################
 #ImageBuilder properties

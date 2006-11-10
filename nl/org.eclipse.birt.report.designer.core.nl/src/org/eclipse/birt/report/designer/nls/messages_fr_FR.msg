@@ -1698,7 +1698,7 @@ HyperLinkPage.toolTipText.Button=Ouvrir les options de lien hypertexte
 ###########################################################
 #I18nPage properties
 
-I18nPage.text.Note=Remarque : pour définir la version localisée, sélectionnez l'état et définissez le nom du fichier de ressources dans l'onglet Général de l'Editeur de propriétés.
+I18nPage.text.Note=Remarque : pour définir la version localisée, sélectionnez l'état et définissez le nom du fichier de ressources dans l'onglet Ressources de l'Editeur de propriétés.
 
 ###########################################################
 #ImageBuilder properties

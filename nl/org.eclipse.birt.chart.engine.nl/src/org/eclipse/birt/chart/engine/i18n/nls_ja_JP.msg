@@ -260,7 +260,7 @@ MarkerType.Cross.displayName=Œğ·
 RiserType.Rectangle.displayName=lŠpŒ`
 RiserType.Triangle.displayName=OŠpŒ`
 RiserType.Tube.displayName=‰~“›
-RiserType.Cone.displayName=Cone
+RiserType.Cone.displayName=‰~
 
 Anchor.North.displayName=–k
 Anchor.NorthEast.displayName=–k“Œ
