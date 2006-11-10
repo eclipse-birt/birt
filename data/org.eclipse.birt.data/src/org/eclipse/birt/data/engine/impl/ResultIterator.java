@@ -771,7 +771,12 @@ public class ResultIterator implements IResultIterator
 				this.rdSave.saveExprValue( odiResult.getCurrentResultIndex( ),
 						valueMap );
 			else
-				this.rdSave.saveFinish( odiResult.getCurrentResultIndex( ) );
+			{
+				//TODO:enhance me
+				//Save the whole result set, the rows that have never be
+				//read will be saved as null value.
+				this.rdSave.saveFinish( odiResult.getRowCount() - 1 );
+			}
 		}
 
 		/**
