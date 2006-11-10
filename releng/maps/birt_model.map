@@ -1,0 +1,7 @@
+!*************** REPORT MODEL AND VIEWER ***********
+
+plugin@org.eclipse.birt.report.model=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model
+plugin@org.eclipse.birt.report.model.adapter.oda=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda
+plugin@org.eclipse.birt.resources=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.resources
+plugin@org.eclipse.birt.report.viewer=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
+plugin@org.eclipse.birt.integration.wtp.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.ui

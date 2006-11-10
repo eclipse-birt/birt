@@ -1,0 +1,12 @@
+!*************** BIRT CHART ***********
+plugin@org.eclipse.birt.chart.device.extension=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.extension
+plugin@org.eclipse.birt.chart.device.pdf=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.pdf
+plugin@org.eclipse.birt.chart.device.svg=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
+plugin@org.eclipse.birt.chart.device.swt=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.swt
+plugin@org.eclipse.birt.chart.engine=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
+plugin@org.eclipse.birt.chart.engine.extension=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine.extension
+plugin@org.eclipse.birt.chart.examples=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples
+plugin@org.eclipse.birt.chart.reportitem=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem
+plugin@org.eclipse.birt.chart.reportitem.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem.ui
+plugin@org.eclipse.birt.chart.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui
+plugin@org.eclipse.birt.chart.ui.extension=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
