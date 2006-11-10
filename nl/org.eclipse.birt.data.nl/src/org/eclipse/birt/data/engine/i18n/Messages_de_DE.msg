@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=In Präsentation nicht unterstützt.
 data.engine.wrongStatus=Falscher Status.
 data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=Einige Spaltenverweise in der Spaltenbindung existieren nicht.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.

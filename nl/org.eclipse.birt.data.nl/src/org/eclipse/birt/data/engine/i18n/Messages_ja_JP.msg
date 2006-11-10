@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=プレゼンテーションではサポートされ
 data.engine.wrongStatus=ステータスが正しくありません。
 data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=列バインド内の列参照の一部が存在しません。
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。

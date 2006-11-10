@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=Non pris en charge dans la présent
 data.engine.wrongStatus=Etat incorrect.
 data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la version 2.1.
 data.engine.unsupportOperationException=Opération non prise en charge.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=Certaines références de colonne dans la liaison de colonne n'existent pas.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.

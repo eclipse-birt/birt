@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=在展示中不受支持。
 data.engine.wrongStatus=错误状态。
 data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=列绑定中的某些列引用不存在。
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
