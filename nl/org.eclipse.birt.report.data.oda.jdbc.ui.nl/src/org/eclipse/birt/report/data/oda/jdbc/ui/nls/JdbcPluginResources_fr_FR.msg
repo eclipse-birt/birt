@@ -1,6 +1,7 @@
 dataset.editor.page.query=Requête
 dataset.new.query=Définir le texte de la requête SQL à l'aide des éléments disponibles
 dataset.new=Nouveau jeu de données
+dataset.editor.page.query.error.schemaNotExisted=The schema name does not exist
 datasource.new=Nouvelle source de données
 datasource.editor.page.datasource=Source de données
 sqleditor.action.undo=Annuler
@@ -102,6 +103,7 @@ driverManagerDialog.fileDelete.text=Le fichier sera supprimé au prochain lanceme
 datasource.propertyPage.tooltip=Source de données JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Page de prévisualisation
+designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Prefetch all Schemas from database 
 designer.preview.preference.resultset.maxNoOfSchema.description=Nombre maximum de &schémas à afficher :
 designer.preview.preference.resultset.maxNoOfTable.description=Nombre maximum de &tables de chaque schéma à afficher :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Entrez un chiffre compris entre 0 et {0} pour le nombre maximum de schémas.

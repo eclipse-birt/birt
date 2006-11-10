@@ -1,6 +1,7 @@
 dataset.editor.page.query=クエリ
 dataset.new.query=選択可能な項目を使用して SQL クエリテキストを定義する
 dataset.new=新規データセット
+dataset.editor.page.query.error.schemaNotExisted=The schema name does not exist
 datasource.new=新規データソース
 datasource.editor.page.datasource=データソース
 sqleditor.action.undo=元に戻す
@@ -102,6 +103,7 @@ driverManagerDialog.fileDelete.text=ファイルは、次回 BIRT を起動したときに削除さ
 datasource.propertyPage.tooltip=JDBC データソース
 
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
+designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Prefetch all Schemas from database 
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。

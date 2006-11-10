@@ -1,6 +1,7 @@
 dataset.editor.page.query=查询
 dataset.new.query=使用可用项来定义 sql 查询文本
 dataset.new=新建数据集
+dataset.editor.page.query.error.schemaNotExisted=The schema name does not exist
 datasource.new=新建数据源
 datasource.editor.page.datasource=数据源
 sqleditor.action.undo=撤消
@@ -102,6 +103,7 @@ driverManagerDialog.fileDelete.text=下次 BIRT 启动时，文件将被删除。特别是在交换
 datasource.propertyPage.tooltip=JDBC 数据源
 
 designer.preview.preference.resultset.previewpage.group.title=预览页面
+designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Prefetch all Schemas from database 
 designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构数(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=每个架构中要显示的最大表数(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=请为最大架构数输入一个介于 0 和 {0} 之间的数。

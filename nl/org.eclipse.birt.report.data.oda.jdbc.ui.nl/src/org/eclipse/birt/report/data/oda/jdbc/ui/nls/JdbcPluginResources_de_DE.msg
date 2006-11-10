@@ -1,6 +1,7 @@
 dataset.editor.page.query=Abfrage
 dataset.new.query=Definieren Sie mithilfe verfügbarer Elemente einen SQL-Abfragetext
 dataset.new=Neuer Datensatz
+dataset.editor.page.query.error.schemaNotExisted=The schema name does not exist
 datasource.new=Neue Datenquelle
 datasource.editor.page.datasource=Datenquelle
 sqleditor.action.undo=Rückgängig
@@ -102,6 +103,7 @@ driverManagerDialog.fileDelete.text=Die Datei wird beim nächsten Aufrufen von BI
 datasource.propertyPage.tooltip=JDBC-Datenquelle
 
 designer.preview.preference.resultset.previewpage.group.title=Vorschauseite
+designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Prefetch all Schemas from database 
 designer.preview.preference.resultset.maxNoOfSchema.description=&Maximale Anzahl anzuzeigender Schemata:
 designer.preview.preference.resultset.maxNoOfTable.description=&Maximale Anzahl von Tabellen in den anzuzeigenden Schemata:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl an Schemata zu definieren.

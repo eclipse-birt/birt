@@ -1,6 +1,7 @@
 dataset.editor.page.query=쿼리
 dataset.new.query=사용 가능한 항목을 사용하여 sql 쿼리 텍스트 정의
 dataset.new=새 데이터 집합
+dataset.editor.page.query.error.schemaNotExisted=The schema name does not exist
 datasource.new=새 데이터 원본 
 datasource.editor.page.datasource=데이터 원본
 sqleditor.action.undo=실행 취소
@@ -102,6 +103,7 @@ driverManagerDialog.fileDelete.text=다음 번 BIRT가 시작할 때 파일이 삭제됩니다. 
 datasource.propertyPage.tooltip=JDBC 데이터 원본
 
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
+designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Prefetch all Schemas from database 
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=표시할 각 스키마의 최대 테이블 수(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 대해 0과 {0} 사이의 숫자를 입력하십시오.
