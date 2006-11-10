@@ -54,6 +54,10 @@ public class MetaDataPopulator
 		{
 			resultSetList = (List) dataSetHandle.getProperty( OdaDataSetHandle.RESULT_SET_PROP );
 		}
+		else if( dataSetHandle instanceof ScriptDataSetHandle )
+		{
+			resultSetList = dataSetHandle.getListProperty( DataSetHandle.RESULT_SET_HINTS_PROP );
+		}
 		else
 		{
 			return null;
