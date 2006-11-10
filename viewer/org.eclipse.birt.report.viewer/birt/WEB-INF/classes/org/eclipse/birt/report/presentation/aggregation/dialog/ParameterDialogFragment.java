@@ -25,6 +25,7 @@ import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.CheckboxParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.ComboBoxParameterFragment;
+import org.eclipse.birt.report.presentation.aggregation.parameter.HiddenParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.ParameterGroupFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.RadioButtonParameterFragment;
 import org.eclipse.birt.report.presentation.aggregation.parameter.TextBoxParameterFragment;
@@ -151,6 +152,11 @@ public class ParameterDialogFragment extends BaseDialogFragment
 								break;
 							}
 						}
+					}
+					else
+					{
+						// handle hidden parameter
+						fragment = new HiddenParameterFragment( scalarParameter );
 					}
 				}
 

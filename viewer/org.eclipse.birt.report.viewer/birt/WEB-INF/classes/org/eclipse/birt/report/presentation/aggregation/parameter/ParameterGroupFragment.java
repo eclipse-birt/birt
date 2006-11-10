@@ -128,6 +128,11 @@ public class ParameterGroupFragment extends BirtBaseFragment
 						}
 					}
 				}
+				else
+				{
+					// handle hidden parameter
+					fragment = new HiddenParameterFragment( scalarParameter );
+				}
 
 				if ( fragment != null )
 				{
