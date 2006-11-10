@@ -29,21 +29,22 @@ public class PDFTextInlineBlockLM extends PDFBlockStackingLM
 		super( context, parent, content, executor );
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
+		boolean isNewArea = (root==null);
 		//TODO refactor
 		createRoot( );
-		IStyle areaStyle = root.getStyle( );
-		validateBoxProperty( areaStyle, parent.getMaxAvaWidth( ),
-				context.getMaxHeight( ) );
-		// initialize offsetX and offsetY
-		setOffsetX( root.getContentX( ) );
-		setOffsetY( isFirst?
-				root.getContentY( ): 0 );
-		if ( null != parent )
+		if(isNewArea)
 		{
+			IStyle areaStyle = root.getStyle( );
+			validateBoxProperty( areaStyle, parent.getCurrentMaxContentWidth( ),
+					context.getMaxHeight( ) );
+			// initialize offsetX and offsetY
+			setOffsetX( root.getContentX( ) );
+			setOffsetY( isFirst?
+					root.getContentY( ): 0 );
 			// support user defined width
-			int maxWidth = parent.getMaxAvaWidth( );
+			int maxWidth = parent.getCurrentMaxContentWidth( );
 			int leftWidth = maxWidth - parent.getCurrentIP( );
 			calculateSpecifiedWidth( );
 			int width = 0;
@@ -62,21 +63,23 @@ public class PDFTextInlineBlockLM extends PDFBlockStackingLM
 					width = maxWidth;
 				}
 			}
-
 			root.setAllocatedWidth( width );
-			setMaxAvaWidth( root.getContentWidth( ) );
-			root.setAllocatedHeight( parent.getMaxAvaHeight( )
-					- parent.getCurrentBP( ) );
-			setMaxAvaHeight( root.getContentHeight( ) );
+			//can be removed?
+			setCurrentBP( 0 );
+			setCurrentIP( 0 );
 		}
-		// can be removed?
-		setCurrentBP( 0 );
-		setCurrentIP( 0 );
+		maxAvaWidth = root.getContentWidth( );
+		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
+		maxAvaHeight = root.getContentHeight( );
+		
 	}
 
 	protected void createRoot( )
 	{
-		root = (ContainerArea) AreaFactory.createBlockContainer( content );
+		if(root==null)
+		{
+			root = (ContainerArea) AreaFactory.createBlockContainer( content );
+		}
 	}
 
 }

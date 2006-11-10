@@ -25,10 +25,4 @@ public interface ILineStackingLayoutManager
 
 	boolean isEmptyLine( );
 
-	/**
-	 * set BIDI base level for current line
-	 * 
-	 * @param baseLevel
-	 */
-	void setBaseLevel( int baseLevel );
 }

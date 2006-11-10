@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -29,9 +32,21 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		implements
 			IBlockStackingLayoutManager
 {
-
+	
 	protected IReportItemExecutor blockExecutor = null;
 
+	protected CompositeArea keepWithCache = new CompositeArea();
+	
+	protected boolean keepWith = false;
+	
+	protected boolean pageBreakAvoid = false;
+	
+		
+	public int getCurrentMaxContentHeight()
+	{
+		return maxAvaHeight - currentBP - keepWithCache.getHeight( );
+	}
+	
 	protected void addChild( PDFAbstractLM child )
 	{
 		this.child = child;
@@ -41,15 +56,16 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content, executor );
+		pageBreakAvoid = pageBreakInsideAvoid( ) || pageBreakAfterAvoid();
 	}
 
 	protected boolean traverseChildren( )
 	{
-		boolean childBreak = false;
+		boolean hasNextPage = false;
 		if ( child != null )
 		{
-			childBreak = child.layout( );
-			if ( childBreak )
+			hasNextPage = child.layout( );
+			if ( hasNextPage )
 			{
 				if ( child.isFinished( ) )
 				{
@@ -85,48 +101,53 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 
 	private boolean layoutChildNode( IReportItemExecutor childExecutor )
 	{
-		boolean childBreak = false;
+		boolean hasNextPage = false;
 		IContent childContent = childExecutor.execute( );
 		PDFAbstractLM childLM = getFactory( ).createLayoutManager( this,
 				childContent, childExecutor );
-		childBreak = childLM.layout( );
-		if ( childBreak && !childLM.isFinished( ) )
+		hasNextPage = childLM.layout( );
+		if ( hasNextPage && !childLM.isFinished( ) )
 		{
 			child = childLM;
 		}
-		return childBreak;
+		return hasNextPage;
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
-		createRoot( );
-		validateBoxProperty( root.getStyle( ), parent.getMaxAvaWidth( ),
-				context.getMaxHeight( ) );
-		if ( null != parent )
+		if(root==null)
 		{
+			createRoot( );
+			validateBoxProperty( root.getStyle( ), parent.getCurrentMaxContentWidth( ),
+					context.getMaxHeight( ) );
 			calculateSpecifiedWidth( );
-			// support user defined width
-			int maxW = parent.getMaxAvaWidth( ) - parent.getCurrentIP( );
-			if ( specifiedWidth > 0 )
-			{
-				maxW = Math.min( maxW, specifiedWidth );
-			}
-			root.setAllocatedWidth( maxW );
-			setMaxAvaWidth( root.getContentWidth( ) );
-			root.setAllocatedHeight( parent.getMaxAvaHeight( )
-					- parent.getCurrentBP( ) );
-			setMaxAvaHeight( root.getContentHeight( ) );
+			//initialize offsetX and offsetY
+			setOffsetX( root.getContentX( ) );
+			setOffsetY( isFirst ? root.getContentY( ) : 0 );
+			//initialize current position
+			setCurrentBP( 0 );
+			setCurrentIP( 0 );
 		}
-		// initialize offsetX and offsetY
-		setOffsetX( root.getContentX( ) );
-		setOffsetY( isFirst ? root.getContentY( ) : 0 );
-		// can be removed?
-		setCurrentBP( 0 );
-		setCurrentIP( 0 );
+		// support user defined width
+		int maxW = parent.getCurrentMaxContentWidth( );
+		if ( specifiedWidth > 0 )
+		{
+			maxW = Math.min( maxW, specifiedWidth );
+		}
+		root.setAllocatedWidth( maxW );
+		maxAvaWidth = root.getContentWidth( );
+		
+		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
+		maxAvaHeight = root.getContentHeight( );
+		
 	}
-
+	
 	protected void closeLayout( )
 	{
+		if(root==null)
+		{
+			return;
+		}
 		IStyle areaStyle = root.getStyle( );
 		if ( !isLast )
 		{
@@ -139,7 +160,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			areaStyle.setProperty( IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0 );
 		}
 		
-		// FIXME
+		// FIXME currently do not consider a spcial case...
 		root
 				.setHeight( getCurrentBP( )
 						+ getOffsetY( )
@@ -149,24 +170,39 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH )) );
 	}
 
-	public boolean addArea( IArea area )
+	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
 	{
 		// ignore empty area
 		if ( area == null )
 		{
 			return true;
 		}
-		AbstractArea aArea = (AbstractArea) area;
-		if ( aArea.getAllocatedHeight( ) + getCurrentBP( ) <= getMaxAvaHeight( )
-				|| isPageEmpty( ) )
+		
+		keepWith = keepWithNext || pageBreakAvoid;
+		
+		if(!keepWith && !keepWithPrevious)
 		{
-			aArea.setAllocatedPosition( getCurrentIP( ) + getOffsetX( ),
-					getCurrentBP( ) + getOffsetY( ) );
-			setCurrentBP( getCurrentBP( ) + aArea.getAllocatedHeight( ) );
-			root.addChild( area );
-			return true;
+			clearCache( );
 		}
-		return false;
+
+		AbstractArea aArea = (AbstractArea)area;
+		if(keepWithCache.getHeight( ) + aArea.getAllocatedHeight( ) + getCurrentBP() > getMaxAvaHeight())
+		{
+			context.setAutoPageBreak( true );
+			return false;
+		}
+		else
+		{
+			if(keepWithPrevious || keepWith)
+			{
+				keepWithCache.add( area );
+			}
+			else
+			{
+				addToRoot(aArea);
+			}
+		}
+		return true;
 	}
 
 	public int getLineHeight( )
@@ -176,7 +212,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			IStyle contentStyle = content.getComputedStyle( );
 			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ));
 		}
-		// FIXME return text size?
 		return 0;
 	}
 
@@ -208,7 +243,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			child.cancel( );
 		}
 	}
-	
 	protected boolean hasNextChild()
 	{
 		if(child==null && (blockExecutor!=null && !blockExecutor.hasNextChild( )))
@@ -218,4 +252,328 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		return true;
 				
 	}
+	public void setKeepWithNext(boolean keepWithNext)
+	{
+		if(keepWithNext)
+		{
+			keepWith = true;
+		}
+		
+		if(!keepWith)
+		{
+			clearCache( );
+		}
+	}
+	
+	protected boolean clearCache()
+	{
+		while(!keepWithCache.isEmpty( ))
+		{
+			AbstractArea area = (AbstractArea)keepWithCache.getFirst( );
+			boolean succeed = addToRoot(area);
+			if(!succeed)
+			{
+				//FIXME?? set autoPageBreak?
+				return false;
+			}
+			else
+			{
+				keepWithCache.removeFirst( );
+			}
+		}
+		return true;
+		
+	}
+	
+	protected boolean addToRoot(AbstractArea area)
+	{
+		if(currentBP + area.getAllocatedHeight( ) <= maxAvaHeight)
+		{
+			root.addChild( area );
+			area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
+			currentBP += area.getAllocatedHeight( );
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	protected static class CompositeArea
+	{
+		protected LinkedList cache = new LinkedList();
+		
+		protected int height = 0;
+		
+		public CompositeArea()
+		{
+		}
+		
+		public int size()
+		{
+			return cache.size( );
+		}
+		public void add(IArea area)
+		{
+			AbstractArea aArea = (AbstractArea)area;
+			cache.addLast( area );
+			height += aArea.getAllocatedHeight( );
+		}
+		
+		public int getHeight()
+		{
+			return this.height;
+		}
+		
+		public boolean isEmpty()
+		{
+			return cache.isEmpty( );
+		}
+		
+		public Iterator getChildren()
+		{
+			return cache.iterator( );
+		}
+		
+		public IArea getFirst()
+		{
+			if(!cache.isEmpty( ))
+			{
+				return (IArea)cache.getFirst( );
+			}
+			return null;
+		}
+		
+		public IArea removeFirst()
+		{
+			if(!cache.isEmpty( ))
+			{
+				AbstractArea area = ((AbstractArea)cache.removeFirst( )); 
+				height -= area.getAllocatedHeight( );
+				return area;
+			}
+			return null;
+		}
+		
+		public void addAll(CompositeArea areas)
+		{
+			Iterator iter = areas.getChildren( );
+			while(iter.hasNext( ))
+			{
+				add((IArea)iter.next( ));
+			}
+		}
+		
+		public CompositeArea getLastN(int count)
+		{
+			CompositeArea areas = new CompositeArea();
+			for(int i=0; i<count; i++)
+			{
+				AbstractArea area = (AbstractArea)this.getFirst( );
+				if(area!=null)
+				{
+					areas.add( area );
+				}
+				else
+				{
+					return areas;
+				}
+			}
+			return areas;
+		}
+		
+		public CompositeArea getFirstN(int count)
+		{
+			CompositeArea areas = new CompositeArea();
+			for(int i=0; i<count; i++)
+			{
+				AbstractArea area = (AbstractArea)this.getFirst( );
+				if(area!=null)
+				{
+					areas.add( area );
+				}
+				else
+				{
+					return areas;
+				}
+			}
+			return areas;
+		}
+		
+		public CompositeArea getAreas(int height, boolean force)
+		{
+			if(height>=this.height)
+			{
+				return this;
+			}
+			else
+			{
+				CompositeArea areas = new CompositeArea();
+				int current = 0;
+				while(current<height )
+				{
+					AbstractArea area = (AbstractArea)this.getFirst( );
+					if(area!=null)
+					{
+						current += area.getAllocatedHeight( );
+						if(current<=height)
+						{
+							areas.add( area );
+							removeFirst( );
+						}
+						else
+						{
+							if(current==0 && force)
+							{
+								areas.add( area );
+								removeFirst( );
+							}
+							return areas;
+						}
+					}
+				}
+					
+				
+			}
+			return null;
+		}
+
+	}
+	
+	protected class KeepWithMgr
+	{
+		protected CompositeArea cache = new CompositeArea();
+		
+		protected int maxHeight = 0;
+		
+		public KeepWithMgr()
+		{
+			
+		}
+		
+		public KeepWithMgr(int maxHeight)
+		{
+			this.maxHeight = maxHeight;
+		}
+		
+		public void setMaxHeight(int maxHeight)
+		{
+			this.maxHeight = maxHeight;
+		}
+		
+		public void addLast(IArea area)
+		{
+			cache.add( area );
+		}
+		
+		public boolean isOverFlow()
+		{
+			return cache.getHeight( )>maxHeight;
+		}
+		
+		public int getHeight()
+		{
+			return cache.getHeight( );
+		}
+		
+		public boolean isEmpty()
+		{
+			return cache.isEmpty( );
+		}
+		
+		public IArea getFirst()
+		{
+			if(!cache.isEmpty( ))
+			{
+				return (IArea)cache.getFirst( );
+			}
+			return null;
+		}
+		
+		public void removeFirst()
+		{
+			if(!cache.isEmpty( ))
+			{
+				cache.removeFirst( );
+			}
+		}
+	
+	}
+	
+	public void autoPageBreak()
+	{
+		if(!isRootEmpty( ))
+		{
+			return;
+		}
+		else if(!keepWithCache.isEmpty( ))
+		{
+			clearCache( );
+			if(!isRootEmpty( ))
+			{
+				closeLayout();
+				submitRoot();
+				return;
+			}
+		}
+		if(child!=null)
+		{
+			child.autoPageBreak();
+			closeLayout();
+			submitRoot();
+		}
+		
+	}
+	
+	public void submit(AbstractArea area)
+	{
+		root.addChild( area );
+		area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
+		currentBP += area.getAllocatedHeight( );
+	}
+	
+	
+	protected boolean submitRoot( )
+	{
+		if(root==null)
+		{
+			return true;
+		}
+		boolean success = true;
+		if ( parent != null )
+		{
+			if(isLast)
+			{
+				//FIXME to support keepWithPrevious
+				success = parent.addArea( root, false, isKeepWithNext() );
+			}
+			else if(context.isAutoPageBreak( ) && isFirst)
+			{
+				success = parent.addArea( root, false, false );
+			}
+			else
+			{
+				parent.submit( root );
+			}
+			if ( success )
+			{
+				isFirst = false;
+				root = null;
+			}
+		}
+		else
+		{
+			if ( content != null )
+			{
+				content.setExtension( IContent.LAYOUT_EXTENSION, root );
+				//root = null;
+			}
+		}
+		return success;
+	}
+	
+	
+	
 }

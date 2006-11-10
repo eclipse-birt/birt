@@ -30,13 +30,13 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 	 * For inline leaf elements, page-break is handled by this layout manager.
 	 * For block leaf elements. page-break is handled by it's block container
 	 */
-	protected boolean isPageBreakBefore( )
+	protected boolean handlePageBreakBefore( )
 	{
 		if ( content != null )
 		{
 			if ( PropertyUtil.isInlineElement( content ) )
 			{
-				return super.isPageBreakBefore( );
+				return super.handlePageBreakBefore( );
 			}
 		}
 		return false;
@@ -47,13 +47,13 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 	 * For inline leaf elements, page-break is handled by this layout manager.
 	 * For block leaf elements. page-break is handled by it's block container
 	 */
-	protected boolean isPageBreakAfter( )
+	protected boolean handlePageBreakAfter( )
 	{
 		if ( content != null )
 		{
 			if ( PropertyUtil.isInlineElement( content ) )
 			{
-				return super.isPageBreakAfter( );
+				return super.handlePageBreakAfter( );
 			}
 		}
 		return false;
@@ -97,6 +97,11 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 	protected boolean hasNextChild()
 	{
 		return true;
+	}
+	
+	public void autoPageBreak()
+	{
+		return;
 	}
 
 }

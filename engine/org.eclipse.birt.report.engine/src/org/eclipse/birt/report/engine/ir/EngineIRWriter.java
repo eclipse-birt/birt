@@ -989,6 +989,7 @@ public class EngineIRWriter implements IOConstants
 		int groupLevel = group.getGroupLevel( );
 		String pageBreakBefore = group.getPageBreakBefore( );
 		String pageBreakAfter = group.getPageBreakAfter( );
+		String pageBreakInside = group.getPageBreakInside( );
 		boolean hideDetail = group.getHideDetail( );
 		boolean headerRepeat = group.isHeaderRepeat( );
 
@@ -1006,6 +1007,11 @@ public class EngineIRWriter implements IOConstants
 		{
 			IOUtil.writeShort( out, FIELD_PAGE_BREAK_AFTER );
 			IOUtil.writeString( out, pageBreakAfter );
+		}
+		if ( pageBreakInside != null )
+		{
+			IOUtil.writeShort( out, FIELD_PAGE_BREAK_INSIDE );
+			IOUtil.writeString( out, pageBreakInside );
 		}
 
 		if ( headerRepeat )

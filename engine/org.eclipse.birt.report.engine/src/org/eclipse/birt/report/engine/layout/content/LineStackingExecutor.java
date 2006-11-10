@@ -2,7 +2,6 @@ package org.eclipse.birt.report.engine.layout.content;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
-import org.eclipse.birt.report.engine.executor.ReportItemExecutor;
 
 
 public class LineStackingExecutor implements IReportItemExecutor

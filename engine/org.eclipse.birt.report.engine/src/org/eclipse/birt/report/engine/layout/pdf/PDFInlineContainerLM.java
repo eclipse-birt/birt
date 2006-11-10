@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IInlineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
 public class PDFInlineContainerLM extends PDFInlineStackingLM
 		implements
@@ -46,16 +47,22 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 		return false;
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	public boolean addArea( IArea area )
+	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void submit( AbstractArea area )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

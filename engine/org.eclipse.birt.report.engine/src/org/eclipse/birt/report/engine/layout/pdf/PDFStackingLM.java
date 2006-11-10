@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutContext;
 import org.eclipse.birt.report.engine.layout.IStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 
 public abstract class PDFStackingLM extends PDFAbstractLM
@@ -23,14 +24,14 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 			ILayoutContext
 {
 
-	protected int nMaxWidth = -1;
+	protected int maxWidth = -1;
 
-	protected int nMaxHeight = -1;
-
-	protected int maxAvaWidth = 0;
-
+	protected int maxHeight = -1;
+	
 	protected int maxAvaHeight = 0;
-
+	
+	protected int maxAvaWidth = 0;
+	
 	protected int currentIP = 0;
 
 	protected int currentBP = 0;
@@ -46,16 +47,22 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	protected int minHeight = 0;
 
 	protected int minWidth = 0;
-
-	public int getMaxAvaWidth( )
-	{
-		return this.maxAvaWidth;
-	}
-
-	public int getMaxAvaHeight( )
+	
+	public int getMaxAvaHeight()
 	{
 		return this.maxAvaHeight;
 	}
+	
+	public int getCurrentMaxContentWidth( )
+	{
+		return maxAvaWidth - currentIP;//FIXME
+	}
+	
+	public int getCurrentMaxContentHeight()
+	{
+		return maxAvaHeight - currentBP;
+	}
+
 
 	public int getCurrentIP( )
 	{
@@ -77,15 +84,6 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		this.currentIP = ip;
 	}
 
-	public void setMaxAvaHeight( int height )
-	{
-		this.maxAvaHeight = height;
-	}
-
-	public void setMaxAvaWidth( int width )
-	{
-		this.maxAvaWidth = width;
-	}
 
 	public int getOffsetX( )
 	{
@@ -115,37 +113,58 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 
 	protected boolean layoutChildren( )
 	{
-		newContext( );
-		boolean childBreak = false;
-		childBreak = traverseChildren( );
-		if ( !childBreak )
+		initialize( );
+		boolean hasNextPage = false;
+		hasNextPage = traverseChildren( );
+		if ( !hasNextPage )
 		{
 			isLast = true;
+			clearCache();
+		}
+		else if(!context.isAutoPageBreak( ))
+		{
+			clearCache();
 		}
 		if ( !isRootEmpty( ) )
 		{
 			closeLayout( );
-			childBreak = !submitRoot( childBreak ) || childBreak;
+			hasNextPage = !submitRoot( ) || hasNextPage;
 
 		}
-		return childBreak;
+		return hasNextPage;
 	}
 
+	protected  boolean clearCache()
+	{
+		return true;
+	}
+	
 	protected boolean isRootEmpty( )
 	{
 		return !( root != null && root.getChildrenCount( ) > 0 );
 	}
 
 	protected abstract boolean traverseChildren( );
-
-	protected boolean submitRoot( boolean childBreak )
+	
+	/**
+	 * submit the current layout result 
+	 * @return
+	 */
+	protected boolean submitRoot( )
 	{
-		boolean ret = true;
+		if(root==null)
+		{
+			return true;
+		}
+		boolean success = true;
 		if ( parent != null )
 		{
-			ret = parent.addArea( root );
-			if ( ret )
+			//FIXME to support keepWithPrevious
+			success = parent.addArea( root, false, isKeepWithNext() );
+			//parent.submit( root );
+			if ( success )
 			{
+				isFirst = false;
 				root = null;
 			}
 		}
@@ -157,7 +176,12 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 				root = null;
 			}
 		}
-		return ret;
+		return success;
+	}
+	
+	protected boolean isKeepWithNext()
+	{
+		return isLast && isFirst && pageBreakAfterAvoid( );
 	}
 
 	/**
@@ -171,7 +195,7 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	 * 
 	 * 
 	 */
-	protected abstract void newContext( );
+	protected abstract void initialize( );
 
 	/**
 	 * end current area if it is the last area of content, add bottom box
@@ -181,6 +205,15 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 	protected abstract void closeLayout( );
 
 	protected abstract void createRoot( );
+	
+	protected int getIntrisicHeight()
+	{
+		if(root!=null)
+		{
+			return root.getIntrisicHeight( );
+		}
+		return 0;
+	}
 
 	public boolean isPageEmpty( )
 	{
@@ -197,5 +230,7 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		}
 		return true;
 	}
-
+		
+	public abstract void submit(AbstractArea area);
+	
 }

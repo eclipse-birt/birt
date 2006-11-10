@@ -60,6 +60,19 @@ public class PDFLayoutEngineContext
 	
 	protected IReportContent report;
 	
+	//FIXME default value should be true;
+	protected boolean autoPageBreak = false;
+	
+	public void setAutoPageBreak(boolean autoBreak)
+	{
+		this.autoPageBreak = autoBreak;
+	}
+	
+	public boolean isAutoPageBreak()
+	{
+		return autoPageBreak;
+	}
+	
 	public IReportContent getReport()
 	{
 		return report;

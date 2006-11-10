@@ -28,7 +28,7 @@ public class FontMappingManager
 	/** The possible generic font names */
 	private static final String SERIF = "serif"; //$NON-NLS-1$
 	private static final String SANS_SERIF = "sans-serif"; //$NON-NLS-1$
-	private static final String CURSIVE = "cursive";
+	private static final String CURSIVE = "cursive"; //$NON-NLS-1$
 	private static final String MONOSPACE = "monospace"; //$NON-NLS-1$
 	private static final String FANTASY = "fantasy"; //$NON-NLS-1$
 	
@@ -95,7 +95,7 @@ public class FontMappingManager
 		fontEncoding.put(BaseFont.COURIER, BaseFont.WINANSI);
 		fontEncoding.put(BaseFont.SYMBOL, BaseFont.WINANSI);
 		fontEncoding.put(BaseFont.ZAPFDINGBATS, BaseFont.WINANSI);		
-		fontEncoding.put("Times", BaseFont.WINANSI);	
+		fontEncoding.put("Times", BaseFont.WINANSI);	 //$NON-NLS-1$
 	}
 	
 	
@@ -440,5 +440,4 @@ public class FontMappingManager
 			0xF0000,	0xFFFFF,			//Supplementary Private Use Area-A
 			0x100000,	0x10FFFF			//Supplementary Private Use Area-B
 	};	
-	
 }

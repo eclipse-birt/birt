@@ -17,7 +17,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.9.6.1 $ $Date: 2006/09/07 12:56:45 $
+ * @version $Revision: 1.10 $ $Date: 2006/09/07 13:35:17 $
  */
 public abstract class GroupDesign extends ReportItemDesign
 {
@@ -35,6 +35,11 @@ public abstract class GroupDesign extends ReportItemDesign
 	 * the page break after property
 	 */
 	protected String pageBreakAfter;
+	
+	/**
+	 * the page break inside property
+	 */
+	protected String pageBreakInside;
 	
 	/**
 	 * group hideDetail
@@ -150,5 +155,17 @@ public abstract class GroupDesign extends ReportItemDesign
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
 		return visitor.visitGroup(this, value);
+	}
+
+	
+	public String getPageBreakInside( )
+	{
+		return pageBreakInside;
+	}
+
+	
+	public void setPageBreakInside( String pageBreakInside )
+	{
+		this.pageBreakInside = pageBreakInside;
 	}
 }

@@ -33,18 +33,9 @@ public interface ILayoutContext
 	 * 
 	 * @return
 	 */
-	public int getMaxAvaWidth( );
-
-	public void setMaxAvaWidth( int width );
-
-	/**
-	 * get maximum availabe height in current page
-	 * 
-	 * @return
-	 */
-	public int getMaxAvaHeight( );
-
-	public void setMaxAvaHeight( int height );
+	public int getCurrentMaxContentWidth( );
+	
+	public int getCurrentMaxContentHeight();
 
 	/**
 	 * get current positon in inline direction, the origin point is content box

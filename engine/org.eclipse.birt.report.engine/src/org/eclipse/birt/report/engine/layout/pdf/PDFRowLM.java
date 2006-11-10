@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -19,6 +21,7 @@ import org.eclipse.birt.report.engine.layout.IInlineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
@@ -27,7 +30,6 @@ public class PDFRowLM extends PDFInlineStackingLM
 		implements
 			IInlineStackingLayoutManager
 {
-
 	protected IPDFTableLayoutManager tbl;
 	protected int rowID;
 
@@ -51,11 +53,11 @@ public class PDFRowLM extends PDFInlineStackingLM
 		{
 			if ( tbl != null )
 			{
-				if ( !isFinished( ) && needPageBreakBefore( ) )
+				if ( !isFinished( ) && needPageBreakBefore(null ) )
 				{
 					tbl.setTableCloseStateAsForced( );
 				}
-				else if ( isFinished( ) && needPageBreakAfter( ) )
+				else if ( isFinished( ) && needPageBreakAfter(null ) )
 				{
 					tbl.setTableCloseStateAsForced( );
 				}
@@ -91,12 +93,17 @@ public class PDFRowLM extends PDFInlineStackingLM
 		root = AreaFactory.createRowArea( (IRowContent) content );
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
-		createRoot( );
-		setMaxAvaWidth( parent.getMaxAvaWidth( ) );
-		setMaxAvaHeight( parent.getMaxAvaHeight( ) - parent.getCurrentBP( ) );
-		root.setWidth( getMaxAvaWidth( ) );
+		if(root==null)
+		{
+			createRoot( );
+		}
+		maxAvaWidth = parent.getCurrentMaxContentWidth( );
+		root.setWidth( getCurrentMaxContentWidth( ) );
+		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
+		maxAvaHeight = root.getContentHeight( );
+
 	}
 
 	protected boolean traverseChildren( )
@@ -132,21 +139,15 @@ public class PDFRowLM extends PDFInlineStackingLM
 				}
 			}
 		}
-		if ( childBreak )
-		{
-			return true;
-		}
-		status = STATUS_END;
-		if ( isPageBreakAfter( ) )
-		{
-			return true;
-		}
-		return false;
+		return childBreak;
 	}
 
 	protected void closeLayout( )
 	{
-		tbl.updateRow( (RowArea) root, specifiedHeight );
+		if(root!=null)
+		{
+			tbl.updateRow( (RowArea) root, specifiedHeight );
+		}
 	}
 
 	protected boolean isHidden( )
@@ -154,11 +155,9 @@ public class PDFRowLM extends PDFInlineStackingLM
 		return isHiddenByVisibility( );
 	}
 
-	public boolean addArea( IArea area )
+	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
 	{
-		CellArea cArea = (CellArea) area;
-		root.addChild( area );
-		cArea.setPosition( tbl.getXPos( cArea.getColumnID( ) ), 0 );
+		submit((AbstractArea)area);
 		return true;
 	}
 
@@ -187,5 +186,54 @@ public class PDFRowLM extends PDFInlineStackingLM
 		return true;
 				
 	}
+
+	protected boolean isRootEmpty()
+	{
+
+		if(pageBreakInsideAvoid( ))
+		{
+			if(this.isRowFinished( ))
+			{
+				return false;
+			}
+			if(!context.isAutoPageBreak( ))
+			{
+				return false;
+			}
+			return true;
+		}
+		else
+		{
+			Iterator iter = root.getChildren( );
+			while(iter.hasNext( ))
+			{
+				CellArea cell = (CellArea)iter.next();
+				if(cell.getChildrenCount( )>0)
+				{
+					return false;
+				}
+			}
+			if(this.isRowFinished( ))
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	public void submit(AbstractArea area)
+	{
+		CellArea cArea = (CellArea) area;
+		root.addChild( area );
+		cArea.setPosition( tbl.getXPos( cArea.getColumnID( ) ), 0 );
+	}
+
+	protected boolean clearCache( )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 
 }

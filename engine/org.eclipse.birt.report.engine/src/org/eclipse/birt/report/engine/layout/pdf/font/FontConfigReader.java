@@ -41,12 +41,12 @@ public class FontConfigReader
 	/** The config xml file name */
 	private static final String CONFIG_FILE_PATH = "/fontsConfig.xml"; //$NON-NLS-1$
 	
-	private static final String TAG_BLOCK = "block";
+	private static final String TAG_BLOCK = "block"; //$NON-NLS-1$
 	private static final String TAG_MAPPING = "mapping"; //$NON-NLS-1$
 	private static final String TAG_PATH = "path"; //$NON-NLS-1$
 	private static final String TAG_ENCODING = "encoding"; //$NON-NLS-1$
 
-	private static final String PROP_BLOCK_INDEX = "index";
+	private static final String PROP_BLOCK_INDEX = "index"; //$NON-NLS-1$
 	private static final String PROP_NAME = "name"; //$NON-NLS-1$
 	private static final String PROP_FONT_FAMILY = "font-family"; //$NON-NLS-1$
 	private static final String PROP_ENCODING = "encoding"; //$NON-NLS-1$

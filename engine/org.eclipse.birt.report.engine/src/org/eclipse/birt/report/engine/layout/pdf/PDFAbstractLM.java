@@ -121,7 +121,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				}
 				// we need put it in the new page or there is no
 				// space for the content.
-				if ( isPageBreakBefore( ) || checkAvailableSpace( ) )
+				if ( handlePageBreakBefore( ) || checkAvailableSpace( ) )
 				{
 					status = STATUS_INPROGRESS;
 					return true;
@@ -146,7 +146,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				status = STATUS_END;
 				// We need create an extra page for the following elements, so
 				// return true for next element.
-				if ( isPageBreakAfter( ) )
+				if ( handlePageBreakAfter( ) )
 				{
 					return true;
 				}
@@ -157,6 +157,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	}
 
 	protected abstract boolean hasNextChild();
+	
 	protected void closeExecutor( )
 	{
 		if ( executor != null )
@@ -188,24 +189,57 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return context.getFactory( );
 	}
 
-	protected boolean isPageBreakBefore( )
+	protected boolean handlePageBreakBefore( )
 	{
+		if ( content == null )
+		{
+			return false;
+		}
+		IStyle style = content.getStyle( );
+		String pageBreak = style.getPageBreakBefore( );
+		handlePageBreakBeforeAvoid(pageBreak);
 		if ( canPageBreak( ) )
 		{
-			return needPageBreakBefore( );
+			return needPageBreakBefore( pageBreak );
 		}
 		return false;
 	}
 
-	protected boolean isPageBreakAfter( )
+	protected boolean handlePageBreakAfter( )
 	{
+		if ( content == null )
+		{
+			return false;
+		}
+		IStyle style = content.getStyle( );
+		String pageBreak = style.getPageBreakAfter( );
+		handlePageBreakAfterAvoid(pageBreak);
 		if ( canPageBreak( ) )
 		{
-			return needPageBreakAfter( );
+			return needPageBreakAfter(pageBreak );
 		}
 		return false;
 	}
 
+	protected void handlePageBreakBeforeAvoid(String pageBreak)
+	{
+		if(parent instanceof PDFBlockStackingLM)
+		{
+			((PDFBlockStackingLM)parent).setKeepWithNext(IStyle.CSS_AVOID_VALUE == pageBreak);
+		}
+	}
+	
+	protected void handlePageBreakAfterAvoid(String pageBreak)
+	{
+		if(IStyle.CSS_AVOID_VALUE == pageBreak)
+		{
+			if(parent instanceof PDFBlockStackingLM)
+			{
+				((PDFBlockStackingLM)parent).setKeepWithNext(true);
+			}
+		}
+		
+	}
 	protected boolean canPageBreak( )
 	{
 		if ( !context.allowPageBreak( ) )
@@ -225,16 +259,10 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return true;
 	}
 
-	protected boolean needPageBreakBefore( )
+	protected boolean needPageBreakBefore(String pageBreak )
 	{
-		if ( content == null )
-		{
-			return false;
-		}
 		boolean ret = hasMasterPageChanged( );
 
-		IStyle style = content.getStyle( );
-		String pageBreak = style.getPageBreakBefore( );
 		if ( IStyle.CSS_ALWAYS_VALUE == pageBreak
 				|| IStyle.CSS_LEFT_VALUE == pageBreak
 				|| IStyle.CSS_RIGHT_VALUE == pageBreak)
@@ -246,14 +274,8 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return ret;
 	}
 
-	protected boolean needPageBreakAfter( )
+	protected boolean needPageBreakAfter(String pageBreak )
 	{
-		if ( content == null )
-		{
-			return false;
-		}
-		IStyle style = content.getStyle( );
-		String pageBreak = style.getPageBreakAfter( );
 		if ( IStyle.CSS_ALWAYS_VALUE == pageBreak
 				|| IStyle.CSS_LEFT_VALUE == pageBreak
 				|| IStyle.CSS_RIGHT_VALUE == pageBreak )
@@ -358,7 +380,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			}
 		}
 	}
-
+	
+	public abstract void autoPageBreak();
+	
 	protected abstract void cancelChildren( );
 
 	public void cancel( )
@@ -425,10 +449,11 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	{
 		if ( parent != null )
 		{
-			int leftHeight = parent.getMaxAvaHeight( ) - parent.getCurrentBP( );
+			int leftHeight =  parent.getCurrentMaxContentHeight( ) ;
 			if ( leftHeight < Math.max( PDFConstants.MIN_LAYOUT_HEIGHT,
 					specifiedHeight ) )
 			{
+				context.setAutoPageBreak( true );
 				return true;
 			}
 		}
@@ -540,7 +565,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	{
 		if ( content != null )
 		{
-			int calWidth = getDimensionValue( content.getWidth( ) );
+			int calWidth = getDimensionValue( content.getWidth( ), parent.getCurrentMaxContentWidth( ) );
 			if ( calWidth > 0 && calWidth < context.getMaxWidth( ) )
 			{
 				this.specifiedWidth = calWidth;
@@ -794,12 +819,58 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			}
 		}
 	}
+	
+	public boolean pageBreakBeforeAvoid()
+	{
+		if ( content == null )
+		{
+			return false;
+		}
+		IStyle style = content.getStyle( );
+		String pageBreak = style.getPageBreakBefore( );
+		if ( IStyle.CSS_AVOID_VALUE == pageBreak )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean pageBreakAfterAvoid()
+	{
+		if ( content == null )
+		{
+			return false;
+		}
+		IStyle style = content.getStyle( );
+		String pageBreak = style.getPageBreakAfter( );
+		if ( IStyle.CSS_AVOID_VALUE == pageBreak )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean pageBreakInsideAvoid( )
+	{
+		if ( content == null )
+		{
+			return false;
+		}
+		IStyle style = content.getComputedStyle( );
+		String pageBreak = style.getPageBreakInside( );
+		if ( IStyle.CSS_AVOID_VALUE == pageBreak )
+		{
+			return true;
+		}
+		return false;
+	}
 
 	public void close( )
 	{
 		// TODO Auto-generated method stub
 
 	}
+	
 	
 	
 	/**

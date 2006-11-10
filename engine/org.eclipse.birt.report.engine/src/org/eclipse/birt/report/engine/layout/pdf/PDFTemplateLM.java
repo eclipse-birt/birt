@@ -40,7 +40,7 @@ public class PDFTemplateLM extends PDFLeafItemLM
 		ContainerArea templateContainer = (ContainerArea) createInlineContainer(
 				autoText, true, true );
 		IStyle areaStyle = templateContainer.getStyle( );
-		int maxWidth = parent.getMaxAvaWidth( );
+		int maxWidth = parent.getCurrentMaxContentWidth( );
 		validateBoxProperty( areaStyle, maxWidth, context.getMaxHeight( ) );
 
 		int width = getDimensionValue( autoText.getWidth( ), maxWidth );
@@ -75,7 +75,7 @@ public class PDFTemplateLM extends PDFLeafItemLM
 				.setPosition(
 						templateContainer.getContentX( ),
 						templateContainer.getContentY( ) );
-		parent.addArea( templateContainer );
+		parent.addArea( templateContainer, false, false );
 		return false;
 	}
 

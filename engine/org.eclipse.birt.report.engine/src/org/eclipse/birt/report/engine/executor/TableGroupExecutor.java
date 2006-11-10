@@ -36,6 +36,7 @@ public class TableGroupExecutor extends GroupExecutor
 		
 		initializeContent( groupDesign, groupContent );
 		processBookmark( groupDesign, groupContent );
+		handlePageBreakInsideOfGroup( );
 		handlePageBreakBeforeOfGroup( );
 		handlePageBreakAfterOfGroup( );
 		handlePageBreakAfterOfPreviousGroup( );

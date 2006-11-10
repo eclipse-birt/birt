@@ -15,14 +15,13 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IGroupContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.w3c.dom.css.CSSValue;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
 public class PDFTableBandLM extends PDFBlockStackingLM
 		implements
@@ -119,14 +118,14 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		return parent.getCurrentIP( );
 	}
 
-	public int getMaxAvaHeight( )
-	{
-		return parent.getMaxAvaHeight( );
-	}
 
-	public int getMaxAvaWidth( )
+	public int getCurrentMaxContentHeight()
 	{
-		return parent.getMaxAvaWidth( );
+		return parent.getCurrentMaxContentHeight( );
+	}
+	public int getCurrentMaxContentWidth( )
+	{
+		return parent.getCurrentMaxContentWidth( );
 	}
 
 	public int getOffsetX( )
@@ -149,19 +148,14 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		parent.setCurrentIP( ip );
 	}
 
-	public void setMaxAvaHeight( int height )
-	{
-		parent.setMaxAvaHeight( height );
-	}
-
-	public void setMaxAvaWidth( int width )
-	{
-		parent.setMaxAvaWidth( width );
-	}
-
 	public void setOffsetX( int x )
 	{
 		parent.setOffsetX( x );
+	}
+	
+	public int getMaxAvaHeight()
+	{
+		return parent.getMaxAvaHeight();
 	}
 
 	public void setOffsetY( int y )
@@ -169,9 +163,9 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		parent.setOffsetY( y );
 	}
 
-	public boolean addArea( IArea area )
+	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
 	{
-		return parent.addArea( area );
+		return parent.addArea( area, false, false );
 	}
 
 	protected void createRoot( )
@@ -179,7 +173,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 		// do nothing
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
 
 	}
@@ -205,6 +199,24 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 			return !repeatHeader;
 		}
 		return true;
+	}
+	
+	public void submit(AbstractArea area)
+	{
+		parent.submit( area );
+	}
+	
+	protected boolean addToRoot(AbstractArea area)
+	{
+		if(getCurrentBP() + area.getAllocatedHeight( ) <= getMaxAvaHeight())
+		{
+			parent.addArea( area, false, false );
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 }

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
-import java.text.Bidi;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -35,7 +34,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	 * the base-level of the line created by this layout mangaer. each LineArea
 	 * has a fixed base-level.
 	 */
-	private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
+	//private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 
 	/**
 	 * line counter
@@ -65,12 +64,12 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		super( context, parent, null, executor );
 	}
 
-	protected boolean submitRoot( boolean childBreak )
+	protected boolean submitRoot(  )
 	{
-		boolean submit = super.submitRoot( childBreak );
+		boolean submit = super.submitRoot( );
 		if ( !submit )
 		{
-			if ( childBreak )
+			//if ( childBreak )
 			{
 				// FIXME special case: inline text with page-break-after at
 				// first line of page
@@ -87,7 +86,16 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		// need relayout
 		if ( last != null )
 		{
-			parent.addArea( last );
+			if(parent.addArea( last, false, false ))
+			{
+				last = null;
+			}
+			else
+			{
+				context.setAutoPageBreak( true );
+				//FIXME implement autoPageBreak
+				return false;
+			}
 			last = null;
 			if ( breakAfterRelayout )
 			{
@@ -182,12 +190,12 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		lineCount++;
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
 		createRoot( );
-		setMaxAvaWidth( parent.getMaxAvaWidth( ) );
-		setMaxAvaHeight( parent.getMaxAvaHeight( ) - parent.getCurrentBP( ) );
-		root.setWidth( getMaxAvaWidth( ) );
+		maxAvaWidth =  parent.getCurrentMaxContentWidth( ) ;
+		maxAvaHeight = parent.getCurrentMaxContentHeight( )  ;
+		root.setWidth( parent.getCurrentMaxContentWidth( ) );
 		setCurrentBP( 0 );
 		if ( lineCount == 1 )
 		{
@@ -213,12 +221,12 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		boolean ret = true;
 		if(root.getChildrenCount( )>0)
 		{
-			ret = parent.addArea( root );
+			ret = parent.addArea( root, false, false );
 		}
 		lineFinished = true;
 		if ( ret )
 		{
-			newContext( );
+			initialize( );
 			last = null;
 			return true;
 		}
@@ -237,13 +245,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 
 		 
 
-	public boolean addArea( IArea area )
+	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
 	{
-		AbstractArea cArea = (AbstractArea) area;
-		root.addChild( cArea );
-		cArea.setAllocatedPosition( getCurrentIP( ), getCurrentBP( ) );
-		setCurrentIP( getCurrentIP( ) + cArea.getAllocatedWidth( ) );
-		lineFinished = false;
+		submit((AbstractArea)area);
 		return true;
 	}
 
@@ -345,11 +349,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		}
 	}
 
-	public void setBaseLevel( int baseLevel )
-	{
-		this.baseLevel = baseLevel;
-	}
-
 	public boolean isEmptyLine( )
 	{
 		return isRootEmpty( );
@@ -358,9 +357,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	private boolean needLineBreak(IContent content)
 	{
 		int specWidth = 0;
-		int avaWidth = getMaxAvaWidth( ) - this.getCurrentIP( );
+		int avaWidth = getCurrentMaxContentWidth( );
 		int calWidth = getDimensionValue( content.getWidth( ) );
-		if ( calWidth > 0 && calWidth < getMaxAvaWidth() )
+		if ( calWidth > 0 && calWidth < this.maxAvaWidth )
 		{
 			specWidth = calWidth;
 		}
@@ -369,5 +368,15 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			expectedIP = currentIP + specWidth;
 		}
 		return specWidth>avaWidth;
+	}
+
+
+	public void submit( AbstractArea area )
+	{
+		root.addChild( area );
+		area.setAllocatedPosition( getCurrentIP( ), getCurrentBP( ) );
+		setCurrentIP( getCurrentIP( ) + area.getAllocatedWidth( ) );
+		lineFinished = false;
+		
 	}
 }

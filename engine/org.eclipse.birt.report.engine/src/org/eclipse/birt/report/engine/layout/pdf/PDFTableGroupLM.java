@@ -12,6 +12,7 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
@@ -62,11 +63,11 @@ public class PDFTableGroupLM extends PDFGroupLM
 			IPDFTableLayoutManager itsTableLM = getTableLayoutManager( );
 			if ( itsTableLM != null )
 			{
-				if ( !isFinished( ) && needPageBreakBefore( ) )
+				if ( !isFinished( ) && needPageBreakBefore(null ) )
 				{
 					itsTableLM.setTableCloseStateAsForced( );
 				}
-				else if ( isFinished( ) && needPageBreakAfter( ) )
+				else if ( isFinished( ) && needPageBreakAfter(null ) )
 				{
 					itsTableLM.setTableCloseStateAsForced( );
 				}
@@ -77,10 +78,11 @@ public class PDFTableGroupLM extends PDFGroupLM
 
 	protected void repeatHeader( )
 	{
-		if ( isFirst )
+		if ( isFirst || tableLM.isFirst )
 		{
 			isFirst = false;
 			return;
+			
 		}
 		if(!isCurrentDetailBand())
 		{
@@ -123,8 +125,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		TableArea tableRegion = (TableArea) tableLM.getContent( ).getExtension(
 				IContent.LAYOUT_EXTENSION );
 		if ( tableRegion != null
-				&& tableRegion.getHeight( ) < this.getMaxAvaHeight( )
-						- currentBP )
+				&& tableRegion.getHeight( ) < getCurrentMaxContentHeight( )	)
 		{
 			// add to root
 			Iterator iter = tableRegion.getChildren( );
@@ -133,7 +134,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 			while ( iter.hasNext( ) )
 			{
 				row = (RowArea) iter.next( );
-				addArea( row );
+				addArea( row, false, true );
 				count++;
 			}
 			if ( row != null )
@@ -145,81 +146,16 @@ public class PDFTableGroupLM extends PDFGroupLM
 		tableLM.getContent( ).setExtension( IContent.LAYOUT_EXTENSION, null );
 	}
 
-	public int getCurrentBP( )
-	{
-		return parent.getCurrentBP( );
-	}
-
-	protected boolean submitRoot( boolean childBreak )
-	{
-		return true;
-	}
-
-	public int getCurrentIP( )
-	{
-		return parent.getCurrentIP( );
-	}
-
-	public int getMaxAvaHeight( )
-	{
-		return parent.getMaxAvaHeight( );
-	}
-
-	public int getMaxAvaWidth( )
-	{
-		return parent.getMaxAvaWidth( );
-	}
-
-	public int getOffsetX( )
-	{
-		return parent.getOffsetX( );
-	}
-
-	public int getOffsetY( )
-	{
-		return parent.getOffsetY( );
-	}
-
-	public void setCurrentBP( int bp )
-	{
-		parent.setCurrentBP( bp );
-	}
-
-	public void setCurrentIP( int ip )
-	{
-		parent.setCurrentIP( ip );
-	}
-
-	public void setMaxAvaHeight( int height )
-	{
-		parent.setMaxAvaHeight( height );
-	}
-
-	public void setMaxAvaWidth( int width )
-	{
-		parent.setMaxAvaWidth( width );
-	}
-
-	public void setOffsetX( int x )
-	{
-		parent.setOffsetX( x );
-	}
-
-	public void setOffsetY( int y )
-	{
-		parent.setOffsetY( y );
-	}
-
-	public boolean addArea( IArea area )
+	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
 	{
 		if(firstRow)
 		{
 			firstRow = false;
 			IArea tocAnchor = AreaFactory.createTableGroupArea( (IGroupContent) content );
-			tableLM.addArea( tocAnchor );
+			tableLM.addArea( tocAnchor, false, false );
 			tableLM.setRepeatCount( tableLM.getRepeatCount( ) + 1 );
 		}
-		return parent.addArea( area );
+		return parent.addArea(  area, false, false );
 	}
 
 	protected void createRoot( )
@@ -227,7 +163,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 		// do nothing
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
 
 	}
@@ -263,5 +199,80 @@ public class PDFTableGroupLM extends PDFGroupLM
 			return true;
 		}
 		return false;
+	}
+	
+	public void submit(AbstractArea area)
+	{
+		parent.submit( area );
+	}
+	
+	protected boolean addToRoot(AbstractArea area)
+	{
+		return parent.addArea( area, false, false );
+		/*if(getCurrentBP() + area.getAllocatedHeight( ) <= getMaxAvaHeight())
+		{
+			parent.addArea( area, false, false );
+			return true;
+		}
+		else
+		{
+			return false;
+		}*/
+	}
+	
+	public int getCurrentBP( )
+	{
+		return parent.getCurrentBP( );
+	}
+	
+
+	public int getCurrentIP( )
+	{
+		return parent.getCurrentIP( );
+	}
+
+
+	public int getCurrentMaxContentHeight()
+	{
+		return parent.getCurrentMaxContentHeight( );
+	}
+	public int getCurrentMaxContentWidth( )
+	{
+		return parent.getCurrentMaxContentWidth( );
+	}
+
+	public int getOffsetX( )
+	{
+		return parent.getOffsetX( );
+	}
+
+	public int getOffsetY( )
+	{
+		return parent.getOffsetY( );
+	}
+
+	public void setCurrentBP( int bp )
+	{
+		parent.setCurrentBP( bp );
+	}
+
+	public void setCurrentIP( int ip )
+	{
+		parent.setCurrentIP( ip );
+	}
+
+	public void setOffsetX( int x )
+	{
+		parent.setOffsetX( x );
+	}
+	
+	public int getMaxAvaHeight()
+	{
+		return parent.getMaxAvaHeight();
+	}
+
+	public void setOffsetY( int y )
+	{
+		parent.setOffsetY( y );
 	}
 }

@@ -33,17 +33,17 @@ public class PDFRegionLM extends PDFBlockContainerLM
 		{
 			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
 		}
-		setMaxAvaWidth( root.getContentWidth( ) );
+		maxAvaWidth = root.getContentWidth( );
 		// set unlimited length for block direction
-		setMaxAvaHeight( Integer.MAX_VALUE );
+		maxAvaHeight = Integer.MAX_VALUE ;
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
 		createRoot( );
-		setMaxAvaWidth( root.getContentWidth( ) );
+		maxAvaWidth = root.getContentWidth( );
 		// set unlimited length for block direction
-		setMaxAvaHeight( Integer.MAX_VALUE );
+		maxAvaHeight = Integer.MAX_VALUE;
 	}
 
 	protected void createRoot( )

@@ -62,60 +62,56 @@ public class PDFCellLM extends PDFBlockStackingLM
 			int endColumn = startColumn + cellContent.getColSpan( );
 			columnWidth = tableLM.getCellWidth( startColumn, endColumn );
 		}
-		root = AreaFactory.createCellArea( cellContent );
-		tableLM.resolveBorderConflict( (CellArea) root );
-		root.setWidth( columnWidth );
-		if ( !isFirst )
+		if(root==null)
 		{
-			IStyle areaStyle = root.getStyle( );
-			areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
-					IStyle.NUMBER_0 );
-			areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
-			areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
+			
+			root = AreaFactory.createCellArea( cellContent );
+			tableLM.resolveBorderConflict( (CellArea) root );
+			
+			if ( !isFirst )
+			{
+				IStyle areaStyle = root.getStyle( );
+				areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
+						IStyle.NUMBER_0 );
+				areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
+				areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
+			}
 		}
+		root.setWidth( columnWidth );
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
+		boolean isNewArea = (root==null);
 		createRoot( );
-		IStyle areaStyle = root.getStyle( );
-		removeMargin( areaStyle );
-		validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
-		setOffsetX( root.getContentX( ) );
-		setOffsetY( isFirst ? root.getContentY( ) : 0 );
-
-		/*
-		 * int borderWidth = getDimensionValue( areaStyle .getProperty(
-		 * StyleConstants.STYLE_BORDER_LEFT_WIDTH ) ) + getDimensionValue(
-		 * areaStyle .getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-		 * int paddingWidth = getDimensionValue( areaStyle .getProperty(
-		 * StyleConstants.STYLE_PADDING_LEFT ) ) + getDimensionValue( areaStyle
-		 * .getProperty( StyleConstants.STYLE_PADDING_RIGHT ) ); if (
-		 * borderWidth + paddingWidth < columnWidth ) { setMaxAvaWidth(
-		 * columnWidth - borderWidth - paddingWidth );
-		 *  } else if ( borderWidth < columnWidth )// drop padding {
-		 * setMaxAvaWidth( columnWidth - borderWidth ); } else { // FIXME how to
-		 * resolve this case setMaxAvaWidth( 0 ); }
-		 */
-		setMaxAvaWidth (root.getContentWidth( ));
-		root.setAllocatedHeight( parent.getMaxAvaHeight( )
-				- parent.getCurrentBP( ) );
-		setMaxAvaHeight( root.getContentHeight( ) );
-		if ( isFirst )
+		if(isNewArea)
 		{
-			isFirst = false;
+			IStyle areaStyle = root.getStyle( );
+			removeMargin( areaStyle );
+			validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
+			setOffsetX( root.getContentX( ) );
+			setOffsetY( isFirst ? root.getContentY( ) : 0 );
+			if ( isFirst )
+			{
+				isFirst = false;
+			}
+			setCurrentBP( 0 );
+			setCurrentIP( 0 );
 		}
-		setCurrentBP( 0 );
-		setCurrentIP( 0 );
-
+		maxAvaWidth = root.getContentWidth( );
+		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
+		maxAvaHeight = root.getContentHeight( );
 	}
 
 	protected void closeLayout( )
 	{
-		root.setHeight( getCurrentBP( )
-				+ getOffsetY( )
-				+ getDimensionValue( root.getStyle( ).getProperty(
-						StyleConstants.STYLE_PADDING_BOTTOM ) ) );
+		if(root!=null)
+		{
+			root.setHeight( getCurrentBP( )
+					+ getOffsetY( )
+					+ getDimensionValue( root.getStyle( ).getProperty(
+							StyleConstants.STYLE_PADDING_BOTTOM ) ) );
+		}
 
 	}
 
@@ -128,17 +124,32 @@ public class PDFCellLM extends PDFBlockStackingLM
 		return isHiddenByVisibility( );
 	}
 
-	protected boolean submitRoot( boolean childBreak )
-	{
-		if ( parent != null )
-		{
-			parent.addArea( root );
-		}
-		return true;
-	}
 
 	protected boolean isRootEmpty( )
 	{
+		if(isLast)
+		{
+			return false;
+		}
+		return super.isRootEmpty( );
+	}
+	
+	public boolean pageBreakInsideAvoid( )
+	{
+		if ( content == null )
+		{
+			return false;
+		}
+		IContent row = (IContent)content.getParent( );
+		if(row!=null)
+		{
+			IStyle style = row.getStyle( );
+			String pageBreak = style.getPageBreakInside( );
+			if ( IStyle.CSS_AVOID_VALUE == pageBreak )
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 

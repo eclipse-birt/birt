@@ -70,7 +70,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		this.emitter = emitter;
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
 		createRoot( );
 		context.setMaxHeight( page.getRoot( ).getHeight( ) );
@@ -80,8 +80,8 @@ public class PDFPageLM extends PDFBlockContainerLM
 		updateBodySize( page );
 		context.setMaxHeight( page.getBody( ).getHeight( ) );
 		context.setMaxWidth( page.getBody( ).getWidth( ) );
-		setMaxAvaWidth( context.getMaxWidth( ) );
-		setMaxAvaHeight( context.getMaxHeight( ) );
+		maxAvaWidth = context.getMaxWidth( );
+		maxAvaHeight = context.getMaxHeight( );
 		setCurrentIP( 0 );
 		setCurrentBP( 0 );
 	}
@@ -229,6 +229,11 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 	protected void endPage( )
 	{
+		if(context.isAutoPageBreak( ))
+		{
+			context.setAutoPageBreak( false );
+			autoPageBreak( );
+		}
 		if(isPageEmpty())
 		{
 			if(!isFirst)
@@ -453,12 +458,12 @@ public class PDFPageLM extends PDFBlockContainerLM
 		if ( page != null )
 		{
 			IContainerArea body = page.getBody( );
-			if ( body.getChildrenCount( ) > 0 || isFirst )
+			if ( body.getChildrenCount( ) > 0 || isFirst&&isLast )
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-
+	
 }

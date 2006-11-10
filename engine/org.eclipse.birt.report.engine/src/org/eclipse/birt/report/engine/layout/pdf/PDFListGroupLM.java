@@ -17,6 +17,7 @@ public class PDFListGroupLM extends PDFGroupLM
 		implements
 			IBlockStackingLayoutManager
 {
+	protected boolean needRepeat = false;
 
 	public PDFListGroupLM( PDFLayoutEngineContext context,
 			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
@@ -33,19 +34,16 @@ public class PDFListGroupLM extends PDFGroupLM
 	{
 		return new ListContainerExecutor( content, executor );
 	}
+	
+	
 
 	protected void repeatHeader( )
 	{
 		if ( isFirst )
 		{
-			isFirst = false;
 			return;
 		}
-		if(!isCurrentDetailBand())
-		{
-			return;
-		}
-		if ( !isRepeatHeader( ) )
+		if(!needRepeat ||!isRepeatHeader( )||!isCurrentDetailBand())
 		{
 			return;
 		}
@@ -58,31 +56,39 @@ public class PDFListGroupLM extends PDFGroupLM
 		headerExecutor.execute( );
 		ContainerArea headerArea = (ContainerArea) AreaFactory
 				.createLogicContainer( content.getReportContent( ) );
-		headerArea.setAllocatedWidth( parent.getMaxAvaWidth( ) );
+		headerArea.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
 		PDFRegionLM regionLM = new PDFRegionLM( context, headerArea, band,
 				headerExecutor );
 		boolean allowPB = context.allowPageBreak( );
 		context.setAllowPageBreak( false );
 		regionLM.layout( );
 		context.setAllowPageBreak( allowPB );
-		if ( headerArea.getAllocatedHeight( ) + currentBP < parent
-				.getMaxAvaHeight( ) )
+		if ( headerArea.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )//FIXME need check
 		{
-			addArea( headerArea );
+			addArea( headerArea, false, pageBreakAvoid );
 			repeatCount++;
 		}
+		needRepeat = false;
 
 	}
 
 	protected void createRoot( )
 	{
-		root = (ContainerArea) AreaFactory.createBlockContainer( content );
+		if(root==null)
+		{
+			root = (ContainerArea) AreaFactory.createBlockContainer( content );
+		}
 	}
 	
-	protected void newContext()
+	protected void initialize( )
 	{
-		super.newContext( );
-		repeatCount = 0;
+		if(root==null && keepWithCache.isEmpty( ) && !isFirst)
+		{
+			repeatCount = 0;
+			needRepeat = true;
+		}
+		super.initialize( );
+		
 	}
 
 	protected boolean isCurrentDetailBand()

@@ -144,7 +144,7 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	protected int createDropID( int groupIndex, String dropType )
 	{
 		int dropId = -10 * ( groupIndex + 1 );
-		if ( "all".equals( dropType ) )
+		if ( "all".equals( dropType ) ) //$NON-NLS-1$
 		{
 			dropId--;
 		}
@@ -166,11 +166,11 @@ abstract public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			if ( dropAll )
 			{
-				layout.resolveDropCells( createDropID( groupLevel, "all" ) );
+				layout.resolveDropCells( createDropID( groupLevel, "all" ) ); //$NON-NLS-1$
 			}
 			else
 			{
-				layout.resolveDropCells( createDropID( groupLevel, "detail" ) );
+				layout.resolveDropCells( createDropID( groupLevel, "detail" ) ); //$NON-NLS-1$
 			}
 			hasDropCell = layout.hasDropCell( );
 		}

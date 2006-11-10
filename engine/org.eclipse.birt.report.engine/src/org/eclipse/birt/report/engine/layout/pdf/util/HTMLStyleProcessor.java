@@ -166,7 +166,7 @@ public class HTMLStyleProcessor
 						}
 						else
 						{
-							bgi = "url(" + bgi + ")";
+							bgi = "url(" + bgi + ")";  //$NON-NLS-1$//$NON-NLS-2$
 						}
 					}
 					if ( bgi != null )

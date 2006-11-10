@@ -18,7 +18,7 @@ public class LayoutEngineFactory
 {
 	public static IReportLayoutEngine createLayoutEngine( String paginationType )
 	{
-		if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( paginationType ) ) //$NON-NLS-1$
+		if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( paginationType ) ) 
 		{
 			try
 			{

@@ -74,7 +74,8 @@ public interface IOConstants
 	static final short FIELD_PAGE_BREAK_AFTER = 42;
 	static final short FIELD_HEADER_REPEAT = 43;
 	static final short FIELD_HIDE_DETAIL = 44;
-
+	static final short FIELD_PAGE_BREAK_INSIDE = 45;
+	
 	// band type
 	static final short FIELD_BAND_TYPE = 50;
 

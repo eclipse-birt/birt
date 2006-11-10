@@ -228,6 +228,22 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 	}
 
+	protected void handlePageBreakInsideOfGroup( )
+	{
+		GroupDesign groupDesign = (GroupDesign) design;
+		if ( groupDesign != null )
+		{
+			String pageBreakInside = groupDesign.getPageBreakInside( );
+			if ( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID
+					.equals( pageBreakInside ) )
+			{
+				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_INSIDE,
+						IStyle.AVOID_VALUE );
+			}
+		}
+	}
+	
+	
 	protected void handlePageBreakAfterOfGroup( )
 	{
 		boolean needPageBreak = false;

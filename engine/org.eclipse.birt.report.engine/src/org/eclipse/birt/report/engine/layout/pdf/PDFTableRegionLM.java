@@ -41,9 +41,9 @@ public class PDFTableRegionLM extends PDFTableLM
 		this.lastRow = lastRowArea;
 	}
 	
-	protected void newContext()
+	protected void initialize()
 	{
-		super.newContext( );
+		super.initialize( );
 		this.lastRowArea = lastRow;
 	}
 	protected int getAvaHeight( )

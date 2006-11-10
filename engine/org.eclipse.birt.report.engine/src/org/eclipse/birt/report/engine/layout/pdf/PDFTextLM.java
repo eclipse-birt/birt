@@ -91,7 +91,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 	public void addSpaceHolder( IArea con )
 	{
-		lineLM.addArea( con );
+		lineLM.addArea( con, false, false );
 	}
 
 	public boolean needPause( )
@@ -101,7 +101,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 	public void addTextLine( IArea textLine )
 	{
-		lineLM.addArea( textLine );
+		lineLM.addArea( textLine, false, false );
 	}
 
 	public void newLine( )
@@ -114,15 +114,8 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 	public int getFreeSpace( )
 	{
-		int freeSpace = lineLM.getMaxAvaWidth( ) - lineLM.getCurrentIP( );
-		return freeSpace;
+		return lineLM.getCurrentMaxContentWidth( );
 	}
-
-	public void setBaseLevel( int baseLevel )
-	{
-		lineLM.setBaseLevel( baseLevel );
-	}
-
 
 	public void transform( ITextContent textContent )
 	{
@@ -239,7 +232,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			this.content = textContent;
 			cg = new ChunkGenerator(content);
 			this.isInline = PropertyUtil.isInlineElement(content);
-			this.maxLineSpace = lineLM.getMaxAvaWidth( );			
+			this.maxLineSpace = lineLM.maxAvaWidth;		
 			IStyle style = content.getComputedStyle();
 			letterSpacing = getDimensionValue(style
 					.getProperty(StyleConstants.STYLE_LETTER_SPACING));

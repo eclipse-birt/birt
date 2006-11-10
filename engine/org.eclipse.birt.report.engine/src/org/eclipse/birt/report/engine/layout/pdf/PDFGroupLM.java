@@ -14,6 +14,7 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM
 	protected IGroupContent groupContent;
 
 	protected int repeatCount = 0;
+	
 
 	public PDFGroupLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
@@ -24,9 +25,9 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM
 
 	protected boolean traverseChildren( )
 	{
-		repeatHeader( );
-		boolean childBreak = super.traverseChildren( );
-		return childBreak;
+		repeatHeader();
+		boolean hasNextPage = super.traverseChildren( );
+		return hasNextPage;
 	}
 
 	protected boolean isRepeatHeader( )
@@ -40,5 +41,6 @@ public abstract class PDFGroupLM extends PDFBlockStackingLM
 	{
 		return !( root != null && root.getChildrenCount( ) > repeatCount );
 	}
+	
 
 }

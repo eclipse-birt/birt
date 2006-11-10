@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.130 $ $Date: 2006/10/19 22:35:34 $
+ * @version $Revision: 1.131 $ $Date: 2006/10/30 10:02:38 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -344,7 +344,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				String name = userDef.getName( );
 				String exprString = handle.getStringProperty( name );
-				if ( exprString != null && !exprString.trim( ).equals( "" ) )
+				if ( exprString != null && !exprString.trim( ).equals( "" ) ) //$NON-NLS-1$
 				{
 					//Expression expression = new Expression( exprString );
 					namedExpressions.put( name, exprString );
@@ -1553,8 +1553,11 @@ class EngineIRVisitor extends DesignVisitor
 				.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP );
 		String pageBreakAfter = handle
 				.getStringProperty( StyleHandle.PAGE_BREAK_AFTER_PROP );
+		String pageBreakInside = handle
+		.getStringProperty( StyleHandle.PAGE_BREAK_INSIDE_PROP );
 		group.setPageBreakBefore( pageBreakBefore );
 		group.setPageBreakAfter( pageBreakAfter );
+		group.setPageBreakInside( pageBreakInside );
 		
 		group.setHandle( handle );
 		group.setJavaClass( handle.getEventHandlerClass( ) );
@@ -1625,7 +1628,7 @@ class EngineIRVisitor extends DesignVisitor
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
 		rule.setExpression( createExpression( handle.getExpression( ) ) );
 		String format = handle.getFormat( );
-		if ( "html".equalsIgnoreCase( format ) )
+		if ( "html".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 		{
 			format = EngineIRConstants.FORMAT_TYPE_VIEWER;
 		}
@@ -1740,7 +1743,7 @@ class EngineIRVisitor extends DesignVisitor
 
 	protected String createExpression( String expr )
 	{
-		if ( expr != null && !expr.trim( ).equals( "" ) )
+		if ( expr != null && !expr.trim( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			return expr;
 		}
@@ -1963,7 +1966,7 @@ class EngineIRVisitor extends DesignVisitor
 				.getValue2( ) );
 		String displayText = handle.getDisplay( );
 		rule.setDisplayText( handle.getDisplayKey( ), displayText == null
-				? ""
+				? "" //$NON-NLS-1$
 				: displayText );
 
 		String testExpr = handle.getTestExpression( );

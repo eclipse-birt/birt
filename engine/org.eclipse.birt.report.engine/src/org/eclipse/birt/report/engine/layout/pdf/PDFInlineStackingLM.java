@@ -56,4 +56,20 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM
 	{
 		return true;
 	}
+	
+	public void autoPageBreak()
+	{	
+		for(int i=0; i<children.size( ); i++)
+		{
+			PDFAbstractLM childLM = (PDFAbstractLM)children.get( i );
+			childLM.autoPageBreak( );
+		}
+		closeLayout();
+		submitRoot( );
+	}
+	
+	protected boolean clearCache()
+	{
+		return true;
+	}
 }

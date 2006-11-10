@@ -265,7 +265,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		assert ( parent instanceof ILineStackingLayoutManager );
 		ILineStackingLayoutManager lineParent = (ILineStackingLayoutManager) parent;
 		// if height exceed current available value, must page break;
-		if ( root.getAllocatedHeight( ) > lineParent.getMaxAvaHeight( ) )
+		if ( root.getAllocatedHeight( ) > lineParent.getCurrentMaxContentHeight() )
 		{
 			if ( !parent.isPageEmpty( ) )
 			{
@@ -273,7 +273,7 @@ public class PDFImageLM extends PDFLeafItemLM
 			}
 			else
 			{
-				parent.addArea( root );
+				parent.addArea( root, false, false );
 				return false;
 			}
 		}
@@ -289,13 +289,13 @@ public class PDFImageLM extends PDFLeafItemLM
 				}
 				else
 				{
-					parent.addArea( root );
+					parent.addArea( root, false, false );
 					return false;
 				}
 			}
 			else
 			{
-				parent.addArea( root );
+				parent.addArea( root, false, false );
 				return false;
 			}
 		}
@@ -305,7 +305,7 @@ public class PDFImageLM extends PDFLeafItemLM
 	{
 		assert ( content instanceof IImageContent );
 		image = (IImageContent) content;
-		maxWidth = parent.getMaxAvaWidth( );
+		maxWidth = parent.getCurrentMaxContentWidth( );
 		
 		Dimension contentDimension = getSpecifiedDimension( image );
 		root = (ContainerArea) createInlineContainer( image, true,

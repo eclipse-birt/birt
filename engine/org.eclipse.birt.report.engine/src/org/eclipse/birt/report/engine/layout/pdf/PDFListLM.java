@@ -25,7 +25,7 @@ public class PDFListLM extends PDFBlockStackingLM
 		implements
 			IBlockStackingLayoutManager
 {
-
+	boolean needRepeat;
 	boolean repeat = false;
 	int repeatCount = 0;
 
@@ -36,10 +36,15 @@ public class PDFListLM extends PDFBlockStackingLM
 		repeat = isRepeatHeader( );
 	}
 
-	protected void newContext( )
+	protected void initialize( )
 	{
-		super.newContext( );
-		repeatCount = 0;
+		if(root==null && keepWithCache.isEmpty( ) &&!isFirst)
+		{
+			repeatCount = 0;
+			needRepeat = true;
+		}
+		super.initialize( );
+		
 	}
 
 	protected IListBandContent getHeader( )
@@ -59,17 +64,19 @@ public class PDFListLM extends PDFBlockStackingLM
 
 	protected void createRoot( )
 	{
-		root = (ContainerArea) AreaFactory.createBlockContainer( content );
+		if(root==null)
+		{
+			root = (ContainerArea) AreaFactory.createBlockContainer( content );
+		}
 	}
 
 	protected void repeatHeader( )
 	{
 		if ( isFirst )
 		{
-			isFirst = false;
 			return;
 		}
-		if ( !isRepeatHeader( ) )
+		if (!needRepeat || !isRepeatHeader( ) )
 		{
 			return;
 		}
@@ -82,20 +89,19 @@ public class PDFListLM extends PDFBlockStackingLM
 		headerExecutor.execute( );
 		ContainerArea headerArea = (ContainerArea) AreaFactory
 				.createLogicContainer( content.getReportContent( ) );
-		headerArea.setAllocatedWidth( parent.getMaxAvaWidth( ) );
+		headerArea.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
 		PDFRegionLM regionLM = new PDFRegionLM( context, headerArea, band,
 				headerExecutor );
 		boolean allowPB = context.allowPageBreak( );
 		context.setAllowPageBreak( false );
 		regionLM.layout( );
 		context.setAllowPageBreak( allowPB );
-		if ( headerArea.getAllocatedHeight( ) + currentBP < parent
-				.getMaxAvaHeight( ) )
+		if ( headerArea.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )//FIXME need check
 		{
-			addArea( headerArea );
+			addArea( headerArea, false, pageBreakAvoid );
 			repeatCount++;
 		}
-		isFirst = false;
+		needRepeat = false;
 	}
 
 	protected boolean traverseChildren( )

@@ -21,9 +21,11 @@ public interface IStackingLayoutManager extends ILayoutManager, ILayoutContext
 	 * submits the results of layout to parent
 	 * 
 	 * @param area
+	 * @param keepWithPrevious 
+	 * @param keepWithNext 
 	 * @return true if submit succeeded
 	 */
-	boolean addArea( IArea area );
+	boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext );
 
 	/**
 	 * Identify if current page is empty

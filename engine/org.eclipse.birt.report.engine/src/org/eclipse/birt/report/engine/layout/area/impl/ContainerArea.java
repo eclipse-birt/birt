@@ -92,4 +92,21 @@ public abstract class ContainerArea extends AbstractArea
 				+ PropertyUtil.getDimensionValue( style
 						.getProperty( IStyle.STYLE_PADDING_LEFT ) );
 	}
+	
+	//get height of empty container
+	public int getIntrisicHeight()
+	{
+		return PropertyUtil.getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_TOP ) )
+				+ PropertyUtil.getDimensionValue( style
+						.getProperty( IStyle.STYLE_PADDING_TOP ) )
+				+ PropertyUtil.getDimensionValue( style
+						.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH ) )
+				+ PropertyUtil.getDimensionValue( style
+						.getProperty( IStyle.STYLE_MARGIN_BOTTOM ) )
+				+ PropertyUtil.getDimensionValue( style
+						.getProperty( IStyle.STYLE_PADDING_BOTTOM ) )
+				+ PropertyUtil.getDimensionValue( style
+						.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ) );
+	}
 }

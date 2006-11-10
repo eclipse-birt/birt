@@ -42,13 +42,13 @@ public class EngineIRReader implements IOConstants
 		long version = IOUtil.readLong( dis );
 		if ( version != 0L )
 		{
-			throw new IOException( "unsupported version:" + version );
+			throw new IOException( "unsupported version:" + version ); //$NON-NLS-1$
 		}
 
 		String designVersion = IOUtil.readString( dis );
 		if ( !DesignSchemaConstants.REPORT_VERSION.equals( designVersion ) )
 		{
-			throw new IOException( "un-compatable design version"
+			throw new IOException( "un-compatable design version" //$NON-NLS-1$
 					+ designVersion );
 		}
 
@@ -366,7 +366,7 @@ public class EngineIRReader implements IOConstants
 				return design;
 			}
 			default :
-				throw new IOException( "unknow design type:" + designType );
+				throw new IOException( "unknow design type:" + designType ); //$NON-NLS-1$
 		}
 
 	}
@@ -408,7 +408,7 @@ public class EngineIRReader implements IOConstants
 				}
 				break;
 			default :
-				throw new IOException( "unknow field type " + fieldType );
+				throw new IOException( "unknow field type " + fieldType ); //$NON-NLS-1$
 		}
 	}
 
@@ -629,6 +629,10 @@ public class EngineIRReader implements IOConstants
 			case FIELD_PAGE_BREAK_AFTER :
 				String pageBreakAfter = IOUtil.readString( in );
 				group.setPageBreakAfter( pageBreakAfter );
+				break;
+			case FIELD_PAGE_BREAK_INSIDE :
+				String pageBreakInside = IOUtil.readString( in );
+				group.setPageBreakInside( pageBreakInside );
 				break;
 			case FIELD_HIDE_DETAIL :
 				boolean hideDetail = IOUtil.readBool( in );
@@ -1116,7 +1120,7 @@ public class EngineIRReader implements IOConstants
 						image.setImageExpression( imageExpr, imageFormat );
 						break;
 					default :
-						throw new IOException( "invalid image source: "
+						throw new IOException( "invalid image source: " //$NON-NLS-1$
 								+ imageSource );
 				}
 				break;
@@ -1323,7 +1327,7 @@ public class EngineIRReader implements IOConstants
 				action.setHyperlink( hyperlink );
 				break;
 			default :
-				throw new IOException( "invalid action type:" + actionType );
+				throw new IOException( "invalid action type:" + actionType ); //$NON-NLS-1$
 		}
 		boolean isBookmark = IOUtil.readBool( in );
 		String targetWindow = IOUtil.readString( in );
