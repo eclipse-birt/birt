@@ -190,6 +190,16 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.getSupportedFormats( );
 	}
+	
+	/**
+	 * Return all the emitter information which BIRT Engine can load.
+	 * 
+	 * @return the emitter information
+	 */
+	public EmitterInfo[] getEmitterInfo( )
+	{
+		return engine.getEmitterInfo();
+	}
 
 	/**
 	 * the MIME type for the specific formatted supported by the extension.

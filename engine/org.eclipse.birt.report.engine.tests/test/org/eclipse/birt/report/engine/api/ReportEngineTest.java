@@ -121,6 +121,40 @@ public class ReportEngineTest extends EngineCase
 	}
 	
 	/**
+	 * API test on IReportEngine.getEmitterInfo( ) method
+	 */
+	public void testGetEmitterInfo( )
+	{
+		try
+		{
+			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+			EmitterInfo[] infos = engine.getEmitterInfo( );
+			for ( int index = 0, size = infos.length; index < size; index++ )
+			{
+				assertTrue( infos[index].getEmitter( ) != null );
+				assertTrue( infos[index].getFormat( ) != null
+						&& infos[index].getFormat( ).length( ) > 0 );
+				/* icon may be null, so donot be test */
+				assertTrue( infos[index].getID( ) != null
+						&& infos[index].getID( ).length( ) > 0 );
+				assertTrue( infos[index].getMimeType( ) != null
+						&& infos[index].getMimeType( ).length( ) > 0 );
+				assertTrue( infos[index].getNamespace( ) != null
+						&& infos[index].getNamespace( ).length( ) > 0 );
+				/*
+				 * icon and pagination are not use-required
+				 * so do not test it
+				 */
+			}
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+	
+	/**
 	 * API test on IReportEngine.getMIMEType( String ) method
 	 * test two default supported formats only - "html" and "pdf"
 	 */

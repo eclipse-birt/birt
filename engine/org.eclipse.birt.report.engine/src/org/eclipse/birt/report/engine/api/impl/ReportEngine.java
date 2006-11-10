@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
@@ -313,6 +314,16 @@ public class ReportEngine implements IReportEngine
 	public String[] getSupportedFormats( )
 	{
 		return helper.getSupportedFormats( );
+	}
+	
+	/**
+	 * Return all the emitter information which BIRT Engine can load.
+	 * 
+	 * @return the emitter information
+	 */
+	public EmitterInfo[] getEmitterInfo( )
+	{
+		return helper.getEmitterInfo( );
 	}
 
 	/**

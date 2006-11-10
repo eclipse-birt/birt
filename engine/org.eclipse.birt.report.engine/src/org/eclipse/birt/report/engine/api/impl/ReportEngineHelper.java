@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FolderArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
@@ -309,6 +310,15 @@ public class ReportEngineHelper
 	{
 		return (String[]) extensionMgr.getSupportedFormat( ).toArray(
 				new String[0] );
+	}
+	
+	/**
+	 * return all emitter info through BIRT engine emitter extension
+	 * @return all emitter info through BIRT engine emitter extension
+	 */
+	public EmitterInfo[] getEmitterInfo()
+	{
+		return extensionMgr.getEmitterInfo( );
 	}
 
 	/**

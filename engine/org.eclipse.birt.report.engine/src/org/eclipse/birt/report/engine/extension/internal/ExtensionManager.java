@@ -22,6 +22,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
@@ -69,6 +70,8 @@ public class ExtensionManager
 	 * stores all the mime types that are supported
 	 */
 	protected HashMap formats = new HashMap();
+	
+	protected HashMap emitters = new HashMap();
 
 	/**
 	 * HTML pagination.
@@ -186,11 +189,11 @@ public class ExtensionManager
 		{
 			
 			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
-			if(format.equalsIgnoreCase(emitterInfo.format))
+			if(format.equalsIgnoreCase(emitterInfo.getFormat( )))
 			{
-				if(id!=null && id.equalsIgnoreCase(emitterInfo.id) || id==null)
+				if(id!=null && id.equalsIgnoreCase(emitterInfo.getIcon( )) || id==null)
 				{
-					config = emitterInfo.emitter;
+					config = emitterInfo.getEmitter( );
 					break;
 				}				
 			}
@@ -221,9 +224,9 @@ public class ExtensionManager
 		{
 			
 			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
-			if(format.equalsIgnoreCase(emitterInfo.format))
+			if(format.equalsIgnoreCase(emitterInfo.getFormat( )))
 			{
-				config = emitterInfo.emitter;
+				config = emitterInfo.getEmitter( );
 				break;
 			}
 		}
@@ -244,6 +247,21 @@ public class ExtensionManager
 	public Collection getSupportedFormat()
 	{
 		return formats.keySet();
+	}
+	
+	/**
+	 * return all emitter informations
+	 * @return all emitter informations
+	 */
+	public EmitterInfo[] getEmitterInfo( )
+	{
+		EmitterInfo[] infos = new EmitterInfo[emitters.size( )];
+		Object[] keys = emitters.keySet( ).toArray( );
+		for ( int index = 0, length = keys.length; index < length; index++ )
+		{
+			infos[index] = (EmitterInfo) emitters.get( keys[index].toString( ) );
+		}
+		return infos;
 	}
 	
 	/**
@@ -357,6 +375,7 @@ public class ExtensionManager
 		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_EMITTERS); //$NON-NLS-1$
 		for (int i = 0; i < exts.length; i++)	// loop at emitters level, i.e., fo or html
 		{
+			String namespace = exts[i].getNamespace( );
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
 			for (int j = 0; j < configs.length; j++)	// loop at emitter level 
 			{				
@@ -364,11 +383,13 @@ public class ExtensionManager
 				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
 				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
 				String pagination = configs[j].getAttribute("pagination");
+				String icon = configs[j].getAttribute( "icon" );
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
-						pagination, mimeType, configs[j] );
+						pagination, mimeType, icon, namespace, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
 				formats.put(format.toLowerCase( ), emitterInfo);
+				emitters.put( id, emitterInfo );
 				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
 			}
 		}
@@ -386,7 +407,7 @@ public class ExtensionManager
 		}
 		if ( formats.containsKey( format ) )
 		{
-			return ( (EmitterInfo) formats.get( format ) ).mimeType;
+			return ( (EmitterInfo) formats.get( format ) ).getMimeType( );
 		}
 		return null;
 	}
@@ -403,26 +424,8 @@ public class ExtensionManager
 		}
 		if ( formats.containsKey( format ) )
 		{
-			return ( (EmitterInfo) formats.get( format ) ).pagination;
+			return ( (EmitterInfo) formats.get( format ) ).getPagination( );
 		}
 		return PAGE_BREAK_PAGINATION;
-	}
-	
-	protected class EmitterInfo
-	{
-		String format;
-		String id;
-		String pagination;
-		String mimeType;
-		IConfigurationElement emitter;
-		public EmitterInfo( String format, String id, String pagination,
-				String mimeType, IConfigurationElement emitter )
-		{
-			this.format = format;
-			this.id = id;
-			this.emitter = emitter;
-			this.pagination = pagination;
-			this.mimeType = mimeType;
-		}
 	}
 }

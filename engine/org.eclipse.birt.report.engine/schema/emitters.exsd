@@ -75,6 +75,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="icon" type="string">
+            <annotation>
+               <documentation>
+                  The icon path of the emitter
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="mimeType" type="string" use="required">
             <annotation>
                <documentation>

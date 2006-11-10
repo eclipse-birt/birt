@@ -156,6 +156,13 @@ public interface IReportEngine
 	public String[] getSupportedFormats( );
 
 	/**
+	 * Return all the emitter information which BIRT Engine can load.
+	 * 
+	 * @return the emitter information
+	 */
+	public EmitterInfo[] getEmitterInfo( );
+
+	/**
 	 * the MIME type for the specific formatted supported by the extension.
 	 * 
 	 * @param format
