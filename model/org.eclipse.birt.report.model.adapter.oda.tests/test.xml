@@ -8,7 +8,7 @@
 
 	<!-- sets the properties plugin-name, and library-file -->
 	<property name="plugin-name" value="org.eclipse.birt.report.model.adapter.oda.tests" />
-	<property name="classname" value="org.eclipse.birt.report.model.adapter.oda.tests.AllTests" />
+	<property name="classname" value="org.eclipse.birt.report.model.adapter.oda.AllTests" />
 	<property name="birt-tests-file" value="${eclipse-home}/plugins/org.eclipse.birt.tests_2.2.0/test.xml" />
 	<property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test/library.xml" />
 
