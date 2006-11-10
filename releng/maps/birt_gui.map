@@ -10,3 +10,4 @@ plugin@org.eclipse.birt.report.designer.ui.lib=HEAD,:pserver:anonymous@dev.eclip
 plugin@org.eclipse.birt.report.designer.ui.lib.explorer=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.lib.explorer
 plugin@org.eclipse.birt.report.designer.ui.preview=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.preview
 plugin@org.eclipse.birt.report.designer.ui.rcp=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.rcp
+plugin@org.eclipse.birt.report.designer.ui.rcp=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.views
