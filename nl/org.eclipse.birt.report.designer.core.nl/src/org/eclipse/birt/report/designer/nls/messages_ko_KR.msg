@@ -206,17 +206,18 @@ ButtonPaneComposite.tooltip.Normal=표준
 ButtonPaneComposite.tooltip.Ruler=눈금자
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=캐시 지우기(&C)
-CachePreferencePage.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
-CachePreferencePage.description=캐시 크기 정의:
-CachePreferencePage.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
-CachePreferencePage.label.text=행
-CachePreferencePage.messageBox.info=캐시가 지워졌습니다.
-CachePreferencePage.messageBox.title=캐시 지우기
-CachePreferencePage.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
-CachePreferencePage.radioBox.numText=먼저 캐시 후 사용(&U)
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=캐시 지우기(&C)
+SettingsPage.CachePreference.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
+SettingsPage.CachePreference.description=캐시 크기 정의:
+SettingsPage.CachePreference.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
+SettingsPage.CachePreference.label.text=행
+SettingsPage.CachePreference.messageBox.info=캐시가 지워졌습니다.
+SettingsPage.CachePreference.messageBox.title=캐시 지우기
+SettingsPage.CachePreference.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
+SettingsPage.CachePreference.radioBox.numText=먼저 캐시 후 사용(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,12 +390,17 @@ DataPageGenerator.TabItem.map=맵
 #dataset properties
 
 dataset.edit=데이터 집합 편집 - {0}
-dataset.editor.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
-dataset.editor.cachePreference=캐시 기본 설정
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
+dataset.editor.settings.cachePreference=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
 dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
 dataset.editor.dataSource=데이터 원본
 dataset.editor.error.columnOrAliasNameAlreadyUsed=새 열 이름 또는 별칭({0})이 인덱스 {1}의 열에서 이미 사용되고 있습니다.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=중복된 매개 변수 이름
 dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다. 
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.

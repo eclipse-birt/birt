@@ -206,17 +206,18 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Règle
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=Vider le &cache
-CachePreferencePage.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
-CachePreferencePage.description=Définir la taille du cache :
-CachePreferencePage.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
-CachePreferencePage.label.text=lignes
-CachePreferencePage.messageBox.info=Le cache a été vidé.
-CachePreferencePage.messageBox.title=Cache vide
-CachePreferencePage.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
-CachePreferencePage.radioBox.numText=Mettre en cache et &utiliser en premier
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=Vider le &cache
+SettingsPage.CachePreference.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
+SettingsPage.CachePreference.description=Définir la taille du cache :
+SettingsPage.CachePreference.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
+SettingsPage.CachePreference.label.text=lignes
+SettingsPage.CachePreference.messageBox.info=Le cache a été vidé.
+SettingsPage.CachePreference.messageBox.title=Cache vide
+SettingsPage.CachePreference.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
+SettingsPage.CachePreference.radioBox.numText=Mettre en cache et &utiliser en premier
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,12 +390,17 @@ DataPageGenerator.TabItem.map=Mappage
 #dataset properties
 
 dataset.edit=Modifier le jeu de données - {0}
-dataset.editor.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
-dataset.editor.cachePreference=Préférences de cache
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
+dataset.editor.settings.cachePreference=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul
 dataset.editor.dataSource.Tooltip=Afficher/modifier la source de données
 dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.

@@ -206,17 +206,18 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Regla
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=&Borrar caché
-CachePreferencePage.checkBox.text=Los datos de la cac&hé establecen los datos para la vista previa del informe
-CachePreferencePage.description=Definir tamaño de caché:
-CachePreferencePage.Filter.Tooltip=Utilizar caché en o fuera del conjunto de datos
-CachePreferencePage.label.text=filas
-CachePreferencePage.messageBox.info=Se ha borrado la caché
-CachePreferencePage.messageBox.title=Caché borrada
-CachePreferencePage.radioBox.entireNumText=Guardar en caché &todo el conjunto de datos
-CachePreferencePage.radioBox.numText=Guardar en caché y &usar primero
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=&Borrar caché
+SettingsPage.CachePreference.checkBox.text=Los datos de la cac&hé establecen los datos para la vista previa del informe
+SettingsPage.CachePreference.description=Definir tamaño de caché:
+SettingsPage.CachePreference.Filter.Tooltip=Utilizar caché en o fuera del conjunto de datos
+SettingsPage.CachePreference.label.text=filas
+SettingsPage.CachePreference.messageBox.info=Se ha borrado la caché
+SettingsPage.CachePreference.messageBox.title=Caché borrada
+SettingsPage.CachePreference.radioBox.entireNumText=Guardar en caché &todo el conjunto de datos
+SettingsPage.CachePreference.radioBox.numText=Guardar en caché y &usar primero
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,12 +390,17 @@ DataPageGenerator.TabItem.map=Asignar
 #dataset properties
 
 dataset.edit=Editar conjunto de datos - {0}
-dataset.editor.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
-dataset.editor.cachePreference=Preferencia de caché
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
+dataset.editor.settings.cachePreference=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
 dataset.editor.dataSource.Tooltip=Ver/cambiar fuente de datos
 dataset.editor.dataSource=Fuente de datos
 dataset.editor.error.columnOrAliasNameAlreadyUsed=El nuevo nombre o alias de columna ({0}) ya se está utilizando en la columna del índice {1}.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Nombre del parámetro duplicado
 dataset.editor.error.emptyName=El nombre no puede estar en blanco. 
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.

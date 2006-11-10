@@ -206,17 +206,18 @@ ButtonPaneComposite.tooltip.Normal=標準
 ButtonPaneComposite.tooltip.Ruler=ルーラ
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=キャッシュのクリア(&C)
-CachePreferencePage.checkBox.text=レポートをプレビューするためにデータセットのデータをキャッシュする(&H)
-CachePreferencePage.description=キャッシュサイズの定義 :
-CachePreferencePage.Filter.Tooltip=データセットのキャッシュを使用します。
-CachePreferencePage.label.text=行
-CachePreferencePage.messageBox.info=キャッシュがクリアされました。
-CachePreferencePage.messageBox.title=キャッシュのクリア
-CachePreferencePage.radioBox.entireNumText=データセット全体をキャッシュする(&E)
-CachePreferencePage.radioBox.numText=キャッシュして最初に使用する(&U)
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=キャッシュのクリア(&C)
+SettingsPage.CachePreference.checkBox.text=レポートをプレビューするためにデータセットのデータをキャッシュする(&H)
+SettingsPage.CachePreference.description=キャッシュサイズの定義 :
+SettingsPage.CachePreference.Filter.Tooltip=データセットのキャッシュを使用します。
+SettingsPage.CachePreference.label.text=行
+SettingsPage.CachePreference.messageBox.info=キャッシュがクリアされました。
+SettingsPage.CachePreference.messageBox.title=キャッシュのクリア
+SettingsPage.CachePreference.radioBox.entireNumText=データセット全体をキャッシュする(&E)
+SettingsPage.CachePreference.radioBox.numText=キャッシュして最初に使用する(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,12 +390,17 @@ DataPageGenerator.TabItem.map=マップ
 #dataset properties
 
 dataset.edit=データセットの編集 - {0}
-dataset.editor.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
-dataset.editor.cachePreference=キャッシュの設定
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
+dataset.editor.settings.cachePreference=キャッシュの設定
 dataset.editor.computedColumns=計算列
 dataset.editor.dataSource.Tooltip=データソースの表示と変更
 dataset.editor.dataSource=データソース
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新しい列の名前またはエイリアス ({0}) は、すでにインデックス {1} の列で使用されています。
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=パラメタ名が重複しています。
 dataset.editor.error.emptyName=名前は空白にできません。 
 dataset.editor.error.missingComputedColumnExpression=計算列 {0} の式は null または空白にできません。

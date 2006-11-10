@@ -206,17 +206,18 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Regler
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=&Cache löschen
-CachePreferencePage.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
-CachePreferencePage.description=Cache-Größe festlegen:
-CachePreferencePage.Filter.Tooltip=Cache in Datensatz importieren oder daraus exportieren
-CachePreferencePage.label.text=Zeilen verwenden
-CachePreferencePage.messageBox.info=Der Cache wurde gelöscht
-CachePreferencePage.messageBox.title=Cache gelöscht
-CachePreferencePage.radioBox.entireNumText=&Kompletten Datensatz zwischenspeichern
-CachePreferencePage.radioBox.numText=&Zwischenspeichern und zuerst verwenden
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=&Cache löschen
+SettingsPage.CachePreference.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
+SettingsPage.CachePreference.description=Cache-Größe festlegen:
+SettingsPage.CachePreference.Filter.Tooltip=Cache in Datensatz importieren oder daraus exportieren
+SettingsPage.CachePreference.label.text=Zeilen verwenden
+SettingsPage.CachePreference.messageBox.info=Der Cache wurde gelöscht
+SettingsPage.CachePreference.messageBox.title=Cache gelöscht
+SettingsPage.CachePreference.radioBox.entireNumText=&Kompletten Datensatz zwischenspeichern
+SettingsPage.CachePreference.radioBox.numText=&Zwischenspeichern und zuerst verwenden
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,12 +390,17 @@ DataPageGenerator.TabItem.map=Zuordnung
 #dataset properties
 
 dataset.edit=Datensatz bearbeiten - {0}
-dataset.editor.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
-dataset.editor.cachePreference=Voreinstellungen für Cache
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
+dataset.editor.settings.cachePreference=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
 dataset.editor.dataSource.Tooltip=Datenquelle anzeigen/ändern
 dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Parametername doppelt vergeben
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.

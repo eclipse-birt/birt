@@ -206,17 +206,18 @@ ButtonPaneComposite.tooltip.Normal=正常
 ButtonPaneComposite.tooltip.Ruler=标尺
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=清除缓存(&C)
-CachePreferencePage.checkBox.text=缓存数据集数据以便进行报表预览(&H)
-CachePreferencePage.description=定义缓存大小:
-CachePreferencePage.Filter.Tooltip=使用缓存将数据传入或传出数据集
-CachePreferencePage.label.text=行
-CachePreferencePage.messageBox.info=缓存已被清除
-CachePreferencePage.messageBox.title=缓存清除
-CachePreferencePage.radioBox.entireNumText=缓存整个数据集(&E)
-CachePreferencePage.radioBox.numText=缓存和使用第一个(&U)
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=清除缓存(&C)
+SettingsPage.CachePreference.checkBox.text=缓存数据集数据以便进行报表预览(&H)
+SettingsPage.CachePreference.description=定义缓存大小:
+SettingsPage.CachePreference.Filter.Tooltip=使用缓存将数据传入或传出数据集
+SettingsPage.CachePreference.label.text=行
+SettingsPage.CachePreference.messageBox.info=缓存已被清除
+SettingsPage.CachePreference.messageBox.title=缓存清除
+SettingsPage.CachePreference.radioBox.entireNumText=缓存整个数据集(&E)
+SettingsPage.CachePreference.radioBox.numText=缓存和使用第一个(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,12 +390,17 @@ DataPageGenerator.TabItem.map=映射
 #dataset properties
 
 dataset.edit=编辑数据集 - {0}
-dataset.editor.cachePreference.errorNumberFormat=请为缓存行大小输入一个大于零的数。
-dataset.editor.cachePreference=缓存首选项
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=请为缓存行大小输入一个大于零的数。
+dataset.editor.settings.cachePreference=缓存首选项
 dataset.editor.computedColumns=计算列
 dataset.editor.dataSource.Tooltip=查看/更改数据源
 dataset.editor.dataSource=数据源
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新的列名称或别名 ({0}) 已经由索引 {1} 处的列使用。
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=重复的参数名称
 dataset.editor.error.emptyName=名称不能为空白。 
 dataset.editor.error.missingComputedColumnExpression=计算列 {0} 的表达式不能为空或空白。
