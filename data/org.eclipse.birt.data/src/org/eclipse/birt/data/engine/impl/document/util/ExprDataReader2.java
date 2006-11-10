@@ -224,8 +224,8 @@ class ExprDataReader2 implements IExprDataReader
 		{
 			String exprID = this.exprKeys.get( i ).toString( );
 			Object exprValue = IOUtil.readObject( rowExprsDis );
-			if( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ))
-				continue;
+			if ( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ) )
+				exprValue = null;
 			valueMap.put( exprID, exprValue );
 		}
 
