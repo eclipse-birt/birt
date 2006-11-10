@@ -973,7 +973,7 @@ public class GroupOnRowTest extends APITestCase
 	 */
 	public void testGroupOnDay(  ) throws Exception
 	{
-		calendar.set( 2005, 0, 1 );
+		calendar.set( 2005, 0, 1, 10, 0, 0 );
 		groupOnDay( calendar.getTime( ));
 	}
 
