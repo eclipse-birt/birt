@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * An internal processor which populates the user datasets.
@@ -64,7 +65,7 @@ public class UserDataSetProcessor
 				Object[] nextRow = rsds.next( );
 				for ( int k = 0; k < columnCount; k++ )
 				{
-					saDataSet[k][i] = String.valueOf( nextRow[k] );
+					saDataSet[k][i] = ChartUtil.stringValue( nextRow[k] );
 				}
 				i++;
 			}

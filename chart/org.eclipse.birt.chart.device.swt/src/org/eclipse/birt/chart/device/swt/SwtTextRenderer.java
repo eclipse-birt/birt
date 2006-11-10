@@ -51,48 +51,22 @@ import org.eclipse.swt.graphics.Region;
 final class SwtTextRenderer implements IConstants
 {
 
-	/**
-	 * 
-	 */
 	private static final PaletteData PALETTE_DATA = new PaletteData( 0xFF0000,
 			0xFF00,
 			0xFF );
 
-	/**
-	 * 
-	 */
 	private static final int TRANSPARENT_COLOR = 0x123456;
-
-	/**
-	 * 
-	 */
-	private static SwtTextRenderer _tr = null;
-
-	private SwtDisplayServer _sxs = null;
 
 	private static final int SHADOW_THICKNESS = 3;
 
-	/**
-	 * 
-	 */
-	private SwtTextRenderer( )
-	{
-
-	}
+	private SwtDisplayServer _sxs = null;
 
 	/**
-	 * 
-	 * @return
+	 * The constructor.
 	 */
-	public synchronized static final SwtTextRenderer instance(
-			SwtDisplayServer sxs )
+	SwtTextRenderer( SwtDisplayServer sxs )
 	{
-		if ( _tr == null )
-		{
-			_tr = new SwtTextRenderer( );
-			_tr._sxs = sxs;
-		}
-		return _tr;
+		_sxs = sxs;
 	}
 
 	/**

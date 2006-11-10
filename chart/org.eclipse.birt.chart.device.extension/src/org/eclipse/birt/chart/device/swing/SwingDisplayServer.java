@@ -43,32 +43,21 @@ import org.eclipse.birt.chart.model.component.Label;
 public class SwingDisplayServer extends DisplayAdapter
 {
 
-	/**
-	 * 
-	 */
 	private transient BufferedImage _bi = null;
 
-	/**
-	 * 
-	 */
 	private transient Graphics2D _g2d = null;
 
-	/**
-	 * 
-	 */
 	private transient SwingImageCache _simc = null;
 
-
-
 	/**
-	 * dpi resolution 
+	 * dpi resolution
 	 */
 	private int iDpiResolution = 0;
-
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
 	/**
+	 * The constructor.
 	 * 
 	 * @return
 	 */
@@ -82,8 +71,7 @@ public class SwingDisplayServer extends DisplayAdapter
 				RenderingHints.VALUE_ANTIALIAS_ON );
 		_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
 				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-		
-		
+
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "SwingDisplayServer.info.display.server", //$NON-NLS-1$ 
 						new Object[]{
@@ -122,7 +110,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	}
 
 	/**
-	 * 
+	 * Returns a color instance from given color definition
 	 */
 	public final Object getColor( ColorDefinition cd )
 	{
@@ -166,12 +154,16 @@ public class SwingDisplayServer extends DisplayAdapter
 		return iDpiResolution;
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.DisplayAdapter#setDpiResolution(int)
+	 */
 	public final void setDpiResolution( int dpi )
 	{
 		iDpiResolution = dpi;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -215,6 +207,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	}
 
 	/**
+	 * Returns the image cache
 	 * 
 	 * @return
 	 */
@@ -222,7 +215,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	{
 		return _simc;
 	}
-	
+
 	final double pointsToPixels( double dPoints )
 	{
 		return dPoints * getDpiResolution( ) / 72d;

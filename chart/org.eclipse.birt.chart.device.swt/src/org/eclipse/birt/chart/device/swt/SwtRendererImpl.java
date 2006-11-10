@@ -82,6 +82,8 @@ public class SwtRendererImpl extends DeviceAdapter
 
 	private IDisplayServer _ids;
 
+	private SwtTextRenderer _tr;
+	
 	private GC _gc = null;
 
 	private IUpdateNotifier _iun = null;
@@ -111,6 +113,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.SWT" ); //$NON-NLS-1$
+			_tr = new SwtTextRenderer( (SwtDisplayServer) _ids );
 		}
 		catch ( ChartException pex )
 		{
@@ -1653,7 +1656,6 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
-		SwtTextRenderer tr = SwtTextRenderer.instance( (SwtDisplayServer) _ids );
 		switch ( tre.getAction( ) )
 		{
 			case TextRenderEvent.UNDEFINED :
@@ -1666,7 +1668,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				Location lo = (Location) EcoreUtil.copy( tre.getLocation( ) );
 				lo.translate( dTranslateX, dTranslateY );
 				lo.scale( dScale );
-				tr.renderShadowAtLocation( this,
+				_tr.renderShadowAtLocation( this,
 						tre.getTextPosition( ),
 						lo,
 						tre.getLabel( ) );
@@ -1677,7 +1679,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				lo.translate( dTranslateX, dTranslateY );
 				lo.scale( dScale );
 
-				tr.renderTextAtLocation( this,
+				_tr.renderTextAtLocation( this,
 						tre.getTextPosition( ),
 						lo,
 						tre.getLabel( ) );
@@ -1688,7 +1690,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				bo.translate( dTranslateX, dTranslateY );
 				bo.scale( dScale );
 
-				tr.renderTextInBlock( this,
+				_tr.renderTextInBlock( this,
 						bo,
 						tre.getBlockAlignment( ),
 						tre.getLabel( ) );

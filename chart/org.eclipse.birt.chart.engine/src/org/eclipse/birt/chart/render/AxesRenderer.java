@@ -18,6 +18,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
+import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -42,6 +43,8 @@ import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
+import org.eclipse.birt.chart.event.Oval3DRenderEvent;
+import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -50,6 +53,7 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
+import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
@@ -63,12 +67,14 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -1239,7 +1245,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		double xStep = 0;
 		double yStep = 0;
 		double zStep = 0;
-		Location panningOffset = null;
+		//Location panningOffset = null;
 
 		if ( isDimension3D( ) )
 		{
@@ -1263,7 +1269,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			yStep = scPrimaryOrthogonal.getUnitSize( );
 			zStep = scAncillaryBase.getUnitSize( );
 
-			panningOffset = getPanningOffset( );
+			//panningOffset = getPanningOffset( );
 		}
 
 		if ( pwa.getDimension( ) == IConstants.TWO_5_D )
@@ -2332,6 +2338,114 @@ public abstract class AxesRenderer extends BaseRenderer
 		// cre.setVertices( null );
 		// getDevice( ).setClip( cre );
 		// }
+	}
+
+	/**
+	 * Convenient routine to render a marker
+	 */
+	protected final void renderMarker( Object oParent, IPrimitiveRenderer ipr,
+			Marker m, Location lo, LineAttributes lia, Fill fPaletteEntry,
+			DataPointHints dph, int markerSize, boolean bDeferred,
+			boolean bConsiderTranspostion ) throws ChartException
+	{
+		if ( dph != null && isNaN( dph.getOrthogonalValue( ) ) )
+		{
+			return;
+		}
+		
+		Series se = getSeries( );
+
+		Object oSource = ( oParent instanceof Legend ) ? ( StructureSource.createLegend( (Legend) oParent ) )
+				: ( WrappedStructureSource.createSeriesDataPoint( se, dph ) );
+		boolean bTransposed = bConsiderTranspostion
+				&& ( (ChartWithAxes) getModel( ) ).isTransposed( );
+		final Location panningOffset = this.getPanningOffset( );
+		PrimitiveRenderEvent preCopy = null;
+
+		if ( m == null
+				|| ( m != null && !( m.isSetVisible( ) && m.isVisible( ) ) ) )
+		{
+			int iSize = 5;
+			if ( m != null )
+			{
+				iSize = m.getSize( );
+			}
+
+			// prepare hotspot only
+			if ( lo instanceof Location3D )
+			{
+				final Oval3DRenderEvent ore = (Oval3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+						Oval3DRenderEvent.class );
+				Location3D lo3d = (Location3D) lo;
+				ore.setLocation3D( new Location3D[]{
+						Location3DImpl.create( lo3d.getX( ) - iSize,
+								lo3d.getY( ) + iSize,
+								lo3d.getZ( ) ),
+						Location3DImpl.create( lo3d.getX( ) - iSize,
+								lo3d.getY( ) - iSize,
+								lo3d.getZ( ) ),
+						Location3DImpl.create( lo3d.getX( ) + iSize,
+								lo3d.getY( ) - iSize,
+								lo3d.getZ( ) ),
+						Location3DImpl.create( lo3d.getX( ) + iSize,
+								lo3d.getY( ) + iSize,
+								lo3d.getZ( ) )
+				} );
+				preCopy = ore.copy( );
+			}
+			else
+			{
+				final OvalRenderEvent ore = (OvalRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+						OvalRenderEvent.class );
+				ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
+						- iSize, iSize * 2, iSize * 2 ) );
+				preCopy = ore.copy( );
+			}
+		}
+		else if ( m.isSetVisible( ) && m.isVisible( ) )
+		{
+			final MarkerRenderer mr = new MarkerRenderer( this.getDevice( ),
+					oSource,
+					lo,
+					lia,
+					fPaletteEntry,
+					m,
+					markerSize,
+					this.getDeferredCache( ),
+					bDeferred,
+					bTransposed );
+			mr.draw( ipr );
+			preCopy = mr.getRenderArea( );
+		}
+
+		if ( this.isInteractivityEnabled( ) && dph != null )
+		{
+			if ( !( lo instanceof Location3D )
+					|| ( ( lo instanceof Location3D ) && ( this.get3DEngine( )
+							.processEvent( preCopy,
+									panningOffset.getX( ),
+									panningOffset.getY( ) ) != null ) ) )
+			{
+				final EList elTriggers = se.getTriggers( );
+				if ( !elTriggers.isEmpty( ) )
+				{
+					final StructureSource iSource = ( oParent instanceof Legend ) ? ( StructureSource.createSeries( se ) )
+							: ( WrappedStructureSource.createSeriesDataPoint( se,
+									dph ) );
+					final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( iSource,
+							InteractionEvent.class );
+					Trigger tg;
+					for ( int t = 0; t < elTriggers.size( ); t++ )
+					{
+						tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+						this.processTrigger( tg, iSource );
+						iev.addTrigger( tg );
+					}
+					iev.setHotSpot( preCopy );
+					ipr.enableInteraction( iev );
+				}
+			}
+		}
 	}
 
 	/**
@@ -5493,6 +5607,14 @@ public abstract class AxesRenderer extends BaseRenderer
 	public final boolean isDimension3D( )
 	{
 		return ( getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL );
+	}
+
+	/**
+	 * Returns if current chart is transposed.
+	 */
+	public final boolean isTransposed( )
+	{
+		return ( (ChartWithAxes) getModel( ) ).isTransposed( );
 	}
 
 	/**

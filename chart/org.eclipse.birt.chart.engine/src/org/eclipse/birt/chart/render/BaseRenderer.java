@@ -2725,8 +2725,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				// BUILD THE VALUE
 				String toolText = ( (TooltipValue) tg.getAction( ).getValue( ) ).getText( );
 
-				// if blank, then use DataPoint label.
-				if ( toolText == null || toolText.length( ) == 0 )
+				// if it's null, then use DataPoint label automatically.
+				// !!! DON'T check zero length string here, since this has a
+				// particular meaning to avoid the tooltip.
+				if ( toolText == null )// || toolText.length( ) == 0 )
 				{
 					( (TooltipValue) tg.getAction( ).getValue( ) ).setText( dph.getDisplayValue( ) );
 				}
