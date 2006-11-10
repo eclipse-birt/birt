@@ -2715,6 +2715,8 @@
     <StyleProperty name="verticalAlign"/>
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
+    <StyleProperty name="widows"/>
+    <StyleProperty name="orphans"/>
   </Element>
   <Element canExtend="true" displayNameID="Element.FreeForm" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.FreeForm" name="FreeForm" since="reserved" selector="free-form" xmlName="free-form">
     <Slot displayNameID="Element.FreeForm.slot.reportItems" multipleCardinality="true" name="reportItems" since="reserved" xmlName="report-items">
@@ -2813,6 +2815,8 @@
     <StyleProperty name="verticalAlign"/>
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
+    <StyleProperty name="widows"/>
+    <StyleProperty name="orphans"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Text" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextItem" name="Text" selector="text" since="1.0" xmlName="text">
     <Property displayNameID="Element.Text.content" name="content" runtimeSettable="false" since="1.0" type="string"/>
@@ -2887,6 +2891,8 @@
     <StyleProperty name="verticalAlign"/>
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
+    <StyleProperty name="widows"/>
+    <StyleProperty name="orphans"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListingGroup" hasStyle="false" isAbstract="true" name="ListingGroup" nameSpace="none" >
     <Property displayNameID="Element.ListingGroup.keyExpr" name="keyExpr" returnType="any" since="1.0" type="expression" valueRequired="true"/>
@@ -3461,6 +3467,8 @@
     <StyleProperty name="verticalAlign"/>
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
+    <StyleProperty name="widows"/>
+    <StyleProperty name="orphans"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" since="1.0" selector="extended-item" xmlName="extended-item">
     <Property displayNameID="Element.ExtendedItem.altText" name="altText" runtimeSettable="false" since="2.1" type="string"/>

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
@@ -112,7 +113,7 @@ public class LabelItemParserTest extends ParserTestCase
 
 		// test the style property which does not belong to label
 
-		assertEquals( null, labelHandle.getStringProperty( Style.WIDOWS_PROP ) ); 
+		assertEquals( null, labelHandle.getStringProperty( Style.HIGHLIGHT_RULES_PROP ) );
 
 		ActionHandle action = labelHandle.getActionHandle( );
 		assertNotNull( action );
@@ -247,6 +248,10 @@ public class LabelItemParserTest extends ParserTestCase
 		labelHandle.setHelpTextKey( "new help text key" ); //$NON-NLS-1$
 
 		labelHandle.setCustomXml( "new custom <text> </text> for bodyLabel" ); //$NON-NLS-1$
+		
+		// set widows and orphans
+		labelHandle.setProperty( IStyleModel.WIDOWS_PROP, "5" ); //$NON-NLS-1$
+		labelHandle.setProperty( IStyleModel.ORPHANS_PROP, "4" ); //$NON-NLS-1$
 
 		// make sure that this label exists in the body slot.
 

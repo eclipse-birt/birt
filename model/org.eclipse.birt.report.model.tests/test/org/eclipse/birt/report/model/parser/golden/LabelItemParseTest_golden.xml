@@ -93,6 +93,8 @@
             <xml-property name="customXml"><![CDATA[new custom <text> </text> for bodyLabel]]></xml-property>
             <property name="fontFamily">bodyFont</property>
             <property name="color">blue</property>
+            <property name="orphans">4</property>
+            <property name="widows">5</property>
             <property name="x">6mm</property>
             <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>

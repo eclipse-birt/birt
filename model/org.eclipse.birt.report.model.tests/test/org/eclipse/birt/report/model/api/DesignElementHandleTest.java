@@ -970,7 +970,7 @@ public class DesignElementHandleTest extends BaseTestCase
 		int intValue = styleHandle.getIntProperty( Style.WIDOWS_PROP );
 		assertTrue( 2 == intValue );
 
-		intValue = handle.getIntProperty( Style.WIDOWS_PROP );
+		intValue = handle.getIntProperty( "noPropName" ); //$NON-NLS-1$
 		assertTrue( 0 == intValue );
 
 		// uses WIDOWS_PROP and height to test getNumberProperty.
