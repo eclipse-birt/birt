@@ -64,7 +64,7 @@ public class LabelPage extends GeneralPage
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
-		FontSizeSection fontSizeSection = new FontSizeSection( fontFamilyProvider.getDisplayName( ),
+		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
 				container,
 				true );
 		fontSizeSection.setProvider( fontSizeProvider );

@@ -94,7 +94,7 @@ public class TextPage extends GeneralPage
 				container,
 				true );
 
-		FontSizeSection fontSizeSection = new FontSizeSection( fontFamilyProvider.getDisplayName( ),
+		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
 				container,
 				true );
 

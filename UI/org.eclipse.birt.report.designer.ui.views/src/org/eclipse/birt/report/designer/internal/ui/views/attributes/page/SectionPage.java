@@ -77,7 +77,7 @@ public class SectionPage extends AttributePage
 		beforeSection.setProvider( beforeProvider );
 		masterSection.setProvider( masterProvider );
 		afterSection.setProvider( afterProvider );
-		insideSection.setProvider( afterProvider );
+		insideSection.setProvider( insideProvider );
 		
 		// Sets widths.
 
