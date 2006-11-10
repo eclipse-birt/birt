@@ -62,5 +62,12 @@
 				</TABLE>
 			</TD>
 		</TR>
+		<TR>
+			<TD>
+				<DIV id="birt_hint" style="font-size:12px;color:#000000;display:none;position:absolute; z-index:300;background-color: #F7F7F7; layer-background-color: #0099FF; border: 1px #000000 solid;filter:Alpha(style=0,opacity=80,finishOpacity=100);">
+				</DIV>		
+			</TD>
+		</TR>
+		
 	</TABLE>	
 </DIV>

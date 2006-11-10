@@ -31,7 +31,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 *	Event handler closures.
 	 */
 	 __neh_click_radio_closure : null,
-	 __neh_click_select_closure : null,
+	 __neh_change_select_closure : null,
 
 	/**
 	 *	Initialize dialog base.
@@ -43,7 +43,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		this.__z_index = 200;
 		
 	    this.__neh_click_radio_closure = this.__neh_click_radio.bindAsEventListener( this );
-	    this.__neh_click_select_closure = this.__neh_click_select.bindAsEventListener( this );
+	    this.__neh_change_select_closure = this.__neh_change_select.bindAsEventListener( this );
 
 	    this.__local_installEventHandlers(id);
 	},
@@ -183,7 +183,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			// find select items to install event listener
 			if( oSelect.length > 0 )
 			{
-				Event.observe( oSelect[0], 'change', this.__neh_click_select_closure, false );
+				Event.observe( oSelect[0], 'change', this.__neh_change_select_closure, false );
 				if( !matrix[m] )
 				{
 					matrix[m] = {};
@@ -425,12 +425,12 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	},
 	
 	/**
-	 *	Handle clicking on select.
+	 *	Handle change event when clicking on select.
 	 *
 	 *	@event, incoming browser native event
 	 *	@return, void
 	 */
-	__neh_click_select : function( event )
+	__neh_change_select : function( event )
 	{
 	    var matrix = new Array( );
 	    var m = 0;

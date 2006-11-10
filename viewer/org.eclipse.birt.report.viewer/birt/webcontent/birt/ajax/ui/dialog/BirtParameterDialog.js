@@ -42,6 +42,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Event handler closures.
 	 */
 	 __neh_change_cascade_text_closure : null,
+	 __neh_mouseover_select_closure : null,
+	 __neh_mouseout_select_closurre : null,
 
     /**
 	 *	Check if parameter isnot allowBlank.
@@ -71,10 +73,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 
 		// Change event for Cascading parameter text field
 		this.__neh_change_cascade_text_closure = this.__neh_change_cascade_text.bindAsEventListener( this );
+		
+		// Mouse over event for Select field
+		this.__neh_mouseover_select_closure = this.__neh_mouseover_select.bindAsEventListener( this );
+		this.__neh_mouseout_select_closure = this.__neh_mouseout_select.bindAsEventListener( this );
 			    
 	    this.initializeBase( id );
 	    this.__local_installEventHandlers_extend( id );
-	    this.__adjust_select_width( );
 	},
 
 	/**
@@ -88,6 +93,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		// Observe "keydown" event
 		this.keydown_closure = this.__neh_keydown.bindAsEventListener( this );
 		Event.observe( $(id), 'keydown', this.keydown_closure, false );
+		
+		var oSC = document.getElementById( "parameter_table" ).getElementsByTagName( "select" );
+		for( var i = 0; i < oSC.length; i++ )
+		{
+			Event.observe( oSC[i], 'mouseover', this.__neh_mouseover_select_closure, false );
+			Event.observe( oSC[i], 'mouseout', this.__neh_mouseout_select_closure, false );
+		}
 	},
 	
 	/**
@@ -170,13 +182,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				if ( oLastInput.name == "isCascade" )
 					oCascadeFlag = oLastInput.value;
 			}
-			
+						
 			// find select items to install event listener
 			if( oSelect.length > 0 && oCascadeFlag == "true" )
 			{
 				if ( i < oTRC.length - 1 )
 				{
-					Event.observe( oSelect[0], 'change', this.__neh_click_select_closure, false );
+					Event.observe( oSelect[0], 'change', this.__neh_change_select_closure, false );
 					
 					// find text item to instanll event listener
 					var oText;
@@ -518,12 +530,50 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	},
 
 	/**
-	 *	Handle clicking on select.
+	 *	Handle mouseover event on select.
 	 *
 	 *	@event, incoming browser native event
 	 *	@return, void
 	 */
-	__neh_click_select : function( event )
+	__neh_mouseover_select : function( event )
+	{
+		var oSC = Event.element( event );
+		var tempText;
+		if( oSC.selectedIndex >=0 )
+			tempText = oSC.options[oSC.selectedIndex].text;
+		
+		var hint = document.getElementById( "birt_hint" );	
+		if( tempText && hint )
+		{
+			hint.innerHTML = tempText;
+			hint.style.display = "block"; 			
+			hint.style.left = ( event.clientX - parseInt( this.__instance.style.left ) ) + "px";
+			hint.style.top = ( event.clientY - parseInt( this.__instance.style.top ) ) + "px";
+		}			
+	},
+
+	/**
+	 *	Handle mouseout event on select.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_mouseout_select : function( event )
+	{
+		var hint = document.getElementById( "birt_hint" );
+		if( hint )
+		{
+			hint.style.display = "none"; 
+		}			
+	},
+	
+	/**
+	 *	Handle change event when clicking on select.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_change_select : function( event )
 	{
 	    var matrix = new Array( );
 	    var m = 0;
