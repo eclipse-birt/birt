@@ -147,7 +147,7 @@ import org.w3c.dom.css.CSSValue;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.146 $ $Date: 2006/09/11 08:35:47 $
+ * @version $Revision: 1.147 $ $Date: 2006/10/26 10:19:50 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1092,11 +1092,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			
-			// Instance ID
-			InstanceID iid = column.getInstanceID( );			
-			if ( iid != null )
+			if ( enableMetadata )
 			{
-				writer.attribute( "iid", iid.toString( ) );
+				// Instance ID
+				InstanceID iid = column.getInstanceID( );			
+				if ( iid != null )
+				{
+					writer.attribute( "iid", iid.toString( ) );
+				}
 			}
 			
 			writer.closeNoEndTag( );
@@ -1291,7 +1294,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row
 				.getHeight( ) ); //$NON-NLS-1$
 		
-		outputRowMetaData( row );
+		if ( enableMetadata )
+		{
+			outputRowMetaData( row );
+		}
 		handleStyle( row, styleBuffer );
 	}
 	
