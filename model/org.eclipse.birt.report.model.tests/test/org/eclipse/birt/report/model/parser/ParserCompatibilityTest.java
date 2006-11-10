@@ -99,13 +99,13 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "CompatiblePrivateOdaDriverProperties.xml" ); //$NON-NLS-1$
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatiblePrivateOdaDriverProperties_golden.xml") );//$NON-NLS-1$
 
 		openDesign( "CompatiblePublicOdaDriverProperties.xml" ); //$NON-NLS-1$
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatiblePublicOdaDriverProperties_golden.xml") );//$NON-NLS-1$
 	}
 
@@ -123,7 +123,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleOldOdaDriverModelProperty_golden.xml") );//$NON-NLS-1$
 	}
 
@@ -140,7 +140,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleOdaDriverModelProperty_golden.xml") );//$NON-NLS-1$
 	}
 
@@ -174,7 +174,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 	{
 		openDesign( "CompatibleComputedColumnProperty.xml" );//$NON-NLS-1$
 		save(); 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleComputedColumnProperty_golden.xml") );//$NON-NLS-1$
 
 	}
@@ -193,7 +193,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertEquals( null, dataSetHandle.getQueryScript( ) );
 
 		save(); 
-		assertTrue( compareTextFile( "CompatibleOdaDataSetProperty_golden.xml") );//$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleOdaDataSetProperty_golden.xml") );//$NON-NLS-1$
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertEquals( "cheet sheet", this.designHandle.getCheatSheet( ) ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile( "CompatibleReportProperties_golden.xml") );//$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleReportProperties_golden.xml") );//$NON-NLS-1$
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		group.setGroupStart( "101" ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleListingGroupProperties_golden.xml") );//$NON-NLS-1$
 	}
 
@@ -264,7 +264,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 				.setContentType( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN );
 
 		save(); 
-		assertTrue( compareTextFile( "CompatibleTextDataProperties_golden.xml") );//$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleTextDataProperties_golden.xml") );//$NON-NLS-1$
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleOdaDataSourceWithDriverNameOrExtensionName_golden.xml") );//$NON-NLS-1$
 	}
 
@@ -298,7 +298,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save();
 
-		assertTrue( compareTextFile( "CompatibleOdaDataSetWithType_golden.xml") );//$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleOdaDataSetWithType_golden.xml") );//$NON-NLS-1$
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleDataSetParamWithIsNullable_golden.xml") );//$NON-NLS-1$
 	}
 
@@ -341,7 +341,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertEquals( "is-null", highlightHandle.getOperator( ) ); //$NON-NLS-1$
 		save(); 
 
-		assertTrue( compareTextFile( "TableHighlightRuleCompatible_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableHighlightRuleCompatible_golden.xml") ); //$NON-NLS-1$
 
 	}
 
@@ -367,7 +367,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertEquals( "is-null", highlightHandle.getOperator( ) ); //$NON-NLS-1$
 		save(); 
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"DataItemHighlightRuleCompatible_golden.xml") ); //$NON-NLS-1$
 
 	}
@@ -381,7 +381,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save();
 
-		assertTrue( compareTextFile( "WrongExtensionID_golden.xml") );//$NON-NLS-1$
+		assertTrue( compareFile( "WrongExtensionID_golden.xml") );//$NON-NLS-1$
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "TableOnMumbleCompatibleTest.xml" ); //$NON-NLS-1$
 		save();
 
-		assertTrue( compareTextFile( "TableOnMumbleCompatibleTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableOnMumbleCompatibleTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -412,7 +412,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "IncludedLibraryCompatibleTest.xml" ); //$NON-NLS-1$
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"IncludedLibraryCompatibleTest_golden.xml") ); //$NON-NLS-1$
 
 	}
@@ -453,7 +453,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "CompatibleScalarParameterFormat.xml" ); //$NON-NLS-1$
 		save();
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleScalarParameterFormat_golden.xml") ); //$NON-NLS-1$
 	}
 
@@ -528,7 +528,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save(); 
 
-		assertTrue( compareTextFile( "CompatibleOdaResultSet_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleOdaResultSet_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -546,7 +546,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save(); 
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"CompatibleScriptDataSetResultSets_golden.xml") ); //$NON-NLS-1$
 	}
 

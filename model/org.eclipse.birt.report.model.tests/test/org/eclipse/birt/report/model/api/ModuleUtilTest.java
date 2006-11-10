@@ -96,13 +96,13 @@ public class ModuleUtilTest extends BaseTestCase
 		os = new ByteArrayOutputStream( );
 		os.write( str.getBytes( ) );
 		os.close( );
-		assertTrue( compareTextFile( "ActionSerializeTest1_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ActionSerializeTest1_golden.xml" ) ); //$NON-NLS-1$
 
 		str = ModuleUtil.serializeAction( action2 );
 		os = new ByteArrayOutputStream( );
 		os.write( str.getBytes( ) );
 		os.close( );
-		assertTrue( compareTextFile( "ActionSerializeTest2_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ActionSerializeTest2_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

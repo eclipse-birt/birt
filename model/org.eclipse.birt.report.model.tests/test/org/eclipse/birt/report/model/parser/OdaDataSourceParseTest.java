@@ -170,7 +170,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 				.getBytes( OdaDesignerState.CHARSET ) );
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 
 	}
 

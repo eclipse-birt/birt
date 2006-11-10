@@ -13,10 +13,13 @@ package org.eclipse.birt.report.model.extension;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -30,6 +33,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -56,6 +60,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME = "PeerExtensionTest.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_1 = "PeerExtensionTest_1.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_2 = "PeerExtensionTest_2.xml"; //$NON-NLS-1$
+	private static final String FILE_NAME_3 = "PeerExtensionTest_3.xml"; //$NON-NLS-1$
 
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
@@ -218,7 +223,7 @@ public class PeerExtensionTest extends BaseTestCase
 		designHandle.getBody( ).add( extendedTable );
 
 		save( );
-		assertTrue( compareTextFile( "PeerExtensionTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PeerExtensionTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -342,7 +347,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( 2, slot.getCount( ) );
 		// add element to detail directly
 		save( );
-		assertTrue( compareTextFile( "PeerExtensionTest_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PeerExtensionTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -374,7 +379,7 @@ public class PeerExtensionTest extends BaseTestCase
 		designHandle.getBody( ).add( label );
 
 		save( );
-		assertTrue( compareTextFile( "PeerExtensionTest_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PeerExtensionTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -398,6 +403,34 @@ public class PeerExtensionTest extends BaseTestCase
 		PropertyDefn extensionName = (PropertyDefn) extendedCell
 				.getProperty( ExtendedItem.EXTENSION_NAME_PROP );
 		assertNotNull( extensionName );
+	}
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testActionHandleInExtension( ) throws Exception
+	{
+		openDesign( FILE_NAME_3 );
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "testBox" ); //$NON-NLS-1$
+		assertNotNull( extendedItem );
+		PropertyDefn actionDefn = (PropertyDefn) extendedItem
+				.getPropertyDefn( IImageItemModel.ACTION_PROP );
+		assertNotNull( actionDefn );
+
+		ImageHandle image = (ImageHandle) designHandle
+				.findElement( "testImage" ); //$NON-NLS-1$
+		ActionHandle imageAction = image.getActionHandle( );
+		assertNotNull( imageAction );
+		String actionString = ModuleUtil.serializeAction( imageAction );
+
+		ActionHandle extendedAction = ModuleUtil.deserializeAction(
+				actionString, extendedItem );
+		assertNotNull( extendedAction );
+		assertNotNull( extendedItem.getProperty( IImageItemModel.ACTION_PROP ) );
+		assertEquals( extendedItem, extendedAction.getElementHandle( ) );
+
 	}
 
 }

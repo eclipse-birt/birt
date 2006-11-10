@@ -276,7 +276,7 @@ public class ListItemParseTest extends ParserTestCase
 		groupHandle.setOnPageBreak( "new page break" );//$NON-NLS-1$
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**

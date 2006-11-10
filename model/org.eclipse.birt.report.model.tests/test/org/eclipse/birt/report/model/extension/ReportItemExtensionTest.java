@@ -387,7 +387,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 				"new script of afterCloseDoc" ); //$NON-NLS-1$
 
 		save( );
-		assertTrue( compareTextFile( goldenFileName_1 ) );
+		assertTrue( compareFile( goldenFileName_1 ) );
 
 		// after writer, read the golden file and test the properties twice
 
@@ -410,7 +410,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		extendedHandle.loadExtendedElement( );
 		extendedHandle.setProperty( "test1", null ); //$NON-NLS-1$
 		save( );
-		assertTrue( compareTextFile( goldenFileName_2 ) );
+		assertTrue( compareFile( goldenFileName_2 ) );
 	}
 
 	/**
@@ -744,7 +744,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.getProperty( Style.COLOR_PROP ) );
 
 		save( );
-		assertTrue( compareTextFile( goldenFileName_3) );
+		assertTrue( compareFile( goldenFileName_3) );
 
 	}
 
@@ -1150,7 +1150,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		itemHandle.setProperty( "usage", "toy" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		save( );
-		assertTrue( compareTextFile( "TestingBox_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TestingBox_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1173,7 +1173,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		designHandle.getBody( ).add( newMatrixHandle );
 		save( );
-		assertTrue( compareTextFile( "TestAddExtendedItem_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TestAddExtendedItem_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1827,7 +1827,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( "chart alt text", extendedHandle.getAltText( ) ); //$NON-NLS-1$
 		assertEquals( "chart id 2", extendedHandle.getAltTextKey( ) ); //$NON-NLS-1$
 		save( );
-		assertTrue( compareTextFile( "ExtensionTest_AltText_golden.xml" ) );//$NON-NLS-1$
+		assertTrue( compareFile( "ExtensionTest_AltText_golden.xml" ) );//$NON-NLS-1$
 	}
 
 }

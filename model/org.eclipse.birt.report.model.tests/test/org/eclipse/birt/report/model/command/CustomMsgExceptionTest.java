@@ -62,7 +62,7 @@ public class CustomMsgExceptionTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile( "CustomMsgExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "CustomMsgExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 

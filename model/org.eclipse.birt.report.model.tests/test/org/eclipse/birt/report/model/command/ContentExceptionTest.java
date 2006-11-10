@@ -99,7 +99,7 @@ public class ContentExceptionTest extends BaseTestCase
 		// System.out.println(error.getLocalizedMessage());
 		os.close( );
 
-		assertTrue( compareTextFile( "ContentExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ContentExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 

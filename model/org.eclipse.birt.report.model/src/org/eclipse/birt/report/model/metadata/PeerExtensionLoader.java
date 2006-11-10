@@ -102,6 +102,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$
 		private static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
 		private static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
+		private static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
 
 		/**
 		 * List of the property types that are allowed for the extensions.
@@ -338,24 +339,43 @@ public class PeerExtensionLoader extends ExtensionLoader
 				}
 			}
 
-			// can not define detail-type and own choice list synchronously
+			// do some checks about the detail type
 			String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
-			detailType = StringUtil.trimString( detailType );
-			if ( !StringUtil.isBlank( detailType ) && choiceList.size( ) > 0 )
-				throw new ExtensionException(
-						new String[]{detailType},
-						ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY );
-			if ( choiceList.size( ) > 0 )
+			switch ( propType.getTypeCode( ) )
 			{
-				Choice[] choices = new Choice[choiceList.size( )];
-				choiceList.toArray( choices );
-				ChoiceSet choiceSet = new ChoiceSet( );
-				choiceSet.setChoices( choices );
-				extPropDefn.setDetails( choiceSet );
-			}
-			else if ( !StringUtil.isBlank( detailType ) )
-			{
-				extPropDefn.setDetails( dd.getChoiceSet( detailType ) );
+				case IPropertyType.CHOICE_TYPE :
+					// can not define detail-type and own choice list
+					// synchronously, neither can be empty synchronously
+					if ( ( !StringUtil.isBlank( detailType ) && choiceList
+							.size( ) > 0 )
+							|| ( StringUtil.isBlank( detailType ) && choiceList
+									.size( ) <= 0 ) )
+						throw new ExtensionException(
+								new String[]{detailType},
+								ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY );
+					if ( choiceList.size( ) > 0 )
+					{
+						Choice[] choices = new Choice[choiceList.size( )];
+						choiceList.toArray( choices );
+						ChoiceSet choiceSet = new ChoiceSet( );
+						choiceSet.setChoices( choices );
+						extPropDefn.setDetails( choiceSet );
+					}
+					else if ( !StringUtil.isBlank( detailType ) )
+					{
+						extPropDefn.setDetails( dd.getChoiceSet( detailType ) );
+					}
+					break;
+				case IPropertyType.STRUCT_TYPE :
+					String isList = propTag.getAttribute( IS_LIST_ATTRIB );
+					isList = StringUtil.trimString( isList );
+					// by default it is 'false'
+					if ( "true".equalsIgnoreCase( isList ) ) //$NON-NLS-1$
+						extPropDefn.setIsList( true );
+					else
+						extPropDefn.setIsList( false );
+					extPropDefn.setDetails( detailType );
+					break;
 			}
 
 			// after loading the choices, then validates the default value
@@ -671,6 +691,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					case IPropertyType.FLOAT_TYPE :
 					case IPropertyType.LITERAL_STRING_TYPE :
 					case IPropertyType.LIST_TYPE :
+					case IPropertyType.STRUCT_TYPE :
 						allowedPropertyTypes.add( propType );
 						break;
 					default :

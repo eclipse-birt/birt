@@ -254,7 +254,7 @@ public class LabelItemParserTest extends ParserTestCase
 				.findContentSlot( labelHandle ) );
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**

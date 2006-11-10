@@ -284,7 +284,8 @@ public abstract class PropertyDefn
 				// property
 				// is a choice property, and is not allowed otherwise.
 
-				if ( getChoices( ) == null )
+				IChoiceSet choiceSet = getChoices( );
+				if ( choiceSet == null || choiceSet.getChoices( ) == null )
 					throw new MetaDataException(
 							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_PROP_CHOICES );

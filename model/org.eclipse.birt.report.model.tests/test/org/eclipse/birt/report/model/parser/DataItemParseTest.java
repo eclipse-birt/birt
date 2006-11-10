@@ -174,7 +174,7 @@ public class DataItemParseTest extends BaseTestCase
 		assertNotNull( action );
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 
 	}
 

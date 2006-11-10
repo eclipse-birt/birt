@@ -325,7 +325,7 @@ public class ReportItemParseTest extends BaseTestCase
 		dataHandle.setTocExpression( null );
 
 		save(); 
-		assertTrue( compareTextFile( "ReportItemParseTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ReportItemParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 }

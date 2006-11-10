@@ -124,7 +124,7 @@ public class TextItemParseTest extends BaseTestCase
 		textHandle.setContentKey( "odd 1" ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile( "TextItemParseTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "TextItemParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

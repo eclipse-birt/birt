@@ -295,7 +295,7 @@ public class LibraryHandleTest extends BaseTestCase
 		designHandle.getBody( ).paste( copied.getHandle( design ) );
 
 		save( );
-		assertTrue( compareTextFile( "DesignCopyPaste_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "DesignCopyPaste_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class LibraryHandleTest extends BaseTestCase
 
 		saveLibrary( );
 
-		assertTrue( compareTextFile( "LibraryIncludeLibrary_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "LibraryIncludeLibrary_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 

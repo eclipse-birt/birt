@@ -37,6 +37,6 @@ public abstract class ParserTestCase extends BaseTestCase
 
         save(); 
 
-        return compareTextFile( goldenFileName) ; 
+        return compareFile( goldenFileName) ; 
     }
 }

@@ -353,7 +353,7 @@ public class DimensionHandleTest extends BaseTestCase
 		dimensionHandle.setValue( "22pt" ); //$NON-NLS-1$
 
 		save( );
-		assertTrue( compareTextFile( "DimensionHandleTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "DimensionHandleTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

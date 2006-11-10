@@ -26,12 +26,9 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 {
 
 	private String fileName = "CompatibleExtensionTest.xml"; //$NON-NLS-1$
-	private String outFileName = "CompatibleExtensionTest_out.xml"; //$NON-NLS-1$
 	private String goldenFileName = "CompatibleExtensionTest_golden.xml"; //$NON-NLS-1$
 
 	private String fileName_1 = "CompatibleExtensionTest_1.xml"; //$NON-NLS-1$
-
-	private String outFileName_1 = "CompatibleExtensionTest_out_1.xml"; //$NON-NLS-1$
 	private String goldenFileName_1 = "CompatibleExtensionTest_golden_1.xml"; //$NON-NLS-1$
 
 	/*
@@ -59,8 +56,8 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName );
 
-		saveAs( outFileName );
-		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		save( );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**
@@ -79,7 +76,7 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 
 		extendedItem.removedUnusedColumnBindings( );
 
-		saveAs( outFileName_1 );
-		assertTrue( compareTextFile( goldenFileName_1, outFileName_1 ) );
+		save( );
+		assertTrue( compareFile( goldenFileName_1) );
 	}
 }

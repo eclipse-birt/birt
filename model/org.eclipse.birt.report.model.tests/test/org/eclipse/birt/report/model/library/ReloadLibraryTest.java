@@ -192,7 +192,7 @@ public class ReloadLibraryTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 
 		save( );
-		compareTextFile( "DesignToReloadLibrary_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DesignToReloadLibrary_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -303,7 +303,7 @@ public class ReloadLibraryTest extends BaseTestCase
 			save( );
 		}
 
-		compareTextFile( "DesignToReloadLibrary_golden_1.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DesignToReloadLibrary_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

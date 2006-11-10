@@ -107,7 +107,7 @@ public class ScriptDataSetParseTest extends BaseTestCase
 		dataSet.setClose( "New close script" ); //$NON-NLS-1$
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**

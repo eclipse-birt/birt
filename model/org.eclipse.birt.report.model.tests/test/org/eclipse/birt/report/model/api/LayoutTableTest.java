@@ -174,7 +174,7 @@ public class LayoutTableTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile( "LayoutTableTest1_golden.txt" ) ); //$NON-NLS-1$.
+		assertTrue( compareFile( "LayoutTableTest1_golden.txt" ) ); //$NON-NLS-1$.
 
 	}
 

@@ -97,7 +97,7 @@ public class TranslationHandleTest extends BaseTestCase
         designHandle.addTranslation( "ResourceKey.testKey2", null, "DEFAULT" ); //$NON-NLS-1$ //$NON-NLS-2$
         
 		save( );
-        assertTrue( compareTextFile( GOLDEN_FILE));
+        assertTrue( compareFile( GOLDEN_FILE));
 	}
 
 }

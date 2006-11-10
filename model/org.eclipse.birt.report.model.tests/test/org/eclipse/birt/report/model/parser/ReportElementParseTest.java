@@ -179,7 +179,7 @@ public class ReportElementParseTest extends BaseTestCase
 		propHandle.addItem( mask );
 
 		save(); 		
-		assertTrue( compareTextFile( "ReportElementParseTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ReportElementParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

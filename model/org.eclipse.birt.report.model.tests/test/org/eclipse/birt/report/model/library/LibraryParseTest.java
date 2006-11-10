@@ -170,7 +170,7 @@ public class LibraryParseTest extends BaseTestCase
 		libraryHandle.setProperty( Library.DESCRIPTION_PROP, "New description" ); //$NON-NLS-1$
 
 		saveLibrary( );
-		assertTrue( compareTextFile( goldenFileName ) );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**

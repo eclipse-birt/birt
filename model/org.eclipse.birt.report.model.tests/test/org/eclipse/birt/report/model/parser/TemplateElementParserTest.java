@@ -316,7 +316,7 @@ public class TemplateElementParserTest extends BaseTestCase
 				"new templateLabelParam" ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile( "TemplateElementParserTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "TemplateElementParserTest_golden.xml") ); //$NON-NLS-1$
 
 	}
 
@@ -387,7 +387,7 @@ public class TemplateElementParserTest extends BaseTestCase
 		// the real label is replaced by the template label
 
 		save(); //$NON-NLS-1$
-		compareTextFile(
+		compareFile(
 				"TemplateElementParserTest_golden_1.xml"); //$NON-NLS-1$ 
 
 		// there is a template definition added into design for the new created

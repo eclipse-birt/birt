@@ -171,6 +171,6 @@ public class SimpleMasterPageHandleTest extends BaseTestCase
 		mHandle.getPageFooter( ).drop( 0 );
 
 		save( );
-		assertTrue( compareTextFile( GOLDEN_FILE_NAME ) );
+		assertTrue( compareFile( GOLDEN_FILE_NAME ) );
 	}
 }

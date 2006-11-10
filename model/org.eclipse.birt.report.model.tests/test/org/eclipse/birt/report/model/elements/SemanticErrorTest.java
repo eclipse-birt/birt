@@ -91,7 +91,7 @@ public class SemanticErrorTest extends BaseTestCase
 				SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET );
 		os.close( );
 
-		assertTrue( compareTextFile( "SemanticError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "SemanticError.golden.txt" ) ); //$NON-NLS-1$
 	}
 
 	private void print( DesignElement element, String errorCode )

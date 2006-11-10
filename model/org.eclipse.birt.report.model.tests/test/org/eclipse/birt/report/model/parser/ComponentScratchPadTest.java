@@ -96,7 +96,7 @@ public class ComponentScratchPadTest extends BaseTestCase
 		openDesign( "", is ); //$NON-NLS-1$
 		assertNotNull( design );
 		save(); 
-		assertTrue( compareTextFile( "ComponentScratchPadTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ComponentScratchPadTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

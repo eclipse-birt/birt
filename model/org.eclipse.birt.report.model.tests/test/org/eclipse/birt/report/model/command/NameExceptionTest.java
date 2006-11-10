@@ -58,7 +58,7 @@ public class NameExceptionTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile( "NameExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "NameExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 

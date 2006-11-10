@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -99,6 +100,11 @@ public class ModuleUtil
 
 		DesignElement element = null;
 
+		/**
+		 * 
+		 * @param element
+		 * @param theModule
+		 */
 		public ActionParserHandler( DesignElement element )
 		{
 			super( null, null );
@@ -145,19 +151,40 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( InputStream streamData )
 			throws DesignFileException
 	{
+		return deserializeAction( streamData, null );
+	}
+
+	/**
+	 * Deserialize an input stream into an Action.
+	 * 
+	 * @param streamData
+	 *            a stream represent an action.
+	 * @param element
+	 * @return an internal Action structure
+	 * @throws DesignFileException
+	 *             if the exception occur when interpret the stream data.
+	 */
+
+	public static ActionHandle deserializeAction( InputStream streamData,
+			DesignElementHandle element ) throws DesignFileException
+	{
 
 		// A fake element with the given action. Used to reuse the existing
 		// action parser logic.
 
-		ImageItem image = new ImageItem( );
+		DesignElement image = new ImageItem( );
+		DesignElement e = element == null ? image : element.getElement( );
 		ActionParserHandler handler = new ActionParserHandler( image );
+
+		Module module = element == null ? handler.getModule( ) : element
+				.getModule( );
 
 		if ( streamData == null )
 		{
 			Action action = StructureFactory.createAction( );
-			image.setProperty( IImageItemModel.ACTION_PROP, action );
-			return ( (ImageHandle) image.getHandle( handler.getModule( ) ) )
-					.getActionHandle( );
+			e.setProperty( ImageHandle.ACTION_PROP, action );
+
+			return getActionHandle( e.getHandle( module ) );
 		}
 
 		if ( !streamData.markSupported( ) )
@@ -166,9 +193,29 @@ public class ModuleUtil
 		assert streamData.markSupported( );
 		parse( handler, streamData, "" ); //$NON-NLS-1$
 
-		ImageHandle imageHandle = (ImageHandle) image.getHandle( handler
-				.getModule( ) );
-		return imageHandle.getActionHandle( );
+		if ( element != null )
+			e.setProperty( IImageItemModel.ACTION_PROP, image.getProperty(
+					handler.getModule( ), IImageItemModel.ACTION_PROP ) );
+
+		return getActionHandle( e.getHandle( module ) );
+	}
+
+	/**
+	 * Gets the action handle of this element.
+	 * 
+	 * @param element
+	 * @return action handle
+	 */
+
+	private static ActionHandle getActionHandle( DesignElementHandle element )
+	{
+		PropertyHandle propHandle = element
+				.getPropertyHandle( IImageItemModel.ACTION_PROP );
+		Action action = (Action) propHandle.getValue( );
+
+		if ( action == null )
+			return null;
+		return (ActionHandle) action.getHandle( propHandle );
 	}
 
 	/**
@@ -237,6 +284,25 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( String strData )
 			throws DesignFileException
 	{
+		return deserializeAction( strData, null );
+	}
+
+	/**
+	 * Deserialize a string into an ActionHandle, notice that the handle is
+	 * faked, the action is not in the design tree, the operation to the handle
+	 * is not able to be undoned.
+	 * 
+	 * @param strData
+	 *            a string represent an action.
+	 * @param element
+	 * @return a handle to the action.
+	 * @throws DesignFileException
+	 *             if the exception occur when interpret the stream data.
+	 */
+
+	public static ActionHandle deserializeAction( String strData,
+			DesignElementHandle element ) throws DesignFileException
+	{
 		InputStream is = null;
 		String streamToOpen = StringUtil.trimString( strData );
 		if ( streamToOpen != null )
@@ -252,7 +318,7 @@ public class ModuleUtil
 			}
 
 		}
-		return deserializeAction( is );
+		return deserializeAction( is, element );
 	}
 
 	/**
@@ -286,6 +352,12 @@ public class ModuleUtil
 	private static class SectionXMLWriter extends IndentableXMLWriter
 	{
 
+		/**
+		 * 
+		 * @param os
+		 * @param signature
+		 * @throws IOException
+		 */
 		public SectionXMLWriter( OutputStream os, String signature )
 				throws IOException
 		{
@@ -427,6 +499,9 @@ public class ModuleUtil
 
 		String version = null;
 
+		/**
+		 * Default constructor.
+		 */
 		public VersionParserHandler( )
 		{
 			super( new ModuleParserErrorHandler( ) );

@@ -52,10 +52,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_1.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_1.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_1.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -75,10 +73,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_2.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_2.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_2.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -98,10 +94,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_3.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_3.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_3.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -121,10 +115,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( tableHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_4.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_4.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_4.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_4.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -173,10 +165,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( styleHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_5.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_5.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_5.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_5.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -208,10 +198,8 @@ public class ElementExporterTest extends BaseTestCase
 		ElementExportUtil
 				.exportElement( dataSourceHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_6.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_6.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_6.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_6.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -248,10 +236,8 @@ public class ElementExporterTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_7.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_7.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_7.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_7.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -271,10 +257,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_8.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_8.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_8.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_8.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -294,10 +278,8 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_9.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "ElementExporterTestLibrary_golden_9.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_9.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_9.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -315,17 +297,15 @@ public class ElementExporterTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "labelInMasterPage" ); //$NON-NLS-1$
 
-		String libraryFile = getClassFolder( ) + OUTPUT_FOLDER
+		String libraryFile = getTempFolder( ) + OUTPUT_FOLDER
 				+ "ElementExporterTestLibrary_out_10.xml"; //$NON-NLS-1$
 		File file = new File( libraryFile );
 		if ( file.exists( ) )
 			file.delete( );
 
 		ElementExportUtil.exportElement( labelHandle, libraryFile, false );
-
-		assertTrue( compareTextFile(
-				"ElementExporterTestLibrary_golden_10.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_10.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile(
+				"ElementExporterTestLibrary_golden_10.xml", "ElementExporterTestLibrary_out_10.xml" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -347,11 +327,11 @@ public class ElementExporterTest extends BaseTestCase
 		testExportDesignToNewLibraryFile( "ElementExporterTest.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_12.xml" ); //$NON-NLS-1$
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"ElementExporterTestLibrary_golden_12.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_12.xml" ) ); //$NON-NLS-1$
 
-		String libraryFile = getClassFolder( ) + OUTPUT_FOLDER
+		String libraryFile = getTempFolder( ) + OUTPUT_FOLDER
 				+ "ElementExporterTestLibrary_out_12.xml"; //$NON-NLS-1$
 
 		ReportDesignHandle newDesign = sessionHandle.createDesign( );
@@ -546,7 +526,7 @@ public class ElementExporterTest extends BaseTestCase
 			String outputFile ) throws Exception
 	{
 		openDesign( inputFile, ULocale.ENGLISH );
-		String libraryFile = getClassFolder( ) + OUTPUT_FOLDER + outputFile;
+		String libraryFile = getTempFolder( )+ OUTPUT_FOLDER + outputFile;
 		File file = new File( libraryFile );
 		if ( file.exists( ) )
 			file.delete( );
@@ -571,11 +551,9 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_11.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile(
-				"ElementExporterTestLibrary_golden_11.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_11.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile(
+				"ElementExporterTestLibrary_golden_11.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -592,7 +570,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		testExportDesignToNewLibraryFile( "ElementExporterTest_4.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_13.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"ElementExporterTestLibrary_golden_13.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_13.xml" ) ); //$NON-NLS-1$
 	}
@@ -617,11 +595,9 @@ public class ElementExporterTest extends BaseTestCase
 		ElementExportUtil.exportStructure( embeddedImageHandle, libraryHandle,
 				true );
 
-		saveLibraryAs( "ElementExporterTestLibrary_out_14.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile(
-				"ElementExporterTestLibrary_golden_14.xml", //$NON-NLS-1$
-				"ElementExporterTestLibrary_out_14.xml" ) ); //$NON-NLS-1$
+		saveLibrary();
+		assertTrue( compareFile(
+				"ElementExporterTestLibrary_golden_14.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

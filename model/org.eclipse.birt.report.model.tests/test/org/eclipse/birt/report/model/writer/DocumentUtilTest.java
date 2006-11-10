@@ -57,7 +57,7 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
-		assertTrue( compareTextFile( "DocumentUtilTest_golden.xml" ) ); //$NON-NLS-1$ 
+		assertTrue( compareFile( "DocumentUtilTest_golden.xml" ) ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "DocumentUtilTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_2.xml" ) ); //$NON-NLS-1$ 
+		assertTrue( compareFile( "DocumentUtilTest_golden_2.xml" ) ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 
 		serializeDocument( );
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_3.xml" ) ); //$NON-NLS-1$ 
+		assertTrue( compareFile( "DocumentUtilTest_golden_3.xml" ) ); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( string );
 		assertNotNull( designHandle );
 		serializeDocument( );
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_4.xml" ) ); //$NON-NLS-1$ 
+		assertTrue( compareFile( "DocumentUtilTest_golden_4.xml" ) ); //$NON-NLS-1$ 
 
 	}
 
@@ -136,7 +136,7 @@ public class DocumentUtilTest extends BaseTestCase
 		assertNotNull( designHandle );
 		serializeDocument( );
 
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_5.xml" ) ); //$NON-NLS-1$ 
+		assertTrue( compareFile( "DocumentUtilTest_golden_5.xml" ) ); //$NON-NLS-1$ 
 
 	}
 
@@ -159,7 +159,7 @@ public class DocumentUtilTest extends BaseTestCase
 				.findElement( "matrix1" ); //$NON-NLS-1$
 		assertNotNull( ( (ExtendedItem) matrix1.getElement( ) ).getExtDefn( ) );
 
-		assertTrue( compareTextFile( "DocumentUtilTest_golden_6.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "DocumentUtilTest_golden_6.xml" ) ); //$NON-NLS-1$
 
 	}
 

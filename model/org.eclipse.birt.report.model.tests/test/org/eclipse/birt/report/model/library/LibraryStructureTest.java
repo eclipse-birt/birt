@@ -362,7 +362,7 @@ public class LibraryStructureTest extends BaseTestCase
 				designHandle ) );
 
 		save( );
-		assertTrue( compareTextFile( "LibraryStructure_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "LibraryStructure_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 }

@@ -135,7 +135,7 @@ public class MasterPageParseTest extends BaseTestCase
 		page.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LEGAL );
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class MasterPageParseTest extends BaseTestCase
 				"1.2cm", ( (DimensionHandle) simplePage.getFooterHeight( ) ).getValue( ).toString( ) ); //$NON-NLS-1$
 
 		save();
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"TestSimpleMasterPage_golden.xml") ); //$NON-NLS-1$
 	}
 

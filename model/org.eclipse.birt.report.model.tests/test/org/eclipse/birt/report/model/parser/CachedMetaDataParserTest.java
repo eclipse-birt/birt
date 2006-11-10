@@ -154,7 +154,7 @@ public class CachedMetaDataParserTest extends BaseTestCase
 		resultSetHandle.addItem( resultSet1 );
 
 		save();
-		compareTextFile( GOLDEN_FILE);
+		compareFile( GOLDEN_FILE);
 	}
 
 }

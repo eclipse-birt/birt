@@ -90,7 +90,7 @@ public class ScriptDataSourceParseTest extends BaseTestCase
 		dataSource.setClose( "My close script" ); //$NON-NLS-1$
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 //	/**

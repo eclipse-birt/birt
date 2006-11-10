@@ -119,7 +119,7 @@ public class TemplateCommandTest extends BaseTestCase
 		command.add( templateItem, ReportDesign.BODY_SLOT );
 		
 		save( );
-		assertTrue( compareTextFile( GOLEAN_FILE ) );
+		assertTrue( compareFile( GOLEAN_FILE ) );
 	}
 
 	/**

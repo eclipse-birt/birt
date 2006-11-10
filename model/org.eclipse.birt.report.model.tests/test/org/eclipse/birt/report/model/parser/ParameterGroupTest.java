@@ -210,6 +210,6 @@ public class ParameterGroupTest extends BaseTestCase
 		h.setHelpTextKey( "key of new help text" ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile( "ParameterGroupTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ParameterGroupTest_golden.xml") ); //$NON-NLS-1$
 	}
 }

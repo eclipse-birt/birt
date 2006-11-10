@@ -157,6 +157,6 @@ public class LibraryCompoundElementTest extends BaseTestCase
 		// ensure that style and name is written out.
 
 		save( );
-		assertTrue( compareTextFile( GOLDEN_FILE ) );
+		assertTrue( compareFile( GOLDEN_FILE ) );
 	}
 }

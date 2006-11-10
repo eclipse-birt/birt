@@ -23,8 +23,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
-import java.security.CodeSource;
-import java.security.ProtectionDomain;
 import java.util.Iterator;
 import java.util.List;
 
@@ -422,45 +420,6 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
-	 * Opens design file as resource with default locale.
-	 * 
-	 * @param fileName
-	 *            the file name without path
-	 * @throws DesignFileException
-	 *             if any exception.
-	 */
-
-	private void openDesignAsResource( Class theClass, String fileName )
-			throws DesignFileException
-	{
-		openDesignAsResource( theClass, fileName, ULocale.getDefault( ) );
-	}
-
-	/**
-	 * Opens design file as resource with the given locale.
-	 * 
-	 * @param fileName
-	 *            the file name without path
-	 * @param locale
-	 *            the given locale
-	 * @throws DesignFileException
-	 *             if any exception.
-	 */
-
-	private void openDesignAsResource( Class theClass, String fileName,
-			ULocale locale ) throws DesignFileException
-	{
-		fileName = getFullQualifiedClassName( ) + INPUT_FOLDER + fileName;
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
-
-		InputStream stream = theClass.getResourceAsStream( fileName );
-		designHandle = sessionHandle.openDesign( fileName, stream );
-		design = designHandle.getDesign( );
-	}
-
-	/**
 	 * Reads design file as InputStream.
 	 * 
 	 * @param fileName
@@ -495,7 +454,7 @@ public abstract class BaseTestCase extends TestCase
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
-		design = designHandle.getDesign( );
+		design = (ReportDesign) designHandle.getModule( );
 	}
 
 	/**
@@ -509,122 +468,25 @@ public abstract class BaseTestCase extends TestCase
 	 * @return true if two text files are same line by line
 	 * @throws Exception
 	 *             if any exception.
-	 * @deprecated
 	 */
-	protected boolean compareTextFile( String goldenFileName,
-			String outputFileName ) throws Exception
+	protected boolean compareFile( String goldenFileName, String outputFileName )
+			throws Exception
 	{
-		FileReader readerA = null;
+		Reader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		// StringBuffer errorText = new StringBuffer( );
-		//
-		// try
-		// {
-		// goldenFileName = getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
-		// outputFileName = getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
-		//
-		// readerA = new FileReader( goldenFileName );
-		// readerB = new FileReader( outputFileName );
-		//
-		// same = compareTextFile( readerA, readerB );
-		// }
-		// catch ( IOException e )
-		// {
-		// errorText.append( e.toString( ) );
-		// errorText.append( "\n" ); //$NON-NLS-1$
-		// e.printStackTrace( );
-		// }
-		// finally
-		// {
-		// try
-		// {
-		// readerA.close( );
-		// readerB.close( );
-		// }
-		// catch ( Exception e )
-		// {
-		// readerA = null;
-		// readerB = null;
-		//
-		// errorText.append( e.toString( ) );
-		//
-		// throw new Exception( errorText.toString( ) );
-		// }
-		// }
-
-		return same;
-	}
-
-	/**
-	 * Compares two text file. The comparison will ignore the line containing
-	 * "modificationDate".
-	 * 
-	 * @param goldenFileName
-	 *            the 1st file name to be compared.
-	 * @param os
-	 *            the 2nd output stream to be compared.
-	 * @return true if two text files are same char by char
-	 * @throws Exception
-	 *             if any exception.
-	 */
-	protected boolean compareTextFile( String goldenFileName ) throws Exception
-	{
-		goldenFileName = GOLDEN_FOLDER + goldenFileName;
-
-		InputStream streamA = getResourceAStream( goldenFileName );
-		if ( os == null )
-			return false;
-		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
-		InputStreamReader readerA = new InputStreamReader( streamA );
-		InputStreamReader readerB = new InputStreamReader( streamB );
-		return compareTextFile( readerA, readerB );
-	}
-
-	/**
-	 * Compares two text files. The comparison will ignore the line containing
-	 * "modificationDate".
-	 * 
-	 * @param goldenFileName
-	 *            the golden file name. The golden file should be located with
-	 *            class loader.
-	 * @param outputFileName
-	 *            the output file name. The output file should be in temperary
-	 *            directory of Java VM.
-	 * 
-	 * @return true if two text files are same line by line
-	 * @throws Exception
-	 *             if any exception.
-	 */
-
-	private boolean compareTextFileAsResource( Class theClass,
-			String goldenFileName, String outputFileName ) throws Exception
-	{
-		InputStreamReader readerA = null;
-		FileReader readerB = null;
 		StringBuffer errorText = new StringBuffer( );
-		boolean same = false;
-
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
 
 		try
 		{
-			goldenFileName = getFullQualifiedClassName( )
-					+ "/golden/" + goldenFileName; //$NON-NLS-1$
-			InputStream goldenStream = theClass
-					.getResourceAsStream( goldenFileName );
+			goldenFileName = GOLDEN_FOLDER + goldenFileName;
+			outputFileName = getTempFolder( ) + OUTPUT_FOLDER + outputFileName;
 
-			outputFileName = tempDir
-					+ "org.eclipse.birt.report.model" //$NON-NLS-1$
-					+ getFullQualifiedClassName( ) + OUTPUT_FOLDER
-					+ outputFileName;
-
-			readerA = new InputStreamReader( goldenStream );
+			readerA = new InputStreamReader(
+					getResourceAStream( goldenFileName ) );
 			readerB = new FileReader( outputFileName );
 
-			same = compareTextFile( readerA, readerB );
+			same = compareFile( readerA, readerB );
 		}
 		catch ( IOException e )
 		{
@@ -636,7 +498,9 @@ public abstract class BaseTestCase extends TestCase
 		{
 			try
 			{
-				readerA.close( );
+				if ( readerA != null )
+					readerA.close( );
+				if ( readerB != null )
 				readerB.close( );
 			}
 			catch ( Exception e )
@@ -654,6 +518,31 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
+	 * Compares two text file. The comparison will ignore the line containing
+	 * "modificationDate".
+	 * 
+	 * @param goldenFileName
+	 *            the 1st file name to be compared.
+	 * @param os
+	 *            the 2nd output stream to be compared.
+	 * @return true if two text files are same char by char
+	 * @throws Exception
+	 *             if any exception.
+	 */
+	protected boolean compareFile( String goldenFileName ) throws Exception
+	{
+		goldenFileName = GOLDEN_FOLDER + goldenFileName;
+
+		InputStream streamA = getResourceAStream( goldenFileName );
+		if ( os == null )
+			return false;
+		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
+		InputStreamReader readerA = new InputStreamReader( streamA );
+		InputStreamReader readerB = new InputStreamReader( streamB );
+		return compareFile( readerA, readerB );
+	}
+
+	/**
 	 * Compares the two text files.
 	 * 
 	 * @param goldenReader
@@ -664,7 +553,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws Exception
 	 *             if any exception
 	 */
-	private boolean compareTextFile( Reader goldenReader, Reader outputReader )
+	private boolean compareFile( Reader goldenReader, Reader outputReader )
 			throws Exception
 	{
 		StringBuffer errorText = new StringBuffer( );
@@ -703,7 +592,7 @@ public abstract class BaseTestCase extends TestCase
 				strB = lineReaderB.readLine( );
 				lineNo++;
 			}
-			same = strA == null && strB == null;
+			same = strB == null;
 		}
 		finally
 		{
@@ -796,7 +685,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void dumpErrors( String filename ) throws Exception
 	{
-		String outputFolder = getClassFolder( ) + OUTPUT_FOLDER;
+		String outputFolder = getTempFolder( ) + OUTPUT_FOLDER;
 		File f = new File( outputFolder );
 		if ( !f.exists( ) && !f.mkdir( ) )
 		{
@@ -820,27 +709,6 @@ public abstract class BaseTestCase extends TestCase
 
 	/**
 	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#saveAs(String)}to save the output file of some
-	 * unit test. The output test file will be saved in the folder of 'output'
-	 * under the folder where the unit test java source file locates, so before
-	 * calling {@link ReportDesignHandle#saveAs(String)}, the file name will be
-	 * modified to include the path information. For example, in a unit test
-	 * class, it can call saveAs( "PropertyCommandTest.out" ).
-	 * 
-	 * @param filename
-	 *            the test output file to be saved.
-	 * @throws IOException
-	 *             if error occurs while saving the file.
-	 * @deprecated
-	 */
-
-	protected void saveAs( String filename ) throws IOException
-	{
-		saveAs( designHandle, filename );
-	}
-
-	/**
-	 * Eventually, this method will call
 	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
 	 * output file of some unit test.
 	 * 
@@ -854,44 +722,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		save( designHandle );
 	}
-
-	/**
-	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#saveAs(String)}to save the output file of some
-	 * unit test. The output test file will be saved in the folder of 'output'
-	 * under the folder where the unit test java source file locates, so before
-	 * calling {@link ReportDesignHandle#saveAs(String)}, the file name will be
-	 * modified to include the path information. For example, in a unit test
-	 * class, it can call saveAs( "PropertyCommandTest.out" ).
-	 * 
-	 * @param moduleHandle
-	 *            the module to save, either a report design or a library
-	 * @param filename
-	 *            the test output file to be saved.
-	 * @throws IOException
-	 *             if error occurs while saving the file.
-	 * @deprecated
-	 */
-
-	protected void saveAs( ModuleHandle moduleHandle, String filename )
-			throws IOException
-	{
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
-
-		if ( designHandle == null )
-			return;
-		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
-				+ getFullQualifiedClassName( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdirs( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-		designHandle.saveAs( outputPath + filename );
-	}
-
+	
 	/**
 	 * Eventually, this method will call
 	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
@@ -918,53 +749,11 @@ public abstract class BaseTestCase extends TestCase
 	 *            the file name for saving
 	 * @throws IOException
 	 *             if any exception
-	 * @deprecated
-	 */
-
-	protected void saveLibraryAs( String filename ) throws IOException
-	{
-		saveAs( libraryHandle, filename );
-	}
-
-	/**
-	 * Saves library as the given file name.
-	 * 
-	 * @param filename
-	 *            the file name for saving
-	 * @throws IOException
-	 *             if any exception
 	 */
 
 	protected void saveLibrary( ) throws IOException
 	{
 		save( libraryHandle );
-	}
-
-	/**
-	 * Saves the design file to temp directory.
-	 * 
-	 * @param filename
-	 *            the new file name to save
-	 * @throws IOException
-	 *             if any exception
-	 */
-
-	private void saveAsInTempDir( String filename ) throws IOException
-	{
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
-
-		if ( designHandle == null )
-			return;
-		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
-				+ getFullQualifiedClassName( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdirs( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-		designHandle.saveAs( outputPath + filename );
 	}
 
 	/**
@@ -982,42 +771,6 @@ public abstract class BaseTestCase extends TestCase
 		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
 				+ getFullQualifiedClassName( );
 		return outputPath;
-	}
-
-	/**
-	 * Locates the folder where the unit test java source file is saved.
-	 * 
-	 * @return the path name where the test java source file locates.
-	 * @deprecated
-	 */
-
-	protected String getClassFolder( )
-	{
-		String pathBase = null;
-
-		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
-		if ( domain != null )
-		{
-			CodeSource source = domain.getCodeSource( );
-			if ( source != null )
-			{
-				URL url = source.getLocation( );
-				pathBase = url.getPath( );
-
-				if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 4 );
-				if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 3 );
-			}
-		}
-
-		pathBase = pathBase + TEST_FOLDER;
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
-		className = pathBase + className.replace( '.', '/' );
-
-		return className;
 	}
 
 	/**
@@ -1057,37 +810,6 @@ public abstract class BaseTestCase extends TestCase
 		className = "/" + className.replace( '.', '/' ); //$NON-NLS-1$
 
 		return className;
-	}
-
-	/**
-	 * Compares the error messages against the golden file.
-	 * 
-	 * @param filename
-	 *            the golden file name which contains the error messages.
-	 * @throws Exception
-	 *             if any exception
-	 */
-
-	protected void compareErrors( String filename ) throws Exception
-	{
-		filename = getClassFolder( ) + GOLDEN_FOLDER + filename;
-
-		if ( design == null )
-			return;
-		BufferedReader reader = new BufferedReader( new FileReader( filename ) );
-		List errors = design.getAllErrors( );
-		String msg = null;
-		String msgLine = null;
-		ErrorDetail ex = null;
-		for ( int i = 0; i < errors.size( ); i++ )
-		{
-			ex = (ErrorDetail) errors.get( i );
-			msg = design.getFileName( ) + ex;
-
-			msgLine = reader.readLine( );
-			assert msgLine != null && msg.equals( msgLine );
-		}
-		reader.close( );
 	}
 
 	/**

@@ -82,7 +82,7 @@ public class ExtendsExceptionTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile( "ExtendsExceptionError.golden.txt" ) ); //$NON-NLS-1$ 
+		assertTrue( compareFile( "ExtendsExceptionError.golden.txt" ) ); //$NON-NLS-1$ 
 
 	}
 

@@ -345,7 +345,7 @@ public class ReportDesignParseTest extends BaseTestCase
 				.getBytes( IReportDesignModel.CHARSET ) ) );
 
 		save( );
-		assertTrue( compareTextFile( goldenFileName ) );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**
@@ -743,7 +743,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		openDesign( datasourceBindingsFileName, ULocale.ENGLISH );
 
 		save( );
-		assertTrue( compareTextFile( goldenFileName_2 ) );
+		assertTrue( compareFile( goldenFileName_2 ) );
 	}
 
 	/**

@@ -119,7 +119,7 @@ public class PropertyValueExceptionTest extends BaseTestCase
 
 		writer.close( );
 
-		assertTrue( compareTextFile( "PropertyValueExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PropertyValueExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 

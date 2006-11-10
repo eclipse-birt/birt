@@ -272,7 +272,7 @@ public class JointDataSetParseTest extends BaseTestCase
 				.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP );
 		conditionHandle.addItem( condition );
 		save( );
-		assertTrue( compareTextFile( goldenFileName ) );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**

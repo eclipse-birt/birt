@@ -557,7 +557,7 @@ public class TableItemParseTest extends ParserTestCase
 		cell.setOnRender( "new render on cell" ); //$NON-NLS-1$
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 
 	}
 

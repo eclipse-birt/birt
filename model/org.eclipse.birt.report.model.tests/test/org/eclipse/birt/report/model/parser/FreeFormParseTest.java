@@ -185,7 +185,7 @@ public class FreeFormParseTest extends ParserTestCase
 		reportItem.dropAndClear ( 2 );
 		innerReportItem.add ( freeForm2);
 		save();
-		assertTrue ( compareTextFile ( goldenFileName) );
+		assertTrue ( compareFile ( goldenFileName) );
 
 	}
 

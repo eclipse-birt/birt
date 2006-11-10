@@ -72,7 +72,7 @@ public class PropertyStructureCloneTest extends BaseTestCase
 		save( );
 		// compare with golden file to ensure that change to the
 		// original action won't affect the copy.
-		assertTrue( compareTextFile( GOLDEN_FILE ) );
+		assertTrue( compareFile( GOLDEN_FILE ) );
 	}
 
 	/**
@@ -99,6 +99,6 @@ public class PropertyStructureCloneTest extends BaseTestCase
 		param1.setExpression( "new Expression" ); //$NON-NLS-1$
 
 		save( );
-		assertTrue( compareTextFile( GOLDEN_FILE1 ) );
+		assertTrue( compareFile( GOLDEN_FILE1 ) );
 	}
 }

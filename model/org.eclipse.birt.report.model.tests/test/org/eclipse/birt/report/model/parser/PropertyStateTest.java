@@ -150,7 +150,7 @@ public class PropertyStateTest extends BaseTestCase
 		// Save it and compare with golden file
 
 		save(); 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"PropertyStateTest_golden.xml") ); //$NON-NLS-1$
 	}
 

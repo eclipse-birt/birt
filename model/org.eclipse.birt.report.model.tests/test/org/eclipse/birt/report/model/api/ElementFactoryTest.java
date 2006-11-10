@@ -218,7 +218,7 @@ public class ElementFactoryTest extends BaseTestCase
 		designHandle.getParameters( ).add( childParameterGroup );
 
 		save( );
-		compareTextFile( "ElementFactoryTest_golden.xml" ); //$NON-NLS-1$
+		compareFile( "ElementFactoryTest_golden.xml" ); //$NON-NLS-1$
 
 		// clear the parameter slot and test again
 

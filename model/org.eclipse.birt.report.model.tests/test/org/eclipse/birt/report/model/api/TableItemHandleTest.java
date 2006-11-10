@@ -176,7 +176,7 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table1.pasteRow( clonedRow, parameters6 );
 		save( );
-		assertTrue( compareTextFile( "TableRowCopy_golden_1.xml" )); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_1.xml" )); //$NON-NLS-1$
 
 		// paste a null table row
 
@@ -226,13 +226,13 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table2.insertRow( parameters4 );
 		save( );
-		assertTrue( compareTextFile( "TableRowCopy_golden_2.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_2.xml")); //$NON-NLS-1$
 
 		// can insert the same element twice.
 
 		table2.insertRow( parameters4 );
 		save( );
-		assertTrue( compareTextFile( "TableRowCopy_golden_3.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_3.xml")); //$NON-NLS-1$
 
 		// source row is the same as destination row.
 
@@ -264,7 +264,7 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table2.shiftRow( parameters4 );
 		save( );
-		assertTrue( compareTextFile( "TableRowCopy_golden_4.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_4.xml")); //$NON-NLS-1$
 
 		clonedRow = (TableRow) clonedRow.clone( );
 		
@@ -295,7 +295,7 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table2.insertAndPasteRow( clonedRow, parameters4 );
 		save( );
-		assertTrue( compareTextFile( "TableRowCopy_golden_5.xml"));//$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_5.xml"));//$NON-NLS-1$
 
 	}
 

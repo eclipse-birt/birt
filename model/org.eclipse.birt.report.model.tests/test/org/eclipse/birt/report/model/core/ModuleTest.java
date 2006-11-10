@@ -181,7 +181,7 @@ public class ModuleTest extends BaseTestCase
 		openDesign( idFileName );
 		assertNotNull( designHandle );
 		save( );
-		assertTrue( compareTextFile( "ModuleTest_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ModuleTest_golden_2.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -199,7 +199,7 @@ public class ModuleTest extends BaseTestCase
 
 		String goldenFileName = "ModuleTest_golden.xml"; //$NON-NLS-1$
 		save( );
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**

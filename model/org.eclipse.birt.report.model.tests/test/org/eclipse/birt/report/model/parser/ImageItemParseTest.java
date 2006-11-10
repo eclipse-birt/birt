@@ -359,7 +359,7 @@ public class ImageItemParseTest extends BaseTestCase
 		handle.setHelpTextKey( "new resource key for body image help text" ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile( "ImageItemParseTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImageItemParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

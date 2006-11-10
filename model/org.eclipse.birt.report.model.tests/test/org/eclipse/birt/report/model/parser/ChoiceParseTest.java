@@ -211,7 +211,7 @@ public class ChoiceParseTest extends BaseTestCase
 				new DimensionValue( 12.0, DesignChoiceConstants.UNITS_IN ) );
 
 		save();
-		assertTrue( compareTextFile( "ChoiceParseTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ChoiceParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

@@ -264,7 +264,7 @@ public class PropertyHandleTest extends BaseTestCase
 		assertEquals( 1, rules.size( ) );
 
 		save( );
-		assertTrue( compareTextFile( "PropertyHandleTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PropertyHandleTest_golden.xml" ) ); //$NON-NLS-1$
 
 		propHandle.clearValue( );
 
@@ -372,7 +372,7 @@ public class PropertyHandleTest extends BaseTestCase
 				.clearValue( );
 
 		save( );
-		assertTrue( compareTextFile( "PropertyHandleTest_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PropertyHandleTest_golden_1.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -674,7 +674,7 @@ public class PropertyHandleTest extends BaseTestCase
 		assertEquals( "bold", cell1.getStringProperty( "fontWeight" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		save( );
-		assertTrue( compareTextFile( "PropertyHandleTest_golden2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PropertyHandleTest_golden2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

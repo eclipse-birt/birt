@@ -66,9 +66,9 @@ public class OdaElementExtensionTest extends BaseTestCase
 
 		assertEquals( DATASET_EXTENSION_ID, dataSetHandle.getExtensionID( ) );
 		assertEquals(
-				"dataSource", dataSetHandle.getStringProperty( OdaDataSetHandle.DATA_SOURCE_PROP ) );//$NON-NLS-1$ //$NON-NLS-2$
+				"dataSource", dataSetHandle.getStringProperty( OdaDataSetHandle.DATA_SOURCE_PROP ) );//$NON-NLS-1$
 		assertEquals(
-				"select * from customers", dataSetHandle.getStringProperty( OdaDataSetHandle.QUERY_TEXT_PROP ) );//$NON-NLS-1$ //$NON-NLS-2$
+				"select * from customers", dataSetHandle.getStringProperty( OdaDataSetHandle.QUERY_TEXT_PROP ) );//$NON-NLS-1$
 		assertEquals( "30", dataSetHandle.getStringProperty( "queryTimeOut" ) );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 
@@ -93,12 +93,12 @@ public class OdaElementExtensionTest extends BaseTestCase
 		OdaDataSetHandle dataSetHandle = (OdaDataSetHandle) designHandle
 				.findDataSet( "dataSet" );//$NON-NLS-1$
 		dataSetHandle.setProperty( OdaDataSetHandle.QUERY_TEXT_PROP,
-				"select * from cities" );//$NON-NLS-1$ //$NON-NLS-2$
+				"select * from cities" );//$NON-NLS-1$
 		dataSetHandle.setProperty( "queryTimeOut", "60" );//$NON-NLS-1$ //$NON-NLS-2$
 
-		saveAs( "ODAElementExtensionTest_out.xml" );//$NON-NLS-1$ 
-		assertTrue( compareTextFile(
-				"ODAElementExtensionTest_golden.xml", "ODAElementExtensionTest_out.xml" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		save( );
+		assertTrue( compareFile(
+				"ODAElementExtensionTest_golden.xml") );//$NON-NLS-1$
 	}
 
 	/**

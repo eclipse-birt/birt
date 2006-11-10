@@ -1086,14 +1086,14 @@ public class TableColumnBandTest extends BaseTestCase
 		table.shiftColumn( 2, 3 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_1.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.shiftColumn( 2, 4 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_2.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
@@ -1102,31 +1102,31 @@ public class TableColumnBandTest extends BaseTestCase
 		table.shiftColumn( 2, 2 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_3.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_3.xml" ) ); //$NON-NLS-1$
 
 		table.shiftColumn( 4, 1 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_4.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_4.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.shiftColumn( 4, 2 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_5.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_5.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.shiftColumn( 3, 2 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_6.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_6.xml" ) ); //$NON-NLS-1$
 
 		table.shiftColumn( 3, 0 );
 
 		save( );
-		assertTrue( compareTextFile( "TableShiftColumnBand_golden_7.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableShiftColumnBand_golden_7.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1375,35 +1375,35 @@ public class TableColumnBandTest extends BaseTestCase
 		table.insertColumn( 1, 1 );
 
 		save( );
-		assertTrue( compareTextFile( "TableInsertColumnBandTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableInsertColumnBandTest_golden.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.insertColumn( 2, -1 );
 
 		save( );
-		assertTrue( compareTextFile( "TableInsertColumnBandTest_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableInsertColumnBandTest_golden_1.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.insertColumn( 2, 1 );
 
 		save( );
-		assertTrue( compareTextFile( "TableInsertColumnBandTest_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableInsertColumnBandTest_golden_2.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.insertColumn( 3, -1 );
 
 		save( );
-		assertTrue( compareTextFile( "TableInsertColumnBandTest_golden_3.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableInsertColumnBandTest_golden_3.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		table.insertColumn( 3, 1 );
 
 		save( );
-		assertTrue( compareTextFile( "TableInsertColumnBandTest_golden_4.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableInsertColumnBandTest_golden_4.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1506,29 +1506,29 @@ public class TableColumnBandTest extends BaseTestCase
 
 		reorderColumns( table, new int[]{0, 2, 1, 3} );
 		save( );
-		assertTrue( compareTextFile( "TableReorderColumnBand_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableReorderColumnBand_golden_1.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		reorderColumns( table, new int[]{3, 2, 1, 0} );
 		save( );
-		assertTrue( compareTextFile( "TableReorderColumnBand_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableReorderColumnBand_golden_2.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		reorderColumns( table, new int[]{1, 0, 2, 3} );
 		save( );
-		assertTrue( compareTextFile( "TableReorderColumnBand_golden_3.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableReorderColumnBand_golden_3.xml" ) ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 
 		reorderColumns( table, new int[]{0, 1, 2, 3} );
 		save( );
-		assertTrue( compareTextFile( "TableReorderColumnBand_golden_4.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableReorderColumnBand_golden_4.xml" ) ); //$NON-NLS-1$
 
 		reorderColumns( table, new int[]{3, 1, 2, 0} );
 		save( );
-		assertTrue( compareTextFile( "TableReorderColumnBand_golden_5.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "TableReorderColumnBand_golden_5.xml" ) ); //$NON-NLS-1$
 
 	}
 

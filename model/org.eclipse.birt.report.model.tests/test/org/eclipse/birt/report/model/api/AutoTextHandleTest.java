@@ -105,6 +105,6 @@ public class AutoTextHandleTest extends BaseTestCase
 		sf.setStyleName( "myStyle" );//$NON-NLS-1$
 
 		save( );
-		assertTrue( compareTextFile( OUTPUT_FILE ) );
+		assertTrue( compareFile( OUTPUT_FILE ) );
 	}
 }

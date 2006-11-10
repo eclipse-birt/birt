@@ -653,7 +653,7 @@ public class StyleParseTest extends BaseTestCase
 				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY );
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**
@@ -817,7 +817,7 @@ public class StyleParseTest extends BaseTestCase
 		assertNull( highlightHandle );
 
 		save(); 
-		assertTrue( compareTextFile( "StyleParseTest_golden_1.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "StyleParseTest_golden_1.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1167,7 +1167,7 @@ public class StyleParseTest extends BaseTestCase
 		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
 		
 		save();
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"testWriterPageBreak_golden.xml") ); //$NON-NLS-1$  
 
 	}
@@ -1183,6 +1183,6 @@ public class StyleParseTest extends BaseTestCase
 		openDesign( "StyleParseTest_obsolete.xml" ); //$NON-NLS-1$
 
 		save(); 
-		assertTrue( compareTextFile( "StyleParseTest_obsolete_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "StyleParseTest_obsolete_golden.xml") ); //$NON-NLS-1$
 	}
 }

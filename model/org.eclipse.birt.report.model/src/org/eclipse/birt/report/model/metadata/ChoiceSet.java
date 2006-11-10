@@ -145,7 +145,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 
 	public IChoice[] getChoices( )
 	{
-		if ( choices == null )
+		if ( choices == null || choices.isEmpty( ) )
 			return null;
 
 		IChoice[] retChoices = new IChoice[choices.size( )];
@@ -162,7 +162,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 
 	public IChoice[] getChoices( Comparator c )
 	{
-		if ( choices == null )
+		if ( choices == null || choices.isEmpty( ) )
 			return null;
 
 		IChoice[] retChoices = new IChoice[choices.size( )];

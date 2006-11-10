@@ -160,7 +160,7 @@ public class GridItemHandleTest extends BaseTestCase
 
 		gridHandle.pasteRow( clonedRow, parameters2 );
 		save( );
-		assertTrue( compareTextFile( "GridRowCopy_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "GridRowCopy_golden_1.xml" ) ); //$NON-NLS-1$
 
 		try
 		{
@@ -203,7 +203,7 @@ public class GridItemHandleTest extends BaseTestCase
 
 		gridHandle2.insertRow( parameters1 );
 		save( );
-		assertTrue( compareTextFile( "GridRowCopy_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "GridRowCopy_golden_2.xml" ) ); //$NON-NLS-1$
 
 		clonedRow = (TableRow) clonedRow.clone( );
 
@@ -233,7 +233,7 @@ public class GridItemHandleTest extends BaseTestCase
 		parameters1.setSourceIndex( 1 );
 		gridHandle.shiftRow( parameters1 );
 		save( );
-		assertTrue( compareTextFile( "GridRowCopy_golden_3.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "GridRowCopy_golden_3.xml" ) ); //$NON-NLS-1$
 
 		// Test canInsertAndPaste method.
 
@@ -258,7 +258,7 @@ public class GridItemHandleTest extends BaseTestCase
 
 		gridHandle.insertAndPasteRow( clonedRow, parameters2 );
 		save( );
-		assertTrue( compareTextFile( "GridRowCopy_golden_4.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "GridRowCopy_golden_4.xml" ) ); //$NON-NLS-1$
 
 	}
 

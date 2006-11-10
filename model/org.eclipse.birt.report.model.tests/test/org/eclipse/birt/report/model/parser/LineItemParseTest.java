@@ -86,7 +86,7 @@ public class LineItemParseTest extends ParserTestCase
 				.setOrientation( DesignChoiceConstants.LINE_ORIENTATION_HORIZONTAL );
 
 		save();
-		assertTrue( compareTextFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName) );
 	}
 
 	/**

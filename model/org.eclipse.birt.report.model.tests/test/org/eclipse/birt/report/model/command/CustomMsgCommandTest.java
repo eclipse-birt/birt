@@ -292,7 +292,7 @@ public class CustomMsgCommandTest extends BaseTestCase
 	public void testWriter( ) throws Exception
 	{
 		save( );
-		assertTrue( compareTextFile( "CustomMsgCommandTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "CustomMsgCommandTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

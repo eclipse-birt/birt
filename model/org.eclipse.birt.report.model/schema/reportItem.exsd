@@ -188,13 +188,16 @@
                   </enumeration>
                   <enumeration value="resourceKey">
                   </enumeration>
+                  <enumeration value="structure">
+                  </enumeration>
                </restriction>
             </simpleType>
          </attribute>
          <attribute name="detailType" type="string">
             <annotation>
                <documentation>
-                  When the &quot;type&quot; is &quot;choice&quot;, extension can define &quot;detailType&quot; to refer a choice set in original meta-data of Model.
+                  When the &quot;type&quot; is &quot;choice&quot;, extension can define &quot;detailType&quot; to refer a choice set in original meta-data of Model;
+When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;detailType&quot; to refer a structure in original meta-data of Model.
                </documentation>
             </annotation>
          </attribute>
@@ -246,6 +249,13 @@
             <annotation>
                <documentation>
                   The default display name, which is used if no localized display name is found with I18N.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isList" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  When &quot;type&quot; is &quot;structure&quot;, you will define &quot;isList&quot; to indicate whether property value is a single structure or a structure list.
                </documentation>
             </annotation>
          </attribute>

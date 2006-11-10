@@ -134,7 +134,7 @@ public class UserPropertyTest extends BaseTestCase
 		openDesign( "UserPropertyTest.xml" ); //$NON-NLS-1$ 	
 
 		save( );
-		assertTrue( compareTextFile( "UserPropertyTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "UserPropertyTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

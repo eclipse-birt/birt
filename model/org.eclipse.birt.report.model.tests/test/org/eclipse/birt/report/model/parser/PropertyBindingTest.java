@@ -155,7 +155,7 @@ public class PropertyBindingTest extends BaseTestCase
 		// save and compare
 
 		save(); 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"PropertyBindingTest_golden.xml") ); //$NON-NLS-1$
 
 		// test exception
@@ -207,7 +207,7 @@ public class PropertyBindingTest extends BaseTestCase
 		// save and compare
 
 		save(); 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"PropertyBindingTest_golden_1.xml") ); //$NON-NLS-1$
 	}
 
@@ -234,7 +234,7 @@ public class PropertyBindingTest extends BaseTestCase
 		// save and compare, the input and the output is the same
 
 		save(); 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"PropertyBindingTest_golden_2.xml") ); //$NON-NLS-1$
 
 	}

@@ -5,7 +5,6 @@
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
-                    <property name="nativeName">name</property>
                     <property name="allowNull">true</property>
                 </structure>
             </list-property>

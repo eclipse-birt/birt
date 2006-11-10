@@ -234,6 +234,6 @@ public class BoundDataColumnsUtilTest extends BaseTestCase
 		myTable.removedUnusedColumnBindings( );
 
 		save( );
-		assertTrue( compareTextFile( "BoundDataColumnsUtilTest_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "BoundDataColumnsUtilTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 }

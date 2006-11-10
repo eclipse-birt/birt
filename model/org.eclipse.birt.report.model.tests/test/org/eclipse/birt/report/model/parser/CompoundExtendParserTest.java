@@ -215,7 +215,7 @@ public class CompoundExtendParserTest extends BaseTestCase
 				error4.getErrorCode( ) );
 
 		save();
-		compareTextFile( GOLDEN_FILE2);
+		compareFile( GOLDEN_FILE2);
 	}
 
 	/**
@@ -295,6 +295,6 @@ public class CompoundExtendParserTest extends BaseTestCase
 		label1.setStyleName( "style1" ); //$NON-NLS-1$
 
 		save();
-		assertTrue( compareTextFile( GOLDEN_FILE) );
+		assertTrue( compareFile( GOLDEN_FILE) );
 	}
 }

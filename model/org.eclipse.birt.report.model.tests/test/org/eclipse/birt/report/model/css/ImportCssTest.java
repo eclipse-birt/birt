@@ -101,7 +101,7 @@ public class ImportCssTest extends BaseTestCase
 		designHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ) );
 
 		save( );
-		assertTrue( compareTextFile( "ImportCssToDesign_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImportCssToDesign_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class ImportCssTest extends BaseTestCase
 
 		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ) );
 		saveLibrary( );
-		assertTrue( compareTextFile( "ImportCssToLibrary_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImportCssToLibrary_golden.xml" ) ); //$NON-NLS-1$
 
 		// import css styles to the specified theme.
 
@@ -141,7 +141,7 @@ public class ImportCssTest extends BaseTestCase
 				"theme1" ); //$NON-NLS-1$
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "ImportCssToLibrary1_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImportCssToLibrary1_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class ImportCssTest extends BaseTestCase
 				"theme1" ); //$NON-NLS-1$
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "ImportCssToLibrary2_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImportCssToLibrary2_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -205,7 +205,7 @@ public class ImportCssTest extends BaseTestCase
 		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ) );
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "ImportCssToLibrary3_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImportCssToLibrary3_golden.xml" ) ); //$NON-NLS-1$
 
 		// create default theme in this method
 
@@ -216,7 +216,7 @@ public class ImportCssTest extends BaseTestCase
 		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ) );
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "ImportCssToLibrary4_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ImportCssToLibrary4_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 }

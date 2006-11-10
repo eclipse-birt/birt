@@ -94,7 +94,7 @@ public class DesignWriterTest extends BaseTestCase
 		assertNotNull( design );
 
 		save( );
-		assertTrue( compareTextFile( "DesignWriterTest_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "DesignWriterTest_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -196,7 +196,7 @@ public class DesignWriterTest extends BaseTestCase
 		designHandle.getBody( ).add( image );
 
 		save( );
-		assertTrue( compareTextFile( "testWriter_golden.xml" ) ); //$NON-NLS-1$  
+		assertTrue( compareFile( "testWriter_golden.xml" ) ); //$NON-NLS-1$  
 
 	}
 

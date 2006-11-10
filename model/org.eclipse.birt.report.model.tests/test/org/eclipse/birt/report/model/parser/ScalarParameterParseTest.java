@@ -139,7 +139,7 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle2.setListlimit( 300 );
 
 		save(); 
-		assertTrue( compareTextFile( "ScalarParameterParseTest_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ScalarParameterParseTest_golden.xml") ); //$NON-NLS-1$
 	}
 
 	/**

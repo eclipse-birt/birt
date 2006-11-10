@@ -181,7 +181,7 @@ public class ActionHandleTest extends BaseTestCase
 		actionHandle.getParamBindings( ).addItem( param2 ); // another way.
 
 		save( );
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"ActionHandleTest2_golden.xml") ); //$NON-NLS-1$
 	}
 
@@ -445,7 +445,7 @@ public class ActionHandleTest extends BaseTestCase
 		actionHandle.setFormatType( "userDefinedType" ); //$NON-NLS-1$
 
 		save( );
-		assertTrue( compareTextFile( "ActionHandleTest3_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ActionHandleTest3_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -492,6 +492,6 @@ public class ActionHandleTest extends BaseTestCase
 		}
 
 		save( );
-		assertTrue( compareTextFile( "ActionHandleTest4_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ActionHandleTest4_golden.xml") ); //$NON-NLS-1$
 	}
 }

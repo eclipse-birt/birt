@@ -75,7 +75,7 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 		groupHandle.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_SINGLE );
 		groupHandle.setDataSet( designHandle.findDataSet( "ds1" ) ); //$NON-NLS-1$
 		save();
-		assertTrue( compareTextFile( GOLDEN) );
+		assertTrue( compareFile( GOLDEN) );
 	}
 
 	/**

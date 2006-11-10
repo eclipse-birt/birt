@@ -83,7 +83,7 @@ public class UserPropertyExceptionTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"UserPropertyExceptionError.golden.txt") ); //$NON-NLS-1$
 
 	}

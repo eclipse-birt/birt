@@ -1203,7 +1203,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		openDesign( "DesignWithElementReferenceLibrary.xml" ); //$NON-NLS-1$
 
 		save( );
-		compareTextFile( "DesignWithElementReferenceLibrary_golden.xml" ); //$NON-NLS-1$
+		compareFile( "DesignWithElementReferenceLibrary_golden.xml" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1468,7 +1468,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 				.size( ) );
 
 		save( );
-		compareTextFile( "TestDropLibrary_golden1.xml" ); //$NON-NLS-1$
+		compareFile( "TestDropLibrary_golden1.xml" ); //$NON-NLS-1$
 
 		// Case 2.
 
@@ -1515,7 +1515,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 				.size( ) );
 
 		save( );
-		compareTextFile( "TestDropLibrary_golden2.xml" ); //$NON-NLS-1$
+		compareFile( "TestDropLibrary_golden2.xml" ); //$NON-NLS-1$
 
 		design.getActivityStack( ).undo( );
 
@@ -1899,7 +1899,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		designHandle.getBody( ).add( childLabel );
 
 		save( );
-		compareTextFile( "LibraryWithLocation_golden.xml" ); //$NON-NLS-1$
+		compareFile( "LibraryWithLocation_golden.xml" ); //$NON-NLS-1$
 
 		// if we remove the base element id, then we can not find it in the
 		// included library

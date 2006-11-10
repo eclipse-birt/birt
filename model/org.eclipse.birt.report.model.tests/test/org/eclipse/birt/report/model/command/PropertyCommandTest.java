@@ -1289,7 +1289,7 @@ public class PropertyCommandTest extends BaseTestCase
 	private void saveOperate( String compareFile ) throws Exception
 	{
 		save( );
-		assertTrue( compareTextFile( compareFile ) );
+		assertTrue( compareFile( compareFile ) );
 	}
 
 	/**

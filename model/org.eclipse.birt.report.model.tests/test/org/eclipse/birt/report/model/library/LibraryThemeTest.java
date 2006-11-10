@@ -398,7 +398,7 @@ public class LibraryThemeTest extends BaseTestCase
 		designHandle.setTheme( theme2 );
 
 		save( );
-		assertTrue( compareTextFile( "DesignWithThemeInLibrary_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "DesignWithThemeInLibrary_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -410,7 +410,7 @@ public class LibraryThemeTest extends BaseTestCase
 		openLibrary( "CompatibleLibraryTheme.xml" ); //$NON-NLS-1$
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "CompatibleLibraryTheme_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleLibraryTheme_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -464,7 +464,7 @@ public class LibraryThemeTest extends BaseTestCase
 		assertEquals( 1, libraryHandle.getThemes( ).getCount( ) );
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "CompatibleLibraryThemeEmpty_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleLibraryThemeEmpty_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -482,7 +482,7 @@ public class LibraryThemeTest extends BaseTestCase
 		openLibrary( "CompatibleLibraryThemeWithoutStyles.xml" ); //$NON-NLS-1$
 
 		saveLibrary( );
-		assertTrue( compareTextFile( "CompatibleLibraryThemeWithoutStyles_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleLibraryThemeWithoutStyles_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 

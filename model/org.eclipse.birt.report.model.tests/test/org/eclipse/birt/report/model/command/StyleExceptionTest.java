@@ -51,7 +51,7 @@ public class StyleExceptionTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile(
+		assertTrue( compareFile(
 				"StyleExceptionError.golden.txt") ); //$NON-NLS-1$
 
 	}

@@ -55,7 +55,7 @@ public class PropertyNameExceptionTest extends BaseTestCase
 
 		os.close( );
 
-		assertTrue( compareTextFile( "PropertyNameExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "PropertyNameExceptionError.golden.txt" ) ); //$NON-NLS-1$
 
 	}
 
