@@ -2166,7 +2166,7 @@ Element.DataSet.computedColumns=Colonnes de calcul
 Element.DataSet.filter=Filtre
 Element.DataSet.columnHints=Astuces de colonne
 Element.DataSet.cachedMetaData=Métadonnées en cache
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=Nombre maximum de lignes à récupérer à partir du jeu de données
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Source de données
@@ -3157,7 +3157,7 @@ Error.SemanticError.ROW_INSERT_FORBIDDEN=L'opération d'insertion sur l'élément "
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=L'opération de déplacement sur l'élément "{0}" n'est pas autorisée.
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage sur l'élément "{0}" n'est pas autorisée.
 
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=The circular element reference is found, because the {0} refers to {1} already.
+Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
 
 #StyleException
 Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un style.

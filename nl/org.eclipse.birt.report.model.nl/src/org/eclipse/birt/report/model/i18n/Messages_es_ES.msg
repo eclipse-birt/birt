@@ -1822,7 +1822,7 @@ Structure.HighlightRule.font.textLineThrough=Tachado
 Structure.HighlightRule.text.align=Alineación de texto
 Structure.HighlightRule.text.indent=Sangrado de texto
 Structure.HighlightRule.text.transform=Transformación de texto
-Structure.HighlightRule.style=Style
+Structure.HighlightRule.style=Estilo
   
 #2.CustomColor
 Structure.CustomColor.name=Nombre
@@ -2166,7 +2166,7 @@ Element.DataSet.computedColumns=Columnas procesadas
 Element.DataSet.filter=Filtro
 Element.DataSet.columnHints=Sugerencias de columna
 Element.DataSet.cachedMetaData=Metadatos en caché
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
+Element.DataSet.rowFetchLimit=Número máximo de filas que recuperar del conjunto de datos
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Fuente de datos
@@ -3158,7 +3158,7 @@ Error.SemanticError.ROW_INSERT_FORBIDDEN=Está prohibida la operación insertar en
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=Está prohibida la operación cambiar en el elemento "{0}".
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Está prohibida la operación insertar y pegar en el elemento "{0}".
 
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=The circular element reference is found, because the {0} refers to {1} already.
+Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de elemento circular, debido a que {0} ya hace referencia a {1}.
 
 #StyleException
 Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.

@@ -17,7 +17,7 @@ PROP_TYPE_ERROR=未设置属性 [{0}] 的属性类型。 ( propDefn.getType() == null )
 MISSING_PROP_CHOICES=选项类型属性 [{0}] 缺少 ChoiceSet。
 MISSING_SLOT_TYPE=SlotDefn [{0}] 缺少属性框内容类型。
 MISSING_SLOT_NAME=属性框 [{0}] 缺少 displayNameID。
-INVALID_SLOT_TYPE=元素 [{1}] 的属性框内容类型 [{0}] 无效。
+INVALID_SLOT_TYPE=属性框 [{1}] 的属性框内容类型 [{0}] 无效。
 ELEMENT_NAME_CONST=未定义元素 [{0}]。
 MISSING_CHOICE_SET_NAME=将 ChoiceSet 添加至元数据词典时缺少选项集名称。
 DUPLICATE_CHOICE_SET_NAME=将选项集 [{0}] 添加至元数据词典时选项集名称重复。
@@ -63,5 +63,5 @@ UNSUPPORTED_SUB_TYPE=Sub-type "{1}" in list property "{0}" is not supported.
 SUB_TYPE_FORBIDDEN=Property "{0}" is not a list property, so the sub-type must be null. 
 MISSING_XML_NAME=实际元素“{0}”未定义 xml 名称。
 INVALID_ELEMENT_TYPE=属性类型“{0}”无效。
-INVALID_CHOICE_PROPERTY=Choice property "{0}" in extension "{1}" is invalid for it defines both detail-type and its own choice list. 
-EXTENDED_ITEM_MISSING=Missing extended item in the meta-data dictionary.
+INVALID_CHOICE_PROPERTY=扩展“{1}”中的选项属性“{0}”无效，因为它同时定义了详细类型和它自己的选项列表。 
+EXTENDED_ITEM_MISSING=元数据词典中缺少扩展项。
