@@ -135,7 +135,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private static String DATABASE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.DbIcon";
 	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
-
+	
+	private static String ENABLED = "YES";
+	
+	private static boolean isPageInitialization = true;
+	
 	static
 	{
 		try
@@ -256,10 +260,32 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	private void initializeControl( )
 	{
+		isPageInitialization = true;
+		
+		initializeSchemaPrefetchConfig( );
+		
 		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
 		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
 		refreshPage( );
 		prepareUI( );
+	}
+
+	/**
+	 * 
+	 *
+	 */
+	private void initializeSchemaPrefetchConfig( )
+	{
+		if ( !JdbcPlugin.getDefault( )
+				.getPluginPreferences( )
+				.contains( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG ) )
+
+		{
+			JdbcPlugin.getDefault( )
+					.getPluginPreferences( )
+					.setValue( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG,
+							ENABLED );
+		}
 	}
 
 	/**
@@ -347,7 +373,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
 		schemaLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.schema" ) );
 
-		schemaCombo = new Combo( selectTableGroup, SWT.READ_ONLY );
+		schemaCombo = new Combo( selectTableGroup,
+				( JdbcPlugin.getDefault( )
+						.getPluginPreferences( )
+						.getString( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG ).equals( ENABLED ) )
+						? SWT.READ_ONLY : SWT.DROP_DOWN );
+		
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		schemaCombo.setLayoutData( gd );
@@ -612,7 +643,18 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		{
 			removeTreeItem( rootNode );
 		}
-		getAvailableSchema( );
+		if ( JdbcPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG )
+				.equals( ENABLED ) )
+		{
+			getAvailableSchema( );
+		}
+		else
+		{
+			getSpecificSchema( schemaCombo.getText( ).trim( ) );
+		}
+		
 		// If the schemaCombo have not be initialized yet.
 		if ( schemaCombo.getItemCount( ) < 1 )
 		{
@@ -642,7 +684,25 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
 						numberOfSchema );
 			}
+			
 			cachedSchemaComboIndex = schemaCombo.getSelectionIndex( );
+			if ( schemaCombo.getSelectionIndex( ) < 0 )
+			{
+				String schemaName = schemaCombo.getText( ).trim( );
+				
+				if(schemaName.length( )!=0)
+				{
+					DbObject schemaObj = new DbObject( schemaName,
+							schemaName,
+							DbObject.SCHEMA_TYPE,
+							schemaImage );
+
+					schemaObjectList.add( schemaObj );
+				}
+				else 
+					schemaCombo.select( 0 );
+			}
+			
 			if ( schemaCombo.getSelectionIndex( ) == 0 )
 			{
 				for ( int i = 0, count = 0; i < schemaList.size( )
@@ -661,7 +721,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					}
 				}
 			}
-			else
+			else if ( schemaCombo.getSelectionIndex( ) > 0 )
 			{
 				String schemaName = schemaCombo.getItem( schemaCombo.getSelectionIndex( ) );
 				DbObject schemaObj = new DbObject( schemaName,
@@ -670,15 +730,58 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 						schemaImage );
 				schemaObjectList.add( schemaObj );
 			}
-			TreeItem[] items = Utility.createTreeItems( rootNode,
-					schemaObjectList,
-					SWT.NONE,
-					schemaImage );
-			if ( items != null && items.length > 0 )
+		}
+
+		TreeItem[] items = Utility.createTreeItems( rootNode,
+				schemaObjectList,
+				SWT.NONE,
+				schemaImage );
+		if ( items != null && items.length > 0 )
+		{
+			availableDbObjectsTree.showItem( items[0] );
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param schemaName
+	 */
+	private void getSpecificSchema( String schemaName )
+	{
+		if ( !isPageInitialization )
+		{
+			if ( schemaName.equals( JdbcPlugin.getResourceString( "tablepage.text.All" ) )
+					|| schemaName.trim( ).length( ) == 0 )
 			{
-				availableDbObjectsTree.showItem( items[0] );
+				getAvailableSchema( );
+
+				setMessage( DEFAULT_MESSAGE );
+
+				return;
+			}
+
+			if ( containsTableInSchema( schemaName ) )
+			{
+				schemaList = new ArrayList( );
+				schemaList.add( schemaName );
+
+				setMessage( DEFAULT_MESSAGE );
+			}
+			else
+			{
+				schemaList = null;
+
+				setMessage( JdbcPlugin.getResourceString( "dataset.editor.page.query.error.schemaNotExisted" ),
+						WARNING );
+
 			}
 		}
+		else
+		{
+			isPageInitialization = !isPageInitialization;
+		}
+
 	}
 
 	/**
