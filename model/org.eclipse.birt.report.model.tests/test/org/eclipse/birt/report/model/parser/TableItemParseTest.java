@@ -313,7 +313,7 @@ public class TableItemParseTest extends ParserTestCase
 		assertTrue( 3.0 == group.getIntervalRange( ) );
 		assertEquals( "desc", group.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", group.getKeyExpr( ) ); //$NON-NLS-1$
-		assertEquals( group.getKeyExpr( ), group.getTocExpression( ) );
+		assertEquals( "[toc Country]", group.getTocExpression( ) );  //$NON-NLS-1$
 
 		// checks event handler
 
@@ -499,31 +499,9 @@ public class TableItemParseTest extends ParserTestCase
 		group.setInterval( DesignChoiceConstants.INTERVAL_DAY );
 		group.setIntervalRange( 99 );
 		group.setKeyExpr( "new expression" ); //$NON-NLS-1$
+		group.setTocExpression( "new toc expression" ); //$NON-NLS-1$
 		group.setEventHandlerClass( "birt.js.newGroup1Handler" ); //$NON-NLS-1$
-		// group.setOnCreate( "new create on group" ); //$NON-NLS-1$
 		group.setOnPrepare( "new prepare on group" ); //$NON-NLS-1$
-		// group.setOnRender( "new render on group" ); //$NON-NLS-1$
-
-		// test data binding on group
-
-		//Iterator iter1 = group.columnBindingsIterator( );
-		//ComputedColumnHandle computedColumn = (ComputedColumnHandle) iter1
-		//		.next( );
-		//computedColumn.setName( "new column1" ); //$NON-NLS-1$
-		//computedColumn.setExpression( "new column1 expr" ); //$NON-NLS-1$
-
-		//ComputedColumn tmpComputedColumn = new ComputedColumn( );
-		//tmpComputedColumn.setName( "new column1" ); //$NON-NLS-1$
-		//tmpComputedColumn.setExpression( "new column1 expr" ); //$NON-NLS-1$
-		//group.addColumnBinding( tmpComputedColumn, false );
-
-		//List list = group.getColumnBindings( ).getListValue( );
-		//assertEquals( 1, list.size( ) );
-		//tmpComputedColumn = new ComputedColumn( );
-		//tmpComputedColumn.setName( "new column2" ); //$NON-NLS-1$
-		//tmpComputedColumn.setExpression( "new column2 expr" ); //$NON-NLS-1$
-		//group.addColumnBinding( tmpComputedColumn, false );
-		//assertEquals( 2, list.size( ) );
 
 		// Test detail properties
 

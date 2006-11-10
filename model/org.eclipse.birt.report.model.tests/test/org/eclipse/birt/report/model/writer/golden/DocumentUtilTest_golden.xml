@@ -64,14 +64,13 @@
             <group id="27">
                 <property name="groupName">NewTableGroup1</property>
                 <expression name="keyExpr">[state]</expression>
-                <expression name="toc">[state]</expression>
+                <expression name="toc">[toc]</expression>
             </group>
         </table>
         <table name="table3" id="6">
             <group id="29">
                 <property name="groupName">NewTableGroup1</property>
                 <expression name="keyExpr">[keyExpr]</expression>
-                <expression name="toc">[keyExpr]</expression>
             </group>
         </table>
         <list name="list1" id="7">

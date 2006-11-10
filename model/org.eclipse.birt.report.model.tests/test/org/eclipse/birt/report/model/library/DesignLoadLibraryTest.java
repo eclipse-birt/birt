@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -2021,42 +2020,6 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		propertyHandle = designHandle
 				.getPropertyHandle( Module.CREATED_BY_PROP );
 		assertFalse( propertyHandle.isReadOnly( ) );
-	}
-
-	/**
-	 * Test cases:
-	 * 
-	 * <ul>
-	 * <li>table2 extends Lib1.libTable2, if there is no toc in the design
-	 * file, uses the key expression in the design file.
-	 * <li>table2 extends Lib1.libTable2, if there is no toc and expression in
-	 * the design file, uses the toc in the library file.
-	 * <li>table3 extends Lib1.libTable3, if there is no toc and key expression
-	 * in the design file, uses the key expression in the library file.
-	 * </ul>
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testTableGroupTOC( ) throws Exception
-	{
-		openDesign( "DesignWithLibraryCompoundElement.xml" ); //$NON-NLS-1$
-
-		TableHandle table = (TableHandle) designHandle.findElement( "table2" ); //$NON-NLS-1$
-		assertNotNull( table );
-
-		GroupHandle group = (GroupHandle) table.getGroups( ).get( 0 );
-		assertNotNull( group );
-
-		assertEquals( "[state]", group.getTocExpression( ) ); //$NON-NLS-1$
-		group.setKeyExpr( null );
-
-		assertEquals( "[toc]", group.getTocExpression( ) ); //$NON-NLS-1$
-
-		table = (TableHandle) designHandle.findElement( "table3" ); //$NON-NLS-1$
-		group = (GroupHandle) table.getGroups( ).get( 0 );
-
-		assertEquals( "[keyExpr]", group.getTocExpression( ) ); //$NON-NLS-1$
 	}
 
 	/**

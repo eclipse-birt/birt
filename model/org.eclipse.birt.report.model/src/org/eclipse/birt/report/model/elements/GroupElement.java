@@ -19,9 +19,7 @@ import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.strategy.GroupElementPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 
@@ -146,17 +144,6 @@ public abstract class GroupElement extends DesignElement
 		// This getting is not relative to design.
 
 		return (String) getLocalProperty( null, GROUP_NAME_PROP );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getStrategy()
-	 */
-
-	public PropertySearchStrategy getStrategy( )
-	{
-		return GroupElementPropSearchStrategy.getInstance( );
 	}
 
 	/*

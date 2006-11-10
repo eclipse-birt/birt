@@ -152,11 +152,13 @@ public class GroupHandleTest extends BaseTestCase
 
 		group.setKeyExpr( "new key expression" ); //$NON-NLS-1$
 		assertEquals( "new key expression", group.getKeyExpr( ) ); //$NON-NLS-1$
-		assertEquals( group.getKeyExpr( ), group.getTocExpression( ) );
+		
+		group.setTocExpression( "new toc expression" ); //$NON-NLS-1$
+		assertEquals( "new toc expression", group.getTocExpression( ) ); //$NON-NLS-1$
 
 		group.setTocExpression( null );
 		assertEquals( "new key expression", group.getKeyExpr( ) ); //$NON-NLS-1$
-		assertEquals( "new key expression", group.getTocExpression( ) ); //$NON-NLS-1$
+		assertNull( group.getTocExpression( ) ); 
 
 		group.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, group

@@ -144,6 +144,7 @@
                 <property name="intervalRange">99.0</property>
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">new expression</expression>
+                <expression name="toc">new toc expression</expression>
                 <property name="eventHandlerClass">birt.js.newGroup1Handler</property>
                 <method name="onPrepare"><![CDATA[new prepare on group]]></method>
                 <list-property name="sort">
