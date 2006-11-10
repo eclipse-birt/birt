@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 /**
  * 
  * 
- * @version $Revision: 1.11 $ $Date: 2006/06/13 15:37:16 $
+ * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:36 $
  */
 public class ExecutorManagerTest extends TestCase
 {
@@ -27,7 +27,8 @@ public class ExecutorManagerTest extends TestCase
 				new ExecutionContext( 0 ), null );
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
-			ReportItemExecutor executor = manager.getItemExecutor( i );
+			ReportItemExecutor executor = ExecutorManagerUtil.getItemExecutor(
+					manager, i );
 			assertTrue( executor != null );
 			switch ( i )
 			{
@@ -93,17 +94,17 @@ public class ExecutorManagerTest extends TestCase
 		ExecutorManager manager = new ExecutorManager(new ExecutionContext( 0 ) , null);
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
-			ReportItemExecutor executor1 = manager.getItemExecutor( i );
+			ReportItemExecutor executor1 = ExecutorManagerUtil.getItemExecutor( manager, i );
 			manager.releaseExecutor( i, executor1 );
-			ReportItemExecutor executor2 = manager.getItemExecutor( i );
+			ReportItemExecutor executor2 = ExecutorManagerUtil.getItemExecutor( manager, i );
 			manager.releaseExecutor( i, executor2 );
 			assertTrue( executor1.equals( executor2 ) );
 		}
 
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
-			ReportItemExecutor executor1 = manager.getItemExecutor( i );
-			ReportItemExecutor executor2 = manager.getItemExecutor( i );
+			ReportItemExecutor executor1 = ExecutorManagerUtil.getItemExecutor( manager, i );
+			ReportItemExecutor executor2 = ExecutorManagerUtil.getItemExecutor( manager, i );
 			manager.releaseExecutor( i, executor2 );
 			assertTrue( !executor1.equals( executor2 ) );
 		}

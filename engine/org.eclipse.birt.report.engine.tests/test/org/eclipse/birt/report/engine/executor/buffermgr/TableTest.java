@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  * In the testcases, read in a table model, and render it. Compare the render output
  * with the golden output to see if the table layout algorithm is correct.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/06/16 11:02:31 $
+ * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:38 $
  */
 public class TableTest extends TestCase
 {
@@ -156,8 +156,8 @@ public class TableTest extends TestCase
 				Cell cell = table.getCell( i, j );
 				if (cell.getStatus() == Cell.CELL_USED)
 				{
-					writer.println( "CELL " + cell.colId + " " + cell.rowSpan
-							+ " " + cell.colSpan + " " + cell.content);
+					writer.println( "CELL " + CellUtil.getColId( cell ) + " " + CellUtil.getRowSpan( cell )
+							+ " " + CellUtil.getColSpan( cell ) + " " + CellUtil.getContent( cell ));
 				}
 				else if (cell.getStatus() == Cell.CELL_EMPTY)
 				{

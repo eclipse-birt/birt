@@ -28,7 +28,7 @@ public class DataIDTest extends TestCase
 
 	protected void checkParse( String value )
 	{
-		DataID id = DataID.parse( value );
+		DataID id = DataIDUtil.parse( value );
 		assertEquals( value, id.toString( ) );
 	}
 }

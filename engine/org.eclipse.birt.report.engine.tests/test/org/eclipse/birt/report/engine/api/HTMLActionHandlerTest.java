@@ -115,7 +115,8 @@ public class HTMLActionHandlerTest extends EngineCase
 		StringBuffer buffer = new StringBuffer( );
 		String reportName = "testReportName";
 		String goldenDesignName = "?__report=testReportName";
-		handler.appendReportDesignName( buffer, reportName );
+		HTMLActionHandlerUtil.appendReportDesignName( handler, buffer,
+				reportName );
 		assertTrue( goldenDesignName.equals( buffer.toString( ) ) );
 	}
 
@@ -132,7 +133,8 @@ public class HTMLActionHandlerTest extends EngineCase
 		for ( int length = formats.length, index = 0; index < length; index++ )
 		{
 			buffer = new StringBuffer( );
-			handler.appendFormat( buffer, formats[index] );
+			HTMLActionHandlerUtil
+					.appendFormat( handler, buffer, formats[index] );
 			assertTrue( goldenFormats[index].equals( buffer.toString( ) ) );
 		}
 	}

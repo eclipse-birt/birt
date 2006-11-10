@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.SelectionChoice;
+import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskUtil.SelectionChoiceUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -61,11 +62,11 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		Collection list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[0] ); //$NON-NLS-1$
 		Object[] content = list.toArray( );
-		assertEquals( "1002", ( (SelectionChoice) content[0] ).getValue( ) ); //$NON-NLS-1$
+		assertEquals( "1002", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 		list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[]{"1002"} ); //$NON-NLS-1$ //$NON-NLS-2$
 		content = list.toArray( );
 		assertEquals(
-				"ANG Resellers", ( (SelectionChoice) content[0] ).getValue( ) ); //$NON-NLS-1$
+				"ANG Resellers", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 	}
 }
