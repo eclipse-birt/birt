@@ -25,7 +25,10 @@
 	<!-- Unzip the testing plug-in -->
 	<target name="unzipTestingPlugin">
 		<unzip src="org.eclipse.birt.report.modelextension.tests.zip"
-		       dest="${eclipse-home}/plugins/org.eclipse.birt.report.modelextension.tests">
+		    dest="${eclipse-home}/plugins/org.eclipse.birt.report.modelextension.tests">
+		</unzip>
+		<unzip src="org.eclipse.birt.report.model.testresources.zip"
+			dest="${eclipse-home}/plugins/org.eclipse.birt.report.model.testresources">
 		</unzip>
 	</target>
 

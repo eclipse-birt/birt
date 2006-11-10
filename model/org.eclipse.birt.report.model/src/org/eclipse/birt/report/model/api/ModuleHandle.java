@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -2055,12 +2054,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( StringUtil.isEmpty( reloadPath ) )
 			return;
 
+		URL url = ModelUtil.getURLPresentation( reloadPath );
 		String path = null;
-		try
-		{
-			path = new File( reloadPath ).toURL( ).toString( );
-		}
-		catch ( MalformedURLException e )
+		if ( url != null )
+			path = url.toExternalForm( );
+
+		if ( path == null )
 		{
 			DesignParserException ex = new DesignParserException(
 					new String[]{path},
@@ -2803,7 +2802,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		// Libraries
 		modules.add( this );
 		modules.addAll( getLibraries( level ) );
-		
+
 		return checkVisibleElements( nameSpaceList, modules, slotID );
 
 	}
@@ -2819,7 +2818,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            slot id
 	 * @return the list contains sorted design elements.
 	 */
-	
+
 	private List checkVisibleElements( List nameSpaceList, List modules,
 			int slotID )
 	{

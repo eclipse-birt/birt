@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.model.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1336,5 +1339,39 @@ public class ModelUtil
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the URL object of the given string. If the input value is in URL
+	 * format, return it. Otherwise, create the corresponding file object then
+	 * return the url of the file object.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @return the URL object or <code>null</code> if the
+	 *         <code>filePath</code> cannot be parsed to the URL.
+	 */
+
+	public static URL getURLPresentation( String filePath )
+	{
+		try
+		{
+			return new URL( filePath );
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+
+		try
+		{
+			return new File( filePath ).toURL( );
+
+		}
+		catch ( MalformedURLException e )
+		{
+
+		}
+
+		return null;
 	}
 }

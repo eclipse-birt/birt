@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.File;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -968,16 +966,11 @@ public class DesignSession
 
 	public void fireLibChange( LibraryChangeEvent ev )
 	{
-		String path = ev.getChangedResourcePath( );
-		try
-		{
-			path = new File( path ).toURL( ).toString( );
-		}
-		catch ( MalformedURLException e )
-		{
+		URL url = ModelUtil.getURLPresentation( ev.getChangedResourcePath( ) );
+		if ( url == null )
 			return;
-		}
 
+		String path = url.toExternalForm( );
 		Iterator iter = getModuleIterator( );
 		while ( iter.hasNext( ) )
 		{

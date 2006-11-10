@@ -582,10 +582,9 @@ public class LibraryHandleTest extends BaseTestCase
 
 		assertNotNull( libraryHandle );
 
-		LibraryHandle libToCompare = designHandle
-				.findLibrary( design
-						.findResource(
-								"../golden/LibraryParseTest_golden.xml", IResourceLocator.LIBRARY ).getFile( ) ); //$NON-NLS-1$
+		LibraryHandle libToCompare = designHandle.findLibrary( design
+				.findResource( "../golden/LibraryParseTest_golden.xml", //$NON-NLS-1$
+						IResourceLocator.LIBRARY ).toExternalForm( ) );
 		assertNotNull( libToCompare );
 
 		assertSame( libToCompare, libraryHandle );

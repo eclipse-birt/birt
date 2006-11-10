@@ -1108,6 +1108,7 @@ public abstract class BaseTestCase extends TestCase
 	 * 
 	 * @param resourceName
 	 *            the resource name. Based on the class folder.
+	 * @return the file path on the disk
 	 * @throws Exception
 	 */
 
@@ -1117,16 +1118,16 @@ public abstract class BaseTestCase extends TestCase
 		InputStream is = url.openStream( );
 
 		String folder = getTempFolder( );
-		
+
 		int index = resourceName.lastIndexOf( INPUT_FOLDER );
-		if (index != 0)
+		if ( index > 0 )
 		{
-			String relateDir = resourceName.substring( 0, index -1 );
+			String relateDir = resourceName.substring( 0, index - 1 );
 			folder = folder + "/" + relateDir; //$NON-NLS-1$
 		}
-		
+
 		folder = folder + "/" + INPUT_FOLDER; //$NON-NLS-1$
-		
+
 		File tmpFolder = new File( folder );
 		if ( !tmpFolder.exists( ) )
 			tmpFolder.mkdirs( );

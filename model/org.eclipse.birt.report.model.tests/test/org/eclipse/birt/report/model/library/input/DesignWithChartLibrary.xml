@@ -6,8 +6,8 @@
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <list-property name="libraries">
         <structure>
-            <property name="fileName">Library_ChangeChartDataSet.xml</property>
-            <property name="namespace">Library_ChangeChartDataSet</property>
+            <property name="fileName">Library_ChangeChartDataset.xml</property>
+            <property name="namespace">Library_ChangeChartDataset</property>
         </structure>
     </list-property>
     <data-sources>
@@ -185,7 +185,7 @@ from CLASSICMODELS.ORDERS</property>
     </page-setup>
     <body>
         <extended-item extensionName="Chart" name="NewChart" id="8"
- extends="Library_ChangeChartDataSet.NewChart">
+ extends="Library_ChangeChartDataset.NewChart">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Pie Chart</Type>
   <SubType>Standard Pie Chart</SubType>
@@ -730,7 +730,7 @@ from CLASSICMODELS.ORDERS</property>
 </model:ChartWithoutAxes>
 ]]></xml-property>
         </extended-item>
-        <table name="NewTable" id="25" extends="Library_ChangeChartDataSet.NewTable">
+        <table name="NewTable" id="25" extends="Library_ChangeChartDataset.NewTable">
             <property name="dataSet">Data Setdsafsad</property>
             <list-property name="boundDataColumns">
                 <structure>

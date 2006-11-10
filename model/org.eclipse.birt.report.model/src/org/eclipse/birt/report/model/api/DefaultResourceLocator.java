@@ -119,27 +119,17 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		// try absolute path search
 
-		try
-		{
-			File f = new File( fileName );
-			if ( f.isAbsolute( ) )
-				return f.exists( ) && f.isFile( ) ? f.getCanonicalFile( )
-						.toURL( ) : null;
-		}
-		catch ( IOException e )
-		{
-			return null;
-		}
+		URL retURL = tryDiskFileSearch( null, fileName );
+		if ( retURL != null )
+			return retURL;
 
 		// try url search
 
 		try
 		{
-			URL objURI = new URL( fileName );
-			if ( isGlobalResource( objURI ) )
-				return objURI;
-
-			return tryLocalResourceSearch( objURI );
+			retURL = tryURLSearch( new URL( fileName ) );
+			if ( retURL != null )
+				return retURL;
 		}
 		catch ( MalformedURLException e )
 		{
@@ -155,28 +145,36 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		String resourcePath = moduleHandle.getModule( ).getSession( )
 				.getResourceFolder( );
+
 		if ( StringUtil.isBlank( resourcePath ) )
 			resourcePath = moduleHandle.getResourceFolder( );
+
 		if ( resourcePath != null )
 		{
-			File f = new File( resourcePath, fileName );
+			retURL = tryDiskFileSearch( resourcePath, fileName );
+			if ( retURL != null )
+				return retURL;
 
 			try
 			{
-				if ( f.exists( ) && f.isFile( ) )
-					return f.getCanonicalFile( ).toURL( );
+				URL baseURL = new URL( resourcePath );
+				retURL = tryURLSearch( new URL( baseURL, URIUtil
+						.convertFileNameToURLString( fileName ) ) );
 			}
-			catch ( IOException e )
+			catch ( MalformedURLException e )
 			{
-				// ignore the error
 			}
+
+			if ( retURL != null )
+				return retURL;
+
 		}
 
 		// try fragment search
 
-		URL url = tryFragmentSearch( fileName );
-		if ( url != null )
-			return url;
+		retURL = tryFragmentSearch( fileName );
+		if ( retURL != null )
+			return retURL;
 
 		// try file search based on path of the input module
 
@@ -186,13 +184,8 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		try
 		{
-			url = new URL( systemId, URIUtil
-					.convertFileNameToURLString( fileName ) );
-
-			if ( isGlobalResource( url ) )
-				return url;
-
-			return tryLocalResourceSearch( url );
+			return tryURLSearch( new URL( systemId, URIUtil
+					.convertFileNameToURLString( fileName ) ) );
 		}
 		catch ( MalformedURLException e )
 		{
@@ -225,15 +218,19 @@ public class DefaultResourceLocator implements IResourceLocator
 	}
 
 	/**
-	 * Search local resources.
+	 * Search the URL resource.
 	 * 
 	 * @param url
-	 *            url of the resources.
+	 *            the url of the resources.
 	 * @return url of the resource if found, null otherwise.
 	 */
 
-	private URL tryLocalResourceSearch( URL url )
+	private URL tryURLSearch( URL url )
 	{
+		boolean networkProtocol = isGlobalResource( url );
+		if ( networkProtocol )
+			return url;
+
 		InputStream in = null;
 		try
 		{
@@ -272,5 +269,38 @@ public class DefaultResourceLocator implements IResourceLocator
 	{
 		return BundleFactory.getBundleFactory( ).getBundleResource(
 				FRAGMENT_RESOURCE_HOST, fileName );
+	}
+
+	/**
+	 * Search the file on the local disk resources.
+	 * 
+	 * @param fileDir
+	 *            the file directory
+	 * @param filePath
+	 *            the file path. May contain the relative directory.
+	 * 
+	 * @return url of the resource if found, null otherwise.
+	 */
+
+	private URL tryDiskFileSearch( String fileDir, String filePath )
+	{
+		File f = null;
+
+		if ( StringUtil.isBlank( fileDir ) )
+			f = new File( filePath );
+		else
+			f = new File( fileDir, filePath );
+
+		try
+		{
+			if ( f.exists( ) && f.isFile( ) )
+				return f.getCanonicalFile( ).toURL( );
+		}
+		catch ( IOException e )
+		{
+			// ignore the error
+		}
+
+		return null;
 	}
 }

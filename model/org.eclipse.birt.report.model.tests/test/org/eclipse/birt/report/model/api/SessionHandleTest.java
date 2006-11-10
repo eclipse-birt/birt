@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -631,88 +632,93 @@ public class SessionHandleTest extends BaseTestCase
 				"255", session.getDefaultValue( Style.BORDER_LEFT_COLOR_PROP ).toString( ) ); //$NON-NLS-1$
 	}
 
-	// /**
-	// * Tests to open the design as streams with the system id. Test cases are:
-	// *
-	// * <ul>
-	// * <li></li>
-	// * </ul>
-	// *
-	// * @throws Exception
-	// */
-	//
-	// public void testOpenWithStream( ) throws Exception
-	// {
-	// // open the file as a local file, the system id is set.
-	//
-	// openDesign( fileName );
-	// File file = new File( getClassFolder( ) + INPUT_FOLDER + fileName );
-	//
-	// assertEquals( file.getParentFile( ).toURL( ).toString( ), designHandle
-	// .getSystemId( ).toExternalForm( ) );
-	//
-	// // open the design as the file input stream. work as a file url
-	//
-	// file = new File( getClassFolder( ) + INPUT_FOLDER + streamFileName );
-	// InputStream is = new FileInputStream( file );
-	//
-	// designHandle = session.openDesign( file.getParentFile( ).toURL( ), is );
-	// design = (ReportDesign) designHandle.getModule( );
-	// assertNull( design.getFileName( ) );
-	// testSystemIdAndFileName( designHandle, file );
-	//
-	// // open the design as a file path.
-	//
-	// openDesign( streamFileName );
-	// assertEquals( getClassFolder( ) + INPUT_FOLDER + streamFileName, design
-	// .getFileName( ) );
-	// testSystemIdAndFileName( designHandle, file );
-	//
-	// // open the design as a stream with its file path
-	//
-	// is.close( );
-	// is = new FileInputStream( file );
-	// openDesign( getClassFolder( ) + INPUT_FOLDER + streamFileName, is );
-	// assertEquals( getClassFolder( ) + INPUT_FOLDER + streamFileName, design
-	// .getFileName( ) );
-	// testSystemIdAndFileName( designHandle, file );
-	//
-	// }
+	/**
+	 * Tests to open the design as streams with the system id. Test cases are:
+	 * 
+	 * <ul>
+	 * <li></li>
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
 
-	// /**
-	// * Tests values of system id and filename after open a design file.
-	// *
-	// * @param designHandle
-	// * the report design handle
-	// * @param file
-	// * the <code>File</code> instance of the design file
-	// * @throws Exception
-	// */
-	//
-	// private void testSystemIdAndFileName( ReportDesignHandle designHandle,
-	// File file ) throws Exception
-	// {
-	// assertEquals( file.getParentFile( ).toURL( ).toString( ), designHandle
-	// .getSystemId( ).toString( ) );
-	//
-	// List libraries = designHandle.getLibraries( );
-	// assertEquals( 2, libraries.size( ) );
-	//
-	// LibraryHandle libHandle = (LibraryHandle) libraries.get( 0 );
-	// assertTrue( libHandle.isValid( ) );
-	// assertEquals( file.getParentFile( ).toURL( ).toString( ), libHandle
-	// .getSystemId( ).toString( ) );
-	//
-	// libHandle = (LibraryHandle) libraries.get( 1 );
-	// assertTrue( libHandle.isValid( ) );
-	//
-	// // check the file getCanonicalPath() to make sure they are the same
-	// // file.
-	//
-	// file = new File( getClassFolder( ) + "/../library" + INPUT_FOLDER
-	// ).getCanonicalFile( ); //$NON-NLS-1$
-	// assertEquals( libHandle.getSystemId( ), file.toURL( ) );
-	// }
+	public void testOpenWithStream( ) throws Exception
+	{
+		// open the file as a local file, the system id is set.
+
+		openDesign( fileName );
+
+		URL url = getResource( INPUT_FOLDER + fileName );
+		URL parentUrl = getResource( INPUT_FOLDER );
+
+		assertEquals( parentUrl.toString( ), designHandle.getSystemId( )
+				.toExternalForm( ) );
+
+		// open the design as the file input stream. work as a file url
+
+		url = getResource( INPUT_FOLDER + streamFileName );
+		InputStream is = url.openStream( );
+
+		designHandle = session.openDesign( parentUrl, is );
+		is.close( );
+		design = (ReportDesign) designHandle.getModule( );
+		assertNull( design.getFileName( ) );
+		testSystemIdAndFileName( designHandle, url, parentUrl );
+
+		// open the design as a file path.
+
+		openDesign( streamFileName );
+
+		url = getResource( INPUT_FOLDER + streamFileName );
+		is = url.openStream( );
+
+		testSystemIdAndFileName( designHandle, url, parentUrl );
+
+		// open the design as a stream with its file path
+
+		// is = new FileInputStream( file );
+		openDesign( url.toExternalForm( ), is );
+		assertEquals( url.toExternalForm( ), design.getFileName( ) );
+		testSystemIdAndFileName( designHandle, url, parentUrl );
+
+		is.close( );
+	}
+
+	/**
+	 * Tests values of system id and filename after open a design file.
+	 * 
+	 * @param designHandle
+	 *            the report design handle
+	 * @param file
+	 *            the <code>File</code> instance of the design file
+	 * @throws Exception
+	 */
+
+	private void testSystemIdAndFileName( ReportDesignHandle designHandle,
+			URL url, URL parentUrl ) throws Exception
+	{
+		assertEquals( parentUrl.toString( ), designHandle.getSystemId( )
+				.toString( ) );
+
+		List libraries = designHandle.getLibraries( );
+		assertEquals( 2, libraries.size( ) );
+
+		LibraryHandle libHandle = (LibraryHandle) libraries.get( 0 );
+		assertTrue( libHandle.isValid( ) );
+		assertEquals( parentUrl.toString( ), libHandle.getSystemId( )
+				.toString( ) );
+
+		libHandle = (LibraryHandle) libraries.get( 1 );
+		assertTrue( libHandle.isValid( ) );
+
+		// check the file getCanonicalPath() to make sure they are the same
+		// file.
+
+		URL tmpUrl = getResource( "/org/eclipse/birt/report/model/library/" //$NON-NLS-1$
+				+ INPUT_FOLDER );
+
+		assertTrue( tmpUrl.sameFile( libHandle.getSystemId( ) ) );
+	}
 
 	/**
 	 * Test open a generic module file
@@ -884,25 +890,21 @@ public class SessionHandleTest extends BaseTestCase
 		designHandle.addResourceChangeListener( new MockupLayoutListener( ) );
 		List libs = ( (Module) designHandle.getElement( ) ).getLibraries( );
 		assertEquals( 2, libs.size( ) );
-//		Library instance1 = (Library) libs.get( 0 );
-//		Library instance2 = (Library) libs.get( 1 );
+		Library instance1 = (Library) libs.get( 0 );
+		Library instance2 = (Library) libs.get( 1 );
 
-		// TODO: librarychangeevent should record URL instance, not string
+		session.fireResourceChange( new LibraryChangeEvent( getResource(
+				INPUT_FOLDER + "Library_1.xml" ).toExternalForm( ) ) ); //$NON-NLS-1$
+		assertEquals( "refresh", libListener.getStatus( ) ); //$NON-NLS-1$
+		assertNotSame( instance1, ( (Module) designHandle.getElement( ) )
+				.getLibraries( ).get( 1 ) );
+		assertSame( instance2, ( (Module) designHandle.getElement( ) )
+				.getLibraries( ).get( 0 ) );
 
-		// session.fireResourceChange( new LibraryChangeEvent( getResource(
-		// INPUT_FOLDER ).getFile( )
-		// + "Library_1.xml" ) ); //$NON-NLS-1$
-		// assertEquals( "refresh", libListener.getStatus( ) ); //$NON-NLS-1$
-		// assertNotSame( instance1, ( (Module) designHandle.getElement( ) )
-		// .getLibraries( ).get( 1 ) );
-		// assertSame( instance2, ( (Module) designHandle.getElement( ) )
-		// .getLibraries( ).get( 0 ) );
-		//
-		// session.fireResourceChange( new LibraryChangeEvent( getResource(
-		// INPUT_FOLDER ).getFile( )
-		// + "Grandson.xml" ) ); //$NON-NLS-1$
-		// assertNotSame( instance2, ( (Module) designHandle.getElement( ) )
-		// .getLibraries( ).get( 1 ) );
+		session.fireResourceChange( new LibraryChangeEvent( getResource(
+				INPUT_FOLDER + "Grandson.xml" ).toExternalForm( ) ) ); //$NON-NLS-1$
+		assertNotSame( instance2, ( (Module) designHandle.getElement( ) )
+				.getLibraries( ).get( 1 ) );
 	}
 
 	/**
