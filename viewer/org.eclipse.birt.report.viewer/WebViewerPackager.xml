@@ -1,295 +1,637 @@
 <?xml version="1.0"?>
-<project name="BIRT Engine Project" default="ExportEngineSDK" basedir=".">
-	
-<description>Web Viewer Packager</description>
+<!--
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ *
+ *  Build.xml
+ *
+ *  Created on 03/15/2005
+ *  Build script for project org.eclipse.birt.report.viewer
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "Jar" - Compile source code and generate jar for this project.
+ *          The compile dependency on other projects should be defined explicitly.
+ *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *          the property of "failonerror" should be set true(default) when compiling source code
+ * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
+ *              so it needn't depend on Jar explicitly
+ * "Export" - Export the project, for instance, jar files are copied to a designated folder. 
+ *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ * "ExportWAR" - Export the project as an deployable war format
+ * "JavaDoc" - generate java documents
+ *
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *        -Declipse.home=<your eclipse home> 
+ *        -Ddtp.home=<your DTP plugins source home>   [optional]
+ *
+ * Default target is "Jar".
+ *
+ * 
+ * This script may also additional targets. These targets are private to this build script only. 
+ *
+ * 
+ *
+ * Notes:
+ *  1. classpath need to be set for junit.jar
+ *  2. This file now requires Ant 1.6
+ *
+ * Change History:
+ *
+ *    1. 03/15/2005: initial version
+ *
+-->
+
+<project name="BIRT Web Viewer" default="Jar" basedir=".">
+
+	<description>Web Viewer Packager</description>
+	<!-- set global properties for this build -->
+	<!-- Public properties, used by public targets, top level build script
+			     will pass on the value at runtime. Properties will have there default
+			     value.
+			     eclipse.home
+			     utest.report.dir
+			     javadoc.dir
+			     plugin.version 
+		-->
+	<property name="eclipse.home" location="." />
+	<property name="dtp.home" location=".." />
+	<property name="utest.report.dir" location="utestreports" />
+	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
-	
-	<!-- Export Engine SDK -->
-	<target name="ExportEngineSDK">
-		<mkdir dir="${export.dir}"/>
-		
-		<mkdir dir="${export.dir}/configuration"/>
-		<!-- copy config.ini to configuration/config.ini-->
-		<copy todir="${export.dir}/configuration">
-			<fileset dir="../org.eclipse.birt.report.engine">
-				<include name="config.ini"/>
-			</fileset>
-		</copy>
 
-		<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
-		<mkdir dir="${export.dir}/plugins"/>
-		<copy todir="${export.dir}/plugins">
-			<fileset dir="${base.location}/plugins">
-				<include name="org.eclipse.core.runtime.compatibility.registry_*/**"/>
-				<!-- <include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/> -->
-				<include name="org.junit_*/**"/>
-				<!-- <include name="org.junit_*.jar"/> -->
-				<include name="com.ibm.icu_*.jar"/>
-				<include name="org.eclipse.core.contenttype_*.jar"/>
-				<include name="org.eclipse.core.jobs_*.jar"/>
-				<include name="org.eclipse.core.runtime.compatibility_*.jar"/>
-				<include name="org.eclipse.core.runtime_*.jar"/>
-				<include name="org.eclipse.emf.common_*.jar"/>
-				<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
-				<include name="org.eclipse.emf.ecore_*.jar"/>
-				<include name="org.eclipse.emf_*.jar"/>
-				<include name="org.eclipse.equinox.common_*.jar"/>
-				<include name="org.eclipse.equinox.preferences_*.jar"/>
-				<include name="org.eclipse.equinox.registry_*.jar"/>
-				<include name="org.eclipse.osgi_*.jar"/>
-				<include name="org.eclipse.update.configurator_*.jar"/>
-			</fileset>
-		</copy>
-		
-		<!-- other plugins provided by the 3rd party -->
-		
-		<!-- com.lowagie.itext -->
-		<copy todir="${export.dir}/plugins/com.lowagie.itext">
-			<fileset dir="../com.lowagie.itext">
-				<include name="META-INF/MANIFEST.MF"/>
-				<exclude name="lib/*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>		
-		
-		<!-- org.apache.commons.codec -->
-		<copy todir="${export.dir}/plugins/org.apache.commons.codec">
-			<fileset dir="../org.apache.commons.codec">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="lib/*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>
-		
-		<!-- org.apache.xerces -->
-		<copy todir="${export.dir}/plugins/org.apache.xerces">
-			<fileset dir="../org.apache.xerces">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>
-		
-		<!-- org.apache.batik -->
-		<copy todir="${export.dir}/plugins/org.apache.batik">
-			<fileset dir="../org.apache.batik">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="lib/*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>
-		
-		<!-- org.apache.batik.pdf -->
-		<copy todir="${export.dir}/plugins/org.apache.batik.pdf">
-			<fileset dir="../org.apache.batik.pdf">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="lib/*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>
-		
-		<!-- org.mozilla.rhino_1.0.0 -->
-		<copy todir="${export.dir}/plugins/org.mozilla.rhino">
-			<fileset dir="../org.mozilla.rhino">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="lib/*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>		
-		
-		<!-- org.w3c.sac_1.0.0 -->
-		<copy todir="${export.dir}/plugins/org.w3c.sac">
-			<fileset dir="../org.w3c.sac">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="lib/*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-	    </copy>
-		
-		<!-- org.apache.derby.core -->
-		<copy todir="${export.dir}/plugins/org.apache.derby.core">
-			<fileset dir="../org.apache.derby.core">
-				<include name="META-INF/MANIFEST.MF"/>
-				<include name="*.jar"/>
-				<include name="about.html"/>
-				<include name="about_files/**"/>
-				<include name="plugin.*"/>
-			</fileset>
-		</copy>
-		
-		<!-- core plugins -->
-		<!-- org.eclipse.birt.core_2.1.0.jar -->
-		<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>		
-		
-		<!-- data plugins -->
-		<!-- org.eclipse.birt.data.oda_2.0.2.200603210703.jar -->
-		<ant dir="../org.eclipse.birt.data.oda" antfile="BuildOda.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- org.eclipse.birt.data_2.1.0.jar -->
-		<ant dir="../org.eclipse.birt.data" antfile="BuildData.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- model plugins-->
-		<!-- org.eclipse.birt.report.model_2.1.0.jar -->
-		<ant dir="../org.eclipse.birt.report.model" antfile="BuildModel.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>	
-		
-		<!-- engine plugins -->
-		<!-- org.eclipse.birt.report.engine_2.1.0.jar -->
-		<ant dir="../org.eclipse.birt.report.engine" antfile="BuildEngine.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>	
-	
-		<!-- org.eclipse.birt.report.data.oda.jdbc_2.1.0.N20060313-2230 -->
-		<ant dir="../org.eclipse.birt.report.data.oda.jdbc" antfile="BuildOdaJdbc.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- org.eclipse.birt.report.data.oda.sampledb_2.1.0.N20060313-2230 -->
-		<ant dir="../org.eclipse.birt.report.data.oda.sampledb" antfile="BuildSampleDB.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- org.eclipse.birt.report.data.oda.xml_2.1.0.N20060313-2230 -->
-		<ant dir="../org.eclipse.birt.report.data.oda.xml" antfile="buildXML.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
+	<!-- Compiler properties -->
+	<property name="compilerArg" value="" />
 
-		<!-- engine extensions -->
-		<!-- org.eclipse.birt.report.engine.emitter.html_2.1.0.jar -->
-		<ant dir="../org.eclipse.birt.report.engine.emitter.html" antfile="BuildHtmlEmitter.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>		
-		
-		<!-- org.eclipse.birt.report.engine.emitter.pdf_2.1.0.jar -->
-		<ant dir="../org.eclipse.birt.report.engine.emitter.pdf" antfile="BuildEnginePDF.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- org.eclipse.birt.report.engine.fonts -->
-		<ant dir="../org.eclipse.birt.report.engine.fonts" antfile="BuildEngineFonts.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		
-		<!-- chart engine -->
-		<!-- org.eclipse.birt.chart.engine_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-			<property name="eclipse.home" value="${base.location}" />
-		</ant>
-		
-		<!-- chart extensions -->
-		<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-			<property name="eclipse.home" value="${base.location}" />
-		</ant>	
-		
-		<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-			<property name="eclipse.home" value="${base.location}" />
-		</ant>	
-		
-		<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-			<property name="eclipse.home" value="${base.location}" />
-		</ant>
-		
-		<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-			<property name="eclipse.home" value="${base.location}" />
-		</ant>
-		
-		<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- chart extensions -->
-		<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>	
-		
-		<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>	
-		
-		<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-		
-		<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
-		<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Export" inheritAll="false" inheritRefs="false" >
-			<property name="export.dir" value="${export.dir}/plugins/" />
-		</ant>
-				
-		
-		<!-- DTP　plugins -->
-		<!-- org.eclipse.datatools.connectivity_0.7.0.200602241 -->	
-		<copy todir="${export.dir}/plugins">
-			<fileset dir="${base.location}/plugins">
-				<include name="org.eclipse.datatools.connectivity_*/**" />
-				<include name="org.eclipse.datatools.connectivity.oda*/**" />
-				<include name="org.eclipse.datatools.enablement.oda.xml_*/**" />
-			</fileset>
-		</copy>
+	<!-- Eclipse related. Default version 3.0.0 -->
+	<property name="plugin.tomcat" value="org.eclipse.tomcat" />
+	<property name="plugin.runtime" value="org.eclipse.core.runtime" />
+	<property name="plugin.emf.ecore" value="org.eclipse.emf.ecore" />
+	<property name="plugin.emf.ecore.xml" value="org.eclipse.emf.ecore.xmi" />
+	<property name="plugin.emf.common" value="org.eclipse.emf.common" />
+	<property name="plugin.osgi" value="org.eclipse.osgi" />
+	<property name="plugin.help.appserver" value="org.eclipse.help.appserver" />
+	<property name="plugin.help.base" value="org.eclipse.help.base" />
+	<property name="plugin.swt" value="org.eclipse.swt" />
+	<property name="plugin.jface" value="org.eclipse.jface" />
+	<property name="plugin.equinox" value="org.eclipse.equinox" />
 
-		<mkdir dir="${export.dir}/lib"/>
-		<copy todir="${export.dir}/lib">
-			<fileset dir="${export.dir}/plugins">
-				<include name="com.ibm.icu_*.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="${export.dir}/lib">
-			<fileset dir="../org.eclipse.birt.core">
-				<include name="coreapi.jar"/>
-			</fileset>
-			<fileset dir="../org.eclipse.birt.data">
-				<include name="dteapi.jar"/>
-			</fileset>
-			<fileset dir="../org.eclipse.birt.report.model">
-				<include name="modelapi.jar"/>
-			</fileset>
-			<fileset dir="../org.eclipse.birt.report.engine">
-				<include name="engineapi.jar"/>
-				<include name="scriptapi.jar"/>
-			</fileset>
-			<fileset dir="../org.eclipse.birt.report.data.adapter">
-				<include name="dataadapterapi.jar"/>
-			</fileset>
-			<fileset dir="../org.eclipse.birt.report.engine/lib">
-				<include name="commons-cli*.jar"/>
-			</fileset>
-			<fileset dir="../org.apache.commons.codec/lib">
-				<include name="*.jar"/>
-			</fileset>
-			<fileset dir="../org.mozilla.rhino/lib">
-				<include name="*.jar"/>
-			</fileset>
-			<fileset dir="../org.w3c.sac/lib">
-				<include name="*.jar"/>
-			</fileset>
+
+	<!-- Component locations -->
+	<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
+	<property name="core.dir" location="../org.eclipse.birt.core" />
+	<property name="js.dir" location="../org.mozilla.rhino" />
+	<property name="data.dir" location="../org.eclipse.birt.data" />
+	<property name="oda.dir" location="../org.eclipse.birt.data.oda" />
+	<property name="oda-adapter.dir" location="../org.eclipse.birt.data.oda.adapter.dtp" />
+	<property name="data-adapter-api.dir" location="../org.eclipse.birt.report.data.adapter" />
+	<property name="oda-jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
+	<property name="oda-xml.dir" location="../org.eclipse.birt.report.data.oda.xml" />
+	<property name="oda-sampleDB.dir" location="../org.eclipse.birt.report.data.oda.sampledb" />
+	<property name="engine.dir" location="../org.eclipse.birt.report.engine" />
+	<property name="engine-emitter-html.dir" location="../org.eclipse.birt.report.engine.emitter.html" />
+	<property name="engine-emitter-pdf.dir" location="../org.eclipse.birt.report.engine.emitter.pdf" />
+	<property name="chart-engine.dir" location="../org.eclipse.birt.chart.engine" />
+	<property name="chart-reportitem.dir" location="../org.eclipse.birt.chart.reportitem" />
+	<property name="chart-device-extension.dir" location="../org.eclipse.birt.chart.device.extension" />
+	<property name="chart-device-swt.dir" location="../org.eclipse.birt.chart.device.swt" />
+	<property name="chart-device-svg.dir" location="../org.eclipse.birt.chart.device.svg" />
+	<property name="chart-engine-extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
+
+	<!-- Libararies -->
+	<property name="codec.jar" value="lib/commons-codec-1.3.jar" />
+	<property name="js.jar" value="lib/js.jar" />
+	<property name="module.name" value="org.eclipse.birt.report.viewer" />
+	<property name="birt.dir" value="birt_web" />
+	<property name="birt.dir.original" value="birt" />
+
+	<!-- set platform related properties-->
+	<condition property="basews" value="win32">
+		<os family="windows" />
+	</condition>
+	<condition property="basews" value="gtk">
+		<not>
+			<os family="windows" />
+		</not>
+	</condition>
+
+
+	<!-- Compile source code and generate jar for this project-->
+	<target name="Jar" depends="build-nonprecompile, precompile" description="Build everying.">
+		<delete dir="${temp.folder}" />
+	</target>
+
+	<target name="build-nonprecompile" depends="enginesdk,extensions,viewservlets">
+		<delete dir="${temp.folder}" />
+	</target>
+
+	<!-- build init -->
+	<target name="init">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+			<isset property="buildTempFolder" />
+		</condition>
+		<property name="pluginTemp" value="${basedir}" />
+		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.birt.report.viewer">
+			<isset property="buildTempFolder" />
+		</condition>
+		<property name="build.result.folder" value="${basedir}" />
+		<property name="temp.folder" value="${basedir}/temp.folder" />
+		<property name="plugin.destination" value="${basedir}" />
+
+		<delete dir="${build.result.folder}/${birt.dir}" />
+		<copy todir="${build.result.folder}/${birt.dir}">
+			<fileset dir="${build.result.folder}/${birt.dir.original}" excludes="WEB-INF/lib/servlet.jar" />
 		</copy>
 	</target>
+	<!-- Clean up web viewer -->
+	<target name="Clean" depends="init" description="Clean the plug-in.">
+		<delete includeemptydirs="true">
+			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib" includes="**/*" />
+			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/classes" includes="**/*.class" />
+		</delete>
+		<delete dir="${temp.folder}" />
+	</target>
+
+	<!-- Export the project, for instance, jar files are copied to a designated folder
+						 the dependency on Jar should implement in top level script by call sequence	
+						 Parameters:
+						 		- ${export.dir} target directory to put the plugin binaries
+						 		- ${plugin.version} the version of plugin exported
+		-->
+	<target name="Export">
+		<property file="META-INF/MANIFEST.MF" />
+		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
+		<echo message="Export Web Viewer version = ${Bundle-Version}" />
+
+		<copy todir="${export.dir}/${plugin.package}" failonerror="false">
+			<fileset dir="." includes="viewer.jar,about.html,plugin.xml,META-INF/**,schema/**,${birt.dir}/**" excludes="${birt.dir}/WEB-INF/classes/**,${birt.dir}/images/**,${birt.dir}/pages/**,${birt.dir}/styles/**,${birt.dir}/plugins/**" />
+		</copy>
+	</target>
+
+
+	<!-- 
+		    Export the project as a single WAR format file
+		    Parameters:
+		    	- ${export.dir} target directory to put WAR format file
+		-->
+	<target name="ExportWAR" depends="Jar">
+		<jar destfile="birt.war">
+			<fileset dir="${build.result.folder}/${birt.dir}">
+				<include name="*.*" />
+				<include name="*/**" />
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
+	<!-- Run Unit test.
+					 Parameters:
+					 		- ${utest.report.dir} target directory to put the unit test report
+		-->
+	<target name="UnitTest" description="run all the unit tests" />
+
+
+	<!-- Generate the JavaDoc.
+			 Parameters:
+			 		- ${javadoc.dir} target directory to put the java document
+		 -->
+	<target name="Javadoc" depends="init">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Viewer Project" source="1.4" packagenames="${module.name}.*">
+			<classpath>
+				<fileset dir="${eclipse.home}/plugins">
+					<include name="${plugin.runtime}_*/runtime.jar" />
+					<include name="${plugin.equinox}*.jar" />
+					<include name="${plugin.osgi}_*/*.jar" />
+					<include name="${plugin.osgi}_*/eclipseAdaptor.jar" />
+					<include name="${plugin.swt}.${basews}_*/ws/${basews}/swt.jar" />
+					<include name="${plugin.swt}*.jar" />
+					<include name="${plugin.jface}_*/jface.jar" />
+					<include name="${plugin.jface}_*.jar" />
+					<include name="${plugin.help.base}_*/helpbase.jar" />
+					<include name="${plugin.help.base}*.jar" />
+					<include name="${plugin.help.appserver}_*/appserver.jar" />
+					<include name="${plugin.help.appserver}*.jar" />
+					<include name="${plugin.tomcat}_*/servlet.jar" />
+					<include name="com.ibm.icu_*.jar" />
+				</fileset>
+				<pathelement path="${build.result.folder}/${birt.dir}/WEB-INF/lib/model.jar" />
+				<pathelement path="${build.result.folder}/${birt.dir}/WEB-INF/lib/engine.jar" />
+				<pathelement path="${build.result.folder}/${birt.dir}/WEB-INF/lib/core.jar" />
+			</classpath>
+			<packageset dir="src" defaultexcludes="yes" />
+			<packageset dir="${birt.dir}/WEB-INF/classes" defaultexcludes="yes" />
+			<bottom>
+				<![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+	</javadoc>
+</target>
+
+
+
+<!-- build engine sdk -->
+<target name="enginesdk" depends="init">
+	<delete dir="${temp.folder}" />
+
+	<mkdir dir="${build.result.folder}/${birt.dir}/WEB-INF/platform" />
+	<antcall target="ExportEngineSDK">
+	    <param name="export.dir" value="${build.result.folder}/${birt.dir}/WEB-INF/platform"/>
+	</antcall>
+	
+	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
+		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib/">
+			<include name="*.jar" />
+		</fileset>
+	</copy>
+
+</target>
+
+
+<!-- Prepare viewer servlet jars -->
+<target name="viewservlets" depends="init">
+	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+	<mkdir dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+	<javac destdir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
+		<compilerarg line="${compilerArg}" />
+		<classpath>
+			<fileset dir="${eclipse.home}/plugins">
+				<include name="${plugin.tomcat}_*/servlet.jar" />
+			</fileset>
+			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${data-adapter-api.dir}">
+				<include name="*.jar" />
+			</fileset>
+			<pathelement path="${js.dir}/lib/js.jar" />
+		</classpath>
+		<src path="${birt.dir}/WEB-INF/classes/" />
+	</javac>
+	<copy todir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" failonerror="true">
+		<fileset dir="${birt.dir}/WEB-INF/classes/" excludes="**/*.java, **/package.htm*" />
+	</copy>
+	<mkdir dir="${build.result.folder}/${birt.dir}/WEB-INF/lib" />
+	<jar jarfile="${build.result.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar" basedir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+</target>
+
+
+<!-- Prepare data adapter jar -->
+<!-- target name="dataadapter">
+			<ant dir="${data-adapter-api.dir}" antfile="BuildDataAdapter.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+				<property name="eclipse.home" value="${eclipse.home}" />
+			</ant>
+		</target -->
+
+<!-- Prepare some extension and eclipse jars -->
+<target name="extensions">
+	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/lib" failonerror="true">
+		<fileset dir="${chart-engine.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.emf.common_*.jar" />
+			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+			<include name="org.eclipse.emf.ecore_*.jar" />
+		</fileset>
+	</copy>
+</target>
+
+<!-- Precompile the jsp pages -->
+<target name="precompile" depends="init" description="Precompile jsp pages.">
+	<taskdef classname="org.apache.jasper.JspC" name="jasper2">
+		<classpath>
+			<fileset dir="${eclipse.home}/plugins">
+				<include name="${plugin.tomcat}_*/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
+
+	<javac destdir="${birt.dir}/WEB-INF/classes" source="1.4">
+		<compilerarg line="${compilerArg}" />
+		<classpath>
+			<fileset dir="${eclipse.home}/plugins">
+				<include name="${plugin.tomcat}_*/*.jar" />
+			</fileset>
+			<fileset dir="${birt.dir}/WEB-INF/lib">
+				<include name="*.jar" />
+			</fileset>
+			<pathelement path="${js.dir}/lib/js.jar" />
+		</classpath>
+		<src path="${temp.folder}/${birt.dir}/WEB-INF/classes" />
+	</javac>
+
+	<loadfile property="file" srcFile="${birt.dir}/WEB-INF/generated_web.xml" />
+	<copy file="${birt.dir}/WEB-INF/web-template.xml" toFile="${birt.dir}/WEB-INF/web.xml" filtering="on" overwrite="yes">
+		<filterset>
+			<filter token="generated" value="${file}" />
+		</filterset>
+	</copy>
+
+	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
+	<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
+</target>
+
+
+<!-- Export Engine SDK -->
+<target name="ExportEngineSDK">
+	<mkdir dir="${export.dir}" />
+
+	<mkdir dir="${export.dir}/configuration" />
+	<!-- copy config.ini to configuration/config.ini-->
+	<copy todir="${export.dir}/configuration">
+		<fileset dir="../org.eclipse.birt.report.engine">
+			<include name="config.ini" />
+		</fileset>
+	</copy>
+
+	<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
+	<mkdir dir="${export.dir}/plugins" />
+	<copy todir="${export.dir}/plugins">
+		<fileset dir="${base.location}/plugins">
+			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
+			<!-- <include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/> -->
+			<include name="org.junit_*/**" />
+			<!-- <include name="org.junit_*.jar"/> -->
+			<include name="com.ibm.icu_*.jar" />
+			<include name="org.eclipse.core.contenttype_*.jar" />
+			<include name="org.eclipse.core.jobs_*.jar" />
+			<include name="org.eclipse.core.runtime.compatibility_*.jar" />
+			<include name="org.eclipse.core.runtime_*.jar" />
+			<include name="org.eclipse.emf.common_*.jar" />
+			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+			<include name="org.eclipse.emf.ecore_*.jar" />
+			<include name="org.eclipse.emf_*.jar" />
+			<include name="org.eclipse.equinox.common_*.jar" />
+			<include name="org.eclipse.equinox.preferences_*.jar" />
+			<include name="org.eclipse.equinox.registry_*.jar" />
+			<include name="org.eclipse.osgi_*.jar" />
+			<include name="org.eclipse.update.configurator_*.jar" />
+		</fileset>
+	</copy>
+
+	<!-- other plugins provided by the 3rd party -->
+
+	<!-- com.lowagie.itext -->
+	<copy todir="${export.dir}/plugins/com.lowagie.itext">
+		<fileset dir="../com.lowagie.itext">
+			<include name="META-INF/MANIFEST.MF" />
+			<exclude name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.apache.commons.codec -->
+	<copy todir="${export.dir}/plugins/org.apache.commons.codec">
+		<fileset dir="../org.apache.commons.codec">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.apache.xerces -->
+	<copy todir="${export.dir}/plugins/org.apache.xerces">
+		<fileset dir="../org.apache.xerces">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.apache.batik -->
+	<copy todir="${export.dir}/plugins/org.apache.batik">
+		<fileset dir="../org.apache.batik">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.apache.batik.pdf -->
+	<copy todir="${export.dir}/plugins/org.apache.batik.pdf">
+		<fileset dir="../org.apache.batik.pdf">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.mozilla.rhino_1.0.0 -->
+	<copy todir="${export.dir}/plugins/org.mozilla.rhino">
+		<fileset dir="../org.mozilla.rhino">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.w3c.sac_1.0.0 -->
+	<copy todir="${export.dir}/plugins/org.w3c.sac">
+		<fileset dir="../org.w3c.sac">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- org.apache.derby.core -->
+	<copy todir="${export.dir}/plugins/org.apache.derby.core">
+		<fileset dir="../org.apache.derby.core">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+
+	<!-- core plugins -->
+	<!-- org.eclipse.birt.core_2.1.0.jar -->
+	<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- data plugins -->
+	<!-- org.eclipse.birt.data.oda_2.0.2.200603210703.jar -->
+	<ant dir="../org.eclipse.birt.data.oda" antfile="BuildOda.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.data_2.1.0.jar -->
+	<ant dir="../org.eclipse.birt.data" antfile="BuildData.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- model plugins-->
+	<!-- org.eclipse.birt.report.model_2.1.0.jar -->
+	<ant dir="../org.eclipse.birt.report.model" antfile="BuildModel.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- engine plugins -->
+	<!-- org.eclipse.birt.report.engine_2.1.0.jar -->
+	<ant dir="../org.eclipse.birt.report.engine" antfile="BuildEngine.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.report.data.oda.jdbc_2.1.0.N20060313-2230 -->
+	<ant dir="../org.eclipse.birt.report.data.oda.jdbc" antfile="BuildOdaJdbc.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.report.data.oda.sampledb_2.1.0.N20060313-2230 -->
+	<ant dir="../org.eclipse.birt.report.data.oda.sampledb" antfile="BuildSampleDB.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.report.data.oda.xml_2.1.0.N20060313-2230 -->
+	<ant dir="../org.eclipse.birt.report.data.oda.xml" antfile="buildXML.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- engine extensions -->
+	<!-- org.eclipse.birt.report.engine.emitter.html_2.1.0.jar -->
+	<ant dir="../org.eclipse.birt.report.engine.emitter.html" antfile="BuildHtmlEmitter.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.report.engine.emitter.pdf_2.1.0.jar -->
+	<ant dir="../org.eclipse.birt.report.engine.emitter.pdf" antfile="BuildEnginePDF.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.report.engine.fonts -->
+	<ant dir="../org.eclipse.birt.report.engine.fonts" antfile="BuildEngineFonts.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+
+	<!-- chart engine -->
+	<!-- org.eclipse.birt.chart.engine_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Jar" inheritAll="false" inheritRefs="false">
+		<property name="eclipse.home" value="${base.location}" />
+	</ant>
+
+	<!-- chart extensions -->
+	<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Jar" inheritAll="false" inheritRefs="false">
+		<property name="eclipse.home" value="${base.location}" />
+	</ant>
+
+	<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Jar" inheritAll="false" inheritRefs="false">
+		<property name="eclipse.home" value="${base.location}" />
+	</ant>
+
+	<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Jar" inheritAll="false" inheritRefs="false">
+		<property name="eclipse.home" value="${base.location}" />
+	</ant>
+
+	<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Jar" inheritAll="false" inheritRefs="false">
+		<property name="eclipse.home" value="${base.location}" />
+	</ant>
+
+	<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- chart extensions -->
+	<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+	<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
+	<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Export" inheritAll="false" inheritRefs="false">
+		<property name="export.dir" value="${export.dir}/plugins/" />
+	</ant>
+
+
+	<!-- DTP　plugins -->
+	<!-- org.eclipse.datatools.connectivity_0.7.0.200602241 -->
+	<copy todir="${export.dir}/plugins">
+		<fileset dir="${base.location}/plugins">
+			<include name="org.eclipse.datatools.connectivity_*/**" />
+			<include name="org.eclipse.datatools.connectivity.oda*/**" />
+			<include name="org.eclipse.datatools.enablement.oda.xml_*/**" />
+		</fileset>
+	</copy>
+
+	<mkdir dir="${export.dir}/lib" />
+	<copy todir="${export.dir}/lib">
+		<fileset dir="${export.dir}/plugins">
+			<include name="com.ibm.icu_*.jar" />
+		</fileset>
+	</copy>
+	<copy todir="${export.dir}/lib">
+		<fileset dir="../org.eclipse.birt.core">
+			<include name="coreapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.data">
+			<include name="dteapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.report.model">
+			<include name="modelapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.report.engine">
+			<include name="engineapi.jar" />
+			<include name="scriptapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.report.data.adapter">
+			<include name="dataadapterapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.report.engine/lib">
+			<include name="commons-cli*.jar" />
+		</fileset>
+		<fileset dir="../org.apache.commons.codec/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="../org.mozilla.rhino/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="../org.w3c.sac/lib">
+			<include name="*.jar" />
+		</fileset>
+	</copy>
+</target>
 </project>
