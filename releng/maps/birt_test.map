@@ -1,3 +1,5 @@
+!**************** chart test ********************
+plugin@org.eclipse.birt.chart.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.tests
 !**************** gui test *******************
 plugin@org.eclipse.birt.report.designer.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.tests
 !**************** engine test *******************
