@@ -361,7 +361,7 @@
 	<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
 	<mkdir dir="${export.dir}/plugins" />
 	<copy todir="${export.dir}/plugins">
-		<fileset dir="${base.location}/plugins">
+		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
 			<!-- <include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/> -->
 			<include name="org.junit_*/**" />
@@ -537,28 +537,28 @@
 	<!-- chart engine -->
 	<!-- org.eclipse.birt.chart.engine_2.1.0.200603211010.jar -->
 	<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${base.location}" />
+		<property name="eclipse.home" value="${baseLocation}" />
 	</ant>
 
 	<!-- chart extensions -->
 	<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
 	<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${base.location}" />
+		<property name="eclipse.home" value="${baseLocation}" />
 	</ant>
 
 	<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
 	<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${base.location}" />
+		<property name="eclipse.home" value="${baseLocation}" />
 	</ant>
 
 	<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
 	<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${base.location}" />
+		<property name="eclipse.home" value="${baseLocation}" />
 	</ant>
 
 	<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
 	<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${base.location}" />
+		<property name="eclipse.home" value="${baseLocation}" />
 	</ant>
 
 	<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Export" inheritAll="false" inheritRefs="false">
@@ -590,7 +590,7 @@
 	<!-- DTP　plugins -->
 	<!-- org.eclipse.datatools.connectivity_0.7.0.200602241 -->
 	<copy todir="${export.dir}/plugins">
-		<fileset dir="${base.location}/plugins">
+		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.datatools.connectivity_*/**" />
 			<include name="org.eclipse.datatools.connectivity.oda*/**" />
 			<include name="org.eclipse.datatools.enablement.oda.xml_*/**" />
