@@ -65,7 +65,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -94,6 +93,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * <code>HTMLReportEmitter</code> is a subclass of
@@ -147,7 +148,7 @@ import org.w3c.dom.css.CSSValue;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.147 $ $Date: 2006/10/26 10:19:50 $
+ * @version $Revision: 1.148 $ $Date: 2006/11/10 08:15:01 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -748,7 +749,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				locale = Locale.getDefault();
 			}
-			EngineResourceHandle rc = new EngineResourceHandle(locale);
+			EngineResourceHandle rc = new EngineResourceHandle( ULocale.forLocale(locale) );
 			writer.text( rc.getMessage(
 					MessageConstants.ERRORS_ON_REPORT_PAGE ), false );
 			

@@ -2,7 +2,7 @@
 package org.eclipse.birt.core.template;
 
 import java.io.*;
-import java.util.*;
+//import java.util.*;
 
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();public Parser()
@@ -374,7 +374,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   public boolean lookingAhead = false;
-  private boolean jj_semLA;
+  //private boolean jj_semLA;
   private int jj_gen;
   final private int[] jj_la1 = new int[4];
   static private int[] jj_la1_0;
@@ -473,7 +473,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     throw generateParseException();
   }
 
-  static private final class LookaheadSuccess extends java.lang.Error { }
+  static private final class LookaheadSuccess extends java.lang.Error {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1559610875118810005L; }
   final private LookaheadSuccess jj_ls = new LookaheadSuccess();
   final private boolean jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {

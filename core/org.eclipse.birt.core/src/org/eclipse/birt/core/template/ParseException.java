@@ -13,6 +13,11 @@ package org.eclipse.birt.core.template;
 public class ParseException extends Exception {
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2280721670070255000L;
+
+/**
    * This constructor is used by the method "generateParseException"
    * in the generated parser.  Calling this constructor generates
    * a new object of this type with the fields "currentToken",

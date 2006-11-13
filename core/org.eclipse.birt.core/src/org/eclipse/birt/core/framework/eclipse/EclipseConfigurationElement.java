@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
  */
 class EclipseConfigurationElement implements IConfigurationElement
 {
@@ -45,6 +45,10 @@ class EclipseConfigurationElement implements IConfigurationElement
 		return object.getAttribute(name);
 	}
 
+	/**
+	 * @deprecated The method is equivalent to the {@link #getAttribute(String)}. Contrary to its description,
+	 * this method returns a translated value. Use the {@link #getAttribute(String)} method instead.
+	 */
 	public String getAttributeAsIs(String name)
 	{
 		return object.getAttributeAsIs(name);
@@ -85,6 +89,10 @@ class EclipseConfigurationElement implements IConfigurationElement
 		return object.getValue();
 	}
 
+	/**
+	 * @deprecated The method is equivalent to the {@link #getValue()}. Contrary to its description,
+	 * this method returns a translated value. Use the {@link #getValue()} method instead.
+	 */
 	public String getValueAsIs()
 	{
 		return object.getValueAsIs();

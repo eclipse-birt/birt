@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 /**
  * Parses the style attribute of the HTML element according to the CSS2.0 grammar  
  *
- * @version $Revision: 1.4 $ $Date: 2005/03/07 03:33:25 $
+ * @version $Revision: 1.5 $ $Date: 2005/03/15 03:29:36 $
  */
 public class CssParser implements CssParserConstants {
 
@@ -588,7 +588,8 @@ StringBuffer value;
                 cssProperties.put("border-top-style",n.image); //$NON-NLS-1$
                 cssProperties.put("border-right-style",n.image); //$NON-NLS-1$
                 cssProperties.put("border-bottom-style",n.image); //$NON-NLS-1$
-                Object object = cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
+                //Object object = cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
+                cssProperties.put("border-left-style",n.image); //$NON-NLS-1$
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BORDER_STYLE:
       n = jj_consume_token(BORDER_STYLE);

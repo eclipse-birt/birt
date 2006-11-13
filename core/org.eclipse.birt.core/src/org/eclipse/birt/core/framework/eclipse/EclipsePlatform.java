@@ -29,13 +29,14 @@ import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.birt.core.framework.IPlatformPath;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
  * 
- * @version $Revision: 1.9 $ $Date: 2005/07/09 06:52:17 $
+ * @version $Revision: 1.10 $ $Date: 2006/03/21 23:22:05 $
  */
 public class EclipsePlatform implements IPlatform
 {
@@ -73,8 +74,8 @@ public class EclipsePlatform implements IPlatform
 		if ( ( bundle instanceof EclipseBundle )
 				&& ( path instanceof EclipsePath ) )
 		{
-			return Platform.find( ( (EclipseBundle) bundle ).bundle,
-					( (EclipsePath) path ).path );
+			return FileLocator.find( ( (EclipseBundle) bundle ).bundle,
+					( (EclipsePath) path ).path, null );
 		}
 
 		return null;
@@ -82,7 +83,7 @@ public class EclipsePlatform implements IPlatform
 
 	public URL asLocalURL( URL url ) throws IOException
 	{
-		return Platform.asLocalURL( url );
+		return FileLocator.toFileURL( url );
 	}
 
 	static IConfigurationElement wrap(

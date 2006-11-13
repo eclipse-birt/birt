@@ -592,7 +592,10 @@ abstract public class AbstractContent extends AbstractElement
 
 	protected void readContentV0( DataInputStream in ) throws IOException
 	{
-		int version = IOUtil.readInt( in );
+		//int version = IOUtil.readInt( in );
+		//read version
+		IOUtil.readInt( in );
+		
 		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{

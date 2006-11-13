@@ -80,6 +80,8 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrapFactory;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Captures the report execution context. This class is needed for accessing
  * global information during execution as well as for for scripting. It
@@ -87,7 +89,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.88 $ $Date: 2006/10/13 03:38:00 $
+ * @version $Revision: 1.89 $ $Date: 2006/10/30 22:15:15 $
  */
 public class ExecutionContext
 {
@@ -1266,6 +1268,11 @@ public class ExecutionContext
 	{
 		this.factoryMode = mode;
 	}
+	
+	public boolean getFactoryMode( )
+	{
+		return this.factoryMode;
+	}
 
 	/**
 	 * set in presentation mode
@@ -1290,7 +1297,7 @@ public class ExecutionContext
 		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );
 		if ( fmt == null )
 		{
-			fmt = new StringFormatter( value, locale );
+			fmt = new StringFormatter( value, ULocale.forLocale(locale) );
 			stringFormatters.put( value, fmt );
 		}
 		return fmt;
@@ -1308,7 +1315,7 @@ public class ExecutionContext
 		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( value );
 		if ( fmt == null )
 		{
-			fmt = new NumberFormatter( value, locale );
+			fmt = new NumberFormatter( value, ULocale.forLocale(locale) );
 			numberFormatters.put( value, fmt );
 		}
 		return fmt;
@@ -1326,7 +1333,7 @@ public class ExecutionContext
 		DateFormatter fmt = (DateFormatter) dateFormatters.get( value );
 		if ( fmt == null )
 		{
-			fmt = new DateFormatter( value, locale );
+			fmt = new DateFormatter( value, ULocale.forLocale(locale) );
 			dateFormatters.put( value, fmt );
 		}
 		return fmt;

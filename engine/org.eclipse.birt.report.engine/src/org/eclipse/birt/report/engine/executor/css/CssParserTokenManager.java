@@ -803,11 +803,11 @@ private final void jjCheckNAddStates(int start, int end)
       jjCheckNAdd(jjnextStates[start]);
    } while (start++ != end);
 }
-private final void jjCheckNAddStates(int start)
-{
-   jjCheckNAdd(jjnextStates[start]);
-   jjCheckNAdd(jjnextStates[start + 1]);
-}
+//private final void jjCheckNAddStates(int start)
+//{
+//   jjCheckNAdd(jjnextStates[start]);
+//   jjCheckNAdd(jjnextStates[start + 1]);
+//}
 static final long[] jjbitVec0 = {
    0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
 };
@@ -816,12 +816,13 @@ static final long[] jjbitVec2 = {
 };
 private final int jjMoveNfa_0(int startState, int curPos)
 {
-   int[] nextStates;
+   //int[] nextStates;
    int startsAt = 0;
    jjnewStateCnt = 662;
    int i = 1;
    jjstateSet[0] = startState;
-   int j, kind = 0x7fffffff;
+   //int j;
+   int kind = 0x7fffffff;
    for (;;)
    {
       if (++jjround == 0x7fffffff)
@@ -829,7 +830,8 @@ private final int jjMoveNfa_0(int startState, int curPos)
       if (curChar < 64)
       {
          long l = 1L << curChar;
-         MatchLoop: do
+         //MatchLoop: do
+         do
          {
             switch(jjstateSet[--i])
             {
@@ -2650,7 +2652,8 @@ private final int jjMoveNfa_0(int startState, int curPos)
       else if (curChar < 128)
       {
          long l = 1L << (curChar & 077);
-         MatchLoop: do
+         //MatchLoop: do
+         do
          {
             switch(jjstateSet[--i])
             {
@@ -5110,7 +5113,8 @@ private final int jjMoveNfa_0(int startState, int curPos)
          long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
-         MatchLoop: do
+         //MatchLoop: do
+         do
          {
             switch(jjstateSet[--i])
             {
@@ -5601,8 +5605,8 @@ int jjmatchedKind;
 
 public Token getNextToken() 
 {
-  int kind;
-  Token specialToken = null;
+  //int kind;
+  //Token specialToken = null;
   Token matchedToken;
   int curPos = 0;
 
