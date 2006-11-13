@@ -129,17 +129,14 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		values.setDataSetParameters( (DataSetParameters) EcoreUtil
 				.copy( setDesign.getParameters( ) ) );
 
-		saveDesignValuesToFile( values, "DataSetParamConvertTest_out_1.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_1.xml", //$NON-NLS-1$
-				"DataSetParamConvertTest_out_1.xml" ) ); //$NON-NLS-1$
+		saveDesignValuesToFile( values ); 
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_1.xml") ); //$NON-NLS-1$
 
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		saveAs( "DataSetParamConvertTest_out_2.xml" ); //$NON-NLS-1$
-
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_2.xml", //$NON-NLS-1$
-				"DataSetParamConvertTest_out_2.xml" ) ); //$NON-NLS-1$
+		save( ); 
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_2.xml") ); //$NON-NLS-1$
 	}
 
 	/**
@@ -175,10 +172,9 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		saveAs( "DataSetParamConvertTest_out_3.xml" ); //$NON-NLS-1$
+		save( ); 
 
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_3.xml", //$NON-NLS-1$
-				"DataSetParamConvertTest_out_3.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

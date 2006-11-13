@@ -5,7 +5,7 @@
     <design:parameterDefinitions>
       <design:inOutMode>In</design:inOutMode>
       <design:attributes>
-        <design:name>name</design:name>
+        <design:name></design:name>
         <design:position>1</design:position>
         <design:nullability>Unknown</design:nullability>
       </design:attributes>
@@ -19,7 +19,7 @@
     <design:parameterDefinitions>
       <design:inOutMode>In</design:inOutMode>
       <design:attributes>
-        <design:name>date</design:name>
+        <design:name></design:name>
         <design:position>2</design:position>
         <design:nullability>Unknown</design:nullability>
       </design:attributes>
@@ -33,7 +33,7 @@
     <design:parameterDefinitions>
       <design:inOutMode>In</design:inOutMode>
       <design:attributes>
-        <design:name>name3</design:name>
+        <design:name></design:name>
         <design:position>3</design:position>
         <design:nullability>Unknown</design:nullability>
       </design:attributes>

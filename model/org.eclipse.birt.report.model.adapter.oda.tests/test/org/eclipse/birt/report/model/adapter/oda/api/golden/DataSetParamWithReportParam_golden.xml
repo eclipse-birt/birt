@@ -5,7 +5,7 @@
     <design:parameterDefinitions>
       <design:inOutMode>In</design:inOutMode>
       <design:attributes>
-        <design:name>dataSetParam1</design:name>
+        <design:name></design:name>
         <design:position>1</design:position>
         <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
         <design:nullability>Nullable</design:nullability>
@@ -113,7 +113,7 @@
     <design:parameterDefinitions>
       <design:inOutMode>Out</design:inOutMode>
       <design:attributes>
-        <design:name>dataSetParam2</design:name>
+        <design:name></design:name>
         <design:position>2</design:position>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
@@ -205,7 +205,7 @@
     <design:parameterDefinitions>
       <design:inOutMode>InOut</design:inOutMode>
       <design:attributes>
-        <design:name>dataSetParam3</design:name>
+        <design:name></design:name>
         <design:position>3</design:position>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>

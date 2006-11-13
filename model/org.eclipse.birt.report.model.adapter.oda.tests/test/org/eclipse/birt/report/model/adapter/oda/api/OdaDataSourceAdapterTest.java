@@ -111,8 +111,8 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		designHandle.getDataSources( ).add( sourceHandle );
 
-		saveAs( OUTPUT_FILE );
-		assertTrue( compareTextFile( GOLDEN_FILE, OUTPUT_FILE ) );
+		save();
+		assertTrue( compareTextFile( GOLDEN_FILE ) );
 	}
 
 	/**
@@ -146,15 +146,13 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 		assertTrue( designHandle.getCommandStack( ).canRedo( ) );
 
-		saveAs( OUTPUT_FILE_WITH_EMPTY_PROPS );
-		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS,
-				OUTPUT_FILE_WITH_EMPTY_PROPS ) );
+		save(  );
+		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );
 
 		designHandle.getCommandStack( ).redo( );
 
-		saveAs( OUTPUT_FILE1_WITH_EMPTY_PROPS );
-		assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS,
-				OUTPUT_FILE1_WITH_EMPTY_PROPS ) );
+		save( );
+		assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS ) );
 	}
 
 	/**
@@ -213,9 +211,8 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( ).updateROMDesignerState( designerState,
 				sourceHandle );
 
-		saveAs( "OdaDataSourceDesignerState_out.xml" ); //$NON-NLS-1$
-		compareTextFile( "OdaDataSourceDesignerState_golden.xml", //$NON-NLS-1$
-				"OdaDataSourceDesignerState_out.xml" ); //$NON-NLS-1$
+		save( ); 
+		compareTextFile( "OdaDataSourceDesignerState_golden.xml" ); //$NON-NLS-1$
 		
 		sourceHandle.setDesignerState( null );
 		assertNull( sourceHandle.getDesignerState( ) );

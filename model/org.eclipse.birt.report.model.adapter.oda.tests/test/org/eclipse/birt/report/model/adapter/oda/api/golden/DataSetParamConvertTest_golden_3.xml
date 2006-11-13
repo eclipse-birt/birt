@@ -10,20 +10,17 @@
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
-                    <property name="nativeName">name</property>
                     <property name="position">1</property>
                     <expression name="defaultValue">expression</expression>
                 </structure>
                 <structure>
                     <property name="name">date</property>
-                    <property name="nativeName">date</property>
                     <property name="dataType">dateTime</property>
                     <property name="position">2</property>
                     <expression name="defaultValue">date time expression</expression>
                 </structure>
                 <structure>
                     <property name="name">name3</property>
-                    <property name="nativeName">name3</property>
                     <property name="dataType">string</property>
                     <property name="position">3</property>
                     <expression name="defaultValue">225</expression>

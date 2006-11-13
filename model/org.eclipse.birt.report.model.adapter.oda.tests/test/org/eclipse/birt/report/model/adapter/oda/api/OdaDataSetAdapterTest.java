@@ -94,7 +94,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 		ParameterDefinition paramDefn = (ParameterDefinition) params
 				.getParameterDefinitions( ).get( 0 );
 		DataElementAttributes dataAttrs = paramDefn.getAttributes( );
-		assertEquals( "name", dataAttrs.getName( ) ); //$NON-NLS-1$
+		//assertEquals( "name", dataAttrs.getName( ) ); //$NON-NLS-1$
 		assertEquals( ElementNullability.NULLABLE, dataAttrs.getNullability( )
 				.getValue( ) );
 		assertEquals( 1, dataAttrs.getPosition( ) );
@@ -176,9 +176,9 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 		assertNotNull( setHandle.getDataSource( ) );
 		assertEquals( "myDataSource1", setHandle.getDataSource( ).getName( ) ); //$NON-NLS-1$
-		saveAs( OUTPUT_FILE );
+		save( );
 
-		assertTrue( compareTextFile( GOLDEN_FILE, OUTPUT_FILE ) );
+		assertTrue( compareTextFile( GOLDEN_FILE ) );
 	}
 
 	/**
@@ -212,16 +212,14 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 		assertTrue( designHandle.getCommandStack( ).canRedo( ) );
 
-		saveAs( OUTPUT_FILE_WITH_EMPTY_PROPS );
-		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS,
-				OUTPUT_FILE_WITH_EMPTY_PROPS ) );
+		save(  );
+		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );
 
 		designHandle.getCommandStack( ).redo( );
 
-		saveAs( OUTPUT_FILE1_WITH_EMPTY_PROPS );
+		save( );
 
-		assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS,
-				OUTPUT_FILE1_WITH_EMPTY_PROPS ) );
+		assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS ) );
 
 		openDesign( INPUT_FILE_WITH_LIB );
 
@@ -365,9 +363,8 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateROMDesignerState( designerState, setHandle );
 
-		saveAs( "OdaDataSetDesignerState_out.xml" ); //$NON-NLS-1$
-		compareTextFile( "OdaDataSetDesignerState_golden.xml", //$NON-NLS-1$
-				"OdaDataSetDesignerState_out.xml" ); //$NON-NLS-1$
+		save( ); 
+		compareTextFile( "OdaDataSetDesignerState_golden.xml"); //$NON-NLS-1$
 
 		setHandle.setDesignerState( null );
 		assertNull( setHandle.getDesignerState( ) );
@@ -418,9 +415,8 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 		adapter.updateDataSetHandle( dataSetDesign, dataSet, false );
 
-		saveAs( "CreateDataSetReferDataSource_out.xml" ); //$NON-NLS-1$
-		assertTrue( compareTextFile(
-				"CreateDataSetReferDataSource_golden.xml", "CreateDataSetReferDataSource_out.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		save( ); 
+		assertTrue( compareTextFile( "CreateDataSetReferDataSource_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 }

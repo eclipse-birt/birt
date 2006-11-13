@@ -5,12 +5,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.model.adapter.oda.api.DataSetParameterAdapterTest;
-import org.eclipse.birt.report.model.adapter.oda.api.OdaDataSetAdapterTest;
-import org.eclipse.birt.report.model.adapter.oda.api.OdaDataSourceAdapterTest;
-import org.eclipse.birt.report.model.adapter.oda.api.ReportParameterAdapterTest;
-import org.eclipse.birt.report.model.adapter.oda.api.ResultSetColumnAdapterTest;
-import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtilTest;
+import org.eclipse.birt.report.model.adapter.oda.api.AllApiTests;
+import org.eclipse.birt.report.model.adapter.oda.util.AllUtilTests;
 
 /**
  * Tests cases run in the build script.
@@ -20,24 +16,17 @@ public class AllTests extends TestCase
 {
 
 	/**
-	 * @return
+	 *  @return test run in build script
 	 */
-	
 	public static Test suite( )
 	{
-		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.report.model.adapter.oda" ); //$NON-NLS-1$
-		// $JUnit-BEGIN$
-
-		/* in package: org.eclipse.birt.report.engine.api */
-		suite.addTestSuite( DataSetParameterAdapterTest.class );
-		suite.addTestSuite( OdaDataSourceAdapterTest.class );
-		suite.addTestSuite( OdaDataSetAdapterTest.class );
-        suite.addTestSuite( ParameterValueUtilTest.class );
-        suite.addTestSuite( ResultSetColumnAdapterTest.class );
-        suite.addTestSuite( ReportParameterAdapterTest.class );
-		// $JUnit-END$
-		return suite;
+		TestSuite test = new TestSuite( );
+		
+		// add all package tests here
+		test.addTest( AllUtilTests.suite( ) );
+		test.addTest( AllApiTests.suite( ) );
+		
+		return test;
 	}
 
 }
