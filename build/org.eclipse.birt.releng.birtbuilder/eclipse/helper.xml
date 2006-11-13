@@ -524,11 +524,11 @@
 		</exec>
 		<delete>
 			<fileset dir="${test.dir}/eclipse/plugins">
-				<include name="*.itext*/**"/>
+				<include name="*.itext*"/>
 			</fileset>
 		</delete>
 		<copy todir="${test.dir}/eclipse/plugins">
-			<fileset dir="${baseLocation}/plugins">
+			<fileset dir="${buildDirectory}/plugins">
 				<include name="*.itext*/**"/>
 			</fileset>
 		</copy>
