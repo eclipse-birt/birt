@@ -39,6 +39,7 @@
 		<!-- ***  change the repo info -->
 		<property name="mapCvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt" />
 		<property name="mapVersionTag" value="HEAD" />
+
 		<cvs cvsRoot="${mapCvsRoot}"
 			package="source/org.eclipse.birt.releng"
 			dest="${buildDirectory}/maps"
