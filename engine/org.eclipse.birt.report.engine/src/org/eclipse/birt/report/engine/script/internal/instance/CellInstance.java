@@ -25,14 +25,16 @@ public class CellInstance extends ReportElementInstance
 
 	private ICellContent cell;
 
-	private boolean fromGrid;
+	//comment off the variable fromGrid to fix a warning of bug 161814.
+	//private boolean fromGrid;
 
 	public CellInstance( ICellContent cell, ExecutionContext context,
 			boolean fromGrid )
 	{
 		super( cell, context );
 		this.cell = cell;
-		this.fromGrid = fromGrid;
+		//comment off the variable fromGrid to fix a warning of bug 161814.
+		//this.fromGrid = fromGrid;
 	}
 
 	/*
