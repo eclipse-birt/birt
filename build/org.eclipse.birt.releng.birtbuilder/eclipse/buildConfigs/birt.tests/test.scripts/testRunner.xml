@@ -10,7 +10,8 @@
 		<antcall target="org.eclipse.birt.report.engine.emitter.html.tests"/>
 		<antcall target="org.eclipse.birt.report.model.tests"/>
 		<antcall target="org.eclipse.birt.report.model.adapter.oda.tests"/>
-		
+        <antcall target="org.eclipse.birt.data.tests"/>
+        <antcall target="org.eclipse.birt.report.data.oda.jdbc.tests"/>
 	</target>
 	
 	<target name="org.eclipse.birt.core.tests">
@@ -43,4 +44,14 @@
 			<property name="os" value="${os}"/>
 		</ant>
 	</target>
+    <target name="org.eclipse.birt.data.tests">
+            <ant dir="${working.dir}/org.eclipse.birt.data.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+            </ant>
+    </target>
+    <target name="org.eclipse.birt.report.data.oda.jdbc.tests">
+            <ant dir="${working.dir}/org.eclipse.birt.report.data.oda.jdbc.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+            </ant>
+    </target>
 </project>
