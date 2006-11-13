@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.7" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <html-property name="description">WizardTemplateChoicePage.message.BlankReport</html-property>
     <text-property name="displayName">WizardTemplateChoicePage.title.BlankReport</text-property>
