@@ -49,7 +49,7 @@ buildId=""
 buildLabel=""
 
 # tag for build contribution project containing .map files
-mapVersionTag=HEAD
+mapVersionTag=B_20061102_new_property_editor
 
 # directory in which to export builder projects
 builderDir=/home/adb/farrah/BIRTBuilder/
@@ -184,9 +184,9 @@ antRunner="`which java` -Xmx500m -jar ../BaseBuilder/startup.jar -Dosgi.os=linux
 echo "==========[antRunner]: $antRunner" >> adb.log
 
 #clean drop directories
-#ant -buildfile eclipse/helper.xml cleanBuild >> adb.log
-#ant -buildfile eclipse/helper.xml getDTPDownloads >> adb.log
-#ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
+ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
+ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
+ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 echo recipients=$recipients >>adb.log
 echo postingDirectory=$postingDirectory >>adb.log
@@ -195,8 +195,11 @@ echo buildDirectory=$buildDirectory >>adb.log
 echo bootclasspath=$bootclasspath >>adb.log
 echo bootclasspath_15=$bootclasspath_15 >>adb.log
 
+#buildId=v20061110-1136
+
 #full command with args
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -DgenerateFeatureVersionSuffix=false -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/farrah/src -DbaseLocation=/home/adb/farrah/baseLocation -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/farrah/BaseBuilder -DpostPackage=BIRT_Build_Output -DforceContextQualifier=$buildId"
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -DgenerateFeatureVersionSuffix=false -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/farrah/src -DbaseLocation=/home/adb/farrah/baseLocation -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/farrah/BaseBuilder -DpostPackage=BIRT_Build_Output -DforceContextQualifier=$buildId -Doutput.test.dir=/home/adb/spmdb"
+
 
 #skipPreBuild
 
