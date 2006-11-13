@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.data.tests
+Bundle-ClassPath: dataenginetests.jar
 Bundle-Version: 2.2.0.qualifier
 Bundle-Activator: org.eclipse.birt.data.tests.plugin.Activator
 Bundle-Localization: plugin
