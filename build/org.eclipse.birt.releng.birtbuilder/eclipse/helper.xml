@@ -495,6 +495,17 @@
 			</fileset> 
 		</copy>
 	</target>
+	
+	<!-- Build BIRT Web Viewer -->
+	<target name="BuildWebViewer" depends="init">
+		<mkdir dir="${buildDirectory}/${buildLabel}/birt_web"/>
+		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar">
+		</ant>
+		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
+			<property name="export.dir" value="${buildDirectory}/${buildLabel}/birt_web"/>
+		</ant>
+	</target>
+	
 	<target name="runBirtTest" depends="init">
 		<!-- Clean last test plugins -->
 		<delete includeEmptyDirs="true" failonerror="false">
@@ -510,12 +521,7 @@
 				<include name="**/org.apache.commons.codec*/**"/>
 			</fileset>
 		</delete>
-		<copy todir="${test.dir}">
-			<fileset dir="${postDirectory}/${buildLabel}">
-				<include name="birt-report-framework-2_2_0.zip"/>
-				<include name="birt-tests-suite-2_2_0.zip"/>
-			</fileset>
-		</copy>
+
 		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
 			<arg line="-o -q birt-report-framework-2_2_0.zip -d ${test.dir}" />
 		</exec>

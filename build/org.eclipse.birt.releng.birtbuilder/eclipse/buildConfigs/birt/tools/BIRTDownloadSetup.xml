@@ -531,7 +531,7 @@
 	<target name="createBirtRuntime"  depends="createWAR">
 		<!--   Zip Engine runtime file    -->
 		<copy todir="${runtime.tmp}/ChartEngine" flatten="true">
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins">
+			<fileset dir="${deposit}/eclipse/plugins">
 				<patternset refid="chart.runtime.jars" />
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<exclude name="*.nl1_*/**"/>
@@ -551,16 +551,18 @@
 			</fileset>
 		</copy>
 		<copy todir="${runtime.tmp}/ChartEngine" >
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins">
+			<fileset dir="${deposit}/eclipse/plugins">
 				<include name="org.apache.batik_*/**" />
 				<include name="org.apache.batik.pdf_*/**" />
+			</fileset>
+			<fileset dir="${baseLocation}/plugins">
 				<include name="org.apache.xerces_*/**" />
 			</fileset>
 		</copy>
 
         <!-- ReportEngine-->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
-			<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web/WEB-INF/platform">
+			<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
 				<exclude name="**/*.nl1_*/**"/>
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
@@ -573,7 +575,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${runtime.tmp}/ReportEngine">
-			<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web/WEB-INF">
+			<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web/WEB-INF">
 				<include name="lib/*.*" />
 			</fileset>
 		</copy>
@@ -594,9 +596,10 @@
 				<include name="*.*" />
 			</fileset>
 		</copy>
+		
 		<!-- WebViewerExample-->
 		<copy todir="${runtime.tmp}/WebViewerExample">
-			<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web">
+			<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web">
 				<patternset refid="exclude.jars" />
 			    <exclude name="plugins/**"/>
 				<exclude name="images/**" />
@@ -620,32 +623,7 @@
 		<delete file="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" />
 		<jar destfile="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
 		<delete dir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
-		<!-- copy additional jars -->
-        <!-- Fixing bugzilla bug #155489, comment these copy steps -->
-        <!--
-		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/">
-			<fileset dir="${eclipse.home}/plugins/">
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-		</copy>
-		<copy todir="${runtime.tmp}/ReportEngine/lib">
-			<fileset dir="${eclipse.home}/plugins/">
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.tmp}/ReportEngine/lib">
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-		</copy>
-		-->
+
 		<copy todir="${runtime.tmp}">
 			<fileset dir="${template.dir}/birt.runtime.files">
 				<include name="*.*" />
@@ -657,7 +635,7 @@
 			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform" includes="lib/**" />
 		</delete>
 		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
+			<fileset dir="${deposit}/eclipse/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
 		</copy>
 		<zip destfile="${workingDir}/${runtime.zip.name}">
 			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}">
@@ -743,12 +721,10 @@
 	</target>	
 	
 	<target name="createWAR">
-	   <property file="${eclipse.home}/plugins/org.eclipse.birt.report.viewer/META-INF/MANIFEST.MF"/> 
-	   <property name="plugin.package" value="${Bundle-Version}" />
 	   <mkdir dir="${runtime.tmp}" />
 	   <mkdir dir="${war.tmp}/birt" />
        <copy todir="${war.tmp}/birt">
-       		<fileset dir="${deposit}/integrated/birt.web.viewer${package3.3}/org.eclipse.birt.report.viewer_${plugin.package}/birt_web" >
+       		<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web" >
        			<exclude name="plugins/**" />
 				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar"/>
 				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
@@ -768,28 +744,14 @@
 		<delete file="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" />
 		<jar destfile="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" basedir="${war.tmp}/birt/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
 		<delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
-		<!-- copy additional jars -->
-        <!-- Fixing bugzilla bug #155489-->
-        <!--
-		<copy todir="${war.tmp}/birt/WEB-INF/lib">
-			<fileset dir="${eclipse.home}/plugins/">
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${war.tmp}/birt/WEB-INF/lib">
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-		</copy>
-        -->
+
 		<delete dir="${war.tmp}/birt/ajax" failonerror="false" />
 		
 		<delete includeEmptyDirs="true" failonerror="false" >
 			<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
 		</delete>
 		<copy todir="${war.tmp}/birt/WEB-INF/platform/plugins">
-			<fileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
+			<fileset dir="${deposit}/eclipse/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
 		</copy>
 	   <zip destfile="${runtime.tmp}/birt.war">
 			<zipfileset dir="${war.tmp}/birt" >
