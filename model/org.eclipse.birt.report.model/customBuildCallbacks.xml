@@ -61,8 +61,8 @@
 			    <pathelement path="@dot"/>
 			    <pathelement path="${build.dir}"/>
 			    <pathelement path="../org.eclipse.birt.core/@dot" />
-		        <pathelement path="${baseLocation}/plugins/org.apache.commons.codec/lib/commons-codec-1.3.jar" />
-			    <fileset dir="${baseLocation}/plugins/org.w3c.sac/lib">
+		        <pathelement path="../org.apache.commons.codec/lib/commons-codec-1.3.jar" />
+			    <fileset dir="../org.w3c.sac/lib">
 					<include name="*.jar" />
 			    </fileset>					
 			    <fileset dir="${baseLocation}/plugins/">			
