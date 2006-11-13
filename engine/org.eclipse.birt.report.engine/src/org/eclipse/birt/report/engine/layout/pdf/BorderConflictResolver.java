@@ -278,7 +278,7 @@ public class BorderConflictResolver
 					if ( ss[i] > max )
 					{
 						max = ss[i];
-						maxFirstIndex = i;
+						maxStyleIndex = i;
 					}
 				}
 			}
