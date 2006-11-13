@@ -314,6 +314,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dStep = asDouble( oStep ).doubleValue( );
 				if ( bIntegralZoom )
 				{
+					final double oldStep = dStep;
 					double dPower = ( Math.log( dStep ) / LOG_10 );
 					dPower = Math.floor( dPower );
 					dPower = Math.pow( 10.0, dPower );
@@ -335,6 +336,11 @@ public final class AutoScale extends Methods implements Cloneable
 							}
 							break;
 						}
+					}
+					// To prevent endless loop if step is not changed
+					if ( dStep == oldStep )
+					{
+						dStep /= 2;
 					}
 					oStep = new Double( dStep );
 				}
