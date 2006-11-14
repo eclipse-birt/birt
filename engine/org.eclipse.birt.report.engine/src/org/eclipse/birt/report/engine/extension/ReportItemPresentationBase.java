@@ -28,6 +28,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 {
 
 	protected ExtendedItemHandle modelHandle;
+	protected ClassLoader appClassLoader;
 	protected IReportContext context;
 	protected int dpi = 72;
 	protected String outputFormat;
@@ -89,6 +90,11 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 		this.modelHandle = modelHandle;
 	}
 
+	public void setApplicationClassLoader( ClassLoader loader )
+	{
+		this.appClassLoader = loader;
+	}
+	
 	public void setScriptContext( IReportContext context )
 	{
 		this.context = context;

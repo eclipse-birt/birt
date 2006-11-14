@@ -34,6 +34,14 @@ public interface IReportItemGeneration
 	public abstract void setModelObject( ExtendedItemHandle modelHandle );
 
 	/**
+	 * passes the class loader used to load user defined classes.
+	 * 
+	 * @param loader
+	 *            class loader used to load the classes
+	 */
+	public abstract void setApplicationClassLoader( ClassLoader loader );
+
+	/**
 	 * pass the script context to the report item.
 	 * 
 	 * @param context
