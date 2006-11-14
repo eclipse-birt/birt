@@ -37,6 +37,7 @@
 	<target name="org.eclipse.birt.report.model.tests">
 		<ant dir="${working.dir}/org.eclipse.birt.report.model.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.model.adapter.oda.tests">

@@ -256,7 +256,7 @@
 
 		<antcall target="createBirtFramework" />
 
-		<!--antcall target="createBirtRuntime" /-->
+		<antcall target="createBirtRuntime" />
 
 		<!--antcall target="createTestSuite" /-->
 		
@@ -637,7 +637,7 @@
 		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
 			<fileset dir="${deposit}/eclipse/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
 		</copy>
-		<zip destfile="${workingDir}/${runtime.zip.name}">
+		<zip destfile="${OutputDir}/${runtime.zip.name}">
 			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}">
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="${birt.runtime.dir.prefix}">
@@ -689,7 +689,7 @@
 	
 	<target name="createTestSuite">
 		<!--  Make Test Suite ZIP file-->
-		<zip destfile="${workingDir}/${test.suite.zip.name}">
+		<zip destfile="${OutputDir}/${test.suite.zip.name}">
 			<zipfileset dir="${test.suite.dir}/source" prefix="${ZipPrefix}">
 				<include name="**/*" />
 				<exclude name="**/CVS/**" />
@@ -724,7 +724,7 @@
 	   <mkdir dir="${runtime.tmp}" />
 	   <mkdir dir="${war.tmp}/birt" />
        <copy todir="${war.tmp}/birt">
-       		<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web" >
+       		<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
        			<exclude name="plugins/**" />
 				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar"/>
 				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
