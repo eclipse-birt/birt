@@ -761,4 +761,22 @@ public class CDateTime extends GregorianCalendar
 	{
 		return _sdf.format( getTime( ) );
 	}
+	
+	public boolean after( Object when )
+	{
+		if ( when == null )
+		{
+			return false;
+		}
+		return super.after( when );
+	}
+
+	public boolean before( Object when )
+	{
+		if ( when == null )
+		{
+			return false;
+		}
+		return super.before( when );
+	}
 }
