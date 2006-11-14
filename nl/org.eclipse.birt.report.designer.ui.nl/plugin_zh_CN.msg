@@ -1,0 +1,54 @@
+###############################################################################
+# Copyright (c) 2004 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+
+###############################################################################
+# Build Info
+###############################################################################
+Build=@BUILD@
+
+###############################################################################
+# General Info
+###############################################################################
+ReportWizardDescription=此向导使用预定义模板创建新报表。
+ReportProjectWizardDescription=新建报表项目。
+ReportPerspective=报表设计
+ReportViews=报表设计
+WizardCategoryName=业务智能和报告工具
+ReportWizard=报表
+ReportProjectWizard=报表项目
+ReportEditor=报表编辑器
+QuickEditView=属性编辑器
+DataExplorerView=数据资源管理器
+
+###############################################################################
+# UI Framework
+###############################################################################
+designer.ui.extensionPointName=报表扩展元素 UI
+
+preference.birt=报表设计
+preference.datasetpreview=数据集编辑器
+preference.preview=预览
+preference.preview.server=预览服务器
+preference.elementnames=元素名称
+preference.library=库
+preference.template=模板
+preference.resource=资源
+preference.commenttemplates=注释模板
+
+designer.action.undo.label=撤消
+designer.action.redo.label=重复
+
+extension.odadatasource=ODA 数据源扩展点
+
+publish.template=发布到模板文件夹...
+publish.library=将库发布至资源文件夹...
+
+ActionSet.Publish=发布

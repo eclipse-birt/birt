@@ -1,0 +1,54 @@
+###############################################################################
+# Copyright (c) 2004 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+
+###############################################################################
+# Build Info
+###############################################################################
+Build=@BUILD@
+
+###############################################################################
+# General Info
+###############################################################################
+ReportWizardDescription=Mit diesem Assistenten wird ein neuer Bericht aus einer vordefinierten Vorlage erstellt.
+ReportProjectWizardDescription=Erstellt ein neues Berichtprojekt.
+ReportPerspective=Berichtdesign
+ReportViews=Berichtdesign
+WizardCategoryName=Business Intelligence & Reporting Tools
+ReportWizard=Bericht
+ReportProjectWizard=Berichtprojekt
+ReportEditor=Bericht-Editor
+QuickEditView=Eigenschaftseditor
+DataExplorerView=Daten-Explorer
+
+###############################################################################
+# UI Framework
+###############################################################################
+designer.ui.extensionPointName=Bericht mit erweiterter Element-Benutzeroberfläche
+
+preference.birt=Berichtdesign
+preference.datasetpreview=Datensatzeditor
+preference.preview=Vorschau
+preference.preview.server=Vorschau-Server
+preference.elementnames=Elementnamen
+preference.library=Bibliothek
+preference.template=Vorlage
+preference.resource=Ressource
+preference.commenttemplates=Kommentarvorlage
+
+designer.action.undo.label=Rückgängig
+designer.action.redo.label=Wiederherstellen
+
+extension.odadatasource=ODA-Datenquellen-Erweiterungspunkt
+
+publish.template=In Vorlagenordner veröffentlichen...
+publish.library=Bibliothek im Ressourcenordner veröffentlichen...
+
+ActionSet.Publish=Veröffentlichen
