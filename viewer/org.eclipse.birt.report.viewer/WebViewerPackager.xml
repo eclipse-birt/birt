@@ -23,7 +23,7 @@
  * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
  * "Jar" - Compile source code and generate jar for this project.
  *          The compile dependency on other projects should be defined explicitly.
- *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *         baseLocation should be passed in when Individual project build script  call this target; 
  *          the property of "failonerror" should be set true(default) when compiling source code
  * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
  *              so it needn't depend on Jar explicitly
@@ -34,7 +34,7 @@
  *
  * Usage:
  *    ant [any one or more of the public targets] 
- *        -Declipse.home=<your eclipse home> 
+ *        -DbaseLocation=<your eclipse home> 
  *        -Ddtp.home=<your DTP plugins source home>   [optional]
  *
  * Default target is "Jar".
@@ -61,19 +61,18 @@
 	<!-- Public properties, used by public targets, top level build script
 			     will pass on the value at runtime. Properties will have there default
 			     value.
-			     eclipse.home
+			     baseLocation
 			     utest.report.dir
 			     javadoc.dir
 			     plugin.version 
 		-->
-	<property name="eclipse.home" location="." />
 	<property name="dtp.home" location=".." />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
 
 	<!-- Compiler properties -->
-	<property name="compilerArg" value="" />
+	<!--property name="compilerArg" value="" /-->
 
 	<!-- Eclipse related. Default version 3.0.0 -->
 	<property name="plugin.tomcat" value="org.eclipse.tomcat" />
@@ -211,7 +210,7 @@
 		<mkdir dir="${javadoc.dir}" />
 		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Viewer Project" source="1.4" packagenames="${module.name}.*">
 			<classpath>
-				<fileset dir="${eclipse.home}/plugins">
+				<fileset dir="${baseLocation}/plugins">
 					<include name="${plugin.runtime}_*/runtime.jar" />
 					<include name="${plugin.equinox}*.jar" />
 					<include name="${plugin.osgi}_*/*.jar" />
@@ -263,9 +262,9 @@
 	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
 	<mkdir dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
 	<javac destdir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
-		<compilerarg line="${compilerArg}" />
+		<!--compilerarg line="${compilerArg}" /-->
 		<classpath>
-			<fileset dir="${eclipse.home}/plugins">
+			<fileset dir="${baseLocation}/plugins">
 				<include name="${plugin.tomcat}_*/servlet.jar" />
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
@@ -290,7 +289,7 @@
 <!-- Prepare data adapter jar -->
 <!-- target name="dataadapter">
 			<ant dir="${data-adapter-api.dir}" antfile="BuildDataAdapter.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-				<property name="eclipse.home" value="${eclipse.home}" />
+				<property name="baseLocation" value="${baseLocation}" />
 			</ant>
 		</target -->
 
@@ -300,7 +299,7 @@
 		<fileset dir="${chart-engine.dir}">
 			<include name="*.jar" />
 		</fileset>
-		<fileset dir="${eclipse.home}/plugins">
+		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
 			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 			<include name="org.eclipse.emf.ecore_*.jar" />
@@ -312,7 +311,7 @@
 <target name="precompile" depends="init" description="Precompile jsp pages.">
 	<taskdef classname="org.apache.jasper.JspC" name="jasper2">
 		<classpath>
-			<fileset dir="${eclipse.home}/plugins">
+			<fileset dir="${baseLocation}/plugins">
 				<include name="${plugin.tomcat}_*/*.jar" />
 			</fileset>
 		</classpath>
@@ -321,9 +320,9 @@
 	<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
 
 	<javac destdir="${birt.dir}/WEB-INF/classes" source="1.4">
-		<compilerarg line="${compilerArg}" />
+		<!--compilerarg line="${compilerArg}" /-->
 		<classpath>
-			<fileset dir="${eclipse.home}/plugins">
+			<fileset dir="${baseLocation}/plugins">
 				<include name="${plugin.tomcat}_*/*.jar" />
 			</fileset>
 			<fileset dir="${birt.dir}/WEB-INF/lib">
