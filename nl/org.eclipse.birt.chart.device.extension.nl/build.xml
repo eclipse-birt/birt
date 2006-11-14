@@ -14,7 +14,7 @@
  *
  *  build.xml
  *
- *  Build script for project org.eclipse.birt.chart.device.svg.nl
+ *  Build script for project org.eclipse.birt.chart.device.extension.nl
  *
  * "Clean" - Clean nl.jar file and *.properties files generated from
  *           native2ascii.exe.
@@ -36,14 +36,14 @@
  *
 -->
 
-<project name="org.eclipse.birt.chart.device.svg.nl" default="Jar" basedir=".">
-	<description>NL Fragment for org.eclipse.birt.chart.device.svg</description>
+<project name="org.eclipse.birt.chart.device.extension.nl" default="Jar" basedir=".">
+	<description>NL Fragment for org.eclipse.birt.chart.device.extension.</description>
 
-	<property file="META-INF/MANIFEST.MF" />
+	<property file="META-INF/MANIFEST.MF" />	
     <property name="dir.src" value="src" />
  	<property name="dir.bin" value="bin" />
 	<property name="nl.group" value="1" />
-	<property name="module.name" value="org.eclipse.birt.chart.device.svg.nl" />
+	<property name="module.name" value="org.eclipse.birt.chart.device.extension.nl" />
 	<property name="jar.name" value="${module.name}${nl.group}_${Bundle-Version}.jar" />
 
 	<target name="Clean">
