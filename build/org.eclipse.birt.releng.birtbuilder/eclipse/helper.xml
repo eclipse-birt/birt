@@ -369,6 +369,11 @@
                 <copy todir="${p4.home}/CvsDiff"  overwrite="true" failonerror="true">
                         <fileset dir="${p4.workspace}/Development/JRP/Dev/build/cvsDiff"/>
                 </copy>
+				<copy todir="${p4.home}/../PackageFiles/template" overwrite="true" failonerror="true">
+					<fileset dir="${p4.workspace}/Development/JRP/Dev/build/script/template">
+						<include name="*"/>
+					</fileset>
+				</copy>
 
 	</target>
 
@@ -445,6 +450,7 @@
 			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda.designer.finfo_*.jar"/>
 			<include name="org.eclipse.datatools.connectivity.oda.finfo_*.jar"/>
+			<include name="org.eclipse.datatools.connectivity.oda.template.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.xml.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.designer.finfo_*.jar"/>
