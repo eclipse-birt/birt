@@ -17,7 +17,7 @@ import org.eclipse.birt.core.framework.IExtension;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
  */
 class EclipseExtension implements IExtension
 {
@@ -50,7 +50,7 @@ class EclipseExtension implements IExtension
 	 * @return
 	 */
 	public String getNamespace() {
-		return object.getNamespace();
+		return object.getContributor().getName();
 	}
 	/**
 	 * @return
