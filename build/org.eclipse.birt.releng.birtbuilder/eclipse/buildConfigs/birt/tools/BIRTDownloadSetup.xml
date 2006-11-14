@@ -562,7 +562,7 @@
 
         <!-- ReportEngine-->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
-			<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
 				<exclude name="**/*.nl1_*/**"/>
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
@@ -575,7 +575,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${runtime.tmp}/ReportEngine">
-			<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web/WEB-INF">
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF">
 				<include name="lib/*.*" />
 			</fileset>
 		</copy>
@@ -599,7 +599,7 @@
 		
 		<!-- WebViewerExample-->
 		<copy todir="${runtime.tmp}/WebViewerExample">
-			<fileset dir="${deposit}/org.eclipse.birt.report.viewer/birt_web">
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web">
 				<patternset refid="exclude.jars" />
 			    <exclude name="plugins/**"/>
 				<exclude name="images/**" />

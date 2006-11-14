@@ -35,13 +35,13 @@
 	<property name="postingDirectory" value="${buildDirectory}" />
 
 	<target name="main" depends="init">
-		<!--
+		
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>		
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="integrateBirtFeatures"/>
+		<antcall target="buildBirtWebViewer"/>
 		<antcall target="CreateDistribute"/>
-		-->
 		<!--antcall target="CreateUpdateSiteJars"/-->
 		<antcall target="buildBirtTestFeature"/>
 		<antcall target="runBirtTest"/>
@@ -210,6 +210,11 @@
 			<property name="assemblyTempDir" value="${packagingInfo}/jartmp" />
 		</ant>
 	</target>
+	
+    <target name="buildBirtWebViewer">
+            <ant antfile="${eclipse.build.configs}/../helper.xml" target="BuildWebViewer" >
+            </ant>
+    </target>
 
 	
 </project>
