@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -46,7 +47,14 @@ public class ReportEngine implements IReportEngine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
-		Platform.initialize( config );
+		try
+		{
+			Platform.startup( config );
+		}
+		catch ( BirtException ex )
+		{
+			ex.printStackTrace( );
+		}
 
 		Object factory = Platform
 				.createFactoryObject(  IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );

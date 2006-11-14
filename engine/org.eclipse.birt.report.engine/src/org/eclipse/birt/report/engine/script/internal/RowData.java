@@ -55,18 +55,6 @@ public class RowData implements IRowData
 		if ( element != null )
 		{
 			addColumnBindings( element.columnBindingsIterator( ) );
-
-			if ( element instanceof ListingHandle )
-			{
-				// add the bindings in the group
-				ListingHandle list = (ListingHandle) element;
-				Iterator groupIter = list.getGroups( ).iterator( );
-				while ( groupIter.hasNext( ) )
-				{
-					GroupHandle group = (GroupHandle) groupIter.next( );
-					addColumnBindings( group.columnBindingsIterator( ) );
-				}
-			}
 		}
 	}
 
