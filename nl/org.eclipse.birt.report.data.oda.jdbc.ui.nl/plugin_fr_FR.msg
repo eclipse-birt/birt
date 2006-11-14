@@ -1,0 +1,40 @@
+###############################################################################
+# Copyright (c) 2004 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+
+###############################################################################
+# Viewer Path
+###############################################################################
+birt-viewer-driver-path=birt/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers
+
+###############################################################################
+# NLS String
+###############################################################################
+dataset.editor.page.query=Requête
+datasource.name=Source de données JDBC
+dataset.jdbcselect=SQL SELECT via JDBC
+datasource.editor.page.connection=Connexion à une source de données
+preference.datasetpreview=Jeu de données JDBC
+
+plugin.name=BIRT JDBC UI Plug-in
+oda.data.source.name=Source de données JDBC BIRT
+connection.profile.name=Profil de connexion à la source de données JDBC BIRT
+newwizard.name=Source de données JDBC BIRT
+newwizard.description=Créer un profil de connexion JDBC BIRT
+wizard.window.title=Nouveau profil de source de données JDBC
+wizard.data.source.page.title=Créer une nouvelle source de données
+profile.propertypage.name=Source de données JDBC BIRT
+
+oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc
+oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
+#
+#  Below NLS messages apply to all ODA data sources; should be re-factored
+#
+oda.connection.factory.name=Génération de connexion ODA

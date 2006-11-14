@@ -1,0 +1,40 @@
+###############################################################################
+# Copyright (c) 2004 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+
+###############################################################################
+# Viewer Path
+###############################################################################
+birt-viewer-driver-path=birt/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers
+
+###############################################################################
+# NLS String
+###############################################################################
+dataset.editor.page.query=クエリ
+datasource.name=JDBC データソース
+dataset.jdbcselect=JDBC を使用した SQL SELECT
+datasource.editor.page.connection=データソースの接続
+preference.datasetpreview=JDBC データセット
+
+plugin.name=BIRT JDBC UI Plug-in
+oda.data.source.name=BIRT JDBC データソース
+connection.profile.name=BIRT JDBC データソース接続プロファイル
+newwizard.name=BIRT JDBC データソース
+newwizard.description=BIRT JDBC の接続プロファイルを作成します。
+wizard.window.title=JDBC データソースプロファイルの新規作成
+wizard.data.source.page.title=新しいデータソースを作成します。
+profile.propertypage.name=BIRT JDBC データソース
+
+oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc
+oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
+#
+#  Below NLS messages apply to all ODA data sources; should be re-factored
+#
+oda.connection.factory.name=ODA 接続ファクトリ
