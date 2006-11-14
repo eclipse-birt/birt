@@ -1,0 +1,12 @@
+Series=Datenreihe
+CategoryXSeries=Kategorien-Datenreihe (X-Achse)
+ValueYSeries=Wert-Datenreihe (Y-Achse)
+CategorySeries=Kategorie-Datenreihe
+ValueSeries=Wert-Datenreihe
+ChartArea=Diagrammfläche
+Axis=Achse
+XAxis=X-Achse
+YAxis=Y-Achse
+ZAxis=Z-Achse
+Plot=Diagramm
+Legend=Legende

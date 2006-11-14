@@ -1,0 +1,12 @@
+Series=Series
+CategoryXSeries=Serie (X) de categoría
+ValueYSeries=Serie (Y) del valor
+CategorySeries=Serie de categoría
+ValueSeries=Serie del valor
+ChartArea=Área del diagrama
+Axis=Eje
+XAxis=Eje X
+YAxis=Eje Y
+ZAxis=Eje Z
+Plot=Dibujo
+Legend=Leyenda
