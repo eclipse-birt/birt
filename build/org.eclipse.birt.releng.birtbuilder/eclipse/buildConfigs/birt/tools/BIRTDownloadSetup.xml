@@ -563,6 +563,7 @@
         <!-- ReportEngine-->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
+				<patternset refid="exclude.jars" />
 				<exclude name="**/*.nl1_*/**"/>
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
@@ -726,6 +727,7 @@
        <copy todir="${war.tmp}/birt">
        		<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
        			<exclude name="plugins/**" />
+       			<patternset refid="exclude.jars" />
 				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar"/>
 				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
 				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
