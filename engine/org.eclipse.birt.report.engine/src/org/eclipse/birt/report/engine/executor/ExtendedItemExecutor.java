@@ -122,6 +122,8 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		if ( itemGeneration != null )
 		{
 			itemGeneration.setModelObject( handle );
+			itemGeneration.setApplicationClassLoader( context
+					.getApplicationClassLoader( ) );
 			itemGeneration.setScriptContext( context.getReportContext( ) );
 			IBaseQueryDefinition[] queries = ( (ExtendedItemDesign) item )
 					.getQueries( );

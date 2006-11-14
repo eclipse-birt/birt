@@ -569,6 +569,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		if ( itemPresentation != null )
 		{
 			itemPresentation.setModelObject( handle );
+			itemPresentation.setApplicationClassLoader( context
+					.getApplicationClassLoader( ) );
 			itemPresentation.setScriptContext( context.getReportContext( ) );
 			IBaseQueryDefinition[] queries = design.getQueries( );
 			if ( queries == null )

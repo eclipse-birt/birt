@@ -25,6 +25,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 {
 
 	protected ExtendedItemHandle modelHandle;
+	protected ClassLoader appClassLoader;
 	protected IReportContext context;
 	protected IBaseQueryDefinition[] queries;
 
@@ -64,6 +65,11 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 		this.modelHandle = modelHandle;
 	}
 
+	public void setApplicationClassLoader( ClassLoader loader )
+	{
+		this.appClassLoader = loader;
+	}
+	
 	public void setScriptContext( IReportContext context )
 	{
 		this.context = context;
