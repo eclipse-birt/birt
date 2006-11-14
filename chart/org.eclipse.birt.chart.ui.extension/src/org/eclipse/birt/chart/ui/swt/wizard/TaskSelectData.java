@@ -1241,7 +1241,8 @@ public class TaskSelectData extends SimpleTask implements
 					.getBaseSampleData( )
 					.get( 0 );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ) ) );
+					bsd.getDataSetRepresentation( ),
+					0 ) );
 		}
 		else
 		{
@@ -1260,7 +1261,8 @@ public class TaskSelectData extends SimpleTask implements
 						&& osd.getSeriesDefinitionIndex( ) < iEndIndex )
 				{
 					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-							osd.getDataSetRepresentation( ) ) );
+							osd.getDataSetRepresentation( ),
+							i ) );
 				}
 			}
 		}

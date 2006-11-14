@@ -1197,14 +1197,14 @@ public class TaskSelectType extends SimpleTask implements
 				List sdList = new ArrayList( );
 				sdList.addAll( ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ) );
-				
+
 				EList axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axisList.size( ); i++ )
 				{
 					sdList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
 				}
-				
+
 				for ( int i = 0; i < sdList.size( ); i++ )
 				{
 					checkDataType( ChartUIUtil.getDataQuery( (SeriesDefinition) sdList.get( i ),
@@ -1408,7 +1408,8 @@ public class TaskSelectType extends SimpleTask implements
 					.getBaseSampleData( )
 					.get( 0 );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ) ) );
+					bsd.getDataSetRepresentation( ),
+					0 ) );
 		}
 		else
 		{
@@ -1427,7 +1428,8 @@ public class TaskSelectType extends SimpleTask implements
 						&& osd.getSeriesDefinitionIndex( ) < iEndIndex )
 				{
 					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-							osd.getDataSetRepresentation( ) ) );
+							osd.getDataSetRepresentation( ),
+							i ) );
 				}
 			}
 		}

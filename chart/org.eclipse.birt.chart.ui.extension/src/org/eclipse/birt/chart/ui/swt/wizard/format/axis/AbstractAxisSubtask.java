@@ -71,10 +71,9 @@ import com.ibm.icu.util.TimeZone;
  * @author Actuate Corporation
  * 
  */
-abstract class AbstractAxisSubtask extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
+		Listener,
+		SelectionListener
 {
 
 	private transient ExternalizedTextEditorComposite txtTitle;
@@ -630,7 +629,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					.getBaseSampleData( )
 					.get( 0 );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ) ) );
+					bsd.getDataSetRepresentation( ),
+					0 ) );
 		}
 		else if ( getAxisAngleType( ) == AngleType.Y )
 		{
@@ -657,7 +657,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 						&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
 				{
 					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-							osd.getDataSetRepresentation( ) ) );
+							osd.getDataSetRepresentation( ),
+							i ) );
 				}
 			}
 		}

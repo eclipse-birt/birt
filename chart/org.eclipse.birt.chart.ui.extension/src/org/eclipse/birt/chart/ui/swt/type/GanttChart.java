@@ -218,7 +218,7 @@ public class GanttChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
-		//Cache series to keep attributes during conversion
+		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( ( currentChart instanceof ChartWithAxes ) ) // Chart is
@@ -262,13 +262,6 @@ public class GanttChart extends DefaultChartTypeImpl
 					|| currentChart.getType( )
 							.equals( DifferenceChart.TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
-				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-									.get( 0 ) ).getType( ) ) );
-				}
-
 				currentChart.setType( TYPE_LITERAL );
 
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
@@ -296,6 +289,13 @@ public class GanttChart extends DefaultChartTypeImpl
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.add( series );
 					}
+				}
+
+				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
+				{
+					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+									.get( 0 ) ).getType( ) ) );
 				}
 			}
 			else
@@ -448,7 +448,8 @@ public class GanttChart extends DefaultChartTypeImpl
 		{
 			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ) ) );
+					bsd.getDataSetRepresentation( ),
+					i ) );
 			vNewBaseSampleData.add( bsd );
 		}
 		currentSampleData.getBaseSampleData( ).clear( );
@@ -460,7 +461,10 @@ public class GanttChart extends DefaultChartTypeImpl
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( osd.getDataSetRepresentation( ) );
+			// osd.setDataSetRepresentation( osd.getDataSetRepresentation( ) );
+			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.DATE_TIME_LITERAL,
+					osd.getDataSetRepresentation( ),
+					i ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );

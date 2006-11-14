@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +52,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+
 /**
  * This UI component is made up of a combo selector for series selection, a
  * button for series deletion and a dynamic data components which is decided by
@@ -57,9 +62,8 @@ import org.eclipse.swt.widgets.Label;
  * instance. Series adding is embedded in Combo selector.
  */
 
-public class DataDefinitionSelector extends DefaultSelectDataComponent
-		implements
-			SelectionListener
+public class DataDefinitionSelector extends DefaultSelectDataComponent implements
+		SelectionListener
 {
 
 	private transient EList seriesDefns = null;
@@ -264,15 +268,24 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 
 		// Create a new OrthogonalSampleData instance from the existing one
 		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
-		sdOrthogonal.setSeriesDefinitionIndex( ChartUIUtil.getLastSeriesIndexWithinAxis( getChart( ),
-				axisIndex ) + 1 );
+		if ( axisIndex == -1 )
+		{
+			sdOrthogonal.setSeriesDefinitionIndex( seriesDefns.size( ) );
+		}
+		else
+		{
+			sdOrthogonal.setSeriesDefinitionIndex( ChartUIUtil.getLastSeriesIndexWithinAxis( getChart( ),
+					axisIndex ) + 1 );
+		}
+		sdOrthogonal.setDataSetRepresentation( convertDataSetRepresentation( sdOrthogonal.getDataSetRepresentation( ),
+				sdOrthogonal.getSeriesDefinitionIndex( ) ) );
 		sdOrthogonal.eAdapters( ).addAll( getChart( ).getSampleData( )
 				.eAdapters( ) );
 
 		// Update the Sample Data without event fired.
 		boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
 		ChartAdapter.ignoreNotifications( true );
-		
+
 		int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
 		ArrayList al = new ArrayList( );
 		if ( sdIndex >= list.size( ) )
@@ -288,16 +301,64 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			list.set( sdIndex, sdOrthogonal );
 			for ( int i = 1; i < al.size( ); i++ )
 			{
-				list.set( i + sdIndex, al.get( i - 1) );
-				( ( OrthogonalSampleData ) list.get( i + sdIndex ) ).setSeriesDefinitionIndex( i
+				list.set( i + sdIndex, al.get( i - 1 ) );
+				( (OrthogonalSampleData) list.get( i + sdIndex ) ).setSeriesDefinitionIndex( i
 						+ sdIndex );
 			}
 			list.add( al.get( al.size( ) - 1 ) );
 			( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
 		}
-		
+
 		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
 		seriesDefns.add( sdTmp );
+	}
+
+	private String convertDataSetRepresentation( String dsRepresentation,
+			int seriesDefinitionIndex )
+	{
+		if ( dsRepresentation != null )
+		{
+			String[] strTok = ChartUIUtil.getStringTokens( dsRepresentation );
+			StringBuffer sb = new StringBuffer( );
+			for ( int i = 0; i < strTok.length; i++ )
+			{
+				String strDataElement = strTok[i];
+				SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
+				NumberFormat nf = NumberFormat.getNumberInstance( );
+
+				try
+				{
+					Date dateElement = sdf.parse( strDataElement );
+					dateElement.setTime( dateElement.getTime( )
+							+ ( dateElement.getTime( ) * seriesDefinitionIndex )
+							/ 10 );
+					sb.append( sdf.format( dateElement ) );
+				}
+				catch ( ParseException e )
+				{
+					try
+					{
+						Number numberElement = nf.parse( strDataElement );
+						sb.append( numberElement.doubleValue( )
+								* ( seriesDefinitionIndex + 1 ) );
+					}
+					catch ( ParseException e1 )
+					{
+						e1.printStackTrace( );
+					}
+				}
+				if ( i < strTok.length - 1 )
+				{
+					sb.append( "," ); //$NON-NLS-1$
+				}
+
+			}
+			return sb.toString( );
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	private void cleanDataDefinition( SeriesDefinition sd )

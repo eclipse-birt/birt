@@ -301,7 +301,7 @@ public class StockChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
+					if ( !ChartPreviewPainter.isLivePreviewActive( ) )
 					{
 						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 					}
@@ -487,7 +487,8 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
 			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.LINEAR_LITERAL,
-					osd.getDataSetRepresentation( ) ) );
+					osd.getDataSetRepresentation( ),
+					i ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );

@@ -438,29 +438,16 @@ public class BarChart extends DefaultChartTypeImpl
 							.equals( DifferenceChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( GanttChart.TYPE_LITERAL ) )
 			{
-				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
-				if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL ) && 
-						!currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
-				{
-					ArrayList axisTypes = new ArrayList( );
-					for ( int i = 0; i < axes.size( ); i++ )
-					{
-						axisTypes.add( ( (Axis) axes.get( i ) ).getType( ) );
-					}
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-									.get( 0 ) ).getType( ),
-							axisTypes ) );
-				}	
-
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
 						.setValue( CHART_TITLE );
-				
+
+				ArrayList axisTypes = new ArrayList( );
+				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
@@ -488,7 +475,17 @@ public class BarChart extends DefaultChartTypeImpl
 								.clear( );
 						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 								.add( series );
+						axisTypes.add( ( (Axis) axes.get( i ) ).getType( ) );
 					}
+				}
+				if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+						&& !currentChart.getType( )
+								.equals( AreaChart.TYPE_LITERAL ) )
+				{
+					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+									.get( 0 ) ).getType( ),
+							axisTypes ) );
 				}
 			}
 			else
@@ -696,38 +693,42 @@ public class BarChart extends DefaultChartTypeImpl
 
 		return barseries;
 	}
-	
-	private SampleData getConvertedSampleData( SampleData currentSampleData, AxisType xAxisType, ArrayList axisTypes )
+
+	private SampleData getConvertedSampleData( SampleData currentSampleData,
+			AxisType xAxisType, ArrayList axisTypes )
 	{
 		// Convert base sample data
 		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData =  getConvertedBaseSampleDataRepresentation( bsdList, xAxisType );
+		Vector vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
+				xAxisType );
 		currentSampleData.getBaseSampleData( ).clear( );
 		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 
 		// Convert orthogonal sample data
 		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList, axisTypes );
+		Vector vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList,
+				axisTypes );
 		currentSampleData.getOrthogonalSampleData( ).clear( );
 		currentSampleData.getOrthogonalSampleData( )
 				.addAll( vNewOrthogonalSampleData );
 		return currentSampleData;
 	}
 
-	private Vector getConvertedBaseSampleDataRepresentation(
-			EList bsdList, AxisType xAxisType )
+	private Vector getConvertedBaseSampleDataRepresentation( EList bsdList,
+			AxisType xAxisType )
 	{
 		Vector vNewBaseSampleData = new Vector( );
 		for ( int i = 0; i < bsdList.size( ); i++ )
 		{
 			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
-					bsd.getDataSetRepresentation( ) ) );
+					bsd.getDataSetRepresentation( ),
+					i ) );
 			vNewBaseSampleData.add( bsd );
 		}
 		return vNewBaseSampleData;
 	}
-	
+
 	private Vector getConvertedOrthogonalSampleDataRepresentation(
 			EList osdList, ArrayList axisTypes )
 	{
@@ -736,7 +737,8 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
 			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( (AxisType) axisTypes.get( i ),
-					osd.getDataSetRepresentation( ) ) );
+					osd.getDataSetRepresentation( ),
+					i ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		return vNewOrthogonalSampleData;

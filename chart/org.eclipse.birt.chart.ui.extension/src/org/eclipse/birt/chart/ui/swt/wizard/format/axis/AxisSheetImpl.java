@@ -84,8 +84,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpScroll.setLayoutData( gd );
 
-			cmpScroll.setMinHeight( ( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) + ( ChartUIUtil.is3DType( getChart( ) )
-					? 2 : 1 ) ) * 24 + 40 );
+			cmpScroll.setMinHeight( ( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) + ( ChartUIUtil.is3DType( getChart( ) ) ? 2
+					: 1 ) ) * 24 + 40 );
 			cmpScroll.setExpandVertical( true );
 			cmpScroll.setExpandHorizontal( true );
 		}
@@ -357,7 +357,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						.getBaseSampleData( )
 						.get( 0 );
 				bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-						bsd.getDataSetRepresentation( ) ) );
+						bsd.getDataSetRepresentation( ),
+						0 ) );
 			}
 			else if ( angleType == AngleType.Y )
 			{
@@ -382,7 +383,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 							&& osd.getSeriesDefinitionIndex( ) <= iEndIndex )
 					{
 						osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-								osd.getDataSetRepresentation( ) ) );
+								osd.getDataSetRepresentation( ),
+								i ) );
 					}
 				}
 			}

@@ -243,13 +243,13 @@ public class PieChart extends DefaultChartTypeImpl
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
 		if ( currentChart instanceof ChartWithAxes )
 		{
-			if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
+			if ( !ChartPreviewPainter.isLivePreviewActive( ) )
 			{
 				helperModel.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
 						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 								.get( 0 ) ).getType( ) ) );
-			}	
-			
+			}
+
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithoutAxesImpl.create( );
@@ -273,7 +273,7 @@ public class PieChart extends DefaultChartTypeImpl
 
 			currentChart.setSampleData( helperModel.getSampleData( ) );
 			currentChart.setScript( helperModel.getScript( ) );
-			
+
 			if ( helperModel.isSetSeriesThickness( ) )
 			{
 				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
@@ -431,7 +431,8 @@ public class PieChart extends DefaultChartTypeImpl
 		return pieseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData, AxisType axisType )
+	private SampleData getConvertedSampleData( SampleData currentSampleData,
+			AxisType axisType )
 	{
 		// Convert base sample data
 		EList bsdList = currentSampleData.getBaseSampleData( );
@@ -440,7 +441,8 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ) ) );
+					bsd.getDataSetRepresentation( ),
+					i ) );
 			vNewBaseSampleData.add( bsd );
 		}
 		currentSampleData.getBaseSampleData( ).clear( );
@@ -453,7 +455,8 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
 			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.LINEAR_LITERAL,
-					osd.getDataSetRepresentation( ) ) );
+					osd.getDataSetRepresentation( ),
+					i ) );
 			vNewOrthogonalSampleData.add( osd );
 		}
 		currentSampleData.getOrthogonalSampleData( ).clear( );
@@ -502,7 +505,8 @@ public class PieChart extends DefaultChartTypeImpl
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle )
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle )
 	{
 		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),
