@@ -380,6 +380,8 @@
 			<include name="org.eclipse.equinox.registry_*.jar" />
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.update.configurator_*.jar" />
+			<include name="org.apache.xerces*/**" />
+			
 		</fileset>
 	</copy>
 
@@ -401,17 +403,6 @@
 		<fileset dir="../org.apache.commons.codec">
 			<include name="META-INF/MANIFEST.MF" />
 			<include name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-
-	<!-- org.apache.xerces -->
-	<copy todir="${export.dir}/plugins/org.apache.xerces">
-		<fileset dir="../org.apache.xerces">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="*.jar" />
 			<include name="about.html" />
 			<include name="about_files/**" />
 			<include name="plugin.*" />
@@ -473,119 +464,26 @@
 		</fileset>
 	</copy>
 
-	<!-- core plugins -->
-	<!-- org.eclipse.birt.core_2.1.0.jar -->
-	<ant dir="../org.eclipse.birt.core" antfile="BuildCore.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- data plugins -->
-	<!-- org.eclipse.birt.data.oda_2.0.2.200603210703.jar -->
-	<ant dir="../org.eclipse.birt.data.oda" antfile="BuildOda.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.data_2.1.0.jar -->
-	<ant dir="../org.eclipse.birt.data" antfile="BuildData.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- model plugins-->
-	<!-- org.eclipse.birt.report.model_2.1.0.jar -->
-	<ant dir="../org.eclipse.birt.report.model" antfile="BuildModel.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- engine plugins -->
-	<!-- org.eclipse.birt.report.engine_2.1.0.jar -->
-	<ant dir="../org.eclipse.birt.report.engine" antfile="BuildEngine.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.report.data.oda.jdbc_2.1.0.N20060313-2230 -->
-	<ant dir="../org.eclipse.birt.report.data.oda.jdbc" antfile="BuildOdaJdbc.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.report.data.oda.sampledb_2.1.0.N20060313-2230 -->
-	<ant dir="../org.eclipse.birt.report.data.oda.sampledb" antfile="BuildSampleDB.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.report.data.oda.xml_2.1.0.N20060313-2230 -->
-	<ant dir="../org.eclipse.birt.report.data.oda.xml" antfile="buildXML.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- engine extensions -->
-	<!-- org.eclipse.birt.report.engine.emitter.html_2.1.0.jar -->
-	<ant dir="../org.eclipse.birt.report.engine.emitter.html" antfile="BuildHtmlEmitter.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.report.engine.emitter.pdf_2.1.0.jar -->
-	<ant dir="../org.eclipse.birt.report.engine.emitter.pdf" antfile="BuildEnginePDF.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.report.engine.fonts -->
-	<ant dir="../org.eclipse.birt.report.engine.fonts" antfile="BuildEngineFonts.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-
-	<!-- chart engine -->
-	<!-- org.eclipse.birt.chart.engine_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${baseLocation}" />
-	</ant>
-
-	<!-- chart extensions -->
-	<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${baseLocation}" />
-	</ant>
-
-	<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${baseLocation}" />
-	</ant>
-
-	<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${baseLocation}" />
-	</ant>
-
-	<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Jar" inheritAll="false" inheritRefs="false">
-		<property name="eclipse.home" value="${baseLocation}" />
-	</ant>
-
-	<ant dir="../org.eclipse.birt.chart.engine" antfile="BuildChartEngine.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- chart extensions -->
-	<!-- org.eclipse.birt.chart.device.extension_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.device.extension" antfile="BuildChartDeviceExtension.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.chart.device.svg_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.device.svg" antfile="BuildChartDeviceSVG.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.chart.engine.extension_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.engine.extension" antfile="BuildChartEngineExtension.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
-	<!-- org.eclipse.birt.chart.reportitem_2.1.0.200603211010.jar -->
-	<ant dir="../org.eclipse.birt.chart.reportitem" antfile="BuildChartReportItem.xml" target="Export" inheritAll="false" inheritRefs="false">
-		<property name="export.dir" value="${export.dir}/plugins/" />
-	</ant>
-
+	<copy todir="${export.dir}/plugins">
+		<fileset dir="${integrate.dir}/plugins">
+			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
+			<include name="org.eclipse.birt.chart.device.svg_*.jar" />
+			<include name="org.eclipse.birt.chart.engine_*.jar" />
+			<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
+			<include name="org.eclipse.birt.chart.reportitem_*.jar" />
+			<include name="org.eclipse.birt.core_*.jar" />
+			<include name="org.eclipse.birt.data_*.jar" />
+			<include name="org.eclipse.birt.data.oda_*/*.**" />
+			<include name="org.eclipse.birt.report.data.oda.jdbc_*/*.**" />
+			<include name="org.eclipse.birt.report.data.oda.sampledb_*/*.**" />
+			<include name="org.eclipse.birt.report.data.oda.xml_*.jar" />
+			<include name="org.eclipse.birt.report.engine_*.jar" />
+			<include name="org.eclipse.birt.report.engine.emitter.html_*.jar" />
+			<include name="org.eclipse.birt.report.engine.emitter.pdf_*.jar" />
+			<include name="org.eclipse.birt.report.engine.fonts_*/*.**" />
+			<include name="org.eclipse.birt.report.model_*.jar" />
+		</fileset>
+	</copy>
 
 	<!-- DTP　plugins -->
 	<!-- org.eclipse.datatools.connectivity_0.7.0.200602241 -->
