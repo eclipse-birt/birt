@@ -171,7 +171,7 @@
 		-->
 	<target name="Export">
 		<property file="META-INF/MANIFEST.MF" />
-		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
+		<property name="plugin.package" value="${module.name}" />
 		<echo message="Export Web Viewer version = ${Bundle-Version}" />
 
 		<copy todir="${export.dir}/${plugin.package}" failonerror="false">
