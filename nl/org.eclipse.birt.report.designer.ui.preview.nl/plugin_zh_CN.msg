@@ -2,7 +2,9 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=查看报表
-designer.preview.previewcascadingmenugroup.label=查看报表
+designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表(&B)
+designer.preview.previewaction.label.html=以 HTML 格式查看报表(&H)
+designer.preview.previewaction.label.pdf=以 PDF 格式查看报表(&D)
 ActionSet.Preview=预览
 
 template.preview=预览

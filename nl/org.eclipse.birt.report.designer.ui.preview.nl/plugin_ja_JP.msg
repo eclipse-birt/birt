@@ -2,7 +2,9 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=レポートの表示
-designer.preview.previewcascadingmenugroup.label=レポートの表示
+designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する(&B)
+designer.preview.previewaction.label.html=HTML 形式でレポートを表示する(&H)
+designer.preview.previewaction.label.pdf=PDF 形式でレポートを表示する(&D)
 ActionSet.Preview=プレビュー
 
 template.preview=プレビュー

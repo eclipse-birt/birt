@@ -2,7 +2,9 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Bericht anzeigen
-designer.preview.previewcascadingmenugroup.label=Bericht anzeigen
+designer.preview.previewaction.label.webviewer=Bericht in We&b Viewer anzeigen
+designer.preview.previewaction.label.html=Bericht als &HTML anzeigen
+designer.preview.previewaction.label.pdf=Bericht als P&DF anzeigen
 ActionSet.Preview=Vorschau
 
 template.preview=Vorschau

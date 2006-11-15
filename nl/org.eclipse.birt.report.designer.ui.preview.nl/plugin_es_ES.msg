@@ -2,7 +2,9 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Ver informe
-designer.preview.previewcascadingmenugroup.label=Ver informe
+designer.preview.previewaction.label.webviewer=Ver informe en We&b Viewer
+designer.preview.previewaction.label.html=Ver informe como &HTML
+designer.preview.previewaction.label.pdf=Ver informe como P&DF
 ActionSet.Preview=Vista previa
 
 template.preview=Vista previa
