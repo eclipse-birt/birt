@@ -173,7 +173,6 @@ data.engine.document.notSupportInPresentation=In Präsentation nicht unterstützt.
 data.engine.wrongStatus=Falscher Status.
 data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
@@ -286,3 +285,4 @@ odaconsumer.manager.PrepareFailed=Vorbereitung fehlgeschlagen.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=Metadaten für Ergebnisse können erst nach Vorbereitung der Anweisung abgerufen werden.
 odaconsumer.manager.CannotExecuteBeforePrepare=Die Anweisung kann erst ausgeführt werden, nachdem sie vorbereitet wurde.
 odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
+data.engine.resultClassSaveError=Some columns reference in column binding do not exist.

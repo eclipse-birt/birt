@@ -173,7 +173,6 @@ data.engine.document.notSupportInPresentation=Non pris en charge dans la présent
 data.engine.wrongStatus=Etat incorrect.
 data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la version 2.1.
 data.engine.unsupportOperationException=Opération non prise en charge.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
@@ -286,3 +285,4 @@ odaconsumer.manager.PrepareFailed=Echec de la préparation.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=Impossible d'obtenir les métadonnées du jeu de résultats avant que l'instruction n'ait été préparée.
 odaconsumer.manager.CannotExecuteBeforePrepare=Impossible d'exécuter l'instruction avant qu'elle n'ait été préparée.
 odaconsumer.CannotFindLogDirectory=Le répertoire du journal est introuvable.
+data.engine.resultClassSaveError=Some columns reference in column binding do not exist.

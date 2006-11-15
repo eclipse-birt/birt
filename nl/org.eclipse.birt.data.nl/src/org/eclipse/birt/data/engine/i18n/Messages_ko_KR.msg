@@ -173,7 +173,6 @@ data.engine.document.notSupportInPresentation=프리젠테이션에서 지원되지 않습니다
 data.engine.wrongStatus=잘못된 상태
 data.engine.wrongVersion=2.1 이전 버전에서는 지원되지 않습니다.
 data.engine.unsupportOperationException=지원되지 않는 연산
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
@@ -286,3 +285,4 @@ odaconsumer.manager.PrepareFailed=준비하지 못했습니다.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=결과 집합 메타데이터를 가져오려면 문을 준비해야 합니다.
 odaconsumer.manager.CannotExecuteBeforePrepare=문을 실행하려면 먼저 준비해야 합니다.
 odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
+data.engine.resultClassSaveError=Some columns reference in column binding do not exist.

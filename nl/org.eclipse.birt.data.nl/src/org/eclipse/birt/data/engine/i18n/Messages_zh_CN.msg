@@ -173,7 +173,6 @@ data.engine.document.notSupportInPresentation=在展示中不受支持。
 data.engine.wrongStatus=错误状态。
 data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
@@ -286,3 +285,4 @@ odaconsumer.manager.PrepareFailed=准备操作失败。
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=在语句准备好之前不能获得结果集元数据。
 odaconsumer.manager.CannotExecuteBeforePrepare=在语句准备好之前不能执行该语句。
 odaconsumer.CannotFindLogDirectory=无法找到日志目录。
+data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
