@@ -158,6 +158,7 @@ info.eclenv.creating.function=(ENT-ECLIPSE) Creando función de agregación {0}
 error.eclenv.cannot.find.function=(ENT-ECLIPSE) No se ha podido encontrar la implementación de la función de agregación para {0}
 info.stdenv.creating.function=(ENT-INDEPENDIENTE) Creando función de agregación {0}
 error.stdenv.cannot.find.function=(ENT-INDEPENDIENTE) No se ha podido encontrar la implementación de la función de agregación para {0}
+warn.unspecified.sorting=The sort criteria was unspecified (defaults to ascending due to grouping) for the category series definition {0}
 
 Info.try.load.java.handler=Intentando cargar clase de controlador de evento Java de diagramas...
 Info.java.handler.loaded=Se ha cargado correctamente una clase de controlador de evento Java de diagramas [{0}].
@@ -179,9 +180,6 @@ LineSeriesImpl.displayName=Serie de líneas
 PieSeriesImpl.displayName=Serie circular
 ScatterSeriesImpl.displayName=Serie de dispersión
 StockSeriesImpl.displayName=Serie de cotización de acciones
-BubbleSeriesImpl.displayName=Serie de burbujas
-GanttSeriesImpl.displayName=Serie de Gantt
-DifferenceSeriesImpl.displayName=Serie de diferencias
 
 AxisType.Linear.displayName=Lineal
 AxisType.Logarithmic.displayName=Logarítmico
@@ -259,8 +257,6 @@ MarkerType.Cross.displayName=Cruce
 
 RiserType.Rectangle.displayName=Rectángulo
 RiserType.Triangle.displayName=Triángulo
-RiserType.Tube.displayName=Tubo
-RiserType.Cone.displayName=Cone
 
 Anchor.North.displayName=Norte
 Anchor.NorthEast.displayName=Noreste

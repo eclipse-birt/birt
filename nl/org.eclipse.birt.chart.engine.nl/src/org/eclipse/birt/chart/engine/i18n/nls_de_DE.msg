@@ -158,6 +158,7 @@ info.eclenv.creating.function=(ECLIPSE-UMG) Aggregatfunktion {0} wird erstellt
 error.eclenv.cannot.find.function=(ECLIPSE-UMG) Aggregatfunktion-Implementierung für {0} nicht gefunden
 info.stdenv.creating.function=(EINZELPLATZ-UMG) Aggregatfunktion {0} wird erstellt
 error.stdenv.cannot.find.function=(EINZELPLATZ-UMG) Aggregatfunktion-Implementierung für {0} nicht gefunden
+warn.unspecified.sorting=The sort criteria was unspecified (defaults to ascending due to grouping) for the category series definition {0}
 
 Info.try.load.java.handler=Diagramm-Java-Ereignis-Handler-Klasse wird geladen ...
 Info.java.handler.loaded=Eine Diagramm-Java-Ereignis-Handler-Klasse [{0}] wurde geladen.
@@ -179,9 +180,6 @@ LineSeriesImpl.displayName=Liniendiagramm-Datenreihe
 PieSeriesImpl.displayName=Kreisdiagramm-Datenreihe
 ScatterSeriesImpl.displayName=Punktdiagramm-Datenreihe
 StockSeriesImpl.displayName=Kursdiagramm-Datenreihe
-BubbleSeriesImpl.displayName=Blasen-Reihe
-GanttSeriesImpl.displayName=Gantt-Reihe
-DifferenceSeriesImpl.displayName=Differenz-Reihe
 
 AxisType.Linear.displayName=Linear
 AxisType.Logarithmic.displayName=Logarithmisch
@@ -259,8 +257,6 @@ MarkerType.Cross.displayName=Kreuz
 
 RiserType.Rectangle.displayName=Rechteck
 RiserType.Triangle.displayName=Dreieck
-RiserType.Tube.displayName=Röhre
-RiserType.Cone.displayName=Cone
 
 Anchor.North.displayName=Norden
 Anchor.NorthEast.displayName=Nordosten

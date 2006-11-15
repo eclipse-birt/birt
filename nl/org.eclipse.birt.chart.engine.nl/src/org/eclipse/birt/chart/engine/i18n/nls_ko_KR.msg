@@ -158,6 +158,7 @@ info.eclenv.creating.function=(이클립스 환경) 집계 함수 {0}을(를) 만드는 중입니�
 error.eclenv.cannot.find.function=(이클립스 환경) {0}에 대한 집계 함수 구현을 찾을 수 없습니다.
 info.stdenv.creating.function=(독립 실행형 환경) 집계 함수 {0}을(를) 만드는 중입니다.
 error.stdenv.cannot.find.function=(독립 실행형 환경) {0}에 대한 집계 함수 구현을 찾을 수 없습니다.
+warn.unspecified.sorting=The sort criteria was unspecified (defaults to ascending due to grouping) for the category series definition {0}
 
 Info.try.load.java.handler=차트 Java 이벤트 처리기 클래스를 로드하려는 중...
 Info.java.handler.loaded=차트 Java 이벤트 처리기 클래스 [{0}]이(가) 로드되었습니다.
@@ -179,9 +180,6 @@ LineSeriesImpl.displayName=선형 계열
 PieSeriesImpl.displayName=원형 계열
 ScatterSeriesImpl.displayName=분산형 계열
 StockSeriesImpl.displayName=주식형 계열
-BubbleSeriesImpl.displayName=거품형 계열
-GanttSeriesImpl.displayName=Gantt 계열
-DifferenceSeriesImpl.displayName=차이 계열
 
 AxisType.Linear.displayName=선형
 AxisType.Logarithmic.displayName=로그
@@ -259,8 +257,6 @@ MarkerType.Cross.displayName=교차
 
 RiserType.Rectangle.displayName=사각형
 RiserType.Triangle.displayName=삼각형
-RiserType.Tube.displayName=튜브
-RiserType.Cone.displayName=Cone
 
 Anchor.North.displayName=북부
 Anchor.NorthEast.displayName=북동부

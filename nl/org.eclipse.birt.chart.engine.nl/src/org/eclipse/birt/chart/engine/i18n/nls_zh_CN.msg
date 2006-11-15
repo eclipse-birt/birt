@@ -158,6 +158,7 @@ info.eclenv.creating.function=（日蚀式环境）正在创建聚合函数 {0}
 error.eclenv.cannot.find.function=（日蚀式环境）无法找到 {0} 的聚合函数 impl
 info.stdenv.creating.function=（独立环境）正在创建聚合函数 {0}
 error.stdenv.cannot.find.function=（独立环境）无法找到 {0} 的聚合函数 impl
+warn.unspecified.sorting=The sort criteria was unspecified (defaults to ascending due to grouping) for the category series definition {0}
 
 Info.try.load.java.handler=正在尝试加载图表 Java 事件处理程序类...
 Info.java.handler.loaded=已成功加载图表 Java 事件处理程序类 [{0}]。
@@ -179,9 +180,6 @@ LineSeriesImpl.displayName=折线图系列
 PieSeriesImpl.displayName=饼图系列
 ScatterSeriesImpl.displayName=散点图系列
 StockSeriesImpl.displayName=股票图系列
-BubbleSeriesImpl.displayName=气泡图系列
-GanttSeriesImpl.displayName=甘特图系列
-DifferenceSeriesImpl.displayName=差异系列
 
 AxisType.Linear.displayName=线性
 AxisType.Logarithmic.displayName=对数
@@ -259,8 +257,6 @@ MarkerType.Cross.displayName=十字形
 
 RiserType.Rectangle.displayName=矩形
 RiserType.Triangle.displayName=三角形
-RiserType.Tube.displayName=管形
-RiserType.Cone.displayName=Cone
 
 Anchor.North.displayName=北
 Anchor.NorthEast.displayName=东北

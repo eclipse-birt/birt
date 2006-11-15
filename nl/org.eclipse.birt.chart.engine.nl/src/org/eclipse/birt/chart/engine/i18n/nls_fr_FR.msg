@@ -158,6 +158,7 @@ info.eclenv.creating.function=(ENV-ECLIPSE) Création de la fonction d''agrégatio
 error.eclenv.cannot.find.function=(ENV-ECLIPSE) Impossible de détecter l''implémentation de la fonction d''agrégation pour {0}
 info.stdenv.creating.function=(ENV-AUTONOME) Création de la fonction d''agrégation {0}
 error.stdenv.cannot.find.function=(ENV-AUTONOME) Impossible de détecter l''implémentation de la fonction d''agrégation pour {0}
+warn.unspecified.sorting=The sort criteria was unspecified (defaults to ascending due to grouping) for the category series definition {0}
 
 Info.try.load.java.handler=Tentative de chargement de la classe de gestionnaire d'événements Java de graphique...
 Info.java.handler.loaded=Une classe de gestionnaire d''événements Java de graphique [{0}] a été chargée.
@@ -179,9 +180,6 @@ LineSeriesImpl.displayName=Lignes
 PieSeriesImpl.displayName=Secteurs
 ScatterSeriesImpl.displayName=Nuage de points
 StockSeriesImpl.displayName=Boursier
-BubbleSeriesImpl.displayName=Série de bulles
-GanttSeriesImpl.displayName=Série de barres de Gantt
-DifferenceSeriesImpl.displayName=Série de différences
 
 AxisType.Linear.displayName=Linéaire
 AxisType.Logarithmic.displayName=Logarithmique
@@ -259,8 +257,6 @@ MarkerType.Cross.displayName=Croix
 
 RiserType.Rectangle.displayName=Rectangle
 RiserType.Triangle.displayName=Triangle
-RiserType.Tube.displayName=Barre
-RiserType.Cone.displayName=Cone
 
 Anchor.North.displayName=Nord
 Anchor.NorthEast.displayName=Nord-est

@@ -158,6 +158,7 @@ info.eclenv.creating.function=(ECLIPSE 環境) 集計関数 {0} を作成中です。
 error.eclenv.cannot.find.function=(ECLIPSE 環境) {0} の集計関数の実装が見つかりません。
 info.stdenv.creating.function=(スタンドアローン環境) 集計関数 {0} を作成中です。
 error.stdenv.cannot.find.function=(スタンドアローン環境) {0} の集計関数の実装が見つかりません。
+warn.unspecified.sorting=The sort criteria was unspecified (defaults to ascending due to grouping) for the category series definition {0}
 
 Info.try.load.java.handler=Chart Java イベントハンドラのクラスを読み込んでいます...
 Info.java.handler.loaded=Chart Java イベントハンドラのクラス [{0}] を読み込みました。
@@ -179,9 +180,6 @@ LineSeriesImpl.displayName=線の系列
 PieSeriesImpl.displayName=パイの系列
 ScatterSeriesImpl.displayName=分布の系列
 StockSeriesImpl.displayName=株価の系列
-BubbleSeriesImpl.displayName=バブルの系列
-GanttSeriesImpl.displayName=ガントの系列
-DifferenceSeriesImpl.displayName=差分の系列
 
 AxisType.Linear.displayName=線形
 AxisType.Logarithmic.displayName=対数
@@ -259,8 +257,6 @@ MarkerType.Cross.displayName=交差
 
 RiserType.Rectangle.displayName=四角形
 RiserType.Triangle.displayName=三角形
-RiserType.Tube.displayName=円筒
-RiserType.Cone.displayName=Cone
 
 Anchor.North.displayName=北
 Anchor.NorthEast.displayName=北東
