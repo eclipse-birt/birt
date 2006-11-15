@@ -180,7 +180,8 @@ public abstract class NEvaluator
 	private void populateValueListAndRowIdList( Object value, int N ) throws DataException
 	{
 		assert N>=0;
-		for( int i = 0; i < N; i++ )
+		int activeCount = N < this.firstPassRowNumberCounter? N:this.firstPassRowNumberCounter;
+		for( int i = 0; i < activeCount; i++ )
 		{
 			if( value == null )
 				value = nullValueReplacer;
@@ -206,7 +207,7 @@ public abstract class NEvaluator
 					// filter in
 					if ( DataTypeUtil.toBoolean( result ).booleanValue( ) == true )
 					{
-						for( int j = N - 1; j > i; j--)
+						for( int j = activeCount - 1; j > i; j--)
 						{
 							valueList.set( j, valueList.get( j - 1 ) );
 							rowIdList.set( j, rowIdList.get( j - 1 ) );
