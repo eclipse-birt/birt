@@ -47,6 +47,9 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -72,6 +75,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+
 
 /**
  * Group Properties Dialog
@@ -179,6 +183,8 @@ public class GroupDialog extends BaseDialog
 	private Combo pagebreakAfterCombo;
 
 	private Combo pagebreakBeforeCombo;
+
+	private FocusListener focusListener;
 
 	/**
 	 * Constructor.
@@ -338,6 +344,27 @@ public class GroupDialog extends BaseDialog
 
 		} );
 
+		if ( getTitle( ).equals( GroupDialog.GROUP_DLG_TITLE_NEW ) )
+		{
+			focusListener = new FocusAdapter( ) {
+
+				public void focusLost( FocusEvent e )
+				{
+					if ( UIUtil.convertToModelString( keyChooser.getText( ),
+							true ) != null
+							&& UIUtil.convertToModelString( tocEditor.getText( ),
+									true ) == null )
+					{
+						tocEditor.setText( getKeyExpression( ) );
+						keyChooser.removeFocusListener( focusListener );
+						focusListener = null;
+					}
+				}
+
+			};
+			keyChooser.addFocusListener( focusListener );
+		}
+
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
 		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
@@ -352,6 +379,7 @@ public class GroupDialog extends BaseDialog
 				if ( expressionBuilder.open( ) == OK )
 				{
 					setKeyExpression( expressionBuilder.getResult( ).trim( ) );
+					keyChooser.setFocus( );
 				}
 			}
 		} );
@@ -757,6 +785,15 @@ public class GroupDialog extends BaseDialog
 		try
 		{
 			inputGroup.setName( nameEditor.getText( ) );
+			
+			if ( focusListener!=null && UIUtil.convertToModelString( keyChooser.getText( ),
+					true ) != null
+					&& UIUtil.convertToModelString( tocEditor.getText( ),
+							true ) == null )
+			{
+				tocEditor.setText( getKeyExpression( ) );
+			}
+			
 
 			String newToc = UIUtil.convertToModelString( tocEditor.getText( ),
 					true );
@@ -767,9 +804,8 @@ public class GroupDialog extends BaseDialog
 			// {
 			// inputGroup.setTocExpression( newToc );
 			// }
-			// }
-			if ( newToc != null
-					&& !newToc.equals( inputGroup.getTocExpression( ) ) )
+			// }inputGroup
+			if ( newToc== null || !newToc.equals( inputGroup.getTocExpression( ) ) )
 			{
 				inputGroup.setTocExpression( newToc );
 			}
