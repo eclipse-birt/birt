@@ -468,18 +468,21 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl
 			df.setMinimumFractionDigits( getFractionDigits( ) );
 			df.setMaximumFractionDigits( getFractionDigits( ) );
 		}
+		
+		df.applyLocalizedPattern( df.toLocalizedPattern( ) );
+		
 		final StringBuffer sb = new StringBuffer( );
 		if ( getPrefix( ) != null )
 		{
 			sb.append( getPrefix( ) );
 		}
-		sb.append( df.toLocalizedPattern( ) );
+		sb.append(  isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
+				: df.format( dValue ) );
 		if ( getSuffix( ) != null )
 		{
 			sb.append( getSuffix( ) );
 		}
-		df.applyLocalizedPattern( sb.toString( ) );
-		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
-				: df.format( dValue );
+		
+		return sb.toString( );
 	}
 } // NumberFormatSpecifierImpl

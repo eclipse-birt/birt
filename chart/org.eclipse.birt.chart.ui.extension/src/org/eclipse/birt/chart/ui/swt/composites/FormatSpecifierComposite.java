@@ -757,23 +757,23 @@ public class FormatSpecifierComposite extends Composite
 		{
 			if ( formatspecifier instanceof NumberFormatSpecifier )
 			{
-				String str = ( (NumberFormatSpecifier) formatspecifier ).getPrefix( );
-				if ( str == null )
+				String prefix = ( (NumberFormatSpecifier) formatspecifier ).getPrefix( );
+				if ( prefix == null )
 				{
-					str = ""; //$NON-NLS-1$
-				}
-				txtPrefix.setText( str );
-				str = ( (NumberFormatSpecifier) formatspecifier ).getSuffix( );
-				if ( str == null )
+					prefix = ""; //$NON-NLS-1$
+				}				
+				String suffix = ( (NumberFormatSpecifier) formatspecifier ).getSuffix( );
+				if ( suffix == null )
 				{
-					str = ""; //$NON-NLS-1$
-				}
-				txtSuffix.setText( str );
+					suffix = ""; //$NON-NLS-1$
+				}			
 				if ( ( (NumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) ) )
 				{
 					txtMultiplier.setValue( ( (NumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
 				}
 				iscFractionDigits.setSelection( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
+				txtPrefix.setText( prefix );
+				txtSuffix.setText( suffix );
 			}
 		}
 
