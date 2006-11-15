@@ -61,7 +61,3 @@ INVALID_CHOICE_VALUE=속성 "{1}"의 선택 값 "{0}"이(가) 잘못되었습니다.
 MISSING_SUB_TYPE=List property "{0}" has no sub-type. 
 UNSUPPORTED_SUB_TYPE=Sub-type "{1}" in list property "{0}" is not supported.
 SUB_TYPE_FORBIDDEN=Property "{0}" is not a list property, so the sub-type must be null. 
-MISSING_XML_NAME=구체적인 요소 "{0}"은(는) xml 이름을 정의하지 않습니다.
-INVALID_ELEMENT_TYPE=요소 형식 "{0}" 이(가) 잘못되었습니다.
-INVALID_CHOICE_PROPERTY=Choice property "{0}" in extension "{1}" is invalid for it defines both detail-type and its own choice list. 
-EXTENDED_ITEM_MISSING=Missing extended item in the meta-data dictionary.

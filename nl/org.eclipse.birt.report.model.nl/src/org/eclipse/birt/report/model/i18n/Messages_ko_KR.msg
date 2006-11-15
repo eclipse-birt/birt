@@ -1822,7 +1822,6 @@ Structure.HighlightRule.font.textLineThrough=가운데 줄
 Structure.HighlightRule.text.align=텍스트 맞춤
 Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
-Structure.HighlightRule.style=Style
   
 #2.CustomColor
 Structure.CustomColor.name=이름
@@ -2166,7 +2165,6 @@ Element.DataSet.computedColumns=계산 열
 Element.DataSet.filter=필터
 Element.DataSet.columnHints=열 힌트
 Element.DataSet.cachedMetaData=캐시된 메타데이터
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=데이터 원본
@@ -2431,7 +2429,6 @@ Element.ListingGroup.sortDirection=정렬 방향
 Element.ListingGroup.eventHandlerClass=이벤트 처리기 클래스
 Element.ListingGroup.pageBreakBefore=앞에 페이지 나누기
 Element.ListingGroup.pageBreakAfter=뒤에 페이지 나누기
-Element.ListingGroup.pageBreakInside=사이에 페이지 나누기
 Element.ListingGroup.filter=필터
 Element.ListingGroup.repeatHeader=머리글 반복
 Element.ListingGroup.onStart=시작 시
@@ -3158,7 +3155,6 @@ Error.SemanticError.ROW_INSERT_FORBIDDEN=요소 "{0}"을(를) 삽입하는 것은 금지되어
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=요소 "{0}"을(를) 이동하는 것은 금지되어 있습니다.
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=요소 "{0}"을(를) 삽입 및 붙여 넣는 것은 금지되어 있습니다.
 
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=The circular element reference is found, because the {0} refers to {1} already.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0}은(는) 스타일을 가질 수 없습니다.

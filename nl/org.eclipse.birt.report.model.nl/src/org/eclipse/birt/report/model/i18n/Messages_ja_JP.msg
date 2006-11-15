@@ -1822,7 +1822,6 @@ Structure.HighlightRule.font.textLineThrough=取り消し線
 Structure.HighlightRule.text.align=文字列の位置揃え
 Structure.HighlightRule.text.indent=文字列のインデント
 Structure.HighlightRule.text.transform=文字列の位置変更
-Structure.HighlightRule.style=Style
   
 #2.CustomColor
 Structure.CustomColor.name=名前
@@ -2166,7 +2165,6 @@ Element.DataSet.computedColumns=計算カラム
 Element.DataSet.filter=フィルタ
 Element.DataSet.columnHints=カラムのヒント
 Element.DataSet.cachedMetaData=キャッシュされたメタデータ
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=データソース
@@ -2431,7 +2429,6 @@ Element.ListingGroup.sortDirection=ソートの方向
 Element.ListingGroup.eventHandlerClass=イベントハンドラのクラス
 Element.ListingGroup.pageBreakBefore=次の前で改ページ
 Element.ListingGroup.pageBreakAfter=次の後で改ページ
-Element.ListingGroup.pageBreakInside=途中で改ページ
 Element.ListingGroup.filter=フィルタ
 Element.ListingGroup.repeatHeader=ヘッダの繰り返し
 Element.ListingGroup.onStart=開始時
@@ -3157,7 +3154,6 @@ Error.SemanticError.ROW_INSERT_FORBIDDEN=要素 "{0}" を挿入することはできません。
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=要素 "{0}" をシフトすることはできません。
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=要素 "{0}" の挿入や貼り付けはできません。
 
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=The circular element reference is found, because the {0} refers to {1} already.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} にはスタイルを適用できません。

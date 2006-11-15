@@ -61,7 +61,3 @@ INVALID_CHOICE_VALUE=El valor de selección "{0}" de la propiedad "{1}" no es vál
 MISSING_SUB_TYPE=List property "{0}" has no sub-type. 
 UNSUPPORTED_SUB_TYPE=Sub-type "{1}" in list property "{0}" is not supported.
 SUB_TYPE_FORBIDDEN=Property "{0}" is not a list property, so the sub-type must be null. 
-MISSING_XML_NAME=El elemento concreto "{0}" no define el nombre xml.
-INVALID_ELEMENT_TYPE=El tipo de elemento [{0}] no es válido.
-INVALID_CHOICE_PROPERTY=Choice property "{0}" in extension "{1}" is invalid for it defines both detail-type and its own choice list. 
-EXTENDED_ITEM_MISSING=Missing extended item in the meta-data dictionary.

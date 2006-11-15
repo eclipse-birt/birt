@@ -1822,7 +1822,6 @@ Structure.HighlightRule.font.textLineThrough=Durchstreichen
 Structure.HighlightRule.text.align=Textausrichtung
 Structure.HighlightRule.text.indent=Texteinzug
 Structure.HighlightRule.text.transform=Textumwandlung
-Structure.HighlightRule.style=Style
   
 #2.CustomColor
 Structure.CustomColor.name=Name
@@ -2166,7 +2165,6 @@ Element.DataSet.computedColumns=Berechnete Spalten
 Element.DataSet.filter=Filter
 Element.DataSet.columnHints=Spaltenhinweise
 Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Datenquelle
@@ -2431,7 +2429,6 @@ Element.ListingGroup.sortDirection=Sortierreihenfolge
 Element.ListingGroup.eventHandlerClass=Ereignis-Handler-Klasse
 Element.ListingGroup.pageBreakBefore=Seitenumbruch vor
 Element.ListingGroup.pageBreakAfter=Seitenumbruch nach
-Element.ListingGroup.pageBreakInside=Seitenumbruch in
 Element.ListingGroup.filter=Filter
 Element.ListingGroup.repeatHeader=Kopfzeile wiederholen
 Element.ListingGroup.onStart=Beim Starten
@@ -3158,7 +3155,6 @@ Error.SemanticError.ROW_INSERT_FORBIDDEN=Das Einfügen beim Element "{0}" ist unz
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=Das Verschieben beim Element "{0}" ist unzulässig.
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
 
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=The circular element reference is found, because the {0} refers to {1} already.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.

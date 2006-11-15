@@ -1822,7 +1822,6 @@ Structure.HighlightRule.font.textLineThrough=删除线
 Structure.HighlightRule.text.align=文本对齐
 Structure.HighlightRule.text.indent=文本缩进
 Structure.HighlightRule.text.transform=文本转换
-Structure.HighlightRule.style=Style
   
 #2.CustomColor
 Structure.CustomColor.name=名称
@@ -2166,7 +2165,6 @@ Element.DataSet.computedColumns=计算列
 Element.DataSet.filter=筛选
 Element.DataSet.columnHints=列提示
 Element.DataSet.cachedMetaData=缓存元数据
-Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=数据源
@@ -2431,7 +2429,6 @@ Element.ListingGroup.sortDirection=排序方向
 Element.ListingGroup.eventHandlerClass=事件处理程序类
 Element.ListingGroup.pageBreakBefore=对象前面的分页符
 Element.ListingGroup.pageBreakAfter=对象后面的分页符
-Element.ListingGroup.pageBreakInside=内部分页符
 Element.ListingGroup.filter=筛选
 Element.ListingGroup.repeatHeader=重复标题
 Element.ListingGroup.onStart=启动时
@@ -3158,7 +3155,6 @@ Error.SemanticError.ROW_INSERT_FORBIDDEN=禁止对元素“{0}”执行插入操作。
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=禁止对元素“{0}”执行移位操作。
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=禁止对元素“{0}”执行插入和粘贴操作。
 
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=The circular element reference is found, because the {0} refers to {1} already.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} 不得具有样式。

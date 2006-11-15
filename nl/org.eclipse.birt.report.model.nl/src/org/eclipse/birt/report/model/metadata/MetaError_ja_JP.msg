@@ -61,7 +61,3 @@ INVALID_CHOICE_VALUE=プロパティ "{1}" に指定された選択値 "{0}" は無効です。
 MISSING_SUB_TYPE=List property "{0}" has no sub-type. 
 UNSUPPORTED_SUB_TYPE=Sub-type "{1}" in list property "{0}" is not supported.
 SUB_TYPE_FORBIDDEN=Property "{0}" is not a list property, so the sub-type must be null. 
-MISSING_XML_NAME=具象要素 "{0}" で xml 名が定義されていません。
-INVALID_ELEMENT_TYPE=要素型 "{0}" が無効です。
-INVALID_CHOICE_PROPERTY=Choice property "{0}" in extension "{1}" is invalid for it defines both detail-type and its own choice list. 
-EXTENDED_ITEM_MISSING=Missing extended item in the meta-data dictionary.
