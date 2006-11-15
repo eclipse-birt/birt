@@ -698,8 +698,8 @@ designer.preview.preference.server.note=Nota:
 designer.preview.preference.server.portDescription=&Puerto de comunicación del servidor. Establezca en 0 para asignación dinámica.
 designer.preview.preference.server.requireRestart=Si el servidor ya está en ejecución, estas preferencias sólo serán efectivas\ndespués de reiniciar.
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
-designer.preview.previewaction.label.html=View Report as HTML
-designer.preview.previewaction.label.pdf=View Report as PDF
+designer.preview.previewaction.label.html=Ver informe como HTML
+designer.preview.previewaction.label.pdf=Ver informe como PDF
 designer.preview.previewaction.ErrorMessage=La generación de PDF no está activada ya que no se encuentra iText o no está instalado.
 designer.preview.previewaction.ErrorMessage.title=Advertencia
 
@@ -1764,7 +1764,7 @@ ImportLibraryAction.Message=¿Desea usar esta librería en el diseño del informe?
 ImportLibraryAction.Namespace=Espacio de nombres:
 ImportLibraryAction.Prefix=Prefijo:
 ImportLibraryAction.Title.ImportSuccessfully=Se ha importado correctamente
-ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Titile=Usar librería
 ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
@@ -2409,7 +2409,7 @@ ParameterDialog.Flag.Default=Predeterminado
 ParameterDialog.Group.MoreOption=Mostrar como
 ParameterDialog.Group.Properties=Propiedades
 ParameterDialog.Label.DataType=Tipo de &datos:
-ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
+ParameterDialog.Label.DateTImePrompt=Introduzca los valores de fecha como: MM/DD/AAAA hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=Editar opción de selección
 ParameterDialog.Label.DefaultValue=Valor predete&rminado:
 ParameterDialog.Label.DisplayPrompt=Mostrar solicitud:

@@ -698,8 +698,8 @@ designer.preview.preference.server.note=注：
 designer.preview.preference.server.portDescription=要监听的服务器端口。设置为 0 以动态分配(&P)。
 designer.preview.preference.server.requireRestart=如果该服务器已在运行，这些首选项只有在\n重新启动后才生效。
 designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
-designer.preview.previewaction.label.html=View Report as HTML
-designer.preview.previewaction.label.pdf=View Report as PDF
+designer.preview.previewaction.label.html=以 HTML 格式查看报表
+designer.preview.previewaction.label.pdf=以 PDF 格式查看报表
 designer.preview.previewaction.ErrorMessage=由于未安装或未找到 iText，不支持 PDF 生成。
 designer.preview.previewaction.ErrorMessage.title=警告
 
@@ -1764,7 +1764,7 @@ ImportLibraryAction.Message=是否要在报表设计中使用此库?
 ImportLibraryAction.Namespace=名称空间:
 ImportLibraryAction.Prefix=前缀:
 ImportLibraryAction.Title.ImportSuccessfully=导入成功
-ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Titile=使用库
 ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
@@ -2409,7 +2409,7 @@ ParameterDialog.Flag.Default=默认
 ParameterDialog.Group.MoreOption=显示为
 ParameterDialog.Group.Properties=属性
 ParameterDialog.Label.DataType=数据类型(&D):
-ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
+ParameterDialog.Label.DateTImePrompt=请按以下格式输入日期值: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=编辑选择选项
 ParameterDialog.Label.DefaultValue=默认值(&F):
 ParameterDialog.Label.DisplayPrompt=显示提示:

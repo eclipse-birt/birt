@@ -698,8 +698,8 @@ designer.preview.preference.server.note=참고:
 designer.preview.preference.server.portDescription=수신 대기할 서버의 포트(&P)입니다. 동적으로 할당하려면 0으로 설정하십시오.
 designer.preview.preference.server.requireRestart=서버가 이미 실행 중인 경우 이러한 기본 설정은\n다시 시작한 후부터 적용됩니다.
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
-designer.preview.previewaction.label.html=View Report as HTML
-designer.preview.previewaction.label.pdf=View Report as PDF
+designer.preview.previewaction.label.html=HTML로 보고서 보기
+designer.preview.previewaction.label.pdf=PDF로 보고서 보기
 designer.preview.previewaction.ErrorMessage=iText가 설치되지 않았거나 찾을 수 없어서 PDF 생성 기능을 사용할 수 없습니다.
 designer.preview.previewaction.ErrorMessage.title=경고
 
@@ -1764,7 +1764,7 @@ ImportLibraryAction.Message=보고서 디자인에 이 라이브러리를 사용하시겠습니까?
 ImportLibraryAction.Namespace=네임스페이스:
 ImportLibraryAction.Prefix=접두사:
 ImportLibraryAction.Title.ImportSuccessfully=성공적으로 가져오기
-ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Titile=라이브러리 사용
 ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
@@ -2409,7 +2409,7 @@ ParameterDialog.Flag.Default=기본값
 ParameterDialog.Group.MoreOption=다음으로 표시
 ParameterDialog.Group.Properties=속성
 ParameterDialog.Label.DataType=데이터 형식(&D):
-ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
+ParameterDialog.Label.DateTImePrompt=날짜 값 입력 형식: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=선택 항목 편집
 ParameterDialog.Label.DefaultValue=기본값(&F):
 ParameterDialog.Label.DisplayPrompt=프롬프트 표시:

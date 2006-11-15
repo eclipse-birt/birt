@@ -698,8 +698,8 @@ designer.preview.preference.server.note=注 :
 designer.preview.preference.server.portDescription=サーバがリスンするポート(&P)\n動的に割り当てるには 0 に設定します。
 designer.preview.preference.server.requireRestart=サーバがすでに実行している場合は、サーバを再起動するまでこれらの設定は\n有効になりません。
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
-designer.preview.previewaction.label.html=View Report as HTML
-designer.preview.previewaction.label.pdf=View Report as PDF
+designer.preview.previewaction.label.html=HTML 形式でレポートを表示する
+designer.preview.previewaction.label.pdf=PDF 形式でレポートを表示する
 designer.preview.previewaction.ErrorMessage=iText がインストールされていないか見つからないため、PDF の生成は有効になっていません。
 designer.preview.previewaction.ErrorMessage.title=警告
 
@@ -1764,7 +1764,7 @@ ImportLibraryAction.Message=このライブラリをレポートデザイン内で使用しますか ?
 ImportLibraryAction.Namespace=名前空間 :
 ImportLibraryAction.Prefix=接頭辞 :
 ImportLibraryAction.Title.ImportSuccessfully=インポート完了
-ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Titile=ライブラリの使用
 ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
@@ -2409,7 +2409,7 @@ ParameterDialog.Flag.Default=デフォルト
 ParameterDialog.Group.MoreOption=次の形式で表示
 ParameterDialog.Group.Properties=プロパティ
 ParameterDialog.Label.DataType=データ型(&D) :
-ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
+ParameterDialog.Label.DateTImePrompt=日付は、YYYY/MM/DD HH:MM:SS の形式で入力してください
 ParameterDialog.SelectionDialog.Edit=選択項目の編集
 ParameterDialog.Label.DefaultValue=デフォルト値(&F) :
 ParameterDialog.Label.DisplayPrompt=プロンプトの表示 :

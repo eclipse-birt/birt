@@ -698,8 +698,8 @@ designer.preview.preference.server.note=Remarque :
 designer.preview.preference.server.portDescription=&Port pour l'écoute par le serveur. Réglé sur 0 pour une attribution dynamique.
 designer.preview.preference.server.requireRestart=Si le serveur est déjà en cours d'exécution, ces préférences ne prendront effet\nqu'après redémarrage.
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
-designer.preview.previewaction.label.html=View Report as HTML
-designer.preview.previewaction.label.pdf=View Report as PDF
+designer.preview.previewaction.label.html=Afficher l'état au format HTML
+designer.preview.previewaction.label.pdf=Afficher l'état au format PDF
 designer.preview.previewaction.ErrorMessage=La fonction de génération de PDF n'est pas activée car iText n'est pas installé ou est introuvable.
 designer.preview.previewaction.ErrorMessage.title=Avertissement
 
@@ -1764,7 +1764,7 @@ ImportLibraryAction.Message=Voulez-vous utiliser cette bibliothèque dans le modè
 ImportLibraryAction.Namespace=Espace nom :
 ImportLibraryAction.Prefix=Préfixe :
 ImportLibraryAction.Title.ImportSuccessfully=Importation réussie
-ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Titile=Utiliser la bibliothèque
 ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
@@ -2409,7 +2409,7 @@ ParameterDialog.Flag.Default=Par défaut
 ParameterDialog.Group.MoreOption=Afficher sous
 ParameterDialog.Group.Properties=Propriétés
 ParameterDialog.Label.DataType=Type de &données :
-ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
+ParameterDialog.Label.DateTImePrompt=Saisissez les valeurs de date selon le modèle suivant : JJ/MM/AAAA hh:mm:ss
 ParameterDialog.SelectionDialog.Edit=Modifier le choix de sélection
 ParameterDialog.Label.DefaultValue=Valeur par dé&faut :
 ParameterDialog.Label.DisplayPrompt=Afficher une invite :
