@@ -403,10 +403,17 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 						.getExtendsElement( );
 				while ( parent != null )
 				{
+					// get the value from the parent provider: read from the
+					// hashmap or the reporItem
 					PeerExtensibilityProvider parentProvider = parent
 							.getExtensibilityProvider( );
 					HashMap propValues = parentProvider.extensionPropValues;
 					value = propValues.get( propDefn.getName( ) );
+					if ( value == null )
+					{
+						value = parentProvider.reportItem.serialize( propDefn
+								.getName( ) );
+					}
 
 					if ( value != null )
 						break;
