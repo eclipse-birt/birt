@@ -805,7 +805,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				{
 					if(colSum<specifiedWidth)
 					{
-						distributeLeftWidth( columns, (specifiedWidth - colSum)/columnNumber - columnWithWidth);
+						distributeLeftWidth( columns, (specifiedWidth - colSum)/(columnNumber - columnWithWidth));
 					}
 					else 
 					{
