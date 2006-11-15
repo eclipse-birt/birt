@@ -457,7 +457,6 @@ JointDataSetPage.page.detail=从每端选择一个数据集和一个列以定义联接。
 JointDataSetPage.button.innerJoin=内联接(&I)
 JointDataSetPage.button.leftJoin=左外联接(&L)
 JointDataSetPage.button.rightJoin=右外联接(&R)
-JointDataSetPage.button.fullJoin=完全外部联接(&F)
 JointDataSetPage.joinType=联接类型
 JointDataSetPage.error.nodataset.title=未找到数据集
 JointDataSetPage.error.nodataset.right=未找到右数据集
@@ -699,7 +698,8 @@ designer.preview.preference.server.note=注：
 designer.preview.preference.server.portDescription=要监听的服务器端口。设置为 0 以动态分配(&P)。
 designer.preview.preference.server.requireRestart=如果该服务器已在运行，这些首选项只有在\n重新启动后才生效。
 designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
-designer.preview.previewaction.label=以 {0} 格式查看报表
+designer.preview.previewaction.label.html=View Report as HTML
+designer.preview.previewaction.label.pdf=View Report as PDF
 designer.preview.previewaction.ErrorMessage=由于未安装或未找到 iText，不支持 PDF 生成。
 designer.preview.previewaction.ErrorMessage.title=警告
 
@@ -1764,6 +1764,8 @@ ImportLibraryAction.Message=是否要在报表设计中使用此库?
 ImportLibraryAction.Namespace=名称空间:
 ImportLibraryAction.Prefix=前缀:
 ImportLibraryAction.Title.ImportSuccessfully=导入成功
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2296,7 +2298,6 @@ NewReportWizard.widowTitle.new=新建
 
 NewResourceFileDialog.label.NewFile=新文件名:
 NewResourceFileDialog.ErrorMessage=文件名必须以 .properties 结尾
-NewResourceFileDialog.ErrorMessageInvalid=文件名无效
 
 ###########################################################
 #NewSectionDialog properties
@@ -2343,8 +2344,6 @@ OutputColumnDefnPage.OutputColumns.Tooltip=查看并定义数据行中的列
 #OutputColumnPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
-OutputColumnPage.toolTipText.Edit=编辑输出列
-OutputColumnPage.title.OutputColumnInputDialog=输出列
 
 ###########################################################
 #OutputColumnsPage properties
@@ -2410,6 +2409,7 @@ ParameterDialog.Flag.Default=默认
 ParameterDialog.Group.MoreOption=显示为
 ParameterDialog.Group.Properties=属性
 ParameterDialog.Label.DataType=数据类型(&D):
+ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=编辑选择选项
 ParameterDialog.Label.DefaultValue=默认值(&F):
 ParameterDialog.Label.DisplayPrompt=显示提示:
@@ -2432,7 +2432,6 @@ ParameterDialog.Label.Sample=示例
 ParameterDialog.Label.Listlimit=列表限制(&I):
 ParameterDialog.Radio.Dynamic=动态(&Y)
 ParameterDialog.Radio.Static=静态(&S)
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
 
 ###########################################################
 #ParameterDropListener properties
@@ -2669,12 +2668,6 @@ RenameInlineTool.DialogTitle.RenameFailed=重命名失败
 RenameInlineTool.TransLabel.Rename=重命名
 
 ###########################################################
-#RenameInputDialog properties
-
-RenameInputDialog.DialogTitle=重命名输入
-RenameInputDialog.DialogMessage=请输入新名称
-
-###########################################################
 #report properties
 
 report.designer.ui.preferences.buttonadd=添加(&D)...
@@ -2793,8 +2786,6 @@ ScalarParameterPageGenerator.List.I18n=本地化
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=常规
 TemplateReportItemPage.description.Label.Instructions=说明(&I):
-TemplateReportItemPageGenerator.List.I18n=本地化
-TemplateReportItemPageGenerator.List.TextKey=文本关键字:
 
 ###########################################################
 #ReportPropertySheetPage properties
@@ -3580,11 +3571,6 @@ AddJarResourceFileFolderSelectionDialog.Message=请选择 jar 文件:
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=文件名必须以 .jar 结尾。
 
 ###########################################################
-#AddImageResourceFileFolderSelectionDialog
-AddImageResourceFileFolderSelectionDialog.Title=选择的一个或多个文件已存在。
-AddImageResourceFileFolderSelectionDialog.Message=请选择图像:
-
-###########################################################
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=名称:
@@ -3624,8 +3610,4 @@ FragmentResourceEntry.RootName=片段
 #PathResourceEntry properties
 PathResourceEntry.RootName=资源文件夹
 
-###########################################################
-#BIRTGotoMarker properties
-BIRTGotoMarker.Error.Title=错误
-BIRTGotoMarker.Error.Message=报表元素不存在。
 

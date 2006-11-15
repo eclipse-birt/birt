@@ -457,7 +457,6 @@ JointDataSetPage.page.detail=Sélectionner un jeu de données et une colonne de ch
 JointDataSetPage.button.innerJoin=Jointure &interne
 JointDataSetPage.button.leftJoin=&Jointure externe gauche
 JointDataSetPage.button.rightJoin=&Jointure externe droite
-JointDataSetPage.button.fullJoin=&Jointure externe complète
 JointDataSetPage.joinType=Types de jointures
 JointDataSetPage.error.nodataset.title=Aucun jeu de données n'a été trouvé
 JointDataSetPage.error.nodataset.right=Le jeu de données droit n'a pas été trouvé
@@ -699,7 +698,8 @@ designer.preview.preference.server.note=Remarque :
 designer.preview.preference.server.portDescription=&Port pour l'écoute par le serveur. Réglé sur 0 pour une attribution dynamique.
 designer.preview.preference.server.requireRestart=Si le serveur est déjà en cours d'exécution, ces préférences ne prendront effet\nqu'après redémarrage.
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
-designer.preview.previewaction.label=Afficher l''état au format {0}
+designer.preview.previewaction.label.html=View Report as HTML
+designer.preview.previewaction.label.pdf=View Report as PDF
 designer.preview.previewaction.ErrorMessage=La fonction de génération de PDF n'est pas activée car iText n'est pas installé ou est introuvable.
 designer.preview.previewaction.ErrorMessage.title=Avertissement
 
@@ -1764,6 +1764,8 @@ ImportLibraryAction.Message=Voulez-vous utiliser cette bibliothèque dans le modè
 ImportLibraryAction.Namespace=Espace nom :
 ImportLibraryAction.Prefix=Préfixe :
 ImportLibraryAction.Title.ImportSuccessfully=Importation réussie
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2296,7 +2298,6 @@ NewReportWizard.widowTitle.new=Nouveau
 
 NewResourceFileDialog.label.NewFile=Nom du nouveau fichier :
 NewResourceFileDialog.ErrorMessage=Le nom de fichier doit se terminer par .properties
-NewResourceFileDialog.ErrorMessageInvalid=Le nom de fichier est incorrect
 
 ###########################################################
 #NewSectionDialog properties
@@ -2343,8 +2344,6 @@ OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au s
 #OutputColumnPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
-OutputColumnPage.toolTipText.Edit=Modifier la colonne de sortie
-OutputColumnPage.title.OutputColumnInputDialog=Colonne de sortie
 
 ###########################################################
 #OutputColumnsPage properties
@@ -2410,6 +2409,7 @@ ParameterDialog.Flag.Default=Par défaut
 ParameterDialog.Group.MoreOption=Afficher sous
 ParameterDialog.Group.Properties=Propriétés
 ParameterDialog.Label.DataType=Type de &données :
+ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=Modifier le choix de sélection
 ParameterDialog.Label.DefaultValue=Valeur par dé&faut :
 ParameterDialog.Label.DisplayPrompt=Afficher une invite :
@@ -2432,7 +2432,6 @@ ParameterDialog.Label.Sample=Echantillon
 ParameterDialog.Label.Listlimit=L&imite de liste :
 ParameterDialog.Radio.Dynamic=D&ynamique
 ParameterDialog.Radio.Static=&Statique
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
 
 ###########################################################
 #ParameterDropListener properties
@@ -2669,12 +2668,6 @@ RenameInlineTool.DialogTitle.RenameFailed=Impossible de renommer
 RenameInlineTool.TransLabel.Rename=Renommer
 
 ###########################################################
-#RenameInputDialog properties
-
-RenameInputDialog.DialogTitle=Renommer l'entrée
-RenameInputDialog.DialogMessage=Saisissez le nouveau nom
-
-###########################################################
 #report properties
 
 report.designer.ui.preferences.buttonadd=&Ajouter...
@@ -2793,8 +2786,6 @@ ScalarParameterPageGenerator.List.I18n=Localisation
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=Général
 TemplateReportItemPage.description.Label.Instructions=&Instructions :
-TemplateReportItemPageGenerator.List.I18n=Localisation
-TemplateReportItemPageGenerator.List.TextKey=Clé de texte :
 
 ###########################################################
 #ReportPropertySheetPage properties
@@ -3580,11 +3571,6 @@ AddJarResourceFileFolderSelectionDialog.Message=Sélectionnez les fichiers jar :
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Le nom de fichier doit se terminer par .jar.
 
 ###########################################################
-#AddImageResourceFileFolderSelectionDialog
-AddImageResourceFileFolderSelectionDialog.Title=Un ou plusieurs fichiers existent déjà.
-AddImageResourceFileFolderSelectionDialog.Message=Veuillez sélectionner une image :
-
-###########################################################
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nom :
@@ -3624,8 +3610,4 @@ FragmentResourceEntry.RootName=Fragments
 #PathResourceEntry properties
 PathResourceEntry.RootName=Dossier de ressources
 
-###########################################################
-#BIRTGotoMarker properties
-BIRTGotoMarker.Error.Title=Erreur
-BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 

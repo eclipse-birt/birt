@@ -457,7 +457,6 @@ JointDataSetPage.page.detail=조인을 정의하기 위해 양쪽에서 데이터 집합과 열을 선
 JointDataSetPage.button.innerJoin=내부 조인(&I)
 JointDataSetPage.button.leftJoin=왼쪽 우선 외부 조인(&L)
 JointDataSetPage.button.rightJoin=오른쪽 우선 외부 조인(&R)
-JointDataSetPage.button.fullJoin=&풀 외부 조인
 JointDataSetPage.joinType=조인 형식
 JointDataSetPage.error.nodataset.title=데이터 집합을 찾을 수 없음
 JointDataSetPage.error.nodataset.right=오른쪽 데이터 집합을 찾을 수 없음
@@ -699,7 +698,8 @@ designer.preview.preference.server.note=참고:
 designer.preview.preference.server.portDescription=수신 대기할 서버의 포트(&P)입니다. 동적으로 할당하려면 0으로 설정하십시오.
 designer.preview.preference.server.requireRestart=서버가 이미 실행 중인 경우 이러한 기본 설정은\n다시 시작한 후부터 적용됩니다.
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
-designer.preview.previewaction.label={0}(으)로 보고서 보기
+designer.preview.previewaction.label.html=View Report as HTML
+designer.preview.previewaction.label.pdf=View Report as PDF
 designer.preview.previewaction.ErrorMessage=iText가 설치되지 않았거나 찾을 수 없어서 PDF 생성 기능을 사용할 수 없습니다.
 designer.preview.previewaction.ErrorMessage.title=경고
 
@@ -1764,6 +1764,8 @@ ImportLibraryAction.Message=보고서 디자인에 이 라이브러리를 사용하시겠습니까?
 ImportLibraryAction.Namespace=네임스페이스:
 ImportLibraryAction.Prefix=접두사:
 ImportLibraryAction.Title.ImportSuccessfully=성공적으로 가져오기
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2296,7 +2298,6 @@ NewReportWizard.widowTitle.new=새로 만들기
 
 NewResourceFileDialog.label.NewFile=새 파일 이름:
 NewResourceFileDialog.ErrorMessage=파일 이름은 .properties로 끝나야 합니다.
-NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
 
 ###########################################################
 #NewSectionDialog properties
@@ -2343,8 +2344,6 @@ OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의
 #OutputColumnPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
-OutputColumnPage.toolTipText.Edit=출력 열 편집
-OutputColumnPage.title.OutputColumnInputDialog=출력 열
 
 ###########################################################
 #OutputColumnsPage properties
@@ -2410,6 +2409,7 @@ ParameterDialog.Flag.Default=기본값
 ParameterDialog.Group.MoreOption=다음으로 표시
 ParameterDialog.Group.Properties=속성
 ParameterDialog.Label.DataType=데이터 형식(&D):
+ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=선택 항목 편집
 ParameterDialog.Label.DefaultValue=기본값(&F):
 ParameterDialog.Label.DisplayPrompt=프롬프트 표시:
@@ -2432,7 +2432,6 @@ ParameterDialog.Label.Sample=예제
 ParameterDialog.Label.Listlimit=목록 제한(&I):
 ParameterDialog.Radio.Dynamic=동적(&Y)
 ParameterDialog.Radio.Static=정적(&S)
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
 
 ###########################################################
 #ParameterDropListener properties
@@ -2669,12 +2668,6 @@ RenameInlineTool.DialogTitle.RenameFailed=이름 바꾸기에 실패했습니다.
 RenameInlineTool.TransLabel.Rename=이름 바꾸기
 
 ###########################################################
-#RenameInputDialog properties
-
-RenameInputDialog.DialogTitle=이름 바꾸기 입력
-RenameInputDialog.DialogMessage=새 이름을 입력하십시오.
-
-###########################################################
 #report properties
 
 report.designer.ui.preferences.buttonadd=추가(&D)...
@@ -2793,8 +2786,6 @@ ScalarParameterPageGenerator.List.I18n=현지화
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=일반
 TemplateReportItemPage.description.Label.Instructions=지침(&I):
-TemplateReportItemPageGenerator.List.I18n=현지화
-TemplateReportItemPageGenerator.List.TextKey=텍스트 키:
 
 ###########################################################
 #ReportPropertySheetPage properties
@@ -3580,11 +3571,6 @@ AddJarResourceFileFolderSelectionDialog.Message=jar 파일을 선택하십시오.
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=파일 이름은 .jar로 끝나야 합니다.
 
 ###########################################################
-#AddImageResourceFileFolderSelectionDialog
-AddImageResourceFileFolderSelectionDialog.Title=선택한 파일이 하나 이상 있습니다.
-AddImageResourceFileFolderSelectionDialog.Message=이미지를 선택하십시오.
-
-###########################################################
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=이름:
@@ -3624,7 +3610,3 @@ FragmentResourceEntry.RootName=조각
 #PathResourceEntry properties
 PathResourceEntry.RootName=리소스 폴더
 
-###########################################################
-#BIRTGotoMarker properties
-BIRTGotoMarker.Error.Title=오류
-BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.

@@ -457,7 +457,6 @@ JointDataSetPage.page.detail=ƒWƒ‡ƒCƒ“‚ğ’è‹`‚·‚é‚É‚ÍA¶‰E‚ÌƒtƒB[ƒ‹ƒh‚©‚çƒf[ƒ^ƒ
 JointDataSetPage.button.innerJoin=ƒCƒ“ƒi[ƒWƒ‡ƒCƒ“(&I)
 JointDataSetPage.button.leftJoin=¶ƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&L)
 JointDataSetPage.button.rightJoin=‰EƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&R)
-JointDataSetPage.button.fullJoin=¶‰EƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&F)
 JointDataSetPage.joinType=ƒWƒ‡ƒCƒ“‚ÌŒ^
 JointDataSetPage.error.nodataset.title=ƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ
 JointDataSetPage.error.nodataset.right=‰E‘¤‚Ìƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
@@ -699,7 +698,8 @@ designer.preview.preference.server.note=’ :
 designer.preview.preference.server.portDescription=ƒT[ƒo‚ªƒŠƒXƒ“‚·‚éƒ|[ƒg(&P)\n“®“I‚ÉŠ„‚è“–‚Ä‚é‚É‚Í 0 ‚Éİ’è‚µ‚Ü‚·B
 designer.preview.preference.server.requireRestart=ƒT[ƒo‚ª‚·‚Å‚ÉÀs‚µ‚Ä‚¢‚éê‡‚ÍAƒT[ƒo‚ğÄ‹N“®‚·‚é‚Ü‚Å‚±‚ê‚ç‚Ìİ’è‚Í\n—LŒø‚É‚È‚è‚Ü‚¹‚ñB
 designer.preview.previewaction.label.webviewer=Web ƒrƒ…[ƒA‚ÅƒŒƒ|[ƒg‚ğ•\¦‚·‚é
-designer.preview.previewaction.label=ƒŒƒ|[ƒg‚ğ {0} ‚Æ‚µ‚Ä•\¦‚·‚é
+designer.preview.previewaction.label.html=View Report as HTML
+designer.preview.previewaction.label.pdf=View Report as PDF
 designer.preview.previewaction.ErrorMessage=iText ‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¢‚©Œ©‚Â‚©‚ç‚È‚¢‚½‚ßAPDF ‚Ì¶¬‚Í—LŒø‚É‚È‚Á‚Ä‚¢‚Ü‚¹‚ñB
 designer.preview.previewaction.ErrorMessage.title=Œx
 
@@ -1764,6 +1764,8 @@ ImportLibraryAction.Message=‚±‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğƒŒƒ|[ƒgƒfƒUƒCƒ““à‚Åg—p‚µ‚Ü‚·‚© ?
 ImportLibraryAction.Namespace=–¼‘O‹óŠÔ :
 ImportLibraryAction.Prefix=Ú“ª« :
 ImportLibraryAction.Title.ImportSuccessfully=ƒCƒ“ƒ|[ƒgŠ®—¹
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2296,7 +2298,6 @@ NewReportWizard.widowTitle.new=V‹Kì¬
 
 NewResourceFileDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼ :
 NewResourceFileDialog.ErrorMessage=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .properties ‚É‚µ‚Ä‚­‚¾‚³‚¢B
-NewResourceFileDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B
 
 ###########################################################
 #NewSectionDialog properties
@@ -2343,8 +2344,6 @@ OutputColumnDefnPage.OutputColumns.Tooltip=ƒf[ƒ^s“à‚Ì—ñ‚Ì•\¦‚Æ’è‹`
 #OutputColumnPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=ƒf[ƒ^s“à‚Ì—ñ‚Ì•\¦‚Æ’è‹` 
-OutputColumnPage.toolTipText.Edit=o—Í—ñ‚Ì•ÒW
-OutputColumnPage.title.OutputColumnInputDialog=o—Í—ñ
 
 ###########################################################
 #OutputColumnsPage properties
@@ -2410,6 +2409,7 @@ ParameterDialog.Flag.Default=ƒfƒtƒHƒ‹ƒg
 ParameterDialog.Group.MoreOption=Ÿ‚ÌŒ`®‚Å•\¦
 ParameterDialog.Group.Properties=ƒvƒƒpƒeƒB
 ParameterDialog.Label.DataType=ƒf[ƒ^Œ^(&D) :
+ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=‘I‘ğ€–Ú‚Ì•ÒW
 ParameterDialog.Label.DefaultValue=ƒfƒtƒHƒ‹ƒg’l(&F) :
 ParameterDialog.Label.DisplayPrompt=ƒvƒƒ“ƒvƒg‚Ì•\¦ :
@@ -2432,7 +2432,6 @@ ParameterDialog.Label.Sample=ƒTƒ“ƒvƒ‹
 ParameterDialog.Label.Listlimit=ˆê——‚Ì§ŒÀ(&I) :
 ParameterDialog.Radio.Dynamic=“®“I(&Y)
 ParameterDialog.Radio.Static=Ã“I(&S)
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
 
 ###########################################################
 #ParameterDropListener properties
@@ -2669,12 +2668,6 @@ RenameInlineTool.DialogTitle.RenameFailed=–¼‘O‚ğ•ÏX‚Å‚«‚Ü‚¹‚ñB
 RenameInlineTool.TransLabel.Rename=–¼‘O‚Ì•ÏX
 
 ###########################################################
-#RenameInputDialog properties
-
-RenameInputDialog.DialogTitle=–¼‘O‚Ì•ÏX
-RenameInputDialog.DialogMessage=V‚µ‚¢–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-
-###########################################################
 #report properties
 
 report.designer.ui.preferences.buttonadd=’Ç‰Á(&D)...
@@ -2793,8 +2786,6 @@ ScalarParameterPageGenerator.List.I18n=ƒ[ƒJƒ‰ƒCƒ[[ƒVƒ‡ƒ“
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=‘S”Ê
 TemplateReportItemPage.description.Label.Instructions=è‡(&I) :
-TemplateReportItemPageGenerator.List.I18n=ƒ[ƒJƒ‰ƒCƒ[[ƒVƒ‡ƒ“
-TemplateReportItemPageGenerator.List.TextKey=ƒeƒLƒXƒgƒL[ :
 
 ###########################################################
 #ReportPropertySheetPage properties
@@ -3580,11 +3571,6 @@ AddJarResourceFileFolderSelectionDialog.Message=JAR ƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢ :
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .jar ‚É‚µ‚Ä‚­‚¾‚³‚¢B
 
 ###########################################################
-#AddImageResourceFileFolderSelectionDialog
-AddImageResourceFileFolderSelectionDialog.Title=‚·‚Å‚É‘¶İ‚·‚éƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚¢‚Ü‚·B
-AddImageResourceFileFolderSelectionDialog.Message=ƒCƒ[ƒW‚Ì‘I‘ğ :
-
-###########################################################
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=–¼‘O :
@@ -3624,7 +3610,3 @@ FragmentResourceEntry.RootName=ƒtƒ‰ƒOƒƒ“ƒg
 #PathResourceEntry properties
 PathResourceEntry.RootName=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_
 
-###########################################################
-#BIRTGotoMarker properties
-BIRTGotoMarker.Error.Title=ƒGƒ‰[
-BIRTGotoMarker.Error.Message=ƒŒƒ|[ƒg—v‘f‚Í‘¶İ‚µ‚Ü‚¹‚ñB

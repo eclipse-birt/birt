@@ -457,7 +457,6 @@ JointDataSetPage.page.detail=Seleccione un conjunto de datos y una columna de ca
 JointDataSetPage.button.innerJoin=Combinación &interna
 JointDataSetPage.button.leftJoin=Combinación externa &izquierda
 JointDataSetPage.button.rightJoin=Combinación externa &derecha
-JointDataSetPage.button.fullJoin=&Combinación externa completa
 JointDataSetPage.joinType=Tipos de combinación
 JointDataSetPage.error.nodataset.title=No se ha encontrado ningún conjunto de datos
 JointDataSetPage.error.nodataset.right=No se ha encontrado el conjunto de datos derecho
@@ -699,7 +698,8 @@ designer.preview.preference.server.note=Nota:
 designer.preview.preference.server.portDescription=&Puerto de comunicación del servidor. Establezca en 0 para asignación dinámica.
 designer.preview.preference.server.requireRestart=Si el servidor ya está en ejecución, estas preferencias sólo serán efectivas\ndespués de reiniciar.
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
-designer.preview.previewaction.label=Ver informe como {0}
+designer.preview.previewaction.label.html=View Report as HTML
+designer.preview.previewaction.label.pdf=View Report as PDF
 designer.preview.previewaction.ErrorMessage=La generación de PDF no está activada ya que no se encuentra iText o no está instalado.
 designer.preview.previewaction.ErrorMessage.title=Advertencia
 
@@ -1764,6 +1764,8 @@ ImportLibraryAction.Message=¿Desea usar esta librería en el diseño del informe?
 ImportLibraryAction.Namespace=Espacio de nombres:
 ImportLibraryAction.Prefix=Prefijo:
 ImportLibraryAction.Title.ImportSuccessfully=Se ha importado correctamente
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2296,7 +2298,6 @@ NewReportWizard.widowTitle.new=Nuevo
 
 NewResourceFileDialog.label.NewFile=Nuevo nombre de archivo:
 NewResourceFileDialog.ErrorMessage=El nombre de archivo debe terminar en .properties
-NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
 
 ###########################################################
 #NewSectionDialog properties
@@ -2343,8 +2344,6 @@ OutputColumnDefnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fil
 #OutputColumnPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
-OutputColumnPage.toolTipText.Edit=Editar columna de salida
-OutputColumnPage.title.OutputColumnInputDialog=Columna de salida
 
 ###########################################################
 #OutputColumnsPage properties
@@ -2410,6 +2409,7 @@ ParameterDialog.Flag.Default=Predeterminado
 ParameterDialog.Group.MoreOption=Mostrar como
 ParameterDialog.Group.Properties=Propiedades
 ParameterDialog.Label.DataType=Tipo de &datos:
+ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=Editar opción de selección
 ParameterDialog.Label.DefaultValue=Valor predete&rminado:
 ParameterDialog.Label.DisplayPrompt=Mostrar solicitud:
@@ -2432,7 +2432,6 @@ ParameterDialog.Label.Sample=Muestra
 ParameterDialog.Label.Listlimit=Límite de &lista:
 ParameterDialog.Radio.Dynamic=&Dinámico
 ParameterDialog.Radio.Static=&Estático
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
 
 ###########################################################
 #ParameterDropListener properties
@@ -2669,12 +2668,6 @@ RenameInlineTool.DialogTitle.RenameFailed=Error al cambiar el nombre
 RenameInlineTool.TransLabel.Rename=Cambiar nombre
 
 ###########################################################
-#RenameInputDialog properties
-
-RenameInputDialog.DialogTitle=Cambiar nombre de la entrada
-RenameInputDialog.DialogMessage=Introduzca el nuevo nombre
-
-###########################################################
 #report properties
 
 report.designer.ui.preferences.buttonadd=Añad&ir...
@@ -2793,8 +2786,6 @@ ScalarParameterPageGenerator.List.I18n=Localización
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=General
 TemplateReportItemPage.description.Label.Instructions=&Instrucciones:
-TemplateReportItemPageGenerator.List.I18n=Localización
-TemplateReportItemPageGenerator.List.TextKey=Clave de texto:
 
 ###########################################################
 #ReportPropertySheetPage properties
@@ -3580,11 +3571,6 @@ AddJarResourceFileFolderSelectionDialog.Message=Seleccione archivos jar:
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=El nombre de archivo debe finalizar con .jar.
 
 ###########################################################
-#AddImageResourceFileFolderSelectionDialog
-AddImageResourceFileFolderSelectionDialog.Title=Uno o más de los archivos seleccionados ya existen.
-AddImageResourceFileFolderSelectionDialog.Message=Seleccione una imagen:
-
-###########################################################
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nombre:
@@ -3623,8 +3609,3 @@ FragmentResourceEntry.RootName=Fragmentos
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Carpeta de recursos
-
-###########################################################
-#BIRTGotoMarker properties
-BIRTGotoMarker.Error.Title=Error
-BIRTGotoMarker.Error.Message=El elemento de informe no existe.

@@ -457,7 +457,6 @@ JointDataSetPage.page.detail=Wählen Sie einen Datensatz und eine Spalte von jede
 JointDataSetPage.button.innerJoin=&Inner Join
 JointDataSetPage.button.leftJoin=&Left Outer Join
 JointDataSetPage.button.rightJoin=&Right Outer Join
-JointDataSetPage.button.fullJoin=&Full Outer Join
 JointDataSetPage.joinType=Knotenpunktarten
 JointDataSetPage.error.nodataset.title=Kein Datensatz gefunden
 JointDataSetPage.error.nodataset.right=Der rechte Datensatz wurde nicht gefunden
@@ -699,7 +698,8 @@ designer.preview.preference.server.note=Hinweis:
 designer.preview.preference.server.portDescription=&Anschluss für die Serververbindung. Auf 0 stellen, da Zuordnung dynamisch.
 designer.preview.preference.server.requireRestart=Wird der Server bereits ausgeführt, werden diese Einstellungen erst\nnach dem Neustart übernommen.
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
-designer.preview.previewaction.label=Bericht als {0} anzeigen
+designer.preview.previewaction.label.html=View Report as HTML
+designer.preview.previewaction.label.pdf=View Report as PDF
 designer.preview.previewaction.ErrorMessage=Die PDF-Erzeugung ist nicht aktiviert, da iText weder installiert ist noch gefunden wurde.
 designer.preview.previewaction.ErrorMessage.title=Warnung
 
@@ -1764,6 +1764,8 @@ ImportLibraryAction.Message=Diese Bibliothek für das Berichtdesign verwenden?
 ImportLibraryAction.Namespace=Namensraum:
 ImportLibraryAction.Prefix=Präfix:
 ImportLibraryAction.Title.ImportSuccessfully=Importieren erfolgreich
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2296,7 +2298,6 @@ s
 
 NewResourceFileDialog.label.NewFile=Neuer Dateiname:
 NewResourceFileDialog.ErrorMessage=Dateiname muss auf ".properties" enden.
-NewResourceFileDialog.ErrorMessageInvalid=Ungültiger Dateiname
 
 ###########################################################
 #NewSectionDialog properties
@@ -2343,8 +2344,6 @@ OutputColumnDefnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile an
 #OutputColumnPage properties
 
 OutputColumnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
-OutputColumnPage.toolTipText.Edit=Ausgabespalte bearbeiten
-OutputColumnPage.title.OutputColumnInputDialog=Ausgabespalte
 
 ###########################################################
 #OutputColumnsPage properties
@@ -2410,6 +2409,7 @@ ParameterDialog.Flag.Default=Standard
 ParameterDialog.Group.MoreOption=Anzeigen als
 ParameterDialog.Group.Properties=Eigenschaften
 ParameterDialog.Label.DataType=&Datentyp:
+ParameterDialog.Label.DateTImePrompt=Please enter date values as: MM/DD/YYYY hh:mm:ss AM/PM
 ParameterDialog.SelectionDialog.Edit=Auswahl bearbeiten
 ParameterDialog.Label.DefaultValue=&Standardwert:
 ParameterDialog.Label.DisplayPrompt=Anzeige-Aufforderung:
@@ -2432,7 +2432,6 @@ ParameterDialog.Label.Sample=Beispiel
 ParameterDialog.Label.Listlimit=L&istenbegrenzung:
 ParameterDialog.Radio.Dynamic=D&ynamisch
 ParameterDialog.Radio.Static=&Statisch
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
 
 ###########################################################
 #ParameterDropListener properties
@@ -2669,12 +2668,6 @@ RenameInlineTool.DialogTitle.RenameFailed=Umbenennen fehlgeschlagen
 RenameInlineTool.TransLabel.Rename=Umbenennen
 
 ###########################################################
-#RenameInputDialog properties
-
-RenameInputDialog.DialogTitle=Eingabe umbenennen
-RenameInputDialog.DialogMessage=Geben Sie den neuen Namen ein.
-
-###########################################################
 #report properties
 
 report.designer.ui.preferences.buttonadd=&Hinzufügen...
@@ -2793,8 +2786,6 @@ ScalarParameterPageGenerator.List.I18n=Lokalisierung
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=Allgemein
 TemplateReportItemPage.description.Label.Instructions=&Anweisungen:
-TemplateReportItemPageGenerator.List.I18n=Lokalisierung
-TemplateReportItemPageGenerator.List.TextKey=Textschlüssel:
 
 ###########################################################
 #ReportPropertySheetPage properties
@@ -3580,11 +3571,6 @@ AddJarResourceFileFolderSelectionDialog.Message=JAR-Dateien auswählen:
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Dateiname muss auf \".jar\" enden.
 
 ###########################################################
-#AddImageResourceFileFolderSelectionDialog
-AddImageResourceFileFolderSelectionDialog.Title=Eine oder mehrere der ausgewählten Dateien existieren bereits.
-AddImageResourceFileFolderSelectionDialog.Message=Wählen Sie ein Bild aus:
-
-###########################################################
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Name:
@@ -3624,8 +3610,4 @@ FragmentResourceEntry.RootName=Fragmente
 #PathResourceEntry properties
 PathResourceEntry.RootName=Ressourcenordner
 
-###########################################################
-#BIRTGotoMarker properties
-BIRTGotoMarker.Error.Title=Fehler
-BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 
