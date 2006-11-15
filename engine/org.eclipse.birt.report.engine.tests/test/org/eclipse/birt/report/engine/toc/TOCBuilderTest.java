@@ -220,7 +220,6 @@ public class TOCBuilderTest extends EngineCase
 		closeGroupEntry( group );
 
 		TOCTreeNode detailNode1 = detail1.getNode( );
-		TOCTreeNode detailNode2 = detail2.getNode( );
 		assertEquals( "html", detailNode1.getHiddenFormats( ) );
 		assertTrue( detailNode1.isHidden( "html" ) );
 	}

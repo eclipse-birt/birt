@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * 
  */

@@ -15,7 +15,7 @@ import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * 
- * @version $Revision: 1.8 $ $Date: 2006/08/11 14:43:01 $
+ * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:38 $
  */
 public class RunTaskTest extends EngineCase
 {
@@ -54,7 +54,6 @@ public class RunTaskTest extends EngineCase
 			task.run( REPORT_DOCUMENT );
 			task.close( );
 			IReportDocument doc = engine.openReportDocument( REPORT_DOCUMENT );
-			long pageCount = doc.getPageCount( );
 			doc.close( );
 			engine.shutdown( );
 		}
@@ -97,38 +96,39 @@ public class RunTaskTest extends EngineCase
 //		removeFile( REPORT_DOCUMENT1 );
 //	}
 
-	private class RenderTaskTrigger implements IPageHandler
-	{
-
-		IRenderTask renderTask;
-		IReportEngine engine;
-		IRunTask task;
-
-		RenderTaskTrigger( IReportEngine engine, IRunTask task )
-		{
-			this.engine = engine;
-			this.task = task;
-		}
-
-		public void onPage( int pageNumber, boolean checkpoint,
-				IReportDocumentInfo doc )
-		{
-			try
-			{
-				if ( pageNumber == 2 )
-				{
-					task.cancel( );
-				}
-				if ( pageNumber == 4 )
-				{
-					fail( );
-				}
-			}
-			catch ( Exception ex )
-			{
-				ex.printStackTrace( );
-				fail( );
-			}
-		}
-	}
+//	 This class never been used locally. Comment this class to fix the warning.
+//	private class RenderTaskTrigger implements IPageHandler
+//	{
+//
+//		IRenderTask renderTask;
+//		IReportEngine engine;
+//		IRunTask task;
+//
+//		RenderTaskTrigger( IReportEngine engine, IRunTask task )
+//		{
+//			this.engine = engine;
+//			this.task = task;
+//		}
+//
+//		public void onPage( int pageNumber, boolean checkpoint,
+//				IReportDocumentInfo doc )
+//		{
+//			try
+//			{
+//				if ( pageNumber == 2 )
+//				{
+//					task.cancel( );
+//				}
+//				if ( pageNumber == 4 )
+//				{
+//					fail( );
+//				}
+//			}
+//			catch ( Exception ex )
+//			{
+//				ex.printStackTrace( );
+//				fail( );
+//			}
+//		}
+//	}
 }

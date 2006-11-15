@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -247,7 +248,8 @@ public class ElementTest extends TestCase
 
 	public void setUp( )
 	{
-		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 		factory = new ElementFactory( designHandle.getModule( ) );
 	}
@@ -744,7 +746,7 @@ public class ElementTest extends TestCase
 	public void testGrid( ) throws ScriptException
 	{
 		GridHandle gridHandle = factory.newGridItem( GRID );
-		IGrid grid = new Grid( gridHandle );
+		new Grid( gridHandle );
 
 		// No methods on IGrid to test...
 	}
@@ -838,8 +840,6 @@ public class ElementTest extends TestCase
 		image.setTypeExpression( EXPRESSION );
 		assertEquals( EXPRESSION, image.getTypeExpression( ) );
 
-		image.setURI( URI );
-		assertEquals( URI, image.getURI( ) );
 
 		image.setValueExpression( VALUE_EXPRESSION );
 		assertEquals( VALUE_EXPRESSION, image.getValueExpression( ) );
@@ -854,7 +854,7 @@ public class ElementTest extends TestCase
 	public void testList( ) throws ScriptException
 	{
 		ListHandle listHandle = factory.newList( LIST );
-		IList list = new List( listHandle );
+		new List( listHandle );
 
 		// No methods to test on IList
 	}

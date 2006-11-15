@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.i18n;
 
-import java.util.Locale;
+import com.ibm.icu.util.ULocale;
 
 import junit.framework.TestCase;
 
@@ -21,21 +21,21 @@ import junit.framework.TestCase;
 public class EngineResourceHandleTest extends TestCase {
 	public void testConstant( )
 	{
-		EngineResourceHandle handle = new EngineResourceHandle( new Locale("en"));
+		EngineResourceHandle handle = new EngineResourceHandle( new ULocale("en"));
 		assertEquals( handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00),
 				"En: There is a {0} in the {1}." );
 		assertEquals(handle.getMessage(
 				MessageConstants.TEST_ERROR_MESSAGE_00,
 				new String[] {"pea", "pot"} ), "En: There is a pea in the pot." );		
 
-		handle = new EngineResourceHandle( new Locale("en", "US"));
+		handle = new EngineResourceHandle( new ULocale("en", "US"));
 		assertEquals( handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00),
 				"En: There is a {0} in the {1}." );
 		assertEquals( handle.getMessage(
 				MessageConstants.TEST_ERROR_MESSAGE_00,
 				new String[] {"pea", "pot"} ), "En: There is a pea in the pot." );		
 
-		handle = new EngineResourceHandle( new Locale("ja"));
+		handle = new EngineResourceHandle( new ULocale("ja"));
 		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00),
 				"En: There is a {0} in the {1}.");
 		assertEquals(handle.getMessage(

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.SelectionChoice;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskUtil.SelectionChoiceUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -50,7 +49,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 	{
 		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
 		ReportDesignHandle design = (ReportDesignHandle) report
-				.getDesignHandle( ).getDesignHandle( );
+				.getDesignHandle( ).getModuleHandle( );
 		ScalarParameterHandle parameter1 = (ScalarParameterHandle) design
 				.findParameter( "NewParameter2" ); //$NON-NLS-1$
 		parameter1.setDataSetName( "Data Set1" ); //$NON-NLS-1$

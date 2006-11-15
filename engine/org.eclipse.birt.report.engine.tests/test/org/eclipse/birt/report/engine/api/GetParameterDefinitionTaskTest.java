@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api;
 import java.util.Collection;
 
 import org.eclipse.birt.report.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 
 public class GetParameterDefinitionTaskTest extends EngineCase
 {
@@ -200,13 +201,13 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		String[] goldenResult = new String[]{"1", "2", "3"};
 		scalarParam = (IScalarParameterDefn) gpdTask
 				.getParameterDefn( "paramList" );
-		assertEquals( LIST_SIZE, scalarParam.getSelectionList( ).size( ) );
+		assertEquals( LIST_SIZE, (( ScalarParameterDefn )scalarParam).getSelectionList( ).size( ) );
 		assertEquals( scalarParam.getDefaultValue( ), "2" );
 		IParameterSelectionChoice choice = null;
 		assertTrue( goldenResult.length == LIST_SIZE );
 		for ( int index = 0; index < LIST_SIZE; index++ )
 		{
-			choice = (IParameterSelectionChoice) scalarParam.getSelectionList( )
+			choice = (IParameterSelectionChoice) (( ScalarParameterDefn )scalarParam).getSelectionList( )
 					.get( index );
 			assertEquals( goldenResult[index], choice.getValue( ).toString( ) );
 		}

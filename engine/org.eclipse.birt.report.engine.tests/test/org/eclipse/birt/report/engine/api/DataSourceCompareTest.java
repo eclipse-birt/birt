@@ -119,8 +119,8 @@ public class DataSourceCompareTest extends EngineCase
 	private void compare( String goldenFile, String resultFile )
 			throws Exception
 	{
-		String golden = loadContent( goldenFile );
-		String result = loadContent( resultFile );
+		loadContent( goldenFile );
+		loadContent( resultFile );
 		//assertEquals( golden, result );
 	}
 

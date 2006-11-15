@@ -38,7 +38,7 @@ import org.eclipse.birt.core.framework.Platform;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.27 $ $Date: 2006/09/18 03:08:35 $
+ * @version $Revision: 1.28 $ $Date: 2006/10/16 09:56:32 $
  */
 public class ReportRunner
 {
@@ -341,13 +341,15 @@ public class ReportRunner
 				{
 					String fileName = pathName + '_' + ( i ) + extName;
 					options.setOutputFileName( fileName );
-					task.render( i );
+					task.setPageNumber( i );
+					task.render( );
 				}
 			}
 			else
 			{
 				options.setOutputFileName( targetFile );
-				task.render( pageNumber );
+				task.setPageNumber( pageNumber );
+				task.render( );
 			}
 			task.close( );
 			return 0;

@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -30,7 +29,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 
 /**
- * @version $Revision: 1.20 $ $Date: 2006/06/21 03:10:42 $
+ * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:46 $
  */
 public class ReportQueryBuilderTest extends TestCase
 {
@@ -67,7 +66,6 @@ public class ReportQueryBuilderTest extends TestCase
 
 	private void testGrid( Report report, ReportItemDesign item )
 	{
-		GridItemDesign grid = (GridItemDesign) item;
 		assertTrue( item.getQuery( ) instanceof QueryDefinition );
 		assertTrue( report.getQueries( ).contains( item.getQuery( ) ) );
 		assertEquals( 1, item.getQuery( ).getResultSetExpressions( ).size( ) );
@@ -123,7 +121,6 @@ public class ReportQueryBuilderTest extends TestCase
 
 	private void testTable( Report report, ReportItemDesign item )
 	{
-		TableItemDesign table = (TableItemDesign) item;
 		assertTrue( item.getQuery( ) instanceof QueryDefinition );
 		IQueryDefinition query = (IQueryDefinition)item.getQuery( );
 		assertTrue( query.getSorts( ).size( ) == 2 );

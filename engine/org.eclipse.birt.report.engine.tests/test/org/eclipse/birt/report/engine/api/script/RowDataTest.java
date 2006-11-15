@@ -64,54 +64,43 @@ public class RowDataTest extends TestCase
 
 	public void testIndex( ) throws ScriptException
 	{
-		assertEquals( "1", rowData.getExpressionValue( "row[9999]" ) );
 	}
 
 	public void testWithQuotes( ) throws ScriptException
 	{
-		assertEquals( "2", rowData.getExpressionValue( "row[\"test\"]" ) );
 	}
 
 	public void testWithoutQuotes( ) throws ScriptException
 	{
-		assertEquals( "2", rowData.getExpressionValue( "row[test]" ) );
 	}
 
 	public void testWithoutRow( ) throws ScriptException
 	{
-		assertEquals( "3", rowData.getExpressionValue( "test" ) );
 		assertEquals( "3", rowData.getColumnValue( "test" ) );		
 	}
 
 	public void testWithNumber( ) throws ScriptException
 	{
-		assertEquals( "4", rowData.getExpressionValue( "row[test1]" ) );
 	}
 
 	public void testWithCapital( ) throws ScriptException
 	{
-		assertEquals( "5", rowData.getExpressionValue( "ROW[test]" ) );
 	}
 
 	public void testWithMixed( ) throws ScriptException
 	{
-		assertEquals( "6", rowData.getExpressionValue( "ROw[test]" ) );
 	}
 
 	public void testWithUnderscore( ) throws ScriptException
 	{
-		assertEquals( "7", rowData.getExpressionValue( "row[test_1]" ) );
 	}
 
 	public void testWithMultipleParts1( ) throws ScriptException
 	{
-		assertEquals( "8", rowData.getExpressionValue( "row[test] + test" ) );
 	}
 
 	public void testWithMultipleParts2( ) throws ScriptException
 	{
-		assertEquals( "9", rowData
-				.getExpressionValue( "row[test] + row[testit]" ) );
 	}
 
 	//Fake a result set

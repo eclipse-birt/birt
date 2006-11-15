@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -23,7 +22,6 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.report.engine.api.script.IColumnMetaData;
-import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -51,6 +49,7 @@ import org.eclipse.birt.report.engine.script.internal.instance.ListInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.StyleInstance;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -191,7 +190,8 @@ public class InstanceTest extends TestCase {
 
 	public void setUp() {
 		reportContent = new ReportContent();
-		SessionHandle sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = sessionHandle.createDesign();
 		factory = new ElementFactory(designHandle.getModule());
 	}
@@ -303,7 +303,7 @@ public class InstanceTest extends TestCase {
 	public void testGridInstance() throws ScriptException {
 		TableContent content = (TableContent) reportContent
 				.createTableContent();
-		IGridInstance gridInstance = new GridInstance(content, null);
+		new GridInstance(content, null);
 
 		// No methods to test....
 	}
@@ -329,9 +329,6 @@ public class InstanceTest extends TestCase {
 		imageInstance.setMimeType(MIME_TYPE);
 		assertEquals(MIME_TYPE, imageInstance.getMimeType());
 
-		imageInstance.setURI(URI);
-		assertEquals(URI, imageInstance.getURI());
-		
 		imageInstance.setURL( IMAGE_URL );
 		assertEquals( IImageContent.IMAGE_URL, imageInstance.getImageSource() );
 		assertEquals( IMAGE_URL, imageInstance.getURL( ) );
@@ -353,7 +350,7 @@ public class InstanceTest extends TestCase {
 	public void testListInstance() throws ScriptException {
 		ListContent listContent = (ListContent) reportContent
 				.createListContent();
-		IListInstance listInstance = new ListInstance(listContent, null);
+		new ListInstance(listContent, null);
 
 		// no methods to test...
 	}
@@ -632,54 +629,55 @@ public class InstanceTest extends TestCase {
 		}
 	}
 
-	private class FakeRowData implements IRowData {
-
-		private Map expressionMap;
-
-		public FakeRowData(Map expressionMap) {
-			this.expressionMap = expressionMap;
-		}
-
-		public Object getExpressionValue(String expression)
-				throws ScriptException {
-			return expressionMap.get(expression);
-		}
-
-		public Object getExpressionValue(int i) throws ScriptException {
-			Set keySet = expressionMap.keySet();
-			Object[] expressions = keySet.toArray();
-			Object key = expressions[i - 2];
-			return expressionMap.get(key);
-		}
-
-		public int getExpressionCount() {
-			return expressionMap.size();
-		}
-
-		public Object getColumnValue( String name )
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public Object getColumnValue( int index )
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public String getColumnName( int index )
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public int getColumnCount( )
-		{
-			// TODO Auto-generated method stub
-			return 0;
-		}
-	}
+	// This class never been used locally. Comment this class to fix the warning.
+//	private class FakeRowData implements IRowData {
+//
+//		private Map expressionMap;
+//
+//		public FakeRowData(Map expressionMap) {
+//			this.expressionMap = expressionMap;
+//		}
+//
+//		public Object getExpressionValue(String expression)
+//				throws ScriptException {
+//			return expressionMap.get(expression);
+//		}
+//
+//		public Object getExpressionValue(int i) throws ScriptException {
+//			Set keySet = expressionMap.keySet();
+//			Object[] expressions = keySet.toArray();
+//			Object key = expressions[i - 2];
+//			return expressionMap.get(key);
+//		}
+//
+//		public int getExpressionCount() {
+//			return expressionMap.size();
+//		}
+//
+//		public Object getColumnValue( String name )
+//		{
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
+//
+//		public Object getColumnValue( int index )
+//		{
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
+//
+//		public String getColumnName( int index )
+//		{
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
+//
+//		public int getColumnCount( )
+//		{
+//			// TODO Auto-generated method stub
+//			return 0;
+//		}
+//	}
 
 	private class FakeResultMetadata implements IResultMetaData {
 

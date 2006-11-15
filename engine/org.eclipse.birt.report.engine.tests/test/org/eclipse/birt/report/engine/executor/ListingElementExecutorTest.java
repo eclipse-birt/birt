@@ -11,15 +11,10 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 
 
 public class ListingElementExecutorTest extends EngineCase
