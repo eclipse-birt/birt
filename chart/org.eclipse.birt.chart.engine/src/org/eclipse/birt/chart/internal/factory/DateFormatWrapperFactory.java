@@ -144,11 +144,19 @@ public class DateFormatWrapperFactory
 			FieldPosition pos = new FieldPosition( DateFormat.DATE_FIELD );
 			DateFormat df = DateFormat.getDateInstance( DateFormat.LONG, locale );
 			df.format( date, str, pos );
-			int endIndex = pos.getEndIndex( )
-					+ ( str.charAt( pos.getEndIndex( ) ) == ',' ? 2 : 1 );
+			int endIndex;
+			if ( pos.getEndIndex( ) >= str.length( ) )
+			{
+				endIndex = pos.getEndIndex( );
+			}
+			else
+			{
+				endIndex = pos.getEndIndex( )
+						+ ( str.charAt( pos.getEndIndex( ) ) == ',' ? 2 : 1 );
+			}
 			if ( endIndex >= str.length( ) )
 			{
-				return str.substring( 0, pos.getBeginIndex( ) );
+				return str.substring( 0, pos.getBeginIndex( ) ).trim( );
 			}
 			return str.substring( 0, pos.getBeginIndex( ) )
 					+ str.substring( endIndex );
