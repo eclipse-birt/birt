@@ -62,6 +62,18 @@ public final class Messages
 		}
 	}
 
+	public static String getString( String key )
+	{
+		try
+		{
+			return getResourceBundle( ).getString( key );
+		}
+		catch ( MissingResourceException e )
+		{
+			return '!' + key + '!';
+		}
+	}
+
 	/**
 	 * @param key
 	 * @param oa

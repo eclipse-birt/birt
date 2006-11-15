@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getOrthogonalType <em>Orthogonal Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,6 +78,35 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * @ordered
 	 */
 	protected FormatSpecifier formatSpecifier = null;
+
+	/**
+	 * The default value of the '{@link #getOrthogonalType() <em>Orthogonal Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOrthogonalType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ORTHOGONAL_TYPE_EDEFAULT = ""; //$NON-NLS-1$
+
+	/**
+	 * The cached value of the '{@link #getOrthogonalType() <em>Orthogonal Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOrthogonalType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String orthogonalType = ORTHOGONAL_TYPE_EDEFAULT;
+
+	/**
+	 * This is true if the Orthogonal Type attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean orthogonalTypeESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -223,6 +253,66 @@ public class DataPointComponentImpl extends EObjectImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getOrthogonalType( )
+	{
+		return orthogonalType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOrthogonalType( String newOrthogonalType )
+	{
+		String oldOrthogonalType = orthogonalType;
+		orthogonalType = newOrthogonalType;
+		boolean oldOrthogonalTypeESet = orthogonalTypeESet;
+		orthogonalTypeESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE,
+					oldOrthogonalType,
+					orthogonalType,
+					!oldOrthogonalTypeESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetOrthogonalType( )
+	{
+		String oldOrthogonalType = orthogonalType;
+		boolean oldOrthogonalTypeESet = orthogonalTypeESet;
+		orthogonalType = ORTHOGONAL_TYPE_EDEFAULT;
+		orthogonalTypeESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE,
+					oldOrthogonalType,
+					ORTHOGONAL_TYPE_EDEFAULT,
+					oldOrthogonalTypeESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetOrthogonalType( )
+	{
+		return orthogonalTypeESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -247,6 +337,8 @@ public class DataPointComponentImpl extends EObjectImpl
 				return getType( );
 			case AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER :
 				return getFormatSpecifier( );
+			case AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE :
+				return getOrthogonalType( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -265,6 +357,9 @@ public class DataPointComponentImpl extends EObjectImpl
 				return;
 			case AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) newValue );
+				return;
+			case AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE :
+				setOrthogonalType( (String) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -285,6 +380,9 @@ public class DataPointComponentImpl extends EObjectImpl
 			case AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) null );
 				return;
+			case AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE :
+				unsetOrthogonalType( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -302,6 +400,8 @@ public class DataPointComponentImpl extends EObjectImpl
 				return isSetType( );
 			case AttributePackage.DATA_POINT_COMPONENT__FORMAT_SPECIFIER :
 				return formatSpecifier != null;
+			case AttributePackage.DATA_POINT_COMPONENT__ORTHOGONAL_TYPE :
+				return isSetOrthogonalType( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -319,6 +419,11 @@ public class DataPointComponentImpl extends EObjectImpl
 		result.append( " (type: " ); //$NON-NLS-1$
 		if ( typeESet )
 			result.append( type );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", orthogonalType: " ); //$NON-NLS-1$
+		if ( orthogonalTypeESet )
+			result.append( orthogonalType );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

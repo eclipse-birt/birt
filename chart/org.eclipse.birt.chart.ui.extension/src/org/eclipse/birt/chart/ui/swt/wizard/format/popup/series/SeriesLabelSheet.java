@@ -12,7 +12,12 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
@@ -48,6 +53,9 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -68,9 +76,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class SeriesLabelSheet extends AbstractPopupSheet implements
-		SelectionListener,
-		Listener
+public class SeriesLabelSheet extends AbstractPopupSheet
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -127,12 +136,22 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private transient ChartWizardContext context;
 
+	/** Caches the pairs of datapoint display name and name */
+	private transient Map mapDataPointNames;
+
+	/**
+	 * Caches corresponding index in model of each List item
+	 */
+	private transient ArrayList dataPointIndex;
+
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
 		super( title, context, true );
 		this.seriesDefn = seriesDefn;
 		this.context = context;
+		mapDataPointNames = new HashMap( );
+		dataPointIndex = new ArrayList( );
 	}
 
 	/*
@@ -220,7 +239,31 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	private void populateLists( Series series )
 	{
 		// Populate DataPoint Components List
-		cmbComponentTypes.setItems( LiteralHelper.dataPointComponentTypeSet.getDisplayNames( ) );
+		String[] componentsDisplayName = LiteralHelper.dataPointComponentTypeSet.getDisplayNames( );
+		try
+		{
+			// Add series-specific datapoint components
+			IDataPointDefinition dpd = PluginSettings.instance( )
+					.getDataPointDefinition( getSeriesForProcessing( ).getClass( ) );
+			if ( dpd != null )
+			{
+				String[] dpType = dpd.getDataPointTypes( );
+				String[] dpTypeDisplay = new String[dpType.length];
+				for ( int i = 0; i < dpType.length; i++ )
+				{
+					dpTypeDisplay[i] = dpd.getDisplayText( dpType[i] );
+					mapDataPointNames.put( dpType[i], dpTypeDisplay[i] );
+					mapDataPointNames.put( dpTypeDisplay[i], dpType[i] );
+				}
+				componentsDisplayName = concatenateArrays( dpTypeDisplay,
+						componentsDisplayName );
+			}
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
+		}
+		cmbComponentTypes.setItems( componentsDisplayName );
 		cmbComponentTypes.select( 0 );
 
 		// Populate Current list of DataPointComponents
@@ -234,7 +277,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
 
 		// Position
-		int positionScope = ( getSeriesForProcessing( ) instanceof PieSeries || getSeriesForProcessing( ) instanceof BarSeries ) ? LabelAttributesComposite.ALLOW_INOUT_POSITION
+		int positionScope = ( getSeriesForProcessing( ) instanceof PieSeries || getSeriesForProcessing( ) instanceof BarSeries )
+				? LabelAttributesComposite.ALLOW_INOUT_POSITION
 				: ( LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION | LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
 		if ( positionScope == LabelAttributesComposite.ALLOW_ALL_POSITION )
@@ -298,7 +342,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 					}
 				}
 			}
-			// check inout
+			// check input
 			if ( ( positionScope & LabelAttributesComposite.ALLOW_INOUT_POSITION ) != 0 )
 			{
 				if ( ( getSeriesForProcessing( ) instanceof BarSeries )
@@ -342,14 +386,26 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private String[] getDataPointComponents( DataPoint datapoint )
 	{
-		Object[] oArr = datapoint.getComponents( ).toArray( );
-		String[] sArr = new String[oArr.length];
-		for ( int i = 0; i < oArr.length; i++ )
+		EList oArr = datapoint.getComponents( );
+		ArrayList sArr = new ArrayList( oArr.size( ) );
+		for ( int i = 0; i < oArr.size( ); i++ )
 		{
-			sArr[i] = LiteralHelper.dataPointComponentTypeSet.getDisplayNameByName( ( (DataPointComponent) oArr[i] ).getType( )
-					.getName( ) );
+			DataPointComponent dpc = (DataPointComponent) oArr.get( i );
+			if ( dpc.getOrthogonalType( ).length( ) == 0 )
+			{
+				// Add general components
+				sArr.add( LiteralHelper.dataPointComponentTypeSet.getDisplayNameByName( dpc.getType( )
+						.getName( ) ) );
+				dataPointIndex.add( new Integer( i ) );
+			}
+			else if ( mapDataPointNames.containsKey( dpc.getOrthogonalType( ) ) )
+			{
+				// Add series-specific components of current series
+				sArr.add( mapDataPointNames.get( dpc.getOrthogonalType( ) ) );
+				dataPointIndex.add( new Integer( i ) );
+			}
 		}
-		return sArr;
+		return (String[]) sArr.toArray( new String[0] );
 	}
 
 	private void createAttributeArea( Composite parent )
@@ -700,23 +756,38 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	private void addDataPointComponent( int iComponentIndex )
 	{
 		DataPoint dp = getSeriesForProcessing( ).getDataPoint( );
-		DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( iComponentIndex ) ) );
-		DataPointComponent dpc = DataPointComponentImpl.create( dpct, null );
-		// Set a predefined format specifier to percentile type
-		if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+		DataPointComponent dpc = null;
+		String dpDisplayName = lstComponents.getItem( iComponentIndex );
+		if ( mapDataPointNames.containsKey( dpDisplayName ) )
 		{
-			JavaNumberFormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( "##.##%" ); //$NON-NLS-1$
-			dpc.setFormatSpecifier( fs );
+			// Handles series-specific datapoint component
+			dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+					null );
+			dpc.setOrthogonalType( (String) mapDataPointNames.get( dpDisplayName ) );
+		}
+		else
+		{
+			DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( iComponentIndex ) ) );
+			dpc = DataPointComponentImpl.create( dpct, null );
+			// Set a predefined format specifier to percentile type
+			if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
+			{
+				JavaNumberFormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( "##.##%" ); //$NON-NLS-1$
+				dpc.setFormatSpecifier( fs );
+			}
 		}
 		dpc.eAdapters( ).addAll( dp.eAdapters( ) );
 		dp.getComponents( ).add( dpc );
+
+		dataPointIndex.add( iComponentIndex, new Integer( dp.getComponents( )
+				.size( ) - 1 ) );
 	}
 
 	private void setDataPointComponentFormatSpecifier( int iComponentIndex )
 	{
 		DataPointComponent dpc = (DataPointComponent) getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
-				.get( iComponentIndex );
+				.get( getIndexOfListItem( iComponentIndex ) );
 		FormatSpecifier formatspecifier = dpc.getFormatSpecifier( );
 
 		String sContext = new MessageFormat( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPointComponent" ) ).format( new Object[]{dpc.getType( ).getName( )} ); //$NON-NLS-1$
@@ -739,17 +810,44 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		}
 	}
 
+	private int getIndexOfListItem( int indexOfListItem )
+	{
+		return ( (Integer) dataPointIndex.get( indexOfListItem ) ).intValue( );
+	}
+
 	private void removeDataPointComponent( int iComponentIndex )
 	{
 		getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
-				.remove( iComponentIndex );;
+				.remove( getIndexOfListItem( iComponentIndex ) );;
+		dataPointIndex.remove( iComponentIndex );
 	}
 
 	private boolean isFlippedAxes( )
 	{
 		return ( (ChartWithAxes) context.getModel( ) ).getOrientation( )
 				.equals( Orientation.HORIZONTAL_LITERAL );
+	}
+
+	private String[] concatenateArrays( String[] array1, String[] array2 )
+	{
+		if ( array1 == null || array2 == null )
+		{
+			return null;
+		}
+		String[] array = new String[array1.length + array2.length];
+		for ( int i = 0; i < array.length; i++ )
+		{
+			if ( i < array1.length )
+			{
+				array[i] = array1[i];
+			}
+			else
+			{
+				array[i] = array2[i - array1.length];
+			}
+		}
+		return array;
 	}
 
 }

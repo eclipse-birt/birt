@@ -275,6 +275,310 @@ public interface AttributePackage extends EPackage
 	int CALL_BACK_VALUE = 5;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl <em>Fill</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.FillImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFill()
+	 * @generated
+	 */
+	int FILL = 12;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl <em>Color Definition</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getColorDefinition()
+	 * @generated
+	 */
+	int COLOR_DEFINITION = 6;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl <em>Data Point</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.DataPointImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPoint()
+	 * @generated
+	 */
+	int DATA_POINT = 7;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl <em>Data Point Component</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPointComponent()
+	 * @generated
+	 */
+	int DATA_POINT_COMPONENT = 8;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl <em>Font Definition</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFontDefinition()
+	 * @generated
+	 */
+	int FONT_DEFINITION = 13;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl <em>Format Specifier</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFormatSpecifier()
+	 * @generated
+	 */
+	int FORMAT_SPECIFIER = 14;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl <em>Date Format Specifier</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatSpecifier()
+	 * @generated
+	 */
+	int DATE_FORMAT_SPECIFIER = 9;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl <em>Extended Property</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getExtendedProperty()
+	 * @generated
+	 */
+	int EXTENDED_PROPERTY = 11;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl <em>Gradient</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.GradientImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getGradient()
+	 * @generated
+	 */
+	int GRADIENT = 16;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl <em>Image</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.ImageImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImage()
+	 * @generated
+	 */
+	int IMAGE = 17;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl <em>Embedded Image</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getEmbeddedImage()
+	 * @generated
+	 */
+	int EMBEDDED_IMAGE = 10;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl <em>Fraction Number Format Specifier</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFractionNumberFormatSpecifier()
+	 * @generated
+	 */
+	int FRACTION_NUMBER_FORMAT_SPECIFIER = 15;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl <em>Insets</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.InsetsImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getInsets()
+	 * @generated
+	 */
+	int INSETS = 18;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl <em>Interactivity</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getInteractivity()
+	 * @generated
+	 */
+	int INTERACTIVITY = 19;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl <em>Java Date Format Specifier</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getJavaDateFormatSpecifier()
+	 * @generated
+	 */
+	int JAVA_DATE_FORMAT_SPECIFIER = 20;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl <em>Java Number Format Specifier</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getJavaNumberFormatSpecifier()
+	 * @generated
+	 */
+	int JAVA_NUMBER_FORMAT_SPECIFIER = 21;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl <em>Line Attributes</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineAttributes()
+	 * @generated
+	 */
+	int LINE_ATTRIBUTES = 22;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl <em>Location</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.LocationImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLocation()
+	 * @generated
+	 */
+	int LOCATION = 23;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.Location3DImpl <em>Location3 D</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.Location3DImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLocation3D()
+	 * @generated
+	 */
+	int LOCATION3_D = 24;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl <em>Marker</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.MarkerImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMarker()
+	 * @generated
+	 */
+	int MARKER = 25;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl <em>Multiple Fill</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMultipleFill()
+	 * @generated
+	 */
+	int MULTIPLE_FILL = 26;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl <em>Number Format Specifier</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getNumberFormatSpecifier()
+	 * @generated
+	 */
+	int NUMBER_FORMAT_SPECIFIER = 27;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl <em>Palette</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.PaletteImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPalette()
+	 * @generated
+	 */
+	int PALETTE = 28;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl <em>Rotation3 D</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRotation3D()
+	 * @generated
+	 */
+	int ROTATION3_D = 29;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl <em>Script Value</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getScriptValue()
+	 * @generated
+	 */
+	int SCRIPT_VALUE = 30;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl <em>Series Value</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSeriesValue()
+	 * @generated
+	 */
+	int SERIES_VALUE = 31;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl <em>Text</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.TextImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getText()
+	 * @generated
+	 */
+	int TEXT = 35;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl <em>Size</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.SizeImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSize()
+	 * @generated
+	 */
+	int SIZE = 32;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.StyleImpl <em>Style</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.StyleImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyle()
+	 * @generated
+	 */
+	int STYLE = 33;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl <em>Style Map</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyleMap()
+	 * @generated
+	 */
+	int STYLE_MAP = 34;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl <em>Text Alignment</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTextAlignment()
+	 * @generated
+	 */
+	int TEXT_ALIGNMENT = 36;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl <em>Tooltip Value</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTooltipValue()
+	 * @generated
+	 */
+	int TOOLTIP_VALUE = 37;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl <em>URL Value</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.impl.URLValueImpl
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getURLValue()
+	 * @generated
+	 */
+	int URL_VALUE = 38;
+
+	/**
 	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -293,15 +597,6 @@ public interface AttributePackage extends EPackage
 	int CALL_BACK_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl <em>Fill</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.FillImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFill()
-	 * @generated
-	 */
-	int FILL = 12;
-
-	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -317,15 +612,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int FILL_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl <em>Color Definition</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getColorDefinition()
-	 * @generated
-	 */
-	int COLOR_DEFINITION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -380,15 +666,6 @@ public interface AttributePackage extends EPackage
 	int COLOR_DEFINITION_FEATURE_COUNT = FILL_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl <em>Data Point</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.DataPointImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPoint()
-	 * @generated
-	 */
-	int DATA_POINT = 7;
-
-	/**
 	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -432,15 +709,6 @@ public interface AttributePackage extends EPackage
 	int DATA_POINT_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl <em>Data Point Component</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPointComponent()
-	 * @generated
-	 */
-	int DATA_POINT_COMPONENT = 8;
-
-	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -458,31 +726,22 @@ public interface AttributePackage extends EPackage
 	int DATA_POINT_COMPONENT__FORMAT_SPECIFIER = 1;
 
 	/**
+	 * The feature id for the '<em><b>Orthogonal Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATA_POINT_COMPONENT__ORTHOGONAL_TYPE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Data Point Component</em>' class.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATA_POINT_COMPONENT_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl <em>Font Definition</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFontDefinition()
-	 * @generated
-	 */
-	int FONT_DEFINITION = 13;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl <em>Format Specifier</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFormatSpecifier()
-	 * @generated
-	 */
-	int FORMAT_SPECIFIER = 14;
+	int DATA_POINT_COMPONENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of structural features of the '<em>Format Specifier</em>' class.
@@ -491,15 +750,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int FORMAT_SPECIFIER_FEATURE_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl <em>Date Format Specifier</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatSpecifier()
-	 * @generated
-	 */
-	int DATE_FORMAT_SPECIFIER = 9;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -529,33 +779,6 @@ public interface AttributePackage extends EPackage
 	int DATE_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl <em>Extended Property</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getExtendedProperty()
-	 * @generated
-	 */
-	int EXTENDED_PROPERTY = 11;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.GradientImpl <em>Gradient</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.GradientImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getGradient()
-	 * @generated
-	 */
-	int GRADIENT = 16;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl <em>Image</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.ImageImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImage()
-	 * @generated
-	 */
-	int IMAGE = 17;
-
-	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -580,16 +803,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int IMAGE_FEATURE_COUNT = FILL_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl <em>Embedded Image</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getEmbeddedImage()
-	 * @generated
-	 */
-	int EMBEDDED_IMAGE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -741,16 +954,6 @@ public interface AttributePackage extends EPackage
 	int FONT_DEFINITION_FEATURE_COUNT = 9;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl <em>Fraction Number Format Specifier</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getFractionNumberFormatSpecifier()
-	 * @generated
-	 */
-	int FRACTION_NUMBER_FORMAT_SPECIFIER = 15;
-
-	/**
 	 * The feature id for the '<em><b>Precise</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -873,15 +1076,6 @@ public interface AttributePackage extends EPackage
 	int GRADIENT_FEATURE_COUNT = FILL_FEATURE_COUNT + 5;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl <em>Insets</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.InsetsImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getInsets()
-	 * @generated
-	 */
-	int INSETS = 18;
-
-	/**
 	 * The feature id for the '<em><b>Top</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -926,16 +1120,6 @@ public interface AttributePackage extends EPackage
 	int INSETS_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl <em>Interactivity</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getInteractivity()
-	 * @generated
-	 */
-	int INTERACTIVITY = 19;
-
-	/**
 	 * The feature id for the '<em><b>Enable</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -963,15 +1147,6 @@ public interface AttributePackage extends EPackage
 	int INTERACTIVITY_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl <em>Java Date Format Specifier</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getJavaDateFormatSpecifier()
-	 * @generated
-	 */
-	int JAVA_DATE_FORMAT_SPECIFIER = 20;
-
-	/**
 	 * The feature id for the '<em><b>Pattern</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -988,15 +1163,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int JAVA_DATE_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl <em>Java Number Format Specifier</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getJavaNumberFormatSpecifier()
-	 * @generated
-	 */
-	int JAVA_NUMBER_FORMAT_SPECIFIER = 21;
 
 	/**
 	 * The feature id for the '<em><b>Pattern</b></em>' attribute. <!--
@@ -1024,15 +1190,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int JAVA_NUMBER_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl <em>Line Attributes</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineAttributes()
-	 * @generated
-	 */
-	int LINE_ATTRIBUTES = 22;
 
 	/**
 	 * The feature id for the '<em><b>Style</b></em>' attribute. <!--
@@ -1078,15 +1235,6 @@ public interface AttributePackage extends EPackage
 	int LINE_ATTRIBUTES_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl <em>Location</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.LocationImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLocation()
-	 * @generated
-	 */
-	int LOCATION = 23;
-
-	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1111,16 +1259,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int LOCATION_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.Location3DImpl <em>Location3 D</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.Location3DImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLocation3D()
-	 * @generated
-	 */
-	int LOCATION3_D = 24;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1157,15 +1295,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int LOCATION3_D_FEATURE_COUNT = LOCATION_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl <em>Marker</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.MarkerImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMarker()
-	 * @generated
-	 */
-	int MARKER = 25;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -1221,16 +1350,6 @@ public interface AttributePackage extends EPackage
 	int MARKER_FEATURE_COUNT = 5;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl <em>Multiple Fill</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMultipleFill()
-	 * @generated
-	 */
-	int MULTIPLE_FILL = 26;
-
-	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1256,15 +1375,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int MULTIPLE_FILL_FEATURE_COUNT = FILL_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl <em>Number Format Specifier</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getNumberFormatSpecifier()
-	 * @generated
-	 */
-	int NUMBER_FORMAT_SPECIFIER = 27;
 
 	/**
 	 * The feature id for the '<em><b>Prefix</b></em>' attribute. <!--
@@ -1311,15 +1421,6 @@ public interface AttributePackage extends EPackage
 	int NUMBER_FORMAT_SPECIFIER_FEATURE_COUNT = FORMAT_SPECIFIER_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl <em>Palette</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.PaletteImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPalette()
-	 * @generated
-	 */
-	int PALETTE = 28;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1345,16 +1446,6 @@ public interface AttributePackage extends EPackage
 	int PALETTE_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl <em>Rotation3 D</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRotation3D()
-	 * @generated
-	 */
-	int ROTATION3_D = 29;
-
-	/**
 	 * The feature id for the '<em><b>Angles</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1371,15 +1462,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int ROTATION3_D_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl <em>Script Value</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getScriptValue()
-	 * @generated
-	 */
-	int SCRIPT_VALUE = 30;
 
 	/**
 	 * The feature id for the '<em><b>Script</b></em>' attribute. <!--
@@ -1399,15 +1481,6 @@ public interface AttributePackage extends EPackage
 	int SCRIPT_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl <em>Series Value</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSeriesValue()
-	 * @generated
-	 */
-	int SERIES_VALUE = 31;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1423,24 +1496,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int SERIES_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl <em>Text</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.TextImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getText()
-	 * @generated
-	 */
-	int TEXT = 35;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl <em>Size</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.SizeImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSize()
-	 * @generated
-	 */
-	int SIZE = 32;
 
 	/**
 	 * The feature id for the '<em><b>Height</b></em>' attribute. <!--
@@ -1467,16 +1522,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int SIZE_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.StyleImpl <em>Style</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.StyleImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyle()
-	 * @generated
-	 */
-	int STYLE = 33;
 
 	/**
 	 * The feature id for the '<em><b>Font</b></em>' containment reference.
@@ -1531,15 +1576,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int STYLE_FEATURE_COUNT = 5;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl <em>Style Map</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyleMap()
-	 * @generated
-	 */
-	int STYLE_MAP = 34;
 
 	/**
 	 * The feature id for the '<em><b>Component Name</b></em>' attribute.
@@ -1600,15 +1636,6 @@ public interface AttributePackage extends EPackage
 	int TEXT_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl <em>Text Alignment</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTextAlignment()
-	 * @generated
-	 */
-	int TEXT_ALIGNMENT = 36;
-
-	/**
 	 * The feature id for the '<em><b>Horizontal Alignment</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -1631,15 +1658,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int TEXT_ALIGNMENT_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl <em>Tooltip Value</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTooltipValue()
-	 * @generated
-	 */
-	int TOOLTIP_VALUE = 37;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute. <!--
@@ -1666,15 +1684,6 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int TOOLTIP_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl <em>URL Value</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.attribute.impl.URLValueImpl
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getURLValue()
-	 * @generated
-	 */
-	int URL_VALUE = 38;
 
 	/**
 	 * The feature id for the '<em><b>Base Url</b></em>' attribute. <!--
@@ -2697,6 +2706,17 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	EReference getDataPointComponent_FormatSpecifier( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Orthogonal Type</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType()
+	 * @see #getDataPointComponent()
+	 * @generated
+	 */
+	EAttribute getDataPointComponent_OrthogonalType( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.DateFormatSpecifier <em>Date Format Specifier</em>}'.
@@ -4811,6 +4831,14 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EReference DATA_POINT_COMPONENT__FORMAT_SPECIFIER = eINSTANCE.getDataPointComponent_FormatSpecifier( );
+
+		/**
+		 * The meta object literal for the '<em><b>Orthogonal Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DATA_POINT_COMPONENT__ORTHOGONAL_TYPE = eINSTANCE.getDataPointComponent_OrthogonalType( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl <em>Date Format Specifier</em>}' class.

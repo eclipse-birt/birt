@@ -30,4 +30,5 @@
    -->
    <extension-point id="devicerenderers" name="Contains definition of chart device renderers" schema="schema/devicerenderers.exsd"/>
    <extension-point id="aggregatefunctions" name="Contains definition of chart aggregate functions" schema="schema/aggregatefunctions.exsd"/>
+   <extension-point id="datapointdefinitions" name="Contains definitions of data point display" schema="schema/datapointdefinitions.exsd"/>
 </plugin>

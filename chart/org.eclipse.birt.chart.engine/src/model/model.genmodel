@@ -7,13 +7,8 @@
     runtimeJar="true" dynamicTemplates="true" modelName="Model" editPluginClass="org.eclipse.birt.chart.model.data.provider.ModelEditPlugin"
     editorPluginClass="org.eclipse.birt.chart.model.data.presentation.ModelEditorPlugin"
     nonNLSMarkers="true" featureMapWrapperInterface="" featureMapWrapperInternalInterface=""
-    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore">
-  <foreignModel>org.eclipse.birt.chart.model.component.ecore</foreignModel>
-  <foreignModel>org.eclipse.birt.chart.model.data.ecore</foreignModel>
-  <foreignModel>org.eclipse.birt.chart.model.attribute.ecore</foreignModel>
-  <foreignModel>org.eclipse.birt.chart.model.ecore</foreignModel>
-  <foreignModel>org.eclipse.birt.chart.model.layout.ecore</foreignModel>
-  <foreignModel>org.eclipse.birt.chart.model.type.ecore</foreignModel>
+    codeFormatting="true" importerID="org.eclipse.xsd.ecore.importer">
+  <foreignModel>../../xsd/attribute.xsd</foreignModel>
   <genPackages prefix="Component" basePackage="org.eclipse.birt.chart.model" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.component.ecore#/">
     <genClasses ecoreClass="org.eclipse.birt.chart.model.component.ecore#//Axis">
@@ -346,6 +341,7 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//RiserType/Rectangle"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//RiserType/Triangle"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//RiserType/Tube"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//RiserType/Cone"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//RuleType">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//RuleType/Filter"/>
@@ -501,6 +497,7 @@
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent/formatSpecifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponent/orthogonalType"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatSpecifier">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//DateFormatSpecifier/type"/>

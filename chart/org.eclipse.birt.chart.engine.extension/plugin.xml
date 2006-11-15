@@ -106,4 +106,19 @@
             function="org.eclipse.birt.chart.aggregate.Max"
             name="Max"/>
    </extension>
+   <extension
+         point="org.eclipse.birt.chart.engine.datapointdefinitions">
+      <datapointDefinition
+            definition="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"
+            series="org.eclipse.birt.chart.datafeed.StockDataPointDefinition"/>
+      <datapointDefinition
+            definition="org.eclipse.birt.chart.datafeed.GanttDataPointDefinition"
+            series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
+      <datapointDefinition
+            definition="org.eclipse.birt.chart.datafeed.BubbleDataPointDefinition"
+            series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
+      <datapointDefinition
+            definition="org.eclipse.birt.chart.datafeed.DifferenceDataPointDefinition"
+            series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>                                  
+   </extension>
 </plugin>

@@ -1211,6 +1211,17 @@ public class AttributePackageImpl extends EPackageImpl
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDataPointComponent_OrthogonalType( )
+	{
+		return (EAttribute) dataPointComponentEClass.getEStructuralFeatures( )
+				.get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2971,6 +2982,8 @@ public class AttributePackageImpl extends EPackageImpl
 		createEAttribute( dataPointComponentEClass, DATA_POINT_COMPONENT__TYPE );
 		createEReference( dataPointComponentEClass,
 				DATA_POINT_COMPONENT__FORMAT_SPECIFIER );
+		createEAttribute( dataPointComponentEClass,
+				DATA_POINT_COMPONENT__ORTHOGONAL_TYPE );
 
 		dateFormatSpecifierEClass = createEClass( DATE_FORMAT_SPECIFIER );
 		createEAttribute( dateFormatSpecifierEClass,
@@ -3364,6 +3377,9 @@ public class AttributePackageImpl extends EPackageImpl
 				this.getFormatSpecifier( ),
 				null,
 				"formatSpecifier", null, 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getDataPointComponent_OrthogonalType( ),
+				theXMLTypePackage.getString( ),
+				"orthogonalType", "", 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( dateFormatSpecifierEClass,
 				DateFormatSpecifier.class,
@@ -4345,6 +4361,12 @@ public class AttributePackageImpl extends EPackageImpl
 				new String[]{
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getDataPointComponent_OrthogonalType( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "OrthogonalType" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( dataPointComponentTypeEEnum, source, new String[]{
 				"name", "DataPointComponentType" //$NON-NLS-1$ //$NON-NLS-2$

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.datafeed.IDataPointEntry;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -596,7 +597,7 @@ public final class DataPointHints
 		}
 		else 
 		{
-			final EList el = dp.getComponents();
+			final EList el = dp.getComponents();	
 
 			if ( dp.getPrefix() != null )
 			{
@@ -605,21 +606,42 @@ public final class DataPointHints
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
 
-			for ( int i = 0; i < el.size(); i++ )
+			for ( int i = 0; i < el.size( ); i++ )
 			{
 				dpc = (DataPointComponent) el.get( i );
-				dpct = dpc.getType();
+				dpct = dpc.getType( );
 				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
 				{
-					sb.append( getBaseDisplayValue() );
+					sb.append( getBaseDisplayValue( ) );
 				}
 				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
 				{
-					sb.append( getOrthogonalDisplayValue() );
+					String oType = dpc.getOrthogonalType( );
+					if ( oType.length( ) == 0 )
+					{
+						sb.append( getOrthogonalDisplayValue( ) );
+					}
+					else if ( !( oOrthogonalValue instanceof IDataPointEntry ) )
+					{
+						continue;
+					}
+					else
+					{
+						String str = ( (IDataPointEntry) oOrthogonalValue ).getFormattedString( oType,
+								dpc.getFormatSpecifier( ),
+								rtc.getULocale( ) );
+						if ( str == null )
+						{
+							// Skip it if specific datapoint display is not 
+							// for current series
+							continue;
+						}
+						sb.append( str );
+					}
 				}
 				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
 				{
-					sb.append( getSeriesDisplayValue() );
+					sb.append( getSeriesDisplayValue( ) );
 				}
 				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
 				{
@@ -629,7 +651,7 @@ public final class DataPointHints
 				{
 					sb.append( dp.getSeparator() );
 				}
-			}
+			}	
 			if ( dp.getSuffix() != null )
 			{
 				sb.append( dp.getSuffix() );

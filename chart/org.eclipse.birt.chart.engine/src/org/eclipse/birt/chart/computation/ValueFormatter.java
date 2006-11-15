@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.computation;
 
-import org.eclipse.birt.chart.datafeed.IFormattable;
+import org.eclipse.birt.chart.datafeed.IDataPointEntry;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
@@ -98,9 +98,9 @@ public final class ValueFormatter
 						return ( (DateFormat) oCachedJavaFormatter ).format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 					}
 				}
-				else if ( oValue instanceof IFormattable )
+				else if ( oValue instanceof IDataPointEntry )
 				{
-					return ( (IFormattable) oValue ).getFormattedString( oCachedJavaFormatter,
+					return ( (IDataPointEntry) oValue ).getFormattedString( oCachedJavaFormatter,
 							lcl );
 				}
 			}
@@ -127,9 +127,9 @@ public final class ValueFormatter
 				}
 			}
 		}
-		else if ( oValue instanceof IFormattable )
+		else if ( oValue instanceof IDataPointEntry )
 		{
-			return ( (IFormattable) oValue ).getFormattedString( fs, lcl );
+			return ( (IDataPointEntry) oValue ).getFormattedString( fs, lcl );
 		}
 		else if ( NumberFormatSpecifier.class.isInstance( fs ) )
 		{

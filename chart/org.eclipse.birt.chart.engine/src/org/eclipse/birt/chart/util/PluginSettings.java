@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
+import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -195,6 +196,25 @@ public final class PluginSettings
 			{
 					"Average", "Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
+	};
+	
+	/**
+	 * All series datapoint definitions implementing class names for which
+	 * extensions are defined. Note that this list is index sensitive and
+	 * corresponds to the series type list.
+	 */
+	private static String[] saDataPointDefinitions = {
+			null,
+			null,
+			null,
+			null,
+			null,
+			null,
+			"org.eclipse.birt.chart.datafeed.StockDataPointDefinition", //$NON-NLS-1$
+			null,
+			"org.eclipse.birt.chart.datafeed.BubbleDataPointDefinition", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.GanttDataPointDefinition", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.DifferenceDataPointDefinition", //$NON-NLS-1$
 	};
 
 	/**
@@ -606,6 +626,76 @@ public final class PluginSettings
 		}
 		return null;
 	}
+	
+	/**
+	 * Retrieves the first instance of a series renderer registered as an
+	 * extension for a given series type.
+	 * 
+	 * @param cSeries
+	 *            The Class instance associated with the given series type
+	 * 
+	 * @return A newly created (and initialized) instance of a registered series
+	 *         renderer
+	 * 
+	 * @throws PluginException
+	 */
+	public final IDataPointDefinition getDataPointDefinition( Class cSeries )
+			throws ChartException
+	{
+		final String sFQClassName = cSeries.getName( );
+		if ( inEclipseEnv( ) )
+		{
+			final Object oDefinition = getPluginXmlObject( "datapointdefinitions", "datapointDefinition", "series", "definition", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					sFQClassName );
+			if ( oDefinition != null )
+			{
+				logger.log( ILogger.INFORMATION,
+						Messages.getString( "info.eclenv.creating.datapoint.definition", //$NON-NLS-1$
+								new Object[]{
+								oDefinition.getClass( ).getName( )
+								},
+								ULocale.getDefault( ) // LOCALE?
+						) );
+				return (IDataPointDefinition) oDefinition;
+			}
+			logger.log( ILogger.ERROR,
+					Messages.getString( "error.stdenv.cannot.find.datapoint.definition", //$NON-NLS-1$
+							new Object[]{
+								sFQClassName
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
+		}
+		else
+		{
+			for ( int i = 0; i < saDataPointDefinitions.length; i++ )
+			{
+				if ( sFQClassName.equals( saSeries[i] ) )
+				{
+					if ( saDataPointDefinitions[i] == null )
+					{
+						break;
+					}
+					logger.log( ILogger.INFORMATION,
+							Messages.getString( "info.eclenv.creating.datapoint.definition", //$NON-NLS-1$
+									new Object[]{
+										saRenderers[i]
+									},
+									ULocale.getDefault( ) // LOCALE?
+							) );
+					return (IDataPointDefinition) newInstance( saDataPointDefinitions[i] );
+				}
+			}
+			logger.log( ILogger.ERROR,
+					Messages.getString( "error.stdenv.cannot.find.datapoint.definition", //$NON-NLS-1$
+							new Object[]{
+								sFQClassName
+							},
+							ULocale.getDefault( ) // LOCALE?
+					) );
+		}
+		return null;
+	}
 
 	/**
 	 * Returns the localized display name of given Series Class.
@@ -672,10 +762,7 @@ public final class PluginSettings
 			}
 			return saSeries;
 		}
-		else
-		{
-			return saSeries;
-		}
+		return saSeries;
 	}
 
 	/**
@@ -888,7 +975,7 @@ public final class PluginSettings
 	 * @param sXsdElementName
 	 * @param sXsdElementValue
 	 * @param sLookupName
-	 * @return
+	 * @return XML attribute
 	 * @throws ChartException
 	 */
 	private static final String getPluginXmlAttribute( String sXsdListName,

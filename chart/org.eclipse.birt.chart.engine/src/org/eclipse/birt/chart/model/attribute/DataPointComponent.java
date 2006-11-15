@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -117,5 +118,59 @@ public interface DataPointComponent extends EObject
 	 * @generated
 	 */
 	void setFormatSpecifier( FormatSpecifier value );
+
+	/**
+	 * Returns the value of the '<em><b>Orthogonal Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the orthogonal type of data point component. Only valid when Type is orthogonal_value.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Orthogonal Type</em>' attribute.
+	 * @see #isSetOrthogonalType()
+	 * @see #unsetOrthogonalType()
+	 * @see #setOrthogonalType(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPointComponent_OrthogonalType()
+	 * @model default="" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='OrthogonalType'"
+	 * @generated
+	 */
+	String getOrthogonalType( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Orthogonal Type</em>' attribute.
+	 * @see #isSetOrthogonalType()
+	 * @see #unsetOrthogonalType()
+	 * @see #getOrthogonalType()
+	 * @generated
+	 */
+	void setOrthogonalType( String value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetOrthogonalType()
+	 * @see #getOrthogonalType()
+	 * @see #setOrthogonalType(String)
+	 * @generated
+	 */
+	void unsetOrthogonalType( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Orthogonal Type</em>' attribute is set.
+	 * @see #unsetOrthogonalType()
+	 * @see #getOrthogonalType()
+	 * @see #setOrthogonalType(String)
+	 * @generated
+	 */
+	boolean isSetOrthogonalType( );
 
 } // DataPointComponent

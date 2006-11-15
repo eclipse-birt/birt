@@ -1427,6 +1427,11 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="OrthogonalType" type="xsd:string" default="">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the orthogonal type of data point component. Only valid when Type is orthogonal_value.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="StyleMap">
