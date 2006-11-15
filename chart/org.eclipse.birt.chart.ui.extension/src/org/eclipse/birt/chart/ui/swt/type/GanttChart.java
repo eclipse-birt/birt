@@ -291,12 +291,9 @@ public class GanttChart extends DefaultChartTypeImpl
 					}
 				}
 
-				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
-				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-									.get( 0 ) ).getType( ) ) );
-				}
+				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 ) ).getType( ) ) );
 			}
 			else
 			{

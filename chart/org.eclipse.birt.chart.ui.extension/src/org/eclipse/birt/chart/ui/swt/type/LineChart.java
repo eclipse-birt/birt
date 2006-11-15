@@ -445,15 +445,11 @@ public class LineChart extends DefaultChartTypeImpl
 						axisTypes.add( ( (Axis) axes.get( i ) ).getType( ) );
 					}
 				}
-				if ( !currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
-						&& !currentChart.getType( )
-								.equals( BarChart.TYPE_LITERAL ) )
-				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-									.get( 0 ) ).getType( ),
-							axisTypes ) );
-				}
+
+				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 ) ).getType( ),
+						axisTypes ) );
 			}
 			else
 			{

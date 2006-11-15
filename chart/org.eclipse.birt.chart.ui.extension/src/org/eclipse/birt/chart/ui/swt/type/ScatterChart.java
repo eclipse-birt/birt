@@ -297,13 +297,11 @@ public class ScatterChart extends DefaultChartTypeImpl
 				}
 				( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				if ( !currentChart.getType( ).equals( TYPE_LITERAL ) )
-				{
-					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-							( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-									.get( 0 ) ).getType( ),
-							axisTypes ) );
-				}
+
+				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
+						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 ) ).getType( ),
+						axisTypes ) );
 			}
 			else
 			{
