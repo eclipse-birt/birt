@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -35,8 +36,6 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 {
 
 	private transient GanttSeries series;
-
-	private transient Composite cmpContent;
 
 	private transient LabelAttributesComposite lacDeco;
 
@@ -61,19 +60,18 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 		glContent.marginWidth = 7;
 
 		// Sheet content composite
-		cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
 		lacDeco = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
+				getContext( ),
+				new LabelAttributesContext( ),
 				Messages.getString( "DecorationSheet.Label.DecorationLabels" ), //$NON-NLS-1$
-				Position.ABOVE_LITERAL,
+				series.getDecorationLabelPosition( ),
 				series.getDecorationLabel( ),
 				getChart( ).getUnits( ),
-				true,
-				true,
-				getContext( ),
-				true );
+				LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;
 		lacDeco.setLayoutData( gdLACLabel );
