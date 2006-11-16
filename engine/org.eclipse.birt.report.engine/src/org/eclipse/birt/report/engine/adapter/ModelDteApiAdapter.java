@@ -733,19 +733,8 @@ public class ModelDteApiAdapter
 				while ( elmtIter.hasNext( ) )
 				{
 					OdaResultSetColumnHandle modelColumn = (OdaResultSetColumnHandle) elmtIter.next( );
-					// 1.Compare Resultset's columnName and its nativeName
-					// value.If they are different, we assume that it could be
-					// used as hint info.
-					// 2.To do backward on the report converting from pre-
-					// 3.2.2 to 3.2.2-3.2.5(note: before 3.2.2, resultset
-					// property is resultsethint in fact). Since it does not
-					// clear the resultset value,which has incurred the
-					// backward issue when use those reports in latest build. To
-					// make those report working fine, we only can use its
-					// getNataiveDataType to decide whether it is hint info.
-					if ( ( !modelColumn.getColumnName( )
+					if ( !modelColumn.getColumnName( )
 							.equals( modelColumn.getNativeName( ) ) )
-							|| modelColumn.getNativeDataType( ) == null )
 						dteDataSet.addResultSetHint( newColumnDefn( (ResultSetColumnHandle) modelColumn ) );
 				}
 			}
