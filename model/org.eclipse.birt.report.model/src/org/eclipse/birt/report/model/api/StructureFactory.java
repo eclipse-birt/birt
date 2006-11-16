@@ -123,7 +123,7 @@ public class StructureFactory
 	 * 
 	 * @return an empty oda-data-set parameter
 	 */
-	 
+
 	public static OdaDataSetParameter createOdaDataSetParameter( )
 	{
 		return new OdaDataSetParameter( );
@@ -315,7 +315,7 @@ public class StructureFactory
 	{
 		return new JoinCondition( );
 	}
-	
+
 	/**
 	 * Creates an empty join condition structure.
 	 * 
@@ -359,7 +359,8 @@ public class StructureFactory
 				.getNamespace( ) : null;
 		StructRefValue libReference = new StructRefValue( namespace, baseImage
 				.getName( ) );
-		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER, libReference );
+		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
+				libReference );
 		return image;
 	}
 
@@ -406,7 +407,8 @@ public class StructureFactory
 		String namespace = lib.getNamespace( );
 		StructRefValue libReference = new StructRefValue( namespace, baseImage
 				.getName( ) );
-		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER, libReference );
+		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
+				libReference );
 		image.setName( name );
 
 		return image;
@@ -447,8 +449,10 @@ public class StructureFactory
 	 * For example, if the <code>newName</code> is "column" and this is
 	 * duplicate, then the name of return column is: "column_1".
 	 * 
-	 * @param columns
-	 *            the bound columns in the binding data
+	 * @param element
+	 *            the element on which computed column will be added
+	 * @param newName
+	 *            the default column name
 	 * @return a bound data column. If the <code>newName</code> is unique, the
 	 *         name in the return value is <code>newName</code>. Otherwise
 	 *         the newly created name follows the above schema. It can also be

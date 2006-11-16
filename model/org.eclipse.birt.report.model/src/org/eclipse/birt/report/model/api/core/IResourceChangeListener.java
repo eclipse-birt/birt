@@ -34,6 +34,9 @@ public interface IResourceChangeListener
 	 * Notifies this listener that some resource changes happened. The supplied
 	 * event gives details.
 	 * 
+	 * @param module
+	 *            the module
+	 * 
 	 * @param event
 	 *            the resource change event
 	 */

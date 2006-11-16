@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 class ColumnBandInsertAction extends ColumnBandCopyAction
 {
+
 	/**
 	 * The target position is one after specified column.
 	 */
@@ -37,7 +38,14 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 	private int targetColumnIndex;
 
-	List originalCells = null;
+	private List originalCells = null;
+
+	/**
+	 * Constructs the insert action.
+	 * 
+	 * @param adapter
+	 *            the column adapter. Either table or grid.
+	 */
 
 	public ColumnBandInsertAction( ColumnBandAdapter adapter )
 	{
@@ -59,11 +67,12 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 	protected boolean canInsert( int columnIndex, int insertFlag )
 	{
-		//if table has parent, its layout can't be changed. so can't do insert operation.
-		
-		if( adapter.hasParent( ) )
+		// if table has parent, its layout can't be changed. so can't do insert
+		// operation.
+
+		if ( adapter.hasParent( ) )
 			return false;
-		
+
 		int columnCount = adapter.getColumnCount( );
 
 		targetColumnIndex = columnIndex;

@@ -11,14 +11,9 @@
 
 package org.eclipse.birt.report.model.adapter.oda.model;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * This interface provides a means to serialize and/or de-serialize the chart
@@ -32,54 +27,54 @@ public interface Serializer
 
 	// Write Methods
 	/**
-	 * Write the chart described by the model to the OutputStream provided.
+	 * Write the designer values described by the model to the OutputStream
+	 * provided.
 	 * 
 	 * @param cModel
 	 *            The model to be serialized os The OutputStream to which the
 	 *            model is to be serialized
+	 * @param os
+	 *            the output stream
+	 * @throws IOException
 	 */
-	public void write( DesignValues cModel, OutputStream os ) throws IOException;
 
-	public String write( DesignValues values ) throws IOException;
-	
-	/**
-	 * Write the chart described by the model to a ByteArrayOutputStream.
-	 * 
-	 * @param cModel
-	 *            The model to be serialized bStripHeaders Specifies whether or
-	 *            not the headers are to be removed while serializing the model
-	 * @return the ByteArrayOutputStream containing the serialized model
-	 */
-	public ByteArrayOutputStream asXml( DesignValues cModel, boolean bStripHeaders )
+	public void write( DesignValues cModel, OutputStream os )
 			throws IOException;
 
-	// Read Methods
 	/**
-	 * Reads the chart model from the given InputStream
+	 * Write the desinger values described to the string
 	 * 
-	 * @return chart model read from the stream
+	 * @param values
+	 *            the design value
+	 * @return the string value
+	 * @throws IOException
 	 */
+
+	public String write( DesignValues values ) throws IOException;
+
+	// Read Methods
+
+	/**
+	 * Reads the design values from the given InputStream.
+	 * 
+	 * @param is
+	 *            the input stream
+	 * 
+	 * @return the designer values
+	 * @throws IOException
+	 */
+
 	public DesignValues read( InputStream is ) throws IOException;
 
 	/**
-	 * @param values
-	 * @return
-	 * @throws IOException
-	 */
-	
-	public DesignValues read( String values ) throws IOException;
-	
-	/**
-	 * Reads the chart model from the ByteArrayInputStream.
+	 * Parses the string to the design value.
 	 * 
-	 * @param byaIS
-	 *            The ByteArrayInputStream holding the chart model
-	 * @param bStripHeaders
-	 *            Specifies whether or not the headers were removed when the
-	 *            chart model was saved
-	 * @return chart model read from the stream
+	 * @param values
+	 *            the designer values in string
+	 * 
+	 * @return the designer values
 	 * @throws IOException
 	 */
-	public DesignValues fromXml( ByteArrayInputStream byaIS, boolean bStripHeaders )
-			throws IOException;
+
+	public DesignValues read( String values ) throws IOException;
 }

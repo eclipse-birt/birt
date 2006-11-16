@@ -14,6 +14,11 @@ package org.eclipse.birt.report.model.api.elements.structures;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Structure;
 
+/**
+ * The abstract value for the format of string, data-time and number.
+ * 
+ */
+
 public abstract class FormatValue extends Structure
 {
 
@@ -129,12 +134,11 @@ public abstract class FormatValue extends Structure
 
 	public String toString( )
 	{
-		if ( ! StringUtil.isEmpty( pattern ) )
+		if ( !StringUtil.isEmpty( pattern ) )
 			return pattern;
-		if( ! StringUtil.isEmpty( category ) )
+		if ( !StringUtil.isEmpty( category ) )
 			return category;
 		return ""; //$NON-NLS-1$
 	}
-
 
 }

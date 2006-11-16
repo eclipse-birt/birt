@@ -60,25 +60,25 @@ public class StyleSheetParserException extends ModelException
 	 * and .table. All other kinds of selectors are not supported.
 	 */
 
-	public final static String DESIGN_EXCEPTION_STYLE_NOT_SUPPORTED = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_STYLE_NOT_SUPPORTED; //$NON-NLS-1$
+	public final static String DESIGN_EXCEPTION_STYLE_NOT_SUPPORTED = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_STYLE_NOT_SUPPORTED; 
 
 	/**
 	 * The CSS property is not supported by BIRT.
 	 */
 
-	public final static String DESIGN_EXCEPTION_PROPERTY_NOT_SUPPORTED = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_PROPERTY_NOT_SUPPORTED; //$NON-NLS-1$
+	public final static String DESIGN_EXCEPTION_PROPERTY_NOT_SUPPORTED = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_PROPERTY_NOT_SUPPORTED; 
 
 	/**
 	 * The value of the short-hand property is invalid to CSS2.
 	 */
 
-	public final static String DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE; //$NON-NLS-1$
+	public final static String DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE; 
 
 	/**
 	 * The property value is invalid to Model ROM.
 	 */
 
-	public final static String DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE; //$NON-NLS-1$
+	public final static String DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE = MessageConstants.STYLE_SHEET_PARSER_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE; 
 
 	/**
 	 * Constructs the parser exception with the error code.

@@ -340,7 +340,7 @@ public class PropertyValueException extends SemanticException
 		String value = ""; //$NON-NLS-1$
 
 		if ( invalidValue != null )
-			value = invalidValue.toString( ); //$NON-NLS-1$
+			value = invalidValue.toString( ); 
 
 		if ( sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE )
 		{

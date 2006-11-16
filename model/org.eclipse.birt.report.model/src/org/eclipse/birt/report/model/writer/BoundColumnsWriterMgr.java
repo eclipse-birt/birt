@@ -352,7 +352,9 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				// set the property for the result set column property of
 				// DataItem.
 
-				obj.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, newName );
+				obj
+						.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP,
+								newName );
 
 				return;
 			}
@@ -587,11 +589,11 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			ComputedColumn column = (ComputedColumn) columns.get( i );
 			if ( expression.equals( column.getExpression( ) ) )
 			{
-				if ( aggregateOn == null && column.getAggregrateOn( ) == null )
+				if ( aggregateOn == null && column.getAggregateOn( ) == null )
 					return column;
 
 				if ( aggregateOn != null
-						&& aggregateOn.equals( column.getAggregrateOn( ) ) )
+						&& aggregateOn.equals( column.getAggregateOn( ) ) )
 					return column;
 			}
 		}
@@ -676,8 +678,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			if ( foundColumn == null )
 				continue;
 
-			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, foundColumn
-					.getName( ) );
+			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP,
+					foundColumn.getName( ) );
 		}
 	}
 
@@ -691,7 +693,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	{
 
 		Set elements = cachedGroup.keySet( );
-		ContainerSlot groups = element.getSlot( IListingElementModel.GROUP_SLOT );
+		ContainerSlot groups = element
+				.getSlot( IListingElementModel.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
@@ -722,11 +725,11 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			{
 				ComputedColumn column = (ComputedColumn) columns.get( j );
 
-				column.setAggregrateOn( groupName );
+				column.setAggregateOn( groupName );
 
 				ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
 						tmpList, column.getExpression( ), column
-								.getAggregrateOn( ) );
+								.getAggregateOn( ) );
 				if ( foundColumn == null
 						|| !foundColumn.getName( ).equals( column.getName( ) ) )
 				{

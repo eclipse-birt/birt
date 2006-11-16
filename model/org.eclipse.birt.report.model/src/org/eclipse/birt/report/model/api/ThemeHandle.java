@@ -107,7 +107,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		String baseName = name;
 		while ( set.contains( name ) )
 		{
-			name = baseName + ++index; //$NON-NLS-1$
+			name = baseName + ++index; 
 		}
 		return name;
 	}

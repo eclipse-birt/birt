@@ -71,9 +71,12 @@ abstract class ColumnBandAdapter
 
 	protected abstract int getColumnCount( );
 
+	/**
+	 * 
+	 */
+	
 	ColumnBandAdapter( )
 	{
-		// data = new ColumnBandData( );
 	}
 
 	/**

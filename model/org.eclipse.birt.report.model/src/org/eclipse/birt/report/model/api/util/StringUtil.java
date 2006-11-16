@@ -377,7 +377,7 @@ public class StringUtil
 			return value;
 
 		value = value.trim( );
-		if ( value.startsWith( "\"" ) && value.endsWith( "\"" ) )
+		if ( value.startsWith( "\"" ) && value.endsWith( "\"" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 			return value.substring( 1, value.length( ) - 1 );
 
 		return value;

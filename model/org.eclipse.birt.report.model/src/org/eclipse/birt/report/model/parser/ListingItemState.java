@@ -88,7 +88,8 @@ public abstract class ListingItemState extends ReportItemState
 		makeTestExpressionCompatible( );
 
 		Set elements = handler.tempValue.keySet( );
-		ContainerSlot groups = element.getSlot( IListingElementModel.GROUP_SLOT );
+		ContainerSlot groups = element
+				.getSlot( IListingElementModel.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
@@ -157,11 +158,11 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn column = (ComputedColumn) columns.get( i );
 			if ( expression.equals( column.getExpression( ) ) )
 			{
-				if ( aggregateOn == null && column.getAggregrateOn( ) == null )
+				if ( aggregateOn == null && column.getAggregateOn( ) == null )
 					return column;
 
 				if ( aggregateOn != null
-						&& aggregateOn.equals( column.getAggregrateOn( ) ) )
+						&& aggregateOn.equals( column.getAggregateOn( ) ) )
 					return column;
 			}
 		}
@@ -241,8 +242,8 @@ public abstract class ListingItemState extends ReportItemState
 					.getExpression( ), (String) group.getLocalProperty(
 					handler.module, IGroupElementModel.GROUP_NAME_PROP ) );
 
-			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, foundColumn
-					.getName( ) );
+			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP,
+					foundColumn.getName( ) );
 		}
 	}
 
@@ -268,10 +269,10 @@ public abstract class ListingItemState extends ReportItemState
 		{
 			ComputedColumn column = (ComputedColumn) columns.get( j );
 
-			column.setAggregrateOn( groupName );
+			column.setAggregateOn( groupName );
 
 			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
-					tmpList, column.getExpression( ), column.getAggregrateOn( ) );
+					tmpList, column.getExpression( ), column.getAggregateOn( ) );
 			if ( foundColumn == null
 					|| !foundColumn.getName( ).equals( column.getName( ) ) )
 			{
@@ -309,7 +310,7 @@ public abstract class ListingItemState extends ReportItemState
 
 			if ( !tmpList.contains( column ) )
 			{
-				column.setAggregrateOn( groupName );
+				column.setAggregateOn( groupName );
 				tmpList.add( column );
 			}
 		}

@@ -11,21 +11,18 @@
 
 package org.eclipse.birt.report.model.adapter.oda.model.util;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.adapter.oda.IConstants;
+import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
-import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.Serializer;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -39,11 +36,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  */
 public class SerializerImpl implements Serializer
 {
-
-	public static final String ODA_VALUES_START_MARKER = "<!-- ODA values Starts Here. -->"; //$NON-NLS-1$
-
-	public static final String ODA_VALUES_END_MARKER = "<!-- ODA values Ends Here. -->"; //$NON-NLS-1$
-
 	private static Serializer sz = null;
 
 	static
@@ -107,45 +99,7 @@ public class SerializerImpl implements Serializer
 		// Save the resource to disk
 		rOdaValue.save( os, options );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart.model.Chart,
-	 *      org.eclipse.emf.common.util.URI)
-	 */
-
-	public ByteArrayOutputStream asXml( DesignValues cModel,
-			boolean bStripHeaders ) throws IOException
-	{
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream( );
-
-		// Create and setup local ResourceSet
-		ResourceSet rsChart = new ResourceSetImpl( );
-		rsChart.getResourceFactoryRegistry( ).getExtensionToFactoryMap( ).put(
-				"designValues", new ModelResourceFactoryImpl( ) ); //$NON-NLS-1$
-
-		// Create resources to represent the disk files to be used to store the
-		// models
-		Resource rChart = rsChart.createResource( URI
-				.createFileURI( "test.designValues" ) ); //$NON-NLS-1$
-
-		// Add the chart to the resource
-		rChart.getContents( ).add( cModel );
-
-		Map options = new HashMap( );
-		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
-		if ( bStripHeaders )
-		{
-			options.put( XMLResource.OPTION_DECLARE_XML, Boolean.FALSE );
-		}
-
-		// Save the resource to disk
-		rChart.save( baos, options );
-		return baos;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -212,33 +166,5 @@ public class SerializerImpl implements Serializer
 		bos.close( );
 		
 		return retValue;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#fromXml(byte[], boolean)
-	 */
-	public DesignValues fromXml( ByteArrayInputStream byais,
-			boolean bStripHeaders ) throws IOException
-	{
-		// Create and setup local ResourceSet
-		ResourceSet rsChart = new ResourceSetImpl( );
-		rsChart.getResourceFactoryRegistry( ).getExtensionToFactoryMap( ).put(
-				"designValues", new ModelResourceFactoryImpl( ) ); //$NON-NLS-1$
-
-		// Create resources to represent the disk files to be used to store the
-		// models
-		Resource rChart = rsChart.createResource( URI
-				.createFileURI( "test.designValues" ) ); //$NON-NLS-1$
-
-		Map options = new HashMap( );
-		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
-		if ( bStripHeaders )
-		{
-			options.put( XMLResource.OPTION_DECLARE_XML, Boolean.FALSE );
-		}
-		rChart.load( byais, options );
-		return (DesignValues) rChart.getContents( ).get( 0 );
 	}
 }

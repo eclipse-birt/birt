@@ -406,8 +406,8 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * <code>IMAGE_REF_TYPE_URL</code>, and will automatically set in this
 	 * method.
 	 * 
-	 * @param uri
-	 *            the uri to be set.
+	 * @param url
+	 *            the url to be set.
 	 * @throws SemanticException
 	 *             if the property is locked.
 	 */

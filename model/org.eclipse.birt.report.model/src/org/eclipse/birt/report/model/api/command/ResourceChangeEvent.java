@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 
 public abstract class ResourceChangeEvent extends NotificationEvent
 {
-	protected String filePath = null;
+	private String filePath = null;
 
 	/**
 	 * Constructor.

@@ -15,6 +15,11 @@ import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 
+/**
+ * The format value for the data-time.
+ * 
+ */
+
 public class DateTimeFormatValue extends FormatValue
 {
 

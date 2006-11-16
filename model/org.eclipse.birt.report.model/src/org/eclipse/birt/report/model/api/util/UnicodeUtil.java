@@ -111,7 +111,7 @@ public class UnicodeUtil
 		}
 
 		inputStream.reset( );
-		return null; //$NON-NLS-1$
+		return null; 
 	}
 
 }

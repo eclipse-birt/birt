@@ -112,7 +112,7 @@ public class RowBandShiftAction extends RowBandAction
 			// add source row to destination position.
 
 			RowHandle rowHandle = (RowHandle) slotHandle.get( sourceIndex );
-			TableRow copiedRow = (TableRow) copyRow( rowHandle );
+			TableRow copiedRow = copyRow( rowHandle );
 
 			adapter.getModule( ).getModuleHandle( ).rename(
 					copiedRow.getHandle( adapter.getModule( ) ) );

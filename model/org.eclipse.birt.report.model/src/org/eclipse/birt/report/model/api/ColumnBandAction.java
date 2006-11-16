@@ -382,7 +382,6 @@ abstract class ColumnBandAction
 			int columnNumber, boolean isInsert ) throws SemanticException
 	{
 		SlotHandle columns = target.getContainerSlotHandle( );
-		assert target != null;
 
 		int colStartPos = ColumnBandAdapter.getColumnStartPos( target );
 		int colEndPos = colStartPos + +target.getRepeatCount( ) - 1;

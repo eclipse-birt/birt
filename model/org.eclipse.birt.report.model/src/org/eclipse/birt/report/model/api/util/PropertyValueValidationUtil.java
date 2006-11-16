@@ -95,12 +95,13 @@ public class PropertyValueValidationUtil
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
 			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE
 					&& memberDefn.isList( ) )
-				validateList( element, propDefn, memberDefn, item
-						.getLocalProperty( element.getModule( ), memberDefn ) );
+				validateList( element, propDefn, memberDefn,
+						( (Structure) item ).getLocalProperty( element
+								.getModule( ), memberDefn ) );
 			else
 				item.setProperty( memberDefn, memberDefn.validateValue( element
-						.getModule( ), item.getLocalProperty( element
-						.getModule( ), memberDefn ) ) );
+						.getModule( ), ( (Structure) item ).getLocalProperty(
+						element.getModule( ), memberDefn ) ) );
 		}
 
 		if ( item instanceof Structure )

@@ -376,6 +376,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	 * 
 	 * @return <code>true</code> if the compound element is valid. Otherwise
 	 *         <code>false</code>.
+	 *         
+	 * @deprecated        
 	 */
 
 	public boolean isValidReferenceForCompoundElement( )

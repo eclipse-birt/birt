@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -497,7 +496,7 @@ public class ModuleUtil
 	private static class VersionParserHandler extends XMLParserHandler
 	{
 
-		String version = null;
+		private String version = null;
 
 		/**
 		 * Default constructor.
