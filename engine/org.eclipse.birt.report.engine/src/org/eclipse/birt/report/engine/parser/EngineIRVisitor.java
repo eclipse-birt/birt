@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.131 $ $Date: 2006/10/30 10:02:38 $
+ * @version $Revision: 1.132 $ $Date: 2006/11/10 09:06:04 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -201,6 +201,11 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	StyleDeclaration inheritableReportStyle;
 
+	/**
+	 * used to fix the new added empty cell created in format irregular table or grid.
+	 */
+	long newCellId = -1;
+	
 	/**
 	 * constructor
 	 * 
@@ -834,7 +839,7 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 
-		new TableItemDesignLayout( ).layout( grid );
+		new TableItemDesignLayout( ).layout( grid, newCellId );
 		applyColumnHighlight( grid );
 
 		currentElement = grid;
@@ -963,7 +968,7 @@ class EngineIRVisitor extends DesignVisitor
 			table.setFooter( footer );
 		}
 
-		new TableItemDesignLayout( ).layout( table );
+		new TableItemDesignLayout( ).layout( table, newCellId );
 
 		applyColumnHighlight( table );
 		//setup the supressDuplicate property of the data items in the 

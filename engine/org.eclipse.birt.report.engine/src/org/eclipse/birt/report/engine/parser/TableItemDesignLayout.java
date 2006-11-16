@@ -25,14 +25,14 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 /**
  * calculate the cell id explictly.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/06/13 15:37:23 $
+ * @version $Revision: 1.5 $ $Date: 2006/06/16 11:02:32 $
  */
 public class TableItemDesignLayout
 {
 
 	Table layout = new Table( );
-
-	public void layout( GridItemDesign grid )
+	
+	public void layout( GridItemDesign grid, long newCellId )
 	{
 		layout = new Table(0, grid.getColumnCount());
 		layout.reset( );
@@ -49,14 +49,14 @@ public class TableItemDesignLayout
 		}
 
 		// update the row design, create the empty cell.
-		normalize( );
+		normalize( newCellId );
 		for ( int i = grid.getColumnCount( ); i < layout.getColCount( ); i++ )
 		{
 			grid.addColumn( new ColumnDesign( ) );
 		}
 	}
 
-	protected void normalize( )
+	protected void normalize( long newCellId )
 	{
 		for ( int i = 0; i < layout.getRowCount( ); i++ )
 		{
@@ -72,6 +72,7 @@ public class TableItemDesignLayout
 					cellDesign.setRowSpan( 1 );
 					cellDesign.setColSpan( 1 );
 					cellDesign.setColumn( j );
+					cellDesign.setID( --newCellId );
 					design.addCell( cellDesign );
 				}
 				if ( cell.getStatus( ) == Cell.CELL_USED )
@@ -87,7 +88,7 @@ public class TableItemDesignLayout
 
 	}
 
-	public void layout( TableItemDesign table )
+	public void layout( TableItemDesign table, long newCellId )
 	{
 		layout = new Table( 0, table.getColumnCount( ) );
 		layoutBand( (TableBandDesign)table.getHeader( ) );
@@ -105,7 +106,7 @@ public class TableItemDesignLayout
 			layoutBand( footer );
 		}
 		layoutBand( (TableBandDesign)table.getFooter( ) );
-		normalize( );
+		normalize( newCellId );
 		for ( int i = table.getColumnCount( ); i < layout.getColCount( ); i++ )
 		{
 			table.addColumn( new ColumnDesign( ) );
