@@ -1691,8 +1691,8 @@ public class SwingRendererImpl extends DeviceAdapter
 			else if ( lia.getStyle( ).getValue( ) == LineStyle.SOLID )
 			{
 				bs = new BasicStroke( lia.getThickness( ),
-						BasicStroke.CAP_ROUND,
-						BasicStroke.JOIN_ROUND );
+						BasicStroke.CAP_SQUARE,
+						BasicStroke.JOIN_MITER );
 			}
 			if ( bs != null )
 			{
