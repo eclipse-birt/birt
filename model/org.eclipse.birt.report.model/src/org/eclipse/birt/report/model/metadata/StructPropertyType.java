@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,13 +88,23 @@ public class StructPropertyType extends PropertyType
 			logger.log( Level.WARNING, "The value of the structure is null" ); //$NON-NLS-1$
 			return null;
 		}
-		// Cannot store objects of a list directly.
+		
+		// Now support empty list if structure property is list.
 
 		if ( defn.isList( ) )
+		{
+			if( value instanceof List )
+			{
+				if( ((List)value).isEmpty( ) )
+				{
+					return value;
+				}
+			}
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					STRUCT_TYPE );
-
+		}
+		
 		if ( value instanceof Structure )
 		{
 			logger.log( Level.INFO, "Validate the structure value for each of its member " ); //$NON-NLS-1$

@@ -111,7 +111,9 @@ public class PropertyHandle extends SimpleValueHandle
 		return value;
 	}
 
-	// Implementation of abstract method defined in base class.
+	/**
+	 * Implementation of abstract method defined in base class.
+	 */
 
 	public void setValue( Object value ) throws SemanticException
 	{

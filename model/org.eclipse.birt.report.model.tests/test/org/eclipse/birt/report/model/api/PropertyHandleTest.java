@@ -697,4 +697,24 @@ public class PropertyHandleTest extends BaseTestCase
 		assertEquals( IColorConstants.RED, label
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
 	}
+
+	/**
+	 * Tests setValue method.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSetValue( ) throws Exception
+	{
+		openDesign( "PropertyHandleTest_setValue.xml" );//$NON-NLS-1$
+		OdaDataSetHandle odaHandle = (OdaDataSetHandle) designHandle
+				.getElementByID( 35 );
+		assertNotNull( odaHandle );
+		PropertyHandle propHandle = odaHandle
+				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
+		propHandle.setValue( new ArrayList( ) );
+		assertFalse( propHandle.iterator( ).hasNext( ) );
+
+		super.compareFile( "PropertyHandleTest_setValue_golden.xml" );//$NON-NLS-1$
+	}
 }
