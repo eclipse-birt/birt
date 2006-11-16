@@ -1009,8 +1009,9 @@ public class ModelUtil
 			IChoice[] choices = choiceSet.getChoices( );
 			for ( int i = 0; i < choices.length; i++ )
 			{
-				if ( element.getDefn( ).getName( ).equalsIgnoreCase(
-						choices[i].getName( ) ) )
+				String name = choices[i].getName( );
+				IElementDefn defn = MetaDataDictionary.getInstance( ).getElement( name );
+			    if ( element.getDefn( ).isKindOf( defn ) )
 					return true;
 			}
 		}
