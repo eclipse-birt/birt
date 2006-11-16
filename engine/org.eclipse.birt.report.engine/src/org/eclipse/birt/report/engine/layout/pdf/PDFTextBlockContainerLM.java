@@ -34,6 +34,8 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 	protected int size = 0;
 	
 	protected ArrayList lines = new ArrayList();
+	
+	protected boolean finished = false;
 
 	public PDFTextBlockContainerLM( PDFLayoutEngineContext context,
 			PDFStackingLM parent, IContent content,
@@ -50,9 +52,16 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 	protected boolean traverseChildren( )
 	{
 		//To support widows/orphans, we need cache all lines.
-		if(lines.isEmpty( ))
+		if(!finished)
 		{
-			traverseSingleChild( );
+			if(!traverseSingleChild( ))
+			{
+				finished = true;
+			}
+			else
+			{
+				return true;
+			}
 		}
 		if(!layoutLines())
 		{
