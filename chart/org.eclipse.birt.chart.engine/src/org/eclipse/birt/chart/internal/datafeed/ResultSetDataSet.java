@@ -154,7 +154,11 @@ public final class ResultSetDataSet implements IResultSetDataSet
 			final Object[] oaResultSet = (Object[]) it.next( );
 			for ( int i = 0; i < iColumnCount; i++ )
 			{
-				oaTuple[i] = oaResultSet[iaColumnIndexes[i]];
+				if ( iaColumnIndexes[i] != -1 )
+				{
+					//ignore the column if the column index is -1.
+					oaTuple[i] = oaResultSet[iaColumnIndexes[i]];
+				}
 			}
 		}
 		return oaTuple;

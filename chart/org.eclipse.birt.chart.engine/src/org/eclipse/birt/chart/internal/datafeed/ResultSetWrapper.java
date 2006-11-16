@@ -1167,7 +1167,16 @@ public final class ResultSetWrapper
 			for ( int i = 0; i < n; i++ )
 			{
 				sExpression = ( (Query) elExpressions.get( i ) ).getDefinition( );
-				iaColumnIndexes[i] = ( (Integer) htLookup.get( sExpression ) ).intValue( );
+				Integer columnIndex = ( (Integer) htLookup.get( sExpression ) );
+				if ( columnIndex != null )
+				{
+					iaColumnIndexes[i] = columnIndex.intValue( );
+				}
+				else
+				{
+					iaColumnIndexes[i] = -1;
+					//-1 will be ignored when quering.
+				}
 			}
 		}
 		catch ( Exception e )
