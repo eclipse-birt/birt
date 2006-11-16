@@ -18,6 +18,7 @@ import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -91,6 +92,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
+		private static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
 
 		PeerExtensionElementLoader( IExtension extension )
 		{
@@ -253,7 +255,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					( (PeerExtensionElementDefn) elementDefn )
 							.getReportItemFactory( ).getMessages( ) );
 
-			extPropDefn.setName( name ); //$NON-NLS-1$
+			extPropDefn.setName( name );
 			extPropDefn.setDisplayNameID( displayNameID );
 			extPropDefn.setType( propType );
 			try
@@ -302,6 +304,23 @@ public class PeerExtensionLoader extends ExtensionLoader
 				choiceSet.setChoices( choices );
 				extPropDefn.setDetails( choiceSet );
 			}
+			
+			// do some checks about the detail type
+			String detailType = propTag.getAttribute( DETAIL_TYPE_ATTRIB );
+			switch ( propType.getTypeCode( ) )
+			{
+				case IPropertyType.STRUCT_TYPE :
+					String isList = propTag.getAttribute( IS_LIST_ATTRIB );
+					isList = StringUtil.trimString( isList );
+					// by default it is 'false'
+					if ( "true".equalsIgnoreCase( isList ) ) //$NON-NLS-1$
+						extPropDefn.setIsList( true );
+					else
+						extPropDefn.setIsList( false );
+					extPropDefn.setDetails( detailType );
+					break;
+			}
+
 
 			return extPropDefn;
 		}

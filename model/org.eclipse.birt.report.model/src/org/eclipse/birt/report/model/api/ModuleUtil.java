@@ -21,14 +21,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
@@ -37,6 +39,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -97,6 +100,11 @@ public class ModuleUtil
 
 		DesignElement element = null;
 
+		/**
+		 * 
+		 * @param element
+		 * @param theModule
+		 */
 		public ActionParserHandler( DesignElement element )
 		{
 			super( null, null );
@@ -143,30 +151,71 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( InputStream streamData )
 			throws DesignFileException
 	{
+		return deserializeAction( streamData, null );
+	}
+
+	/**
+	 * Deserialize an input stream into an Action.
+	 * 
+	 * @param streamData
+	 *            a stream represent an action.
+	 * @param element
+	 * @return an internal Action structure
+	 * @throws DesignFileException
+	 *             if the exception occur when interpret the stream data.
+	 */
+
+	public static ActionHandle deserializeAction( InputStream streamData,
+			DesignElementHandle element ) throws DesignFileException
+	{
 
 		// A fake element with the given action. Used to reuse the existing
 		// action parser logic.
 
-		ImageItem image = new ImageItem( );
+		DesignElement image = new ImageItem( );
+		DesignElement e = element == null ? image : element.getElement( );
 		ActionParserHandler handler = new ActionParserHandler( image );
+
+		Module module = element == null ? handler.getModule( ) : element
+				.getModule( );
 
 		if ( streamData == null )
 		{
 			Action action = StructureFactory.createAction( );
-			image.setProperty( ImageHandle.ACTION_PROP, action );
-			return ( (ImageHandle) image.getHandle( handler.getModule( ) ) )
-					.getActionHandle( );
+			e.setProperty( ImageHandle.ACTION_PROP, action );
+
+			return getActionHandle( e.getHandle( module ) );
 		}
 
 		if ( !streamData.markSupported( ) )
 			streamData = new BufferedInputStream( streamData );
 
 		assert streamData.markSupported( );
-		parse( handler, streamData );
+		parse( handler, streamData, "" ); //$NON-NLS-1$
 
-		ImageHandle imageHandle = (ImageHandle) image.getHandle( handler
-				.getModule( ) );
-		return imageHandle.getActionHandle( );
+		if ( element != null )
+			e.setProperty( IImageItemModel.ACTION_PROP, image.getProperty(
+					handler.getModule( ), IImageItemModel.ACTION_PROP ) );
+
+		return getActionHandle( e.getHandle( module ) );
+	}
+
+	/**
+	 * Gets the action handle of this element.
+	 * 
+	 * @param element
+	 * @return action handle
+	 */
+
+	private static ActionHandle getActionHandle( DesignElementHandle element )
+	{
+		PropertyHandle propHandle = element
+				.getPropertyHandle( IImageItemModel.ACTION_PROP );
+		Action action = (Action) propHandle.getValue( );
+
+		if ( action == null )
+			return null;
+		return (ActionHandle) action.getHandle( propHandle );
 	}
 
 	/**
@@ -180,11 +229,13 @@ public class ModuleUtil
 	 *             any exception if error happens
 	 */
 
-	private static void parse( XMLParserHandler handler, InputStream streamData )
+	private static void parse( XMLParserHandler handler,
+			InputStream streamData, String filename )
 			throws DesignFileException
 	{
 		try
 		{
+			ModelUtil.checkUTFSignature( streamData, filename );
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
 			SAXParser parser = saxParserFactory.newSAXParser( );
 			InputSource inputSource = new InputSource( streamData );
@@ -233,6 +284,25 @@ public class ModuleUtil
 	public static ActionHandle deserializeAction( String strData )
 			throws DesignFileException
 	{
+		return deserializeAction( strData, null );
+	}
+
+	/**
+	 * Deserialize a string into an ActionHandle, notice that the handle is
+	 * faked, the action is not in the design tree, the operation to the handle
+	 * is not able to be undoned.
+	 * 
+	 * @param strData
+	 *            a string represent an action.
+	 * @param element
+	 * @return a handle to the action.
+	 * @throws DesignFileException
+	 *             if the exception occur when interpret the stream data.
+	 */
+
+	public static ActionHandle deserializeAction( String strData,
+			DesignElementHandle element ) throws DesignFileException
+	{
 		InputStream is = null;
 		String streamToOpen = StringUtil.trimString( strData );
 		if ( streamToOpen != null )
@@ -248,7 +318,7 @@ public class ModuleUtil
 			}
 
 		}
-		return deserializeAction( is );
+		return deserializeAction( is, element );
 	}
 
 	/**
@@ -282,6 +352,12 @@ public class ModuleUtil
 	private static class SectionXMLWriter extends IndentableXMLWriter
 	{
 
+		/**
+		 * 
+		 * @param os
+		 * @param signature
+		 * @throws IOException
+		 */
 		public SectionXMLWriter( OutputStream os, String signature )
 				throws IOException
 		{
@@ -307,7 +383,7 @@ public class ModuleUtil
 		public void write( OutputStream os, Action action ) throws IOException
 		{
 			writer = new SectionXMLWriter( os, UnicodeUtil.SIGNATURE_UTF_8 );
-			writeAction( action, ImageItem.ACTION_PROP );
+			writeAction( action, IImageItemModel.ACTION_PROP );
 		}
 
 		protected Module getModule( )
@@ -412,7 +488,7 @@ public class ModuleUtil
 
 		return rtnModule instanceof Library ? LIBRARY : REPORT_DESIGN;
 	}
-	
+
 	/**
 	 * Parser handler used to parse only the version attribute of the module.
 	 * The existing report and library state is reused.
@@ -423,6 +499,9 @@ public class ModuleUtil
 
 		String version = null;
 
+		/**
+		 * Default constructor.
+		 */
 		public VersionParserHandler( )
 		{
 			super( new ModuleParserErrorHandler( ) );
@@ -485,7 +564,7 @@ public class ModuleUtil
 	 *         return list is 0, there is no auto-conversion.
 	 */
 
-	private static List checkVersion( InputStream streamData )
+	private static List checkVersion( InputStream streamData, String filename )
 			throws DesignFileException
 	{
 		VersionParserHandler handler = new VersionParserHandler( );
@@ -494,7 +573,7 @@ public class ModuleUtil
 		if ( !inputStreamToParse.markSupported( ) )
 			inputStreamToParse = new BufferedInputStream( streamData );
 
-		parse( handler, inputStreamToParse );
+		parse( handler, inputStreamToParse, filename );
 
 		return ModelUtil.checkVersion( handler.version );
 	}
@@ -519,17 +598,42 @@ public class ModuleUtil
 		List rtnList = new ArrayList( );
 		InputStream inputStream = null;
 
+		URL url;
 		try
 		{
-			inputStream = new BufferedInputStream( new FileInputStream(
-					fileName ) );
-			rtnList.addAll( checkVersion( inputStream ) );
+			url = new URL( fileName );
+			inputStream = url.openStream( );
 		}
-		catch ( FileNotFoundException e1 )
+		catch ( MalformedURLException e2 )
+		{
+			// do nothing
+		}
+		catch ( IOException e )
 		{
 			rtnList
 					.add( new VersionInfo( null,
 							VersionInfo.INVALID_DESIGN_FILE ) );
+			return rtnList;
+		}
+
+		if ( inputStream == null )
+		{
+			try
+			{
+				inputStream = new FileInputStream( fileName );
+			}
+			catch ( FileNotFoundException e2 )
+			{
+				rtnList.add( new VersionInfo( null,
+						VersionInfo.INVALID_DESIGN_FILE ) );
+				return rtnList;
+			}
+		}
+
+		try
+		{
+			inputStream = new BufferedInputStream( inputStream );
+			rtnList.addAll( checkVersion( inputStream, fileName ) );
 		}
 		catch ( DesignFileException e1 )
 		{
@@ -541,8 +645,7 @@ public class ModuleUtil
 		{
 			try
 			{
-				if ( inputStream != null )
-					inputStream.close( );
+				inputStream.close( );
 			}
 			catch ( IOException e )
 			{

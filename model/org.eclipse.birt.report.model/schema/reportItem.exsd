@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="reportItem"/>
@@ -52,7 +57,8 @@
             <element ref="styleProperty" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="method" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="propertyVisibility" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="style" minOccurs="0" maxOccurs="1"/>
+            <element ref="style" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="slot" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="extensionName" type="string" use="required">
             <annotation>
@@ -68,7 +74,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="isNameRequired" type="boolean">
+         <attribute name="isNameRequired" type="boolean" use="default" value="false">
             <annotation>
                <documentation>
                   Field to indicate if the ReportItem instance name is required.
@@ -89,10 +95,22 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="extendsFrom" type="string" use="default" value="ExtendedItem">
+            <annotation>
+               <documentation>
+                  Represent the parent element definition extending from. It can be one of the report items defined in ROM, or group element defined in ROM, or other extensions from this point. By default, it is &apos;ExtendedItem&apos;.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
    <element name="styleProperty">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -105,6 +123,11 @@
    </element>
 
    <element name="property">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="choice" minOccurs="0" maxOccurs="unbounded"/>
@@ -149,14 +172,6 @@
                   </enumeration>
                   <enumeration value="html">
                   </enumeration>
-                  <enumeration value="messageId">
-                  </enumeration>
-                  <enumeration value="style">
-                  </enumeration>
-                  <enumeration value="dataSet">
-                  </enumeration>
-                  <enumeration value="points">
-                  </enumeration>
                   <enumeration value="uri">
                   </enumeration>
                   <enumeration value="dateTime">
@@ -165,27 +180,51 @@
                   </enumeration>
                   <enumeration value="name">
                   </enumeration>
-                  <enumeration value="extends">
+                  <enumeration value="float">
                   </enumeration>
-                  <enumeration value="dataSource">
+                  <enumeration value="literalString">
+                  </enumeration>
+                  <enumeration value="list">
+                  </enumeration>
+                  <enumeration value="resourceKey">
+                  </enumeration>
+                  <enumeration value="structure">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="detailType" type="string">
+            <annotation>
+               <documentation>
+                  When the &quot;type&quot; is &quot;choice&quot;, extension can define &quot;detailType&quot; to refer a choice set in original meta-data of Model;
+When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;detailType&quot; to refer a structure in original meta-data of Model.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="subType" use="default" value="string">
+            <annotation>
+               <documentation>
+                  When the &quot;type&quot; is &quot;list&quot;, the &quot;subType&quot; is required and must be defined as one of the restriction choices. By default it is &quot;string&quot;.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="string">
+                  </enumeration>
+                  <enumeration value="boolean">
+                  </enumeration>
+                  <enumeration value="dateTime">
                   </enumeration>
                   <enumeration value="float">
                   </enumeration>
-                  <enumeration value="element">
+                  <enumeration value="integer">
                   </enumeration>
-                  <enumeration value="column">
+                  <enumeration value="expression">
                   </enumeration>
                </restriction>
             </simpleType>
          </attribute>
          <attribute name="canInherit" type="boolean" use="default" value="true">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="detailType" type="string">
             <annotation>
                <documentation>
                   
@@ -199,7 +238,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="isEncryptable" type="string">
+         <attribute name="isEncryptable" type="boolean" use="default" value="false">
             <annotation>
                <documentation>
                   The flag indicating whether this property is encrypted.
@@ -213,10 +252,22 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="isList" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  When &quot;type&quot; is &quot;structure&quot;, you will define &quot;isList&quot; to indicate whether property value is a single structure or a structure list.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
    <element name="propertyGroup">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="property" minOccurs="1" maxOccurs="unbounded"/>
@@ -246,6 +297,11 @@
    </element>
 
    <element name="method">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <sequence minOccurs="0" maxOccurs="unbounded">
             <element ref="argument"/>
@@ -296,6 +352,11 @@
    </element>
 
    <element name="argument">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -322,6 +383,11 @@
    </element>
 
    <element name="choice">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -396,6 +462,78 @@
             <annotation>
                <documentation>
                   
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="slot">
+      <annotation>
+         <documentation>
+            (no description available)
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="elementType" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The internal name of this slot. It is used to identify the slot within this report item.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="xmlTagName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The xml tag name must be unique within the report item scope. It is used to write the slot to xml file.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayNameID" type="string">
+            <annotation>
+               <documentation>
+                  (no description available)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultDisplayName" type="string">
+            <annotation>
+               <documentation>
+                  The default display name, which is used if no localized display name is found with I18N.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="multipleCardinality" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  (no description available)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultStyle" type="string">
+            <annotation>
+               <documentation>
+                  Selector name defined for this slot.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="elementType">
+      <annotation>
+         <documentation>
+            Define all the allowed element types in this slot.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of the element which is allowed in the slot. The name must be consistent with those defined in &apos;rom.def&apos; or some other reportItem extensions.
                </documentation>
             </annotation>
          </attribute>
