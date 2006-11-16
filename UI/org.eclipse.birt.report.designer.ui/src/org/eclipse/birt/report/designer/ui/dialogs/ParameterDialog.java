@@ -1492,7 +1492,15 @@ public class ParameterDialog extends BaseDialog
 				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
 				inputParameter.setDataSetName( dataSetChooser.getText( ) );
 				inputParameter.setValueExpr( getExpression( columnChooser.getText( ) ) );
-				inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+				// inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+				if ( displayTextChooser.getText( ).equals( "<None>" ) )
+				{
+					inputParameter.setLabelExpr( "" );
+				}
+				else
+				{
+					inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+				}
 			}
 
 			// Save help text
