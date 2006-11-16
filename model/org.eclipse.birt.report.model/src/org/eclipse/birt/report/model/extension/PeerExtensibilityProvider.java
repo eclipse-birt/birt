@@ -394,7 +394,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					|| !propDefn.canInherit( ) )
 				continue;
 
-			Object value = extensionPropValues.get( propDefn.getName( ) );
+			String propName = propDefn.getName( );
+			Object value = extensionPropValues.get( propName );
 			if ( value == null )
 			{
 				// Get the raw xml data from parent.
@@ -408,11 +409,12 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					PeerExtensibilityProvider parentProvider = parent
 							.getExtensibilityProvider( );
 					HashMap propValues = parentProvider.extensionPropValues;
-					value = propValues.get( propDefn.getName( ) );
+					value = propValues.get( propName );
 					if ( value == null )
 					{
-						value = parentProvider.reportItem.serialize( propDefn
-								.getName( ) );
+						if ( parentProvider.reportItem != null )
+							value = parentProvider.reportItem
+									.serialize( propName );
 					}
 
 					if ( value != null )
@@ -426,7 +428,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				// if the item caches the property values of extension, transfer
 				// them and then clear the cached values
 
-				this.extensionPropValues.remove( propDefn.getName( ) );
+				this.extensionPropValues.remove( propName );
 			}
 
 			if ( value != null )
@@ -441,7 +443,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				{
 					assert false;
 				}
-				reportItem.deserialize( propDefn.getName( ),
+				reportItem.deserialize( propName,
 						new ByteArrayInputStream( raw ) );
 			}
 		}
