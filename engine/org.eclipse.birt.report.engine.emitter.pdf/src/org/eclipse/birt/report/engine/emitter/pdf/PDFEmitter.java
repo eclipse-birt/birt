@@ -1124,6 +1124,10 @@ public class PDFEmitter implements IContentEmitter
  	 				return;
  				}
 	 		}
+			drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY ), 
+						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY ), 
+						pdfMeasure(border.borderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
+			return;
 		}
 		
 		
