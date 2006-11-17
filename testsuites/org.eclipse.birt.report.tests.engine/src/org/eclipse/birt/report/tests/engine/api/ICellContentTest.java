@@ -23,9 +23,15 @@ public class ICellContentTest extends BaseEmitter
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( reportName, reportName );
 		cell = new CellContent( new ReportContent( ) );
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * Test set/getColSpan() method
 	 */

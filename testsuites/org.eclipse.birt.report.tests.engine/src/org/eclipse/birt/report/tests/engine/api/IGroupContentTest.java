@@ -12,7 +12,7 @@ public class IGroupContentTest extends EngineCase
 {
 
 	/**
-	 * Test set/isHeaderRepeat() methods.
+	 * Test set/isHeaderRepeat() methods. 
 	 */
 	public void testHeaderRepeat( )
 	{

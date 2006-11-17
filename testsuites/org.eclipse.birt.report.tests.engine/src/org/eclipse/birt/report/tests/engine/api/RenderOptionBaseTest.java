@@ -61,6 +61,7 @@ public class RenderOptionBaseTest extends EngineCase
 	 */
 	public void testgetOption( )
 	{
+		
 		String name = "newoption";
 		Object value = new String( "option1" );
 		optionBase.setOption( name, value );

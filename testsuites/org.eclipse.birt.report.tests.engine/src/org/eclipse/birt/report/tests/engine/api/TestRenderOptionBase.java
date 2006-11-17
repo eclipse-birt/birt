@@ -21,6 +21,7 @@ public class TestRenderOptionBase extends RenderOptionBase {
 	 */
 	public TestRenderOptionBase() {
 		super();
+		
 		// TODO Auto-generated constructor stub
 	}
 

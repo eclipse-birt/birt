@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 /**
  * <b>EngineConfig test</b>
  * <p>
- * This case tests public methods in EngineConfig API.
+ * This case tests public methods in EngineConfig API. 
  */
 
 public class EngineConfigTest extends EngineCase

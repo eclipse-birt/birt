@@ -34,9 +34,20 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 
 public class HTMLCompleteImageHandlerTest extends EngineCase
 {
+	final static String INPUT = "EmbedImage.txt";
 
-	private String separator = System.getProperty( "file.separator" );
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
+	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * @param name
 	 */
@@ -64,15 +75,10 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 		try
 		{
 			// Get embedded image byte array
-			String path = getClassFolder( )
-					+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-					+ System.getProperty( "file.separator" ) + "EmbedImage.txt";
+			
+			String input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
 
-			String outPath = getClassFolder( )
-					+ System.getProperty( "file.separator" ) + OUTPUT_FOLDER
-					+ System.getProperty( "file.separator" );
-
-			File imageFile = new File( path );
+			File imageFile = new File( input );
 			long size = imageFile.length( );
 			InputStream is = new BufferedInputStream( new FileInputStream(
 					imageFile ) );
@@ -83,8 +89,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			// Test onDesignImage()
 
 			HTMLRenderContext context = new HTMLRenderContext( );
-			context.setImageDirectory( this.getClassFolder( ) + separator
-					+ OUTPUT_FOLDER + separator + "image" );
+			context.setImageDirectory( this.genOutputFile( "image" ) );
 			HTMLCompleteImageHandler imageHandler = new HTMLCompleteImageHandler( );
 			Image image = new Image( imageBytes, "image1" );
 			RenderOptionBase option = new RenderOptionBase( );
@@ -147,11 +152,9 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 		{
 			// Get embedded image byte array
 
-			String path = getClassFolder( )
-					+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-					+ System.getProperty( "file.separator" ) + "EmbedImage.txt";
+			String input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
 
-			File imageFile = new File( path );
+			File imageFile = new File( input );
 			long size = imageFile.length( );
 			InputStream is = new BufferedInputStream( new FileInputStream(
 					imageFile ) );
@@ -161,8 +164,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			// Test onDesignImage()
 
 			HTMLRenderContext context = new HTMLRenderContext( );
-			context.setImageDirectory( this.getClassFolder( ) + separator
-					+ OUTPUT_FOLDER + separator + "image" );
+			context.setImageDirectory( this.genOutputFile( "image" ) );
 			HTMLCompleteImageHandler imageHandler = new HTMLCompleteImageHandler( );
 			Image image = new Image( imageBytes, "image1" );
 			RenderOptionBase option = new RenderOptionBase( );

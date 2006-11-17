@@ -28,9 +28,9 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 {
 
 	private String name = "IGetParameterDefinitionTaskTest.rptdesign";
-	private String input = getClassFolder( ) + "/" + INPUT_FOLDER + "/" + name;
+	private String input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + name;
 	private IGetParameterDefinitionTask task = null;
-
+	
 	public IGetParameterDefinitionTaskTest( String name )
 	{
 		super( name );
@@ -49,6 +49,8 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( name, name );
 		IReportRunnable reportRunnable = engine.openReportDesign( input );
 		task = engine.createGetParameterDefinitionTask( reportRunnable );
 		assertTrue( task.getErrors( ).size( ) == 0 );
@@ -57,6 +59,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 	protected void tearDown( ) throws Exception
 	{
 		task.close( );
+		removeResource( );
 		super.tearDown( );
 	}
 

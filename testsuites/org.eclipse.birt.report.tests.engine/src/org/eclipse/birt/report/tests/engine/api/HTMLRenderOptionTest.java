@@ -28,17 +28,22 @@ public class HTMLRenderOptionTest extends EngineCase
 {
 
 	private String name = "case1";
-	private String outputFileName="case1output.html";
-	private final static String GOLDEN = "case1.html"; //$NON-NLS-1$
-	private String separator = System.getProperty( "file.separator" );
-	protected String path = getClassFolder( ) + separator;
-	private String outputPath = path + OUTPUT_FOLDER + separator;
-	private String rptdesign = getClassFolder( ) + "/" + INPUT_FOLDER + "/"
-			+ name + ".rptdesign";
+//	private String outputFileName="case1output.html";
+//	private final static String GOLDEN = "case1.html"; //$NON-NLS-1$
+//	private String separator = System.getProperty( "file.separator" );
+//	protected String path = getClassFolder( ) + separator;
+//	private String outputPath = path + OUTPUT_FOLDER + separator;
+	
+	
+//	private String rptdesign = getClassFolder( ) + "/" + INPUT_FOLDER + "/"
+//			+ name + ".rptdesign";
+	final static String INPUT = "case1.rptdesign";
+	private String rptdesign = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
 	private IGetParameterDefinitionTask task = null;
-	private String rptdocument = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/"
-			+ name + ".rptdocument";
+//	private String rptdocument = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/"
+//			+ name + ".rptdocument";
 
+	
 	/**
 	 * @param name
 	 */
@@ -61,6 +66,8 @@ public class HTMLRenderOptionTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
 		IReportRunnable reportRunnable = engine.openReportDesign( rptdesign );
 		task = engine.createGetParameterDefinitionTask( reportRunnable );
 		assertTrue( task.getErrors( ).size( ) == 0 );
@@ -70,6 +77,7 @@ public class HTMLRenderOptionTest extends EngineCase
 	protected void tearDown( ) throws Exception
 	{
 		task.close( );
+		removeResource( );
 		super.tearDown( );
 	}
 

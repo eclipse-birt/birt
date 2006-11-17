@@ -20,7 +20,20 @@ import org.eclipse.birt.report.tests.engine.BaseEmitter;
 public class IActionTest extends BaseEmitter
 {
 
-	private String reportName = "IActionTest.rptdesign";
+	final static String INPUT = "IActionTest.rptdesign";
+	private String reportName = INPUT;
+	
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	protected String getReportName( )
 	{

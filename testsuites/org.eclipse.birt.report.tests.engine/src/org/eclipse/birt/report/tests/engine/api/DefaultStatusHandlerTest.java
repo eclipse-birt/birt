@@ -20,8 +20,8 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 /**
  * <b>DefaultStatusHandler test</b>
  * <p>
- * This case tests public methods in DefaultStatusHandler API.
- * 
+ * This case tests public methods in DefaultStatusHandler API. 
+ *  
  */
 
 public class DefaultStatusHandlerTest extends EngineCase

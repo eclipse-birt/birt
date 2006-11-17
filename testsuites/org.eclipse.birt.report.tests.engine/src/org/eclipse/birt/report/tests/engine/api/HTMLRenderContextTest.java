@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.api.RenderOptionBase;
 /**
  * <b>HTMLRenderContext test</b>
  * <p>
- * This case tests methods in HTMLRenderContext API.
+ * This case tests methods in HTMLRenderContext API. 
  */
 public class HTMLRenderContextTest extends EngineCase
 {

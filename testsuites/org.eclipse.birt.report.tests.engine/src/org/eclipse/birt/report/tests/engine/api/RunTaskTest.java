@@ -20,14 +20,32 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class RunTaskTest extends EngineCase
 {
 	private Boolean signal = new Boolean( false);
+	
 	private String separator = System.getProperty( "file.separator" );
-	private String INPUT = getClassFolder( ) + separator + INPUT_FOLDER
+	
+	private String INPUT = this.getFullQualifiedClassName( ) + separator + INPUT_FOLDER
 			+ separator;
-	private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER
-			+ separator;
+	
+	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	private String OUTPUT = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+			+ separator + OUTPUT_FOLDER + separator;
+	
+//	private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER
+//			+ separator;
 	private String report_design, report_document, name;
 	private IReportRunnable runnable;
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public RunTaskTest( String name )
 	{
 		super( name );
@@ -99,6 +117,7 @@ public class RunTaskTest extends EngineCase
 	public void testCancel( )
 	{
 		report_design = INPUT + "pages9.rptdesign";
+		copyResource_INPUT( "pages9.rptdesign" , "pages9.rptdesign" );
 		String fileDocument = OUTPUT + "cancel_pages9.rptdocument";
 		long bTime, eTime, timeSpan1, timeSpan2, timeSpan3;
 		try
@@ -177,6 +196,7 @@ public class RunTaskTest extends EngineCase
 	public void testGetErrors( )
 	{
 		report_design = INPUT + "jdbc_exception.rptdesign";
+		copyResource_INPUT( "jdbc_exception.rptdesign" , "jdbc_exception.rptdesign" );
 		String fileDocument = OUTPUT + "jdbc_exception.rptdocument";
 
 		try
@@ -211,6 +231,7 @@ public class RunTaskTest extends EngineCase
 	private void runReport( String report )
 	{
 		report_design = INPUT + report + ".rptdesign";
+		copyResource_INPUT( report + ".rptdesign" , report + ".rptdesign" );
 		String fileDocument = OUTPUT + report + ".rptdocument";
 		String folderDocument = OUTPUT + "runtask_folderdocument_" + report
 				+ separator;
@@ -237,10 +258,6 @@ public class RunTaskTest extends EngineCase
 		}
 	}
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
 
 	/**
 	 * A new thread to cancel existed runTask

@@ -46,14 +46,13 @@ public class DataExtractionTaskTest extends EngineCase
 
 	private IReportDocument reportDoc;
 
-	private String separator = System.getProperty( "file.separator" );
-
-	protected String path = getClassFolder( ) + separator;
-
-	private String outputPath = path + OUTPUT_FOLDER + separator;
-
-	private String inputPath = path + INPUT_FOLDER + separator;
-
+	final static String INPUT_table = "DataExtraction_table.rptdesign";
+	final static String INPUT_subquery = "DataExtraction_subquery.RPTdesign";
+	final static String INPUT_nestquery = "DataExtraction_nestquery.rptdesign";
+	final static String OUTPUT_table = "DataExtraction_table.rptdocument";
+	final static String OUTPUT_subquery = "DataExtraction_subquery.rptdocument";
+	final static String OUTPUT_nestquery = "DataExtraction_nestquery.rptdocument";
+	
 	public DataExtractionTaskTest( String name )
 
 	{
@@ -68,13 +67,23 @@ public class DataExtractionTaskTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT_table , INPUT_table );
+		copyResource_INPUT( INPUT_subquery , INPUT_subquery );
+		copyResource_INPUT( INPUT_nestquery , INPUT_nestquery );
 	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+
 
 	public void testMethods( ) throws Exception
 	{
-		report_design = inputPath + "DataExtraction_table.rptdesign";
-		report_document = outputPath + "DataExtraction_table.rptdocument";
-		createReportDocument( report_design, report_document );
+		report_design = INPUT_table;
+		report_document = OUTPUT_table;
+		report_document = createReportDocument( report_design, report_document );
 
 		reportDoc = engine.openReportDocument( report_document );
 		IDataExtractionTask extractTask = engine
@@ -122,14 +131,15 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * Test normal data extraction with filter
+	 * @throws Exception 
 	 */
-	public void testDataExtractionWithFilter( )
+	public void testDataExtractionWithFilter( ) throws Exception
 	{
-		report_design = inputPath + "DataExtraction_table.rptdesign";
-		report_document = outputPath + "DataExtraction_table.rptdocument";
+		report_design = INPUT_table;
+		report_document = OUTPUT_table;
 		try
 		{
-			createReportDocument( report_design, report_document );
+			report_document = createReportDocument( report_design, report_document );
 
 			reportDoc = engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask = engine
@@ -158,7 +168,7 @@ public class DataExtractionTaskTest extends EngineCase
 							.getValue( "code" )
 							.toString( ) );
 					assertEquals(
-							"Fail to extract filtered data",
+							"Fail to extract filtered data1",
 							4,
 							officecode );
 					if ( data.next( ) )
@@ -167,7 +177,7 @@ public class DataExtractionTaskTest extends EngineCase
 								.getValue( "code" )
 								.toString( ) );
 						assertEquals(
-								"Fail to extract filtered data",
+								"Fail to extract filtered data2",
 								7,
 								officecode );
 					}
@@ -176,27 +186,28 @@ public class DataExtractionTaskTest extends EngineCase
 			}
 			else
 			{
-				fail( "Fail to extract filtered data" );
+				fail( "Fail to extract filtered data3" );
 			}
 
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace( );
-			fail( "Fail to extract filtered data" );
+			fail( "Fail to extract filtered data4" );
 		}
 	}
 
 	/**
 	 * test setInstanceID in DataExtractionTask with subquery structure
+	 * @throws Exception 
 	 */
-	public void testDataExtractionFromIID_subquery( )
+	public void testDataExtractionFromIID_subquery( ) throws Exception
 	{
-		report_design = inputPath + "DataExtraction_subquery.rptdesign";
-		report_document = outputPath + "DataExtraction_subquery.rptdocument";
+		report_design = INPUT_subquery;
+		report_document = OUTPUT_subquery;
 		try
 		{
-			createReportDocument( report_design, report_document );
+			report_document = createReportDocument( report_design, report_document );
 
 			reportDoc = engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask = engine
@@ -330,14 +341,15 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * test setInstanceID in DataExtractionTask with subquery structure
+	 * @throws Exception 
 	 */
-	public void testDataExtractionFromIID_nestquery( )
+	public void testDataExtractionFromIID_nestquery( ) throws Exception
 	{
-		report_design = inputPath + "DataExtraction_nestquery.rptdesign";
-		report_document = outputPath + "DataExtraction_nestquery.rptdocument";
+		report_design = INPUT_nestquery;
+		report_document = OUTPUT_nestquery;
 		try
 		{
-			createReportDocument( report_design, report_document );
+			report_document = createReportDocument( report_design, report_document );
 
 			reportDoc = engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask = engine
@@ -475,12 +487,16 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * create the report document.
+	 * @return 
 	 * 
 	 * @throws Exception
 	 */
-	protected void createReportDocument( String reportdesign,
+	protected String createReportDocument( String reportdesign,
 			String reportdocument ) throws Exception
 	{
+		reportdesign = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + reportdesign;
+		reportdocument = this.genOutputFile( reportdocument );
+		
 		// open an report archive, it is a folder archive.
 		IDocArchiveWriter archive = new FileArchiveWriter( reportdocument );
 		// open the report runnable to execute.
@@ -492,6 +508,7 @@ public class DataExtractionTaskTest extends EngineCase
 		runTask.run( archive );
 		// close the task, release the resource.
 		runTask.close( );
+		return reportdocument;
 	}
 
 	private ArrayList findIID( String doc, String type )

@@ -63,7 +63,7 @@ public class HTMLEmitterConfigTest extends EngineCase
 
 	/**
 	 * Test setImageHandler(IHTMLImageHandler handler) method Test
-	 * getImageHandler() method
+	 * getImageHandler() method 
 	 */
 	public void testGetImageHandler( )
 	{

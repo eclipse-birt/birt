@@ -18,12 +18,24 @@ public class IDataIteratorTest extends EngineCase
 	private String report = "IDataIteratorTest.rptdesign";
 	private String output = "IDataIteratorTest.rptdocument";
 	private IDataExtractionTask task;
+	
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( report, report );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	public void testIDataIterator( ) throws BirtException
 	{
 		run( report, output );
-		IReportDocument reportDoc = engine.openReportDocument( getClassFolder( )
-				+ "/" + OUTPUT_FOLDER + "/" + output );
+		String outputFile = this.genOutputFile( output );
+		IReportDocument reportDoc = engine.openReportDocument( outputFile );
 		task = engine.createDataExtractionTask( reportDoc );
 		task.selectResultSet( "ELEMENT_6" );
 		IExtractionResults results = task.extract( );

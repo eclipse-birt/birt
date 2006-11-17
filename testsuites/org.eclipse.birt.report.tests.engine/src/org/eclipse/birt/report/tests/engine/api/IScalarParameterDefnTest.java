@@ -18,11 +18,12 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class IScalarParameterDefnTest extends EngineCase
 {
 
+	private String INPUT = "scalarparameters.rptdesign";
 	private IGetParameterDefinitionTask paramTask = null;
 	private IScalarParameterDefn scalarDefn = null;
 	private String separator = System.getProperty( "file.separator" );
-	private String report = this.getClassFolder( ) + separator + INPUT_FOLDER
-			+ separator + "scalarparameters.rptdesign";
+	private String report = this.getFullQualifiedClassName( ) + separator
+			+ INPUT_FOLDER + separator + INPUT;
 
 	public IScalarParameterDefnTest( String name ) throws EngineException
 	{
@@ -37,6 +38,8 @@ public class IScalarParameterDefnTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
 		IReportRunnable runnable;
 		runnable = engine.openReportDesign( report );
 		paramTask = engine.createGetParameterDefinitionTask( runnable );
@@ -47,6 +50,7 @@ public class IScalarParameterDefnTest extends EngineCase
 	{
 		paramTask.close( );
 		engine.shutdown( );
+		removeResource( );
 		super.tearDown( );
 	}
 
@@ -117,26 +121,20 @@ public class IScalarParameterDefnTest extends EngineCase
 		// string display format
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_dispform_string" );
-		assertEquals(
-				"GetDisplayFormat method failed to get string format",
-				"(@@)",
-				scalarDefn.getDisplayFormat( ) );
+		assertEquals( "GetDisplayFormat method failed to get string format",
+				"(@@)", scalarDefn.getDisplayFormat( ) );
 
 		// datetime display format
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_dispform_dt" );
-		assertEquals(
-				"GetDisplayFormat method failed to get datetime format",
-				"Short Date",
-				scalarDefn.getDisplayFormat( ) );
+		assertEquals( "GetDisplayFormat method failed to get datetime format",
+				"Short Date", scalarDefn.getDisplayFormat( ) );
 
 		// number display format
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_dispform_num" );
-		assertEquals(
-				"GetDisplayFormat method failed to get number format",
-				"Scientific",
-				scalarDefn.getDisplayFormat( ) );
+		assertEquals( "GetDisplayFormat method failed to get number format",
+				"Scientific", scalarDefn.getDisplayFormat( ) );
 	}
 
 	/*
@@ -147,17 +145,13 @@ public class IScalarParameterDefnTest extends EngineCase
 		// text box
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_string" );
-		assertEquals(
-				"GetControlType method failed to get textbox type",
-				IScalarParameterDefn.TEXT_BOX,
-				scalarDefn.getControlType( ) );
+		assertEquals( "GetControlType method failed to get textbox type",
+				IScalarParameterDefn.TEXT_BOX, scalarDefn.getControlType( ) );
 		// list box
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_list" );
-		assertEquals(
-				"GetControlType method failed to get textbox type",
-				IScalarParameterDefn.LIST_BOX,
-				scalarDefn.getControlType( ) );
+		assertEquals( "GetControlType method failed to get textbox type",
+				IScalarParameterDefn.LIST_BOX, scalarDefn.getControlType( ) );
 	}
 
 	/*
@@ -167,13 +161,10 @@ public class IScalarParameterDefnTest extends EngineCase
 	{
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_align" );
-		assertEquals(
-				"GetAlignment method failed",
-				IScalarParameterDefn.RIGHT,
+		assertEquals( "GetAlignment method failed", IScalarParameterDefn.RIGHT,
 				scalarDefn.getAlignment( ) );
 	}
 
-	
 	/*
 	 * test getSelectionListType method
 	 */
@@ -182,10 +173,9 @@ public class IScalarParameterDefnTest extends EngineCase
 		// static
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_list" );
-		assertEquals(
-				"GetSelectionListType method failed to get static type",
-				IScalarParameterDefn.SELECTION_LIST_STATIC,
-				scalarDefn.getSelectionListType( ) );
+		assertEquals( "GetSelectionListType method failed to get static type",
+				IScalarParameterDefn.SELECTION_LIST_STATIC, scalarDefn
+						.getSelectionListType( ) );
 	}
 
 	public void testgetSelectionListType_dynamic( )
@@ -193,10 +183,9 @@ public class IScalarParameterDefnTest extends EngineCase
 		// dynamic
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_dynamic" );
-		assertEquals(
-				"GetSelectionListType method failed to get dynamic type",
-				IScalarParameterDefn.SELECTION_LIST_DYNAMIC,
-				scalarDefn.getSelectionListType( ) );
+		assertEquals( "GetSelectionListType method failed to get dynamic type",
+				IScalarParameterDefn.SELECTION_LIST_DYNAMIC, scalarDefn
+						.getSelectionListType( ) );
 	}
 
 	public void testGetSelectionListType_none( )
@@ -204,10 +193,9 @@ public class IScalarParameterDefnTest extends EngineCase
 		// none
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_string" );
-		assertEquals(
-				"GetSelectionListType method failed to get none type",
-				IScalarParameterDefn.SELECTION_LIST_NONE,
-				scalarDefn.getSelectionListType( ) );
+		assertEquals( "GetSelectionListType method failed to get none type",
+				IScalarParameterDefn.SELECTION_LIST_NONE, scalarDefn
+						.getSelectionListType( ) );
 
 	}
 
@@ -235,38 +223,28 @@ public class IScalarParameterDefnTest extends EngineCase
 	{
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_string" );
-		assertEquals(
-				"GetDataType method failed to get string type",
-				IScalarParameterDefn.TYPE_STRING,
-				scalarDefn.getDataType( ) );
+		assertEquals( "GetDataType method failed to get string type",
+				IScalarParameterDefn.TYPE_STRING, scalarDefn.getDataType( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_boolean" );
-		assertEquals(
-				"GetDataType method failed to get string type",
-				IScalarParameterDefn.TYPE_BOOLEAN,
-				scalarDefn.getDataType( ) );
+		assertEquals( "GetDataType method failed to get string type",
+				IScalarParameterDefn.TYPE_BOOLEAN, scalarDefn.getDataType( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_datetime_format" );
-		assertEquals(
-				"GetDataType method failed to get string type",
-				IScalarParameterDefn.TYPE_DATE_TIME,
-				scalarDefn.getDataType( ) );
+		assertEquals( "GetDataType method failed to get string type",
+				IScalarParameterDefn.TYPE_DATE_TIME, scalarDefn.getDataType( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_int" );
-		assertEquals(
-				"GetDataType method failed to get integer type",
-				IScalarParameterDefn.TYPE_INTEGER,
-				scalarDefn.getDataType( ) );
+		assertEquals( "GetDataType method failed to get integer type",
+				IScalarParameterDefn.TYPE_INTEGER, scalarDefn.getDataType( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_dispform_num" );
-		assertEquals(
-				"GetDataType method failed to get string type",
-				IScalarParameterDefn.TYPE_DECIMAL,
-				scalarDefn.getDataType( ) );
+		assertEquals( "GetDataType method failed to get string type",
+				IScalarParameterDefn.TYPE_DECIMAL, scalarDefn.getDataType( ) );
 
 	}
 
@@ -277,14 +255,12 @@ public class IScalarParameterDefnTest extends EngineCase
 	{
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_list" );
-		assertFalse(
-				"AllowNewValues method should return true for listbox",
+		assertFalse( "AllowNewValues method should return true for listbox",
 				scalarDefn.allowNewValues( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_combo_sort" );
-		assertTrue(
-				"AllowNewValues method should return false for combobox",
+		assertTrue( "AllowNewValues method should return false for combobox",
 				scalarDefn.allowNewValues( ) );
 	}
 }

@@ -15,6 +15,18 @@ public class IColumnTest extends BaseEmitter
 {
 
 	private String reportName = "IColumnTest.rptdesign";
+	
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( reportName, reportName );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	protected String getReportName( )
 	{

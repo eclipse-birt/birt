@@ -59,6 +59,7 @@ public class ReportParameterConverterTest extends EngineCase
 		Object pBool = new Boolean( "false" );
 		Object pInt = new Integer( 2 );
 		Object pFloat = new Float( 0.25 );
+		
 		// string parameter
 		ReportParameterConverter converter = new ReportParameterConverter(
 				"(@@)", Locale.US );

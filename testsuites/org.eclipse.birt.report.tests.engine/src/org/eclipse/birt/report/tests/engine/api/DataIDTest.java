@@ -22,7 +22,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class DataIDTest extends EngineCase
 {
 
-	private String inPath = getClassFolder( ) + "/" + INPUT_FOLDER + "/";
+	final static String INPUT = "dataID.rptdesign";
 
 	/**
 	 * Test DataID methods with input report design
@@ -30,11 +30,22 @@ public class DataIDTest extends EngineCase
 	 * @throws EngineException
 	 * @throws IOException
 	 */
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void testDataIDFromReport( ) throws EngineException, IOException
 	{
-		String reportName = "dataID.rptdesign";
-		IReportRunnable reportRunnable = engine.openReportDesign( inPath
-				+ reportName );
+		String inputFile = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		IReportRunnable reportRunnable = engine.openReportDesign( inputFile );
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( "html" );
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );

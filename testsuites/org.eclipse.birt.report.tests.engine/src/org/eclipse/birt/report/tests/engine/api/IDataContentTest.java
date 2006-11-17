@@ -17,6 +17,18 @@ public class IDataContentTest extends BaseEmitter
 	private IDataContent data;
 	private String reportName = "IDataContentTest.rptdesign";
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( reportName, reportName );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	protected String getReportName( )
 	{
 		return reportName;

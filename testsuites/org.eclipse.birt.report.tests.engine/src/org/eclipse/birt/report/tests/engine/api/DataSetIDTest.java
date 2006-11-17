@@ -20,8 +20,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  */
 public class DataSetIDTest extends EngineCase
 {
-
-	private String inPath = getClassFolder( ) + "/" + INPUT_FOLDER + "/";
+	final static String INPUT = "dataSetID.rptdesign";
 
 	/**
 	 * Test DataSetID methods with input report design
@@ -29,11 +28,22 @@ public class DataSetIDTest extends EngineCase
 	 * @throws EngineException
 	 * @throws IOException
 	 */
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void testDataSetIDFromReport( ) throws EngineException, IOException
 	{
-		String reportName = "dataSetID.rptdesign";
-		IReportRunnable reportRunnable = engine.openReportDesign( inPath
-				+ reportName );
+		String inputFile = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		IReportRunnable reportRunnable = engine.openReportDesign( inputFile );
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( "html" );
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );

@@ -31,11 +31,12 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class RenderFolderDocumentTest extends EngineCase
 {
 
+	// final static String INPUT = "";
 	private String separator = System.getProperty( "file.separator" );
-	private String INPUT = getClassFolder( ) + separator + INPUT_FOLDER
-			+ separator;
-	private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER
-			+ separator;
+	private String inputFolder = this.getFullQualifiedClassName( ) + separator
+			+ INPUT_FOLDER + separator;
+	private String outputFolder = this.getFullQualifiedClassName( ) + separator
+			+ OUTPUT_FOLDER + separator;
 	private String folderArchive, htmlOutput;
 	private IReportDocument reportDoc;
 	private IRenderTask renderTask;
@@ -54,14 +55,20 @@ public class RenderFolderDocumentTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-
+		removeResource( );
 		htmlOption = new HTMLRenderOption( );
 		htmlOption.setOutputFormat( HTMLRenderOption.HTML );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	public void testRenderFolderDocument_simple( )
 	{
 		String renderDoc = "folderdocument_case1";
+
 		renderFolderDocument( renderDoc );
 	}
 
@@ -145,8 +152,10 @@ public class RenderFolderDocumentTest extends EngineCase
 	private void dropFolder( String report_design, String dropDir )
 	{
 
-		folderArchive = OUTPUT + "drop_" + report_design + separator;
-		String design = INPUT + report_design + ".rptdesign";
+		folderArchive = outputFolder + "drop_" + report_design + separator;
+		String design = inputFolder + report_design + ".rptdesign";
+		copyResource_INPUT( report_design + ".rptdesign", report_design
+				+ ".rptdesign" );
 		try
 		{
 			createFolderDocument( design, folderArchive );
@@ -217,11 +226,13 @@ public class RenderFolderDocumentTest extends EngineCase
 
 		String designName, report_design;
 		designName = docName.substring( 15 );
-		report_design = INPUT + designName + ".rptdesign";
+		report_design = inputFolder + designName + ".rptdesign";
+		copyResource_INPUT( designName + ".rptdesign", designName
+				+ ".rptdesign" );
 
-		folderArchive = OUTPUT + docName + separator;
-		htmlOutput = OUTPUT + docName + ".html";
-		new File( OUTPUT ).mkdirs( );
+		folderArchive = outputFolder + docName + separator;
+		htmlOutput = outputFolder + docName + ".html";
+		new File( outputFolder ).mkdirs( );
 		try
 		{
 			createFolderDocument( report_design, folderArchive );

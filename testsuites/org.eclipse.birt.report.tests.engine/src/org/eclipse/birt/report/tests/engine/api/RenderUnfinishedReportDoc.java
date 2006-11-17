@@ -41,12 +41,22 @@ public class RenderUnfinishedReportDoc extends EngineCase
 	private String docfolder = null;
 	private String outputHtml = null;
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public RenderUnfinishedReportDoc( )
 	{
-		this.docfolder = getClassFolder( )
-				+ "/" + OUTPUT_FOLDER + REPORT_DOCUMENT_OUTPUT;//$NON-NLS-1$
-		this.outputHtml = getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
-				+ "/" + HTML_OUTPUT; //$NON-NLS-1$
+		this.docfolder = this.genOutputFile( REPORT_DOCUMENT_OUTPUT );//$NON-NLS-1$
+		this.outputHtml = this.genOutputFile( HTML_OUTPUT ); //$NON-NLS-1$
 	}
 
 	class PageHandler implements IPageHandler
@@ -89,10 +99,9 @@ public class RenderUnfinishedReportDoc extends EngineCase
 	{
 		try
 		{
-			String inputFile = getClassFolder( )
+			String inputFile = this.getFullQualifiedClassName( )
 					+ "/" + INPUT_FOLDER + "/" + INPUT; //$NON-NLS-1$ //$NON-NLS-2$ 
-			String outputDoc = getClassFolder( )
-					+ "/" + OUTPUT_FOLDER + REPORT_DOCUMENT_OUTPUT; //$NON-NLS-1$
+			String outputDoc = this.genOutputFile( REPORT_DOCUMENT_OUTPUT ) ; //$NON-NLS-1$
 
 			// open the report runnable to execute.
 			IReportRunnable report;

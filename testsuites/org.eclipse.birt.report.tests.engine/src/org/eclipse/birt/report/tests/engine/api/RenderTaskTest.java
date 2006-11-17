@@ -3,6 +3,7 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -40,9 +41,13 @@ public class RenderTaskTest extends EngineCase
 	private IReportDocument reportDoc;
 	private String outputFileName;
 	private String separator = System.getProperty( "file.separator" );
-	protected String path = getClassFolder( ) + separator;
-	private String outputPath = path + OUTPUT_FOLDER + separator;
+	protected String path = this.getFullQualifiedClassName( ) + separator;
+//	private String outputPath = path + OUTPUT_FOLDER + separator;
 	private String inputPath = path + INPUT_FOLDER + separator;
+	
+	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	String outputPath = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+			+ "/" + OUTPUT_FOLDER + "/";
 
 	public RenderTaskTest( String name )
 	{
@@ -57,7 +62,15 @@ public class RenderTaskTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		engine.getConfig( ).setLogConfig( getClassFolder()+"/"+OUTPUT_FOLDER+"/", Level.WARNING );
+		removeResource( );
+		engine.getConfig( ).setLogConfig(
+				this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/",
+				Level.WARNING );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	public void testRender_orderreport( )
@@ -146,6 +159,7 @@ public class RenderTaskTest extends EngineCase
 
 	public void testRender_library( )
 	{
+		copyResource_INPUT( "library1.rptlibrary" , "library1.rptlibrary" );
 		renderReport( "report_from_library1", "All" );
 	}
 
@@ -233,21 +247,21 @@ public class RenderTaskTest extends EngineCase
 	/*
 	 * Test RenderTask when set instanceid
 	 */
-	public void testRenderReportlet_list( )
+	public void testRenderReportlet_list( ) throws Exception
 	{
 		InstanceID iid;
 		iid = findIid( "iid_reportlet", "LIST" );
 		renderReportlet( "iid_reportlet", iid, "LIST" );
 	}
 
-	public void testRenderReportlet_table( )
+	public void testRenderReportlet_table( ) throws Exception
 	{
 		InstanceID iid;
 		iid = findIid( "iid_reportlet", "TABLE" );
 		renderReportlet( "iid_reportlet", iid, "TABLE" );
 	}
 
-	public void testRenderReportlet_chart( )
+	public void testRenderReportlet_chart( ) throws Exception
 	{
 		InstanceID iid;
 		iid = findIid( "iid_reportlet", "EXTENDED" );
@@ -264,14 +278,14 @@ public class RenderTaskTest extends EngineCase
 		renderReportlet( "reportlet_bookmark_toc", "toc_chart" );
 	}
 
-	public void testRenderReportlet_complex_list( )
+	public void testRenderReportlet_complex_list( ) throws Exception
 	{
 		InstanceID iid;
 		iid = findIid( "iid_reportlet_complex", "LIST" );
 		renderReportlet( "iid_reportlet_complex", iid, "LIST" );
 	}
 
-	public void testRenderReportlet_complex_table( )
+	public void testRenderReportlet_complex_table( ) throws Exception
 	{
 		InstanceID iid;
 		iid = findIid( "iid_reportlet_complex", "TABLE" );
@@ -286,6 +300,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		report_design = inputPath + "case1.rptdesign";
 		report_document = outputPath + "pdfbug_reportdocument";
+		copyResource_INPUT( "case1.rptdesign" , "case1.rptdesign" );
 
 		IRenderTask task;
 		try
@@ -334,8 +349,9 @@ public class RenderTaskTest extends EngineCase
 	private InstanceID findIid( String fileName, String type )
 	{
 		InstanceID iid = null;
-		report_document = inputPath + fileName + ".rptdocument";
+		report_document = outputPath + fileName + ".rptdocument";
 		report_design = inputPath + fileName + ".rptdesign";
+		copyResource_INPUT( fileName + ".rptdesign" , fileName + ".rptdesign" );
 		IRenderTask task;
 
 		try
@@ -388,7 +404,7 @@ public class RenderTaskTest extends EngineCase
 	/*
 	 * render reportlet according to docfile and instance id
 	 */
-	protected void renderReportlet( String docName, InstanceID iid, String type )
+	protected void renderReportlet( String docName, InstanceID iid, String type ) throws Exception
 	{
 		if ( iid == null )
 		{
@@ -396,6 +412,8 @@ public class RenderTaskTest extends EngineCase
 		}
 		else
 		{
+			
+			copyFile( this.genOutputFile( docName + ".rptdocument" ) , inputPath + docName + ".rptdocument" );
 			report_document = inputPath + docName + ".rptdocument";
 
 			IRenderTask task;
@@ -453,8 +471,9 @@ public class RenderTaskTest extends EngineCase
 	 */
 	protected void renderReportlet( String docName, String bookmark )
 	{
-		report_document = inputPath + docName + ".rptdocument";
+		report_document = outputPath + docName + ".rptdocument";
 		report_design = inputPath + docName + ".rptdesign";
+		copyResource_INPUT( docName + ".rptdesign" , docName + ".rptdesign" );
 
 		IRenderTask task;
 
@@ -526,6 +545,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		report_design = inputPath + fileName + ".rptdesign";
 		report_document = outputPath + fileName + "_reportdocument";
+		copyResource_INPUT( fileName + ".rptdesign" , fileName + ".rptdesign" );
 
 		IRenderTask task;
 
@@ -672,6 +692,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		report_design = inputPath + fileName + ".rptdesign";
 		report_document = outputPath + fileName + "_reportdocument";
+		copyResource_INPUT( fileName + ".rptdesign" , fileName + ".rptdesign" );
 
 		IRenderTask task;
 

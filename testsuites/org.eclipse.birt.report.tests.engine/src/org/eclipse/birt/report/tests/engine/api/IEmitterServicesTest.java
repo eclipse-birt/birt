@@ -30,6 +30,18 @@ public class IEmitterServicesTest extends BaseEmitter
 	private String report = "IEmitterServicesTest.rptdesign";
 	private Object emitterConfig;
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( report, report );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	protected String getReportName( )
 	{
 		return report;
@@ -51,12 +63,12 @@ public class IEmitterServicesTest extends BaseEmitter
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 		IReportEngine reportEngine = factory.createReportEngine( config );
 		IReportRunnable reportRunnable = engine
-				.openReportDesign( getClassFolder( ) + "/" + INPUT_FOLDER + "/"
+				.openReportDesign( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/"
 						+ report );
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( EMITTER_HTML );
-		options.setOutputFileName( getClassFolder( ) + "/" + OUTPUT_FOLDER
+		options.setOutputFileName( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
 				+ "/myService.html" );
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( "myImage" ); //$NON-NLS-1$

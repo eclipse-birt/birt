@@ -21,6 +21,18 @@ public class IBandContentTest extends BaseEmitter
 	{
 		return reportName;
 	}
+	
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( reportName, reportName );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	/**
 	 * Test set/getBandType method

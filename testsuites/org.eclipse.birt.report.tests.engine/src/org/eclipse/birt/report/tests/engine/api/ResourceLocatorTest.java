@@ -32,6 +32,7 @@ public class ResourceLocatorTest extends EngineCase
 	private String root_path, path;
 	private String separator = System.getProperty( "file.separator" );
 
+
 	public ResourceLocatorTest( String name )
 	{
 		super( name );
@@ -45,9 +46,20 @@ public class ResourceLocatorTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		root_path = this.getClassFolder( ) + separator;
+		removeResource( );
+		copyResource_INPUT( "resources/aa.jpg" , "resources/aa.jpg" );
+		copyResource_INPUT( "resources/resource_a.properties" , "resources/resource_a.properties" );
+		copyResource_INPUT( "resources/resource_library.rptlibrary" , "resources//resource_library.rptlibrary" );
+
+		root_path = this.getFullQualifiedClassName( ) + separator;
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
+	
 	public void testResourceImage( )
 	{
 		path = "file://" + root_path + INPUT_FOLDER + separator + "resources"
@@ -63,8 +75,7 @@ public class ResourceLocatorTest extends EngineCase
 			e.printStackTrace( );
 			fail( "Failed to find image resource from custom resource locator" );
 		}
-		File f = new File( root_path + OUTPUT_FOLDER + separator
-				+ "resource_image.html" );
+		File f = new File( this.genOutputFile( "resource_image.html" ) );
 		assertTrue( "Failed render report from image resource", f.exists( ) );
 	}
 
@@ -83,8 +94,7 @@ public class ResourceLocatorTest extends EngineCase
 			e.printStackTrace( );
 			fail( "Failed to find library resource from custom resource locator" );
 		}
-		File f = new File( root_path + OUTPUT_FOLDER + separator
-				+ "resource_properties.html" );
+		File f = new File( this.genOutputFile( "resource_properties.html" ) );
 		assertTrue( "Failed render report from properties resource", f.exists( ) );
 	}
 
@@ -104,8 +114,7 @@ public class ResourceLocatorTest extends EngineCase
 			fail( "Failed to find properties resource from custom resource locator" );
 		}
 
-		File f = new File( root_path + OUTPUT_FOLDER + separator
-				+ "resource_library.html" );
+		File f = new File( this.genOutputFile( "resource_library.html" ) );
 		assertTrue( "Failed render report from library", f.exists( ) );
 	}
 
@@ -116,8 +125,8 @@ public class ResourceLocatorTest extends EngineCase
 		EngineConfig config = null;
 		String input = root_path + INPUT_FOLDER + separator + reportName
 				+ ".rptdesign";
-		String output = root_path + OUTPUT_FOLDER + separator + reportName
-				+ ".html";
+		copyResource_INPUT( reportName + ".rptdesign" , reportName + ".rptdesign" );
+		String output = this.genOutputFile( reportName + ".html" );
 
 		config = new EngineConfig( );
 		config.setResourceLocator( locator );

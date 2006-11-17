@@ -30,6 +30,19 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class RunAndRenderTaskTest extends EngineCase
 {
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "report_engine.rptdesign", "report_engine.rptdesign" );
+		copyResource_INPUT( "pages9.rptdesign", "pages9.rptdesign" );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	private Boolean cancelSignal = new Boolean( false );
 
 	/**
@@ -38,7 +51,7 @@ public class RunAndRenderTaskTest extends EngineCase
 	public void testRunAndRenderTask( ) throws EngineException
 	{
 
-		String input = getClassFolder( )
+		String input = this.getFullQualifiedClassName( )
 				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
 				+ System.getProperty( "file.separator" )
 				+ "report_engine.rptdesign";
@@ -77,7 +90,7 @@ public class RunAndRenderTaskTest extends EngineCase
 	 */
 	public void testCancelRunAndRenderTask( )
 	{
-		String input = getClassFolder( )
+		String input = this.getFullQualifiedClassName( )
 				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
 				+ System.getProperty( "file.separator" ) + "pages9.rptdesign";
 		long bTime, eTime, timeSpan1, timeSpan2, timeSpan3;

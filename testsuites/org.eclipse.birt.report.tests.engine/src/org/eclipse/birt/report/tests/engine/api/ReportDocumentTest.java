@@ -33,7 +33,7 @@ public class ReportDocumentTest extends EngineCase
 {
 
 	protected IReportRunnable reportRunnable;
-	private String path = getClassFolder( )
+	private String path = this.getFullQualifiedClassName( )
 			+ System.getProperty( "file.separator" );
 
 	public ReportDocumentTest( String name )
@@ -49,8 +49,15 @@ public class ReportDocumentTest extends EngineCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "report_document.rptdesign", "report_document.rptdesign" );
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * test informations which should be contained by report document
 	 */
@@ -60,8 +67,8 @@ public class ReportDocumentTest extends EngineCase
 		String report_design = path + INPUT_FOLDER
 				+ System.getProperty( "file.separator" )
 				+ "report_document.rptdesign";
-		String report_document = path + OUTPUT_FOLDER
-				+ System.getProperty( "file.separator" ) + "report_document";
+
+		String report_document = this.genOutputFile( "report_document" );
 
 		try
 		{
@@ -178,10 +185,9 @@ public class ReportDocumentTest extends EngineCase
 					new Integer( 2 ), params.get( new String( "p2" ) ) );
 
 			// check report document name
-			String name = report_document;
-			name = name.replace( '/', '\\' ).substring( 1 );
-			assertEquals( "return wrong report document name", name, reportDoc
-					.getName( ) );
+			String name = report_document.substring( report_document.indexOf( "org" ), report_document.length( ) );
+			name = name.replace( '/', '\\' );
+			assertEquals( "return wrong report document name", name, reportDoc.getName( ).substring( reportDoc.getName( ).indexOf( "org" ), reportDoc.getName( ).length( ) ) );
 
 			// check reportrunnable
 			IReportRunnable report = reportDoc.getReportRunnable( );
@@ -204,8 +210,7 @@ public class ReportDocumentTest extends EngineCase
 		String report_design = path + INPUT_FOLDER
 				+ System.getProperty( "file.separator" )
 				+ "report_document.rptdesign";
-		String report_document = path + OUTPUT_FOLDER
-				+ System.getProperty( "file.separator" ) + "report_document";
+		String report_document = this.genOutputFile( "report_document" );
 
 		/*
 		 * String

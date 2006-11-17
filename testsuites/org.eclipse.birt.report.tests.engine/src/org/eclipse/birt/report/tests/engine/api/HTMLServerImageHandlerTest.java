@@ -34,6 +34,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 public class HTMLServerImageHandlerTest extends EngineCase
 {
 
+	final static String INPUT = "EmbedImage.txt"; 
 	/**
 	 * @param name
 	 */
@@ -42,6 +43,18 @@ public class HTMLServerImageHandlerTest extends EngineCase
 		super( name );
 	}
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT, INPUT );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * Test suite()
 	 * 
@@ -67,9 +80,7 @@ public class HTMLServerImageHandlerTest extends EngineCase
 			 * +System.getProperty("file.separator")+"EmbedImage.txt"; String
 			 * path=plug_path+System.getProperty("file.separator")+file_path;
 			 */
-			String path = getClassFolder( )
-					+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-					+ System.getProperty( "file.separator" ) + "EmbedImage.txt";
+			String path = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
 
 			File imageFile = new File( path );
 			long size = imageFile.length( );

@@ -23,6 +23,18 @@ public class IElementTest extends BaseEmitter
 	/**
 	 * Test set/getParent() methods.
 	 */
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( report, report );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void testParent( )
 	{
 		IElement element = new ContainerContent( new ReportContent( ) );
