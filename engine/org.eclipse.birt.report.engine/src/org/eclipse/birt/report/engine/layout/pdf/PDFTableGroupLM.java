@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
@@ -63,11 +64,12 @@ public class PDFTableGroupLM extends PDFGroupLM
 			IPDFTableLayoutManager itsTableLM = getTableLayoutManager( );
 			if ( itsTableLM != null )
 			{
-				if ( !isFinished( ) && needPageBreakBefore(null ) )
+				IStyle cStyle = content.getStyle( );
+				if ( !isFinished( ) && needPageBreakBefore(cStyle.getPageBreakBefore( )) )
 				{
 					itsTableLM.setTableCloseStateAsForced( );
 				}
-				else if ( isFinished( ) && needPageBreakAfter(null ) )
+				else if ( isFinished( ) && needPageBreakAfter(cStyle.getPageBreakAfter( ) ) )
 				{
 					itsTableLM.setTableCloseStateAsForced( );
 				}
