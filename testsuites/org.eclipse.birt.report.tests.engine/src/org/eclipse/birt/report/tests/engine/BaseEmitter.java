@@ -37,8 +37,9 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 {
 
-	private String inPath = getClassFolder( ) + "/" + INPUT_FOLDER + "/";
-	private String outPath = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/";
+	private String inPath = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/";
+	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	private String outPath = tempDir + getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/";
 
 	protected final static String EMITTER_HTML = "emitter_html";
 	protected final static String EMITTER_PDF = "emitter_pdf";
@@ -56,8 +57,7 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	protected ArrayList runandrender_emitter( String format, boolean pagination )
 			throws EngineException
 	{
-		IReportRunnable reportRunnable = engine.openReportDesign( inPath
-				+ getReportName( ) );
+		IReportRunnable reportRunnable = engine.openReportDesign( inPath + getReportName( ) );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
 		RenderOptionBase options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
@@ -229,6 +229,23 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 
 	public void startText( ITextContent text )
 	{
+	}
+	
+	protected String genOutputFile( String output )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + OUTPUT_FOLDER + "/" + output;
+		return outputFile;
+	}
+	
+	protected String getFullQualifiedClassName( )
+	{
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+
+		return className;
 	}
 
 }

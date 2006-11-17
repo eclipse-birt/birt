@@ -11,11 +11,18 @@ package org.eclipse.birt.report.tests.engine;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.net.URL;
 import java.security.CodeSource;
@@ -85,6 +92,7 @@ public abstract class EngineCase extends TestCase
 	protected IEngineTask engineTask = null;
 
 	private static final String FORMAT_HTML = "html"; //$NON-NLS-1$
+	private static final String FORMAT_PDF = "pdf";
 	private static final String ENCODING_UTF8 = "UTF-8"; //$NON-NLS-1$
 	private String IMAGE_DIR = "image"; //$NON-NLS-1$
 
@@ -238,6 +246,61 @@ public abstract class EngineCase extends TestCase
 		}
 	}
 
+	protected void copyResource( String src, String tgt, String folder )
+	{
+
+		String className = getFullQualifiedClassName( );
+		tgt = className + "/" + folder + "/" + tgt;
+		className = className.replace( '.', '/' );
+
+		src = className + "/" + folder + "/" + src;
+
+		File parent = new File( tgt ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+
+		InputStream in = getClass( ).getClassLoader( )
+				.getResourceAsStream( src );
+		assertTrue( in != null );
+
+		try
+		{
+
+			int size = in.available( );
+			byte[] buffer = new byte[size];
+			in.read( buffer );
+			OutputStream out = new FileOutputStream( tgt );
+			out.write( buffer );
+			out.close( );
+			in.close( );
+
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+
+	protected void copyResource_INPUT( String input_resource, String input )
+	{
+		this.copyResource( input_resource, input, INPUT_FOLDER );
+	}
+
+	protected void copyResource_GOLDEN( String input_resource, String golden )
+	{
+		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
+	}
+	
+	protected void copyResource_SCRIPT( String input_resource, String script )
+	{
+		this.copyResource( input_resource, script, "input/scripts" );
+	}
+
+
 	/**
 	 * Remove a given file or directory recursively.
 	 * 
@@ -271,6 +334,12 @@ public abstract class EngineCase extends TestCase
 	public void removeFile( String file )
 	{
 		removeFile( new File( file ) );
+	}
+
+	public void removeResource( )
+	{
+		String className = getFullQualifiedClassName( );
+		removeFile( className );
 	}
 
 	/**
@@ -331,11 +400,13 @@ public abstract class EngineCase extends TestCase
 
 		try
 		{
-			golden = getClassFolder( ) + "/" + GOLDEN_FOLDER + "/" + golden; //$NON-NLS-1$//$NON-NLS-2$
-			output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output; //$NON-NLS-1$//$NON-NLS-2$
 
-			readerA = new FileReader( golden );
-			readerB = new FileReader( output );
+			String outputFile = genOutputFile( output );
+
+			String goldenFile = getFullQualifiedClassName( ) + "/"
+					+ GOLDEN_FOLDER + "/" + golden;
+			readerA = new FileReader( goldenFile );
+			readerB = new FileReader( outputFile );
 
 			same = compareTextFile( readerA, readerB, output );
 		}
@@ -374,22 +445,24 @@ public abstract class EngineCase extends TestCase
 	 * @param checkstring
 	 *            the string to be compared.
 	 * @param checktimes
-	 * 		      the times that the checkstring display.
+	 *            the times that the checkstring display.
 	 * @return true if the string display times is the same as checktimes
 	 * @throws Exception
 	 *             if any exception.
 	 */
-	protected boolean compareHTML_STRING( String output, String checkstring, int checktimes )
+	protected boolean compareHTML_STRING( String output, String checkstring,
+			int checktimes )
 	{
 		StringBuffer errorText = new StringBuffer( );
-		String outputFile = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + output;
+		String outputFile = genOutputFile( output );
 		String line = null;
 		int count = 0;
 		boolean same = true;
-		
+
 		try
 		{
-			BufferedReader reader = new BufferedReader( new FileReader( new File( outputFile ) ) );
+			BufferedReader reader = new BufferedReader( new FileReader(
+					new File( outputFile ) ) );
 			while ( ( line = reader.readLine( ) ) != null )
 			{
 				if ( line.indexOf( checkstring ) > 0 )
@@ -405,10 +478,11 @@ public abstract class EngineCase extends TestCase
 			errorText.append( "\n" ); //$NON-NLS-1$
 			e.printStackTrace( );
 		}
-		
+
 		return same;
-		
+
 	}
+
 	/**
 	 * Run and render the given design file into html file. If the input is
 	 * "a.xml", output html file will be named "a.html" under folder "output".
@@ -421,7 +495,7 @@ public abstract class EngineCase extends TestCase
 			throws EngineException
 	{
 		this.pagination = false;
-		return runAndRender( input, output, null, "html" ); //$NON-NLS-1$
+		return runAndRender( input, output, null, FORMAT_HTML ); //$NON-NLS-1$
 	}
 
 	/**
@@ -437,7 +511,7 @@ public abstract class EngineCase extends TestCase
 			String output ) throws EngineException
 	{
 		this.pagination = true;
-		return runAndRender( input, output, null, "html" ); //$NON-NLS-1$
+		return runAndRender( input, output, null, FORMAT_HTML ); //$NON-NLS-1$
 	}
 
 	/**
@@ -451,7 +525,16 @@ public abstract class EngineCase extends TestCase
 	protected void runAndRender_PDF( String input, String output )
 			throws EngineException
 	{
-		runAndRender( input, output, null, "pdf" ); //$NON-NLS-1$
+		runAndRender( input, output, null, FORMAT_PDF ); //$NON-NLS-1$
+	}
+
+	protected String getFullQualifiedClassName( )
+	{
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+
+		return className;
 	}
 
 	/**
@@ -461,12 +544,10 @@ public abstract class EngineCase extends TestCase
 	protected final ArrayList runAndRender( String input, String output,
 			Map paramValues, String format ) throws EngineException
 	{
-		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
-				+ "/" + output; //$NON-NLS-1$
-		String inputFile = this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$ //$NON-NLS-2$
+		String outputFile = genOutputFile( output );
+		input = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + input;
 
-		IReportRunnable runnable = engine.openReportDesign( inputFile );
+		IReportRunnable runnable = engine.openReportDesign( input );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
 
 		// set engine task
@@ -485,7 +566,7 @@ public abstract class EngineCase extends TestCase
 		task.setLocale( locale );
 
 		IRenderOption options = null;
-		if ( "pdf".equals( format ) ) //$NON-NLS-1$
+		if ( FORMAT_PDF.equals( format ) ) //$NON-NLS-1$
 		{
 			options = new RenderOptionBase( );
 			options.setOutputFileName( outputFile );
@@ -498,15 +579,13 @@ public abstract class EngineCase extends TestCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( IMAGE_DIR );
 			HashMap appContext = new HashMap( );
-			appContext.put(
-					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			task.setAppContext( appContext );
 		}
 
 		options.setOutputFormat( format );
-		options.getOutputSetting( ).put(
-				HTMLRenderOption.URL_ENCODING,
+		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				ENCODING_UTF8 );
 		task.setRenderOption( options );
 		task.run( );
@@ -524,12 +603,10 @@ public abstract class EngineCase extends TestCase
 	protected final ArrayList run( String input, String output )
 			throws EngineException
 	{
-		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
-				+ "/" + output; //$NON-NLS-1$
-		String inputFile = this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + input; //$NON-NLS-1$ //$NON-NLS-2$
+		String outputFile = genOutputFile( output );
+		input = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + input;
 
-		IReportRunnable runnable = engine.openReportDesign( inputFile );
+		IReportRunnable runnable = engine.openReportDesign( input );
 		IRunTask task = engine.createRunTask( runnable );
 		task.setAppContext( new HashMap( ) );
 		task.setLocale( locale );
@@ -564,7 +641,7 @@ public abstract class EngineCase extends TestCase
 			throws EngineException
 	{
 		this.pagination = true;
-		return render( "html", doc, output, pageRange ); //$NON-NLS-1$
+		return render( FORMAT_HTML, doc, output, pageRange ); //$NON-NLS-1$
 	}
 
 	/**
@@ -579,41 +656,37 @@ public abstract class EngineCase extends TestCase
 	protected ArrayList render_PDF( String doc, String output, String pageRange )
 			throws EngineException
 	{
-		return render( "pdf", doc, output, pageRange ); //$NON-NLS-1$
+		return render( FORMAT_PDF, doc, output, pageRange ); //$NON-NLS-1$
 	}
 
 	private ArrayList render( String format, String doc, String output,
 			String pageRange ) throws EngineException
 	{
-		String outputFile = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
-				+ "/" + output; //$NON-NLS-1$
-		String inputFile = this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + doc; //$NON-NLS-1$ //$NON-NLS-2$
+
+		String outputFile = genOutputFile( output );
+		doc = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + doc;
 
 		String encoding = "UTF-8"; //$NON-NLS-1$
 
-		IReportDocument document = engine.openReportDocument( inputFile );
+		IReportDocument document = engine.openReportDocument( doc );
 		IRenderTask task = engine.createRenderTask( document );
 		task.setLocale( locale );
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFileName( outputFile );
 		options.setOutputFormat( format );
-		options.getOutputSetting( ).put(
-				HTMLRenderOption.URL_ENCODING,
+		options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 				encoding );
-		if ( !format.equalsIgnoreCase( "pdf" ) )
+		if ( !format.equalsIgnoreCase( FORMAT_PDF ) )
 		{
 			( (HTMLRenderOption) options ).setHtmlPagination( this.pagination );
 		}
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( IMAGE_DIR );
 		HashMap appContext = new HashMap( );
-		appContext.put(
-				EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
-		appContext.put(
-				EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+		appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				EngineCase.class.getClassLoader( ) );
 
 		task.setAppContext( appContext );
@@ -646,15 +719,13 @@ public abstract class EngineCase extends TestCase
 			return errors;
 		}
 
-		String from = this.getClassFolder( ) + "/" + OUTPUT_FOLDER //$NON-NLS-1$
-				+ "/" + tempDoc; //$NON-NLS-1$
-		String temp = this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + tempDoc; //$NON-NLS-1$//$NON-NLS-2$
+		String from = genOutputFile( tempDoc );
 
 		try
 		{
-			copyFile( from, temp );
-			if ( "pdf".equals( format ) ) //$NON-NLS-1$
+			copyFile( from, this.getFullQualifiedClassName( ) + "/"
+					+ INPUT_FOLDER + "/" + tempDoc );
+			if ( FORMAT_PDF.equals( format ) ) //$NON-NLS-1$
 				return render_PDF( tempDoc, output, pageRange );
 			else
 				return render_HTML( tempDoc, output, pageRange );
@@ -666,7 +737,7 @@ public abstract class EngineCase extends TestCase
 		finally
 		{
 			// remove the temp file on exit.
-			removeFile( temp );
+			removeFile( tempDoc );
 		}
 	}
 
@@ -682,7 +753,7 @@ public abstract class EngineCase extends TestCase
 	 *             if any exception
 	 */
 
-	private boolean compareTextFile( Reader golden, Reader output,
+	protected boolean compareTextFile( Reader golden, Reader output,
 			String fileName ) throws Exception
 	{
 		StringBuffer errorText = new StringBuffer( );
@@ -698,6 +769,7 @@ public abstract class EngineCase extends TestCase
 
 			String strA = lineReaderA.readLine( ).trim( );
 			String strB = lineReaderB.readLine( ).trim( );
+
 			while ( strA != null )
 			{
 				// filter the random part of the page.
@@ -762,7 +834,7 @@ public abstract class EngineCase extends TestCase
 
 		return same;
 	}
-	
+
 	/**
 	 * Compares the two times.
 	 * 
@@ -774,7 +846,7 @@ public abstract class EngineCase extends TestCase
 	 * @throws Exception
 	 *             if any exception
 	 */
-	private boolean compareString ( int checktimes, int countstring )
+	private boolean compareString( int checktimes, int countstring )
 	{
 		boolean same = true;
 		StringBuffer errorText = new StringBuffer( );
@@ -790,7 +862,7 @@ public abstract class EngineCase extends TestCase
 			errorText.append( e.toString( ) );
 		}
 		return same;
-		
+
 	}
 
 	/**
@@ -879,6 +951,11 @@ public abstract class EngineCase extends TestCase
 		return PLUGIN_PATH + className.replace( '.', '/' );
 	}
 
+	protected URL getResource( String name )
+	{
+		return this.getClass( ).getResource( name );
+	}
+
 	/**
 	 * Set scripts class folder
 	 */
@@ -918,4 +995,82 @@ public abstract class EngineCase extends TestCase
 		super.tearDown( );
 	}
 
+	protected String genOutputFile( String output )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + OUTPUT_FOLDER + "/" + output;
+		return outputFile;
+	}
+	
+	private void copyFolder( File from, File to ) throws Exception
+	{
+		if ( !from.isDirectory( ) || !from.exists( ) )
+		{
+			throw new Exception( "Input foler: " + from + " doesn't exist." ); //$NON-NLS-1$//$NON-NLS-2$
+		}
+
+		File[] files = from.listFiles( new FilenameFilter( ) {
+
+			public boolean accept( File dir, String name )
+			{
+				return true;
+			}
+		} );
+
+		if ( !to.exists( ) )
+			to.mkdir( );
+//		System.out.println( "size is " + files.length );
+		for ( int i = 0; i < files.length; i++ )
+		{
+
+			if( files[i].isDirectory( ) )
+			{
+				this.copyFolder( files[i], new File( to.getPath( ) + "/" + files[i].getName( ) ) );
+			}
+			
+			DataInputStream instr;
+			DataOutputStream outstr;
+			File outFile = new File( to.getPath( ) );
+			try
+			{
+				instr = new DataInputStream( new BufferedInputStream(
+						new FileInputStream( files[i] ) ) );
+				outstr = new DataOutputStream( new BufferedOutputStream(
+						new FileOutputStream( outFile + "\\"
+								+ files[i].getName( ) ) ) );
+
+				try
+				{
+					int data;
+					while ( true )
+					{
+						data = instr.readUnsignedByte( );
+						outstr.writeByte( data );
+					}
+				}
+				catch ( EOFException eof )
+				{
+					outstr.close( );
+					instr.close( );
+				}
+			}
+
+			catch ( FileNotFoundException nfx )
+			{
+				System.out.println( "Problem opening files:" + files[i] );
+			}
+			catch ( IOException iox )
+			{
+				System.out.println( "IO Problems" );
+			}
+			System.out.println( files[i] );
+		}
+
+	}
+	
+	public void copyFolder( String from , String to ) throws Exception
+	{
+		copyFolder( new File( from ), new File( to ) );
+	}
 }
