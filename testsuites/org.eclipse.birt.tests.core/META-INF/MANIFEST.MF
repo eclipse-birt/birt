@@ -8,3 +8,4 @@ Require-Bundle: org.junit,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.core
 Export-Package: utility
+Bundle-ClassPath: .

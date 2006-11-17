@@ -1,11 +1,16 @@
 
 package utility;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -46,6 +51,7 @@ public abstract class BaseSmokeTest extends EngineCase
 	 * @return Working folder that containing the 'TestCases' folder containing
 	 *         the smoke test collections.
 	 */
+
 	protected abstract String getWorkingFolder( );
 
 	/**
@@ -53,19 +59,62 @@ public abstract class BaseSmokeTest extends EngineCase
 	 * @throws Exception
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		// removeResource( );
+	}
+
+	public void tearDown( )
+	{
+		// removeResource( );
+	}
+
 	public final void testSmoke( ) throws Exception
 	{
-		String inputFolder = getWorkingFolder( ) + "/TestCases/input/"; //$NON-NLS-1$
-		String outputFolder = getWorkingFolder( ) + "/TestCases/output/"; //$NON-NLS-1$
+		List resultList = new ArrayList( );
+		String path = "TestCases/EngineSmokeTestReport.txt";
+		InputStream input = this.getClass( ).getResourceAsStream( path );
+		BufferedReader reader = new BufferedReader( new InputStreamReader(
+				input ) );
 
-		File input = new File( inputFolder );
-		if ( !input.isDirectory( ) || !input.exists( ) )
+		while ( true )
 		{
-			throw new Exception(
-					"Input foler: " + inputFolder + " doesn't exist." ); //$NON-NLS-1$//$NON-NLS-2$
+			try
+			{
+				String content = reader.readLine( );
+				if ( content == null )
+					break;
+				resultList.add( content );
+			}
+			catch ( Exception e )
+			{
+				// do nothing.
+			}
 		}
 
-		File[] reports = input.listFiles( new FilenameFilter( ) {
+		Iterator iterator = resultList.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			String inputPath = (String) iterator.next( );
+			inputPath = inputPath.replace( '\\', '/' );
+			copyResource( inputPath, inputPath, "TestCases" );
+		}
+
+		String inputFolder = this.getFullQualifiedClassName( )
+				+ "/TestCases/input/"; //$NON-NLS-1$
+		String tempDir = System.getProperty( "java.io.tmpdir" );
+		String outputFolder = tempDir + getFullQualifiedClassName( )
+				+ "/TestCases/output/";
+
+		File inputFile = new File( inputFolder );
+		if ( !inputFile.isDirectory( ) || !inputFile.exists( ) )
+		{
+			throw new Exception( "Input foler: " + inputFolder
+					+ " doesn't exist." );
+		}
+
+		File[] reports = inputFile.listFiles( new FilenameFilter( ) {
 
 			public boolean accept( File dir, String name )
 			{
@@ -78,7 +127,7 @@ public abstract class BaseSmokeTest extends EngineCase
 		for ( int i = 0; i < reports.length; i++ )
 		{
 			File report = reports[i];
-			String html = report.getName( ).replaceAll( ".xml", ".html" ); //$NON-NLS-1$//$NON-NLS-2$
+			String html = report.getName( ).replaceAll( ".xml", ".html" );
 
 			try
 			{
@@ -96,7 +145,8 @@ public abstract class BaseSmokeTest extends EngineCase
 						sb.append( "\n" ); //$NON-NLS-1$
 					}
 
-					engineInternalErrors.put( report.getName( ), sb.toString( ) );
+					engineInternalErrors
+							.put( report.getName( ), sb.toString( ) );
 				}
 
 				// success
@@ -148,27 +198,28 @@ public abstract class BaseSmokeTest extends EngineCase
 				++failuresCount;
 			}
 
-			String internalError = (String)engineInternalErrors.get( testCaseName ); 
-			if (  null == internalError )
+			String internalError = (String) engineInternalErrors
+					.get( testCaseName );
+			if ( null == internalError )
 			{
 				// no internal error;
-				
+
 				testcase.setAttribute( "internalErrors", null ); //$NON-NLS-1$
-				
+
 			}
 			else
 			{
-				testcase.setAttribute( "internalErrors", internalError ); //$NON-NLS-1$
+				testcase.setAttribute( "internalErrors", internalError );
+				//$NON-NLS-1$
 			}
-			
-			
+
 			testsuite.appendChild( testcase );
 		}
 
 		testsuite.setAttribute( "failures", String.valueOf( failuresCount ) ); //$NON-NLS-1$
-		testsuite.setAttribute( "tests", String.valueOf( testStatus //$NON-NLS-1$
-				.keySet( )
-				.size( ) ) );
+		testsuite.setAttribute( "tests", String.valueOf( testStatus
+		//$NON-NLS-1$
+				.keySet( ).size( ) ) );
 
 		domwriter.write( testsuite );
 	}
@@ -179,12 +230,8 @@ public abstract class BaseSmokeTest extends EngineCase
 
 	protected String getBasePath( )
 	{
-		return new File( this
-				.getClass( )
-				.getProtectionDomain( )
-				.getCodeSource( )
-				.getLocation( )
-				.getPath( ) ).getParent( )
+		return new File( this.getClass( ).getProtectionDomain( )
+				.getCodeSource( ).getLocation( ).getPath( ) ).getParent( )
 				+ "/"; //$NON-NLS-1$
 	}
 
@@ -201,14 +248,12 @@ public abstract class BaseSmokeTest extends EngineCase
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( "image" ); //$NON-NLS-1$
 		HashMap appContext = new HashMap( );
-		appContext.put(
-				EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+		appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 				renderContext );
 		task.setAppContext( appContext );
 
 		options.setOutputFormat( "html" ); //$NON-NLS-1$
-		options
-				.getOutputSetting( )
+		options.getOutputSetting( )
 				.put( HTMLRenderOption.URL_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		task.setRenderOption( options );
@@ -235,8 +280,9 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		try
 		{
-			golden = getClassFolder( ) + "/TestCases/golden/" + golden; //$NON-NLS-1$
-			output = getClassFolder( ) + "/TestCases/output/" + output; //$NON-NLS-1$
+			golden = this.getFullQualifiedClassName( ) + "/TestCases/golden/" + golden; //$NON-NLS-1$
+//			output = getClassFolder( ) + "/TestCases/output/" + output; //$NON-NLS-1$
+			output = this.genOutputFile( output );
 
 			readerA = new FileReader( golden );
 			readerB = new FileReader( output );
