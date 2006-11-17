@@ -471,6 +471,12 @@ public class SVGInteractiveRenderer
 										"top.document.location.hash='" + urlValue.getBaseUrl( ) + "';" ); //$NON-NLS-1$ //$NON-NLS-2$ 
 								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
 							}
+							// check if this is a javascript call
+							else if ( urlValue.getBaseUrl( ).startsWith( "javascript:" ) ) //$NON-NLS-1$
+							{
+								elm.setAttribute( scriptEvent, urlValue.getBaseUrl( ) );  
+								elm.setAttribute( "style", "cursor:pointer" ); //$NON-NLS-1$ //$NON-NLS-2$
+							}
 							else
 							{
 								String target = urlValue.getTarget( );
