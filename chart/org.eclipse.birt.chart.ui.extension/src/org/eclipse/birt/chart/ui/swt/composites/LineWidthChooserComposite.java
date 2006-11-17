@@ -20,8 +20,11 @@ import org.eclipse.swt.widgets.Composite;
 public class LineWidthChooserComposite extends CustomChooserComposite
 {
 
-	private static final int[] iLineWidths = new int[]{
-			1, 2, 3, 4
+	private static final Integer[] iLineWidths = new Integer[]{
+			new Integer( 1 ),
+			new Integer( 2 ),
+			new Integer( 3 ),
+			new Integer( 4 )
 	};
 
 	static class LineWidthChoice extends LineCanvas implements ICustomChoice
@@ -32,31 +35,33 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 			super( parent, iStyle, SWT.LINE_SOLID, iLineWidth );
 		}
 
-		public int getValue( )
+		public Object getValue( )
 		{
-			return getLineWidth( );
+			return new Integer( getLineWidth( ) );
 		}
 
-		public void setValue( int value )
+		public void setValue( Object value )
 		{
-			setLineWidth( value );
+			setLineWidth( ( (Integer) value ).intValue( ) );
 		}
 
 	}
 
 	public LineWidthChooserComposite( Composite parent, int style, int iWidth )
 	{
-		super( parent, style, iWidth );
+		super( parent, style, new Integer( iWidth ) );
+		setItems( iLineWidths );
 	}
 
-	protected ICustomChoice createChoice( Composite parent, int choiceValue )
+	protected ICustomChoice createChoice( Composite parent, Object choiceValue )
 	{
-		return new LineWidthChoice( parent, SWT.NONE, choiceValue );
-	}
-
-	protected int[] getChoiceValues( )
-	{
-		return iLineWidths;
+		if ( choiceValue == null )
+		{
+			choiceValue = new Integer( 0 );
+		}
+		return new LineWidthChoice( parent,
+				SWT.NONE,
+				( (Integer) choiceValue ).intValue( ) );
 	}
 
 	/**
@@ -66,12 +71,12 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 	 */
 	public int getLineWidth( )
 	{
-		return getChoiceValue( );
+		return ( (Integer) getChoiceValue( ) ).intValue( );
 	}
 
 	public void setLineWidth( int iWidth )
 	{
-		setChoiceValue( iWidth );
+		setChoiceValue( new Integer( iWidth ) );
 	}
 
 }

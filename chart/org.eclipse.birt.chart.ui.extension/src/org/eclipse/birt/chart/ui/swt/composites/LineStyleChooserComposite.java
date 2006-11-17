@@ -20,8 +20,11 @@ import org.eclipse.swt.widgets.Composite;
 public class LineStyleChooserComposite extends CustomChooserComposite
 {
 
-	private static final int[] iLineStyles = new int[]{
-			SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
+	private static final Integer[] iLineStyles = new Integer[]{
+			new Integer( SWT.LINE_SOLID ),
+			new Integer( SWT.LINE_DASH ),
+			new Integer( SWT.LINE_DASHDOT ),
+			new Integer( SWT.LINE_DOT )
 	};
 
 	static class LineStyleChoice extends LineCanvas implements ICustomChoice
@@ -32,14 +35,14 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 			super( parent, iStyle, iLineStyle, 1 );
 		}
 
-		public int getValue( )
+		public Object getValue( )
 		{
-			return getLineStyle( );
+			return new Integer( getLineStyle( ) );
 		}
 
-		public void setValue( int value )
+		public void setValue( Object value )
 		{
-			setLineStyle( value );
+			setLineStyle( ( (Integer) value ).intValue( ) );
 		}
 
 	}
@@ -47,18 +50,20 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	public LineStyleChooserComposite( Composite parent, int style,
 			int iLineStyle )
 	{
-		super( parent, style, iLineStyle );
+		super( parent, style, new Integer( iLineStyle ) );
+		setItems( iLineStyles );
 
 	}
 
-	protected ICustomChoice createChoice( Composite parent, int choiceValue )
+	protected ICustomChoice createChoice( Composite parent, Object choiceValue )
 	{
-		return new LineStyleChoice( parent, SWT.NONE, choiceValue );
-	}
-
-	protected int[] getChoiceValues( )
-	{
-		return iLineStyles;
+		if ( choiceValue == null )
+		{
+			choiceValue = new Integer( 0 );
+		}
+		return new LineStyleChoice( parent,
+				SWT.NONE,
+				( (Integer) choiceValue ).intValue( ) );
 	}
 
 	/**
@@ -68,12 +73,12 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	 */
 	public int getLineStyle( )
 	{
-		return getChoiceValue( );
+		return ( (Integer) getChoiceValue( ) ).intValue( );
 	}
 
 	public void setLineStyle( int iStyle )
 	{
-		setChoiceValue( iStyle );
+		setChoiceValue( new Integer( iStyle ) );
 	}
 
 }

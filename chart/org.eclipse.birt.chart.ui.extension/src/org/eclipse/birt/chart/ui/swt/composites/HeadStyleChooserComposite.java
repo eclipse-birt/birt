@@ -21,8 +21,10 @@ import org.eclipse.swt.widgets.Composite;
 public class HeadStyleChooserComposite extends CustomChooserComposite
 {
 
-	private static final int[] iLineDecorator = new int[]{
-			LineDecorator.ARROW, LineDecorator.NONE, LineDecorator.CIRCLE
+	private static final Integer[] iLineDecorators = new Integer[]{
+			new Integer( LineDecorator.ARROW ),
+			new Integer( LineDecorator.NONE ),
+			new Integer( LineDecorator.CIRCLE )
 	};
 
 	static class HeaderStyleChoice extends HeadStyleCanvas
@@ -35,14 +37,14 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 			super( parent, iStyle, iLineDecorator );
 		}
 
-		public int getValue( )
+		public Object getValue( )
 		{
-			return getHeadStyle( );
+			return new Integer( getHeadStyle( ) );
 		}
 
-		public void setValue( int value )
+		public void setValue( Object value )
 		{
-			setHeadStyle( value );
+			setHeadStyle( ( (Integer) value ).intValue( ) );
 		}
 
 	}
@@ -50,17 +52,19 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 	public HeadStyleChooserComposite( Composite parent, int style,
 			int iLineDecorator )
 	{
-		super( parent, style, iLineDecorator );
+		super( parent, style, new Integer( iLineDecorator ) );
+		setItems( iLineDecorators );
 	}
 
-	protected ICustomChoice createChoice( Composite parent, int choiceValue )
+	protected ICustomChoice createChoice( Composite parent, Object choiceValue )
 	{
-		return new HeaderStyleChoice( parent, SWT.NONE, choiceValue );
-	}
-
-	protected int[] getChoiceValues( )
-	{
-		return iLineDecorator;
+		if ( choiceValue == null )
+		{
+			choiceValue = new Integer( 0 );
+		}
+		return new HeaderStyleChoice( parent,
+				SWT.NONE,
+				( (Integer) choiceValue ).intValue( ) );
 	}
 
 	/**
@@ -69,11 +73,11 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 	 */
 	public int getHeadStyle( )
 	{
-		return getChoiceValue( );
+		return ( (Integer) getChoiceValue( ) ).intValue( );
 	}
 
 	public void setHeadStyle( int iStyle )
 	{
-		setChoiceValue( iStyle );
+		setChoiceValue( new Integer( iStyle ) );
 	}
 }
