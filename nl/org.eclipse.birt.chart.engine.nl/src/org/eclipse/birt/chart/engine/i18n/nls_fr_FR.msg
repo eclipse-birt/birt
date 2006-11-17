@@ -133,17 +133,18 @@ error.type.not.set=Le TYPE n'a pas été défini pour cette instance de DateFormatS
 error.eclenv.cannot.find.dsp=(ENV-ECLIPSE) Impossible de détecter l''implémentation de DataSetProcessor pour {0}
 error.stdenv.cannot.find.dsp=(ENV-AUTONOME) Impossible de détecter l''implémentation de DataSetProcessor pour {0}
 info.eclenv.creating.series.renderer=(ENV-ECLIPSE) Création de moteur de rendu de série {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
 error.eclenv.cannot.find.series.renderer=(ENV-ECLIPSE) Impossible de détecter l''implémentation du moteur de rendu de série pour {0}
 info.stdenv.creating.series.renderer=(ENV-AUTONOME) Création de moteur de rendu de série {0}
 info.compute.elapsed.time.without.axes=Durée du calcul du tracé (sans axe) = {0} ms
 info.compute.elapsed.time.with.axes=Durée du calcul du tracé avec axe) = {0} ms
 error.stdenv.cannot.find.series.renderer=(ENV-AUTONOME) Impossible de détecter l''implémentation du moteur de rendu de série pour {0}
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
 error.eclenv.cannot.find.device=(ENV-ECLIPSE) Impossible de détecter l''implémentation du moteur de rendu de périphérique pour {0}
 error.stdenv.cannot.find.device=(ENV-AUTONOME) Impossible de détecter l''implémentation du moteur de rendu de périphérique pour {0}
 error.eclenv.cannot.find.display=(ENV-ECLIPSE) Impossible de détecter l''implémentation du serveur d''affichage pour {0}
 error.stdenv.cannot.find.display=(ENV-AUTONOME) Impossible de détecter l''implémentation du serveur d''affichage pour {0}
 info.log.script=[SCRIPT] : {0}
-info.render.series={0}: renderSeries() [{1}/{2}]
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[INFOS] : {0}
 info.log.warn=[AVERT] : {0}

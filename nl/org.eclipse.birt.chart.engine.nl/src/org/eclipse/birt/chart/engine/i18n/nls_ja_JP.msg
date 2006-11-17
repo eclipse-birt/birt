@@ -133,17 +133,18 @@ error.type.not.set=使用する DateFormatSpecifier のインスタンスの型が設定されてい
 error.eclenv.cannot.find.dsp=(ECLIPSE 環境) {0} の DSP の実装が見つかりませんでした。
 error.stdenv.cannot.find.dsp=(スタンドアローン環境) {0} の DSP の実装が見つかりません。
 info.eclenv.creating.series.renderer=(ECLIPSE 環境) 系列レンダリング機能 {0} の作成中
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
 error.eclenv.cannot.find.series.renderer=(ECLIPSE 環境) {0} の系列レンダリング機能の実装が見つかりません。
 info.stdenv.creating.series.renderer=(スタンドアローン環境) Series Renderer {0} の作成中
 info.compute.elapsed.time.without.axes=プロット計算の所要時間 (軸なし) = {0} ミリ秒
 info.compute.elapsed.time.with.axes=プロット計算の所要時間 (軸あり) = {0} ミリ秒
 error.stdenv.cannot.find.series.renderer=(スタンドアローン環境) {0} 系列レンダリング機能の実装が見つかりません。
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
 error.eclenv.cannot.find.device=(ECLIPSE 環境) {0} のデバイスレンダリング機能の実装が見つかりません。
 error.stdenv.cannot.find.device=(スタンドアローン環境) {0} のデバイスレンダリング機能の実装が見つかりません。
 error.eclenv.cannot.find.display=(ECLIPSE 環境) {0} の Display Server の実装が見つかりません。
 error.stdenv.cannot.find.display=(スタンドアローン環境) {0} の Display Server の実装が見つかりません。
 info.log.script=[スクリプト]: {0}
-info.render.series={0}: renderSeries() [{1}/{2}]
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[情報] : {0}
 info.log.warn=[警告] : {0}

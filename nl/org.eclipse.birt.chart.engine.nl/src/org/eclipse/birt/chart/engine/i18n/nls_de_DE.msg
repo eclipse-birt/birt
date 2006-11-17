@@ -133,17 +133,18 @@ error.type.not.set=Es wurde kein TYP für diese Instanz von DateFormatSpecifier f
 error.eclenv.cannot.find.dsp=(ECLIPSE-UMG) DataSetProcessor-Implementierung für {0} nicht gefunden
 error.stdenv.cannot.find.dsp=(EINZELPLATZ-UMG) DataSetProcessor-Implementierung für {0} nicht gefunden
 info.eclenv.creating.series.renderer=(ECLIPSE-UMG) Datenreihen-Renderer {0} wird erstellt
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
 error.eclenv.cannot.find.series.renderer=(ECLIPSE-UMG) Datenreihen-Renderer-Implementierung für {0} nicht gefunden
 info.stdenv.creating.series.renderer=(EINZELPLATZ-UMG) Datenreihen-Renderer {0} wird erstellt
 info.compute.elapsed.time.without.axes=Zeit für Berechnung des Diagramms (ohne Achsen) = {0} ms
 info.compute.elapsed.time.with.axes=Zeit für Berechnung des Diagramms (mit Achsen) = {0} ms
 error.stdenv.cannot.find.series.renderer=(EINZELPLATZ-UMG) Datenreihen-Renderer-Implementierung für {0} nicht gefunden
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
 error.eclenv.cannot.find.device=(ECLIPSE-UMG) Geräte-Renderer-Implementierung für {0} nicht gefunden
 error.stdenv.cannot.find.device=(EINZELPLATZ-UMG) Geräte-Renderer-Implementierung für {0} nicht gefunden
 error.eclenv.cannot.find.display=(ECLIPSE-UMG) Anzeigeserver-Implementierung für {0} nicht gefunden
 error.stdenv.cannot.find.display=(EINZELPLATZ-UMG) Anzeigeserver-Implementierung für {0} nicht gefunden
 info.log.script=[SKRIPT]: {0}
-info.render.series={0}: renderSeries() [{1}/{2}]
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[INFO]: {0}
 info.log.warn=[WARN]: {0}

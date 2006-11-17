@@ -133,17 +133,18 @@ error.type.not.set=이 DateFormatSpecifier 인스턴스에 대해 형식이 설정되지 않았습
 error.eclenv.cannot.find.dsp=(이클립스 환경) {0}에 대한 DataSetProcessor 구현을 찾을 수 없습니다.
 error.stdenv.cannot.find.dsp=(독립 실행형 환경) {0}에 대한 DataSetProcessor 구현을 찾을 수 없습니다.
 info.eclenv.creating.series.renderer=(이클립스 환경) 계열 렌더러 {0}을(를) 만드는 중입니다.
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
 error.eclenv.cannot.find.series.renderer=(이클립스 환경) {0}에 대한 계열 렌더러 구현을 찾을 수 없습니다.
 info.stdenv.creating.series.renderer=(독립 실행형 환경) 계열 렌더러 {0}을(를) 만드는 중입니다.
 info.compute.elapsed.time.without.axes=축 없는 플롯을 계산하는 시간 = {0}ms
 info.compute.elapsed.time.with.axes=축 있는 플롯을 계산하는 시간 = {0}ms
 error.stdenv.cannot.find.series.renderer=(독립 실행형 환경) {0}에 대한 계열 렌더러 구현을 찾을 수 없습니다.
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
 error.eclenv.cannot.find.device=(이클립스 환경) {0}에 대한 장치 렌더러 구현을 찾을 수 없습니다.
 error.stdenv.cannot.find.device=(독립 실행형 환경) {0}에 대한 장치 렌더러 구현을 찾을 수 없습니다.
 error.eclenv.cannot.find.display=(이클립스 환경) {0}에 대한 디스플레이 서버 구현을 찾을 수 없습니다.
 error.stdenv.cannot.find.display=(독립 실행형 환경) {0}에 대한 디스플레이 서버 구현을 찾을 수 없습니다.
 info.log.script=[스크립트]: {0}
-info.render.series={0}: renderSeries() [{1}/{2}]
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[정보]: {0}
 info.log.warn=[경고]: {0}

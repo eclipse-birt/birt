@@ -133,17 +133,18 @@ error.type.not.set=没有为 DateFormatSpecifier 的此实例设置 TYPE
 error.eclenv.cannot.find.dsp=（日蚀式环境）无法找到 {0} 的 dsp impl
 error.stdenv.cannot.find.dsp=（独立环境）无法找到 {0} 的 dsp impl
 info.eclenv.creating.series.renderer=（日蚀式环境）正在创建系列呈现器 {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
 error.eclenv.cannot.find.series.renderer=（日蚀式环境）无法找到 {0} 的系列呈现器 impl
 info.stdenv.creating.series.renderer=（独立环境）正在创建系列呈现器 {0}
 info.compute.elapsed.time.without.axes=计算图形的时间（无坐标轴） = {0} 毫秒
 info.compute.elapsed.time.with.axes=计算图形的时间（有坐标轴） = {0} 毫秒
 error.stdenv.cannot.find.series.renderer=（独立环境）无法找到 {0} 的系列呈现器 impl
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
 error.eclenv.cannot.find.device=（日蚀式环境）无法找到 {0} 的设备呈现器 impl
 error.stdenv.cannot.find.device=（独立环境）无法找到 {0} 的设备呈现器 impl
 error.eclenv.cannot.find.display=（日蚀式环境）无法找到 {0} 的显示服务器 impl
 error.stdenv.cannot.find.display=（独立环境）无法找到 {0} 的显示服务器 impl
 info.log.script=[脚本]: {0}
-info.render.series={0}: renderSeries() [{1}/{2}]
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[信息]: {0}
 info.log.warn=[警告]: {0}

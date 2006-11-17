@@ -133,17 +133,18 @@ error.type.not.set=El TYPE no se ha configurado para esta instancia de DateForma
 error.eclenv.cannot.find.dsp=(ECLIPSE-ENV) No se ha podido encontrar dsp impl para {0}
 error.stdenv.cannot.find.dsp=(STANDALONE-ENV) No se ha podido encontrar dsp impl para {0}
 info.eclenv.creating.series.renderer=(ECLIPSE-ENV) Creando procesador de serie {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
 error.eclenv.cannot.find.series.renderer=(ECLIPSE-ENV) No se ha podido encontrar el procesador de serie impl para {0}
 info.stdenv.creating.series.renderer=(STANDALONE-ENV) Creando procesador de serie {0}
 info.compute.elapsed.time.without.axes=Tiempo para procesar dibujo (sin ejes) = {0} ms
 info.compute.elapsed.time.with.axes=Tiempo para procesar dibujo (con ejes) = {0} ms
 error.stdenv.cannot.find.series.renderer=(STANDALONE-ENV) No se ha podido encontrar el procesador de serie impl para {0}
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
 error.eclenv.cannot.find.device=(ECLIPSE-ENV) No se ha podido encontrar el procesador de dispositivos impl para {0}
 error.stdenv.cannot.find.device=(STANDALONE-ENV) No se ha podido encontrar el procesador de dispositivos impl para {0}
 error.eclenv.cannot.find.display=(ECLIPSE-ENV) No se ha podido encontrar el servidor de visualización impl para {0}
 error.stdenv.cannot.find.display=(STANDALONE-ENV) No se ha podido encontrar el servidor de visualización impl para {0}
 info.log.script=[SCRIPT]: {0}
-info.render.series={0}: renderSeries() [{1}/{2}]
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[INFO]: {0}
 info.log.warn=[WARN]: {0}
