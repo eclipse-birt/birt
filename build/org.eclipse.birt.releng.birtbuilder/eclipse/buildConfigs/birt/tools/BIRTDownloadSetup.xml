@@ -273,7 +273,9 @@
 		<antcall target="createAllInOneForLinux" />
 		
 		<antcall target="createBirtSDK"/>
-		
+
+        <antcall target="createWTPIntegration"/>
+
 		<!--antcall target="createIpotalLib" /-->
 
 		<!--
@@ -898,7 +900,22 @@
 			</fileset>
 		 </copy>
 	</target>
-	
+
+    <target name="createWTPIntegration" >
+       <!--  Make BIRT SDK ZIP file-->
+		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="org.eclipse.birt.integration.wtp*/**" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="org.eclipse.birt.integration.wtp*/*" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+				<include name="**/*" />
+			</zipfileset>
+		</zip>
+    </target>
+
 	<target name="createChartRuntime">
 		<mkdir dir="${chart.tmp}" />
 		<copy todir="${chart.tmp}/plugins">
