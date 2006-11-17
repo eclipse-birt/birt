@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.chart.tests
-Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: .
+Bundle-Version: 2.2.0.qualifier
+Bundle-ClassPath: charttests.jar
 Bundle-Activator: org.eclipse.birt.chart.tests.TestsPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
