@@ -134,28 +134,12 @@ public class DataSetMetaDataHelper
 	private IResultMetaData getRealMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
-		QueryDefinition query = new QueryDefinition( );
-		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
-		query.setMaxRows( 1 );
-
 		IResultMetaData metaData = MetaDataPopulator.retrieveResultMetaData( dataSetHandle );
-
 		if ( metaData == null )
 		{
-			metaData = new QueryExecutionHelper( dataEngine,
-					modelAdaptor,
-					sessionContext,
-					false ).executeQuery( query ).getResultMetaData( );
-			addResultSetColumn( dataSetHandle, metaData );
-			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
-			{
-				metaData = new QueryExecutionHelper( dataEngine,
-						modelAdaptor,
-						sessionContext,
-						true ).executeQuery( query ).getResultMetaData( );
-			}
+			metaData = retrieveMetaDataByQueryExecution( dataSetHandle );
 		}
-		
+
 		if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
 			clearUnusedData( dataSetHandle, metaData );
 		return metaData;
@@ -163,8 +147,35 @@ public class DataSetMetaDataHelper
 	
 	/**
 	 * 
+	 * @param dataSetHandle
+	 * @return
+	 * @throws BirtException
+	 */
+	private IResultMetaData retrieveMetaDataByQueryExecution(
+			DataSetHandle dataSetHandle ) throws BirtException
+	{
+		QueryDefinition query = new QueryDefinition( );
+		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
+		query.setMaxRows( 1 );
+		IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
+				modelAdaptor,
+				sessionContext,
+				false ).executeQuery( query ).getResultMetaData( );
+		addResultSetColumn( dataSetHandle, metaData );
+		if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
+		{
+			metaData = new QueryExecutionHelper( dataEngine,
+					modelAdaptor,
+					sessionContext,
+					true ).executeQuery( query ).getResultMetaData( );
+		}
+		return metaData;
+	}
+	
+	/**
+	 * 
 	 * @param meta
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
 	private void addResultSetColumn( DataSetHandle dataSetHandle,
 			IResultMetaData meta ) throws BirtException
@@ -300,7 +311,14 @@ public class DataSetMetaDataHelper
 
 		try
 		{
-			rsMeta = this.getDataSetMetaData( dataSetHandle, false );
+			if ( dataSetHandle == null )
+			{
+				throw new AdapterException( ResourceConstants.DATASETHANDLE_NULL_ERROR );
+			}
+
+			rsMeta = this.retrieveMetaDataByQueryExecution( dataSetHandle );
+			if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
+				clearUnusedData( dataSetHandle, rsMeta );
 		}
 		catch ( BirtException e1 )
 		{
