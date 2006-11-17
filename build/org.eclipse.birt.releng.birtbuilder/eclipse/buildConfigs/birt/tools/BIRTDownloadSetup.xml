@@ -896,7 +896,7 @@
 	<target name="createDatabase">
 		 <copy todir="${OutputDir}">
 			<fileset dir="${template.dir}/database">
-				<include name="*.*" />
+				<include name="*${package.version}*.zip" />
 			</fileset>
 		 </copy>
 	</target>
