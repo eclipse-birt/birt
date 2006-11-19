@@ -72,6 +72,7 @@
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
 	<property name="charts.zip.name" value="birt-charts-${package.version}.zip" />
 	<property name="iportal.lib.name" value="iportal-library.zip" />
+	<property name="wtp.integration.zip.name" value="birt-wtp-integration-sdk-${package.version}.zip"/>
 	
 	<property name="runtime.tmp" value="${OutputDir}/runtime_tmp" />
 	<property name="war.tmp" value="${OutputDir}/war_tmp" />
