@@ -997,7 +997,9 @@ public abstract class EngineCase extends TestCase
 
 	protected String genOutputFile( String output )
 	{
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		String tempDir = System.getProperty( "java.io.tmpdir" );
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
 		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ "/" + OUTPUT_FOLDER + "/" + output;
 		return outputFile;

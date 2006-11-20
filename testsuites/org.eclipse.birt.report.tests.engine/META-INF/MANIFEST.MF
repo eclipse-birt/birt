@@ -1,20 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Engine Test
-Bundle-SymbolicName: org.eclipse.birt.report.tests.engine; singleton:=true
+Bundle-Name: BIRT CORE Tests Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.tests.engine
+Bundle-ClassPath: test-engine.jar
 Bundle-Version: 2.2.0.qualifier
-Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.tests.engine.plugin.EnginePlugin
-Bundle-Vendor: Eclipse.org
-Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.report.tests.engine,
- org.eclipse.birt.report.tests.engine.api,
- org.eclipse.birt.report.tests.engine.regression,
- org.eclipse.birt.report.tests.engine.compatibility.reportdoc
+Eclipse-LazyStart: true
 Require-Bundle: org.eclipse.birt.core,
- org.eclipse.birt.data,
- org.eclipse.birt.report.model,
- org.eclipse.birt.report.engine,
  org.eclipse.birt.tests.core,
  org.eclipse.birt.chart.engine,
- org.eclipse.birt.report.tests.engine.emitter.html
+ org.eclipse.birt.data,
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.emitter.html,
+ org.eclipse.birt.report.model

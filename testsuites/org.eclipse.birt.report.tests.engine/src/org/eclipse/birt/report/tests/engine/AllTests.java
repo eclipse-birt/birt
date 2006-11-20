@@ -23,8 +23,8 @@ public class AllTests
 		TestSuite test = new TestSuite( );
 		test.addTest( AllRegressionTests.suite( ) );
 //		test.addTest( AllCompatibilityTests.suite( ) );
-		test.addTest( AllSmokeTests.suite( ) );
-		test.addTest( AllApiTests.suite( ) );
+//		test.addTest( AllSmokeTests.suite( ) );
+//		test.addTest( AllApiTests.suite( ) );
 		return test;
 	}
 
