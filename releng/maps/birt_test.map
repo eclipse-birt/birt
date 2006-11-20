@@ -14,7 +14,7 @@ plugin@org.eclipse.birt.report.model.adapter.oda.tests=HEAD,:pserver:anonymous@d
 fragment@org.eclipse.birt.report.model.testhelper=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
 !**************** data test  *******************
 plugin@org.eclipse.birt.data.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
-plugin@org.eclipse.birt.data.oda.jdbc.ui=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
 
 !**************** automated test suite  *******************
 plugin@org.eclipse.birt.report.tests.chart=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.chart
