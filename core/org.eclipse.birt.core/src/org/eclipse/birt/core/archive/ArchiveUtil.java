@@ -400,6 +400,8 @@ public class ArchiveUtil
 										// number of the lookup map.
 
 		ArrayList fileList = new ArrayList( );
+		
+		folderName = new File( folderName ).getCanonicalPath( );
 		getAllFiles( new File( folderName ), fileList );
 
 		if ( streamSorter != null )
@@ -412,16 +414,8 @@ public class ArchiveUtil
 						folderName, file.getAbsolutePath( ) ) );
 			}
 
-			ArrayList sortedNameList = streamSorter.sortStream( streamNameList ); // Sort
-																					// the
-																					// streams
-																					// by
-																					// using
-																					// the
-																					// stream
-																					// sorter
-																					// (if
-																					// any).
+			// Sort the streams by using the stream sorter (if any).
+			ArrayList sortedNameList = streamSorter.sortStream( streamNameList ); 
 
 			if ( sortedNameList != null )
 			{
