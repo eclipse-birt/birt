@@ -282,7 +282,10 @@ public abstract class BaseSmokeTest extends EngineCase
 		{
 			golden = this.getFullQualifiedClassName( ) + "/TestCases/golden/" + golden; //$NON-NLS-1$
 //			output = getClassFolder( ) + "/TestCases/output/" + output; //$NON-NLS-1$
-			output = this.genOutputFile( output );
+//			output = this.genOutputFile( output );
+			String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+			output = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+					+ "/TestCases/output/" + output;
 
 			readerA = new FileReader( golden );
 			readerB = new FileReader( output );
