@@ -285,4 +285,4 @@ odaconsumer.manager.PrepareFailed=Echec de la préparation.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=Impossible d'obtenir les métadonnées du jeu de résultats avant que l'instruction n'ait été préparée.
 odaconsumer.manager.CannotExecuteBeforePrepare=Impossible d'exécuter l'instruction avant qu'elle n'ait été préparée.
 odaconsumer.CannotFindLogDirectory=Le répertoire du journal est introuvable.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=Certaines références de colonne dans la liaison de colonne n'existent pas.

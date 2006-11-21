@@ -1765,7 +1765,7 @@ ImportLibraryAction.Namespace=네임스페이스:
 ImportLibraryAction.Prefix=접두사:
 ImportLibraryAction.Title.ImportSuccessfully=성공적으로 가져오기
 ImportLibraryAction.Dialog.Titile=라이브러리 사용
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Message=보고서에 포함될 라이브러리를 선택하십시오. 
 
 ###########################################################
 #ImportLibraryDialog properties

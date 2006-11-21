@@ -285,4 +285,4 @@ odaconsumer.manager.PrepareFailed=준비하지 못했습니다.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=결과 집합 메타데이터를 가져오려면 문을 준비해야 합니다.
 odaconsumer.manager.CannotExecuteBeforePrepare=문을 실행하려면 먼저 준비해야 합니다.
 odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=열 바인딩의 일부 열 참조가 존재하지 않습니다.

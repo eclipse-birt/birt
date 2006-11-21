@@ -1765,7 +1765,7 @@ ImportLibraryAction.Namespace=名前空間 :
 ImportLibraryAction.Prefix=接頭辞 :
 ImportLibraryAction.Title.ImportSuccessfully=インポート完了
 ImportLibraryAction.Dialog.Titile=ライブラリの使用
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Message=レポートに含めるライブラリを選択します。 
 
 ###########################################################
 #ImportLibraryDialog properties

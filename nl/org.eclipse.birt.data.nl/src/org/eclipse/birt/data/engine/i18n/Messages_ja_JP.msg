@@ -285,4 +285,4 @@ odaconsumer.manager.PrepareFailed=準備できませんでした。
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=文を記述する前は結果セットのメタデータを取得できません。
 odaconsumer.manager.CannotExecuteBeforePrepare=文を記述する前は文を実行できません。
 odaconsumer.CannotFindLogDirectory=ログディレクトリが見つかりません。
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=列バインド内の列参照の一部が存在しません。

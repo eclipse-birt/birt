@@ -1765,7 +1765,7 @@ ImportLibraryAction.Namespace=名称空间:
 ImportLibraryAction.Prefix=前缀:
 ImportLibraryAction.Title.ImportSuccessfully=导入成功
 ImportLibraryAction.Dialog.Titile=使用库
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Message=选择要包括在报表中的库。 
 
 ###########################################################
 #ImportLibraryDialog properties

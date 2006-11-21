@@ -1765,7 +1765,7 @@ ImportLibraryAction.Namespace=Namensraum:
 ImportLibraryAction.Prefix=Präfix:
 ImportLibraryAction.Title.ImportSuccessfully=Importieren erfolgreich
 ImportLibraryAction.Dialog.Titile=Bibliothek verwenden
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Message=Wählen Sie eine Bibliothek, die in den Bericht aufgenommen werden soll. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2409,7 +2409,7 @@ ParameterDialog.Flag.Default=Standard
 ParameterDialog.Group.MoreOption=Anzeigen als
 ParameterDialog.Group.Properties=Eigenschaften
 ParameterDialog.Label.DataType=&Datentyp:
-ParameterDialog.Label.DateTImePrompt=Geben Sie das Datum im Format MM/TT/JJ hh:mm:ss AM/PM an.
+ParameterDialog.Label.DateTImePrompt=Geben Sie das Datum im Format MM/TT/JJJJ hh:mm:ss AM/PM an.
 ParameterDialog.SelectionDialog.Edit=Auswahl bearbeiten
 ParameterDialog.Label.DefaultValue=&Standardwert:
 ParameterDialog.Label.DisplayPrompt=Anzeige-Aufforderung:

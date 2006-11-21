@@ -285,4 +285,4 @@ odaconsumer.manager.PrepareFailed=Vorbereitung fehlgeschlagen.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=Metadaten für Ergebnisse können erst nach Vorbereitung der Anweisung abgerufen werden.
 odaconsumer.manager.CannotExecuteBeforePrepare=Die Anweisung kann erst ausgeführt werden, nachdem sie vorbereitet wurde.
 odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=Einige Spaltenverweise in der Datenspaltenbindung existieren nicht.

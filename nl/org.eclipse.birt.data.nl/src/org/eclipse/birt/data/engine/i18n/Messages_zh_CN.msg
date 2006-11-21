@@ -285,4 +285,4 @@ odaconsumer.manager.PrepareFailed=准备操作失败。
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=在语句准备好之前不能获得结果集元数据。
 odaconsumer.manager.CannotExecuteBeforePrepare=在语句准备好之前不能执行该语句。
 odaconsumer.CannotFindLogDirectory=无法找到日志目录。
-data.engine.resultClassSaveError=Some columns reference in column binding do not exist.
+data.engine.resultClassSaveError=列绑定中的某些列引用不存在。

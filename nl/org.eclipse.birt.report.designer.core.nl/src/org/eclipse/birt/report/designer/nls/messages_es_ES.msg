@@ -1765,7 +1765,7 @@ ImportLibraryAction.Namespace=Espacio de nombres:
 ImportLibraryAction.Prefix=Prefijo:
 ImportLibraryAction.Title.ImportSuccessfully=Se ha importado correctamente
 ImportLibraryAction.Dialog.Titile=Usar librería
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Message=Seleccione una librería para incluirla en el informe. 
 
 ###########################################################
 #ImportLibraryDialog properties
