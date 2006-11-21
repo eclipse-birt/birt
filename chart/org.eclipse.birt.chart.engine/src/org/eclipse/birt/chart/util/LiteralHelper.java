@@ -160,7 +160,11 @@ public class LiteralHelper
 	 * Comment for <code>legendBehaviorTypeSet</code>
 	 */
 	public static final NameSet legendBehaviorTypeSet = getLegendBehaviorTypeSet( );
-
+	/**
+	 * Comment for <code>titleAnchorSet</code>
+	 */
+	public static final NameSet titleAnchorSet = getTitleAnchorSet( );
+	
 	private LiteralHelper( )
 	{
 		// no instance.
@@ -453,6 +457,15 @@ public class LiteralHelper
 		return new NameSet( prefix,
 				suffix,
 				toStringNameArray( LegendBehaviorType.VALUES ) );
+	}
+	
+	private static NameSet getTitleAnchorSet() {
+		String prefix = "Anchor."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet(prefix, suffix, new String[] {
+				Anchor.EAST_LITERAL.getName(), Anchor.NORTH_LITERAL.getName(),
+				Anchor.WEST_LITERAL.getName(), Anchor.SOUTH_LITERAL.getName(), });
 	}
 
 	private static String[] toStringNameArray( List objList )
