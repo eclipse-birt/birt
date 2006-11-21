@@ -8,8 +8,6 @@
 
 package org.eclipse.birt.report.tests.chart.interactivity;
 
-import com.ibm.icu.util.Calendar;
-
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -26,15 +24,15 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -97,13 +95,17 @@ import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.report.tests.chart.ChartTestCase;
+import org.eclipse.birt.report.tests.chart.smoke.MarkerShape_1;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * The class cannot be run individually. It provides sample model
  * implementations for viewer selector classes in the package.
  */
 
-public final class PrimitiveCharts
+public final class PrimitiveCharts extends ChartTestCase
 {
 
 	/**
@@ -495,9 +497,12 @@ public final class PrimitiveCharts
 		{
 			( (Marker) ls.getMarkers( ).get( i ) )
 					.setType( MarkerType.ICON_LITERAL );
+//			( (Marker) ls.getMarkers( ).get( i ) ).setFill( ImageImpl
+//					.create( "file:///" + System.getProperty( "user.dir" )
+//							+ "/27.gif" ) );
 			( (Marker) ls.getMarkers( ).get( i ) ).setFill( ImageImpl
-					.create( "file:///" + System.getProperty( "user.dir" )
-							+ "/27.gif" ) );
+					.create( getClassName( ).replace( '.', '/' ) + "/" + INPUT_FOLDER + "/" + "27.gif"  ) );
+			
 		}
 
 		ls.setStacked( true );
@@ -2685,9 +2690,11 @@ public final class PrimitiveCharts
 		{
 			( (Marker) ls.getMarkers( ).get( i ) )
 					.setType( MarkerType.ICON_LITERAL );
+//			( (Marker) ls.getMarkers( ).get( i ) ).setFill( ImageImpl
+//					.create( "file:///" + System.getProperty( "user.dir" )
+//							+ "/27.gif" ) );
 			( (Marker) ls.getMarkers( ).get( i ) ).setFill( ImageImpl
-					.create( "file:///" + System.getProperty( "user.dir" )
-							+ "/27.gif" ) );
+					.create( getClassName( ).replace( '.', '/' ) + "/" + INPUT_FOLDER + "/" + "27.gif"  ) );
 		}
 
 		ls.setDataSet( dsNumericValues1 );
@@ -4269,4 +4276,12 @@ public final class PrimitiveCharts
 		return cwaBar;
 	}
 
+	protected static String getClassName( )
+	{
+		String className = MarkerShape_1.class.getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+
+		return className;
+	}
 }

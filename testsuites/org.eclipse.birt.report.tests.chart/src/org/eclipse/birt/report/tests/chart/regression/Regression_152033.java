@@ -111,7 +111,7 @@ public class Regression_152033 extends ChartTestCase
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
 				.getClassFolder2( )
-				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+				  ); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT CORE Tests Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.tests.chart
+Bundle-ClassPath: test-chart.jar
+Bundle-Version: 2.2.0.qualifier
+Bundle-Activator: org.eclipse.birt.report.tests.chart.plugin.ChartPlugin
+Eclipse-LazyStart: true
+Require-Bundle: org.eclipse.birt.chart.device.extension,
+ org.eclipse.birt.chart.device.svg,
+ org.eclipse.birt.chart.engine,
+ org.eclipse.birt.chart.engine.extension,
+ org.eclipse.birt.core,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.chart.reportitem,
+ org.eclipse.swt,
+ org.eclipse.birt.chart.device.pdf,
+ org.eclipse.birt.chart.device.swt,
+ org.eclipse.birt.tests.core

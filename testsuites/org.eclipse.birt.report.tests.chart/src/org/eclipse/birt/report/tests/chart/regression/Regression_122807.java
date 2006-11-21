@@ -113,8 +113,8 @@ public class Regression_122807 extends ChartTestCase
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT );
+				.genOutputFile( OUTPUT )
+				  );
 
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );

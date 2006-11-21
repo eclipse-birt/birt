@@ -10,8 +10,10 @@ package org.eclipse.birt.report.tests.chart;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
@@ -24,10 +26,10 @@ import junit.framework.TestCase;
 public class ChartTestCase extends TestCase
 {
 
-	protected static final String TEST_FOLDER = "src/"; //$NON-NLS-1$
-	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
+	protected static final String TEST_FOLDER = "src"; //$NON-NLS-1$
+	protected static final String OUTPUT_FOLDER = "output"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
-	protected static final String GOLDEN_FOLDER = "/golden/"; //$NON-NLS-1$
+	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -39,8 +41,23 @@ public class ChartTestCase extends TestCase
 		super.setUp( );
 
 		// make the output directory.
+		
+		String tempDir = System.getProperty( "java.io.tmpdir" );
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		
+		String outputPath = tempDir + getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER;
+		outputPath = outputPath.replace( '\\', '/' );
 
-		File outputFolder = new File( this.getClassFolder( ) + OUTPUT_FOLDER );
+		File outputFolder = new File( outputPath );
+		
+		File parent = new File( outputPath ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+		
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
@@ -85,10 +102,17 @@ public class ChartTestCase extends TestCase
 	protected boolean compareBytes( String golden, String output )
 			throws Exception
 	{
-		InputStream is1 = new FileInputStream( this.getClassFolder( )
-				+ GOLDEN_FOLDER + golden );
-		InputStream is2 = new FileInputStream( this.getClassFolder( )
-				+ OUTPUT_FOLDER + output );
+//		InputStream is1 = new FileInputStream( this.getFullQualifiedClassName( ) + "/"
+//				+ GOLDEN_FOLDER + "/" + golden );
+		
+		String className = getFullQualifiedClassName( );
+		className = className.replace( '.', '/' );
+		golden = className + "/" + GOLDEN_FOLDER + "/" + golden;
+		
+//		InputStream is1 = new FileInputStream( golden );
+		
+		InputStream is1 = getClass( ).getClassLoader( ).getResourceAsStream( golden );
+		InputStream is2 = new FileInputStream( this.genOutputFile( output ) );
 
 		return this.compare( is1, is2 );
 	}
@@ -168,5 +192,130 @@ public class ChartTestCase extends TestCase
 		className = TEST_FOLDER + className.replace( '.', '/' );
 
 		return className;
+	}
+	
+	/**
+	 * Get the class name.
+	 * 
+	 * @return the class name
+	 */
+	protected String getFullQualifiedClassName( )
+	{
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+
+		return className;
+	}
+	
+	/**
+	 * Set the output path. And the path will set in java.io.tmpdir.
+	 * 
+	 * @return the the output path
+	 */
+	protected String genOutputFile( String output )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + OUTPUT_FOLDER + "/" + output;
+		return outputFile;
+	}
+	
+	/**
+	 * Make a copy of a given file to the target file.
+	 * @param src: the file where to copy from
+	 * @param tgt: the target file to copy to
+	 * @param folder: the folder that the copied file in.
+	 */
+	protected void copyResource( String src, String tgt, String folder )
+	{
+
+		String className = getFullQualifiedClassName( );
+		tgt = className + "/" + folder + "/" + tgt;
+		className = className.replace( '.', '/' );
+
+		src = className + "/" + folder + "/" + src;
+
+		File parent = new File( tgt ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+
+		InputStream in = getClass( ).getClassLoader( )
+				.getResourceAsStream( src );
+		assertTrue( in != null );
+
+		try
+		{
+
+			int size = in.available( );
+			byte[] buffer = new byte[size];
+			in.read( buffer );
+			OutputStream out = new FileOutputStream( tgt );
+			out.write( buffer );
+			out.close( );
+			in.close( );
+
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+
+	protected void copyResource_INPUT( String input_resource, String input )
+	{
+		this.copyResource( input_resource, input, INPUT_FOLDER );
+	}
+
+	protected void copyResource_GOLDEN( String input_resource, String golden )
+	{
+		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
+	}
+	
+	protected void copyResource_SCRIPT( String input_resource, String script )
+	{
+		this.copyResource( input_resource, script, "input/scripts" );
+	}
+	
+	public void removeFile( File file )
+	{
+		if ( file.isDirectory( ) )
+		{
+			File[] children = file.listFiles( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				removeFile( children[i] );
+			}
+		}
+		if ( file.exists( ) )
+		{
+			if ( !file.delete( ) )
+			{
+				System.out.println( file.toString( ) + " can't be removed" ); //$NON-NLS-1$
+			}
+		}
+	}
+
+	/**
+	 * Remove a given file or directory recursively.
+	 * 
+	 * @param file
+	 */
+
+	public void removeFile( String file )
+	{
+		removeFile( new File( file ) );
+	}
+
+	public void removeResource( )
+	{
+		String className = getFullQualifiedClassName( );
+		removeFile( className );
 	}
 }

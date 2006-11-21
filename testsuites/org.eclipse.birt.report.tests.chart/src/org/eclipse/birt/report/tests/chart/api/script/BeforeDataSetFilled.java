@@ -103,9 +103,7 @@ public class BeforeDataSetFilled extends ChartTestCase
 
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.getClassFolder2( )
-				+ OUTPUT_FOLDER + OUTPUT ); //$NON-NLS-1$
+		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this.genOutputFile( OUTPUT ) ); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
