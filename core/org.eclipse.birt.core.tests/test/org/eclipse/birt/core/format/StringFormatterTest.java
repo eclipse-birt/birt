@@ -21,7 +21,6 @@ import junit.framework.TestCase;
  * Design for test whether StringFormatter Class can do a correct formating,
  * translate the string according to the format string
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/11 06:45:21 $
  */
 public class StringFormatterTest extends TestCase
 {
@@ -235,6 +234,13 @@ public class StringFormatterTest extends TestCase
 
 	}
 	
+	public void testTrim()
+	{
+		StringFormatter sampleStr = new StringFormatter( "Zip Code + 4");
+		assertEquals( "650837-2000", sampleStr.format( "6508372000" ) );
+		assertEquals( "650837-2000", sampleStr.format( " 6508372000 " ) );
+		assertEquals( "     - 650", sampleStr.format( "650 " ) );
+	}
 	
 
 }

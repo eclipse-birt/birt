@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.12 $ $Date: 2006/02/22 06:44:15 $
+ * @version $Revision: 1.13 $ $Date: 2006/09/20 07:42:13 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -52,6 +52,9 @@ public class StringFormatter
 	//from left to right.
 	private boolean dir;
 
+	// should we trim the space.
+	private boolean trim;
+
 	/**
 	 * resets all the member variable to initial value;
 	 */
@@ -62,6 +65,7 @@ public class StringFormatter
 		nand = 0;
 		natt = 0;
 		dir = false;
+		trim = true;
 	}
 
 	/**
@@ -255,6 +259,11 @@ public class StringFormatter
 	 */
 	public String format( String str )
 	{
+		if ( trim && str != null )
+		{
+			str = str.trim( );
+		}
+		
 		if ( formatPattern.equals( "Unformatted" ) ) //$NON-NLS-1$
 			return str;
 
