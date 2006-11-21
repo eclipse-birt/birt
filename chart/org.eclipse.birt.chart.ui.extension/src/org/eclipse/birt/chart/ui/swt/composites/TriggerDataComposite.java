@@ -405,7 +405,6 @@ public class TriggerDataComposite extends Composite implements
 			gd.widthHint = 200;
 			lblDefine.setLayoutData( gd );
 			lblDefine.setText( Messages.getString( "TriggerDataComposite.Label.Description" ) ); //$NON-NLS-1$
-			lblDefine.setEnabled( bEnableURLParameters );
 		}
 
 		btnAdvanced = new Button( cmpURL, SWT.NONE );
@@ -416,6 +415,7 @@ public class TriggerDataComposite extends Composite implements
 			btnAdvanced.setText( getAdvancedButtonText( bAdvanced ) ); 
 			btnAdvanced.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.Advanced" ) ); //$NON-NLS-1$
 			btnAdvanced.addSelectionListener( this );
+			btnAdvanced.setEnabled( bEnableURLParameters );
 		}
 
 		// Label lblTarget = new Label( cmpURL, SWT.NONE );
@@ -436,7 +436,6 @@ public class TriggerDataComposite extends Composite implements
 		grpParameters.setLayoutData( gdGRPParameters );
 		grpParameters.setLayout( glParameter );
 		grpParameters.setText( Messages.getString( "TriggerDataComposite.Lbl.ParameterNames" ) ); //$NON-NLS-1$
-		grpParameters.setEnabled( bEnableURLParameters );
 		grpParameters.setVisible( bAdvanced );
 
 		StyledText stParameters = new StyledText( grpParameters, SWT.WRAP );
@@ -461,7 +460,6 @@ public class TriggerDataComposite extends Composite implements
 			};
 			stParameters.setStyleRanges( sr );
 			stParameters.setBackground( this.getBackground( ) );
-			stParameters.setEnabled( bEnableURLParameters );
 		}
 
 		Label lblBaseParm = new Label( grpParameters, SWT.NONE );
@@ -471,7 +469,6 @@ public class TriggerDataComposite extends Composite implements
 			lblBaseParm.setLayoutData( gdLBLBaseParm );
 			lblBaseParm.setText( Messages.getString( "TriggerDataComposite.Lbl.CategorySeries" ) ); //$NON-NLS-1$
 			lblBaseParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterCategory" ) ); //$NON-NLS-1$
-			lblBaseParm.setEnabled( bEnableURLParameters );
 		}
 
 		txtBaseParm = new Text( grpParameters, SWT.BORDER );
@@ -479,7 +476,6 @@ public class TriggerDataComposite extends Composite implements
 		gdTXTBaseParm.horizontalSpan = 2;
 		txtBaseParm.setLayoutData( gdTXTBaseParm );
 		txtBaseParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterCategory" ) ); //$NON-NLS-1$
-		txtBaseParm.setEnabled( bEnableURLParameters );
 
 		Label lblValueParm = new Label( grpParameters, SWT.NONE );
 		{
@@ -488,7 +484,6 @@ public class TriggerDataComposite extends Composite implements
 			lblValueParm.setLayoutData( gdLBLValueParm );
 			lblValueParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueSeries" ) ); //$NON-NLS-1$
 			lblValueParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterValue" ) ); //$NON-NLS-1$
-			lblValueParm.setEnabled( bEnableURLParameters );
 		}
 
 		txtValueParm = new Text( grpParameters, SWT.BORDER );
@@ -496,7 +491,6 @@ public class TriggerDataComposite extends Composite implements
 		gdTXTValueParm.horizontalSpan = 2;
 		txtValueParm.setLayoutData( gdTXTValueParm );
 		txtValueParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterValue" ) ); //$NON-NLS-1$
-		txtValueParm.setEnabled( bEnableURLParameters );
 
 		Label lblSeriesParm = new Label( grpParameters, SWT.NONE );
 		{
@@ -505,7 +499,6 @@ public class TriggerDataComposite extends Composite implements
 			lblSeriesParm.setLayoutData( gdLBLSeriesParm );
 			lblSeriesParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueSeriesName" ) ); //$NON-NLS-1$
 			lblSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
-			lblSeriesParm.setEnabled( bEnableURLParameters );
 		}
 
 		txtSeriesParm = new Text( grpParameters, SWT.BORDER );
@@ -513,7 +506,6 @@ public class TriggerDataComposite extends Composite implements
 		gdTXTSeriesParm.horizontalSpan = 2;
 		txtSeriesParm.setLayoutData( gdTXTSeriesParm );
 		txtSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
-		txtSeriesParm.setEnabled( bEnableURLParameters );
 		
 		populateLists( );
 	}

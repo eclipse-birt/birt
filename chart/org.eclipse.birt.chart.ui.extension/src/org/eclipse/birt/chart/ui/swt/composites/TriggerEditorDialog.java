@@ -45,6 +45,8 @@ public class TriggerEditorDialog extends TrayDialog
 
 	private transient String sTitle;
 
+	private transient TriggerDataComposite triggerUI;
+
 	/**
 	 * 
 	 * @param shellParent
@@ -82,21 +84,27 @@ public class TriggerEditorDialog extends TrayDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		Control triggereditor = new TriggerEditorComposite( parent,
+		triggerUI = new TriggerDataComposite( parent,
 				SWT.NONE,
 				triggers,
 				wizardContext,
 				bEnableURLParameters,
 				bEnableShowTooltipValue );
 		GridData gdTriggerEditor = new GridData( GridData.FILL_BOTH );
-		triggereditor.setLayoutData( gdTriggerEditor );
+		triggerUI.setLayoutData( gdTriggerEditor );
 
-		return triggereditor;
+		return triggerUI;
 	}
 
 	public EList getTriggers( )
 	{
 		return triggers;
+	}
+
+	protected void okPressed( )
+	{
+		triggerUI.markSaveWhenClosing( );
+		super.okPressed( );
 	}
 
 	protected void cancelPressed( )
