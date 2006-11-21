@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.TableColumn;
+import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -162,7 +163,8 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 				columnNum );
 
 		if ( column != null )
-			return getPropertyFromElement( module, column, prop );
+			return column.getStrategy( ).getPropertyFromElement( module,
+					column, prop );
 
 		return null;
 	}
@@ -199,7 +201,8 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 				columnNum );
 
 		if ( column != null )
-			return getPropertyFromElement( module, column, prop );
+			return column.getStrategy( ).getPropertyFromElement( module,
+					column, prop );
 
 		return null;
 	}
@@ -224,5 +227,45 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 			return true;
 
 		return super.isInheritableProperty( element, prop );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelfSelector(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected Object getPropertyFromSelfSelector( Module module,
+			DesignElement element, ElementPropertyDefn prop )
+	{
+		assert element instanceof Cell;
+
+		TableRow row = (TableRow) element.getContainer( );
+		if ( row == null )
+			return null;
+
+		DesignElement rowContainer = row.getContainer( );
+		if ( rowContainer == null )
+			return null;
+
+		String selector = "cell"; //$NON-NLS-1$
+		if ( rowContainer instanceof TableItem )
+		{
+			selector = "table-" //$NON-NLS-1$
+					+ rowContainer.getDefn( ).getSlot( row.getContainerSlot( ) )
+							.getName( ) + "-" + selector; //$NON-NLS-1$
+		}
+		else if ( rowContainer instanceof TableGroup )
+		{
+			selector = "table-group-" //$NON-NLS-1$
+					+ rowContainer.getDefn( ).getSlot( row.getContainerSlot( ) )
+							.getName( ) + "-" + selector; //$NON-NLS-1$
+		}
+		else
+			return null;
+
+		return getPropertyFromSelector( module, prop, selector );
 	}
 }

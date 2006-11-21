@@ -16,10 +16,9 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -353,16 +352,16 @@ public class StyleHandleTest extends BaseTestCase
 				.getElementByID( 4 );
 
 		PropertyHandle propHandle = dataHandle
-				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
 		Iterator propIterator = propHandle.iterator( );
 		HighlightRuleHandle handle = (HighlightRuleHandle) propIterator.next( );
-		
+
 		handle.setOperator( DesignChoiceConstants.MAP_OPERATOR_BETWEEN );
-		assertEquals( "1" , handle.getValue1( ) );//$NON-NLS-1$
-		assertEquals( "3" , handle.getValue2( ) );//$NON-NLS-1$
-		
+		assertEquals( "1", handle.getValue1( ) );//$NON-NLS-1$
+		assertEquals( "3", handle.getValue2( ) );//$NON-NLS-1$
+
 		handle.setOperator( DesignChoiceConstants.MAP_OPERATOR_EQ );
-		assertEquals( "1" , handle.getValue1( ) );//$NON-NLS-1$
+		assertEquals( "1", handle.getValue1( ) );//$NON-NLS-1$
 		assertNull( handle.getValue2( ) );
 
 		handle.setOperator( DesignChoiceConstants.MAP_OPERATOR_NULL );
@@ -583,7 +582,7 @@ public class StyleHandleTest extends BaseTestCase
 				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED );
 
 		FactoryPropertyHandle factoryHandle = style1
-				.getFactoryPropertyHandle( Style.NUMBER_FORMAT_PROP );
+				.getFactoryPropertyHandle( IStyleModel.NUMBER_FORMAT_PROP );
 
 		assertEquals( "****", factoryHandle.getStringValue( ) ); //$NON-NLS-1$
 
@@ -608,6 +607,9 @@ public class StyleHandleTest extends BaseTestCase
 		style = designHandle.getElementFactory( ).newStyle( "myStyle1" ); //$NON-NLS-1$
 		assertFalse( style.isPredefined( ) );
 
+		style = designHandle.getElementFactory( ).newStyle(
+				"table-group-footer-cell" ); //$NON-NLS-1$
+		assertTrue( style.isPredefined( ) );
 	}
 
 	/**
@@ -648,7 +650,7 @@ public class StyleHandleTest extends BaseTestCase
 	{
 		TableHandle table = (TableHandle) designHandle.findElement( "My Table" ); //$NON-NLS-1$
 		Iterator highlightRules = table.getPropertyHandle(
-				Style.HIGHLIGHT_RULES_PROP ).iterator( );
+				IStyleModel.HIGHLIGHT_RULES_PROP ).iterator( );
 		HighlightRuleHandle highLight = (HighlightRuleHandle) highlightRules
 				.next( );
 		assertNotNull( highLight );
@@ -656,15 +658,15 @@ public class StyleHandleTest extends BaseTestCase
 				"#C0C0C0", highLight.getBackgroundColor( ).getStringValue( ) ); //$NON-NLS-1$
 
 		RowHandle row = (RowHandle) table.getDetail( ).get( 0 );
-		highlightRules = row.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP )
-				.iterator( );
+		highlightRules = row.getPropertyHandle(
+				IStyleModel.HIGHLIGHT_RULES_PROP ).iterator( );
 		highLight = (HighlightRuleHandle) highlightRules.next( );
 		assertNotNull( highLight );
 		assertEquals( "red", highLight.getBackgroundColor( ).getStringValue( ) ); //$NON-NLS-1$
 
 		CellHandle cell = (CellHandle) row.getCells( ).get( 0 );
-		highlightRules = cell.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP )
-				.iterator( );
+		highlightRules = cell.getPropertyHandle(
+				IStyleModel.HIGHLIGHT_RULES_PROP ).iterator( );
 		assertFalse( highlightRules.hasNext( ) );
 	}
 
@@ -683,10 +685,28 @@ public class StyleHandleTest extends BaseTestCase
 
 		DesignElementHandle handle = designHandle.findElement( "My Label1" ); //$NON-NLS-1$
 
-		handle.setProperty( StyledElement.STYLE_PROP, null );
+		handle.setProperty( IStyledElementModel.STYLE_PROP, null );
 
-		assertNull( handle.getProperty( StyledElement.STYLE_PROP ) );
+		assertNull( handle.getProperty( IStyledElementModel.STYLE_PROP ) );
 
 	}
 
+	/**
+	 * Tests get properties from cell selector.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetCellSelectorProperty( ) throws Exception
+	{
+		openDesign( "CellSelectorTest.xml" ); //$NON-NLS-1$
+
+		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
+		GroupHandle group = (GroupHandle) table.getGroups( ).get( 0 );
+		RowHandle row = (RowHandle) group.getHeader( ).get( 0 );
+		CellHandle cell = (CellHandle) row.getCells( ).get( 0 );
+
+		assertEquals( DesignChoiceConstants.LINE_STYLE_DOUBLE, cell
+				.getProperty( IStyleModel.BORDER_LEFT_STYLE_PROP ) );
+	}
 }

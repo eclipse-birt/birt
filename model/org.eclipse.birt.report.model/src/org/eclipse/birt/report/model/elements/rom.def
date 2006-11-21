@@ -3539,12 +3539,17 @@
   <Style displayNameID="Style.TableHeader" name="table-header" reference="Table Header" />
   <Style displayNameID="Style.TableFooter" name="table-footer" reference="Table Footer" />
   <Style displayNameID="Style.TableDetail" name="table-detail" reference="Table Detail" />
+  <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell" />
+  <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell" />
+  <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell" />
   <Style displayNameID="Style.Label" name="label" reference="Label item" />
   <Style displayNameID="Style.Text" name="text" reference="Text item" />
   <Style displayNameID="Style.Grid" name="grid" reference="Grid item" />
   <Style displayNameID="Style.Data" name="data" reference="Data item" />
   <Style displayNameID="Style.Image" name="image" reference="Image item" />
   <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
+  <Style displayNameID="Style.TableGroupHeaderCell" name="table-group-header-cell" reference="Table Group Header Cell" />
+  <Style displayNameID="Style.TableGroupFooterCell" name="table-group-footer-cell" reference="Table Group Footer Cell" />
   <Style displayNameID="Style.TableGroupHeader1" name="table-group-header-1" reference="Table Group Header 1" />
   <Style displayNameID="Style.TableGroupHeader2" name="table-group-header-2" reference="Table Group Header 2" />
   <Style displayNameID="Style.TableGroupHeader3" name="table-group-header-3" reference="Table Group Header 3" />

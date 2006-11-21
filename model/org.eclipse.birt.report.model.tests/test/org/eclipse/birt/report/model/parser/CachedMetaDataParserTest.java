@@ -34,7 +34,6 @@ public class CachedMetaDataParserTest extends BaseTestCase
 {
 
 	private final static String INPUT_FILE = "CachedMetaDataParserTest.xml"; //$NON-NLS-1$
-	private final static String OUTPUT_FILE = "CachedMetaDataParserTest_out.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE = "CachedMetaDataParserTest_golden.xml"; //$NON-NLS-1$
 
 	

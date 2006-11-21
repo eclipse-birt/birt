@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <styles>
+        <style name="table-group-header-cell">
+            <property name="borderLeftStyle">double</property>
+        </style>
+    </styles>
+     <body>
+        <table name="table1">
+            <group>
+                <header>
+                    <row>
+                        <cell/>
+                    </row>
+                </header>
+            </group>
+        </table>
+    </body>
+</report>
