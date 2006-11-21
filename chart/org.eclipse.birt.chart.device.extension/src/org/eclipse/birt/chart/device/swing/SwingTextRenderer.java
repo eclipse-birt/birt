@@ -177,6 +177,14 @@ final class SwingTextRenderer implements IConstants
 				}
 				showRightValue( ipr, lo, la, false );
 				break;
+
+			case INSIDE :
+				if ( ChartUtil.isShadowDefined( la ) )
+				{
+					showCenterValue( ipr, lo, la, true );
+				}
+				showCenterValue( ipr, lo, la, false );
+				break;
 		}
 
 	}
@@ -325,6 +333,1600 @@ final class SwingTextRenderer implements IConstants
 		double dRotateX = ( dX - dFW );
 		double dRotateY = ( dY + dH / 2 );
 		dX -= dFW;
+		dY += dH / 2;
+
+		if ( dAngleInDegrees == 0 )
+		{
+			double dYHalfOffset = ( dFH + dH ) / 2d;
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness,
+						( dY - dYHalfOffset ) + shadowness,
+						dFW,
+						dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dYHalfOffset, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY
+										- dYHalfOffset
+										+ ins.getTop( )
+										+ dH
+										* ( i + 1 ) - dD ) );
+					}
+				}
+
+				// RENDER THE OUTLINE
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+		}
+
+		// DRAW POSITIVE ANGLE (> 0)
+		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+		{
+			double dDeltaX = dFW - dFW * dCosTheta ;
+			double dDeltaY = dFW * dSineTheta + dH / 2 - dH * dCosTheta / 2.0  ;
+			dX += dDeltaX;
+			dY -= dDeltaY;
+
+			g2d.rotate( dAngleInRadians, dRotateX + dDeltaX, dRotateY - dDeltaY );
+			if ( bShadow )
+			{
+				// RENDER THE SHADOW
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dFH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( dH * i ) ) - ins.getBottom( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+			g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
+					- dDeltaY );
+		}
+
+		// DRAW NEGATIVE ANGLE (< 0)
+		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+		{
+			double dDeltaX = dFW - dFW * dCosTheta - dH * dSineTheta;
+			double dDeltaY = + dFW * dSineTheta - dH / 2 + dH * dCosTheta / 2;
+			dX += dDeltaX;
+			dY -= dDeltaY;
+			g2d.rotate( dAngleInRadians, dRotateX + dDeltaX, dRotateY - dDeltaY );
+			if ( bShadow )
+			{
+				// RENDER THE SHADOW
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND FILL
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) + ( dH * i ) ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+			g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
+					- dDeltaY );
+		}
+
+		// VERTICALLY UP
+		else if ( dAngleInDegrees == 90 )
+		{
+			double dDeltaX = dFW;
+			double dDeltaY = ( dFW - dH ) / 2;
+			dX += dDeltaX;
+			dY += dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow )
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dFH, dFW, dFH );
+
+				// RENDER THE BACKGROUND FILL
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( dH * ( iLC - i - 1 ) ) ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+			g2d.rotate( -dAngleInRadians, dX, dY );
+		}
+
+		// VERTICALLY DOWN
+		else if ( dAngleInDegrees == -90 )
+		{
+			double dDeltaX = dFW - dH;
+			double dDeltaY = ( dFW + dH ) / 2;
+			dX += dDeltaX;
+			dY -= dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow )
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND FILL
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) + ( dH * i ) ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+			g2d.rotate( -dAngleInRadians, dX, dY );
+		}
+		itm.dispose( );
+	}
+
+	/**
+	 * 
+	 * @param g2d
+	 * @param f
+	 * @param dX
+	 * @param dY
+	 * @param sText
+	 * @param iAngleInDegrees
+	 */
+	private final void showRightValue( IPrimitiveRenderer ipr, Location lo,
+			Label la, boolean bShadow )
+	{
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		double dX = lo.getX( ), dY = lo.getY( );
+		FontDefinition fd = la.getCaption( ).getFont( );
+		double dAngleInDegrees = fd.getRotation( );
+		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
+		// REQUESTED FOR
+		{
+			bShadow = la.getShadowColor( ) != null;
+		}
+		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
+
+		// dX += 2;
+		dY += 1;
+
+		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final double dFW = itm.getFullWidth( );
+		final double dH = itm.getHeight( );
+		final double dD = itm.getDescent( );
+		final double dFH = itm.getFullHeight( );
+		double dXOffset = 0, dW = 0;
+		final int iLC = itm.getLineCount( );
+		final Insets ins = la.getInsets( )
+				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
+		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
+		TextLayout tl;
+
+		final HorizontalAlignment ha = la.getCaption( )
+				.getFont( )
+				.getAlignment( )
+				.getHorizontalAlignment( );
+		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
+		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
+
+		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
+		int iRotateX = (int) dX;
+		int iRotateY = (int) ( dY + dH / 2 );
+		dY += dH / 2;
+		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		
+		// HORIZONTAL TEXT
+		if ( dAngleInDegrees == 0 )
+		{
+			double dYHalfOffset = ( dFH + dH ) / 2d;
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness,
+						( dY - dYHalfOffset ) + shadowness,
+						dFW,
+						dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dYHalfOffset, dFW, dFH );
+
+				// RENDER THE BACKGROUND FILL
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY
+										- dYHalfOffset
+										+ ins.getTop( )
+										+ dH
+										* ( i + 1 ) - dD )
+						// (float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) *
+						// dH/2))
+						// + ins.getTop())
+						);
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+		}
+
+		// DRAW POSITIVE ANGLE (> 0)
+		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+		{
+			double dDeltaX = dH * Math.sin( dAngleInRadians );
+			double dDeltaY = dH / 2 - dH * dCosTheta / 2;
+			dX -= dDeltaX;
+			dY += dDeltaY;
+			g2d.rotate( dAngleInRadians, iRotateX - dDeltaX, iRotateY + dDeltaY );
+
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX,
+						( dY - dH ),
+						dFW,
+						dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, iRotateX - dDeltaX, iRotateY
+					+ dDeltaY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// DRAW NEGATIVE ANGLE (< 0)
+		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+		{
+			double dDeltaY = - dH / 2 + dH * dCosTheta / 2;
+			dY += dDeltaY;
+			g2d.rotate( dAngleInRadians, iRotateX, iRotateY + dDeltaY );
+
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dFH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD - dH * ( iLC - i - 1 ) ) - ins.getBottom( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, iRotateX, iRotateY + dDeltaY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// VERTICALLY UP
+		else if ( dAngleInDegrees == 90 )
+		{
+			double dDeltaX = dH;
+			double dDeltaY = ( dFW - dH ) / 2;
+			dX += dDeltaX;
+			dY += dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// VERTICALLY DOWN
+		else if ( dAngleInDegrees == -90 )
+		{
+			double dDeltaX = 0;
+			double dDeltaY = ( dFW + dH ) / 2;
+			dX += dDeltaX;
+			dY -= dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+		itm.dispose( );
+	}
+
+	/**
+	 * 
+	 * @param g2d
+	 * @param f
+	 * @param dX
+	 * @param dY
+	 * @param sText
+	 * @param iAngleInDegrees
+	 */
+	private final void showBottomValue( IPrimitiveRenderer ipr, Location lo,
+			Label la, boolean bShadow )
+	{
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		double dX = lo.getX( ), dY = lo.getY( );
+		FontDefinition fd = la.getCaption( ).getFont( );
+		// Color clrShadow = bShadow ? (Color)
+		// _sxs.getColor(la.getShadowColor()) : null;
+		double dAngleInDegrees = fd.getRotation( );
+		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
+		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
+
+		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final double dFW = itm.getFullWidth( );
+		final double dH = itm.getHeight( );
+		final double dD = itm.getDescent( );
+		final double dFH = itm.getFullHeight( );
+		double dXOffset = 0, dW = 0;
+		final int iLC = itm.getLineCount( );
+		final Insets ins = la.getInsets( )
+				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
+		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
+		TextLayout tl;
+
+		final HorizontalAlignment ha = la.getCaption( )
+				.getFont( )
+				.getAlignment( )
+				.getHorizontalAlignment( );
+		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
+		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
+
+		dX -= dFW / 2;
+		dY += dH;
+
+		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		
+		// HORIZONTAL TEXT
+		if ( dAngleInDegrees == 0 )
+		{
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// DRAW IT AT A POSITIVE ANGLE
+		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+		{
+			
+			double dDeltaX = dFW * dCosTheta - dH * dSineTheta / 2.0 - dFW / 2.0;
+			double dDeltaY = dH * dCosTheta + dFW * dSineTheta - dH;
+
+			dX -= dDeltaX;
+			dY += dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+		}
+
+		// DRAW IT AT A NEGATIVE ANGLE
+		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+		{
+			dX += dFW / 2  + dH * dSineTheta / 2.0;
+			g2d.rotate( dAngleInRadians, dX, dY - dH );
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY - dH );
+		}
+
+		// VERTICALLY UP
+		else if ( dAngleInDegrees == 90 )
+		{
+			double dYHalfOffset = ( dFH + dH ) / 2.0;
+			double dDeltaX = ( dFW + dH ) / 2;
+			double dDeltaY = ( dFW - dH );
+			dX += dDeltaX;
+			dY += dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness,
+						( dY - dYHalfOffset ) + shadowness,
+						dFW,
+						dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dYHalfOffset, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( ( iLC - i ) * dH - ( iLC + 1 )
+										* dH
+										/ 2 ) ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// VERTICALLY DOWN
+		else if ( dAngleInDegrees == -90 )
+		{
+			dX += dFW / 2;
+			dY -= dH;
+
+			double dYHalfOffset = ( dFH + dH ) / 2d;
+			double dDeltaX = dYHalfOffset - dFH / 2d;
+			dX -= dDeltaX;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness,
+						( dY - dYHalfOffset ) + shadowness,
+						dFW,
+						dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dYHalfOffset, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < iLC; i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( dY - dD )
+										- dYHalfOffset
+										+ dH
+										* ( i + 1 ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+		}
+		itm.dispose( );
+	}
+
+	/**
+	 * 
+	 * @param g2d
+	 * @param f
+	 * @param dX
+	 * @param dY
+	 * @param sText
+	 * @param iAngleInDegrees
+	 */
+	private final void showTopValue( IPrimitiveRenderer ipr, Location lo,
+			Label la, boolean bShadow )
+	{
+		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		double dX = lo.getX( ), dY = lo.getY( );
+		final FontDefinition fd = la.getCaption( ).getFont( );
+		// final Color clrShadow = bShadow ? (Color)
+		// _sxs.getColor(la.getShadowColor()) : null;
+		final double dAngleInDegrees = fd.getRotation( );
+		final Color clrText = (Color) _sxs.getColor( la.getCaption( )
+				.getColor( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
+		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
+
+		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final double dFW = itm.getFullWidth( );
+		final double dH = itm.getHeight( );
+		final double dD = itm.getDescent( );
+		final double dFH = itm.getFullHeight( );
+		double dXOffset = 0, dW = 0;
+		final int iLC = itm.getLineCount( );
+		final Insets ins = la.getInsets( )
+				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
+		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
+		TextLayout tl;
+
+		final HorizontalAlignment ha = la.getCaption( )
+				.getFont( )
+				.getAlignment( )
+				.getHorizontalAlignment( );
+		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
+		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
+		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		dX -= dFW / 2;
+
+		// HORIZONTAL TEXT
+		if ( dAngleInDegrees == 0 )
+		{
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX,
+						( dY - dFH ),
+						dFW,
+						dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						// tl = new TextLayout(itm.getLine(iLC - i - 1),
+						// g2d.getFont(), g2d.getFontRenderContext());
+						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
+
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// DRAW IT AT A POSITIVE ANGLE
+		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+		{
+			double dDeltaX = dFW / 2 + dH * dSineTheta / 2.0;;
+
+			dX += dDeltaX;
+			g2d.rotate( dAngleInRadians, dX, dY );
+
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX,
+						( dY - dFH ),
+						dFW,
+						dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						tl = new TextLayout( itm.getLine( iLC - i - 1 ),
+								g2d.getFont( ).getAttributes( ),
+								g2d.getFontRenderContext( ) );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// DRAW IT AT A NEGATIVE ANGLE
+		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+		{
+			
+			dX += - dFW * dCosTheta - dH * dSineTheta / 2.0 + dFW / 2.0; 
+			dY -= dFW * dSineTheta;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dFH ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
+								+ shadowness
+								+ dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
+						+ shadowness, dFW, dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dFH, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			/*
+			 * final RotatedRectangle rr = computePolygon(IConstants.ABOVE, la,
+			 * lo.getX(), lo.getY()); g2d.setColor(Color.blue); g2d.draw(rr);
+			 * final BoundingBox bb = computeBox(IConstants.ABOVE, la,
+			 * lo.getX(), lo.getY()); renderBox(g2d, bb, Color.black, null);
+			 */
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// VERTICALLY UP
+		else if ( dAngleInDegrees == 90 )
+		{
+			double dYHalfOffset = ( dFH + dH ) / 2.0;
+			double dDeltaX = ( dFW + dH ) / 2;
+			dX += dDeltaX;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness,
+						( dY - dYHalfOffset ) + shadowness,
+						dFW,
+						dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dYHalfOffset, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
+										* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		// VERTICALLY DOWN
+		else if ( dAngleInDegrees == -90 )
+		{
+			double dYHalfOffset = ( dFH + dH ) / 2.0;
+			double dDeltaX = ( dFW - dH ) / 2;
+			double dDeltaY = dFW;
+			dX += dDeltaX;
+			dY -= dDeltaY;
+			g2d.rotate( dAngleInRadians, dX, dY );
+			if ( bShadow ) // RENDER THE SHADOW
+			{
+				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
+						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
+						(Color) _sxs.getColor( la.getShadowColor( ) ),
+						new Point2D.Double( dX + shadowness + dFW,
+								( dY - dYHalfOffset ) + shadowness + dFH ),
+						(Color) _sxs.getColor( la.getShadowColor( )
+								.translucent( ) ) ) );
+				g2d.fill( new Rectangle2D.Double( dX + shadowness,
+						( dY - dYHalfOffset ) + shadowness,
+						dFW,
+						dFH ) );
+			}
+			else
+			{
+				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
+						- dYHalfOffset, dFW, dFH );
+
+				// RENDER THE BACKGROUND
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
+
+				// RENDER THE TEXT
+				if ( !bEmptyText )
+				{
+					g2d.setColor( clrText );
+					for ( int i = 0; i < itm.getLineCount( ); i++ )
+					{
+						tl = ( (SwingTextMetrics) itm ).getLayout( i );
+						if ( bRightAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( )
+									+ dFW
+									- dW
+									- ins.getRight( );
+						}
+						else if ( bCenterAligned )
+						{
+							dW = tl.getBounds( ).getWidth( );
+							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
+						}
+						tl.draw( g2d,
+								(float) ( dX + dXOffset + ins.getLeft( ) ),
+								(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
+										* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
+					}
+				}
+
+				// RENDER THE OUTLINE/BORDER
+				renderOutline( ipr, la.getOutline( ), r2d );
+			}
+
+			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
+			g2d.rotate( -dAngleInRadians, dX, dY );
+			// crossHairs(g2d, (int)dX, (int)dY);
+		}
+
+		itm.dispose( );
+	}
+
+	/**
+	 * 
+	 * @param g2d
+	 * @param f
+	 * @param dX
+	 * @param dY
+	 * @param sText
+	 * @param iAngleInDegrees
+	 */
+	private final void showCenterValue( IPrimitiveRenderer ipr, Location lo,
+			Label la, boolean bShadow )
+	{
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		double dX = lo.getX( ), dY = lo.getY( );
+		FontDefinition fd = la.getCaption( ).getFont( );
+		double dAngleInDegrees = fd.getRotation( );
+		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
+		// REQUESTED FOR
+		{
+			bShadow = la.getShadowColor( ) != null;
+		}
+		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
+		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
+		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
+		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
+
+		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final double dFW = itm.getFullWidth( );
+		final double dH = itm.getHeight( );
+		final double dD = itm.getDescent( );
+		final double dFH = itm.getFullHeight( );
+		double dXOffset = 0, dW = 0;
+		final int iLC = itm.getLineCount( );
+		final Insets ins = la.getInsets( )
+				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
+		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
+		// Swing is not friendly to empty string, check and skip for this case
+		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
+		TextLayout tl;
+
+		final HorizontalAlignment ha = la.getCaption( )
+				.getFont( )
+				.getAlignment( )
+				.getHorizontalAlignment( );
+		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
+		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
+
+		double dRotateX = dX;
+		double dRotateY = dY;
+		dX -= dFW / 2;
 		dY += dH / 2;
 
 		if ( dAngleInDegrees == 0 )
@@ -656,1207 +2258,6 @@ final class SwingTextRenderer implements IConstants
 			}
 			g2d.rotate( -dAngleInRadians, dX, dY );
 		}
-		itm.dispose( );
-	}
-
-	/**
-	 * 
-	 * @param g2d
-	 * @param f
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param iAngleInDegrees
-	 */
-	private final void showRightValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
-	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
-		FontDefinition fd = la.getCaption( ).getFont( );
-		double dAngleInDegrees = fd.getRotation( );
-		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
-		// REQUESTED FOR
-		{
-			bShadow = la.getShadowColor( ) != null;
-		}
-		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
-		Color clrBackground = null;
-		if ( la.getBackground( ) != null )
-		{
-			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
-		}
-
-		// dX += 2;
-		dY += 1;
-
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
-		final double dFW = itm.getFullWidth( );
-		final double dH = itm.getHeight( );
-		final double dD = itm.getDescent( );
-		final double dFH = itm.getFullHeight( );
-		double dXOffset = 0, dW = 0;
-		final int iLC = itm.getLineCount( );
-		final Insets ins = la.getInsets( )
-				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
-		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
-		// Swing is not friendly to empty string, check and skip for this case
-		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
-		TextLayout tl;
-
-		final HorizontalAlignment ha = la.getCaption( )
-				.getFont( )
-				.getAlignment( )
-				.getHorizontalAlignment( );
-		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
-		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
-
-		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-		int iRotateX = (int) dX;
-		int iRotateY = (int) ( dY + dH / 2 );
-		dY += dH / 2;
-
-		// HORIZONTAL TEXT
-		if ( dAngleInDegrees == 0 )
-		{
-			double dYHalfOffset = ( dFH + dH ) / 2d;
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW,
-								( dY - dYHalfOffset ) + shadowness + dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness,
-						dFW,
-						dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dYHalfOffset, dFW, dFH );
-
-				// RENDER THE BACKGROUND FILL
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY
-										- dYHalfOffset
-										+ ins.getTop( )
-										+ dH
-										* ( i + 1 ) - dD )
-						// (float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) *
-						// dH/2))
-						// + ins.getTop())
-						);
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-		}
-
-		// DRAW POSITIVE ANGLE (> 0)
-		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-		{
-			double dDeltaX = dH * Math.sin( dAngleInRadians );
-			double dDeltaY = dH * Math.cos( dAngleInRadians ) - dH / 2;
-			dX -= dDeltaX;
-			dY += dDeltaY;
-			g2d.rotate( dAngleInRadians, iRotateX - dDeltaX, iRotateY + dDeltaY );
-
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX,
-						( dY - dH ),
-						dFW,
-						dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, iRotateX - dDeltaX, iRotateY
-					+ dDeltaY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// DRAW NEGATIVE ANGLE (< 0)
-		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-		{
-			double dDeltaY = -dH / 2;
-			dY += dDeltaY;
-			g2d.rotate( dAngleInRadians, iRotateX, iRotateY + dDeltaY );
-
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dFH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dFH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( dY - dD - dH * ( iLC - i - 1 ) ) - ins.getBottom( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, iRotateX, iRotateY + dDeltaY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// VERTICALLY UP
-		else if ( dAngleInDegrees == 90 )
-		{
-			double dDeltaX = dH;
-			double dDeltaY = ( dFW - dH ) / 2;
-			dX += dDeltaX;
-			dY += dDeltaY;
-			g2d.rotate( dAngleInRadians, dX, dY );
-
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// VERTICALLY DOWN
-		else if ( dAngleInDegrees == -90 )
-		{
-			double dDeltaX = 0;
-			double dDeltaY = ( dFW + dH ) / 2;
-			dX += dDeltaX;
-			dY -= dDeltaY;
-			g2d.rotate( dAngleInRadians, dX, dY );
-
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( dY - dD + dH * i ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-		itm.dispose( );
-	}
-
-	/**
-	 * 
-	 * @param g2d
-	 * @param f
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param iAngleInDegrees
-	 */
-	private final void showBottomValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
-	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
-		FontDefinition fd = la.getCaption( ).getFont( );
-		// Color clrShadow = bShadow ? (Color)
-		// _sxs.getColor(la.getShadowColor()) : null;
-		double dAngleInDegrees = fd.getRotation( );
-		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
-		Color clrBackground = null;
-		if ( la.getBackground( ) != null )
-		{
-			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
-		}
-		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
-		final double dFW = itm.getFullWidth( );
-		final double dH = itm.getHeight( );
-		final double dD = itm.getDescent( );
-		final double dFH = itm.getFullHeight( );
-		double dXOffset = 0, dW = 0;
-		final int iLC = itm.getLineCount( );
-		final Insets ins = la.getInsets( )
-				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
-		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
-		// Swing is not friendly to empty string, check and skip for this case
-		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
-		TextLayout tl;
-
-		final HorizontalAlignment ha = la.getCaption( )
-				.getFont( )
-				.getAlignment( )
-				.getHorizontalAlignment( );
-		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
-		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
-
-		dX -= dFW / 2;
-		dY += dH;
-
-		// HORIZONTAL TEXT
-		if ( dAngleInDegrees == 0 )
-		{
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// DRAW IT AT A POSITIVE ANGLE
-		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-		{
-			double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-			double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-			double dDeltaX = dFW * dCosTheta - dH * dSineTheta - dFW / 2.0;
-			double dDeltaY = dH * dCosTheta + dFW * dSineTheta - dH;
-
-			dX -= dDeltaX;
-			dY += dDeltaY;
-			g2d.rotate( dAngleInRadians, dX, dY );
-
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-		}
-
-		// DRAW IT AT A NEGATIVE ANGLE
-		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-		{
-			dX += dFW / 2;
-			g2d.rotate( dAngleInRadians, dX, dY - dH );
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY - dD + dH * i + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY - dH );
-		}
-
-		// VERTICALLY UP
-		else if ( dAngleInDegrees == 90 )
-		{
-			double dYHalfOffset = ( dFH + dH ) / 2.0;
-			double dDeltaX = ( dFW + dH ) / 2;
-			double dDeltaY = ( dFW - dH );
-			dX += dDeltaX;
-			dY += dDeltaY;
-			g2d.rotate( dAngleInRadians, dX, dY );
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW,
-								( dY - dYHalfOffset ) + shadowness + dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness,
-						dFW,
-						dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dYHalfOffset, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( ( dY - dD ) - ( ( iLC - i ) * dH - ( iLC + 1 )
-										* dH
-										/ 2 ) ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// VERTICALLY DOWN
-		else if ( dAngleInDegrees == -90 )
-		{
-			dX += dFW / 2;
-			dY -= dH;
-
-			double dYHalfOffset = ( dFH + dH ) / 2d;
-			double dDeltaX = dYHalfOffset - dFH / 2d;
-			dX -= dDeltaX;
-			g2d.rotate( dAngleInRadians, dX, dY );
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW,
-								( dY - dYHalfOffset ) + shadowness + dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness,
-						dFW,
-						dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dYHalfOffset, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < iLC; i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( dY - dD )
-										- dYHalfOffset
-										+ dH
-										* ( i + 1 ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-		}
-		itm.dispose( );
-	}
-
-	/**
-	 * 
-	 * @param g2d
-	 * @param f
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param iAngleInDegrees
-	 */
-	private final void showTopValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
-	{
-		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
-		final FontDefinition fd = la.getCaption( ).getFont( );
-		// final Color clrShadow = bShadow ? (Color)
-		// _sxs.getColor(la.getShadowColor()) : null;
-		final double dAngleInDegrees = fd.getRotation( );
-		final Color clrText = (Color) _sxs.getColor( la.getCaption( )
-				.getColor( ) );
-		Color clrBackground = null;
-		if ( la.getBackground( ) != null )
-		{
-			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
-		}
-		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
-		final double dFW = itm.getFullWidth( );
-		final double dH = itm.getHeight( );
-		final double dD = itm.getDescent( );
-		final double dFH = itm.getFullHeight( );
-		double dXOffset = 0, dW = 0;
-		final int iLC = itm.getLineCount( );
-		final Insets ins = la.getInsets( )
-				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
-		final double shadowness = 3 * _sxs.getDpiResolution( ) / 72d;
-		// Swing is not friendly to empty string, check and skip for this case
-		final boolean bEmptyText = "".equals( la.getCaption( ).getValue( ) ); //$NON-NLS-1$
-		TextLayout tl;
-
-		final HorizontalAlignment ha = la.getCaption( )
-				.getFont( )
-				.getAlignment( )
-				.getHorizontalAlignment( );
-		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
-		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
-
-		dX -= dFW / 2;
-
-		// HORIZONTAL TEXT
-		if ( dAngleInDegrees == 0 )
-		{
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dFH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX,
-						( dY - dFH ),
-						dFW,
-						dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < itm.getLineCount( ); i++ )
-					{
-						// tl = new TextLayout(itm.getLine(iLC - i - 1),
-						// g2d.getFont(), g2d.getFontRenderContext());
-						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
-
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// DRAW IT AT A POSITIVE ANGLE
-		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-		{
-			double dDeltaX = dFW / 2;
-
-			dX += dDeltaX;
-			g2d.rotate( dAngleInRadians, dX, dY );
-
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dFH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX,
-						( dY - dFH ),
-						dFW,
-						dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < itm.getLineCount( ); i++ )
-					{
-						tl = new TextLayout( itm.getLine( iLC - i - 1 ),
-								g2d.getFont( ).getAttributes( ),
-								g2d.getFontRenderContext( ) );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// DRAW IT AT A NEGATIVE ANGLE
-		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-		{
-			double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-			double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-			dX -= dFW / 2 - ( dFW - dFW * dCosTheta );
-			dY -= dFW * dSineTheta;
-			g2d.rotate( dAngleInRadians, dX, dY );
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dFH ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW, ( dY - dFH )
-								+ shadowness
-								+ dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness, ( dY - dFH )
-						+ shadowness, dFW, dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dFH, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < itm.getLineCount( ); i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( dY - dD - dH * i - ins.getBottom( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			/*
-			 * final RotatedRectangle rr = computePolygon(IConstants.ABOVE, la,
-			 * lo.getX(), lo.getY()); g2d.setColor(Color.blue); g2d.draw(rr);
-			 * final BoundingBox bb = computeBox(IConstants.ABOVE, la,
-			 * lo.getX(), lo.getY()); renderBox(g2d, bb, Color.black, null);
-			 */
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// VERTICALLY UP
-		else if ( dAngleInDegrees == 90 )
-		{
-			double dYHalfOffset = ( dFH + dH ) / 2.0;
-			double dDeltaX = ( dFW + dH ) / 2;
-			dX += dDeltaX;
-			g2d.rotate( dAngleInRadians, dX, dY );
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW,
-								( dY - dYHalfOffset ) + shadowness + dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness,
-						dFW,
-						dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dYHalfOffset, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < itm.getLineCount( ); i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
-										* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
-		// VERTICALLY DOWN
-		else if ( dAngleInDegrees == -90 )
-		{
-			double dYHalfOffset = ( dFH + dH ) / 2.0;
-			double dDeltaX = ( dFW - dH ) / 2;
-			double dDeltaY = dFW;
-			dX += dDeltaX;
-			dY -= dDeltaY;
-			g2d.rotate( dAngleInRadians, dX, dY );
-			if ( bShadow ) // RENDER THE SHADOW
-			{
-				g2d.setPaint( new GradientPaint( new Point2D.Double( dX
-						+ shadowness, ( dY - dYHalfOffset ) + shadowness ),
-						(Color) _sxs.getColor( la.getShadowColor( ) ),
-						new Point2D.Double( dX + shadowness + dFW,
-								( dY - dYHalfOffset ) + shadowness + dFH ),
-						(Color) _sxs.getColor( la.getShadowColor( )
-								.translucent( ) ) ) );
-				g2d.fill( new Rectangle2D.Double( dX + shadowness,
-						( dY - dYHalfOffset ) + shadowness,
-						dFW,
-						dFH ) );
-			}
-			else
-			{
-				final Rectangle2D.Double r2d = new Rectangle2D.Double( dX, dY
-						- dYHalfOffset, dFW, dFH );
-
-				// RENDER THE BACKGROUND
-				if ( clrBackground != null )
-				{
-					g2d.setColor( clrBackground );
-					g2d.fill( r2d );
-				}
-
-				// RENDER THE TEXT
-				if ( !bEmptyText )
-				{
-					g2d.setColor( clrText );
-					for ( int i = 0; i < itm.getLineCount( ); i++ )
-					{
-						tl = ( (SwingTextMetrics) itm ).getLayout( i );
-						if ( bRightAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( )
-									+ dFW
-									- dW
-									- ins.getRight( );
-						}
-						else if ( bCenterAligned )
-						{
-							dW = tl.getBounds( ).getWidth( );
-							dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
-						}
-						tl.draw( g2d,
-								(float) ( dX + dXOffset + ins.getLeft( ) ),
-								(float) ( ( ( dY - dD ) - ( ( itm.getLineCount( ) - i )
-										* dH - ( iLC + 1 ) * dH / 2 ) ) + ins.getTop( ) ) );
-					}
-				}
-
-				// RENDER THE OUTLINE/BORDER
-				renderOutline( ipr, la.getOutline( ), r2d );
-			}
-
-			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-			g2d.rotate( -dAngleInRadians, dX, dY );
-			// crossHairs(g2d, (int)dX, (int)dY);
-		}
-
 		itm.dispose( );
 	}
 
