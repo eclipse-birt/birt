@@ -739,18 +739,17 @@ public class ModelDteApiAdapter
 				}
 			}
 		}
-		else
+		
+		elmtIter = modelDataSet.resultSetHintsIterator( );
+		if ( elmtIter != null )
 		{
-			elmtIter = modelDataSet.resultSetHintsIterator( );
-			if ( elmtIter != null )
+			while ( elmtIter.hasNext( ) )
 			{
-				while ( elmtIter.hasNext( ) )
-				{
-					ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next( );
-					dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
-				}
+				ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next( );
+				dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
 			}
 		}
+		
 		// merging result set column and column hints into DtE columnDefn;
 		// first create new columnDefn based on model's column hints
 		elmtIter = modelDataSet.columnHintsIterator( );

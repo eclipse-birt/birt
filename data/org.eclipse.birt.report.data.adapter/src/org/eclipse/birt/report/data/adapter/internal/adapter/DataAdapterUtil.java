@@ -236,16 +236,14 @@ class DataAdapterUtil
 				}
 			}
 		}
-		else
+		
+		elmtIter = modelDataSet.resultSetHintsIterator( );
+		if ( elmtIter != null )
 		{
-			elmtIter = modelDataSet.resultSetHintsIterator( );
-			if ( elmtIter != null )
+			while ( elmtIter.hasNext( ) )
 			{
-				while ( elmtIter.hasNext( ) )
-				{
-					ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next( );
-					dteDataSet.addResultSetHint( new ColumnAdapter( modelColumn ) );
-				}
+				ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next( );
+				dteDataSet.addResultSetHint( new ColumnAdapter( modelColumn ) );
 			}
 		}
 
