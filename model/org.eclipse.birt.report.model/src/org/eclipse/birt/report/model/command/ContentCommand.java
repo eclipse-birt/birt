@@ -24,9 +24,13 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -34,19 +38,21 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
@@ -79,6 +85,7 @@ public class ContentCommand extends AbstractElementCommand
 	public ContentCommand( Module module, DesignElement container )
 	{
 		super( module, container );
+
 	}
 
 	/**
@@ -195,7 +202,7 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 		}
 
-		if ( slotID == Module.COMPONENT_SLOT )
+		if ( slotID == IModuleModel.COMPONENT_SLOT )
 		{
 			if ( StringUtil.isBlank( content.getName( ) ) )
 				throw new ContentException( element, slotID, content,
@@ -625,14 +632,14 @@ public class ContentCommand extends AbstractElementCommand
 			// DO NOT consider extends and style property since this has been
 			// handled in remove method.
 
-			if ( DesignElement.EXTENDS_PROP.equalsIgnoreCase( propDefn
+			if ( IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase( propDefn
 					.getName( ) )
-					|| StyledElement.STYLE_PROP.equalsIgnoreCase( propDefn
-							.getName( ) ) )
+					|| IStyledElementModel.STYLE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
 				continue;
 
-			if ( propDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
-					|| propDefn.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
+			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+					|| propDefn.getTypeCode( ) == IPropertyType.STRUCT_REF_TYPE )
 			{
 				Object value = element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
@@ -680,8 +687,8 @@ public class ContentCommand extends AbstractElementCommand
 					}
 				}
 			}
-			else if ( propDefn.getTypeCode( ) == PropertyType.LIST_TYPE
-					&& propDefn.getSubTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+			else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE
+					&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 			{
 				List valueList = (List) element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
@@ -1045,7 +1052,7 @@ public class ContentCommand extends AbstractElementCommand
 			int newPosn )
 	{
 		if ( element instanceof ReportDesign
-				&& slotID == ReportDesign.COMPONENT_SLOT )
+				&& slotID == IModuleModel.COMPONENT_SLOT )
 		{
 			List derived = content.getDerived( );
 			ContainerSlot slot = element.getSlot( slotID );
@@ -1090,7 +1097,7 @@ public class ContentCommand extends AbstractElementCommand
 	private boolean hasDescendents( DesignElement content, int fromSlotID )
 	{
 		return element instanceof ReportDesign
-				&& fromSlotID == ReportDesign.COMPONENT_SLOT
+				&& fromSlotID == IModuleModel.COMPONENT_SLOT
 				&& content.hasDerived( );
 	}
 
@@ -1161,7 +1168,7 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, slotID, newElement,
 					ContentException.DESIGN_EXCEPTION_RECURSIVE );
 
-		if ( slotID == Module.COMPONENT_SLOT )
+		if ( slotID == IModuleModel.COMPONENT_SLOT )
 		{
 			if ( StringUtil.isBlank( newElement.getName( ) ) )
 				throw new ContentException( element, slotID, newElement,
@@ -1308,10 +1315,65 @@ public class ContentCommand extends AbstractElementCommand
 			PropertyBinding propBinding = (PropertyBinding) propertyBindings
 					.get( i );
 			ElementPropertyDefn propDefn = module
-					.getPropertyDefn( Module.PROPERTY_BINDINGS_PROP );
+					.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
 			PropertyCommand propCommand = new PropertyCommand( module, module );
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					propBinding );
+		}
+
+		handleRemovingElement( content );
+	}
+
+	/**
+	 * Special operations when removing the content.
+	 * 
+	 * @param content
+	 *            the design element
+	 */
+
+	private void handleRemovingElement( DesignElement content )
+	{
+		// speical cases for column binding for the Group.
+
+		if ( content instanceof GroupElement )
+		{
+			ListingElement tmpContainer = (ListingElement) element;
+			List boundColumns = tmpContainer.getListProperty( module,
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+			if ( boundColumns == null || boundColumns.isEmpty( ) )
+				return;
+
+			String groupName = (String) content.getProperty( module,
+					IGroupElementModel.GROUP_NAME_PROP );
+			List toRemoved = new ArrayList( );
+			for ( int i = 0; i < boundColumns.size( ); i++ )
+			{
+				ComputedColumn column = (ComputedColumn) boundColumns.get( i );
+				String aggregateGroup = column.getAggregateOn( );
+				if ( aggregateGroup != null
+						&& aggregateGroup.equals( groupName ) )
+					toRemoved.add( column );
+			}
+
+			CachedMemberRef memberRef = new CachedMemberRef( tmpContainer
+					.getPropertyDefn( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) );
+
+			try
+			{
+				for ( int i = 0; i < toRemoved.size( ); i++ )
+				{
+					PropertyCommand propCmd = new PropertyCommand( module,
+							tmpContainer );
+					propCmd.removeItem( memberRef, (ComputedColumn) toRemoved
+							.get( i ) );
+				}
+			}
+			catch ( PropertyValueException e )
+			{
+				// should have no exception
+			}
+
 		}
 	}
 }

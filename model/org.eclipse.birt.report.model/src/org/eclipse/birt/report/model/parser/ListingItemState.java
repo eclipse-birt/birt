@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
@@ -142,7 +143,7 @@ public abstract class ListingItemState extends ReportItemState
 	 */
 
 	private ComputedColumn checkMatchedBoundColumnForGroup( List columns,
-			String expression, String aggregateOn )
+			String expression, String aggregateOn, boolean mustMatchAggregateOn )
 	{
 		if ( ( columns == null ) || ( columns.size( ) == 0 )
 				|| expression == null )
@@ -153,12 +154,23 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn column = (ComputedColumn) columns.get( i );
 			if ( expression.equals( column.getExpression( ) ) )
 			{
-				if ( aggregateOn == null && column.getAggregrateOn( ) == null )
-					return column;
+				String tmpAggregateOn = column.getAggregateOn( );
+				if ( mustMatchAggregateOn )
+				{
+					if ( aggregateOn == null && tmpAggregateOn == null )
+						return column;
 
-				if ( aggregateOn != null
-						&& aggregateOn.equals( column.getAggregrateOn( ) ) )
-					return column;
+					if ( aggregateOn != null
+							&& aggregateOn.equals( tmpAggregateOn ) )
+						return column;
+				}
+				else
+				{
+					if ( tmpAggregateOn == null
+							|| tmpAggregateOn.equals( aggregateOn ) )
+						return column;
+				}
+
 			}
 		}
 
@@ -231,11 +243,11 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(
 					columns, resultSetColumn );
 
-			assert foundColumn != null;
-
 			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
 					.getExpression( ), (String) group.getLocalProperty(
-					handler.module, GroupElement.GROUP_NAME_PROP ) );
+					handler.module, GroupElement.GROUP_NAME_PROP ),
+					ExpressionUtil
+							.hasAggregation( foundColumn.getExpression( ) ) );
 
 			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
 					.getName( ) );
@@ -264,10 +276,12 @@ public abstract class ListingItemState extends ReportItemState
 		{
 			ComputedColumn column = (ComputedColumn) columns.get( j );
 
-			column.setAggregrateOn( groupName );
+			if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
+				column.setAggregateOn( groupName );
 
 			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
-					tmpList, column.getExpression( ), column.getAggregrateOn( ) );
+					tmpList, column.getExpression( ), column.getAggregateOn( ),
+					true );
 			if ( foundColumn == null
 					|| !foundColumn.getName( ).equals( column.getName( ) ) )
 			{
@@ -305,7 +319,9 @@ public abstract class ListingItemState extends ReportItemState
 
 			if ( !tmpList.contains( column ) )
 			{
-				column.setAggregrateOn( groupName );
+				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
+					column.setAggregateOn( groupName );
+
 				tmpList.add( column );
 			}
 		}

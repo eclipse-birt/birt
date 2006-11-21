@@ -893,6 +893,9 @@ public abstract class PropertyDefn
 	/**
 	 * Returns a value as a locale independent string.
 	 * 
+	 * This method checks the predefined choice properties first. If has not,
+	 * then uses type to return the value.
+	 * 
 	 * @param module
 	 *            the report design
 	 * @param value
@@ -902,13 +905,20 @@ public abstract class PropertyDefn
 
 	public String getStringValue( Module module, Object value )
 	{
-		return getType( ).toString( module, this, value );
+		if ( value == null )
+			return null;
+
+		String retValue = validateExtendedChoicesByName( value );
+		return retValue == null
+				? getType( ).toString( module, this, value )
+				: retValue;
 	}
 
 	/**
 	 * Returns a value as a <code>double</code>.
 	 * 
-	 * Uses type to return the value.
+	 * This method checks the predefined choice properties first. If has not,
+	 * then uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -919,13 +929,18 @@ public abstract class PropertyDefn
 
 	public double getFloatValue( Module module, Object value )
 	{
-		return getType( ).toDouble( module, value );
+		if ( value == null )
+			return 0.0;
+
+		String retValue = validateExtendedChoicesByName( value );
+		return retValue == null ? getType( ).toDouble( module, value ) : 0.0d;
 	}
 
 	/**
 	 * Returns a value as a <code>int</code>.
 	 * 
-	 * Uses type to return the value.
+	 * This method checks the predefined choice properties first. If has not,
+	 * then uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -936,13 +951,18 @@ public abstract class PropertyDefn
 
 	public int getIntValue( Module module, Object value )
 	{
-		return getType( ).toInteger( module, value );
+		if ( value == null )
+			return 0;
+
+		String retValue = validateExtendedChoicesByName( value );
+		return retValue == null ? getType( ).toInteger( module, value ) : 0;
 	}
 
 	/**
 	 * Returns a value as a <code>BigDecimal</code>.
 	 * 
-	 * Uses type to return the value.
+	 * This method checks the predefined choice properties first. If has not,
+	 * then uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -953,13 +973,18 @@ public abstract class PropertyDefn
 
 	public BigDecimal getNumberValue( Module module, Object value )
 	{
-		return getType( ).toNumber( module, value );
+		if ( value == null )
+			return null;
+
+		String retValue = validateExtendedChoicesByName( value );
+		return retValue == null ? getType( ).toNumber( module, value ) : null;
 	}
 
 	/**
 	 * Returns a value as a <code>boolean</code>.
 	 * 
-	 * Uses type to return the value.
+	 * This method checks the predefined choice properties first. If has not,
+	 * then uses type to return the value.
 	 * 
 	 * @param module
 	 *            the module
@@ -970,7 +995,11 @@ public abstract class PropertyDefn
 
 	public boolean getBooleanValue( Module module, Object value )
 	{
-		return getType( ).toBoolean( module, value );
+		if ( value == null )
+			return false;
+
+		String retValue = validateExtendedChoicesByName( value );
+		return retValue == null ? getType( ).toBoolean( module, value ) : false;
 	}
 
 	/**
