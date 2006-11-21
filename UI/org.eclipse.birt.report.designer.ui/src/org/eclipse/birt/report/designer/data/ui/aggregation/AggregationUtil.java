@@ -49,25 +49,29 @@ public class AggregationUtil
 
 		List methodList = new ArrayList( );
 		IConfigurationElement[] aggregations = ( (IConfigurationElement[]) Platform.getExtensionRegistry( )
-				.getConfigurationElementsFor( AGGREGATION_EXT_POINT ) )[0].getChildren( );
+				.getConfigurationElementsFor( AGGREGATION_EXT_POINT ) );
 
 		for ( int i = 0; i < aggregations.length; i++ )
 		{
-			IConfigurationElement[] uiInfos = ( aggregations[i].getChildren( ) );
-			for ( int j = 0; j < uiInfos.length; j++ )
+			IConfigurationElement[] aggs = aggregations[i].getChildren( );
+			for ( int j = 0; j < aggs.length; j++ )
 			{
-				MethodInfo methodInfo = new MethodInfo( false );
-				methodInfo.setName( aggregations[i].getAttribute( AGGREGATION_ATTR_NAME ) );
-				methodInfo.setDisplayNameKey( uiInfos[j].getAttribute( UIINFO_ATTR_TEXTDATA ) );
-				methodInfo.setToolTipKey( uiInfos[j].getAttribute( UIINFO_ATTR_TIP ) );
-				methodInfo.addArgumentList( loadArgumentList( uiInfos[j].getAttribute( UIINFO_ATTR_PARAMTERMETAINFO ) ) );
-				methodInfo.setStatic( true );
-				methodInfo.setReturnType( DEFUALT_RETURN_TYPE );
+				IConfigurationElement[] uiInfos = ( aggs[j].getChildren( ) );
+				for ( int k = 0; k < uiInfos.length; k++ )
+				{
+					MethodInfo methodInfo = new MethodInfo( false );
+					methodInfo.setName( aggs[j].getAttribute( AGGREGATION_ATTR_NAME ) );
+					methodInfo.setDisplayNameKey( uiInfos[k].getAttribute( UIINFO_ATTR_TEXTDATA ) );
+					methodInfo.setToolTipKey( uiInfos[k].getAttribute( UIINFO_ATTR_TIP ) );
+					methodInfo.addArgumentList( loadArgumentList( uiInfos[k].getAttribute( UIINFO_ATTR_PARAMTERMETAINFO ) ) );
+					methodInfo.setStatic( true );
+					methodInfo.setReturnType( DEFUALT_RETURN_TYPE );
 
-				methodList.add( methodInfo );
+					methodList.add( methodInfo );
+				}
+
+				Collections.sort( methodList, new AlphabeticallyComparator( ) );
 			}
-
-			Collections.sort( methodList, new AlphabeticallyComparator( ) );
 		}
 
 		return methodList;
