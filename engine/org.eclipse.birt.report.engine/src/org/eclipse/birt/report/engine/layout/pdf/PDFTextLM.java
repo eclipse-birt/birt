@@ -303,6 +303,8 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						return;
 					}
 					currentPos = 0;
+					this.vestigeIndex = -1;
+					this.vestigeLength = 0;
 					this.wr = new DefaultWordRecognizer(chunk.getText());
 				}
 				else
