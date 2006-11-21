@@ -442,6 +442,24 @@ public class UIUtil implements IBirtWizardConstants
 	}
 
 	/**
+	 * Create Import Clear Setting configuration group
+	 * 
+	 * @param parent
+	 */
+	public Button createImportClearSetting( Composite parent )
+	{
+		// checkbox for Import Clear setting
+		Button btClear = new Button( parent, SWT.CHECK );
+
+		btClear.setSelection( true );
+		btClear
+				.setText( BirtWTPMessages.BIRTConfiguration_import_clear_message );
+		btClear.setLayoutData( new GridData( GridData.END ) );
+
+		return btClear;
+	}
+
+	/**
 	 * @return the properties
 	 */
 	public Map getProperties( )

@@ -24,7 +24,7 @@ public interface IBirtWizardConstants
 	// Reference Extension Points
 	public final static String EXAMPLE_WIZARD_EXTENSION_POINT = "org.eclipse.wst.common.ui.exampleProjectCreationWizard"; //$NON-NLS-1$
 	public final static String NEW_WIZARDS_EXTENSION_POINT = "org.eclipse.ui.newWizards"; //$NON-NLS-1$
-	public final static String BIRT_WEBAPP_EXTENSION_POINT = "org.eclipse.birt.integration.wtp.ui.birtWebappDefinition"; //$NON-NLS-1$
+	public final static String BIRT_RESOURCES_EXTENSION_POINT = "org.eclipse.birt.integration.wtp.ui.birtResourcesDefinition"; //$NON-NLS-1$
 
 	// Extension ID
 	public final static String BIRTEXAMPLE_WIZARD_ID = "org.eclipse.birt.integration.wtp.ui.BirtExampleProjectCreationWizard"; //$NON-NLS-1$
@@ -61,4 +61,8 @@ public interface IBirtWizardConstants
 	public final static String EXT_SERVLET="servlet"; //$NON-NLS-1$
 	public final static String EXT_SERVLET_MAPPING="servlet-mapping";  //$NON-NLS-1$
 	public final static String EXT_TAGLIB="taglib";  //$NON-NLS-1$	
+	
+	public final static String EXT_CONFLICT="conflict"; //$NON-NLS-1$
+	public final static String EXT_FOLDER="folder"; //$NON-NLS-1$
+	public final static String EXT_FILE="file"; //$NON-NLS-1$
 }

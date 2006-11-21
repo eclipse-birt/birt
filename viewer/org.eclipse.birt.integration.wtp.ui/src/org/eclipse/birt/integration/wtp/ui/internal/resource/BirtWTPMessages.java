@@ -108,6 +108,8 @@ public class BirtWTPMessages extends NLS
 	public static String BIRTConfiguration_maxrows_label;
 	public static String BIRTConfiguration_loglevel_label;
 
+	public static String BIRTConfiguration_import_clear_message;
+	
 	/***********************************************************************
 	 * Overwrite Query Dialog
 	 ***********************************************************************/

@@ -176,13 +176,15 @@
 	</extension>
 	
 	<!--======================================================================================-->
-	<!--         Web Application Deployment Settings                                                                    -->
+	<!--         Web Application Resources Settings                                           -->
 	<!--======================================================================================-->
 	
-	<extension-point id="birtWebappDefinition" name="%birtWebappDefinition" schema="schema/birtWebappDefinition.exsd"/>
+	<extension-point id="birtResourcesDefinition" name="%birtResourcesDefinition" schema="schema/birtResourcesDefinition.exsd"/>
 
 	<extension
-	       point="org.eclipse.birt.integration.wtp.ui.birtWebappDefinition">
+	       point="org.eclipse.birt.integration.wtp.ui.birtResourcesDefinition">
+		
+		<!-- Web Deployment Settings -->
 		<webapp
 			id="org.eclipse.birt.integration.wtp.ui.defaultBirtWebappDefinition">
 			<context-param 
@@ -262,6 +264,27 @@
 				location="/WEB-INF/tlds/birt.tld"/>
 			-->	
 		</webapp>
+		
+		<!-- Conflict Resources Settings( Clear these resources when import ) -->
+		<conflict
+			id="org.eclipse.birt.integration.wtp.ui.defaultConflictResourcesDefinition">
+			<folder path="/webcontent/birt"/>
+			<folder path="/WEB-INF/platform"/>
+			<folder path="/WEB-INF/lib">
+				<file name="com.ibm.icu_"/>
+				<file name="org.eclipse.emf.common_"/>
+				<file name="org.eclipse.emf.ecore.xmi_"/>
+				<file name="org.eclipse.emf.ecore_"/>
+				<file name="org.eclipse.birt"/>
+				<file name="coreapi.jar"/>
+				<file name="dataadapterapi.jar"/>
+				<file name="dteapi.jar"/>
+				<file name="engineapi.jar"/>
+				<file name="modelapi.jar"/>
+				<file name="scriptapi.jar"/>
+				<file name="viewservlets.jar"/>
+			</folder>
+		</conflict>	
 		
 	</extension>
 	

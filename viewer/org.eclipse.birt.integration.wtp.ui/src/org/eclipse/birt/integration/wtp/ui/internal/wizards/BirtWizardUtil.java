@@ -344,6 +344,59 @@ public class BirtWizardUtil implements IBirtWizardConstants
 	}
 
 	/**
+	 * Initialize conflict resources settings
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public static Map initConflictResources( Map map )
+	{
+		if ( map == null )
+			map = new HashMap( );
+
+		// find configuration elements
+		IConfigurationElement[] elements = findConfigurationElementsByExtension( BIRT_RESOURCES_EXTENSION_POINT );
+		if ( elements == null || elements.length <= 0 )
+			return map;
+
+		for ( int i = 0; i < elements.length; i++ )
+		{
+			// filter conflict fragment
+			if ( !EXT_CONFLICT.equalsIgnoreCase( elements[i].getName( ) ) )
+				continue;
+
+			// get folder elements
+			IConfigurationElement[] folders = elements[i]
+					.getChildren( EXT_FOLDER );
+			if ( folders == null )
+				continue;
+
+			for ( int j = 0; j < folders.length; j++ )
+			{
+				// get path attribute
+				String path = folders[j].getAttribute( "path" ); //$NON-NLS-1$
+				if ( path == null )
+					continue;
+
+				// get file elements
+				IConfigurationElement[] files = folders[j]
+						.getChildren( EXT_FILE );
+				List fileList = new ArrayList( );
+				for ( int k = 0; k < files.length; k++ )
+				{
+					String name = files[k].getAttribute( "name" ); //$NON-NLS-1$
+					if ( name != null )
+						fileList.add( name );
+				}
+
+				map.put( path, fileList );
+			}
+		}
+
+		return map;
+	}
+
+	/**
 	 * Initialize web app settings.
 	 * 
 	 * @param map
@@ -355,12 +408,15 @@ public class BirtWizardUtil implements IBirtWizardConstants
 			map = new HashMap( );
 
 		// find configuration elements
-		IConfigurationElement[] elements = findConfigurationElementsByExtension( BIRT_WEBAPP_EXTENSION_POINT );
+		IConfigurationElement[] elements = findConfigurationElementsByExtension( BIRT_RESOURCES_EXTENSION_POINT );
 		if ( elements == null || elements.length <= 0 )
 			return map;
 
 		for ( int i = 0; i < elements.length; i++ )
 		{
+			if ( !EXT_WEBAPP.equalsIgnoreCase( elements[i].getName( ) ) )
+				continue;
+
 			IConfigurationElement[] contextParams = elements[i]
 					.getChildren( EXT_CONTEXT_PARAM );
 			IConfigurationElement[] listeners = elements[i]

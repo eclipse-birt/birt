@@ -12,8 +12,9 @@
 package org.eclipse.birt.integration.wtp.ui.internal.actions;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
 import org.eclipse.birt.integration.wtp.ui.internal.dialogs.BirtConfigurationDialog;
 import org.eclipse.birt.integration.wtp.ui.internal.dialogs.WebArtifactOverwriteQuery;
 import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
@@ -21,7 +22,11 @@ import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -160,7 +165,8 @@ public class ImportBirtRuntimeAction extends Action
 			if ( dialog.getReturnCode( ) == Window.CANCEL )
 				return;
 
-			doImport( window );
+			// import birt runtime component
+			doImport( window, dialog.isClear( ) );
 		}
 		catch ( Exception e )
 		{
@@ -169,12 +175,61 @@ public class ImportBirtRuntimeAction extends Action
 	}
 
 	/**
+	 * handle action to clear some old birt runtime files
+	 * 
+	 * @param webContentPath
+	 * @param monitor
+	 * @throws Exception
+	 */
+	protected void doClearAction( IPath webContentPath, IProgressMonitor monitor )
+			throws Exception
+	{
+		// remove the root folder
+		IPath webPath = webContentPath;
+		if ( webPath.segmentCount( ) > 0 )
+			webPath = webPath.removeFirstSegments( 1 );
+
+		// get conflict resources
+		Map map = BirtWizardUtil.initConflictResources( null );
+
+		// clear
+		Iterator it = map.keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			String folder = (String) it.next( );
+			if ( folder == null )
+				continue;
+
+			// get the target folder
+			IPath path = webPath.append( folder );
+			IFolder tempFolder = project.getFolder( path );
+			if ( tempFolder == null || !tempFolder.exists( ) )
+				continue;
+
+			List files = (List) map.get( folder );
+			if ( files == null || files.size( ) <= 0 )
+			{
+				// delete the whole folder
+				tempFolder.delete( true, monitor );
+			}
+			else
+			{
+				// delete the defined files
+				tempFolder.accept( new LibResourceVisitor( monitor, files ),
+						IResource.DEPTH_INFINITE, false );
+			}
+		}
+	}
+
+	/**
 	 * action to import birt runtime component
 	 * 
 	 * @param window
+	 * @param isClear
 	 * @throws Exception
 	 */
-	protected void doImport( IWorkbenchWindow window ) throws Exception
+	protected void doImport( IWorkbenchWindow window, boolean isClear )
+			throws Exception
 	{
 		ProgressMonitorDialog monitor = null;
 		try
@@ -186,6 +241,11 @@ public class ImportBirtRuntimeAction extends Action
 			monitor = new ProgressMonitorDialog( window.getShell( ) );
 			monitor.open( );
 
+			// check whether clears the old birt runtime files
+			if ( isClear )
+				doClearAction( webContentPath, monitor.getProgressMonitor( ) );
+
+			// import birt runtime component
 			BirtWizardUtil.doImports( project, null, webContentPath, monitor
 					.getProgressMonitor( ), new ImportOverwriteQuery( monitor
 					.getShell( ) ) );
@@ -237,6 +297,60 @@ public class ImportBirtRuntimeAction extends Action
 
 		WebArtifactUtil.configureTaglib( (Map) properties.get( EXT_TAGLIB ),
 				project, query, monitor );
+	}
+
+	/**
+	 * Implement IResourceVisitor to clear the old birt runtime jar files under
+	 * lib folder.
+	 * 
+	 */
+	private class LibResourceVisitor implements IResourceVisitor
+	{
+
+		// progress monitor
+		private IProgressMonitor monitor;
+
+		// file list
+		private List files;
+
+		/**
+		 * default constructor
+		 * 
+		 * @param monitor
+		 */
+		public LibResourceVisitor( IProgressMonitor monitor, List files )
+		{
+			this.monitor = monitor;
+			this.files = files;
+		}
+
+		/**
+		 * handle the resources.
+		 * 
+		 * @param resource
+		 * @exception CoreException
+		 */
+		public boolean visit( IResource resource ) throws CoreException
+		{
+			if ( resource instanceof IFile )
+			{
+				IFile file = (IFile) resource;
+				if ( file == null || files == null )
+					return true;
+
+				Iterator it = files.iterator( );
+				while ( it.hasNext( ) )
+				{
+					String name = (String) it.next( );
+					if ( name != null && file.getName( ).startsWith( name ) )
+					{
+						file.delete( true, monitor );
+						break;
+					}
+				}
+			}
+			return true;
+		}
 	}
 
 	/**

@@ -92,6 +92,12 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 	 * Value for "BIRT_VIEWER_LOG_LEVEL" setting
 	 */
 	protected Combo cbLogLevel;
+
+	/**
+	 * Value for Import Overwrite setting
+	 */
+	protected Button btClear;
+	private boolean isClear;
 	
 	/**
 	 * default contrustor
@@ -180,6 +186,10 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 		// create max rows setting group
 		this.txtMaxRows = uit.createMaxRowsGroup( others );
 
+		// create import clear setting group
+		this.btClear = uit.createImportClearSetting( composite );
+		this.isClear = this.btClear.getSelection( );
+		
 		// initialize page properties map
 		initializeProperties( );
 		
@@ -213,5 +223,22 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 						.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText( ) );
+	}
+
+	/**
+	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+	 */
+	protected void okPressed( )
+	{
+		this.isClear = this.btClear.getSelection( );
+		super.okPressed( );
+	}
+
+	/**
+	 * @return the isClear
+	 */
+	public boolean isClear( )
+	{
+		return isClear;
 	}
 }
