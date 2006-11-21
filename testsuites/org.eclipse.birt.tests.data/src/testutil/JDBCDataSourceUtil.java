@@ -1,18 +1,22 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
- ******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package testutil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,14 +37,23 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
- * Used to create table create stored procedure insert data into table drop
- * table drop stored procedure Property: DTETest.driver DTETest.url
- * DTETest.database DTETest.user DTETest.password DTETest.otherDB (whether derby
- * is not used)
+ * Used to 
+ * 		create table
+ * 		create stored procedure
+ * 		insert data into table
+ * 		drop table
+ * 		drop stored procedure
+ * Property: 
+ * 		DTETest.driver
+ * 		DTETest.url
+ * 		DTETest.database
+ * 		DTETest.user
+ * 		DTETest.password
+ * 
+ * 		DTETest.otherDB (whether derby is not used)
  */
 public class JDBCDataSourceUtil
 {
-
 	private Connection conn;
 	private PreparedStatement prepStmt;
 	private List tableNameList = new ArrayList( );
@@ -55,8 +68,8 @@ public class JDBCDataSourceUtil
 	{
 		conn = createDBConnection( );
 
-		System.out.println( "Test against JDBC database: url=" + getURL( )
-				+ " user=" + getUser( ) + " driverClass="
+		System.out.println( "Test against JDBC database: url="
+				+ getURL( ) + " user=" + getUser( ) + " driverClass="
 				+ getDriverClassName( ) );
 	}
 
@@ -112,12 +125,12 @@ public class JDBCDataSourceUtil
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void populateTable( String testTableName, File testTableDataFile )
+	public void populateTable( String testTableName, InputStream testTableDataFile )
 			throws SQLException, IOException
 	{
-		FileReader inputFile = new FileReader( testTableDataFile );
+		InputStreamReader inputFile = new InputStreamReader( testTableDataFile );
 		BufferedReader lineReader = new BufferedReader( inputFile );
-		// skip first two lines which store metadata information
+		//skip first two lines which store metadata information
 		lineReader.readLine( );
 		String metaData = lineReader.readLine( );
 		String str;
@@ -127,8 +140,8 @@ public class JDBCDataSourceUtil
 			// skip comment line
 			if ( str.charAt( 0 ) == '#' )
 				continue;
-			String sql = "insert into " + testTableName + " values(" + str
-					+ ")";
+			String sql = "insert into "
+					+ testTableName + " values(" + str + ")";
 
 			// blob support in sql statement
 			boolean isBlob = false;
@@ -153,6 +166,10 @@ public class JDBCDataSourceUtil
 				statementExecute( (String) ob[0], (Object[]) ob[1] );
 			}
 		}
+		
+		lineReader.close();
+		inputFile.close();
+		testTableDataFile.close();
 	}
 
 	/**
@@ -170,15 +187,15 @@ public class JDBCDataSourceUtil
 			if ( i < dataType.length - 1 )
 				replaceStr += ",";
 		}
-		String insertSql = "insert into " + testTableName + " values("
-				+ replaceStr + ")";
+		String insertSql = "insert into "
+				+ testTableName + " values(" + replaceStr + ")";
 		Object[] value = new Object[dataType.length];
 
 		String[] data = dataStr.split( "," );
 		for ( int i = 0; i < dataType.length; i++ )
 		{
 			data[i] = data[i].trim( );
-
+			
 			if ( dataType[i].toUpperCase( ).equals( "INT" ) )
 			{
 				value[i] = Integer.valueOf( data[i] );
@@ -197,9 +214,11 @@ public class JDBCDataSourceUtil
 			}
 		}
 
-		return new Object[]{insertSql, value};
+		return new Object[]{
+				insertSql, value
+		};
 	}
-
+	
 	/**
 	 * Drop test table
 	 * 
@@ -262,7 +281,7 @@ public class JDBCDataSourceUtil
 			throws SQLException
 	{
 		prepStmt = conn.prepareStatement( exeStr );
-
+		
 		for ( int i = 0; i < value.length; i++ )
 		{
 			int pos = i + 1;
@@ -284,7 +303,7 @@ public class JDBCDataSourceUtil
 						+ value[i].getClass( ).getName( ) );
 			}
 		}
-
+		
 		prepStmt.execute( );
 	}
 
@@ -327,13 +346,13 @@ public class JDBCDataSourceUtil
 			return createDerbyConnection( );
 
 		loadJdbcDrivers( );
-
+		
 		java.util.Properties props = new java.util.Properties( );
 		props.put( "user", getUser( ) );
-		props.put( "password", getPassword( ) );
+		props.put( "password", getPassword( ) );		
 		return DriverManager.getConnection( getURL( ), props );
 	}
-
+	
 	/**
 	 * Create derby db connection
 	 * 
@@ -343,14 +362,14 @@ public class JDBCDataSourceUtil
 	private Connection createDerbyConnection( ) throws Exception
 	{
 		Class.forName( getDriverClassName( ) );
-
-		String nsURL = getURL( ) + ";create=true";
+		
+		String nsURL = getURL( ) + ";create=true";		
 		java.util.Properties props = new java.util.Properties( );
 		props.put( "user", getUser( ) );
-		props.put( "password", getPassword( ) );
+		props.put( "password", getPassword( ) );	
 		return DriverManager.getConnection( nsURL, props );
 	}
-
+	
 	/**
 	 * Return driver class name for test table
 	 * 
@@ -369,29 +388,29 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @return
 	 */
-	static String getURL( )
+	public static String getURL( )
 	{
 		String url = System.getProperty( "DTETest.url" );
 		if ( url != null )
 			return url;
 		else
-			return "jdbc:derby:" + getDatabase( );
+			return "jdbc:derby:" + System.getProperty("java.io.tmpdir")+File.separator+ "DTETest";
 	}
-
+	
 	/**
 	 * Return database name for test table
 	 * 
 	 * @return
 	 */
-	private static String getDatabase( )
+/*	private static String getDatabase( )
 	{
 		String database = System.getProperty( "DTETest.database" );
 		if ( database != null )
 			return database;
 		else
-			return "DTETest";
-	}
-
+			return System.getProperty("java.io.temp")+File.pathSeparator+ "DTETest";
+	}*/
+	
 	/**
 	 * Return user for test table
 	 * 
@@ -425,7 +444,7 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @throws Exception
 	 */
-	private void loadJdbcDrivers( ) throws Exception
+	private void loadJdbcDrivers() throws Exception
 	{
 		try
 		{
@@ -433,8 +452,7 @@ public class JDBCDataSourceUtil
 			{
 				File driverHomeDir = getDriverHomeDir( );
 				URL[] urlList = getDriverFileURLs( driverHomeDir );
-				URLClassLoader urlClassLoader = new URLClassLoader(
-						urlList,
+				URLClassLoader urlClassLoader = new URLClassLoader( urlList,
 						this.getClass( ).getClassLoader( ) );
 				Class c = urlClassLoader.loadClass( getDriverClassName( ) );
 				DriverExt driverExt = new DriverExt( (Driver) c.newInstance( ) );
@@ -449,22 +467,19 @@ public class JDBCDataSourceUtil
 		{
 			System.out.println( "Due to licence issue, Driver lib for "
 					+ getDriverClassName( ) + " can not be " );
-			System.out
-					.println( "checked into Eclipse CVS. Please manually download this driver lib and put it " );
-			System.out
-					.println( "into test\\plugins\\org.eclipse.birt.report.data.oda.jdbc\\drivers directory." );
+			System.out.println( "checked into Eclipse CVS. Please manually download this driver lib and put it " );
+			System.out.println( "into test\\plugins\\org.eclipse.birt.report.data.oda.jdbc\\drivers directory." );
 			throw e;
-		}
+		}		
 	}
-
+	
 	/**
 	 * Gets driver home dir
 	 */
 	private File getDriverHomeDir( ) throws OdaException, IOException
 	{
 		File driverHomeDir = null;
-		ExtensionManifest extMF = ManifestExplorer
-				.getInstance( )
+		ExtensionManifest extMF = ManifestExplorer.getInstance( )
 				.getExtensionManifest( "org.eclipse.birt.report.data.oda.jdbc" );
 		if ( extMF != null )
 		{
@@ -481,7 +496,7 @@ public class JDBCDataSourceUtil
 		}
 		return driverHomeDir;
 	}
-
+	
 	/**
 	 * Gets URL array of driver files
 	 */
@@ -499,8 +514,7 @@ public class JDBCDataSourceUtil
 		URL[] urls = new URL[files.length];
 		for ( int i = 0; i < files.length; i++ )
 		{
-			urls[i] = new URL( "file", null, ( new File(
-					driverHomeDir,
+			urls[i] = new URL( "file", null, ( new File( driverHomeDir,
 					files[i] ) ).getAbsolutePath( ) );
 		}
 		return urls;
@@ -520,7 +534,6 @@ public class JDBCDataSourceUtil
 	 */
 	private class DriverExt implements Driver
 	{
-
 		private Driver driver;
 
 		DriverExt( Driver d )
@@ -559,5 +572,5 @@ public class JDBCDataSourceUtil
 			return this.driver.jdbcCompliant( );
 		}
 	}
-
+	
 }

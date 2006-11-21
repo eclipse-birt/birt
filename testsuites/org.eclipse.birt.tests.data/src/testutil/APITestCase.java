@@ -1,14 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
- ******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package testutil;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -55,7 +61,12 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	protected BaseDataSourceDesign dataSource;
 	protected BaseDataSetDesign dataSet;
-
+	
+	
+	
+	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
+	protected static final String GOLDEN_FOLDER = "golden";
+	protected static final String OUTPUT_FOLDER = "output";
 	/*
 	 * @see TestCase#setUp()
 	 */
@@ -64,10 +75,7 @@ abstract public class APITestCase extends BaseTestCase
 		super.setUp( );
 
 		dataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance(
-				DataEngineContext.DIRECT_PRESENTATION,
-				jsScope,
-				null,
-				null ) );
+				DataEngineContext.DIRECT_PRESENTATION, jsScope, null, null ) );
 		prepareDataSource( );
 	}
 
@@ -90,8 +98,6 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	private void prepareDataSource( ) throws Exception
 	{
-		prepareDataSourceProperty( );
-
 		DataSourceInfo dataSourceInfo = getDataSourceInfo( );
 		if ( dataSourceInfo != null )
 		{
@@ -111,22 +117,15 @@ abstract public class APITestCase extends BaseTestCase
 	 * Prepare data source connection property, these properties will be used in
 	 * test table preparation and oda data source preparation.
 	 */
-	private void prepareDataSourceProperty( )
-	{
-		if ( DriverClass == null )
-			DriverClass = "org.apache.derby.jdbc.EmbeddedDriver";
-		if ( URL == null )
-			URL = "jdbc:derby:DTETest";
-		if ( User == null )
-			User = "user";
-		if ( Password == null )
-			Password = "password";
-		System.setProperty( "DTETest.driver", DriverClass );
-		System.setProperty( "DTETest.url", URL );
-		System.setProperty( "DTETest.user", User );
-		System.setProperty( "DTETest.password", Password );
-	}
-
+	/*
+	 * private void prepareDataSourceProperty() { if ( DriverClass == null )
+	 * DriverClass = "org.apache.derby.jdbc.EmbeddedDriver"; if ( URL == null )
+	 * URL = JDBCDataSourceUtil.getURL(); if ( User == null ) User = "user"; if (
+	 * Password == null ) Password = "password"; System.setProperty(
+	 * "DTETest.driver", DriverClass ); System.setProperty( "DTETest.url", URL );
+	 * System.setProperty( "DTETest.user",User); System.setProperty(
+	 * "DTETest.password",Password); }
+	 */
 	/**
 	 * Prepare test table. This method is defined separatelly since in some test
 	 * cases, they might use more than one data set, although they share the
@@ -144,10 +143,8 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			this.tableName = dataSourceInfo.tableName;
 
-			this.prepareTestTable(
-					dataSourceInfo.tableName,
-					dataSourceInfo.createSql,
-					dataSourceInfo.dataFileName );
+			this.prepareTestTable( dataSourceInfo.tableName,
+					dataSourceInfo.createSql, dataSourceInfo.dataFileName );
 		}
 	}
 
@@ -170,9 +167,8 @@ abstract public class APITestCase extends BaseTestCase
 		this.dataSourceInstance.createTable( tableName, createSql, true );
 
 		// insert data into table
-		this.dataSourceInstance.populateTable( tableName, new File(
-				getInputFolder( ),
-				dataFileName ) );
+		this.dataSourceInstance.populateTable( tableName,
+				getInputFolder( dataFileName ) );
 	}
 
 	/**
@@ -483,19 +479,9 @@ abstract public class APITestCase extends BaseTestCase
 					new ScriptExpression( "dataSetRow.COL2", 0 ),
 					new ScriptExpression( "dataSetRow.COL3", 0 )};
 
-			return this.getQueryDefinition(
-					bindingNameGroup,
-					bindingExprGroup,
-					groupDefn,
-					bindingNameSort,
-					bindingExprSort,
-					sortDefn,
-					null,
-					null,
-					null,
-					bindingNameRow,
-					expressions,
-					dataSetName );
+			return this.getQueryDefinition( bindingNameGroup, bindingExprGroup,
+					groupDefn, bindingNameSort, bindingExprSort, sortDefn,
+					null, null, null, bindingNameRow, expressions, dataSetName );
 		}
 
 		private QueryDefinition getQueryDefinition( String[] bindingNameGroup,
@@ -515,8 +501,7 @@ abstract public class APITestCase extends BaseTestCase
 			{
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
-						queryDefn.addResultSetExpression(
-								bindingNameGroup[i],
+						queryDefn.addResultSetExpression( bindingNameGroup[i],
 								bindingExprGroup[i] );
 				for ( int i = 0; i < groupDefn.length; i++ )
 					queryDefn.addGroup( groupDefn[i] );
@@ -526,8 +511,7 @@ abstract public class APITestCase extends BaseTestCase
 			{
 				if ( bindingNameSort != null )
 					for ( int i = 0; i < bindingNameSort.length; i++ )
-						queryDefn.addResultSetExpression(
-								bindingNameSort[i],
+						queryDefn.addResultSetExpression( bindingNameSort[i],
 								bindingExprSort[i] );
 				for ( int i = 0; i < sortDefn.length; i++ )
 					queryDefn.addSort( sortDefn[i] );
@@ -536,8 +520,7 @@ abstract public class APITestCase extends BaseTestCase
 			// add value retrive tansformation
 			if ( bindingNameRow != null )
 				for ( int i = 0; i < bindingNameRow.length; i++ )
-					queryDefn.addResultSetExpression(
-							bindingNameRow[i],
+					queryDefn.addResultSetExpression( bindingNameRow[i],
 							expressions[i] );
 			return queryDefn;
 
@@ -554,8 +537,7 @@ abstract public class APITestCase extends BaseTestCase
 			IQueryDefinition queryDefn = getDefaultQueryDefn( dataSetName );
 
 			// row.Col1
-			GroupDefinition groupDefn = (GroupDefinition) queryDefn
-					.getGroups( )
+			GroupDefinition groupDefn = (GroupDefinition) queryDefn.getGroups( )
 					.get( 1 );
 
 			// ---------- begin sub query ----------
@@ -576,8 +558,7 @@ abstract public class APITestCase extends BaseTestCase
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
 						subqueryDefn.addResultSetExpression(
-								bindingNameGroup[i],
-								bindingExprGroup[i] );
+								bindingNameGroup[i], bindingExprGroup[i] );
 
 				for ( int i = 0; i < subGroupDefn.length; i++ )
 					subqueryDefn.addGroup( subGroupDefn[i] );
@@ -603,8 +584,7 @@ abstract public class APITestCase extends BaseTestCase
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
 						subSubqueryDefn.addResultSetExpression(
-								bindingNameGroup[i],
-								bindingExprGroup[i] );
+								bindingNameGroup[i], bindingExprGroup[i] );
 
 				for ( int i = 0; i < subSubGroupDefn.length; i++ )
 					subSubqueryDefn.addGroup( subSubGroupDefn[i] );
@@ -621,8 +601,7 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			// ///TODO remove in future
 			for ( int i = 0; i < bindingNameRow.length; i++ )
-				subqueryDefn.addResultSetExpression(
-						bindingNameRow[i],
+				subqueryDefn.addResultSetExpression( bindingNameRow[i],
 						expressions[i] );
 			// ///////////////////////
 		}
@@ -665,18 +644,10 @@ abstract public class APITestCase extends BaseTestCase
 			String[] bindingNameRow, IBaseExpression[] bindingExprRow )
 			throws Exception
 	{
-		executeQuery( createQuery(
-				bindingNameGroup,
-				bindingExprGroup,
-				groupDefn,
-				bindingNameSort,
-				bindingExprSort,
-				sortDefn,
-				bindingNameFilter,
-				bindingExprFilter,
-				filterDefn,
-				bindingNameRow,
-				bindingExprRow ), bindingNameRow );
+		executeQuery( createQuery( bindingNameGroup, bindingExprGroup,
+				groupDefn, bindingNameSort, bindingExprSort, sortDefn,
+				bindingNameFilter, bindingExprFilter, filterDefn,
+				bindingNameRow, bindingExprRow ), bindingNameRow );
 	}
 
 	/**
@@ -709,8 +680,7 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameGroup != null )
 				for ( int i = 0; i < bindingNameGroup.length; i++ )
-					queryDefn.addResultSetExpression(
-							bindingNameGroup[i],
+					queryDefn.addResultSetExpression( bindingNameGroup[i],
 							bindingExprGroup[i] );
 			for ( int i = 0; i < groupDefn.length; i++ )
 				queryDefn.addGroup( groupDefn[i] );
@@ -720,8 +690,7 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameSort != null )
 				for ( int i = 0; i < bindingNameSort.length; i++ )
-					queryDefn.addResultSetExpression(
-							bindingNameSort[i],
+					queryDefn.addResultSetExpression( bindingNameSort[i],
 							bindingExprSort[i] );
 			for ( int i = 0; i < sortDefn.length; i++ )
 				queryDefn.addSort( sortDefn[i] );
@@ -731,8 +700,7 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameFilter != null )
 				for ( int i = 0; i < bindingNameFilter.length; i++ )
-					queryDefn.addResultSetExpression(
-							bindingNameFilter[i],
+					queryDefn.addResultSetExpression( bindingNameFilter[i],
 							bindingExprFilter[i] );
 			for ( int i = 0; i < filterDefn.length; i++ )
 				queryDefn.addFilter( filterDefn[i] );
@@ -741,12 +709,44 @@ abstract public class APITestCase extends BaseTestCase
 		// add value retrive tansformation
 		if ( bindingNameRow != null )
 			for ( int i = 0; i < bindingNameRow.length; i++ )
-				queryDefn.addResultSetExpression(
-						bindingNameRow[i],
+				queryDefn.addResultSetExpression( bindingNameRow[i],
 						bindingExprRow[i] );
 
 		return queryDefn;
 	}
+	
+	public String getOutputStrForFlatfileTest( int expectedLen,
+			IResultSet result, int ColumnCount, String[] columnStr )
+			throws Exception
+			{
+
+			StringBuffer sBuffer = new StringBuffer( );
+			String metaData = "";
+			for ( int i = 0; i < ColumnCount; i++ )
+			{
+			metaData += formatStr( columnStr[i], expectedLen );
+			}
+			sBuffer.append( metaData );
+			sBuffer.append( "\n" );
+			while ( result.next( ) )
+			{
+			String rowData = "";
+			for ( int i = 1; i <= ColumnCount; i++ )
+			{
+			String value;
+			if ( result.getString( i ) != null )
+			value = result.getString( i );
+			else
+			value = "";
+			rowData += formatStr( value, expectedLen );
+			}
+			sBuffer.append( rowData );
+			sBuffer.append( "\n" );
+			}
+			return new String( sBuffer );
+			}
+
+	
 
 	public String getOutputStrForGroupTest( int expectedLen,
 			QueryDefinition qd, int groupDefCount, String[] beArray,
@@ -810,37 +810,6 @@ abstract public class APITestCase extends BaseTestCase
 		return new String( sBuffer );
 	}
 
-	public String getOutputStrForFlatfileTest( int expectedLen,
-			IResultSet result, int ColumnCount, String[] columnStr )
-			throws Exception
-	{
-
-		StringBuffer sBuffer = new StringBuffer( );
-		String metaData = "";
-		for ( int i = 0; i < ColumnCount; i++ )
-		{
-			metaData += formatStr( columnStr[i], expectedLen );
-		}
-		sBuffer.append( metaData );
-		sBuffer.append( "\n" );
-		while ( result.next( ) )
-		{
-			String rowData = "";
-			for ( int i = 1; i <= ColumnCount; i++ )
-			{
-				String value;
-				if ( result.getString( i ) != null )
-					value = result.getString( i );
-				else
-					value = "";
-				rowData += formatStr( value, expectedLen );
-			}
-			sBuffer.append( rowData );
-			sBuffer.append( "\n" );
-		}
-		return new String( sBuffer );
-	}
-
 	private static String formatStr( String inputStr, int length )
 	{
 		if ( inputStr == null )
@@ -860,4 +829,134 @@ abstract public class APITestCase extends BaseTestCase
 
 		return result;
 	}
+	
+	
+	
+	//methods from engine case
+	private void copyResource( String src, String tgt, String folder )
+	{
+
+		String className = getFullQualifiedClassName( );
+		tgt = className + "/" + folder + "/" + tgt;
+		className = className.replace( '.', '/' );
+
+		src = className + "/" + folder + "/" + src;
+
+		File parent = new File( tgt ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+
+		InputStream in = getClass( ).getClassLoader( )
+				.getResourceAsStream( src );
+		assertTrue( in != null );
+
+		try
+		{
+
+			int size = in.available( );
+			byte[] buffer = new byte[size];
+			in.read( buffer );
+			OutputStream out = new FileOutputStream( tgt );
+			out.write( buffer );
+			out.close( );
+			in.close( );
+
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+	
+	
+	
+	
+	protected void copyResource_INPUT( String input_resource, String input )
+	{
+		this.copyResource( input_resource, input, INPUT_FOLDER );
+	}
+
+	protected void copyResource_GOLDEN( String input_resource, String golden )
+	{
+		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
+	}
+
+	/**
+	 * Remove a given file or directory recursively.
+	 * 
+	 * @param file
+	 */
+	public void removeFile( File file )
+	{
+		if ( file.isDirectory( ) )
+		{
+			File[] children = file.listFiles( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				removeFile( children[i] );
+			}
+		}
+		if ( file.exists( ) )
+		{
+			if ( !file.delete( ) )
+			{
+				System.out.println( file.toString( ) + " can't be removed" ); //$NON-NLS-1$
+			}
+		}
+	}
+	
+	protected String getFullQualifiedClassName( )
+	{
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
+
+		return className;
+	}
+	
+	
+	public void removeResource( )
+	{
+		String className = getFullQualifiedClassName( );
+		removeFile( className );
+	}
+	
+	public void removeFile( String file )
+	{
+		removeFile( new File( file ) );
+	}
+	
+	protected String genOutputFile( String output )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		
+		String tempDirgetFullQualifiedClassName = tempDir+getFullQualifiedClassName();
+		
+		File path = new File(tempDirgetFullQualifiedClassName);
+		
+		if(path.exists( ))
+			path.deleteOnExit( );
+		if(!path.exists( ))
+			path.mkdir( );
+		
+		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + OUTPUT_FOLDER + "/" + output;
+		
+		File fullpath = new File(outputFile);
+		
+		if(fullpath.exists( ))
+			fullpath.delete( );
+		//if()
+		
+		return outputFile;
+	}
+	
+	
+
 }
