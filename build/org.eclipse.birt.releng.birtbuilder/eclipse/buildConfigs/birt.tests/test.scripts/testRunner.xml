@@ -5,14 +5,23 @@
 	
 	<target name="Start">
 		<antcall target="org.eclipse.birt.core.tests"/>
-		<antcall target="org.eclipse.birt.report.engine.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.pdf.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.html.tests"/>
+		<antcall target="org.eclipse.birt.report.engine.tests"/>
 		<antcall target="org.eclipse.birt.report.model.tests"/>
 		<antcall target="org.eclipse.birt.report.model.adapter.oda.tests"/>
         <antcall target="org.eclipse.birt.data.tests"/>
         <antcall target="org.eclipse.birt.report.data.oda.jdbc.tests"/>
         <antcall target="org.eclipse.birt.chart.tests"/>
+		<antcall target="org.eclipse.birt.report.tests.engine"/>
+		<antcall target="org.eclipse.birt.tests.data"/>
+		<!--
+		<antcall target="org.eclipse.birt.report.tests.chart"/>
+		<antcall target="org.eclipse.birt.report.tests.model"/>
+		<antcall target="org.eclipse.birt.report.tests.viewer"/>
+		<antcall target="org.eclipse.birt.report.designer.tests"/>
+		-->
+		<antcall target="org.eclipse.birt.test.performance"/>
 	</target>
 	
 	<target name="org.eclipse.birt.core.tests">
@@ -56,9 +65,45 @@
                     <property name="os" value="${os}"/>
             </ant>
     </target>
+    <target name="org.eclipse.birt.tests.engine">
+            <ant dir="${working.dir}/org.eclipse.birt.tests.engine_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+            </ant>
+    </target>
+    <target name="org.eclipse.birt.tests.data">
+            <ant dir="${working.dir}/org.eclipse.birt.tests.data_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+            </ant>
+    </target>
     <target name="org.eclipse.birt.chart.tests">
             <ant dir="${working.dir}/org.eclipse.birt.chart.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
                     <property name="os" value="${os}"/>
+            </ant>
+    </target>
+    <target name="org.eclipse.birt.test.performance">
+            <ant dir="${working.dir}/org.eclipse.birt.test.performance_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+	    			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
+            </ant>
+    </target>
+    <target name="org.eclipse.birt.report.tests.chart">
+            <ant dir="${working.dir}/org.eclipse.birt.tests.chart_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+	    			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
+            </ant>
+    </target>
+    <target name="org.eclipse.birt.report.tests.viewer">
+            <ant dir="${working.dir}/org.eclipse.birt.report.tests.viewer_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+            </ant>
+    </target>
+    <target name="org.eclipse.birt.report.tests.model">
+            <ant dir="${working.dir}/org.eclipse.birt.tests.model_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+                    <property name="os" value="${os}"/>
+	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
             </ant>
     </target>
 </project>
