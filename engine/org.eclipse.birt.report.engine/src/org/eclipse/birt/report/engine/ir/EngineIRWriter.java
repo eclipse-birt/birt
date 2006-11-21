@@ -911,13 +911,13 @@ public class EngineIRWriter implements IOConstants
 		writeMasterPage( out, design );
 
 		boolean showHeaderOnFirst = design.isShowHeaderOnFirst( );
-		if ( showHeaderOnFirst )
+		if ( !showHeaderOnFirst )
 		{
 			IOUtil.writeShort( out, FIELD_SHOW_HEADER_ON_FIRST );
 			IOUtil.writeBool( out, showHeaderOnFirst );
 		}
 		boolean showFooterOnLast = design.isShowFooterOnLast( );
-		if ( showFooterOnLast )
+		if ( !showFooterOnLast )
 		{
 			IOUtil.writeShort( out, FIELD_SHOW_FOOTER_ON_LAST );
 			IOUtil.writeBool( out, showFooterOnLast );
