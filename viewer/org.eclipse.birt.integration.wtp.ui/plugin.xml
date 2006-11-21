@@ -258,11 +258,10 @@
 				name="EngineServlet"
 				uri="/parameter"/>				
 			
-			<!--
 			<taglib
 				uri="/birt.tld"
 				location="/WEB-INF/tlds/birt.tld"/>
-			-->	
+				
 		</webapp>
 		
 		<!-- Conflict Resources Settings( Clear these resources when import ) -->
