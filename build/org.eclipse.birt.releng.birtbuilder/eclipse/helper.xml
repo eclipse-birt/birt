@@ -534,7 +534,7 @@
 		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
 			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
 		</exec>
-		<delete>
+		<delete includeEmptyDirs="true" >
 			<fileset dir="${test.dir}/eclipse/plugins">
 				<include name="*.itext*"/>
 			</fileset>
