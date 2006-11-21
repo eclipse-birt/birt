@@ -2590,6 +2590,22 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.AutoText" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.AutoText"  name="AutoText" since="2.1" xmlName="auto-text">
     <Property detailType="autoTextType"  displayNameID="Element.AutoText.type" name="type" since="2.1" type="choice" />
+    <Method context="startup" displayNameID="Element.AutoText.onPrepare" name="onPrepare" since="2.2" toolTipID="Element.AutoText.onPrepare.toolTip">
+      <Argument name="this" tagID="Element.AutoText.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IAutoText"/>
+      <Argument name="reportContext" tagID="Element.AutoText.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.AutoText.onCreate" name="onCreate" since="2.2" toolTipID="Element.AutoText.onCreate.toolTip">
+      <Argument name="this" tagID="Element.AutoText.onCreate.this" type="org.eclipse.birt.report.engine.api.script.instance.IAutoTextInstance"/>
+      <Argument name="reportContext" tagID="Element.AutoText.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.AutoText.onRender" name="onRender" since="2.2" toolTipID="Element.AutoText.onRender.toolTip">
+      <Argument name="this" tagID="Element.AutoText.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IAutoTextInstance"/>
+      <Argument name="reportContext" tagID="Element.AutoText.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.AutoText.onPageBreak" name="onPageBreak" since="2.2" toolTipID="Element.AutoText.onPageBreak.toolTip">
+      <Argument name="this" tagID="Element.AutoText.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.IAutoTextInstance"/>
+      <Argument name="reportContext" tagID="Element.AutoText.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
   	<StyleProperty name="backgroundColor"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundRepeat"/>
