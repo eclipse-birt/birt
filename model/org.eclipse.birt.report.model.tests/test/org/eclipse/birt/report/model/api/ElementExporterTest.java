@@ -327,8 +327,7 @@ public class ElementExporterTest extends BaseTestCase
 		testExportDesignToNewLibraryFile( "ElementExporterTest.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_12.xml" ); //$NON-NLS-1$
 
-		assertTrue( compareFile(
-				"ElementExporterTestLibrary_golden_12.xml", //$NON-NLS-1$
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_12.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_12.xml" ) ); //$NON-NLS-1$
 
 		String libraryFile = getTempFolder( ) + OUTPUT_FOLDER
@@ -526,7 +525,7 @@ public class ElementExporterTest extends BaseTestCase
 			String outputFile ) throws Exception
 	{
 		openDesign( inputFile, ULocale.ENGLISH );
-		String libraryFile = getTempFolder( )+ OUTPUT_FOLDER + outputFile;
+		String libraryFile = getTempFolder( ) + OUTPUT_FOLDER + outputFile;
 		File file = new File( libraryFile );
 		if ( file.exists( ) )
 			file.delete( );
@@ -552,8 +551,7 @@ public class ElementExporterTest extends BaseTestCase
 		ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
 
 		saveLibrary( );
-		assertTrue( compareFile(
-				"ElementExporterTestLibrary_golden_11.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_11.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -570,8 +568,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		testExportDesignToNewLibraryFile( "ElementExporterTest_4.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_13.xml" ); //$NON-NLS-1$
-		assertTrue( compareFile(
-				"ElementExporterTestLibrary_golden_13.xml", //$NON-NLS-1$
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_13.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_13.xml" ) ); //$NON-NLS-1$
 	}
 
@@ -595,9 +592,8 @@ public class ElementExporterTest extends BaseTestCase
 		ElementExportUtil.exportStructure( embeddedImageHandle, libraryHandle,
 				true );
 
-		saveLibrary();
-		assertTrue( compareFile(
-				"ElementExporterTestLibrary_golden_14.xml" ) ); //$NON-NLS-1$
+		saveLibrary( );
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_14.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

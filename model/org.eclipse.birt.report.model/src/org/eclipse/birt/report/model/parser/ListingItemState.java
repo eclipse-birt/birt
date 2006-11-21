@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
@@ -25,10 +26,6 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
-import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
@@ -88,8 +85,7 @@ public abstract class ListingItemState extends ReportItemState
 		makeTestExpressionCompatible( );
 
 		Set elements = handler.tempValue.keySet( );
-		ContainerSlot groups = element
-				.getSlot( IListingElementModel.GROUP_SLOT );
+		ContainerSlot groups = element.getSlot( ListingElement.GROUP_SLOT );
 		for ( int i = 0; i < groups.getCount( ); i++ )
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
@@ -97,7 +93,7 @@ public abstract class ListingItemState extends ReportItemState
 			handler.getModule( ).getNameManager( ).makeUniqueName( group );
 
 			String groupName = (String) group.getLocalProperty( handler
-					.getModule( ), IGroupElementModel.GROUP_NAME_PROP );
+					.getModule( ), GroupElement.GROUP_NAME_PROP );
 
 			if ( !elements.contains( group ) )
 				continue;
@@ -112,12 +108,12 @@ public abstract class ListingItemState extends ReportItemState
 				continue;
 
 			List tmpList = (List) element.getLocalProperty( handler.module,
-					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+					ListingElement.BOUND_DATA_COLUMNS_PROP );
 
 			if ( tmpList == null )
 			{
 				tmpList = new ArrayList( );
-				element.setProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP,
+				element.setProperty( ListingElement.BOUND_DATA_COLUMNS_PROP,
 						tmpList );
 			}
 
@@ -147,7 +143,7 @@ public abstract class ListingItemState extends ReportItemState
 	 */
 
 	private ComputedColumn checkMatchedBoundColumnForGroup( List columns,
-			String expression, String aggregateOn )
+			String expression, String aggregateOn, boolean mustMatchAggregateOn )
 	{
 		if ( ( columns == null ) || ( columns.size( ) == 0 )
 				|| expression == null )
@@ -158,12 +154,23 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn column = (ComputedColumn) columns.get( i );
 			if ( expression.equals( column.getExpression( ) ) )
 			{
-				if ( aggregateOn == null && column.getAggregateOn( ) == null )
-					return column;
+				String tmpAggregateOn = column.getAggregateOn( );
+				if ( mustMatchAggregateOn )
+				{
+					if ( aggregateOn == null && tmpAggregateOn == null )
+						return column;
 
-				if ( aggregateOn != null
-						&& aggregateOn.equals( column.getAggregateOn( ) ) )
-					return column;
+					if ( aggregateOn != null
+							&& aggregateOn.equals( tmpAggregateOn ) )
+						return column;
+				}
+				else
+				{
+					if ( tmpAggregateOn == null
+							|| tmpAggregateOn.equals( aggregateOn ) )
+						return column;
+				}
+
 			}
 		}
 
@@ -228,7 +235,7 @@ public abstract class ListingItemState extends ReportItemState
 				continue;
 
 			String resultSetColumn = (String) item.getLocalProperty(
-					handler.module, IDataItemModel.RESULT_SET_COLUMN_PROP );
+					handler.module, DataItem.RESULT_SET_COLUMN_PROP );
 
 			if ( StringUtil.isBlank( resultSetColumn ) )
 				continue;
@@ -236,14 +243,14 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(
 					columns, resultSetColumn );
 
-			assert foundColumn != null;
-
 			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
 					.getExpression( ), (String) group.getLocalProperty(
-					handler.module, IGroupElementModel.GROUP_NAME_PROP ) );
+					handler.module, GroupElement.GROUP_NAME_PROP ),
+					ExpressionUtil
+							.hasAggregation( foundColumn.getExpression( ) ) );
 
-			item.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP,
-					foundColumn.getName( ) );
+			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
+					.getName( ) );
 		}
 	}
 
@@ -269,10 +276,12 @@ public abstract class ListingItemState extends ReportItemState
 		{
 			ComputedColumn column = (ComputedColumn) columns.get( j );
 
-			column.setAggregateOn( groupName );
+			if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
+				column.setAggregateOn( groupName );
 
 			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
-					tmpList, column.getExpression( ), column.getAggregateOn( ) );
+					tmpList, column.getExpression( ), column.getAggregateOn( ),
+					true );
 			if ( foundColumn == null
 					|| !foundColumn.getName( ).equals( column.getName( ) ) )
 			{
@@ -310,7 +319,9 @@ public abstract class ListingItemState extends ReportItemState
 
 			if ( !tmpList.contains( column ) )
 			{
-				column.setAggregateOn( groupName );
+				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
+					column.setAggregateOn( groupName );
+
 				tmpList.add( column );
 			}
 		}

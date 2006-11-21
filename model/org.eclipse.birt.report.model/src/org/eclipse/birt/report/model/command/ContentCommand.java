@@ -26,9 +26,11 @@ import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -37,10 +39,13 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -80,6 +85,7 @@ public class ContentCommand extends AbstractElementCommand
 	public ContentCommand( Module module, DesignElement container )
 	{
 		super( module, container );
+
 	}
 
 	/**
@@ -628,8 +634,8 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase( propDefn
 					.getName( ) )
-					|| IStyledElementModel.STYLE_PROP.equalsIgnoreCase( propDefn
-							.getName( ) ) )
+					|| IStyledElementModel.STYLE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
 				continue;
 
 			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
@@ -1291,6 +1297,61 @@ public class ContentCommand extends AbstractElementCommand
 			PropertyCommand propCommand = new PropertyCommand( module, module );
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					propBinding );
+		}
+
+		handleRemovingElement( content );
+	}
+
+	/**
+	 * Special operations when removing the content.
+	 * 
+	 * @param content
+	 *            the design element
+	 */
+
+	private void handleRemovingElement( DesignElement content )
+	{
+		// speical cases for column binding for the Group.
+
+		if ( content instanceof GroupElement )
+		{
+			ListingElement tmpContainer = (ListingElement) element;
+			List boundColumns = tmpContainer.getListProperty( module,
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+			if ( boundColumns == null || boundColumns.isEmpty( ) )
+				return;
+
+			String groupName = (String) content.getProperty( module,
+					IGroupElementModel.GROUP_NAME_PROP );
+			List toRemoved = new ArrayList( );
+			for ( int i = 0; i < boundColumns.size( ); i++ )
+			{
+				ComputedColumn column = (ComputedColumn) boundColumns.get( i );
+				String aggregateGroup = column.getAggregateOn( );
+				if ( aggregateGroup != null
+						&& aggregateGroup.equals( groupName ) )
+					toRemoved.add( column );
+			}
+
+			CachedMemberRef memberRef = new CachedMemberRef( tmpContainer
+					.getPropertyDefn( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) );
+
+			try
+			{
+				for ( int i = 0; i < toRemoved.size( ); i++ )
+				{
+					PropertyCommand propCmd = new PropertyCommand( module,
+							tmpContainer );
+					propCmd.removeItem( memberRef, (ComputedColumn) toRemoved
+							.get( i ) );
+				}
+			}
+			catch ( PropertyValueException e )
+			{
+				// should have no exception
+			}
+
 		}
 	}
 }

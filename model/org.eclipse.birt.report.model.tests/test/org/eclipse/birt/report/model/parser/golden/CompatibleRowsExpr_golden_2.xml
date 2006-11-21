@@ -102,7 +102,6 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                 <structure>
                     <property name="name">PRODUCTLINE</property>
                     <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
-                    <property name="aggregateOn">productCategory</property>
                 </structure>
             </list-property>
             <list-property name="sort">

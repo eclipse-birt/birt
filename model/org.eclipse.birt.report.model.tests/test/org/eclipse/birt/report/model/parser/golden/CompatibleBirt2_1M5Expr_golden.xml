@@ -121,12 +121,10 @@
                 <structure>
                     <property name="name">Country</property>
                     <expression name="expression">dataSetRow["Country"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
                 </structure>
                 <structure>
                     <property name="name">onCreateValue</property>
                     <expression name="expression">dataSetRow["onCreateValue"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
                 </structure>
             </list-property>
             <list-property name="sort">

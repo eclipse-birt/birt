@@ -23,7 +23,7 @@
                 <list-property name="boundDataColumns" >
                 	<structure>
 						<property name="name">column2</property>
-	                	<property name="expression">row["column2"]</property>
+	                	<property name="expression">Total.sum(row["CREDITLIMIT"])</property>
                 	</structure>
                 </list-property>
             </group> 
@@ -40,7 +40,7 @@
                 <list-property name="boundDataColumns" >
                 	<structure>
 						<property name="name">column3</property>
-	                	<property name="expression" >row["column3"]</property>
+	                	<property name="expression" >Total.sum(row["column2"])</property>
                 	</structure>
                 </list-property>
             </group>

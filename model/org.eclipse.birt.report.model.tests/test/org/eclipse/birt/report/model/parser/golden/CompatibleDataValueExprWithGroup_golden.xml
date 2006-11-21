@@ -14,22 +14,12 @@
                     <property name="name">First data value</property>
                     <expression name="expression">First data value</expression>
                 </structure>
-                <structure>
-                    <property name="name">First data value_1</property>
-                    <expression name="expression">First data value</expression>
-                    <property name="aggregateOn">NewListGroup1</property>
-                </structure>
-                <structure>
-                    <property name="name">First data value_2</property>
-                    <expression name="expression">First data value</expression>
-                    <property name="aggregateOn">NewListGroup2</property>
-                </structure>
             </list-property>
             <group id="5">
                 <property name="groupName">NewListGroup1</property>
                 <header>
                     <data name="MyData1" id="6">
-                        <property name="resultSetColumn">First data value_1</property>
+                        <property name="resultSetColumn">First data value</property>
                     </data>
                 </header>
             </group>
@@ -37,7 +27,7 @@
                 <property name="groupName">NewListGroup2</property>
                 <header>
                     <data name="MyData2" id="8">
-                        <property name="resultSetColumn">First data value_2</property>
+                        <property name="resultSetColumn">First data value</property>
                     </data>
                 </header>
             </group>
@@ -56,16 +46,6 @@
                     <property name="name">First data value</property>
                     <expression name="expression">First data value</expression>
                 </structure>
-                <structure>
-                    <property name="name">First data value_1</property>
-                    <expression name="expression">First data value</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
-                </structure>
-                <structure>
-                    <property name="name">First data value_2</property>
-                    <expression name="expression">First data value</expression>
-                    <property name="aggregateOn">NewTableGroup2</property>
-                </structure>
             </list-property>
             <group id="12">
                 <property name="groupName">NewTableGroup1</property>
@@ -73,7 +53,7 @@
                     <row id="13">
                         <cell id="14">
                             <data name="MyData5" id="15">
-                                <property name="resultSetColumn">First data value_1</property>
+                                <property name="resultSetColumn">First data value</property>
                             </data>
                         </cell>
                     </row>
@@ -85,7 +65,7 @@
                     <row id="17">
                         <cell id="18">
                             <data name="MyData6" id="19">
-                                <property name="resultSetColumn">First data value_2</property>
+                                <property name="resultSetColumn">First data value</property>
                             </data>
                         </cell>
                     </row>

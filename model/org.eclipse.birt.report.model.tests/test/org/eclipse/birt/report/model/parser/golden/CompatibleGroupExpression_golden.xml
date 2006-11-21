@@ -42,17 +42,14 @@ from dbo.rpt100
                 <structure>
                     <property name="name">Category</property>
                     <expression name="expression">dataSetRow["Category"]</expression>
-                    <property name="aggregateOn">Category</property>
                 </structure>
                 <structure>
                     <property name="name">QTR1</property>
                     <expression name="expression">dataSetRow["QTR1"]</expression>
-                    <property name="aggregateOn">Category</property>
                 </structure>
                 <structure>
                     <property name="name">SubCat</property>
                     <expression name="expression">dataSetRow["SubCat"]</expression>
-                    <property name="aggregateOn">Category</property>
                 </structure>
                 <structure>
                     <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 1)</property>
@@ -77,8 +74,7 @@ from dbo.rpt100
                 <structure>
                     <property name="name">CUSTOMERNUMBER</property>
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="aggregateOn">Category</property>
-                </structure>
+                </structure>				
             </list-property>
             <column id="221"/>
             <column id="222"/>

@@ -75,7 +75,6 @@ from CLASSICMODELS.OFFICES</property>
                 <structure>
                     <property name="name">COLUMN_4</property>
                     <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
                 </structure>
             </list-property>
             <column id="55"/>

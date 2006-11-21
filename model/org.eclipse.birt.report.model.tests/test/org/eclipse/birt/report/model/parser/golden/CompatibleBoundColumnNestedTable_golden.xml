@@ -29,12 +29,6 @@
                 <structure>
                     <property name="name">CITY</property>
                     <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
-                </structure>
-                <structure>
-                    <property name="name">CREDITLIMIT_1</property>
-                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
                 </structure>
                 <structure>
                     <property name="name">Total.sum(row["CREDITLIMIT"])</property>
