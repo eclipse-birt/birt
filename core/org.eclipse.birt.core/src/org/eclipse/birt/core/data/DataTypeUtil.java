@@ -447,11 +447,9 @@ public final class DataTypeUtil
         }
         else if ( source instanceof String )
         {
-            // limited support, expects value in format "hh:mm:ss"
-            // TODO - add support of alternative formats 
             try
             {
-                return Time.valueOf( (String ) source );
+                return new Time( toDate((String) source).getTime() );
             }
             catch( IllegalArgumentException e )
             {
