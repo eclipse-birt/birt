@@ -27,6 +27,12 @@
          <propertyVisibility
                visibility="hide"
                name="xmlRepresentation"/>
+         <property
+               detailType="Action"
+               displayNameID="Element.Chart.action"
+               isList="false"
+               name="action"
+               type="structure"/>
       </reportItem>
    </extension>
    <extension

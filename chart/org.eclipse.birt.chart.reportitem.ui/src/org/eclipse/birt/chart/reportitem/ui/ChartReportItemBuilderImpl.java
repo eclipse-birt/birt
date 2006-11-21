@@ -486,7 +486,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				};
 				try
 				{
-					hb.setInputString( value );
+					hb.setInputString( value, extendedHandle );
 					if ( sTitle != null )
 					{
 						hb.setTitle( hb.getTitle( ) + " - " + sTitle ); //$NON-NLS-1$

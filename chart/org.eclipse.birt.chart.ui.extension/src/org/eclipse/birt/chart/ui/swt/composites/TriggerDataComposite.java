@@ -39,6 +39,8 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -59,9 +61,8 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class TriggerDataComposite extends Composite
-		implements
-			SelectionListener
+public class TriggerDataComposite extends Composite implements
+		SelectionListener
 {
 
 	private transient Group grpValue = null;
@@ -114,21 +115,25 @@ public class TriggerDataComposite extends Composite
 
 	private transient Button btnBaseURL;
 
+	private transient Button btnAdvanced;
+
 	private transient String sBaseURL = ""; //$NON-NLS-1$
 
 	private transient boolean bEnableURLParameters;
 
 	private transient boolean bEnableShowTooltipValue;
-	
+
+	private transient boolean bAdvanced = false;
+
 	private EList triggersList;
-	
+
 	private Map triggersMap;
-	
+
 	private String lastTriggerType;
-	
+
 	// Indicates whether the trigger will be saved when UI is disposed
 	private boolean needSaveWhenDisposing = false;
-	
+
 	private final static int INDEX_1_URL_REDIRECT = 1;
 	private final static int INDEX_2_TOOLTIP = 2;
 	private final static int INDEX_3_TOOGLE_VISABILITY = 3;
@@ -148,7 +153,7 @@ public class TriggerDataComposite extends Composite
 		this.triggersList = triggers;
 		init( );
 		placeComponents( );
-		
+
 		addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
@@ -166,7 +171,7 @@ public class TriggerDataComposite extends Composite
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		
+
 		triggersMap = new HashMap( );
 		for ( int i = 0; i < triggersList.size( ); i++ )
 		{
@@ -205,11 +210,11 @@ public class TriggerDataComposite extends Composite
 		// Main content composite
 		this.setLayout( glCMPTrigger );
 
-		Label lblTriggerType = new Label( this, SWT.NONE );
-		GridData gdLBLTriggerType = new GridData( );
-		gdLBLTriggerType.horizontalIndent = 4;
-		lblTriggerType.setLayoutData( gdLBLTriggerType );
-		lblTriggerType.setText( Messages.getString( "TriggerDataComposite.Lbl.Type" ) ); //$NON-NLS-1$
+		Label lblTriggerEvent = new Label( this, SWT.NONE );
+		GridData gdLBLTriggerEvent = new GridData( );
+		gdLBLTriggerEvent.horizontalIndent = 4;
+		lblTriggerEvent.setLayoutData( gdLBLTriggerEvent );
+		lblTriggerEvent.setText( Messages.getString( "TriggerDataComposite.Lbl.Event" ) ); //$NON-NLS-1$
 
 		cmbTriggerType = new CTextCombo( this, SWT.NONE );
 		GridData gdCMBTriggerType = new GridData( GridData.FILL_HORIZONTAL );
@@ -217,17 +222,17 @@ public class TriggerDataComposite extends Composite
 		cmbTriggerType.addListener( new Listener( ) {
 
 			public void handleEvent( Event event )
-			{		
+			{
 				updateTrigger( lastTriggerType );
-				
-				Trigger trigger = (Trigger)triggersMap.get( cmbTriggerType.getText( ) );
+
+				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
 				if ( trigger != null )
 				{
 					cmbActionType.setText( getActionText( trigger ) );
 				}
 				else
 				{
-					cmbActionType.select( 0 );					
+					cmbActionType.select( 0 );
 				}
 				updateUI( trigger );
 				switchUI( );
@@ -345,7 +350,8 @@ public class TriggerDataComposite extends Composite
 			lblText.setLayoutData( lblGd );
 
 			txtTooltipText = new Text( cmpTooltip, SWT.BORDER
-					| SWT.MULTI | SWT.V_SCROLL );
+					| SWT.MULTI
+					| SWT.V_SCROLL );
 			GridData gdTXTTooltipText = new GridData( GridData.FILL_BOTH );
 			gdTXTTooltipText.horizontalSpan = 3;
 			txtTooltipText.setLayoutData( gdTXTTooltipText );
@@ -370,6 +376,7 @@ public class TriggerDataComposite extends Composite
 					Messages.getString( "TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries" ) ); //$NON-NLS-1$
 		}
 
+		//Composite for url value
 		cmpURL = new Composite( grpValue, SWT.NONE );
 		cmpURL.setLayout( glURL );
 
@@ -379,22 +386,17 @@ public class TriggerDataComposite extends Composite
 		lblBaseURL.setLayoutData( gdLBLBaseURL );
 		lblBaseURL.setText( Messages.getString( "TriggerDataComposite.Lbl.BaseURL" ) ); //$NON-NLS-1$
 
-		// txtBaseURL = new Text( cmpURL, SWT.BORDER );
-		// GridData gdTXTBaseURL = new GridData( GridData.FILL_HORIZONTAL );
-		// txtBaseURL.setLayoutData( gdTXTBaseURL );
-		// txtBaseURL.setEditable( false );
-
 		btnBaseURL = new Button( cmpURL, SWT.NONE );
 		{
 			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
 			btnBaseURL.setLayoutData( gd );
 			btnBaseURL.setText( Messages.getString( "TriggerDataComposite.Text.EditBaseURL" ) ); //$NON-NLS-1$
 			btnBaseURL.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.InvokeURLBuilder" ) ); //$NON-NLS-1$
 			btnBaseURL.addSelectionListener( this );
-			btnBaseURL.setEnabled( wizardContext.getUIServiceProvider( ).isInvokingSupported( ) );
+			btnBaseURL.setEnabled( wizardContext.getUIServiceProvider( )
+					.isInvokingSupported( ) );
 		}
-
+		
 		Label lblDefine = new Label( cmpURL, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
@@ -402,8 +404,18 @@ public class TriggerDataComposite extends Composite
 			gd.horizontalSpan = 3;
 			gd.widthHint = 200;
 			lblDefine.setLayoutData( gd );
-			lblDefine.setText( Messages.getString( "TriggerDataComposite.Label.DefineTheParametersNames" ) ); //$NON-NLS-1$
-			lblDefine.setEnabled( bEnableURLParameters );
+			lblDefine.setText( Messages.getString( "TriggerDataComposite.Label.Description" ) ); //$NON-NLS-1$
+		}
+
+		btnAdvanced = new Button( cmpURL, SWT.NONE );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnAdvanced.setLayoutData( gd );
+			btnAdvanced.setText( getAdvancedButtonText( bAdvanced ) ); 
+			btnAdvanced.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.Advanced" ) ); //$NON-NLS-1$
+			btnAdvanced.addSelectionListener( this );
+			btnAdvanced.setEnabled( bEnableURLParameters );
 		}
 
 		// Label lblTarget = new Label( cmpURL, SWT.NONE );
@@ -424,17 +436,30 @@ public class TriggerDataComposite extends Composite
 		grpParameters.setLayoutData( gdGRPParameters );
 		grpParameters.setLayout( glParameter );
 		grpParameters.setText( Messages.getString( "TriggerDataComposite.Lbl.ParameterNames" ) ); //$NON-NLS-1$
-		grpParameters.setEnabled( bEnableURLParameters );
+		grpParameters.setVisible( bAdvanced );
 
-		Label lblParameters = new Label( grpParameters, SWT.WRAP );
+		StyledText stParameters = new StyledText( grpParameters, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 2;
 			gd.horizontalSpan = 3;
 			gd.widthHint = 200;
-			lblParameters.setLayoutData( gd );
-			lblParameters.setText( Messages.getString( "TriggerDataComposite.Label.GiveANameForParameters" ) ); //$NON-NLS-1$
-			lblParameters.setEnabled( bEnableURLParameters );
+			stParameters.setLayoutData( gd );
+			stParameters.setText( Messages.getString( "TriggerDataComposite.Label.OptionalURLParameters" ) ); //$NON-NLS-1$
+			StyleRange[] sr = {
+					new StyleRange( 0,
+							4,
+							this.getForeground( ),
+							this.getBackground( ),
+							SWT.ITALIC ),
+					new StyleRange( 4,
+							stParameters.getText( ).length( ) - 4,
+							this.getForeground( ),
+							this.getBackground( ),
+							SWT.NORMAL )
+			};
+			stParameters.setStyleRanges( sr );
+			stParameters.setBackground( this.getBackground( ) );
 		}
 
 		Label lblBaseParm = new Label( grpParameters, SWT.NONE );
@@ -444,7 +469,6 @@ public class TriggerDataComposite extends Composite
 			lblBaseParm.setLayoutData( gdLBLBaseParm );
 			lblBaseParm.setText( Messages.getString( "TriggerDataComposite.Lbl.CategorySeries" ) ); //$NON-NLS-1$
 			lblBaseParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterCategory" ) ); //$NON-NLS-1$
-			lblBaseParm.setEnabled( bEnableURLParameters );
 		}
 
 		txtBaseParm = new Text( grpParameters, SWT.BORDER );
@@ -452,7 +476,6 @@ public class TriggerDataComposite extends Composite
 		gdTXTBaseParm.horizontalSpan = 2;
 		txtBaseParm.setLayoutData( gdTXTBaseParm );
 		txtBaseParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterCategory" ) ); //$NON-NLS-1$
-		txtBaseParm.setEnabled( bEnableURLParameters );
 
 		Label lblValueParm = new Label( grpParameters, SWT.NONE );
 		{
@@ -461,7 +484,6 @@ public class TriggerDataComposite extends Composite
 			lblValueParm.setLayoutData( gdLBLValueParm );
 			lblValueParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueSeries" ) ); //$NON-NLS-1$
 			lblValueParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterValue" ) ); //$NON-NLS-1$
-			lblValueParm.setEnabled( bEnableURLParameters );
 		}
 
 		txtValueParm = new Text( grpParameters, SWT.BORDER );
@@ -469,7 +491,6 @@ public class TriggerDataComposite extends Composite
 		gdTXTValueParm.horizontalSpan = 2;
 		txtValueParm.setLayoutData( gdTXTValueParm );
 		txtValueParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterValue" ) ); //$NON-NLS-1$
-		txtValueParm.setEnabled( bEnableURLParameters );
 
 		Label lblSeriesParm = new Label( grpParameters, SWT.NONE );
 		{
@@ -478,7 +499,6 @@ public class TriggerDataComposite extends Composite
 			lblSeriesParm.setLayoutData( gdLBLSeriesParm );
 			lblSeriesParm.setText( Messages.getString( "TriggerDataComposite.Lbl.ValueSeriesName" ) ); //$NON-NLS-1$
 			lblSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
-			lblSeriesParm.setEnabled( bEnableURLParameters );
 		}
 
 		txtSeriesParm = new Text( grpParameters, SWT.BORDER );
@@ -486,9 +506,8 @@ public class TriggerDataComposite extends Composite
 		gdTXTSeriesParm.horizontalSpan = 2;
 		txtSeriesParm.setLayoutData( gdTXTSeriesParm );
 		txtSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
-		txtSeriesParm.setEnabled( bEnableURLParameters );
-
-		populateLists( );		
+		
+		populateLists( );
 	}
 
 	private void populateLists( )
@@ -496,15 +515,15 @@ public class TriggerDataComposite extends Composite
 		String[] triggerTypes = LiteralHelper.triggerConditionSet.getDisplayNames( );
 		cmbTriggerType.setItems( triggerTypes );
 		cmbTriggerType.select( 0 );
-		
-		String firstTrigger = null; 
+
+		String firstTrigger = null;
 		for ( int i = 0; i < triggerTypes.length; i++ )
 		{
 			if ( triggersMap.containsKey( triggerTypes[i] ) )
 			{
 				cmbTriggerType.markSelection( triggerTypes[i] );
 				if ( firstTrigger == null )
-				{					
+				{
 					firstTrigger = triggerTypes[i];
 				}
 			}
@@ -513,7 +532,7 @@ public class TriggerDataComposite extends Composite
 		cmbActionType.setItems( LiteralHelper.actionTypeSet.getDisplayNames( ) );
 		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None" ), 0 ); //$NON-NLS-1$
 		cmbActionType.select( 0 );
-		
+
 		if ( firstTrigger != null )
 		{
 			// Select first trigger
@@ -539,7 +558,7 @@ public class TriggerDataComposite extends Composite
 		}
 		return label;
 	}
-	
+
 	/**
 	 * Marks UI will save the trigger when closing
 	 * 
@@ -563,7 +582,7 @@ public class TriggerDataComposite extends Composite
 				.getName( ) ) );
 		updateUI( trigger );
 	}
-	
+
 	private void initUI( )
 	{
 		final String BLANK_STRING = ""; //$NON-NLS-1$
@@ -589,8 +608,8 @@ public class TriggerDataComposite extends Composite
 			case INDEX_1_URL_REDIRECT :
 				this.slValues.topControl = cmpURL;
 				URLValue urlValue = (URLValue) trigger.getAction( ).getValue( );
-				sBaseURL = ( urlValue.getBaseUrl( ).length( ) > 0 )
-						? urlValue.getBaseUrl( ) : ""; //$NON-NLS-1$
+				sBaseURL = ( urlValue.getBaseUrl( ).length( ) > 0 ) ? urlValue.getBaseUrl( )
+						: ""; //$NON-NLS-1$
 				// txtBaseURL.setText( sBaseURL );
 				// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
 				// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
@@ -609,8 +628,8 @@ public class TriggerDataComposite extends Composite
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
 				// iscDelay.setSelection( tooltipValue.getDelay( ) );
-				txtTooltipText.setText( ( tooltipValue.getText( ) != null )
-						? tooltipValue.getText( ) : "" ); //$NON-NLS-1$
+				txtTooltipText.setText( ( tooltipValue.getText( ) != null ) ? tooltipValue.getText( )
+						: "" ); //$NON-NLS-1$
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				this.slValues.topControl = cmpVisiblity;
@@ -624,8 +643,8 @@ public class TriggerDataComposite extends Composite
 				this.slValues.topControl = cmpScript;
 				ScriptValue scriptValue = (ScriptValue) trigger.getAction( )
 						.getValue( );
-				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 )
-						? scriptValue.getScript( ) : "" ); //$NON-NLS-1$
+				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 ) ? scriptValue.getScript( )
+						: "" ); //$NON-NLS-1$
 				break;
 			case INDEX_5_HIGHLIGHT :
 				this.slValues.topControl = cmpHighlight;
@@ -692,8 +711,8 @@ public class TriggerDataComposite extends Composite
 		}
 		Action action = ActionImpl.create( ActionType.getByName( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
 				value );
-		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null
-				? cmbTriggerType.getText( ) : lastTriggerType ) ),
+		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null ? cmbTriggerType.getText( )
+				: lastTriggerType ) ),
 				action );
 	}
 
@@ -710,7 +729,7 @@ public class TriggerDataComposite extends Composite
 	}
 
 	private void switchUI( )
-	{		
+	{
 		switch ( cmbActionType.getSelectionIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
@@ -786,6 +805,14 @@ public class TriggerDataComposite extends Composite
 				ChartWizard.displayException( ex );
 			}
 		}
+		else if ( e.getSource( ).equals( btnAdvanced ) )
+		{
+			bAdvanced = !bAdvanced;
+			btnAdvanced.setText( getAdvancedButtonText( bAdvanced ) );
+			grpParameters.setVisible( bAdvanced );
+			this.slValues.topControl = cmpURL;
+			grpValue.layout( true, true );
+		}
 		else if ( e.getSource( ).equals( btnBuilder ) )
 		{
 			try
@@ -812,29 +839,28 @@ public class TriggerDataComposite extends Composite
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 	}
-	
+
 	private String getActionText( Trigger trigger )
 	{
 		return LiteralHelper.actionTypeSet.getDisplayNameByName( trigger.getAction( )
 				.getType( )
 				.getName( ) );
 	}
-	
-	
+
 	private void updateTrigger( String triggerType )
 	{
 		if ( triggerType == null )
 		{
 			return;
 		}
-		
+
 		if ( cmbActionType.getSelectionIndex( ) == 0 )
 		{
 			cmbTriggerType.unmarkSelection( triggerType );
 			return;
 		}
 		cmbTriggerType.markSelection( triggerType );
-		
+
 		Object oldTrigger = triggersMap.get( triggerType );
 		Object newTrigger = getTrigger( );
 		if ( oldTrigger != null )
@@ -850,5 +876,18 @@ public class TriggerDataComposite extends Composite
 			triggersList.add( newTrigger );
 		}
 		triggersMap.put( triggerType, newTrigger );
+	}
+	
+	private String getAdvancedButtonText( boolean bAdvanced )
+	{
+		if ( bAdvanced )
+		{
+			return Messages.getString( "TriggerDataComposite.Text.OpenAdvanced" ) ; //$NON-NLS-1$
+		}
+		else
+		{
+			return Messages.getString( "TriggerDataComposite.Text.Advanced" ); //$NON-NLS-1$
+		}
+		
 	}
 }
