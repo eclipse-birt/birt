@@ -32,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
  * Utilites class for all types of URl related operatnios.
@@ -69,97 +71,112 @@ public class ParameterAccessor
 
 	// URL parameter constants
 	/**
+	 * URL parameter name that specifies the viewer id.
+	 */
+	public static final String PARAM_ID = "__id"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that specifies the report title.
+	 */
+	public static final String PARAM_TITLE = "__title"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that specifies whether show the report title.
+	 */
+	public static final String PARAM_SHOW_TITLE = "__showtitle"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that specifies whether show the toolbar.
+	 */
+	public static final String PARAM_TOOLBAR = "__toolbar"; //$NON-NLS-1$
+	
+	/**
+	 * URL parameter name that specifies whether show the navigationbar.
+	 */
+	public static final String PARAM_NAVIGATIONBAR = "__navigationbar"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that specifies whether force prompting the parameter dialog.
+	 */
+	public static final String PARAM_PARAMETER_PROMPTING = "__parameterprompting"; //$NON-NLS-1$
+	
+	/**
 	 * URL parameter name that gives the report design name.
 	 */
-
 	public static final String PARAM_REPORT = "__report"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the report document name.
 	 */
-
 	public static final String PARAM_REPORT_DOCUMENT = "__document"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the format to display the report, html or
 	 * pdf.
 	 */
-
 	public static final String PARAM_FORMAT = "__format"; //$NON-NLS-1$
 
 	/**
 	 * Format parameter constants to display the report in html.
 	 */
-
 	public static final String PARAM_FORMAT_HTM = "htm"; //$NON-NLS-1$
 	public static final String PARAM_FORMAT_HTML = "html"; //$NON-NLS-1$
 
 	/**
 	 * Format parameter constants to display the report in pdf.
 	 */
-
 	public static final String PARAM_FORMAT_PDF = "pdf"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the locale.
 	 */
-
 	public static final String PARAM_LOCALE = "__locale"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that determins to support the SVG or not.
 	 */
-
 	public static final String PARAM_SVG = "__svg"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the page number to display the report.
 	 */
-
 	public static final String PARAM_PAGE = "__page"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the report design name.
 	 */
-
 	public static final String PARAM_ISNULL = "__isnull"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that determines to support masterpage or not.
 	 */
-
 	public static final String PARAM_MASTERPAGE = "__masterpage"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that determines whether the BIRT application is
 	 * running in the designer or standalone.
 	 */
-
 	public static final String PARAM_DESIGNER = "__designer"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that determines whether to overwrite the document or
 	 * not.
 	 */
-
 	public static final String PARAM_OVERWRITE = "__overwrite"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the image ID to display.
 	 */
-
 	public static final String PARAM_IMAGEID = "__imageID"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the bookmark expression.
 	 */
-
 	public static final String PARAM_BOOKMARK = "__bookmark"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives that image rtl option.
 	 */
-
 	public static final String PARAM_RTL = "__rtl"; //$NON-NLS-1$
 
 	/**
@@ -170,7 +187,6 @@ public class ParameterAccessor
 	/**
 	 * URL parameter name that gives the reportlet id.
 	 */
-
 	public static final String PARAM_INSTANCEID = "__instanceid"; //$NON-NLS-1$
 
 	/**
@@ -181,93 +197,94 @@ public class ParameterAccessor
 	/**
 	 * Indentify the display text of select parameter
 	 */
-
 	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name to indicate the resource folder of all the report
 	 * resources.
 	 */
-
 	public static final String PARAM_RESOURCE_FOLDER = "__resourceFolder"; //$NON-NLS-1$
 
+	/**
+	 * URL parameter name to indicate the target servlet pattern.
+	 */
+	public static final String PARAM_SERVLET_PATTERN = "__pattern"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name to indicate the target window.
+	 */
+	public static final String PARAM_TARGET = "__target"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name to indicate whether cache the parameter.
+	 */
+	public static final String PARAM_NOCACHE_PARAMETER = "__nocache"; //$NON-NLS-1$
+	
 	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
-
 	public static final String HEADER_REQUEST_TYPE = "request-type"; //$NON-NLS-1$
 
 	/**
 	 * The request type of "soap".
 	 */
-
 	public static final String HEADER_REQUEST_TYPE_SOAP = "soap"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name that gives the IID of the export data form.
 	 */
-
 	public static final String PARAM_IID = "iid"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name that gives the result set names of the export data form.
 	 */
-
 	public static final String PARAM_RESULTSETNAME = "ResultSetName"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name that gives the selected column numbers of the export data
 	 * form.
 	 */
-
 	public static final String PARAM_SELECTEDCOLUMNNUMBER = "SelectedColumnNumber"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name that gives the selected column names of the export data
 	 * form.
 	 */
-
 	public static final String PARAM_SELECTEDCOLUMN = "SelectedColumn"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the default locale of the BIRT viewer.
 	 */
-
 	public static final String INIT_PARAM_LOCALE = "BIRT_VIEWER_LOCALE"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the working folder of the local BIRT
 	 * viewer user.
 	 */
-
 	public static final String INIT_PARAM_REPORT_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the repository location of the image
 	 * files.
 	 */
-
 	public static final String INIT_PARAM_IMAGE_DIR = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the repository location of the logging
 	 * files.
 	 */
-
 	public static final String INIT_PARAM_LOG_DIR = "BIRT_VIEWER_LOG_DIR"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the logging level.
 	 */
-
 	public static final String INIT_PARAM_LOG_LEVEL = "BIRT_VIEWER_LOG_LEVEL"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives the repository location of the script
 	 * files to run reports.
 	 */
-
 	public static final String INIT_PARAM_SCRIPTLIB_DIR = "BIRT_VIEWER_SCRIPTLIB_DIR"; //$NON-NLS-1$
 
 	/**
@@ -275,7 +292,6 @@ public class ParameterAccessor
 	 * report resources. True if only search the document folder, otherwise
 	 * false.
 	 */
-
 	public static final String INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY = "DOCUMENT_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
 
 	/**
@@ -288,103 +304,86 @@ public class ParameterAccessor
 	 * Servlet parameter name that gives the absolute resource location
 	 * directory.
 	 */
-
 	public static final String INIT_PARAM_BIRT_RESOURCE_PATH = "BIRT_RESOURCE_PATH"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that gives preview report max rows limited.
 	 */
-
 	public static final String INIT_PARAM_VIEWER_MAXROWS = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
 
 	/**
 	 * Servlet parameter name that if always overwrite generated document file.
 	 */
-
 	public static final String INIT_PARAM_OVERWRITE_DOCUMENT = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
 
 	/**
 	 * UTF-8 encode constants.
 	 */
-
 	public static final String UTF_8_ENCODE = "UTF-8"; //$NON-NLS-1$
 
 	/**
 	 * ISO-8859-1 encode constants.
 	 */
-
 	public static final String ISO_8859_1_ENCODE = "ISO-8859-1"; //$NON-NLS-1$
 
 	/**
 	 * Separator that connects the query parameter values.
 	 */
-
 	public static final String PARAMETER_SEPARATOR = "&"; //$NON-NLS-1$
 
 	/**
 	 * The character to start the query string in the url.
 	 */
-
 	public static final String QUERY_CHAR = "?"; //$NON-NLS-1$
 
 	/**
 	 * Equals operator.
 	 */
-
 	public static final String EQUALS_OPERATOR = "="; //$NON-NLS-1$
 
 	/**
 	 * Suffix of report document.
 	 */
-
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
 
 	/**
 	 * File package name to store the documents.
 	 */
-
 	public static final String DOCUMENTS_DIR = "documents";//$NON-NLS-1$
 
 	/**
 	 * Report working folder.
 	 */
-
 	public static String workingFolder = null;
 
 	/**
 	 * Document folder to put the report files and created documents.
 	 */
-
 	public static String documentFolder = null;
 
 	/**
 	 * Preview report max rows
 	 */
-
 	public static int maxRows;
 
 	/**
 	 * Current web application locale.
 	 */
-
-	protected static Locale webAppLocale = null;
+	public static Locale webAppLocale = null;
 
 	/**
 	 * Flag indicating that if user can only access the file in working folder.
 	 */
-
-	protected static boolean isDocumentFolderAccessOnly = false;
+	public static boolean isDocumentFolderAccessOnly = false;
 
 	/**
 	 * Resource path set in the web application.
 	 */
-
-	protected static String birtResourceFolder = null;
+	public static String birtResourceFolder = null;
 
 	/**
 	 * Flag indicating that if initialize the context.
 	 */
-
 	protected static boolean isInitContext = false;
 
 	/**
@@ -516,6 +515,26 @@ public class ParameterAccessor
 		b.append( EQUALS_OPERATOR );
 		b.append( value );
 		return b.toString( );
+	}
+
+	/**
+	 * Get report title.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return report title
+	 */
+
+	public static String getTitle( HttpServletRequest request )
+	{
+		String title = getParameter( request, PARAM_TITLE );
+		if ( title == null )
+		{
+			title = BirtResources
+					.getMessage( ResourceConstants.BIRT_VIEWER_TITLE );
+		}
+
+		return htmlEncode( title );
 	}
 
 	/**
@@ -1425,13 +1444,18 @@ public class ParameterAccessor
 		String fileName = getReport( request );
 		if ( fileName.indexOf( '.' ) >= 0 )
 		{
-			fileName = fileName.substring( 0, fileName.lastIndexOf( '.' ) )
-					+ SUFFIX_REPORT_DOCUMENT;
+			fileName = fileName.substring( 0, fileName.lastIndexOf( '.' ) );
+		}
+
+		// Get viewer id
+		String id = getParameter( request, PARAM_ID );
+		if ( id != null && id.length( ) > 0 )
+		{
+			fileName = fileName + id + SUFFIX_REPORT_DOCUMENT;
 		}
 		else
 		{
 			fileName = fileName + SUFFIX_REPORT_DOCUMENT;
-
 		}
 
 		return fileName;
@@ -1913,5 +1937,81 @@ public class ParameterAccessor
 					.getAttribute( ATTR_APPCONTEXT_VALUE ) );
 
 		return map;
+	}
+
+	/**
+	 * Check whether show the report title.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static boolean isShowTitle( HttpServletRequest request )
+	{
+		boolean isTitle = true;
+
+		if ( "false".equalsIgnoreCase( getParameter( request, PARAM_SHOW_TITLE ) ) ) //$NON-NLS-1$
+		{
+			isTitle = false;
+		}
+
+		return isTitle;
+	}
+
+	/**
+	 * Check whether show the toolbar.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static boolean isShowToolbar( HttpServletRequest request )
+	{
+		boolean isToolbar = true;
+
+		if ( "false".equalsIgnoreCase( getParameter( request, PARAM_TOOLBAR ) ) ) //$NON-NLS-1$
+		{
+			isToolbar = false;
+		}
+
+		return isToolbar;
+	}
+
+	/**
+	 * Check whether show the navigationbar.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static boolean isShowNavigationbar( HttpServletRequest request )
+	{
+		boolean isNavigationbar = true;
+
+		if ( "false".equalsIgnoreCase( getParameter( request, PARAM_NAVIGATIONBAR ) ) ) //$NON-NLS-1$
+		{
+			isNavigationbar = false;
+		}
+
+		return isNavigationbar;
+	}
+
+	/**
+	 * Check whether force prompting the parameter dialog. Default to false.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static boolean isForceParameterPrompting( HttpServletRequest request )
+	{
+		boolean isParameterPrompting = false;
+
+		if ( "true".equalsIgnoreCase( getParameter( request, PARAM_PARAMETER_PROMPTING ) ) ) //$NON-NLS-1$
+		{
+			isParameterPrompting = true;
+		}
+
+		return isParameterPrompting;
 	}
 }

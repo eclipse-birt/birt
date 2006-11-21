@@ -34,11 +34,12 @@ import org.eclipse.birt.report.servlet.BaseReportEngineServlet;
 
 public class BirtEngineServlet extends BaseReportEngineServlet
 {
+
 	/**
 	 * TODO: what's this?
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Local initialization.
 	 * 
@@ -50,19 +51,21 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 		BirtReportServiceFactory.init( instance );
 
 		engine = new EngineFragment( );
-		
+
 		requester = new RequesterFragment( );
 		requester.buildComposite( );
 		requester.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Init context.
 	 * 
-	 * @param request incoming http request
+	 * @param request
+	 *            incoming http request
 	 * @return
 	 */
-	protected IContext __getContext( HttpServletRequest request, HttpServletResponse response )
+	protected IContext __getContext( HttpServletRequest request,
+			HttpServletResponse response )
 	{
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
@@ -74,11 +77,14 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	/**
 	 * Local authentication.
 	 * 
-	 * @param request incoming http request
-	 * @param response http response
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
 	 * @return
 	 */
-	protected boolean __authenticate( HttpServletRequest request, HttpServletResponse response )
+	protected boolean __authenticate( HttpServletRequest request,
+			HttpServletResponse response )
 	{
 		return true;
 	}
@@ -86,18 +92,21 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	/**
 	 * Local do get.
 	 */
-	protected void __doGet( IContext context ) throws ServletException, IOException, BirtException
+	protected void __doGet( IContext context ) throws ServletException,
+			IOException, BirtException
 	{
-		ViewerAttributeBean bean = ( ViewerAttributeBean ) context.getBean( );
-		if ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase(
-				context.getRequest( ).getServletPath( ) )
-				&& bean != null
-				&& bean.isMissingParameter( ) )
+		ViewerAttributeBean bean = (ViewerAttributeBean) context.getBean( );
+		assert bean != null;
+
+		if ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( context
+				.getRequest( ).getServletPath( ) )
+				&& ( bean.isMissingParameter( ) || bean
+						.isForceParameterPrompting( ) ) )
 		{
 			requester.service( context.getRequest( ), context.getResponse( ) );
 		}
-		else if ( IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(
-				context.getRequest( ).getServletPath( ) ) )
+		else if ( IBirtConstants.SERVLET_PATH_PARAMETER
+				.equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) )
 		{
 			requester.service( context.getRequest( ), context.getResponse( ) );
 		}
@@ -115,12 +124,14 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void __handleNonSoapException( IContext context, Exception exception ) throws ServletException, IOException
+	protected void __handleNonSoapException( IContext context,
+			Exception exception ) throws ServletException, IOException
 	{
 		exception.printStackTrace( );
 		String target = "webcontent/birt/pages/common/Error.jsp"; //$NON-NLS-1$
 		context.getRequest( ).setAttribute( "error", exception ); //$NON-NLS-1$
-		RequestDispatcher rd = context.getRequest( ).getRequestDispatcher( target );
+		RequestDispatcher rd = context.getRequest( ).getRequestDispatcher(
+				target );
 		rd.include( context.getRequest( ), context.getResponse( ) );
 	}
 }

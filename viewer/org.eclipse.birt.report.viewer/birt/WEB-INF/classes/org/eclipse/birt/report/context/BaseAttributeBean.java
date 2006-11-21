@@ -26,6 +26,7 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -145,7 +146,7 @@ abstract public class BaseAttributeBean
 	 * determin whether the link is a toc or bookmark
 	 */
 	protected boolean isToc = false;
-	
+
 	/**
 	 * indicate whether the document is existed.
 	 */
@@ -155,7 +156,27 @@ abstract public class BaseAttributeBean
 	 * current task id
 	 */
 	protected String taskId;
-	
+
+	/**
+	 * indicate whether show the title
+	 */
+	protected boolean isShowTitle = true;
+
+	/**
+	 * indicate whether show the toolbar
+	 */
+	protected boolean isShowToolbar = true;
+
+	/**
+	 * indicate whether show the navigation bar
+	 */
+	protected boolean isShowNavigationbar = true;
+
+	/**
+	 * indicate whether force prompting the parameter dialog. Default to false.
+	 */
+	protected boolean isForceParameterPrompting = false;
+
 	/**
 	 * Abstract methods.
 	 */
@@ -222,7 +243,7 @@ abstract public class BaseAttributeBean
 		this.parameters = (HashMap) getParsedParameters( reportDesignHandle,
 				parameterList, request, options );
 
-		this.missingParameter = validateParameters( parameterList,
+		this.missingParameter = BirtUtility.validateParameters( parameterList,
 				this.parameters );
 	}
 
@@ -388,55 +409,6 @@ abstract public class BaseAttributeBean
 		}
 	}
 
-	/**
-	 * Check whether missing parameter or not.
-	 * 
-	 * @param task
-	 * @param parameters
-	 * @return
-	 */
-	protected static boolean validateParameters( Collection parameterList,
-			Map parameters )
-	{
-		assert parameters != null;
-
-		boolean missingParameter = false;
-
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			ParameterDefinition parameterObj = (ParameterDefinition) iter
-					.next( );
-
-			String parameterName = parameterObj.getName( );
-			Object parameterValue = parameters.get( parameterName );
-
-			if ( parameterObj.isHidden( ) )
-			{
-				continue;
-			}
-
-			if ( parameterValue == null && !parameterObj.allowNull( ) )
-			{
-				missingParameter = true;
-				break;
-			}
-
-			if ( ParameterDefinition.TYPE_STRING == parameterObj.getDataType( ) )
-			{
-				String parameterStringValue = (String) parameterValue;
-				if ( parameterStringValue != null
-						&& parameterStringValue.length( ) <= 0
-						&& !parameterObj.allowBlank( ) )
-				{
-					missingParameter = true;
-					break;
-				}
-			}
-		}
-
-		return missingParameter;
-	}
-
 	protected Map getParsedParameters( IViewerReportDesignHandle design,
 			Collection parameterList, HttpServletRequest request,
 			InputOptions options ) throws ReportServiceException
@@ -506,12 +478,46 @@ abstract public class BaseAttributeBean
 	{
 		return taskId;
 	}
-	
+
 	/**
-	 * @param taskId the taskId to set
+	 * @param taskId
+	 *            the taskId to set
 	 */
 	public void setTaskId( String taskId )
 	{
 		this.taskId = taskId;
-	}	
+	}
+
+	/**
+	 * @return the isShowNavigationbar
+	 */
+	public boolean isShowNavigationbar( )
+	{
+		return isShowNavigationbar;
+	}
+
+	/**
+	 * @return the isShowTitle
+	 */
+	public boolean isShowTitle( )
+	{
+		return isShowTitle;
+	}
+
+	/**
+	 * @return the isShowToolbar
+	 */
+	public boolean isShowToolbar( )
+	{
+		return isShowToolbar;
+	}
+
+	/**
+	 * @return the isForceParameterPrompting
+	 */
+	public boolean isForceParameterPrompting( )
+	{
+		return isForceParameterPrompting;
+	}
+
 }

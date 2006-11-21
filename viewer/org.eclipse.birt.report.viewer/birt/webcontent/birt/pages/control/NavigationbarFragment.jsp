@@ -23,7 +23,22 @@
 <%-----------------------------------------------------------------------------
 	Navigation bar fragment
 -----------------------------------------------------------------------------%>
-<TR HEIGHT="25px">
+<TR 
+	<%
+		if( attributeBean.isShowNavigationbar( ) )
+		{
+	%>
+		HEIGHT="25px"
+	<%
+		}
+		else
+		{
+	%>
+		style="display:none"
+	<%
+		}
+	%>	
+>
 	<TD>
 		<DIV id="navigationBar">
 			<TABLE CELLSPACING="0" CELLPADDING="0" WIDTH="100%" HEIGHT="25px" CLASS="birtviewer_navbar">

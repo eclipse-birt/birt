@@ -136,16 +136,16 @@
 		function init()
 		{		
 		<%
-		if ( !attributeBean.isMissingParameter( ) )
+		if ( attributeBean.isForceParameterPrompting( ) || attributeBean.isMissingParameter( ) )
 		{
 		%>
-			birtParameterDialog.__init_page_all( );
+			birtParameterDialog.__cb_bind( );
 		<%
 		}
 		else
 		{
 		%>
-			birtParameterDialog.__cb_bind( );
+			birtParameterDialog.__init_page_all( );
 		<%
 		}
 		%>

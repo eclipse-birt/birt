@@ -85,6 +85,10 @@
 	<BODY CLASS="BirtViewer_Body"  ONLOAD="javascript:init( );" LEFTMARGIN='0px' STYLE='overflow:hidden'>
 		<!-- Header section -->
 		<TABLE ID='layout' CELLSPACING='0' CELLPADDING='0' STYLE='width:100%;height:100%'>
+			<%
+				if( attributeBean.isShowTitle( ) )
+				{
+			%>
 			<TR CLASS='body_caption_top'>
 				<TD COLSPAN='2'></TD>
 			</TR>
@@ -94,7 +98,7 @@
 						<TR>
 							<TD WIDTH="3px"/>
 							<TD>
-								<B><%= BirtResources.getMessage( ResourceConstants.BIRT_VIEWER_TITLE  )%>
+								<B><%= attributeBean.getReportTitle( ) %>
 								</B>
 							</TD>
 							<TD ALIGN='right'>
@@ -104,12 +108,16 @@
 					</TABLE>
 				</TD>
 			</TR>
-		<%
-			if ( fragment != null )
-			{
-				fragment.callBack( request, response );
-			}
-		%>
+			<%
+				}
+			%>
+			
+			<%
+				if ( fragment != null )
+				{
+					fragment.callBack( request, response );
+				}
+			%>
 		</TABLE>
 	</BODY>
 
@@ -158,16 +166,16 @@
 		function init()
 		{		
 		<%
-		if ( !attributeBean.isMissingParameter( ) )
+		if ( attributeBean.isForceParameterPrompting( ) || attributeBean.isMissingParameter( ) )
 		{
 		%>
-			navigationBar.__init_page( );
+			birtParameterDialog.__cb_bind( );
 		<%
 		}
 		else
 		{
 		%>
-			birtParameterDialog.__cb_bind( );
+			navigationBar.__init_page( );
 		<%
 		}
 		%>

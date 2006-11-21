@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +30,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.IModuleOption;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -50,6 +47,7 @@ import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -74,38 +72,37 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * Viewer preview max rows limited
 	 */
-
 	private int maxRows;
 
 	/**
 	 * Report parameters as string map
 	 */
-
 	private Map parametersAsString = null;
 
 	/**
 	 * Report parameter definitions List
 	 */
-
 	private Collection parameterDefList = null;
 
 	/**
 	 * Display Text of Select Parameters
 	 */
-
 	private Map displayTexts = null;
 
 	/**
 	 * Module Options
 	 */
-
 	private Map moduleOptions = null;
 
 	/**
 	 * If document generated completely
 	 */
-
 	private boolean isDocumentProcessing = false;
+
+	/**
+	 * Request Type
+	 */
+	private String requestType;
 
 	/**
 	 * Constructor.
@@ -132,6 +129,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 	protected void __init( HttpServletRequest request ) throws Exception
 	{
+		// If GetImage operate, return directly.
 		if ( ParameterAccessor.isGetImageOperator( request ) )
 		{
 			return;
@@ -148,26 +146,48 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.format = ParameterAccessor.getFormat( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
 
+		// Set locale information
 		BirtResources.setLocale( ParameterAccessor.getLocale( request ) );
 
 		// Set preview report max rows
-
 		ReportEngineService.getInstance( ).setMaxRows( this.maxRows );
 
-		// Determine the report design and doc 's timestamp
+		// Set the request type
+		this.requestType = request
+				.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
 
+		// Determine the report design and doc 's timestamp
 		processReport( request );
 
 		// Report title.
+		this.reportTitle = ParameterAccessor.getTitle( request );
 
-		String title = BirtResources
-				.getMessage( ResourceConstants.BIRT_VIEWER_TITLE );
-		this.reportTitle = ParameterAccessor.htmlEncode( title );
-		this.__initParameters( request );
+		// Set whether show the report title
+		this.isShowTitle = ParameterAccessor.isShowTitle( request );
+
+		// Set whether show the toolbar
+		this.isShowToolbar = ParameterAccessor.isShowToolbar( request );
+
+		// Set whether show the navigation bar
+		this.isShowNavigationbar = ParameterAccessor
+				.isShowNavigationbar( request );
+
+		// Set whether force prompting the parameter dialog. Default to false.
+		this.isForceParameterPrompting = ParameterAccessor
+				.isForceParameterPrompting( request );
+
+		// get some module options
+		this.moduleOptions = BirtUtility.getModuleOptions( request );
+
+		// Initialize report parameters
+		__initParameters( request );
 	}
 
-	/*
+	/**
 	 * Prepare the report parameters
+	 * 
+	 * @param request
+	 * @throws Exception
 	 */
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
@@ -182,7 +202,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		options.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 
 		// Get parameter handle list
-		Collection parameterList = getParameterList( );
+		List parameterList = BirtUtility
+				.getParameterList( this.reportDesignHandle );
 
 		// when in preview model, parse parameters from config file
 		if ( this.isDesigner
@@ -202,8 +223,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( documentInUrl )
 			this.missingParameter = false;
 		else
-			this.missingParameter = validateParameters( parameterDefList,
-					this.parametersAsString );
+			this.missingParameter = BirtUtility.validateParameters(
+					parameterDefList, this.parametersAsString );
 
 		// Get parameters as String Map with default value
 		this.parametersAsString = getParsedParametersAsStringWithDefaultValue(
@@ -214,10 +235,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				this.reportDesignHandle, parameterList, request, options );
 
 		// Get display text of select parameters
-		this.displayTexts = getDisplayTexts( this.displayTexts, request );
-
-		// get some module options
-		this.moduleOptions = getModuleOptions( request );
+		this.displayTexts = BirtUtility.getDisplayTexts( this.displayTexts,
+				request );
 	}
 
 	/**
@@ -226,10 +245,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param request
 	 *            HttpServletRequest
 	 * @param parameterList
+	 *            List
 	 * @return
 	 */
 	protected void parseConfigVars( HttpServletRequest request,
-			Collection parameterList )
+			List parameterList )
 	{
 		this.configMap = new HashMap( );
 
@@ -268,7 +288,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 								ParameterAccessor.PARAM_ISNULL )
 								&& paramValue != null )
 						{
-							String nullParamName = getParameterName( (String) paramValue );
+							String nullParamName = getParameterName(
+									(String) paramValue, parameterList );
 							if ( nullParamName != null )
 								this.configMap.put( nullParamName, null );
 
@@ -278,7 +299,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						else if ( ( displayTextParam = ParameterAccessor
 								.isDisplayText( paramName ) ) != null )
 						{
-							paramName = getParameterName( displayTextParam );
+							paramName = getParameterName( displayTextParam,
+									parameterList );
 							if ( paramName != null )
 							{
 								if ( this.displayTexts == null )
@@ -291,7 +313,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 						}
 
 						// check the parameter whether exist or not
-						paramName = getParameterName( paramName );
+						paramName = getParameterName( paramName, parameterList );
 						ScalarParameterHandle parameter = (ScalarParameterHandle) findParameter( paramName );
 
 						// convert parameter from default locale to current
@@ -361,7 +383,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	}
 
 	/**
-	 * Parse report object and get the parameter default values
+	 * Parse report object and get the parameter default value
 	 * 
 	 * @param design
 	 *            IViewerReportDesignHandle
@@ -372,7 +394,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * 
 	 * @return Object
 	 */
-	protected Object getParameterDefaultValues(
+	protected Object getParameterDefaultValue(
 			IViewerReportDesignHandle design, String paramName,
 			InputOptions options ) throws ReportServiceException
 	{
@@ -433,16 +455,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * 
 	 * @param configVarName
 	 *            String
+	 * @param parameters
+	 *            List
 	 * @return String
 	 */
-	private String getParameterName( String configVarName )
+	private String getParameterName( String configVarName, List parameters )
 			throws ReportServiceException
 	{
 		String paramName = null;
-
-		// Get parameter handle list
-		List parameters = getParameterList( );
-
 		if ( parameters != null )
 		{
 			for ( int i = 0; i < parameters.size( ); i++ )
@@ -474,6 +494,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		return paramName;
 	}
 
+	/**
+	 * Returns the report design handle
+	 * 
+	 * @param request
+	 */
 	protected IViewerReportDesignHandle getDesignHandle(
 			HttpServletRequest request )
 	{
@@ -485,10 +510,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				.isValidFilePath( this.reportDocumentName );
 		if ( isValidDocument )
 		{
+			// open document instance
 			IReportDocument reportDocumentInstance = ReportEngineService
 					.getInstance( ).openReportDocument( this.reportDesignName,
-							this.reportDocumentName,
-							this.getModuleOptions( request ) );
+							this.reportDocumentName, this.moduleOptions );
 
 			if ( reportDocumentInstance != null )
 			{
@@ -561,7 +586,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					{
 						reportRunnable = ReportEngineService.getInstance( )
 								.openReportDesign( this.reportDesignName,
-										this.getModuleOptions( request ) );
+										this.moduleOptions );
 					}
 					else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
 					{
@@ -585,9 +610,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 							if ( is != null )
 								reportRunnable = ReportEngineService
-										.getInstance( )
-										.openReportDesign( url.toString( ), is,
-												this.getModuleOptions( request ) );
+										.getInstance( ).openReportDesign(
+												url.toString( ), is,
+												this.moduleOptions );
 
 						}
 						catch ( Exception e )
@@ -628,12 +653,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void processReport( HttpServletRequest request ) throws Exception
 	{
 		File reportDocFile = new File( this.reportDocumentName );
-		File reportDesignDocFile = new File( reportDesignName );
+		File reportDesignDocFile = new File( this.reportDesignName );
 
 		// if request is SOAP Post, don't delete document file
-		String requestType = request
-				.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-
 		if ( reportDesignDocFile != null
 				&& reportDesignDocFile.exists( )
 				&& reportDesignDocFile.isFile( )
@@ -641,7 +663,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				&& reportDocFile.exists( )
 				&& reportDocFile.isFile( )
 				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-						.equalsIgnoreCase( requestType )
+						.equalsIgnoreCase( this.requestType )
 				&& !ParameterAccessor.SERVLET_PATH_DOWNLOAD
 						.equalsIgnoreCase( request.getServletPath( ) ) )
 		{
@@ -888,8 +910,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							|| this.configMap == null || !this.configMap
 							.containsKey( paramName ) ) )
 			{
-				paramValue = this.getParameterDefaultValues(
-						reportDesignHandle, paramName, options );
+				paramValue = this.getParameterDefaultValue( reportDesignHandle,
+						paramName, options );
 
 				parsedParameters.put( paramName, paramValue );
 			}
@@ -899,45 +921,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	}
 
 	/**
-	 * @return the parameter handle list
-	 */
-	private List getParameterList( ) throws ReportServiceException
-	{
-		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
-				.getDesignObject( );
-
-		ModuleHandle model = null;
-
-		if ( runnable != null )
-			model = runnable.getDesignHandle( ).getModuleHandle( );
-
-		if ( model != null )
-			return model.getFlattenParameters( );
-		else
-			return null;
-	}
-
-	/**
-	 * @return the parameter handle
+	 * find the parameter handle by parameter name
+	 * 
+	 * @param paramName
+	 * @return
+	 * @throws ReportServiceException
 	 */
 	public ParameterHandle findParameter( String paramName )
 			throws ReportServiceException
 	{
-		if ( paramName == null )
-			return null;
-
-		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
-				.getDesignObject( );
-
-		ModuleHandle model = null;
-
-		if ( runnable != null )
-			model = runnable.getDesignHandle( ).getModuleHandle( );
-
-		if ( model != null )
-			return model.findParameter( paramName );
-		else
-			return null;
+		return BirtUtility.findParameter( this.reportDesignHandle, paramName );
 	}
 
 	/**
@@ -948,8 +941,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		return maxRows;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the report title
 	 * 
 	 * @see org.eclipse.birt.report.context.BaseAttributeBean#getReportTitle()
 	 */
@@ -970,48 +963,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 		}
 		return title;
-	}
-
-	/**
-	 * Get Display Text of select parameters
-	 * 
-	 * @param request
-	 * @return Map
-	 */
-	protected Map getDisplayTexts( Map displayTexts, HttpServletRequest request )
-	{
-		if ( displayTexts == null )
-			displayTexts = new HashMap( );
-
-		Enumeration params = request.getParameterNames( );
-		while ( params != null && params.hasMoreElements( ) )
-		{
-			String param = DataUtil.getString( params.nextElement( ) );
-			String paramName = ParameterAccessor.isDisplayText( param );
-			if ( paramName != null )
-			{
-				displayTexts.put( paramName, ParameterAccessor.getParameter(
-						request, param ) );
-			}
-		}
-
-		return displayTexts;
-	}
-
-	/**
-	 * Gets the module option map from the request.
-	 * 
-	 * @param request
-	 *            the request
-	 * @return the module options
-	 */
-
-	protected Map getModuleOptions( HttpServletRequest request )
-	{
-		Map options = new HashMap( );
-		options.put( IModuleOption.RESOURCE_FOLDER_KEY, ParameterAccessor
-				.getResourceFolder( request ) );
-		return options;
 	}
 
 	/**

@@ -680,7 +680,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			
 			if ( this.__mode == 'parameter' )
 			{
-				birtEventDispatcher.broadcastEvent( birtEvent.__E_CACHE_PARAMETER );
+				// check whether set __nocache setting in URL
+				if ( this.__ifCache( action ) )
+					birtEventDispatcher.broadcastEvent( birtEvent.__E_CACHE_PARAMETER );
+				else
+					this.__doSubmitWithPattern( );
 			}
 			else if ( this.__ifSubmit( this.__mode, action ) )
 			{
@@ -719,13 +723,49 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	},
 
 	/**
-	 *	Handle submit form with current parameters.
+	 *	Handle submit form with defined servlet pattern and current parameters.
 	 *
 	 *	@return, void
 	 */
-	__doSubmit : function( )
+	__doSubmitWithPattern : function( )
 	{
-		var action = window.location.href;
+		var url = window.location.href;
+		
+		// parse pattern
+		var reg = new RegExp( "[&|?]{1}__pattern\s*=([^&|^#]*)", "gi" );
+		var arr = url.match( reg );
+		var pattern;
+		if( arr && arr.length > 0 )		
+			pattern = RegExp.$1;
+		else
+			pattern = "frameset";
+						
+		// parse target
+		reg = new RegExp( "[&|?]{1}__target\s*=([^&|^#]*)", "gi" );
+		arr = url.match( reg );			
+		var target;
+		if( arr && arr.length > 0 )
+			target = RegExp.$1;
+		
+		reg = new RegExp( "[^/|^?]*[?]{1}", "gi" );
+		if( url.search( reg ) > -1 )
+			url = url.replace( reg, pattern + "?" );
+		
+		this.__doSubmit( url, target );
+	},
+	
+	/**
+	 *	Handle submit form with current parameters.
+	 *
+	 *  @param, url
+	 *  @param, target
+	 *	@return, void
+	 */
+	__doSubmit : function( url, target )
+	{
+		var action = url;
+		if( !action )
+			action = window.location.href;
 		
 		var divObj = document.createElement( "DIV" );
 		document.body.appendChild( divObj );
@@ -749,11 +789,25 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				action = action.replace( reg, "&" );
 			}
 		}
-
+		
+		// replace __parameterprompting setting
+		var reg = new RegExp( "([&|?]{1})(__parameterprompting\s*=[^&|^#]*)","gi" );
+		if ( action.search( reg ) > -1 )
+		{
+			action = action.replace( reg, "$1" );
+		}	
+		
+		// set target window
+		if( target )
+			formObj.target = target;
+			
 		formObj.action = action;
 		formObj.method = "post";
-				
-		this.__l_hide( );
+		
+		// if don't set target, hide the parameter dialog
+		if( !target )		
+			this.__l_hide( );
+						
 		formObj.submit( );		
 	},
 
@@ -918,7 +972,30 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_ALL );
 		}
 	},
-	
+
+	/**
+	 * Check if cache parameter, default to true
+	 * 
+	 * @param url
+	 * @return, true or false
+	 */
+	__ifCache: function( url )
+	{		
+		if( url )
+			url = url.toLowerCase( );
+		else
+			url = "";
+			
+		// if don't set __nocache, default is true
+		var reg = new RegExp( "[&|?]{1}__nocache[^&|^#]*", "gi" );
+		if( url.search( reg ) < 0 )
+			return true;
+		else
+			return false;			
+					
+		return true;
+	},
+		
 	/**
 	 * Check if submit request
 	 * @param mode
@@ -941,11 +1018,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		if( mode == 'run' || mode == 'frameset' )
 		{
 			// if don't set format, default is HTML
-			if( url.indexOf( '&__format=' ) < 0 )
-				return false;
-			
-			// if format is htm/html, return false	
-			if( url.indexOf( '&__format=htm' ) > 0 || url.indexOf( '&__format=html' ) > 0 )	
+			var reg = new RegExp( "[&|?]{1}__format\s*=[^&|^#]*", "gi" );
+			if( url.search( reg ) < 0 )
+				return false
+
+			// if format is htm/html, return false				
+			reg = new RegExp( "[&|?]{1}__format\s*=htm[l]{0,1}", "gi" )	
+			if( url.search( reg ) > -1 )
 				return false;
 			
 			return true;			

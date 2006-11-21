@@ -50,10 +50,13 @@ public interface IBirtConstants
 	// frameset viewer model.
 	public static final String VIEWER_FRAMESET = "frameset"; //$NON-NLS-1$
 
-	// running viewer model.
+	// run viewer model.
 	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
+	
+	// preview viewer model.
+	public static final String VIEWER_PREVIEW = "preview"; //$NON-NLS-1$
 
-//	 request GET method.
+	// request GET method.
 	public static final String REQUEST_GET = "get"; //$NON-NLS-1$
 
 	// request POST method.

@@ -216,11 +216,13 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
 		Boolean isRtl = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_RTL );
+		String servletPath = (String) renderOptions
+				.getOption( InputOptions.OPT_SERVLET_PATH );
 		try
 		{
 			ReportEngineService.getInstance( ).renderReportlet( out, request,
 					doc, objectId, isMasterPage, isSvg, null, locale,
-					isRtl.booleanValue( ) );
+					isRtl.booleanValue( ), servletPath );
 			doc.close( );
 		}
 		catch ( RemoteException e )
@@ -251,6 +253,9 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
 		Boolean isRtl = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_RTL );
+		String servletPath = (String) renderOptions
+				.getOption( InputOptions.OPT_SERVLET_PATH );
+
 		Long pageNum = null;
 		if ( pageRange != null && pageRange.trim( ).length( ) >= 0 )
 			pageNum = Long.valueOf( pageRange );
@@ -261,7 +266,7 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			ReportEngineService.getInstance( ).renderReport( out, request, doc,
 					page, isMasterPage, isSvg, null, locale,
-					isRtl.booleanValue( ) );
+					isRtl.booleanValue( ), servletPath );
 			doc.close( );
 
 		}
@@ -617,6 +622,8 @@ public class BirtViewerReportService implements IViewerReportService
 		String format = (String) options
 				.getOption( InputOptions.OPT_RENDER_FORMAT );
 		Boolean isRtl = (Boolean) options.getOption( InputOptions.OPT_RTL );
+		String servletPath = (String) options
+				.getOption( InputOptions.OPT_SERVLET_PATH );
 		try
 		{
 			IReportRunnable runnable = (IReportRunnable) design
@@ -625,7 +632,7 @@ public class BirtViewerReportService implements IViewerReportService
 			ReportEngineService.getInstance( ).runAndRenderReport( request,
 					runnable, out, format, locale, isRtl.booleanValue( ),
 					parameters, isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ), displayTexts );
+					svgFlag.booleanValue( ), displayTexts, servletPath );
 		}
 		catch ( RemoteException e )
 		{

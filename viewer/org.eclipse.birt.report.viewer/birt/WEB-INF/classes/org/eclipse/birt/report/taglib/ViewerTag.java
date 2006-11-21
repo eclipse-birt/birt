@@ -1,0 +1,105 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
+
+package org.eclipse.birt.report.taglib;
+
+import org.eclipse.birt.report.taglib.util.BirtTagUtil;
+
+/**
+ * The viewer tag is to specify how to import and control BIRT Report Viewer
+ * into JSP page. Use Ajax to preview report content. This tag needs browser
+ * iframe support.
+ * 
+ */
+public class ViewerTag extends AbstractViewerTag
+{
+
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -8856230384196724409L;
+
+	/**
+	 * process tag function
+	 * 
+	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__process()
+	 */
+	public void __process( ) throws Exception
+	{
+		// URI for viewer
+		String uri = viewer.createURI( null );
+		if ( viewer.isHostPage( ) )
+		{
+			__handleIFrame( uri, null );
+		}
+		else
+		{
+			__handleIFrame( uri, viewer.getId( ) );
+		}
+	}
+
+	/**
+	 * @param title
+	 *            the title to set
+	 */
+	public void setTitle( String title )
+	{
+		viewer.setTitle( title );
+	}
+
+	/**
+	 * @param allowPageBreak
+	 *            the allowPageBreak to set
+	 */
+	public void setAllowPageBreak( String allowPageBreak )
+	{
+		viewer.setAllowPageBreak( Boolean.valueOf( allowPageBreak )
+				.booleanValue( ) );
+	}
+
+	/**
+	 * @param forceOverwriteDocument
+	 *            the forceOverwriteDocument to set
+	 */
+	public void setForceOverwriteDocument( String forceOverwriteDocument )
+	{
+		viewer.setForceOverwriteDocument( BirtTagUtil
+				.convertBooleanValue( forceOverwriteDocument ) );
+	}
+
+	/**
+	 * @param showTitle
+	 *            the showTitle to set
+	 */
+	public void setShowTitle( String showTitle )
+	{
+		viewer.setShowTitle( BirtTagUtil.convertBooleanValue( showTitle ) );
+	}
+
+	/**
+	 * @param showToolBar
+	 *            the showToolBar to set
+	 */
+	public void setShowToolBar( String showToolBar )
+	{
+		viewer.setShowToolBar( BirtTagUtil.convertBooleanValue( showToolBar ) );
+	}
+
+	/**
+	 * @param showNavigationBar
+	 *            the showNavigationBar to set
+	 */
+	public void setShowNavigationBar( String showNavigationBar )
+	{
+		viewer.setShowNavigationBar( BirtTagUtil
+				.convertBooleanValue( showNavigationBar ) );
+	}
+}

@@ -19,6 +19,7 @@
 	Expected java beans
 -----------------------------------------------------------------------------%>
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
+<jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 
 <%
 	String pdfUrl = request.getContextPath( ) + "/run?"
@@ -30,7 +31,22 @@
 <%-----------------------------------------------------------------------------
 	Toolbar fragment
 -----------------------------------------------------------------------------%>
-<TR HEIGHT="20px">
+<TR 
+	<%
+		if( attributeBean.isShowToolbar( ) )
+		{
+	%>
+		HEIGHT="20px"
+	<%
+		}
+		else
+		{
+	%>
+		style="display:none"
+	<%
+		}
+	%>	
+>
 	<TD COLSPAN='2'>
 		<DIV ID="toolbar">
 			<TABLE CELLSPACING="1px" CELLPADDING="1px" WIDTH="100%" CLASS="birtviewer_toolbar">
