@@ -36,6 +36,8 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		this.__neh_click_exchange_closure = this.__neh_click_exchange.bindAsEventListener( this );
 		this.__neh_dblclick_src_closure = this.__neh_dblclick_src.bindAsEventListener( this );
 		this.__neh_dblclick_dest_closure = this.__neh_dblclick_dest.bindAsEventListener( this );
+		this.__neh_click_src_closure = this.__neh_click_src.bindAsEventListener( this );
+		this.__neh_click_dest_closure = this.__neh_click_dest.bindAsEventListener( this );
 		
 		this.__installEventHandlers( id );
 	},
@@ -64,6 +66,8 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{
 			Event.observe( oSelects[1], 'dblclick', this.__neh_dblclick_src_closure, false );
 			Event.observe( oSelects[2], 'dblclick', this.__neh_dblclick_dest_closure, false );
+			Event.observe( oSelects[1], 'click', this.__neh_click_src_closure, false );
+			Event.observe( oSelects[2], 'click', this.__neh_click_dest_closure, false );
 		}
 	},
 	
@@ -143,6 +147,22 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		
 		this.__updateButtons( );
 	},
+	
+	/**
+	 *	Native event handler for click source select element.
+	 */
+	__neh_click_src : function( event )
+	{
+		this.__updateButtons( );
+	},
+
+	/**
+	 *	Native event handler for click dest select element.
+	 */
+	__neh_click_dest : function( event )
+	{
+		this.__updateButtons( );
+	},
 		
 	/**
 	 *	Update button status.
@@ -153,16 +173,18 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var canExport = oSelects[0].options.length > 0;
 		var canAdd = oSelects[1].options.length > 0;
 		var canRemove = oSelects[2].options.length  > 0;
+		var srcSelectedIndex = oSelects[1].selectedIndex;
+		var destSelectedIndex = oSelects[2].selectedIndex;
 
 		var oInputs = this.__instance.getElementsByTagName( 'input' );
 		
 		oInputs[0].src = canAdd ? "birt/images/AddAll.gif" : "birt/images/AddAll_disabled.gif";
 		oInputs[0].style.cursor = canAdd ? "pointer" : "default";
 		
-		oInputs[1].src = canAdd ? "birt/images/Add.gif" : "birt/images/Add_disabled.gif";
+		oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add.gif" : "birt/images/Add_disabled.gif";
 		oInputs[1].style.cursor = canAdd ? "pointer" : "default";
 		
-		oInputs[2].src = canRemove ? "birt/images/Remove.gif" : "birt/images/Remove_disabled.gif";
+		oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove.gif" : "birt/images/Remove_disabled.gif";
 		oInputs[2].style.cursor = canRemove ? "pointer" : "default";
 
 		oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
