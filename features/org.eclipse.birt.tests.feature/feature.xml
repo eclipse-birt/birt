@@ -111,4 +111,14 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+   <plugin
+         id="org.eclipse.birt.tests.data"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+   <plugin
+         id="org.eclipse.birt.test.performance"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 </feature>
