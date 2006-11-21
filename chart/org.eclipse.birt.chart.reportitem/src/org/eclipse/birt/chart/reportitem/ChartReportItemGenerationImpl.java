@@ -142,7 +142,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		// prepare the chart model.
 		rtc = Generator.instance( ).prepare( cm,
 				new BIRTExternalContext( context ),
-				new BIRTScriptClassLoader( ),
+				new BIRTScriptClassLoader( appClassLoader ),
 				ULocale.getDefault( ) );
 
 		// check

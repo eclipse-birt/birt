@@ -33,7 +33,14 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
+	
+	private ClassLoader classLoader;
 
+	public BIRTScriptClassLoader( ClassLoader classLoader )
+	{
+		this.classLoader = classLoader;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -48,6 +55,16 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 
 		Class c = null;
 		ClassNotFoundException ex = null;
+
+		// Use built-in classLoader to load class first
+		if ( this.classLoader != null )
+		{
+			c = this.classLoader.loadClass( className );
+			if ( c != null )
+			{
+				return c;
+			}
+		}		
 
 		try
 		{
