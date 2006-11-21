@@ -402,8 +402,8 @@ final class SwingTextRenderer implements IConstants
 		// DRAW POSITIVE ANGLE (> 0)
 		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 		{
-			double dDeltaX = dFW - dFW * dCosTheta;
-			double dDeltaY = dFW * dSineTheta + dH / 2;
+			double dDeltaX = dFW - dFW * dCosTheta ;
+			double dDeltaY = dFW * dSineTheta + dH / 2 - dH * dCosTheta / 2.0  ;
 			dX += dDeltaX;
 			dY -= dDeltaY;
 
@@ -471,7 +471,7 @@ final class SwingTextRenderer implements IConstants
 		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
 		{
 			double dDeltaX = dFW - dFW * dCosTheta - dH * dSineTheta;
-			double dDeltaY = dFW * dSineTheta + dH / 2 - dH * dCosTheta;
+			double dDeltaY = + dFW * dSineTheta - dH / 2 + dH * dCosTheta / 2;
 			dX += dDeltaX;
 			dY -= dDeltaY;
 			g2d.rotate( dAngleInRadians, dRotateX + dDeltaX, dRotateY - dDeltaY );
@@ -723,7 +723,9 @@ final class SwingTextRenderer implements IConstants
 		int iRotateX = (int) dX;
 		int iRotateY = (int) ( dY + dH / 2 );
 		dY += dH / 2;
-
+		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		
 		// HORIZONTAL TEXT
 		if ( dAngleInDegrees == 0 )
 		{
@@ -797,7 +799,7 @@ final class SwingTextRenderer implements IConstants
 		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 		{
 			double dDeltaX = dH * Math.sin( dAngleInRadians );
-			double dDeltaY = dH * Math.cos( dAngleInRadians ) - dH / 2;
+			double dDeltaY = dH / 2 - dH * dCosTheta / 2;
 			dX -= dDeltaX;
 			dY += dDeltaY;
 			g2d.rotate( dAngleInRadians, iRotateX - dDeltaX, iRotateY + dDeltaY );
@@ -868,7 +870,7 @@ final class SwingTextRenderer implements IConstants
 		// DRAW NEGATIVE ANGLE (< 0)
 		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
 		{
-			double dDeltaY = -dH / 2;
+			double dDeltaY = - dH / 2 + dH * dCosTheta / 2;
 			dY += dDeltaY;
 			g2d.rotate( dAngleInRadians, iRotateX, iRotateY + dDeltaY );
 
@@ -1122,6 +1124,9 @@ final class SwingTextRenderer implements IConstants
 		dX -= dFW / 2;
 		dY += dH;
 
+		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		
 		// HORIZONTAL TEXT
 		if ( dAngleInDegrees == 0 )
 		{
@@ -1185,9 +1190,8 @@ final class SwingTextRenderer implements IConstants
 		// DRAW IT AT A POSITIVE ANGLE
 		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 		{
-			double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-			double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-			double dDeltaX = dFW * dCosTheta - dH * dSineTheta - dFW / 2.0;
+			
+			double dDeltaX = dFW * dCosTheta - dH * dSineTheta / 2.0 - dFW / 2.0;
 			double dDeltaY = dH * dCosTheta + dFW * dSineTheta - dH;
 
 			dX -= dDeltaX;
@@ -1256,7 +1260,7 @@ final class SwingTextRenderer implements IConstants
 		// DRAW IT AT A NEGATIVE ANGLE
 		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
 		{
-			dX += dFW / 2;
+			dX += dFW / 2  + dH * dSineTheta / 2.0;
 			g2d.rotate( dAngleInRadians, dX, dY - dH );
 			if ( bShadow ) // RENDER THE SHADOW
 			{
@@ -1511,7 +1515,8 @@ final class SwingTextRenderer implements IConstants
 				.getHorizontalAlignment( );
 		final boolean bRightAligned = ha.getValue( ) == HorizontalAlignment.RIGHT;
 		final boolean bCenterAligned = ha.getValue( ) == HorizontalAlignment.CENTER;
-
+		double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
 		dX -= dFW / 2;
 
 		// HORIZONTAL TEXT
@@ -1582,7 +1587,7 @@ final class SwingTextRenderer implements IConstants
 		// DRAW IT AT A POSITIVE ANGLE
 		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 		{
-			double dDeltaX = dFW / 2;
+			double dDeltaX = dFW / 2 + dH * dSineTheta / 2.0;;
 
 			dX += dDeltaX;
 			g2d.rotate( dAngleInRadians, dX, dY );
@@ -1654,9 +1659,8 @@ final class SwingTextRenderer implements IConstants
 		// DRAW IT AT A NEGATIVE ANGLE
 		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
 		{
-			double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-			double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-			dX -= dFW / 2 - ( dFW - dFW * dCosTheta );
+			
+			dX += - dFW * dCosTheta - dH * dSineTheta / 2.0 + dFW / 2.0; 
 			dY -= dFW * dSineTheta;
 			g2d.rotate( dAngleInRadians, dX, dY );
 			if ( bShadow ) // RENDER THE SHADOW
