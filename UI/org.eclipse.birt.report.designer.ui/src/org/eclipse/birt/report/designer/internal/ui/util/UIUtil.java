@@ -585,6 +585,13 @@ public class UIUtil
 		layout.marginHeight = layout.marginWidth = 0;
 		return layout;
 	}
+	
+	public static GridLayout createGridLayoutWithMargin( int margin)
+	{
+		GridLayout layout = new GridLayout( );
+		layout.marginHeight = layout.marginWidth = margin;
+		return layout;
+	}
 
 	/**
 	 * Creates a new grid layout without margins with given the number of

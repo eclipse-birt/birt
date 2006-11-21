@@ -24,12 +24,8 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTempla
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemPropertyEditUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
-import org.eclipse.birt.report.designer.ui.views.attributes.DefaultPageGenerator;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
@@ -47,8 +43,7 @@ public class GuiExtensionManager
 	public static final String PALETTE_MASTERPAGE = "pallet_masterpage"; //$NON-NLS-1$
 
 	public static final String DESIGNER_FACTORY = "designer_factory"; //$NON-NLS-1$
-	public static final String ATTRIBUTE = "attribute"; //$NON-NLS-1$
-
+	
 	private static final String EXT_MGR_LABEL = Messages.getString( "GuiExtensionManager.label.name" ); //$NON-NLS-1$
 
 	/**
@@ -75,36 +70,12 @@ public class GuiExtensionManager
 		{
 			retValue = doDesignerFactory( object );
 		}
-		else if ( ATTRIBUTE.equals( extension.getExtendsionIdentify( ) ) )
-		{
-			retValue = doAttribute( object );
-		}
+		
 
 		return retValue;
 	}
 
-	private static Object doAttribute( Object object )
-	{
-		Object retValue = null;
-		if ( object instanceof ExtendedItemHandle )
-		{
-			retValue = new DefaultPageGenerator( );
-			ExtendedItemHandle handle = (ExtendedItemHandle) object;
-			String id = getExtendedElementID( handle );
-			ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
-					.getExtendedElementPoint( id );
-			if ( point == null )
-			{
-				return retValue;
-			}
-			IReportItemPropertyEditUI edit = point.getReportItemPropertyEditUI( );
-
-			ExtendedItemPageGenerator generator = new ExtendedItemPageGenerator( );
-			generator.setPropertyEditUI( edit );
-			retValue = generator;
-		}
-		return retValue;
-	}
+	
 
 	private static Object doDesignerFactory( Object object )
 	{

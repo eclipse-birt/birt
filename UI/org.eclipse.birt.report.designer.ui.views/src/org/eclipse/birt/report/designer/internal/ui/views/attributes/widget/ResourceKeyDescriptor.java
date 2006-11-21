@@ -86,7 +86,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 			{
 				if ( resource != null )
 				{
-					path = FileLocator.resolve( resource ).getPath( );
+					path = FileLocator.resolve( resource ).getFile( );
 				}
 
 			}

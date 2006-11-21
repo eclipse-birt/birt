@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -28,6 +30,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 
 
 /**
@@ -62,11 +65,26 @@ public class GroupModelProvider
 
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			PropertyProcessor propertyProcessor = new PropertyProcessor( ReportDesignConstants.TABLE_GROUP_ELEMENT,
+			columnNames[i] = getDisplayName( ReportDesignConstants.TABLE_GROUP_ELEMENT,
 					keys[i] );
-			columnNames[i] = propertyProcessor.getDisplayName( );
 		}
 		return columnNames;
+	}
+	
+	private String getDisplayName( String elementName, String property)
+	{
+		String name = null;
+		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
+				.getElement( elementName )
+				.getProperty( property );
+		if ( propertyDefn != null )
+		{
+			name = Messages.getString( propertyDefn.getDisplayNameID( ) );
+		}
+
+		if ( name == null )
+			return ""; //$NON-NLS-1$
+		return name;
 	}
 
 	/**

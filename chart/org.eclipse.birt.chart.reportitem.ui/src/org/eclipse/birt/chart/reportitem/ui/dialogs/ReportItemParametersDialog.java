@@ -126,7 +126,7 @@ public class ReportItemParametersDialog extends BaseDialog
 			IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptors[i];
 			ArrayList input = new ArrayList( );
 			input.add( reportItemHandle );
-			descriptor.setModelList( input );
+			descriptor.setInput( input );
 		}
 
 		refreshValues( );

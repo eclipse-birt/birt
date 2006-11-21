@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
@@ -103,11 +103,16 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new TextDataEditPart( model );
 		}
-		if ( model instanceof ReportElementModel &&
-			(((ReportElementModel)model).getElementHandle() instanceof SimpleMasterPageHandle))
-		{
-			return new AreaEditPart( model );
-		}
+//		if ( model instanceof ReportElementModel &&
+//			(((ReportElementModel)model).getElementHandle() instanceof SimpleMasterPageHandle))
+//		{
+//			return new AreaEditPart( model );
+//		}
+		if ( model instanceof SlotHandle &&
+				(((SlotHandle)model).getElementHandle() instanceof SimpleMasterPageHandle))
+			{
+				return new AreaEditPart( model );
+			}
 		if ( model instanceof GridHandle )
 		{
 			return new GridEditPart( model );

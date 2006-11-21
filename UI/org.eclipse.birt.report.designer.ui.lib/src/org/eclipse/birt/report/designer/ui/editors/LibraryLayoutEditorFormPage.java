@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -245,6 +246,11 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		if ( adapter == DataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
+			return page;
+		}
+		if ( adapter == AttributeViewPage.class )
+		{
+			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
 		return super.getAdapter( adapter );

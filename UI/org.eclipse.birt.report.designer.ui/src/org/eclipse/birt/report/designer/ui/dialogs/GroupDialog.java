@@ -19,13 +19,13 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -75,7 +75,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
-
 
 /**
  * Group Properties Dialog

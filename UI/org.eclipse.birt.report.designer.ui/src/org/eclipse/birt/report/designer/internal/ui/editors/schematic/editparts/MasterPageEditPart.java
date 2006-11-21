@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.Figure;
@@ -274,14 +274,14 @@ public class MasterPageEditPart extends AbstractReportEditPart
 	protected List getModelChildren( )
 	{
 
-		ReportElementModel model = new ReportElementModel( ( (SimpleMasterPageHandle) getModel( ) ).getPageHeader( ) );
+		SlotHandle model = ( (SimpleMasterPageHandle) getModel( ) ).getPageHeader( ) ;
 
 		if ( !children.contains( model ) )
 		{
 			children.add( model );
 		}
 
-		model = new ReportElementModel( ( (SimpleMasterPageHandle) getModel( ) ).getPageFooter( ) );
+		model =  ( (SimpleMasterPageHandle) getModel( ) ).getPageFooter( ) ;
 
 		if ( !children.contains( model ) )
 		{

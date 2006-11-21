@@ -77,21 +77,24 @@ class FragmentResourceEntry extends BaseResourceEntity
 								&& enumeration.hasMoreElements( ) )
 						{
 							URL element = (URL) enumeration.nextElement( );
-							String[] path = element.getPath( ).split( "/" ); //$NON-NLS-1$
+							String path = element.getPath( )
+									+ ( element.getRef( ) != null ? "#"
+											+ element.getRef( ) : "" );
+							String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
 							FragmentResourceEntry parent = this;
-							for ( int m = 0; m < path.length; m++ )
+							for ( int m = 0; m < pathtoken.length; m++ )
 							{
-								if ( path[m].equals( "" ) ) //$NON-NLS-1$
+								if ( pathtoken[m].equals( "" ) ) //$NON-NLS-1$
 									continue;
-								FragmentResourceEntry child = parent.getChild( path[m] );
+								FragmentResourceEntry child = parent.getChild( pathtoken[m] );
 								if ( child == null )
 								{
-									child = new FragmentResourceEntry( path[m],
+									child = new FragmentResourceEntry( pathtoken[m],
 											( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
 													: parent.path ) + "/" //$NON-NLS-1$
-													+ path[m],
+													+ pathtoken[m],
 											parent,
-											m == path.length - 1 );
+											m == pathtoken.length - 1 );
 								}
 								parent = child;
 							}

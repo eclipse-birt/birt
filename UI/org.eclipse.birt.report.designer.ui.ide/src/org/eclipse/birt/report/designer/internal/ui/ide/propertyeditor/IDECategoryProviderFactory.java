@@ -298,6 +298,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					// "RowPageGenerator.List.CellPadding" //$NON-NLS-1$
 					"RowPageGenerator.List.Font", //$NON-NLS-1$
 					"RowPageGenerator.List.Borders", //$NON-NLS-1$
+					"RowPageGenerator.List.Section",
 					"RowPageGenerator.List.Visibility", //$NON-NLS-1$
 					"RowPageGenerator.List.Bookmark", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
@@ -308,6 +309,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					// CellPaddingPage.class,
 					FontPage.class,
 					BordersPage.class,
+					SectionPage.class,
 					VisibilityPage.class,
 					BookMarkExpressionPage.class,
 					UserPropertiesPage.class,
@@ -405,7 +407,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		}
 		return super.getCategoryProvider( elementName );
 	}
-
+	
 	public ICategoryProvider getCategoryProvider( DesignElementHandle handle )
 	{
 

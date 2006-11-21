@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -50,6 +52,7 @@ public class ResourceLocator
 
 	public static String relativize( URL url )
 	{
+		String path = url.getFile( );
 		if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
 			// return new File( ReportPlugin.getDefault( ).getResourceFolder( )
@@ -57,8 +60,8 @@ public class ResourceLocator
 			// .relativize( new File( url.getPath( ) ).toURI( ) )
 			// .getPath( );
 			return URIUtil.getRelativePath( ReportPlugin.getDefault( )
-					.getResourceFolder( ), url.getPath( ) );
+					.getResourceFolder( ), path );
 		}
-		return url.getPath( );
+		return path;
 	}
 }

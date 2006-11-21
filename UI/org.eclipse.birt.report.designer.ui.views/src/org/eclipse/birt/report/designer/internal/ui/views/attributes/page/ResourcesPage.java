@@ -37,7 +37,7 @@ public class ResourcesPage extends AttributePage
 
 	private TextAndButtonSection includeSourceSection;
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
 		// TODO Auto-generated method stub
@@ -56,8 +56,12 @@ public class ResourcesPage extends AttributePage
 				final NewResourceFileDialog dialog = new NewResourceFileDialog( );
 				if ( dialog.open( ) == Window.OK )
 				{
-					includeSourceSection.setStringValue( dialog.getPath( )
-							.substring( 0, dialog.getPath( ).lastIndexOf( "." ) ) ); //$NON-NLS-1$
+					String path = dialog.getPath( );
+					if ( path.lastIndexOf( "." ) > 0 )
+					{
+						path = path.substring( 0, path.lastIndexOf( "." ) );
+					}
+					includeSourceSection.setStringValue( path );
 					includeSourceSection.forceFocus( );
 				}
 			}

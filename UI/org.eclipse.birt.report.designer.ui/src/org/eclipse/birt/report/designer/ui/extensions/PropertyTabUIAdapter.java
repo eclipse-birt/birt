@@ -11,25 +11,15 @@
 
 package org.eclipse.birt.report.designer.ui.extensions;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * Adapter class for IPropertyTabUI, default doing nothing.
  */
-abstract public class PropertyTabUIAdapter implements IPropertyTabUI
+public class PropertyTabUIAdapter implements IPropertyTabUI
 {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#buildUI(org.eclipse.swt.widgets.Composite)
-	 */
-	public void buildUI( Composite composite )
-	{
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -39,15 +29,6 @@ abstract public class PropertyTabUIAdapter implements IPropertyTabUI
 	public String getTabDisplayName( )
 	{
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#setInput(java.util.List)
-	 */
-	public void setInput( List elements )
-	{
 	}
 
 	/*
@@ -66,6 +47,24 @@ abstract public class PropertyTabUIAdapter implements IPropertyTabUI
 	 */
 	public void dispose( )
 	{
+	}
+
+	public void buildUI( Composite parent)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected Object input;
+	public void setInput( Object input )
+	{
+		this.input = input;
+	}
+
+	public Control getControl( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

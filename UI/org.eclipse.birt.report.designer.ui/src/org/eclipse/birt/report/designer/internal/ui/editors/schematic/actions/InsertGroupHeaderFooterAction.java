@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -90,7 +89,7 @@ public class InsertGroupHeaderFooterAction extends Action
 		}
 		if ( slotHandle.canContain( ReportDesignConstants.ROW_ELEMENT ) )
 		{
-			ReportElementModel model = new ReportElementModel( slotHandle );
+			SlotHandle model =  slotHandle;
 			if ( ( (ReportElementHandle) model.getElementHandle( ) ).isValidReferenceForCompoundElement( ) )
 			{
 				insertAction = new InsertAction( model, "", //$NON-NLS-1$

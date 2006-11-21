@@ -14,11 +14,11 @@ package org.eclipse.birt.report.designer.core.commands;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.gef.commands.Command;
 
@@ -90,11 +90,19 @@ public class FlowMoveChildCommand extends Command
 				slotID = DEUtil.getSlotID( containerHandle, after );
 				pos = DEUtil.findInsertPosition( containerHandle,
 						(DesignElementHandle) after );
-			}
-			else if ( container instanceof ReportElementModel )
+			}else 
+//			if ( container instanceof ReportElementModel )
+//			{
+//				containerHandle = ( (ReportElementModel) container ).getElementHandle( );
+//				slotID = ( (ReportElementModel) container ).getSlotId( );
+//				pos = DEUtil.findInsertPosition( containerHandle,
+//						(DesignElementHandle) after,
+//						slotID );
+//			}else 
+			if ( container instanceof SlotHandle )
 			{
-				containerHandle = ( (ReportElementModel) container ).getElementHandle( );
-				slotID = ( (ReportElementModel) container ).getSlotId( );
+				containerHandle = ( (SlotHandle) container ).getElementHandle( );
+				slotID = ( (SlotHandle) container ).getSlotID( );
 				pos = DEUtil.findInsertPosition( containerHandle,
 						(DesignElementHandle) after,
 						slotID );

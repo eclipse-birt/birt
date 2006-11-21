@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.core.commands.FlowMoveChildCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.SetConstraintCommand;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
@@ -25,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
@@ -154,10 +154,15 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		CreateCommand command = new CreateCommand( request.getExtendedData( ) );
 
 		Object model = this.getHost( ).getModel( );
-		if ( model instanceof ReportElementModel )
-		{
-			command.setParent( ( (ReportElementModel) model ).getSlotHandle( ) );
-		}
+//		if ( model instanceof ReportElementModel )
+//		{
+//			command.setParent( ( (ReportElementModel) model ).getSlotHandle( ) );
+//		}else
+			if ( model instanceof SlotHandle )
+			{
+				command.setParent( ( (SlotHandle) model ) );
+			}
+		
 		else if ( model instanceof ListBandProxy )
 		{
 			command.setParent( ( (ListBandProxy) model ).getSlotHandle( ) );

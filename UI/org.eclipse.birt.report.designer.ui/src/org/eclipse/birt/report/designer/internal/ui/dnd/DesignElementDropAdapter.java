@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.IElementDropAdapter;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;
@@ -64,43 +66,54 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	public boolean performDrop( Object data )
 	{
-		if ( data instanceof Object[]
-				&& ( (Object[]) data )[0] instanceof ThemeHandle )
+		Object adapter = ElementAdapterManager.getAdatper( getCurrentTarget( ),
+				IElementDropAdapter.class );
+		if ( adapter != null )
 		{
-			if ( getCurrentTarget( ) instanceof ModuleHandle )
-			{
-				if ( Policy.TRACING_DND_DRAG )
-				{
-					System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
-							+ getCurrentTarget( ) );
-				}
-				return ApplyTheme( (ThemeHandle) ( (Object[]) data )[0],
-						(ModuleHandle) getCurrentTarget( ) );
-			}
-			else
-			{
-				return false;
-			}
+			IElementDropAdapter dropAdapter = (IElementDropAdapter) adapter;
+			return dropAdapter.handleDrop( getCurrentTarget( ),
+					getCurrentOperation( ),
+					getCurrentLocation( ),
+					data );
 		}
 
-		if ( getCurrentOperation( ) == DND.DROP_MOVE )
-		{
-			if ( Policy.TRACING_DND_DRAG )
-			{
-				System.out.println( "DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
-						+ getCurrentTarget( ) );
-			}
-			return moveData( data, getCurrentTarget( ) );
-		}
-		else if ( getCurrentOperation( ) == DND.DROP_COPY || getCurrentOperation( ) == DND.DROP_LINK )
-		{
-			if ( Policy.TRACING_DND_DRAG )
-			{
-				System.out.println( "DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
-						+ getCurrentTarget( ) );
-			}
-			return copyData( data, getCurrentTarget( ) );
-		}
+//		if ( data instanceof Object[]
+//				&& ( (Object[]) data )[0] instanceof ThemeHandle )
+//		{
+//			if ( getCurrentTarget( ) instanceof ModuleHandle )
+//			{
+//				if ( Policy.TRACING_DND_DRAG )
+//				{
+//					System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
+//							+ getCurrentTarget( ) );
+//				}
+//				return ApplyTheme( (ThemeHandle) ( (Object[]) data )[0],
+//						(ModuleHandle) getCurrentTarget( ) );
+//			}
+//			else
+//			{
+//				return false;
+//			}
+//		}
+//
+//		if ( getCurrentOperation( ) == DND.DROP_MOVE )
+//		{
+//			if ( Policy.TRACING_DND_DRAG )
+//			{
+//				System.out.println( "DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
+//						+ getCurrentTarget( ) );
+//			}
+//			return moveData( data, getCurrentTarget( ) );
+//		}
+//		else if ( getCurrentOperation( ) == DND.DROP_COPY )
+//		{
+//			if ( Policy.TRACING_DND_DRAG )
+//			{
+//				System.out.println( "DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
+//						+ getCurrentTarget( ) );
+//			}
+//			return copyData( data, getCurrentTarget( ) );
+//		}
 		return false;
 	}
 
@@ -109,6 +122,15 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	public boolean validateDrop( Object target, int op, TransferData type )
 	{
+
+		if(target!=null){
+			Object adapter = ElementAdapterManager.getAdatper( target, IElementDropAdapter.class );
+			if(adapter!=null){
+				IElementDropAdapter dropAdapter = (IElementDropAdapter)adapter;
+				return dropAdapter.validateDrop( target, getCurrentOperation( ), getCurrentLocation( ), null, type );
+			}
+		}
+		
 		return TemplateTransfer.getInstance( ).isSupportedType( type );
 	}
 

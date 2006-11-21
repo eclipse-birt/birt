@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor;
@@ -75,10 +74,10 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction
 			{
 				container = (SlotHandle) selected;
 			}
-			else if ( selected instanceof ReportElementModel )
-			{
-				container = ( (ReportElementModel) selected ).getSlotHandle( );
-			}
+//			else if ( selected instanceof ReportElementModel )
+//			{
+//				container = ( (ReportElementModel) selected ).getSlotHandle( );
+//			}
 			else if ( selected instanceof DesignElementHandle )
 			{
 				int slotId = DEUtil.getDefaultSlotID( selected );

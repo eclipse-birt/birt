@@ -25,11 +25,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -174,9 +170,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" ); //$NON-NLS-1$
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.TemplateEditor" ); //$NON-NLS-1$
 		addIgnoreViewID( IPageLayout.ID_OUTLINE );
-		addIgnoreViewID( AttributeView.ID );
+//		addIgnoreViewID( AttributeView.ID );
 		addIgnoreViewID( PaletteView.ID );
-		addIgnoreViewID( DataView.ID );
+//		addIgnoreViewID( DataView.ID );
 
 		// set resource folder in DesignerConstants for use in Core plugin
 		CorePlugin.RESOURCE_FOLDER = getResourcePreference( );

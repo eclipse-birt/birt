@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -157,10 +156,10 @@ public class CopyAction extends AbstractViewAction
 			}
 			return true;
 		}
-		if ( selection instanceof ReportElementModel )
-		{
-			return canCopy( ( (ReportElementModel) selection ).getSlotHandle( ) );
-		}
+//		if ( selection instanceof ReportElementModel )
+//		{
+//			return canCopy( ( (ReportElementModel) selection ).getSlotHandle( ) );
+//		}
 		if ( selection instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) selection;

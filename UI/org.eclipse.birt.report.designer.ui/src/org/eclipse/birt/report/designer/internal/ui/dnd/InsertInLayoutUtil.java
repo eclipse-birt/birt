@@ -21,16 +21,15 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ResultSetColumnProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -688,7 +687,7 @@ public class InsertInLayoutUtil
 			// .newLabel( null );
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
-			label.setText( ResultSetColumnProvider.getDisplayName( model ) );
+			label.setText( getDisplayName( model ) );
 			rule.insert( label );
 		}
 
@@ -700,7 +699,6 @@ public class InsertInLayoutUtil
 
 		return dataHandle;
 	}
-
 	// private static GroupHandle getGroupHandle( Object target )
 	// {
 	// DesignElementHandle handle = null;
@@ -861,11 +859,12 @@ public class InsertInLayoutUtil
 			Object slotHandle )
 	{
 		SlotHandle handle = null;
-		if ( slotHandle instanceof ReportElementModel )
-		{
-			handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
-		}
-		else if ( slotHandle instanceof SlotHandle )
+//		if ( slotHandle instanceof ReportElementModel )
+//		{
+//			handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
+//		}
+//		else 
+			if ( slotHandle instanceof SlotHandle )
 		{
 			handle = (SlotHandle) slotHandle;
 		}
@@ -1028,11 +1027,11 @@ public class InsertInLayoutUtil
 
 	private static boolean isMasterPageHeaderOrFooter( Object obj )
 	{
-		if ( !( obj instanceof ReportElementModel ) )
+		if ( !( obj instanceof SlotHandle ) )
 		{
 			return false;
 		}
-		if ( ( (ReportElementModel) obj ).getSlotHandle( ).getElementHandle( ) instanceof MasterPageHandle )
+		if ( ((SlotHandle) obj).getElementHandle( ) instanceof MasterPageHandle )
 		{
 			return true;
 		}
@@ -1112,7 +1111,7 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						String labelText = ResultSetColumnProvider.getDisplayName( columns[j] );
+						String labelText = getDisplayName( columns[j] );
 						if ( labelText != null )
 						{
 							labelItemHandle.setText( labelText );
@@ -1221,5 +1220,21 @@ public class InsertInLayoutUtil
 			}
 		}
 		return new StructuredSelection( resultList );
+	}
+	private static String getDisplayName( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getDisplayName( ) == null
+						? column.getColumnName( ) : element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
 	}
 }

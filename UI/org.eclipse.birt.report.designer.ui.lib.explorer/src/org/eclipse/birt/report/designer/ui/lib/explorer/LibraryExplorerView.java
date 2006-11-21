@@ -68,9 +68,10 @@ public class LibraryExplorerView extends PageBookView
 
 	protected PageRec getPageRec( IWorkbenchPart part )
 	{
-		if ( !ReportPlugin.getDefault( )
-				.getResourceFolder( )
-				.equals( this.resourceFolder ) )
+		if ( ReportPlugin.getDefault( ).getResourceFolder( ) != null
+				&& !ReportPlugin.getDefault( )
+						.getResourceFolder( )
+						.equals( this.resourceFolder ) )
 		{
 			// refresh viewer only resource folder changed.
 			if ( treeViewPage != null && !treeViewPage.isDisposed( ) )

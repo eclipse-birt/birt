@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.core.commands;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -203,12 +202,12 @@ public class PasteCommand extends Command
 		{
 			slotHandle = (SlotHandle) newContainer;
 		}
-		else if ( newContainer instanceof ReportElementModel )
-		{
-			slotHandle = ( (ReportElementModel) newContainer ).getElementHandle( )
-					.getSlot( slotID );
-
-		}
+//		else if ( newContainer instanceof ReportElementModel )
+//		{
+//			slotHandle = ( (ReportElementModel) newContainer ).getElementHandle( )
+//					.getSlot( slotID );
+//
+//		}
 		slotHandle.paste( newHandle, position );
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
@@ -239,11 +238,11 @@ public class PasteCommand extends Command
 			slotID = ( (SlotHandle) newContainer ).getSlotID( );
 			container = ( (SlotHandle) newContainer ).getElementHandle( );
 		}
-		else if ( newContainer instanceof ReportElementModel )
-		{
-			slotID = ( (ReportElementModel) newContainer ).getSlotId( );
-			container = ( (ReportElementModel) newContainer ).getElementHandle( );
-		}
+//		else if ( newContainer instanceof ReportElementModel )
+//		{
+//			slotID = ( (ReportElementModel) newContainer ).getSlotId( );
+//			container = ( (ReportElementModel) newContainer ).getElementHandle( );
+//		}
 		else
 		{
 			return;

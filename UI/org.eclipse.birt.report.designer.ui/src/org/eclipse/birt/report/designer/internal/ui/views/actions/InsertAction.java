@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -132,10 +131,10 @@ public class InsertAction extends AbstractElementAction
 	private SlotHandle getDefaultSlotHandle( )
 	{
 		Object obj = getSelection( );
-		if ( obj instanceof ReportElementModel )
-		{
-			return ( (ReportElementModel) obj ).getSlotHandle( );
-		}else 
+//		if ( obj instanceof ReportElementModel )
+//		{
+//			return ( (ReportElementModel) obj ).getSlotHandle( );
+//		}else 
 		if(obj instanceof SlotHandle)
 		{
 			return (SlotHandle)obj;

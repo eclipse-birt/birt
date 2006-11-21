@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -55,14 +54,8 @@ public final class DataSetUIUtil
 			DataSetHandle dataSetHandle ) throws SemanticException
 	{
 		if ( dataSetHandle instanceof OdaDataSetHandle )
-		{
-			// set resultset property with empty list to make datasetHandle
-			// extended from library could do query execution again.
-			Object obj = dataSetHandle.getElement( ).getLocalProperty( dataSetHandle.getModule( ) , OdaDataSetHandle.RESULT_SET_PROP );
-			if ( obj != null )
-				dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
-						.setValue( new ArrayList( ) );
-		}
+			dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
+					.clearValue( );
 		updateColumnCache( dataSetHandle );
 
 	}

@@ -2331,4 +2331,65 @@ public class DEUtil
 		DateFormatter formater = new DateFormatter( pattern );
 		return formater.parse( xmlString );
 	}
+	
+	
+
+	public static int getInputSize(Object input){
+		if ( input instanceof GroupElementHandle )
+		{
+			return  ( (GroupElementHandle) input ).getElements( ).size( );
+		}
+		else if( input instanceof List ){
+			return  ( getMultiSelectionHandle((List)input )).getElements( ).size( );
+		}
+		return -1;
+	}
+	
+	public static Object getInputFirstElement(Object input){
+		if ( input instanceof GroupElementHandle )
+		{
+			return  ( (GroupElementHandle) input ).getElements( ).get( 0 );
+		}
+		else if( input instanceof List ){
+			return  ((List)input).get( 0 );
+		}
+		else return input;
+	}
+	
+	public static Object getInputFirstElement(Object input,boolean notSame){
+		if ( input instanceof GroupElementHandle )
+		{
+			if(notSame && ( (GroupElementHandle) input ).isSameType( ) ) return null;
+			return  ( (GroupElementHandle) input ).getElements( ).get( 0 );
+		}
+		else if( input instanceof List ){
+			GroupElementHandle group = DEUtil.getGroupElementHandle( (List)input );
+			if(notSame && group!=null && group.isSameType( ) ) return null;
+			return  ((List)input).get( 0 );
+		}
+		else return input;
+	}
+	
+	public static Object getInputElement(Object input,int index){
+		if ( input instanceof GroupElementHandle )
+		{
+			return  ( (GroupElementHandle) input ).getElements( ).get( index );
+		}
+		else if( input instanceof List ){
+			return  ((List)input).get( index );
+		}
+		else return input;
+	}
+	
+	public static List getInputElements(Object input){
+		if ( input instanceof GroupElementHandle )
+		{
+			return  ( (GroupElementHandle) input ).getElements( );
+		}
+		else if( input instanceof List ){
+			return  (List)input;
+		}
+		else return Collections.EMPTY_LIST;
+	}
+
 }

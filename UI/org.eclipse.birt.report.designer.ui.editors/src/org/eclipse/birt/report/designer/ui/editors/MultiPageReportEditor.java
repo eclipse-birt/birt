@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -96,6 +97,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider( this );
 	private boolean isChanging = false;
+	private ReportMultiBookPage attributePage;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
@@ -336,7 +338,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	}
 	
 
-
 	private void fireDesignFileChangeEvent( )
 	{
 		if ( getModel( ) != null )
@@ -442,6 +443,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			updateDateView( getActivePageInstance( ) );
 			return adapter;
 		}
+		
+		if ( type == AttributeViewPage.class )
+		{
+			Object adapter = getAttributePage( );
+			updateAttributeView( getActivePageInstance( ) );
+			return adapter;
+		}
 
 		if ( getActivePageInstance( ) != null )
 		{
@@ -449,6 +457,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 
 		return super.getAdapter( type );
+	}
+
+	private void updateAttributeView( IFormPage activePageInstance )
+	{
+		if ( attributePage == null )
+		{
+			return;
+		}
+
+		Object adapter = activePageInstance.getAdapter( AttributeViewPage.class );
+		attributePage.setActivePage( (IPageBookViewPage) adapter );
+		
 	}
 
 	private void updateDateView( IFormPage activePageInstance )
@@ -480,6 +500,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			dataPage = new ReportMultiBookPage( );
 		}
 		return dataPage;
+	}
+	
+	private Object getAttributePage( )
+	{
+		if ( attributePage == null || attributePage.isDisposed( ) )
+		{
+			attributePage = new ReportMultiBookPage( );
+		}
+		return attributePage;
 	}
 
 	private Object getOutlinePage( )
@@ -621,7 +650,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			// model = SessionHandleAdapter.getInstance(
 			// ).getReportDesignHandle( );
 		}
-		
+
 		return isNewPageValid;
 	}
 

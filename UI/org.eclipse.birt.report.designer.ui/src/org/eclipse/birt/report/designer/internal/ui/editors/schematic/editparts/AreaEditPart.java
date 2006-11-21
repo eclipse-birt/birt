@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.AreaFigure;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
@@ -76,8 +76,8 @@ public class AreaEditPart extends ReportElementEditPart
 	protected List getModelChildren( )
 	{
 		List list = new ArrayList( );
-		insertIteratorToList( ( (ReportElementModel) getModel( ) )
-				.getSlotHandle( ).iterator( ), list );
+		insertIteratorToList( ( (SlotHandle) getModel( ) )
+				.iterator( ), list );
 		return list;
 	}
 
@@ -121,7 +121,7 @@ public class AreaEditPart extends ReportElementEditPart
 		SimpleMasterPageHandle mphandle = ( (SimpleMasterPageHandle) ( (MasterPageEditPart) getParent( ) )
 				.getModel( ) );
 
-		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
+		if ( ( (SlotHandle) getModel( ) ).getSlotID( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
 			if ( mphandle.getPropertyHandle(
 					SimpleMasterPageHandle.HEADER_HEIGHT_PROP ).isSet( ) )
@@ -142,7 +142,7 @@ public class AreaEditPart extends ReportElementEditPart
 			}
 		}
 
-		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
+		if ( ( (SlotHandle) getModel( ) ).getSlotID( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
 			rect.setLocation( 0, 0 );
 		}

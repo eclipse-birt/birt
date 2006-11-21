@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
@@ -99,7 +98,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.31 $ $Date: 2006/05/17 08:34:39 $
+ * @version $Revision: 1.32.6.1 $ $Date: 2006/11/21 07:20:34 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -873,12 +872,18 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			else
 			{
 				Object part = null;
-				if ( obj instanceof ReportElementModel )
-				{
-					obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
-					part = getGraphicalViewer( ).getEditPartRegistry( )
-							.get( new ListBandProxy( (SlotHandle) obj ) );
-				}
+//				if ( obj instanceof ReportElementModel )
+//				{
+//					obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
+//					part = getGraphicalViewer( ).getEditPartRegistry( )
+//							.get( new ListBandProxy( (SlotHandle) obj ) );
+//				}else
+					if ( obj instanceof SlotHandle )
+					{
+						obj = ( (SlotHandle) obj );
+						part = getGraphicalViewer( ).getEditPartRegistry( )
+								.get( new ListBandProxy( (SlotHandle) obj ) );
+					}
 				else
 				{
 					part = getGraphicalViewer( ).getEditPartRegistry( )

@@ -1,0 +1,85 @@
+/*************************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Actuate Corporation - Initial implementation.
+ ************************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
+
+import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.EditAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * Deals with style node
+ * 
+ */
+public class StyleNodeProvider extends DefaultNodeProvider
+{
+
+	/**
+	 * Creates the context menu for the given object.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param menu
+	 *            the menu
+	 */
+	public void createContextMenu( TreeViewer sourceViewer, Object object,
+			IMenuManager menu )
+	{
+		menu.add( new InsertAction( getParent( object ),
+				Messages.getString( "StyleNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+		super.createContextMenu( sourceViewer, object, menu );
+
+		if ( ( (StyleHandle) object ).canEdit( ) )
+		{
+			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+					new EditAction( object,
+							Messages.getString( "StyleNodeProvider.action.Edit" ) ) ); //$NON-NLS-1$
+		}
+
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+				new Separator( ) );
+
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+				new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	 */
+	protected boolean performEdit( ReportElementHandle handle )
+	{
+
+		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_EDIT );
+		return builder.open( ) == Window.OK;
+	}
+
+	public String getNodeDisplayName( Object model )
+	{
+		return DEUtil.getDisplayLabel( model, false );
+	}
+}

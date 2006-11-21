@@ -368,8 +368,55 @@ public class DesignerActionBarContributor extends
 		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
 		dataMenu.add( getAction( dataActions[0].id ) );
 		dataMenu.add( getAction( dataActions[1].id ) );
-		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) ); //$NON-NLS-1$
+		editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) );
+		//$NON-NLS-1$
 		contributeActionsToMenu( editGroupMenu, parameterActions );
+
+		//================ Experimental, use nodeprovider to contribute menu ====================//
+		// ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( );
+		//
+		// INodeProvider provider = (INodeProvider)
+		// ElementAdapterManager.getAdatper( moduleHandle.getDataSources( ),
+		// INodeProvider.class );
+		// try
+		// {
+		// provider.createContextMenu( null,
+		// moduleHandle.getDataSources( ),
+		// dataMenu );
+		// }
+		// catch ( Throwable e )
+		// {
+		// // because INodeProvider is general used in viewer context menu,
+		// // here invoke the createContextMenu method by null argument may
+		// // throw unexcepted excetion,
+		// // so add try/catch block
+		// // TODO we should define a more general useage NodeProvider
+		// }
+		// provider = (INodeProvider) ElementAdapterManager.getAdatper(
+		// moduleHandle.getDataSets( ),
+		// INodeProvider.class );
+		// try
+		// {
+		// provider.createContextMenu( null,
+		// moduleHandle.getDataSets( ),
+		// dataMenu );
+		// }
+		// catch ( Throwable e )
+		// {
+		// }
+		// provider = (INodeProvider) ElementAdapterManager.getAdatper(
+		// moduleHandle.getParameters( ),
+		// INodeProvider.class );
+		// try
+		// {
+		// provider.createContextMenu( null,
+		// moduleHandle.getParameters( ),
+		// dataMenu );
+		// }
+		// catch ( Throwable e )
+		// {
+		// }
 
 		// Add new parameter action
 

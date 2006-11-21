@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TemplateReportItemPropertiesDialog;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
@@ -209,28 +208,37 @@ public class DefaultNodeProvider implements INodeProvider
 	public Object[] getChildren( Object model )
 	{
 
-		if ( model instanceof ReportElementModel )
+//		if ( model instanceof ReportElementModel )
+//		{
+//			if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
+//			{
+//				Object[] children = this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
+//				if ( comparator != null )
+//				{
+//					Arrays.sort( children, comparator );
+//				}
+//				return children;
+//			}
+//		}
+		if ( model instanceof SlotHandle )
 		{
-			if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
+			Object[] children = this.getChildrenBySlotHandle( (SlotHandle) model );
+			if ( comparator != null )
 			{
-				Object[] children = this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
-				if ( comparator != null )
-				{
-					Arrays.sort( children, comparator );
-				}
-				return children;
+				Arrays.sort( children, comparator );
 			}
+			return children;
 		}
 		return new Object[]{};
 	}
 
 	public Object getParent( Object model )
 	{
-		if ( model instanceof ReportElementModel )
-		{
-			return ( (ReportElementModel) model ).getElementHandle( );
-		}
-		else if ( model instanceof SlotHandle )
+//		if ( model instanceof ReportElementModel )
+//		{
+//			return ( (ReportElementModel) model ).getElementHandle( );
+//		}else 
+		if ( model instanceof SlotHandle )
 		{
 			return ( (SlotHandle) model ).getElementHandle( );
 		}
@@ -246,7 +254,7 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 			if ( handle.getContainerSlotHandle( ) != null )
 			{
-				return new ReportElementModel( handle.getContainerSlotHandle( ) );
+				return  handle.getContainerSlotHandle( ) ;
 			}
 		}
 		return null;

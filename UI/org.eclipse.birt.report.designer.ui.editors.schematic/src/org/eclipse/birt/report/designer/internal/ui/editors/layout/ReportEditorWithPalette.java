@@ -78,6 +78,7 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.core.resources.IResource;
@@ -912,6 +913,12 @@ abstract public class ReportEditorWithPalette extends
 		if ( type == DataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
+			return page;
+		}
+		
+		if ( type == AttributeViewPage.class )
+		{
+			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
 		return super.getAdapter( type );

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlin
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -433,6 +434,12 @@ public class JSEditor extends StatusTextEditor implements
 			return page;
 		}
 
+		if ( adapter == AttributeViewPage.class )
+		{
+			AttributeViewPage page = new AttributeViewPage( );
+			return page;
+		}
+		
 		return super.getAdapter( adapter );
 	}
 

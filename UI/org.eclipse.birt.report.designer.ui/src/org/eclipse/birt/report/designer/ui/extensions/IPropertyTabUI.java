@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.extensions;
 
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+
 
 /**
  * This interface is used to represent a new tab in the Property Editor view. It
@@ -30,32 +29,24 @@ public interface IPropertyTabUI
 	 * @param composite
 	 *            The top level composite inside the tab
 	 */
-	public void buildUI( Composite composite );
+	void buildUI(Composite parent);
 
 	/**
 	 * @return the display name for the tab
 	 */
-	public String getTabDisplayName( );
+	String getTabDisplayName( );
 
 	/**
 	 * Sets input for the tab page.
 	 * 
 	 * @param elements
 	 */
-	public void setInput( List elements );
-
-	/**
-	 * Notifies when element model changed. e.g. property value changed, item
-	 * deleted. Note if user want a more complicated notification logic, they
-	 * should write their own and ignore this event.
-	 * 
-	 * @param ev
-	 */
-	public void elementChanged( NotificationEvent ev );
+	void setInput( Object elements );
 
 	/**
 	 * Notifies if parent UI about to dispose.
 	 */
-	public void dispose( );
-
+	void dispose( );
+	
+	Control getControl();
 }

@@ -12,17 +12,14 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.IBaseTableAreaModifier;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -39,6 +36,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -66,7 +64,7 @@ import org.eclipse.swt.widgets.TableColumn;
  * The Binding attribute page of DE element. Note: Binding Not support
  * multi-selection.
  */
-public class ParameterBindingPage extends AttributePage
+public class ParameterBindingPage extends Composite implements Listener
 {
 
 	private Label dataSetName;
@@ -102,6 +100,8 @@ public class ParameterBindingPage extends AttributePage
 
 	private static final String DATA_SET_LABEL = Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
 
+	protected List input = new ArrayList( );
+
 	/**
 	 * @param parent
 	 *            A widget which will be the parent of the new instance (cannot
@@ -112,6 +112,7 @@ public class ParameterBindingPage extends AttributePage
 	public ParameterBindingPage( Composite parent, int style )
 	{
 		super( parent, style );
+		buildUI();
 	}
 
 	/*
@@ -181,9 +182,9 @@ public class ParameterBindingPage extends AttributePage
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refreshValues(java.util.Set)
 	 */
-	protected void refreshValues( Set propertiesSet )
+	protected void refreshValues( )
 	{
-		if ( input.size( ) != 1 )
+		if ( input.size( ) != 1 || this.isDisposed( ))
 		{
 			return;
 		}
@@ -254,9 +255,7 @@ public class ParameterBindingPage extends AttributePage
 			if ( ReportItemHandle.PARAM_BINDINGS_PROP.equals( propertyName )
 					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) )
 			{
-				HashSet set = new HashSet( );
-				set.add( propertyName );
-				refreshValues( set );
+				refreshValues( );
 			}
 		}
 
@@ -268,7 +267,7 @@ public class ParameterBindingPage extends AttributePage
 				ContentEvent ce = (ContentEvent) ev;
 				if ( ce.getContent( ) instanceof DataSet )
 				{
-					refreshValues( null );
+					refreshValues( );
 				}
 			}
 		}
@@ -478,19 +477,33 @@ public class ParameterBindingPage extends AttributePage
 
 	public void setInput( List elements )
 	{
+		deRegisterListeners( );
 		if ( elements.size( ) != 1 )
 		{
 			enableUI( false );
 			return;
 		}
 		enableUI( true );
+		deRegisterListeners( );
+		input = elements;
+		refreshValues( );
+		registerListeners( );
 		tableViewer.setInput( elements.get( 0 ) );
-		super.setInput( elements );
 	}
 
 	protected void registerListeners( )
 	{
-		super.registerListeners( );
+		if ( input == null )
+			return;
+		for ( int i = 0; i < input.size( ); i++ )
+		{
+			Object obj = input.get( i );
+			if ( obj instanceof DesignElementHandle )
+			{
+				DesignElementHandle element = (DesignElementHandle) obj;
+				element.addListener( this );
+			}
+		}
 		SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.addListener( this );
@@ -498,7 +511,17 @@ public class ParameterBindingPage extends AttributePage
 
 	protected void deRegisterListeners( )
 	{
-		super.deRegisterListeners( );
+		if ( input == null )
+			return;
+		for ( int i = 0; i < input.size( ); i++ )
+		{
+			Object obj = input.get( i );
+			if ( obj instanceof DesignElementHandle )
+			{
+				DesignElementHandle element = (DesignElementHandle) obj;
+				element.removeListener( this );
+			}
+		}
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
 		{
 			SessionHandleAdapter.getInstance( )

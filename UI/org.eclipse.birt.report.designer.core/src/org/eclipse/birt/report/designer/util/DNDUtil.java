@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -354,8 +353,9 @@ public class DNDUtil
 		else if ( transferData instanceof DesignElementHandle
 				|| transferData instanceof IDesignElement )
 		{
-			if ( targetObj instanceof ReportElementModel
-					|| targetObj instanceof DesignElementHandle
+			if ( // targetObj instanceof ReportElementModel
+				//	||
+					targetObj instanceof DesignElementHandle
 					|| targetObj instanceof SlotHandle )
 			{
 				commands.add( getNewCommand( commandType,
@@ -516,10 +516,10 @@ public class DNDUtil
 			}
 			return true;
 		}
-		if ( selection instanceof ReportElementModel )
-		{
-			return handleValidateDragInOutline( ( (ReportElementModel) selection ).getSlotHandle( ) );
-		}
+//		if ( selection instanceof ReportElementModel )
+//		{
+//			return handleValidateDragInOutline( ( (ReportElementModel) selection ).getSlotHandle( ) );
+//		}
 		if ( selection instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) selection;
@@ -698,10 +698,10 @@ public class DNDUtil
 	 */
 	public static Object unwrapToModel( Object obj )
 	{
-		if ( obj instanceof ReportElementModel )
-		{
-			return ( (ReportElementModel) obj ).getSlotHandle( );
-		}
+//		if ( obj instanceof ReportElementModel )
+//		{
+//			return ( (ReportElementModel) obj ).getSlotHandle( );
+//		}
 		if ( obj instanceof ListBandProxy )
 		{
 			return ( (ListBandProxy) obj ).getSlotHandle( );
