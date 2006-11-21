@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <styles>
+        <style name="style1" id="20"/>
+        <style name="table-header" id="21"/>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="table" id="4">
+            <property name="width">100%</property>
+            <column id="17"/>
+            <column id="18"/>
+            <column id="19"/>
+            <header>
+                <row id="5">
+                    <cell id="6"/>
+                    <cell id="7"/>
+                    <cell id="8"/>
+                </row>
+            </header>
+            <detail>
+                <row id="9">
+                    <cell id="10"/>
+                    <cell id="11"/>
+                    <cell id="12"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="13">
+                    <cell id="14"/>
+                    <cell id="15"/>
+                    <cell id="16"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

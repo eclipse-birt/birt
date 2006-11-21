@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20061107-0635 Build &lt;20061107-0635></property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="theme">theme1</property>
+    <themes>
+        <theme name="theme1" id="4">
+            <styles>
+                <style name="table" id="5">
+                    <property name="pageBreakInside">avoid</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

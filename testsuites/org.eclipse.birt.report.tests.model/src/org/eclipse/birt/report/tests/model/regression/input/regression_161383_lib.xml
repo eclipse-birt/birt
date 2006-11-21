@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20061108-0630 Build &lt;20061109-0630></property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="theme">defaultTheme</property>
+    <themes>
+        <theme name="defaultTheme" id="4">
+            <styles>
+                <style name="tablerow" id="22">
+                    <property name="pageBreakInside">avoid</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
+    <components>
+        <table name="table" id="5">
+            <property name="width">100%</property>
+            <column id="18"/>
+            <column id="19"/>
+            <column id="20"/>
+            <header>
+                <row id="6">
+                    <cell id="7"/>
+                    <cell id="8"/>
+                    <cell id="9"/>
+                </row>
+            </header>
+            <detail>
+                <row id="10">
+                    <property name="style">tablerow</property>
+                    <cell id="11"/>
+                    <cell id="12"/>
+                    <cell id="13"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="14">
+                    <cell id="15"/>
+                    <cell id="16"/>
+                    <cell id="17"/>
+                </row>
+            </footer>
+        </table>
+    </components>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>
