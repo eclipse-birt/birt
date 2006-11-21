@@ -6,4 +6,13 @@
 			<property name="classname" value="${classname}"/>
 		</ant>
 	</target>
+	
+	<target name="runbirtperfsuite">
+		<ant target="eclipse-test" antfile="${library-file}" dir="${eclipse-home}">
+			<property name="application" value="${application}"/>
+			<property name="data-dir" value="${junittempfolder}"/>
+			<property name="plugin-name" value="${plugin-name}"/>
+			<property name="classname" value="${classname}"/>
+		</ant>
+	</target>
 </project>
