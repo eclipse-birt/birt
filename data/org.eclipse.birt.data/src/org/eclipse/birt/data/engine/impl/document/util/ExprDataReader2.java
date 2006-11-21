@@ -88,7 +88,7 @@ class ExprDataReader2 implements IExprDataReader
 		
 		this.currRowIndex = -1;
 		this.lastRowIndex = -1;
-		this.currRowLenReadIndex = -1;
+		this.currRowLenReadIndex = 0;
 		
 		this.rowIDMap = new HashMap();
 	}
