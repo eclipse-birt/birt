@@ -104,6 +104,8 @@ public abstract class BaseSmokeTest extends EngineCase
 		String inputFolder = this.getFullQualifiedClassName( )
 				+ "/TestCases/input/"; //$NON-NLS-1$
 		String tempDir = System.getProperty( "java.io.tmpdir" );
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
 		String outputFolder = tempDir + getFullQualifiedClassName( )
 				+ "/TestCases/output/";
 
@@ -284,6 +286,8 @@ public abstract class BaseSmokeTest extends EngineCase
 //			output = getClassFolder( ) + "/TestCases/output/" + output; //$NON-NLS-1$
 //			output = this.genOutputFile( output );
 			String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+			if ( !tempDir.endsWith( File.separator ) )
+				tempDir += File.separator;
 			output = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 					+ "/TestCases/output/" + output;
 
