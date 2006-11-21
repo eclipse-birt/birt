@@ -1359,6 +1359,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	void addSlot( SlotDefn slot )
 	{
+		if ( slot == null )
+			return;
 		if ( slots == null )
 			slots = new ArrayList( );
 
@@ -1456,6 +1458,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public void addProperty( PropertyDefn property ) throws MetaDataException
 	{
+		if ( property == null )
+			return;
+
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 
 		// Check whether parent element define the property with the same name.

@@ -49,6 +49,37 @@ public class PeerExtensionLoader extends ExtensionLoader
 		super( EXTENSION_POINT );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ExtensionLoader#doLoad()
+	 */
+	protected void doLoad( )
+	{
+		super.doLoad( );
+
+		// buidl all the extension definitions
+		List extensions = MetaDataDictionary.getInstance( ).getExtensions( );
+		if ( extensions == null || extensions.isEmpty( ) )
+			return;
+
+		for ( int i = 0; i < extensions.size( ); i++ )
+		{
+			ElementDefn defn = (ElementDefn) extensions.get( i );
+			try
+			{
+				defn.build( );
+			}
+			catch ( MetaDataException e )
+			{
+				handleError( new MetaDataParserException(
+						e,
+						MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR )
+						.getMessage( ) );
+			}
+		}
+	}
+
 	/**
 	 * Load one extension.
 	 * 
@@ -61,14 +92,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 	 *             dictionary.
 	 */
 
-	void loadExtension( IExtension extension ) throws ExtensionException,
-			MetaDataException
+	protected void loadExtension( IExtension extension )
 	{
 		IConfigurationElement[] configElements = extension
 				.getConfigurationElements( );
 
-		PeerExtensionElementLoader loader = new PeerExtensionElementLoader(
-				extension );
+		PeerExtensionElementLoader loader = new PeerExtensionElementLoader( );
 		for ( int i = 0; i < configElements.length; i++ )
 		{
 			IConfigurationElement currentTag = configElements[i];
@@ -83,26 +112,40 @@ public class PeerExtensionLoader extends ExtensionLoader
 	class PeerExtensionElementLoader extends ExtensionElementLoader
 	{
 
-		private static final String STYLE_PROPERTY_TAG = "styleProperty"; //$NON-NLS-1$
-		private static final String METHOD_TAG = "method"; //$NON-NLS-1$
-		private static final String ARGUMENT_TAG = "argument"; //$NON-NLS-1$		
-		private static final String STYLE_TAG = "style"; //$NON-NLS-1$
-		private static final String SLOT_TAG = "slot"; //$NON-NLS-1$
-		private static final String ELEMENT_TYPE_TAG = "elementType"; //$NON-NLS-1$
+		protected static final String PROPERTY_TAG = "property"; //$NON-NLS-1$
+		protected static final String CHOICE_TAG = "choice"; //$NON-NLS-1$
+		protected static final String PROPERTY_GROUP_TAG = "propertyGroup"; //$NON-NLS-1$
+		protected static final String PROPERTY_VISIBILITY_TAG = "propertyVisibility"; //$NON-NLS-1$
 
-		private static final String TOOL_TIP_ID_ATTRIB = "toolTipID"; //$NON-NLS-1$
-		private static final String RETURN_TYPE_ATTRIB = "returnType"; //$NON-NLS-1$
-		private static final String TAG_ID_ATTRIB = "tagID"; //$NON-NLS-1$		
-		private static final String IS_STATIC_ATTRIB = "isStatic"; //$NON-NLS-1$
-		private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
-		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
-		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
-		private static final String EXTENDS_FROM_ATTRIB = "extendsFrom"; //$NON-NLS-1$
-		private static final String XML_TAG_NAME_ATTRIB = "xmlTagName"; //$NON-NLS-1$
-		private static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$
-		private static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
-		private static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
-		private static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
+		protected static final String STYLE_PROPERTY_TAG = "styleProperty"; //$NON-NLS-1$
+		protected static final String METHOD_TAG = "method"; //$NON-NLS-1$
+		protected static final String ARGUMENT_TAG = "argument"; //$NON-NLS-1$		
+		protected static final String STYLE_TAG = "style"; //$NON-NLS-1$
+		protected static final String SLOT_TAG = "slot"; //$NON-NLS-1$
+		protected static final String ELEMENT_TYPE_TAG = "elementType"; //$NON-NLS-1$
+
+		protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
+		protected static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
+		protected static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
+		protected static final String CAN_INHERIT_ATTRIB = "canInherit"; //$NON-NLS-1$
+		protected static final String DEFAULT_VALUE_ATTRIB = "defaultValue"; //$NON-NLS-1$
+		protected static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
+		protected static final String VISIBILITY_ATTRIB = "visibility"; //$NON-NLS-1$
+		protected static final String DEFAULT_DISPLAY_NAME_ATTRIB = "defaultDisplayName"; //$NON-NLS-1$
+		protected static final String IS_ENCRYPTABLE_ATTRIB = "isEncryptable"; //$NON-NLS-1$
+
+		protected static final String TOOL_TIP_ID_ATTRIB = "toolTipID"; //$NON-NLS-1$
+		protected static final String RETURN_TYPE_ATTRIB = "returnType"; //$NON-NLS-1$
+		protected static final String TAG_ID_ATTRIB = "tagID"; //$NON-NLS-1$		
+		protected static final String IS_STATIC_ATTRIB = "isStatic"; //$NON-NLS-1$
+		protected static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
+		protected static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
+		protected static final String EXTENDS_FROM_ATTRIB = "extendsFrom"; //$NON-NLS-1$
+		protected static final String XML_TAG_NAME_ATTRIB = "xmlTagName"; //$NON-NLS-1$
+		protected static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$
+		protected static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
+		protected static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
+		protected static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
 
 		/**
 		 * List of the property types that are allowed for the extensions.
@@ -116,11 +159,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 */
 
 		List allowedSubPropertyTypes = null;
-
-		PeerExtensionElementLoader( IExtension extension )
-		{
-			super( extension );
-		}
 
 		/**
 		 * Loads the extended element and its properties.
@@ -136,14 +174,14 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 */
 
 		void loadElement( IConfigurationElement elementTag )
-				throws MetaDataException, ExtensionException
 		{
 			// load required parts
 			String extensionName = elementTag
 					.getAttribute( EXTENSION_NAME_ATTRIB );
 			String className = elementTag.getAttribute( CLASS_ATTRIB );
-			checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName );
-			checkRequiredAttribute( CLASS_ATTRIB, className );
+			if ( !checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName )
+					|| !checkRequiredAttribute( CLASS_ATTRIB, className ) )
+				return;
 
 			// load optional parts
 			String displayNameID = elementTag
@@ -184,65 +222,92 @@ public class PeerExtensionLoader extends ExtensionLoader
 				IConfigurationElement[] elements = elementTag.getChildren( );
 				for ( int i = 0; i < elements.length; i++ )
 				{
-					if ( PROPERTY_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
+					try
 					{
-						SystemPropertyDefn extPropDefn = loadProperty(
-								elementTag, elements[i], elementDefn );
-						// Unique check is performed in addProperty()
-						elementDefn.addProperty( extPropDefn );
-					}
-					else if ( PROPERTY_VISIBILITY_TAG
-							.equalsIgnoreCase( elements[i].getName( ) ) )
-					{
-						loadPropertyVisibility( elements[i], elementDefn );
-					}
-					else if ( PROPERTY_GROUP_TAG.equalsIgnoreCase( elements[i]
-							.getName( ) ) )
-					{
-						loadPropertyGroup( elementTag, elements[i],
-								elementDefn, propList );
-					}
-					else if ( STYLE_PROPERTY_TAG.equalsIgnoreCase( elements[i]
-							.getName( ) ) )
-					{
-						// StyleProperty
-					}
-					else if ( METHOD_TAG.equalsIgnoreCase( elements[i]
-							.getName( ) ) )
-					{
-						ExtensionPropertyDefn extPropDefn = loadMethod(
-								elementTag, elements[i], elementDefn );
+						if ( PROPERTY_TAG.equalsIgnoreCase( elements[i]
+								.getName( ) ) )
+						{
+							SystemPropertyDefn extPropDefn = loadProperty(
+									elementTag, elements[i], elementDefn );
+							// Unique check is performed in addProperty()
+							if ( extPropDefn != null )
+								elementDefn.addProperty( extPropDefn );
+						}
+						else if ( PROPERTY_VISIBILITY_TAG
+								.equalsIgnoreCase( elements[i].getName( ) ) )
+						{
+							loadPropertyVisibility( elements[i], elementDefn );
+						}
+						else if ( PROPERTY_GROUP_TAG
+								.equalsIgnoreCase( elements[i].getName( ) ) )
+						{
+							loadPropertyGroup( elementTag, elements[i],
+									elementDefn, propList );
+						}
+						else if ( STYLE_PROPERTY_TAG
+								.equalsIgnoreCase( elements[i].getName( ) ) )
+						{
+							// StyleProperty
+						}
+						else if ( METHOD_TAG.equalsIgnoreCase( elements[i]
+								.getName( ) ) )
+						{
+							ExtensionPropertyDefn extPropDefn = loadMethod(
+									elementTag, elements[i], elementDefn );
 
-						// Unique check is performed in addProperty()
+							if ( extPropDefn == null )
+								continue;
 
-						elementDefn.addProperty( extPropDefn );
-					}
-					else if ( STYLE_TAG
-							.equalsIgnoreCase( elements[i].getName( ) ) )
-					{
-						PredefinedStyle style = loadStyle( elementTag,
-								elements[i], elementDefn );
+							// Unique check is performed in addProperty()
+							elementDefn.addProperty( extPropDefn );
+						}
+						else if ( STYLE_TAG.equalsIgnoreCase( elements[i]
+								.getName( ) ) )
+						{
+							PredefinedStyle style = loadStyle( elementTag,
+									elements[i], elementDefn );
 
-						MetaDataDictionary.getInstance( ).addPredefinedStyle(
-								style );
+							MetaDataDictionary.getInstance( )
+									.addPredefinedStyle( style );
+						}
+						else if ( SLOT_TAG.equalsIgnoreCase( elements[i]
+								.getName( ) ) )
+						{
+							SlotDefn slotDefn = loadSlot( elementTag,
+									elements[i], elementDefn );
+							if ( slotDefn == null )
+								continue;
+							elementDefn.addSlot( slotDefn );
+						}
 					}
-					else if ( SLOT_TAG
-							.equalsIgnoreCase( elements[i].getName( ) ) )
+					catch ( ExtensionException e )
 					{
-						SlotDefn slotDefn = loadSlot( elementTag, elements[i],
-								elementDefn );
-						elementDefn.addSlot( slotDefn );
+						handleError( e );
+						continue;
+					}
+					catch ( MetaDataException e )
+					{
+						handleError( e );
+						continue;
 					}
 				}
 			}
 			catch ( FrameworkException e )
 			{
-				throw new ExtensionException(
+				handleError( new ExtensionException(
 						new String[]{className},
-						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE );
+						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE ) );
+				return;
 			}
 			elementDefn.extensionPoint = EXTENSION_POINT;
-			MetaDataDictionary.getInstance( ).addExtension( elementDefn );
+			try
+			{
+				MetaDataDictionary.getInstance( ).addExtension( elementDefn );
+			}
+			catch ( MetaDataException e )
+			{
+				handleError( e );
+			}
 		}
 
 		/**
@@ -255,20 +320,17 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 * @param elementDefn
 		 *            element definition
 		 * @return the property definition
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
 		 */
 
 		ExtensionPropertyDefn loadProperty( IConfigurationElement elementTag,
 				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
-				throws ExtensionException
 		{
 			// load required parts
 			String name = propTag.getAttribute( NAME_ATTRIB );
 			String type = propTag.getAttribute( TYPE_ATTRIB );
-			checkRequiredAttribute( NAME_ATTRIB, name );
-			checkRequiredAttribute( TYPE_ATTRIB, type );
+			if ( !checkRequiredAttribute( NAME_ATTRIB, name )
+					|| !checkRequiredAttribute( TYPE_ATTRIB, type ) )
+				return null;
 
 			// load optional parts
 			String displayNameID = propTag
@@ -288,9 +350,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 			// not well-recognized or not supported by extension, fire error
 			if ( propType == null
 					|| !getAllowedPropertyTypes( ).contains( propType ) )
-				throw new ExtensionException(
+			{
+				handleError( new ExtensionException(
 						new String[]{type},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE );
+						MetaDataException.DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE ) );
+				return null;
+			}
 			PropertyType subPropType = null;
 			if ( propType.getTypeCode( ) == IPropertyType.LIST_TYPE )
 			{
@@ -299,9 +364,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 				if ( subPropType == null
 						|| !getAllowedSubPropertyTypes( )
 								.contains( subPropType ) )
-					throw new ExtensionException(
+				{
+					handleError( new ExtensionException(
 							new String[]{name, subType},
-							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
+							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE ) );
+					return null;
+				}
 			}
 
 			ExtensionPropertyDefn extPropDefn = new ExtensionPropertyDefn(
@@ -334,8 +402,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 					ExtensionChoice choiceDefn = new ExtensionChoice(
 							( (PeerExtensionElementDefn) elementDefn )
 									.getReportItemFactory( ).getMessages( ) );
-					loadChoice( elements[k], choiceDefn, extPropDefn );
-					choiceList.add( choiceDefn );
+					if ( loadChoice( elements[k], choiceDefn, extPropDefn ) )
+						choiceList.add( choiceDefn );
 				}
 			}
 
@@ -350,9 +418,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 							.size( ) > 0 )
 							|| ( StringUtil.isBlank( detailType ) && choiceList
 									.size( ) <= 0 ) )
-						throw new ExtensionException(
+					{
+						handleError( new ExtensionException(
 								new String[]{detailType},
-								ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY );
+								ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY ) );
+						return null;
+					}
 					if ( choiceList.size( ) > 0 )
 					{
 						Choice[] choices = new Choice[choiceList.size( )];
@@ -388,13 +459,141 @@ public class PeerExtensionLoader extends ExtensionLoader
 				}
 				catch ( PropertyValueException e )
 				{
-					throw new ExtensionException(
+					handleError( new ExtensionException(
 							new String[]{name, elementDefn.getName( )},
-							MetaDataException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
+							MetaDataException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE ) );
+					return null;
 				}
 			}
 
 			return extPropDefn;
+		}
+
+		/**
+		 * Loads one choice.
+		 * 
+		 * @param choiceTag
+		 *            the choice tag
+		 * @param choice
+		 *            the extension choice set load
+		 * @param propDefn
+		 *            the property definition in which the choices are inserted
+		 * @throws ExtensionException
+		 *             if the class some attribute specifies can not be
+		 *             instanced.
+		 */
+
+		protected boolean loadChoice( IConfigurationElement choiceTag,
+				ExtensionChoice choice, PropertyDefn propDefn )
+		{
+			// read required first
+			String name = choiceTag.getAttribute( NAME_ATTRIB );
+			if ( !checkRequiredAttribute( NAME_ATTRIB, name ) )
+				return false;
+
+			// read optional
+			String value = choiceTag.getAttribute( VALUE_ATTRIB );
+			String displayNameID = choiceTag
+					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
+			String defaultDisplayName = choiceTag
+					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
+
+			choice.setName( name );
+			if ( propDefn.getTypeCode( ) != IPropertyType.CHOICE_TYPE )
+			{
+				try
+				{
+					Object validateValue = propDefn.validateXml( null, value );
+					choice.setValue( validateValue );
+				}
+				catch ( PropertyValueException e )
+				{
+					handleError( new ExtensionException(
+							new String[]{value, propDefn.getName( )},
+							ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
+					return false;
+				}
+			}
+			else
+				choice.setValue( value );
+
+			choice.setDisplayNameKey( displayNameID );
+			choice.setDefaultDisplayName( defaultDisplayName );
+
+			return true;
+		}
+
+		/**
+		 * Loads one visibility rule of a system property definition.
+		 * 
+		 * @param propTag
+		 *            the property tag
+		 * @param elementDefn
+		 *            element definition
+		 * @throws ExtensionException
+		 *             if the class some attribute specifies can not be
+		 *             instanced.
+		 */
+
+		void loadPropertyVisibility( IConfigurationElement propTag,
+				ExtensionElementDefn elementDefn ) throws ExtensionException
+		{
+			// load required parts first
+			String name = propTag.getAttribute( NAME_ATTRIB );
+			if ( !checkRequiredAttribute( NAME_ATTRIB, name ) )
+				return;
+
+			// load optional parts
+			String visible = propTag.getAttribute( VISIBILITY_ATTRIB );
+			elementDefn.addPropertyVisibility( name, visible );
+		}
+
+		/**
+		 * Loads the properties of one group.
+		 * 
+		 * @param elementTag
+		 *            the element tag
+		 * @param propGroupTag
+		 *            the property group tag
+		 * @param elementDefn
+		 *            element definition
+		 * @param propList
+		 *            the property list into which the new property is added.
+		 * 
+		 * @throws MetaDataException
+		 */
+
+		void loadPropertyGroup( IConfigurationElement elementTag,
+				IConfigurationElement propGroupTag,
+				ExtensionElementDefn elementDefn, List propList )
+				throws MetaDataException
+		{
+			// read required parts first
+			String groupName = propGroupTag.getAttribute( NAME_ATTRIB );
+			if ( !checkRequiredAttribute( NAME_ATTRIB, groupName ) )
+				return;
+
+			// read optinal parts
+			String displayNameID = propGroupTag
+					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
+			String defaultDisplayName = propGroupTag
+					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
+
+			IConfigurationElement[] elements = propGroupTag.getChildren( );
+			for ( int i = 0; i < elements.length; i++ )
+			{
+				if ( PROPERTY_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
+				{
+					ExtensionPropertyDefn extPropDefn = loadProperty(
+							elementTag, elements[i], elementDefn );
+					if ( extPropDefn == null )
+						continue;
+					extPropDefn.setGroupName( groupName );
+					extPropDefn.setGroupNameKey( displayNameID );
+					extPropDefn.setGroupDefauleDisplayName( defaultDisplayName );
+					elementDefn.addProperty( extPropDefn );
+				}
+			}
 		}
 
 		/**
@@ -414,7 +613,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 		ExtensionPropertyDefn loadMethod( IConfigurationElement elementTag,
 				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
-				throws ExtensionException
 		{
 			String name = propTag.getAttribute( NAME_ATTRIB );
 			String displayNameID = propTag
@@ -425,13 +623,15 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 			if ( name == null )
 			{
-				throw new ExtensionException( new String[]{},
-						MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
+				handleError( new ExtensionException( new String[]{},
+						MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME ) );
+				return null;
 			}
 			if ( displayNameID == null )
 			{
-				throw new ExtensionException( new String[]{},
-						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED );
+				handleError( new ExtensionException( new String[]{},
+						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+				return null;
 			}
 
 			// Note that here ROM supports overloadding, while JavaScript not.
@@ -467,9 +667,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 					}
 					catch ( MetaDataException e )
 					{
-						throw new ExtensionException(
+						handleError( new ExtensionException(
 								new String[]{},
-								MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
+								MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME ) );
+						return null;
 					}
 
 				}
@@ -489,14 +690,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 * @param elementDefn
 		 *            element definition
 		 * @return the property definition
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
 		 */
 
 		ArgumentInfo loadArgument( IConfigurationElement elementTag,
 				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
-				throws ExtensionException
 		{
 			String name = propTag.getAttribute( NAME_ATTRIB );
 			String tagID = propTag.getAttribute( TAG_ID_ATTRIB );
@@ -528,7 +725,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 		PredefinedStyle loadStyle( IConfigurationElement elementTag,
 				IConfigurationElement propTag, ElementDefn elementDefn )
-				throws ExtensionException
 		{
 			// when add the style to the meta-data, checks will be done, such as
 			// the unique and non-empty of the name, so do nothing here
@@ -553,20 +749,17 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 * @param elementDefn
 		 *            element definition
 		 * @return the slot definition
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
 		 */
 
 		SlotDefn loadSlot( IConfigurationElement elementTag,
 				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
-				throws ExtensionException, MetaDataException
 		{
 			// read required parts
 			String name = propTag.getAttribute( NAME_ATTRIB );
 			String xmlTagName = propTag.getAttribute( XML_TAG_NAME_ATTRIB );
-			checkRequiredAttribute( NAME_ATTRIB, name );
-			checkRequiredAttribute( XML_TAG_NAME_ATTRIB, xmlTagName );
+			if ( !checkRequiredAttribute( NAME_ATTRIB, name )
+					|| !checkRequiredAttribute( XML_TAG_NAME_ATTRIB, xmlTagName ) )
+				return null;
 
 			// optional parts
 			String displayNameID = propTag
@@ -598,6 +791,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 				if ( ELEMENT_TYPE_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
 				{
 					String elementType = loadSlotElementType( elements[i] );
+					if ( elementType == null )
+						continue;
 					slot.addType( elementType );
 				}
 			}
@@ -621,11 +816,11 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 */
 
 		String loadSlotElementType( IConfigurationElement elementTypeTag )
-				throws ExtensionException
 		{
 			// read required parts
 			String name = elementTypeTag.getAttribute( NAME_ATTRIB );
-			checkRequiredAttribute( NAME_ATTRIB, name );
+			if ( !checkRequiredAttribute( NAME_ATTRIB, name ) )
+				return null;
 
 			return name;
 		}
@@ -748,11 +943,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 	 * @param methodInfo
 	 *            the method info to add
 	 * @return the generated property definition
-	 * @throws ExtensionException
 	 */
 
 	private ExtensionPropertyDefn addDefnTo( ExtensionElementDefn elementDefn,
-			MethodInfo methodInfo ) throws ExtensionException
+			MethodInfo methodInfo )
 	{
 		ExtensionPropertyDefn extPropDefn = new ExtensionPropertyDefn(
 				( (PeerExtensionElementDefn) elementDefn )

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.extension;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.metadata.EncryptionHelperExtensionLoader;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -54,21 +53,5 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		String testString = "something"; //$NON-NLS-1$
 		assertEquals( " something ", helper.encrypt( testString ) ); //$NON-NLS-1$
 		assertEquals( testString, helper.decrypt( helper.encrypt( testString ) ) );
-	}
-
-	/**
-	 * Tests the encryption helper exists already.
-	 */
-
-	public void testExistingHelper( )
-	{
-		try
-		{
-			new EncryptionHelperExtensionLoader( ).load( );
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
-		}
 	}
 }

@@ -433,4 +433,15 @@ public class PeerExtensionTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Tests the error handler of extension loader.
+	 * @throws Exception
+	 */
+	public void testExtensionLoaderErrorHandler( ) throws Exception
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		assertTrue( dd.getExtensions( ).size( ) >= 2 );
+		assertNull( dd.getExtension( "wrongTestExtension" )); //$NON-NLS-1$
+	}
+
 }

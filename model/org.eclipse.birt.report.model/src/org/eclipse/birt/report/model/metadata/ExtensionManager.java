@@ -30,12 +30,9 @@ public final class ExtensionManager
 
 	/**
 	 * Initializes all extensions that Model supports.
-	 * 
-	 * @throws MetaDataParserException
-	 *             if any error encountered when loading extension.
 	 */
 
-	public static void initialize( ) throws MetaDataParserException
+	public static void initialize( )
 	{
 		// ensure the ROM is initialized first
 		assert !MetaDataDictionary.getInstance( ).isEmpty( );

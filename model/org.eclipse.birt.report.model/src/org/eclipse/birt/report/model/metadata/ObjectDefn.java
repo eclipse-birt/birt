@@ -152,7 +152,8 @@ public class ObjectDefn implements IObjectDefn
 
 	void addProperty( PropertyDefn property ) throws MetaDataException
 	{
-		assert property != null;
+		if ( property == null )
+			return;
 		String name = property.getName( );
 		assert name != null && name.trim( ).length( ) != 0;
 		if ( properties.containsKey( name ) )

@@ -11,17 +11,14 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.util.List;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
@@ -56,46 +53,22 @@ public abstract class ExtensionLoader
 		this.extensionPointer = extensionPointer;
 	}
 
-	abstract void loadExtension( IExtension extension )
-			throws ExtensionException, MetaDataException;
+	/**
+	 * 
+	 * @param extension
+	 * @throws ExtensionException
+	 * @throws MetaDataException
+	 */
+	abstract protected void loadExtension( IExtension extension );
 
 	/**
 	 * Loads the extensions in plug-ins, and add them into metadata dictionary.
 	 * 
-	 * @throws MetaDataParserException
-	 *             if error is found when loading extension.
 	 */
 
-	public void load( ) throws MetaDataParserException
+	public final void load( )
 	{
-		try
-		{
-			doLoad( );
-
-			// buidl all the extension definitions
-			List extensions = MetaDataDictionary.getInstance( ).getExtensions( );
-			if ( extensions == null || extensions.isEmpty( ) )
-				return;
-
-			for ( int i = 0; i < extensions.size( ); i++ )
-			{
-				ElementDefn defn = (ElementDefn) extensions.get( i );
-				defn.build( );
-			}
-		}
-		catch ( ExtensionException e )
-		{
-			logExtenstionException( e );
-			throw new MetaDataParserException( e,
-					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
-		}
-		catch ( MetaDataException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
-			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
-			throw new MetaDataParserException( e,
-					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
-		}
+		doLoad( );
 	}
 
 	/**
@@ -105,10 +78,23 @@ public abstract class ExtensionLoader
 	 *            the extension exception.
 	 */
 
-	protected void logExtenstionException( ExtensionException e )
+	protected void handleError( MetaDataException e )
 	{
 		logger.log( Level.SEVERE, e.getMessage( ) );
 		MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Logs the exceptions when extension pointers can't be found.
+	 * 
+	 * @param message
+	 *            the log message
+	 */
+
+	protected final void handleError( String message )
+	{
+		logger.log( Level.SEVERE, message );
+		MetaLogManager.log( message );
 	}
 
 	/**
@@ -122,22 +108,26 @@ public abstract class ExtensionLoader
 	 *             dictionary.
 	 */
 
-	void doLoad( ) throws ExtensionException, MetaDataException
+	protected void doLoad( )
 	{
 		IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 		if ( pluginRegistry == null )
 		{
-			throw new ExtensionException(
+			handleError( new ExtensionException(
 					new String[]{extensionPointer},
-					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND );
+					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND ) );
+			return;
 		}
 
 		IExtensionPoint extensionPoint = pluginRegistry
 				.getExtensionPoint( extensionPointer );
 		if ( extensionPoint == null )
-			throw new ExtensionException(
+		{
+			handleError( new ExtensionException(
 					new String[]{extensionPointer},
-					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND );
+					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND ) );
+			return;
+		}
 
 		IExtension[] extensions = extensionPoint.getExtensions( );
 		if ( extensions != null )
@@ -157,27 +147,15 @@ public abstract class ExtensionLoader
 	abstract class ExtensionElementLoader
 	{
 
-		static final String PROPERTY_TAG = "property"; //$NON-NLS-1$
-		static final String CHOICE_TAG = "choice"; //$NON-NLS-1$
-		static final String PROPERTY_GROUP_TAG = "propertyGroup"; //$NON-NLS-1$
-		static final String PROPERTY_VISIBILITY_TAG = "propertyVisibility"; //$NON-NLS-1$
+		protected static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
+		protected static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$		
 
-		static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
-		static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
-		static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
-		static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
-		static final String CAN_INHERIT_ATTRIB = "canInherit"; //$NON-NLS-1$
-		static final String DEFAULT_VALUE_ATTRIB = "defaultValue"; //$NON-NLS-1$
-		static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
-		static final String VISIBILITY_ATTRIB = "visibility"; //$NON-NLS-1$
-		static final String DEFAULT_DISPLAY_NAME_ATTRIB = "defaultDisplayName"; //$NON-NLS-1$
-		static final String IS_ENCRYPTABLE_ATTRIB = "isEncryptable"; //$NON-NLS-1$
+		/**
+		 * Default constructor.
+		 */
 
-		IExtension extension;
-
-		ExtensionElementLoader( IExtension extension )
+		ExtensionElementLoader( )
 		{
-			this.extension = extension;
 		}
 
 		/**
@@ -188,34 +166,9 @@ public abstract class ExtensionLoader
 		 * @throws MetaDataException
 		 *             if error encountered when adding the element to metadata
 		 *             dictionary.
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
 		 */
 
-		abstract void loadElement( IConfigurationElement elementTag )
-				throws MetaDataException, ExtensionException;
-
-		/**
-		 * Loads one property definition of the given element.
-		 * 
-		 * @param elementTag
-		 *            the element tag
-		 * @param propTag
-		 *            the property tag
-		 * @param elementDefn
-		 *            element definition
-		 * 
-		 * @return the property definition
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
-		 */
-
-		abstract ExtensionPropertyDefn loadProperty(
-				IConfigurationElement elementTag,
-				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
-				throws ExtensionException;
+		abstract void loadElement( IConfigurationElement elementTag );
 
 		/**
 		 * Checks whether the required attribute is set.
@@ -228,132 +181,15 @@ public abstract class ExtensionLoader
 		 *             if the value is empty
 		 */
 
-		void checkRequiredAttribute( String name, String value )
-				throws ExtensionException
+		protected boolean checkRequiredAttribute( String name, String value )
 		{
 			if ( StringUtil.isBlank( value ) )
-				throw new ExtensionException( new String[]{name},
-						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED );
-		}
-
-		/**
-		 * Loads one choice.
-		 * 
-		 * @param choiceTag
-		 *            the choice tag
-		 * @param choice
-		 *            the extension choice set load
-		 * @param propDefn
-		 *            the property definition in which the choices are inserted
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
-		 */
-
-		void loadChoice( IConfigurationElement choiceTag,
-				ExtensionChoice choice, PropertyDefn propDefn )
-				throws ExtensionException
-		{
-			// read required first
-			String name = choiceTag.getAttribute( NAME_ATTRIB );
-			checkRequiredAttribute( NAME_ATTRIB, name );
-
-			// read optional
-			String value = choiceTag.getAttribute( VALUE_ATTRIB );
-			String displayNameID = choiceTag
-					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
-			String defaultDisplayName = choiceTag
-					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-
-			choice.setName( name );
-			if ( propDefn.getTypeCode( ) != IPropertyType.CHOICE_TYPE )
 			{
-				try
-				{
-					Object validateValue = propDefn.validateXml( null, value );
-					choice.setValue( validateValue );
-				}
-				catch ( PropertyValueException e )
-				{
-					throw new ExtensionException(
-							new String[]{value, propDefn.getName( )},
-							ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE );
-				}
+				handleError( new ExtensionException( new String[]{name},
+						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+				return false;
 			}
-			else
-				choice.setValue( value );
-
-			choice.setDisplayNameKey( displayNameID );
-			choice.setDefaultDisplayName( defaultDisplayName );
-		}
-
-		/**
-		 * Loads one visibility rule of a system property definition.
-		 * 
-		 * @param propTag
-		 *            the property tag
-		 * @param elementDefn
-		 *            element definition
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
-		 */
-
-		void loadPropertyVisibility( IConfigurationElement propTag,
-				ExtensionElementDefn elementDefn ) throws ExtensionException
-		{
-			// load required parts first
-			String name = propTag.getAttribute( NAME_ATTRIB );
-			checkRequiredAttribute( NAME_ATTRIB, name );
-
-			// load optional parts
-			String visible = propTag.getAttribute( VISIBILITY_ATTRIB );
-			elementDefn.addPropertyVisibility( name, visible );
-		}
-
-		/**
-		 * Loads the properties of one group.
-		 * 
-		 * @param elementTag
-		 *            the element tag
-		 * @param propGroupTag
-		 *            the property group tag
-		 * @param elementDefn
-		 *            element definition
-		 * @param propList
-		 *            the property list into which the new property is added.
-		 * 
-		 * @throws MetaDataException
-		 */
-
-		void loadPropertyGroup( IConfigurationElement elementTag,
-				IConfigurationElement propGroupTag,
-				ExtensionElementDefn elementDefn, List propList )
-				throws MetaDataException
-		{
-			// read required parts first
-			String groupName = propGroupTag.getAttribute( NAME_ATTRIB );
-			checkRequiredAttribute( NAME_ATTRIB, groupName );
-
-			// read optinal parts
-			String displayNameID = propGroupTag
-					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
-			String defaultDisplayName = propGroupTag
-					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-
-			IConfigurationElement[] elements = propGroupTag.getChildren( );
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( PROPERTY_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
-				{
-					ExtensionPropertyDefn extPropDefn = loadProperty(
-							elementTag, elements[i], elementDefn );
-					extPropDefn.setGroupName( groupName );
-					extPropDefn.setGroupNameKey( displayNameID );
-					extPropDefn.setGroupDefauleDisplayName( defaultDisplayName );
-					elementDefn.addProperty( extPropDefn );
-				}
-			}
+			return true;
 		}
 	}
 }

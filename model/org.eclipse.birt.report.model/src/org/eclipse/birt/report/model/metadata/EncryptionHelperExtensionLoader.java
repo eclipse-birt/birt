@@ -14,9 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * Represents the extension loader for encryption helper.
@@ -48,8 +46,7 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 	 * @see org.eclipse.birt.report.model.metadata.ExtensionLoader#loadExtension(org.eclipse.birt.core.framework.IExtension)
 	 */
 
-	void loadExtension( IExtension extension ) throws ExtensionException,
-			MetaDataException
+	protected void loadExtension( IExtension extension )
 	{
 		IConfigurationElement[] configElements = extension
 				.getConfigurationElements( );
@@ -66,48 +63,24 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 		}
 	}
 
-	/**
-	 * Logs the exception if encryption helper extension pointer is not found on
-	 * non-eclipse platform, the error messages won't be logged out.
-	 * 
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ExtensionLoader#logExtenstionException(
-	 *      ExtensionException e )
-	 */
-
-	protected void logExtenstionException( ExtensionException e )
+	class EncryptionHelperElementLoader extends ExtensionElementLoader
 	{
-		if ( Platform.runningEclipse( ) )
-		{
-			super.logExtenstionException( e );
-		}
-	}
-
-	class EncryptionHelperElementLoader
-	{
-
-		private static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
-		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
-
 		/**
 		 * Loads the extension.
 		 * 
 		 * @param elementTag
 		 *            the element tag
-		 * @throws ExtensionException
-		 *             if the class some attribute specifies can not be
-		 *             instanced.
 		 */
 
 		public void loadElement( IConfigurationElement elementTag )
-				throws ExtensionException
 		{
 			String extensionName = elementTag
 					.getAttribute( EXTENSION_NAME_ATTRIB );
 			String className = elementTag.getAttribute( CLASS_ATTRIB );
 
-			checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName );
-			checkRequiredAttribute( CLASS_ATTRIB, className );
+			if ( !checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName )
+					|| !checkRequiredAttribute( CLASS_ATTRIB, className ) )
+				return;
 
 			try
 			{
@@ -118,38 +91,21 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 						.getInstance( ).getEncryptionHelper( );
 				if ( registeredHelper != SimpleEncryptionHelper.getInstance( ) )
 				{
-					throw new ExtensionException(
+					handleError( new ExtensionException(
 							new String[]{className},
-							ExtensionException.DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS );
+							ExtensionException.DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS ) );
+					return;
 				}
 
 				MetaDataDictionary.getInstance( ).setEncryptionHelper( helper );
 			}
 			catch ( FrameworkException e )
 			{
-				throw new ExtensionException(
+				handleError( new ExtensionException(
 						new String[]{className},
-						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE );
+						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE ) );
+				return;
 			}
-		}
-
-		/**
-		 * Checks whether the required attribute is set.
-		 * 
-		 * @param name
-		 *            the required attribute name
-		 * @param value
-		 *            the attribute value
-		 * @throws ExtensionException
-		 *             if the value is empty
-		 */
-
-		void checkRequiredAttribute( String name, String value )
-				throws ExtensionException
-		{
-			if ( StringUtil.isBlank( value ) )
-				throw new ExtensionException( new String[]{name},
-						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED );
 		}
 
 	}
