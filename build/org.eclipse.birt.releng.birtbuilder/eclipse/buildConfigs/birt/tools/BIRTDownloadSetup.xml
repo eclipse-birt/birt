@@ -170,9 +170,49 @@
             </header>
 			<path path="${deposit}/logs/org.eclipse.birt.report.model_log.txt" />
 		</concat>
-
-		<copy file="${template.dir}\build_info_template.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
 		-->
+		
+		<concat destfile="${OutputDir}\chart_build_log.txt">
+			<header filtering="no" trimleading="yes">
+         BIRT Chart: Build log for build   ${univBuildDate}
+         ===================================================         
+            </header>
+		</concat>
+
+		<concat destfile="${OutputDir}\designer_build_log.txt" eol="crlf">
+			<header filtering="no" trimleading="yes">
+         BIRT Designer: Build log for build   ${univBuildDate}
+         ===================================================         
+            </header>
+		</concat>
+
+		<replace file="${OutputDir}\designer_build_log.txt" token="Buildfile: test_designer.xml" value="">
+		</replace>
+
+		<concat destfile="${OutputDir}\data_build_log.txt" eol="crlf">
+			<header filtering="no" trimleading="yes">
+         BIRT Data: Build log for build   ${univBuildDate}         
+         ===================================================         
+            </header>
+		</concat>
+		<replace file="${OutputDir}\data_build_log.txt" token="all:" value="============================================">
+		</replace>
+
+		<concat destfile="${OutputDir}\engine_build_log.txt">
+			<header filtering="no" trimleading="yes">
+         BIRT Engine: Build log for build   ${univBuildDate}
+         ===================================================         
+	      </header>
+		</concat>
+
+		<concat destfile="${OutputDir}\model_build_log.txt">
+			<header filtering="no" trimleading="yes">
+         BIRT Model: Build log for build   ${univBuildDate}
+         ===================================================         
+            </header>
+		</concat>
+		
+		<copy file="${template.dir}\build_info_template.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
 		
 		<!--Define chart runtime file set.-->
 		<patternset id="chart.runtime.jars">
@@ -279,63 +319,16 @@
 
 		<!--antcall target="createIpotalLib" /-->
 
+
+		<!-- Replaced in bootstrap.sh -->
 		<!--
-		<replace file="${workingDir}\${birt.info}" token="#build_time#" value="${SetupBuild.time}"/>
-		<replace file="${workingDir}\${birt.info}" token="#univBDate#" value="${univBuildDate.time}"/>
-		<replace file="${workingDir}\${birt.info}" token="GMT+08:00" value="+0800"/>
-		<replace file="${workingDir}\${birt.info}" token="#buildType#" value="${BuildType}"/>
-		<replace file="${workingDir}\${birt.info}" token="#timeStamp#" value="v${timeStamp}"/>
-	
-		<condition property="enginefailure" value="engineOK=false">
-			<not>
-				<and>
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.core_${org.eclipse.birt.core.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.engine.emitter.html_${org.eclipse.birt.report.engine.emitter.html.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.engine.emitter.pdf_${org.eclipse.birt.report.engine.emitter.pdf.plugin.version}" type="dir" />
-				</and>
-			</not>
-		</condition>
-
-		<condition property="chartfailure" value="chartOK=false">
-			<not>
-				<and>
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.device.extension_${org.eclipse.birt.chart.device.extension.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.engine.extension_${org.eclipse.birt.chart.engine.extension.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.engine_${org.eclipse.birt.chart.engine.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.reportitem_${org.eclipse.birt.chart.reportitem.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.ui.extension_${org.eclipse.birt.chart.ui.extension.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.chart.ui_${org.eclipse.birt.chart.ui.plugin.version}" type="dir" />
-				</and>
-			</not>
-		</condition>
-
-		<condition property="modelfailure" value="modelOK=false">
-
-			<not>
-				<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.model_${org.eclipse.birt.report.model.plugin.version}" type="dir" />
-			</not>
-		</condition>
-
-		<condition property="datafailure" value="dataOK=false">
-			<not>
-				<and>
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.data.oda.jdbc.ui_${org.eclipse.birt.report.data.oda.jdbc.ui.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.data.oda.jdbc_${org.eclipse.birt.report.data.oda.jdbc.plugin.version}" type="dir" />
-				</and>
-			</not>
-		</condition>
-
-		<condition property="designerfailure" value="designerOK=false">
-			<not>
-				<and>
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.designer.core_${org.eclipse.birt.report.designer.core.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.designer.ui_${org.eclipse.birt.report.designer.ui.plugin.version}" type="dir" />
-					<available file="${deposit}\integrated\org.eclipse.birt.integrated\plugins\org.eclipse.birt.report.viewer_${org.eclipse.birt.report.viewer.plugin.version}" type="dir" />
-				</and>
-			</not>
-		</condition>
-
+		<replace file="${OutputDir}\${birt.info}" token="#build_time#" value="${univBuildTime}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#univBDate#" value="${univBuildDate}"/>
+		-->
+		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
+		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
+		
+		<!--
 		<antcall target="replace_chart" />
 		<antcall target="replace_engine" />
 		<antcall target="replace_model" />
