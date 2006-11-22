@@ -89,7 +89,7 @@ import com.ibm.icu.util.ULocale;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.89 $ $Date: 2006/10/30 22:15:15 $
+ * @version $Revision: 1.90 $ $Date: 2006/11/13 05:27:25 $
  */
 public class ExecutionContext
 {
@@ -557,7 +557,7 @@ public class ExecutionContext
 			{
 				return scriptContext.eval( expr, name, lineNo );
 			}
-			catch ( Exception e )
+			catch ( Throwable e )
 			{
 				// TODO eval may throw RuntimeException, which may also need
 				// logging. May need to log more info.
