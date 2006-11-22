@@ -33,6 +33,7 @@ public class SectionPage extends AttributePage
 {
 
 	private SimpleComboSection masterSection;
+	private SeperatorSection sepSection;
 
 	public void buildUI( Composite parent  )
 	{
@@ -70,10 +71,7 @@ public class SectionPage extends AttributePage
 				container,
 				true );
 		
-		SeperatorSection sepSection = new SeperatorSection(container,SWT.HORIZONTAL);
-
-		// Sets providers.
-
+		sepSection = new SeperatorSection(container,SWT.HORIZONTAL);
 		beforeSection.setProvider( beforeProvider );
 		masterSection.setProvider( masterProvider );
 		afterSection.setProvider( afterProvider );
@@ -123,8 +121,12 @@ public class SectionPage extends AttributePage
 				&&  isElementInMasterPage( (DesignElementHandle)DEUtil.getInputFirstElement( input ) ) )
 		{
 			masterSection.setVisible( false );
+			sepSection.setVisible( false );
 		}
-		else masterSection.setVisible( true );
+		else{
+			masterSection.setVisible( true );
+			sepSection.setVisible( true );
+		}
 	}
 	
 	protected boolean isElementInMasterPage( DesignElementHandle elementHandle )
