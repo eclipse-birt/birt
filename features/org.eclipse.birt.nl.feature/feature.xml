@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.birt.integration.wtp"
+      label="%featureName"
+      version="2.2.0.qualifier"
+      provider-name="%providerName"
+      plugin="org.eclipse.birt.chart.cshelp">
+
+   <description url="http://www.eclipse.org/birt">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime.compatibility" version="3.1.100" match="compatible"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.extension.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.svg.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.swt.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.engine.extension.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.engine.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.reportitem.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.reportitem.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.ui.extension.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.core.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.core.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.data.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.chart.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.report.data.oda.sampledb.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.report.data.oda.sampledb.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.report.data.oda.xml.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+    <plugin
+         id="org.eclipse.birt.report.debug.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+	<plugin
+         id="org.eclipse.birt.report.designer.core.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+      
+	<plugin
+         id="org.eclipse.birt.report.designer.ui.editors.schematic.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+    
+ 	<plugin
+         id="org.eclipse.birt.report.designer.ui.ide.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+         
+    <plugin
+         id="org.eclipse.birt.report.designer.ui.lib.explorer.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/> 
+         
+         
+    <plugin
+         id="org.eclipse.birt.report.designer.ui.lib.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+    
+	<plugin
+         id="org.eclipse.birt.report.designer.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+	<plugin
+         id="org.eclipse.birt.report.designer.ui.preview.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+ 	<plugin
+         id="org.eclipse.birt.report.designer.ui.rcp.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+ 	<plugin
+         id="org.eclipse.birt.report.engine.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+ 	<plugin
+         id="org.eclipse.birt.report.model.tests.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>         
+         
+   	<plugin
+         id="org.eclipse.birt.report.model.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/> 
+           
+   	<plugin
+         id="org.eclipse.birt.report.viewer.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>      
+</feature>
