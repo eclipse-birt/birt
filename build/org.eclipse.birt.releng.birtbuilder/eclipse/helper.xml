@@ -562,7 +562,7 @@
 	</target>
 	<target name="buildLanguagePack">
 		<antcall target="MakeNLPack1"/>
-		<!--antcall target="PackageNLPack1"/-->
+		<antcall target="PackageNLPack1"/>
 	</target>
 	<target name="MakeNLPack1">
 		<echo message="Start Make NL1 Pack" />
@@ -572,15 +572,15 @@
 	</target>
 	<target name="PackageNLPack1" >
 		<echo message="Start Packaging NL1 for full, framework and RCP" />
-		<ant antfile="EclipseDownloadSetupR1.xml" target="createNLGroup1" inheritAll="false">
+		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
 		<echo message="Start Packaging NL1 for charts" />
-		<ant antfile="EclipseDownloadSetupR1.xml" target="createNLGroup1Chart" inheritAll="false">
+		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1Chart" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
 		<echo message="Start Packaging NL1 for runtime" />
-		<ant antfile="EclipseDownloadSetupR1.xml" target="createNLGroup1Runtime" inheritAll="false">
+		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1Runtime" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
 	</target>
