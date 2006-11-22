@@ -63,7 +63,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 	public DialLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( title, context, false );
+		super( title, context, true );
 		this.seriesDefn = seriesDefn;
 	}
 
