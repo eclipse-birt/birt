@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -42,7 +41,6 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
-import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -52,8 +50,10 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
@@ -1324,30 +1324,39 @@ public class ContentCommand extends AbstractElementCommand
 
 			String groupName = (String) content.getProperty( module,
 					IGroupElementModel.GROUP_NAME_PROP );
-			List toRemoved = new ArrayList( );
+			List toCleared = new ArrayList( );
 			for ( int i = 0; i < boundColumns.size( ); i++ )
 			{
 				ComputedColumn column = (ComputedColumn) boundColumns.get( i );
 				String aggregateGroup = column.getAggregateOn( );
 				if ( aggregateGroup != null
 						&& aggregateGroup.equals( groupName ) )
-					toRemoved.add( column );
+					toCleared.add( new Integer( i ) );
 			}
 
-			CachedMemberRef memberRef = new CachedMemberRef( tmpContainer
-					.getPropertyDefn( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) );
+			StructPropertyDefn structPropDefn = (StructPropertyDefn) MetaDataDictionary
+					.getInstance( ).getStructure(
+							ComputedColumn.COMPUTED_COLUMN_STRUCT ).getMember(
+							ComputedColumn.AGGREGATEON_MEMBER );
 
+			ElementPropertyDefn propDefn = tmpContainer
+					.getPropertyDefn( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 			try
 			{
-				for ( int i = 0; i < toRemoved.size( ); i++ )
+				for ( int i = 0; i < toCleared.size( ); i++ )
 				{
+					int columnIndex = ( (Integer) toCleared.get( i ) )
+							.intValue( );
+
+					CachedMemberRef memberRef = new CachedMemberRef( propDefn,
+							columnIndex, structPropDefn );
+
 					PropertyCommand propCmd = new PropertyCommand( module,
 							tmpContainer );
-					propCmd.removeItem( memberRef, (ComputedColumn) toRemoved
-							.get( i ) );
+					propCmd.setMember( memberRef, null );
 				}
 			}
-			catch ( PropertyValueException e )
+			catch ( SemanticException e )
 			{
 				// should have no exception
 			}
