@@ -1141,7 +1141,7 @@ public class TaskSelectData extends SimpleTask implements
 										ce.getMessage( ), sSeries
 								} ) ) );
 					}
-					if ( ce.getMessage( ).equals( expression ) )
+					if ( ce.getMessage( ).endsWith( expression ) )
 					{
 						query.setDefinition( "" ); //$NON-NLS-1$
 						DataDefinitionTextManager.getInstance( )
