@@ -172,45 +172,30 @@
 		</concat>
 		-->
 		
-		<concat destfile="${OutputDir}\chart_build_log.txt">
-			<header filtering="no" trimleading="yes">
+		<echo file="${OutputDir}\chart_build_log.txt">
          BIRT Chart: Build log for build   ${univBuildDate}
          ===================================================         
-            </header>
-		</concat>
+		</echo>
 
-		<concat destfile="${OutputDir}\designer_build_log.txt" eol="crlf">
-			<header filtering="no" trimleading="yes">
-         BIRT Designer: Build log for build   ${univBuildDate}
+		<echo file="${OutputDir}\designer_build_log.txt" >
+        BIRT Designer: Build log for build   ${univBuildDate}
          ===================================================         
-            </header>
-		</concat>
+		</echo>
 
-		<replace file="${OutputDir}\designer_build_log.txt" token="Buildfile: test_designer.xml" value="">
-		</replace>
-
-		<concat destfile="${OutputDir}\data_build_log.txt" eol="crlf">
-			<header filtering="no" trimleading="yes">
+		<echo file="${OutputDir}\data_build_log.txt">
          BIRT Data: Build log for build   ${univBuildDate}         
          ===================================================         
-            </header>
-		</concat>
-		<replace file="${OutputDir}\data_build_log.txt" token="all:" value="============================================">
-		</replace>
+		</echo>
 
-		<concat destfile="${OutputDir}\engine_build_log.txt">
-			<header filtering="no" trimleading="yes">
+		<echo file="${OutputDir}\engine_build_log.txt">
          BIRT Engine: Build log for build   ${univBuildDate}
          ===================================================         
-	      </header>
-		</concat>
+		</echo>
 
-		<concat destfile="${OutputDir}\model_build_log.txt">
-			<header filtering="no" trimleading="yes">
-         BIRT Model: Build log for build   ${univBuildDate}
+		<echo file="${OutputDir}\model_build_log.txt">
+        BIRT Model: Build log for build   ${univBuildDate}
          ===================================================         
-            </header>
-		</concat>
+		</echo>
 		
 		<copy file="${template.dir}\build_info_template.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
 		
@@ -327,14 +312,7 @@
 		-->
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
-		
-		<!--
-		<antcall target="replace_chart" />
-		<antcall target="replace_engine" />
-		<antcall target="replace_model" />
-		<antcall target="replace_designer" />
-		<antcall target="replace_data" />
-		-->
+	
 	</target>
 
 	<target name="createBirtSDK">
