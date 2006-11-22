@@ -574,14 +574,17 @@
 		<echo message="Start Packaging NL1 for full, framework and RCP" />
 		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+			<property name="OutputDir" value="${postDirectory}/${buildLabel}"/>
 		</ant>
 		<echo message="Start Packaging NL1 for charts" />
 		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1Chart" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+			<property name="OutputDir" value="${postDirectory}/${buildLabel}"/>
 		</ant>
 		<echo message="Start Packaging NL1 for runtime" />
 		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1Runtime" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+			<property name="OutputDir" value="${postDirectory}/${buildLabel}"/>
 		</ant>
 	</target>
 </project>
