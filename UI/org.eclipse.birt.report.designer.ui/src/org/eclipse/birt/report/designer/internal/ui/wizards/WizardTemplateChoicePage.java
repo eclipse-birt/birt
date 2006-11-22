@@ -62,6 +62,7 @@ import org.osgi.framework.Bundle;
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
+
 	private static final String[] IMAGE_TYPES = new String[]{
 			".bmp",
 			".jpg",
@@ -150,7 +151,12 @@ public class WizardTemplateChoicePage extends WizardPage
 		ReportDesignHandle[] predefinedTemplateArray = getAllTemplates( UIUtil.getFragmentDirectory( ),
 				"/templates/" );
 		SortPredefinedTemplates( predefinedTemplateArray );
-		templates.addAll( Arrays.asList( predefinedTemplateArray ) );
+		if ( predefinedTemplateArray != null
+				&& predefinedTemplateArray.length > 0 )
+		{
+			templates.addAll( Arrays.asList( predefinedTemplateArray ) );
+		}
+
 	}
 
 	protected ReportDesignHandle[] getAllTemplates( String root )
@@ -160,7 +166,11 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	protected ReportDesignHandle[] getAllTemplates( String root, String path )
 	{
-		Assert.isNotNull( root );
+
+		if ( root == null || root.trim( ).length( ) <= 0 )
+		{
+			return null;
+		}
 		ReportDesignHandle[] templateArray = null;
 
 		File templateDirectory = null;
@@ -242,6 +252,10 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		for ( int i = 0; i < templates.size( ); i++ )
 		{
+			if ( templates.get( i ) == null )
+			{
+				continue;
+			}
 			if ( i <= predefinedCount )
 			{
 				String displayName = ( (ReportDesignHandle) templates.get( i ) ).getDisplayName( );
@@ -321,7 +335,15 @@ public class WizardTemplateChoicePage extends WizardPage
 		} );
 
 		hookListeners( );
-		templateList.select( 0 );
+		if ( templateList.getItemCount( ) > 0 )
+		{
+			templateList.select( 0 );
+			setPageComplete( true );
+		}
+		else
+		{
+			setPageComplete( false );
+		}
 		templateListener.handleEvent( new Event( ) );
 
 		setControl( composite );
@@ -370,6 +392,10 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			// change description/image
 			selectedIndex = templateList.getSelectionIndex( );
+			if ( selectedIndex < 0 )
+			{
+				return;
+			}
 			ReportDesignHandle handle = (ReportDesignHandle) templates.get( selectedIndex );
 			String ReprotDescription = handle.getDescription( );
 			if ( ReprotDescription != null
@@ -488,11 +514,12 @@ public class WizardTemplateChoicePage extends WizardPage
 			{
 				chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( )
 						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
-				if ( handle.getCheatSheet( )
-						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
-				{
-					chkBox.setSelection( true );
-				}
+//				if ( handle.getCheatSheet( )
+//						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
+//				{
+//					chkBox.setSelection( true );
+//				}
+				chkBox.setSelection( true );
 			}
 			else
 			{
@@ -508,6 +535,10 @@ public class WizardTemplateChoicePage extends WizardPage
 	 */
 	public ReportDesignHandle getTemplate( )
 	{
+		if ( selectedIndex < 0 )
+		{
+			return null;
+		}
 		return (ReportDesignHandle) templates.get( selectedIndex );
 	}
 
@@ -516,6 +547,10 @@ public class WizardTemplateChoicePage extends WizardPage
 	 */
 	public ReportDesignHandle getBlankTemplate( )
 	{
+		if ( templates.size( ) == 0 )
+		{
+			return null;
+		}
 		return (ReportDesignHandle) templates.get( 0 );
 	}
 
@@ -567,6 +602,10 @@ public class WizardTemplateChoicePage extends WizardPage
 	private boolean isPredifinedTemplate( String sourceFileName )
 	{
 		String predifinedDir = UIUtil.getFragmentDirectory( );
+		if(predifinedDir == null || predifinedDir.length( ) <= 0)
+		{
+			return false;
+		}
 		File predifinedFile = new File( predifinedDir );
 		File sourceFile = new File( sourceFileName );
 		if ( sourceFile.getAbsolutePath( )
@@ -630,6 +669,10 @@ public class WizardTemplateChoicePage extends WizardPage
 		URL url = null;
 
 		Bundle bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
+		if(bundle == null)
+		{
+			return null;
+		}
 		url = bundle.getResource( key );
 
 		if ( url == null )
