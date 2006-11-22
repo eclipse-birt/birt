@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -257,10 +258,10 @@ class ElementExporter
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
 			String memberName = memberDefn.getName( );
-			
+
 			if ( ReferencableStructure.LIB_REFERENCE_MEMBER.equals( memberName ) )
 				continue;
-				
+
 			Object value = structToExport.getMember( memberName ).getValue( );
 			Object valueToSet = ModelUtil.copyValue( memberDefn, value );
 
@@ -437,8 +438,11 @@ class ElementExporter
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle sourceSlotHandle = designToExport.getSlot( i );
-
 			Iterator iter = sourceSlotHandle.iterator( );
+			
+			//First export element which has name.
+			
+			List noNameList = new ArrayList( );
 			while ( iter.hasNext( ) )
 			{
 				DesignElementHandle contentHandle = (DesignElementHandle) iter
@@ -446,24 +450,36 @@ class ElementExporter
 
 				if ( StringUtil.isBlank( contentHandle.getName( ) ) )
 				{
-					if ( !genDefaultName )
-					{
-						String typeName = contentHandle.getDefn( )
-								.getDisplayName( );
-						String location = contentHandle.getElement( )
-								.getIdentifier( );
+					noNameList.add( contentHandle );
+				}
+				else
+				{
+					exportElement( contentHandle, canOverride );
+				}
+			}
 
-						throw new IllegalArgumentException(
-								"The element [type=\"" + typeName + "\"," //$NON-NLS-1$//$NON-NLS-2$ 
-										+ "location=\"" + location + "\"] must have name defined." ); //$NON-NLS-1$ //$NON-NLS-2$
-					}
+			//Second export element which has no name.
+			
+			iter = noNameList.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				DesignElementHandle contentHandle = (DesignElementHandle) iter
+						.next( );
+				if ( !genDefaultName )
+				{
+					String typeName = contentHandle.getDefn( ).getDisplayName( );
+					String location = contentHandle.getElement( )
+							.getIdentifier( );
 
-					targetLibraryHandle.getModule( ).makeUniqueName(
-							contentHandle.getElement( ) );
+					throw new IllegalArgumentException(
+							"The element [type=\"" + typeName + "\"," //$NON-NLS-1$//$NON-NLS-2$ 
+									+ "location=\"" + location + "\"] must have name defined." ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 
-				exportElement( contentHandle, canOverride );
+				targetLibraryHandle.getModule( ).makeUniqueName(
+						contentHandle.getElement( ) );
 
+				exportElement( contentHandle, canOverride );
 			}
 		}
 	}

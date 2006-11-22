@@ -653,4 +653,28 @@ public class ElementExporterTest extends BaseTestCase
 		}
 
 	}
+
+	/**
+	 * Tests exportDesign method
+	 * @throws Exception
+	 */
+	
+	public void testExportDesign( ) throws Exception
+	{
+		openDesign( "ElementExporterTest_6.xml" ); //$NON-NLS-1$
+		openLibrary( "ElementExporterTestLibrary.xml" ); //$NON-NLS-1$
+
+		DataItemHandle itemHandle = (DataItemHandle) designHandle
+				.getElementByID( 5 );
+		assertNull( itemHandle.getName( ) );
+
+		ElementExportUtil
+				.exportDesign( designHandle, libraryHandle, true, true );
+		
+		itemHandle =(DataItemHandle)libraryHandle.findElement( "NewData1" );//$NON-NLS-1$
+		assertEquals( 1, itemHandle.getListProperty( "boundDataColumns" ).size( ) );//$NON-NLS-1$
+		itemHandle =(DataItemHandle)libraryHandle.findElement( "NewData" );//$NON-NLS-1$
+		
+		
+	}
 }
