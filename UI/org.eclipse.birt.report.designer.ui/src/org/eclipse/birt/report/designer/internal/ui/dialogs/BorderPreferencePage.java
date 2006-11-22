@@ -124,14 +124,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 						.getDisplayNameID( ) ),
 				getChoiceArray( StyleHandle.BORDER_TOP_STYLE_PROP ),
 				gpStyle );
-
-		styleRight = new ComboBoxFieldEditor( StyleHandle.BORDER_RIGHT_STYLE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_STYLE_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getChoiceArray( StyleHandle.BORDER_RIGHT_STYLE_PROP ),
-				gpStyle );
-
+		
 		styleBottom = new ComboBoxFieldEditor( StyleHandle.BORDER_BOTTOM_STYLE_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
 						.getDefn( )
@@ -145,6 +138,15 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 						.getDisplayNameID( ) ),
 				getChoiceArray( StyleHandle.BORDER_LEFT_STYLE_PROP ),
 				gpStyle );
+		
+		styleRight = new ComboBoxFieldEditor( StyleHandle.BORDER_RIGHT_STYLE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_STYLE_PROP )
+						.getDefn( )
+						.getDisplayNameID( ) ),
+				getChoiceArray( StyleHandle.BORDER_RIGHT_STYLE_PROP ),
+				gpStyle );
+
+
 
 		gpColor = createGroupControl( getFieldEditorParent( ),
 				Messages.getString( "BorderPreferencePage.displayname.Color" ), 1, 2 ); //$NON-NLS-1$
@@ -153,11 +155,6 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 
 		colorTop = new ColorFieldEditor( StyleHandle.BORDER_TOP_COLOR_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_TOP_COLOR_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				gpColor );
-		colorRight = new ColorFieldEditor( StyleHandle.BORDER_RIGHT_COLOR_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_COLOR_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				gpColor );
@@ -171,6 +168,12 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				gpColor );
+		colorRight = new ColorFieldEditor( StyleHandle.BORDER_RIGHT_COLOR_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_COLOR_PROP )
+						.getDefn( )
+						.getDisplayNameID( ) ),
+				gpColor );
+
 
 		gpWidth = createGroupControl( getFieldEditorParent( ),
 				Messages.getString( "BorderPreferencePage.displayname.Width" ), 2, 3 ); //$NON-NLS-1$
@@ -186,17 +189,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				gpWidth );
 		widthTop.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_TOP_WIDTH_PROP )
 				.getDefaultUnit( ) );
-
-		widthRight = new ComboBoxMeasureFieldEditor( StyleHandle.BORDER_RIGHT_WIDTH_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_WIDTH_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getChoiceArray( StyleHandle.BORDER_RIGHT_WIDTH_PROP ),
-				getMeasureChoiceArray( StyleHandle.BORDER_RIGHT_WIDTH_PROP ),
-				gpWidth );
-		widthRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_WIDTH_PROP )
-				.getDefaultUnit( ) );
-
+		
 		widthBottom = new ComboBoxMeasureFieldEditor( StyleHandle.BORDER_BOTTOM_WIDTH_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
 						.getDefn( )
@@ -216,6 +209,19 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 				gpWidth );
 		widthLeft.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_LEFT_WIDTH_PROP )
 				.getDefaultUnit( ) );
+
+		
+		widthRight = new ComboBoxMeasureFieldEditor( StyleHandle.BORDER_RIGHT_WIDTH_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_WIDTH_PROP )
+						.getDefn( )
+						.getDisplayNameID( ) ),
+				getChoiceArray( StyleHandle.BORDER_RIGHT_WIDTH_PROP ),
+				getMeasureChoiceArray( StyleHandle.BORDER_RIGHT_WIDTH_PROP ),
+				gpWidth );
+		widthRight.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BORDER_RIGHT_WIDTH_PROP )
+				.getDefaultUnit( ) );
+
+
 
 		addField( styleTop );
 		addField( styleRight );
