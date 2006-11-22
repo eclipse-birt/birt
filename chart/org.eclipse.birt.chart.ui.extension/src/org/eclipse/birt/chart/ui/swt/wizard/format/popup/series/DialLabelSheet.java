@@ -83,6 +83,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isPositionEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
+		attributesContext.isVisibilityEnabled = false;
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),

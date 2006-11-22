@@ -105,9 +105,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					.isVisible( ) );
 			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
 			cbVisible.addSelectionListener( this );
-			cbVisible.setSelection( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+			cbVisible.setSelection( isMeterSeries( ) ? ( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
 					.getLabel( )
-					.isVisible( ) );
+					.isVisible( )
+					: getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+							.getLabel( )
+							.isVisible( ) );
 		}
 
 		if ( isTrendlineAvailable( ) )
@@ -367,6 +370,18 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( cbVisible ) )
 		{
+			if ( isMeterSeries( ) )
+			{
+				( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
+						.getLabel( )
+						.setVisible( cbVisible.getSelection( ) );
+			}
+			else
+			{
+				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+						.getLabel( )
+						.setVisible( cbVisible.getSelection( ) );
+			}
 			getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 					.getLabel( )
 					.setVisible( cbVisible.getSelection( ) );
