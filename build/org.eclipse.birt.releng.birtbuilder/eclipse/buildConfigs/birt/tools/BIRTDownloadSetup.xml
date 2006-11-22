@@ -312,6 +312,7 @@
 		-->
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="2.2.0"/>
 	
 	</target>
 
