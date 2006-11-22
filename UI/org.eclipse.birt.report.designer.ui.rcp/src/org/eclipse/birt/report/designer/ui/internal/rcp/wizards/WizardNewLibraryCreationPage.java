@@ -12,10 +12,7 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
@@ -30,7 +27,6 @@ import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -42,7 +38,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -195,13 +190,17 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		{
 			fileName = fn;
 		}
-
+		
+		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
+		{
+			return true;
+		}
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
 				new Path( TEMPLATE_FILE ), null );
 
 		if(url == null)
 		{
-			return false;
+			return true;
 		}
 
 		final String libraryFileName;

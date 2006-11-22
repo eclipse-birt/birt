@@ -127,15 +127,20 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 			fileName = fn;
 		}
 
+		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
+		{
+			return true;
+		}
+
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
 				new Path( "/templates/blank_library.rptlibrary" ),
 				null );
 
 		if ( url == null )
 		{
-			return false;
+			return true;
 		}
-		
+
 		final String libraryFileName;
 		try
 		{

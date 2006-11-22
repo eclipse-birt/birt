@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
@@ -176,11 +174,19 @@ public class NewReportTemplateWizard extends Wizard implements
 		else
 		{
 			fileName = fn;
+		}		
+		
+		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
+		{
+			return true;
 		}
-
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
 				new Path( TEMPLATE_FILE ), null );
 
+		if(url == null)
+		{
+			return true;
+		}
 		final String templateFileName;
 		try
 		{

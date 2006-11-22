@@ -126,12 +126,17 @@ public class NewTemplateWizard extends NewReportWizard
 		{
 			fileName = fn;
 		}
+		
+		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
+		{
+			return true;
+		}
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
 				new Path( "/templates/blank_report.rpttemplate" ), null );//$NON-NLS-1$
 
 		if ( url == null )
 		{
-			return false;
+			return true;
 		}
 		final String templateFileName;
 		try
