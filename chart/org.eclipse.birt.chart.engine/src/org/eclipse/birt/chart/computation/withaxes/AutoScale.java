@@ -1391,10 +1391,11 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 
-			for ( int i = 0; i < da.length; i++ )
+			for ( int i = 0; i < da.length - 1; i++ )
 			{
 				// TODO special logic for last datapoint in non-equal scale unit
 				// case.
+				// Ignore the top label for better auto scale. 
 
 				nde.setValue( dAxisValue );
 				try
@@ -1468,7 +1469,7 @@ public final class AutoScale extends Methods implements Cloneable
 			NumberDataElement nde = NumberDataElementImpl.create( 0 );
 			DecimalFormat df = null;
 
-			for ( int i = 0; i < da.length; i++ )
+			for ( int i = 0; i < da.length - 1; i++ )
 			{
 				nde.setValue( dAxisValue );
 				if ( fs == null )
@@ -1547,7 +1548,7 @@ public final class AutoScale extends Methods implements Cloneable
 			String sText;
 			cdt = cdtAxisValue;
 
-			for ( int i = 0; i < da.length; i++ )
+			for ( int i = 0; i < da.length - 1; i++ )
 			{
 				sText = ValueFormatter.format( cdt, fs, rtc.getULocale( ), sdf );
 
