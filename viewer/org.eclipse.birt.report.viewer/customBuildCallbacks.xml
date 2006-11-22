@@ -1,0 +1,225 @@
+<!-- ===================================================================== -->
+<!-- Custom targets called from a project's generated build.xml            -->
+<!-- Set customBuildCallbacks=<path/to/this/file> in your build.properties.-->
+<!-- ===================================================================== -->
+<project name="Build specific targets and properties" default="noDefault">
+
+	<!-- ===================================================================== -->
+	<!-- Default target                                                        -->
+	<!-- ===================================================================== -->
+	<target name="noDefault">
+		<echo message="This file must be called with explicit targets" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target build.jars                              -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	<target name="pre.build.jars">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target build.jars                               -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	<target name="post.build.jars">
+		<property name="basedir" location="." />
+		<property name="birt.dir" value="birt" />
+		<property name="build.result.folder" value="${basedir}" />
+		<property name="birt.temp.folder" value="${basedir}/birt.temp.folder" />
+		<property name="plugin.tomcat" value="org.eclipse.tomcat" />
+
+		<!-- plugins used -->
+		<property name="js.dir" location="../org.mozilla.rhino" />
+		<property name="core.dir" location="../org.eclipse.birt.core" />
+		<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
+		<property name="engine.dir" location="../org.eclipse.birt.report.engine" />
+		<property name="data.dir" location="../org.eclipse.birt.data" />
+		<property name="data-adapter-api.dir" location="../org.eclipse.birt.report.data.adapter" />
+
+		<echo message="basedir: ${basedir}" />
+
+		<!-- delete old files -->
+		<delete dir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+		<mkdir dir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+
+		<copy todir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes" failonerror="true">
+			<fileset dir="${birt.dir}/WEB-INF/classes/" excludes="**/package.htm*" />
+		</copy>
+
+		<taskdef classname="org.apache.jasper.JspC" name="jasper2">
+			<classpath>
+				<fileset dir="${baseLocation}/plugins">
+					<include name="${plugin.tomcat}_*/*.jar" />
+				</fileset>
+				<pathelement path="${core.dir}/@dot" />
+			</classpath>
+		</taskdef>
+		<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes" />
+		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
+			<classpath>
+				<fileset dir="${baseLocation}/plugins">
+					<include name="${plugin.tomcat}_*/*.jar" />
+					<include name="com.ibm.icu_*.jar" />
+				</fileset>
+				<pathelement path="${viewer.model.dir}/@dot" />
+				<pathelement path="${engine.dir}/@dot" />
+				<pathelement path="${data.dir}/@dot" />
+				<pathelement path="${core.dir}/@dot" />
+				<pathelement path="${birt.dir}/WEB-INF/lib/axis.jar" />
+				<pathelement path="${birt.dir}/WEB-INF/lib/jaxrpc.jar" />
+				<pathelement path="${js.dir}/lib/js.jar" />
+				<pathelement path="${data-adapter-api.dir}/@dot" />
+			</classpath>
+			<src path="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" />
+		</javac>
+
+		<loadfile property="file" srcFile="${birt.dir}/WEB-INF/generated_web.xml" />
+		<copy file="${birt.dir}/WEB-INF/web-template.xml" toFile="${birt.dir}/WEB-INF/web.xml" filtering="on" overwrite="yes">
+			<filterset>
+				<filter token="generated" value="${file}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" failonerror="true">
+			<fileset dir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" excludes="**/*.java, **/package.htm*" />
+		</copy>
+		<mkdir dir="${build.result.folder}/${birt.dir}/WEB-INF/lib" />
+		<echo message="${build.result.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar" />
+		<jar jarfile="${build.result.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar" basedir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
+
+		<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
+		<delete dir="${birt.temp.folder}" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target build.sources                           -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	<target name="pre.build.sources">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target build.sources                            -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	<target name="post.build.sources">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the compilation target <name>                      -->
+	<!-- Substitute "name" with the name of the compilation target, eg @dot    -->
+	<!-- Available parameters :                                                -->
+	<!--   source.foldern : n = 1 ... N, the source folders                    -->
+	<!--   target.folder  : where the results of the compilation go            -->
+	<!--   <name>.classpath : name = name of the compilation target. A         -->
+	<!--                      reference to the classpath structure.            -->
+	<!-- ===================================================================== -->
+	<target name="pre.name">
+	</target>
+
+	<target name="pre.@dot">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do during the compilation target <name>, after the compile   -->
+	<!-- but before jaring.  Substitute "name" with the name of the compilation-->
+	<!-- target, eg @dot                                                       -->
+	<!-- Available parameters :                                                -->
+	<!--   source.foldern : n = 1 ... N, the source folders                    -->
+	<!--   target.folder  : where the results of the compilation go            -->
+	<!--   <name>.classpath : name = name of the compilation target. A         -->
+	<!--                      reference to the classpath structure.            -->
+	<!-- ===================================================================== -->
+	<target name="post.compile.name">
+	</target>
+
+	<target name="post.compile.@dot">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the compilation target <name>                       -->
+	<!-- Substitute "name" with the name of the compilation target, eg @dot    -->
+	<!-- Available parameters :                                                -->
+	<!--   jar.location - the location of the compilation results              -->
+	<!--   <name>.classpath : name = name of the compilation target. A         -->
+	<!--                      reference to the classpath structure.            -->
+	<!-- ===================================================================== -->
+	<target name="post.name">
+	</target>
+
+	<target name="post.@dot">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target gather.bin.parts                         -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder containing the build results           -->
+	<!--   target.folder - destination folder                                  -->
+	<!-- ===================================================================== -->
+	<target name="pre.gather.bin.parts">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target gather.bin.parts                         -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder containing the build results           -->
+	<!--   target.folder - destination folder                                  -->
+	<!-- ===================================================================== -->
+	<target name="post.gather.bin.parts">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target gather.sources                          -->
+	<!-- Available parameters :                                                -->
+	<!--   destination.temp.folder - destination folder                        -->
+	<!-- ===================================================================== -->
+	<target name="pre.gather.sources">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target gather.sources                           -->
+	<!-- Available parameters :                                                -->
+	<!--   destination.temp.folder - destination folder                        -->
+	<!-- ===================================================================== -->
+	<target name="post.gather.sources">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target gather.logs                             -->
+	<!-- Available parameters :                                                -->
+	<!--   destination.temp.folder - destination folder                        -->
+	<!-- ===================================================================== -->
+	<target name="pre.gather.logs">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target gather.logs                              -->
+	<!-- Available parameters :                                                -->
+	<!--   destination.temp.folder - destination folder                        -->
+	<!-- ===================================================================== -->
+	<target name="post.gather.logs">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target clean                                   -->
+	<!-- Available parameters :                                                -->
+	<!--   destination.temp.folder - destination folder                        -->
+	<!-- ===================================================================== -->
+	<target name="pre.clean">
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target clean                                    -->
+	<!-- Available parameters :                                                -->
+	<!--   plugin.destination - final destination of the build                 -->
+	<!--   build.result.folder - results of the compilation                    -->
+	<!--   temp.folder - temporary folder                                      -->
+	<!-- ===================================================================== -->
+	<target name="post.clean">
+	</target>
+</project>
