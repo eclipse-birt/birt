@@ -158,6 +158,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private FormatSpecifier fs = null;
 
+	private double dPrecision = 0;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
 
 	/**
@@ -312,9 +314,10 @@ public final class AutoScale extends Methods implements Cloneable
 			else if ( ( iType & LINEAR ) == LINEAR )
 			{
 				double dStep = asDouble( oStep ).doubleValue( );
+				final double oldStep = dStep;
 				if ( bIntegralZoom )
 				{
-					final double oldStep = dStep;
+					
 					double dPower = ( Math.log( dStep ) / LOG_10 );
 					dPower = Math.floor( dPower );
 					dPower = Math.pow( 10.0, dPower );
@@ -349,7 +352,13 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep /= 2;
 					oStep = new Double( dStep );
 				}
+				if ( ((Number) oStep ).doubleValue( ) < dPrecision )
+				{
+					oStep = new Double( oldStep ); // revert step
+					return false; // CANNOT ZOOM ANY MORE
+				}
 			}
+			
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
 		{
@@ -1990,6 +1999,7 @@ public final class AutoScale extends Methods implements Cloneable
 			Object oValue;
 			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
 			dsi.reset( );
+			double dPrecision = 0;
 			while ( dsi.hasNext( ) )
 			{
 				oValue = dsi.next( );
@@ -2002,6 +2012,7 @@ public final class AutoScale extends Methods implements Cloneable
 					dMinValue = dValue;
 				if ( dValue > dMaxValue )
 					dMaxValue = dValue;
+				dPrecision = getPrecision( dPrecision, dValue );
 			}
 
 			double dDelta = dMaxValue - dMinValue;
@@ -2015,6 +2026,11 @@ public final class AutoScale extends Methods implements Cloneable
 			double dStep = Math.max( dAbsMax, dAbsMin );
 			dStep = Math.floor( Math.log( dDelta ) / LOG_10 );
 			dStep = Math.pow( 10, dStep );
+			// The automatic step should never be more precise than the data itself
+			if ( dStep < dPrecision )
+			{
+				dStep = dPrecision;
+			}
 
 			sc = new AutoScale( iType,
 					new Double( 0 ),
@@ -2027,6 +2043,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.dZoomFactor = zoomFactor;
+			sc.dPrecision = dPrecision;
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -2491,6 +2508,49 @@ public final class AutoScale extends Methods implements Cloneable
 
 		sc.setData( dsi );
 		return sc;
+	}
+
+	/**
+	 * Computes value precision if more precise than existing one
+	 * For instance 3.4 has a precision of 0.1 and
+	 * 1400 has a precision of 100. That is the position where the first 
+	 * significant digit appears, or in double representation, the value of the
+	 * exponent
+	 * @param precision
+	 * @param value
+	 * @return
+	 */
+	protected static double getPrecision(double precision, double value)
+	{
+		if ( value == 0 )
+		{
+			if ( precision < 0 )
+				return precision;
+			else if ( precision >= 0 )
+				return 1;
+		}
+		if (precision == 0)
+		{
+			// precision not initialized yet
+			// use worst precision for the double value
+			precision = Math.pow( 10, Math.floor( Math.log( value )/Math.log( 10 ) ) ); 
+		}
+		// divide number by precision. If precision good enough, it's an 
+		// integer
+		double check = value / precision;
+		int loopCounter = 0;
+		while (Math.floor(check) != check && loopCounter < 20 )
+		{
+			// avoid infinite loops. It should never take more than
+			// 20 loops to get the right precision
+			loopCounter++;
+			// increase precision until it works
+			precision /= 10;
+			check = value / precision;
+		}
+		if (loopCounter == 20 )
+			logger.log( ILogger.WARNING, "Autoscale precision not found for " + value);//$NON-NLS-1$
+		return precision;
 	}
 
 	/**
