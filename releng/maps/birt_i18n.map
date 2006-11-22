@@ -29,3 +29,14 @@ fragment@org.eclipse.birt.report.engine.nl=HEAD,:pserver:anonymous@dev.eclipse.o
 fragment@org.eclipse.birt.report.model.tests.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.model.tests.nl
 fragment@org.eclipse.birt.report.model.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.model.nl
 fragment@org.eclipse.birt.report.viewer.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.viewer.nl
+
+fragment@org.eclipse.datatools.connectivity.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.nl
+fragment@org.eclipse.datatools.connectivity.oda.consumer.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.consumer.nl
+fragment@org.eclipse.datatools.connectivity.oda.design.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.design.nl
+fragment@org.eclipse.datatools.connectivity.oda.design.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.design.ui.nl
+fragment@org.eclipse.datatools.connectivity.oda.flatfile.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.flatfile.nl
+fragment@org.eclipse.datatools.connectivity.oda.flatfile.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.flatfile.ui.nl
+fragment@org.eclipse.datatools.connectivity.oda.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.nl
+fragment@org.eclipse.datatools.connectivity.oda.profile.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.profile.nl
+fragment@org.eclipse.datatools.connectivity.ui.dse.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.ui.dse.nl
+fragment@org.eclipse.datatools.connectivity.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.ui.nl

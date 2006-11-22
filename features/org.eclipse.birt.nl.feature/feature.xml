@@ -261,5 +261,75 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
+   <plugin
+         id="org.eclipse.datatools.connectivity.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.consumer.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.design.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.design.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.flatfile.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.flatfile.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.oda.profile.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.ui.dse.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   <plugin
+         id="org.eclipse.datatools.connectivity.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
 </feature>
