@@ -95,7 +95,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 				// TODO Auto-generated catch block
 				e.printStackTrace( );
 			}
-			if ( resource == null || path == null ||!new File( path ).exists( ) )
+			if ( resource == null || path == null || !new File( path ).exists( ) )
 			{
 				btnBrowse.setEnabled( false );
 			}
@@ -170,6 +170,11 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 
 		try
 		{
+			// if the key keeps the same, then set to null first.(Fix bug 164767)
+			if ( oldValue != null && oldValue.equals( newValue ) )
+			{
+				save( null );
+			}
 			save( newValue );
 			text.setText( DEUtil.resolveNull( newValue ) );
 		}
