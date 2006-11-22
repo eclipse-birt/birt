@@ -1038,10 +1038,13 @@ public abstract class EngineCase extends TestCase
 			{
 				instr = new DataInputStream( new BufferedInputStream(
 						new FileInputStream( files[i] ) ) );
-				outstr = new DataOutputStream( new BufferedOutputStream(
-						new FileOutputStream( outFile + "\\"
-								+ files[i].getName( ) ) ) );
+//				outstr = new DataOutputStream( new BufferedOutputStream(
+//						new FileOutputStream( outFile + "\\"
+//								+ files[i].getName( ) ) ) );
 
+				outstr = new DataOutputStream( new BufferedOutputStream(
+						new FileOutputStream( outFile + File.separator
+								+ files[i].getName( ) ) ) );
 				try
 				{
 					int data;
