@@ -29,6 +29,7 @@ fragment@org.eclipse.birt.report.engine.nl=HEAD,:pserver:anonymous@dev.eclipse.o
 fragment@org.eclipse.birt.report.model.tests.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.model.tests.nl
 fragment@org.eclipse.birt.report.model.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.model.nl
 fragment@org.eclipse.birt.report.viewer.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.viewer.nl
+fragment@org.eclipse.birt.resources.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.resources.nl
 
 fragment@org.eclipse.datatools.connectivity.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.nl
 fragment@org.eclipse.datatools.connectivity.oda.consumer.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.oda.consumer.nl
