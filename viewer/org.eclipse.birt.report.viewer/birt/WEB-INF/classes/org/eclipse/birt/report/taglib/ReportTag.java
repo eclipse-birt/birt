@@ -155,14 +155,18 @@ public class ReportTag extends AbstractViewerTag
 			}
 			else
 			{
+				// write style
+				writer.write( __handleStyle( content ) );
+
 				// write script
 				writer.write( __handleScript( content ) );
 
 				// use <div> to control report content display
-				writer.write( "<div id='" + viewer.getName( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( "<div id='" + viewer.getId( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
 						+ __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
-				writer.write( "<div style='" + __handleBodyStyle( content ) //$NON-NLS-1$
-						+ "'>\n" ); //$NON-NLS-1$
+				writer
+						.write( "<div class='" + __handleBodyStyle( content ) + viewer.getId( ) //$NON-NLS-1$
+								+ "'>\n" ); //$NON-NLS-1$
 				writer.write( __handleBody( content ) + "\n" ); //$NON-NLS-1$
 				writer.write( "</div>\n" ); //$NON-NLS-1$
 				writer.write( "</div>\n" ); //$NON-NLS-1$
@@ -226,9 +230,10 @@ public class ReportTag extends AbstractViewerTag
 	 * Handle style content
 	 * 
 	 * @param content
+	 * @param Exception
 	 * @return
 	 */
-	protected String __handleStyle( String content )
+	protected String __handleStyle( String content ) throws Exception
 	{
 		String style = BLANK_STRING;
 
@@ -242,9 +247,13 @@ public class ReportTag extends AbstractViewerTag
 		while ( m.find( ) )
 		{
 			int start = m.end( );
-			int end = content.toLowerCase( ).indexOf( "</script>", start ); //$NON-NLS-1$
+			int end = content.toLowerCase( ).indexOf( "</style>", start ); //$NON-NLS-1$
 			style = style + content.substring( start + 1, end ) + "\n"; //$NON-NLS-1$
 		}
+
+		// replace the style section with id
+		style = style.replaceAll( ".style", ".style" + viewer.getId( ) ); //$NON-NLS-1$//$NON-NLS-2$
+		style = "<style type=\"text/css\">\n" + style + "\n</style>\n"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		return style;
 	}
@@ -257,15 +266,14 @@ public class ReportTag extends AbstractViewerTag
 	 */
 	protected String __handleBodyStyle( String content )
 	{
-		String style = BLANK_STRING;
+		String bodyStyleId = BLANK_STRING;
 
 		if ( content == null )
-			return style;
+			return bodyStyleId;
 
 		Pattern p = Pattern.compile( "<\\s*body([^\\>]*)\\>", //$NON-NLS-1$
 				Pattern.CASE_INSENSITIVE );
 		Matcher m = p.matcher( content );
-		String bodyStyleId = ""; //$NON-NLS-1$
 		if ( m.find( ) )
 		{
 			for ( int i = 1; i < m.groupCount( ) + 1; i++ )
@@ -286,16 +294,10 @@ public class ReportTag extends AbstractViewerTag
 			}
 		}
 
-		// parse sytle content
-		p = Pattern
-				.compile(
-						"<\\s*style[^\\>]*\\>\\s*\\.*" + bodyStyleId + "\\s*\\{\\s*([^\\}]+)\\}", //$NON-NLS-1$ //$NON-NLS-2$
-						Pattern.CASE_INSENSITIVE );
-		m = p.matcher( content );
-		if ( m.find( ) )
-			style = m.group( 1 ).trim( );
+		bodyStyleId = bodyStyleId.replaceAll( "style", "style" //$NON-NLS-1$ //$NON-NLS-2$
+				+ viewer.getId( ) );
 
-		return style;
+		return bodyStyleId;
 	}
 
 	/**
@@ -407,6 +409,10 @@ public class ReportTag extends AbstractViewerTag
 		{
 			body = content;
 		}
+
+		// handle style class
+		body = body.replaceAll( "class=\"style", "class=\"style" //$NON-NLS-1$ //$NON-NLS-2$
+				+ viewer.getId( ) );
 
 		return body;
 	}
