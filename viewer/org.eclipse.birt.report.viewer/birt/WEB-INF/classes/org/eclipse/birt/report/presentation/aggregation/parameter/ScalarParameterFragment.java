@@ -170,9 +170,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				{
 					parameterBean.setRequired( true );
 				}
-				else if ( parameterValue != null
-						&& parameterValue.trim( ).length( ) <= 0
-						&& !parameter.allowBlank( ) )
+				else if ( !parameter.allowBlank( ) )
 				{
 					parameterBean.setRequired( true );
 				}
