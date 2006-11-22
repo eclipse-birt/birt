@@ -355,7 +355,8 @@
         <p4sync view="//${p4.client}/Development/JRP/Dev/build/script/... 
                       //${p4.client}/Development/JRP/Dev/build/cvsDiff/... 
                       //${p4.client}/Development/JRP/Dev/build/lib/... 
-                      //${p4.client}/Development/JRP/3rdParty/iText/..." 
+                      //${p4.client}/Development/JRP/3rdParty/iText/...
+			          //${p4.client}/Development/JRP/Dev/birt/org.eclipse.birt.report.data.oda.jdbc/jdbc-drivers/..." 
                     port="${p4.port}" 
                     user="${p4.user}" 
                     globalopts="-P ${p4.passwd}" 
@@ -365,7 +366,9 @@
         <copy todir="${p4.home}/iText"  overwrite="true" failonerror="true">
                 <fileset dir="${p4.workspace}/Development/JRP/3rdParty/iText/itext_1_3_0"/>
         </copy>
-
+        <copy todir="${p4.home}/drivers"  overwrite="true" failonerror="true">
+                <fileset dir="${p4.workspace}/Development/JRP/Dev/birt/org.eclipse.birt.report.data.oda.jdbc/jdbc-drivers"/>
+        </copy>
         <copy todir="${p4.home}/CvsDiff"  overwrite="true" failonerror="true">
                 <fileset dir="${p4.workspace}/Development/JRP/Dev/build/cvsDiff"/>
         </copy>
@@ -544,11 +547,41 @@
 				<include name="*.itext*/**"/>
 			</fileset>
 		</copy>
+		<!-- copy drivers for jdbc testing -->
+		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.data.oda.jdbc_2.2.0.${buildId}/drivers">
+			<fileset dir="${p4.home}/drivers">
+				<include name="**"/>
+			</fileset>
+		</copy>
+			
 		<replace dir="${runner.dir}" value="2.2.0.${buildLabel}" token="@REPLACE_BY_BUILD_ID@">
 			<include name="testRunner.xml" />
 		</replace>
 		<!-- call the birt unit test -->
 		<ant dir="${runner.dir}" antfile="testRunner.xml" />
 	</target>
-
+	<target name="buildLanguagePack">
+		<antcall target="MakeNLPack1"/>
+		<!--antcall target="PackageNLPack1"/-->
+	</target>
+	<target name="MakeNLPack1">
+		<echo message="Start Make NL1 Pack" />
+		<ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl/tools" target="main" inheritAll="true">
+			<property name="build.id" value="${buildId}" />
+		</ant>
+	</target>
+	<target name="PackageNLPack1" >
+		<echo message="Start Packaging NL1 for full, framework and RCP" />
+		<ant antfile="EclipseDownloadSetupR1.xml" target="createNLGroup1" inheritAll="false">
+			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+		</ant>
+		<echo message="Start Packaging NL1 for charts" />
+		<ant antfile="EclipseDownloadSetupR1.xml" target="createNLGroup1Chart" inheritAll="false">
+			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+		</ant>
+		<echo message="Start Packaging NL1 for runtime" />
+		<ant antfile="EclipseDownloadSetupR1.xml" target="createNLGroup1Runtime" inheritAll="false">
+			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+		</ant>
+	</target>
 </project>

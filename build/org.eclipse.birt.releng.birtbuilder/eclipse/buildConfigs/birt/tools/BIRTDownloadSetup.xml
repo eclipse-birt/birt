@@ -742,35 +742,27 @@
 	
 	<target name="createNLGroup1" >
 		<!-- package NL for Report Designer Full Eclipse Install -->
-		<zip destfile="${workingDir}/${nl.group1.zip.name.allinone}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${ZipPrefix}">
+		<zip destfile="${OutputDir}/${nl.group1.zip.name.allinone}">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${ZipPrefix}">
 				<include name="*.nl1_*/**" />
-				<include name="*.nl1_*.jar" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
-				<include name="*.nl1_/**" />
 				<include name="*.nl1_*.jar" />
 			</zipfileset>
 		</zip>
 		<!-- package NL for Report Designer Full Eclipse Install -->
-		<copy file="${workingDir}/${nl.group1.zip.name.allinone}" tofile="${workingDir}/${nl.group1.zip.name.framework}"/>
+		<copy file="${OutputDir}/${nl.group1.zip.name.allinone}" tofile="${OutputDir}/${nl.group1.zip.name.framework}"/>
 		
 		<!-- package NL for RCP -->
-		<zip destfile="${workingDir}/${nl.group1.zip.name.RCP}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
+		<zip destfile="${OutputDir}/${nl.group1.zip.name.RCP}">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
 				<include name="*.nl1_*/**" />
-				<include name="*.nl1_*.jar" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${birt.rcp.dir.prefix}/features">
-				<include name="*.nl1_/**" />
 				<include name="*.nl1_*.jar" />
 			</zipfileset>
 		</zip>
 	</target>
 	
 	<target name="createNLGroup1Runtime" >
-		<zip destfile="${workingDir}/${nl.group1.zip.name.runtime}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/ChartEngine">
+		<zip destfile="${OutputDir}/${nl.group1.zip.name.runtime}">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/ChartEngine">
 				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
@@ -778,7 +770,7 @@
 				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
 				<include name="org.eclipse.birt.core.nl1_*.jar" />
 			</zipfileset>
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/ReportEngine/plugins">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/ReportEngine/plugins">
 				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
@@ -796,7 +788,7 @@
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
 				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
 			</zipfileset>
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
 				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
@@ -813,14 +805,14 @@
 				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
 			</zipfileset>
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
 				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1Chart" >
-		<zip destfile="${workingDir}/${nl.group1.zip.name.chart}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" prefix="${ZipPrefix}">
+		<zip destfile="${OutputDir}/${nl.group1.zip.name.chart}">
+			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
@@ -832,37 +824,34 @@
 				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
 				<include name="org.eclipse.birt.core.nl1_*.jar" />
 			</zipfileset>
-			<!--zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="eclipse/features">
-				<include name="*.nl1_/**" />
-			</zipfileset-->
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlaySDK" >
-		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.SDK}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
+		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.SDK}">
+			<zipfileset dir="${buildDirectory}/src/features" prefix="${FeautrePrefix}">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlayRCP" >
-		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.RCP}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${birt.rcp.dir.prefix}/features">
+		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.RCP}">
+			<zipfileset dir="${buildDirectory}/features" prefix="${birt.rcp.dir.prefix}/features">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlayFramework" >
-		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.Framework}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
+		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.Framework}">
+			<zipfileset dir="${buildDirectory}/features" prefix="${FeautrePrefix}">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlayChart" >
-		<zip destfile="${workingDir}/${nl.group1.overlay.zip.name.Chart}">
-			<zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/features" prefix="${FeautrePrefix}">
-				<include name="org.eclipse.birt.chart_*/feature_*.properties" />
-				<include name="org.eclipse.birt.chart.runtime_*/feature_*.properties" />
+		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.Chart}">
+			<zipfileset dir="${buildDirectory}/features" prefix="${FeautrePrefix}">
+				<include name="org.eclipse.birt.chart*/feature_*.properties" />
+				<include name="org.eclipse.birt.chart.runtime*/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
