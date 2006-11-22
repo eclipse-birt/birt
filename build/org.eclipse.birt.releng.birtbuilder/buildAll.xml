@@ -35,17 +35,18 @@
 	<property name="postingDirectory" value="${buildDirectory}" />
 
 	<target name="main" depends="init">
-		
-		<antcall target="buildBirtThirdPartyFeature"/>
-		<antcall target="buildBirtFeature"/>		
-		<antcall target="unpackUpdateJarsForPackaging"/>
-		<antcall target="integrateBirtFeatures"/>
-		<antcall target="buildBirtWebViewer"/>
-		<antcall target="CreateDistribute"/>
-		<!--antcall target="CreateUpdateSiteJars"/-->
-		<antcall target="buildBirtTestFeature"/>
-		<antcall target="runBirtTest"/>
-		<!--antcall target="buildBirtNLFeature"/-->
+
+        <antcall target="buildBirtThirdPartyFeature"/>
+        <antcall target="buildBirtFeature"/>
+        <antcall target="buildBirtTestFeature"/>
+        <antcall target="unpackUpdateJarsForPackaging"/>
+        <antcall target="integrateBirtFeatures"/>
+        <antcall target="buildBirtWebViewer"/>
+        <antcall target="buildBirtNLFeature"/>
+
+        <antcall target="CreateDistribute"/>
+        <antcall target="runBirtTest"/>
+
 	</target>
 
 	<target name="init">
@@ -123,6 +124,7 @@
 			<fileset dir="${postingDirectory}/${buildLabel}">
 				<include name="*.zip"/>
 				<include name="*.gz"/>
+				<include name="*.txt"/>
 			</fileset>
 		</copy>
 	</target>
@@ -144,7 +146,16 @@
 			<property name="component" value="${eclipse.build.configs}/birt.third.party" />
 		</ant>
 	</target>
-	
+    <target name="buildBirtNLFeature">
+            <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+                    <property name="builder" value="${eclipse.build.configs}/birt.nl" />
+            </ant>
+            <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+                    <property name="builder" value="${eclipse.build.configs}/birt.nl" />
+            </ant>
+            <ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" >
+            </ant>
+    </target>
 	<target name="buildUpdateSite" if="updateSite">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
 	</target>
@@ -216,5 +227,5 @@
             </ant>
     </target>
 
-	
+
 </project>
