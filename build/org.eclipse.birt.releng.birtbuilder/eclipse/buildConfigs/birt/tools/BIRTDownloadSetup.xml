@@ -303,11 +303,12 @@
         <antcall target="createWTPIntegration"/>
 
 		<!--antcall target="createIpotalLib" /-->
+		<!--
 		<antcall target="createNLGroup1FeatureOverlayChart" />
 		<antcall target="createNLGroup1FeatureOverlayFramework" />
 		<antcall target="createNLGroup1FeatureOverlayRCP" />
 		<antcall target="createNLGroup1FeatureOverlaySDK" />
-
+ 		-->
 
 		<!-- Replaced in bootstrap.sh -->
 		<!--
@@ -832,7 +833,7 @@
 	</target>
 	<target name="createNLGroup1FeatureOverlaySDK" >
 		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.SDK}">
-			<zipfileset dir="${buildDirectory}/src/features" prefix="${FeautrePrefix}">
+			<zipfileset dir="${buildDirectory}/features" prefix="${FeautrePrefix}">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
