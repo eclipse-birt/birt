@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
@@ -31,6 +30,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -255,9 +255,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 						};
 
 						Object model = this.getHost( ).getModel( );
-						if ( model instanceof ReportElementModel )
+						if ( model instanceof SlotHandle )
 						{
-							command.setParent( ( (ReportElementModel) model ).getSlotHandle( ) );
+							command.setParent( model );
 						}
 						else if ( model instanceof ListBandProxy )
 						{

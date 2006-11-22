@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.lib.editparts.LibraryReportDesignEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
@@ -33,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -148,9 +148,13 @@ public class LibraryDropListener extends DesignerDropListener
 	private boolean isSupportPalletType( Object target, Object transfer )
 	{
 		boolean bool = false;
-		if ( target instanceof ReportElementModel )
+//		if ( target instanceof ReportElementModel )
+//		{
+//			bool = ( (ReportElementModel) target ).getSlotId( ) == ModuleHandle.COMPONENT_SLOT;
+//		}
+		if ( target instanceof SlotHandle )
 		{
-			bool = ( (ReportElementModel) target ).getSlotId( ) == ModuleHandle.COMPONENT_SLOT;
+			bool = ( (SlotHandle) target ).getSlotID( ) == ModuleHandle.COMPONENT_SLOT;
 		}
 		else if ( target instanceof LibraryHandle )
 		{

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.lib.views.outline;
 
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.lib.views.outline.dnd.LibraryDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -109,7 +109,8 @@ public class LibraryOutlinePage extends DesignerOutlinePage
 		
 		dropListener.addDropConstraint( ScalarParameterHandle.class, cascadingParameterGroupChildrenConstraint );
 		dropListener.addDropConstraint( ParameterGroupHandle.class, cascadingParameterGroupChildrenConstraint );
-		dropListener.addDropConstraint( ReportElementModel.class, cascadingParameterGroupChildrenConstraint );
+//		dropListener.addDropConstraint( ReportElementModel.class, cascadingParameterGroupChildrenConstraint );
+		dropListener.addDropConstraint( SlotHandle.class, cascadingParameterGroupChildrenConstraint );
 		
 		getTreeViewer( ).addDropSupport( ops, transfers, dropListener );
 	}

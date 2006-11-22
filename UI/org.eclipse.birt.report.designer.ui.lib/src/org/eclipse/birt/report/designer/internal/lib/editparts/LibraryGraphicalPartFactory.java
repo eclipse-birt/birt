@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editparts;
 
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicalPartFactory;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -53,8 +52,12 @@ public class LibraryGraphicalPartFactory extends GraphicalPartFactory
 
 	private boolean ignoreModel( Object model )
 	{
-		if ( model instanceof ReportElementModel
-				&& ( ( (ReportElementModel) model ).getElementHandle( ) instanceof SimpleMasterPageHandle ) )
+//		if ( model instanceof ReportElementModel
+//				&& ( ( (ReportElementModel) model ).getElementHandle( ) instanceof SimpleMasterPageHandle ) )
+//		{
+//			return true;
+//		}
+		if ( model instanceof SimpleMasterPageHandle )
 		{
 			return true;
 		}

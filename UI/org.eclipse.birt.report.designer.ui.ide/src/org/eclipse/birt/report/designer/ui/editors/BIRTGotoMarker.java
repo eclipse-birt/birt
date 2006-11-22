@@ -16,16 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.editors.IDEMultiPageReportEditor;
-import org.eclipse.birt.report.designer.ui.editors.LibraryLayoutEditorFormPage;
-import org.eclipse.birt.report.designer.ui.editors.LibraryMasterPageEditorFormPage;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage;
@@ -287,14 +283,11 @@ class BIRTGotoMarker implements IGotoMarker
 				{
 					Object obj = itr.next( );
 
-					if ( obj instanceof ReportElementModel )
-					{
-						lst.add( ( (ReportElementModel) obj ).getSlotHandle( ) );
-					}
-					else
-					{
-						lst.add( obj );
-					}
+//					if ( obj instanceof ReportElementModel )
+//					{
+//						lst.add( ( (ReportElementModel) obj ).getSlotHandle( ) );
+//					}
+					lst.add( obj );
 				}
 				return lst;
 			}
