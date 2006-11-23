@@ -341,9 +341,11 @@
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
 				<include name="org.eclipse.datatools*.jar" />
+				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.datatools*/*" />
+				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -378,9 +380,11 @@
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
 				<include name="org.eclipse.datatools*.jar" />
+				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.datatools*/*" />
+				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -668,6 +672,12 @@
 				<include name="**/*" />
 				<exclude name="**/*datatools*/**" />
 				<exclude name="**/datatools*.jar" />
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
+				<include name="*xerces*/**"/>
+			</zipfileset>
+			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${birt.rcp.dir.prefix}/features">
+				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="${birt.rcp.dir.prefix}">
 				<include name="**/*" />
