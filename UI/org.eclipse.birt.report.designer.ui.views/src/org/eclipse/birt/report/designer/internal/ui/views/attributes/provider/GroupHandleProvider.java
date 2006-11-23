@@ -105,12 +105,12 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	 */
 	public CellEditor[] getEditors( Table table )
 	{
-		if ( editors == null )
-		{
-			editors = new TextCellEditor[columnKeys.length];
-			editors[0] = new TextCellEditor( table );
-			editors[1] = new TextCellEditor( table );
-		}
+//		if ( editors == null )
+//		{
+//			editors = new TextCellEditor[columnKeys.length];
+//			editors[0] = new TextCellEditor( table );
+//			editors[1] = new TextCellEditor( table );
+//		}
 		return null;
 	}
 

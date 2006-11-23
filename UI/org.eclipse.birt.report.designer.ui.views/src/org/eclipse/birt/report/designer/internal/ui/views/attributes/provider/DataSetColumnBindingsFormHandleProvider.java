@@ -94,12 +94,9 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	 *            the bindingObject to set
 	 */
 
-	private List groupList = null;
-
 	public void setBindingObject( ReportElementHandle bindingObject )
 	{
 		this.bindingObject = bindingObject;
-		groupList = DEUtil.getGroups( bindingObject );
 	}
 
 	public String[] getColumnNames( )

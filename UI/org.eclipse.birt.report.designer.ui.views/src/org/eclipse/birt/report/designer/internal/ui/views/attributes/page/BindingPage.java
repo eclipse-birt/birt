@@ -13,11 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboAndButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DataSetColumnBindingsFormDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;

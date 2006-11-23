@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -467,11 +468,23 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		tableViewer = new TableViewer( table );
 		tableViewer.setUseHashlookup( true );
 		tableViewer.setColumnProperties( ( (IFormProvider) getDescriptorProvider( ) ).getColumnNames( ) );
-		tableViewer.setCellEditors( ( (IFormProvider) getDescriptorProvider( ) ).getEditors( table ) );
+		CellEditor[] editors = ( (IFormProvider) getDescriptorProvider( ) ).getEditors( table );
+		if ( editors != null && editors.length > 0 )
+		{
+			tableViewer.setCellEditors( ( (IFormProvider) getDescriptorProvider( ) ).getEditors( table ) );
+			tableViewer.setCellModifier( new FormCellModifier( ) );
+		}else {
+			tableViewer.setCellModifier( new FormCellModifier( ){
+				public boolean canModify( Object element, String property )
+				{
+					return false;
+				}
+			} );
+		}
 		tableViewer.setContentProvider( ( (AbstractFormHandleProvider) getDescriptorProvider( ) ).getFormContentProvider( this,
 				getDescriptorProvider( ) ) );
 		tableViewer.setLabelProvider( new FormLabelProvider( ) );
-		tableViewer.setCellModifier( new FormCellModifier( ) );
+		
 
 	}
 
