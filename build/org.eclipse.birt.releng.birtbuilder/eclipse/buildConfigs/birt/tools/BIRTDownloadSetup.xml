@@ -336,6 +336,7 @@
 				<include name="**/*" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
+				<exclude name="org.eclipse.birt.rcp*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
@@ -372,6 +373,7 @@
 				<exclude name="org.eclipse.birt*source*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
+				<exclude name="org.eclipse.birt.rcp*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
@@ -451,7 +453,7 @@
 		<zip destfile="${OutputDir}/${allinone.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
-				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.datatools.connectivity_*/**"/>
 				<exclude name="org.eclipse.datatools.connectivity.ui_*/**"/>
@@ -465,6 +467,7 @@
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.rcp*/**" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -495,6 +498,7 @@
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
+				<exclude name="org.eclipse.birt.rcp*/**"/>
 			</tarfileset>
 			<tarfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -636,7 +640,8 @@
 		<zip destfile="${OutputDir}/${birt.rcp.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
 				<include name="**/*" />
-				<exclude name="**/org.eclipse.birt.report.designer.ui.ide*/**" />
+				<exclude name="org.eclipse.birt.report.designer.ui.ide*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.report.debug.ui*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
@@ -654,7 +659,9 @@
 				<include name="**/*" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt*source*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
+				<exclude name="org.eclipse.birt.rcp*/**"/>
 			</zipfileset>
 			
 			<zipfileset dir="${RCP.static.file.dir}" prefix="${birt.rcp.dir.prefix}">
@@ -668,20 +675,6 @@
 		</zip>
 	</target>
 	
-	<target name="createTestSuite">
-		<!--  Make Test Suite ZIP file-->
-		<zip destfile="${OutputDir}/${test.suite.zip.name}">
-			<zipfileset dir="${test.suite.dir}/source" prefix="${ZipPrefix}">
-				<include name="**/*" />
-				<exclude name="**/CVS/**" />
-				<exclude name="**/org.eclipse.birt.report.tests.chart/**" />
-			</zipfileset>
-			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
-				<include name="**/*" />
-			</zipfileset>
-		</zip>
-	</target>
-
 	<target name="createSamplePlugin">
 		<!--  Make sample plugin ZIP file-->
 		<zip destfile="${OutputDir}/${sample.plugin.zip.name}" >
