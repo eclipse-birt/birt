@@ -7,6 +7,17 @@
 		</ant>
 	</target>
 	
+	<target name="runbirtviewertests">
+		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
+			<property name="catalina_home" value="${catalina_home}"/>
+			<property name="hostandport" value="${hostandport}"/>
+			<property name="birtbuild" value="${birtbuild}"/>
+			<property name="data-dir" value="${junittempfolder}"/>
+			<property name="plugin-name" value="${plugin-name}"/>
+			<property name="classname" value="${classname}"/>
+		</ant>
+	</target>
+	
 	<target name="runbirtperfsuite">
 		<ant target="eclipse-test" antfile="${library-file}" dir="${eclipse-home}">
 			<property name="application" value="${application}"/>
