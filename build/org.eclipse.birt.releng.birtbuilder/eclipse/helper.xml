@@ -559,7 +559,16 @@
 		</replace>
 		<!-- call the birt unit test -->
 		<ant dir="${runner.dir}" antfile="testRunner.xml" />
+		<!-- XSLT trasform-->
+		<exec executable="processXML.sh" dir="${test.dir}/unitTestReport"/>
+		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
+		<copy todir="${output.test.dir}/unitTestReport/html" overwrite="true">
+			<fileset dir="${test.dir}/unitTestReport/html">
+				<include name="*.html"/>
+			</fileset>
+		</copy>
 	</target>
+	
 	<target name="buildLanguagePack">
 		<antcall target="MakeNLPack1"/>
 		<antcall target="PackageNLPack1"/>
