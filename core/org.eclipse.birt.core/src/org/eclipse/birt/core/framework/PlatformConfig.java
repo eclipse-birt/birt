@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.framework;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Defines an implementation of IPlatformConfig to access OSGi framework.
@@ -64,6 +65,32 @@ public class PlatformConfig implements IPlatformConfig
 	public void setOSGiArguments( String[] arguments )
 	{
 		properties.put( OSGI_ARGUMENTS, arguments );
+	}
+
+	/**
+	 * set the configuration used by the OSGi framework. The configuration
+	 * includes all valid osgi config except:
+	 * <li>1. osgi.install.area, always using the one defined by BIRT_HOME.</li>
+	 * <li>2. eclipse.ignoreApp, always be true.</li>
+	 * <li>3. osgi.noShutDown, always be true.</li>
+	 * <li>4. osgi.framework, always using the one defined by BIRT_HOME</li>
+	 * <li>5. osgi.framework.useSystemProperties, always be false.</li>
+	 * 
+	 * @param osgiConfigMap
+	 */
+	public void setOSGiConfig( Map osgiConfigMap )
+	{
+		properties.put( OSGI_CONFIGURATION, osgiConfigMap );
+	}
+
+	public Map getOSGiConfig( )
+	{
+		Object config = properties.get( OSGI_CONFIGURATION );
+		if ( config instanceof Map )
+		{
+			return (Map) config;
+		}
+		return null;
 	}
 
 	public IPlatformContext getPlatformContext( )

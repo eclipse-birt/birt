@@ -30,4 +30,9 @@ public interface IPlatformConfig
 	 * defines the launch argumengs to access OSGi framework
 	 */
 	static final String OSGI_ARGUMENTS = "OSGI_ARGUMENTS";
+	
+	/**
+	 * defines the configuration used to launch the OSGi framework
+	 */
+	static final String OSGI_CONFIGURATION = "OSGI_CONFIGURATION";
 }
