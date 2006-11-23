@@ -66,54 +66,54 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	public boolean performDrop( Object data )
 	{
-		Object adapter = ElementAdapterManager.getAdatper( getCurrentTarget( ),
-				IElementDropAdapter.class );
-		if ( adapter != null )
+//		Object adapter = ElementAdapterManager.getAdatper( getCurrentTarget( ),
+//				IElementDropAdapter.class );
+//		if ( adapter != null )
+//		{
+//			IElementDropAdapter dropAdapter = (IElementDropAdapter) adapter;
+//			return dropAdapter.handleDrop( getCurrentTarget( ),
+//					getCurrentOperation( ),
+//					getCurrentLocation( ),
+//					data );
+//		}
+
+		if ( data instanceof Object[]
+				&& ( (Object[]) data )[0] instanceof ThemeHandle )
 		{
-			IElementDropAdapter dropAdapter = (IElementDropAdapter) adapter;
-			return dropAdapter.handleDrop( getCurrentTarget( ),
-					getCurrentOperation( ),
-					getCurrentLocation( ),
-					data );
+			if ( getCurrentTarget( ) instanceof ModuleHandle )
+			{
+				if ( Policy.TRACING_DND_DRAG )
+				{
+					System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
+							+ getCurrentTarget( ) );
+				}
+				return ApplyTheme( (ThemeHandle) ( (Object[]) data )[0],
+						(ModuleHandle) getCurrentTarget( ) );
+			}
+			else
+			{
+				return false;
+			}
 		}
 
-//		if ( data instanceof Object[]
-//				&& ( (Object[]) data )[0] instanceof ThemeHandle )
-//		{
-//			if ( getCurrentTarget( ) instanceof ModuleHandle )
-//			{
-//				if ( Policy.TRACING_DND_DRAG )
-//				{
-//					System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
-//							+ getCurrentTarget( ) );
-//				}
-//				return ApplyTheme( (ThemeHandle) ( (Object[]) data )[0],
-//						(ModuleHandle) getCurrentTarget( ) );
-//			}
-//			else
-//			{
-//				return false;
-//			}
-//		}
-//
-//		if ( getCurrentOperation( ) == DND.DROP_MOVE )
-//		{
-//			if ( Policy.TRACING_DND_DRAG )
-//			{
-//				System.out.println( "DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
-//						+ getCurrentTarget( ) );
-//			}
-//			return moveData( data, getCurrentTarget( ) );
-//		}
-//		else if ( getCurrentOperation( ) == DND.DROP_COPY )
-//		{
-//			if ( Policy.TRACING_DND_DRAG )
-//			{
-//				System.out.println( "DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
-//						+ getCurrentTarget( ) );
-//			}
-//			return copyData( data, getCurrentTarget( ) );
-//		}
+		if ( getCurrentOperation( ) == DND.DROP_MOVE )
+		{
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
+						+ getCurrentTarget( ) );
+			}
+			return moveData( data, getCurrentTarget( ) );
+		}
+		else if ( getCurrentOperation( ) == DND.DROP_COPY )
+		{
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
+						+ getCurrentTarget( ) );
+			}
+			return copyData( data, getCurrentTarget( ) );
+		}
 		return false;
 	}
 
