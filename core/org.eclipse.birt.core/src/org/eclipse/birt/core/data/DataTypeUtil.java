@@ -31,6 +31,8 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -82,6 +84,7 @@ public final class DataTypeUtil
 		for ( int i = 0; i < dateFormatPattern.length; i++ )
 		{
 			simpleDateFormatter[i] = new SimpleDateFormat( dateFormatPattern[i] );
+			simpleDateFormatter[i].setCalendar( Calendar.getInstance( TimeZone.getTimeZone( "GMT" ) ) );
 			simpleDateFormatter[i].setLenient( false );
 		}
 	}
