@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.core.framework.osgi;
 
@@ -6,6 +16,10 @@ import java.io.FileFilter;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +37,7 @@ public class OSGILauncher
 	/** the class used to start the elipse framework */
 	private static final String ECLIPSE_STARTER = "org.eclipse.core.runtime.adaptor.EclipseStarter";
 
+	private static String PluginId = "org.eclipse.birt.core";
 	private File platformDirectory;
 	private ClassLoader frameworkClassLoader;
 	private ClassLoader frameworkContextClassLoader;
@@ -32,16 +47,54 @@ public class OSGILauncher
 	public void startup( PlatformConfig config ) throws BirtException
 	{
 		IPlatformContext context = config.getPlatformContext( );
+		HashMap properties = new HashMap( );
+		Properties systemProperties = System.getProperties( );
+		if ( systemProperties != null )
+		{
+			for ( Iterator it = systemProperties.entrySet( ).iterator( ); it
+					.hasNext( ); )
+			{
+				Map.Entry entry = (Map.Entry) it.next( );
+				String key = (String) entry.getKey( );
+				Object value = entry.getValue( );
+				if ( !key.startsWith( "osgi." ) && !key.startsWith( "eclipse." )
+						&& !key.startsWith( "org.osgi." ) )
+				{
+					properties.put( key, value );
+				}
+				else
+				{
+					properties.put( key, null );
+				}
+			}
+		}
+		// copy user defined configuration
+		Map osgiConfig = config.getOSGiConfig( );
+		if ( osgiConfig != null )
+		{
+			Iterator iter = osgiConfig.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+				Object key = (String) entry.getKey( );
+				Object value = (String) entry.getValue( );
+				if ( key instanceof String && value instanceof String )
+				{
+					properties.put( key, value );
+				}
+			}
+		}
+		
 		if ( context == null )
 		{
-			throw new BirtException(
+			throw new BirtException( PluginId,
 					"PlatformContext is not setted - {0}", new Object[]{"PlatformConfig"} ); //$NON-NLS-1$
 		}
 		String root = context.getPlatform( );
 		platformDirectory = new File( root );
 		if ( !platformDirectory.exists( ) || !platformDirectory.isDirectory( ) )
 		{
-			throw new BirtException(
+			throw new BirtException( PluginId,
 					"Could not start the Framework - {0}" + root, root ); //$NON-NLS-1$
 		}
 
@@ -51,41 +104,54 @@ public class OSGILauncher
 			return;
 		}
 
-		System.setProperty( "osgi.parentClassloader", "fwk" ); //$NON-NLS-1$ //$NON-NLS-2$
+		String parentClassLoader = getProperty( properties,
+				"osgi.parentClassloader" );
+		if ( parentClassLoader == null )
+		{
+			properties.put( "osgi.parentClassloader", "fwk" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
 		// install.area
-		System.setProperty(
+		properties.put(
 				"osgi.install.area", platformDirectory.getAbsolutePath( ) ); //$NON-NLS-1$
 
 		// configuration.area
-		File configurationDirectory = new File( platformDirectory,
-				"configuration" ); //$NON-NLS-1$
-		if ( !configurationDirectory.exists( ) )
+		String configArea = getProperty( properties, "osgi.configuration.area" );
+		if ( configArea == null )
 		{
-			configurationDirectory.mkdirs( );
+			File configurationDirectory = new File( platformDirectory,
+					"configuration" ); //$NON-NLS-1$
+			if ( !configurationDirectory.exists( ) )
+			{
+				configurationDirectory.mkdirs( );
+			}
+			properties
+					.put(
+							"osgi.configuration.area", configurationDirectory.getAbsolutePath( ) ); //$NON-NLS-1$
 		}
-		System
-				.setProperty(
-						"osgi.configuration.area", configurationDirectory.getAbsolutePath( ) ); //$NON-NLS-1$
 
 		// instance.area
-		File workspaceDirectory = new File( platformDirectory, "workspace" ); //$NON-NLS-1$
-		if ( !workspaceDirectory.exists( ) )
+		String instanceArea = getProperty( properties, "osgi.instance.area" );
+		if ( instanceArea == null )
 		{
-			workspaceDirectory.mkdirs( );
+			File workspaceDirectory = new File( platformDirectory, "workspace" ); //$NON-NLS-1$
+			if ( !workspaceDirectory.exists( ) )
+			{
+				workspaceDirectory.mkdirs( );
+			}
+			properties
+					.put(
+							"osgi.instance.area", workspaceDirectory.getAbsolutePath( ) ); //$NON-NLS-1$
 		}
-		System.setProperty(
-				"osgi.instance.area", workspaceDirectory.getAbsolutePath( ) ); //$NON-NLS-1$
 
-		System.setProperty( "eclipse.ignoreApp", "true" );
-		// //$NON-NLS-1$//$NON-NLS-2$
-		System.setProperty( "osgi.noShutdown", "true" ); //$NON-NLS-1$//$NON-NLS-2$
+		properties.put( "eclipse.ignoreApp", "true" );//$NON-NLS-1$ $NON-NLS-2$
+		properties.put( "osgi.noShutdown", "true" ); //$NON-NLS-1$ $NON-NLS-2$
 
 		String path = new File( platformDirectory, "plugins" ).toString( ); //$NON-NLS-1$
 		path = searchFor( "org.eclipse.osgi", path ); //$NON-NLS-1$
 		if ( path == null )
 		{
-			throw new BirtException(
+			throw new BirtException( PluginId,
 					"Could not find the Framework - {0}", new Object[]{"org.eclipse.osgi"} ); //$NON-NLS-1$
 		}
 
@@ -100,8 +166,8 @@ public class OSGILauncher
 		try
 		{
 			URL frameworkUrl = new File( framework ).toURL( );
-			System
-					.setProperty(
+			properties
+					.put(
 							"osgi.framework", frameworkUrl.toExternalForm( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 			ClassLoader loader = this.getClass( ).getClassLoader( );
@@ -127,13 +193,31 @@ public class OSGILauncher
 
 			Class clazz = frameworkClassLoader.loadClass( ECLIPSE_STARTER );
 
-			System.setProperty( "osgi.framework.useSystemProperties", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
-
+			Method initPropertiesMethod = clazz.getMethod(
+					"setInitialProperties", new Class[]{Map.class} ); //$NON-NLS-1$
+			if ( initPropertiesMethod != null )
+			{
+				System.setProperty(
+						"osgi.framework.useSystemProperties", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
+				properties.put( "osgi.framework.useSystemProperties", "false" );
+				initPropertiesMethod.invoke( null, new Object[]{properties} );
+			}
+			else
+			{
+				Iterator iter = properties.entrySet( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Map.Entry entry = (Map.Entry) iter.next( );
+					String key = (String) entry.getKey( );
+					String value = (String) entry.getValue( );
+					System.setProperty( key, value );
+				}
+				System.setProperty(
+						"osgi.framework.useSystemProperties", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			
 			Method runMethod = clazz.getMethod(
 					"startup", new Class[]{String[].class, Runnable.class} ); //$NON-NLS-1$
-			// Method runMethod = clazz.getMethod(
-			// "run", new Class[]{String[].class, Runnable.class} );
-			// //$NON-NLS-1$
 			bundleContext = runMethod.invoke( null, new Object[]{args, null} );
 			frameworkContextClassLoader = Thread.currentThread( )
 					.getContextClassLoader( );
@@ -149,6 +233,27 @@ public class OSGILauncher
 		}
 	}
 
+	/**
+	 * return the property value.
+	 * @param properties
+	 * @param name
+	 * @return value, must be none empty string or NULL.
+	 */
+	private String getProperty( Map properties, String name )
+	{
+		Object value = properties.get( name );
+		if ( value instanceof String )
+		{
+			String strValue = (String) value;
+			strValue = strValue.trim( );
+			if ( strValue.length( ) > 0 )
+			{
+				return strValue;
+			}
+		}
+		return null;
+	}
+	
 	public ClassLoader getFrameworkContextClassLoader( )
 	{
 		return frameworkContextClassLoader;
