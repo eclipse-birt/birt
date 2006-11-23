@@ -265,16 +265,16 @@ public abstract class EngineCase extends TestCase
 		InputStream in = getClass( ).getClassLoader( )
 				.getResourceAsStream( src );
 		assertTrue( in != null );
-
 		try
 		{
-
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
-			out.write( buffer );
-			out.close( );
+			FileOutputStream fos = new FileOutputStream( tgt );
+			byte[] fileData = new byte[5120];
+			int readCount = -1;
+			while ( ( readCount = in.read( fileData ) ) != -1 )
+			{
+				fos.write( fileData, 0, readCount );
+			}
+			fos.close( );
 			in.close( );
 
 		}
@@ -294,12 +294,11 @@ public abstract class EngineCase extends TestCase
 	{
 		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
 	}
-	
+
 	protected void copyResource_SCRIPT( String input_resource, String script )
 	{
 		this.copyResource( input_resource, script, "input/scripts" );
 	}
-
 
 	/**
 	 * Remove a given file or directory recursively.
@@ -1004,7 +1003,7 @@ public abstract class EngineCase extends TestCase
 				+ "/" + OUTPUT_FOLDER + "/" + output;
 		return outputFile;
 	}
-	
+
 	private void copyFolder( File from, File to ) throws Exception
 	{
 		if ( !from.isDirectory( ) || !from.exists( ) )
@@ -1022,15 +1021,16 @@ public abstract class EngineCase extends TestCase
 
 		if ( !to.exists( ) )
 			to.mkdir( );
-//		System.out.println( "size is " + files.length );
+		// System.out.println( "size is " + files.length );
 		for ( int i = 0; i < files.length; i++ )
 		{
 
-			if( files[i].isDirectory( ) )
+			if ( files[i].isDirectory( ) )
 			{
-				this.copyFolder( files[i], new File( to.getPath( ) + "/" + files[i].getName( ) ) );
+				this.copyFolder( files[i], new File( to.getPath( ) + "/"
+						+ files[i].getName( ) ) );
 			}
-			
+
 			DataInputStream instr;
 			DataOutputStream outstr;
 			File outFile = new File( to.getPath( ) );
@@ -1038,9 +1038,9 @@ public abstract class EngineCase extends TestCase
 			{
 				instr = new DataInputStream( new BufferedInputStream(
 						new FileInputStream( files[i] ) ) );
-//				outstr = new DataOutputStream( new BufferedOutputStream(
-//						new FileOutputStream( outFile + "\\"
-//								+ files[i].getName( ) ) ) );
+				// outstr = new DataOutputStream( new BufferedOutputStream(
+				// new FileOutputStream( outFile + "\\"
+				// + files[i].getName( ) ) ) );
 
 				outstr = new DataOutputStream( new BufferedOutputStream(
 						new FileOutputStream( outFile + File.separator
@@ -1073,8 +1073,8 @@ public abstract class EngineCase extends TestCase
 		}
 
 	}
-	
-	public void copyFolder( String from , String to ) throws Exception
+
+	public void copyFolder( String from, String to ) throws Exception
 	{
 		copyFolder( new File( from ), new File( to ) );
 	}

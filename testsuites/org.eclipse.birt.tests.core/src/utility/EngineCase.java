@@ -62,7 +62,7 @@ import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.ReportRunner;
 
 /**
- * Base class for Engine test. 
+ * Base class for Engine test.
  */
 
 public abstract class EngineCase extends TestCase
@@ -267,16 +267,16 @@ public abstract class EngineCase extends TestCase
 		InputStream in = getClass( ).getClassLoader( )
 				.getResourceAsStream( src );
 		assertTrue( in != null );
-
 		try
 		{
-
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
-			out.write( buffer );
-			out.close( );
+			FileOutputStream fos = new FileOutputStream( tgt );
+			byte[] fileData = new byte[5120];
+			int readCount = -1;
+			while ( ( readCount = in.read( fileData ) ) != -1 )
+			{
+				fos.write( fileData, 0, readCount );
+			}
+			fos.close( );
 			in.close( );
 
 		}
@@ -399,7 +399,8 @@ public abstract class EngineCase extends TestCase
 
 			String outputFile = genOutputFile( output );
 
-			String goldenFile = getFullQualifiedClassName( ) + "/" + GOLDEN_FOLDER + "/" + golden;
+			String goldenFile = getFullQualifiedClassName( ) + "/"
+					+ GOLDEN_FOLDER + "/" + golden;
 			readerA = new FileReader( goldenFile );
 			readerB = new FileReader( outputFile );
 
@@ -660,7 +661,7 @@ public abstract class EngineCase extends TestCase
 
 		String outputFile = genOutputFile( output );
 		doc = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + doc;
-		
+
 		String encoding = "UTF-8"; //$NON-NLS-1$
 
 		IReportDocument document = engine.openReportDocument( doc );
@@ -718,7 +719,8 @@ public abstract class EngineCase extends TestCase
 
 		try
 		{
-			copyFile( from, this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + tempDoc );
+			copyFile( from, this.getFullQualifiedClassName( ) + "/"
+					+ INPUT_FOLDER + "/" + tempDoc );
 			if ( FORMAT_PDF.equals( format ) ) //$NON-NLS-1$
 				return render_PDF( tempDoc, output, pageRange );
 			else
@@ -998,7 +1000,7 @@ public abstract class EngineCase extends TestCase
 				+ "/" + OUTPUT_FOLDER + "/" + output;
 		return outputFile;
 	}
-	
+
 	private void copyFolder( File from, File to ) throws Exception
 	{
 		if ( !from.isDirectory( ) || !from.exists( ) )
@@ -1021,11 +1023,12 @@ public abstract class EngineCase extends TestCase
 		{
 			// File file = files[i];
 
-			if( files[i].isDirectory( ) )
+			if ( files[i].isDirectory( ) )
 			{
-				this.copyFolder( files[i], new File( to.getPath( ) + "/" + files[i].getName( ) ) );
+				this.copyFolder( files[i], new File( to.getPath( ) + "/"
+						+ files[i].getName( ) ) );
 			}
-			
+
 			DataInputStream instr;
 			DataOutputStream outstr;
 			File outFile = new File( to.getPath( ) );
@@ -1064,8 +1067,8 @@ public abstract class EngineCase extends TestCase
 		}
 
 	}
-	
-	public void copyFolder( String from , String to ) throws Exception
+
+	public void copyFolder( String from, String to ) throws Exception
 	{
 		copyFolder( new File( from ), new File( to ) );
 	}

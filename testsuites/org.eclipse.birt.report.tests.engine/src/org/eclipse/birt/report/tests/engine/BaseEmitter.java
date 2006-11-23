@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.tests.engine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -234,6 +235,8 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	protected String genOutputFile( String output )
 	{
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
 		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ "/" + OUTPUT_FOLDER + "/" + output;
 		return outputFile;
