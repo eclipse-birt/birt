@@ -121,7 +121,7 @@
    <adaptable
          class="org.eclipse.birt.report.model.api.ParameterGroupHandle">
       <adapter
-            class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.ParameterNodeProvider"
+            class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.ParameterGroupNodeProvider"
             id="ParameterGroupHandle.NodeProvider"
             priority="2"
             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
@@ -143,10 +143,10 @@
       </adapter>
    </adaptable>
    <adaptable
-         class="org.eclipse.birt.report.model.api.ParameterHandle">
+         class="org.eclipse.birt.report.model.api.ScalarParameterHandle">
       <adapter
             class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.ParameterNodeProvider"
-            id="ParameterHandle.NodeProvider"
+            id="ScalarParameterHandle.NodeProvider"
             priority="2"
             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
       </adapter>
