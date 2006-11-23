@@ -41,23 +41,24 @@ public class ChartTestCase extends TestCase
 		super.setUp( );
 
 		// make the output directory.
-		
+
 		String tempDir = System.getProperty( "java.io.tmpdir" );
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
-		
-		String outputPath = tempDir + getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER;
+
+		String outputPath = tempDir + getFullQualifiedClassName( ) + "/"
+				+ OUTPUT_FOLDER;
 		outputPath = outputPath.replace( '\\', '/' );
 
 		File outputFolder = new File( outputPath );
-		
+
 		File parent = new File( outputPath ).getParentFile( );
 
 		if ( parent != null )
 		{
 			parent.mkdirs( );
 		}
-		
+
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
@@ -102,16 +103,18 @@ public class ChartTestCase extends TestCase
 	protected boolean compareBytes( String golden, String output )
 			throws Exception
 	{
-//		InputStream is1 = new FileInputStream( this.getFullQualifiedClassName( ) + "/"
-//				+ GOLDEN_FOLDER + "/" + golden );
-		
+		// InputStream is1 = new FileInputStream(
+		// this.getFullQualifiedClassName( ) + "/"
+		// + GOLDEN_FOLDER + "/" + golden );
+
 		String className = getFullQualifiedClassName( );
 		className = className.replace( '.', '/' );
 		golden = className + "/" + GOLDEN_FOLDER + "/" + golden;
-		
-//		InputStream is1 = new FileInputStream( golden );
-		
-		InputStream is1 = getClass( ).getClassLoader( ).getResourceAsStream( golden );
+
+		// InputStream is1 = new FileInputStream( golden );
+
+		InputStream is1 = getClass( ).getClassLoader( ).getResourceAsStream(
+				golden );
 		InputStream is2 = new FileInputStream( this.genOutputFile( output ) );
 
 		return this.compare( is1, is2 );
@@ -178,8 +181,8 @@ public class ChartTestCase extends TestCase
 	}
 
 	/**
-	 * Locates the folder where the unit test java source file is saved, used
-	 * in standalone test case.
+	 * Locates the folder where the unit test java source file is saved, used in
+	 * standalone test case.
 	 * 
 	 * @return the path name where the test java source file locates.
 	 */
@@ -193,7 +196,7 @@ public class ChartTestCase extends TestCase
 
 		return className;
 	}
-	
+
 	/**
 	 * Get the class name.
 	 * 
@@ -207,7 +210,7 @@ public class ChartTestCase extends TestCase
 
 		return className;
 	}
-	
+
 	/**
 	 * Set the output path. And the path will set in java.io.tmpdir.
 	 * 
@@ -222,12 +225,16 @@ public class ChartTestCase extends TestCase
 				+ "/" + OUTPUT_FOLDER + "/" + output;
 		return outputFile;
 	}
-	
+
 	/**
 	 * Make a copy of a given file to the target file.
-	 * @param src: the file where to copy from
-	 * @param tgt: the target file to copy to
-	 * @param folder: the folder that the copied file in.
+	 * 
+	 * @param src:
+	 *            the file where to copy from
+	 * @param tgt:
+	 *            the target file to copy to
+	 * @param folder:
+	 *            the folder that the copied file in.
 	 */
 	protected void copyResource( String src, String tgt, String folder )
 	{
@@ -248,16 +255,16 @@ public class ChartTestCase extends TestCase
 		InputStream in = getClass( ).getClassLoader( )
 				.getResourceAsStream( src );
 		assertTrue( in != null );
-
 		try
 		{
-
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
-			out.write( buffer );
-			out.close( );
+			FileOutputStream fos = new FileOutputStream( tgt );
+			byte[] fileData = new byte[5120];
+			int readCount = -1;
+			while ( ( readCount = in.read( fileData ) ) != -1 )
+			{
+				fos.write( fileData, 0, readCount );
+			}
+			fos.close( );
 			in.close( );
 
 		}
@@ -277,12 +284,12 @@ public class ChartTestCase extends TestCase
 	{
 		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
 	}
-	
+
 	protected void copyResource_SCRIPT( String input_resource, String script )
 	{
 		this.copyResource( input_resource, script, "input/scripts" );
 	}
-	
+
 	public void removeFile( File file )
 	{
 		if ( file.isDirectory( ) )
