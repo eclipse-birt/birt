@@ -210,29 +210,34 @@ abstract public class BaseTestCase extends TestCase
 	/** return default output file name */
 	private String getOutputFileName( )
 	{
-		FileWriter fw;
-		String className = "KK";
-		try
-		{
-			fw = new FileWriter( new File( "C:\\abc2.txt" ) );
-
-			fw.write( "ABC: " );
-
-			className = this.getClass( ).getName( );
-			fw.write( className + "\n" );
-			int lastDotIdx = className.lastIndexOf( '.' );
-			if ( lastDotIdx >= 0 )
-				className = className.substring( lastDotIdx + 1 );
-			fw.write( className + "\n" );
-			fw.write( this.getName( ) + "\n" );
-			fw.close( );
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-		return className + "." + this.getName( ) + ".txt";
+//		FileWriter fw;
+//		String className = "KK";
+//		try
+//		{
+//			fw = new FileWriter( new File( "C:\\abc2.txt" ) );
+//
+//			fw.write( "ABC: " );
+//
+//			className = this.getClass( ).getName( );
+//			fw.write( className + "\n" );
+//			int lastDotIdx = className.lastIndexOf( '.' );
+//			if ( lastDotIdx >= 0 )
+//				className = className.substring( lastDotIdx + 1 );
+//			fw.write( className + "\n" );
+//			fw.write( this.getName( ) + "\n" );
+//			fw.close( );
+//		}
+//		catch ( IOException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace( );
+//		}
+//		return className + "." + this.getName( ) + ".txt";
+		String className = this.getClass().getName();
+		int lastDotIdx = className.lastIndexOf( '.' );
+		if  ( lastDotIdx >= 0 )
+			className = className.substring(lastDotIdx + 1);
+		return className + "." + this.getName() + ".txt";
 	}
 
 	/**
