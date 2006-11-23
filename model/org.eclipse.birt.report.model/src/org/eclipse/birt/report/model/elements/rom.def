@@ -1677,6 +1677,7 @@
     <Member detailType="textAlign" displayNameID="Structure.HighlightRule.text.align" name="textAlign" since="1.0" type="choice"/>
     <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" since="1.0" type="dimension"/>
     <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" since="1.0" type="choice"/>
+    <Member detailType="Style" displayNameID="Structure.HighlightRule.style" isIntrinsic="true" name="style" since="2.2" type="element"/>
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>

@@ -15,8 +15,13 @@ import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents a highlight rule that says how a data item should appear based on
@@ -30,35 +35,35 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 public class HighlightRule extends StyleRule
 {
 
-	public static final String BORDER_TOP_STYLE_MEMBER = IStyleModel.BORDER_TOP_STYLE_PROP;
-	public static final String BORDER_TOP_WIDTH_MEMBER = IStyleModel.BORDER_TOP_WIDTH_PROP;
-	public static final String BORDER_TOP_COLOR_MEMBER = IStyleModel.BORDER_TOP_COLOR_PROP;
-	public static final String BORDER_LEFT_STYLE_MEMBER = IStyleModel.BORDER_LEFT_STYLE_PROP;
-	public static final String BORDER_LEFT_WIDTH_MEMBER = IStyleModel.BORDER_LEFT_WIDTH_PROP;
-	public static final String BORDER_LEFT_COLOR_MEMBER = IStyleModel.BORDER_LEFT_COLOR_PROP;
-	public static final String BORDER_BOTTOM_STYLE_MEMBER = IStyleModel.BORDER_BOTTOM_STYLE_PROP;
-	public static final String BORDER_BOTTOM_WIDTH_MEMBER = IStyleModel.BORDER_BOTTOM_WIDTH_PROP;
-	public static final String BORDER_BOTTOM_COLOR_MEMBER = IStyleModel.BORDER_BOTTOM_COLOR_PROP;
-	public static final String BORDER_RIGHT_STYLE_MEMBER = IStyleModel.BORDER_RIGHT_STYLE_PROP;
-	public static final String BORDER_RIGHT_WIDTH_MEMBER = IStyleModel.BORDER_RIGHT_WIDTH_PROP;
-	public static final String BORDER_RIGHT_COLOR_MEMBER = IStyleModel.BORDER_RIGHT_COLOR_PROP;
-	public static final String BACKGROUND_COLOR_MEMBER = IStyleModel.BACKGROUND_COLOR_PROP;
-	public static final String DATE_TIME_FORMAT_MEMBER = IStyleModel.DATE_TIME_FORMAT_PROP;
-	public static final String NUMBER_FORMAT_MEMBER = IStyleModel.NUMBER_FORMAT_PROP;
-	public static final String NUMBER_ALIGN_MEMBER = IStyleModel.NUMBER_ALIGN_PROP;
-	public static final String STRING_FORMAT_MEMBER = IStyleModel.STRING_FORMAT_PROP;
-	public static final String FONT_FAMILY_MEMBER = IStyleModel.FONT_FAMILY_PROP;
-	public static final String FONT_SIZE_MEMBER = IStyleModel.FONT_SIZE_PROP;
-	public static final String FONT_STYLE_MEMBER = IStyleModel.FONT_STYLE_PROP;
-	public static final String FONT_WEIGHT_MEMBER = IStyleModel.FONT_WEIGHT_PROP;
-	public static final String FONT_VARIANT_MEMBER = IStyleModel.FONT_VARIANT_PROP;
-	public static final String COLOR_MEMBER = IStyleModel.COLOR_PROP;
-	public static final String TEXT_UNDERLINE_MEMBER = IStyleModel.TEXT_UNDERLINE_PROP;
-	public static final String TEXT_OVERLINE_MEMBER = IStyleModel.TEXT_OVERLINE_PROP;
-	public static final String TEXT_LINE_THROUGH_MEMBER = IStyleModel.TEXT_LINE_THROUGH_PROP;
-	public static final String TEXT_ALIGN_MEMBER = IStyleModel.TEXT_ALIGN_PROP;
-	public static final String TEXT_TRANSFORM_MEMBER = IStyleModel.TEXT_TRANSFORM_PROP;
-	public static final String TEXT_INDENT_MEMBER = IStyleModel.TEXT_INDENT_PROP;
+	public static final String BORDER_TOP_STYLE_MEMBER = Style.BORDER_TOP_STYLE_PROP;
+	public static final String BORDER_TOP_WIDTH_MEMBER = Style.BORDER_TOP_WIDTH_PROP;
+	public static final String BORDER_TOP_COLOR_MEMBER = Style.BORDER_TOP_COLOR_PROP;
+	public static final String BORDER_LEFT_STYLE_MEMBER = Style.BORDER_LEFT_STYLE_PROP;
+	public static final String BORDER_LEFT_WIDTH_MEMBER = Style.BORDER_LEFT_WIDTH_PROP;
+	public static final String BORDER_LEFT_COLOR_MEMBER = Style.BORDER_LEFT_COLOR_PROP;
+	public static final String BORDER_BOTTOM_STYLE_MEMBER = Style.BORDER_BOTTOM_STYLE_PROP;
+	public static final String BORDER_BOTTOM_WIDTH_MEMBER = Style.BORDER_BOTTOM_WIDTH_PROP;
+	public static final String BORDER_BOTTOM_COLOR_MEMBER = Style.BORDER_BOTTOM_COLOR_PROP;
+	public static final String BORDER_RIGHT_STYLE_MEMBER = Style.BORDER_RIGHT_STYLE_PROP;
+	public static final String BORDER_RIGHT_WIDTH_MEMBER = Style.BORDER_RIGHT_WIDTH_PROP;
+	public static final String BORDER_RIGHT_COLOR_MEMBER = Style.BORDER_RIGHT_COLOR_PROP;
+	public static final String BACKGROUND_COLOR_MEMBER = Style.BACKGROUND_COLOR_PROP;
+	public static final String DATE_TIME_FORMAT_MEMBER = Style.DATE_TIME_FORMAT_PROP;
+	public static final String NUMBER_FORMAT_MEMBER = Style.NUMBER_FORMAT_PROP;
+	public static final String NUMBER_ALIGN_MEMBER = Style.NUMBER_ALIGN_PROP;
+	public static final String STRING_FORMAT_MEMBER = Style.STRING_FORMAT_PROP;
+	public static final String FONT_FAMILY_MEMBER = Style.FONT_FAMILY_PROP;
+	public static final String FONT_SIZE_MEMBER = Style.FONT_SIZE_PROP;
+	public static final String FONT_STYLE_MEMBER = Style.FONT_STYLE_PROP;
+	public static final String FONT_WEIGHT_MEMBER = Style.FONT_WEIGHT_PROP;
+	public static final String FONT_VARIANT_MEMBER = Style.FONT_VARIANT_PROP;
+	public static final String COLOR_MEMBER = Style.COLOR_PROP;
+	public static final String TEXT_UNDERLINE_MEMBER = Style.TEXT_UNDERLINE_PROP;
+	public static final String TEXT_OVERLINE_MEMBER = Style.TEXT_OVERLINE_PROP;
+	public static final String TEXT_LINE_THROUGH_MEMBER = Style.TEXT_LINE_THROUGH_PROP;
+	public static final String TEXT_ALIGN_MEMBER = Style.TEXT_ALIGN_PROP;
+	public static final String TEXT_TRANSFORM_MEMBER = Style.TEXT_TRANSFORM_PROP;
+	public static final String TEXT_INDENT_MEMBER = Style.TEXT_INDENT_PROP;
 
 	/**
 	 * Name of this structure within the meta-data dictionary.
@@ -66,7 +71,17 @@ public class HighlightRule extends StyleRule
 
 	public static final String STRUCTURE_NAME = "HighlightRule"; //$NON-NLS-1$
 
+	/**
+	 * The style member.
+	 */
 
+	public static final String STYLE_MEMBER = "style"; //$NON-NLS-1$
+
+	/**
+	 * The reference to a style.
+	 */
+
+	private ElementRefValue style = null;
 
 	/**
 	 * Default Constructor.
@@ -131,6 +146,70 @@ public class HighlightRule extends StyleRule
 		return new HighlightRuleHandle( valueHandle, index );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#getIntrinsicProperty(java.lang.String)
+	 */
 
+	protected Object getIntrinsicProperty( String propName )
+	{
+		if ( STYLE_MEMBER.equals( propName ) )
+			return style;
+
+		return super.getIntrinsicProperty( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( STYLE_MEMBER.equals( propName ) )
+		{
+			if ( value instanceof String )
+				style = new ElementRefValue( StringUtil
+						.extractNamespace( (String) value ), StringUtil
+						.extractName( (String) value ) );
+			else
+				style = (ElementRefValue) value;
+		}
+		else
+			super.setIntrinsicProperty( propName, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 */
+
+	public Object getProperty( Module module, PropertyDefn propDefn )
+	{
+		Object value = getLocalProperty( module, propDefn );
+		if ( value != null )
+			return value;
+
+		Style styleElement = null;
+		if ( style != null )
+			styleElement = (Style) style.getElement( );
+
+		if ( styleElement != null )
+		{
+			ElementPropertyDefn newPropDefn = styleElement
+					.getPropertyDefn( propDefn.getName( ) );
+			value = styleElement.getLocalProperty( module, newPropDefn );
+		}
+
+		if ( value != null )
+			return value;
+
+		return propDefn.getDefault( );
+	}
 
 }

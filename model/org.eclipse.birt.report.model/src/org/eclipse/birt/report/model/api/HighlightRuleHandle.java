@@ -17,9 +17,10 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents a highlight rule in the highlight property of a style. A highlight
@@ -263,7 +264,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 */
 	public String getTestExpression( )
 	{
-		return getStringProperty( StyleRule.TEST_EXPR_MEMBER );
+		return getStringProperty( HighlightRule.TEST_EXPR_MEMBER );
 	}
 
 	/**
@@ -275,7 +276,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	public void setTestExpression( String expression )
 	{
-		setPropertySilently( StyleRule.TEST_EXPR_MEMBER, expression );
+		setPropertySilently( HighlightRule.TEST_EXPR_MEMBER, expression );
 	}
 
 	/**
@@ -1004,5 +1005,58 @@ public class HighlightRuleHandle extends StyleRuleHandle
 			else
 				assert false;
 		}
+	}
+
+	/**
+	 * Sets the style property. If it is a valid style and highlight rule has no
+	 * local values, values on the style are returned.
+	 * 
+	 * @param style
+	 *            the style
+	 * @throws SemanticException
+	 */
+
+	public void setStyle( StyleHandle style ) throws SemanticException
+	{
+		if ( style == null )
+			return;
+
+		setProperty( HighlightRule.STYLE_MEMBER, style.getElement( ) );
+	}
+
+	/**
+	 * Sets the style property. If it is a valid style and highlight rule has no
+	 * local values, values on the style are returned.
+	 * 
+	 * @param styleName
+	 *            the style name
+	 * @throws SemanticException
+	 */
+
+	public void setStyleName( String styleName ) throws SemanticException
+	{
+		setProperty( HighlightRule.STYLE_MEMBER, styleName );
+	}
+
+	/**
+	 * Returns the style that the highlight rule links with.
+	 * 
+	 * @return the style
+	 */
+
+	public StyleHandle getStyle( )
+	{
+		Object value = structRef.getValue( getModule( ), getElement( ) );
+
+		if ( value instanceof ElementRefValue )
+		{
+			ElementRefValue refValue = (ElementRefValue) value;
+			if ( refValue.isResolved( ) )
+			{
+				Style style = (Style) refValue.getElement( );
+				return (StyleHandle) style.getHandle( style.getRoot( ) );
+			}
+		}
+		return null;
 	}
 }
