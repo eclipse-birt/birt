@@ -79,6 +79,7 @@ public class DataEngineImpl extends DataEngine
 				context );
 		
 		this.context = context;
+		DataEngineContextExt.getInstance( ).setTmpdir( context.getTmpdir( ) );
 						
 		dataSourceManager = new DataSourceManager( logger );
 		this.session = new DataEngineSession( context );
