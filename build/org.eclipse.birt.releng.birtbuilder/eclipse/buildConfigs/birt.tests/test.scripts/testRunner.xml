@@ -15,13 +15,14 @@
 		<antcall target="org.eclipse.birt.report.tests.engine"/>
 		<antcall target="org.eclipse.birt.tests.data"/>
 		<antcall target="org.eclipse.birt.report.tests.chart"/>
+		<antcall target="org.eclipse.birt.report.engine.tests"/>
 		<!--
 		<antcall target="org.eclipse.birt.report.tests.model"/>
 		<antcall target="org.eclipse.birt.report.tests.viewer"/>
 		<antcall target="org.eclipse.birt.report.designer.tests"/>
 		-->
 		<antcall target="org.eclipse.birt.test.performance"/>
-		<antcall target="org.eclipse.birt.report.engine.tests"/>
+
 	</target>
 	
 	<target name="org.eclipse.birt.core.tests">
@@ -95,7 +96,7 @@
             </ant>
     </target>
     <target name="org.eclipse.birt.report.tests.chart">
-            <ant dir="${working.dir}/org.eclipse.birt.tests.chart_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+            <ant dir="${working.dir}/org.eclipse.birt.report.tests.chart_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
                     <property name="os" value="${os}"/>
 	    			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
             </ant>

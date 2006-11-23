@@ -553,12 +553,14 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
-			
+		
+		<delete file="${runner.dir}/testRunner_new.xml" failonerror="false"/>
+		<copy file="${runner.dir}/testRunner.xml" tofile="${runner.dir}/testRunner_new.xml"/>
 		<replace dir="${runner.dir}" value="2.2.0.${buildLabel}" token="@REPLACE_BY_BUILD_ID@">
-			<include name="testRunner.xml" />
+			<include name="testRunner_new.xml" />
 		</replace>
 		<!-- call the birt unit test -->
-		<ant dir="${runner.dir}" antfile="testRunner.xml" />
+		<ant dir="${runner.dir}" antfile="testRunner_new.xml" />
 		<!-- XSLT trasform-->
 		<exec executable="processXML.sh" dir="${test.dir}/unitTestReport"/>
 		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
