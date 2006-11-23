@@ -33,24 +33,17 @@
             label="%birt.web.category.name"
             description="%birt.web.actionsets.description"
             visible="true"
-            id="org.eclipse.jst.j2ee.J2eeMainActionSet2">
+            id="org.eclipse.birt.integration.wtp.ui.actionset">
             <action
                label="%create.birt.web.module"
                icon="icons/create_project_wizard.gif"
                tooltip="%create.birt.web.module"
-               class="org.eclipse.birt.integration.wtp.ui.internal.actions.NewBirtWebComponentAction"
                toolbarPath="J2EEMain"
+               class="org.eclipse.birt.integration.wtp.ui.internal.actions.NewBirtWebComponentAction"
                id="org.eclipse.birt.wtp.ui.internal.actions.NewBirtWebComponentAction">
-         </action>
-      </actionSet>      
-	</extension> 
+	        </action>
 
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-      	   id="org.eclipse.birt.integration.wtp.ui.actionset"
-		   label="%birt.web.category.name"
-		   visible="true">
-		   <action 
+		    <action 
 		   	   id="org.eclipse.birt.integration.wtp.ui.internal.actions.ImportBirtRuntimeAction"
 			   menubarPath="project/additions"
 			   label="%birt.action.importruntime.name"
@@ -62,9 +55,9 @@
 						<objectClass name="org.eclipse.jdt.core.IJavaProject"/>
 					</and>
 				</enablement>            
-		   </action>
-	   </actionSet>      
-	</extension>
+		   </action>	        
+      </actionSet>      
+	</extension> 
 	
 	<extension
          point="org.eclipse.ui.popupMenus">
@@ -97,7 +90,14 @@
 		</enablement>
       </objectContribution>  
     </extension>
-       			
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.jst.j2ee.J2EEPerspective">
+		<actionSet id="org.eclipse.birt.integration.wtp.ui.actionset"/> 		
+      </perspectiveExtension>
+   </extension>
+          			
 	<!-- Project Facets -->
 	
 	<extension point="org.eclipse.wst.common.project.facet.core.facets">
