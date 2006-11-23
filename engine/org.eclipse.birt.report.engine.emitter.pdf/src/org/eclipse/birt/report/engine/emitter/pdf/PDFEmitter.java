@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -470,9 +471,19 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public void end(IReportContent rc)
 		{
+			ULocale ulocale = null;
+			Locale locale = context.getLocale( );
+			if(locale==null)
+			{
+				ulocale = ULocale.getDefault( );
+			}
+			else
+			{
+				ulocale = ULocale.forLocale( locale);
+			}
 			// Before closing the document, we need to create TOC.
 			TOCHandler tocHandler = new TOCHandler( rc.getTOCTree( "pdf",
-					ULocale.getDefault( ) ).getRoot( ) );
+					ulocale ).getRoot( ) );
 			TOCNode tocRoot = tocHandler.getTOCRoot();
 			if (tocRoot == null || tocRoot.getChildren().isEmpty())
 			{
