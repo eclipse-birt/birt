@@ -63,8 +63,10 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 		{
 			String[] items = ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getItems( );
 			combo.setItems( items );
+			
 			oldValue = ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).load( )
 					.toString( );
+			
 			boolean stateFlag = ( ( oldValue == null ) == combo.getEnabled( ) );
 			if ( stateFlag )
 				combo.setEnabled( oldValue != null );
@@ -76,7 +78,7 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 			if ( displayName == null )
 			{
 				combo.deselectAll( );
-				if ( oldValue != null )
+				if ( oldValue != null && combo.indexOf( oldValue )>-1)
 				{
 					combo.setText( oldValue );
 				}

@@ -99,7 +99,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 			return choice.getDisplayName( );
 	}
 
-	public void save( String value ) throws SemanticException
+	public void save( Object value ) throws SemanticException
 	{
 		if ( "".equals( value ) )//$NON-NLS-1$
 		{
@@ -119,10 +119,10 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 		}
 
 		if ( StyleHandle.FONT_FAMILY_PROP.equals( pName )
-				&& needAddQuote( value ) )
+				&& needAddQuote( value==null?null:value.toString( ) ) )
 		{
 
-			super.save( UIUtil.AddQuote( value ) );
+			super.save( UIUtil.AddQuote( value==null?null:value.toString( ) ) );
 		}
 		else
 		{
