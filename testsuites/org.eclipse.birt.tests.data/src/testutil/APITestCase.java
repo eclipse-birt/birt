@@ -833,7 +833,7 @@ abstract public class APITestCase extends BaseTestCase
 	
 	
 	//methods from engine case
-	private void copyResource( String src, String tgt, String folder )
+	protected void copyResource( String src, String tgt, String folder )
 	{
 
 		String className = getFullQualifiedClassName( );
@@ -842,6 +842,8 @@ abstract public class APITestCase extends BaseTestCase
 
 		src = className + "/" + folder + "/" + src;
 
+		System.out.println( "src: " + src );
+		System.out.println( "tgt: " + tgt );
 		File parent = new File( tgt ).getParentFile( );
 
 		if ( parent != null )
@@ -852,16 +854,16 @@ abstract public class APITestCase extends BaseTestCase
 		InputStream in = getClass( ).getClassLoader( )
 				.getResourceAsStream( src );
 		assertTrue( in != null );
-
 		try
 		{
-
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
-			out.write( buffer );
-			out.close( );
+			FileOutputStream fos = new FileOutputStream( tgt );
+			byte[] fileData = new byte[5120];
+			int readCount = -1;
+			while ( ( readCount = in.read( fileData ) ) != -1 )
+			{
+				fos.write( fileData, 0, readCount );
+			}
+			fos.close( );
 			in.close( );
 
 		}

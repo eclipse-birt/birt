@@ -17,6 +17,7 @@ package org.eclipse.birt.tests.data.engine;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.tests.data.engine.DtEsmoke.AllSmokeTests;
 import org.eclipse.birt.tests.data.engine.acceptance.ColumnAliasTest;
 import org.eclipse.birt.tests.data.engine.acceptance.DataSourceTest;
 import org.eclipse.birt.tests.data.engine.acceptance.FilterTest;
@@ -117,7 +118,6 @@ import org.eclipse.birt.tests.data.engine.regression.Regression_78978;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79009;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79012;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79182;
-import org.eclipse.birt.tests.data.engine.regression.Regression_79227;
 import org.eclipse.birt.tests.data.engine.regression.Regression_79505;
 import org.eclipse.birt.tests.data.engine.regression.Regression_93220;
 import org.eclipse.birt.tests.data.engine.regression.Regression_96025;
@@ -313,6 +313,10 @@ public class AllTests
 		  suite.addTestSuite( DsGroupTest.class );
 		  suite.addTestSuite( DsParameterTest.class );
 		  suite.addTestSuite( DsSortTest.class );
+		  
+		  //DtESmokeTest
+		  suite.addTest( AllSmokeTests.suite() );
+		  
 		
 		return suite;
 	}
