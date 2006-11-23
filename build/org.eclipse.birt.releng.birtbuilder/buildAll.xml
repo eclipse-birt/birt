@@ -35,18 +35,15 @@
 	<property name="postingDirectory" value="${buildDirectory}" />
 
 	<target name="main" depends="init">
-
-        <antcall target="buildBirtThirdPartyFeature"/>
-        <antcall target="buildBirtFeature"/>
-        <antcall target="buildBirtTestFeature"/>
-        <antcall target="unpackUpdateJarsForPackaging"/>
-        <antcall target="integrateBirtFeatures"/>
-        <antcall target="buildBirtWebViewer"/>
-        <antcall target="buildBirtNLFeature"/>
-
-        <antcall target="CreateDistribute"/>
-        <antcall target="runBirtTest"/>
-
+		<antcall target="buildBirtThirdPartyFeature"/>
+		<antcall target="buildBirtFeature"/>
+		<antcall target="buildBirtTestFeature"/>
+		<antcall target="unpackUpdateJarsForPackaging"/>
+		<antcall target="integrateBirtFeatures"/>
+		<antcall target="buildBirtWebViewer"/>
+		<antcall target="buildBirtNLFeature"/>
+		<antcall target="CreateDistribute"/>
+		<antcall target="runBirtTest"/>	
 	</target>
 
 	<target name="init">
