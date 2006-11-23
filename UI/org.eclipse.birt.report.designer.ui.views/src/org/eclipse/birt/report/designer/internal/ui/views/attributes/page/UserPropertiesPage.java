@@ -35,6 +35,7 @@ public class UserPropertiesPage extends AttributePage
 		userPropertySection.setButtonWithDialog( true );
 		userPropertySection.setStyle( FormPropertyDescriptor.SIMPLE_FUNCTION );
 		userPropertySection.setFillForm( true );
+		userPropertySection.setHeight( 200 );
 		addSection( PageSectionId.USER_PROPERTIES, userPropertySection );
 		createSections( );
 		layoutSections( );

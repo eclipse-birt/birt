@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetDescriptorProvider;
@@ -23,8 +24,16 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -46,14 +55,41 @@ public class BindingPage extends AttributePage
 
 	private FormSection dataSetFormSection;
 
+	private Composite composite;
+
 	public void buildUI( Composite parent  )
 	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		container = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
+		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		((ScrolledComposite)container).setExpandHorizontal( true );
+		((ScrolledComposite)container).setExpandVertical( true );
+		container.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				computeSize( );
+			}
+		} );
+		
+		container.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				deRegisterListeners( );
+			}
+		} );
+		
+		composite = new Composite(container,SWT.NONE);
+		composite.setLayoutData( new GridData(GridData.FILL_BOTH) );
+		
+		if ( sections == null )
+			sections = new SortMap( );	
+		
+		composite.setLayout( WidgetUtil.createGridLayout( 6 ) );
 
 		dataSetProvider = new DataSetDescriptorProvider( );
 		dataSetSection = new ComboAndButtonSection( dataSetProvider.getDisplayName( ),
-				container,
+				composite,
 				true );
 		dataSetSection.setProvider( dataSetProvider );
 		dataSetSection.addButtonSelectionListener( new SelectionAdapter( ) {
@@ -71,7 +107,7 @@ public class BindingPage extends AttributePage
 
 		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider( );
 		dataSetFormSection = new FormSection( dataSetFormProvider.getDisplayName( ),
-				container,
+				composite,
 				true );
 		dataSetFormSection.setCustomForm( new DataSetColumnBindingsFormDescriptor( ) );
 		dataSetFormSection.setProvider( dataSetFormProvider );
@@ -87,6 +123,15 @@ public class BindingPage extends AttributePage
 		createSections( );
 		layoutSections( );
 
+		((ScrolledComposite)container).setContent( composite );
+	}
+	
+	private void computeSize( )
+	{
+		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		((ScrolledComposite)container).setMinSize( size.x ,size.y+10 );
+		container.layout( );
+		
 	}
 
 	/**

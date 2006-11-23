@@ -35,6 +35,7 @@ public class NamedExpressionsPage extends AttributePage
 		namedExpressionSection.setButtonWithDialog( true );
 		namedExpressionSection.setStyle( FormPropertyDescriptor.SIMPLE_FUNCTION );
 		namedExpressionSection.setFillForm( true );
+		namedExpressionSection.setHeight( 200 );
 		addSection( PageSectionId.NAMED_EXPRESSIONS, namedExpressionSection );
 		createSections( );
 		layoutSections( );

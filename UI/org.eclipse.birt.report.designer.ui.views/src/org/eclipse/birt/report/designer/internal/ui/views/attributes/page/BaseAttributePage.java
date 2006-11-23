@@ -180,7 +180,6 @@ public class BaseAttributePage extends TabPage
 
 	protected void selectStickyCategory( )
 	{
-		boolean found = false;
 		// select the last item that was selected by the user. If out of
 		// bounds select the last one
 		if ( s_lastSelectedIndex != -1 )
