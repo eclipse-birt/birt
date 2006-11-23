@@ -338,9 +338,10 @@ public class JSEditor extends StatusTextEditor implements
 	protected void createActions( )
 	{
 		super.createActions( );
-		IAction contentAssistAction = new TextOperationAction(Messages.getReportResourceBundle( ), "ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true);//$NON-NLS-1$
-		contentAssistAction.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-		setAction("ContentAssistProposal", contentAssistAction);//$NON-NLS-1$
+		IAction contentAssistAction = new TextOperationAction( Messages.getReportResourceBundle( ),
+				"ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true );//$NON-NLS-1$
+		contentAssistAction.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
+		setAction( "ContentAssistProposal", contentAssistAction );//$NON-NLS-1$
 		// TODO: rewirte those actions
 		// Add page actions
 		// Action action = LayoutPageAction.getInstance( );
@@ -439,7 +440,7 @@ public class JSEditor extends StatusTextEditor implements
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-		
+
 		return super.getAdapter( adapter );
 	}
 
@@ -603,9 +604,10 @@ public class JSEditor extends StatusTextEditor implements
 				cmbItemLastSelected = null;
 				palettePage.getSupport( ).setCurrentEditObject( null );
 			}
-
-			updateAnnotationLabel( sel.length > 0 ? sel[0] : null );
-
+			if ( sel.length > 0 )
+			{
+				updateAnnotationLabel( sel[0] );
+			}
 			settingText = false;
 		}
 	}
