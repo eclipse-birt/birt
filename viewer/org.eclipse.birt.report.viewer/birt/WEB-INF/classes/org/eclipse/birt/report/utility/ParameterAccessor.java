@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.utility;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -23,6 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import javax.servlet.ServletConfig;
@@ -89,17 +91,18 @@ public class ParameterAccessor
 	 * URL parameter name that specifies whether show the toolbar.
 	 */
 	public static final String PARAM_TOOLBAR = "__toolbar"; //$NON-NLS-1$
-	
+
 	/**
 	 * URL parameter name that specifies whether show the navigationbar.
 	 */
 	public static final String PARAM_NAVIGATIONBAR = "__navigationbar"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter name that specifies whether force prompting the parameter dialog.
+	 * URL parameter name that specifies whether force prompting the parameter
+	 * dialog.
 	 */
 	public static final String PARAM_PARAMETER_PROMPTING = "__parameterprompting"; //$NON-NLS-1$
-	
+
 	/**
 	 * URL parameter name that gives the report design name.
 	 */
@@ -219,7 +222,7 @@ public class ParameterAccessor
 	 * URL parameter name to indicate whether cache the parameter.
 	 */
 	public static final String PARAM_NOCACHE_PARAMETER = "__nocache"; //$NON-NLS-1$
-	
+
 	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
@@ -254,41 +257,41 @@ public class ParameterAccessor
 	public static final String PARAM_SELECTEDCOLUMN = "SelectedColumn"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the default locale of the BIRT viewer.
+	 * Context parameter name that gives the default locale of the BIRT viewer.
 	 */
 	public static final String INIT_PARAM_LOCALE = "BIRT_VIEWER_LOCALE"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the working folder of the local BIRT
+	 * Context parameter name that gives the working folder of the local BIRT
 	 * viewer user.
 	 */
 	public static final String INIT_PARAM_REPORT_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the repository location of the image
+	 * Context parameter name that gives the repository location of the image
 	 * files.
 	 */
 	public static final String INIT_PARAM_IMAGE_DIR = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the repository location of the logging
+	 * Context parameter name that gives the repository location of the logging
 	 * files.
 	 */
 	public static final String INIT_PARAM_LOG_DIR = "BIRT_VIEWER_LOG_DIR"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the logging level.
+	 * Context parameter name that gives the logging level.
 	 */
 	public static final String INIT_PARAM_LOG_LEVEL = "BIRT_VIEWER_LOG_LEVEL"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the repository location of the script
+	 * Context parameter name that gives the repository location of the script
 	 * files to run reports.
 	 */
 	public static final String INIT_PARAM_SCRIPTLIB_DIR = "BIRT_VIEWER_SCRIPTLIB_DIR"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that determines the search strategy of searching
+	 * Context parameter name that determines the search strategy of searching
 	 * report resources. True if only search the document folder, otherwise
 	 * false.
 	 */
@@ -301,20 +304,25 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_DOCUMENT_FOLDER = "BIRT_VIEWER_DOCUMENT_FOLDER"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives the absolute resource location
+	 * Context parameter name that gives the absolute resource location
 	 * directory.
 	 */
 	public static final String INIT_PARAM_BIRT_RESOURCE_PATH = "BIRT_RESOURCE_PATH"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that gives preview report max rows limited.
+	 * Context parameter name that gives preview report max rows limited.
 	 */
 	public static final String INIT_PARAM_VIEWER_MAXROWS = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
 
 	/**
-	 * Servlet parameter name that if always overwrite generated document file.
+	 * Context parameter name that if always overwrite generated document file.
 	 */
 	public static final String INIT_PARAM_OVERWRITE_DOCUMENT = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
+
+	/**
+	 * Context parameter name that defines BIRT viewer configuration file.
+	 */
+	public static final String INIT_PARAM_CONFIG_FILE = "BIRT_VIEWER_CONFIG_FILE"; //$NON-NLS-1$
 
 	/**
 	 * UTF-8 encode constants.
@@ -401,6 +409,16 @@ public class ParameterAccessor
 	 */
 	public static final String ATTR_APPCONTEXT_VALUE = "AppContextValue"; //$NON-NLS-1$
 
+	/**
+	 * The initialized properties map
+	 */
+	public static Map initProps;
+
+	/**
+	 * viewer properties
+	 */ 
+	public static final String PROP_BASE_HREF = "base_href"; //$NON-NLS-1$
+	
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
@@ -1199,6 +1217,9 @@ public class ParameterAccessor
 		{
 			isOverWrite = false;
 		}
+
+		// initialize the application properties
+		initProps = initViewerProps( context, initProps );
 
 		clearDocuments( );
 
@@ -2013,5 +2034,65 @@ public class ParameterAccessor
 		}
 
 		return isParameterPrompting;
+	}
+
+	/**
+	 * Returns the application properties
+	 * 
+	 * @param context
+	 * @param props
+	 * @return
+	 */
+	public synchronized static Map initViewerProps( ServletContext context,
+			Map props )
+	{
+		// initialize map
+		if ( props == null )
+			props = new HashMap( );
+
+		// get config file
+		String file = context.getInitParameter( INIT_PARAM_CONFIG_FILE );
+		if ( file == null )
+			return props;
+
+		if ( !file.startsWith( "/" ) ) //$NON-NLS-1$
+			file = "/" + file; //$NON-NLS-1$
+
+		try
+		{
+			// parse the properties file
+			InputStream is = context.getResourceAsStream( file );
+			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
+			if ( bundle != null )
+			{
+				Enumeration keys = bundle.getKeys( );
+				while ( keys != null && keys.hasMoreElements( ) )
+				{
+					String key = (String) keys.nextElement( );
+					String value = (String) bundle.getObject( key );
+					if ( key != null && value != null )
+						props.put( key, value );
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return props;
+	}
+
+	/**
+	 * Returns the property by name from initialized properties map
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static String getInitProp( String key )
+	{
+		if ( initProps == null || key == null )
+			return null;
+
+		return (String) initProps.get( key );
 	}
 }

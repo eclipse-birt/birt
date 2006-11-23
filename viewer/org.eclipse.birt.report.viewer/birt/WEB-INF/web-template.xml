@@ -70,7 +70,13 @@
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
 		<param-value>false</param-value>
 	</context-param>
-	
+
+	<!-- Define BIRT viewer configuration file -->
+	<context-param>
+		<param-name>BIRT_VIEWER_CONFIG_FILE</param-name>
+		<param-value>/WEB-INF/viewer.properties</param-value>
+	</context-param>
+		
 	<!-- Viewer Servlet Context Listener -->
 	<listener>
 		<listener-class>org.eclipse.birt.report.listener.ViewerServletContextListener</listener-class>

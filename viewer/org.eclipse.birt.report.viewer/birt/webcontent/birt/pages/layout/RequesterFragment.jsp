@@ -11,18 +11,32 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.resource.BirtResources,
+				 org.eclipse.birt.report.context.BaseAttributeBean,
+				 org.eclipse.birt.report.utility.ParameterAccessor,
  				 org.eclipse.birt.report.presentation.aggregation.IFragment" %>
 
 <%-----------------------------------------------------------------------------
 	Expected java beans
 -----------------------------------------------------------------------------%>
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
+<jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
+
+<%
+	// base href can be defined in config file for deployment.
+	String baseHref = request.getScheme( ) + "://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + fragment.getJSPRootPath( );
+	if( !attributeBean.isDesigner( ) )
+	{
+		String prop = ParameterAccessor.getInitProp( ParameterAccessor.PROP_BASE_HREF );
+		if( prop != null && prop.length( ) > 0 )
+			baseHref = 	prop;
+	}
+%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML>
 	<HEAD>
 		<TITLE>PARAMETER SELECTION PAGE</TITLE>
-		<BASE href="<%= request.getScheme( ) +"://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + "/webcontent/frameset" %>" >
+		<BASE href="<%= baseHref %>" >
 		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">

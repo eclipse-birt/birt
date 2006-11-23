@@ -22,6 +22,17 @@
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
 <jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 
+<%
+	// base href can be defined in config file for deployment.
+	String baseHref = request.getScheme( ) + "://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + fragment.getJSPRootPath( );
+	if( !attributeBean.isDesigner( ) )
+	{
+		String prop = ParameterAccessor.getInitProp( ParameterAccessor.PROP_BASE_HREF );
+		if( prop != null && prop.length( ) > 0 )
+			baseHref = 	prop;
+	}
+%>
+
 <%-----------------------------------------------------------------------------
 	Viewer root fragment
 -----------------------------------------------------------------------------%>
@@ -29,7 +40,7 @@
 <HTML>
 	<HEAD>
 		<TITLE><%= attributeBean.getReportTitle( ) %></TITLE>
-		<BASE href="<%= request.getScheme( ) + "://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + fragment.getJSPRootPath( ) %>" >
+		<BASE href="<%= baseHref %>" >
 		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
