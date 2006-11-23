@@ -51,15 +51,6 @@ public class DataPageGenerator extends AbstractPageGenerator
 					itemMap.put( item, bindingPage );
 					break;
 				case 2 :
-					highlightsPage = new PreviewPage( true );
-					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
-					setPageInput( highlightsPage );
-					refresh(tabFolder,highlightsPage, true);
-					item.setControl( highlightsPage.getControl( ) );
-					itemMap.put( item, highlightsPage );
-					break;
-				case 3 :
 					mapPage = new PreviewPage( true );
 					mapPage.setPreview( new MapPropertyDescriptor( true ) );
 					mapPage.setProvider( new MapDescriptorProvider( ) );
@@ -67,6 +58,15 @@ public class DataPageGenerator extends AbstractPageGenerator
 					refresh(tabFolder,mapPage, true);
 					item.setControl( mapPage.getControl( ) );
 					itemMap.put( item, mapPage );
+					break;
+				case 3 :
+					highlightsPage = new PreviewPage( true );
+					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
+					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
+					setPageInput( highlightsPage );
+					refresh(tabFolder,highlightsPage, true);
+					item.setControl( highlightsPage.getControl( ) );
+					itemMap.put( item, highlightsPage );
 					break;
 				default :
 					break;
