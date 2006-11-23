@@ -34,11 +34,6 @@
 	</target>
 	
 	<target name="postPackage">
-		<move todir="${postingDirectory}/${buildLabel}">
-			<fileset dir="${buildDirectory}/${buildLabel}">
-				<include name="${archiveName}" />
-			</fileset>
-		</move>
 	</target>
 	<!-- ===================================================================== -->
 	<!-- Check out map files from correct repository -->
