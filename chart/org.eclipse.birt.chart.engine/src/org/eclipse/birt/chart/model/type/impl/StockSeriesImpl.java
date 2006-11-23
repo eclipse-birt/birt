@@ -789,6 +789,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	protected final void initialize( )
 	{
 		super.initialize( );
+		setLabelPosition( Position.ABOVE_LITERAL );
 		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
 				0 );

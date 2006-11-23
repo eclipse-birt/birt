@@ -109,8 +109,8 @@
    <extension
          point="org.eclipse.birt.chart.engine.datapointdefinitions">
       <datapointDefinition
-            definition="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"
-            series="org.eclipse.birt.chart.datafeed.StockDataPointDefinition"/>
+            definition="org.eclipse.birt.chart.datafeed.StockDataPointDefinition"
+            series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
       <datapointDefinition
             definition="org.eclipse.birt.chart.datafeed.GanttDataPointDefinition"
             series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>

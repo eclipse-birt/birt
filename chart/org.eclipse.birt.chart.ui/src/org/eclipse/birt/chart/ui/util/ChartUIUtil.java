@@ -1032,7 +1032,9 @@ public class ChartUIUtil
 				|| oldSeries.getLabelPosition( )
 						.equals( Position.OUTSIDE_LITERAL ) )
 		{
-			if ( newSeries instanceof LineSeries )
+			if ( newSeries instanceof LineSeries
+					|| newSeries instanceof StockSeries
+					|| newSeries instanceof GanttSeries )
 			{
 				newSeries.setLabelPosition( Position.ABOVE_LITERAL );
 			}
@@ -1043,7 +1045,9 @@ public class ChartUIUtil
 		}
 		else
 		{
-			if ( newSeries instanceof LineSeries )
+			if ( newSeries instanceof LineSeries
+					|| newSeries instanceof StockSeries
+					|| newSeries instanceof GanttSeries )
 			{
 				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
 			}

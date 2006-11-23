@@ -125,6 +125,13 @@ public interface IChartType
 	 * 
 	 */
 	public boolean supportsTransposition( String dimension );
+	
+	/**
+	 * Returns the default orientation.
+	 * 
+	 * @since 2.2
+	 */
+	public Orientation getDefaultOrientation( );
 
 	/**
 	 * Returns the help information.

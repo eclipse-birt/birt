@@ -26,7 +26,6 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
@@ -141,62 +140,55 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 		// For Meter series and other non-Stock series
 		ITaskPopupSheet popup;
-		if ( !( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof StockSeries ) )
+		
+		if ( isMeterSeries( ) )
 		{
-			if ( isMeterSeries( ) )
-			{
-				// Label
-				popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
-						getContext( ),
-						getSeriesDefinitionForProcessing( ) );
-				Button btnDialLabel = createToggleButton( cmp,
-						Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
-						popup );
-				btnDialLabel.addSelectionListener( this );
+			// Label
+			popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			Button btnDialLabel = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
+					popup );
+			btnDialLabel.addSelectionListener( this );
 
-				// Region
-				popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
-						getContext( ),
-						getSeriesDefinitionForProcessing( ) );
-				Button btnDialRegion = createToggleButton( cmp,
-						Messages.getString( "SeriesYSheetImpl.Label.Region&" ), //$NON-NLS-1$
-						popup );
-				btnDialRegion.addSelectionListener( this );
+			// Region
+			popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			Button btnDialRegion = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Region&" ), //$NON-NLS-1$
+					popup );
+			btnDialRegion.addSelectionListener( this );
 
-				// Ticks
-				popup = new DialTickSheet( Messages.getString( "DialTicksDialog.Title.DialTicks" ), //$NON-NLS-1$
-						getContext( ),
-						( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
-				Button btnDialTicks = createToggleButton( cmp,
-						Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialTicks" ), //$NON-NLS-1$
-						popup );
-				btnDialTicks.addSelectionListener( this );
+			// Ticks
+			popup = new DialTickSheet( Messages.getString( "DialTicksDialog.Title.DialTicks" ), //$NON-NLS-1$
+					getContext( ),
+					( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
+			Button btnDialTicks = createToggleButton( cmp,
+					Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialTicks" ), //$NON-NLS-1$
+					popup );
+			btnDialTicks.addSelectionListener( this );
 
-				// Scale
-				popup = new DialScaleSheet( Messages.getString( "DialScaleDialog.Title.DialScale" ), //$NON-NLS-1$
-						getContext( ),
-						( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
-				Button btnDialScale = createToggleButton( cmp,
-						Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialScale" ), //$NON-NLS-1$
-						popup );
-				btnDialScale.addSelectionListener( this );
-			}
-			else
-			{
-				// Label
-				popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
-						getContext( ),
-						getSeriesDefinitionForProcessing( ) );
-				Button btnLabel = createToggleButton( cmp,
-						Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
-						popup );
-				btnLabel.addSelectionListener( this );
-			}
+			// Scale
+			popup = new DialScaleSheet( Messages.getString( "DialScaleDialog.Title.DialScale" ), //$NON-NLS-1$
+					getContext( ),
+					( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
+			Button btnDialScale = createToggleButton( cmp,
+					Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialScale" ), //$NON-NLS-1$
+					popup );
+			btnDialScale.addSelectionListener( this );
 		}
 		else
 		{
-			// Disable Label properties for Stock series
-			new Button( cmp, SWT.NONE ).setVisible( false );
+			// Label
+			popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
+					getContext( ),
+					getSeriesDefinitionForProcessing( ) );
+			Button btnLabel = createToggleButton( cmp,
+					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
+					popup );
+			btnLabel.addSelectionListener( this );
 		}
 
 		// Titles for Pie series

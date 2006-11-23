@@ -427,11 +427,6 @@ public class GanttChart extends DefaultChartTypeImpl
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, ganttseries );
 
-		if ( ganttseries.getLabelPosition( ) == Position.OUTSIDE_LITERAL )
-		{
-			ganttseries.setLabelPosition( Position.ABOVE_LITERAL );
-		}
-
 		return ganttseries;
 	}
 
@@ -497,13 +492,18 @@ public class GanttChart extends DefaultChartTypeImpl
 	 */
 	public boolean supportsTransposition( )
 	{
-		return true;
+		return false;
 	}
 
 	private ChartDimension getDimensionFor( String sDimension )
 	{
 		// Other types are not supported.
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
+	}
+	
+	public Orientation getDefaultOrientation( )
+	{
+		return Orientation.HORIZONTAL_LITERAL;
 	}
 
 	public ISelectDataComponent getBaseUI( Chart chart,

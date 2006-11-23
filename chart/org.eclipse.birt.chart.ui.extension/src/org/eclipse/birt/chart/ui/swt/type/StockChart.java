@@ -568,7 +568,7 @@ public class StockChart extends DefaultChartTypeImpl
 	 */
 	public boolean supportsTransposition( )
 	{
-		return true;
+		return false;
 	}
 
 	private ChartDimension getDimensionFor( String sDimension )

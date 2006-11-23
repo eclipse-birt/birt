@@ -137,6 +137,11 @@ public class DefaultChartTypeImpl implements IChartType
 	{
 		return supportsTransposition( );
 	}
+	
+	public Orientation getDefaultOrientation( )
+	{
+		return Orientation.VERTICAL_LITERAL;
+	}
 
 	/*
 	 * (non-Javadoc)

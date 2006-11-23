@@ -445,7 +445,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void populateLists( )
 	{
-		if ( "Horizontal".equals( this.orientation ) ) //$NON-NLS-1$
+		if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
 		{
 			cbOrientation.setSelection( true );
 		}
@@ -567,6 +567,8 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
+				ChartCacheManager.getInstance( ).cacheOrientation( sType,
+						orientation );
 			}
 			else
 			{
@@ -605,6 +607,10 @@ public class TaskSelectType extends SimpleTask implements
 			sType = ( (String) ( (TableItem) e.item ).getData( ) ).trim( );
 			if ( !chartModel.getType( ).equals( sType ) )
 			{
+				// Get the cached orientation
+				this.orientation = ChartCacheManager.getInstance( )
+						.findOrientation( sType );
+				
 				sSubType = null;
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
@@ -930,15 +936,23 @@ public class TaskSelectType extends SimpleTask implements
 		if ( vSubTypes == null || vSubTypes.size( ) == 0 )
 		{
 			vSubTypes = new Vector( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
-					Orientation.VERTICAL_LITERAL ) );
+					chartType.getDefaultOrientation( ) ) );
 			this.sDimension = chartType.getDefaultDimension( );
-			this.orientation = Orientation.VERTICAL_LITERAL;
+			this.orientation = chartType.getDefaultOrientation( );
 		}
-		Orientation orientationTmp = this.orientation;
+		
+		// If two orientations are not supported, to get the default.
+		if ( !cbOrientation.isEnabled( ) )
+		{
+			this.orientation = chartType.getDefaultOrientation( );
+		}
+		//Cache the orientation for each chart type.
+		ChartCacheManager.getInstance( ).cacheOrientation( sType,
+				orientation );
 
 		// Update the UI with information for selected type
 		createGroups( vSubTypes );
-		if ( orientationTmp == Orientation.HORIZONTAL_LITERAL )
+		if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
 		{
 			this.cbOrientation.setSelection( true );
 		}
@@ -1442,7 +1456,7 @@ public class TaskSelectType extends SimpleTask implements
 		int index = 0;
 		for ( int i = 0; i < axisList.size( ); i++ )
 		{
-			if ( axis.equals( (Axis) axisList.get( i ) ) )
+			if ( axis.equals( axisList.get( i ) ) )
 			{
 				index = i;
 				break;

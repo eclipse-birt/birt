@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -27,12 +28,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class ChartCacheManager
 {
 
-	/**
-	 * Indicates the number of series/chart types. Used to specify the default
-	 * capacity of map or list
-	 */
-	private static final int DEFAULT_SERIES_TYPE_NUMBER = 7;
-
 	private static Map instances = new HashMap( 3 );
 
 	private static String currentInstanceId = null;
@@ -41,7 +36,11 @@ public final class ChartCacheManager
 
 	private List cacheSeries = new ArrayList( 3 );
 
-	private Map cacheSubtypes = new HashMap( DEFAULT_SERIES_TYPE_NUMBER );
+	private Map cacheCharts = new HashMap( );
+
+	private static final String PREFIX_SUBTYPE = "s_"; //$NON-NLS-1$
+
+	private static final String PREFIX_ORIENTATION = "o_"; //$NON-NLS-1$
 
 	private ChartCacheManager( )
 	{
@@ -108,7 +107,7 @@ public final class ChartCacheManager
 		assert seriesIndex >= 0;
 		while ( cacheSeries.size( ) <= seriesIndex )
 		{
-			cacheSeries.add( new HashMap( DEFAULT_SERIES_TYPE_NUMBER ) );
+			cacheSeries.add( new HashMap( ) );
 		}
 		Map map = (Map) cacheSeries.get( seriesIndex );
 		if ( !map.containsKey( seriesClass ) )
@@ -133,7 +132,7 @@ public final class ChartCacheManager
 			Series series = ( (SeriesDefinition) seriesDefinitions.get( i ) ).getDesignTimeSeries( );
 			if ( cacheSeries.size( ) <= i )
 			{
-				cacheSeries.add( new HashMap( DEFAULT_SERIES_TYPE_NUMBER ) );
+				cacheSeries.add( new HashMap( ) );
 			}
 			// Clone the series instance and save it
 			( (Map) cacheSeries.get( i ) ).put( series.getClass( ).getName( ),
@@ -158,7 +157,7 @@ public final class ChartCacheManager
 		assert seriesIndex >= 0;
 		while ( cacheSeries.size( ) <= seriesIndex )
 		{
-			cacheSeries.add( new HashMap( DEFAULT_SERIES_TYPE_NUMBER ) );
+			cacheSeries.add( new HashMap( ) );
 		}
 		( (Map) cacheSeries.get( seriesIndex ) ).put( series.getClass( )
 				.getName( ), EcoreUtil.copy( series ) );
@@ -185,7 +184,7 @@ public final class ChartCacheManager
 	public void dispose( )
 	{
 		cacheSeries.clear( );
-		cacheSubtypes.clear( );
+		cacheCharts.clear( );
 		instances.remove( currentInstanceId );
 		currentInstanceId = null;
 	}
@@ -200,7 +199,7 @@ public final class ChartCacheManager
 	 */
 	public void cacheSubtype( String chartType, String subtype )
 	{
-		cacheSubtypes.put( chartType, subtype );
+		cacheCharts.put( PREFIX_SUBTYPE + chartType, subtype );
 	}
 
 	/**
@@ -212,6 +211,31 @@ public final class ChartCacheManager
 	 */
 	public String findSubtype( String chartType )
 	{
-		return (String) cacheSubtypes.get( chartType );
+		return (String) cacheCharts.get( PREFIX_SUBTYPE + chartType );
+	}
+
+	/**
+	 * Caches the latest selection of orientation.
+	 * 
+	 * @param chartType
+	 *            Chart type
+	 * @param orientation
+	 *            Chart orientation
+	 */
+	public void cacheOrientation( String chartType, Orientation orientation )
+	{
+		cacheCharts.put( PREFIX_ORIENTATION + chartType, orientation );
+	}
+
+	/**
+	 * Returns the latest selection of orientation.
+	 * 
+	 * @param chartType
+	 *            Chart type
+	 * @return the latest selection of orientation. Returns null if not found
+	 */
+	public Orientation findOrientation( String chartType )
+	{
+		return (Orientation) cacheCharts.get( PREFIX_ORIENTATION + chartType );
 	}
 }

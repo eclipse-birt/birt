@@ -1229,7 +1229,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
 	 */
 	public static Series create( )
 	{
@@ -1256,6 +1255,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		setStartMarkerPosition( Position.BELOW_LITERAL );
 		setEndMarkerPosition( Position.ABOVE_LITERAL );
 
+		setLabelPosition( Position.ABOVE_LITERAL );
+		
 		LineAttributes la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
 				1 );
