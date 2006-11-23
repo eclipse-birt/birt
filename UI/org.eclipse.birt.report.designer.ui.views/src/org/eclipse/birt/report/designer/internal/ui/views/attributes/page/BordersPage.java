@@ -43,7 +43,7 @@ public class BordersPage extends AttributePage
 	BorderToggleDescriptorProvider[] providers;
 	private static final String LABEL_BORDER = Messages.getString( "BordersPage.Label.Borders" ); //$NON-NLS-1$
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
@@ -86,13 +86,13 @@ public class BordersPage extends AttributePage
 		};
 
 		providers = new BorderToggleDescriptorProvider[]{
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_LEFT_STYLE_PROP,
-						dependedProviders ),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_RIGHT_STYLE_PROP,
-						dependedProviders ),
 				new BorderToggleDescriptorProvider( StyleHandle.BORDER_TOP_STYLE_PROP,
 						dependedProviders ),
 				new BorderToggleDescriptorProvider( StyleHandle.BORDER_BOTTOM_STYLE_PROP,
+						dependedProviders ),
+				new BorderToggleDescriptorProvider( StyleHandle.BORDER_LEFT_STYLE_PROP,
+						dependedProviders ),
+				new BorderToggleDescriptorProvider( StyleHandle.BORDER_RIGHT_STYLE_PROP,
 						dependedProviders )
 		};
 
