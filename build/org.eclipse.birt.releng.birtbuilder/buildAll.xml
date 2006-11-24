@@ -106,8 +106,16 @@
 	<target name="CreateDistribute">
 		<mkdir dir="${postingDirectory}/${buildLabel}"/>
 		<!-- create Runtime -->
-		<!-- copy runtime to ${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_/runtime -->
-		<!-- create BIRT Integration WTP package -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		
+		<!-- temp use -->
+		<mkdir dir="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime"/>
+		<!-- copy runtime to ${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
+		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
+			<property name="OutputDir" value="${postingDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime" />
+			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+		</ant>
+			
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
 			<property name="OutputDir" value="${postingDirectory}/${buildLabel}" />

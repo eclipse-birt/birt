@@ -70,6 +70,7 @@
 	<property name="allinone.zip.name" value="birt-report-designer-all-in-one-${package.version}.zip" />
 	<property name="allinone.linux.zip.name" value="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
+	<property name="wtp.runtime.zip.name" value="birt.zip" />
 	<property name="charts.zip.name" value="birt-charts-${package.version}.zip" />
 	<property name="iportal.lib.name" value="iportal-library.zip" />
 	<property name="wtp.integration.zip.name" value="birt-wtp-integration-sdk-${package.version}.zip"/>
@@ -513,8 +514,63 @@
 		<gzip src="${OutputDir}/${allinone.linux.zip.name}" destfile="${OutputDir}/${allinone.linux.zip.name}.gz"/>
 		<delete file="${OutputDir}/${allinone.linux.zip.name}"/>
 	</target>
+	
+	<!-- - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -
+	This target is used for create birt.zip for integration.wtp.ui
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<target name="createWebViewerExample">
+		<copy todir="${runtime.tmp}">
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web">
+				<patternset refid="exclude.jars" />
+			    <exclude name="plugins/**"/>
+				<exclude name="images/**" />
+				<exclude name="pages/**" />
+				<exclude name="styles/**" />
+				<exclude name="**/*.nl1_*/**"/>
+				<exclude name="**/*.nl/**" />
+				<exclude name="**/*.nl1_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar" />
+				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
+				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
+				<exclude name="**/org.junit*/**"/>
+			</fileset>
+		</copy>
 
+		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
+		<move file="${runtime.tmp}/WEB-INF/web_delpoy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
+		<unjar src="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
+		<delete file="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" />
+		<jar destfile="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+		<delete dir="${runtime.tmp}/WEB-INF/lib/viewservlets" />
 
+		<copy todir="${runtime.tmp}">
+			<fileset dir="${template.dir}/birt.runtime.files">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		
+		<delete dir="${runtime.tmp}/ajax" />
+		<delete includeEmptyDirs="true" failonerror="false" >
+			<fileset dir="${runtime.tmp}/WEB-INF/platform" includes="lib/**" />
+		</delete>
+		<copy todir="${runtime.tmp}/WEB-INF/platform/plugins">
+			<fileset dir="${deposit}/eclipse/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
+		</copy>
+		<zip destfile="${OutputDir}/${wtp.runtime.zip.name}">
+			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}">
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="${birt.runtime.dir.prefix}">
+				<include name="**/*" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/birt-runtime-about" prefix="${birt.runtime.dir.prefix}">
+				<include name="**/*"/>
+			</zipfileset>
+		</zip>
+		<delete dir="${runtime.tmp}" />
+	</target>
+	
 	<target name="createBirtRuntime"  depends="createWAR">
 		<!--   Zip Engine runtime file    -->
 		<copy todir="${runtime.tmp}/ChartEngine" flatten="true">
