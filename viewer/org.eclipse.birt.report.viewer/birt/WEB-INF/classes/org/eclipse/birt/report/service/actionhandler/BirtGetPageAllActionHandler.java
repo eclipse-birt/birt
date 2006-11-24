@@ -131,8 +131,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 
 			IViewerReportDesignHandle reportDesignHandle = attrBean
 					.getReportDesignHandle( context.getRequest( ) );
-			boolean svgFlag = ParameterAccessor.getSVGFlag( context
-					.getRequest( ) );
+			boolean svgFlag = getSVGFlag( operation.getOprand( ) );
 			String docName = attrBean.getReportDocumentName( );
 
 			// get bookmark

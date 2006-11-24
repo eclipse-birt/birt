@@ -229,12 +229,14 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		{
 	        birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "GetPageAll",
 	        							   null, birtParameterDialog.__parameter, object,
+	        							   { name : "svg", value : this.__has_svg_support? "true" : "false" },
 	        							   { name : this.__task_id, value : taskid } );
 		}
 		else
 		{
 	        birtSoapRequest.addOperation( Constants.documentId, Constants.Document, "GetPageAll",
 	        							   null, birtParameterDialog.__parameter,
+        							       { name : "svg", value : this.__has_svg_support? "true" : "false" },
 	        							   { name : this.__task_id, value : taskid } );			
 		}
 		birtSoapRequest.setURL( document.location );

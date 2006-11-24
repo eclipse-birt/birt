@@ -177,7 +177,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 *  @param object, pass some settings, for example: page...
 	 *	@return, true indicating server call
 	 */
-	__beh_getPageInit : function( id, object, flag )
+	__beh_getPageInit : function( id, object )
 	{
 		// set task id
 		var taskid = birtUtility.setTaskId( );
