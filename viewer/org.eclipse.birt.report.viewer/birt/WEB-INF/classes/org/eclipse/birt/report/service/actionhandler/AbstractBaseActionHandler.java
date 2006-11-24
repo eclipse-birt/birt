@@ -35,6 +35,7 @@ import org.eclipse.birt.report.soapengine.api.ReportId;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 abstract public class AbstractBaseActionHandler implements IActionHandler
 {
@@ -395,16 +396,24 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 	}
 
 	/**
-	 * Get svg flag from incoming soap message.
+	 * Get svg flag from incoming soap message or URL.
 	 * 
 	 * @param params
 	 * @return
 	 * @throws RemoteException
 	 */
 	protected boolean getSVGFlag( Oprand[] params )
-	{
+	{		
 		boolean flag = false;
-
+		
+		// if set __svg in URL, return it. High priority
+		HttpServletRequest request = context.getRequest( );		
+		if( ParameterAccessor.isReportParameterExist( request, ParameterAccessor.PARAM_SVG ))
+		{
+			return ParameterAccessor.getSVGFlag( request );
+		}
+		
+		// if not, get svg flag from soap message
 		if ( params != null && params.length > 0 )
 		{
 			for ( int i = 0; i < params.length; i++ )
