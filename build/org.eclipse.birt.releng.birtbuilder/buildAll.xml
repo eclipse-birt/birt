@@ -121,6 +121,7 @@
 				<include name="*.txt"/>
 			</fileset>
 		</copy>
+        <ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
 
 	<target name="runBirtTest">

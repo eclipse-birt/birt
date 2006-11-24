@@ -164,10 +164,7 @@
 	<!-- ===================================================================== -->
 	<!-- Helper targets                                                        -->
 	<!-- ===================================================================== -->
-	<target name="mail" unless="noMail">
-		<!-- helper target for sending email messages related to build. -->
-		<mail mailhost="${host}" from="${sender}" tolist="${recipients}" subject="[eclipse-build] ${buildId}: ${subject}" message="${message}" failonerror="false" />
-	</target>
+
 
 	<target name="configure.team.cvs.test" unless="test.xml.tmp" if="cvstest.properties">
 		<copy file="${eclipse.build.configs}/sdk.tests/testScripts/test.xml" tofile="${eclipse.build.configs}/sdk.tests/testScripts/test.xml.tmp" />
@@ -598,4 +595,32 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildLabel}"/>
 		</ant>
 	</target>
+	<target name="InformQA" unless="nomail">
+        <property file="${eclipse.build.configs}/../../config.properties" />
+        <mail mailport="${mail.port}" tolist="${QA.members}" from="DAILYBUILD@QA-SHA" replyto="${replyto.address}" subject="Build Is Ready" >
+                <message>
+Hi All,
+
+Today's build is available.
+
+Please download :
+                	
+AllInOne from ${QA.test.dir}\${buildId}\birt-report-designer-all-in-one-2_2_0.zip
+                	
+AllInOne for linux from: ${QA.test.dir}\${buildId}\birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz
+                	
+RCP from ${QA.test.dir}\${buildId}\birt-rcp-report-designer-2_2_0.zip
+                	
+Runtime from ${QA.test.dir}\${buildId}\birt-runtime-2_2_0.zip
+                	
+Framework from ${QA.test.dir}\${buildId}\birt-report-framework-2_2_0.zip
+                	
+NL pack from ${QA.test.dir}\${buildId}\
+
+                	
+Have a nice day!
+                </message>
+        </mail>
+	</target>
+
 </project>
