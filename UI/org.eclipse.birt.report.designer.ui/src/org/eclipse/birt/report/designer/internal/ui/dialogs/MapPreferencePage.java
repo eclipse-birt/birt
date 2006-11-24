@@ -34,6 +34,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -172,6 +174,14 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			public void doubleClick( DoubleClickEvent event )
 			{
 				edit( );
+			}
+		} );
+		
+		table.addKeyListener( new KeyAdapter( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+				handleTableKeyPressEvent( e );
 			}
 		} );
 
@@ -468,4 +478,11 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		updateButtons( );
 	}
 
+	protected void handleTableKeyPressEvent( KeyEvent e )
+	{
+		if ( e.keyCode == SWT.DEL )
+		{
+			delete();
+		}
+	}
 }

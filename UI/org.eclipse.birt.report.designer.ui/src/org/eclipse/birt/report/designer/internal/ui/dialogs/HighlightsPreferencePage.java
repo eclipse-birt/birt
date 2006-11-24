@@ -35,6 +35,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -182,6 +184,14 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 			}
 		} );
 
+		table.addKeyListener( new KeyAdapter( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+				handleTableKeyPressEvent( e );
+			}
+		} );
+		
 		innerParent.addControlListener( new ControlAdapter( ) {
 
 			// Resize the columns by proportion when the parent control is
@@ -488,4 +498,11 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		updateButtons( );
 	}
 
+	protected void handleTableKeyPressEvent( KeyEvent e )
+	{
+		if ( e.keyCode == SWT.DEL )
+		{
+			delete();
+		}
+	}
 }
