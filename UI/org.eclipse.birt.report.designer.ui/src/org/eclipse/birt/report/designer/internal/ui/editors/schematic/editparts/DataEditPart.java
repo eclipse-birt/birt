@@ -9,19 +9,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataItemBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
-import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.gef.Request;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -63,8 +57,7 @@ public class DataEditPart extends LabelEditPart
 	{
 		DataItemHandle handle = (DataItemHandle) getModel( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
-
-		DataItemBindingDialog dialog = new DataItemBindingDialog( );
+		DataItemBindingDialog dialog = new DataItemBindingDialog( handle.getResultSetColumn( )==null );
 		dialog.setInput( handle );
 
 		// ColumnBindingDialog dialog = new ColumnBindingDialog( true );
@@ -74,6 +67,19 @@ public class DataEditPart extends LabelEditPart
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			handle.getModuleHandle( ).getCommandStack( ).commit( );
+			try
+			{
+				if(dialog.getBindingColumn( ) != null)
+				{
+					handle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
+				}
+
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.handle( e );
+				handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+			}			
 			refreshVisuals( );
 		}
 		else

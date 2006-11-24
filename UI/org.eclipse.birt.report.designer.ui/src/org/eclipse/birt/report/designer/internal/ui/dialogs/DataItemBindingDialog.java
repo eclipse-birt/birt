@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
@@ -101,9 +100,12 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected ComputedColumnHandle bindingColumn;
 
-	public DataItemBindingDialog( )
+	protected boolean isCreateNew;
+
+	public DataItemBindingDialog( boolean isCreateNew )
 	{
-		super( NEW_DATAITEM_TITLE );
+		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
+		this.isCreateNew = isCreateNew;
 	}
 
 	public DataItemBindingDialog( String title )
@@ -126,7 +128,7 @@ public class DataItemBindingDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		final Composite composite = (Composite) super.createDialogArea( parent );
-		UIUtil.bindHelp(composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG);
+		UIUtil.bindHelp( composite, IHelpContextIds.DATA_ITEM_BINDING_DIALOG );
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
 
 		new Label( composite, SWT.NONE ).setText( NAME );
@@ -251,7 +253,7 @@ public class DataItemBindingDialog extends BaseDialog
 		}
 		return null;
 	}
-
+	
 	private int getItemIndex( String[] items, String item )
 	{
 		for ( int i = 0; i < items.length; i++ )
@@ -309,7 +311,7 @@ public class DataItemBindingDialog extends BaseDialog
 			itemName.setText( name );
 	}
 
-	protected void setValue( ) throws SemanticException
+	protected void save( ) throws SemanticException
 	{
 		if ( itemName.getText( ) != null
 				&& itemName.getText( ).trim( ).length( ) > 0 )
@@ -317,6 +319,10 @@ public class DataItemBindingDialog extends BaseDialog
 
 			if ( bindingColumn == null )
 			{
+				if(itemExpression.getText( ) == null || itemExpression.getText( ).length( ) == 0)
+				{
+					return;
+				}
 				newBinding.setName( itemName.getText( ) );
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
@@ -343,6 +349,20 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 			else
 			{
+				if(itemExpression.getText( ) != null && itemExpression.getText( ).length( ) == 0)
+				{
+					DataItemHandle itemHandle = (DataItemHandle)getBindingObject( );
+					String resultSetName = itemHandle.getResultSetColumn( );
+					if( bindingColumn.getName( ).equals( resultSetName ))
+					{
+						itemHandle.setResultSetColumn( null );
+					}
+					itemHandle.getColumnBindings( ).removeItem( bindingColumn.getStructure( ) );
+					bindingColumn = null;
+					return;
+				}
+
+				 
 				if ( !( bindingColumn.getName( ) != null && bindingColumn.getName( )
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
@@ -388,8 +408,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		try
 		{
-			setValue( );
-			setResultSetColumn( );
+			save( );
 		}
 		catch ( Exception e )
 		{
@@ -486,14 +505,12 @@ public class DataItemBindingDialog extends BaseDialog
 		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
 		try
 		{
-			String bindingName = ( (DataItemHandle) input ).getResultSetColumn( );
-			setTitle( bindingName == null ? NEW_DATAITEM_TITLE
-					: EDIT_DATAITEM_TITLE );
-			if ( bindingName != null )
+			if ( !isCreateNew )
 			{
-				bindingColumn = getInputBinding( input, bindingName );
+				bindingColumn = getInputBinding( input,
+						( (DataItemHandle) input ).getResultSetColumn( ) );
 			}
-			if ( bindingColumn == null )
+			if ( isCreateNew )
 			{
 				createColumnName( input, DEFAULT_ITEM_NAME );
 				setTypeSelect( dataTypes[0] );
@@ -528,6 +545,11 @@ public class DataItemBindingDialog extends BaseDialog
 		initDataTypes( );
 	}
 
+	public String getName( )
+	{
+		return itemName.getText( ).trim( );
+	}
+	
 	public String getExpression( )
 	{
 		return itemExpression.getText( );
@@ -571,4 +593,11 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		expressionProvider = provider;
 	}
+
+	public ComputedColumnHandle getBindingColumn( )
+	{
+		return bindingColumn;
+	}
+
+	
 }
