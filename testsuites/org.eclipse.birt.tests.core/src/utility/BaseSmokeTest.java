@@ -163,9 +163,10 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		// reporting:
 
+		
 		DomWriter domwriter = new DomWriter( );
 		domwriter.setOutput( new FileWriter( this.getBasePath( )
-				+ "TESTS-SmokeTests.xml" ) ); //$NON-NLS-1$
+				+ "TESTS-" + getName( ) + "SmokeTests.xml" ) ); //$NON-NLS-1$
 		domwriter.setCanonical( true );
 
 		// reporting.
