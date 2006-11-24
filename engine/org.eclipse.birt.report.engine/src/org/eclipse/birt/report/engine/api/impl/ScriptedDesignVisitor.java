@@ -14,19 +14,20 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.script.internal.AutoTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.DynamicTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ListGroupScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
-import org.eclipse.birt.report.engine.script.internal.DynamicTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableGroupScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TextItemScriptExecutor;
-
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -132,6 +133,10 @@ class ScriptedDesignVisitor extends DesignVisitor
 			{
 				DynamicTextScriptExecutor.handleOnPrepare(
 						( TextDataHandle ) handle, executionContext );
+			} else if ( handle instanceof AutoTextHandle )
+			{
+				AutoTextScriptExecutor.handleOnPrepare(
+						( AutoTextHandle ) handle, executionContext );
 			} else
 				// if there's no ScriptExecutor available, execute javascript
 				// only
@@ -323,6 +328,11 @@ class ScriptedDesignVisitor extends DesignVisitor
 		{
 			apply( footerSlot.get( i ) );
 		}
+	}
+	
+	public void visitAutoText( AutoTextHandle handle )
+	{
+		handleOnPrepare( handle );
 	}
 
 	public void visitList( ListHandle handle )

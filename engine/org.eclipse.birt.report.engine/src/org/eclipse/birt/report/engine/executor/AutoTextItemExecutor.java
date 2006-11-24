@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * the AutoTextItem excutor
  * 
- * @version $Revision: 1.5 $ $Date: 2006/06/23 03:37:41 $
+ * @version $Revision: 1.6 $ $Date: 2006/08/25 03:24:02 $
  */
 public class AutoTextItemExecutor extends StyledItemExecutor
 {
@@ -81,6 +81,11 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 			{
 				textContent.setText(String.valueOf(context.getTotalPage()));
 			}
+		}
+		
+		if ( context.isInFactory( ) )
+		{
+			handleOnCreate( textContent );
 		}
 
 		if ( emitter != null )

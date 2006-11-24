@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -74,8 +75,8 @@ public class OnRenderScriptVisitor extends DefaultReportItemVisitorImpl
 
 	public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
 	{
-		// FIXME: need to support auto text item script		
-		return visitReportItem( autoText, value );
+		AutoTextScriptExecutor.handleOnRender( (IAutoTextContent) value, context );	
+		return value;
 	}
 
 	public Object visitBand( BandDesign band, Object value )
