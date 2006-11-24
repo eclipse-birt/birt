@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.132 $ $Date: 2006/11/10 09:06:04 $
+ * @version $Revision: 1.133 $ $Date: 2006/11/16 06:22:35 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1140,7 +1140,9 @@ class EngineIRVisitor extends DesignVisitor
 
 	private void applyColumnHighlight( TableItemDesign table )
 	{
+		applyColumnHighlight( table, table.getHeader( ) );
 		applyColumnHighlight( table, table.getDetail( ) );
+		applyColumnHighlight( table, table.getFooter( ) );
 		for ( int i = 0; i < table.getGroupCount( ); i++ )
 		{
 			applyColumnHighlight( table, table.getGroup( i ).getHeader( ) );
