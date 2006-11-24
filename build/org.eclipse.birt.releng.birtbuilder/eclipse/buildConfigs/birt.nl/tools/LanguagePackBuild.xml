@@ -329,6 +329,8 @@
 		<antcall target="CompileODANL"/>
 		<antcall target="Export" />
 		<antcall target="ExportODA" />
+		<antcall target="compileFeatureOverlay"/>
+		<antcall target="exportFeatureOverlay"/>
 	</target>
 	
 	<target name="UpdateNLVersion" >
@@ -400,5 +402,51 @@
 				<property name="BUILD_ID" value="${timestamp.BUILD_ID2}" />
 			</ant>
 		</forEach>
+	</target>
+	<target name="compileFeatureOverlay">
+		<native2ascii dest="${buildDirectory}/features" src="${buildDirectory}/features" encoding="Cp1252" includes="**/*_de_DE.msg"  ext=".properties" />
+		<native2ascii dest="${buildDirectory}/features" src="${buildDirectory}/features" encoding="Cp1252" includes="**/*_es_ES.msg"  ext=".properties" />
+		<native2ascii dest="${buildDirectory}/features" src="${buildDirectory}/features" encoding="Cp1252" includes="**/*_fr_FR.msg"  ext=".properties" />
+		<native2ascii dest="${buildDirectory}/features" src="${buildDirectory}/features" encoding="GBK" includes="**/*_zh_CN.msg"   ext=".properties" />
+		<native2ascii dest="${buildDirectory}/features" src="${buildDirectory}/features" encoding="SJIS" includes="**/*_ja_JP.msg" ext=".properties" />
+		<native2ascii dest="${buildDirectory}/features" src="${buildDirectory}/features" encoding="MS949" includes="**/*ko_KR.msg" ext=".properties" />
+	</target>
+	<target name="exportFeatureOverlay">
+		<property file="${buildDirectory}/finalFeaturesVersions.properties"/>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.chart_${org.eclipse.birt.chart}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.chart">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.chart.runtime_${org.eclipse.birt.chart.runtime}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.chart.runtime">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.doc_${org.eclipse.birt.doc}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.doc">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.example_${org.eclipse.birt.example}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.example">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.report.designer_${org.eclipse.birt.report.designer}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.report.designer">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.report.runtime_${org.eclipse.birt.report.runtime}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.report.runtime">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.sdk_${org.eclipse.birt.sdk}">
+			<fileset dir="${buildDirectory}/features/org.eclipse.birt.sdk">
+				<include name="*_??_??.properties"/>
+			</fileset>
+		</copy>
 	</target>
 </project>

@@ -197,7 +197,7 @@
          ===================================================         
 		</echo>
 		
-		<copy file="${template.dir}\build_info_template.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
+		<copy file="${template.dir}\build_info_template_new.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
 		
 		<!--Define chart runtime file set.-->
 		<patternset id="chart.runtime.jars">
@@ -303,12 +303,11 @@
         <antcall target="createWTPIntegration"/>
 
 		<!--antcall target="createIpotalLib" /-->
-		<!--
+		
 		<antcall target="createNLGroup1FeatureOverlayChart" />
 		<antcall target="createNLGroup1FeatureOverlayFramework" />
 		<antcall target="createNLGroup1FeatureOverlayRCP" />
 		<antcall target="createNLGroup1FeatureOverlaySDK" />
- 		-->
 
 		<!-- Replaced in bootstrap.sh -->
 		<!--
@@ -836,28 +835,28 @@
 	</target>
 	<target name="createNLGroup1FeatureOverlaySDK" >
 		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.SDK}">
-			<zipfileset dir="${buildDirectory}/features" prefix="${FeautrePrefix}">
+			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features" prefix="${FeautrePrefix}">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlayRCP" >
 		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.RCP}">
-			<zipfileset dir="${buildDirectory}/features" prefix="${birt.rcp.dir.prefix}/features">
+			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features" prefix="${birt.rcp.dir.prefix}/features">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlayFramework" >
 		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.Framework}">
-			<zipfileset dir="${buildDirectory}/features" prefix="${FeautrePrefix}">
+			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features" prefix="${FeautrePrefix}">
 				<include name="**/feature_*.properties" />
 			</zipfileset>
 		</zip>
 	</target>
 	<target name="createNLGroup1FeatureOverlayChart" >
 		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.Chart}">
-			<zipfileset dir="${buildDirectory}/features" prefix="${FeautrePrefix}">
+			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.birt.chart*/feature_*.properties" />
 				<include name="org.eclipse.birt.chart.runtime*/feature_*.properties" />
 			</zipfileset>
