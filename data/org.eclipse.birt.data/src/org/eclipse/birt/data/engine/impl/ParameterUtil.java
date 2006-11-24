@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.sql.Blob;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +33,8 @@ import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * Merge the paramter definition and evaluate the expression of paramter 
@@ -314,6 +317,13 @@ class ParameterUtil
 		try
 		{
 			paramValue = DataTypeUtil.convert( paramValue, paramType );
+			
+			if( paramValue instanceof Date )
+			{
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S z");
+				return sdf.format( (Date)paramValue );
+			}
+			
 			return DataTypeUtil.toString( paramValue );
 		}
 		catch ( BirtException e )
