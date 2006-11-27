@@ -115,6 +115,12 @@
 	<!-- Steps to do before running the build.xmls for the elements being built. -->
 	<!-- ===================================================================== -->
 	<target name="preProcess">
+		<!-- copy necessary lib to tests.viewer/lib -->
+		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.tests.viewer/lib">
+			<fileset dir="${p4.home}/testsViewerLib">
+				<include name="**"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<!-- ===================================================================== -->
