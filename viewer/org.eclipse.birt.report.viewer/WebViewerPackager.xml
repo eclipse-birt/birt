@@ -379,7 +379,7 @@
 			<include name="org.eclipse.equinox.registry_*.jar" />
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.update.configurator_*.jar" />
-			<include name="org.apache.xerces*/**" />
+			<include name="org.apache.xerces_*/**" />
 			
 		</fileset>
 	</copy>
@@ -472,14 +472,14 @@
 			<include name="org.eclipse.birt.chart.reportitem_*.jar" />
 			<include name="org.eclipse.birt.core_*.jar" />
 			<include name="org.eclipse.birt.data_*.jar" />
-			<include name="org.eclipse.birt.data.oda_*/*.**" />
-			<include name="org.eclipse.birt.report.data.oda.jdbc_*/*.**" />
-			<include name="org.eclipse.birt.report.data.oda.sampledb_*/*.**" />
+			<include name="org.eclipse.birt.data.oda_*/**" />
+			<include name="org.eclipse.birt.report.data.oda.jdbc_*/**" />
+			<include name="org.eclipse.birt.report.data.oda.sampledb_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.xml_*.jar" />
 			<include name="org.eclipse.birt.report.engine_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.html_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.pdf_*.jar" />
-			<include name="org.eclipse.birt.report.engine.fonts_*/*.**" />
+			<include name="org.eclipse.birt.report.engine.fonts_*/**" />
 			<include name="org.eclipse.birt.report.model_*.jar" />
 		</fileset>
 	</copy>
