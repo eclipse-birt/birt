@@ -534,16 +534,14 @@
 		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
 			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
 		</exec>
-		<delete includeEmptyDirs="true" >
-			<fileset dir="${test.dir}/eclipse/plugins">
-				<include name="*.itext*"/>
-			</fileset>
-		</delete>
-		<copy todir="${test.dir}/eclipse/plugins">
-			<fileset dir="${buildDirectory}/plugins">
-				<include name="*.itext*/**"/>
+		<!-- copy iText jars for pdf testing -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<copy todir="${test.dir}/eclipse/plugins/com.lowagie.itext_${com.lowagie.itext}">
+			<fileset dir="${p4.home}/iText">
+				<include name="**"/>
 			</fileset>
 		</copy>
+		
 		<!-- copy drivers for jdbc testing -->
 		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.data.oda.jdbc_2.2.0.${buildId}/drivers">
 			<fileset dir="${p4.home}/drivers">
