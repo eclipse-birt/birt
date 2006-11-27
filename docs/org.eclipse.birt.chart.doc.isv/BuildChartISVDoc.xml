@@ -78,6 +78,7 @@
 	<property name="chartengine.javadoc.dir" value="chart/api" />
 	<property name="chartexamples.dir" value="../org.eclipse.birt.chart.examples" />
 	<property name="chartui.dir" value="../org.eclipse.birt.chart.ui" />
+	<property name="model.dir" value="../org.eclipse.birt.report.model" />
 	<property name="chartui.javadoc.dir" value="chartui/api" />
 	<!-- set eclipse related properties -->
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
@@ -98,11 +99,15 @@
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
 			<include name="com.ibm.icu_*.jar"/>
+			<include name="org.eclipse.swt*.jar"/>
 		</fileset>
 		<fileset dir="../org.mozilla.rhino">
 				<include name="**/*.jar"/>
 		</fileset>
-		<pathelement path="../org.eclipse.birt.core/@dot"/>
+		<pathelement path="${core.dir}/@dot"/>
+		<pathelement path="${model.dir}/@dot"/>
+		<pathelement path="${chartengine.dir}/@dot"/>
+		<pathelement path="${chartui.dir}/@dot"/>
 	</path>
 	
 	<!-- Generate zip for this project.
