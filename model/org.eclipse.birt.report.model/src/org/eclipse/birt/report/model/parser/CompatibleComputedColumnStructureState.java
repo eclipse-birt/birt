@@ -88,7 +88,7 @@ public class CompatibleComputedColumnStructureState extends CompatibleStructureS
 
 		public void end( ) throws SAXException
 		{
-			if ( ComputedColumn.COLUMN_NAME_MEMBER.equals( name ) )
+			if ( "columnName".equals( name ) ) //$NON-NLS-1$
 			{
 				String value = text.toString( );
 

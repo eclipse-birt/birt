@@ -26,6 +26,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 final class FontSizeValueHandler extends CSSLengthValueHandler
 {
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param dimensionHandle
+	 */
+
 	FontSizeValueHandler( DimensionHandle dimensionHandle )
 	{
 		super( dimensionHandle );

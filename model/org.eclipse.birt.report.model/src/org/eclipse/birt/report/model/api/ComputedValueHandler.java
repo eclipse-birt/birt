@@ -26,6 +26,12 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 final class ComputedValueHandler extends CSSLengthValueHandler
 {
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param dimensionHandle
+	 */
+	
 	ComputedValueHandler( DimensionHandle dimensionHandle )
 	{
 		super( dimensionHandle );

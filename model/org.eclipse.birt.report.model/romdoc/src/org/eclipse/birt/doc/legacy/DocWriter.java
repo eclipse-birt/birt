@@ -320,6 +320,11 @@ public class DocWriter
 
 	class DocException extends Exception
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1769976375996415539L;
+
 		DocException( String msg )
 		{
 			super( msg );

@@ -29,7 +29,6 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
-import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
@@ -264,7 +263,39 @@ public abstract class PropertyDefn
 	 *             if the property definition is inconsistent.
 	 */
 
-	void build( ) throws MetaDataException
+	protected void build( ) throws MetaDataException
+	{
+		buildDefn( );
+
+		buildTriggerDefnSet( );
+	}
+
+	/**
+	 * Builds the trigger definition set. This method cached all validators
+	 * defined in property definition and slot definition. The cached validators
+	 * are used to perform full validation of one element instance.
+	 * 
+	 * @throws MetaDataException
+	 *             if the validator is not found.
+	 */
+
+	protected final void buildTriggerDefnSet( ) throws MetaDataException
+	{
+		// build trigger definition.
+
+		getTriggerDefnSet( ).build( );
+	}
+
+	/**
+	 * Validates the property definition and adds validator for the property
+	 * definition. Called once while loading the meta-data. The build must
+	 * succeed, or a programming error has occurred.
+	 * 
+	 * @throws MetaDataException
+	 *             if the property definition is inconsistent.
+	 */
+
+	protected void buildDefn( ) throws MetaDataException
 	{
 		// Ensure we can find the property type.
 
@@ -431,17 +462,6 @@ public abstract class PropertyDefn
 			getTriggerDefnSet( ).add( triggerDefn );
 		}
 
-		// add extension validator on exteion xml property
-		if ( getValueType( ) == EXTENSION_PROPERTY
-				&& getTypeCode( ) == IPropertyType.XML_TYPE )
-		{
-			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
-					ExtensionValidator.NAME );
-			triggerDefn.setPropertyName( getName( ) );
-			triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
-			getTriggerDefnSet( ).add( triggerDefn );
-		}
-
 		if ( getTypeCode( ) != IPropertyType.LIST_TYPE && subType != null )
 		{
 			// only when the type is list, the subtype is set
@@ -486,9 +506,8 @@ public abstract class PropertyDefn
 						MetaDataException.DESIGN_EXCEPTION_VALIDATOR_NOT_FOUND );
 		}
 
-		getTriggerDefnSet( ).build( );
-
 		// default unit check
+
 		if ( getTypeCode( ) == IPropertyType.DIMENSION_TYPE
 				|| ( getTypeCode( ) == IPropertyType.LIST_TYPE && subType
 						.getTypeCode( ) == IPropertyType.DIMENSION_TYPE ) )
@@ -508,7 +527,6 @@ public abstract class PropertyDefn
 				}
 			}
 		}
-
 	}
 
 	/**

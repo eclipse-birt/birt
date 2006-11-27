@@ -59,11 +59,11 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * To get a handle for the data source, uses the following example:
  * 
  * <pre>
- *            
- *                
- *            		DataSetHandle dataHandle = designHandle
- *                    findDataSet( &quot;My First Data Set &quot; );
- *             
+ *              
+ *                  
+ *              		DataSetHandle dataHandle = designHandle
+ *                      findDataSet( &quot;My First Data Set &quot; );
+ *               
  * </pre>
  * 
  * <p>
@@ -458,6 +458,9 @@ public abstract class DataSetHandle extends ReportElementHandle
 	/**
 	 * sets the cached row count property value.
 	 * 
+	 * @param count
+	 *            the cached row count
+	 * 
 	 * @throws SemanticException
 	 */
 	public void setCachedRowCount( int count ) throws SemanticException
@@ -470,9 +473,9 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @return the row count.
 	 */
+
 	public int getCachedRowCount( )
 	{
-
 		return getIntProperty( CACHED_ROW_COUNT_PROP );
 	}
 
@@ -942,6 +945,9 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	/**
 	 * Sets the max number of rows from data source property value.
+	 * 
+	 * @param count
+	 *            the row number to fetch from result set
 	 * 
 	 * @throws SemanticException
 	 */

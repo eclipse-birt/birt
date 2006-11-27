@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6">
+    <data-sources>
+        <oda-data-source extensionID="unknown.oda" name="myDataSource">
+	        <structure	name="noStructureProp">
+				<property name="version">1.1</property>
+				<property name="stateContentAsString">content as string</property>
+				<property name="stateContentAsBlob">Y29udGVudCBhcyBibG9i</property>
+			</structure>
+            <property name="noProperty">1</property>
+        </oda-data-source>
+    </data-sources>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -442,8 +442,6 @@ public class DataSetParameterHandle extends StructureHandle
 	final static class NameMemberHandle extends MemberHandle
 	{
 
-		DataSetParameterHandle paramHandle = null;
-
 		/**
 		 * Constructs a member handle with the given structure handle and the
 		 * member property definition.
@@ -458,7 +456,6 @@ public class DataSetParameterHandle extends StructureHandle
 				StructPropertyDefn member )
 		{
 			super( structHandle, member );
-			paramHandle = (DataSetParameterHandle) structHandle;
 		}
 
 		/*

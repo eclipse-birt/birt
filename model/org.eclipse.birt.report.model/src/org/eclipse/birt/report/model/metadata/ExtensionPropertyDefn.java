@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -21,6 +23,13 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 public class ExtensionPropertyDefn extends SystemPropertyDefn
 {
+
+	/**
+	 * <code>ture</code> if the xml property value represents the
+	 * extesion-defined model. Otherwise <code>false</code>.
+	 */
+
+	private boolean hasOwnModel;
 
 	private IMessages messages = null;
 
@@ -138,13 +147,67 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	public void setGroupDefauleDisplayName( String groupDefauleDisplayName )
 	{
 		this.groupDefauleDisplayName = groupDefauleDisplayName;
-	}	
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getValueType()
 	 */
 	public int getValueType( )
 	{
 		return EXTENSION_PROPERTY;
+	}
+
+	/**
+	 * Sets the flag indicating if the xml property value represents the
+	 * extesion-defined model.
+	 * 
+	 * @param hasOwnModel
+	 *            <code>true</code> if the xml property value represents the
+	 *            extesion-defined model.
+	 */
+
+	void setHasOwnModel( boolean hasOwnModel )
+	{
+		this.hasOwnModel = hasOwnModel;
+	}
+
+	/**
+	 * Returns <code>true</code> indicating if the xml property value
+	 * represents the extesion-defined model.
+	 * 
+	 * @return <code>true</code> if the xml property value represents the
+	 *         extesion-defined model.
+	 */
+
+	public boolean hasOwnModel( )
+	{
+		return hasOwnModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#build()
+	 */
+
+	public void build( ) throws MetaDataException
+	{
+		super.buildDefn( );
+
+		// add extension validator on exteion xml property
+
+		if ( getValueType( ) == EXTENSION_PROPERTY
+				&& getTypeCode( ) == IPropertyType.XML_TYPE && hasOwnModel )
+		{
+			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+					ExtensionValidator.NAME );
+			triggerDefn.setPropertyName( getName( ) );
+			triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
+			getTriggerDefnSet( ).add( triggerDefn );
+		}
+
+		super.buildTriggerDefnSet( );
 	}
 }

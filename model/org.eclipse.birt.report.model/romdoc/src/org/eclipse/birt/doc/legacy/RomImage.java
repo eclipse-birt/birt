@@ -98,6 +98,11 @@ public class RomImage
 	
 	class RomException extends Exception
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		RomException( Exception e )
 		{
 			super( e );

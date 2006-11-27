@@ -40,7 +40,7 @@ public class BundleHelper
 	 * the module
 	 */
 
-	private static Module module = null;
+	private Module module = null;
 
 	/**
 	 * base name of the resource bundle. The name is a common base name

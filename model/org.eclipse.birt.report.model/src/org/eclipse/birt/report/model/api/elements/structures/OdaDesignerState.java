@@ -220,7 +220,7 @@ public class OdaDesignerState extends Structure
 			}
 		}
 		else
-			contentBlob = null;
+			this.contentAsBlob = null;
 	}
 
 	/**

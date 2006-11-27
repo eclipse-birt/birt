@@ -191,5 +191,33 @@ public abstract class ExtensionLoader
 			}
 			return true;
 		}
+
+		/**
+		 * Returns the boolean value of the given attribute.
+		 * 
+		 * @param attrs
+		 *            the element attributes
+		 * @param attrName
+		 *            the attribute name
+		 * @param defaultValue
+		 *            the default value
+		 * @return the boolean value
+		 */
+
+		protected boolean getBooleanAttrib( IConfigurationElement attrs,
+				String attrName, boolean defaultValue )
+		{
+			String value = attrs.getAttribute( attrName );
+			if ( value == null )
+				return defaultValue;
+
+			if ( "false".equalsIgnoreCase( value.trim( ) ) ) //$NON-NLS-1$
+				return false;
+
+			if ( "true".equalsIgnoreCase( value.trim( ) ) ) //$NON-NLS-1$
+				return true;
+
+			return defaultValue;
+		}
 	}
 }

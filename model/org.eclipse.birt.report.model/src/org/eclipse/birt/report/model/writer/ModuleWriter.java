@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -482,15 +483,32 @@ public abstract class ModuleWriter extends ElementVisitor
 				.getMember( resourceName );
 		assert nameProp != null;
 
-		Object value = struct.getLocalProperty( getModule( ), nameProp );
-		String xml = nameProp.getXmlValue( getModule( ), value );
-
 		StructPropertyDefn keyProp = (StructPropertyDefn) structDefn
 				.getMember( resourceKey );
 		assert keyProp != null;
 
-		value = struct.getLocalProperty( getModule( ), keyProp );
-		String xmlKey = keyProp.getXmlValue( getModule( ), value );
+		Object value = null;
+		Object keyValue = null;
+
+		if ( struct instanceof Structure )
+		{
+			value = ( (Structure) struct ).getLocalProperty( getModule( ),
+					nameProp );
+			keyValue = ( (Structure) struct ).getLocalProperty( getModule( ),
+					keyProp );
+		}
+		else
+		{
+			assert struct instanceof UserPropertyDefn;
+
+			value = ( (UserPropertyDefn) struct ).getLocalProperty(
+					getModule( ), nameProp );
+			keyValue = ( (UserPropertyDefn) struct ).getLocalProperty(
+					getModule( ), keyProp );
+		}
+		String xml = nameProp.getXmlValue( getModule( ), value );
+		String xmlKey = keyProp.getXmlValue( getModule( ), keyValue );
+
 		if ( xmlKey == null && xml == null )
 			return;
 
@@ -689,7 +707,16 @@ public abstract class ModuleWriter extends ElementVisitor
 				.getMember( memberName );
 		assert propDefn != null;
 
-		Object value = struct.getLocalProperty( getModule( ), propDefn );
+		Object value = null;
+		if ( struct instanceof Structure )
+			value = ( (Structure) struct ).getLocalProperty( getModule( ),
+					propDefn );
+		else
+		{
+			assert struct instanceof UserPropertyDefn;
+			value = ( (UserPropertyDefn) struct ).getLocalProperty(
+					getModule( ), propDefn );
+		}
 		if ( value == null )
 			return;
 
@@ -884,8 +911,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		IStructureDefn structDefn = struct.getDefn( ).getMember( memberName )
 				.getStructDefn( );
 
-		IStructure memberStruct = (IStructure) struct.getLocalProperty( null,
-				(PropertyDefn) struct.getDefn( ).getMember( memberName ) );
+		assert struct instanceof Structure;
+
+		IStructure memberStruct = (IStructure) ( (Structure) struct )
+				.getLocalProperty( null, (PropertyDefn) struct.getDefn( )
+						.getMember( memberName ) );
 
 		if ( memberStruct == null )
 			return;
@@ -967,7 +997,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
 				&& prop.isList( );
 
-		List list = (List) obj.getLocalProperty( getModule( ), prop );
+		assert obj instanceof Structure;
+		List list = (List) ( (Structure) obj ).getLocalProperty( getModule( ),
+				prop );
 		if ( list == null || list.size( ) == 0 )
 			return;
 
@@ -1371,23 +1403,15 @@ public abstract class ModuleWriter extends ElementVisitor
 	private void writeOdaDummyProperties( DesignElement obj,
 			ODAProvider provider )
 	{
+
 		assert provider instanceof OdaDummyProvider;
 
 		OdaDummyProvider dummyProvider = (OdaDummyProvider) provider;
-		List propNames = dummyProvider.getPropertyNames( );
-		for ( int i = 0; i < propNames.size( ); i++ )
-		{
-			String propName = (String) propNames.get( i );
-			String tagName = dummyProvider.getTagName( propName );
-			String value = dummyProvider.getValue( propName );
 
-			boolean cdata = false;
-			if ( dummyProvider.getPropertyTypeCode( propName ) == IPropertyType.SCRIPT_TYPE
-					|| dummyProvider.getPropertyTypeCode( propName ) == IPropertyType.XML_TYPE )
-				cdata = true;
-			writeEntry( tagName, propName, value, cdata );
+		// write other un-organized strings
 
-		}
+		ContentTree tree = dummyProvider.getContentTree( );
+		writeContentTree( tree );
 	}
 
 	/*
@@ -3106,7 +3130,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		if ( tree == null || tree.isEmpty( ) )
 			return;
-		List children = (List) tree.getChildren( );
+		List children = tree.getChildren( );
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			ContentNode node = (ContentNode) children.get( i );

@@ -1596,7 +1596,6 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ExtensionValidator" modules="design, library" name="ExtensionValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.GroupNameValidator" modules="design, library" name="GroupNameValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator" modules="design, library" name="InconsistentColumnsValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ImageFileExistingValidator" modules="design" name="ImageFileExistingValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator" modules="design, library" name="MasterPageMultiColumnValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator" modules="design" name="MasterPageRequiredValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator" modules="design, library" name="MasterPageSizeValidator"/>

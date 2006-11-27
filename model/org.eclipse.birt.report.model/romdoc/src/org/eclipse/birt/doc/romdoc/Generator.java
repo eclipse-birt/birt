@@ -276,15 +276,6 @@ public class Generator
 		writer.println( );
 	}
 
-	private void writePara( String s )
-	{
-		if ( isBlank( s ) )
-			return;
-		write( "<p class=\"section-text\">" );
-		write( s );
-		writeln( "</p>" );
-	}
-
 	private boolean isBlank( String s )
 	{
 		return s == null || s.trim( ).length( ) == 0;

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
@@ -22,7 +21,6 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 /**
  * This class parses the oda data source element.
@@ -43,7 +41,7 @@ public class OdaDataSourceState extends DataSourceState
 	 */
 
 	private static final String NEW_FLAT_FILE_ID = "org.eclipse.datatools.connectivity.oda.flatfile"; //$NON-NLS-1$
-	
+
 	/**
 	 * <code>true</code> if the extension can be found. Otherwise
 	 * <code>false</code>.
@@ -107,27 +105,9 @@ public class OdaDataSourceState extends DataSourceState
 		if ( isValidExtensionId )
 			return super.startElement( tagName );
 
-		return startDummyElement( tagName );
-	}
-
-	/**
-	 * Parses dummy properties. Do not apply any validation procedure.
-	 * 
-	 * 
-	 */
-
-	protected AbstractParseState startDummyElement( String tagName )
-	{
-		if ( DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.XML_PROPERTY_TAG
-						.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.EXPRESSION_TAG
-						.equalsIgnoreCase( tagName ) )
-			return new DummyPropertyState( handler, getElement( ),
-					(OdaDummyProvider) provider );
-
-		return super.startElement( tagName );
+		( (OdaDummyProvider) provider ).initializeContentTree( );
+		return ElementContentParseFactory.createParseState( tagName, handler,
+				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**
@@ -161,7 +141,7 @@ public class OdaDataSourceState extends DataSourceState
 			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
 				extensionID = NEW_FLAT_FILE_ID;
 		}
-		
+
 		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
 
 		// get the provider to check whether this is a valid oda extension
@@ -191,57 +171,5 @@ public class OdaDataSourceState extends DataSourceState
 						newExtensionID );
 			}
 		}
-	}
-
-	/**
-	 * State to parse property values. If the property definition cannot be
-	 * found, the property is treated as dummy property. And this property do
-	 * not require any validation. All treated as literal string type.
-	 */
-
-	static class DummyPropertyState extends CompatiblePropertyState
-	{
-
-		private OdaDummyProvider provider = null;
-
-		/**
-		 * The contructor.
-		 * 
-		 * @param theHandler
-		 *            the parser handler
-		 * @param element
-		 *            the element to parse
-		 * @param provider
-		 *            the provider
-		 */
-
-		public DummyPropertyState( ModuleParserHandler theHandler,
-				DesignElement element, OdaDummyProvider provider )
-		{
-			super( theHandler, element );
-			this.provider = provider;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
-		 */
-
-		public void end( ) throws SAXException
-		{
-			String value = text.toString( );
-
-			propDefn = element.getPropertyDefn( name );
-			if ( propDefn != null )
-			{
-				doEnd( value );
-				return;
-			}
-
-			assert provider != null;
-			provider.saveValue( name, value, elementName );
-		}
-
 	}
 }

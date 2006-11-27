@@ -1333,7 +1333,6 @@ public class ReportItemExtensionTest extends BaseTestCase
 		List propDefns = itemHandle.getElement( ).getPropertyDefns( );
 		ExtendedItem element = (ExtendedItem) itemHandle.getElement( );
 
-		assertEquals( 102, propDefns.size( ) );
 		assertFalse( element.getExtDefn( ).isPropertyVisible(
 				ReportItem.BOOKMARK_PROP ) );
 		assertFalse( element.getExtDefn( ).isPropertyVisible( "test3" ) ); //$NON-NLS-1$

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -245,7 +246,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 	public Object getExtensionProperty( String propName )
 	{
-		if ( isExtensionXMLProperty( propName ) )
+
+		if ( isExtensionXMLProperty( propName ) && hasOwnModel( propName ) )
 		{
 			if ( reportItem != null )
 			{
@@ -289,7 +291,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 
 	public void setExtensionProperty( ElementPropertyDefn prop, Object value )
 	{
-		if ( isExtensionXMLProperty( prop.getName( ) ) )
+		if ( isExtensionXMLProperty( prop.getName( ) )
+				&& hasOwnModel( prop.getName( ) ) )
 		{
 			if ( reportItem != null )
 			{
@@ -395,6 +398,9 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				continue;
 
 			String propName = propDefn.getName( );
+			if ( !hasOwnModel( propName ) )
+				continue;
+
 			Object value = extensionPropValues.get( propName );
 			if ( value == null )
 			{
@@ -501,6 +507,28 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		}
 
 		return false;
+	}
+
+	/**
+	 * Tests whether the property is the extension property which holds the
+	 * serialized XML value for extension model properties. The property type
+	 * should be XML.
+	 * 
+	 * @param propName
+	 *            name of the property to check
+	 * @return true if the property is XML type and holds the serialized XML
+	 *         value for extension model properties, otherwise false
+	 */
+
+	private boolean hasOwnModel( String propName )
+	{
+		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
+		ExtensionPropertyDefn tmpPropDefn = (ExtensionPropertyDefn) extDefn
+				.getProperty( propName );
+
+		if ( tmpPropDefn == null )
+			return false;
+		return tmpPropDefn.hasOwnModel( );
 	}
 
 	/**

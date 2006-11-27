@@ -726,35 +726,6 @@ public class URIUtil
 
 		// TODO: support resource path with jar format.
 
-		// if ( resourceDir.contains( JAR_EXTENTION ) )
-		// {
-		// if ( f.exists( ) )
-		// // TODO: check case like a.jar.txt
-		// return true;
-		// else
-		// {
-		// URL url;
-		// try
-		// {
-		// url = new URL( resourceDir );
-		// JarURLConnection connection = (JarURLConnection) url
-		// .openConnection( );
-		// connection.connect( );
-		// ZipEntry zip = connection.getJarEntry( );
-		// if ( zip != null && zip.isDirectory( ) )
-		// return true;
-		// }
-		// catch ( MalformedURLException e )
-		// {
-		// return false;
-		// }
-		// catch ( IOException e1 )
-		// {
-		// return false;
-		// }
-		// }
-		// }
-
 		if ( f.isAbsolute( ) && f.exists( ) && f.isDirectory( ) )
 			return true;
 

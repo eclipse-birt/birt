@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
-import org.eclipse.birt.report.model.parser.OdaDataSourceState.DummyPropertyState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -148,28 +147,9 @@ public class OdaDataSetState extends SimpleDataSetState
 		if ( isValidExtensionId )
 			return super.startElement( tagName );
 
-		return startDummyElement( tagName );
-
-	}
-
-	/**
-	 * Parses dummy properties. Do not apply any validation procedure.
-	 * 
-	 * 
-	 */
-
-	protected AbstractParseState startDummyElement( String tagName )
-	{
-		if ( DesignSchemaConstants.PROPERTY_TAG.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.XML_PROPERTY_TAG
-						.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( tagName )
-				|| DesignSchemaConstants.EXPRESSION_TAG
-						.equalsIgnoreCase( tagName ) )
-			return new DummyPropertyState( handler, getElement( ),
-					(OdaDummyProvider) provider );
-
-		return super.startElement( tagName );
+		( (OdaDummyProvider) provider ).initializeContentTree( );
+		return ElementContentParseFactory.createParseState( tagName, handler,
+				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**

@@ -406,6 +406,11 @@ public class RomUpdater
 	
 	static class TransformException extends Exception
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public TransformException( String msg )
 		{
 			super( msg );

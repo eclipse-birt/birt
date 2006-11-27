@@ -146,6 +146,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
 		protected static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
 		protected static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
+		private static final String HAS_OWN_MODEL = "hasOwnModel"; //$NON-NLS-1$
 
 		/**
 		 * List of the property types that are allowed for the extensions.
@@ -189,11 +190,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 			String defaultStyle = elementTag
 					.getAttribute( DEFAULT_STYLE_ATTRIB );
-			String isNameRequired = elementTag
-					.getAttribute( IS_NAME_REQUIRED_ATTRIB );
+			boolean isNameRequired = getBooleanAttrib( elementTag,
+					IS_NAME_REQUIRED_ATTRIB, false );
 			String extendsFrom = elementTag.getAttribute( EXTENDS_FROM_ATTRIB );
 			if ( StringUtil.isBlank( extendsFrom ) )
 				extendsFrom = ReportDesignConstants.EXTENDED_ITEM;
+
 
 			IReportItemFactory factory = null;
 			PeerExtensionElementDefn elementDefn = null;
@@ -212,7 +214,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 				elementDefn.setJavaClass( null );
 				elementDefn.setSelector( defaultStyle );
 
-				if ( "true".equalsIgnoreCase( isNameRequired ) ) //$NON-NLS-1$
+				if ( isNameRequired )
 					elementDefn.setNameOption( MetaDataConstants.REQUIRED_NAME );
 				else
 					elementDefn.setNameOption( MetaDataConstants.OPTIONAL_NAME );
@@ -376,6 +378,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 					( (PeerExtensionElementDefn) elementDefn )
 							.getReportItemFactory( ).getMessages( ) );
 
+
+			boolean hasOwnModel = getBooleanAttrib( elementTag, HAS_OWN_MODEL,
+					true );
+			
 			extPropDefn.setName( name );
 			extPropDefn.setDisplayNameID( displayNameID );
 			extPropDefn.setType( propType );
@@ -383,7 +389,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			extPropDefn.setIntrinsic( false );
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
-
+			extPropDefn.setHasOwnModel( hasOwnModel );
+			
 			if ( !StringUtil.isBlank( canInherit ) )
 				extPropDefn.setCanInherit( Boolean.valueOf( canInherit )
 						.booleanValue( ) );
@@ -438,13 +445,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 					}
 					break;
 				case IPropertyType.STRUCT_TYPE :
-					String isList = propTag.getAttribute( IS_LIST_ATTRIB );
-					isList = StringUtil.trimString( isList );
-					// by default it is 'false'
-					if ( "true".equalsIgnoreCase( isList ) ) //$NON-NLS-1$
-						extPropDefn.setIsList( true );
-					else
-						extPropDefn.setIsList( false );
+					boolean isList = getBooleanAttrib( propTag, IS_LIST_ATTRIB,
+							false );
+					extPropDefn.setIsList( isList );
 					extPropDefn.setDetails( detailType );
 					break;
 			}
@@ -619,7 +622,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String toolTipID = propTag.getAttribute( TOOL_TIP_ID_ATTRIB );
 			String returnType = propTag.getAttribute( RETURN_TYPE_ATTRIB );
-			String isStatic = propTag.getAttribute( IS_STATIC_ATTRIB );
+			boolean isStatic = getBooleanAttrib( propTag, IS_STATIC_ATTRIB,
+					false );
 
 			if ( name == null )
 			{
@@ -643,10 +647,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			methodInfo.setDisplayNameKey( displayNameID );
 			methodInfo.setReturnType( returnType );
 			methodInfo.setToolTipKey( toolTipID );
-			// by default 'isStatic' is false
-			if ( !StringUtil.isBlank( isStatic )
-					&& Boolean.valueOf( isStatic ).booleanValue( ) )
-				methodInfo.setStatic( true );
+			methodInfo.setStatic( isStatic );
 
 			IConfigurationElement[] elements = propTag.getChildren( );
 			ArgumentInfoList argumentList = null;
@@ -766,8 +767,11 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String defaultDisplayName = propTag
 					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-			String multipleCardinality = propTag
-					.getAttribute( MULTIPLE_CARDINALITY_ATTRIB );
+
+			// by default 'multipleCardinality' is true
+			boolean multipleCardinality = getBooleanAttrib( propTag,
+					MULTIPLE_CARDINALITY_ATTRIB, true );
+
 			String selector = propTag.getAttribute( DEFAULT_STYLE_ATTRIB );
 
 			ExtensionSlotDefn slot = new ExtensionSlotDefn(
@@ -778,10 +782,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			slot.setDisplayNameID( StringUtil.trimString( displayNameID ) );
 			slot.setDefaultDisplayName( StringUtil
 					.trimString( defaultDisplayName ) );
-			// by default 'multipleCardinality' is true
-			if ( !StringUtil.isBlank( multipleCardinality )
-					&& !Boolean.valueOf( multipleCardinality ).booleanValue( ) )
-				slot.setMultipleCardinality( false );
+			slot.setMultipleCardinality( multipleCardinality );
 			slot.setSelector( StringUtil.trimString( selector ) );
 
 			// load the element types

@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionSlotDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
@@ -63,6 +64,14 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_3 = "PeerExtensionTest_3.xml"; //$NON-NLS-1$
 
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
+
+	private static final String TESTING_TABLE_NAME = "TestingTable"; //$NON-NLS-1$
+
+	/**
+	 * The extension do not have its own model.
+	 */
+
+	private static final String FILE_NAME_4 = "PeerExtensionTest_4.xml"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -189,6 +198,19 @@ public class PeerExtensionTest extends BaseTestCase
 		slot = extendedItem.getSlot( 2 );
 		GridHandle grid = (GridHandle) slot.get( 0 );
 		assertEquals( "footerGrid", grid.getName( ) ); //$NON-NLS-1$
+
+		openDesign( FILE_NAME_4 );
+		extendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "testTable" ); //$NON-NLS-1$
+		assertNotNull( extendedItem );
+
+		assertNull( extendedItem.getReportItem( ) );
+		assertEquals( TESTING_TABLE_NAME, extendedItem.getExtensionName( ) );
+		assertNotNull( extendedItem.getDefn( ) );
+
+		ExtensionPropertyDefn propDefn = (ExtensionPropertyDefn) extendedItem
+				.getPropertyDefn( "customComments" ); //$NON-NLS-1$
+		assertFalse( propDefn.hasOwnModel( ) );
 	}
 
 	/**
@@ -435,13 +457,14 @@ public class PeerExtensionTest extends BaseTestCase
 
 	/**
 	 * Tests the error handler of extension loader.
+	 * 
 	 * @throws Exception
 	 */
 	public void testExtensionLoaderErrorHandler( ) throws Exception
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		assertTrue( dd.getExtensions( ).size( ) >= 2 );
-		assertNull( dd.getExtension( "wrongTestExtension" )); //$NON-NLS-1$
+		assertNull( dd.getExtension( "wrongTestExtension" ) ); //$NON-NLS-1$
 	}
 
 }

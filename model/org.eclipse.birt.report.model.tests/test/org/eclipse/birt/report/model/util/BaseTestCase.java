@@ -874,4 +874,26 @@ public abstract class BaseTestCase extends TestCase
 
 		return folder + filename;
 	}
+	
+	/**
+	 * Saves the output stream into the output file.
+	 * 
+	 * @param fileName
+	 *            the resource name. Based on the class folder.
+	 * @throws Exception
+	 */
+
+	protected void saveOutputFile( String fileName ) throws Exception
+	{
+		String folder = getTempFolder( ) + OUTPUT_FOLDER;
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+		
+		String strDesign = os.toString( );
+		FileOutputStream fos = new FileOutputStream( folder + fileName );
+		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
+		
+		fos.close( );	
+	}
 }

@@ -61,12 +61,14 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	String goldenFileName = "OdaDataSourceParseTest_golden.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "OdaDataSourceParseTest_1.xml"; //$NON-NLS-1$
 
+	private String unknowOdafileName = "OdaDataSourceParseTest_2.xml"; //$NON-NLS-1$
+
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
 	{
-		
+
 		createDesign( );
 
 	}
@@ -99,7 +101,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 		assertEquals( "User", dataSourceHandle.getStringProperty( "odaUser" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( "Password", dataSourceHandle //$NON-NLS-1$
 				.getStringProperty( "odaPassword" ) ); //$NON-NLS-1$
-		
+
 		assertEquals( "1.1", dataSourceHandle.getDesigerStateVersion( ) ); //$NON-NLS-1$
 		assertEquals( "content as string", dataSourceHandle //$NON-NLS-1$
 				.getDesigerStateContentAsString( ) );
@@ -132,46 +134,29 @@ public class OdaDataSourceParseTest extends BaseTestCase
 		dataSourceHandle.setProperty( "odaUser", "New User" ); //$NON-NLS-1$ //$NON-NLS-2$
 		dataSourceHandle.setProperty( "odaPassword", "New Password" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-
-		// Iterator iter = dataSourceHandle.privateDriverPropertiesIterator( );
-		// ExtendedPropertyHandle propertyHandle = (ExtendedPropertyHandle) iter
-		// .next( );
-		//
-		// propertyHandle.setName( "My private customer" ); //$NON-NLS-1$
-		// propertyHandle.setValue( "My private customer value" ); //$NON-NLS-1$
-		//
-		// dataSourceHandle.setPrivateDriverProperty( "new private city",
-		// //$NON-NLS-1$
-		// "new private city value" ); //$NON-NLS-1$
-		//
-		// try
-		// {
-		// dataSourceHandle.setPrivateDriverProperty( "\t", //$NON-NLS-1$
-		// "new private city value" ); //$NON-NLS-1$
-		// fail( );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// assertEquals(
-		// PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e
-		// .getErrorCode( ) );
-		// }
-		//
-		// dataSourceHandle.setPrivateDriverProperty( "new private city",
-		// //$NON-NLS-1$
-		// "new modified private city value" ); //$NON-NLS-1$
-		
 		dataSourceHandle.setDesigerStateVersion( "2.1" ); //$NON-NLS-1$
-		dataSourceHandle.setDesigerStateContentAsString( "new content as string" ); //$NON-NLS-1$
+		dataSourceHandle
+				.setDesigerStateContentAsString( "new content as string" ); //$NON-NLS-1$
 
 		String strBlob = "new content as blob"; //$NON-NLS-1$
 
 		dataSourceHandle.setDesigerStateContentAsBlob( strBlob
 				.getBytes( OdaDesignerState.CHARSET ) );
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
+	}
 
+	/**
+	 * @throws Exception
+	 */
+
+	public void testUnknowOdaParser( ) throws Exception
+	{
+		openDesign( unknowOdafileName );
+		save( );
+
+		assertTrue( compareFile( "OdaDataSourceParseTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -191,7 +176,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 		openDesign( fileName );
 
 		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle
-				.findDataSource( name ); //$NON-NLS-1$
+				.findDataSource( name );
 		assertNotNull( dataSource );
 
 		return dataSource;
