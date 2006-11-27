@@ -49,8 +49,8 @@ public class AllApiTests
 	{
 		TestSuite test = new TestSuite( );
 
-//      add all test classes here
-//		org.eclipse.birt.report.tests.engine.api
+        //add all test classes here
+		//org.eclipse.birt.report.tests.engine.api
 		test.addTestSuite( Bug128854PrompttextTest.class );
 		test.addTestSuite( Bug128854PrompttextTest.class );
 		test.addTestSuite( DataExtractionTaskTest.class );
@@ -88,7 +88,7 @@ public class AllApiTests
 		test.addTestSuite( RunAndRenderTaskTest.class );
 		test.addTestSuite( RunTaskTest.class );
 		
-//		org.eclipse.birt.report.tests.engine.api.script
+		//org.eclipse.birt.report.tests.engine.api.script
 		test.addTestSuite( ColumnMetaDataTest.class );
 		test.addTestSuite( DataSetRowTest.class );
 		test.addTestSuite( ReportContextTest.class );
@@ -96,13 +96,13 @@ public class AllApiTests
 		test.addTestSuite( ScriptedDataSetMetaDataTest.class );
 		test.addTestSuite( UpdatableDataSetRowTest.class );
 		
-//		org.eclipse.birt.report.tests.engine.api.script.element
+		//org.eclipse.birt.report.tests.engine.api.script.element
 		test.addTestSuite( ElementTest.class );
 		
-//		org.eclipse.birt.report.tests.engine.api.script.eventadapter
+		//org.eclipse.birt.report.tests.engine.api.script.eventadapter
 		test.addTestSuite( CellEventAdapterTest.class );
 		
-//		org.eclipse.birt.report.tests.engine.api.script.eventhandler
+		//org.eclipse.birt.report.tests.engine.api.script.eventhandler
 		test.addTestSuite( CellEventHandlerTest.class );
 		test.addTestSuite( DataItemEventHandlerTest.class );
 		test.addTestSuite( DataSetEventHandlerTest.class );
@@ -120,7 +120,7 @@ public class AllApiTests
 		test.addTestSuite( TableGroupEventHandlerTest.class );
 		test.addTestSuite( TextItemEventHandlerTest.class );
 		
-//		org.eclipse.birt.report.tests.engine.api.script.instance
+		//org.eclipse.birt.report.tests.engine.api.script.instance
 		test.addTestSuite( IActionInstanceTest.class );
 		test.addTestSuite( ICellInstanceTest.class );
 		test.addTestSuite( IDataItemInstanceTest.class );

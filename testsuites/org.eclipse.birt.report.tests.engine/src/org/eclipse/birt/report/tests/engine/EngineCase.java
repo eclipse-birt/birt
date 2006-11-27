@@ -531,7 +531,8 @@ public abstract class EngineCase extends TestCase
 	{
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
+		className = PLUGIN_NAME + className.substring( PLUGIN_NAME.length( ), lastDotIndex ).replace( '.', '/' );
+//		className = className.substring( 0 , lastDotIndex );
 
 		return className;
 	}
@@ -1078,4 +1079,11 @@ public abstract class EngineCase extends TestCase
 	{
 		copyFolder( new File( from ), new File( to ) );
 	}
+	
+	protected String getBasePath( )
+	{
+		return new File( this.getClass( ).getProtectionDomain( )
+				.getCodeSource( ).getLocation( ).getPath( ) ).getParent( ); //$NON-NLS-1$
+	}
+	
 }
