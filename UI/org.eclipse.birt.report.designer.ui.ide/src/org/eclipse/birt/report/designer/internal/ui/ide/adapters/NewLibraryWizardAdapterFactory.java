@@ -133,7 +133,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		}
 
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
-				new Path( "/templates/blank_library.rptlibrary" ),
+				new Path( "/templates/blank_library.rpttemplate" ),
 				null );
 
 		if ( url == null )
@@ -215,7 +215,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		{
 			ModuleHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
-					.openLibrary( sourceFileName );
+					.createLibraryFromTemplate( sourceFileName );
 			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,

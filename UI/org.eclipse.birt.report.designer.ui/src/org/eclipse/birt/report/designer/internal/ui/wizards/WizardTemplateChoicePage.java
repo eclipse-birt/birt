@@ -197,8 +197,8 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 			} );
 
-			templateArray = new ReportDesignHandle[filesArray.length];
-
+			
+			java.util.List reportDesingHandleList = new ArrayList();
 			for ( int i = 0; i < filesArray.length; i++ )
 			{
 				try
@@ -206,13 +206,25 @@ public class WizardTemplateChoicePage extends WizardPage
 					ReportDesignHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openDesign( filesArray[i].getAbsolutePath( ) );
-					templateArray[i] = reportDesignHandle;
+					// templateArray[i] = reportDesignHandle;
+					if(reportDesignHandle != null)
+					{
+						reportDesingHandleList.add( reportDesignHandle );
+					}					
 				}
 				catch ( Exception e )
 				{
 					// ignore
 				}
 			}
+			
+			int count = reportDesingHandleList.size( );
+			templateArray = new ReportDesignHandle[count];
+			for(int i = 0; i < count; i ++)
+			{
+				templateArray[i] = (ReportDesignHandle)reportDesingHandleList.get( i );
+			}
+			
 		}
 
 		return templateArray;

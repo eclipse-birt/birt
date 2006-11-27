@@ -63,7 +63,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 
 	private static final String SUFFIX = ".rptlibrary"; //$NON-NLS-1$
 
-	private static final String TEMPLATE_FILE = "/templates/blank_library.rptlibrary"; //$NON-NLS-1$
+	private static final String TEMPLATE_FILE = "/templates/blank_library.rpttemplate"; //$NON-NLS-1$
 
 	private Listener locationModifyListener = new Listener( ) {
 
