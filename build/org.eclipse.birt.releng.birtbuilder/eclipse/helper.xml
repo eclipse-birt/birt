@@ -536,7 +536,7 @@
 		</exec>
 		<!-- copy iText jars for pdf testing -->
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
-		<copy todir="${test.dir}/eclipse/plugins/com.lowagie.itext_${com.lowagie.itext}">
+		<copy todir="${test.dir}/eclipse/plugins/com.lowagie.itext_${com.lowagie.itext}/lib">
 			<fileset dir="${p4.home}/iText">
 				<include name="**"/>
 			</fileset>
