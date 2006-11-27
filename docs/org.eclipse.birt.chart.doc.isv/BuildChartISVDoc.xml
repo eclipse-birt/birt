@@ -72,6 +72,7 @@
 	<property name="eclipse.home" location="." />
 	
 	<property name="core.dir" value="../org.eclipse.birt.core" />
+	<property name="core.ui.dir" value="../org.eclipse.birt.core.ui" />
 	<property name="module.name" value = "org.eclipse.birt.chart.doc.isv" />
 
 	<property name="chartengine.dir" value="../org.eclipse.birt.chart.engine" />
@@ -105,6 +106,7 @@
 				<include name="**/*.jar"/>
 		</fileset>
 		<pathelement path="${core.dir}/@dot"/>
+		<pathelement path="${core.ui.dir}/@dot"/>
 		<pathelement path="${model.dir}/@dot"/>
 		<pathelement path="${chartengine.dir}/@dot"/>
 		<pathelement path="${chartui.dir}/@dot"/>
