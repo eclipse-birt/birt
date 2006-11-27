@@ -89,6 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activar la ed
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Esta acción no se encuentra disponible para elementos locales.
 AttributeView.view.message.Emptypage= Este valor {0} se extiende desde el valor {1} en la librería {2}. Para activar la modificación de las propiedades del valor {3} en este diseño de informe, haga clic en el botón de activación de edición de la barra de herramientas Editor de propiedades.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurar propiedades
+AttributeView.defaultText.noAttributeView = The property editor is not available.
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -206,18 +207,17 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Regla
 
 ###########################################################
-#SettingsPage properties
+#CachePreferencePage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
-SettingsPage.CachePreference.button.clear=&Borrar caché
-SettingsPage.CachePreference.checkBox.text=Los datos de la cac&hé establecen los datos para la vista previa del informe
-SettingsPage.CachePreference.description=Definir tamaño de caché:
-SettingsPage.CachePreference.Filter.Tooltip=Utilizar caché en o fuera del conjunto de datos
-SettingsPage.CachePreference.label.text=filas
-SettingsPage.CachePreference.messageBox.info=Se ha borrado la caché
-SettingsPage.CachePreference.messageBox.title=Caché borrada
-SettingsPage.CachePreference.radioBox.entireNumText=Guardar en caché &todo el conjunto de datos
-SettingsPage.CachePreference.radioBox.numText=Guardar en caché y &usar primero
+CachePreferencePage.button.clear=&Borrar caché
+CachePreferencePage.checkBox.text=Los datos de la cac&hé establecen los datos para la vista previa del informe
+CachePreferencePage.description=Definir tamaño de caché:
+CachePreferencePage.Filter.Tooltip=Utilizar caché en o fuera del conjunto de datos
+CachePreferencePage.label.text=filas
+CachePreferencePage.messageBox.info=Se ha borrado la caché
+CachePreferencePage.messageBox.title=Caché borrada
+CachePreferencePage.radioBox.entireNumText=Guardar en caché &todo el conjunto de datos
+CachePreferencePage.radioBox.numText=Guardar en caché y &usar primero
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -390,17 +390,12 @@ DataPageGenerator.TabItem.map=Asignar
 #dataset properties
 
 dataset.edit=Editar conjunto de datos - {0}
-
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
-dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
-dataset.editor.settings.cachePreference=Preferencia de caché
+dataset.editor.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
+dataset.editor.cachePreference=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
 dataset.editor.dataSource.Tooltip=Ver/cambiar fuente de datos
 dataset.editor.dataSource=Fuente de datos
 dataset.editor.error.columnOrAliasNameAlreadyUsed=El nuevo nombre o alias de columna ({0}) ya se está utilizando en la columna del índice {1}.
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Nombre del parámetro duplicado
 dataset.editor.error.emptyName=El nombre no puede estar en blanco. 
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.
@@ -1770,6 +1765,8 @@ ImportLibraryAction.Message=¿Desea usar esta librería en el diseño del informe?
 ImportLibraryAction.Namespace=Espacio de nombres:
 ImportLibraryAction.Prefix=Prefijo:
 ImportLibraryAction.Title.ImportSuccessfully=Se ha importado correctamente
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2868,6 +2865,7 @@ RowHandleAdapter.table.header=Línea de cabecera
 
 RowPageGenerator.List.Bookmark=Marcador
 RowPageGenerator.List.Borders=Borde
+RowPageGenerator.List.Section=Page Break
 RowPageGenerator.List.CellPadding=Relleno de celdas
 RowPageGenerator.List.Font=Fuente
 RowPageGenerator.List.General=General
@@ -3625,12 +3623,18 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=El archivo seleccionado no es 
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragmentos
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Carpeta de recursos
+PathResourceEntry.RootDisplayName=Shared Libraries
 
 ###########################################################
 #BIRTGotoMarker properties
 BIRTGotoMarker.Error.Title=Error
 BIRTGotoMarker.Error.Message=El elemento de informe no existe.
+
+###########################################################
+#TabbedList properties
+TabbedPropertyList.properties.not.available=Properties are not available.

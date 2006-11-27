@@ -89,6 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activer la mo
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Cette action n'est pas disponible pour les éléments locaux.
 AttributeView.view.message.Emptypage= {0} s''étend à partir de {1} dans la bibliothèque {2}. Pour activer la modification des propriétés de {3} dans ce modèle d''état, cliquez sur le bouton Activer la modification dans la barre d''outils de l''Editeur de propriétés.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurer les propriétés
+AttributeView.defaultText.noAttributeView = The property editor is not available.
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -206,18 +207,17 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Règle
 
 ###########################################################
-#SettingsPage properties
+#CachePreferencePage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
-SettingsPage.CachePreference.button.clear=Vider le &cache
-SettingsPage.CachePreference.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
-SettingsPage.CachePreference.description=Définir la taille du cache :
-SettingsPage.CachePreference.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
-SettingsPage.CachePreference.label.text=lignes
-SettingsPage.CachePreference.messageBox.info=Le cache a été vidé.
-SettingsPage.CachePreference.messageBox.title=Cache vide
-SettingsPage.CachePreference.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
-SettingsPage.CachePreference.radioBox.numText=Mettre en cache et &utiliser en premier
+CachePreferencePage.button.clear=Vider le &cache
+CachePreferencePage.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
+CachePreferencePage.description=Définir la taille du cache :
+CachePreferencePage.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
+CachePreferencePage.label.text=lignes
+CachePreferencePage.messageBox.info=Le cache a été vidé.
+CachePreferencePage.messageBox.title=Cache vide
+CachePreferencePage.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
+CachePreferencePage.radioBox.numText=Mettre en cache et &utiliser en premier
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -390,17 +390,12 @@ DataPageGenerator.TabItem.map=Mappage
 #dataset properties
 
 dataset.edit=Modifier le jeu de données - {0}
-
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
-dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
-dataset.editor.settings.cachePreference=Préférences de cache
+dataset.editor.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
+dataset.editor.cachePreference=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul
 dataset.editor.dataSource.Tooltip=Afficher/modifier la source de données
 dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
@@ -1770,6 +1765,8 @@ ImportLibraryAction.Message=Voulez-vous utiliser cette bibliothèque dans le modè
 ImportLibraryAction.Namespace=Espace nom :
 ImportLibraryAction.Prefix=Préfixe :
 ImportLibraryAction.Title.ImportSuccessfully=Importation réussie
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2868,6 +2865,7 @@ RowHandleAdapter.table.header=Ligne d'en-tête
 
 RowPageGenerator.List.Bookmark=Signet
 RowPageGenerator.List.Borders=Bordure
+RowPageGenerator.List.Section=Page Break
 RowPageGenerator.List.CellPadding=Marge intérieure
 RowPageGenerator.List.Font=Police
 RowPageGenerator.List.General=Général
@@ -3625,13 +3623,18 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est p
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragments
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Dossier de ressources
+PathResourceEntry.RootDisplayName=Shared Libraries
 
 ###########################################################
 #BIRTGotoMarker properties
 BIRTGotoMarker.Error.Title=Erreur
 BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 
+###########################################################
+#TabbedList properties
+TabbedPropertyList.properties.not.available=Properties are not available.

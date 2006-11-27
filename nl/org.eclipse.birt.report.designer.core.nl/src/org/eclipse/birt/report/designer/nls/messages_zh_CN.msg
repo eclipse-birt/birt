@@ -89,6 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=ÆôÓÃÊôĞÔ±à¼­¡
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=´Ë²Ù×÷²»ÊÊÓÃÓÚ±¾µØÔªËØ¡£
 AttributeView.view.message.Emptypage= ´Ë {0} À©Õ¹×Ô¿â {2} ÖĞµÄ {1}¡£ÒªÔÚ´Ë±¨±íÉè¼ÆÖĞĞŞ¸Ä {3} µÄÊôĞÔ£¬Çëµ¥»÷"ÊôĞÔ±à¼­Æ÷"¹¤¾ßÀ¸ÖĞµÄ"ÆôÓÃ±à¼­"°´Å¥¡£
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=»¹Ô­ÊôĞÔ
+AttributeView.defaultText.noAttributeView = The property editor is not available.
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -206,18 +207,17 @@ ButtonPaneComposite.tooltip.Normal=Õı³£
 ButtonPaneComposite.tooltip.Ruler=±ê³ß
 
 ###########################################################
-#SettingsPage properties
+#CachePreferencePage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
-SettingsPage.CachePreference.button.clear=Çå³ı»º´æ(&C)
-SettingsPage.CachePreference.checkBox.text=»º´æÊı¾İ¼¯Êı¾İÒÔ±ã½øĞĞ±¨±íÔ¤ÀÀ(&H)
-SettingsPage.CachePreference.description=¶¨Òå»º´æ´óĞ¡:
-SettingsPage.CachePreference.Filter.Tooltip=Ê¹ÓÃ»º´æ½«Êı¾İ´«Èë»ò´«³öÊı¾İ¼¯
-SettingsPage.CachePreference.label.text=ĞĞ
-SettingsPage.CachePreference.messageBox.info=»º´æÒÑ±»Çå³ı
-SettingsPage.CachePreference.messageBox.title=»º´æÇå³ı
-SettingsPage.CachePreference.radioBox.entireNumText=»º´æÕû¸öÊı¾İ¼¯(&E)
-SettingsPage.CachePreference.radioBox.numText=»º´æºÍÊ¹ÓÃµÚÒ»¸ö(&U)
+CachePreferencePage.button.clear=Çå³ı»º´æ(&C)
+CachePreferencePage.checkBox.text=»º´æÊı¾İ¼¯Êı¾İÒÔ±ã½øĞĞ±¨±íÔ¤ÀÀ(&H)
+CachePreferencePage.description=¶¨Òå»º´æ´óĞ¡:
+CachePreferencePage.Filter.Tooltip=Ê¹ÓÃ»º´æ½«Êı¾İ´«Èë»ò´«³öÊı¾İ¼¯
+CachePreferencePage.label.text=ĞĞ
+CachePreferencePage.messageBox.info=»º´æÒÑ±»Çå³ı
+CachePreferencePage.messageBox.title=»º´æÇå³ı
+CachePreferencePage.radioBox.entireNumText=»º´æÕû¸öÊı¾İ¼¯(&E)
+CachePreferencePage.radioBox.numText=»º´æºÍÊ¹ÓÃµÚÒ»¸ö(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -390,17 +390,12 @@ DataPageGenerator.TabItem.map=Ó³Éä
 #dataset properties
 
 dataset.edit=±à¼­Êı¾İ¼¯ - {0}
-
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
-dataset.editor.settings.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
-dataset.editor.settings.cachePreference=»º´æÊ×Ñ¡Ïî
+dataset.editor.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
+dataset.editor.cachePreference=»º´æÊ×Ñ¡Ïî
 dataset.editor.computedColumns=¼ÆËãÁĞ
 dataset.editor.dataSource.Tooltip=²é¿´/¸ü¸ÄÊı¾İÔ´
 dataset.editor.dataSource=Êı¾İÔ´
 dataset.editor.error.columnOrAliasNameAlreadyUsed=ĞÂµÄÁĞÃû³Æ»ò±ğÃû ({0}) ÒÑ¾­ÓÉË÷Òı {1} ´¦µÄÁĞÊ¹ÓÃ¡£
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=ÖØ¸´µÄ²ÎÊıÃû³Æ
 dataset.editor.error.emptyName=Ãû³Æ²»ÄÜÎª¿Õ°×¡£ 
 dataset.editor.error.missingComputedColumnExpression=¼ÆËãÁĞ {0} µÄ±í´ïÊ½²»ÄÜÎª¿Õ»ò¿Õ°×¡£
@@ -1770,6 +1765,8 @@ ImportLibraryAction.Message=ÊÇ·ñÒªÔÚ±¨±íÉè¼ÆÖĞÊ¹ÓÃ´Ë¿â?
 ImportLibraryAction.Namespace=Ãû³Æ¿Õ¼ä:
 ImportLibraryAction.Prefix=Ç°×º:
 ImportLibraryAction.Title.ImportSuccessfully=µ¼Èë³É¹¦
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2868,6 +2865,7 @@ RowHandleAdapter.table.header=Ò³Ã¼ĞĞ
 
 RowPageGenerator.List.Bookmark=ÊéÇ©
 RowPageGenerator.List.Borders=±ß¿ò
+RowPageGenerator.List.Section=Page Break
 RowPageGenerator.List.CellPadding=µ¥Ôª¸ñ±ß¾à
 RowPageGenerator.List.Font=×ÖÌå
 RowPageGenerator.List.General=³£¹æ
@@ -3625,13 +3623,18 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=ÄúÑ¡ÔñµÄÎÄ¼ş²»ÊÇÍ¼Ïñ¡£
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Æ¬¶Î
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=×ÊÔ´ÎÄ¼ş¼Ğ
+PathResourceEntry.RootDisplayName=Shared Libraries
 
 ###########################################################
 #BIRTGotoMarker properties
 BIRTGotoMarker.Error.Title=´íÎó
 BIRTGotoMarker.Error.Message=±¨±íÔªËØ²»´æÔÚ¡£
 
+###########################################################
+#TabbedList properties
+TabbedPropertyList.properties.not.available=Properties are not available.

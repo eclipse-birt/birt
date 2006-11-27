@@ -89,6 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=속성 편집을 �
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=로컬 요소에 이 작업을 사용할 수 없습니다.
 AttributeView.view.message.Emptypage= 이 {0}이(가) 라이브러리 {2}의 {1}에서 확장됩니다. 이 보고서 디자인에서 이 {3}의 속성을 수정하려면, 속성 편집기의 도구 모음에서 편집 사용 단추를 누르십시오.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=속성 복원
+AttributeView.defaultText.noAttributeView = The property editor is not available.
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -206,18 +207,17 @@ ButtonPaneComposite.tooltip.Normal=표준
 ButtonPaneComposite.tooltip.Ruler=눈금자
 
 ###########################################################
-#SettingsPage properties
+#CachePreferencePage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
-SettingsPage.CachePreference.button.clear=캐시 지우기(&C)
-SettingsPage.CachePreference.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
-SettingsPage.CachePreference.description=캐시 크기 정의:
-SettingsPage.CachePreference.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
-SettingsPage.CachePreference.label.text=행
-SettingsPage.CachePreference.messageBox.info=캐시가 지워졌습니다.
-SettingsPage.CachePreference.messageBox.title=캐시 지우기
-SettingsPage.CachePreference.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
-SettingsPage.CachePreference.radioBox.numText=먼저 캐시 후 사용(&U)
+CachePreferencePage.button.clear=캐시 지우기(&C)
+CachePreferencePage.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
+CachePreferencePage.description=캐시 크기 정의:
+CachePreferencePage.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
+CachePreferencePage.label.text=행
+CachePreferencePage.messageBox.info=캐시가 지워졌습니다.
+CachePreferencePage.messageBox.title=캐시 지우기
+CachePreferencePage.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
+CachePreferencePage.radioBox.numText=먼저 캐시 후 사용(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -390,17 +390,12 @@ DataPageGenerator.TabItem.map=맵
 #dataset properties
 
 dataset.edit=데이터 집합 편집 - {0}
-
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
-dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
-dataset.editor.settings.cachePreference=캐시 기본 설정
+dataset.editor.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
+dataset.editor.cachePreference=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
 dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
 dataset.editor.dataSource=데이터 원본
 dataset.editor.error.columnOrAliasNameAlreadyUsed=새 열 이름 또는 별칭({0})이 인덱스 {1}의 열에서 이미 사용되고 있습니다.
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=중복된 매개 변수 이름
 dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다. 
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
@@ -1770,6 +1765,8 @@ ImportLibraryAction.Message=보고서 디자인에 이 라이브러리를 사용하시겠습니까?
 ImportLibraryAction.Namespace=네임스페이스:
 ImportLibraryAction.Prefix=접두사:
 ImportLibraryAction.Title.ImportSuccessfully=성공적으로 가져오기
+ImportLibraryAction.Dialog.Titile=Use Library
+ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -2868,6 +2865,7 @@ RowHandleAdapter.table.header=머리글 행
 
 RowPageGenerator.List.Bookmark=책갈피
 RowPageGenerator.List.Borders=테두리
+RowPageGenerator.List.Section=Page Break
 RowPageGenerator.List.CellPadding=셀 안쪽 여백
 RowPageGenerator.List.Font=글꼴
 RowPageGenerator.List.General=일반
@@ -3625,12 +3623,18 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니�
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=조각
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=리소스 폴더
+PathResourceEntry.RootDisplayName=Shared Libraries
 
 ###########################################################
 #BIRTGotoMarker properties
 BIRTGotoMarker.Error.Title=오류
 BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
+
+###########################################################
+#TabbedList properties
+TabbedPropertyList.properties.not.available=Properties are not available.
