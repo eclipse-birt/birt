@@ -20,8 +20,9 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -184,7 +185,7 @@ public class DesignSessionTest extends BaseTestCase
 		assertNotNull( label );
 		assertEquals( "Test", label.getProperty( design.getRoot( ), "text" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertEquals( url.toString( ), design.getFileName( ) );
+		assertEquals( null, design.getFileName( ) );
 
 		TextItem text = (TextItem) design.findElement( "NewText" ); //$NON-NLS-1$ 
 		assertEquals( "blue", text.getProperty( design.getRoot( ), "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -199,6 +200,32 @@ public class DesignSessionTest extends BaseTestCase
 		Library lib = (Library) libs.get( 0 );
 		assertEquals(
 				"LibraryForCreateDesignFromTemplateTest", lib.getNamespace( ) );//$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests createLibraryFromTemplate()
+	 * 
+	 * @throws DesignFileException
+	 */
+
+	public void testCreateLibraryFromTemplate( ) throws DesignFileException
+	{
+		DesignSession session = new DesignSession( null );
+		URL url = getResource( "input/CreateLibraryFromTemplateTest.xml" ); //$NON-NLS-1$
+		Library library = session.createLibraryFromTemplate( url.toString( ) );
+
+		Label label = (Label) library.findElement( "NewLabel" ); //$NON-NLS-1$
+		assertNotNull( label );
+		assertEquals( 5, label.getID( ) );
+		assertEquals(
+				"aaa", label.getProperty( library.getRoot( ), ILabelModel.TEXT_PROP ) ); //$NON-NLS-1$
+		assertEquals(
+				"blue", label.getProperty( library.getRoot( ), IStyleModel.COLOR_PROP ) ); //$NON-NLS-1$
+		assertEquals(
+				"aqua", label.getProperty( library.getRoot( ), IStyleModel.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
+
+		assertEquals( null, library.getFileName( ) );
 
 	}
 
@@ -267,17 +294,17 @@ public class DesignSessionTest extends BaseTestCase
 		assertEquals( "cm", session.getUnits( ) ); //$NON-NLS-1$
 
 		// get the default value of font-size. The default value is not set.
-		assertNull( session.getDefaultValue( Style.FONT_SIZE_PROP ) );
+		assertNull( session.getDefaultValue( IStyleModel.FONT_SIZE_PROP ) );
 		// set a default value for it
-		session.setDefaultValue( Style.FONT_SIZE_PROP, "3cm" ); //$NON-NLS-1$
+		session.setDefaultValue( IStyleModel.FONT_SIZE_PROP, "3cm" ); //$NON-NLS-1$
 
 		assertEquals(
-				"3cm", ( (DimensionValue) session.getDefaultValue( Style.FONT_SIZE_PROP ) ).toString( ) ); //$NON-NLS-1$
+				"3cm", ( (DimensionValue) session.getDefaultValue( IStyleModel.FONT_SIZE_PROP ) ).toString( ) ); //$NON-NLS-1$
 
 		// set the wrong value for font-size.
 		try
 		{
-			session.setDefaultValue( Style.FONT_SIZE_PROP, "wrong value" ); //$NON-NLS-1$
+			session.setDefaultValue( IStyleModel.FONT_SIZE_PROP, "wrong value" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException pve )
@@ -288,7 +315,7 @@ public class DesignSessionTest extends BaseTestCase
 		}
 
 		// set the default value of font-size as null
-		session.setDefaultValue( Style.FONT_SIZE_PROP, null );
+		session.setDefaultValue( IStyleModel.FONT_SIZE_PROP, null );
 	}
 
 }

@@ -479,17 +479,34 @@ public class SessionHandle
 	/**
 	 * Creates a new design based on a template file.
 	 * 
-	 * @param templateName
+	 * @param templateDesignName
 	 *            The name of the template for the design.
 	 * @return A handle to the report design.
 	 * @throws DesignFileException
 	 *             If the file is not found, or the file contains fatal errors.
 	 */
 
-	public ReportDesignHandle createDesignFromTemplate( String templateName )
+	public ReportDesignHandle createDesignFromTemplate(
+			String templateDesignName ) throws DesignFileException
+	{
+		return session.createDesignFromTemplate( templateDesignName ).handle( );
+	}
+
+	/**
+	 * Creates a new library based on a template file.
+	 * 
+	 * @param templateLibraryName
+	 *            The name of the template for the library.
+	 * @return A handle to the report library.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle createLibraryFromTemplate( String templateLibraryName )
 			throws DesignFileException
 	{
-		return session.createDesignFromTemplate( templateName ).handle( );
+		return session.createLibraryFromTemplate( templateLibraryName )
+				.handle( );
 	}
 
 	/**

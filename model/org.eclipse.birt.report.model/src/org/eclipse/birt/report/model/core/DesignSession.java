@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -588,9 +589,37 @@ public class DesignSession
 	public ReportDesign createDesign( String fileName )
 	{
 		ReportDesign design = new ReportDesign( this );
+		
+		design.setFileName( fileName );
+		if ( !StringUtil.isBlank( fileName ) )
+		{
+			URL systemId = URIUtil.getDirectory( fileName );
+
+			if ( systemId != null )
+				design.setSystemId( systemId );
+		}
+		
 		design.setValid( true );
 		designs.add( design );
 		return design;
+	}
+
+	/**
+	 * Creates a new library based on a template file name.
+	 * 
+	 * @param templateName
+	 *            The name of the template for the library.
+	 * @return A handle to the report library.
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library createLibraryFromTemplate( String templateName )
+			throws DesignFileException
+	{
+		Library library = openLibrary( templateName );
+		library.setFileName( null );
+		return library;
 	}
 
 	/**
@@ -607,9 +636,10 @@ public class DesignSession
 			throws DesignFileException
 	{
 		ReportDesign design = openDesign( templateName );
+		design.setFileName( null );
 		return design;
 	}
-
+	
 	/**
 	 * Creates a new design not based on a template.
 	 * 
