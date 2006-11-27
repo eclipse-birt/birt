@@ -109,10 +109,10 @@
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<!-- temp use -->
-		<mkdir dir="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime"/>
+		<mkdir dir="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime"/>
 		<!-- copy runtime to ${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
-			<property name="OutputDir" value="${postingDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime" />
+			<property name="OutputDir" value="${postingDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
 			
