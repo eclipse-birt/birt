@@ -79,7 +79,32 @@
 	<property name="chartexamples.dir" value="../org.eclipse.birt.chart.examples" />
 	<property name="chartui.dir" value="../org.eclipse.birt.chart.ui" />
 	<property name="chartui.javadoc.dir" value="chartui/api" />
+	<!-- set eclipse related properties -->
+	<property name="emf.common.dir" value="org.eclipse.emf.common" />
+	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
+	<property name="emf.ecore.xmi.dir" value="org.eclipse.emf.ecore.xmi" />
 
+	<path id="class.path">
+		<!--pathelement path="${dir.bin}"/-->				
+		<fileset dir="${baseLocation}/plugins">
+			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.osgi_*/*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>
+			<include name="${emf.common.dir}_*/runtime/common.jar"/>
+			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
+			<include name="${emf.ecore.xmi.dir}_*/runtime/ecore.xmi.jar"/>
+			<include name="org.eclipse.emf.common_*.jar"/>
+			<include name="org.eclipse.emf.ecore_*.jar"/>
+			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
+			<include name="com.ibm.icu_*.jar"/>
+		</fileset>
+		<fileset dir="../org.mozilla.rhino">
+				<include name="**/*.jar"/>
+		</fileset>
+		<pathelement path="../org.eclipse.birt.core/@dot"/>
+	</path>
+	
 	<!-- Generate zip for this project.
 		 Input parameters:
 		 	eclipse.home
@@ -173,20 +198,69 @@
 	</target>
 	
 	<target name="chartJavadoc">
-		<delete dir="${chartengine.javadoc.dir}"/>
-		<ant dir="${chartengine.dir}" antfile="BuildChartEngine.xml" target="Javadoc" inheritall="false" inheritrefs="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-      		<property name="javadoc.dir" value="../${module.name}/${chartengine.javadoc.dir}" />
-		</ant>
-  </target>
+		<delete dir="${chartengine.javadoc.dir}" failonerror="false"/>
+		<mkdir dir="${chartengine.javadoc.dir}" />
+		<copy todir=".">
+			<fileset dir="${chartengine.dir}">
+				<include name="overview.html"/>
+			</fileset>
+		</copy>
+		<javadoc access="public" author="true" overview="overview.html" doctitle="BIRT Chart Engine API (Provisional)" windowtitle="BIRT Chart Engine API" destdir="${chartengine.javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+		packagenames="
+					org.eclipse.birt.chart.model,
+					org.eclipse.birt.chart.model.data,
+					org.eclipse.birt.chart.model.type,
+					org.eclipse.birt.chart.model.layout,
+					org.eclipse.birt.chart.model.attribute,
+					org.eclipse.birt.chart.model.component,
+					org.eclipse.birt.chart.model.impl,
+					org.eclipse.birt.chart.model.data.impl,
+					org.eclipse.birt.chart.model.type.impl,
+					org.eclipse.birt.chart.model.layout.impl,
+					org.eclipse.birt.chart.model.attribute.impl,
+					org.eclipse.birt.chart.model.component.impl,
+					org.eclipse.birt.chart.event,
+					org.eclipse.birt.chart.device,
+					org.eclipse.birt.chart.datafeed,
+					org.eclipse.birt.chart.exception,
+					org.eclipse.birt.chart.log
+					"
+		sourcefiles="
+			${chartengine.dir}/src/org/eclipse/birt/chart/aggregate/IAggregateFunction.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/render/BaseRenderer.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/render/AxesRenderer.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/render/ISeriesRenderer.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/render/ISeriesRenderingHints.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/factory/Generator.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/factory/GeneratedChartState.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/factory/IMessageLookup.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/factory/RunTimeContext.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/util/CDateTime.java,
+			${chartengine.dir}/src/org/eclipse/birt/chart/util/PluginSettings.java
+					"
+		sourcepath="${chartengine.dir}/src" splitindex="true" use="true" failonerror="true" version="true">
+			<packageset dir="${chartengine.dir}/src" defaultexcludes="yes" />
+			<classpath refid="class.path" />
+			<bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+		</javadoc>
+
+	</target>
 
 	<target name="chartuiJavadoc">
-		<delete dir="${chartui.javadoc.dir}"/>
-		<ant dir="${chartui.dir}" antfile="BuildChartUI.xml" target="apiJavadoc" inheritall="false" inheritrefs="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-			<property name="api.javadoc.dir" value="../${module.name}/${chartui.javadoc.dir}" />
-		</ant>
+		<delete dir="${chartui.javadoc.dir}" failonerror="false"/>
+		<mkdir dir="${chartui.javadoc.dir}" />
+		<javadoc destdir="${chartui.javadoc.dir}"
+				 author="true" 
+				 version="true" 
+				 use="true" 
+				 windowtitle="BIRT Chart UI Extension Interfaces"
+				 doctitle="BIRT Chart UI Extension API (Provisional)" 
+				 source="1.4"
+				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
+				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" >
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+				<classpath refid="class.path" />
+		</javadoc>
   </target>
 	
 </project>
-

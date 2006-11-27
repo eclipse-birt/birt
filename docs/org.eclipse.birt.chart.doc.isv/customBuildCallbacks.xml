@@ -17,7 +17,7 @@
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
 	<target name="pre.build.jars">
-		<ant antfile="BuildISVDoc.xml" target="Jar"/>
+		<ant antfile="BuildChartISVDoc.xml" target="Jar"/>
 	</target>
 
 	<!-- ===================================================================== -->
