@@ -36,7 +36,7 @@ class PathResourceEntry extends BaseResourceEntity
 	private String path;
 	private URL url;
 	private String name;
-
+	private String displayName;
 	private FileFilter filter;
 	private PathResourceEntry parent;
 	private boolean isFolder;
@@ -102,6 +102,7 @@ class PathResourceEntry extends BaseResourceEntity
 			};
 		}
 		this.name = Messages.getString( "PathResourceEntry.RootName" ); //$NON-NLS-1$
+		this.displayName = Messages.getString( "PathResourceEntry.RootDisplayName" );
 		this.isRoot = true;
 	}
 
@@ -177,6 +178,11 @@ class PathResourceEntry extends BaseResourceEntity
 		return this.name;
 	}
 
+	public String getDisplayName( )
+	{
+		return this.displayName;
+	}
+	
 	public Image getImage( )
 	{
 		if ( this.isFolder || this.isRoot )

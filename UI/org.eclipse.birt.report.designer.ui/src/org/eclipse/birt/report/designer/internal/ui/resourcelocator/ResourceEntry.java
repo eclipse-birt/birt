@@ -31,6 +31,8 @@ public interface ResourceEntry extends IAdaptable
 
 	String getName( );
 
+	String getDisplayName();
+	
 	Image getImage( );
 
 	URL getURL( );
