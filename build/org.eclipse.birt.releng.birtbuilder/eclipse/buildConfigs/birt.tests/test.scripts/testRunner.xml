@@ -15,7 +15,7 @@
         <antcall target="org.eclipse.birt.chart.tests"/>
 		<antcall target="org.eclipse.birt.report.tests.engine"/>
 		<antcall target="org.eclipse.birt.tests.data"/>
-		<!--antcall target="org.eclipse.birt.report.tests.chart"/-->
+		<antcall target="org.eclipse.birt.report.tests.chart"/>
 		<antcall target="org.eclipse.birt.report.engine.tests"/>
 		<!--
 		<antcall target="org.eclipse.birt.report.tests.model"/>
