@@ -4,7 +4,7 @@
 	<!-- The property ${eclipse-home} should be passed into this script -->
 	<!-- or set as a default value -->
 	<!-- Set a meaningful default value for when it is not passed. -->
-	<property name="eclipse-home" value="${basedir}\..\.." />
+	<property name="eclipse-home" value="${basedir}/../.." />
 
 	<!-- sets the properties plugin-name, and library-file -->
 	<property name="plugin-name" value="org.eclipse.birt.report.tests.engine" />
