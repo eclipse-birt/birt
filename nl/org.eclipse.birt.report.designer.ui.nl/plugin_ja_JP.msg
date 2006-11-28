@@ -25,8 +25,6 @@ WizardCategoryName=ビジネスインテリジェンスおよびレポーティングツール
 ReportWizard=レポート
 ReportProjectWizard=レポートプロジェクト
 ReportEditor=レポートエディタ
-QuickEditView=プロパティエディタ
-DataExplorerView=データエクスプローラ
 
 ###############################################################################
 # UI Framework

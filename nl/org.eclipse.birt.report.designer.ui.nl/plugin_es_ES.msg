@@ -25,8 +25,6 @@ WizardCategoryName=Herramientas de generación de informe para la actividad empre
 ReportWizard=Informe
 ReportProjectWizard=Proyecto de informe
 ReportEditor=Editor de informes
-QuickEditView=Editor de propiedades
-DataExplorerView=Explorador de datos
 
 ###############################################################################
 # UI Framework

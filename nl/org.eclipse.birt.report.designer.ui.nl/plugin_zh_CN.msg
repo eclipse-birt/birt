@@ -25,8 +25,6 @@ WizardCategoryName=业务智能和报告工具
 ReportWizard=报表
 ReportProjectWizard=报表项目
 ReportEditor=报表编辑器
-QuickEditView=属性编辑器
-DataExplorerView=数据资源管理器
 
 ###############################################################################
 # UI Framework

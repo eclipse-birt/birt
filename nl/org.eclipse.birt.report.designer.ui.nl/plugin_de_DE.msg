@@ -25,8 +25,6 @@ WizardCategoryName=Business Intelligence & Reporting Tools
 ReportWizard=Bericht
 ReportProjectWizard=Berichtprojekt
 ReportEditor=Bericht-Editor
-QuickEditView=Eigenschaftseditor
-DataExplorerView=Daten-Explorer
 
 ###############################################################################
 # UI Framework

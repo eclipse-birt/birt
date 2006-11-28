@@ -25,8 +25,6 @@ WizardCategoryName=Business Intelligence 및 보고 도구
 ReportWizard=보고서
 ReportProjectWizard=보고서 프로젝트
 ReportEditor=보고서 편집기
-QuickEditView=속성 편집기
-DataExplorerView=데이터 탐색기
 
 ###############################################################################
 # UI Framework
