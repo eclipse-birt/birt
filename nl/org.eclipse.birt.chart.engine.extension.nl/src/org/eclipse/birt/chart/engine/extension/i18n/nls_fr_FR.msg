@@ -24,6 +24,7 @@ exception.stock.dimension=''{0}'' non pris(e) en charge par les séries d''action
 exception.multi.orthogonal.3D.not.supported=Les axes de valeurs multiples ne sont pas pris en charge par les graphiques en 3D.
 exception.scatter.3D.not.supported=Les axes de catégories en nuage de points ne sont pas pris en charge par les graphiques en 3D.
 exception.no.transposed.3D.chart=La transposition n'est pas prise en charge par les graphiques en 3D.
+exception.no.transposed.stock.chart=Transposition is not supported by Stock Chart.
 exception.3D.points.length.less.than.3=La liste des longueurs de points pour les événements de rendu 3D est au minimum de 3 (>=3).
 exception.empty.icon.list=La liste de la palette d'icônes associée au repère est vide.
 info.sample.formats=Exemples\nNumérique : 1,2,3\nDate : 01/26/2005,01/27/2005,01/28/2005\nTexte : 'a,b,c'\nles valeurs multiples étant séparées par des virgules.
@@ -50,6 +51,7 @@ exception.invalid.data.point.position.scatter=La position d''étiquette de point 
 exception.illegal.pie.series.title.position=Valeur incorrecte indiquée pour la position de titre de série = {0}
 exception.illegal.datapoint.position.bar=La position de l''étiquette de point de données {0} n''est pas prise en charge dans le cas de rendu d''une série à barres. Les valeurs autorisées sont OUTSIDE et INSIDE.
 exception.illegal.datapoint.position.line=La position de l''étiquette de point de données {0} n''est pas prise en charge dans le cas de rendu d''une série à lignes. Les valeurs autorisées sont ABOVE, BELOW, LEFT et RIGHT.
+exception.illegal.datapoint.position.stock=Data point label position {0} is not supported when rendering on a stock series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
 exception.unspecified.datapoint.visibility.pie=La visibilité du point de données n''a pas été réglée pour la série {0}
 exception.invalid.datapoint.position.pie=La position de l''étiquette de point de données {0} n''est pas valide
 exception.invalid.datapoint.dial=Impossible de tracer une série de cadran avec un point de données nul ou non numérique.

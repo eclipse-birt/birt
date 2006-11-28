@@ -24,6 +24,7 @@ exception.stock.dimension="{0}" wird von der Kursdiagramm-Datenreihe nicht unter
 exception.multi.orthogonal.3D.not.supported=3D-Diagramme unterstützen nur eine Wertachse.
 exception.scatter.3D.not.supported=Punktdiagramm-Kategorieachse wird von 3D-Diagrammen nicht unterstützt.
 exception.no.transposed.3D.chart=Transposition wird von 3D-Diagrammen nicht unterstützt.
+exception.no.transposed.stock.chart=Transposition is not supported by Stock Chart.
 exception.3D.points.length.less.than.3=Die Länge der Punkteliste für das 3D-Render-Ereignis muss mindestens 3(>=3) betragen.
 exception.empty.icon.list=Die Symbol-Palettenliste für Markierungen enthält keine Elemente.
 info.sample.formats=Beispiele\nNumerisch: 1,2,3\nDatum: 01/26/2005,01/27/2005,01/28/2005\nText: 'a,b,c',\nmehrere Werte jeweils durch Komma getrennt.
@@ -50,6 +51,7 @@ exception.invalid.data.point.position.scatter=Datenpunkt-Beschriftungsposition {
 exception.illegal.pie.series.title.position=Ungültiger Wert für Titelposition = {0} der Datenreihe festgelegt
 exception.illegal.datapoint.position.bar=Datenpunkt-Beschriftungsposition {0} wird beim Rendern von Balkendatenreihen nicht unterstützt. Gültige Werte sind OUTSIDE und INSIDE.
 exception.illegal.datapoint.position.line=Datenpunkt-Beschriftungsposition {0} wird beim Rendern von Liniendatenreihen nicht unterstützt. Gültige Werte sind ABOVE, BELOW, LEFT und RIGHT
+exception.illegal.datapoint.position.stock=Data point label position {0} is not supported when rendering on a stock series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
 exception.unspecified.datapoint.visibility.pie=Datenpunkt-Sichtbarkeit für Datenreihe {0} nicht festgelegt
 exception.invalid.datapoint.position.pie=Datenpunkt-Beschriftungsposition {0} ist ungültig
 exception.invalid.datapoint.dial=Zum Zeichnen einer Messwert-Datenreihe ist ein numerischer Datenpunkt erforderlich. Dieser darf nicht Null lauten.

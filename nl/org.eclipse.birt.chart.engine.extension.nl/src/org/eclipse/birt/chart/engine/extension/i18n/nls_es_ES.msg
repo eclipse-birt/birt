@@ -24,6 +24,7 @@ exception.stock.dimension=La serie de cotización de acciones no admite el valor 
 exception.multi.orthogonal.3D.not.supported=El gráfico 3D no admite varios ejes de valor.
 exception.scatter.3D.not.supported=El gráfico 3D no admite el eje de categoría dispersa.
 exception.no.transposed.3D.chart=El gráfico 3D no admite la transposición.
+exception.no.transposed.stock.chart=Transposition is not supported by Stock Chart.
 exception.3D.points.length.less.than.3=La longitud de la lista de puntos para un evento de procesamiento 3D es al menos 3 (>=3).
 exception.empty.icon.list=La lista de paleta de iconos para el marcador está vacía.
 info.sample.formats=Ejemplos\nNumérico: 1,2,3\nFecha: 26/01/05,27/01/05,28/01/05\nTexto: 'a,b,c'\ncon todos los valores múltiples separados por comas.
@@ -50,6 +51,7 @@ exception.invalid.data.point.position.scatter=La posición de la etiqueta del pun
 exception.illegal.pie.series.title.position=Se ha especificado un valor no válido para la posición del título de serie = {0}
 exception.illegal.datapoint.position.bar=La posición de la etiqueta de punto de datos {0} no se admite al procesarse en una serie de barras. Los valores permitidos son EXTERIOR e INTERIOR.
 exception.illegal.datapoint.position.line=La posición de la etiqueta del punto de datos {0} no se admite al procesarse en una serie de líneas. Los valores permitidos son ARRIBA, ABAJO, IZQUIERDA y DERECHA.
+exception.illegal.datapoint.position.stock=Data point label position {0} is not supported when rendering on a stock series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
 exception.unspecified.datapoint.visibility.pie=No se ha ajustado la visibilidad del punto de datos para la serie {0}
 exception.invalid.datapoint.position.pie=La posición de la etiqueta del punto de datos {0} no es válida
 exception.invalid.datapoint.dial=No se pueden dibujar series métricas con puntos de datos nulos o no numéricos.

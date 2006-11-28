@@ -24,6 +24,7 @@ exception.stock.dimension=股票图系列不支持 ''{0}''。
 exception.multi.orthogonal.3D.not.supported=三维图表不支持多个值轴。
 exception.scatter.3D.not.supported=三维图表不支持离散类别轴。
 exception.no.transposed.3D.chart=三维图表不支持置换。
+exception.no.transposed.stock.chart=Transposition is not supported by Stock Chart.
 exception.3D.points.length.less.than.3=对于三维绘制事件，点列表长度至少为 3 (>=3)。
 exception.empty.icon.list=标记图像选项板列表为空。
 info.sample.formats=例如\n数字: 1,2,3\n日期: 05-1-26,05-1-27,05-1-28\n文本: 'a,b,c'\n及所有用逗号隔开的多个值。
@@ -50,6 +51,7 @@ exception.invalid.data.point.position.scatter=当在散点图系列上进行绘制时，不支持
 exception.illegal.pie.series.title.position=为系列标题位置 = {0} 指定的值无效
 exception.illegal.datapoint.position.bar=当在条形图系列上进行绘制时，不支持数据点标签位置 {0}。允许的值为 OUTSIDE 和 INSIDE。
 exception.illegal.datapoint.position.line=当在线条系列上进行绘制时，不支持数据点标签位置 {0}。允许的值为 ABOVE、BELOW、LEFT 和 RIGHT。
+exception.illegal.datapoint.position.stock=Data point label position {0} is not supported when rendering on a stock series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
 exception.unspecified.datapoint.visibility.pie=未设置系列 {0} 的数据点可见性
 exception.invalid.datapoint.position.pie=数据点标签位置 {0} 无效
 exception.invalid.datapoint.dial=不能使用空数据点或非数字数据点来绘制仪表图系列。

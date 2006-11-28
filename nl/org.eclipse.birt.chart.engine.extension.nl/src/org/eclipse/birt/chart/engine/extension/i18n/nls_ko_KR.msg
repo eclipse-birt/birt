@@ -24,6 +24,7 @@ exception.stock.dimension=''{0}''은(는) 주식형 시리즈에서 지원되지 않습니다.
 exception.multi.orthogonal.3D.not.supported=다중 값 축은 3D 차트에서 지원되지 않습니다.
 exception.scatter.3D.not.supported=분산형 범주 축은 3D 차트에서 지원되지 않습니다.
 exception.no.transposed.3D.chart=전위는 3D 차트에서 지원되지 않습니다.
+exception.no.transposed.stock.chart=Transposition is not supported by Stock Chart.
 exception.3D.points.length.less.than.3=3D 렌더링 이벤트에 대한 포인트 목록 길이는 3 이상이어야 합니다(>=3).
 exception.empty.icon.list=표지에 대한 아이콘 색상표 목록이 비어 있습니다.
 info.sample.formats=예\n숫자: 1,2,3\n날짜: 05-01-26,05-01-27,05-01-28\n텍스트: 'a,b,c'\n복수 값은 모두 쉼표로 분리됩니다.
@@ -50,6 +51,7 @@ exception.invalid.data.point.position.scatter=분산형 계열에서 렌더링할 때는 데이
 exception.illegal.pie.series.title.position=계열 제목 위치 = {0}에 잘못된 값이 지정되었습니다.
 exception.illegal.datapoint.position.bar=막대형 계열에서 렌더링할 때는 데이터 요소 레이블 위치 {0}이(가) 지원되지 않습니다. 허용되는 값은 OUTSIDE 및 INSIDE입니다.
 exception.illegal.datapoint.position.line=선형 계열에서 렌더링할 때는 데이터 요소 레이블 위치 {0}이(가) 지원되지 않습니다. 허용되는 값은 ABOVE, BELOW, LEFT 및 RIGHT입니다.
+exception.illegal.datapoint.position.stock=Data point label position {0} is not supported when rendering on a stock series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
 exception.unspecified.datapoint.visibility.pie=계열 {0}에 대한 데이터 요소 표시 유형이 설정되지 않았습니다.
 exception.invalid.datapoint.position.pie=데이터 요소 레이블 위치 {0}이(가) 잘못되었습니다.
 exception.invalid.datapoint.dial=널(null) 또는 숫자가 아닌 데이터 요소로 측정기 계열을 그릴 수 없습니다.
