@@ -2,6 +2,7 @@
 
 	<property name="os" value="linux"/>
 	<property name="working.dir" value="${test.dir}/eclipse/plugins"/>
+	<property name="eclipse.home" value="${test.dir}/eclipse"/>
 	
 	<target name="Start">
 		<antcall target="org.eclipse.birt.core.tests"/>
@@ -26,91 +27,123 @@
 	</target>
 	
 	<target name="org.eclipse.birt.core.tests">
+		<echo message="Starting unit test for org.eclipse.birt.core.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.core.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.engine.tests">
+		<echo message="Starting unit test for org.eclipse.birt.report.engine.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.engine.emitter.pdf.tests">
+		<echo message="Starting unit test for org.eclipse.birt.report.engine.emitter.pdf.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.pdf.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.engine.emitter.html.tests">
+		<echo message="Starting unit test for org.eclipse.birt.report.engine.emitter.html.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.html.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.model.tests">
+		<echo message="Starting unit test for org.eclipse.birt.report.model.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.report.model.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.model.adapter.oda.tests">
+		<echo message="Starting unit test for org.eclipse.birt.report.model.adapter.oda.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.report.model.adapter.oda.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
 		</ant>
 	</target>
     <target name="org.eclipse.birt.data.tests">
-            <ant dir="${working.dir}/org.eclipse.birt.data.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.data.tests"/>
+        <ant dir="${working.dir}/org.eclipse.birt.data.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+        	<property name="eclipse-home" value="${eclipse.home}"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.report.data.oda.jdbc.tests">
-            <ant dir="${working.dir}/org.eclipse.birt.report.data.oda.jdbc.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.report.data.oda.jdbc.tests"/>
+        <ant dir="${working.dir}/org.eclipse.birt.report.data.oda.jdbc.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+            <property name="os" value="${os}"/>
+        	<property name="eclipse-home" value="${eclipse.home}"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.tests.engine">
-            <ant dir="${working.dir}/org.eclipse.birt.tests.engine_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.tests.engine"/>
+        <ant dir="${working.dir}/org.eclipse.birt.tests.engine_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.tests.data">
-            <ant dir="${working.dir}/org.eclipse.birt.tests.data_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.tests.data"/>
+        <ant dir="${working.dir}/org.eclipse.birt.tests.data_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.chart.tests">
-            <ant dir="${working.dir}/org.eclipse.birt.chart.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.chart.tests"/>
+        <ant dir="${working.dir}/org.eclipse.birt.chart.tests_@REPLACE_BY_BUILD_ID@" antfile="test.xml">              
+        	<property name="os" value="${os}"/>
+        	<property name="eclipse-home" value="${eclipse.home}"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.test.performance">
-            <ant dir="${working.dir}/org.eclipse.birt.test.performance_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.test.performance"/>
+        <ant dir="${working.dir}/org.eclipse.birt.test.performance_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.report.tests.engine">
-            <ant dir="${working.dir}/org.eclipse.birt.report.tests.engine_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.report.tests.engine"/>
+        <ant dir="${working.dir}/org.eclipse.birt.report.tests.engine_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.report.tests.chart">
-            <ant dir="${working.dir}/org.eclipse.birt.report.tests.chart_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.report.tests.chart"/>
+        <ant dir="${working.dir}/org.eclipse.birt.report.tests.chart_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.report.tests.viewer">
-            <ant dir="${working.dir}/org.eclipse.birt.report.tests.viewer_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.report.tests.viewer"/>
+        <ant dir="${working.dir}/org.eclipse.birt.report.tests.viewer_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        </ant>
     </target>
     <target name="org.eclipse.birt.report.tests.model">
-            <ant dir="${working.dir}/org.eclipse.birt.tests.model_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
-                    <property name="os" value="${os}"/>
-	    			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
-            </ant>
+    	<echo message="Starting unit test for org.eclipse.birt.report.tests.model"/>
+        <ant dir="${working.dir}/org.eclipse.birt.tests.model_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse.home}"/>
+			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        </ant>
     </target>
 </project>
