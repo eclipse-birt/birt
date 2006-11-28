@@ -285,7 +285,7 @@ public class AttributesUtil
 	{
 		GridLayout gl = new GridLayout( );
 		parent.setLayout( gl );
-		FormPage page = new FormPage( FormPropertyDescriptor.NORMAL_FUNCTION,
+		FormPage page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
 				new FilterHandleProvider( ),
 				false,
 				true );
