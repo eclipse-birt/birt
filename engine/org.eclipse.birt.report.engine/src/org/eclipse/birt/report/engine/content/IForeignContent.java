@@ -22,7 +22,7 @@ package org.eclipse.birt.report.engine.content;
  * For foreign object in "text/html" format, the PDF writer output the standard
  * content while the HTML writer output the raw value directly.
  * 
- * @version $Revision: 1.5 $ $Date: 2006/08/02 09:12:21 $
+ * @version $Revision: 1.6 $ $Date: 2006/08/10 05:24:57 $
  */
 public interface IForeignContent extends IContent
 {
@@ -31,7 +31,11 @@ public interface IForeignContent extends IContent
 	public final String HTML_TYPE = "text/html";
 	/** the content is an string which contains plain text */
 	public final String TEXT_TYPE = "text/plaintext";
-	/** the content is an template */
+	/**
+	 * the content is an template. In this condition the raw value should be a
+	 * Object[2], the first object is the template text, the second object is
+	 * the value map.
+	 */
 	public final String TEMPLATE_TYPE = "text/template";
 	/** the content is the output of a extenal item, it is byte[] */
 	public final String EXTERNAL_TYPE = "object/external";

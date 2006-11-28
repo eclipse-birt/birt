@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -207,6 +208,10 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 				break;
 			case FIELD_RAWVALUE :
 				rawValue = IOUtil.readObject( in );
+				if (rawType.equals( TEMPLATE_TYPE ) && rawValue instanceof HashMap )
+				{
+					rawValue = new Object[]{ null, rawValue };
+				}
 				break;
 			case FIELD_ALTTEXT :
 				altText = IOUtil.readString( in );

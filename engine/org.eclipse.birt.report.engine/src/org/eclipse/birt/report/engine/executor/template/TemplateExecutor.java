@@ -94,7 +94,11 @@ public class TemplateExecutor implements TextTemplate.Visitor
 	{
 		String text = "";
 		String format = node.getFormat( );
-		Object result = values.get( node.getValue( ) );
+		Object result = null;
+		if ( values != null )
+		{
+			result = values.get( node.getValue( ) );
+		}
 
 		if ( "html".equalsIgnoreCase( format ) )
 		{

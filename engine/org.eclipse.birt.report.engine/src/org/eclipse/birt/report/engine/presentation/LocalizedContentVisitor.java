@@ -41,7 +41,6 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -299,9 +298,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	{
 		String helpText = localize( label, label.getHelpKey( ), label.getHelpText( ) );
 		label.setHelpText( helpText );
-
-		String text = localize( label, label.getLabelKey( ), label.getLabelText( ) );
-		label.setText( text );
+		
+		if ( label.getText( ) == null )
+		{
+			String text = localize( label, label.getLabelKey( ), label.getLabelText( ) );
+			label.setText( text );
+		}
 	}
 
 	public Object visitText( ITextContent text, Object value )
@@ -454,23 +456,32 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			TextItemDesign design = (TextItemDesign) foreignContent
 					.getGenerateBy( );
 
-			String text = localize( foreignContent, design.getTextKey( ),
-					design.getText( ) );
-			String textType = design.getTextType( );
-
-			TextTemplate template = parseTemplate( text );
-
-			HashMap values = new HashMap( );
-			if ( foreignContent.getRawValue( ) instanceof HashMap )
+			String text = null;
+			HashMap rawValues = null;
+			if ( foreignContent.getRawValue( ) instanceof Object[] )
 			{
-				values = (HashMap) foreignContent.getRawValue( );
+				Object[] rawValue = (Object[]) foreignContent.getRawValue( );
+				assert rawValue.length == 2;
+				assert rawValue[0] == null || rawValue[0] instanceof String;
+				if ( rawValue[0] != null )
+				{
+					text = (String )rawValue[0];
+				}
+				if ( rawValue[1] instanceof HashMap )
+				{
+					rawValues = (HashMap)rawValue[1];
+				}
 			}
 
-			String result = executeTemplate( template, values );
+			if ( text == null )
+			{
+				text = localize( foreignContent, design.getTextKey( ), design.getText( ) );
+			}
+			
+			TextTemplate template = parseTemplate( text );
 
-			String rawType = ForeignContent.getTextRawType( textType, result );
-			assert IForeignContent.HTML_TYPE.equals( rawType );
-
+			String result = executeTemplate( template, rawValues );
+			
 			foreignContent.setRawType( IForeignContent.HTML_TYPE );
 			foreignContent.setRawValue( result );
 		}
