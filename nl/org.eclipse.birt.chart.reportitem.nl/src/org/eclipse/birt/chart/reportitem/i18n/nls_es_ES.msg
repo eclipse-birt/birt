@@ -52,6 +52,7 @@ ChartElementCommandImpl.setProperty.script=Editar script de diagrama
 Element.Chart=Diagrama
 Element.Chart.xmlRepresentation=Modelo XML
 Element.Chart.outputFormat=Formato de salida
+Element.Chart.action=Action
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D con profundidad
