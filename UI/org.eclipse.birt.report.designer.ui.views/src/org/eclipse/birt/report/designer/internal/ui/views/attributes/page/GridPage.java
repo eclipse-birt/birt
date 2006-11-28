@@ -137,8 +137,8 @@ public class GridPage extends GeneralPage
 		canShrinkSection.setLayoutNum( 2 );
 		hAlignSection.setLayoutNum( 2 );
 		vAlignSection.setLayoutNum( 4 );
-		styleSection.setLayoutNum( 2 );
-		backgroundSection.setLayoutNum( 4 );
+		styleSection.setLayoutNum( 4 );
+		backgroundSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
 
@@ -148,20 +148,20 @@ public class GridPage extends GeneralPage
 		canShrinkSection.setGridPlaceholder( 1, true );
 		hAlignSection.setGridPlaceholder( 0, true );
 		vAlignSection.setGridPlaceholder( 2, true );
-		styleSection.setGridPlaceholder( 0, true );
-		backgroundSection.setGridPlaceholder( 2, true );
+		styleSection.setGridPlaceholder( 2, true );
+		backgroundSection.setGridPlaceholder( 0, true );
 
 
 		addSection( "GRID_NAME_SECTION", nameSection ); //$NON-NLS-1$
 		addSection( "SEPERATOR_SECTION", seperatorSection ); //$NON-NLS-1$
 		addSection( "GRID_WIDTH_SECTION", widthSection ); //$NON-NLS-1$
-		addSection( "GRID_HEIGHT_SECTION", heightSection ); //$NON-NLS-1$
-		addSection( "GRID_CAN_SHRINK_SECTION", canShrinkSection ); //$NON-NLS-1$
 		addSection( "GRID_HORIZONTAL_ALIGN_SECTION", hAlignSection ); //$NON-NLS-1$
+		addSection( "GRID_CAN_SHRINK_SECTION", canShrinkSection ); //$NON-NLS-1$
+		addSection( "GRID_HEIGHT_SECTION", heightSection ); //$NON-NLS-1$
 		addSection( "GRID_VERTICAL_ALIGN_SECTION", vAlignSection ); //$NON-NLS-1$
-		addSection( "GRID_STYLE_SECTION", styleSection ); //$NON-NLS-1$
 		addSection( "GRID_BACKGROUND_COLOR_SECTION", backgroundSection ); //$NON-NLS-1$
-
+		addSection( "GRID_STYLE_SECTION", styleSection ); //$NON-NLS-1$
+		
 		createSections( );
 		layoutSections( );
 	}

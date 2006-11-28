@@ -87,7 +87,7 @@ public class ColorBuilder extends Composite
 			boolean isFormStyle )
 	{
 		setLayout( WidgetUtil.createSpaceGridLayout( 2, 1 ) );
-		( (GridLayout) getLayout( ) ).horizontalSpacing = 2;
+		if(isFormStyle)( (GridLayout) getLayout( ) ).horizontalSpacing = 3;
 
 		colorSelector = new ColorSelector( this );
 		GridData data = new GridData( );

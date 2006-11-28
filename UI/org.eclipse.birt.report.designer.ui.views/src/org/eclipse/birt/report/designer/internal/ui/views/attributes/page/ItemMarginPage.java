@@ -26,7 +26,7 @@ public class ItemMarginPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
 
 		String[] padProperties = {
 				StyleHandle.MARGIN_TOP_PROP,

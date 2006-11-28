@@ -88,6 +88,16 @@ public class WidgetUtil
 		layout.verticalSpacing = WidgetUtil.SPACING;
 		return layout;
 	}
+	
+	public static GridLayout createGridLayout( int columns,int margin )
+	{
+		GridLayout layout = new GridLayout( columns, false );
+		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;;
+		layout.marginWidth = margin;
+		layout.horizontalSpacing = WidgetUtil.SPACING;
+		layout.verticalSpacing = WidgetUtil.SPACING;
+		return layout;
+	}
 
 	public static void setGridData( Control control, int hSpan,
 			boolean grabSpace )

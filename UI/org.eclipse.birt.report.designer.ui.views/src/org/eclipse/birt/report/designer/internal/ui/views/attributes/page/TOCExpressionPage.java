@@ -27,7 +27,7 @@ public class TOCExpressionPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
 
 		ExpressionPropertyDescriptorProvider tocProvider = new ExpressionPropertyDescriptorProvider( IReportItemModel.TOC_PROP,
 				ReportDesignConstants.REPORT_ITEM );

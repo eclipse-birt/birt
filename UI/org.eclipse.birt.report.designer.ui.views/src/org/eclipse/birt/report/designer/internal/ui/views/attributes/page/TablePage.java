@@ -128,8 +128,8 @@ public class TablePage extends GeneralPage
 		canShrinkSection.setLayoutNum( 2 );
 		hAlignSection.setLayoutNum( 2 );
 		vAlignSection.setLayoutNum( 4 );
-		styleSection.setLayoutNum( 2 );
-		backgroundSection.setLayoutNum( 4 );
+		styleSection.setLayoutNum( 4 );
+		backgroundSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
 
@@ -139,20 +139,21 @@ public class TablePage extends GeneralPage
 		canShrinkSection.setGridPlaceholder( 1, true );
 		hAlignSection.setGridPlaceholder( 0, true );
 		vAlignSection.setGridPlaceholder( 2, true );
-		styleSection.setGridPlaceholder( 0, true );
-		backgroundSection.setGridPlaceholder( 2, true );
+		styleSection.setGridPlaceholder( 2, true );
+		backgroundSection.setGridPlaceholder( 0, true );
 
 		// Adds sections into container page.
 
 		addSection( PageSectionId.TABLE_NAME, nameSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_WIDTH, widthSection ); //$NON-NLS-1$
-		addSection( PageSectionId.TABLE_HEIGHT, heightSection ); //$NON-NLS-1$
-		addSection( PageSectionId.TABLE_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
+		addSection( PageSectionId.TABLE_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
+		addSection( PageSectionId.TABLE_HEIGHT, heightSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
-		addSection( PageSectionId.TABLE_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
+		addSection( PageSectionId.TABLE_STYLE, styleSection ); //$NON-NLS-1$
+		
 
 		createSections( );
 		layoutSections( );

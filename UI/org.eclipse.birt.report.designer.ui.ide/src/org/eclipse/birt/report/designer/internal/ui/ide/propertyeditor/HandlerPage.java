@@ -32,7 +32,7 @@ public class HandlerPage extends AttributePage
 	public void buildUI( Composite parent)
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 5 ,15 ) );
 
 		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );

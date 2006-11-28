@@ -28,7 +28,7 @@ public class DataSourcePage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
 
 		// Defines provider.
 

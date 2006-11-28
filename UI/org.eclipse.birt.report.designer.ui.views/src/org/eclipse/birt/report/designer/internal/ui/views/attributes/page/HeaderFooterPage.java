@@ -25,7 +25,7 @@ public class HeaderFooterPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 2 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 2 ,15) );
 
 		
 		PropertyDescriptorProvider headerProvider = new PropertyDescriptorProvider( SimpleMasterPageHandle.SHOW_HEADER_ON_FIRST_PROP,ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT);

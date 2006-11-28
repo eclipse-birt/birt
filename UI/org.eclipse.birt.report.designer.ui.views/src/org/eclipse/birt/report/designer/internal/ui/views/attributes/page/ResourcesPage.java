@@ -41,7 +41,7 @@ public class ResourcesPage extends AttributePage
 	{
 		super.buildUI( parent );
 		// TODO Auto-generated method stub
-		container.setLayout( WidgetUtil.createGridLayout( 5 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
 
 		TextPropertyDescriptorProvider includeSourceProvider = new TextPropertyDescriptorProvider( ModuleHandle.INCLUDE_RESOURCE_PROP,
 				ReportDesignConstants.MODULE_ELEMENT );

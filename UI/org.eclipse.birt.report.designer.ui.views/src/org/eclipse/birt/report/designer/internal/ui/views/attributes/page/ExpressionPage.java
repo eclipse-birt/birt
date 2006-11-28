@@ -28,7 +28,7 @@ public class ExpressionPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
 
 		// Defines provider.
 

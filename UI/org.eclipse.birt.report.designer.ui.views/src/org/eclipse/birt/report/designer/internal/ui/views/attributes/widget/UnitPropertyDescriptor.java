@@ -136,8 +136,8 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 		container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = 2;
-		layout.marginWidth = 1;
-		layout.horizontalSpacing = 3;
+		layout.marginWidth = 2;
+		layout.horizontalSpacing = 4;
 		layout.numColumns = 2;
 		container.setLayout( layout );
 

@@ -46,7 +46,7 @@ public class BordersPage extends AttributePage
 	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider( );
 		styleProvider.setItems( styles );

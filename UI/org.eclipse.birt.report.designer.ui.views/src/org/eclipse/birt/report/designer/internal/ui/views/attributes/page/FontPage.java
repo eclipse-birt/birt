@@ -33,7 +33,7 @@ public class FontPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );

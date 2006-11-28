@@ -112,8 +112,8 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 		if ( isFormStyle( ) )
 		{
 			layout.marginHeight = 1;
-			layout.marginWidth = 1;
-			layout.spacing = 3;
+			layout.marginWidth = 2;
+			layout.spacing = 4;
 		}else{
 			layout.marginHeight = 0;
 			layout.marginWidth = 0;

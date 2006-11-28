@@ -27,7 +27,7 @@ public class BookMarkExpressionPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
 
 		ExpressionPropertyDescriptorProvider bookMarkProvider = new ExpressionPropertyDescriptorProvider( IReportItemModel.BOOKMARK_PROP,
 				ReportDesignConstants.REPORT_ITEM );

@@ -38,7 +38,7 @@ public class ModulePage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 4 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 4,15 ) );
 
 		TextPropertyDescriptorProvider authorProvider = new TextPropertyDescriptorProvider( ModuleHandle.AUTHOR_PROP,
 				ReportDesignConstants.MODULE_ELEMENT );

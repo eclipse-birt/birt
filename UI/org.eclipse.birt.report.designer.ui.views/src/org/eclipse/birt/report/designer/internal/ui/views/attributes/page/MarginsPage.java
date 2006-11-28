@@ -26,7 +26,7 @@ public class MarginsPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 8 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 8 ,15) );
 
 		MarginsPropertyDescriptorProvider leftProvider = new MarginsPropertyDescriptorProvider( MasterPageHandle.LEFT_MARGIN_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );

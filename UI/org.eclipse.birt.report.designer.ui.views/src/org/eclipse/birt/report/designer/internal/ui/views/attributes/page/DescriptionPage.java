@@ -26,7 +26,7 @@ public class DescriptionPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 2 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 2 ,15) );
 
 		TextPropertyDescriptorProvider descriptorProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.DESCRIPTION_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );

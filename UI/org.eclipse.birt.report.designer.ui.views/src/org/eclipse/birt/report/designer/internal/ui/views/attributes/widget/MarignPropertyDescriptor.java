@@ -68,7 +68,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		GridLayout layout = new GridLayout( 2, false );
 		layout.marginHeight = 2;
 		layout.marginWidth = 2;
-		layout.horizontalSpacing = 3;
+		layout.horizontalSpacing = 4;
 		layout.verticalSpacing = 2;
 		container.setLayout( layout );
 

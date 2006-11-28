@@ -36,7 +36,7 @@ public class MasterPageGeneralPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( MasterPageHandle.NAME_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
@@ -45,9 +45,25 @@ public class MasterPageGeneralPage extends AttributePage
 				true );
 		nameSection.setProvider( nameProvider );
 		nameSection.setWidth( 200 );
-		nameSection.setLayoutNum( 2 );
+		nameSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.MASTER_PAGE_NAME, nameSection );
 
+		SeperatorSection seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( PageSectionId.MASTER_PAGE_SEPERATOR, seperatorSection );
+		
+		
+		UnitPropertyDescriptorProvider headHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.HEADER_HEIGHT_PROP,
+				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
+		UnitSection headHeightSection = new UnitSection( headHeightProvider.getDisplayName( ),
+				container,
+				true );
+		headHeightSection.setProvider( headHeightProvider );
+		headHeightSection.setWidth( 200 );
+		headHeightSection.setLayoutNum( 2 );
+		addSection( PageSectionId.MASTER_PAGE_HEAD_HEIGHT, headHeightSection );
+		
+		
 		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
@@ -58,26 +74,17 @@ public class MasterPageGeneralPage extends AttributePage
 		colorSection.setLayoutNum( 4 );
 		colorSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.MASTER_PAGE_COLOR, colorSection );
+		
 
-		UnitPropertyDescriptorProvider headHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.HEADER_HEIGHT_PROP,
-				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
-		UnitSection headHeightSection = new UnitSection( headHeightProvider.getDisplayName( ),
-				container,
-				true );
-		headHeightSection.setProvider( headHeightProvider );
-		headHeightSection.setWidth( 200 );
-		headHeightSection.setLayoutNum( 2 );
-		addSection( PageSectionId.MASTER_PAGE_HEAD_HEIGHT, headHeightSection );
 
 		UnitPropertyDescriptorProvider footHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.FOOTER_HEIGHT_PROP,
 				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
-		UnitSection footHeightSection = new UnitSection( headHeightProvider.getDisplayName( ),
+		UnitSection footHeightSection = new UnitSection( footHeightProvider.getDisplayName( ),
 				container,
 				true );
 		footHeightSection.setProvider( footHeightProvider );
 		footHeightSection.setWidth( 200 );
-		footHeightSection.setLayoutNum( 4 );
-		footHeightSection.setGridPlaceholder( 2, true );
+		footHeightSection.setLayoutNum( 2 );
 		addSection( PageSectionId.MASTER_PAGE_FOOT_HEIGHT, footHeightSection );
 
 		ComboPropertyDescriptorProvider orientationProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.ORIENTATION_PROP,
@@ -86,23 +93,15 @@ public class MasterPageGeneralPage extends AttributePage
 				container,
 				true );
 		orientationSection.setProvider( orientationProvider );
-		orientationSection.setGridPlaceholder( 4, true );
+		orientationSection.setLayoutNum( 4 );
+		orientationSection.setGridPlaceholder( 2, true );
 		orientationSection.setWidth( 200 );
 		addSection( PageSectionId.MASTER_PAGE_ORIENTATION, orientationSection );
 		
-		SeperatorSection seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.MASTER_PAGE_SEPERATOR, seperatorSection );
 		
-		ComboPropertyDescriptorProvider typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		ComboSection typeSection = new ComboSection( typeProvider.getDisplayName( ),
-				container,
-				true );
-		typeSection.setProvider( typeProvider );
-		typeSection.setGridPlaceholder( 4, true );
-		typeSection.setWidth( 200 );
-		addSection( PageSectionId.MASTER_PAGE_TYPE, typeSection );
+		SeperatorSection seperatorSection1 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( PageSectionId.MASTER_PAGE_SEPERATOR_1, seperatorSection1 );
 		
 		UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.WIDTH_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
@@ -113,6 +112,19 @@ public class MasterPageGeneralPage extends AttributePage
 		widthSection.setWidth( 200 );
 		widthSection.setLayoutNum( 2 );
 		addSection( PageSectionId.MASTER_PAGE_WIDTH, widthSection );
+		
+		ComboPropertyDescriptorProvider typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
+				ReportDesignConstants.MASTER_PAGE_ELEMENT );
+		ComboSection typeSection = new ComboSection( typeProvider.getDisplayName( ),
+				container,
+				true );
+		typeSection.setProvider( typeProvider );
+		typeSection.setGridPlaceholder( 2, true );
+		typeSection.setLayoutNum( 4 );
+		typeSection.setWidth( 200 );
+		addSection( PageSectionId.MASTER_PAGE_TYPE, typeSection );
+		
+		
 
 		UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.HEIGHT_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
@@ -121,9 +133,11 @@ public class MasterPageGeneralPage extends AttributePage
 				true );
 		heightSection.setProvider( heightProvider );
 		heightSection.setWidth( 200 );
-		heightSection.setLayoutNum( 4 );
-		heightSection.setGridPlaceholder( 2, true );
+		heightSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.MASTER_PAGE_HEIGHT, heightSection );
+		
+		
+		
 		// WidgetUtil.buildGridControl( container, propertiesMap,
 		// ReportDesignConstants.MASTER_PAGE_ELEMENT,
 		// MasterPageHandle.NAME_PROP, 1, false );

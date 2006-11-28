@@ -42,7 +42,7 @@ public class ListingSectionPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		ComboPropertyDescriptorProvider breakBeforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );

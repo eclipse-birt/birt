@@ -44,7 +44,7 @@ public class TemplateReportItemPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( TemplateReportItemHandle.NAME_PROP,
 				ReportDesignConstants.TEMPLATE_REPORT_ITEM );

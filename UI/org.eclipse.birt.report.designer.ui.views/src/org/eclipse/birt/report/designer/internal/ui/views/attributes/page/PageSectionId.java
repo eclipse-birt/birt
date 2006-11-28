@@ -124,6 +124,7 @@ public class PageSectionId
 	public final static String MASTER_PAGE_HEAD_HEIGHT = "MASTER_PAGE_HEAD_HEIGHT";
 	public final static String MASTER_PAGE_FOOT_HEIGHT = "MASTER_PAGE_FOOT_HEIGHT";
 	public final static String MASTER_PAGE_ORIENTATION = "MASTER_PAGE_ORIENTATION";
+	public final static String MASTER_PAGE_SEPERATOR_1 = "MASTER_PAGE_SEPERATOR_1";
 	public final static String MASTER_PAGE_SEPERATOR = "MASTER_PAGE_SEPERATOR";
 	public final static String MASTER_PAGE_TYPE = "MASTER_PAGE_TYPE";
 	public final static String MASTER_PAGE_WIDTH = "MASTER_PAGE_WIDTH";

@@ -27,7 +27,7 @@ public class CommentsPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 2 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 2 ,15) );
 
 		TextPropertyDescriptorProvider commentProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.COMMENTS_PROP,
 				ReportDesignConstants.REPORT_ITEM );

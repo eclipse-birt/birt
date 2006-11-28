@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * The general attribute page of Label element.

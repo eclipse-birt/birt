@@ -29,7 +29,7 @@ public abstract class GeneralPage extends AttributePage
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		LibraryDescriptorProvider provider = new LibraryDescriptorProvider( );
 		librarySection = new TextSection( provider.getDisplayName( ),

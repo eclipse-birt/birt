@@ -79,7 +79,7 @@ public class FontSizeBuilder extends Composite
 			boolean isFormStyle )
 	{
 		setLayout( WidgetUtil.createSpaceGridLayout( 2, 0, isFormStyle ) );
-		( (GridLayout) getLayout( ) ).horizontalSpacing = 2;
+		if(isFormStyle)( (GridLayout) getLayout( ) ).horizontalSpacing = 4;
 
 		if ( isFormStyle )
 			valueCombo = FormWidgetFactory.getInstance( ).createCCombo( this,
