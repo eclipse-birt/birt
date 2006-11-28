@@ -121,6 +121,12 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<!-- copy viewservlets.jar to tests.viewer/lib -->
+		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.tests.viewer/lib">
+			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib">
+				<include name="viewservlets.jar"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<!-- ===================================================================== -->
