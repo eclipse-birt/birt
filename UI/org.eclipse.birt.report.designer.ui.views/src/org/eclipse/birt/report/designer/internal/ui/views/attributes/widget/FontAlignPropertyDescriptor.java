@@ -116,7 +116,7 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor
 			String imageName = values[i];
 			if ( !btns[i].isEnabled( ) )
 				imageName += IReportGraphicConstants.DIS;
-			btns[i].setImage( ReportPlatformUIImages.getImage( imageName ) );
+			if(btns[i].getImage( )==null)btns[i].setImage( ReportPlatformUIImages.getImage( imageName ) );
 		}
 	}
 

@@ -47,7 +47,7 @@ public class TogglePropertyDescriptor extends PropertyDescriptor
 			String imageName = ( (FontStylePropertyDescriptorProvider) getDescriptorProvider( ) ).getImageName( );
 			if ( !button.isEnabled( ) )
 				imageName += IReportGraphicConstants.DIS;
-			button.setImage( ReportPlatformUIImages.getImage( imageName ) );
+			if(button.getImage( )==null )button.setImage( ReportPlatformUIImages.getImage( imageName ) );
 			boolean boolValue = ( (FontStylePropertyDescriptorProvider) getDescriptorProvider( ) ).getToogleValue( )
 					.equals( value );
 			if ( button.getSelection( ) != boolValue )
@@ -59,7 +59,7 @@ public class TogglePropertyDescriptor extends PropertyDescriptor
 		if ( getDescriptorProvider( ) instanceof BorderToggleDescriptorProvider )
 		{
 			String imageName = ( (BorderToggleDescriptorProvider) getDescriptorProvider( ) ).getImageName( );
-			button.setImage( ReportPlatformUIImages.getImage( imageName ) );
+			if(button.getImage( )==null  )button.setImage( ReportPlatformUIImages.getImage( imageName ) );
 			boolean boolValue = ( (Boolean) ( (BorderToggleDescriptorProvider) getDescriptorProvider( ) ).load( ) ).booleanValue( );
 			if ( button.getSelection( ) != boolValue )
 			{
