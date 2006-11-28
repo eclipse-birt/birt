@@ -14,13 +14,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
@@ -38,11 +42,9 @@ import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableTreeViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableTree;
-import org.eclipse.swt.custom.TableTreeEditor;
-import org.eclipse.swt.custom.TableTreeItem;
+import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
@@ -50,10 +52,14 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -87,19 +93,21 @@ public class ReportPropertySheetPage extends Page implements
 	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
 	private static final String COLUMN_TITLE_VALUE = Messages.getString( "ReportPropertySheetPage.Column.Title.Value" ); //$NON-NLS-1$
 
-	private TableTreeViewer viewer;
+	private TreeViewer viewer;
 	private ReportPropertySheetContentProvider contentProvider;
 	private ReportPropertySheetLabelProvider labelProvider;
 	private ISelection selection;
 
 	private CellEditor cellEditor;
-	private TableTree tableTree;
-	private TableTreeEditor tableTreeEditor;
+	private Tree tableTree;
+	private TreeEditor tableTreeEditor;
 
 	private int columnToEdit = 1;
 	private ICellEditorListener editorListener;
 	private Object model;
 	private List list;
+	private TabbedPropertyTitle title;
+	private Composite container;
 
 	/*
 	 * (non-Javadoc)
@@ -108,10 +116,26 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	public void createControl( Composite parent )
 	{
-		viewer = new TableTreeViewer( parent, SWT.FULL_SELECTION );
-		tableTree = viewer.getTableTree( );
-		tableTree.getTable( ).setHeaderVisible( true );
-		tableTree.getTable( ).setLinesVisible( true );
+		container = new Composite(parent , SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.marginWidth = layout.marginHeight = 0;
+		container.setLayout( layout );
+		title = new TabbedPropertyTitle( container,
+				FormWidgetFactory.getInstance( ) );
+		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		
+		Composite viewerContainer = new Composite(container , SWT.NONE);
+		layout = new GridLayout();
+		layout.marginWidth = 10;
+		layout.marginHeight = 3;
+		viewerContainer.setLayout( layout );
+		viewerContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
+		viewer = new TreeViewer( viewerContainer, SWT.FULL_SELECTION );
+		tableTree = viewer.getTree( );
+		tableTree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		tableTree.setHeaderVisible( true );
+		tableTree.setLinesVisible( true );
 
 		// configure the columns
 		addColumns( );
@@ -132,17 +156,25 @@ public class ReportPropertySheetPage extends Page implements
 		hookControl( );
 
 		// create a new table tree editor
-		tableTreeEditor = new TableTreeEditor( tableTree );
+		tableTreeEditor = new TreeEditor( tableTree );
 
 		// create the editor listener
 		createEditorListener( );
 
+		
+		
 		handleGlobalAction( );
-
+		
 		// suport the mediator
 		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 
 		expandToDefaultLevel( );
+		
+		FormWidgetFactory.getInstance( ).paintFormStyle( parent );
+		FormWidgetFactory.getInstance( ).adapt( parent );
+		
+		IWorkbenchPage page = getSite( ).getPage( );
+		handleSelectionChanged( page.getSelection( ));
 	}
 
 	/**
@@ -192,17 +224,17 @@ public class ReportPropertySheetPage extends Page implements
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
 
-				handleSelect( (TableTreeItem) e.item );
+				handleSelect( (TreeItem) e.item );
 			}
 		} );
 		// Part2: handle single click activation of cell editor
-		tableTree.getTable( ).addMouseListener( new MouseAdapter( ) {
+		tableTree.addMouseListener( new MouseAdapter( ) {
 
 			public void mouseDown( MouseEvent event )
 			{
 				// only activate if there is a cell editor
 				Point pt = new Point( event.x, event.y );
-				TableTreeItem item = tableTree.getItem( pt );
+				TreeItem item = tableTree.getItem( pt );
 				if ( item != null )
 				{
 					handleSelect( item );
@@ -210,7 +242,7 @@ public class ReportPropertySheetPage extends Page implements
 			}
 		} );
 
-		tableTree.getTable( ).addKeyListener( new KeyAdapter( ) {
+		tableTree.addKeyListener( new KeyAdapter( ) {
 
 			public void keyReleased( KeyEvent e )
 			{
@@ -260,7 +292,7 @@ public class ReportPropertySheetPage extends Page implements
 	/**
 	 * @param item
 	 */
-	protected void handleSelect( TableTreeItem selection )
+	protected void handleSelect( TreeItem selection )
 	{
 		// deactivate the current cell editor
 		if ( cellEditor != null )
@@ -270,7 +302,7 @@ public class ReportPropertySheetPage extends Page implements
 		}
 
 		// get the new selection
-		TableTreeItem[] sel = new TableTreeItem[]{
+		TreeItem[] sel = new TreeItem[]{
 			selection
 		};
 		if ( sel.length == 0 )
@@ -306,7 +338,7 @@ public class ReportPropertySheetPage extends Page implements
 				ExceptionHandler.handle( e );
 
 				// get the new selection
-				TableTreeItem[] sel = viewer.getTableTree( ).getSelection( );
+				TreeItem[] sel = viewer.getTree( ).getSelection( );
 				if ( sel.length == 0 )
 				{
 					// Do nothing
@@ -324,7 +356,7 @@ public class ReportPropertySheetPage extends Page implements
 	/**
 	 * @param item
 	 */
-	private void activateCellEditor( TableTreeItem sel )
+	private void activateCellEditor( TreeItem sel )
 	{
 
 		if ( sel.isDisposed( ) )
@@ -380,7 +412,7 @@ public class ReportPropertySheetPage extends Page implements
 				&& ( (GroupPropertyHandle) ( data ) ).isVisible( ) )
 		{
 			editor = PropertyEditorFactory.getInstance( )
-					.createPropertyEditor( tableTree.getTable( ), data );
+					.createPropertyEditor( tableTree, data );
 
 			if ( editor instanceof ExpressionDialogCellEditor )
 			{
@@ -391,14 +423,15 @@ public class ReportPropertySheetPage extends Page implements
 				{
 					( (ExpressionDialogCellEditor) editor ).setExpressionProvider( new ExpressionProvider( (DesignElementHandle) arrays[0] ) );
 				}
-//				for ( int i = 1; i < len; i++ )
-//				{
-//					dataSetList.retainAll( DEUtil.getDataSetList( (DesignElementHandle) arrays[i] ) );
-//					if ( dataSetList.size( ) == 0 )
-//					{
-//						break;
-//					}
-//				}
+				// for ( int i = 1; i < len; i++ )
+				// {
+				// dataSetList.retainAll( DEUtil.getDataSetList(
+				// (DesignElementHandle) arrays[i] ) );
+				// if ( dataSetList.size( ) == 0 )
+				// {
+				// break;
+				// }
+				// }
 			}
 
 		}
@@ -412,11 +445,10 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	private void addColumns( )
 	{
-		Table table = tableTree.getTable( );
 
-		TableColumn column1 = new TableColumn( table, SWT.LEFT );
+		TreeColumn column1 = new TreeColumn( tableTree, SWT.LEFT );
 		column1.setText( COLUMN_TITLE_PROPERTY );
-		TableColumn column2 = new TableColumn( table, SWT.LEFT );
+		TreeColumn column2 = new TreeColumn( tableTree, SWT.LEFT );
 		column2.setText( COLUMN_TITLE_VALUE );
 
 		// property column
@@ -429,7 +461,7 @@ public class ReportPropertySheetPage extends Page implements
 		TableLayout layout = new TableLayout( );
 		layout.addColumnData( c1Layout );
 		layout.addColumnData( c2Layout );
-		table.setLayout( layout );
+		tableTree.setLayout( layout );
 
 	}
 
@@ -440,9 +472,9 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	public Control getControl( )
 	{
-		if ( viewer == null )
+		if ( container == null )
 			return null;
-		return viewer.getControl( );
+		return container;
 	}
 
 	/*
@@ -468,7 +500,7 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	public void handleSelectionChanged( ISelection selection )
 	{
-		if ( this.selection != null &&  this.selection.equals( selection )  )
+		if ( this.selection != null && this.selection.equals( selection ) )
 			return;
 		this.selection = selection;
 		deRegisterListeners( );
@@ -484,9 +516,38 @@ public class ReportPropertySheetPage extends Page implements
 		}
 
 		viewer.setInput( handle );
+
+		setTitleDisplayName( handle );
+
 		registerListeners( );
 
 		expandToDefaultLevel( );
+	}
+
+	private void setTitleDisplayName( GroupElementHandle handle )
+	{
+
+		String displayName = null;
+		
+		Object element = handle.getElements( ).get( 0 );
+
+		if ( element instanceof DesignElementHandle )
+		{
+			displayName = ( (DesignElementHandle) element ).getDefn( )
+					.getDisplayName( );
+
+			if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
+			{
+				displayName = ( (DesignElementHandle) element ).getDefn( )
+						.getName( );
+			}
+		}
+
+		if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
+		{
+			displayName = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" );
+		}
+		title.setTitle( displayName, null );
 	}
 
 	/**
@@ -566,7 +627,7 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if(!viewer.getTableTree( ).isDisposed( ))
+		if ( !viewer.getTree( ).isDisposed( ) )
 		{
 			viewer.refresh( true );
 			expandToDefaultLevel( );
@@ -629,17 +690,17 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			//Remove null from the list. That fix the bug 139422
-			ArrayList selections = new ArrayList();
-			selections.add(null);
-			selections.addAll(request.getSelectionModelList());
-			
-			ArrayList nullList = new ArrayList();
-			nullList.add(null);
-			selections.removeAll(nullList);
-			//end
-			
-			handleSelectionChanged( new StructuredSelection(selections));
+			// Remove null from the list. That fix the bug 139422
+			ArrayList selections = new ArrayList( );
+			selections.add( null );
+			selections.addAll( request.getSelectionModelList( ) );
+
+			ArrayList nullList = new ArrayList( );
+			nullList.add( null );
+			selections.removeAll( nullList );
+			// end
+
+			handleSelectionChanged( new StructuredSelection( selections ) );
 		}
 	}
 }
