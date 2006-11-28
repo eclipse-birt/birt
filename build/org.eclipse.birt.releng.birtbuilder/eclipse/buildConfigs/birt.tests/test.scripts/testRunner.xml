@@ -127,6 +127,7 @@
         <ant dir="${working.dir}/org.eclipse.birt.report.tests.chart_@REPLACE_BY_BUILD_ID@" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
         </ant>
     </target>
