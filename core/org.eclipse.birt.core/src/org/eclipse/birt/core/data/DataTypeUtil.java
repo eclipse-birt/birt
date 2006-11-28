@@ -84,7 +84,7 @@ public final class DataTypeUtil
 		for ( int i = 0; i < dateFormatPattern.length; i++ )
 		{
 			simpleDateFormatter[i] = new SimpleDateFormat( dateFormatPattern[i] );
-			simpleDateFormatter[i].setCalendar( Calendar.getInstance( TimeZone.getTimeZone( "GMT" ) ) );
+//			simpleDateFormatter[i].setCalendar( Calendar.getInstance( TimeZone.getTimeZone( "GMT" ) ) );
 			simpleDateFormatter[i].setLenient( false );
 		}
 	}
@@ -982,7 +982,7 @@ public final class DataTypeUtil
 	{
 		Date resultDate = null;
 
-		source = source.replaceFirst( "T", " " );
+		source = cleanDate( source );
 		
 		for ( int i = 0; i < simpleDateFormatter.length - 1; i++ )
 		{
@@ -1020,6 +1020,27 @@ public final class DataTypeUtil
 
 		// never access here
 		return resultDate;
+	}
+	
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private static String cleanDate( String s )
+	{
+		s = s.trim( );
+		if ( s.indexOf( 'T' ) < 12 )
+		{
+			s = s.replaceFirst( "T", " " );
+		}
+		int zoneIndex = s.indexOf( 'Z' );
+		if ( zoneIndex == s.length( ) - 1 )
+		{
+			return s.substring( 0, zoneIndex );
+		}
+		
+		return s;
 	}
 
 	/**
