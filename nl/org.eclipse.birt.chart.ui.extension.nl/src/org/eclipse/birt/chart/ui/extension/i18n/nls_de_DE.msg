@@ -533,24 +533,29 @@ TriggerDataComposite.Lbl.SeriesDefinition=Datenreihendefinition:
 TriggerDataComposite.Label.CallbackDescription=Die Aktion CallBack ist für die Verwendung in APIs beim Rendern mit SWT oder Swing gedacht. Sie ermöglicht das Setzen eines Hooks für einen Java-Ereignis-Handlers.
 TriggerDataComposite.Label.HighlightDescription=Das entsprechende Datenelement wird gegebenenfalls hervorgehoben.
 TriggerDataComposite.Label.VisiblityDescription=Die Sichtbarkeit des entsprechenden Datenelements wird gegebenenfalls ein- bzw. ausgeschaltet.
-TriggerDataComposite.Label.DefineTheParametersNames=Geben Sie die Parameternamen des URL an, die auf den Wert des Datenpunktes verweisen, der mit diesem Hyperlink verbunden ist. Name und Wert werden dem URL wie folgt hinzugefügt: \u2026&&&paramName=Wert
+TriggerDataComposite.Label.Description=Edit the URL according to its type, including URI, Internal Bookmark and Drill-through.
 TriggerDataComposite.Label.DPVisibilityDescription=Die Sichtbarkeit der Beschriftung des Datenelements wird gegebenenfalls ein- bzw. ausgeschaltet.
-TriggerDataComposite.Label.GiveANameForParameters=Geben Sie einen Namen für den URL-Parameter an, der folgenden Wert repräsentiert:
+TriggerDataComposite.Label.OptionalURLParameters=Name optional URL parameters that represent, for each datapoint, its following values:
 TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Wenn der QuickInfo-Text Null ist, verwenden Sie stattdessen die Datenbeschriftung der entsprechenden Datenreihe.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL-Erstellung aufrufen
+TriggerDataComposite.Tooltip.Advanced=Show Optional URL Parameters
+TriggerDataComposite.Label.None=None
+TriggerDataComposite.Lbl.BaseURL=Edit Base URL:
 TriggerDataComposite.Tooltip.ParameterCategory=Parametername für Kategorie: \u2026&&&Name=<Kategorie>
 TriggerDataComposite.Tooltip.ParameterValue=Parametername für Wert: \u2026&&&Name=<Wert>
 TriggerDataComposite.Tooltip.ParameterSeries=Parametername für Datenreihe: \u2026&&&Name=<Datenreihe>
 TriggerDataComposite.Lbl.TooltipDelay=QuickInfo-&Verzögerung (in ms):
-TriggerDataComposite.Lbl.ParameterNames=URL-Parameternamen
+TriggerDataComposite.Lbl.ParameterNames=Optional datapoints URL parameters
 TriggerDataComposite.Lbl.CategorySeries=Kategorie-Datenreihe:
 TriggerDataComposite.Text.EditBaseURL=&Basis-URL bearbeiten...
+TriggerDataComposite.Text.Advanced=&Advanced>>
+TriggerDataComposite.Text.OpenAdvanced=&Advanced<<
 TriggerDataComposite.Lbl.ValueSeries=Wert-Datenreihe:
 TriggerDataComposite.Lbl.ValueSeriesName=Name der Wert-Datenreihe:
 TriggerDataComposite.Tooltip.InputScript=\ Geben Sie ein Skript ein (üblicherweise JavaScript), das innerhalb der Renderumgebung ausgeführt werden soll.
 TriggerEditorComposite.Lbl.Remove=&Entfernen
 TriggerEditorComposite.Lbl.Add=&Hinzufügen
-TriggerDataComposite.Lbl.Type=&Typ:
+TriggerDataComposite.Lbl.Event=&Event:
 TriggerDataComposite.Lbl.None=<Keine>
 TriggerDataComposite.Lbl.Action=A&ktion:
 TriggerDataComposite.Lbl.Script=Skri&pt:

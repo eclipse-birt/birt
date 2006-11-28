@@ -533,24 +533,29 @@ TriggerDataComposite.Lbl.SeriesDefinition=Définition de la série :
 TriggerDataComposite.Label.CallbackDescription=L'action de rappel automatique est destinée à une utilisation API dans un rendu SWT ou Swing et vous permet de lier un gestionnaire d'événements java.
 TriggerDataComposite.Label.HighlightDescription=Met en surbrillance l'élément de données correspondant, le cas échéant.
 TriggerDataComposite.Label.VisiblityDescription=Bascule la visibilité de l'élément de données correspondant, le cas échéant.
-TriggerDataComposite.Label.DefineTheParametersNames=Définissez les noms des paramètres de l'URL qui décrivent la valeur du point de données lié à ce lien hypertexte. Le nom et la valeur seront ajoutés à l'URL au format \u2026&&&NomParam=valeur
+TriggerDataComposite.Label.Description=Edit the URL according to its type, including URI, Internal Bookmark and Drill-through.
 TriggerDataComposite.Label.DPVisibilityDescription=Bascule la visibilité de l'étiquette de l'élément de données correspondant, le cas échéant.
-TriggerDataComposite.Label.GiveANameForParameters=Attribuez un nom au paramètre de l'URL qui représente la valeur de :
+TriggerDataComposite.Label.OptionalURLParameters=Name optional URL parameters that represent, for each datapoint, its following values:
 TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Si le texte infobulle est vide, utilisez à la place l'étiquette de données de la série correspondante.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=Invoquer le générateur d'URL
+TriggerDataComposite.Tooltip.Advanced=Show Optional URL Parameters
+TriggerDataComposite.Label.None=None
+TriggerDataComposite.Lbl.BaseURL=Edit Base URL:
 TriggerDataComposite.Tooltip.ParameterCategory=Nom de paramètre pour la catégorie : \u2026&&&nom=<category>
 TriggerDataComposite.Tooltip.ParameterValue=Nom de paramètre pour la valeur : \u2026&&&nom=<value>
 TriggerDataComposite.Tooltip.ParameterSeries=Nom de paramètre pour la série : \u2026&&&nom=<series>
 TriggerDataComposite.Lbl.TooltipDelay=Retard &infobulle (en ms) :
-TriggerDataComposite.Lbl.ParameterNames=Noms de paramètres d'URL
+TriggerDataComposite.Lbl.ParameterNames=Optional datapoints URL parameters
 TriggerDataComposite.Lbl.CategorySeries=Série de catégories :
 TriggerDataComposite.Text.EditBaseURL=&Modifier l'URL de base...
+TriggerDataComposite.Text.Advanced=&Advanced>>
+TriggerDataComposite.Text.OpenAdvanced=&Advanced<<
 TriggerDataComposite.Lbl.ValueSeries=Série de valeurs :
 TriggerDataComposite.Lbl.ValueSeriesName=Nom de série de valeurs :
 TriggerDataComposite.Tooltip.InputScript=\ Entrez un script (le plus souvent JavaScript) à exécuter dans l'environnement de rendu.
 TriggerEditorComposite.Lbl.Remove=&Supprimer
 TriggerEditorComposite.Lbl.Add=&Ajouter
-TriggerDataComposite.Lbl.Type=&Type :
+TriggerDataComposite.Lbl.Event=&Event:
 TriggerDataComposite.Lbl.None=<Aucun>
 TriggerDataComposite.Lbl.Action=A&ction :
 TriggerDataComposite.Lbl.Script=Scri&pt :
