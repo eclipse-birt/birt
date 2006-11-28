@@ -2344,6 +2344,7 @@ Element.ReportItem.visibility=표시 유형
 Element.ReportItem.paramBindings=매개 변수 바인딩  
 Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
+Element.ReportItem.zIndex=Z index
   
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=텍스트
@@ -2795,6 +2796,22 @@ Element.TemplateReportItem.visibility=표시 유형
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = AutoText 형식
+Element.AutoText.onPrepare=On prepare
+Element.AutoText.onPrepare.this=AutoText
+Element.AutoText.onPrepare.toolTip=TBD
+Element.AutoText.onPrepare.reportContext=Report context
+Element.AutoText.onCreate=On create
+Element.AutoText.onCreate.toolTip=TBD
+Element.AutoText.onCreate.this=AutoText instance
+Element.AutoText.onCreate.reportContext=Report contetxt
+Element.AutoText.onRender=On render
+Element.AutoText.onRender.toolTip=TBD
+Element.AutoText.onRender.this=AutoText instance
+Element.AutoText.onRender.reportContext=Report context
+Element.AutoText.onPageBreak=On page break
+Element.AutoText.onPageBreak.toolTip=TBD
+Element.AutoText.onPageBreak.this=AutoText instance
+Element.AutoText.onPageBreak.reportContext=Report context
 
 ###########################################################
 # Predefined style
@@ -2846,7 +2863,9 @@ Style.ListGroupFooter9=ListGroupFooter9
 Style.ListDetail=ListDetail
 Style.Table=테이블
 Style.TableHeader=TableHeader
+Style.TableHeaderCell=TableHeaderCell
 Style.TableFooter=TableFooter
+Style.TableFooterCell=TableFooterCell
 
 Style.TableGroupHeader1=TableGroupHeader1
 Style.TableGroupHeader2=TableGroupHeader2
@@ -2858,6 +2877,8 @@ Style.TableGroupHeader7=TableGroupHeader7
 Style.TableGroupHeader8=TableGroupHeader8
 Style.TableGroupHeader9=TableGroupHeader9
 
+Style.TableGroupHeaderCell=TableGroupHeaderCell
+
 Style.TableGroupFooter1=TableGroupFooter1
 Style.TableGroupFooter2=TableGroupFooter2
 Style.TableGroupFooter3=TableGroupFooter3
@@ -2868,8 +2889,11 @@ Style.TableGroupFooter7=TableGroupFooter7
 Style.TableGroupFooter8=TableGroupFooter8
 Style.TableGroupFooter9=TableGroupFooter9
 
+Style.TableGroupFooterCell=TableGroupFooterCell
+
 Style.TableColumnHeader=TableColumnHeader
 Style.TableDetail=TableDetail
+Style.TableDetailCell=TableDetailCell
 Style.Page=페이지
 Style.Matrix=매트릭스
 
