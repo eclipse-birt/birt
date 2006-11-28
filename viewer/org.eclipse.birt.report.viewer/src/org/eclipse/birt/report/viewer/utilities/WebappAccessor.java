@@ -31,7 +31,8 @@ import org.osgi.framework.Bundle;
  */
 public class WebappAccessor
 {
-	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
+
+	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 
 	private static boolean applicationsStarted = false;
 
@@ -63,6 +64,9 @@ public class WebappAccessor
 	public synchronized static void start( String webappName, String pluginId,
 			IPath path ) throws CoreException
 	{
+		if ( applicationsStarted )
+			return;
+
 		// Set the classpath property (used in Java scripting)
 		String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
 
@@ -72,19 +76,17 @@ public class WebappAccessor
 			projectClassPaths = ""; //$NON-NLS-1$
 		}
 		System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
-		if ( !applicationsStarted )
-		{
 
-			IPath webappPath = getWebappPath( pluginId, path );
+		IPath webappPath = getWebappPath( pluginId, path );
 
-			// we get the server before constructing the class loader, so
-			// class loader exposed by the server is available to the webapps.
-			IWebappServer server = AppServerWrapper.getInstance( )
-					.getAppServer( );
-			PluginClassLoaderWrapper loader = new PluginClassLoaderWrapper(pluginId);
-			server.start( webappName, webappPath, loader );
-			applicationsStarted = true;
-		}
+		// we get the server before constructing the class loader, so
+		// class loader exposed by the server is available to the webapps.
+		IWebappServer server = AppServerWrapper.getInstance( ).getAppServer( );
+		PluginClassLoaderWrapper loader = new PluginClassLoaderWrapper(
+				pluginId );
+		server.start( webappName, webappPath, loader );
+		applicationsStarted = true;
+
 	}
 
 	/**
@@ -115,7 +117,8 @@ public class WebappAccessor
 		try
 		{
 			return AppServerWrapper.getInstance( ).getAppServer( ).getPort( );
-		} catch ( CoreException e )
+		}
+		catch ( CoreException e )
 		{
 			return 0;
 		}
@@ -132,7 +135,8 @@ public class WebappAccessor
 		try
 		{
 			return AppServerWrapper.getInstance( ).getAppServer( ).getHost( );
-		} catch ( CoreException e )
+		}
+		catch ( CoreException e )
 		{
 			return null;
 		}
@@ -159,7 +163,7 @@ public class WebappAccessor
 					ViewerPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
 							.getFormattedResourceString(
 									"viewer.appserver.cannotfindplugin", //$NON-NLS-1$
-									new Object[] { pluginId } ), null ) );
+									new Object[]{pluginId} ), null ) );
 		}
 
 		// Note: we just look for one webapp directory.
@@ -172,8 +176,7 @@ public class WebappAccessor
 					ViewerPlugin.PLUGIN_ID, IStatus.OK,
 					ViewerPlugin.getFormattedResourceString(
 							"viewer.appserver.cannotfindpath", //$NON-NLS-1$
-							new Object[] { pluginId, path.toOSString( ) } ),
-					null ) );
+							new Object[]{pluginId, path.toOSString( )} ), null ) );
 		}
 
 		try
@@ -182,14 +185,14 @@ public class WebappAccessor
 					Platform.resolve( webappURL ) ).getFile( );
 			webappLocation += "birt/"; //$NON-NLS-1$
 			return new Path( webappLocation );
-		} catch ( IOException ioe )
+		}
+		catch ( IOException ioe )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
 					ViewerPlugin.PLUGIN_ID, IStatus.OK,
 					ViewerPlugin.getFormattedResourceString(
 							"viewer.appserver.cannotresolvepath", //$NON-NLS-1$
-							new Object[] { pluginId, path.toOSString( ) } ),
-					ioe ) );
+							new Object[]{pluginId, path.toOSString( )} ), ioe ) );
 		}
 	}
 

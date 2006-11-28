@@ -46,7 +46,7 @@ public class WebViewer
 	/**
 	 * DOC format name
 	 */
-	final public static String DOC = "doc";
+	final public static String DOC = "doc"; //$NON-NLS-1$
 
 	/**
 	 * Birt web viewer plugin id
@@ -351,6 +351,7 @@ public class WebViewer
 
 		try
 		{
+			startWebApp( );
 			BrowserAccessor.getPreviewBrowser( false ).displayURL( root );
 		}
 		catch ( Exception e )
@@ -372,6 +373,7 @@ public class WebViewer
 	 */
 	public static void display( String report, String format, Browser browser )
 	{
+		startWebApp( );
 		browser
 				.setUrl( createURL( "run", report, format, true, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -392,6 +394,7 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser,
 			String servletName )
 	{
+		startWebApp( );
 		browser.setUrl( createURL( servletName, report, format, true, null,
 				null )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
@@ -410,6 +413,7 @@ public class WebViewer
 
 	public static void display( String report, Browser browser, Map params )
 	{
+		startWebApp( );
 		browser.setUrl( createURL( report, params )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 	}
@@ -427,6 +431,7 @@ public class WebViewer
 	{
 		try
 		{
+			startWebApp( );
 			BrowserAccessor.getPreviewBrowser( false )
 					.displayURL(
 							createURL( report, params )
