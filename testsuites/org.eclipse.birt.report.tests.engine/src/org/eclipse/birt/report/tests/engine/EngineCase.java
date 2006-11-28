@@ -250,9 +250,11 @@ public abstract class EngineCase extends TestCase
 	{
 
 		String className = getFullQualifiedClassName( );
-		tgt = className + "/" + folder + "/" + tgt;
+		tgt = this.getInputResourceFolder( ) + File.separator + className + "/"
+				+ folder + "/" + tgt;
 		className = className.replace( '.', '/' );
 
+		// String inputPath =
 		src = className + "/" + folder + "/" + src;
 
 		File parent = new File( tgt ).getParentFile( );
@@ -337,8 +339,8 @@ public abstract class EngineCase extends TestCase
 
 	public void removeResource( )
 	{
-		String className = getFullQualifiedClassName( );
-		removeFile( className );
+		// String className = getFullQualifiedClassName( );
+		removeFile( this.getInputResourceFolder( ) );
 	}
 
 	/**
@@ -402,8 +404,9 @@ public abstract class EngineCase extends TestCase
 
 			String outputFile = genOutputFile( output );
 
-			String goldenFile = getFullQualifiedClassName( ) + "/"
-					+ GOLDEN_FOLDER + "/" + golden;
+//			String goldenFile = getFullQualifiedClassName( ) + "/"
+//					+ GOLDEN_FOLDER + "/" + golden;
+			String goldenFile = this.genGoldenFile( golden );
 			readerA = new FileReader( goldenFile );
 			readerB = new FileReader( outputFile );
 
@@ -531,8 +534,10 @@ public abstract class EngineCase extends TestCase
 	{
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = PLUGIN_NAME + className.substring( PLUGIN_NAME.length( ), lastDotIndex ).replace( '.', '/' );
-//		className = className.substring( 0 , lastDotIndex );
+		className = PLUGIN_NAME
+				+ className.substring( PLUGIN_NAME.length( ), lastDotIndex )
+						.replace( '.', '/' );
+		// className = className.substring( 0 , lastDotIndex );
 
 		return className;
 	}
@@ -545,7 +550,7 @@ public abstract class EngineCase extends TestCase
 			Map paramValues, String format ) throws EngineException
 	{
 		String outputFile = genOutputFile( output );
-		input = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + input;
+		input = this.genInputFile( input );
 
 		IReportRunnable runnable = engine.openReportDesign( input );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
@@ -604,7 +609,7 @@ public abstract class EngineCase extends TestCase
 			throws EngineException
 	{
 		String outputFile = genOutputFile( output );
-		input = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + input;
+		input = this.genInputFile( input );
 
 		IReportRunnable runnable = engine.openReportDesign( input );
 		IRunTask task = engine.createRunTask( runnable );
@@ -664,7 +669,7 @@ public abstract class EngineCase extends TestCase
 	{
 
 		String outputFile = genOutputFile( output );
-		doc = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + doc;
+		doc = this.genInputFile( doc );
 
 		String encoding = "UTF-8"; //$NON-NLS-1$
 
@@ -723,8 +728,7 @@ public abstract class EngineCase extends TestCase
 
 		try
 		{
-			copyFile( from, this.getFullQualifiedClassName( ) + "/"
-					+ INPUT_FOLDER + "/" + tempDoc );
+			copyFile( from, this.genInputFile( tempDoc ) );
 			if ( FORMAT_PDF.equals( format ) ) //$NON-NLS-1$
 				return render_PDF( tempDoc, output, pageRange );
 			else
@@ -737,7 +741,7 @@ public abstract class EngineCase extends TestCase
 		finally
 		{
 			// remove the temp file on exit.
-			removeFile( tempDoc );
+//			removeFile( this.genInputFile( tempDoc ) );
 		}
 	}
 
@@ -994,15 +998,47 @@ public abstract class EngineCase extends TestCase
 		this.engine.destroy( );
 		super.tearDown( );
 	}
+	
+	protected String genOutputFolder( )
+	{
+		String outputFolder = this.getOutputResourceFolder( ) + File.separator
+		+ getFullQualifiedClassName( ) //$NON-NLS-1$
+		+ "/" + OUTPUT_FOLDER;
+		return outputFolder;
+	}
+	
+	protected String genInputFolder( )
+	{
+		String inputFolder = this.getInputResourceFolder( ) + File.separator
+		+ getFullQualifiedClassName( ) //$NON-NLS-1$
+		+ "/" + INPUT_FOLDER;
+		return inputFolder;
+	}
+	
+	protected String genGoldenFolder( )
+	{
+		String goldenFolder = this.getInputResourceFolder( ) + File.separator
+		+ getFullQualifiedClassName( ) //$NON-NLS-1$
+		+ "/" + GOLDEN_FOLDER;
+		return goldenFolder;
+	}
 
 	protected String genOutputFile( String output )
 	{
-		String tempDir = System.getProperty( "java.io.tmpdir" );
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
-		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ "/" + OUTPUT_FOLDER + "/" + output;
+		String outputFile = this.genOutputFolder( ) + File.separator + output;
 		return outputFile;
+	}
+
+	protected String genInputFile( String input )
+	{
+		String inputFile = this.genInputFolder( ) + File.separator + input;
+		return inputFile;
+	}
+
+	protected String genGoldenFile( String golden )
+	{
+		String goldenFile = this.genGoldenFolder( )+ File.separator + golden;
+		return goldenFile;
 	}
 
 	private void copyFolder( File from, File to ) throws Exception
@@ -1079,11 +1115,31 @@ public abstract class EngineCase extends TestCase
 	{
 		copyFolder( new File( from ), new File( to ) );
 	}
-	
+
 	protected String getBasePath( )
 	{
 		return new File( this.getClass( ).getProtectionDomain( )
 				.getCodeSource( ).getLocation( ).getPath( ) ).getParent( ); //$NON-NLS-1$
 	}
-	
+
+	public String tempFolder( )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" );
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		return tempDir;
+	}
+
+	public String getInputResourceFolder( )
+	{
+		String resourceFolder = this.tempFolder( ) + PLUGIN_NAME + ".RESOURCE";
+		return resourceFolder;
+	}
+
+	public String getOutputResourceFolder( )
+	{
+		String outputFolder = this.tempFolder( ) + PLUGIN_NAME + ".OUTPUT";
+		return outputFolder;
+	}
+
 }
