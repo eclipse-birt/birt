@@ -547,14 +547,19 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
-		
 		<!-- copy drivers for jdbc testing -->
-		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.data.oda.jdbc_2.2.0.${buildId}/drivers">
+		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.data.oda.jdbc_${org.eclipse.birt.report.data.oda.jdbc}/drivers">
 			<fileset dir="${p4.home}/drivers">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		
+		<!-- copy necessary jars for tests.viewer -->
+		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}/lib">
+			<fileset dir="${p4.home}/testsViewerLib">
+				<include name="**"/>
+			</fileset>
+		</copy>
+				
 		<delete file="${runner.dir}/testRunner_new.xml" failonerror="false"/>
 		<copy file="${runner.dir}/testRunner.xml" tofile="${runner.dir}/testRunner_new.xml"/>
 		<replace dir="${runner.dir}" value="2.2.0.${buildLabel}" token="@REPLACE_BY_BUILD_ID@">
