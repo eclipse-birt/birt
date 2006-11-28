@@ -69,12 +69,12 @@ public class PlatformConfig implements IPlatformConfig
 
 	/**
 	 * set the configuration used by the OSGi framework. The configuration
-	 * includes all valid osgi config except:
-	 * <li>1. osgi.install.area, always using the one defined by BIRT_HOME.</li>
-	 * <li>2. eclipse.ignoreApp, always be true.</li>
-	 * <li>3. osgi.noShutDown, always be true.</li>
-	 * <li>4. osgi.framework, always using the one defined by BIRT_HOME</li>
-	 * <li>5. osgi.framework.useSystemProperties, always be false.</li>
+	 * includes all valid osgi configs except some reserved as follow:
+	 * <li>1. osgi.install.area, using the one defined by BIRT_HOME.</li>
+	 * <li>2. eclipse.ignoreApp, be true.</li>
+	 * <li>3. osgi.noShutDown, be true.</li>
+	 * <li>4. osgi.framework, using the one defined by BIRT_HOME</li>
+	 * <li>5. osgi.framework.useSystemProperties, be false.</li>
 	 * 
 	 * @param osgiConfigMap
 	 */
