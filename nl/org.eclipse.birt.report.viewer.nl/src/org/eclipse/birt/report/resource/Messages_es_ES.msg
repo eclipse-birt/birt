@@ -135,3 +135,11 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=Error: Falta operador.
 # Exception dialog
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=Apilar rastreo:
+
+###############################################################################
+# Birt Viewer JSP Taglib
+###############################################################################
+birt.viewer.taglib.NO_VIEWER_ID=Viewer id must be specified.
+birt.viewer.taglib.NO_REPORT_SOURCE=Report design or document file should be specified.
+birt.viewer.taglib.NO_REPORT_DOCUMENT=Report document file is required by reportlet.
+birt.viewer.taglib.NO_REQUESTER_NAME=Requester name must be specified.
