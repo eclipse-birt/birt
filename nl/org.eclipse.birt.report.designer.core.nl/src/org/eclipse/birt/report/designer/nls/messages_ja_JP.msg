@@ -1548,6 +1548,7 @@ GroupDialog.Label.IncludeHeader=グループヘッダを含める(&H)
 GroupDialog.Label.Interval=間隔(&I) :
 GroupDialog.PageBreakBefore=次の前で改ページ :
 GroupDialog.PageBreakAfter=次の後で改ページ :
+GroupDialog.PageBreakInside=Inside:
 GroupDialog.Label.IntervalBase=丸めた数値を間隔の基準値として使用する(&U) :
 GroupDialog.Label.Name=名前(&N) :
 GroupDialog.Label.Range=範囲(&R) :

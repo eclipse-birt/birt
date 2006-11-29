@@ -1548,6 +1548,7 @@ GroupDialog.Label.IncludeHeader=그룹 머리글 포함(&H)
 GroupDialog.Label.Interval=간격(&I):
 GroupDialog.PageBreakBefore=다음 이전:
 GroupDialog.PageBreakAfter=다음 이후:
+GroupDialog.PageBreakInside=Inside:
 GroupDialog.Label.IntervalBase=간격에 고정된 기본 값 사용(&U):
 GroupDialog.Label.Name=이름(&N):
 GroupDialog.Label.Range=범위(&R):

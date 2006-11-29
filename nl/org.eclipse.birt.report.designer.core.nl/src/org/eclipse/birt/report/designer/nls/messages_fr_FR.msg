@@ -1548,6 +1548,7 @@ GroupDialog.Label.IncludeHeader=&Inclure un en-tête de groupe
 GroupDialog.Label.Interval=&Intervalle :
 GroupDialog.PageBreakBefore=Avant :
 GroupDialog.PageBreakAfter=Après :
+GroupDialog.PageBreakInside=Inside:
 GroupDialog.Label.IntervalBase=&Utiliser une valeur de base fixe pour l'intervalle :
 GroupDialog.Label.Name=&Nom :
 GroupDialog.Label.Range=&Plage :

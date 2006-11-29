@@ -1548,6 +1548,7 @@ GroupDialog.Label.IncludeHeader=&Gruppenkopfzeile einschließen
 GroupDialog.Label.Interval=&Intervall:
 GroupDialog.PageBreakBefore=Vorher:
 GroupDialog.PageBreakAfter=Nachher:
+GroupDialog.PageBreakInside=Inside:
 GroupDialog.Label.IntervalBase=&Festen Basiswert für Intervall verwenden:
 GroupDialog.Label.Name=&Name:
 GroupDialog.Label.Range=&Bereich:

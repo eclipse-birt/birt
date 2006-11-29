@@ -1548,6 +1548,7 @@ GroupDialog.Label.IncludeHeader=包含组页眉(&H)
 GroupDialog.Label.Interval=间隔(&I):
 GroupDialog.PageBreakBefore=之前:
 GroupDialog.PageBreakAfter=之后:
+GroupDialog.PageBreakInside=Inside:
 GroupDialog.Label.IntervalBase=对间隔使用固定基值(&U):
 GroupDialog.Label.Name=名称(&N):
 GroupDialog.Label.Range=区域(&R):
