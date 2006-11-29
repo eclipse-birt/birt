@@ -10,6 +10,8 @@
               class="org.eclipse.birt.report.tests.engine.emitter.html.HTMLEmitter"
               format="emitter_html"
               id="org.eclipse.birt.report.tests.engine.emitter.html"
+	  		  pagination="paper-size-pagination"
+    	  	  icon="resource/test_emitter.gif"
               mimeType="text/html"/>
     </extension>
 </plugin>
