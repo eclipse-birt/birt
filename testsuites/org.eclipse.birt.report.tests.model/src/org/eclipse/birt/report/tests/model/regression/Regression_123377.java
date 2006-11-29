@@ -46,6 +46,18 @@ public class Regression_123377 extends BaseTestCase
 	private final static String INPUT1 = "regression_123377_lib1.xml"; //$NON-NLS-1$
 	private final static String INPUT2 = "regression_123377_lib2.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT1 , INPUT1 );
+		copyResource_INPUT( INPUT2 , INPUT2 );
+		
+		
+	}
+	
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -54,15 +66,15 @@ public class Regression_123377 extends BaseTestCase
 	public void test_regression_123377( ) throws DesignFileException, SemanticException,
 			IOException
 	{
-		String lib1Input = getClassFolder( ) + INPUT_FOLDER
-				+ "regression_123377_lib1.xml"; //$NON-NLS-1$
-		String lib2Input = getClassFolder( ) + INPUT_FOLDER
-				+ "regression_123377_lib2.xml"; //$NON-NLS-1$
+		String lib1Input = getClassFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + INPUT1; //$NON-NLS-1$
+		String lib2Input = getClassFolder( ) + "/" + INPUT_FOLDER
+		+ "/" + INPUT2; //$NON-NLS-1$
 
-		String lib1Output = getClassFolder( ) + OUTPUT_FOLDER
-				+ "regression_123377_lib1.xml";//$NON-NLS-1$
-		String lib2Output = getClassFolder( ) + OUTPUT_FOLDER
-				+ "regression_123377_lib2.xml";//$NON-NLS-1$
+		String lib1Output = getClassFolder( ) + "/" + OUTPUT_FOLDER
+				+ "/" + INPUT1;//$NON-NLS-1$
+		String lib2Output = getClassFolder( ) + "/" + OUTPUT_FOLDER
+				+ "/" + INPUT2;//$NON-NLS-1$
 
 		makeOutputDir( );
 

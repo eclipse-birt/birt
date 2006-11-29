@@ -50,7 +50,16 @@ public class Regression_121008 extends BaseTestCase
 {
 
 	private final static String TEMPLATE = "regression_121008_template.xml"; //$NON-NLS-1$
-
+	private final static String libname = "regression_121008_lib.xml";
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( TEMPLATE , TEMPLATE );
+		copyResource_INPUT(  libname, libname );
+	}
 	/**
 	 * @throws ContentException
 	 * @throws NameException
@@ -69,10 +78,10 @@ public class Regression_121008 extends BaseTestCase
 		designHandle.getBody( ).paste( copy );
 		ImageHandle image2 = (ImageHandle) designHandle.getBody( ).get( 1 );
 
+		
 		// ensure the the referenced image can be accessed from the design.
 
-		assertEquals( "regression_121008_lib.lvback.gif", image2 //$NON-NLS-1$
-				.getEmbeddedImage( ).getQualifiedName( ) );
+		assertEquals( "regression_121008_lib.lvback.gif", image2.getEmbeddedImage( ).getQualifiedName( ) );
 		assertNotNull( image2.getEmbeddedImage( ).getData( ) );
 	}
 }

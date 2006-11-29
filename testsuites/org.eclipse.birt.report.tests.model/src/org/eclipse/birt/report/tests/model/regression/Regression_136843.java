@@ -31,6 +31,15 @@ public class Regression_136843 extends BaseTestCase
 
 	private final static String TEMPLATE = "chart_listing.rptdesign"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( TEMPLATE , TEMPLATE );
+		
+	}
 	/**
 	 * @throws DesignFileException
 	 */

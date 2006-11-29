@@ -62,6 +62,20 @@ public class Regression_145465 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
+	
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+		copyResource_INPUT( LIB , LIB );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_145465( ) throws IOException,
 			DesignFileException, SemanticException
 	{
@@ -70,13 +84,18 @@ public class Regression_145465 extends BaseTestCase
 		 * .getClassFolder( ) + OUTPUT_FOLDER + REPORT );
 		 */
 
-		copyFile( this.getClassFolder( ) + INPUT_FOLDER + LIB, this
-				.getClassFolder( )
-				+ OUTPUT_FOLDER + LIB );
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		String outputLib = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ File.separator + OUTPUT_FOLDER + File.separator + LIB;
+		
+		copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIB, outputLib );
 
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		session.setResourceFolder( this.getClassFolder( ) + OUTPUT_FOLDER );
+		session.setResourceFolder( tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ File.separator + OUTPUT_FOLDER );
 
 		ReportDesignHandle designHandle = session.openDesign( this
 				.getClassFolder( )
@@ -95,8 +114,7 @@ public class Regression_145465 extends BaseTestCase
 
 		// remove the library from resource folder.
 
-		boolean deleted = new File( this.getClassFolder( ) + OUTPUT_FOLDER
-				+ LIB ).delete( );
+		boolean deleted = new File( outputLib ).delete( );
 		assertTrue( deleted );
 
 		// refresh the report, make sure no exception is throwed out.

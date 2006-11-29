@@ -40,6 +40,15 @@ public class Regression_74253 extends BaseTestCase
 	 * @throws NameException
 	 */
 	
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+		
+	}
 	public void test_regression_74253( ) throws DesignFileException, ContentException,
 			NameException
 	{

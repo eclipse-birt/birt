@@ -46,6 +46,13 @@ public class Regression_122357 extends BaseTestCase
 
 	protected void setUp( ) throws Exception
 	{
+			super.setUp( );
+			removeResource( );
+			
+			// retrieve two input files from tests-model.jar file
+			copyResource_INPUT( INPUT , INPUT );
+			copyResource_INPUT( LIB , LIB );
+			
 	}
 
 	/**
@@ -60,9 +67,9 @@ public class Regression_122357 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle design = session.openDesign( this.getClassFolder( )
-				+ INPUT_FOLDER + INPUT );
+				+ "/" + INPUT_FOLDER + "/" + INPUT );
 
-		String output = getClassFolder( ) + OUTPUT_FOLDER + LIB;
+		String output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + LIB;
 		File outputFile = new File( output );
 		if ( outputFile.exists( ) )
 			outputFile.delete( );
@@ -70,7 +77,7 @@ public class Regression_122357 extends BaseTestCase
 		ElementExportUtil.exportDesign( design, output, true, true );
 
 		LibraryHandle lib = session.openLibrary( this.getClassFolder( )
-				+ OUTPUT_FOLDER + LIB );
+				+ "/" + OUTPUT_FOLDER + "/" + LIB );
 		DesignElementHandle chart = lib.getComponents( ).get( 0 );
 		assertEquals( "NewChart", chart.getName( ) ); //$NON-NLS-1$
 		assertEquals(

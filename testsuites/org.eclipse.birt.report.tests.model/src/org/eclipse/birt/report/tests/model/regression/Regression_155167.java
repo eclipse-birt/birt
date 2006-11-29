@@ -10,19 +10,13 @@ package org.eclipse.birt.report.tests.model.regression;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
-import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
-import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
-import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
-import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
-import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
-import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
+import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
+import org.eclipse.datatools.connectivity.oda.design.*;
 
 /**
  * <b>Bug Description:</b>
@@ -73,6 +67,8 @@ public class Regression_155167 extends BaseTestCase
 		// parameter link.
 
 		DataSetParameters params = setDesign.getParameters( );
+		
+		
 		ParameterDefinition param = (ParameterDefinition) params
 				.getParameterDefinitions( )
 				.get( 0 );

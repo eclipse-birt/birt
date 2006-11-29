@@ -70,6 +70,18 @@ public class Regression_149922 extends BaseTestCase
 	private final static String GOLDEN = "regression_149922.golden"; //$NON-NLS-1$
 	private final static String OUTPUT = "regression_149922.out"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( GOLDEN , GOLDEN );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * @throws Exception
 	 */

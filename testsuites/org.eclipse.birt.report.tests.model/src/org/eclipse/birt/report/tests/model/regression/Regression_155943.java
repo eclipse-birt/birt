@@ -46,8 +46,16 @@ public class Regression_155943 extends BaseTestCase
 {
     private String filename = "Regression_155943.xml"; //$NON-NLS-1$
     
-	protected void setUp( ) throws Exception
+    public void setUp( ) throws Exception
 	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	/**

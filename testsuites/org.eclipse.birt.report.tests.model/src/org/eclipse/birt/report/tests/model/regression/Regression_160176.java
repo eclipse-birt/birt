@@ -36,6 +36,17 @@ public class Regression_160176 extends BaseTestCase
 
 	private final static String REPORT = "regression_160176.rpttemplate"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws DesignFileException
 	 */
@@ -45,8 +56,8 @@ public class Regression_160176 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session
-				.createDesignFromTemplate( this.getClassFolder( )
-						+ INPUT_FOLDER + REPORT );
+				.createDesignFromTemplate( this.getFullQualifiedClassName( ) + "/"
+						+ INPUT_FOLDER + "/" + REPORT );
 		assertNotNull( designHandle );
 	}
 }

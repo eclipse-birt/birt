@@ -21,14 +21,14 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  * Steps to reproduce:
  * <ol>
- * <li>New a library "LibB", and a label with content "aaa"
+ * <li>New a library "LibB", and a label with content "bbb"
  * <li>New a library "LibA", includes LibB, and extends LibB.label
  * <li>New a report, includes LibA, and extends LibA.label
- * <li>Open LibB, change the content of label to "bbb"
+ * <li>Open LibB, change the content of label to "aaa"
  * <li>Switch to the report, refresh it
  * </ol>
  * <p>
- * Expected result: The content of label in report is "bbb"
+ * Expected result: The content of label in report is "aaa"
  * 
  * Actual result: java.lang.NullPointerException
  * </p>
@@ -42,8 +42,21 @@ public class Regression_132938 extends BaseTestCase
 {
 
 	private final static String INPUT = "regression_132938.xml"; //$NON-NLS-1$
+	private final static String LIBRARY_A = "regression_132938_libA.xml";
 	private final static String LIBRARY_B = "regression_132938_libB.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		copyResource_INPUT( LIBRARY_A , LIBRARY_A );
+		copyResource_INPUT( LIBRARY_B , LIBRARY_B );
+		
+		
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -58,32 +71,32 @@ public class Regression_132938 extends BaseTestCase
 		// test case, the backed-up one will be copied back when case finished.
 
 		makeOutputDir( );
-		copyFile( this.getClassFolder( ) + INPUT_FOLDER + LIBRARY_B, this
+		copyFile( this.getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A, this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + LIBRARY_B );
+				+ "/" + OUTPUT_FOLDER + "/" + LIBRARY_A );
 
 		
 		// Open LibB, change the content of label to "bbb", write to disk.
 
-		openLibrary( LIBRARY_B );
+		openLibrary( LIBRARY_A );
 
 		LabelHandle baseLabel = (LabelHandle) libraryHandle
 				.findElement( "NewLabel" ); //$NON-NLS-1$
-		baseLabel.setText( "bbb" ); //$NON-NLS-1$
-		libraryHandle.saveAs( this.getClassFolder( ) + INPUT_FOLDER + LIBRARY_B );
+		baseLabel.setText( "aaa" ); //$NON-NLS-1$
+		libraryHandle.saveAs( this.getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A );
 
-		
+		System.out.println (( (LabelHandle) designHandle.findElement( "childlabel" ) ).getText( ) );
 		// refresh report
 
 		designHandle.reloadLibraries( );
-		assertEquals( "bbb", ( (LabelHandle) designHandle //$NON-NLS-1$
+		assertEquals( "aaa", ( (LabelHandle) designHandle //$NON-NLS-1$
 				.findElement( "childlabel" ) ).getText( ) ); //$NON-NLS-1$
 		
 		
 		// we recover the libraryB file, copied back from backup.
 		
-		copyFile( this.getClassFolder( ) + OUTPUT_FOLDER + LIBRARY_B, this
+		copyFile( this.getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + LIBRARY_A, this
 				.getClassFolder( )
-				+ INPUT_FOLDER + LIBRARY_B );
+				+ "/" + INPUT_FOLDER + "/" + LIBRARY_A );
 	}
 }

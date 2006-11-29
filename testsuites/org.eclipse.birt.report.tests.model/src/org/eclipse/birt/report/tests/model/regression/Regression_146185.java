@@ -52,6 +52,18 @@ public class Regression_146185 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_145698( ) throws DesignFileException,
 			SemanticException
 	{

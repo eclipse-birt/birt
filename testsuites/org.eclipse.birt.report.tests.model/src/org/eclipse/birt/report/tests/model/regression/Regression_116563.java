@@ -47,6 +47,18 @@ public class Regression_116563 extends BaseTestCase
 	private final static String LIBRARY = "regression_116563_lib.xml"; //$NON-NLS-1$
 	private final static String REPORT = "regression_116563.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( LIBRARY , LIBRARY );
+		copyResource_INPUT( REPORT , REPORT );
+		
+	
+	}
+	
 	/**
 	 * @throws SemanticException
 	 * @throws DesignFileException
@@ -56,15 +68,15 @@ public class Regression_116563 extends BaseTestCase
 	{
 		openDesign( REPORT );
 		designHandle.includeLibrary(
-				getClassFolder( ) + INPUT_FOLDER + LIBRARY,
+				getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY,
 				"regression_116563_lib" ); //$NON-NLS-1$
 
 		try
 		{
 			// should throw exception when add the same library the second time.
 
-			designHandle.includeLibrary( getClassFolder( ) + INPUT_FOLDER
-					+ LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
+			designHandle.includeLibrary( getClassFolder( ) + "/" + INPUT_FOLDER
+					+ "/" + LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( Exception e )

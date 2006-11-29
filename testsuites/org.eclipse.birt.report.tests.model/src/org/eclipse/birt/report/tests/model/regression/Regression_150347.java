@@ -37,6 +37,18 @@ public class Regression_150347 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "worm.jpg" , "worm.jpg" );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_150347( ) throws IOException, SemanticException
 	{
 		ReportDesignHandle designHandle = this.createDesign( );

@@ -39,6 +39,18 @@ public class Regression_145724 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */
+	
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	public void test_regression_145724( ) throws DesignFileException,
 			IOException
@@ -47,9 +59,7 @@ public class Regression_145724 extends BaseTestCase
 
 		saveAs( "test_version.out" ); //$NON-NLS-1$
 
-		BufferedReader br = new BufferedReader( new FileReader( this
-				.getClassFolder( )
-				+ OUTPUT_FOLDER + "test_version.out" ) ); //$NON-NLS-1$
+		BufferedReader br = new BufferedReader( new FileReader( this.genOutputFile( "test_version.out" ) ) ); //$NON-NLS-1$
 		String line = null;
 		while ( ( line = br.readLine( ) ) != null )
 		{

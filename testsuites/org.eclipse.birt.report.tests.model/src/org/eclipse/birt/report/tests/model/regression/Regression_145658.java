@@ -39,6 +39,19 @@ public class Regression_145658 extends BaseTestCase
 	 * @throws ExtendsException
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+		copyResource_INPUT( "regression_145658_lib" , "regression_145658_lib" );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_145658( ) throws DesignFileException,
 			ExtendsException
 	{

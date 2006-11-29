@@ -56,6 +56,19 @@ public class Regression_79091 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
+	
+	public void setup( )
+	{
+		removeResource();
+		copyResource_INPUT( INPUT, INPUT );
+		
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_79091( ) throws DesignFileException, SemanticException
 	{
 		openDesign( INPUT );

@@ -35,6 +35,15 @@ public class Regression_130271 extends BaseTestCase
 	private final static String OUTPUT = "Reg_130271_out.xml";//$NON-NLS-1$
 	private final static String GOLDEN = "Reg_130271_golden.xml";//$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		
+	}
 	/**
 	 * @throws Exception
 	 * @throws Exception
@@ -51,8 +60,10 @@ public class Regression_130271 extends BaseTestCase
 				.newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 
-		String filename = getClassFolder( ) + INPUT_FOLDER + INPUT
-				+ "Reg_130217.rptdesign";//$NON-NLS-1$
+		String filename = getClassFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+				//+ "Reg_130217.rptdesign";//$NON-NLS-1$
+		
+		
 
 		designHandle.setFileName( filename );
 

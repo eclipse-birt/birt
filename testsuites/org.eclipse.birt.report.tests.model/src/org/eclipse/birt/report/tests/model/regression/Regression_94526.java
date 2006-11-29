@@ -40,6 +40,19 @@ public class Regression_94526 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
+	
+	public void setup( ) throws Exception
+	{
+		super.setUp();
+		copyResource_INPUT( INPUT, INPUT );
+		System.out.println(INPUT);
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_94526( ) throws DesignFileException
 	{
 		openDesign( INPUT );

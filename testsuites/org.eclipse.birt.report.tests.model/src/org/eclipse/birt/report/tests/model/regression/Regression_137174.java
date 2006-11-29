@@ -37,15 +37,15 @@ public class Regression_137174 extends BaseTestCase
 	 */
 	public void test_regression_137174( )
 	{
-		List infos = ModuleUtil.checkVersion( getClassFolder( ) + INPUT_FOLDER
-				+ filename );
+		List infos = ModuleUtil.checkVersion( getClassFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + filename );
 		assertEquals( 1, infos.size( ) );
 
 		IVersionInfo versionInfo = (IVersionInfo) infos.get( 0 );
 		assertEquals( "1", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
 		assertNotNull( versionInfo.getLocalizedMessage( ) );
 
-		infos = ModuleUtil.checkVersion( getClassFolder( ) + INPUT_FOLDER
+		infos = ModuleUtil.checkVersion( getClassFolder( ) + "/" + INPUT_FOLDER + "/"
 				+ "Regression_141218.xml" ); //$NON-NLS-1$
 		assertEquals( 0, infos.size( ) );
 	}

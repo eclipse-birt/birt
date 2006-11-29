@@ -39,7 +39,17 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_154804 extends BaseTestCase
 {
 	private String filename = "Regression_154804.xml"; //$NON-NLS-1$
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+	}
 	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException 

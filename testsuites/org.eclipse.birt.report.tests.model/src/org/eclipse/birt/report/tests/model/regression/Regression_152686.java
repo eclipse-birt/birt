@@ -55,6 +55,17 @@ public class Regression_152686 extends BaseTestCase
 
 	private final static String INPUT = "regression_152686.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT , INPUT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * Tests the save to give a file name like "file:/c:/test" -- containing
 	 * file schema.
@@ -64,12 +75,10 @@ public class Regression_152686 extends BaseTestCase
 
 	public void test_regression_152686( ) throws Exception
 	{
-		copyFile( this.getClassFolder( ) + INPUT_FOLDER + INPUT, this
-				.getClassFolder( )
-				+ OUTPUT_FOLDER + INPUT );
+		copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT, this.genOutputFile( INPUT ) );
 
 		String fileName = "file" //$NON-NLS-1$
-				+ ":" + getClassFolder( ) + OUTPUT_FOLDER + INPUT; //$NON-NLS-1$
+				+ ":" + this.genOutputFile( INPUT ); //$NON-NLS-1$
 
 		SessionHandle session = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( null );
@@ -84,8 +93,7 @@ public class Regression_152686 extends BaseTestCase
 
 		// make sure the change is saved correctly.
 
-		reportHandle = session.openDesign( this.getClassFolder( )
-				+ OUTPUT_FOLDER + INPUT );
+		reportHandle = session.openDesign( this.genOutputFile( INPUT ) );
 		LabelHandle label2 = (LabelHandle) reportHandle.findElement( "label1" ); //$NON-NLS-1$
 		assertEquals( "bingo", label2.getText( ) ); //$NON-NLS-1$
 	}

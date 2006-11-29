@@ -42,6 +42,15 @@ public class Regression_137653 extends BaseTestCase
 
 	private String filename = "Regression_137653.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+		
+	}
 	/**
 	 * @throws DesignFileException
 	 */

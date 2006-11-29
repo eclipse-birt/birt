@@ -52,6 +52,17 @@ public class Regression_151661 extends BaseTestCase
 
 	private final static String LIBRARY = "regression_151661_lib.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( LIBRARY , LIBRARY );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -64,7 +75,7 @@ public class Regression_151661 extends BaseTestCase
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 
 		ResourceChangeListener libExplorer = new ResourceChangeListener( );
-		session.openLibrary( this.getClassFolder( ) + INPUT_FOLDER + LIBRARY );
+		session.openLibrary( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIBRARY );
 		session.addResourceChangeListener( libExplorer );
 
 		session.fireResourceChange( new LibraryChangeEvent( LIBRARY ) );

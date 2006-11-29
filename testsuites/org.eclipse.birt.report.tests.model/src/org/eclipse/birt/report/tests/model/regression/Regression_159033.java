@@ -35,8 +35,20 @@ public class Regression_159033 extends BaseTestCase
 
 	private final static String REPORT = "regression_159033.rptdesign";
 	private final static String OUTPUT = "regression_159033.rptdesign";
-	String outputFile = getClassFolder( ) + OUTPUT_FOLDER + OUTPUT;
+	String outputFile = this.genOutputFile( OUTPUT );
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_159033( ) throws Exception
 	{
 		openDesign( REPORT );

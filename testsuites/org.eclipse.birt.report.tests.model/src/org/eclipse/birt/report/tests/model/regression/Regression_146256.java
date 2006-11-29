@@ -36,12 +36,23 @@ public class Regression_146256 extends BaseTestCase
 	 *             if the test fails.
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "testRead.jar" , "testRead.jar" );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_146256( ) throws Exception
 	{
 
 		DefaultResourceLocator rl = new DefaultResourceLocator( );
-		String resource = "jar:file:" + getClassFolder( ) + INPUT_FOLDER //$NON-NLS-1$
-				+ "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
+		String resource = "jar:file:" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
 		URL url = rl.findResource( null, resource, IResourceLocator.IMAGE );
 		assertNotNull( url );
 

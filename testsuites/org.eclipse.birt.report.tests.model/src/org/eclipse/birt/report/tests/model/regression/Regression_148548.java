@@ -45,6 +45,18 @@ public class Regression_148548 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_148548( ) throws DesignFileException
 	{
 		openDesign( REPORT );

@@ -46,6 +46,15 @@ public class Regression_117676 extends BaseTestCase
 
 	private final static String INPUT = "regression_117676.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		
+	}
 	/**
 	 * @throws DesignFileException
 	 */
@@ -68,8 +77,7 @@ public class Regression_117676 extends BaseTestCase
 		TableHandle extendsTable = (TableHandle) designHandle
 				.findElement( "NewTable" ); //$NON-NLS-1$
 		LabelHandle label2 = (LabelHandle) ( (CellHandle) ( (RowHandle) extendsTable
-				.getDetail( ).get( 0 ) ).getCells( ).get( 0 ) ).getContent( )
-				.get( 0 );
+				.getDetail( ).get( 0 ) ).getCells( ).get( 0 ) ).getContent( ).get( 0 );
 		assertFalse( label2.canTransformToTemplate( ) );
 
 		try

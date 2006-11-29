@@ -53,6 +53,17 @@ public class Regression_122606 extends BaseTestCase
 
 	private final static String INPUT = "regression_122606.xml"; //$NON-NLS-1$
 
+	private final static String  LibraryName = "regression_122606_lib.xml";
+	
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		copyResource_INPUT( LibraryName , LibraryName);
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws ExtendsException
@@ -65,9 +76,8 @@ public class Regression_122606 extends BaseTestCase
 		openDesign( INPUT );
 
 		LibraryHandle includeLib = designHandle
-				.findLibrary( "regression_122606_lib.xml" ); //$NON-NLS-1$
-		ParameterGroupHandle parent = (ParameterGroupHandle) includeLib
-				.getParameters( ).get( 0 );
+				.findLibrary( LibraryName ); //$NON-NLS-1$
+		ParameterGroupHandle parent = (ParameterGroupHandle) includeLib.getParameters( ).get( 0 );
 
 		assertEquals(
 				"p1", parent.getParameters( ).get( 0 ).getName( ) ); //$NON-NLS-1$

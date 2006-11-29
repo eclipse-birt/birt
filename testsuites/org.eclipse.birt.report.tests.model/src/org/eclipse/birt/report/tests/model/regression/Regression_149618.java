@@ -30,6 +30,19 @@ public class Regression_149618 extends BaseTestCase
 	private String outfile = "Regression_149618_out.xml"; //$NON-NLS-1$
 	private String goldenfile = "Regression_149618_golden.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+		copyResource_GOLDEN( goldenfile , goldenfile );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * @throws Exception
 	 */

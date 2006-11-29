@@ -30,6 +30,18 @@ public class Regression_159858 extends BaseTestCase
 
 	private final static String REPORT = "Invoice_template.rptdesign"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * @throws DesignFileException
 	 */

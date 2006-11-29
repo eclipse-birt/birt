@@ -34,6 +34,20 @@ public class Regression_155509 extends BaseTestCase
 	private String jarfile = "input/Regression_155509.jar"; //$NON-NLS-1$
 	private DefaultResourceLocator rl;
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+		copyResource_INPUT( propfile , propfile );
+		copyResource_INPUT( jarfile , jarfile );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * @throws DesignFileException
 	 */
@@ -49,7 +63,7 @@ public class Regression_155509 extends BaseTestCase
 				IResourceLocator.JAR_FILE );
 		assertNotNull( jarrsc );
 
-		sessionHandle.setResourceFolder( getClassFolder( ) + INPUT_FOLDER );
+		sessionHandle.setResourceFolder( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" );
 
 		URL messagersc = rl.findResource(
 				designHandle,

@@ -35,6 +35,17 @@ public class Regression_156020 extends BaseTestCase
 	private final static String DATASOURCEEXTENSION = "org.eclipse.datatools.enablement.oda.xml"; //$NON-NLS-1$
 	private final static String DATASETEXTENSION = "org.eclipse.datatools.enablement.oda.xml.dataSet"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * Backward compatibility
 	 * 

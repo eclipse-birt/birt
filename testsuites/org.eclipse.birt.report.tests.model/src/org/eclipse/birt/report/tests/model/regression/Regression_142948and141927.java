@@ -39,6 +39,15 @@ public class Regression_142948and141927 extends BaseTestCase
 
 	private String filename = "Regression_142948and141927.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+		
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws IOException
@@ -48,8 +57,8 @@ public class Regression_142948and141927 extends BaseTestCase
 		openDesign( filename );
 
 		designHandle.setFileName( null );
-		String filePath = "file:/" + getClassFolder( ) + INPUT_FOLDER //$NON-NLS-1$
-				+ filename;
+		String filePath = "file:/" + getClassFolder( ) + "/" + INPUT_FOLDER //$NON-NLS-1$
+				+ "/" + filename;
 
 		designHandle.setFileName( filePath );
 		URL url = designHandle

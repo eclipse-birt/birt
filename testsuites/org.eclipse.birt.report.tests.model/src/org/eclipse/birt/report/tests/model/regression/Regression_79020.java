@@ -37,6 +37,31 @@ public class Regression_79020 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
+/*	
+	public void setup( )throws Exception
+	{
+		super.setUp( );
+		removeResource();
+		copyResource_INPUT( INPUT, INPUT );
+		//copyResource_INPUT( INPUT2, INPUT2 );
+	}
+*/
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+	
+	}
+
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 
 	public void test_regression_79020( ) throws DesignFileException, SemanticException
 	{

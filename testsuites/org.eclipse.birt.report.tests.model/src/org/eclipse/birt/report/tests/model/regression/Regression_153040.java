@@ -53,6 +53,19 @@ public class Regression_153040 extends BaseTestCase
 
 	private final static String INPUT = "regression_153040.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( INPUT , INPUT );
+		copyResource_INPUT( "regression_153040_lib.xml" , "regression_153040_lib.xml" );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * Tests when the label is deleted, the template definition will be cleared
 	 * too.

@@ -30,20 +30,32 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 public class Regression_120293 extends BaseTestCase
 {
-
+    final static String INPUT1 = "Library_1.xml";
+    final static String INPUT2 = "DesignWithoutLibrary.xml";
+    
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT1 , INPUT1 );
+		copyResource_INPUT( INPUT2 , INPUT2 );
+		
+	}
 	/**
 	 * @throws Exception
 	 */
 	
 	public void test_regression_120293( ) throws Exception
 	{
-		openLibrary( "Library_1.xml" ); //$NON-NLS-1$
+		openLibrary( INPUT1 ); //$NON-NLS-1$
 
 		Iterator imageIter = libraryHandle.imagesIterator( );
 		EmbeddedImageHandle baseImage = (EmbeddedImageHandle) imageIter.next( );
 
-		openDesign( "DesignWithoutLibrary.xml" ); //$NON-NLS-1$
-		designHandle.includeLibrary( "Library_1.xml", "Lib1" ); //$NON-NLS-1$ //$NON-NLS-2$
+		openDesign( INPUT2 ); //$NON-NLS-1$
+		designHandle.includeLibrary( INPUT1, "Lib1" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		EmbeddedImage newImage = StructureFactory.newEmbeddedImageFrom(
 				baseImage, "image1", designHandle ); //$NON-NLS-1$

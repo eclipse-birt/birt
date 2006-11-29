@@ -32,7 +32,19 @@ public class Regression_119220 extends BaseTestCase
 {
 
 	private String filename = "Regression_119220.xml"; //$NON-NLS-1$
-
+	private String imagename = "embeddedimage.xml";
+	
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+		copyResource_INPUT( imagename , imagename );
+	}
+	
+	
 	/**
 	 * @throws DesignFileException
 	 */
@@ -50,6 +62,8 @@ public class Regression_119220 extends BaseTestCase
 				.findElement( "Image" ); //$NON-NLS-1$
 
 		assertNotNull( imageHandle );
+		
+		
 		assertEquals( "Lib.actuatetop.jpg", imageHandle.getImageName( ) ); //$NON-NLS-1$
 		assertEquals( "Lib.actuatetop.jpg", imageHandle //$NON-NLS-1$
 				.getProperty( IImageItemModel.IMAGE_NAME_PROP ) );

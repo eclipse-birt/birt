@@ -37,6 +37,19 @@ public class Regression_75539 extends BaseTestCase
 	 * @throws Exception 
 	 * 
 	 */
+	
+	public void setup( ) throws Exception
+	{
+		super.setUp();
+		removeResource();
+		copyResource_GOLDEN( GOLDEN, GOLDEN );
+		//copyResource_INPUT( INPUT2, INPUT2 );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	public void test_regression_75539( ) throws Exception
 	{

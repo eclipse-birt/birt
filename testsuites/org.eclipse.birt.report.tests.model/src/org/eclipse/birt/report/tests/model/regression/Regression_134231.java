@@ -48,11 +48,21 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * the style property is refreshed in the child text.
  * </p>
  */
-public class Regression_134231 extends BaseTestCase
-{
+public class Regression_134231 extends BaseTestCase {
 
 	private final static String INPUT = "regression_134231.xml"; //$NON-NLS-1$
+
 	private final static String LIBRARY = "regression_134231_lib.xml"; //$NON-NLS-1$
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT(INPUT, INPUT);
+		copyResource_INPUT(LIBRARY, LIBRARY);
+
+	}
 
 	/**
 	 * @throws DesignFileException
@@ -60,44 +70,58 @@ public class Regression_134231 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_134231( ) throws DesignFileException, IOException,
-			SemanticException
-	{
-		openDesign( INPUT );
+	public void test_regression_134231() throws DesignFileException,
+			IOException, SemanticException {
+		openDesign(INPUT);
 
 		// backup the library file, as we need to modify the input file during
 		// test case, the backed-up one will be copied back when case finished.
 
-		makeOutputDir( );
-		copyFile( this.getClassFolder( ) + INPUT_FOLDER + LIBRARY, this
-				.getClassFolder( )
-				+ OUTPUT_FOLDER + LIBRARY );
+		makeOutputDir();
+		// the following code may not work when test plugin is packaged as jar
+		// "getFullQualifiedClassName( )" is recommend to replace "this.getClassFolder()"
+		//copyFile(this.getClassFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY,
+		//		this.getClassFolder() + "/" + OUTPUT_FOLDER + "/" + LIBRARY);
 
+		
+		
 		// find the child text
 
 		TextItemHandle text = (TextItemHandle) designHandle
-				.findElement( "NewText" ); //$NON-NLS-1$
-		assertEquals( "Sample Text", text.getContent( ) ); //$NON-NLS-1$
-		assertEquals( "red", text.getStringProperty( StyleHandle.COLOR_PROP ) ); //$NON-NLS-1$
+				.findElement("NewText"); //$NON-NLS-1$
+		assertEquals("Sample Text", text.getContent()); //$NON-NLS-1$
+		System.out.println(text.getStringProperty(StyleHandle.COLOR_PROP));
+		assertEquals("red", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
 
 		// Go to library, change the style, set the font color as "blue".
 
-		openLibrary( LIBRARY );
-		StyleHandle s1 = libraryHandle.findStyle( "s1" ); //$NON-NLS-1$
-		s1.setStringProperty( StyleHandle.COLOR_PROP, "blue" ); //$NON-NLS-1$
+		openLibrary(LIBRARY);
+		StyleHandle s1 = libraryHandle.findStyle("s1"); //$NON-NLS-1$
+		s1.setStringProperty(StyleHandle.COLOR_PROP, "blue"); //$NON-NLS-1$
 
-		libraryHandle.saveAs( this.getClassFolder( ) + INPUT_FOLDER + LIBRARY );
-
+		
+		//TODO delete it. See if this piece of code is continue to work after packaging
+		String className = getFullQualifiedClassName( );
+		String tgt = className +  "/" + INPUT_FOLDER + "/"
+		+ LIBRARY;
+		
+		//className = className.replace( '.', '/' );
+		//String src = className + "/" + folder + "/" + src;
+		
+		libraryHandle.saveAs( tgt );
+		
+		//copyResource_INPUT(this.getClassFolder() + "/" + INPUT_FOLDER + "/"
+		//		+ LIBRARY, LIBRARY);
 		// refresh the libraries, make sure the style property is refreshed in
 		// the child text
 
-		designHandle.reloadLibraries( );
-		assertEquals( "blue", text.getStringProperty( StyleHandle.COLOR_PROP ) ); //$NON-NLS-1$
+		designHandle.reloadLibraries();
+		text = (TextItemHandle) designHandle.findElement("NewText"); //$NON-NLS-1$
+		assertEquals("blue", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
 
 		// we recover the library file, copied back from backup.
 
-		copyFile( this.getClassFolder( ) + OUTPUT_FOLDER + LIBRARY, this
-				.getClassFolder( )
-				+ INPUT_FOLDER + LIBRARY );
+		copyFile(this.getClassFolder() + "/" + OUTPUT_FOLDER + "/" + LIBRARY,
+				this.getClassFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY);
 	}
 }

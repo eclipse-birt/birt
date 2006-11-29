@@ -30,6 +30,18 @@ public class Regression_162719 extends BaseTestCase
 
 	private final static String REPORT = "regression_162719.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * setRowFetchLimit()/getRowFetchLimit()
 	 * 

@@ -49,6 +49,19 @@ public class Regression_153220 extends BaseTestCase
 	private String lib2name = "Regression_153220_lib2.xml"; //$NON-NLS-1$
 	private String filename = "Regression_153220.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( lib1name , lib1name );
+		copyResource_INPUT( lib2name , lib2name );
+		copyResource_INPUT( filename , filename );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws IOException
 	 * @throws SemanticException
@@ -57,13 +70,13 @@ public class Regression_153220 extends BaseTestCase
 	public void test_Regression_153220( ) throws IOException,
 			DesignFileException, SemanticException
 	{
-		String lib1Input = getClassFolder( ) + INPUT_FOLDER + lib1name;
-		String lib2Input = getClassFolder( ) + INPUT_FOLDER + lib2name;
-		String fileInput = getClassFolder( ) + INPUT_FOLDER + filename;
+		String lib1Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + lib1name;
+		String lib2Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + lib2name;
+		String fileInput = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + filename;
 
-		String lib1Output = getClassFolder( ) + OUTPUT_FOLDER + lib1name;
-		String lib2Output = getClassFolder( ) + OUTPUT_FOLDER + lib2name;
-		String fileOutput = getClassFolder( ) + OUTPUT_FOLDER + filename;
+		String lib1Output = this.genOutputFile( lib1name );
+		String lib2Output = this.genOutputFile( lib2name );;
+		String fileOutput = this.genOutputFile( filename );;
 
 		makeOutputDir( );
 		// open and modify the library files under the output folder.

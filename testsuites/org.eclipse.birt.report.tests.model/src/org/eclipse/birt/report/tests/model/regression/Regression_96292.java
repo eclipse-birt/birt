@@ -33,6 +33,23 @@ public class Regression_96292 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
+
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+	
+	}
+	
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+
 	public void test_regression_96292( ) throws DesignFileException
 	{
 		openDesign( INPUT );

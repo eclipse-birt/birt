@@ -61,8 +61,18 @@ public class Regression_161383 extends BaseTestCase
 	private final static String REPORT1 = "regression_161383_1.xml"; //$NON-NLS-1$
 	private final static String REPORT2 = "regression_161383_2.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
+	public void setUp( ) throws Exception
 	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+		copyResource_INPUT( REPORT1 , REPORT1 );
+		copyResource_INPUT( REPORT2 , REPORT2 );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	/**

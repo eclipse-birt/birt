@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+
 
 
 /**
@@ -49,6 +51,18 @@ public class Regression_153233 extends BaseTestCase
 	private String filename = "Regression_153233.xml"; //$NON-NLS-1$
 	private String libname = "Regression_153233_lib.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+		copyResource_INPUT( libname , libname );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws Exception
 	 */

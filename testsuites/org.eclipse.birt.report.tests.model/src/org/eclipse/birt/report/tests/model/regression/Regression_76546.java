@@ -33,6 +33,17 @@ public class Regression_76546 extends BaseTestCase
 	private String filename = "Regression_76546.xml"; //$NON-NLS-1$
 	private String error = "The name \"group\" duplicates an existing name. Please choose a different name."; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+	
+	}
+
+	
 	/**
 	 * @throws DesignFileException
 	 * @throws NameException

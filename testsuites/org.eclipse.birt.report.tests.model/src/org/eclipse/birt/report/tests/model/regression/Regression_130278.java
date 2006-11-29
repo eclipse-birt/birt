@@ -36,6 +36,15 @@ public class Regression_130278 extends BaseTestCase
 	private final static String INPUT = "Reg_130278.xml"; //$NON-NLS-1$
 	private ElementFactory factory = null;
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		
+	}
 	/**
 	 * @throws SemanticException
 	 * @throws DesignFileException

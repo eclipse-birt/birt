@@ -57,6 +57,15 @@ public class Regression_134954 extends BaseTestCase
 	private final static String INPUT = "regression_134954.xml"; //$NON-NLS-1$
 	private final static String OUTPUT = "regression_134954.out"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		copyResource_OUTPUT( OUTPUT , OUTPUT );
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -78,7 +87,7 @@ public class Regression_134954 extends BaseTestCase
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session.openDesign( this
 				.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT );
+				+ "/" + OUTPUT_FOLDER + "/" + OUTPUT );
 		assertNull( designHandle
 				.getListProperty( ReportDesignHandle.LIBRARIES_PROP ) );
 	}

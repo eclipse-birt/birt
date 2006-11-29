@@ -59,6 +59,17 @@ public class Regression_148761 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( TEMPLATE , TEMPLATE );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	public void test_regression_148761( ) throws DesignFileException,
 			SemanticException
@@ -66,8 +77,11 @@ public class Regression_148761 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 
-		ReportDesignHandle template = session.openDesign( this.getClassFolder( )
-				+ INPUT_FOLDER + TEMPLATE );
+		ReportDesignHandle template = session.openDesign( this.getFullQualifiedClassName( ) + "/"
+				+ INPUT_FOLDER + "/" + TEMPLATE );
+		
+		//System.out.println (template);
+		
 		TextItemHandle text1 = (TextItemHandle) template.findElement( "t1" ); //$NON-NLS-1$
 
 		// Create template item using "t1"

@@ -60,6 +60,18 @@ public class Regression_145520 extends BaseTestCase
 	 * @throws ContentException
 	 */
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void test_regression_145520( ) throws DesignFileException,
 			ContentException, NameException
 	{

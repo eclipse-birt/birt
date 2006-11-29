@@ -56,6 +56,17 @@ public class Regression_134018 extends BaseTestCase
 
 	private final static String LIBRARY = "regression_134018_lib.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( LIBRARY , LIBRARY );
+		
+		
+		
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -66,13 +77,13 @@ public class Regression_134018 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session.createDesign( );
-		designHandle.setFileName( this.getClassFolder( ) + INPUT_FOLDER
-				+ "regression_134018.xml" ); //$NON-NLS-1$
+		designHandle.setFileName( this.getClassFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + LIBRARY ); //$NON-NLS-1$
 
 		// include the lib and extends lib.masterpage.
 
-		designHandle.includeLibrary( this.getClassFolder( ) + INPUT_FOLDER
-				+ LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
+		designHandle.includeLibrary( this.getClassFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
 		LibraryHandle lib = designHandle.getLibrary( "regression_134018_lib" ); //$NON-NLS-1$
 		MasterPageHandle basePage = lib.findMasterPage( "basePage" ); //$NON-NLS-1$
 

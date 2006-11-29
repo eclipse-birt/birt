@@ -34,6 +34,17 @@ public class Regression_152300 extends BaseTestCase
 	private final static String REPORT = "regression_152300.xml"; //$NON-NLS-1$
 	static int seed = 0;
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException

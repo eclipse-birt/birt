@@ -36,15 +36,25 @@ public class Regression_138849 extends BaseTestCase
 {
 
 	private String filename = "Regression_138849.xml"; //$NON-NLS-1$
-
+	private String propname = "a.properties";
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+		copyResource_INPUT( propname , propname );
+	}
 	/**
 	 * @throws DesignFileException
 	 */
 	public void test_regression_138849( ) throws DesignFileException
 	{
 		openDesign( filename );
-
+	
 		LabelHandle label = (LabelHandle) designHandle.findElement( "label" ); //$NON-NLS-1$
+		System.out.println( label.getDisplayText( ) );
 		assertEquals( "actuate", label.getDisplayText( ) ); //$NON-NLS-1$
 
 	}

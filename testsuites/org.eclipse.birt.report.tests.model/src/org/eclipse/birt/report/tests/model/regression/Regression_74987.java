@@ -37,7 +37,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_74987 extends BaseTestCase
 {
 
-	private String filename = "Regression_74987.xml"; //$NON-NLS-1$
+	final static String filename = "Regression_74987.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
@@ -45,9 +45,24 @@ public class Regression_74987 extends BaseTestCase
 	 * @throws ContentException
 	 * @throws NameException
 	 */
+	
+	public void setup( ) throws Exception
+	{
+		super.setUp( );
+		removeResource();
+		copyResource_INPUT( filename, filename );
+		//System.out.println(filename);
+	}
+/*
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+*/	
 	public void test_regression_74987( ) throws DesignFileException, StyleException,
 			ContentException, NameException
 	{
+		System.out.println(filename);
 		openDesign( filename );
 		GridHandle grid = (GridHandle) designHandle.findElement( "Grid" ); //$NON-NLS-1$
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(

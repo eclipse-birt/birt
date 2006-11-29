@@ -34,6 +34,8 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_78796 extends BaseTestCase
 {
 
+	
+	
 	/**
 	 * 
 	 */

@@ -46,6 +46,19 @@ public class Regression_161179 extends BaseTestCase
 
 	private final static String REPORT = "regression_161179.xml"; //$NON-NLS-1$
 	private final static String REPORT1 = "regression_161179_1.xml"; //$NON-NLS-1$
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( REPORT , REPORT );
+		copyResource_INPUT( REPORT1 , REPORT1 );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * test set/get border properties on table row
 	 * 

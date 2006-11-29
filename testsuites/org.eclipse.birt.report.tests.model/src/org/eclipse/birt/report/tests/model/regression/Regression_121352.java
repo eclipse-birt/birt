@@ -47,6 +47,15 @@ public class Regression_121352 extends BaseTestCase
 	private String outfile = "Regression_121352_out.xml"; //$NON-NLS-1$
 	private String goldenfile = "Regression_121352_golden.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( filename , filename );
+		
+	}
 	/**
 	 * @throws Exception
 	 */

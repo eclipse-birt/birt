@@ -32,16 +32,30 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_77901 extends BaseTestCase
 {
 
-	private String filename = "Regression_77901.xml"; //$NON-NLS-1$
+	private String INPUT = "Regression_77901.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
+	
+	public void setup( ) throws Exception
+	{
+		super.setUp();
+		removeResource();
+		copyResource_INPUT( INPUT, INPUT );
+		//copyResource_INPUT( INPUT2, INPUT2 );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 
 	public void test_regression_77901( ) throws DesignFileException, SemanticException
 	{
-		openDesign( filename );
+		openDesign( INPUT );
 		MasterPageHandle masterpage = designHandle
 				.findMasterPage( "masterpage" ); //$NON-NLS-1$
 		assertNotNull( masterpage );

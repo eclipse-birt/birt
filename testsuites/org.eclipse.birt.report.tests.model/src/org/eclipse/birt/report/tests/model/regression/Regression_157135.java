@@ -48,10 +48,21 @@ import com.ibm.icu.util.ULocale;
 public class Regression_157135 extends BaseTestCase
 {
 
-	private String filename2 = getClassFolder( ) + INPUT_FOLDER
-			+ "sub/" + "Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-	private String libname = getClassFolder( ) + INPUT_FOLDER
-			+ "Regression_157135_lib.xml"; //$NON-NLS-1$
+	private String filename2 = "Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+	private String libname = "Regression_157135_lib.xml"; //$NON-NLS-1$
+
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "sub/" + filename2, "sub/" + filename2 );
+		copyResource_INPUT( libname, libname );
+	}
+
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 
 	/**
 	 * @throws DesignFileException
@@ -61,6 +72,10 @@ public class Regression_157135 extends BaseTestCase
 	public void test_regression_157135( ) throws DesignFileException,
 			SemanticException
 	{
+		filename2 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+				+ "/sub/" + "Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+		libname = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+				+ "/" + "Regression_157135_lib.xml"; //$NON-NLS-1$
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );

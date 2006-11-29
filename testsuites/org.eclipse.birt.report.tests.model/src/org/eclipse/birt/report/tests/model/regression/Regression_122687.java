@@ -34,7 +34,17 @@ public class Regression_122687 extends BaseTestCase
 {
 
 	private final static String REPORT = "regression_122687.xml"; //$NON-NLS-1$
+	private final static String LibraryName = "regression_122687_lib.xml";
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( REPORT , REPORT );
+		copyResource_INPUT (LibraryName, LibraryName);
+	}
 	/**
 	 * @throws SemanticException
 	 * @throws DesignFileException
@@ -42,15 +52,20 @@ public class Regression_122687 extends BaseTestCase
 	public void test_regression_122687( ) throws SemanticException, DesignFileException
 	{
 		openDesign( REPORT );
-
+		
 		LibraryHandle lib = designHandle.getLibrary( "regression_122687_lib" ); //$NON-NLS-1$
-		TableHandle parent = (TableHandle) lib.findElement( "table1" ); //$NON-NLS-1$
-
+		TableHandle parent = (TableHandle) lib.findElement("table1" ); //$NON-NLS-1$
+		assertNotNull( parent );
 		// parent table background color is "aqua"
+		System.out.println(StyleHandle.BACKGROUND_COLOR_PROP );
+		// above printout is "backgroundColor"
+		
+		System.out.println(parent.getStringProperty( StyleHandle.BACKGROUND_COLOR_PROP ));
+		// nothing returned from parent.getStringProperty(...)
 		
 		assertEquals( "aqua", parent //$NON-NLS-1$
 				.getStringProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
-
+		//assertFalse("aqua".equals(parent.getStringProperty( StyleHandle.BACKGROUND_COLOR_PROP )));
 		
 		// extends from parent table.
 		

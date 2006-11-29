@@ -48,6 +48,17 @@ public class Regression_102003 extends BaseTestCase
 
 	private final static String INPUT = "regression_102003.xml"; //$NON-NLS-1$
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		copyResource_INPUT( INPUT , INPUT );
+		
+
+	}
+	
+	
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException

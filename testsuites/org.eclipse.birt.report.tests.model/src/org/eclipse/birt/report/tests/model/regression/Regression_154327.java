@@ -37,6 +37,17 @@ public class Regression_154327 extends BaseTestCase
 
 	private String filename = "Regression_154327.xml"; //$NON-NLS-1$
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * @throws DesignFileException
 	 */
@@ -50,8 +61,8 @@ public class Regression_154327 extends BaseTestCase
 		DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = designEngine.newSessionHandle( (ULocale) null );
 
-		designHandle = sessionHandle.openDesign( getClassFolder( )
-				+ INPUT_FOLDER + filename, options );
+		designHandle = sessionHandle.openDesign( this.getFullQualifiedClassName( ) + "/"
+				+ INPUT_FOLDER + "/" + filename, options );
 		assertEquals( 0, designHandle.getModule( ).getAllErrors( ).size( ) );
 		designHandle.close( );
 		
@@ -59,8 +70,8 @@ public class Regression_154327 extends BaseTestCase
 		// open design with semantic check
 
 		options = null;
-		designHandle = sessionHandle.openDesign( getClassFolder( )
-				+ INPUT_FOLDER + filename, options );
+		designHandle = sessionHandle.openDesign( this.getFullQualifiedClassName( ) + "/"
+				+ INPUT_FOLDER + "/" + filename, options );
 		assertEquals( 1, designHandle.getModule( ).getAllErrors( ).size( ) );
 
 	}

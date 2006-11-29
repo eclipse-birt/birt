@@ -36,6 +36,18 @@ import com.ibm.icu.util.ULocale;
 public class Regression_150687 extends BaseTestCase
 {
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "test.jar" , "test.jar" );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * @throws SemanticException
 	 */
@@ -50,7 +62,7 @@ public class Regression_150687 extends BaseTestCase
 
 		designHandle.addScriptLib( lib1 );
 
-		session.setResourceFolder( this.getClassFolder( ) + INPUT_FOLDER );
+		session.setResourceFolder( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER );
 		URL url = session.getResourceLocator( ).findResource( designHandle,
 				"test.jar", IResourceLocator.JAR_FILE ); //$NON-NLS-1$
 		assertNotNull( url );

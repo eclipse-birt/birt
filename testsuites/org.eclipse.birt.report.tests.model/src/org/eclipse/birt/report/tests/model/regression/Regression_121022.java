@@ -50,6 +50,17 @@ public class Regression_121022 extends BaseTestCase
 
 	private final static String REPORT = "regression_121022.xml"; //$NON-NLS-1$
 
+	private final static String libname = "regression_121022_lib.xml";
+	
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( REPORT , REPORT );
+		copyResource_INPUT( libname, libname );
+	}
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
