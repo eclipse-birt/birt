@@ -81,6 +81,10 @@ public final class EmptyWithoutAxes extends BaseRenderer
 	public void renderLegendGraphic( IPrimitiveRenderer ipr, Legend lg,
 			Fill fPaletteEntry, Bounds bo ) throws ChartException
 	{
+		if ( ( bo.getWidth( ) == 0 ) && ( bo.getHeight( ) == 0 ) )
+		{
+			return;
+		}
 		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
 				LineStyle.SOLID_LITERAL,
 				1 );
