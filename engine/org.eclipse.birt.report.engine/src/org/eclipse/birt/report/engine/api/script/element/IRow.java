@@ -58,22 +58,31 @@ public interface IRow extends IReportElement
 	 * @throws ScriptException
 	 */
 
-	void addHighLightRule( IHighLightRule rule ) throws ScriptException;
+	void addHighlightRule( IHighlightRule rule ) throws ScriptException;
 
 	/**
-	 * Removes HighLightRule
+	 * Removes all HighLightRule
 	 * 
 	 * @param name
 	 * @throws ScriptException
 	 */
 
-	void removeHighLightRules( ) throws ScriptException;
+	void removeHighlightRules( ) throws ScriptException;
+	
+	/**
+	 * Removes HighLightRule
+	 * @param rule
+	 * @throws ScriptException
+	 */
+	
+	void removeHighlightRule(IHighlightRule rule ) throws ScriptException;
 
 	/**
 	 * Returns all highlightrule
 	 * 
 	 * @return all highlightrule
 	 */
-	IHighLightRule[] getHighLightRule( );
+	
+	IHighlightRule[] getHighlightRules( );
 
 }

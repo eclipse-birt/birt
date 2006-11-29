@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.engine.api.script.element;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.script.internal.element.DataBindingImpl;
 import org.eclipse.birt.report.engine.script.internal.element.FilterConditionImpl;
 import org.eclipse.birt.report.engine.script.internal.element.HideRuleImpl;
-import org.eclipse.birt.report.engine.script.internal.element.HighLightRuleImpl;
+import org.eclipse.birt.report.engine.script.internal.element.HighlightRuleImpl;
 import org.eclipse.birt.report.engine.script.internal.element.SortConditionImpl;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -45,20 +44,6 @@ public class StructureScriptAPIFactory
 	}
 
 	/**
-	 * Create <code>IHideRule</code> instance
-	 * 
-	 * @param rule
-	 * @return instance
-	 * @throws ScriptException
-	 */
-
-	public static IHideRule createHideRule( HideRule rule )
-	{
-		IHideRule r = new HideRuleImpl( rule );
-		return r;
-	}
-
-	/**
 	 * Create <code>IFilterCondition</code>
 	 * 
 	 * @return instance
@@ -70,27 +55,14 @@ public class StructureScriptAPIFactory
 		IFilterCondition condition = new FilterConditionImpl( c );
 		return condition;
 	}
-
-	/**
-	 * Create <code>IFilterCondition</code>
-	 * 
-	 * @param c
-	 * @return instance
-	 */
-
-	public static IFilterCondition createFilterCondition( FilterCondition c )
-	{
-		IFilterCondition condition = new FilterConditionImpl( c );
-		return condition;
-	}
-
+	
 	/**
 	 * Create <code>IDataBinding</code>
 	 * 
 	 * @return instance
 	 */
 
-	public static IDataBinding createComputedColumn( )
+	public static IDataBinding createDataBinding( )
 	{
 		ComputedColumn c = new ComputedColumn( );
 		IDataBinding binding = new DataBindingImpl( c );
@@ -98,40 +70,15 @@ public class StructureScriptAPIFactory
 	}
 
 	/**
-	 * Create <code>IDataBinding</code>
-	 * 
-	 * @param c
-	 * @return instance
-	 */
-
-	public static IDataBinding createComputedColumn( ComputedColumn c )
-	{
-		IDataBinding binding = new DataBindingImpl( c );
-		return binding;
-	}
-
-	/**
-	 * Create <code>IHighLightRule</code>
-	 * 
-	 * @param h
-	 * @return instance
-	 */
-
-	public static IHighLightRule createHighLightRule( HighlightRule h )
-	{
-		IHighLightRule rule = new HighLightRuleImpl( h );
-		return rule;
-	}
-
-	/**
 	 * Create <code>IHighLightRule</code>
 	 * 
 	 * @return instance
 	 */
-	public static IHighLightRule createHighLightRule( )
+	
+	public static IHighlightRule createHighLightRule( )
 	{
 		HighlightRule h = new HighlightRule( );
-		IHighLightRule rule = new HighLightRuleImpl( h );
+		IHighlightRule rule = new HighlightRuleImpl( h );
 		return rule;
 	}
 
@@ -140,21 +87,10 @@ public class StructureScriptAPIFactory
 	 * 
 	 * @return instance
 	 */
-	public static ISortCondition createSortKey( )
+	
+	public static ISortCondition createSortCondition( )
 	{
 		SortKey s = new SortKey( );
-		ISortCondition sort = new SortConditionImpl( s );
-		return sort;
-	}
-
-	/**
-	 * Create <code>ISortCondition</code>
-	 * 
-	 * @param s
-	 * @return instance
-	 */
-	public static ISortCondition createSortKey( SortKey s )
-	{
 		ISortCondition sort = new SortConditionImpl( s );
 		return sort;
 	}

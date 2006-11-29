@@ -11,11 +11,20 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IGroup;
+import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.HighlightRuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 public class Group extends ReportElement implements IGroup
 {
@@ -170,4 +179,67 @@ public class Group extends ReportElement implements IGroup
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
+	
+	public void addHighlightRule( IHighlightRule rule ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.addItem( rule.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public IHighlightRule[] getHighlightRules( )
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		Iterator iterator = propHandle.iterator( );
+		List rList = new ArrayList( );
+		int count = 0;
+
+		while ( iterator.hasNext( ) )
+		{
+			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
+					.next( );
+			HighlightRuleImpl rule = new HighlightRuleImpl( ruleHandle );
+			rList.add( rule );
+			++count;
+		}
+		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
+	}
+
+	public void removeHighlightRule( IHighlightRule rule )
+			throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.removeItem( rule.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public void removeHighlightRules( ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
 }

@@ -204,7 +204,7 @@ public interface IReportItem extends IReportElement
 	 * @return all column bindings
 	 */
 
-	IDataBinding[] getColumnBindings( );
+	IDataBinding[] getDataBindings( );
 
 	/**
 	 * Returns column binding.
@@ -212,7 +212,7 @@ public interface IReportItem extends IReportElement
 	 * @param bindingName
 	 * @return column binding expression.
 	 */
-	String getColumnBinding( String bindingName );
+	String getDataBinding( String bindingName );
 
 	/**
 	 * Removes special column binding
@@ -220,7 +220,23 @@ public interface IReportItem extends IReportElement
 	 * @param bindingName
 	 * @throws ScriptException
 	 */
-	void removeColumnBinding( String bindingName ) throws ScriptException;;
+	void removeDataBinding( String bindingName ) throws ScriptException;
+	
+	/**
+	 * Removes all column bindings
+	 * 
+	 * @throws ScriptException
+	 */
+	void removeDataBindings( ) throws ScriptException;
+
+	/**
+	 * Add ComputedColumn.name , expression of IDataBinding are required.
+	 * 
+	 * @param binding
+	 * @throws ScriptException
+	 */
+
+	void addDataBinding( IDataBinding binding ) throws ScriptException;
 
 	/**
 	 * Removes all hide rules that matches formatType.
@@ -229,24 +245,22 @@ public interface IReportItem extends IReportElement
 	 * @exception ScriptException
 	 */
 
-	void removeHideRule( String formatType ) throws ScriptException;
-
+	void removeHideRule( IHideRule rule ) throws ScriptException;
+	
+	/**
+	 * Removes all hide rules
+	 * @throws ScriptException
+	 */
+	
+	void removeHideRules() throws ScriptException;
+	
 	/**
 	 * Returns array of hide rule expression
 	 * 
-	 * @param formatType
 	 * @return array of hide rule expression
 	 */
-	String[] getHideRuleExpression( String formatType );
-
-	/**
-	 * Add ComputedColumn
-	 * 
-	 * @param binding
-	 * @throws ScriptException
-	 */
-
-	void addColumnBinding( IDataBinding binding ) throws ScriptException;
+	
+	IHideRule[] getHideRules( );
 
 	/**
 	 * Add HideRule
@@ -256,5 +270,32 @@ public interface IReportItem extends IReportElement
 	 */
 
 	void addHideRule( IHideRule rule ) throws ScriptException;
+	
+	/**
+	 * Gets all high light rules.
+	 * @return all high light rules
+	 */
+	
+	IHighlightRule[] getHighlightRules();
+	
+	/**
+	 * Adds high light rule.
+	 * @param rule
+	 */
+	
+	void addHighlightRule( IHighlightRule rule) throws ScriptException;;
+	
+	/**
+	 * Removes all high light rules.
+	 */
+	
+	void removeHighlightRules() throws ScriptException;;
+	
+	/**
+	 * Removes high light rule.
+	 * @param rule
+	 */
+	
+	void removeHighlightRule( IHighlightRule rule) throws ScriptException;;
 
 }

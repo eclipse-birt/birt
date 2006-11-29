@@ -18,15 +18,20 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.engine.api.script.element.IHideRule;
+import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
+import org.eclipse.birt.report.engine.api.script.element.StructureScriptAPIFactory;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
+import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Implements of ReportItem
@@ -318,7 +323,7 @@ public class ReportItem extends ReportElement implements IReportItem
 		return ( (ReportItemHandle) handle ).getTocExpression( );
 	}
 
-	public String getColumnBinding( String bindingName )
+	public String getDataBinding( String bindingName )
 	{
 		if ( bindingName == null || bindingName.length( ) == 0 )
 			return null;
@@ -338,7 +343,7 @@ public class ReportItem extends ReportElement implements IReportItem
 		return null;
 	}
 
-	public IDataBinding[] getColumnBindings( )
+	public IDataBinding[] getDataBindings( )
 	{
 		Iterator iterator = ( (ReportItemHandle) handle )
 				.columnBindingsIterator( );
@@ -356,8 +361,7 @@ public class ReportItem extends ReportElement implements IReportItem
 		return (IDataBinding[]) rList.toArray( new IDataBinding[count] );
 	}
 
-	public void removeColumnBinding( String bindingName )
-			throws ScriptException
+	public void removeDataBinding( String bindingName ) throws ScriptException
 	{
 		if ( bindingName == null || bindingName.length( ) == 0 )
 			return;
@@ -386,45 +390,19 @@ public class ReportItem extends ReportElement implements IReportItem
 		}
 	}
 
-	public String[] getHideRuleExpression( String formatType )
+	/**
+	 * Removes all data bindings.
+	 * 
+	 * @throws ScriptException
+	 */
+
+	public void removeDataBindings( ) throws ScriptException
 	{
 		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		Iterator iterator = propHandle.iterator( );
-		List rList = new ArrayList( );
-		int count = 0;
-
-		while ( iterator.hasNext( ) )
-		{
-			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
-			rList.add( ruleHandle.getFormat( ) );
-			++count;
-		}
-
-		return (String[]) rList.toArray( new String[count] );
-
-	}
-
-	public void removeHideRule( String formatType ) throws ScriptException
-	{
-		if ( formatType == null )
-			return;
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		List structureList = new ArrayList( );
-		Iterator iterator = propHandle.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
-			if ( formatType.equals( ruleHandle.getFormat( ) ) )
-			{
-				structureList.add( ruleHandle );
-			}
-		}
-
+				.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		try
 		{
-			propHandle.removeItems( structureList );
+			propHandle.clearValue( );
 		}
 		catch ( SemanticException e )
 		{
@@ -433,13 +411,13 @@ public class ReportItem extends ReportElement implements IReportItem
 	}
 
 	/**
-	 * Add ComputedColumn.
+	 * Adds ComputedColumn.
 	 * 
 	 * @param binding
 	 * @throws ScriptException
 	 */
 
-	public void addColumnBinding( IDataBinding binding ) throws ScriptException
+	public void addDataBinding( IDataBinding binding ) throws ScriptException
 	{
 		if ( binding == null )
 			return;
@@ -454,11 +432,50 @@ public class ReportItem extends ReportElement implements IReportItem
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
-
 	}
 
 	/**
-	 * Add HideRule
+	 * Gets all hide rules.
+	 */
+
+	public IHideRule[] getHideRules( )
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		Iterator iterator = propHandle.iterator( );
+		List rList = new ArrayList( );
+		int count = 0;
+
+		while ( iterator.hasNext( ) )
+		{
+			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
+			HideRuleImpl rule = new HideRuleImpl( ruleHandle );
+			rList.add( rule );
+			++count;
+		}
+		return (IHideRule[]) rList.toArray( new IHideRule[count] );
+	}
+
+	/**
+	 * Removes Hide Rule through format type.
+	 */
+
+	public void removeHideRule( IHideRule rule ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		try
+		{
+			propHandle.removeItem( rule );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/**
+	 * Add HideRule.
 	 * 
 	 * @param rule
 	 * @throws ScriptException
@@ -474,6 +491,86 @@ public class ReportItem extends ReportElement implements IReportItem
 		try
 		{
 			propHandle.addItem( rule.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	/**
+	 * Removes Hide Rules.
+	 */
+
+	public void removeHideRules( ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public void addHighlightRule( IHighlightRule rule ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.addItem( rule.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public IHighlightRule[] getHighlightRules( )
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		Iterator iterator = propHandle.iterator( );
+		List rList = new ArrayList( );
+		int count = 0;
+
+		while ( iterator.hasNext( ) )
+		{
+			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
+					.next( );
+			HighlightRuleImpl rule = new HighlightRuleImpl( ruleHandle );
+			rList.add( rule );
+			++count;
+		}
+		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
+	}
+
+	public void removeHighlightRule( IHighlightRule rule )
+			throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.removeItem( rule.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public void removeHighlightRules( ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.clearValue( );
 		}
 		catch ( SemanticException e )
 		{

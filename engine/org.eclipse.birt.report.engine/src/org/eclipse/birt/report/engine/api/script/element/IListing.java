@@ -25,10 +25,11 @@ public interface IListing extends IReportItem
 	 * 
 	 * @return all filter conditions
 	 */
+
 	IFilterCondition[] getFilterConditions( );
 
 	/**
-	 * Adds filter condition
+	 * Adds filter condition.expr of IFilterCondition is required.
 	 * 
 	 * @param condition
 	 * @throws ScriptException
@@ -38,18 +39,55 @@ public interface IListing extends IReportItem
 			throws ScriptException;
 
 	/**
-	 * Returns all sort conditions.
+	 * Removes filter condition.
 	 * 
-	 * @return all sort conditions.
+	 * @throws ScriptException
 	 */
-	ISortCondition[] getSortConditions( );
+
+	void removeFilterConditions( ) throws ScriptException;
 
 	/**
-	 * Adds sort condition
+	 * Removes filter condition.
 	 * 
 	 * @param condition
 	 * @throws ScriptException
 	 */
 
+	void removeFilterCondition( IFilterCondition condition )
+			throws ScriptException;
+
+	/**
+	 * Returns all sort conditions.
+	 * 
+	 * @return all sort conditions.
+	 */
+
+	ISortCondition[] getSortConditions( );
+
+	/**
+	 * Adds sort condition.key of ISortCondition is required.
+	 * 
+	 * @param condition
+	 *            
+	 * @throws ScriptException
+	 */
+
 	void addSortCondition( ISortCondition condition ) throws ScriptException;
+
+	/**
+	 * Removes all sort conditions
+	 * 
+	 * @throws ScriptException
+	 */
+
+	void removeSortConditions( ) throws ScriptException;
+
+	/**
+	 * Removes sort condition.
+	 * 
+	 * @param condition
+	 * @throws ScriptException
+	 */
+
+	void removeSortCondition( ISortCondition condition ) throws ScriptException;
 }

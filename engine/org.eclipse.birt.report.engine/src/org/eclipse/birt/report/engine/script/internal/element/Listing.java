@@ -132,4 +132,68 @@ public class Listing extends ReportItem implements IListing
 		}
 	}
 
+	public void removeFilterCondition( IFilterCondition condition )
+			throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+
+		try
+		{
+			propHandle.removeItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public void removeFilterConditions( ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+
+	public void removeSortCondition( ISortCondition condition )
+			throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IListingElementModel.SORT_PROP );
+
+		try
+		{
+			propHandle.removeItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
+
+	public void removeSortConditions( ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+				.getPropertyHandle( IListingElementModel.SORT_PROP );
+
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
+
 }

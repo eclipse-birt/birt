@@ -16,14 +16,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.engine.api.script.element.IHighLightRule;
+import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 public class Row extends ReportElement implements IRow
 {
@@ -81,13 +81,13 @@ public class Row extends ReportElement implements IRow
 	 * @throws ScriptException
 	 */
 
-	public void addHighLightRule( IHighLightRule rule ) throws ScriptException
+	public void addHighlightRule( IHighlightRule rule ) throws ScriptException
 	{
 		if ( rule == null )
 			return;
 
 		PropertyHandle propHandle = handle
-				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
 		try
 		{
 			propHandle.addItem( rule.getStructure( ) );
@@ -99,10 +99,10 @@ public class Row extends ReportElement implements IRow
 
 	}
 
-	public IHighLightRule[] getHighLightRule( )
+	public IHighlightRule[] getHighlightRules( )
 	{
 		PropertyHandle propHandle = handle
-				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
 		Iterator iterator = propHandle.iterator( );
 
 		List rList = new ArrayList( );
@@ -112,31 +112,37 @@ public class Row extends ReportElement implements IRow
 		{
 			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
 					.next( );
-			HighLightRuleImpl h = new HighLightRuleImpl( ruleHandle );
+			HighlightRuleImpl h = new HighlightRuleImpl( ruleHandle );
 			rList.add( h );
 			++count;
 		}
 
-		return (IHighLightRule[]) rList.toArray( new IHighLightRule[count] );
+		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
 	}
 
-	public void removeHighLightRules( ) throws ScriptException
+	public void removeHighlightRules( ) throws ScriptException
 	{
 
 		PropertyHandle propHandle = handle
-				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
-		List structureList = new ArrayList( );
-		Iterator iterator = propHandle.iterator( );
-
-		while ( iterator.hasNext( ) )
-		{
-			HighlightRuleHandle highHandle = (HighlightRuleHandle) iterator
-					.next( );
-			structureList.add( highHandle );
-		}
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
 		try
 		{
-			propHandle.removeItems( structureList );
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
+
+	public void removeHighlightRule( IHighlightRule rule ) throws ScriptException
+	{
+		PropertyHandle propHandle = handle
+		.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		try
+		{
+			propHandle.removeItem( rule.getStructure( ) );
 		}
 		catch ( SemanticException e )
 		{
