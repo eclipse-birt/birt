@@ -561,6 +561,7 @@
 		<delete dir="${runtime.tmp}/scriptlib" failonerror="false"/>
 		<delete file="${runtime.tmp}/WEB-INF/web.xml" failonerror="false"/>
 		<delete file="${runtime.tmp}/WEB-INF/web-template.xml" failonerror="false"/>
+		<delete file="${runtime.tmp}/WEB-INF/web_deploy.xml" failonerror="false"/>
 		<delete file="${runtime.tmp}/WEB-INF/viewer.properties" failonerror="false"/>
 		
 		<delete includeEmptyDirs="true" failonerror="false" >
