@@ -4,19 +4,12 @@ Bundle-Name: Model Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.tests.model; singleton:=true
 Bundle-Version: 2.2.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.model.plugin.ModelPlugin
-Bundle-ClassPath: .
+Bundle-ClassPath: tests-model.jar
 Bundle-Localization: plugin
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.birt.report.tests.model.acceptance,
- org.eclipse.birt.report.tests.model.api,
- org.eclipse.birt.report.tests.model.APISamples,
- org.eclipse.birt.report.tests.model.compatibility,
- org.eclipse.birt.report.tests.model.regression,
- org.eclipse.birt.report.tests.model.smoke
 Require-Bundle: org.eclipse.birt.report.model,
- org.junit,
- com.ibm.icu,
  org.eclipse.birt.core,
  org.eclipse.birt.tests.core,
+ org.apache.commons.codec,
  org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.datatools.connectivity.oda.design
