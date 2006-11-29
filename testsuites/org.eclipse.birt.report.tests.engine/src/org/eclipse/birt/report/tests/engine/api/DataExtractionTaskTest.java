@@ -494,7 +494,7 @@ public class DataExtractionTaskTest extends EngineCase
 	protected String createReportDocument( String reportdesign,
 			String reportdocument ) throws Exception
 	{
-		reportdesign = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + reportdesign;
+		reportdesign = this.genInputFile( reportdesign );
 		reportdocument = this.genOutputFile( reportdocument );
 		
 		// open an report archive, it is a folder archive.

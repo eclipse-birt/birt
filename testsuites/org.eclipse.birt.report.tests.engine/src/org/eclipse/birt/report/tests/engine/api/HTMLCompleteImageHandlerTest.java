@@ -76,7 +76,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 		{
 			// Get embedded image byte array
 			
-			String input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+			String input = this.genInputFile( INPUT );
 
 			File imageFile = new File( input );
 			long size = imageFile.length( );
@@ -152,7 +152,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 		{
 			// Get embedded image byte array
 
-			String input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+			String input = this.genInputFile( INPUT );
 
 			File imageFile = new File( input );
 			long size = imageFile.length( );

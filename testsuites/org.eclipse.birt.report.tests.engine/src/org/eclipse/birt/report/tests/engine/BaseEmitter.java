@@ -38,9 +38,8 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 {
 
-	private String inPath = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/";
-	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-	private String outPath = tempDir + getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/";
+	private String inPath = this.genInputFolder( ) + "/";
+	private String outPath = this.genOutputFolder( ) + "/";
 
 	protected final static String EMITTER_HTML = "emitter_html";
 	protected final static String EMITTER_PDF = "emitter_pdf";
@@ -234,11 +233,7 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	
 	protected String genOutputFile( String output )
 	{
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
-		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ "/" + OUTPUT_FOLDER + "/" + output;
+		String outputFile = this.genOutputFile( output );
 		return outputFile;
 	}
 	

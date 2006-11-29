@@ -52,7 +52,6 @@ public class AllApiTests
         //add all test classes here
 		//org.eclipse.birt.report.tests.engine.api
 		test.addTestSuite( Bug128854PrompttextTest.class );
-		test.addTestSuite( Bug128854PrompttextTest.class );
 		test.addTestSuite( DataExtractionTaskTest.class );
 		test.addTestSuite( DataIDTest.class );
 		test.addTestSuite( DataSetIDTest.class );

@@ -41,13 +41,15 @@ public class RenderTaskTest extends EngineCase
 	private IReportDocument reportDoc;
 	private String outputFileName;
 	private String separator = System.getProperty( "file.separator" );
-	protected String path = this.getFullQualifiedClassName( ) + separator;
+	
+	protected String path = this.getInputResourceFolder( ) + File.separator
+	+ getFullQualifiedClassName( ) //$NON-NLS-1$
+	+ File.separator;
 //	private String outputPath = path + OUTPUT_FOLDER + separator;
 	private String inputPath = path + INPUT_FOLDER + separator;
 	
-	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-	String outputPath = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-			+ "/" + OUTPUT_FOLDER + "/";
+//	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	String outputPath = this.genOutputFolder( ) + "/";
 
 	public RenderTaskTest( String name )
 	{
@@ -64,7 +66,7 @@ public class RenderTaskTest extends EngineCase
 		super.setUp( );
 		removeResource( );
 		engine.getConfig( ).setLogConfig(
-				this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/",
+				this.genOutputFolder( ) + "/",
 				Level.WARNING );
 	}
 	
