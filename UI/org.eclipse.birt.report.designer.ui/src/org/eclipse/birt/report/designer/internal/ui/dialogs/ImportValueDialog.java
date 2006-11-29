@@ -81,34 +81,44 @@ public class ImportValueDialog extends BaseDialog
 	private static final String DLG_TITLE = Messages.getString( "ImportValueDialog.Title" ); //$NON-NLS-1$
 
 	private static final String LABEL_SELECT_DATASET = Messages.getString( "ImportValueDialog.Label.SelectDataSet" ); //$NON-NLS-1$
+
 	private static final String LABEL_SELECT_COLUMN = Messages.getString( "ImportValueDialog.Label.SelectColumn" ); //$NON-NLS-1$
+
 	private static final String LABEL_SELECT_VALUE = Messages.getString( "ImportValueDialog.Label.SelectValue" ); //$NON-NLS-1$
 
 	private static final String DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	private Combo dataSetChooser, columnChooser;
+
 	private Text valueEditor;
+
 	private List valueList, selectedList;
+
 	private Button add, addAll, remove, removeAll;
 
 	private String currentDataSetName;
+
 	private ArrayList resultList = new ArrayList( );;
 
 	private java.util.List columnList;
+
 	private int selectedColumnIndex;
 
 	private DataEngine engine;
 
 	private String style;
 
+	private java.util.List choiceList;
+
 	/**
 	 * Constructs a new instance of the dialog
 	 */
-	public ImportValueDialog( String style )
+	public ImportValueDialog( String style, java.util.List choices )
 	{
 		super( DLG_TITLE );
 		Assert.isTrue( DATA_TYPE_CHOICE_SET.contains( style ) );
 		this.style = style;
+		this.choiceList = choices;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -387,6 +397,12 @@ public class ImportValueDialog extends BaseDialog
 		dataSetChooser.setItems( ChoiceSetFactory.getDataSets( ) );
 		dataSetChooser.select( 0 );
 		currentDataSetName = dataSetChooser.getText( );
+
+		selectedList.removeAll( );
+		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+		{
+			selectedList.add( (String) iter.next( ) );
+		}
 		refreshColumns( );
 		return true;
 	}

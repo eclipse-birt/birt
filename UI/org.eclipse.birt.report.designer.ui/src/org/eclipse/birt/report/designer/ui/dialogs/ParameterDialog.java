@@ -1241,22 +1241,21 @@ public class ParameterDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				String type = getSelectedDataType( );
-				ImportValueDialog dialog = new ImportValueDialog( type );
+				List choices = new ArrayList( );
+				for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+				{
+					SelectionChoice choice = (SelectionChoice) iter.next( );
+					choices.add( choice.getValue( ) );
+				}
+				ImportValueDialog dialog = new ImportValueDialog( type, choices );
 				if ( dialog.open( ) == OK )
 				{
 					String[] importValues = (String[]) dialog.getResult( );
-					ArrayList valueToAddList = new ArrayList( importValues.length );
+					choiceList.clear( );
 					for ( int i = 0; i < importValues.length; i++ )
 					{
-						if ( !containValue( null, importValues[i], COLUMN_VALUE ) )
-						{
-							valueToAddList.add( importValues[i] );
-						}
-					}
-					for ( Iterator iter = valueToAddList.iterator( ); iter.hasNext( ); )
-					{
 						SelectionChoice choice = StructureFactory.createSelectionChoice( );
-						choice.setValue( (String) iter.next( ) );
+						choice.setValue( importValues[i] );
 						choiceList.add( choice );
 					}
 					refreshValueTable( );
@@ -1492,7 +1491,8 @@ public class ParameterDialog extends BaseDialog
 				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
 				inputParameter.setDataSetName( dataSetChooser.getText( ) );
 				inputParameter.setValueExpr( getExpression( columnChooser.getText( ) ) );
-				// inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
+				// inputParameter.setLabelExpr( getExpression(
+				// displayTextChooser.getText( ) ) );
 				if ( displayTextChooser.getText( ).equals( "<None>" ) )
 				{
 					inputParameter.setLabelExpr( "" );
@@ -1757,7 +1757,9 @@ public class ParameterDialog extends BaseDialog
 			{
 				// Now combo and radio must specify an default value
 				if ( !canBeNull( ) || !containValue( null, null, COLUMN_VALUE ) )
-				{// Filter null choice
+				{// Filter
+					// null
+					// choice
 					errorMessage = ERROR_MSG_NO_DEFAULT_VALUE;
 				}
 			}
@@ -2069,15 +2071,15 @@ public class ParameterDialog extends BaseDialog
 			if ( choice != selectedChoice )
 			{
 				String value = null;
-				if ( COLUMN_VALUE.equals( property ) )
-				{
-					value = choice.getValue( );
-					if ( isEqual( value, newValue ) )
-					{
-						return true;
-					}
-				}
-				else if ( COLUMN_DISPLAY_TEXT.equals( property ) )
+				// if ( COLUMN_VALUE.equals( property ) )
+				// {
+				// value = choice.getValue( );
+				// if ( isEqual( value, newValue ) )
+				// {
+				// return true;
+				// }
+				// }
+				if ( COLUMN_DISPLAY_TEXT.equals( property ) )
 				{
 					value = choice.getLabel( );
 					if ( value == null )
