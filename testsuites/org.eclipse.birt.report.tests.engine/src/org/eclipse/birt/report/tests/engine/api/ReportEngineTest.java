@@ -100,10 +100,7 @@ public class ReportEngineTest extends EngineCase
 		 * input += System.getProperty("file.separator") ; String
 		 * designName=input+"report_engine.rptdesign";
 		 */
-		String designName = this.getFullQualifiedClassName( )
-				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-				+ System.getProperty( "file.separator" )
-				+ "report_engine.rptdesign";
+		String designName = this.genInputFile( "report_engine.rptdesign" );
 
 		try
 		{
@@ -143,10 +140,7 @@ public class ReportEngineTest extends EngineCase
 		 * designName=input+"report_engine.rptdesign";
 		 */
 
-		String designName = this.getFullQualifiedClassName( )
-				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-				+ System.getProperty( "file.separator" )
-				+ "report_engine.rptdesign";
+		String designName = this.genInputFile( "report_engine.rptdesign" );
 
 		try
 		{
@@ -184,10 +178,7 @@ public class ReportEngineTest extends EngineCase
 		 * input += System.getProperty("file.separator") ; String
 		 * designName=input+"parameter.rptdesign";
 		 */
-		String designName = this.getFullQualifiedClassName( )
-				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-				+ System.getProperty( "file.separator" )
-				+ "parameter.rptdesign";
+		String designName = this.genInputFile( "parameter.rptdesign" );
 
 		try
 		{

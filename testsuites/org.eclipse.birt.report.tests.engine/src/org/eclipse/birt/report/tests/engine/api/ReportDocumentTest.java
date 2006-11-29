@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -33,8 +34,11 @@ public class ReportDocumentTest extends EngineCase
 {
 
 	protected IReportRunnable reportRunnable;
-	private String path = this.getFullQualifiedClassName( )
-			+ System.getProperty( "file.separator" );
+//	private String path = this.getFullQualifiedClassName( )
+//			+ System.getProperty( "file.separator" );
+	private String path = this.getInputResourceFolder( ) + File.separator
+	+ getFullQualifiedClassName( ) //$NON-NLS-1$
+	+ File.separator; 
 
 	public ReportDocumentTest( String name )
 	{
