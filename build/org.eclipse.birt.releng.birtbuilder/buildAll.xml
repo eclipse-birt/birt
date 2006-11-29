@@ -44,7 +44,8 @@
 		<antcall target="buildBirtWebViewer"/>
 		<antcall target="buildBirtNLFeature"/>
 		<antcall target="CreateDistribute"/>
-		<antcall target="runBirtTest"/>	
+		<antcall target="runBirtTest"/>
+		<antcall target="runBirtPerformance"/>
 	</target>
 
 	<target name="init">
@@ -134,6 +135,12 @@
 
 	<target name="runBirtTest">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtTest" >
+			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
+		</ant>
+	</target>
+	
+	<target name="runBirtPerformance">
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtPerformance" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
 		</ant>
 	</target>

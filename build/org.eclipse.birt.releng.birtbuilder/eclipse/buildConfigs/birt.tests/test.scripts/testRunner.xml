@@ -106,6 +106,7 @@
         	<property name="eclipse-home" value="${eclipse-home}"/>
         </ant>
     </target>
+	
     <target name="org.eclipse.birt.test.performance">
     	<echo message="Starting unit test for org.eclipse.birt.test.performance"/>
         <ant dir="${working.dir}/org.eclipse.birt.test.performance_@REPLACE_BY_BUILD_ID@" antfile="test.xml">

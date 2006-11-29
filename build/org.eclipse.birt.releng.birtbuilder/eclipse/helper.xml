@@ -518,6 +518,10 @@
 		</ant>
 	</target>
 	
+	<target name="runBirtPerformance" depends="init">
+		<ant dir="${runner.dir}" antfile="testRunner_new.xml" target="org.eclipse.birt.test.performance"/>
+	</target>
+	
 	<target name="runBirtTest" depends="init">
 		<!-- Clean last test plugins -->
 		<delete includeEmptyDirs="true" failonerror="false">
@@ -567,8 +571,21 @@
 		</replace>
 		<!-- call the birt unit test -->
 		<ant dir="${runner.dir}" antfile="testRunner_new.xml" />
+		<antcall target="transformTestReports"/>
+	</target>
+	
+	<target name="transformTestReports">
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<copy todir="${test.dir}/unitTestReport/smokexml">
+			<fileset dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.engine_${org.eclipse.birt.report.tests.engine}">
+				<include name="TESTS-*.xml"/>
+			</fileset>
+			<fileset dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.data_${org.eclipse.birt.report.tests.data}">
+				<include name="TESTS-*.xml"/>
+			</fileset>
+		</copy>
 		<!-- XSLT trasform-->
-		<exec executable="processXML.sh" dir="${test.dir}/unitTestReport"/>
+		<exec executable="${test.dir}/unitTestReport/processXML.sh"/>
 		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
 		<copy todir="${output.test.dir}/unitTestReport/html" overwrite="true">
 			<fileset dir="${test.dir}/unitTestReport/html">
