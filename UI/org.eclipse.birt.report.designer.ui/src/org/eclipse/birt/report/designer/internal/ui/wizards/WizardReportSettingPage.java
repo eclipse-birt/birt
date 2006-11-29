@@ -173,7 +173,7 @@ public class WizardReportSettingPage extends WizardPage
 
 			}
 		} );
-
+		
 		nameText.forceFocus( );
 		setControl( container );
 
@@ -403,7 +403,8 @@ public class WizardReportSettingPage extends WizardPage
 		super.setVisible( visible );
 		if ( visible )
 		{
-			getControl( ).setFocus( );
+			nameText.forceFocus( );
+		//	getControl( ).setFocus( );
 		}
 	}
 
