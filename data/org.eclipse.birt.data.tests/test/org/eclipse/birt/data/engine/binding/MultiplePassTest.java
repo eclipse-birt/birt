@@ -1214,11 +1214,10 @@ public class MultiplePassTest extends APITestCase
 					groupDefn,
 					null,
 					null );
-			fail( "Should not arrive here");
 		}
 		catch ( DataException e )
 		{
-			assertTrue(true);
+			fail( "Should not arrive here");
 		}
 	}
 	/**

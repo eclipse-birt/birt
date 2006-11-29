@@ -43,7 +43,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	/**
 	 * the available aggregate list in expression processor
 	 */
-	private List availabeAggrList;
+	private List availableAggrList;
 	/**
 	 * data set runtime
 	 */
@@ -64,6 +64,10 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 * base query
 	 */
 	private BaseQuery baseQuery;
+	/**
+	 * helper compiler object to fetch the pass level
+	 */
+	private MultiPassExpressionCompiler currentHelper;
 	
 	/**
 	 * 
@@ -72,7 +76,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 	public ExpressionProcessor( DataSetRuntime dataSet )
 	{
 		this.dataset = dataSet;
-		availabeAggrList = new ArrayList( );
+		availableAggrList = new ArrayList( );
 	}
 
 	/**
@@ -93,25 +97,19 @@ public class ExpressionProcessor implements IExpressionProcessor
 			int currentGroupLevel = 0;
 			ExpressionInfo exprInfo;
 
-			MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
-					baseQuery,
-					dataset.getScriptScope( ),
-					availabeAggrList );
+			MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
 			helper.setDataSetMode( isDataSetMode );
 
 			for ( int i = 0; i < iccState.getCount( ); i++ )
 			{
 				if ( iccState.isValueAvailable( i ) )
 				{
-					compileBaseExpression( iccState.getExpression( i ),
-							helper );
 					helper.addAvailableCmpColumn( iccState.getName( i ) );
 				}
 			}
 
 			for ( int i = 0; i < iccState.getCount( ); i++ )
 			{
-
 				if ( !iccState.isValueAvailable( i ) )
 				{
 					IBaseExpression baseExpression = iccState.getExpression( i );
@@ -162,10 +160,6 @@ public class ExpressionProcessor implements IExpressionProcessor
 					{
 						iccState.setValueAvailable( i );
 					}
-					else
-					{
-						break;
-					}
 				}
 			}
 
@@ -194,10 +188,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		IBaseExpression baseExpression = null;
 		Context context = Context.enter( );
 
-		MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
-				baseQuery,
-				dataset.getScriptScope( ),
-				availabeAggrList );
+		MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
 		helper.setDataSetMode( isDataSetMode );
 		
 		try
@@ -248,7 +239,7 @@ public class ExpressionProcessor implements IExpressionProcessor
 		MultiPassExpressionCompiler helper = new MultiPassExpressionCompiler( rsPopulator,
 				baseQuery,
 				dataset.getScriptScope( ),
-				availabeAggrList );
+				availableAggrList );
 		helper.setDataSetMode( isDataSetMode );
 
 		IBaseExpression baseExpression = null;
@@ -320,9 +311,10 @@ public class ExpressionProcessor implements IExpressionProcessor
 		{
 			AggregateObject obj = (AggregateObject) aggrList.get( i );
 			obj.setAvailable( true );
-			if ( availabeAggrList == null )
-				availabeAggrList = new ArrayList( );
-			availabeAggrList.add( obj );
+			if ( availableAggrList == null )
+				availableAggrList = new ArrayList( );
+			if ( !availableAggrList.contains( obj ) )
+				availableAggrList.add( obj );
 		}
 	}
 		
@@ -433,6 +425,27 @@ public class ExpressionProcessor implements IExpressionProcessor
 		return -1;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	private MultiPassExpressionCompiler getMultiPassCompilerHelper( )
+	{
+		if ( currentHelper == null )
+		{
+			currentHelper = new MultiPassExpressionCompiler( rsPopulator,
+					baseQuery,
+					dataset.getScriptScope( ),
+					availableAggrList );
+		}
+		else
+		{
+			currentHelper.setCompilerStatus( availableAggrList );
+		}
+		return currentHelper;
+
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor#getScope()
 	 */
@@ -480,9 +493,9 @@ public class ExpressionProcessor implements IExpressionProcessor
 	 */
 	public void clear( )
 	{
-		if ( availabeAggrList != null )
-			availabeAggrList.clear( );
-		availabeAggrList = null;
+		if ( availableAggrList != null )
+			availableAggrList.clear( );
+		availableAggrList = null;
 	}
 }
 

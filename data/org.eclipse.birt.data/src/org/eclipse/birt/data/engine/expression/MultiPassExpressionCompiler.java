@@ -96,6 +96,18 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	}
 	
 	/**
+	 * reset the helper status
+	 * @param availableAggrObj
+	 */
+	void setCompilerStatus( List availableAggrObj )
+	{
+		this.hasAggregate = false;
+		this.hasNesetedAggregate = false;
+		this.caculatedAggregateList = availableAggrObj;
+		this.aggrObjList = new ArrayList( );
+	}
+	
+	/**
 	 * 
 	 * @param exprInfo
 	 * @param cx
