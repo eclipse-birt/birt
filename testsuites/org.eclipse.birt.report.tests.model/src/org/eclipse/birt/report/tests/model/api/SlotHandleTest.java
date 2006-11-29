@@ -106,11 +106,17 @@ public class SlotHandleTest extends BaseTestCase
 
 	protected void setUp( ) throws Exception
 	{
+		removeResource( );
+		copyResource_INPUT( fileName , fileName );
 		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
 		design = designHandle.getDesign( );
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	/**
 	 * Tests paste methods with element references.
 	 * 

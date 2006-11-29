@@ -42,6 +42,13 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( fileName, fileName);
+		copyResource_INPUT( inputLibraryName , inputLibraryName );
+		copyResource_OUTPUT( outFileName , outFileName );
+		
 	
 	}
 

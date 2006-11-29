@@ -53,6 +53,14 @@ public class JointDataSetHandleTest extends BaseTestCase{
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( filename , filename );
+		copyResource_INPUT( filename1 , filename1 );
+		copyResource_INPUT( filename2 , filename2 );
+	}
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 	public void testAddDataSet( ) throws Exception
 	{

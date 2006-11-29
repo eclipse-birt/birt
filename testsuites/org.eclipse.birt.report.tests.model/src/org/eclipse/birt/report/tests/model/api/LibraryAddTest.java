@@ -16,11 +16,11 @@ public class LibraryAddTest extends BaseTestCase
 {	
 	String fileName = "Library_Addin_test.xml";
 	private String inputLibraryName = "LibraryCreatLib.xml";
-
+	private String  libname = "LibA.xml";
     private String outFileName = "Library_Addin_Test_out.xml"; 
 	private String goldenFileName = "Library_Addin_Test_golden.xml"; 
 	String LibFile= inputLibraryName;
-	String LibFileError1 = PLUGIN_PATH +getClassFolder( ) + INPUT_FOLDER + "LibY.xml";
+	String LibFileError1 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibY.xml";
 
 	public LibraryAddTest(String name) 
 	{	
@@ -34,12 +34,22 @@ public class LibraryAddTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( fileName, fileName );
+		copyResource_INPUT( inputLibraryName, inputLibraryName );
+		copyResource_INPUT( libname, libname );
+		copyResource_GOLDEN( goldenFileName, goldenFileName );
+		copyResource_INPUT( "Library_Import_test.xml", "Library_Import_test.xml");
+	}
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 	public void testAddinLibrary( ) throws Exception
 	{
-		openDesign( "../input/Library_Import_test.xml" );
+		openDesign( "Library_Import_test.xml" );
 		designHandle.includeLibrary( LibFile, "LibB" );
-		designHandle.includeLibrary( "../input/LibA.xml" , "");
+		designHandle.includeLibrary( libname , "");
 		saveAs( outFileName );
 	    assertTrue( compareTextFile( goldenFileName, outFileName ) );
 	    
@@ -81,11 +91,11 @@ public class LibraryAddTest extends BaseTestCase
 	    	}
 	public void testRemoveLibrary( ) throws Exception
 	{
-		openDesign( "../input/Library_Import_test.xml" );
+		openDesign( "Library_Import_test.xml" );
 		designHandle.includeLibrary( LibFile, "LibB" );
 		designHandle.includeLibrary( "../input/LibA.xml" , "");
 		LibraryHandle lib1 = designHandle.findLibrary( "LibraryCreatLib.xml" );
-		LibraryHandle lib2 = designHandle.findLibrary( "../input/LibA.xml" );
+		LibraryHandle lib2 = designHandle.findLibrary( "LibA.xml" );
 		assertNotNull(lib1);
 		assertNotNull(lib2);
 		

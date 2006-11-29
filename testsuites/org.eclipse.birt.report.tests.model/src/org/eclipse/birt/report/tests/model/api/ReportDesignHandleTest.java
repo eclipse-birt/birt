@@ -139,9 +139,19 @@ public class ReportDesignHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "ReportDesignHandleTest.xml" , "ReportDesignHandleTest.xml" );
+		copyResource_INPUT( "ReportDesignHandleTest1.xml" , "ReportDesignHandleTest1.xml" );
+		copyResource_INPUT( "ReportDesignHandleTest2.xml" , "ReportDesignHandleTest2.xml" );
+		copyResource_INPUT( "EmbeddedImageTest.xml" , "EmbeddedImageTest.xml" );
 		openDesign( "ReportDesignHandleTest.xml" ); //$NON-NLS-1$
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * Tests cases for reading and setting ConfigVars.
 	 * 
@@ -303,8 +313,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// get properties.
 
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( getClassFolder( ) + INPUT_FOLDER
-				+ "ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
+		assertEquals( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+				+ "/" + "ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
 
 		// sets properties.
 
@@ -380,7 +390,14 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	public void testNeedsSave( ) throws Exception
 	{
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
+//		String outputPath = getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		String outputPath = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ File.separator + OUTPUT_FOLDER;
+				
+		
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -394,7 +411,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		slot.add( grid );
 
 		assertTrue( designHandle.needsSave( ) );
-		designHandle.saveAs( outputPath + "ReportDesignTestNew.xml" ); //$NON-NLS-1$
+		designHandle.saveAs( "ReportDesignTestNew.xml" ); //$NON-NLS-1$
 		assertFalse( designHandle.needsSave( ) );
 
 		grid = factory.newGridItem( "new second grid" ); //$NON-NLS-1$
@@ -628,8 +645,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// uses the file path to find, file exists
 
-		String filePath = getClassFolder( ) + INPUT_FOLDER
-				+ "ReportDesignHandleTest.xml"; //$NON-NLS-1$
+		String filePath = getClassFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + "ReportDesignHandleTest.xml"; //$NON-NLS-1$
 
 		designHandle.getModule( ).setSystemId( null );
 		designHandle.setFileName( filePath );
@@ -645,8 +662,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with relative uri file path
 
-		designHandle.setFileName(  getClassFolder( )
-				+ INPUT_FOLDER + "NoExistedDesign.xml" ); //$NON-NLS-1$
+		designHandle.setFileName(  this.getFullQualifiedClassName( ) + "/"
+				+ INPUT_FOLDER + "/" + "NoExistedDesign.xml" ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$
 				IResourceLocator.LIBRARY );

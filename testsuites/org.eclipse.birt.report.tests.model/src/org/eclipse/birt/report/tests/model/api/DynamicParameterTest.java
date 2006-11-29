@@ -32,6 +32,12 @@ public class DynamicParameterTest extends BaseTestCase
 		protected void setUp( ) throws Exception
 		{
 			super.setUp( );
+			removeResource( );
+			
+			// retrieve two input files from tests-model.jar file
+			copyResource_INPUT( INPUT_FILE_NAME , INPUT_FILE_NAME );
+			
+			
 			openDesign( INPUT_FILE_NAME ); //$NON-NLS-1$
 		}
 		

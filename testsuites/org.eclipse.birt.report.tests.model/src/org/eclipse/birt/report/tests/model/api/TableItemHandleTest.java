@@ -83,6 +83,13 @@ public class TableItemHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( fileName , fileName );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	/**

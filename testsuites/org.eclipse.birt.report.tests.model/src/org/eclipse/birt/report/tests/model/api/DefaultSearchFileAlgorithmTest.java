@@ -54,8 +54,8 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
-
-	private final String fileName = "SimpleMasterPageHandleTest.xml"; //$NON-NLS-1$
+	final static String INPUT = "SimpleMasterPageHandleTest.xml";
+	//private final String fileName = "SimpleMasterPageHandleTest.xml"; //$NON-NLS-1$
 	private DefaultResourceLocator algorithm;
 
 	/*
@@ -66,7 +66,11 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		openDesign( fileName );
+		removeResource( );
+		
+		// retrieve input file(s) from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		openDesign( INPUT );
 		algorithm = new DefaultResourceLocator( );
 	}
 

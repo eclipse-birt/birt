@@ -24,6 +24,13 @@ public class TocSupportTest extends BaseTestCase
 		protected void setUp( ) throws Exception
 		{
 			super.setUp( );
+			removeResource( );
+			copyResource_INPUT( fileName , fileName );
+			copyResource_INPUT( fileName1 , fileName1 );
+		}
+		public void tearDown( )
+		{
+			removeResource( );
 		}
 		public void testTocProperty( ) throws Exception
 		{

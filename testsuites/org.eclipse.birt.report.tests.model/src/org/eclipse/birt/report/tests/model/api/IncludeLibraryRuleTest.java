@@ -37,8 +37,18 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( fileName , fileName );
+		copyResource_INPUT( LibA , LibA );
+		copyResource_INPUT( LibB , LibB );
+		copyResource_INPUT( LibC , LibC );
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void testIncludeLibraryRule1( ) throws Exception
 	{
 
@@ -148,6 +158,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 	public void testIncludeLibraryRule10( ) throws Exception
 	{
 		String fileName = "DesignIncludeLibraryTest.xml";
+		copyResource_INPUT (fileName, fileName);
 		openDesign( fileName );
 		designHandle.includeLibrary( LibA, "LibA" );
 		designHandle.includeLibrary( LibB, "LibB" );

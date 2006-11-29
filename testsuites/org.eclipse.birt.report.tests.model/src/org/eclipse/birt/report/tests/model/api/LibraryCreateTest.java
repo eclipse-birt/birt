@@ -37,6 +37,14 @@ public class LibraryCreateTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( fileName, fileName );
+		copyResource_OUTPUT (outFileName, outFileName);
+		copyResource_GOLDEN( goldenFileName, goldenFileName );
+	}
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 	public void testCreatLibrary( ) throws Exception
 	{

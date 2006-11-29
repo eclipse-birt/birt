@@ -112,11 +112,17 @@ public class ReportItemHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-
+		removeResource( );
+		copyResource_INPUT( "ReportItemHandleTest.xml" , "ReportItemHandleTest.xml" );
 		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
 
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	/**
 	 * 
 	 */

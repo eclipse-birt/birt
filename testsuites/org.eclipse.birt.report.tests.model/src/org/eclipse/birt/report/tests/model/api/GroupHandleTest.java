@@ -71,7 +71,18 @@ public class GroupHandleTest extends BaseTestCase
 	 * @throws Exception
 	 *             if errors occur when opens the design file
 	 */
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( "GroupHandleTest.xml" , "GroupHandleTest.xml" );
+	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
+	
 	public void testProperties( ) throws Exception
 	{
 		openDesign( "GroupHandleTest.xml" ); //$NON-NLS-1$

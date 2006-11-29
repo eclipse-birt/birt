@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
@@ -42,8 +44,9 @@ import com.ibm.icu.util.ULocale;
 
 public class DesignElementHandleTest extends BaseTestCase
 {
-	String fileName = "DesignElementHandle_GetXPath.xml";
-	String fileName2 = "Improved_test3.xml";
+	final static String INPUT = "DesignElementHandle_GetXPath.xml";
+	final static String INPUT2 = "Improved_test2.xml";
+	final static String INPUT3 = "Improved_test3.xml";
 	
 	public DesignElementHandleTest(String name) 
 	{	
@@ -57,11 +60,18 @@ public class DesignElementHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		copyResource_INPUT( INPUT2 , INPUT2 );
+		copyResource_INPUT( INPUT3 , INPUT3 );
+		
 	}
 	
 	public void testGetXPath( ) throws Exception
 	{
-		openDesign(fileName);
+		openDesign(INPUT);
 	    
 		TextItemHandle textHandle = (TextItemHandle)designHandle.findElement( "myText" );
 		assertNotNull("Text should not be null", textHandle); 
@@ -92,7 +102,8 @@ public class DesignElementHandleTest extends BaseTestCase
 	
 	public void testElementValidation( ) throws Exception
 	{
-		openDesign( "Improved_test2.xml" );
+		
+		openDesign( INPUT2 );
 
 		TableHandle table = (TableHandle) designHandle
 				.findElement( "MyTable" ); 
@@ -358,7 +369,7 @@ public class DesignElementHandleTest extends BaseTestCase
 	
 	public void testcanContainSimpleMasterPage( ) throws Exception
 	{
-		openDesign( fileName2 );
+		openDesign( INPUT3 );
 		SimpleMasterPageHandle mHandle = (SimpleMasterPageHandle) designHandle
 				.findMasterPage( "Page1" ); //$NON-NLS-1$
 		assertNotNull("should not be null", mHandle);
@@ -366,4 +377,6 @@ public class DesignElementHandleTest extends BaseTestCase
 		assertFalse(mHandle.canContain(mHandle.getPageHeader().getSlotID(),grid));
 		assertFalse(mHandle.canContain(mHandle.getPageFooter().getSlotID(),grid));
 	}
+	
+	
 }

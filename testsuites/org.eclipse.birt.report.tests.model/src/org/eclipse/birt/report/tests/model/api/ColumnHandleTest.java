@@ -29,7 +29,11 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class ColumnHandleTest extends BaseTestCase
 {
  
-	String fileName = "ColumnHandleTest.xml"; //$NON-NLS-1$
+//	 define two input files
+	final static String INPUT = "ColumnHandleTest.xml";
+	
+	
+	//String fileName = "ColumnHandleTest.xml"; //$NON-NLS-1$
 
 	/*
 	 * @see TestCase#setUp()
@@ -46,6 +50,10 @@ public class ColumnHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
 	}
 
 	/**
@@ -57,7 +65,7 @@ public class ColumnHandleTest extends BaseTestCase
 	public void testGetColumnProperty( ) throws Exception
 	{
 
-		openDesign( fileName );
+		openDesign( INPUT );
 
 		// style property inherited from cell, row, column, table element.
 
@@ -72,8 +80,8 @@ public class ColumnHandleTest extends BaseTestCase
 		assertEquals(2,column.getRepeatCount());
 		
 		DimensionHandle dh = column.getWidth();
-    assertEquals(100, dh.getMeasure(),0);
-    assertEquals("pt",dh.getUnits());
+		assertEquals(100, dh.getMeasure(),0);
+		assertEquals("pt",dh.getUnits());
         
         //suppressDuplicates Property
         assertFalse(column.suppressDuplicates());

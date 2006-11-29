@@ -48,8 +48,22 @@ public class ThemeTest extends BaseTestCase
 	protected void setup() throws Exception
 	{
 		super.setUp();
-		
+		removeResource( );
+		copyResource_INPUT( LibA , LibA );
+		copyResource_INPUT( LibB , LibB );
+		copyResource_INPUT( LibC , LibC );
+		copyResource_INPUT( LibC1 , LibC1 );
+		copyResource_INPUT( "ThemeTest1.xml" , "ThemeTest1.xml" );
+		copyResource_INPUT( "ThemeTest2.xml" , "ThemeTest2.xml" );
+		//System.out.println("ThemeTest1.xml");
 	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	//	System.out.println("ThemeTest1.xml");
+	}
+	
 	public void testDefineThemes() throws Exception
 	{
 		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
@@ -77,7 +91,7 @@ public class ThemeTest extends BaseTestCase
 	}
 	public void testUsingTheme() throws Exception
 	{
-  
+		System.out.println("ThemeTest1.xml");
        openDesign("ThemeTest1.xml");
        //LibA: theme1, theme2
        //LibB: theme1
@@ -124,7 +138,7 @@ public class ThemeTest extends BaseTestCase
 			  //custom styles: mytable, mylabel
 			  //selector styles: table, label
 		       openLibrary("LibraryCIncludeTheme.xml");
-		       libraryHandle.saveAs(getClassFolder()+INPUT_FOLDER+LibC1);
+		       libraryHandle.saveAs(this.getFullQualifiedClassName( )+"/"+INPUT_FOLDER+"/"+LibC1);
 		       StyleHandle LCS1 = libraryHandle.findTheme("theme1").findStyle("mytable");
 		       StyleHandle LCS2 = libraryHandle.findTheme("theme1").findStyle("mylabel");
 		       StyleHandle LSS1 = libraryHandle.findTheme("theme1").findStyle("table");

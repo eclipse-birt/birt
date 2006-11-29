@@ -26,8 +26,16 @@ public class InputStreamURITest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( fileName , fileName );
+		copyResource_INPUT( "Library_Import_Test.xml" , "Library_Import_Test.xml" );
 		openDesign( fileName );
 		rl = new DefaultResourceLocator( );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 	public void testImportLibrary( ) throws Exception
 	{

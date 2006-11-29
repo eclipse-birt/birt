@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.tests.model.api;
 
+import java.io.File;
 import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -124,7 +123,9 @@ import com.ibm.icu.util.ULocale;
  */
 public class ActionHandleTest extends BaseTestCase
 {
-
+  // define two input files
+	final static String INPUT = "ActionHandleTest.xml";
+	final static String INPUT2 = "ActionHandleTest2.xml";
 	
 	ActionHandle actionHandle = null;
     
@@ -140,10 +141,20 @@ public class ActionHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		openDesign( "ActionHandleTest.xml" ); //$NON-NLS-1$
+		removeResource( );
+		
+		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( INPUT , INPUT );
+		copyResource_INPUT( INPUT2 , INPUT2 );
+		
+		openDesign( INPUT ); //$NON-NLS-1$
 		assertNotNull( designHandle );
 	}
 
+	public void tearDown( )
+	{
+		removeResource( );
+	}
     /**
      * Get an related ActionHandle for the action defined on an image.
      */
@@ -156,9 +167,38 @@ public class ActionHandleTest extends BaseTestCase
 		return imageHandle.getActionHandle( );
 	}
 
+/*	public void testNewFile()
+	{
+		try
+		{
+			String tempDir = System.getProperty("java.io.tmpdir");
+			tempDir = tempDir + java.io.File.separator + "newFile";
+			File f = new File(tempDir);
+			
+
+			String ff = "C:\\DOCUME~1\\jqiu\\LOCALS~1\\Temp\\ActionHandleTest2.out";
+			File fff = new File(ff);
+			
+			if(fff.exists())
+			{
+				System.out.println("file exist");
+			}
+			else
+			{
+				fff.createNewFile();
+			}
+			
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+	*/
 	public void testAdd( ) throws Exception
 	{
-		openDesign( "ActionHandleTest2.xml" ); //$NON-NLS-1$
+		 
+		openDesign( INPUT2 ); //$NON-NLS-1$
        
 		ImageHandle imageHandle = (ImageHandle) designHandle
 				.findElement( "Image1" ); //$NON-NLS-1$

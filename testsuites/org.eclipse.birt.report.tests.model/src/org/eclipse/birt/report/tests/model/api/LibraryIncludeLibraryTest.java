@@ -22,10 +22,10 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 	private String outputFileName = "Library_IncludeLibrary_Lib.xml"; //$NON-NLS-1$
 	private String goldenFileName = "Library_IncludeLibrary_Lib_golden.xml"; //$NON-NLS-1$
 
-	String LibFile1 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER
-			+ inputLibraryName1;
-	String LibFile2 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER
-			+ inputLibraryName2;
+//	String LibFile1 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER
+//			+ inputLibraryName1;
+//	String LibFile2 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER
+//			+ inputLibraryName2;
 
 	/**
 	 * @param name
@@ -47,6 +47,16 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( inputLibraryName1, inputLibraryName1 );
+		copyResource_INPUT( inputLibraryName2, inputLibraryName2 );
+		copyResource_OUTPUT( outputFileName, outputFileName );
+		copyResource_GOLDEN( goldenFileName, goldenFileName );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	/**

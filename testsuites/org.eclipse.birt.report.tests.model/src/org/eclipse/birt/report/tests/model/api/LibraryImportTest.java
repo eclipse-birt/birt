@@ -49,6 +49,15 @@ public class LibraryImportTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+		removeResource( );
+		copyResource_INPUT( fileName, fileName );
+		copyResource_INPUT( inputLibraryName, inputLibraryName );
+		copyResource_GOLDEN( goldenFileName, goldenFileName );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
 	}
 
 	/**
