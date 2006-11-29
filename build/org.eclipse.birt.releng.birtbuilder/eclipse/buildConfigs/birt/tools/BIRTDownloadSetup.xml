@@ -481,7 +481,9 @@
 			</zipfileset>
 		</zip>
 	</target>
-
+	<!-- - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -
+	This target is used for create All-In-One package for Linux
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	<target name="createAllInOneForLinux">
 		<!--  Make birt all-in-one ZIP file-->
 
@@ -539,11 +541,12 @@
 		</copy>
 
 		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
-		<move file="${runtime.tmp}/WEB-INF/web_delpoy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
-		<unjar src="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
+		<!--move file="${runtime.tmp}/WEB-INF/web_delpoy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" /-->
+		<unjar src="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WEB-INF/lib/viewservlets" />
 		<delete file="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" />
-		<jar destfile="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+		<jar destfile="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
 		<delete dir="${runtime.tmp}/WEB-INF/lib/viewservlets" />
+		
 
 		<copy todir="${runtime.tmp}">
 			<fileset dir="${template.dir}/birt.runtime.files">
@@ -551,7 +554,15 @@
 			</fileset>
 		</copy>
 		
-		<delete dir="${runtime.tmp}/ajax" />
+		<!-- delete unuse folders and files -->
+		<delete dir="${runtime.tmp}/ajax" failonerror="false"/>
+		<delete dir="${runtime.tmp}/logs" failonerror="false"/>
+		<delete dir="${runtime.tmp}/report" failonerror="false"/>
+		<delete dir="${runtime.tmp}/scriptlib" failonerror="false"/>
+		<delete file="${runtime.tmp}/WEB-INF/web.xml" failonerror="false"/>
+		<delete file="${runtime.tmp}/WEB-INF/web-template.xml" failonerror="false"/>
+		<delete file="${runtime.tmp}/WEB-INF/viewer.properties" failonerror="false"/>
+		
 		<delete includeEmptyDirs="true" failonerror="false" >
 			<fileset dir="${runtime.tmp}/WEB-INF/platform" includes="lib/**" />
 		</delete>
@@ -559,14 +570,7 @@
 			<fileset dir="${deposit}/eclipse/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
 		</copy>
 		<zip destfile="${OutputDir}/${wtp.runtime.zip.name}">
-			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}">
-			</zipfileset>
-			<zipfileset dir="${template.dir}/legal" prefix="${birt.runtime.dir.prefix}">
-				<include name="**/*" />
-			</zipfileset>
-			<zipfileset dir="${template.dir}/birt-runtime-about" prefix="${birt.runtime.dir.prefix}">
-				<include name="**/*"/>
-			</zipfileset>
+			<zipfileset dir="${runtime.tmp}"/>
 		</zip>
 		<delete dir="${runtime.tmp}" />
 	</target>
