@@ -16,46 +16,34 @@ import java.util.Collection;
 /**
  * Viewer representation of a parameter definition
  * 
- * TODO: Add more javadoc
- * 
  */
 public class ParameterDefinition
 {
 
-	// TODO: These are copied from IScalarParameterDefinition...
+	// These are copied from IScalarParameterDefinition...
 	public static final int TEXT_BOX = 0;
-
 	public static final int LIST_BOX = 1;
-
 	public static final int RADIO_BUTTON = 2;
-
 	public static final int CHECK_BOX = 3;
 
 	public static final int AUTO = 0;
-
 	public static final int LEFT = 1;
-
 	public static final int CENTER = 2;
-
 	public static final int RIGHT = 3;
 
 	public static final int TYPE_ANY = 0;
-
 	public static final int TYPE_STRING = 1;
-
 	public static final int TYPE_FLOAT = 2;
-
 	public static final int TYPE_DECIMAL = 3;
-
 	public static final int TYPE_DATE_TIME = 4;
-
 	public static final int TYPE_BOOLEAN = 5;
+	public static final int TYPE_INTEGER = 6;
 
 	public static final int SELECTION_LIST_NONE = 0;
-
 	public static final int SELECTION_LIST_DYNAMIC = 1;
-
 	public static final int SELECTION_LIST_STATIC = 2;
+
+	private long id;
 
 	private String name;
 
@@ -87,13 +75,14 @@ public class ParameterDefinition
 
 	private Collection selectionList;
 
-	public ParameterDefinition( String name, String pattern,
+	public ParameterDefinition( long id, String name, String pattern,
 			String displayFormat, String displayName, String helpText,
 			String promptText, int dataType, int controlType, boolean hidden,
 			boolean allowNull, boolean allowBlank, boolean mustMatch,
 			boolean concealValue, ParameterGroupDefinition group,
 			Collection selectionList )
 	{
+		this.id = id;
 		this.name = name;
 		this.pattern = pattern;
 		this.displayFormat = displayFormat;
@@ -109,6 +98,14 @@ public class ParameterDefinition
 		this.concealValue = concealValue;
 		this.group = group;
 		this.selectionList = selectionList;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId( )
+	{
+		return id;
 	}
 
 	public String getName( )
@@ -190,8 +187,8 @@ public class ParameterDefinition
 	{
 		if ( name == null || !( obj instanceof ParameterDefinition ) )
 			return false;
-		ParameterDefinition other = ( ParameterDefinition ) obj;
-		return name.equals( other.getName() );
+		ParameterDefinition other = (ParameterDefinition) obj;
+		return name.equals( other.getName( ) );
 	}
 
 	public int hashCode( )

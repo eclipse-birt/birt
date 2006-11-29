@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.utility;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -24,14 +25,18 @@ import javax.servlet.http.HttpSession;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BaseTaskBean;
+import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
+import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.soapengine.api.Oprand;
 
 /**
  * Utilities for Birt Report Service
@@ -181,6 +186,36 @@ public class BirtUtility
 	}
 
 	/**
+	 * find the parameter definition by parameter name
+	 * 
+	 * @param parameterList
+	 * @param paramName
+	 * @return
+	 */
+	public static ParameterDefinition findParameterDefinition(
+			Collection parameterList, String paramName )
+	{
+		if ( parameterList == null || paramName == null )
+			return null;
+
+		// find parameter definition
+		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
+		{
+			ParameterDefinition parameter = (ParameterDefinition) iter.next( );
+			if ( parameter == null )
+				continue;
+
+			String name = parameter.getName( );
+			if ( paramName.equals( name ) )
+			{
+				return parameter;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * find the parameter handle by parameter name
 	 * 
 	 * @param reportDesignHandle
@@ -227,6 +262,7 @@ public class BirtUtility
 	/**
 	 * Get Display Text of select parameters
 	 * 
+	 * @param displayTexts
 	 * @param request
 	 * @return Map
 	 */
@@ -249,6 +285,29 @@ public class BirtUtility
 		}
 
 		return displayTexts;
+	}
+
+	/**
+	 * Get locale parameter list
+	 * 
+	 * @param locParams
+	 * @param request
+	 * @return List
+	 */
+	public static List getLocParams( List locParams, HttpServletRequest request )
+	{
+		if ( locParams == null )
+			locParams = new ArrayList( );
+
+		String[] arrs = request
+				.getParameterValues( ParameterAccessor.PARAM_ISLOCALE );
+		if ( arrs != null )
+		{
+			for ( int i = 0; i < arrs.length; i++ )
+				locParams.add( arrs[i] );
+		}
+
+		return locParams;
 	}
 
 	/**
@@ -299,5 +358,89 @@ public class BirtUtility
 		}
 
 		return missingParameter;
+	}
+
+	/**
+	 * Handle SOAP operation. Parse report parameters and display text
+	 * 
+	 * @param operation
+	 * @param bean
+	 * @param parameterMap
+	 * @param displayTexts
+	 * @throws Exception
+	 */
+	public static void handleOperation( Operation operation,
+			ViewerAttributeBean bean, Map parameterMap, Map displayTexts )
+			throws Exception
+	{
+		if ( operation == null || bean == null || parameterMap == null
+				|| displayTexts == null )
+			return;
+
+		// convert parameter from SOAP operation
+		List locs = new ArrayList( );
+		Map params = new HashMap( );
+		String displayTextParam = null;
+		Oprand[] oprands = operation.getOprand( );
+		for ( int i = 0; i < oprands.length; i++ )
+		{
+			String paramName = oprands[i].getName( );
+			Object paramValue = oprands[i].getValue( );
+
+			if ( paramName == null || paramValue == null )
+				continue;
+
+			if ( paramName.equalsIgnoreCase( ParameterAccessor.PARAM_ISLOCALE ) )
+			{
+				// parameter value is a locale string
+				locs.add( paramValue );
+			}
+			// Check if parameter set to null
+			else if ( ParameterAccessor.PARAM_ISNULL
+					.equalsIgnoreCase( paramName ) )
+			{
+				// set parametet to null value
+				parameterMap.put( paramValue, null );
+				continue;
+			}
+			// display text of parameter
+			else if ( ( displayTextParam = ParameterAccessor
+					.isDisplayText( paramName ) ) != null )
+			{
+				displayTexts.put( displayTextParam, paramValue );
+				continue;
+			}
+			else
+			{
+				params.put( paramName, paramValue );
+			}
+		}
+
+		Iterator it = params.keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			String paramName = (String) it.next( );
+			String paramValue = (String) params.get( paramName );
+
+			// find the parameter
+			ParameterDefinition parameter = bean
+					.findParameterDefinition( paramName );
+			if ( parameter == null )
+				continue;
+
+			String pattern = parameter.getPattern( );
+			String dataType = ParameterDataTypeConverter
+					.ConvertDataType( parameter.getDataType( ) );
+
+			// check whether it is a locale String.
+			boolean isLocale = locs.contains( paramName );
+
+			// convert parameter
+			Object paramValueObj = DataUtil.validate( dataType, pattern,
+					paramValue, bean.getLocale( ), isLocale );
+
+			// push to parameter map
+			parameterMap.put( paramName, paramValueObj );
+		}
 	}
 }

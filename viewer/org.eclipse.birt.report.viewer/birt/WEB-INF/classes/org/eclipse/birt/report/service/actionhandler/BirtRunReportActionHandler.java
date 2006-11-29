@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -24,9 +23,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
-import org.eclipse.birt.report.soapengine.api.Oprand;
-import org.eclipse.birt.report.utility.DataUtil;
-import org.eclipse.birt.report.utility.ParameterAccessor;
+import org.eclipse.birt.report.utility.BirtUtility;
 
 public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 {
@@ -54,8 +51,13 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
 
-		Map parameterMap = new HashMap( );
-		Map displayTexts = new HashMap( );
+		Map parameterMap = attrBean.getParameters( );
+		if ( parameterMap == null )
+			parameterMap = new HashMap( );
+
+		Map displayTexts = attrBean.getDisplayTexts( );
+		if ( displayTexts == null )
+			displayTexts = new HashMap( );
 
 		String docName = attrBean.getReportDocumentName( );
 		IViewerReportDesignHandle designHandle = attrBean
@@ -69,57 +71,9 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
 				.isDesigner( ) ) );
 
-		// convert parameter
-		if ( operation != null )
-		{
-			String displayTextParam = null;
-			Oprand[] oprands = operation.getOprand( );
-			for ( int i = 0; i < oprands.length; i++ )
-			{
-				String paramName = oprands[i].getName( );
-				Object paramValue = oprands[i].getValue( );
-
-				// Check if parameter set to null
-				if ( ParameterAccessor.PARAM_ISNULL
-						.equalsIgnoreCase( paramName )
-						&& paramValue != null )
-				{
-					// find the parameter
-					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-							.findParameter( paramValue.toString( ) );
-
-					if ( parameter != null )
-					{
-						// set parametet to null value
-						parameterMap.put( paramValue, null );
-						continue;
-					}
-				}
-				else if ( ( displayTextParam = ParameterAccessor
-						.isDisplayText( paramName ) ) != null )
-				{
-					displayTexts.put( displayTextParam, paramValue );
-					continue;
-				}
-
-				// find the parameter
-				ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-						.findParameter( paramName );
-
-				if ( parameter != null && paramValue != null )
-				{
-					// convert parameter to Object
-					paramValue = DataUtil.validate( parameter.getDataType( ),
-							parameter.getPattern( ), paramValue.toString( ),
-							attrBean.getLocale( ) );
-				}
-
-				if ( parameter != null )
-				{
-					parameterMap.put( paramName, paramValue );
-				}
-			}
-		}
+		// handle operation
+		BirtUtility.handleOperation( operation, attrBean, parameterMap,
+				displayTexts );
 
 		getReportService( ).runReport( designHandle, docName, options,
 				parameterMap, displayTexts );

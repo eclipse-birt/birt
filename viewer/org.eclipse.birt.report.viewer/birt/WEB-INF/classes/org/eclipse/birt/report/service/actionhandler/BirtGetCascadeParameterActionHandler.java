@@ -23,12 +23,11 @@ import java.util.Set;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -85,6 +84,7 @@ public class BirtGetCascadeParameterActionHandler
 			Oprand param = params[i];
 
 			String paramName = param.getName( );
+			boolean isLocale = false;
 
 			// if Null Value Parameter
 			if ( ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase( paramName ) )
@@ -92,25 +92,26 @@ public class BirtGetCascadeParameterActionHandler
 				paramMap.put( param.getValue( ), null );
 				continue;
 			}
-			
-			// convert parameter using standard format
-			// Get Scalar parameter handle
-			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-					.findParameter( paramName );
+			else if ( paramName.startsWith( ParameterAccessor.PREFIX_ISLOCALE ) )
+			{
+				// current parameter value is a locale string
+				paramName = paramName.replaceFirst(
+						ParameterAccessor.PREFIX_ISLOCALE, "" ); //$NON-NLS-1$
+				isLocale = true;
+			}
 
-			if ( parameterHandle == null )
+			// get parameter definition object
+			ParameterDefinition parameter = attrBean
+					.findParameterDefinition( paramName );
+			if ( parameter == null )
 				continue;
 
-			// Convert string to object using default local
-			String format = null;
-			String dataType = parameterHandle.getDataType( );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-					.equalsIgnoreCase( dataType ) )
-			{
-				format = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
-			}
-			Object paramValue = ParameterValidationUtil.validate( dataType,
-					format, param.getValue( ) );
+			// Convert parameter
+			String format = parameter.getPattern( );
+			String dataType = ParameterDataTypeConverter
+					.ConvertDataType( parameter.getDataType( ) );
+			Object paramValue = DataUtil.validate( dataType, format, param
+					.getValue( ), attrBean.getLocale( ), isLocale );
 
 			paramMap.put( paramName, paramValue );
 		}
@@ -273,9 +274,9 @@ public class BirtGetCascadeParameterActionHandler
 
 		if ( list != null && list.size( ) > 0 )
 		{
-			// Get Scalar parameter handle
-			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-					.findParameter( paramName );
+			// Get parameter definition object
+			ParameterDefinition parameter = attrBean
+					.findParameterDefinition( paramName );
 
 			Iterator iList = list.iterator( );
 			int index = 0;
@@ -298,14 +299,14 @@ public class BirtGetCascadeParameterActionHandler
 						// parameter
 						// value for display
 						label = ParameterValidationUtil.getDisplayValue( null,
-								parameterHandle.getPattern( ), value, attrBean
+								parameter.getPattern( ), value, attrBean
 										.getLocale( ) );
 					}
 					else
 					{
 						// Format display text of dynamic parameter
 						label = ParameterValidationUtil.getDisplayValue( null,
-								parameterHandle.getPattern( ), label, attrBean
+								parameter.getPattern( ), label, attrBean
 										.getLocale( ) );
 					}
 

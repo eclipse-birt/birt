@@ -16,14 +16,17 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 /**
  * Fragment help rendering scalar parameter.
  * <p>
+ * 
  * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
 public class TextBoxParameterFragment extends ScalarParameterFragment
 {
+
 	/**
 	 * Protected constructor.
 	 * 
-	 * @param parameter parameter definition reference.
+	 * @param parameter
+	 *            parameter definition reference.
 	 */
 	public TextBoxParameterFragment( ParameterDefinition parameter )
 	{

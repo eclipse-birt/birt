@@ -581,7 +581,7 @@ public class ReportTag extends AbstractViewerTag
 		}
 
 		return DataUtil.validate( handle.getDataType( ), pattern, value,
-				this.locale );
+				this.locale, field.isLocale( ) );
 	}
 
 	/**

@@ -12,24 +12,29 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 import com.ibm.icu.util.ULocale;
@@ -83,6 +88,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 		// get parameters from operation
 		String displayTextParam = null;
+		List locs = new ArrayList( );
+		Map params = new HashMap( );
 		Oprand[] op = this.operation.getOprand( );
 		if ( op != null )
 		{
@@ -93,22 +100,28 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				String paramName = op[i].getName( );
 				String paramValue = op[i].getValue( );
 
-				ScalarParameterHandle parameter = null;
+				if ( paramName == null || paramValue == null )
+					continue;
 
-				// if pass a null parameter
 				if ( paramName
-						.equalsIgnoreCase( ParameterAccessor.PARAM_ISNULL )
-						&& paramValue != null )
+						.equalsIgnoreCase( ParameterAccessor.PARAM_ISLOCALE ) )
 				{
-					parameter = (ScalarParameterHandle) attrBean
-							.findParameter( paramValue );
+					// locale string
+					locs.add( paramValue );
+				}
+				// if pass a null parameter
+				else if ( paramName
+						.equalsIgnoreCase( ParameterAccessor.PARAM_ISNULL ) )
+				{
+					ParameterDefinition parameter = attrBean
+							.findParameterDefinition( paramValue );
 					if ( parameter != null )
 					{
 						// add null parameter to config file
 						configVar.setName( ParameterAccessor.PARAM_ISNULL
-								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue
-								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
 						handle.addConfigVariable( configVar );
 					}
 
@@ -117,77 +130,71 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				else if ( ( displayTextParam = ParameterAccessor
 						.isDisplayText( paramName ) ) != null )
 				{
-					parameter = (ScalarParameterHandle) attrBean
-							.findParameter( displayTextParam );
+					ParameterDefinition parameter = attrBean
+							.findParameterDefinition( paramValue );
 					if ( parameter != null )
 					{
 						// add display text of select parameter to config file
 						configVar
-								.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+								.setName( paramName + "_" + parameter.getId( ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue );
 						handle.addConfigVariable( configVar );
 					}
 
 					continue;
 				}
-
-				// find the parameter
-				parameter = (ScalarParameterHandle) attrBean
-						.findParameter( paramName );
-
-				if ( paramValue == null || parameter == null )
-					continue;
-
-				// convert the parameter from current locale to default
-				// locale format
-				String pattern = parameter.getPattern( );
-				String dataType = parameter.getDataType( );
-				if ( paramValue.trim( ).length( ) > 0 )
+				else
 				{
-					try
-					{
-						Object paramValueObj = ParameterValidationUtil
-								.validate( dataType, pattern, paramValue,
-										attrBean.getLocale( ) );
-
-						// if parameter type is String, cache the unformatted
-						// string
-						if ( DesignChoiceConstants.PARAM_TYPE_STRING
-								.equalsIgnoreCase( dataType ) )
-						{
-							pattern = null;
-						}
-						// if parameter type is datetime, use the default format
-						// to format object
-						else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-								.equalsIgnoreCase( dataType ) )
-						{
-							pattern = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
-						}
-
-						if ( paramValueObj != null )
-							paramValue = ParameterValidationUtil
-									.getDisplayValue( dataType, pattern,
-											paramValueObj, ULocale.US );
-
-					}
-					catch ( Exception err )
-					{
-						paramValue = op[i].getValue( );
-					}
+					// push to parameter map
+					params.put( paramName, paramValue );
 				}
-				// add parameter to config file
-				configVar.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
-				configVar.setValue( paramValue );
-				handle.addConfigVariable( configVar );
-
-				// add parameter type
-				ConfigVariable typeVar = new ConfigVariable( );
-				typeVar.setName( paramName + "_" + parameter.getID( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-						+ IBirtConstants.PROP_TYPE );
-				typeVar.setValue( dataType );
-				handle.addConfigVariable( typeVar );
 			}
+		}
+
+		// hanlde parameters
+		Iterator it = params.keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			String paramName = (String) it.next( );
+			String paramValue = (String) params.get( paramName );
+
+			ConfigVariable configVar = new ConfigVariable( );
+
+			// find the parameter
+			ParameterDefinition parameter = attrBean
+					.findParameterDefinition( paramName );
+			if ( parameter == null )
+				continue;
+
+			String pattern = parameter.getPattern( );
+			String dataType = ParameterDataTypeConverter
+					.ConvertDataType( parameter.getDataType( ) );
+			try
+			{
+				// check whether it is a locale String.
+				boolean isLocale = locs.contains( paramName );
+
+				// convert parameter
+				Object paramValueObj = DataUtil.validate( dataType, pattern,
+						paramValue, attrBean.getLocale( ), isLocale );
+
+				paramValue = DataUtil.getDisplayValue( paramValueObj );
+			}
+			catch ( Exception err )
+			{
+			}
+
+			// add parameter to config file
+			configVar.setName( paramName + "_" + parameter.getId( ) ); //$NON-NLS-1$
+			configVar.setValue( paramValue );
+			handle.addConfigVariable( configVar );
+
+			// add parameter type
+			ConfigVariable typeVar = new ConfigVariable( );
+			typeVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
+					+ IBirtConstants.PROP_TYPE );
+			typeVar.setValue( dataType );
+			handle.addConfigVariable( typeVar );
 		}
 
 		// save config file

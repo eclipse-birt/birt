@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -52,6 +51,14 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		super( parameter );
 	}
 
+	/**
+	 * Override implementation of prepareParameterBean method
+	 * 
+	 * @see org.eclipse.birt.report.presentation.aggregation.parameter.ScalarParameterFragment#prepareParameterBean(javax.servlet.http.HttpServletRequest,
+	 *      org.eclipse.birt.report.service.api.IViewerReportService,
+	 *      org.eclipse.birt.report.context.ScalarParameterBean,
+	 *      java.util.Locale)
+	 */
 	protected void prepareParameterBean( HttpServletRequest request,
 			IViewerReportService service, ScalarParameterBean parameterBean,
 			Locale locale ) throws ReportServiceException
@@ -64,10 +71,10 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		options.setOption( InputOptions.OPT_REQUEST, request );
 
 		Collection selectionList = null;
-
 		ParameterDefinition paramDef = parameterBean.getParameter( );
 		if ( paramDef.getGroup( ) != null && paramDef.getGroup( ).cascade( ) )
 		{
+			// get parameter list from cascading group
 			Map paramValues = attrBean.getParameters( );
 			selectionList = getParameterSelectionListForCascadingGroup(
 					attrBean.getReportDesignHandle( request ), service,
@@ -78,6 +85,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		}
 		else
 		{
+			// get parameter list
 			selectionList = service.getParameterSelectionList( attrBean
 					.getReportDesignHandle( request ), options, parameter
 					.getName( ) );
@@ -87,13 +95,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 		}
 
 		parameterBean.setValueInList( false );
-
 		if ( selectionList != null )
 		{
-			// Get Scalar parameter handle
-			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-					.findParameter( parameter.getName( ) );
-
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
@@ -112,8 +115,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					// If label is null or blank, then use the format parameter
 					// value for display
 					label = ParameterValidationUtil.getDisplayValue( null,
-							parameterHandle.getPattern( ), selectionItem
-									.getValue( ), locale );
+							paramDef.getPattern( ), selectionItem.getValue( ),
+							locale );
 				}
 
 				if ( label != null )

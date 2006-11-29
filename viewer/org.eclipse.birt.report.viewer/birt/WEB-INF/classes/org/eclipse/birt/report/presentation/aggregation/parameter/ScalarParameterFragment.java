@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
@@ -109,6 +107,18 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		return JSPRootPath + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
 	}
 
+	/**
+	 * Prepare parameter bean
+	 * 
+	 * @param designHandle
+	 * @param service
+	 * @param request
+	 * @param parameterBean
+	 * @param parameter
+	 * @param locale
+	 * @param isDesigner
+	 * @throws ReportServiceException
+	 */
 	public static void prepareParameterBean(
 			IViewerReportDesignHandle designHandle,
 			IViewerReportService service, HttpServletRequest request,
@@ -132,27 +142,14 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		assert attrBean != null;
 
 		// parameter value.
-		Object paramValueObj = null;
 		String parameterValue = null;
 
 		if ( attrBean.getParametersAsString( ) != null )
-			paramValueObj = attrBean.getParametersAsString( ).get(
+			parameterValue = (String) attrBean.getParametersAsString( ).get(
 					parameterBean.getName( ) );
 
-		if ( paramValueObj != null )
-		{
-			if ( paramValueObj instanceof Date )
-			{
-				// if Date object, format it using standard format
-				parameterValue = ParameterValidationUtil
-						.getDisplayValue( paramValueObj );
-			}
-			else
-			{
-				parameterValue = paramValueObj.toString( );
-			}
-		}
-		else if ( !parameter.allowNull( ) && parameter.allowBlank( ) )
+		if ( parameterValue == null && !parameter.allowNull( )
+				&& parameter.allowBlank( ) )
 		{
 			parameterValue = ""; //$NON-NLS-1$
 		}
@@ -179,40 +176,54 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			}
 			default :
 			{
-				parameterBean.setRequired( paramValueObj == null );
+				parameterBean.setRequired( parameterValue == null );
 				break;
-			}
-		}
-
-		// Get Scalar parameter handle
-		ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-				.findParameter( parameter.getName( ) );
-
-		Map configMap = attrBean.getParameters( );
-
-		if ( configMap != null && configMap.containsKey( parameter.getName( ) ) )
-		{
-			Object configObj = configMap.get( parameter.getName( ) );
-			// If parameter is Text, format value
-			if ( configObj != null
-					&& parameter.getControlType( ) == ParameterDefinition.TEXT_BOX )
-			{
-				parameterValue = ParameterValidationUtil.getDisplayValue( null,
-						parameterHandle.getPattern( ), configObj, attrBean
-								.getLocale( ) );
 			}
 		}
 
 		// Set parameter current value
 		parameterBean.setValue( parameterValue );
+		parameterBean.setDisplayText( parameterValue );
 
 		// Set parameter default value
-		parameterBean.setDefaultValue( DataUtil.getDefaultValue(
-				parameterHandle.getDataType( ), parameterHandle
-						.getDefaultValue( ) ) );
+		Map defaultValues = attrBean.getDefaultValues( );
+		Object defaultValue = defaultValues.get( parameter.getName( ) );
+		if ( defaultValue != null )
+		{
+			parameterBean.setDefaultValue( DataUtil
+					.getDisplayValue( defaultValue ) );
+			parameterBean.setDefaultDisplayText( ParameterValidationUtil
+					.getDisplayValue( null, parameter.getPattern( ),
+							defaultValue, locale ) );
+		}
 
+		// parameter map
+		Map params = attrBean.getParameters( );
+		if ( params != null && params.containsKey( parameter.getName( ) ) )
+		{
+			Object param = params.get( parameter.getName( ) );
+			if ( param != null )
+			{
+				String value = DataUtil.getDisplayValue( param );
+				parameterBean.setValue( value );
+
+				// display text
+				String displayText = ParameterValidationUtil.getDisplayValue(
+						null, parameter.getPattern( ), param, locale );
+				parameterBean.setDisplayText( displayText );
+			}
+		}
 	}
 
+	/**
+	 * For implementation to extend parameter bean properties
+	 * 
+	 * @param request
+	 * @param service
+	 * @param parameterBean
+	 * @param locale
+	 * @throws ReportServiceException
+	 */
 	protected void prepareParameterBean( HttpServletRequest request,
 			IViewerReportService service, ScalarParameterBean parameterBean,
 			Locale locale ) throws ReportServiceException

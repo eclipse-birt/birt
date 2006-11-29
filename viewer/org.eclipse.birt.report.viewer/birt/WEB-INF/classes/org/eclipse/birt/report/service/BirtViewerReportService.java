@@ -17,7 +17,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +39,6 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ITOCTree;
-import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -670,81 +668,6 @@ public class BirtViewerReportService implements IViewerReportService
 				request );
 	}
 
-	public Map getParsedParameters( IViewerReportDesignHandle design,
-			InputOptions options, Map parameters )
-			throws ReportServiceException
-	{
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-		Collection parameterList = getParameterDefinitions( design, options,
-				false );
-		Map paramMap = new HashMap( );
-		Boolean isDesignerBoolean = (Boolean) options
-				.getOption( InputOptions.OPT_IS_DESIGNER );
-		boolean isDesigner = ( isDesignerBoolean != null ? isDesignerBoolean
-				.booleanValue( ) : false );
-
-		IReportRunnable runnable = getReportRunnable( design,
-				getModuleOptions( options ) );
-		Map configMap = runnable.getTestConfig( );
-
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			ParameterDefinition parameterObj = (ParameterDefinition) iter
-					.next( );
-
-			String paramValue = null;
-			Object paramValueObj = null;
-
-			String paramName = parameterObj.getName( );
-			String format = parameterObj.getPattern( );
-
-			ReportParameterConverter converter = new ReportParameterConverter(
-					format, locale );
-
-			Set paramNames = null;
-			if ( parameters != null )
-			{
-				paramNames = parameters.keySet( );
-			}
-
-			if ( parameters != null && paramName != null )
-			{
-				boolean found = false;
-				for ( Iterator it = paramNames.iterator( ); it.hasNext( ); )
-				{
-					String name = (String) it.next( );
-					if ( paramName.equals( name ) )
-					{
-						if ( parameters.get( name ) != null )
-							paramValue = parameters.get( name ).toString( );
-						paramValueObj = converter.parse( paramValue,
-								parameterObj.getDataType( ) );
-						paramMap.put( paramName, paramValueObj );
-						found = true;
-						break;
-					}
-				}
-				if ( !found && configMap.containsKey( paramName ) && isDesigner )
-				{
-					// Get value from test config
-					String configValue = (String) configMap.get( paramName );
-					ReportParameterConverter cfgConverter = new ReportParameterConverter(
-							format, Locale.US );
-					paramValueObj = cfgConverter.parse( configValue,
-							parameterObj.getDataType( ) );
-				}
-				else if ( !found )
-				{
-					// Get default value from task
-					paramValueObj = getParameterDefaultValue( design,
-							parameterObj.getName( ), options );
-				}
-			}
-		}
-		return paramMap;
-
-	}
-
 	public IReportRunnable getReportRunnable( IViewerReportDesignHandle design,
 			Map moduleOptions ) throws ReportServiceException
 	{
@@ -982,7 +905,7 @@ public class BirtViewerReportService implements IViewerReportService
 		if ( handle instanceof ScalarParameterHandle )
 			scalarParamHandle = (ScalarParameterHandle) handle;
 		String name = engineParam.getName( );
-
+		long id = scalarParamHandle != null ? scalarParamHandle.getID( ) : 0L;
 		String pattern = scalarParamHandle == null ? "" : scalarParamHandle //$NON-NLS-1$
 				.getPattern( );
 		String displayFormat = engineParam.getDisplayFormat( );
@@ -999,7 +922,7 @@ public class BirtViewerReportService implements IViewerReportService
 				: scalarParamHandle.isMustMatch( );
 		boolean concealValue = engineParam.isValueConcealed( );
 
-		ParameterDefinition param = new ParameterDefinition( name, pattern,
+		ParameterDefinition param = new ParameterDefinition( id, name, pattern,
 				displayFormat, displayName, helpText, promptText, dataType,
 				controlType, hidden, allowNull, allowBlank, mustMatch,
 				concealValue, group, null );

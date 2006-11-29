@@ -18,38 +18,44 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
- * Parameter bean object used by parameter related jsp pages. It carries the data shared between
- * front-end jsp page and back-end fragment class. 
- * In current implementation, ScalarParameterBean uses request scope.
+ * Parameter bean object used by parameter related jsp pages. It carries the
+ * data shared between front-end jsp page and back-end fragment class. In
+ * current implementation, ScalarParameterBean uses request scope.
  * <p>
  */
 public class ScalarParameterBean extends ParameterAttributeBean
 {
+
 	/**
 	 * Parameter definition reference.
 	 */
 	private ParameterDefinition parameter = null;
-	
+
 	/**
-	 * Is parameter value required. 
+	 * Is parameter value required.
 	 */
 	private boolean isRequired = false;
-	
+
 	/**
 	 * Current parameter value.
 	 */
 	private String value = null;
-	
+
+	/**
+	 * Display text for current parameter
+	 */
+	private String displayText;
+
 	/**
 	 * Selection lable list. Label is HTML encoded.
 	 */
 	private Vector selectionList = new Vector( );
-	
+
 	/**
 	 * selection lable to value mapping. Label is HTML encoded.
 	 */
 	private Hashtable selectionTable = new Hashtable( );
-	
+
 	/**
 	 * Whether current value is in the selection list.
 	 */
@@ -58,28 +64,33 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	/**
 	 * Current parameter default value.
 	 */
-	private String defaultValue = null;	
-	
+	private String defaultValue = null;
+
+	/**
+	 * Diaplay text of current default value.
+	 */
+	private String defaultDisplayText = null;
+
 	/**
 	 * If it is cascade parameter.
 	 */
-	private boolean isCascade = false;	
-	
+	private boolean isCascade = false;
+
 	/**
 	 * If default value is in the selection list
 	 */
 	private boolean defaultValueInList = false;
-	
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param parameter
 	 */
-	public ScalarParameterBean( ParameterDefinition  parameter )
+	public ScalarParameterBean( ParameterDefinition parameter )
 	{
 		this.parameter = parameter;
 	}
-	
+
 	/**
 	 * Adapt to IScalarParameterDefn's allowNull( ).
 	 * 
@@ -91,10 +102,10 @@ public class ScalarParameterBean extends ParameterAttributeBean
 		{
 			return false;
 		}
-		
+
 		return parameter.allowNull( );
 	}
-	
+
 	/**
 	 * Adapt to IScalarParameterDefn's allowBlank( ).
 	 * 
@@ -106,10 +117,10 @@ public class ScalarParameterBean extends ParameterAttributeBean
 		{
 			return true;
 		}
-		
+
 		return parameter.allowBlank( );
 	}
-	
+
 	/**
 	 * Adapt to IScalarParameterDefn's allowNewValues( ).
 	 * 
@@ -121,7 +132,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 		{
 			return false;
 		}
-		
+
 		return !parameter.mustMatch( );
 	}
 
@@ -136,7 +147,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 		{
 			return false;
 		}
-		
+
 		return parameter.concealValue( );
 	}
 
@@ -152,7 +163,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 			return null;
 		}
 
-		return parameter.getName( ); 
+		return parameter.getName( );
 	}
 
 	/**
@@ -163,10 +174,10 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	public String getToolTip( )
 	{
 		String toolTip = ""; //$NON-NLS-1$
-		
+
 		if ( parameter != null && parameter.getHelpText( ) != null )
 		{
-			toolTip =  parameter.getHelpText( ); 
+			toolTip = parameter.getHelpText( );
 		}
 
 		return ParameterAccessor.htmlEncode( toolTip );
@@ -179,31 +190,33 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return valueInList;
 	}
-	
+
 	/**
-	 * @param valueInList The isValueInList to set.
+	 * @param valueInList
+	 *            The isValueInList to set.
 	 */
 	public void setValueInList( boolean valueInList )
 	{
 		this.valueInList = valueInList;
 	}
-	
+
 	/**
 	 * @return Returns the parameter.
 	 */
-	public ParameterDefinition  getParameter( )
+	public ParameterDefinition getParameter( )
 	{
 		return parameter;
 	}
-	
+
 	/**
-	 * @param parameter The parameter to set.
+	 * @param parameter
+	 *            The parameter to set.
 	 */
-	public void setParameter( ParameterDefinition  parameter )
+	public void setParameter( ParameterDefinition parameter )
 	{
 		this.parameter = parameter;
 	}
-	
+
 	/**
 	 * @return Returns the parameterValue.
 	 */
@@ -211,15 +224,33 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return value;
 	}
-	
+
 	/**
-	 * @param value The parameterValue to set.
+	 * @param value
+	 *            The parameterValue to set.
 	 */
 	public void setValue( String value )
 	{
 		this.value = value;
 	}
-	
+
+	/**
+	 * @return the displayText
+	 */
+	public String getDisplayText( )
+	{
+		return displayText;
+	}
+
+	/**
+	 * @param displayText
+	 *            the displayText to set
+	 */
+	public void setDisplayText( String displayText )
+	{
+		this.displayText = displayText;
+	}
+
 	/**
 	 * @return Returns the selectionList.
 	 */
@@ -227,15 +258,16 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return selectionList;
 	}
-	
+
 	/**
-	 * @param selectionList The selectionList to set.
+	 * @param selectionList
+	 *            The selectionList to set.
 	 */
 	public void setSelectionList( Vector selectionList )
 	{
 		this.selectionList = selectionList;
 	}
-	
+
 	/**
 	 * @return Returns the selectionTable.
 	 */
@@ -243,15 +275,16 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return selectionTable;
 	}
-	
+
 	/**
-	 * @param selectionTable The selectionTable to set.
+	 * @param selectionTable
+	 *            The selectionTable to set.
 	 */
 	public void setSelectionTable( Hashtable selectionTable )
 	{
 		this.selectionTable = selectionTable;
 	}
-	
+
 	/**
 	 * @return Returns the isRequired.
 	 */
@@ -259,15 +292,16 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return isRequired;
 	}
-	
+
 	/**
-	 * @param isRequired The isRequired to set.
+	 * @param isRequired
+	 *            The isRequired to set.
 	 */
 	public void setRequired( boolean isRequired )
 	{
 		this.isRequired = isRequired;
 	}
-	
+
 	/**
 	 * @return the defaultValue
 	 */
@@ -275,15 +309,33 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return defaultValue;
 	}
-	
+
 	/**
-	 * @param defaultValue the defaultValue to set
+	 * @param defaultValue
+	 *            the defaultValue to set
 	 */
 	public void setDefaultValue( String defaultValue )
 	{
 		this.defaultValue = defaultValue;
 	}
-	
+
+	/**
+	 * @return the defaultDisplayText
+	 */
+	public String getDefaultDisplayText( )
+	{
+		return defaultDisplayText;
+	}
+
+	/**
+	 * @param defaultDisplayText
+	 *            the defaultDisplayText to set
+	 */
+	public void setDefaultDisplayText( String defaultDisplayText )
+	{
+		this.defaultDisplayText = defaultDisplayText;
+	}
+
 	/**
 	 * @return the isCascade
 	 */
@@ -291,15 +343,16 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return isCascade;
 	}
-	
+
 	/**
-	 * @param isCascade the isCascade to set
+	 * @param isCascade
+	 *            the isCascade to set
 	 */
 	public void setCascade( boolean isCascade )
 	{
 		this.isCascade = isCascade;
 	}
-	
+
 	/**
 	 * @return the defaultValueInList
 	 */
@@ -307,13 +360,14 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	{
 		return defaultValueInList;
 	}
-	
+
 	/**
-	 * @param defaultValueInList the defaultValueInList to set
+	 * @param defaultValueInList
+	 *            the defaultValueInList to set
 	 */
 	public void setDefaultValueInList( boolean defaultValueInList )
 	{
 		this.defaultValueInList = defaultValueInList;
-	}		
-	
+	}
+
 }

@@ -27,7 +27,9 @@
 	ScalarParameterBean parameterBean = ( ScalarParameterBean ) attributeBean.getParameterBean( );
 	String encodedParameterName = ParameterAccessor.htmlEncode( parameterBean.getName( ) );
 	String paramValue = parameterBean.getValue( );
+	String displayText = parameterBean.getDisplayText( );
 	String defaultValue = parameterBean.getDefaultValue( );
+	String defaultDisplayText = parameterBean.getDefaultDisplayText( );
 %>
 <TR>
 	<TD NOWRAP>
@@ -49,21 +51,14 @@
 <TR>
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
+		<INPUT TYPE="HIDDEN" ID="control_type" VALUE="select">
 		<INPUT TYPE="HIDDEN"
 			ID="<%= encodedParameterName + "_value" %>"
 			NAME="<%= encodedParameterName %>"
-			VALUE="<%= ParameterAccessor.htmlEncode( paramValue )%>">
-<%
-	if (parameterBean.allowNull())
-	{
-%>
-		<INPUT TYPE="HIDDEN"
-			ID="<%= encodedParameterName + "_hidden" %>"
-			NAME="<%= ParameterAccessor.PARAM_ISNULL %>"
-			VALUE="<%= ( paramValue == null )? encodedParameterName : "" %>">
-<%
-	}
-	
+			<%= paramValue != null ? " VALUE=\"" + ParameterAccessor.htmlEncode( paramValue ) + "\"": "" %>
+		>
+
+<%	
 	boolean CHECKED = true;
 		
 	if ( parameterBean.allowNewValues( ) ) // TODO: Editable
@@ -99,7 +94,7 @@
 		{
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( defaultValue ) %>" 
-				<%= CHECKED && !parameterBean.isValueInList( ) ? "SELECTED" : "" %> > <%= ParameterAccessor.htmlEncode( defaultValue ) %></OPTION>
+				<%= CHECKED && !parameterBean.isValueInList( ) ? "SELECTED" : "" %> > <%= ParameterAccessor.htmlEncode( defaultDisplayText ) %></OPTION>
 <%	
 		}
 		
@@ -147,19 +142,20 @@
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			ID="<%= encodedParameterName + "_input"%>"
-			<%= !CHECKED && paramValue != null ? "VALUE=\"" + ParameterAccessor.htmlEncode( paramValue ) + "\"": "" %> 
+			<%= !CHECKED && displayText != null ? "VALUE=\"" + ParameterAccessor.htmlEncode( displayText ) + "\"": "" %> 
 			<%= CHECKED ? "DISABLED='true'" : "" %>	>
 	<%
-		if ( !parameterBean.allowBlank( ) )
-		{
+	  }
+	  
+	  if ( !parameterBean.allowBlank( ) )
+	  {
 	%>
 			<INPUT TYPE="HIDDEN"
 				ID="isNotBlank"  
 				NAME="<%= encodedParameterName %>"
 				VALUE = "true">
 	<%
-		}
-	}
+	  }
 
 	if ( parameterBean.isCascade( ) )
 	{

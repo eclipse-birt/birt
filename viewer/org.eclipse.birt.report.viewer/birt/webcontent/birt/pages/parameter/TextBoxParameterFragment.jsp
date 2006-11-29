@@ -46,15 +46,11 @@
 <TR>
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
+	<INPUT TYPE="HIDDEN" ID="control_type" VALUE="text">
 <%
 	if ( parameterBean.allowNull( ) )
 	{
-%>
-		<INPUT TYPE="HIDDEN"
-			ID="<%= encodedParameterName + "_hidden" %>"
-			NAME="<%= ParameterAccessor.PARAM_ISNULL %>"
-			VALUE="<%= (parameterBean.getValue( ) == null)? encodedParameterName : "" %>">
-		
+%>	
 		<LABEL FOR="<%= encodedParameterName + "_radio_notnull" %>" CLASS="birtviewer_hidden_label">Input text</LABEL>	
 		<INPUT TYPE="RADIO"
 			ID="<%= encodedParameterName + "_radio_notnull" %>"
@@ -63,35 +59,26 @@
 <%
 	}
 %>
-
-<%
-	if ( !parameterBean.allowNull( ) && !parameterBean.allowBlank( ) )
-	{
-%>
-		<INPUT TYPE="HIDDEN"
-			ID="<%= encodedParameterName + "_default" %>"
-			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDefaultValue( ) == null )? "" : parameterBean.getDefaultValue( ) ) %>"
-			>
-<%
-	}
-%>
+	
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			NAME="<%= encodedParameterName %>"
 			ID="<%= encodedParameterName %>" 
 			TITLE="<%= parameterBean.getToolTip( ) %>"
-			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getValue( ) == null )? "" : parameterBean.getValue( ) ) %>" 
+			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDisplayText( ) == null )? "" : parameterBean.getDisplayText( ) ) %>" 
 			<%= ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null )? "DISABLED='true'" : "" %>
             >
 
+		<INPUT TYPE="HIDDEN"
+			NAME="<%= encodedParameterName %>"
+			ID="<%= encodedParameterName + "_value" %>"
+			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getValue( ) == null )? "" : parameterBean.getValue( ) ) %>"
+			>
 <%
-	if ( parameterBean.allowNull( ) && !parameterBean.allowBlank( ) )
+	if ( !parameterBean.allowBlank( ) )
 	{
 %>
-		<INPUT TYPE="HIDDEN"
-			ID="isNotBlank" 
-			NAME="<%= encodedParameterName %>"
-			VALUE = "true">
+		<INPUT TYPE="HIDDEN" ID="isNotBlank" NAME="<%= encodedParameterName %>"	VALUE = "true">
 <%
 	}
 %>            

@@ -605,6 +605,14 @@
             <description>
             	Specifies the report parameter display text.
             </description>
+        </attribute>
+        <attribute>
+            <name>isLocale</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+            	Specifies whether the report parameter value is a locale/format related string.
+            </description>
         </attribute>             
      </tag>   
      

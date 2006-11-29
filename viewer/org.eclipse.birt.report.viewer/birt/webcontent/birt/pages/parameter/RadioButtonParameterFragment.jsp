@@ -45,19 +45,12 @@
 </TR>
 <TR>
 	<TD NOWRAP></TD>
-	<%-- Parameter Name--%>
-
 	<TD NOWRAP WIDTH="100%">
+	<INPUT TYPE="HIDDEN" ID="control_type" VALUE="radio">
 	<%-- Parameter control --%>
 <%
 	if (parameterBean.getSelectionList( ) != null)
 	{
-%>
-	<INPUT TYPE="HIDDEN"
-		ID="<%= encodedParameterName + "_hidden" %>"
-		NAME="<%= ParameterAccessor.PARAM_ISNULL %>"
-		VALUE="<%= (parameterBean.getValue( ) == null)? encodedParameterName : "" %>">
-<%
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
 			String label = ( String ) parameterBean.getSelectionList( ).get( i );
@@ -76,8 +69,10 @@
 	<BR>
 <%
 		}
-		if ( parameterBean.allowNull( ) )
-		{
+	}	
+
+	if ( parameterBean.allowNull( ) )
+	{
 %>
 	<INPUT TYPE="RADIO"
 		NAME="<%= encodedParameterName %>"
@@ -89,7 +84,6 @@
 	</INPUT>
 	<BR>
 <%
-		}
 	}
 %>
 	</TD>

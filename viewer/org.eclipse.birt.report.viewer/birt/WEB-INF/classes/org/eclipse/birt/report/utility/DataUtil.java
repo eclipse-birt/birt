@@ -12,10 +12,7 @@
 package org.eclipse.birt.report.utility;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Locale;
-
-import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -49,21 +46,44 @@ public class DataUtil
 	 * @param format
 	 * @param value
 	 * @param locale
+	 * @param isLocale
+	 *            indicate whether it is a locale string
 	 * @return Object
 	 * @throws ValidationValueException
 	 */
 	public static Object validate( String dataType, String format,
-			String value, Locale locale ) throws ValidationValueException
+			String value, Locale locale, boolean isLocale )
+			throws ValidationValueException
 	{
 		Object obj = null;
+		if ( value == null )
+			return obj;
 
-		try
+		// if parameter value equals display text, should use local/format to
+		// format parameter value first
+		if ( isLocale )
 		{
-			// Convert locale string to object
-			obj = ParameterValidationUtil.validate( dataType, format, value,
-					locale );
+			try
+			{
+				// Convert locale string to object
+				obj = ParameterValidationUtil.validate( dataType, format,
+						value, locale );
+			}
+			catch ( ValidationValueException e1 )
+			{
+				// Convert string to object using default format/local
+				String defFormat = null;
+				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+						.equalsIgnoreCase( dataType ) )
+				{
+					defFormat = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
+				}
+
+				obj = ParameterValidationUtil.validate( dataType, defFormat,
+						value );
+			}
 		}
-		catch ( ValidationValueException e1 )
+		else
 		{
 			// Convert string to object using default format/local
 			format = null;
@@ -113,46 +133,5 @@ public class DataUtil
 			return value.toString( );
 		}
 		return ParameterValidationUtil.getDisplayValue( value );
-	}
-
-	/**
-	 * Change default value format from design file.
-	 * <p>
-	 * <ul>
-	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then convert
-	 * old ISO8601 datetime format to standard format.</li>
-	 * </li>
-	 * </ul>
-	 * 
-	 * @param dataType
-	 *            the parameter data type
-	 * @param defaultValue
-	 *            the default value from design file
-	 * @return
-	 */
-	public static String getDefaultValue( String dataType, String defaultValue )
-	{
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equalsIgnoreCase( dataType ) )
-		{
-			Date obj = null;
-			try
-			{
-				// Current datetime format is ISO8601
-				obj = DateFormatISO8601.parse( defaultValue );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( );
-			}
-			return getDisplayValue( obj );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN
-				.equalsIgnoreCase( dataType ) )
-		{
-			return getDisplayValue( Boolean.valueOf( defaultValue ) );
-		}
-
-		return defaultValue;
 	}
 }

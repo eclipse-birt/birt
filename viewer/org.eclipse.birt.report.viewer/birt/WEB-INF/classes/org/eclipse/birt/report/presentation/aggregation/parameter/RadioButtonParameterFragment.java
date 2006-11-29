@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -65,12 +64,9 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 				.getReportDesignHandle( request ), options, parameterBean
 				.getName( ) );
 
+		ParameterDefinition paramDef = parameterBean.getParameter( );
 		if ( selectionList != null )
 		{
-			// Get Scalar parameter handle
-			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-					.findParameter( parameter.getName( ) );
-
 			for ( Iterator iter = selectionList.iterator( ); iter.hasNext( ); )
 			{
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
@@ -89,8 +85,8 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 					// If label is null or blank, then use the format parameter
 					// value for display
 					label = ParameterValidationUtil.getDisplayValue( null,
-							parameterHandle.getPattern( ), selectionItem
-									.getValue( ), locale );
+							paramDef.getPattern( ), selectionItem.getValue( ),
+							locale );
 				}
 
 				label = ParameterAccessor.htmlEncode( label );

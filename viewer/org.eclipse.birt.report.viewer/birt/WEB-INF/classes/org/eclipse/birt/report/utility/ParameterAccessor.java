@@ -151,6 +151,12 @@ public class ParameterAccessor
 	public static final String PARAM_ISNULL = "__isnull"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name that indicate the report parameter as a locale
+	 * string.
+	 */
+	public static final String PARAM_ISLOCALE = "__islocale"; //$NON-NLS-1$
+
+	/**
 	 * URL parameter name that determines to support masterpage or not.
 	 */
 	public static final String PARAM_MASTERPAGE = "__masterpage"; //$NON-NLS-1$
@@ -201,7 +207,12 @@ public class ParameterAccessor
 	 * Indentify the display text of select parameter
 	 */
 	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__"; //$NON-NLS-1$
-
+	
+	/**
+	 * Indentify the parameter value is a locale string
+	 */	
+	public static final String PREFIX_ISLOCALE = "__islocale__"; //$NON-NLS-1$
+	
 	/**
 	 * URL parameter name to indicate the resource folder of all the report
 	 * resources.
@@ -416,9 +427,9 @@ public class ParameterAccessor
 
 	/**
 	 * viewer properties
-	 */ 
+	 */
 	public static final String PROP_BASE_HREF = "base_href"; //$NON-NLS-1$
-	
+
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 

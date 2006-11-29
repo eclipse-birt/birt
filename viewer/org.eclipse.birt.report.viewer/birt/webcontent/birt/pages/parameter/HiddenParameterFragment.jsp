@@ -33,6 +33,7 @@
 <TR>
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
+		<INPUT TYPE="HIDDEN" ID="control_type" VALUE="hidden">
 		<INPUT TYPE="HIDDEN"
 			NAME="<%= encodedParameterName %>"
 			VALUE="<%= value %>"/>		

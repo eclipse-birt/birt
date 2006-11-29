@@ -47,6 +47,7 @@
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
 		<%-- Parameter control --%>
+		<INPUT TYPE="HIDDEN" ID="control_type" VALUE="checkbox">
 		<INPUT TYPE="HIDDEN"
 			ID="<%= encodedParameterName + "_hidden" %>"
 			NAME="<%= encodedParameterName %>"

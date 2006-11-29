@@ -100,4 +100,12 @@ public class ParamTag extends BodyTagSupport
 		param.setDisplayText( displayText );
 	}
 
+	/**
+	 * @param isLocale
+	 *            the isLocale to set
+	 */
+	public void setIsLocale( String isLocale )
+	{
+		param.setLocale( Boolean.valueOf( isLocale ).booleanValue( ) );
+	}
 }
