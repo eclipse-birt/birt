@@ -114,7 +114,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private transient Vector vSubTypeNames = null;
 
-	private transient Orientation orientation = Orientation.VERTICAL_LITERAL;
+	private transient Orientation orientation = null;
 
 	private transient Label lblOrientation = null;
 	private transient Button cbOrientation = null;
@@ -922,18 +922,23 @@ public class TaskSelectType extends SimpleTask implements
 		cbOrientation.setEnabled( chartType.supportsTransposition( ) && !is3D( ) );
 
 		// Update dimension
-		updateDimensionCombo( sSelectedType );
-		Vector vSubTypes = null;
+		updateDimensionCombo( sSelectedType );		
+		
+		if ( this.sDimension == null )
+		{
+			this.sDimension = chartType.getDefaultDimension( );
+		}
+		if ( this.orientation == null )
+		{
+			this.orientation = chartType.getDefaultOrientation( );
+		}
 
 		// Show the subtypes for the selected type based on current selections
 		// of dimension and orientation
-		if ( this.sDimension != null && this.orientation != null )
-		{
-			vSubTypes = new Vector( chartType.getChartSubtypes( sDimension,
-					orientation ) );
-		}
+		Vector vSubTypes = new Vector( chartType.getChartSubtypes( sDimension,
+				orientation ) );
 
-		if ( vSubTypes == null || vSubTypes.size( ) == 0 )
+		if ( vSubTypes.size( ) == 0 )
 		{
 			vSubTypes = new Vector( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
 					chartType.getDefaultOrientation( ) ) );
@@ -1043,7 +1048,7 @@ public class TaskSelectType extends SimpleTask implements
 		sType = null;
 		sDimension = null;
 		vSubTypeNames = null;
-		orientation = Orientation.VERTICAL_LITERAL;
+		orientation = null;
 	}
 
 	private void refreshChart( )
