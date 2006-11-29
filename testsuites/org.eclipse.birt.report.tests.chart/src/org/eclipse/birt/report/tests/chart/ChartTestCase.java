@@ -30,6 +30,7 @@ public class ChartTestCase extends TestCase
 	protected static final String OUTPUT_FOLDER = "output"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
+	protected static final String PLUGIN_NAME = "org.eclipse.birt.report.tests.chart"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -46,8 +47,7 @@ public class ChartTestCase extends TestCase
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 
-		String outputPath = tempDir + getFullQualifiedClassName( ) + "/"
-				+ OUTPUT_FOLDER;
+		String outputPath = this.genOutputFolder( );
 		outputPath = outputPath.replace( '\\', '/' );
 
 		File outputFolder = new File( outputPath );
@@ -103,16 +103,10 @@ public class ChartTestCase extends TestCase
 	protected boolean compareBytes( String golden, String output )
 			throws Exception
 	{
-		// InputStream is1 = new FileInputStream(
-		// this.getFullQualifiedClassName( ) + "/"
-		// + GOLDEN_FOLDER + "/" + golden );
-
 		String className = getFullQualifiedClassName( );
 		className = className.replace( '.', '/' );
 		golden = className + "/" + GOLDEN_FOLDER + "/" + golden;
-
-		// InputStream is1 = new FileInputStream( golden );
-
+		
 		InputStream is1 = getClass( ).getClassLoader( ).getResourceAsStream(
 				golden );
 		InputStream is2 = new FileInputStream( this.genOutputFile( output ) );
@@ -206,7 +200,10 @@ public class ChartTestCase extends TestCase
 	{
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
+		className = PLUGIN_NAME
+				+ className.substring( PLUGIN_NAME.length( ), lastDotIndex )
+						.replace( '.', '/' );
+//		 className = className.substring( 0 , lastDotIndex );
 
 		return className;
 	}
@@ -216,14 +213,67 @@ public class ChartTestCase extends TestCase
 	 * 
 	 * @return the the output path
 	 */
-	protected String genOutputFile( String output )
+	public String tempFolder( )
 	{
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		String tempDir = System.getProperty( "java.io.tmpdir" );
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
-		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ "/" + OUTPUT_FOLDER + "/" + output;
+		return tempDir;
+	}
+
+	public String getInputResourceFolder( )
+	{
+		String resourceFolder = this.tempFolder( ) + PLUGIN_NAME + ".RESOURCE";
+		return resourceFolder;
+	}
+
+	public String getOutputResourceFolder( )
+	{
+		String outputFolder = this.tempFolder( ) + PLUGIN_NAME + ".OUTPUT";
+		return outputFolder;
+	}
+	
+	
+	protected String genOutputFolder( )
+	{
+		String outputFolder = this.getOutputResourceFolder( ) + File.separator
+		+ getFullQualifiedClassName( ) //$NON-NLS-1$
+		+ "/" + OUTPUT_FOLDER;
+		return outputFolder;
+	}
+	
+	protected String genInputFolder( )
+	{
+		String inputFolder = this.getInputResourceFolder( ) + File.separator
+		+ getFullQualifiedClassName( ) //$NON-NLS-1$
+		+ "/" + INPUT_FOLDER;
+		return inputFolder;
+	}
+	
+	protected String genGoldenFolder( )
+	{
+		String goldenFolder = this.getInputResourceFolder( ) + File.separator
+		+ getFullQualifiedClassName( ) //$NON-NLS-1$
+		+ "/" + GOLDEN_FOLDER;
+		return goldenFolder;
+	}
+
+	protected String genOutputFile( String output )
+	{
+		String outputFile = this.genOutputFolder( ) + File.separator + output;
 		return outputFile;
+	}
+
+	protected String genInputFile( String input )
+	{
+		String inputFile = this.genInputFolder( ) + File.separator + input;
+		return inputFile;
+	}
+
+	protected String genGoldenFile( String golden )
+	{
+		String goldenFile = this.genGoldenFolder( )+ File.separator + golden;
+		return goldenFile;
 	}
 
 	/**
