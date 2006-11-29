@@ -1240,6 +1240,7 @@ public class ParameterDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				boolean defaultValueRemoved = true;
 				String type = getSelectedDataType( );
 				List choices = new ArrayList( );
 				for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
@@ -1257,8 +1258,17 @@ public class ParameterDialog extends BaseDialog
 						SelectionChoice choice = StructureFactory.createSelectionChoice( );
 						choice.setValue( importValues[i] );
 						choiceList.add( choice );
+						if ( defaultValue != null && defaultValue.equals( importValues[i] ) )
+						{
+							defaultValueRemoved = false;
+						}
 					}
 					refreshValueTable( );
+					
+					if ( defaultValue !=null && defaultValueRemoved )
+					{
+						changeDefaultValue( null );
+					}
 				}
 			}
 		} );
