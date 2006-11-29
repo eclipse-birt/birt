@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -170,6 +171,9 @@ public class GroupDialog extends BaseDialog
 	final private static IChoice[] pagebreakAfterChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER )
 			.getChoices( );
+	final private static IChoice[] pagebreakInsideChoicesAll = DEUtil.getMetaDataDictionary( )
+			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE )
+			.getChoices( );
 
 	final private static IChoice[] intervalChoicesString = getIntervalChoicesString( );
 	final private static IChoice[] intervalChoicesDate = getIntervalChoicesDate( );
@@ -182,6 +186,8 @@ public class GroupDialog extends BaseDialog
 	private Combo pagebreakAfterCombo;
 
 	private Combo pagebreakBeforeCombo;
+	
+	private Combo pagebreakInsideCombo;
 
 	private FocusListener focusListener;
 
@@ -522,7 +528,7 @@ public class GroupDialog extends BaseDialog
 		pagebreakGroup.setText( Messages.getString( "GroupDialog.PageBreak" ) ); //$NON-NLS-1$
 		pagebreakGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		pagebreakGroup.setLayout( layout );
 
 		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakBefore" ) ); //$NON-NLS-1$
@@ -532,6 +538,8 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakBeforeCombo.add( pagebreakBeforeChoicesAll[i].getDisplayName( ) );
 		}
+		pagebreakBeforeCombo.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
 		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
 
 		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakAfter" ) ); //$NON-NLS-1$
@@ -542,11 +550,24 @@ public class GroupDialog extends BaseDialog
 			pagebreakAfterCombo.add( pagebreakAfterChoicesAll[i].getDisplayName( ) );
 		}
 		pagebreakAfterCombo.setData( pagebreakAfterChoicesAll );
+		pagebreakAfterCombo.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
+		
+		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakInside" ) ); //$NON-NLS-1$
+		pagebreakInsideCombo = new Combo( pagebreakGroup, SWT.READ_ONLY
+				| SWT.DROP_DOWN );
+		for ( int i = 0; i < pagebreakInsideChoicesAll.length; i++ )
+		{
+			pagebreakInsideCombo.add( pagebreakInsideChoicesAll[i].getDisplayName( ) );
+		}
+		pagebreakInsideCombo.setData( pagebreakInsideChoicesAll );
+		pagebreakInsideCombo.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
 
 		repeatHeaderButton = new Button( pagebreakGroup, SWT.CHECK );
 		repeatHeaderButton.setText( Messages.getString( "GroupDialog.RepeatHeader" ) ); //$NON-NLS-1$
 		GridData data = new GridData( );
-		data.horizontalSpan = 2;
+		data.horizontalSpan = 3;
 		repeatHeaderButton.setLayoutData( data );
 	}
 
@@ -693,6 +714,18 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakAfterCombo.select( index );
 		}
+		
+		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
+
+		if ( index < 0 || index >= pagebreakInsideCombo.getItemCount( ) )
+		{
+			pagebreakInsideCombo.setText( inputGroup.getPageBreakInside( ) );
+		}
+		else
+		{
+			pagebreakInsideCombo.select( index );
+		}
+		
 
 		if ( inputGroup.repeatHeader( ) )
 		{
@@ -731,6 +764,20 @@ public class GroupDialog extends BaseDialog
 		for ( int i = 0; i < pagebreakAfterChoicesAll.length; i++ )
 		{
 			if ( pagebreakAfterChoicesAll[i].getName( ).equals( pageBreakAfter ) )
+			{
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+	
+	private int getPagebreakInsideIndex( String pageBreakInside )
+	{
+		int index = 0;
+		for ( int i = 0; i < pagebreakInsideChoicesAll.length; i++ )
+		{
+			if ( pagebreakInsideChoicesAll[i].getName( ).equals( pageBreakInside ) )
 			{
 				index = i;
 				break;
@@ -889,6 +936,7 @@ public class GroupDialog extends BaseDialog
 			}
 			inputGroup.setPageBreakBefore( pagebreakBeforeChoicesAll[pagebreakBeforeCombo.getSelectionIndex( )].getName( ) );
 			inputGroup.setPageBreakAfter( pagebreakAfterChoicesAll[pagebreakAfterCombo.getSelectionIndex( )].getName( ) );
+			inputGroup.setPageBreakInside( pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex( )].getName( ) );
 			inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
 		}
 		catch ( SemanticException e )
