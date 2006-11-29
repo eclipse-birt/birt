@@ -9,25 +9,24 @@
 
 package org.eclipse.birt.report.tests.model;
 
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.eclipse.birt.report.tests.model.acceptance.AllAcceptanceTests;
+import org.eclipse.birt.report.tests.model.api.AllApiTests;
+import org.eclipse.birt.report.tests.model.regression.AllRegressionTests;
+import org.eclipse.birt.report.tests.model.smoke.AllSmokeTests;
 
 /**
  *
  *  All test cases for tests Model
  */
-public class AllTests extends utility.BaseTestCase
+
+/**
+ * public class AllTests extends utility.BaseTestCase
 {
 
-	/**
-	 * For test only.
-	 * 
-	 */
+	
 	public void test( )
 	{
 		Test t = AllTests.suite( );
@@ -77,4 +76,20 @@ public class AllTests extends utility.BaseTestCase
 
 		return suite;
 	}
+} */
+
+public class AllTests
+{
+	public static Test suite( )
+	{
+		TestSuite test = new TestSuite( );
+		
+		test.addTest( AllRegressionTests.suite( ) );
+		test.addTest( AllApiTests.suite( ) );
+		test.addTest( AllAcceptanceTests.suite( ) );
+		test.addTest( AllSmokeTests.suite( ) );
+		
+		return test;
+	}
+
 }

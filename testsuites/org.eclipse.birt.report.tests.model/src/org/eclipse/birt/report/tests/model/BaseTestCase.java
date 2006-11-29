@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
@@ -26,9 +27,16 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Vector;
 
 import junit.framework.TestCase;
 
+import java.util.*;
+import junit.runner.*;
+import junit.framework.*;
+
+//import org.eclipse.birt.report.engine.api.ReportRunner;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -73,7 +81,7 @@ import com.ibm.icu.util.ULocale;
  */
 public abstract class BaseTestCase extends TestCase
 {
-
+	
 	/**
 	 * The report design handle.
 	 */
@@ -107,21 +115,30 @@ public abstract class BaseTestCase extends TestCase
 	 * The file name of metadata file.
 	 */
 
+	private String caseName;
+
+	//protected static final String BUNDLE_NAME = "org.eclipse.birt.report.tests.model.messages";//$NON-NLS-1$
+
+	//protected static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
+	//		.getBundle( BUNDLE_NAME );
+	
 	protected static final String ROM_DEF_NAME = "rom.def"; //$NON-NLS-1$
 
 	protected static final String PLUGIN_NAME = "org.eclipse.birt.report.tests.model"; //$NON-NLS-1$
 
 	protected static final String PLUGINLOC = "/org.eclipse.birt.report.tests.model/"; //$NON-NLS-1$
 
-	protected static final String PLUGIN_PATH = System.getProperty( "user.dir" ) + "/bin/"; //$NON-NLS-1$//$NON-NLS-2$
+	protected static final String PLUGIN_PATH = System.getProperty( "user.dir" ) //$NON-NLS-1$
+	+ "/plugins/" + PLUGINLOC.substring( PLUGINLOC.indexOf( "/" ) + 1 ) //$NON-NLS-1$//$NON-NLS-2$
+	+ "bin/"; //$NON-NLS-1$
 
 	protected static final String TEST_FOLDER = "src/"; //$NON-NLS-1$
-	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
-	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$
-	protected static final String GOLDEN_FOLDER = "/golden/"; //$NON-NLS-1$
+	protected static final String OUTPUT_FOLDER = "output"; //$NON-NLS-1$
+	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
+	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 
-	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
-
+	protected static final ULocale TEST_LOCALE = new ULocale("aa"); //$NON-NLS-1$
+	
 	/**
 	 * Default constructor.
 	 */
@@ -140,6 +157,8 @@ public abstract class BaseTestCase extends TestCase
 		super( name );
 	}
 
+	
+	
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -171,6 +190,214 @@ public abstract class BaseTestCase extends TestCase
 		super.tearDown( );
 	}
 
+	protected void setCase( String caseName )
+	{
+		// set the case and emitter manager accroding to caseName.
+		this.caseName = caseName;
+	}
+/*	
+	* protected void runCase( String args[] )
+	{
+		Vector runArgs = new Vector( );
+		// invoke the report runner.
+		String input = PLUGIN_PATH + System.getProperty( "file.separator" ) //$NON-NLS-1$
+				+ RESOURCE_BUNDLE.getString( "CASE_INPUT" ); //$NON-NLS-1$
+		input += System.getProperty( "file.separator" ) + caseName //$NON-NLS-1$
+				+ ".rptdesign"; //$NON-NLS-1$
+		System.out.println( "input is : " + input ); //$NON-NLS-1$
+
+		// run report runner.
+
+		if ( args != null )
+		{
+			for ( int i = 0; i < args.length; i++ )
+			{
+				runArgs.add( args[i] );
+			}
+		}
+		runArgs.add( "-f" ); //$NON-NLS-1$
+		runArgs.add( "test" ); //$NON-NLS-1$
+		runArgs.add( input );
+
+		//args = (String[]) runArgs.toArray( new String[runArgs.size( )] );
+		//ReportRunner.main( args );
+	}
+*/
+	protected final void copyFile( String from, String to ) throws IOException
+	{
+
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+
+		try
+		{
+			new File( to ).createNewFile( );
+
+			bis = new BufferedInputStream( new FileInputStream( from ) );
+			bos = new BufferedOutputStream( new FileOutputStream( to ) );
+
+			int nextByte = 0;
+			while ( ( nextByte = bis.read( ) ) != -1 )
+			{
+				bos.write( nextByte );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				if ( bis != null )
+					bis.close( );
+
+				if ( bos != null )
+					bos.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore
+			}
+
+		}
+	}
+/*
+	protected void copyResource( String src, String tgt, String folder )
+	{
+
+		String className = getFullQualifiedClassName( );
+		tgt = className + "/" + folder + "/" + tgt;
+		className = className.replace( '.', '/' );
+
+		src = className + "/" + folder + "/" + src;
+
+		File parent = new File( tgt ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+
+		InputStream in = getClass( ).getClassLoader( )
+				.getResourceAsStream( src );
+		assertTrue( in != null );
+
+		try
+		{
+
+			int size = in.available( );
+			byte[] buffer = new byte[size];
+			in.read( buffer );
+			OutputStream out = new FileOutputStream( tgt );
+			out.write( buffer );
+			out.close( );
+			in.close( );
+
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+*/
+	protected void copyResource( String src, String tgt, String folder )
+	{
+
+		String className = getFullQualifiedClassName( );
+		tgt = className + "/" + folder + "/" + tgt;
+		className = className.replace( '.', '/' );
+
+		src = className + "/" + folder + "/" + src;
+
+		File parent = new File( tgt ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+
+		InputStream in = getClass( ).getClassLoader( )
+				.getResourceAsStream( src );
+		assertTrue( in != null );
+		try
+		{
+			FileOutputStream fos = new FileOutputStream( tgt );
+			byte[] fileData = new byte[5120];
+			int readCount = -1;
+			while ( ( readCount = in.read( fileData ) ) != -1 )
+			{
+				fos.write( fileData, 0, readCount );
+			}
+			fos.close( );
+			in.close( );
+
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+
+	protected void copyResource_INPUT( String input_resource, String input )
+	{
+		this.copyResource( input_resource, input, INPUT_FOLDER );
+	}
+
+	protected void copyResource_GOLDEN( String input_resource, String golden )
+	{
+		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
+	}
+	
+	protected void copyResource_OUTPUT( String output_resource, String output )
+	{
+		this.copyResource( output_resource, output, OUTPUT_FOLDER );
+	}
+	/**
+	 * Remove a given file or directory recursively.
+	 * 
+	 * @param file
+	 */
+	public void removeFile( File file )
+	{
+		if ( file.isDirectory( ) )
+		{
+			File[] children = file.listFiles( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				removeFile( children[i] );
+			}
+		}
+		if ( file.exists( ) )
+		{
+			if ( !file.delete( ) )
+			{
+				System.out.println( file.toString( ) + " can't be removed" ); //$NON-NLS-1$
+			}
+		}
+	}
+
+	/**
+	 * Remove a given file or directory recursively.
+	 * 
+	 * @param file
+	 */
+
+	public void removeFile( String file )
+	{
+		removeFile( new File( file ) );
+	}
+
+	public void removeResource( )
+	{
+		String className = getFullQualifiedClassName( );
+		removeFile( className );
+	}
+
+	
 	/**
 	 * Creates a new report.
 	 * 
@@ -229,7 +456,7 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 
-		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		fileName = this.getFullQualifiedClassName() + "/"+ INPUT_FOLDER + "/"+ fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
@@ -265,7 +492,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openLibrary( String fileName, ULocale locale )
 			throws DesignFileException
 	{
-		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		fileName = this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
@@ -313,7 +540,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesignAsResource( Class theClass, String fileName,
 			ULocale locale ) throws DesignFileException
 	{
-		fileName = PLUGIN_PATH + getFullQualifiedClassName( ) + INPUT_FOLDER
+		fileName = PLUGIN_PATH + this.getFullQualifiedClassName( ) + INPUT_FOLDER
 				+ fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );
@@ -384,8 +611,8 @@ public abstract class BaseTestCase extends TestCase
 
 		try
 		{
-			goldenFileName = getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
-			outputFileName = getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
+			goldenFileName = getClassFolder( ) + java.io.File.separator + GOLDEN_FOLDER + java.io.File.separator + goldenFileName;
+			outputFileName = this.genOutputFile(outputFileName);
 
 			readerA = new FileReader( goldenFileName );
 			readerB = new FileReader( outputFileName );
@@ -598,7 +825,7 @@ public abstract class BaseTestCase extends TestCase
 	 *            the target file to copy to.
 	 * @throws IOException
 	 */
-
+/*
 	protected final void copyFile( String from, String to ) throws IOException
 	{
 
@@ -639,7 +866,7 @@ public abstract class BaseTestCase extends TestCase
 
 		}
 	}
-
+*/
 	/**
 	 * Prints out all semantic errors stored in the error list during parsing
 	 * the design file.
@@ -774,7 +1001,7 @@ public abstract class BaseTestCase extends TestCase
 			return;
 
 		makeOutputDir( );
-		moduleHandle.saveAs( getClassFolder( ) + OUTPUT_FOLDER + filename );
+		moduleHandle.saveAs( this.genOutputFile(filename));
 	}
 
 	/**
@@ -785,7 +1012,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void makeOutputDir( ) throws IOException
 	{
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
+		String outputPath = getClassFolder( ) + "/" + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -847,6 +1074,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the path name where the test java source file locates.
 	 */
 
+
 	protected String getClassFolder( )
 	{
 
@@ -884,7 +1112,8 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the full qualified class name
 	 */
 
-	protected String getFullQualifiedClassName( )
+/*
+ * 	protected String getFullQualifiedClassName( )
 	{
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
@@ -893,7 +1122,16 @@ public abstract class BaseTestCase extends TestCase
 
 		return className;
 	}
+*/
+	protected String getFullQualifiedClassName( )
+	{
+		String className = this.getClass( ).getName( );
+		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+		className = className.substring( 0, lastDotIndex );
 
+		return className;
+	}
+	
 	/**
 	 * Convert input stream to a byte array.
 	 * 
@@ -927,7 +1165,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void compareErrors( String filename ) throws Exception
 	{
-		filename = getClassFolder( ) + GOLDEN_FOLDER + filename;
+		filename = this.genOutputFile(filename);
 
 		if ( design == null )
 			return;
@@ -946,4 +1184,30 @@ public abstract class BaseTestCase extends TestCase
 		}
 		reader.close( );
 	}
+	
+	protected String genOutputFile( String output )
+	{
+		final String SEPARATOR = File.separator;
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		String outputFileName = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ SEPARATOR + OUTPUT_FOLDER + SEPARATOR + output;
+		File outputFile = new File(outputFileName);
+		//add these code to create new file
+		try
+		{
+			outputFile.getParentFile().mkdirs();
+			if(!outputFile.exists())
+			{
+				outputFile.createNewFile();
+			}
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			fail();
+		}
+		return outputFileName;
+	}
 }
+
