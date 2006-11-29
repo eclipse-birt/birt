@@ -2584,6 +2584,9 @@
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
 	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
     <Property detailType="ComputedColumn" displayNameID="Element.ReportItem.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>
+    <Property displayNameID="Element.ReportItem.zIndex" name="zIndex" since="2.2" type="integer" validator="NonNegativeValueValidator">    
+    	<Default>0</Default>
+    </Property>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>       

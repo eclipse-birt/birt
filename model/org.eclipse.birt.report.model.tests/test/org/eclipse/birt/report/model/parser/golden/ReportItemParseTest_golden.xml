@@ -83,6 +83,7 @@
             <property name="color">yellow</property>
             <property name="x">6mm</property>
             <property name="y">0.5mm</property>
+            <property name="zIndex">1</property>            
             <property name="height">0.25mm</property>
             <property name="width">1mm</property>
             <list-property name="visibility">

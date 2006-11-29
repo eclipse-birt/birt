@@ -576,4 +576,29 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
 	}
+
+	/**
+	 * Gets the item's z position as an integer.
+	 * 
+	 * @return the z depth. Start from 0
+	 */
+
+	public int getZIndex( )
+	{
+		return super.getIntProperty( IReportItemModel.Z_INDEX_PROP );
+	}
+
+	/**
+	 * Sets the item's z position to an integer.
+	 * 
+	 * @param zIndex
+	 *            the z depth. Start from 0
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setZIndex( int zIndex ) throws SemanticException
+	{
+		setIntProperty( IReportItemModel.Z_INDEX_PROP, zIndex );
+	}
 }

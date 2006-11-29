@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
@@ -52,5 +53,120 @@ public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel
 	public SlotHandle getReportItems( )
 	{
 		return getSlot( IFreeFormModel.REPORT_ITEMS_SLOT );
+	}
+
+	/**
+	 * Increases the z-index of the given element by 1. If the element is not in
+	 * the freeform, do nothing.
+	 * 
+	 * @param content
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void bringForward( ReportItemHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+			return;
+
+		int zIndex = content.getZIndex( );
+		if ( zIndex < getMaximalZIndex( ) )
+			content.setZIndex( zIndex + 1 );
+	}
+
+	/**
+	 * Reduces the z-index of the given element that resides in the freeform. If
+	 * the element is not in the freeform, do nothing.
+	 * 
+	 * @param content
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void sendBackward( ReportItemHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+			return;
+
+		int zIndex = content.getZIndex( );
+		if ( zIndex == 0 )
+			return;
+		content.setZIndex( zIndex - 1 );
+	}
+
+	/**
+	 * Increases the z-index of the given element so that the element will have
+	 * the maximal z-index value. If the element is not in the freeform, do
+	 * nothing.
+	 * 
+	 * @param content
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void bringToFront( ReportItemHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+			return;
+
+		int zIndex = content.getZIndex( );
+		int maxZIndex = getMaximalZIndex( );
+		if ( zIndex < maxZIndex )
+			content.setZIndex( maxZIndex + 1 );
+	}
+
+	/**
+	 * Reduces the z-index of the given element so that the element will have
+	 * the minimal z-index value. If the element is not in the freeform, do
+	 * nothing.
+	 * 
+	 * @param content
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void sendToBack( ReportItemHandle content ) throws SemanticException
+	{
+		if ( content == null )
+			return;
+		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+			return;
+
+		int zIndex = content.getZIndex( );
+		if ( zIndex == 0 )
+			return;
+		content.setZIndex( 0 );
+	}
+
+	/**
+	 * Calculates the maximal z depth of the freeform. The maximal value is
+	 * defined by the content whose z-index is maximum.
+	 * 
+	 * @return the maximal z-index
+	 */
+
+	private int getMaximalZIndex( )
+	{
+		int maxZIndex = 0;
+
+		SlotHandle slot = getSlot( IFreeFormModel.REPORT_ITEMS_SLOT );
+		for ( int i = 0; i < slot.getCount( ); i++ )
+		{
+			ReportItemHandle item = (ReportItemHandle) slot.get( i );
+			int tmpZIndex = item.getZIndex( );
+			if ( tmpZIndex > maxZIndex )
+				maxZIndex = tmpZIndex;
+		}
+
+		return maxZIndex;
 	}
 }

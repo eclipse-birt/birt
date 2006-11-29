@@ -110,4 +110,10 @@ public interface IReportItemModel
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
 
+	/**
+	 * Name of the z-depth property.
+	 */
+
+	public static final String Z_INDEX_PROP = "zIndex"; //$NON-NLS-1$
+	
 }

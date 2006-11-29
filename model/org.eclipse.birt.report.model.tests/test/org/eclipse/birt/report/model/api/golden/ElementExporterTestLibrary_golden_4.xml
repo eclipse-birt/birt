@@ -47,6 +47,7 @@
                         <property name="drop">none</property>
                         <label name="innerLabel" id="11">
                             <property name="fontWeight">bolder</property>
+                            <property name="zIndex">0</property>
                         </label>
                     </cell>
                 </row>

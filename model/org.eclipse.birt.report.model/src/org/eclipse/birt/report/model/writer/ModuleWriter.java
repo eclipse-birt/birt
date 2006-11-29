@@ -1409,7 +1409,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		OdaDummyProvider dummyProvider = (OdaDummyProvider) provider;
 
 		// write other un-organized strings
-
+		
 		ContentTree tree = dummyProvider.getContentTree( );
 		writeContentTree( tree );
 	}
@@ -2720,6 +2720,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IReportItemModel.X_PROP );
 		property( obj, IReportItemModel.Y_PROP );
+		property( obj, IReportItemModel.Z_INDEX_PROP );
 		property( obj, IReportItemModel.HEIGHT_PROP );
 		property( obj, IReportItemModel.WIDTH_PROP );
 		property( obj, IReportItemModel.DATA_SET_PROP );

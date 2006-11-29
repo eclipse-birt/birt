@@ -85,7 +85,8 @@
             <property name="x">6mm</property>
             <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>
-            <property name="width">1mm</property>		
+            <property name="width">1mm</property>	
+            <property name="zIndex">2</property>	
 			<property name="eventHandlerClass">birt.js.labelHandler</property>	
             <list-property name="visibility">
                 <structure>

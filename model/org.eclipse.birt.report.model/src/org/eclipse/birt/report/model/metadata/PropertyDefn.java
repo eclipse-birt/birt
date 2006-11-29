@@ -295,7 +295,7 @@ public abstract class PropertyDefn
 	 *             if the property definition is inconsistent.
 	 */
 
-	protected void buildDefn( ) throws MetaDataException
+	final protected void buildDefn( ) throws MetaDataException
 	{
 		// Ensure we can find the property type.
 

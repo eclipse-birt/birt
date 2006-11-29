@@ -116,6 +116,10 @@ public class ReportItemParseTest extends BaseTestCase
 		assertEquals( "birt.js.labelHandler", labelHandle //$NON-NLS-1$
 				.getEventHandlerClass( ) );
 
+		// check zIndex properties.
+		
+		assertEquals( 2, labelHandle.getZIndex( ) );
+		
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "hello, show me on create.", labelHandle.getOnCreate( ) ); //$NON-NLS-1$
@@ -250,6 +254,7 @@ public class ReportItemParseTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "bodyLabel" ); //$NON-NLS-1$
 
+		labelHandle.setZIndex( 1 );
 		labelHandle.setOnCreate( "my new label on create" ); //$NON-NLS-1$
 		labelHandle.setOnRender( null );
 		labelHandle.setOnPrepare( "my new label on prepare" ); //$NON-NLS-1$
