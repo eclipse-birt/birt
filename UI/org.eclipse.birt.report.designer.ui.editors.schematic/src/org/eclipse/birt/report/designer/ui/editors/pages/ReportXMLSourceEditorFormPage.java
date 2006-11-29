@@ -95,7 +95,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	{
 		super.doSave( progressMonitor );
 		IReportProvider provider = getProvider( );
-		if ( provider != null && getErrorLIine( ) == -1 )
+		if ( provider != null && getErrorLIine( false ) == -1 )
 		{
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
@@ -103,7 +103,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 	}
 
-	private int getErrorLIine( )
+	private int getErrorLIine( boolean checkReport )
 	{
 		IEditorInput input = getEditorInput( );
 
@@ -123,6 +123,11 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					library = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openLibrary( path.toOSString( ) );
+					if ( checkReport )
+					{
+						return getErrorLineFromModuleHandle( library );
+					}
+
 				}
 				catch ( DesignFileException e )
 				{
@@ -145,6 +150,10 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
 									new FileInputStream( path.toFile( ) ) );
+					if ( checkReport )
+					{
+						return getErrorLineFromModuleHandle( report );
+					}
 				}
 				catch ( DesignFileException e )
 				{
@@ -180,6 +189,23 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		return 0;
 	}
 
+	private int getErrorLineFromModuleHandle( ModuleHandle handle )
+	{
+		handle.checkReport( );
+		List list = handle.getErrorList( );
+		if ( list != null )
+			for ( int i = 0, m = list.size( ); i < m; i++ )
+			{
+				Object obj = list.get( i );
+				if ( obj instanceof ErrorDetail )
+				{
+					ErrorDetail errorDetail = (ErrorDetail) list.get( i );
+					return errorDetail.getLineNo( );
+				}
+			}
+		return 0;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -197,6 +223,13 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	 */
 	public void setActive( boolean active )
 	{
+		int errorLine = getErrorLIine( true );
+
+		if ( errorLine > -1 )
+		{
+			setFocus( );
+			setHighlightLine( errorLine );
+		}
 
 	}
 
@@ -233,7 +266,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			switch ( ret )
 			{
 				case 0 :
-					getEditor().doSave( null );
+					getEditor( ).doSave( null );
 					break;
 				case 1 :
 					if ( getEditorInput( ) != null )
@@ -250,7 +283,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			}
 		}
 
-		int errorLine = getErrorLIine( );
+		int errorLine = getErrorLIine( false );
 
 		if ( errorLine > -1 )
 		{
@@ -477,4 +510,5 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		}
 		super.finalize( );
 	}
+
 }
