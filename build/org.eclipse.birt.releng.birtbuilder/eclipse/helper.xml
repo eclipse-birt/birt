@@ -580,7 +580,7 @@
 			<fileset dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.engine_${org.eclipse.birt.report.tests.engine}">
 				<include name="TESTS-*.xml"/>
 			</fileset>
-			<fileset dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.data_${org.eclipse.birt.report.tests.data}">
+			<fileset dir="${test.dir}/eclipse/plugins/org.eclipse.birt.tests.data_${org.eclipse.birt.tests.data}">
 				<include name="TESTS-*.xml"/>
 			</fileset>
 		</copy>
