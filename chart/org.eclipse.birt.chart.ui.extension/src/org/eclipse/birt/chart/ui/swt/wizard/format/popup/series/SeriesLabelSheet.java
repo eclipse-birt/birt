@@ -380,6 +380,14 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 						cmbPosition.select( i );
 					}
 				}
+				
+				// For compatibility with old model, set the first selection by
+				// default.
+				if ( cmbPosition.getSelectionIndex( ) < 0 )
+				{
+					cmbPosition.select( 0 );
+					cmbPosition.notifyListeners( SWT.Selection, new Event( ) );
+				}
 			}
 		}
 	}
