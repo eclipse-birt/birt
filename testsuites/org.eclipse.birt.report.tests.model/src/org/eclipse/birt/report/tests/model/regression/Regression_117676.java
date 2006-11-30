@@ -45,7 +45,8 @@ public class Regression_117676 extends BaseTestCase
 {
 
 	private final static String INPUT = "regression_117676.xml"; //$NON-NLS-1$
-
+	private final static String LIBRARY = "regression_117676_lib.xml";//$NON-NLS-1$
+	
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -53,6 +54,7 @@ public class Regression_117676 extends BaseTestCase
 		
 		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( INPUT , INPUT );
+		copyResource_INPUT(LIBRARY, LIBRARY);
 		
 	}
 	/**

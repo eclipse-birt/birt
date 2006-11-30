@@ -52,7 +52,6 @@ public class Regression_116563 extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		
-		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( LIBRARY , LIBRARY );
 		copyResource_INPUT( REPORT , REPORT );
 		
@@ -67,15 +66,20 @@ public class Regression_116563 extends BaseTestCase
 	public void test_regression_116563( ) throws DesignFileException, SemanticException
 	{
 		openDesign( REPORT );
+		//designHandle.includeLibrary(
+		//		getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY,
+		//		"regression_116563_lib" ); //$NON-NLS-1$
 		designHandle.includeLibrary(
-				getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY,
+				this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + LIBRARY,
 				"regression_116563_lib" ); //$NON-NLS-1$
 
 		try
 		{
 			// should throw exception when add the same library the second time.
 
-			designHandle.includeLibrary( getClassFolder( ) + "/" + INPUT_FOLDER
+			//designHandle.includeLibrary( getClassFolder( ) + "/" + INPUT_FOLDER
+			//		+ "/" + LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
+			designHandle.includeLibrary( this.getFullQualifiedClassName() + "/" + INPUT_FOLDER
 					+ "/" + LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
 			fail( );
 		}
