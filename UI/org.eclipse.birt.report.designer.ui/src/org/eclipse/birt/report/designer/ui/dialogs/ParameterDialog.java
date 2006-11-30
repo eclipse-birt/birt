@@ -1258,14 +1258,15 @@ public class ParameterDialog extends BaseDialog
 						SelectionChoice choice = StructureFactory.createSelectionChoice( );
 						choice.setValue( importValues[i] );
 						choiceList.add( choice );
-						if ( defaultValue != null && defaultValue.equals( importValues[i] ) )
+						if ( defaultValue != null
+								&& defaultValue.equals( importValues[i] ) )
 						{
 							defaultValueRemoved = false;
 						}
 					}
 					refreshValueTable( );
-					
-					if ( defaultValue !=null && defaultValueRemoved )
+
+					if ( defaultValue != null && defaultValueRemoved )
 					{
 						changeDefaultValue( null );
 					}
@@ -1719,7 +1720,8 @@ public class ParameterDialog extends BaseDialog
 	private void updateCheckBoxArea( )
 	{
 		// Allow blank check
-		if ( ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) || PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
+		if ( ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
+				|| PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) || PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) )
 				&& DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
 		{
 			allowBlank.setEnabled( true );
