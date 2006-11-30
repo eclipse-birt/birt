@@ -46,8 +46,28 @@
 			tag="${mapVersionTag}"
 		/>
 		
+		<!--compare the map files project-->
+		<antcall target="compareMapFiles" />
+		<!--tag the map files project-->
+		<antcall target="tagMapFiles" />
+		
+	</target>
+	
+	<target name="compareMapFiles" if="compareMaps">
+		<property file="${mapTag.properties}"/>
+		<property name="cvsDiffFile" value="${buildDirectory}/cvsDiff.txt" />
+		<cvs cvsRoot="${mapCvsRoot}" dest="${buildDirectory}/maps" command="diff -w -r ${lastMapTag}" output="${cvsDiffFile}" />
+		<modifiedMaps mapDiffFile="${cvsDiffFile}" />
 	</target>
 
+	<target name="tagMapFiles" if="tagMaps">
+		<!-- Stores tag on the filesystem so map files can be compared -->
+		<echo file="${mapTag.properties}">
+		lastMapTag=${buildId}
+		</echo>
+		<cvs dest="${buildDirectory}/maps/org.eclipse.birt.releng" command="tag ${buildId}" />
+	</target>
+	
 	<!-- ===================================================================== -->
 	<!-- Steps to do before setup -->
 	<!-- ===================================================================== -->
