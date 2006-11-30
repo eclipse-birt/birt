@@ -16,12 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.birt.integration.wtp.ui.internal.dialogs.BirtConfigurationDialog;
-import org.eclipse.birt.integration.wtp.ui.internal.dialogs.WebArtifactOverwriteQuery;
 import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
+import org.eclipse.birt.integration.wtp.ui.internal.wizards.SimpleImportOverwriteQuery;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -280,7 +280,7 @@ public class ImportBirtRuntimeAction extends Action
 	protected void processConfiguration( IProgressMonitor monitor, Shell shell )
 			throws CoreException
 	{
-		WebArtifactOverwriteQuery query = new WebArtifactOverwriteQuery( shell );
+		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
 
 		// configure WebArtifact
 		WebArtifactUtil.configureContextParam( (Map) properties
