@@ -424,7 +424,22 @@ BirtUtility.prototype =
 		if( oTaskId )
 			oTaskId.value = '';			
 	},
-			
+	
+	// decode the xml string
+	xmlDecode: function( content )
+	{
+		var reg = /&amp;/gi;
+		content = content.replace( reg, "&" );
+		
+		reg = /&gt;/gi;
+		content = content.replace( reg, ">" );
+		
+		reg = /&lt;/gi;
+		content = content.replace( reg, "<");
+		
+		return content;
+	},		
+	
 	noComma : "" //just to avoid javascript syntax errors
 }
 
