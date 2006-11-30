@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -19,7 +24,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 public class TextContent extends AbstractContent implements ITextContent
 {
 
-	transient protected String text;
+	protected String text;
 
 	public int getContentType( )
 	{
@@ -80,5 +85,30 @@ public class TextContent extends AbstractContent implements ITextContent
 		if ( generateBy instanceof TextItemDesign )
 			return ( (TextItemDesign) generateBy ).getTextType( );
 		return null;
+	}
+	
+	static final protected short FIELD_TEXT = 1100;
+
+	protected void writeFields( DataOutputStream out ) throws IOException
+	{
+		super.writeFields( out );
+		if ( text != null )
+		{
+			IOUtil.writeShort( out, FIELD_TEXT );
+			IOUtil.writeString( out, text );
+		}
+	}
+
+	protected void readField( int version, int filedId, DataInputStream in )
+			throws IOException
+	{
+		switch ( filedId )
+		{
+			case FIELD_TEXT :
+				text = IOUtil.readString( in );
+				break;
+			default :
+				super.readField( version, filedId, in );
+		}
 	}
 }
