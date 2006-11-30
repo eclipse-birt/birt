@@ -155,6 +155,9 @@ public interface IHelpContextIds
 	
 	public static final String NEW_ADD_RESOURCE_FILES_DIALOG_ID = PREFIX
 	+ "NewResourceFileDialog_ID";
+	
+	public static final String PROJECT_FILES_DIALOG_ID = PREFIX
+	+ "ProjectFileDialog_ID";
 
 	public static final String ADD_EDIT_NAMED_EXPRESSION_DIALOG_ID = PREFIX
 			+ "AddEditNamedExpression_ID";

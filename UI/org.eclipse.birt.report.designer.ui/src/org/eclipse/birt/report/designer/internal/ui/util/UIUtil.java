@@ -96,6 +96,7 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
@@ -1451,6 +1452,21 @@ public class UIUtil
 		{
 			if ( v[i].getId( ).equals( id ) )
 				return (IViewPart) v[i].getPart( true );
+		}
+		return null;
+	}
+	
+	public static IEditorPart getEditor( String id )
+	{
+		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( )
+				.getActivePage( );
+		IEditorReference[] v = tPage.getEditorReferences( );
+		int i;
+		for ( i = 0; i < v.length; i++ )
+		{
+			if ( v[i].getId( ).equals( id ) )
+				return (IEditorPart) v[i].getPart( true );
 		}
 		return null;
 	}

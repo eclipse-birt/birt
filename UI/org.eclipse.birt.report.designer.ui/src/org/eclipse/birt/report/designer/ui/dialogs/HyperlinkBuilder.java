@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -63,6 +64,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -89,6 +91,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -354,6 +358,8 @@ public class HyperlinkBuilder extends BaseDialog
 	private Combo anchorChooser;
 	private Group targetGroup;
 
+	private boolean isIDE = false;
+
 	public HyperlinkBuilder( Shell parentShell )
 	{
 		super( parentShell, TITLE );
@@ -362,6 +368,18 @@ public class HyperlinkBuilder extends BaseDialog
 	public HyperlinkBuilder( )
 	{
 		this( UIUtil.getDefaultShell( ) );
+	}
+	
+	public HyperlinkBuilder( Shell parentShell ,boolean isIDE)
+	{
+		super( parentShell, TITLE );
+		this.isIDE = isIDE;
+	}
+
+	public HyperlinkBuilder( boolean isIDE )
+	{
+		this( UIUtil.getDefaultShell( ) );
+		this.isIDE = isIDE;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -874,14 +892,29 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
-				if ( needFilter )
+				String filename = null;
+				if ( !isIDE )
 				{
-					dialog.setFilterExtensions( fileExt );
+					FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
+					if ( needFilter )
+					{
+						dialog.setFilterExtensions( fileExt );
+					}
+					filename = dialog.open( );
+				}else{
+					ProjectFileDialog dialog;
+					if ( needFilter )
+					{
+						dialog = new ProjectFileDialog( getProjectFolder( ),fileExt );
+					}
+					else dialog = new ProjectFileDialog( getProjectFolder( ) );
+					if ( dialog.open( ) == Window.OK )
+					{
+						filename = dialog.getPath( );
+					}
 				}
 				try
 				{
-					String filename = dialog.open( );
 
 					if ( filename != null )
 					{
@@ -1687,4 +1720,24 @@ public class HyperlinkBuilder extends BaseDialog
 		return false;
 	}
 
+	protected String getProjectFolder( )
+	{
+		IEditorInput input = UIUtil.getEditor( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" )
+				.getEditorInput( );
+		Object fileAdapter = input.getAdapter( IFile.class );
+		IFile file = null;
+		if ( fileAdapter != null )
+			file = (IFile) fileAdapter;
+		if ( file != null && file.getProject( ) != null )
+		{
+			return file.getProject( ).getLocation( ).toOSString( );
+		}
+		if ( input instanceof IPathEditorInput )
+		{
+			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+					.toFile( );
+			return fileSystemFile.getParent( );
+		}
+		return null;
+	}
 }

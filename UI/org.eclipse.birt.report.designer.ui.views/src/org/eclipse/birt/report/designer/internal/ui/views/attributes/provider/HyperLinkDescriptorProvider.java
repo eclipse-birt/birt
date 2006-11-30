@@ -78,7 +78,7 @@ public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 
 	}
 
-	private Object input;
+	protected Object input;
 
 	public void setInput( Object input )
 	{

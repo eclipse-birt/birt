@@ -27,7 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Format
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormatNumberAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormatStringAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GridPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.HyperLinkPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ImagePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ItemMarginPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.LabelI18nPage;
@@ -124,7 +123,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					FormatNumberAttributePage.class,
 					FormatDateTimeAttributePage.class,
 					FormatStringAttributePage.class,
-					HyperLinkPage.class,
+					IDEHyperLinkPage.class,
 					SectionPage.class,
 					VisibilityPage.class,
 					TOCExpressionPage.class,
@@ -180,7 +179,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 			}, new Class[]{
 					ImagePage.class,
 					ReferencePage.class,
-					HyperLinkPage.class,
+					IDEHyperLinkPage.class,
 					AlterPage.class,
 					BordersPage.class,
 					SectionPage.class,
@@ -214,7 +213,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					CellPaddingPage.class,
 					BordersPage.class,
 					ItemMarginPage.class,
-					HyperLinkPage.class,
+					IDEHyperLinkPage.class,
 					SectionPage.class,
 					VisibilityPage.class,
 					LabelI18nPage.class,
