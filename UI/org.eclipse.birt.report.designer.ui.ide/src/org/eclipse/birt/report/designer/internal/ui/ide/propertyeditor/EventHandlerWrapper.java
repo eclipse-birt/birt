@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -106,6 +107,10 @@ public class EventHandlerWrapper
 		else if ( handle instanceof TextItemHandle )
 		{
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler";
+		}
+		else if ( handle instanceof AutoTextHandle )
+		{
+			return "org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler";
 		}
 		
 		return null;

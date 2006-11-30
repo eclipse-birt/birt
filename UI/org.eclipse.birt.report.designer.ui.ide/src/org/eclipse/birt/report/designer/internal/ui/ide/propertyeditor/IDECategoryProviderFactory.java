@@ -404,6 +404,34 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					HandlerPage.class
 			} );
 		}
+		if ( ReportDesignConstants.AUTOTEXT_ITEM.equals( elementName ) )
+		{
+			return new CategoryProvider( new String[]{
+					"AutoTextPageGenerator.List.General", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.Padding", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.Borders", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.Margin", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.Section", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.Visibility", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.TOC", //$NON-NLS-1$
+					"AutoTextPageGenerator.List.Bookmark", //$NON-NLS-1$
+					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
+					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
+					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+			}, new Class[]{
+					LabelPage.class,
+					CellPaddingPage.class,
+					BordersPage.class,
+					ItemMarginPage.class,
+					SectionPage.class,
+					VisibilityPage.class,
+					TOCExpressionPage.class,
+					BookMarkExpressionPage.class,
+					UserPropertiesPage.class,
+					NamedExpressionsPage.class,
+					HandlerPage.class
+			} );
+		}
 		return super.getCategoryProvider( elementName );
 	}
 	
