@@ -20,7 +20,10 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 
@@ -362,5 +365,40 @@ public class ChartUtil
 				} )
 
 		);
+	}
+	
+	public static TextAlignment transposeAlignment( TextAlignment ta )
+	{
+		if ( ta == null )
+		{
+			return null;
+		}
+		
+		HorizontalAlignment ha = ta.getHorizontalAlignment( );
+		VerticalAlignment va = ta.getVerticalAlignment( );
+		switch ( ha.getValue( ) )
+		{
+			case HorizontalAlignment.LEFT:
+				ta.setVerticalAlignment( VerticalAlignment.BOTTOM_LITERAL );
+				break;
+			case HorizontalAlignment.RIGHT:
+				ta.setVerticalAlignment( VerticalAlignment.TOP_LITERAL );
+				break;
+			case HorizontalAlignment.CENTER:
+				ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+		}
+		
+		switch ( va.getValue( ) )
+		{
+			case VerticalAlignment.BOTTOM:
+				ta.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
+				break;
+			case VerticalAlignment.TOP:
+				ta.setHorizontalAlignment( HorizontalAlignment.RIGHT_LITERAL );
+				break;
+			case VerticalAlignment.CENTER:
+				ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+		}
+		return ta;
 	}
 }

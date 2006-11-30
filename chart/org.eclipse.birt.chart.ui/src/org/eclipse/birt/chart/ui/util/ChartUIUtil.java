@@ -1232,7 +1232,24 @@ public class ChartUIUtil
 		}
 		return anchor;
 	}
-
+	
+	/**
+	 * Convert the displayed text alignment in the case of flipped axes.
+	 * 
+	 * @param ta
+	 * @param isFlippedAxes
+	 * 			true if the Orientation is Horizontal
+	 * @return The flipped text alignment
+	 */
+	public static TextAlignment getFlippedAlignment( TextAlignment ta, boolean isFlippedAxes)
+	{
+		if ( isFlippedAxes )
+		{
+			return ChartUtil.transposeAlignment( ta );
+		}
+		return ta;
+	}
+	
 	/**
 	 * Convert the displayed position in the case of flipped axes.
 	 * 

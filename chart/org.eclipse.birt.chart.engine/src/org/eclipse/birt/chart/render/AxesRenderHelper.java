@@ -64,6 +64,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DecimalFormat;
@@ -1402,9 +1403,18 @@ public final class AxesRenderHelper
 
 						tre.setBlockBounds( bo );
 						tre.setLabel( la );
-						tre.setBlockAlignment( la.getCaption( )
-								.getFont( )
-								.getAlignment( ) );
+						if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
+						{
+							tre.setBlockAlignment( ChartUtil.transposeAlignment( la.getCaption( )
+									.getFont( )
+									.getAlignment( ) ) );
+						}
+						else
+						{
+							tre.setBlockAlignment( la.getCaption( )
+									.getFont( )
+									.getAlignment( ) );
+						}
 						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 						if ( ax.getTitle( ).isVisible( ) )
 						{
@@ -1759,9 +1769,19 @@ public final class AxesRenderHelper
 
 						tre.setBlockBounds( bo );
 						tre.setLabel( la );
-						tre.setBlockAlignment( la.getCaption( )
-								.getFont( )
-								.getAlignment( ) );
+						if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
+						{
+							tre.setBlockAlignment( la.getCaption( )
+									.getFont( )
+									.getAlignment( ) );
+						}
+						else
+						{
+
+							tre.setBlockAlignment( ChartUtil.transposeAlignment( la.getCaption( )
+									.getFont( )
+									.getAlignment( ) ) );
+						}				
 						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 						ipr.drawText( tre );
 					}

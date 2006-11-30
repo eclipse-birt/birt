@@ -63,10 +63,12 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		attributesContext.isFontAlignmentEnabled = false;
 		lacDeco = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),
-				new LabelAttributesContext( ),
+				attributesContext,
 				Messages.getString( "DecorationSheet.Label.DecorationLabels" ), //$NON-NLS-1$
 				series.getDecorationLabelPosition( ),
 				series.getDecorationLabel( ),
