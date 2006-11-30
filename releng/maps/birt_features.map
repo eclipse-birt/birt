@@ -46,8 +46,8 @@ plugin@org.apache.batik.pdf=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/tec
 feature@org.apache.xerces.feature=HEAD,:pserver:anonymous@dev.eclipse.org:/home/webtools,,wst/components/xml/thirdparty/org.apache.xerces.feature 
 plugin@org.apache.xerces=HEAD,:pserver:anonymous@dev.eclipse.org:/home/webtools,,wst/components/xml/thirdparty/org.apache.xerces
 
-feature@com.lowagie.itext=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
-plugin@com.lowagie.itext=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
+feature@com.lowagie.itext=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
+plugin@com.lowagie.itext=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
 feature@org.apache.commons.codec=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
 plugin@org.apache.commons.codec=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
