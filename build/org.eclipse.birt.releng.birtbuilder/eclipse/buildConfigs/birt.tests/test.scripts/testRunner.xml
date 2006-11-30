@@ -139,7 +139,7 @@
     </target>
     <target name="org.eclipse.birt.report.tests.model" depends="init">
     	<echo message="Starting unit test for org.eclipse.birt.report.tests.model"/>
-        <ant dir="${working.dir}/org.eclipse.birt.tests.model_${org.eclipse.birt.report.tests.model}" antfile="test.xml">
+        <ant dir="${working.dir}/org.eclipse.birt.report.tests.model_${org.eclipse.birt.report.tests.model}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
