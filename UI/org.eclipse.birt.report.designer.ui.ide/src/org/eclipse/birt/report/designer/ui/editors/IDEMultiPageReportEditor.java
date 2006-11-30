@@ -38,6 +38,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
+import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -46,6 +47,14 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
+
+	/**
+	 * Report element ID marker attribute. It's used to record the report
+	 * element in the marker.
+	 * 
+	 * @see #getAttribute(String, String)
+	 */
+	public static final String ELEMENT_ID = "ElementId"; //$NON-NLS-1$ 
 
 	private static final String DLG_SAVE_BUTTON_CLOSE = Messages.getString( "ReportEditor.Button.Close" ); //$NON-NLS-1$
 
@@ -340,6 +349,10 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		{
 			return;
 		}
+
+		// Model said that should checkReport( ) before getting error and
+		// warning list.
+		reportDesignHandle.checkReport( );
 		List list = reportDesignHandle.getErrorList( );
 		int errorListSize = list.size( );
 		list.addAll( reportDesignHandle.getWarningList( ) );
@@ -357,6 +370,14 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			marker.setAttribute( IMarker.MESSAGE, errorDetail.getMessage( ) );
 			marker.setAttribute( IMarker.LINE_NUMBER, errorDetail.getLineNo( ) );
 			marker.setAttribute( IMarker.LOCATION, errorDetail.getTagName( ) );
+
+			if ( errorDetail.getElement( ) != null
+					&& errorDetail.getElement( ).getID( ) != 0 )
+			{
+				marker.setAttribute( ELEMENT_ID,
+						new Integer( (int) errorDetail.getElement( ).getID( ) ) );
+			}
+
 		}
 	}
 
@@ -368,6 +389,18 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	public void doSave( IProgressMonitor monitor )
 	{
 		super.doSave( monitor );
+		try
+		{
+			refreshMarkers( getEditorInput( ) );
+		}
+		catch ( CoreException e )
+		{
+		}
+	}
+
+	public void doSaveAs( )
+	{
+		super.doSaveAs( );
 		try
 		{
 			refreshMarkers( getEditorInput( ) );
@@ -432,6 +465,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			return getProvider( );
 		}
 
+		if ( type == IGotoMarker.class )
+		{
+			return new BIRTGotoMarker( this );
+		}
+
 		return super.getAdapter( type );
 	}
 
@@ -443,4 +481,37 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		}
 		return reportProvider;
 	}
+
+	protected boolean prePageChanges( Object oldPage, Object newPage )
+	{
+		boolean isNewPageValid = true;
+		boolean isOldDirty = true;
+		if ( oldPage instanceof IReportEditorPage )
+		{
+			isOldDirty = ( (IReportEditorPage) oldPage ).isDirty( );
+		}
+		isNewPageValid = super.prePageChanges( oldPage, newPage );
+		
+		boolean isOldDirtyNow = true;
+		if ( oldPage instanceof IReportEditorPage )
+		{
+			isOldDirtyNow = ( (IReportEditorPage) oldPage ).isDirty( );
+		}
+		
+		if ( oldPage instanceof IReportEditorPage
+				&& ( isOldDirty && (!isOldDirtyNow )) )
+		{
+			try
+			{
+				refreshMarkers( getEditorInput( ) );
+			}
+			catch ( CoreException e )
+			{
+			}
+
+		}
+
+		return isNewPageValid;
+	}
+
 }

@@ -605,7 +605,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		updateDateView( getCurrentPageInstance( ) );
 	}
 
-	private boolean prePageChanges( Object oldPage, Object newPage )
+	protected boolean prePageChanges( Object oldPage, Object newPage )
 	{
 
 		boolean isNewPageValid = true;
