@@ -2303,6 +2303,13 @@ NewResourceFileDialog.ErrorMessage=Dateiname muss auf ".properties" enden.
 NewResourceFileDialog.ErrorMessageInvalid=Ungültiger Dateiname
 
 ###########################################################
+#ProjectFileDialog properties
+
+ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
+ProjectFileDialog.Title=Select Project File
+ProjectFileDialog.Message=Select a file in the current project.
+
+###########################################################
 #NewSectionDialog properties
 
 NewSectionDialog.displayname.Container=Behälter

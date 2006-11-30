@@ -2303,6 +2303,13 @@ NewResourceFileDialog.ErrorMessage=파일 이름은 .properties로 끝나야 합니다.
 NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
 
 ###########################################################
+#ProjectFileDialog properties
+
+ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
+ProjectFileDialog.Title=Select Project File
+ProjectFileDialog.Message=Select a file in the current project.
+
+###########################################################
 #NewSectionDialog properties
 
 NewSectionDialog.displayname.Container=컨테이너

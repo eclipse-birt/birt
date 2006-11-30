@@ -2303,6 +2303,13 @@ NewResourceFileDialog.ErrorMessage=文件名必须以 .properties 结尾
 NewResourceFileDialog.ErrorMessageInvalid=文件名无效
 
 ###########################################################
+#ProjectFileDialog properties
+
+ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
+ProjectFileDialog.Title=Select Project File
+ProjectFileDialog.Message=Select a file in the current project.
+
+###########################################################
 #NewSectionDialog properties
 
 NewSectionDialog.displayname.Container=容器

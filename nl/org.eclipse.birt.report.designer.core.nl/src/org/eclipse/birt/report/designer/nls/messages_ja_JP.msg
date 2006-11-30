@@ -2303,6 +2303,13 @@ NewResourceFileDialog.ErrorMessage=ファイル名の拡張子は .properties にしてくださ
 NewResourceFileDialog.ErrorMessageInvalid=ファイル名が無効です。
 
 ###########################################################
+#ProjectFileDialog properties
+
+ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
+ProjectFileDialog.Title=Select Project File
+ProjectFileDialog.Message=Select a file in the current project.
+
+###########################################################
 #NewSectionDialog properties
 
 NewSectionDialog.displayname.Container=コンテナ

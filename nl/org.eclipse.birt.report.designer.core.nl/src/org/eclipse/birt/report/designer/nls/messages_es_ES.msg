@@ -2303,6 +2303,13 @@ NewResourceFileDialog.ErrorMessage=El nombre de archivo debe terminar en .proper
 NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
 
 ###########################################################
+#ProjectFileDialog properties
+
+ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
+ProjectFileDialog.Title=Select Project File
+ProjectFileDialog.Message=Select a file in the current project.
+
+###########################################################
 #NewSectionDialog properties
 
 NewSectionDialog.displayname.Container=Contenedor
