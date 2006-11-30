@@ -41,6 +41,7 @@ exception.undefined.axis.title.visibility=No se ha definido la visibilidad del t
 exception.undefined.axis.label.position=No se ha definido la posición de la etiqueta para el eje {0}
 exception.undefined.axis.title.position=No se ha definido la posición del título para el eje {0}
 exception.undefined.data.label.position=No se ha definido la posición de la etiqueta de datos para la serie {0}
+exception.undefined.axis.type=The axis type is undefined for axis
 exception.unset.series.stacked.property=La propiedad apilada para la serie de apilación {0} no se ha ajustado de forma explícita.
 exception.undefined.axis.major.tick.style=El estilo de marca de cuadrícula principal no está definido para el eje {0}
 exception.undefined.axis.minor.tick.style=El estilo de marca de cuadrícula secundaria no está definido para el eje {0}

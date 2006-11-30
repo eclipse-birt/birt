@@ -41,6 +41,7 @@ exception.undefined.axis.title.visibility=Die Sichtbarkeit für Titel der Achse {
 exception.undefined.axis.label.position=Die Beschriftungsposition für Achse {0} ist nicht definiert
 exception.undefined.axis.title.position=Die Titelposition für Achse {0} ist nicht definiert
 exception.undefined.data.label.position=Die Datenbeschriftungsposition für Datenreihe {0} ist nicht definiert
+exception.undefined.axis.type=The axis type is undefined for axis
 exception.unset.series.stacked.property=Die Eigenschaft ''Gestapelt'' wurde für stapelbare Datenreihe {0} nicht ausdrücklich festgelegt.
 exception.undefined.axis.major.tick.style=Der Hauptraster-Skalenstil für Achse {0} ist nicht definiert
 exception.undefined.axis.minor.tick.style=Der Zusatzraster-Skalenstil für Achse {0} ist nicht definiert

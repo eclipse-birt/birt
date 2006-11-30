@@ -41,6 +41,7 @@ exception.undefined.axis.title.visibility={0} 軸のタイトルの可視性が定義されてい
 exception.undefined.axis.label.position={0} 軸のラベルの位置が定義されていません。
 exception.undefined.axis.title.position={0} 軸のタイトルの位置が定義されていません。
 exception.undefined.data.label.position={0} 系列のデータラベルの位置が定義されていません。
+exception.undefined.axis.type=The axis type is undefined for axis
 exception.unset.series.stacked.property=積み上げ可能な {0} 系列の積み上げプロパティが明示的に指定されていません。
 exception.undefined.axis.major.tick.style={0} 軸の目盛線の目盛のスタイルが定義されていません。
 exception.undefined.axis.minor.tick.style={0} 軸の補助目盛線の目盛のスタイルが定義されていません。
