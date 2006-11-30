@@ -57,7 +57,7 @@
 		<property file="${mapTag.properties}"/>
 		<property name="cvsDiffFile" value="${buildDirectory}/cvsDiff.txt" />
 		<cvs cvsRoot="${mapCvsRoot}" dest="${buildDirectory}/maps" command="diff -w -r ${lastMapTag}" output="${cvsDiffFile}" />
-		<modifiedMaps mapDiffFile="${cvsDiffFile}" />
+		<!--modifiedMaps mapDiffFile="${cvsDiffFile}" /-->
 	</target>
 
 	<target name="tagMapFiles" if="tagMaps">
@@ -65,7 +65,7 @@
 		<echo file="${mapTag.properties}">
 		lastMapTag=${buildId}
 		</echo>
-		<cvs dest="${buildDirectory}/maps/org.eclipse.birt.releng" command="tag ${buildId}" />
+		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng" command="tag ${buildId}" />
 	</target>
 	
 	<!-- ===================================================================== -->
