@@ -37,10 +37,7 @@ AbstractReportComponent.prototype =
 		{
 			oDiv.removeChild(oDiv.firstChild);
 		}
-		
-		// decode the xml string
-		content = birtUtility.xmlDecode( content );
-		
+				
 		// workaround for IE. If content starts with script, 
 		// append a hidden line to avoid ignore these scripts.
 		// Delete script attribute "defer" to avoid exec javascript twice
