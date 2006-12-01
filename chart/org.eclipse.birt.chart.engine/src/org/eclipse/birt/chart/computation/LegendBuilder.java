@@ -741,6 +741,13 @@ public final class LegendBuilder implements IConstants
 							if ( dsiBase.hasNext( ) )
 							{
 								obj = dsiBase.next( );
+								
+								// Skip invalid data
+								while ( obj == null && dsiBase.hasNext( ) )
+								{
+									obj = dsiBase.next( );
+								}
+								
 								String valueText = String.valueOf( obj );
 								if ( fs != null )
 								{
