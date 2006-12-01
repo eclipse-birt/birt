@@ -334,7 +334,7 @@ class PreparedQueryUtil
 			Object newObj = newMap.get( key );
 			if ( oldObj != null )
 			{
-				if( isTwoExpressionEqual((IBaseExpression)newObj, (IBaseExpression)oldObj) )
+				if( !isTwoExpressionEqual((IBaseExpression)newObj, (IBaseExpression)oldObj) )
 					return false;
 			}else
 			{

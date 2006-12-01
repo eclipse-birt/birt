@@ -53,8 +53,8 @@ public class ViewingTest extends RDTestCase
 	private boolean GEN_subquery_on_group;
 	private boolean PRE_add_filter;
 	private boolean PRE_add_sort;
-	private boolean PRE_use_oldbinding;
 	private boolean PRE_add_group;
+	private boolean PRE_change_oldbinding;
 	private FilterDefinition GEN_filterDefn;
 
 	/*
@@ -81,7 +81,7 @@ public class ViewingTest extends RDTestCase
 		this.GEN_subquery_on_group = false;
 		this.PRE_add_filter = false;
 		this.PRE_add_sort = false;
-		this.PRE_use_oldbinding = false;
+		this.PRE_change_oldbinding = false;
 		this.PRE_add_group = false;
 		
 	}
@@ -187,12 +187,41 @@ public class ViewingTest extends RDTestCase
 
 		this.PRE_add_filter = true;
 		this.PRE_add_sort = true;
-		this.PRE_use_oldbinding = true;
 		this.PRE_add_group = true;
 		this.preBasicIV( );
 		this.closeArchiveReader( );
 
 		this.checkOutputFile( );
+	}
+	
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testBasicIV6() throws Exception {
+		this.GEN_add_filter = false;
+		this.GEN_add_group = false;
+		this.genBasicIV();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(
+				DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.PRE_add_filter = false;
+		this.PRE_add_sort = false;
+		this.PRE_add_group = false;
+		this.preBasicIV();
+
+		DataEngineContext deContext3 = newContext(
+				DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext3);
+		this.PRE_change_oldbinding = true;
+		this.preBasicIV();
+		this.closeArchiveReader();
+
+		this.checkOutputFile();
+
 	}
 	
 	/**
@@ -327,32 +356,22 @@ public class ViewingTest extends RDTestCase
 		}
 		for ( int i = 0; i < rowExprName.length; i++ )
 		{
-			if ( PRE_use_oldbinding )
+			if ( PRE_change_oldbinding && i == rowExprName.length - 1 )
 			{
 				qd.addResultSetExpression( this.rowExprName[i],
-						this.rowBeArray[i] );
+						new ScriptExpression( "dataSetRow.AMOUNT+100" ) );
 			}
 			else
 			{
 				qd.addResultSetExpression( this.rowExprName[i],
-						new ScriptExpression( "row[\""
-								+ this.rowExprName[i] + "\"]" ) );
+						this.rowBeArray[i] );
 			}
 		}
 
 		for ( int i = 0; i < totalExprName.length; i++ )
 		{
-			if ( PRE_use_oldbinding )
-			{
-				qd.addResultSetExpression( this.totalExprName[i],
-						this.totalBeArray[i] );
-			}
-			else
-			{
-				qd.addResultSetExpression( this.totalExprName[i],
-						new ScriptExpression( "dataSetRow[\""
-								+ this.totalExprName[i] + "\"]" ) );
-			}
+			qd.addResultSetExpression( this.totalExprName[i],
+					this.totalBeArray[i] );
 		}
 		return qd;
 	}
@@ -427,7 +446,6 @@ public class ViewingTest extends RDTestCase
 		this.PRE_add_filter = true;
 		this.PRE_add_sort = true;
 		this.PRE_add_group = true;
-		this.PRE_use_oldbinding = true;
 		this._preBasicIVWithSubQuery( );
 		this.closeArchiveReader( );
 		
