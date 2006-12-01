@@ -466,7 +466,7 @@ public class ReportItem extends ReportElement implements IReportItem
 				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
 		try
 		{
-			propHandle.removeItem( rule );
+			propHandle.removeItem( rule.getStructure() );
 		}
 		catch ( SemanticException e )
 		{

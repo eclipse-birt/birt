@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.element.Grid;
 import org.eclipse.birt.report.engine.script.internal.element.Group;
 import org.eclipse.birt.report.engine.script.internal.element.HideRuleImpl;
-import org.eclipse.birt.report.engine.script.internal.element.HighLightRuleImpl;
+import org.eclipse.birt.report.engine.script.internal.element.HighlightRuleImpl;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
 import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.element.List;
@@ -377,14 +377,12 @@ public class ElementTest extends TestCase
 		cell.setColumn( 2 );
 		assertEquals( 2, cell.getColumn( ) );
 
-		cell.setColumnSpan( 3 );
-		assertEquals( 3, cell.getColumnSpan( ) );
+		assertEquals( 1, cell.getColumnSpan( ) );
 
 		cell.setDrop( DesignChoiceConstants.DROP_TYPE_ALL );
 		assertEquals( DesignChoiceConstants.DROP_TYPE_ALL, cell.getDrop( ) );
 
-		cell.setRowSpan( 4 );
-		assertEquals( 4, cell.getRowSpan( ) );
+		assertEquals( 1, cell.getRowSpan( ) );
 	}
 
 	public void testDataItem( ) throws ScriptException
@@ -423,7 +421,7 @@ public class ElementTest extends TestCase
 		tableHandle.addColumnBinding( column2, true );
 
 		IReportItem item = new ReportItem( tableHandle );
-		IDataBinding[] bindings = item.getColumnBindings( );
+		IDataBinding[] bindings = item.getDataBindings( );
 		assertEquals( 2, bindings.length );
 
 		IDataBinding binding = bindings[0];
@@ -443,11 +441,8 @@ public class ElementTest extends TestCase
 
 		assertEquals( "column1", binding.getName( ) ); //$NON-NLS-1$
 
-		assertEquals( "row[\"234\"]", item.getColumnBinding( "column2" ) );//$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "row[\"234\"]", item.getDataBinding( "column2" ) );//$NON-NLS-1$//$NON-NLS-2$
 
-		item.removeColumnBinding( "column2" );//$NON-NLS-1$
-
-		assertNull( item.getColumnBinding( "column2" ) );//$NON-NLS-1$
 	}
 
 	/**
@@ -462,19 +457,19 @@ public class ElementTest extends TestCase
 		TableHandle tableHandle = factory.newTableItem( "table", 3 );//$NON-NLS-1$
 		designHandle.getBody( ).add( tableHandle );
 
-		IDataBinding binding = StructureScriptAPIFactory.createComputedColumn( );
+		IDataBinding binding = StructureScriptAPIFactory.createDataBinding( );
 		binding.setExpression( "expression" );//$NON-NLS-1$
 		binding.setName( "name" );//$NON-NLS-1$
 
 		IListing item = new Listing( tableHandle );
-		item.addColumnBinding( binding );
+		item.addDataBinding( binding );
 
 		IDataBinding binding2 = StructureScriptAPIFactory
-				.createComputedColumn( );
+				.createDataBinding( );
 
 		try
 		{
-			item.addColumnBinding( binding2 );
+			item.addDataBinding( binding2 );
 			fail( );
 		}
 		catch ( ScriptException e )
@@ -485,9 +480,9 @@ public class ElementTest extends TestCase
 		RowHandle rowHandle = (RowHandle) tableHandle.getFooter( )
 				.getContents( ).get( 0 );
 		IRow row = new Row( rowHandle );
-		IHighLightRule highlight = StructureScriptAPIFactory
+		IHighlightRule highlight = StructureScriptAPIFactory
 				.createHighLightRule( );
-		row.addHighLightRule( highlight );
+		row.addHighlightRule( highlight );
 
 		IHideRule hideRule = StructureScriptAPIFactory.createHideRule( );
 		item.addHideRule( hideRule );
@@ -508,7 +503,7 @@ public class ElementTest extends TestCase
 		filter.setExpr( "expr" );//$NON-NLS-1$
 		item.addFilterCondition( filter );
 
-		ISortCondition sort = StructureScriptAPIFactory.createSortKey( );
+		ISortCondition sort = StructureScriptAPIFactory.createSortCondition( );
 
 		try
 		{
@@ -548,9 +543,9 @@ public class ElementTest extends TestCase
 		RowHandle rowHandle = (RowHandle) tableHandle.getHeader( ).get( 0 );
 
 		IRow item = new Row( rowHandle );
-		IHighLightRule iRule = new HighLightRuleImpl( rule );
-		item.addHighLightRule( iRule );
-		IHighLightRule[] rules = item.getHighLightRule( );
+		IHighlightRule iRule = new HighlightRuleImpl( rule );
+		item.addHighlightRule( iRule );
+		IHighlightRule[] rules = item.getHighlightRules( );
 		assertEquals( 1, rules.length );
 
 		iRule = rules[0];
@@ -588,8 +583,8 @@ public class ElementTest extends TestCase
 		iRule.setBackGroudnColor( "#FF0000" );//$NON-NLS-1$
 		assertEquals( "#FF0000", iRule.getBackGroudnColor( ) );//$NON-NLS-1$
 
-		item.removeHighLightRules( );
-		rules = item.getHighLightRule( );
+		item.removeHighlightRules( );
+		rules = item.getHighlightRules( );
 		assertEquals( 0, rules.length );
 	}
 
@@ -680,10 +675,8 @@ public class ElementTest extends TestCase
 		tableHandle.getPropertyHandle( "visibility" ).addItem( hide2 );//$NON-NLS-1$
 
 		IReportItem item = new ReportItem( tableHandle );
-		String[] rules = item.getHideRuleExpression( "format" );//$NON-NLS-1$
+		IHideRule[] rules = item.getHideRules( );
 		assertEquals( 2, rules.length );
-		assertEquals( "format", rules[0] );//$NON-NLS-1$
-		assertEquals( "format", rules[1] );//$NON-NLS-1$
 
 		IHideRule iHide = new HideRuleImpl( hideHandle );
 		assertEquals( "format", iHide.getFormat( ) ); //$NON-NLS-1$
@@ -691,9 +684,9 @@ public class ElementTest extends TestCase
 		iHide.setValueExpr( "valueExpr" ); //$NON-NLS-1$
 		assertEquals( "valueExpr", iHide.getValueExpr( ) ); //$NON-NLS-1$
 
-		item.removeHideRule( "format" );//$NON-NLS-1$
-		rules = item.getHideRuleExpression( "format" );//$NON-NLS-1$
-		assertEquals( 0, rules.length );
+		item.removeHideRule( iHide );
+		rules = item.getHideRules( );
+		assertEquals( 1, rules.length );
 	}
 
 	public void testDataSet( ) throws ScriptException
