@@ -79,7 +79,7 @@ class DocArchiveLockManager implements IArchiveLockManager
 				try
 				{
 					channel.file.close( );
-					new File( name ).delete( );
+					//new File( name ).delete( );
 				}
 				catch ( IOException ex )
 				{
