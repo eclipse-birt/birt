@@ -976,7 +976,7 @@ public class ModelOdaAdapter
 		PropertyHandle propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
 
-		propHandle.setValue( null );
+		propHandle.setValue( new ArrayList() );
 
 		if ( !columns.isEmpty( ) )
 		{
@@ -988,6 +988,8 @@ public class ModelOdaAdapter
 
 		propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
+		propHandle.setValue( new ArrayList() );
+		
 		if ( !hints.isEmpty( ) )
 		{
 			for ( int i = 0; i < hints.size( ); i++ )
