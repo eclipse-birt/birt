@@ -656,7 +656,8 @@ Have a nice day!
 
 	<target name="InformAutomation">
 		<property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: $buildId) " tolist="${QA.AUTOMATION}">
+				
+        <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
 			<from address="DAILYBUILD@QA-SHA"/>
 			<replyto address="xgu@actuate.com"/>
 			<message>
