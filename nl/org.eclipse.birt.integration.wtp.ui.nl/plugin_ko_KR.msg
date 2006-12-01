@@ -1,0 +1,16 @@
+birt.web.category.name=Business Intelligence and Reporting Tools
+birt.web.project.name=BIRT Web Project 
+birt.web.project.description=Create a web project containing BIRT runtime Component
+birt.web.actionsets.description=Actions for BIRT Web Project
+create.birt.web.module=Create a BIRT Web Module
+
+BIRT_FACET_LABEL=BIRT Reporting Runtime Component
+BIRT_FACET_DESCRIPTION=BIRT Reporting Runtime Component
+BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting Web Project
+
+JSP_New_context_type_Extension_Element.name=New JSP With BIRT Tag
+JSP_Tag_context_type_Extension_Element.name=New BIRT JSP Tag
+
+BirtResourcesDefinition= BIRT Web Application Resources Definition
+
+birt.action.importruntime.name=Import BIRT runtime component...
