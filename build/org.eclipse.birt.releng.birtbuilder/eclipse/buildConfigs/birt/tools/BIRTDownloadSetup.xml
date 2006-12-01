@@ -90,7 +90,7 @@
 	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
 		
 	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}.zip" />
-	
+	<property name="birt.source.zip.name" value="birt-souce-${package.version}.zip" />	
 	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
 
 	<property name="nl.group1.zip.name.allinone" value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
@@ -302,7 +302,8 @@
 		<antcall target="createBirtSDK"/>
 
         <antcall target="createWTPIntegration"/>
-
+		
+		<antcall target="createBirtSourceBuild"/>
 		<!--antcall target="createIpotalLib" /-->
 		
 		<antcall target="createNLGroup1FeatureOverlayChart" />
@@ -930,7 +931,27 @@
 			</fileset>
 		 </copy>
 	</target>
-
+	
+	<target name="createBirtSourceBuild">
+		<zip destfile="${OutputDir}/${birt.source.zip.name}">
+			<zipfileset dir="${buildDirectory}/plugins" prefix="plugins">
+				<include name="**" />
+				<exclude name="*test*/**" />
+				<exclude name="*.nl/**"/>
+				<exclude name="**/@dot"/>
+				<exclude name="**/*src.zip"/>
+				<exclude name="**/temp.folder"/>
+				<exclude name="*birt*/*.jar"/>
+			</zipfileset>
+			<zipfileset dir="${buildDirectory}/features" prefix="features">
+				<include name="**" />
+				<exclude name="**/feature_??_??.properties"/>
+				<exclude name="**/feature.temp.folder"/>
+				<exclude name="*test*/**"/>
+			</zipfileset>
+		</zip>
+	</target>
+	
     <target name="createWTPIntegration" >
        <!--  Make BIRT SDK ZIP file-->
 		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
