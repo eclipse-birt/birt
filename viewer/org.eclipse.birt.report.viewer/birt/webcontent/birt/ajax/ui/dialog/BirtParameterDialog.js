@@ -942,14 +942,28 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__neh_change_common_text : function( event )
 	{	
-		var temp = Event.element( event );		
-		var paramName = temp.name;
-		if( !paramName || paramName.length <= 0 )
-			paramName = temp.id.substr( 0, temp.id.length - 6 );
-		
-		var tempValue = $( paramName + '_value' );
-		if( tempValue )
-			tempValue.value = temp.value;
+		var control = Event.element( event );		
+		this.__sync_text_value( control );
+	},
+	
+	/**
+	 * Sync the text field value with display text
+	 * 
+	 * @param control, the targeted element
+	 * @return,void
+	 */
+	__sync_text_value : function( control )
+	{
+		if( control )
+		{
+			var paramName = control.name;
+			if( !paramName || paramName.length <= 0 )
+				paramName = control.id.substr( 0, control.id.length - 6 );
+			
+			var valueElement = $( paramName + '_value' );
+			if( valueElement )
+				valueElement.value = control.value;
+		}
 	},
 			
 	/**
@@ -1003,6 +1017,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		if( event.keyCode == 13 )
 		{			
 			var target = Event.element( event );
+			
+			// Focus on Text field, sync the value
+			if( target.tagName == "INPUT" && 
+				( target.type == "text" || target.type == "password" ) )
+			{
+				this.__sync_text_value( target );	
+			}
 			
 			// Focus on INPUT(exclude 'button' type) and SELECT controls
 			if( (target.tagName == "INPUT" && target.type != "button" ) 
