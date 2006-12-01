@@ -24,6 +24,7 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.taglib.component.ParameterField;
 import org.eclipse.birt.report.taglib.util.BirtTagUtil;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -141,13 +142,28 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 				continue;
 			}
 
+			// parse parameter object as standard format
+			String paramValue = DataUtil.getDisplayValue( param.getValue( ) );
+
 			// set Parameter value
 			writer.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
 			writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
 			writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
 			writer.write( "param.name='" + param.getName( ) + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "param.value='" + param.getValue( ) + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			writer.write( "param.value='" + paramValue + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$
 
+			// if value is string, check wheter set isLocale flag
+			if ( param.getValue( ) instanceof String && param.isLocale( ) )
+			{
+				writer
+						.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
+				writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
+				writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
+				writer
+						.write( "param.name='" + ParameterAccessor.PARAM_ISLOCALE + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( "param.value='" + param.getName( ) + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$				
+			}
+			
 			// set parameter pattern format
 			if ( param.getPattern( ) != null )
 			{
