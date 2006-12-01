@@ -69,9 +69,12 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	__neh_resize : function( event )
 	{
 		var width = BirtPosition.viewportWidth( ) -  ( this.__instance.offsetLeft >= 250 ? 250 : 0 ) - 3;
-		this.__instance.style.width = width + "px";
+		if( width > 0 )
+			this.__instance.style.width = width + "px";
+			
 		var height = BirtPosition.viewportHeight( ) - this.__instance.offsetTop - 2;
-		this.__instance.style.height = height + "px";
+		if( height > 0 )
+			this.__instance.style.height = height + "px";
 	},
 	
 	/**
