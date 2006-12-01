@@ -941,10 +941,12 @@
 				<exclude name="**/@dot/**"/>
 				<exclude name="**/*src.zip"/>
 				<exclude name="**/temp.folder/**"/>
-				<exclude name="*.source/src"/>
+				<exclude name="*.source/src/**"/>
 				<exclude name="*birt*/*.jar"/>
 				<exclude name="**/birt_web/**"/>
 				<exclude name="*.doc/doc.zip"/>
+				<exclude name="*.doc.isv/doc.zip"/>
+				<exclude name="*.doc.isv/chart*/**"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/features" prefix="features">
