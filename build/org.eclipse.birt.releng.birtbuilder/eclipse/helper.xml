@@ -654,4 +654,25 @@ Have a nice day!
         </mail>
 	</target>
 
+	<target name="InformAutomation">
+        <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: $buildId) " tolist="${QA.AUTOMATION}">
+			<from address="DAILYBUILD@QA-SHA"/>
+			<replyto address="xgu@actuate.com"/>
+			<message>
+Hi All,
+
+Please see the attachments for test results.
+
+Have a nice day!
+			</message>
+			<fileset dir="${test.dir}/unitTestReport/html">
+				<include name="TESTS-EngineSmokeTests.html"/>
+				<include name="TESTS-DtESmokeTests.html"/>
+				<include name="org.eclipse.birt.report.tests.model.AllTests.html"/>
+				<include name="org.eclipse.birt.report.tests.engine.AllTests.html"/>
+				<include name="org.eclipse.birt.report.tests.chart.AllTests.html"/>
+				<include name="org.eclipse.birt.tests.data.engine.AllTests.html"/>
+			</fileset>
+		</mail>
+	</target>
 </project>
