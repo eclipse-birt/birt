@@ -233,7 +233,7 @@
 				          WEB-INF/*.wsdd,
 				          WEB-INF/weblogic.xml"
 				excludes="WEB-INF/classes/**,
-						  WEB-INF/platform/plugins/org.apache.xerces/about.html,
+						  WEB-INF/platform/plugins/org.apache.xerces*/about.html,
 						  WEB-INF/platform/plugins/org.eclipse.birt.report.data.oda.jdbc_*/drivers/*.jar,
 						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity_*/**,
 						  WEB-INF/platform/plugins/org.eclipse.datatools.connectivity*.nl/**,
