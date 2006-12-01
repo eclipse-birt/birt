@@ -942,12 +942,14 @@
 				<exclude name="**/*src.zip"/>
 				<exclude name="**/temp.folder"/>
 				<exclude name="*birt*/*.jar"/>
+				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/features" prefix="features">
 				<include name="**" />
 				<exclude name="**/feature_??_??.properties"/>
 				<exclude name="**/feature.temp.folder"/>
 				<exclude name="*test*/**"/>
+				<patternset refid="exclude.jars" />
 			</zipfileset>
 		</zip>
 	</target>
