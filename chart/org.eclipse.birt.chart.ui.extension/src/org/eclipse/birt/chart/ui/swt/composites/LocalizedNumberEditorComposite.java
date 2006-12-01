@@ -24,8 +24,6 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.accessibility.AccessibleTextAdapter;
 import org.eclipse.swt.accessibility.AccessibleTextEvent;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -47,7 +45,6 @@ import com.ibm.icu.text.NumberFormat;
  */
 public class LocalizedNumberEditorComposite extends Composite implements
 		ModifyListener,
-		FocusListener,
 		KeyListener
 {
 
@@ -98,7 +95,6 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		txtValue = new Text( this, iStyle );
 		txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
 		txtValue.addModifyListener( this );
-		txtValue.addFocusListener( this );
 		txtValue.addKeyListener( this );
 	}
 
@@ -170,29 +166,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	public void modifyText( ModifyEvent e )
 	{
 		this.bTextModified = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
-	 */
-	public void focusGained( FocusEvent e )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
-	 */
-	public void focusLost( FocusEvent e )
-	{
-		if ( bTextModified )
-		{
-			bTextModified = false;
-			fireEvent( );
-		}
+		fireEvent( );
 	}
 
 	/*
