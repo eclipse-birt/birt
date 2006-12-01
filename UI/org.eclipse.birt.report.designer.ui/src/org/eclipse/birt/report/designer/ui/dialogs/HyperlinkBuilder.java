@@ -743,7 +743,14 @@ public class HyperlinkBuilder extends BaseDialog
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					initAnchorChooser( targetReportHandle, true );
+					if ( tocButton.getSelection( ) )
+					{
+						initAnchorChooser( targetReportHandle, true );
+					}
+					else if ( targetBookmarkButton.getSelection( ) )
+					{
+						initAnchorChooser( targetReportHandle, false );
+					}
 				}
 
 				public void widgetDefaultSelected( SelectionEvent e )
