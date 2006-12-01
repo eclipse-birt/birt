@@ -626,11 +626,11 @@
 	</target>
 	<target name="InformQA" unless="nomail">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" tolist="${QA.members}" from="DAILYBUILD@QA-SHA" replyto="${replyto.address}" subject="Build Is Ready" >
+        <mail mailport="${mail.port}" tolist="${QA.members}" from="DAILYBUILD@QA-SHA" replyto="${replyto.address}" subject="Build Is Ready (BuildId: ${buildId})" >
                 <message>
 Hi All,
 
-Today's build is available.
+Today's build (BuildId: ${buildId}) is available.
 
 Please download :
                 	
@@ -643,6 +643,8 @@ RCP from ${QA.test.dir}\${buildId}\birt-rcp-report-designer-2_2_0.zip
 Runtime from ${QA.test.dir}\${buildId}\birt-runtime-2_2_0.zip
                 	
 Framework from ${QA.test.dir}\${buildId}\birt-report-framework-2_2_0.zip
+
+Source drops from ${QA.test.dir}\${buildId}\birt-source-2_2_0.zip
                 	
 NL pack from ${QA.test.dir}\${buildId}\
 
