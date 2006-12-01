@@ -9,6 +9,7 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.tests.chart.acceptance.AllAcceptanceTests;
 import org.eclipse.birt.report.tests.chart.regression.AllRegressionTests;
 import org.eclipse.birt.report.tests.chart.smoke.AllSmokeTests;
+import org.eclipse.birt.report.tests.chart.test.imageCompare;
 
 /**
  *
@@ -28,6 +29,9 @@ public class AllTests
 
 		// smoke test case
 		suite.addTest( AllSmokeTests.suite( ) );
+		
+		//produce the image compare html
+		suite.addTestSuite( imageCompare.class );
 	
 
 //		

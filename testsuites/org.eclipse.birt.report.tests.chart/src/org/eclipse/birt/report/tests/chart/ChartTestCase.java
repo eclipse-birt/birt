@@ -8,6 +8,8 @@
 
 package org.eclipse.birt.report.tests.chart;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -106,12 +108,53 @@ public class ChartTestCase extends TestCase
 		String className = getFullQualifiedClassName( );
 		className = className.replace( '.', '/' );
 		golden = className + "/" + GOLDEN_FOLDER + "/" + golden;
-		
+
 		InputStream is1 = getClass( ).getClassLoader( ).getResourceAsStream(
 				golden );
 		InputStream is2 = new FileInputStream( this.genOutputFile( output ) );
 
-		return this.compare( is1, is2 );
+		boolean compareResult = this.compare( is1, is2 );
+
+		if ( !compareResult )
+		{
+			String goldenFrom = golden;
+			// String goldenTo = this.genOutputFile( "diffGolden/" + output );
+			String goldenTo = this.getOutputResourceFolder( ) + "/"
+					+ this.getFullQualifiedClassName( ) + "/" + "diffGolden/"
+					+ output;
+
+			File parent = new File( goldenTo ).getParentFile( );
+
+			if ( parent != null )
+			{
+				parent.mkdirs( );
+			}
+
+			InputStream in = getClass( ).getClassLoader( ).getResourceAsStream(
+					goldenFrom );
+			assertTrue( in != null );
+			try
+			{
+				FileOutputStream fos = new FileOutputStream( goldenTo );
+				byte[] fileData = new byte[5120];
+				int readCount = -1;
+				while ( ( readCount = in.read( fileData ) ) != -1 )
+				{
+					fos.write( fileData, 0, readCount );
+				}
+				fos.close( );
+				in.close( );
+
+			}
+			catch ( Exception ex )
+			{
+				ex.printStackTrace( );
+				fail( );
+			}
+
+		}
+
+		return compareResult;
 	}
 
 	/**
@@ -169,7 +212,7 @@ public class ChartTestCase extends TestCase
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
-		className = pathBase + className.replace( '.', '/' );
+		className = pathBase + "/" + className.replace( '.', '/' );
 
 		return className;
 	}
@@ -203,7 +246,7 @@ public class ChartTestCase extends TestCase
 		className = PLUGIN_NAME
 				+ className.substring( PLUGIN_NAME.length( ), lastDotIndex )
 						.replace( '.', '/' );
-//		 className = className.substring( 0 , lastDotIndex );
+		// className = className.substring( 0 , lastDotIndex );
 
 		return className;
 	}
@@ -232,29 +275,28 @@ public class ChartTestCase extends TestCase
 		String outputFolder = this.tempFolder( ) + PLUGIN_NAME + ".OUTPUT";
 		return outputFolder;
 	}
-	
-	
+
 	protected String genOutputFolder( )
 	{
 		String outputFolder = this.getOutputResourceFolder( ) + File.separator
-		+ getFullQualifiedClassName( ) //$NON-NLS-1$
-		+ "/" + OUTPUT_FOLDER;
+				+ getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + OUTPUT_FOLDER;
 		return outputFolder;
 	}
-	
+
 	protected String genInputFolder( )
 	{
 		String inputFolder = this.getInputResourceFolder( ) + File.separator
-		+ getFullQualifiedClassName( ) //$NON-NLS-1$
-		+ "/" + INPUT_FOLDER;
+				+ getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + INPUT_FOLDER;
 		return inputFolder;
 	}
-	
+
 	protected String genGoldenFolder( )
 	{
 		String goldenFolder = this.getInputResourceFolder( ) + File.separator
-		+ getFullQualifiedClassName( ) //$NON-NLS-1$
-		+ "/" + GOLDEN_FOLDER;
+				+ getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ "/" + GOLDEN_FOLDER;
 		return goldenFolder;
 	}
 
@@ -272,7 +314,7 @@ public class ChartTestCase extends TestCase
 
 	protected String genGoldenFile( String golden )
 	{
-		String goldenFile = this.genGoldenFolder( )+ File.separator + golden;
+		String goldenFile = this.genGoldenFolder( ) + File.separator + golden;
 		return goldenFile;
 	}
 
@@ -290,7 +332,8 @@ public class ChartTestCase extends TestCase
 	{
 
 		String className = getFullQualifiedClassName( );
-		tgt = className + "/" + folder + "/" + tgt;
+		tgt = this.getInputResourceFolder( ) + File.separator + className + "/"
+				+ folder + "/" + tgt;
 		className = className.replace( '.', '/' );
 
 		src = className + "/" + folder + "/" + src;
@@ -374,5 +417,52 @@ public class ChartTestCase extends TestCase
 	{
 		String className = getFullQualifiedClassName( );
 		removeFile( className );
+	}
+
+	protected final void copyFile( String from, String to ) throws IOException
+	{
+		File parent = new File( to ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+
+		try
+		{
+			new File( to ).createNewFile( );
+
+			bis = new BufferedInputStream( new FileInputStream( from ) );
+			bos = new BufferedOutputStream( new FileOutputStream( to ) );
+
+			int nextByte = 0;
+			while ( ( nextByte = bis.read( ) ) != -1 )
+			{
+				bos.write( nextByte );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				if ( bis != null )
+					bis.close( );
+
+				if ( bos != null )
+					bos.close( );
+			}
+			catch ( IOException e )
+			{
+				// ignore
+			}
+
+		}
 	}
 }
