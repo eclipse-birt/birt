@@ -23,7 +23,31 @@ public class Cell extends ReportElement implements ICell
 	{
 		super( handle );
 	}
+   
+	/**
+	 * Returns the cell's column span. This is the number of table or grid
+	 * columns occupied by this cell.
+	 * 
+	 * @return the column span
+	 */
 
+	public int getColumnSpan( )
+	{
+		return ( ( CellHandle ) handle ).getColumnSpan( );
+	}
+
+	/**
+	 * Returns the cell's row span. This is the number of table or grid rows
+	 * occupied by this cell.
+	 * 
+	 * @return the row span
+	 */
+
+	public int getRowSpan( )
+	{
+		return ( ( CellHandle ) handle ).getRowSpan( );
+	}
+	
 	/**
 	 * Returns the cell's drop property. This is how the cell should expand to
 	 * fill the entire table or group. This property is valid only for cells

@@ -9,6 +9,23 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 public interface ICell extends IReportElement
 {
 	/**
+	 * Returns the cell's column span. This is the number of table or grid
+	 * columns occupied by this cell.
+	 * 
+	 * @return the column span
+	 */
+	int getColumnSpan( );
+
+	/**
+	 * Returns the cell's row span. This is the number of table or grid rows
+	 * occupied by this cell.
+	 * 
+	 * @return the row span
+	 */
+	int getRowSpan( );
+
+	
+	/**
 	 * Returns the cell's drop property. This is how the cell should expand to
 	 * fill the entire table or group. This property is valid only for cells
 	 * within a table; but not for cells within a grid.
