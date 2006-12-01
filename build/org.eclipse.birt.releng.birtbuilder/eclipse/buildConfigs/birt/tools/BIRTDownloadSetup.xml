@@ -90,7 +90,7 @@
 	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
 		
 	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}.zip" />
-	<property name="birt.source.zip.name" value="birt-souce-${package.version}.zip" />	
+	<property name="birt.source.zip.name" value="birt-source-${package.version}.zip" />	
 	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
 
 	<property name="nl.group1.zip.name.allinone" value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
