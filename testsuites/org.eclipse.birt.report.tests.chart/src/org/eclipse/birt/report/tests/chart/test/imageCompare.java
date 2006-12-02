@@ -107,7 +107,7 @@ public class imageCompare extends ChartTestCase
 	{
 		String path = this.getOutputResourceFolder( ) + "/" + PLUGIN_NAME + "/"
 				+ folderName;
-		String outputFolder = path + "/output/";
+		String outputFolder = path + "/diffOutput/";
 
 		String goldenFolder = path + "/diffGolden/";
 		String reportFile = this.genOutputFile( folderName + ".rptdesign" );

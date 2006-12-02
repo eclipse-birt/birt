@@ -122,12 +122,24 @@ public class ChartTestCase extends TestCase
 			String goldenTo = this.getOutputResourceFolder( ) + "/"
 					+ this.getFullQualifiedClassName( ) + "/" + "diffGolden/"
 					+ output;
+			String outputFrom = this.genOutputFile( output );
+			String outputTo = this.getOutputResourceFolder( ) + "/" + this.getFullQualifiedClassName( ) + "/diffOutput/" + output;
 
-			File parent = new File( goldenTo ).getParentFile( );
-
-			if ( parent != null )
+			
+			File parentOutput = new File( outputTo ).getParentFile( );
+			
+			if ( parentOutput != null )
 			{
-				parent.mkdirs( );
+				parentOutput.mkdirs( );
+			}
+			
+			this.copyFile( outputFrom, outputTo );
+			
+			File parentGolden = new File( goldenTo ).getParentFile( );
+
+			if ( parentGolden != null )
+			{
+				parentGolden.mkdirs( );
 			}
 
 			InputStream in = getClass( ).getClassLoader( ).getResourceAsStream(
