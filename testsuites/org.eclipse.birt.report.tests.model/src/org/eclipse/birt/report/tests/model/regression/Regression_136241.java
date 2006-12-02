@@ -85,7 +85,7 @@ public class Regression_136241 extends BaseTestCase
 
 		// serialize the report.
 
-		makeOutputDir( );
+		//makeOutputDir( );
 		DocumentUtil.serialize( designHandle, new FileOutputStream( new File(
 				this.getClassFolder( ) + OUTPUT_FOLDER + OUTPUT ) ) );
 

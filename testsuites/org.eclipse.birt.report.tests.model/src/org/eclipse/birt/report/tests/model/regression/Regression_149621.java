@@ -28,6 +28,7 @@ public class Regression_149621 extends BaseTestCase
 {
 
 	private String filename = "Regression_149621.xml"; //$NON-NLS-1$
+	private String filename1 = "Regression_149621_1.xml"; //$NON-NLS-1$
 	private String outfile = "Regression_149621_out.xml"; //$NON-NLS-1$
 
 	public void setUp( ) throws Exception
@@ -35,6 +36,7 @@ public class Regression_149621 extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		copyResource_INPUT( filename , filename );
+		copyResource_INPUT( filename1 , filename1 );
 	}
 	
 	public void tearDown( )
@@ -52,10 +54,10 @@ public class Regression_149621 extends BaseTestCase
 
 		String input = this.genOutputFile( outfile );
 		String output = this.getFullQualifiedClassName( ) + INPUT_FOLDER
-				+ "Regression_149621_1.xml"; //$NON-NLS-1$
+				+ filename1; //$NON-NLS-1$
 		copyFile( input, output );
 
-		openDesign( "Regression_149621_1.xml" ); //$NON-NLS-1$
+		openDesign( filename1 ); //$NON-NLS-1$
 		TableHandle outtable = (TableHandle) designHandle.findElement( "outer" ); //$NON-NLS-1$
 
 		// column binding is created automatically

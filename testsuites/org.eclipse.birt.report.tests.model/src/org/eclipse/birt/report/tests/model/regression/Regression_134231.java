@@ -77,7 +77,7 @@ public class Regression_134231 extends BaseTestCase {
 		// backup the library file, as we need to modify the input file during
 		// test case, the backed-up one will be copied back when case finished.
 
-		makeOutputDir();
+		//makeOutputDir();
 		// the following code may not work when test plugin is packaged as jar
 		// "getFullQualifiedClassName( )" is recommend to replace "this.getClassFolder()"
 		//copyFile(this.getClassFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY,

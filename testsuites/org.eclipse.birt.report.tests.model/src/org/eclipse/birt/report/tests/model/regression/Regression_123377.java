@@ -76,7 +76,7 @@ public class Regression_123377 extends BaseTestCase
 		String lib2Output = getClassFolder( ) + "/" + OUTPUT_FOLDER
 				+ "/" + INPUT2;//$NON-NLS-1$
 
-		makeOutputDir( );
+		//makeOutputDir( );
 
 		// open and modify the library files under the output folder.
 

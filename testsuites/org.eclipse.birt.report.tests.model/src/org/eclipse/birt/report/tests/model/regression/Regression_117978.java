@@ -76,7 +76,7 @@ public class Regression_117978 extends BaseTestCase
 
 		// save the report
 
-		makeOutputDir( );
+		//makeOutputDir( );
 		designHandle.saveAs( this.getClassFolder( ) + OUTPUT_FOLDER + OUTPUT );
 
 		// reopen it.

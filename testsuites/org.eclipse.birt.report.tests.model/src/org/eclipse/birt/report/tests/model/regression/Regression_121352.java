@@ -102,7 +102,8 @@ public class Regression_121352 extends BaseTestCase
 		copyHandle = copy.handle( );
 		assertNotNull( copyHandle );
 
-		saveAs( copyHandle, outfile );
+		//saveAs( copyHandle, outfile );
+		save( copyHandle );
 		assertTrue( compareTextFile( goldenfile, outfile) );
 
 	}

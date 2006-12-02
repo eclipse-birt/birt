@@ -70,7 +70,7 @@ public class Regression_132938 extends BaseTestCase
 		// backup the libraryB file, as we need to modify the input file during
 		// test case, the backed-up one will be copied back when case finished.
 
-		makeOutputDir( );
+		//makeOutputDir( );
 		copyFile( this.getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A, this
 				.getClassFolder( )
 				+ "/" + OUTPUT_FOLDER + "/" + LIBRARY_A );
