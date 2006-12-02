@@ -51,20 +51,6 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 	/**
 	 * @param name
 	 */
-	public HTMLCompleteImageHandlerTest( String name )
-	{
-		super( name );
-	}
-
-	/**
-	 * Test suite()
-	 * 
-	 * @return
-	 */
-	public static Test suite( )
-	{
-		return new TestSuite( HTMLCompleteImageHandlerTest.class );
-	}
 
 	/**
 	 * Test OnDesignImage() method
@@ -97,11 +83,10 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			image.setRenderOption( option );
 			File f = null;
 			int count = 0;
-			String fPath = System.getProperty( "user.dir" );
 			do
 			{
 				count++;
-				String fp = fPath + System.getProperty( "file.separator" )
+				String fp = this.genOutputFolder( ) + "/"
 						+ "design" + String.valueOf( count );
 				f = new File( fp ); //$NON-NLS-1$
 				if ( f.exists( ) )
@@ -171,11 +156,10 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			image.setRenderOption( option );
 			File f = null;
 			int count = 1;
-			String fPath = System.getProperty( "user.dir" );
 			do
 			{
 				count++;
-				String fp = fPath + System.getProperty( "file.separator" )
+				String fp = this.genOutputFolder( ) + "/"
 						+ "custom" + String.valueOf( count );
 				f = new File( fp ); //$NON-NLS-1$
 				if ( f.exists( ) )

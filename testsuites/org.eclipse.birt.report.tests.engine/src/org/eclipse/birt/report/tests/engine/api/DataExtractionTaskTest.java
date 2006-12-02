@@ -52,17 +52,6 @@ public class DataExtractionTaskTest extends EngineCase
 	final static String OUTPUT_table = "DataExtraction_table.rptdocument";
 	final static String OUTPUT_subquery = "DataExtraction_subquery.rptdocument";
 	final static String OUTPUT_nestquery = "DataExtraction_nestquery.rptdocument";
-	
-	public DataExtractionTaskTest( String name )
-
-	{
-		super( name );
-	}
-
-	public static Test Suite( )
-	{
-		return new TestSuite( DataExtractionTaskTest.class );
-	}
 
 	protected void setUp( ) throws Exception
 	{

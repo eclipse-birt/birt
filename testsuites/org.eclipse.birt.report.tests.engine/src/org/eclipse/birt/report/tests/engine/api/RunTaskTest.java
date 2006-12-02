@@ -23,12 +23,11 @@ public class RunTaskTest extends EngineCase
 	
 	private String separator = System.getProperty( "file.separator" );
 	
-	private String INPUT = this.getFullQualifiedClassName( ) + separator + INPUT_FOLDER
+	private String INPUT = this.genInputFolder( )
 			+ separator;
 	
 	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-	private String OUTPUT = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-			+ separator + OUTPUT_FOLDER + separator;
+	private String OUTPUT = this.genOutputFolder( ) + separator;
 	
 //	private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER
 //			+ separator;

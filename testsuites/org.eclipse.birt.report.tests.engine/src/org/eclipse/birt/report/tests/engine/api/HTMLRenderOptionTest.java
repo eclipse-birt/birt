@@ -13,6 +13,7 @@ import junit.framework.TestSuite;
 
 import java.util.*;
 
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -28,20 +29,10 @@ public class HTMLRenderOptionTest extends EngineCase
 {
 
 	private String name = "case1";
-//	private String outputFileName="case1output.html";
-//	private final static String GOLDEN = "case1.html"; //$NON-NLS-1$
-//	private String separator = System.getProperty( "file.separator" );
-//	protected String path = getClassFolder( ) + separator;
-//	private String outputPath = path + OUTPUT_FOLDER + separator;
-	
-	
-//	private String rptdesign = getClassFolder( ) + "/" + INPUT_FOLDER + "/"
-//			+ name + ".rptdesign";
+
 	final static String INPUT = "case1.rptdesign";
-	private String rptdesign = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+	private String rptdesign = this.genInputFile( INPUT );
 	private IGetParameterDefinitionTask task = null;
-//	private String rptdocument = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/"
-//			+ name + ".rptdocument";
 
 	
 	/**

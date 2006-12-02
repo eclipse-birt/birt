@@ -28,7 +28,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 {
 
 	private String name = "IGetParameterDefinitionTaskTest.rptdesign";
-	private String input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + name;
+	private String input = this.genInputFile( name );
 	private IGetParameterDefinitionTask task = null;
 	
 	public IGetParameterDefinitionTaskTest( String name )

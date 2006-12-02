@@ -16,14 +16,14 @@ import org.eclipse.birt.report.tests.engine.BaseEmitter;
 public class IAutoTextContentTest extends BaseEmitter
 {
 
-	private String reportName = "IAutoTextContentTest.rptdesign";
+	private String reportName = "IAutoTextContentTest";
 	private static int count = 0;
 
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( reportName, reportName );
+		copyResource_INPUT( reportName + ".rptdesign", reportName + ".rptdesign" );
 	}
 
 	public void tearDown( )

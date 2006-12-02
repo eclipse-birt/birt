@@ -33,10 +33,8 @@ public class RenderFolderDocumentTest extends EngineCase
 
 	// final static String INPUT = "";
 	private String separator = System.getProperty( "file.separator" );
-	private String inputFolder = this.getFullQualifiedClassName( ) + separator
-			+ INPUT_FOLDER + separator;
-	private String outputFolder = this.getFullQualifiedClassName( ) + separator
-			+ OUTPUT_FOLDER + separator;
+	private String inputFolder = this.genInputFolder( ) + separator;
+	private String outputFolder = this.genOutputFolder( ) + separator;
 	private String folderArchive, htmlOutput;
 	private IReportDocument reportDoc;
 	private IRenderTask renderTask;

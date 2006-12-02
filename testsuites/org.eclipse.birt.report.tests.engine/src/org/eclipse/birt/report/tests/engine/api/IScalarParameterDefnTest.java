@@ -21,9 +21,7 @@ public class IScalarParameterDefnTest extends EngineCase
 	private String INPUT = "scalarparameters.rptdesign";
 	private IGetParameterDefinitionTask paramTask = null;
 	private IScalarParameterDefn scalarDefn = null;
-	private String separator = System.getProperty( "file.separator" );
-	private String report = this.getFullQualifiedClassName( ) + separator
-			+ INPUT_FOLDER + separator + INPUT;
+	private String report = this.genInputFile( INPUT );
 
 	public IScalarParameterDefnTest( String name ) throws EngineException
 	{

@@ -62,7 +62,7 @@ public class ResourceLocatorTest extends EngineCase
 	
 	public void testResourceImage( )
 	{
-		path = "file://" + root_path + INPUT_FOLDER + separator + "resources"
+		path = "file://" + this.genInputFolder( ) + separator + "resources"
 				+ separator;
 		// path="http://192.168.218.234:88/resource/";
 		IResourceLocator locator = new EngineResourceLocator( path );
@@ -81,7 +81,7 @@ public class ResourceLocatorTest extends EngineCase
 
 	public void testResourceProperties( )
 	{
-		path = "file://" + root_path + INPUT_FOLDER + separator + "resources"
+		path = "file://" + this.genInputFolder( ) + separator + "resources"
 				+ separator;
 		// path="http://192.168.218.234:88/resource/";
 		IResourceLocator locator = new EngineResourceLocator( path );
@@ -100,7 +100,7 @@ public class ResourceLocatorTest extends EngineCase
 
 	public void testResourceLibrary( )
 	{
-		path = "file://" + root_path + INPUT_FOLDER + separator + "resources"
+		path = "file://" + this.genInputFolder( ) + separator + "resources"
 				+ separator;
 		// path="http://192.168.218.234:88/resource/";
 		IResourceLocator locator = new EngineResourceLocator( path );
@@ -123,7 +123,7 @@ public class ResourceLocatorTest extends EngineCase
 	{
 		IReportEngine engine_locator = null;
 		EngineConfig config = null;
-		String input = root_path + INPUT_FOLDER + separator + reportName
+		String input = this.genInputFolder( ) + separator + reportName
 				+ ".rptdesign";
 		copyResource_INPUT( reportName + ".rptdesign" , reportName + ".rptdesign" );
 		String output = this.genOutputFile( reportName + ".html" );

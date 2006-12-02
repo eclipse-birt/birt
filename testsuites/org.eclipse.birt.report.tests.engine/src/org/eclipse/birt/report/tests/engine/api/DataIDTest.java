@@ -44,7 +44,7 @@ public class DataIDTest extends EngineCase
 	
 	public void testDataIDFromReport( ) throws EngineException, IOException
 	{
-		String inputFile = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		String inputFile = this.genInputFile( INPUT );
 		IReportRunnable reportRunnable = engine.openReportDesign( inputFile );
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( "html" );

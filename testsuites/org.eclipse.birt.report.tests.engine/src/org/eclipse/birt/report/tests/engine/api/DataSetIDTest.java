@@ -42,7 +42,7 @@ public class DataSetIDTest extends EngineCase
 	
 	public void testDataSetIDFromReport( ) throws EngineException, IOException
 	{
-		String inputFile = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		String inputFile = this.genInputFile( INPUT );
 		IReportRunnable reportRunnable = engine.openReportDesign( inputFile );
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( "html" );

@@ -51,10 +51,7 @@ public class RunAndRenderTaskTest extends EngineCase
 	public void testRunAndRenderTask( ) throws EngineException
 	{
 
-		String input = this.getFullQualifiedClassName( )
-				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-				+ System.getProperty( "file.separator" )
-				+ "report_engine.rptdesign";
+		String input = this.genInputFile( "report_engine.rptdesign" );
 
 		try
 		{
@@ -90,9 +87,7 @@ public class RunAndRenderTaskTest extends EngineCase
 	 */
 	public void testCancelRunAndRenderTask( )
 	{
-		String input = this.getFullQualifiedClassName( )
-				+ System.getProperty( "file.separator" ) + INPUT_FOLDER
-				+ System.getProperty( "file.separator" ) + "pages9.rptdesign";
+		String input = this.genInputFile( "pages9.rptdesign" );
 		long bTime, eTime, timeSpan1, timeSpan2, timeSpan3;
 		try
 		{

@@ -63,13 +63,11 @@ public class IEmitterServicesTest extends BaseEmitter
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 		IReportEngine reportEngine = factory.createReportEngine( config );
 		IReportRunnable reportRunnable = engine
-				.openReportDesign( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/"
-						+ report );
+				.openReportDesign( this.genInputFile( report ) );
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( EMITTER_HTML );
-		options.setOutputFileName( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
-				+ "/myService.html" );
+		options.setOutputFileName( this.genOutputFile( "myService.html" ) );
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( "myImage" ); //$NON-NLS-1$
 		HashMap appContext = new HashMap( );

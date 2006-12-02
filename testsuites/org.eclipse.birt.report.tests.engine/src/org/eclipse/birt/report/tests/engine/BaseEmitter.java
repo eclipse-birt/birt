@@ -78,7 +78,7 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	protected ArrayList runandthenrender_emitter(String format) throws EngineException
 	{
 		ArrayList errors=new ArrayList();
-		run( getReportName(), getReportName()+".rptdocument" );
+		this.run( getReportName() + ".rptdesign", getReportName()+".rptdocument" );
 		IReportDocument document=engine.openReportDocument( outPath+getReportName()+".rptdocument" );
 		IRenderTask task=engine.createRenderTask( document );
 		RenderOptionBase options = new HTMLRenderOption( );
@@ -231,11 +231,11 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	{
 	}
 	
-	protected String genOutputFile( String output )
-	{
-		String outputFile = this.genOutputFile( output );
-		return outputFile;
-	}
+//	protected String genOutputFile( String output )
+//	{
+//		String outputFile = this.genOutputFile( output );
+//		return outputFile;
+//	}
 	
 	protected String getFullQualifiedClassName( )
 	{
