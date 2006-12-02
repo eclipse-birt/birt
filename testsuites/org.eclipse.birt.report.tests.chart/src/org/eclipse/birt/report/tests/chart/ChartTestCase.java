@@ -415,8 +415,8 @@ public class ChartTestCase extends TestCase
 
 	public void removeResource( )
 	{
-		String className = getFullQualifiedClassName( );
-		removeFile( className );
+//		String className = getFullQualifiedClassName( );
+		removeFile( this.getInputResourceFolder( ) );
 	}
 
 	protected final void copyFile( String from, String to ) throws IOException

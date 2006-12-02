@@ -62,20 +62,42 @@ public class imageCompare extends ChartTestCase
 	protected IReportEngine engine = null;
 
 	protected IEngineTask engineTask = null;
+	
+	public void testMoveOutput( ) throws Exception
+	{
+		if( ( new File( this.genOutputFolder( ) ) ).exists( ) )
+		{
+			removeFile( this.genOutputFolder( ) );
+		}
+		
+		File testOutput = new File( this.genOutputFolder( ) );
 
-	public void testAcceptanceGolden( ) throws Exception
+		if ( testOutput.getParentFile( ) != null )
+		{
+			testOutput.getParentFile( ).mkdirs( );
+			testOutput.mkdir( );
+		}
+		
+		
+		AcceptanceGolden( );
+		RegressionGolden( );
+		SmokeGolden( );
+		
+	}
+
+	public void AcceptanceGolden( ) throws Exception
 	{
 		String folderName = "acceptance";
 		creatImageCompare( folderName );
 	}
 
-	 public void testRegressionGolden( ) throws Exception
+	 public void RegressionGolden( ) throws Exception
 	 {
 	 String folderName = "regression";
 	 creatImageCompare( folderName );
 	 }
 
-	 public void testSmokeGolden( ) throws Exception
+	 public void SmokeGolden( ) throws Exception
 	 {
 	 String folderName = "smoke";
 	 creatImageCompare( folderName );
@@ -91,10 +113,10 @@ public class imageCompare extends ChartTestCase
 		String reportFile = this.genOutputFile( folderName + ".rptdesign" );
 		String htmlFile = this.genOutputFile( folderName + ".html" );
 
-		File output = new File( outputFolder );
+		File diffImages = new File( goldenFolder );
 		try
 		{
-			if ( !output.isDirectory( ) || !output.exists( ) )
+			if ( !diffImages.isDirectory( ) || !diffImages.exists( ) )
 			{
 				throw new Exception(
 						"Output foler: " + outputFolder + " doesn't exist." ); //$NON-NLS-1$//$NON-NLS-2$
@@ -102,12 +124,12 @@ public class imageCompare extends ChartTestCase
 		}
 		catch( Exception e )
 		{
-			System.out.println( folderName + " is XXX" );
+			System.out.println( folderName + " is not exist." );
 			return;
 		}
 
 
-		File[] outputreports = output.listFiles( new FilenameFilter( ) {
+		File[] diffreports = diffImages.listFiles( new FilenameFilter( ) {
 
 			public boolean accept( File dir, String name )
 			{
@@ -125,13 +147,13 @@ public class imageCompare extends ChartTestCase
 
 		ReportDesignHandle designHandle = sessionHandle.openDesign( fileName );
 
-		for ( int i = 0; i < outputreports.length; i++ )
+		for ( int i = 0; i < diffreports.length; i++ )
 		{
 			try
 			{
-				File outputImage = outputreports[i];
-				String imageName = outputImage.getName( ).substring( 0,
-						outputImage.getName( ).indexOf( '.' ) );
+				File diffImage = diffreports[i];
+				String imageName = diffImage.getName( ).substring( 0,
+						diffImage.getName( ).indexOf( '.' ) );
 
 				GridHandle gridHandle = (GridHandle) designHandle
 						.getElementFactory( ).newGridItem( imageName, 2, 2 );
@@ -148,20 +170,20 @@ public class imageCompare extends ChartTestCase
 						.getElementFactory( ).newImage( "goldenImage" );
 				ImageHandle imageOutputHandle = (ImageHandle) designHandle
 						.getElementFactory( ).newImage( "outputImage" );
-				labelGoldenHandle.setText( "golden: " + outputImage.getName( ) );
-				labelOutputHandle.setText( "output: " + outputImage.getName( ) );
+				labelGoldenHandle.setText( "golden: " + diffImage.getName( ) );
+				labelOutputHandle.setText( "output: " + diffImage.getName( ) );
 				imageGoldenHandle.setURI( "\""
-						+ ( goldenFolder + outputImage.getName( ) ).replace(
+						+ ( goldenFolder + diffImage.getName( ) ).replace(
 								'\\', '/' ) + "\"" );
 				imageOutputHandle.setURI( "\""
-						+ ( outputFolder + outputImage.getName( ) ).replace(
+						+ ( outputFolder + diffImage.getName( ) ).replace(
 								'\\', '/' ) + "\"" );
 				cellGoldenHandle11.getContent( ).add( imageGoldenHandle );
 				cellGoldenHandle12.getContent( ).add( imageOutputHandle );
 				cellGoldenHandle21.getContent( ).add( labelGoldenHandle );
 				cellGoldenHandle22.getContent( ).add( labelOutputHandle );
 
-				System.out.println( "Image: " + outputImage.getName( ) );
+				System.out.println( "Image: " + diffImage.getName( ) );
 			}
 			catch ( Exception e )
 			{
