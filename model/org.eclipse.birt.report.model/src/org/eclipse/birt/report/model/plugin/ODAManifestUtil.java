@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.plugin;
 
-import org.eclipse.birt.data.oda.util.manifest.DtpManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
  * The utility class for get ODA extension.
@@ -38,7 +38,7 @@ public class ODAManifestUtil
 
 		try
 		{
-			manifest = DtpManifestExplorer.getInstance( ).getExtensionManifest(
+			manifest = ManifestExplorer.getInstance( ).getExtensionManifest(
 					extensionID );
 		}
 		catch ( Exception e )
@@ -62,7 +62,7 @@ public class ODAManifestUtil
 		if ( extensionID == null )
 			return null;
 
-		ExtensionManifest[] extensions = DtpManifestExplorer.getInstance( )
+		ExtensionManifest[] extensions = ManifestExplorer.getInstance( )
 				.getExtensionManifests( );
 
 		for ( int i = 0; i < extensions.length; i++ )
