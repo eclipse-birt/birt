@@ -225,7 +225,11 @@
 		<!--create html output for compile logs-->
 		<eclipse.convert input="${postingDirectory}/${buildLabel}/compilelogs" validation="true"/>
 		<!-- Sends email to recipient list in monitor.properties with compile logs attached if errors found-->
-		<verifyCompile install="${postingDirectory}/${buildLabel}/compilelogs" />
+		<!-- The shell scripts will gather compile error plugin list into monitor.properties -->
+		<exec executable="${postingDirecoty}/verifyCompile.sh">
+			<arg value="${postingDirectory}/${buildLabel}/compilelogs"/>
+		</exec>
+		<antcall target="checkCompileError"/>
 	</target>
 
 	<target name="rSyncWithSnzZrh" unless="test">
@@ -677,4 +681,34 @@ Have a nice day!
 			</fileset>
 		</mail>
 	</target>
+	
+	<target name="checkErrorExist">
+		<condition property="has.compile.error" value="true">
+			<equals arg1="${compileHasError}" arg2="true" />
+		</condition>
+	</target>
+	
+    <target name="checkCompileError" depends="checkErrorExist" if="has.compile.error" >
+		<property file="${eclipse.build.configs}/../../config.properties" />
+		<property file="${eclipse.build.configs}/../../monitor.properties" />
+
+		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
+                    <from address="DAILYBUILD@QA-SHA"/>
+                    <replyto address="xgu@actuate.com"/>
+                    <message>
+Hi All,
+
+Compile errors are found in today's BIRT build(BuildId: ${buildId}):
+                    	
+${error.plugin.list}  
+        
+Please see the attachments for details.
+                    	
+Have a nice day!
+                    </message>
+                    <fileset dir="${postingDirectory}/${buildLabel}/compilelogs/plugins">
+                            <include name="*compile.log"/>
+                    </fileset>
+            </mail>
+    </target>
 </project>
