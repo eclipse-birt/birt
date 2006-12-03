@@ -668,7 +668,8 @@ Have a nice day!
 Hi All,
 
 Please see the attachments for test results.
-
+The automation test output data can be found under: ${output.test.dir}/automationTestOutput/${build.date}
+				
 Have a nice day!
 			</message>
 			<fileset dir="${test.dir}/unitTestReport/html">
@@ -683,6 +684,7 @@ Have a nice day!
 	</target>
 	
 	<target name="checkErrorExist">
+		<property file="${eclipse.build.configs}/../../monitor.properties" />
 		<condition property="has.compile.error" value="true">
 			<equals arg1="${compileHasError}" arg2="true" />
 		</condition>
