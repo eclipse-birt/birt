@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * 
@@ -39,5 +38,7 @@ public interface ICategoryPage
 	 */
 
 	public TabPage createPage( );
+	
+	public String getCategoryKey( );
 
 }

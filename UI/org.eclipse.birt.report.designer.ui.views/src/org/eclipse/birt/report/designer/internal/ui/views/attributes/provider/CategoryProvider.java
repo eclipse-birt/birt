@@ -26,23 +26,26 @@ public class CategoryProvider implements ICategoryProvider
 
 	private ICategoryPage[] categories;
 
-	public CategoryProvider( String category, Class pageClass )
+	public CategoryProvider( String categoryKey, String category, Class pageClass )
 	{
 		this( new String[]{
+				categoryKey
+		}, new String[]{
 			category
 		}, new Class[]{
 			pageClass
 		} );
 	}
 
-	public CategoryProvider( String[] categories, Class[] pageClasses )
+	public CategoryProvider( String[] categoryKeys, String[] categories,
+			Class[] pageClasses )
 	{
 		Assert.isLegal( categories.length == pageClasses.length );
 		this.categories = new ICategoryPage[categories.length];
 		for ( int i = 0; i < categories.length; i++ )
 		{
 			String displayLabel = Messages.getString( categories[i] );
-			this.categories[i] = new CategoryPage( displayLabel, pageClasses[i] );
+			this.categories[i] = new CategoryPage( categoryKeys[i],displayLabel, pageClasses[i] );
 		}
 	}
 

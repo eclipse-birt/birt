@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.Tab;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList.ListElement;
+import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
@@ -58,6 +59,8 @@ public class BaseAttributePage extends TabPage
 	 * The Last Selected index in the list of categories
 	 */
 	private static int s_lastSelectedIndex = 0;
+	
+	private static String s_lastSelectedKey = null;
 
 	/**
 	 * The current selection.
@@ -92,8 +95,7 @@ public class BaseAttributePage extends TabPage
 		layout.numColumns = 2;
 		container.setLayout( layout );
 
-		categoryList = new TabbedPropertyList( container,
-				FormWidgetFactory.getInstance( ) );
+		categoryList = new TabbedPropertyList( container );
 		GridData gd = new GridData( GridData.FILL_VERTICAL );
 		gd.verticalSpan = 2;
 		categoryList.setLayoutData( gd );
@@ -104,6 +106,7 @@ public class BaseAttributePage extends TabPage
 				if ( categoryList.getSelectionIndex( ) > -1 )
 				{
 					BaseAttributePage.s_lastSelectedIndex = categoryList.getSelectionIndex( );
+					BaseAttributePage.s_lastSelectedKey = categoryList.getSelectionKey( );
 				}
 				processListSelected( );
 
@@ -180,11 +183,9 @@ public class BaseAttributePage extends TabPage
 
 	protected void selectStickyCategory( )
 	{
-		// select the last item that was selected by the user. If out of
-		// bounds select the last one
-		if ( s_lastSelectedIndex != -1 )
+		if ( s_lastSelectedKey != null ||  s_lastSelectedIndex != -1)
 		{
-			categoryList.setSelection( s_lastSelectedIndex );
+			categoryList.setSelection( s_lastSelectedKey,s_lastSelectedIndex );
 		}
 	}
 
@@ -220,16 +221,17 @@ public class BaseAttributePage extends TabPage
 		ICategoryPage[] pages = categoryProvider.getCategories( );
 		if ( pages.length != 0 )
 		{
-			Tab[] categoryLabels = new Tab[pages.length];
+			SortMap categoryLabels = new SortMap();
 			for ( int i = 0; i < pages.length; i++ )
 			{
-				categoryLabels[i] = new Tab( );
-				categoryLabels[i].setText( pages[i].getDisplayLabel( ) );
+				Tab tab = new Tab( );
+				tab.setText( pages[i].getDisplayLabel( ) );
+				categoryLabels.put( pages[i].getCategoryKey( ), tab );
 			}
 			categoryList.setElements( categoryLabels );
 			if ( categoryList.getTabList( ).length > 0 )
 			{
-				categoryList.setSelection( 0 );
+				categoryList.setSelection( null,0 );
 			}
 		}
 	}

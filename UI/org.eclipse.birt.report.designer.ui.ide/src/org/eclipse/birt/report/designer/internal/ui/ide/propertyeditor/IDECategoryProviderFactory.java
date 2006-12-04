@@ -73,11 +73,20 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		return instance;
 	}
 
+	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler";
 	public ICategoryProvider getCategoryProvider( String elementName )
 	{
 		if ( ReportDesignConstants.CELL_ELEMENT.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_PADDING,
+					CATEGORY_KEY_FONT,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"CellPageGenerator.List.General", //$NON-NLS-1$
 					"CellPageGenerator.List.CellPadding", //$NON-NLS-1$
 					"CellPageGenerator.List.Font", //$NON-NLS-1$
@@ -98,6 +107,22 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( ReportDesignConstants.DATA_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_PADDING,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_FORMATNUMBER,
+					CATEGORY_KEY_FORMATDATETIME,
+					CATEGORY_KEY_FORMATSTRING,
+					CATEGORY_KEY_HYPERLINK,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"DataPageGenerator.List.General", //$NON-NLS-1$
 			//		"DataPageGenerator.List.Expression", //$NON-NLS-1$
 					"DataPageGenerator.List.Padding", //$NON-NLS-1$
@@ -136,6 +161,19 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( ReportDesignConstants.GRID_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_FONT,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+					
+			},new String[]{
 					"GridPageGenerator.List.General", //$NON-NLS-1$
 					"GridPageGenerator.List.Margin", //$NON-NLS-1$
 					"GridPageGenerator.List.Font", //$NON-NLS-1$
@@ -164,6 +202,19 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( ReportDesignConstants.IMAGE_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_REFERENCE,
+					CATEGORY_KEY_HYPERLINK,
+					CATEGORY_KEY_ALTTEXT,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"ImagePageGenerator.List.General", //$NON-NLS-1$
 					"ImagePageGenerator.List.Reference", //$NON-NLS-1$
 					"ImagePageGenerator.List.HyperLink", //$NON-NLS-1$
@@ -194,6 +245,20 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( ReportDesignConstants.LABEL_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_PADDING,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_HYPERLINK,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_I18N,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"LabelPageGenerator.List.General", //$NON-NLS-1$
 
 					"LabelPageGenerator.List.Padding", //$NON-NLS-1$
@@ -226,27 +291,46 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		}
 		if ( ReportDesignConstants.LIBRARY_ELEMENT.equals( elementName ) )
 		{
-			return new CategoryProvider( new String[]{
+			return new CategoryProvider(new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_DESCRIPTION,
+					CATEGORY_KEY_COMMENTS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_RESOURCES,
+					CATEGORY_KEY_EVENTHANDLER,
+			},new String[]{
 					"ReportPageGenerator.List.General", //$NON-NLS-1$
 					"ReportPageGenerator.List.Description", //$NON-NLS-1$
 					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
 					"ReportPageGenerator.List.Resources",
+					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
 			}, new Class[]{
 					LibraryPage.class,
 					DescriptionPage.class,
 					CommentsPage.class,
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
-					HandlerPage.class,
 					ResourcesPage.class,
+					HandlerPage.class,
 			} );
 		}
 		if ( ReportDesignConstants.LIST_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_FONT,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"ListPageGenerator.List.General", //$NON-NLS-1$
 					"ListPageGenerator.List.Font", //$NON-NLS-1$
 					"ListPageGenerator.List.Borders", //$NON-NLS-1$
@@ -273,26 +357,44 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( ReportDesignConstants.REPORT_DESIGN_ELEMENT.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_DESCRIPTION,
+					CATEGORY_KEY_COMMENTS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_RESOURCES,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"ReportPageGenerator.List.General", //$NON-NLS-1$
 					"ReportPageGenerator.List.Description", //$NON-NLS-1$
 					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
 					"ReportPageGenerator.List.Resources",
+					"ReportPageGenerator.List.EventHandler",//$NON-NLS-1$
 			}, new Class[]{
 					ReportPage.class,
 					DescriptionPage.class,
 					CommentsPage.class,
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
-					HandlerPage.class,
 					ResourcesPage.class,
+					HandlerPage.class,
 			} );
 		}
 		if ( ReportDesignConstants.ROW_ELEMENT.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_FONT,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"RowPageGenerator.List.General", //$NON-NLS-1$
 					// "RowPageGenerator.List.CellPadding" //$NON-NLS-1$
 					"RowPageGenerator.List.Font", //$NON-NLS-1$
@@ -318,7 +420,19 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		}
 		if ( ReportDesignConstants.TABLE_ITEM.equals( elementName ) )
 		{
-			return new CategoryProvider( new String[]{
+			return new CategoryProvider(  new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_FONT,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"TablePageGenerator.List.General", //$NON-NLS-1$
 					"TablePageGenerator.List.Marign", //$NON-NLS-1$
 					"TablePageGenerator.List.Font", //$NON-NLS-1$
@@ -347,6 +461,19 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( ReportDesignConstants.TEXT_DATA_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_EXPRESSION,
+					CATEGORY_KEY_PADDING,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"TextPageGenerator.List.General", //$NON-NLS-1$
 					"DataPageGenerator.List.Expression", //$NON-NLS-1$
 					"TextPageGenerator.List.Padding", //$NON-NLS-1$
@@ -376,7 +503,20 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		}
 		if ( ReportDesignConstants.TEXT_ITEM.equals( elementName ) )
 		{
-			return new CategoryProvider( new String[]{
+			return new CategoryProvider(  new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_PADDING,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_I18N,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"TextPageGenerator.List.General", //$NON-NLS-1$
 					"TextPageGenerator.List.Padding", //$NON-NLS-1$
 					"TextPageGenerator.List.Borders", //$NON-NLS-1$
@@ -406,7 +546,19 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		}
 		if ( ReportDesignConstants.AUTOTEXT_ITEM.equals( elementName ) )
 		{
-			return new CategoryProvider( new String[]{
+			return new CategoryProvider(  new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_PADDING,
+					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
+					CATEGORY_KEY_SECTION,
+					CATEGORY_KEY_VISIBILITY,
+					CATEGORY_KEY_TOC,
+					CATEGORY_KEY_BOOKMARK,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"AutoTextPageGenerator.List.General", //$NON-NLS-1$
 					"AutoTextPageGenerator.List.Padding", //$NON-NLS-1$
 					"AutoTextPageGenerator.List.Borders", //$NON-NLS-1$
@@ -441,6 +593,9 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( handle instanceof DataSourceHandle )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"DataSourcePageGenerator.List.General", "ReportPageGenerator.List.EventHandler"},//$NON-NLS-1$
 					new Class[]{
 							DataSourcePage.class, HandlerPage.class
@@ -449,6 +604,9 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		if ( handle instanceof DataSetHandle )
 		{
 			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_EVENTHANDLER
+			},new String[]{
 					"DataSetPageGenerator.List.General", "ReportPageGenerator.List.EventHandler"}, //$NON-NLS-1$
 					new Class[]{
 							DataSetPage.class, HandlerPage.class
