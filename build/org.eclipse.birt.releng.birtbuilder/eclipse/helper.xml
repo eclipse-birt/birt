@@ -668,7 +668,7 @@ Have a nice day!
 Hi All,
 
 Please see the attachments for test results.
-The automation test output data can be found under: ${output.test.dir}/automationTestOutput/${build.date}
+The automation test output data can be found under: ${QA.test.dir}\automationTestOutput\${build.date}
 				
 Have a nice day!
 			</message>
@@ -709,7 +709,7 @@ Please see the attachments for details.
 Have a nice day!
                     </message>
                     <fileset dir="${postingDirectory}/${buildLabel}/compilelogs/plugins">
-                            <include name="*compile.log"/>
+                            <include name="*compilelog.html"/>
                     </fileset>
             </mail>
     </target>
