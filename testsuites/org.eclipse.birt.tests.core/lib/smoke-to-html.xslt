@@ -50,9 +50,9 @@
 				</head>
 				<body>
 					<h1>
-						<span style="font-family:Verdana; font-size:larger; ">
+						<span style="font-family:Verdana; font-size:h1; ">
 							<xsl:value-of select="@name"/>
-						</span> Test Result
+						</span> Smoke Test Result
 								</h1>
 					<br/>
 					<h2>Summary<h2/>

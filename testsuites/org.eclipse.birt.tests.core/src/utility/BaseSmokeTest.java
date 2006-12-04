@@ -284,18 +284,16 @@ public abstract class BaseSmokeTest extends EngineCase
 		try
 		{
 			golden = this.getFullQualifiedClassName( ) + "/TestCases/golden/" + golden; //$NON-NLS-1$
-//			output = getClassFolder( ) + "/TestCases/output/" + output; //$NON-NLS-1$
-//			output = this.genOutputFile( output );
 			String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 			if ( !tempDir.endsWith( File.separator ) )
 				tempDir += File.separator;
-			output = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+			String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 					+ "/TestCases/output/" + output;
 
 			readerA = new FileReader( golden );
-			readerB = new FileReader( output );
+			readerB = new FileReader( outputFile );
 
-			same = compareTextFile( readerA, readerB, output );
+			same = compareTextFile( readerA, readerB, outputFile );
 		}
 		catch ( IOException e )
 		{
@@ -319,8 +317,29 @@ public abstract class BaseSmokeTest extends EngineCase
 				throw new Exception( errorText.toString( ) );
 			}
 		}
+		
+		boolean isSame = same;
+		
+		if( !isSame )
+		{
+			System.out.println( "fail!fail!fail!fail!fail!fail!fail!fail!" );
 
-		return same;
+			String tempDir = System.getProperty( "java.io.tmpdir" );
+			if ( !tempDir.endsWith( File.separator ) )
+				tempDir += File.separator;
+			
+			String diffFileFrom = tempDir + getFullQualifiedClassName( ) + "/TestCases/output/" + output;
+			String diffFileTo = tempDir + getFullQualifiedClassName( ) + "/TestCases/diff/" + output;
+			File parent = new File( diffFileTo ).getParentFile( );
+			if( parent != null )
+			{
+				parent.mkdirs( );
+			}
+			this.copyFile( diffFileFrom, diffFileTo );
+			
+		}
+
+		return isSame;
 	}
 
 }

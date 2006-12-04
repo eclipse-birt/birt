@@ -49,7 +49,7 @@ public class ResourceLocatorTest extends EngineCase
 		removeResource( );
 		copyResource_INPUT( "resources/aa.jpg" , "resources/aa.jpg" );
 		copyResource_INPUT( "resources/resource_a.properties" , "resources/resource_a.properties" );
-		copyResource_INPUT( "resources/resource_library.rptlibrary" , "resources//resource_library.rptlibrary" );
+		copyResource_INPUT( "resources/resource_library.rptlibrary" , "resources/resource_library.rptlibrary" );
 
 		root_path = this.getFullQualifiedClassName( ) + separator;
 	}

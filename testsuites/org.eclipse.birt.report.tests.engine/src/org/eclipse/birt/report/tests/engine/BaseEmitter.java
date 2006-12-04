@@ -237,13 +237,13 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 //		return outputFile;
 //	}
 	
-	protected String getFullQualifiedClassName( )
-	{
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
-
-		return className;
-	}
+//	protected String getFullQualifiedClassName( )
+//	{
+//		String className = this.getClass( ).getName( );
+//		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+//		className = className.substring( 0, lastDotIndex );
+//
+//		return className;
+//	}
 
 }
