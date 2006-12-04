@@ -131,7 +131,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						.isDisplayText( paramName ) ) != null )
 				{
 					ParameterDefinition parameter = attrBean
-							.findParameterDefinition( paramValue );
+							.findParameterDefinition( displayTextParam );
 					if ( parameter != null )
 					{
 						// add display text of select parameter to config file
