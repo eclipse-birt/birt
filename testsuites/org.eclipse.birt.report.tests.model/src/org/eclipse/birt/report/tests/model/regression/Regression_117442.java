@@ -62,8 +62,9 @@ public class Regression_117442 extends BaseTestCase
 			IOException
 	{
 		openDesign( INPUT );
-		String output = this.getClassFolder( ) + OUTPUT_FOLDER
-				+ "regression_117442.out"; //$NON-NLS-1$
+		String output = this.getClassFolder( ) + "/" +OUTPUT_FOLDER
+				+ "/" + "regression_117442.out"; //$NON-NLS-1$
+		
 		ElementExportUtil.exportDesign( designHandle, output, true, true ); 
 		assertTrue( new File( output ).exists( ) );
 	}

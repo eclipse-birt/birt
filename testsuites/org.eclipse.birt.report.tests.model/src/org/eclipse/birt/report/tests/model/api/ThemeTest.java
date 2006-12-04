@@ -45,7 +45,7 @@ public class ThemeTest extends BaseTestCase
 		return new TestSuite(ThemeTest.class);
 	}
 	
-	protected void setup() throws Exception
+	protected void setUp() throws Exception
 	{
 		super.setUp();
 		removeResource( );
@@ -55,6 +55,7 @@ public class ThemeTest extends BaseTestCase
 		copyResource_INPUT( LibC1 , LibC1 );
 		copyResource_INPUT( "ThemeTest1.xml" , "ThemeTest1.xml" );
 		copyResource_INPUT( "ThemeTest2.xml" , "ThemeTest2.xml" );
+		copyResource_INPUT( "ThemeTest2.xml" , "ThemeTest2_1.xml" );
 		//System.out.println("ThemeTest1.xml");
 	}
 	

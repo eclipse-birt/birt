@@ -32,6 +32,7 @@ public class Regression_130271 extends BaseTestCase
 {
 
 	private final static String INPUT = "Reg_130271.xml"; //$NON-NLS-1$
+	private final static String LIBRARY = "Reg_130271_lib.xml";//$NON-NLS-1$
 	private final static String OUTPUT = "Reg_130271_out.xml";//$NON-NLS-1$
 	private final static String GOLDEN = "Reg_130271_golden.xml";//$NON-NLS-1$
 
@@ -41,8 +42,10 @@ public class Regression_130271 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
+		copyResource_INPUT( LIBRARY, LIBRARY);
 		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_OUTPUT( OUTPUT , OUTPUT );
+		copyResource_GOLDEN( GOLDEN , GOLDEN );
 	}
 	/**
 	 * @throws Exception
@@ -51,7 +54,7 @@ public class Regression_130271 extends BaseTestCase
 	
 	public void test_regression_130271( ) throws Exception
 	{
-		openLibrary( INPUT );
+		openLibrary( LIBRARY );
 		DataSourceHandle datasource = libraryHandle
 				.findDataSource( "Data Source" );//$NON-NLS-1$
 		DataSetHandle dataset = libraryHandle.findDataSet( "Data Set" );//$NON-NLS-1$
@@ -59,15 +62,13 @@ public class Regression_130271 extends BaseTestCase
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.createDesign( );
-
-		String filename = getClassFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
-				//+ "Reg_130217.rptdesign";//$NON-NLS-1$
+	
+		openDesign( INPUT );
 		
-		
+	//	String filename = this.getClassFolder() + "/" + INPUT_FOLDER + "/" + INPUT;
+	//	designHandle.setFileName( filename );
 
-		designHandle.setFileName( filename );
-
-		designHandle.includeLibrary( INPUT, "lib" );//$NON-NLS-1$
+		designHandle.includeLibrary( LIBRARY, "lib" );//$NON-NLS-1$
 		DataSourceHandle dsource = (DataSourceHandle) designHandle
 				.getElementFactory( ).newElementFrom( datasource, "dsource" );//$NON-NLS-1$
 		DataSetHandle dset = (DataSetHandle) designHandle.getElementFactory( )

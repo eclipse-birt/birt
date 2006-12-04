@@ -11,6 +11,7 @@ package org.eclipse.birt.report.tests.model;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,6 +82,11 @@ import com.ibm.icu.util.ULocale;
  */
 public abstract class BaseTestCase extends TestCase
 {
+	/**
+	 * Byte array output stream.
+	 */
+
+	protected ByteArrayOutputStream os = null;
 	
 	/**
 	 * The report design handle.
@@ -588,7 +594,193 @@ public abstract class BaseTestCase extends TestCase
 		designHandle = sessionHandle.openDesign( fileName, is );
 		design = (ReportDesign) designHandle.getModule( );
 	}
+	
+	/**
+	 * Gets the temp folder of this class.
+	 * 
+	 * @return temp folder of this class
+	 */
 
+	protected String getTempFolder( )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+
+		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
+				+ getFullQualifiedClassName( );
+		return outputPath;
+	}
+
+
+	/**
+	 * Gets the input stream of the given name resources.
+	 */
+
+	protected InputStream getResourceAStream( String name )
+	{
+		return this.getClass( ).getResourceAsStream( name );
+	}
+
+
+	/**
+	 * Compares the two text files.
+	 * 
+	 * @param goldenReader
+	 *            the reader for golden file
+	 * @param outputReader
+	 *            the reader for output file
+	 * @return true if two text files are same.
+	 * @throws Exception
+	 *             if any exception
+	 */
+	private boolean compareFile( Reader goldenReader, Reader outputReader )
+			throws Exception
+	{
+		StringBuffer errorText = new StringBuffer( );
+
+		BufferedReader lineReaderA = null;
+		BufferedReader lineReaderB = null;
+		boolean same = true;
+		int lineNo = 1;
+		try
+		{
+			lineReaderA = new BufferedReader( goldenReader );
+			lineReaderB = new BufferedReader( outputReader );
+
+			String strA = lineReaderA.readLine( ).trim( );
+			String strB = lineReaderB.readLine( ).trim( );
+			while ( strA != null )
+			{
+				same = strA.trim( ).equals( strB.trim( ) );
+				if ( !same )
+				{
+					StringBuffer message = new StringBuffer( );
+
+					message.append( "line=" ); //$NON-NLS-1$
+					message.append( lineNo );
+					message.append( " is different:\n" );//$NON-NLS-1$
+					message.append( " The line from golden file: " );//$NON-NLS-1$
+					message.append( strA );
+					message.append( "\n" );//$NON-NLS-1$
+					message.append( " The line from output file: " );//$NON-NLS-1$
+					message.append( strB );
+					message.append( "\n" );//$NON-NLS-1$
+					throw new Exception( message.toString( ) );
+				}
+
+				strA = lineReaderA.readLine( );
+				strB = lineReaderB.readLine( );
+				lineNo++;
+			}
+			same = strB == null;
+		}
+		finally
+		{
+			try
+			{
+				if ( lineReaderA != null )
+					lineReaderA.close( );
+				if ( lineReaderB != null )
+					lineReaderB.close( );
+			}
+			catch ( Exception e )
+			{
+				lineReaderA = null;
+				lineReaderB = null;
+
+				errorText.append( e.toString( ) );
+
+				throw new Exception( errorText.toString( ) );
+			}
+		}
+
+		return same;
+	}
+
+	/**
+	 * Compares two text file. The comparison will ignore the line containing
+	 * "modificationDate".
+	 * 
+	 * @param goldenFileName
+	 *            the 1st file name to be compared.
+	 * @param outputFileName
+	 *            the 2nd file name to be compared.
+	 * @return true if two text files are same line by line
+	 * @throws Exception
+	 *             if any exception.
+	 */
+	protected boolean compareFile( String goldenFileName, String outputFileName )
+			throws Exception
+	{
+		Reader readerA = null;
+		FileReader readerB = null;
+		boolean same = true;
+		StringBuffer errorText = new StringBuffer( );
+
+		try
+		{
+			goldenFileName = GOLDEN_FOLDER + goldenFileName;
+			outputFileName = getTempFolder( ) + OUTPUT_FOLDER + outputFileName;
+
+			readerA = new InputStreamReader(
+					getResourceAStream( goldenFileName ) );
+			readerB = new FileReader( outputFileName );
+
+			same = compareFile( readerA, readerB );
+		}
+		catch ( IOException e )
+		{
+			errorText.append( e.toString( ) );
+			errorText.append( "\n" ); //$NON-NLS-1$
+			e.printStackTrace( );
+		}
+		finally
+		{
+			try
+			{
+				if ( readerA != null )
+					readerA.close( );
+				if ( readerB != null )
+				readerB.close( );
+			}
+			catch ( Exception e )
+			{
+				readerA = null;
+				readerB = null;
+
+				errorText.append( e.toString( ) );
+
+				throw new Exception( errorText.toString( ) );
+			}
+		}
+
+		return same;
+	}
+	/**
+	 * Compares two text file. The comparison will ignore the line containing
+	 * "modificationDate".
+	 * 
+	 * @param goldenFileName
+	 *            the 1st file name to be compared.
+	 * @param os
+	 *            the 2nd output stream to be compared.
+	 * @return true if two text files are same char by char
+	 * @throws Exception
+	 *             if any exception.
+	 */
+	protected boolean compareFile( String goldenFileName ) throws Exception
+	{
+		goldenFileName = GOLDEN_FOLDER + goldenFileName;
+
+		InputStream streamA = getResourceAStream( goldenFileName );
+		if ( os == null )
+			return false;
+		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
+		InputStreamReader readerA = new InputStreamReader( streamA );
+		InputStreamReader readerB = new InputStreamReader( streamB );
+		return compareFile( readerA, readerB );
+	}
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
@@ -972,6 +1164,55 @@ public abstract class BaseTestCase extends TestCase
 	 *             if error occurs while saving the file.
 	 */
 
+	protected void save( ) throws IOException
+	{
+		save( designHandle );
+	}
+	
+	/**
+	 * Eventually, this method will call
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
+	 * output file of some unit test.
+	 * 
+	 * @param moduleHandle
+	 *            the module to save, either a report design or a library
+	 * @throws IOException
+	 *             if error occurs while saving the file.
+	 */
+
+	protected void save( ModuleHandle moduleHandle ) throws IOException
+	{
+		os = new ByteArrayOutputStream( );
+		if ( moduleHandle != null )
+			moduleHandle.serialize( os );
+		os.close( );
+	}
+
+	/**
+	 * Saves library as the given file name.
+	 * 
+	 * @param filename
+	 *            the file name for saving
+	 * @throws IOException
+	 *             if any exception
+	 */
+
+	protected void saveLibrary( ) throws IOException
+	{
+		save( libraryHandle );
+	}
+
+	/**
+	 * Eventually, this method will call
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
+	 * output file of some unit test.
+	 * 
+	 * @param filename
+	 *            the test output file to be saved.
+	 * @throws IOException
+	 *             if error occurs while saving the file.
+	 */
+
 	protected void saveAs( String filename ) throws IOException
 	{
 		saveAs( designHandle, filename );
@@ -1012,7 +1253,8 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void makeOutputDir( ) throws IOException
 	{
-		String outputPath = getClassFolder( ) + "/" + OUTPUT_FOLDER;
+		//String outputPath = getClassFolder( ) + "/" + OUTPUT_FOLDER;
+		String outputPath = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{

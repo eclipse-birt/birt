@@ -37,6 +37,13 @@ public class Regression_156449 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 */
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		removeResource();
+		copyResource_INPUT (filename, filename);
+		
+	}
 	public void test_regression_156449( ) throws DesignFileException
 	{
 		openDesign( filename );
