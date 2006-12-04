@@ -105,6 +105,18 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		this.hasNesetedAggregate = false;
 		this.caculatedAggregateList = availableAggrObj;
 		this.aggrObjList = new ArrayList( );
+		this.passLevel = 0;
+		this.totalPassLevel = 0;
+	}
+	
+	/**
+	 * 
+	 * reset pass level flag
+	 */
+	void reSetPassLevelFlag( )
+	{
+		this.passLevel = 0;
+		this.totalPassLevel = 0;
 	}
 	
 	/**
@@ -736,8 +748,6 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	{
 		if ( this.totalPassLevel < passLevel )
 			this.totalPassLevel = passLevel;
-		else
-			this.totalPassLevel = 0;
 	}
 
 	/**

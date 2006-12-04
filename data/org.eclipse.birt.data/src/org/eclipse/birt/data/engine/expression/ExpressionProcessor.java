@@ -160,10 +160,8 @@ public class ExpressionProcessor implements IExpressionProcessor
 					{
 						iccState.setValueAvailable( i );
 					}
-					else
-					{
-						break;
-					}
+					//reset the pass level flag
+					helper.reSetPassLevelFlag( );
 				}
 			}
 
