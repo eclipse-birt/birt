@@ -275,6 +275,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					this.__parameter[k].value = displayLabel.innerHTML;
 					k++;			
 				}
+				else if( temp.type == 'hidden' )
+				{
+					// deal with hidden parameter
+					this.__parameter[k].name = temp.name;
+					this.__parameter[k].value = temp.value;
+					k++;	
+				}
 			}
 			else if( oSEC.length <= 1 && oIEC.length >= 3 )
 			{
