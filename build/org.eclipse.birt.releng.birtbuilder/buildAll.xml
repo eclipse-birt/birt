@@ -60,7 +60,7 @@
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
 		<!--compiler args-->
-		<property name="compilerArg" value="-enableJavadoc -encoding ISO-8859-1 -warn:-discouraged,forbidden" />
+		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.4" />
 		<property name="javacTarget" value="1.4" />
 		<property name="javacDebugInfo" value="true" />
