@@ -10,6 +10,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -163,7 +164,6 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		// reporting:
 
-		
 		DomWriter domwriter = new DomWriter( );
 		domwriter.setOutput( new FileWriter( this.getBasePath( )
 				+ "TESTS-" + getName( ) + "SmokeTests.xml" ) ); //$NON-NLS-1$
@@ -283,7 +283,8 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		try
 		{
-			golden = this.getFullQualifiedClassName( ) + "/TestCases/golden/" + golden; //$NON-NLS-1$
+			golden = this.getFullQualifiedClassName( )
+					+ "/TestCases/golden/" + golden; //$NON-NLS-1$
 			String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 			if ( !tempDir.endsWith( File.separator ) )
 				tempDir += File.separator;
@@ -293,7 +294,7 @@ public abstract class BaseSmokeTest extends EngineCase
 			readerA = new FileReader( golden );
 			readerB = new FileReader( outputFile );
 
-			same = compareTextFile( readerA, readerB, outputFile );
+			same = compareHTMLFile( readerA, readerB, outputFile );
 		}
 		catch ( IOException e )
 		{
@@ -317,29 +318,104 @@ public abstract class BaseSmokeTest extends EngineCase
 				throw new Exception( errorText.toString( ) );
 			}
 		}
-		
-		boolean isSame = same;
-		
-		if( !isSame )
-		{
-			System.out.println( "fail!fail!fail!fail!fail!fail!fail!fail!" );
 
-			String tempDir = System.getProperty( "java.io.tmpdir" );
-			if ( !tempDir.endsWith( File.separator ) )
-				tempDir += File.separator;
-			
-			String diffFileFrom = tempDir + getFullQualifiedClassName( ) + "/TestCases/output/" + output;
-			String diffFileTo = tempDir + getFullQualifiedClassName( ) + "/TestCases/diff/" + output;
-			File parent = new File( diffFileTo ).getParentFile( );
-			if( parent != null )
+		return same;
+	}
+
+	protected boolean compareHTMLFile( Reader golden, Reader output,
+			String fileName ) throws Exception
+	{
+		StringBuffer errorText = new StringBuffer( );
+		
+		
+
+		BufferedReader lineReaderA = null;
+		BufferedReader lineReaderB = null;
+		boolean same = true;
+		int lineNo = 1;
+		try
+		{
+			lineReaderA = new BufferedReader( golden );
+			lineReaderB = new BufferedReader( output );
+
+			String strA = lineReaderA.readLine( ).trim( );
+			String strB = lineReaderB.readLine( ).trim( );
+
+			while ( strA != null )
 			{
-				parent.mkdirs( );
+				// filter the random part of the page.
+
+				String filterA = this.filterLine( strA );
+				String filterB = this.filterLine( strB );
+
+				same = filterA.trim( ).equals( filterB.trim( ) );
+
+				if ( !same )
+				{
+					StringBuffer message = new StringBuffer( );
+
+					message.append( "line=" ); //$NON-NLS-1$
+					message.append( lineNo );
+					message.append( "(" ); //$NON-NLS-1$
+					message.append( fileName );
+					message.append( ")" ); //$NON-NLS-1$
+					message.append( " is different:\n" );//$NON-NLS-1$
+					message.append( " The line from golden file: " );//$NON-NLS-1$
+					message.append( strA );
+					message.append( "\n" );//$NON-NLS-1$
+					message.append( " The line from result file: " );//$NON-NLS-1$
+					message.append( strB );
+					message.append( "\n" );//$NON-NLS-1$
+
+					message.append( "Text after filtering: \n" ); //$NON-NLS-1$
+					message.append( " golden file: " ); //$NON-NLS-1$
+					message.append( filterA );
+					message.append( "\n" );//$NON-NLS-1$
+					message.append( " result file: " ); //$NON-NLS-1$
+					message.append( filterB );
+					
+					String tempDir = System.getProperty( "java.io.tmpdir" );
+					if ( !tempDir.endsWith( File.separator ) )
+						tempDir += File.separator;
+					String outputFile = fileName;
+					String diffOutputFile = fileName.replaceAll( "output", "diffOutput" );
+					File parent = new File( diffOutputFile ).getParentFile( );
+					if ( parent != null )
+					{
+						parent.mkdirs( );
+					}
+					copyFile( outputFile , diffOutputFile );
+
+					throw new Exception( message.toString( ) );
+				}
+
+				strA = lineReaderA.readLine( );
+				strB = lineReaderB.readLine( );
+
+				lineNo++;
 			}
-			this.copyFile( diffFileFrom, diffFileTo );
-			
+
+			same = ( strA == null ) && ( strB == null );
+		}
+		finally
+		{
+			try
+			{
+				lineReaderA.close( );
+				lineReaderB.close( );
+			}
+			catch ( Exception e )
+			{
+				lineReaderA = null;
+				lineReaderB = null;
+
+				errorText.append( e.toString( ) );
+
+				throw new Exception( errorText.toString( ) );
+			}
 		}
 
-		return isSame;
+		return same;
 	}
 
 }
