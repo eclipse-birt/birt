@@ -160,6 +160,10 @@ public class ExpressionProcessor implements IExpressionProcessor
 					{
 						iccState.setValueAvailable( i );
 					}
+					else
+					{
+						break;
+					}
 				}
 			}
 
