@@ -78,17 +78,19 @@ public class Regression_148747 extends BaseTestCase
 			NameException
 	{
 		// we do the operation in the output folder.
-
+/*
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 		String outputFolder = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ File.separator + OUTPUT_FOLDER;
+*/
+		String outputFolder = getTempFolder()  + File.separator + OUTPUT_FOLDER;
 		
-		copyFile( this.getFullQualifiedClassName( ) + INPUT_FOLDER + REPORT, outputFolder + "/"
-				+ OUTPUT_FOLDER + REPORT );
+		copyFile( this.getFullQualifiedClassName( ) + "/"+ INPUT_FOLDER +"/" + REPORT, outputFolder + "/"
+				+ OUTPUT_FOLDER +"/" + REPORT );
 
-		copyFile( this.getFullQualifiedClassName( ) + INPUT_FOLDER + LIB, outputFolder + "/" + LIB );
+		copyFile( this.getFullQualifiedClassName( ) +"/"+ INPUT_FOLDER + "/" + LIB, outputFolder + "/" + LIB );
 
 		SessionHandle session = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( null );

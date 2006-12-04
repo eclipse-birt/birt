@@ -62,7 +62,9 @@ public class Regression_134018 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
+		
 		copyResource_INPUT( LIBRARY , LIBRARY );
+		
 		
 		
 		
@@ -74,16 +76,23 @@ public class Regression_134018 extends BaseTestCase
 
 	public void test_regression_134018( ) throws DesignFileException, SemanticException
 	{
+		openLibrary( LIBRARY );
+		
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
+		
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session.createDesign( );
-		designHandle.setFileName( this.getClassFolder( ) + "/" + INPUT_FOLDER
-				+ "/" + LIBRARY ); //$NON-NLS-1$
+		
+		//designHandle.setFileName( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+		//		+ "/" + LIBRARY ); //$NON-NLS-1$
 
 		// include the lib and extends lib.masterpage.
-
-		designHandle.includeLibrary( this.getClassFolder( ) + "/" + INPUT_FOLDER
-				+ "/" + LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
+		
+		
+		//designHandle.includeLibrary( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER	
+		//		+ "/" + LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
+		//designHandle.includeLibrary( LIBRARY, "regression_134018_lib" );
+		
 		LibraryHandle lib = designHandle.getLibrary( "regression_134018_lib" ); //$NON-NLS-1$
 		MasterPageHandle basePage = lib.findMasterPage( "basePage" ); //$NON-NLS-1$
 
@@ -95,7 +104,7 @@ public class Regression_134018 extends BaseTestCase
 
 		// Switch to library, change content of label to "bbb"
 
-		openLibrary( LIBRARY );
+		//openLibrary( LIBRARY );
 		LabelHandle baseLabel = (LabelHandle) ( (SimpleMasterPageHandle) libraryHandle
 				.findMasterPage( "basePage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
 

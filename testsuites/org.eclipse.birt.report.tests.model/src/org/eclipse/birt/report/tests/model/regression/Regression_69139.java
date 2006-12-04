@@ -29,35 +29,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_69139 extends BaseTestCase
 {
 
-	private final static String INPUT = "Reg_69139.xml"; //$NON-NLS-1$
+	public final static String INPUT = "Reg_69139.xml"; //$NON-NLS-1$
 
 	
 	/**
 	 * @throws DesignFileException
 	 */
 	
-	protected void setup( )throws Exception
+	public void setUp( ) throws Exception
 	{
-		super.setUp( );
+		super.setUp();
 		removeResource();
 		copyResource_INPUT( INPUT, INPUT );
 		
 	}
-/*
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-	
-	}
-*/	
-	
+
 	protected void tearDown( )
 	{
-//		removeResource( );
+  	 removeResource( );
 	}
 
 	public void test_regression_69139( ) throws DesignFileException

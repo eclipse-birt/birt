@@ -53,7 +53,7 @@ public class Regression_91673 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void setup( ) throws Exception
+	public void setUp( ) throws Exception
 	{
 		super.setUp();
 		removeResource();

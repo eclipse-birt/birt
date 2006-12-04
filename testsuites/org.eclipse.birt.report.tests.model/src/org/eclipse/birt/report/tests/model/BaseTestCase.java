@@ -1255,11 +1255,24 @@ public abstract class BaseTestCase extends TestCase
 	{
 		//String outputPath = getClassFolder( ) + "/" + OUTPUT_FOLDER;
 		String outputPath = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER;
+		
+// if absolute path or one folder does not exist
+		File parent = new File( outputPath ).getParentFile( );
+
+		if ( parent != null )
+		{
+			parent.mkdirs( );
+		}
+		outputPath = parent + outputPath;
+// add the above , if does not help, TODO delete the above
+		
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
+		
+		
 	}
 
 	/**
@@ -1450,6 +1463,20 @@ public abstract class BaseTestCase extends TestCase
 			fail();
 		}
 		return outputFileName;
+	}
+	
+	protected void saveOutputFile( String fileName ) throws Exception
+	{
+		String folder = getTempFolder( ) + OUTPUT_FOLDER;
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+		
+		String strDesign = os.toString( );
+		FileOutputStream fos = new FileOutputStream( folder + fileName );
+		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
+		
+		fos.close( );	
 	}
 }
 

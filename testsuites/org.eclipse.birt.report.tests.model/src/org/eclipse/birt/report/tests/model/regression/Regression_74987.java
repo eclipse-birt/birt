@@ -46,7 +46,7 @@ public class Regression_74987 extends BaseTestCase
 	 * @throws NameException
 	 */
 	
-	public void setup( ) throws Exception
+	public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource();

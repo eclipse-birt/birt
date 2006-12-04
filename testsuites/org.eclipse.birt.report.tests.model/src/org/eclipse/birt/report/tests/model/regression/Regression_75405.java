@@ -41,7 +41,7 @@ public class Regression_75405 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 	
-	public void setup( ) throws Exception
+	public void setUp( ) throws Exception
 	{
 		super.setUp();
 		removeResource();

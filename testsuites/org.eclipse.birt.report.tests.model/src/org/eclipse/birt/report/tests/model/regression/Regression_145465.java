@@ -79,27 +79,32 @@ public class Regression_145465 extends BaseTestCase
 	public void test_regression_145465( ) throws IOException,
 			DesignFileException, SemanticException
 	{
+		openDesign (REPORT);
+		
 		/*
 		 * copyFile( this.getClassFolder( ) + INPUT_FOLDER + REPORT, this
 		 * .getClassFolder( ) + OUTPUT_FOLDER + REPORT );
 		 */
-
+/*
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 		String outputLib = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ File.separator + OUTPUT_FOLDER + File.separator + LIB;
-		
-		copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIB, outputLib );
+*/		
+		String outputLib = getTempFolder() + File.separator + OUTPUT_FOLDER + File.separator +  LIB;
+		//copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIB, outputLib );
 
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		session.setResourceFolder( tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ File.separator + OUTPUT_FOLDER );
+		//session.setResourceFolder( tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+		//		+ File.separator + OUTPUT_FOLDER );
 
+		session.setResourceFolder(this.getFullQualifiedClassName( ) //$NON-NLS-1$
+				+ File.separator + OUTPUT_FOLDER );
 		ReportDesignHandle designHandle = session.openDesign( this
 				.getClassFolder( )
-				+ INPUT_FOLDER + REPORT );
+				+ "/" + INPUT_FOLDER + "/"+ REPORT );
 		LibraryHandle libHandle = designHandle
 				.getLibrary( "regression_145465_lib" ); //$NON-NLS-1$
 		LabelHandle label = (LabelHandle) libHandle.findElement( "NewLabel" ); //$NON-NLS-1$

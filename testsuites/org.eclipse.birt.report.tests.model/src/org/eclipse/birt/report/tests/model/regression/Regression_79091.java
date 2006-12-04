@@ -57,7 +57,7 @@ public class Regression_79091 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 	
-	public void setup( )
+	public void setUp( ) throws Exception
 	{
 		removeResource();
 		copyResource_INPUT( INPUT, INPUT );

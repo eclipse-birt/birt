@@ -41,7 +41,7 @@ public class Regression_94526 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 	
-	public void setup( ) throws Exception
+	public void setUp( ) throws Exception
 	{
 		super.setUp();
 		copyResource_INPUT( INPUT, INPUT );

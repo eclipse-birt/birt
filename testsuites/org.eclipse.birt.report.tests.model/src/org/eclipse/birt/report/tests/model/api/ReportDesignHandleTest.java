@@ -391,12 +391,19 @@ public class ReportDesignHandleTest extends BaseTestCase
 	public void testNeedsSave( ) throws Exception
 	{
 //		String outputPath = getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		
+		/*
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$	
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 		String outputPath = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ File.separator + OUTPUT_FOLDER;
-				
+		 */			
+		
+		// if add File.separator the testNeedsSave() will fail with"cannot create  output folder
+		//String outputPath = getTempFolder( ) + File.separator + OUTPUT_FOLDER;
+		
+		String outputPath = getTempFolder( ) + OUTPUT_FOLDER;
 		
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )

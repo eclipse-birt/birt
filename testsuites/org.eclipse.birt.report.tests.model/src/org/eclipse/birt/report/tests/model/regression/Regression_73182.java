@@ -36,7 +36,7 @@ public class Regression_73182 extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	protected void setup( ) throws Exception
+	protected void setUp( ) throws Exception
 	{
 		super.setUp();
 		removeResource();
@@ -44,16 +44,7 @@ public class Regression_73182 extends BaseTestCase
 		//copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-/*	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-	
-	}
-*/	
+
 	
 	public void test_regression_73182( ) throws Exception
 	{
