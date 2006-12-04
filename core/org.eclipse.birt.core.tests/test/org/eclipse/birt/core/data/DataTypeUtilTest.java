@@ -25,7 +25,6 @@ import org.mozilla.javascript.Wrapper;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -382,12 +381,12 @@ public class DataTypeUtilTest extends TestCase
 				"1997-07",
 				"1997-07-16",
 				"1997-07-16T19:20+02",
-				"1997-07-16T19:20:30+01:00",
+				"1997-07-16T19:20:30GMT+01:00",
 				"1997-07-16T19:20:30.45+01:00",
 				"1997-07-16 19:20+01:00",
 				"1997-07-16 19:20:30+01:00",
 				"1997-07-16 19:20:30.45+01:00"};
-		Calendar calendar = Calendar.getInstance( TimeZone.getTimeZone("GMT+0"));
+		Calendar calendar = Calendar.getInstance( );
 		
 		Date[] resultDates = {
 				null,
@@ -407,19 +406,19 @@ public class DataTypeUtilTest extends TestCase
 		resultDates[1] = calendar.getTime( );
 		calendar.set(1997,6,16);
 		resultDates[2] = calendar.getTime( );
-		calendar.set(1997,6,16,17,20,0);
+		calendar.set(1997,6,16,19,20,0);
 		resultDates[3] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
+		calendar.set(1997,6,16,19,20,30);
 		resultDates[4] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
+		calendar.set(1997,6,16,19,20,30);
 		calendar.set( Calendar.MILLISECOND, 450 );
 		resultDates[5] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,0);
+		calendar.set(1997,6,16,19,20,0);
 		calendar.set( Calendar.MILLISECOND, 0 );
 		resultDates[6] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
+		calendar.set(1997,6,16,19,20,30);
 		resultDates[7] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
+		calendar.set(1997,6,16,19,20,30);
 		calendar.set( Calendar.MILLISECOND, 450 );
 		resultDates[8] = calendar.getTime( );
 		
@@ -428,12 +427,12 @@ public class DataTypeUtilTest extends TestCase
 			try
 			{
 				Date dateResult = DataTypeUtil.toDate( testStrings[i] );
-//				System.out.println( "i:" + i );
-//				System.out.println( dateResult );
-//				System.out.println( resultDates[i] );
-//				System.out.println();
-//				System.out.println(dateResult.getTime( ));
-//				System.out.println(resultDates[i].getTime( ));
+				System.out.println( "i:" + i );
+				System.out.println( dateResult );
+				System.out.println( resultDates[i] );
+				System.out.println();
+				System.out.println(dateResult.getTime( ));
+				System.out.println(resultDates[i].getTime( ));
 				assertEquals( dateResult, resultDates[i] );
 			}
 			catch ( BirtException e )

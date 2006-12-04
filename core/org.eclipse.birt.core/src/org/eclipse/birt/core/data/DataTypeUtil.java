@@ -411,10 +411,16 @@ public final class DataTypeUtil
             {
                 return new Time( toDate((String ) source).getTime() );
             }
-            catch( IllegalArgumentException e )
+            catch( Exception e )
             {
-                // let fall thru to throw BirtException
-                e.printStackTrace();
+                try
+                {
+                	return Time.valueOf( (String)source );
+                }
+                catch ( Exception e1 )
+                {
+                	
+                }
             }
         }
 
