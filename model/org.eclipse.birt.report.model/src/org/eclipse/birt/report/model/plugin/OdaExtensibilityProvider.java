@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
@@ -90,7 +89,7 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		if ( getExtDefn( ) == null )
 			return null;
 
-		return (ElementPropertyDefn) getExtDefn( ).getProperty( propName );
+		return getExtDefn( ).getProperty( propName );
 	}
 
 	/*
@@ -223,6 +222,11 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		return extensionID;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidODADataSetExtensionID(java.lang.String)
+	 */
 	public boolean isValidODADataSetExtensionID( String extensionID )
 	{
 		if ( ODAManifestUtil.getDataSetExtension( extensionID ) != null )
@@ -231,6 +235,11 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidODADataSourceExtensionID(java.lang.String)
+	 */
 	public boolean isValidODADataSourceExtensionID( String extensionID )
 	{
 		if ( ODAManifestUtil.getDataSourceExtension( extensionID ) != null )

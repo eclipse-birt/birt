@@ -1010,8 +1010,9 @@ public class ModelUtil
 			for ( int i = 0; i < choices.length; i++ )
 			{
 				String name = choices[i].getName( );
-				IElementDefn defn = MetaDataDictionary.getInstance( ).getElement( name );
-			    if ( element.getDefn( ).isKindOf( defn ) )
+				IElementDefn defn = MetaDataDictionary.getInstance( )
+						.getElement( name );
+				if ( element.getDefn( ).isKindOf( defn ) )
 					return true;
 			}
 		}
@@ -1157,7 +1158,7 @@ public class ModelUtil
 				Constructor constructor = c
 						.getConstructor( new Class[]{String.class} );
 				element = (DesignElement) constructor
-						.newInstance( (Object[]) new String[]{name} );
+						.newInstance( new String[]{name} );
 				return element;
 			}
 			catch ( NoSuchMethodException e1 )
