@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -81,7 +82,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	protected void createFieldEditors( )
 	{
 		super.createFieldEditors( );
-		
+
 		createStyleNameControl( );
 
 		addField( new SeparatorFieldEditor( getFieldEditorParent( ) ) );
@@ -99,11 +100,12 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 		addField( blank );
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_GERNERAL_ID ); 
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
+				IHelpContextIds.STYLE_BUILDER_GERNERAL_ID );
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void createStyleNameControl( )
 	{
@@ -130,12 +132,24 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 					preName.select( 0 );
 				}
 				selectedType = TYPE_PREDEFINED;
+				checkPageValid( );
 			}
 		} );
 		preName = new Combo( nameComp, SWT.NULL | SWT.READ_ONLY );
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		preName.setLayoutData( data );
 		preName.setItems( getPredefinedStyeNames( ) );
+		preName.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				checkPageValid( );
+			}
+		} );
 
 		cusStyle = new Button( nameComp, SWT.RADIO );
 		cusStyle.setText( Messages.getString( "GeneralPreferencePage.label.customStyle" ) ); //$NON-NLS-1$
@@ -150,6 +164,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				setPredefinedStyle( false );
 				cusName.setFocus( );
 				selectedType = TYPE_CUSTOM;
+				checkPageValid( );
 			}
 		} );
 
@@ -160,6 +175,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 			public void modifyText( ModifyEvent e )
 			{
+				checkPageValid( );
 			}
 
 		} );
@@ -167,8 +183,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private String[] getPredefinedStyeNames( )
 	{
-		List preStyles = DEUtil.getMetaDataDictionary( )
-				.getPredefinedStyles( );
+		List preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
 		if ( preStyles == null )
 		{
 			return new String[]{};
@@ -203,7 +218,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				setPredefinedStyle( false );
 				cusName.setText( ( (StyleHandle) model ).getName( ) );
 			}
+			checkPageValid( );
 		}
+
 		super.initialize( );
 	}
 
@@ -234,7 +251,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 		( (StylePreferenceStore) ps ).clearError( );
 
-		if ( !checkName( getName( ) ) )
+		if ( !checkName( getName( ), true ) )
 		{
 			return false;
 		}
@@ -244,28 +261,26 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		return !( (StylePreferenceStore) ps ).hasError( );
 	}
 
-	private boolean checkName( String name )
+	private boolean checkName( String name, boolean showError )
 	{
-		if ( ( (StyleHandle) model ).isPredefined( )
-				&& selectedType == TYPE_CUSTOM )
+		String trimName = name.trim( );
+		Iterator iterator = DEUtil.getStyles( );
+		while ( iterator.hasNext( ) )
 		{
-			Iterator iterator = DEUtil.getStyles( );
-			while ( iterator.hasNext( ) )
-			{
-				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
+			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
 
-				if ( handle.getName( ).equals( name ) )
+			if ( handle.getName( ).equals( trimName ) )
+			{
+				if ( showError )
 				{
 					ExceptionHandler.openErrorMessageBox( Messages.getString( "GeneralPreferencePage.errorMsg.duplicate.styleName" ), //$NON-NLS-1$
-							Messages.getString( "GeneralPreferencePage.label.styleName" ) //$NON-NLS-1$
-									+ ": \"" //$NON-NLS-1$
-									+ name
-									+ "\" " //$NON-NLS-1$
-									+ Messages.getString( "GeneralPreferencePage.label.choose.different.name" ) ); //$NON-NLS-1$
-					return false;
+							 Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate" , new String[]{name} )); //$NON-NLS-1$
+
 				}
+				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -277,4 +292,46 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		}
 		return cusName.getText( );
 	}
+
+	protected boolean checkPageValid( )
+	{
+		String name = null;
+		if ( preStyle.getSelection( ) )
+		{
+			name = preName.getText( ).trim( );
+		}
+		else
+		{
+			name = cusName.getText( ).trim( );
+		}
+
+		if ( name == null || name.length( ) == 0 )
+		{
+			setValid( false );
+			if ( !isValid( ) )
+			{
+				setErrorMessage( Messages.getString( "GeneralPreferencePage.label.nameEmpty" ) );
+				setMessage( Messages.getString( "GeneralPreferencePage.label.nameEmpty" ),
+						PreferencePage.ERROR );
+			}
+		}
+		else
+		{
+			setValid( checkName( name, false ) );
+			if ( !isValid( ) )
+			{
+				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate" , new String[]{name} );
+				setErrorMessage( errorMessage );
+				setMessage( errorMessage, PreferencePage.ERROR );
+			}
+		}
+
+		if ( isValid( ) )
+		{
+			setErrorMessage( null );
+			setMessage( null, PreferencePage.NONE );
+		}
+		return isValid( );
+	}
+
 }
