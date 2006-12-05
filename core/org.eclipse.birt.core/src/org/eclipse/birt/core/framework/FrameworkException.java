@@ -10,6 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.core.framework;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.i18n.ResourceHandle;
+import org.eclipse.core.runtime.IStatus;
+
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
+
 
 /**
  * A checked exception representing a failure.
@@ -20,7 +27,7 @@ package org.eclipse.birt.core.framework;
  *
  * @see IStatus
  */
-public class FrameworkException extends Exception {
+public class FrameworkException extends BirtException {
 
 
 	/**
@@ -28,14 +35,14 @@ public class FrameworkException extends Exception {
 	 */
 	private static final long serialVersionUID = -9032025140135814484L;
 
-	/**
-	 * Creates a new exception with the given status object.  The message
-	 * of the given status is used as the exception message.
-	 *
-	 * @param status the status object to be associated with this exception
-	 */
-	public FrameworkException(Exception ex) {
-		super(ex);
+	protected static String pluginId = "org.eclipse.birt.core";
+	
+	static protected UResourceBundle urb = new ResourceHandle( ULocale
+			.getDefault( ) ).getUResourceBundle( );
+	
+	public FrameworkException( String errorCode )
+	{
+		super( pluginId, errorCode, urb );
 	}
 
 }

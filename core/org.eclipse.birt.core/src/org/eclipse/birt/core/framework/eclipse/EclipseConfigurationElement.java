@@ -14,12 +14,13 @@ package org.eclipse.birt.core.framework.eclipse;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.core.runtime.CoreException;
 
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.5 $ $Date: 2006/11/13 05:26:51 $
  */
 class EclipseConfigurationElement implements IConfigurationElement
 {
@@ -36,7 +37,7 @@ class EclipseConfigurationElement implements IConfigurationElement
 		}
 		catch(CoreException ex)
 		{
-			throw new FrameworkException(ex);
+			throw new FrameworkException( ResourceConstants.CREATE_EXTENSION_FAIL);
 		}
 	}
 
