@@ -47,7 +47,7 @@ public class DataExtractionTaskTest extends EngineCase
 	private IReportDocument reportDoc;
 
 	final static String INPUT_table = "DataExtraction_table.rptdesign";
-	final static String INPUT_subquery = "DataExtraction_subquery.RPTdesign";
+	final static String INPUT_subquery = "DataExtraction_subquery.rptdesign";
 	final static String INPUT_nestquery = "DataExtraction_nestquery.rptdesign";
 	final static String OUTPUT_table = "DataExtraction_table.rptdocument";
 	final static String OUTPUT_subquery = "DataExtraction_subquery.rptdocument";
@@ -74,7 +74,7 @@ public class DataExtractionTaskTest extends EngineCase
 		report_document = OUTPUT_table;
 		report_document = createReportDocument( report_design, report_document );
 
-		reportDoc = engine.openReportDocument( report_document );
+		reportDoc = engine.openReportDocument( report_document.replace( '\\', '/' ) );
 		IDataExtractionTask extractTask = engine
 				.createDataExtractionTask( reportDoc );
 		checkGetResultSetList( extractTask );

@@ -125,9 +125,9 @@ public class RunAndRenderTaskTest extends EngineCase
 			task.close( );
 			timeSpan3 = eTime - bTime;
 
-			assertTrue( "RunAndRenderTask.cancel() failed!",
+			assertTrue( "timeSpan3 > timeSpan1",
 					timeSpan3 > timeSpan1 );
-			assertTrue( "RunAndRenderTask.cancel(signal) failed!",
+			assertTrue( "timeSpan3 > timeSpan2",
 					timeSpan3 > timeSpan2 );
 		}
 		catch ( Exception e )

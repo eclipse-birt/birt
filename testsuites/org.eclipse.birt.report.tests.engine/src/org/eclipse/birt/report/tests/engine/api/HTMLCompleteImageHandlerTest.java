@@ -102,7 +102,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 
 			String str = imageHandler.onDesignImage( image, context );
 			str = str.substring( 6 );
-			assertTrue( "Failed to get design image", new File( str ).exists( ) );
+			assertTrue( "Failed to get design image in " + str , new File( str ).exists( ) );
 			removeFile( str );
 		}
 		catch ( Exception e )
@@ -175,7 +175,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 
 			String str = imageHandler.onCustomImage( image, context );
 			str = str.substring( 6 );
-			assertTrue( "Failed to get custom image", new File( str ).exists( ) );
+			assertTrue( "Failed to get custom image in " + str , new File( str ).exists( ) );
 			removeFile( str );
 		}
 		catch ( Exception e )
