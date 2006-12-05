@@ -645,7 +645,7 @@ public final class MarkerRenderer
 
 	private void drawDiamond( IPrimitiveRenderer ipr ) throws ChartException
 	{
-		double offset = Math.floor( Math.sqrt( 2.0 ) * iSize );
+		double offset = Math.floor( iSize );
 
 		if ( bRendering3D )
 		{
@@ -705,7 +705,7 @@ public final class MarkerRenderer
 	private void drawFourDiamonds( IPrimitiveRenderer ipr )
 			throws ChartException
 	{
-		double offset = Math.floor( 0.5 * Math.sqrt( 2.0 ) * iSize ) + 1;
+		double offset = Math.floor( 0.5 * iSize ) + 1;
 		if ( bRendering3D )
 		{
 			final Location3D[] loa = new Location3D[4];
