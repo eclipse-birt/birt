@@ -230,11 +230,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			cmpCategory.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
-		popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+		popup = new SeriesPaletteSheet( Messages.getString( "SeriesSheetImpl.Label.CategoryPalette" ), //$NON-NLS-1$
 				getContext( ),
 				getCategorySeriesDefinition( ) );
 		Button btnSeriesPals = createToggleButton( cmpCategory,
-				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
+				Messages.getString( "SeriesSheetImpl.Label.CategoryPalette&" ), //$NON-NLS-1$
 				popup );
 		btnSeriesPals.addSelectionListener( this );
 
@@ -246,11 +246,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		for ( int i = 0; i < getChart( ).getSeriesForLegend( ).length; i++ )
 		{
-			popups.add( new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+			popups.add( new SeriesPaletteSheet( Messages.getString( "SeriesSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
 					getContext( ),
 					getValueSeriesDefinition( i ) ) );
 			Button btnSeriesPal = createToggleButton( cmpValue,
-					Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ) + ( i + 1 ), //$NON-NLS-1$
+					Messages.getString( "SeriesSheetImpl.Label.SeriesPalette&" ) + getIndexString( i ), //$NON-NLS-1$
 					(ITaskPopupSheet) popups.get( i ) );
 			btnSeriesPal.addSelectionListener( this );
 		}
@@ -267,42 +267,17 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	// private void createButtonGroup( )
-	// {
-	// NameSet ns = LiteralHelper.legendItemTypeSet;
-	// if ( cmbColorBy.getText( )
-	// .equals( ns.getDisplayNameByName(
-	// LegendItemType.CATEGORIES_LITERAL.getName( ) ) ) )
-	// {
-	// popup = new SeriesPaletteSheet( Messages.getString(
-	// "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
-	// getContext( ),
-	// getCategorySeriesDefinition( ) );
-	// Button btnSeriesPals = createToggleButton( cmpCategory,
-	// Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ),
-	// //$NON-NLS-1$
-	// popup ) ;
-	// btnSeriesPals.addSelectionListener( this );
-	// sl.topControl = cmpCategory;
-	// }
-	// else
-	// {
-	// popups.clear( );
-	// for ( int i = 0; i < getChart( ).getSeriesForLegend( ).length; i++ )
-	// {
-	// popups.add( new SeriesPaletteSheet( Messages.getString(
-	// "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
-	// getContext( ),
-	// getValueSeriesDefinition( i ) ) );
-	// Button btnSeriesPals = createToggleButton( cmpValue,
-	// Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ) + ( i + 1
-	// ), //$NON-NLS-1$
-	// (ITaskPopupSheet)popups.get( i ) );
-	// btnSeriesPals.addSelectionListener( this );
-	// }
-	// sl.topControl = cmpValue;
-	// }
-	// }
+	private String getIndexString( int i )
+	{
+		if ( getChart( ).getSeriesForLegend( ).length == 1 )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		else
+		{
+			return String.valueOf( i + 1 );
+		}
+	}
 
 	private SeriesDefinition getCategorySeriesDefinition( )
 	{
