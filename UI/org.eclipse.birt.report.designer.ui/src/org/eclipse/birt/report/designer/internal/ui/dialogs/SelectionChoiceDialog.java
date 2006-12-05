@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
@@ -101,6 +102,8 @@ public class SelectionChoiceDialog extends BaseDialog
 			valueEditor.addModifyListener( listener );
 
 		}
+		UIUtil.bindHelp( composite,
+				IHelpContextIds.SELECTION_CHOICE_DIALOG );
 		return composite;
 	}
 

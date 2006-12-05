@@ -195,6 +195,8 @@ public interface IHelpContextIds
 	public static final String DATA_SET_PARAMETER_BINDING_DIALOG = PREFIX
 	+ "DataSetParameterBindingInputDialog_ID";
 	
+	public static final String SELECTION_CHOICE_DIALOG = PREFIX
+	+ "SelectionChoiceDialog_ID";
 
 	/*----------Control: Preference----------*/
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX
