@@ -15,9 +15,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.net.URL;
 
 import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -86,7 +84,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			do
 			{
 				count++;
-				String fp = this.genOutputFolder( ) + "/"
+				String fp = this.genOutputFolder( ) + "/image/"
 						+ "design" + String.valueOf( count );
 				f = new File( fp ); //$NON-NLS-1$
 				if ( f.exists( ) )
@@ -101,8 +99,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			} while ( true );
 
 			String str = imageHandler.onDesignImage( image, context );
-			str = str.substring( 6 );
-			assertTrue( "Failed to get design image in " + str , new File( str ).exists( ) );
+			URL url = new URL( str );
+			assertTrue( "Failed to get design image in " + str , new File( url.getFile( ) ).exists( ) );
 			removeFile( str );
 		}
 		catch ( Exception e )
@@ -159,7 +157,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			do
 			{
 				count++;
-				String fp = this.genOutputFolder( ) + "/"
+				String fp = this.genOutputFolder( ) + "/image/"
 						+ "custom" + String.valueOf( count );
 				f = new File( fp ); //$NON-NLS-1$
 				if ( f.exists( ) )
@@ -174,8 +172,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			} while ( true );
 
 			String str = imageHandler.onCustomImage( image, context );
-			str = str.substring( 6 );
-			assertTrue( "Failed to get custom image in " + str , new File( str ).exists( ) );
+			URL url = new URL( str );
+			assertTrue( "Failed to get custom image in " + str , new File( url.getFile( ) ).exists( ) );
 			removeFile( str );
 		}
 		catch ( Exception e )
