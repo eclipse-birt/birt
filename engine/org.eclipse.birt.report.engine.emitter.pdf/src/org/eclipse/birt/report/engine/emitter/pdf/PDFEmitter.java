@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -746,69 +748,189 @@ public class PDFEmitter implements IContentEmitter
 				drawBackgroundImage( style, startX, startY, width, height );
 
 				// the width of each border
-				int borderTopWidth = PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
-				if(borderTopWidth>0)
+				int borderTopWidth = PropertyUtil.getDimensionValue(
+						style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
+				int borderLeftWidth = PropertyUtil.getDimensionValue(
+						style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH));
+				int borderBottomWidth = PropertyUtil.getDimensionValue(
+						style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
+				int borderRightWidth = PropertyUtil.getDimensionValue(
+						style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
+				
+				if(borderTopWidth>0 || borderLeftWidth>0 || borderBottomWidth>0|| borderRightWidth>0)
 				{
-					Color borderTopColor = PropertyUtil.getColor( style
-							.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
-					drawBorder( new BorderInfo( layoutX,
-						layoutY + borderTopWidth / 2, layoutX
-								+ container.getWidth( ), layoutY
-								+ borderTopWidth / 2, borderTopWidth,
-						borderTopColor, style.getProperty( IStyle.STYLE_BORDER_TOP_STYLE ), BorderInfo.TOP_BORDER )); 
+					// the color of each border
+					Color borderTopColor = PropertyUtil.getColor(
+							style.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR));
+					Color borderRightColor = PropertyUtil.getColor(
+							style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_COLOR));
+					Color borderBottomColor = PropertyUtil.getColor(
+							style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_COLOR));
+					Color borderLeftColor = PropertyUtil.getColor(
+							style.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR));
+					
+					// Caches the border info
+					BorderInfo[] borders = new BorderInfo[4];
+					borders[BorderInfo.TOP_BORDER] = new BorderInfo(
+							layoutX, layoutY + borderTopWidth/2,
+							layoutX + container.getWidth(), layoutY + borderTopWidth/2,
+							borderTopWidth, borderTopColor, style.getProperty(StyleConstants.STYLE_BORDER_TOP_STYLE), BorderInfo.TOP_BORDER);
+					borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
+							layoutX+container.getWidth()-borderRightWidth/2, layoutY, 
+							layoutX+container.getWidth()-borderRightWidth/2, layoutY+ container.getHeight(),       
+							borderRightWidth, borderRightColor, style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_STYLE), BorderInfo.RIGHT_BORDER);
+					borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
+							layoutX, layoutY+container.getHeight()-borderBottomWidth/2, 
+							layoutX+container.getWidth(), layoutY+container.getHeight()-borderBottomWidth/2, 
+							borderBottomWidth, borderBottomColor, style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_STYLE), BorderInfo.BOTTOM_BORDER);
+					borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
+							layoutX+borderLeftWidth/2, layoutY,
+							layoutX+borderLeftWidth/2, layoutY+ container.getHeight(), 
+							borderLeftWidth, borderLeftColor,style.getProperty(StyleConstants.STYLE_BORDER_LEFT_STYLE), BorderInfo.LEFT_BORDER);
+					
+					// Draws the four borders of the container if there are any. Each border is showed as a line.
+					drawBorder(borders);
 				}
-				int borderLeftWidth = PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
-				if(borderLeftWidth>0)
-				{
-					Color borderLeftColor = PropertyUtil.getColor( style
-							.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
-					drawBorder(new BorderInfo( layoutX
-							+ borderLeftWidth / 2, layoutY, layoutX
-							+ borderLeftWidth / 2,
-							layoutY + container.getHeight( ), borderLeftWidth,
-							borderLeftColor, style.getProperty( IStyle.STYLE_BORDER_LEFT_STYLE ), BorderInfo.LEFT_BORDER ));
-
-				}
-				int borderBottomWidth = PropertyUtil
-						.getDimensionValue( style
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-				if(borderBottomWidth>0)
-				{
-					Color borderBottomColor = PropertyUtil
-					.getColor( style
-							.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) );
-					drawBorder(new BorderInfo( layoutX,
-							layoutY + container.getHeight( ) - borderBottomWidth
-							/ 2, layoutX + container.getWidth( ), layoutY
-							+ container.getHeight( ) - borderBottomWidth
-							/ 2, borderBottomWidth, borderBottomColor,
-							style.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE ),
-					BorderInfo.BOTTOM_BORDER ));
-				}
-				int borderRightWidth = PropertyUtil
-						.getDimensionValue( style
-								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-				if(borderRightWidth>0)
-				{
-					Color borderRightColor = PropertyUtil
-					.getColor( style
-							.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR ) );
-					drawBorder(new BorderInfo( layoutX
-							+ container.getWidth( ) - borderRightWidth / 2,
-							layoutY, layoutX + container.getWidth( )
-									- borderRightWidth / 2, layoutY
-									+ container.getHeight( ), borderRightWidth,
-							borderRightColor, style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE ),BorderInfo.RIGHT_BORDER ));
-				}
-
+				
 				// Checks if itself is the destination of a bookmark.
 				// if so, make a bookmark; if not, do nothing
-				makeBookmark( container, curPos );
+				makeBookmark(container, curPos);
 				// Handles hyper-link action
-				handleHyperlinkAction( container, curPos );
+				handleHyperlinkAction(container, curPos);
 			}
+		}
+		
+		/**
+		 * Draws the borders of a container.
+		 * @param borders		the border info
+		 */
+		private void drawBorder(BorderInfo[] borders)
+		{
+			//double>solid>dashed>dotted>none
+			ArrayList dbl = null;
+			ArrayList solid = null;
+			ArrayList dashed = null;
+			ArrayList dotted = null;
+			
+	 		for(int i=0; i<borders.length; i++)
+			{
+				if ( IStyle.DOUBLE_VALUE.equals( borders[i].borderStyle) ) 
+				{
+					if (null == dbl)
+					{
+						dbl = new ArrayList();
+					}
+					dbl.add(borders[i]);
+				}
+				else if ( IStyle.DASHED_VALUE.equals(borders[i].borderStyle) ) 
+				{
+					if (null == dashed)
+					{
+						dashed = new ArrayList();
+					}
+					dashed.add(borders[i]);
+				}
+				else if ( IStyle.DOTTED_VALUE.equals(borders[i].borderStyle) ) 
+				{
+					if (null == dotted)
+					{
+						dotted = new ArrayList();
+					}
+					dotted.add(borders[i]);
+				}
+				// Uses the solid style as default style.
+				else
+				{
+					if (null == solid)
+					{
+						solid = new ArrayList();
+					}
+					solid.add(borders[i]);
+				}
+			}
+	 		if ( null != dotted )
+	 		{
+	 			for (Iterator it=dotted.iterator(); it.hasNext();)
+	 			{
+	 				BorderInfo bi = (BorderInfo)it.next();
+	 				drawLine( layoutPointX2PDF( bi.startX ), layoutPointY2PDF( bi.startY ), 
+	 						layoutPointX2PDF( bi.endX ), layoutPointY2PDF( bi.endY ), 
+	 						pdfMeasure(bi.borderWidth), bi.borderColor, "dotted", cb ); //$NON-NLS-1$
+	 			}
+	 		}
+	 		if ( null != dashed )
+	 		{
+	 			for (Iterator it=dashed.iterator(); it.hasNext();)
+	 			{
+	 				BorderInfo bi = (BorderInfo)it.next();
+	 				drawLine( layoutPointX2PDF( bi.startX ), layoutPointY2PDF( bi.startY ), 
+	 						layoutPointX2PDF( bi.endX ), layoutPointY2PDF( bi.endY ), 
+	 						pdfMeasure(bi.borderWidth), bi.borderColor, "dashed", cb ); //$NON-NLS-1$
+	 			}
+	 		}
+	 		if ( null != solid )
+	 		{
+	 			for (Iterator it=solid.iterator(); it.hasNext();)
+	 			{
+	 				BorderInfo bi = (BorderInfo)it.next();
+	 				drawLine( layoutPointX2PDF( bi.startX ), layoutPointY2PDF( bi.startY ), 
+	 						layoutPointX2PDF( bi.endX ), layoutPointY2PDF( bi.endY ), 
+	 						pdfMeasure(bi.borderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 			}
+	 		}
+	 		if ( null != dbl )
+	 		{
+	 			for (Iterator it=dbl.iterator(); it.hasNext();)
+	 			{
+	 				BorderInfo bi = (BorderInfo)it.next();
+	 				int outerBorderWidth=bi.borderWidth/4; 
+	 				int innerBorderWidth=bi.borderWidth/4;
+	 				
+	 				switch (bi.borderType)
+	 				{
+	 				case BorderInfo.TOP_BORDER:
+	 					drawLine( layoutPointX2PDF( bi.startX ), layoutPointY2PDF( bi.startY-bi.borderWidth/2+outerBorderWidth/2 ), 
+	 	 						layoutPointX2PDF( bi.endX ), layoutPointY2PDF( bi.endY-bi.borderWidth/2+outerBorderWidth/2 ), 
+	 	 						pdfMeasure(outerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				drawLine( layoutPointX2PDF( bi.startX+3*borders[BorderInfo.LEFT_BORDER].borderWidth/4 ), 
+	 	 						layoutPointY2PDF( bi.startY+bi.borderWidth/2-innerBorderWidth/2 ), 
+	 	 						layoutPointX2PDF( bi.endX-3*borders[BorderInfo.RIGHT_BORDER].borderWidth/4 ), 
+	 	 						layoutPointY2PDF( bi.endY+bi.borderWidth/2-innerBorderWidth/2 ), 
+	 	 						pdfMeasure(innerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				break;
+	 				case BorderInfo.RIGHT_BORDER:
+	 					drawLine( layoutPointX2PDF( bi.startX+bi.borderWidth/2-outerBorderWidth/2 ), layoutPointY2PDF( bi.startY ), 
+	 	 						layoutPointX2PDF( bi.endX+bi.borderWidth/2-outerBorderWidth/2 ), layoutPointY2PDF( bi.endY ), 
+	 	 						pdfMeasure(outerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				drawLine( layoutPointX2PDF( bi.startX-bi.borderWidth/2+innerBorderWidth/2 ), 
+	 	 						layoutPointY2PDF( bi.startY+3*borders[BorderInfo.TOP_BORDER].borderWidth/4 ), 
+	 	 						layoutPointX2PDF( bi.endX-bi.borderWidth/2+innerBorderWidth/2 ), 
+	 	 						layoutPointY2PDF( bi.endY-3*borders[BorderInfo.BOTTOM_BORDER].borderWidth/4 ), 
+	 	 						pdfMeasure(innerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				break;
+	 				case BorderInfo.BOTTOM_BORDER:
+	 					drawLine( layoutPointX2PDF( bi.startX ), layoutPointY2PDF( bi.startY+bi.borderWidth/2-outerBorderWidth/2 ), 
+	 	 						layoutPointX2PDF( bi.endX ), layoutPointY2PDF( bi.endY+bi.borderWidth/2-outerBorderWidth/2 ), 
+	 	 						pdfMeasure(outerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				drawLine( layoutPointX2PDF( bi.startX+3*borders[BorderInfo.LEFT_BORDER].borderWidth/4 ), 
+	 	 						layoutPointY2PDF( bi.startY-bi.borderWidth/2+innerBorderWidth/2 ), 
+	 	 						layoutPointX2PDF( bi.endX-3*borders[BorderInfo.RIGHT_BORDER].borderWidth/4 ), 
+	 	 						layoutPointY2PDF( bi.endY-bi.borderWidth/2+innerBorderWidth/2 ), 
+	 	 						pdfMeasure(innerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				break;
+	 				case BorderInfo.LEFT_BORDER:
+	 					drawLine( layoutPointX2PDF( bi.startX-bi.borderWidth/2+outerBorderWidth/2 ), layoutPointY2PDF( bi.startY ), 
+	 	 						layoutPointX2PDF( bi.endX-bi.borderWidth/2+outerBorderWidth/2 ), layoutPointY2PDF( bi.endY ), 
+	 	 						pdfMeasure(outerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				drawLine( layoutPointX2PDF( bi.startX+bi.borderWidth/2-innerBorderWidth/2 ), 
+	 	 						layoutPointY2PDF( bi.startY+3*borders[BorderInfo.TOP_BORDER].borderWidth/4 ), 
+	 	 						layoutPointX2PDF( bi.endX+bi.borderWidth/2-innerBorderWidth/2 ), 
+	 	 						layoutPointY2PDF( bi.endY-3*borders[BorderInfo.BOTTOM_BORDER].borderWidth/4 ), 
+	 	 						pdfMeasure(innerBorderWidth), bi.borderColor, "solid", cb ); //$NON-NLS-1$
+	 	 				break;
+	 				}
+	 			}
+	 		}
 		}
 		
 		
@@ -1094,17 +1216,17 @@ public class PDFEmitter implements IContentEmitter
  				switch (border.borderType)
  				{
  				case BorderInfo.TOP_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY-border.borderWidth/2+outerBorderWidth/2 ), 
- 	 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY-border.borderWidth/2+outerBorderWidth/2 ), 
+ 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY - innerBorderWidth), 
+ 	 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY ), 
  	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
  	 				drawLine( layoutPointX2PDF( border.startX+2*border.borderWidth/3 ), 
- 	 						layoutPointY2PDF( border.startY+border.borderWidth/2-innerBorderWidth/2 ), 
+ 	 						layoutPointY2PDF( border.startY + innerBorderWidth/2 ), 
  	 						layoutPointX2PDF( border.endX-2*border.borderWidth/3 ), 
  	 						layoutPointY2PDF( border.endY+border.borderWidth/2-innerBorderWidth/2 ), 
  	 						pdfMeasure(innerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
  	 				return;
  				case BorderInfo.RIGHT_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX+border.borderWidth/2-outerBorderWidth/2 ), layoutPointY2PDF( border.startY ), 
+ 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY ), 
  	 						layoutPointX2PDF( border.endX+border.borderWidth/2-outerBorderWidth/2 ), layoutPointY2PDF( border.endY ), 
  	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
  	 				drawLine( layoutPointX2PDF( border.startX-border.borderWidth/2+innerBorderWidth/2 ), 
@@ -1114,7 +1236,7 @@ public class PDFEmitter implements IContentEmitter
  	 						pdfMeasure(innerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
  	 				return;
  				case BorderInfo.BOTTOM_BORDER:
- 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY+border.borderWidth/2-outerBorderWidth/2 ), 
+ 					drawLine( layoutPointX2PDF( border.startX ), layoutPointY2PDF( border.startY), 
  	 						layoutPointX2PDF( border.endX ), layoutPointY2PDF( border.endY+border.borderWidth/2-outerBorderWidth/2 ), 
  	 						pdfMeasure(outerBorderWidth), border.borderColor, "solid", cb ); //$NON-NLS-1$
  	 				drawLine( layoutPointX2PDF( border.startX+2*border.borderWidth/3 ), 
