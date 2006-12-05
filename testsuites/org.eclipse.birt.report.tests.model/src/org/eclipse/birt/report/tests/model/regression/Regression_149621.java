@@ -53,8 +53,8 @@ public class Regression_149621 extends BaseTestCase
 		saveAs( outfile );
 
 		String input = this.genOutputFile( outfile );
-		String output = this.getFullQualifiedClassName( ) + INPUT_FOLDER
-				+ filename1; //$NON-NLS-1$
+		String output = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+				+ "/" + filename1; //$NON-NLS-1$
 		copyFile( input, output );
 
 		openDesign( filename1 ); //$NON-NLS-1$

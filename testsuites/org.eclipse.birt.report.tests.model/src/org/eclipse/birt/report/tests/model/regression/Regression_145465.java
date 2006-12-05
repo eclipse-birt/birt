@@ -103,7 +103,7 @@ public class Regression_145465 extends BaseTestCase
 		session.setResourceFolder(this.getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ File.separator + OUTPUT_FOLDER );
 		ReportDesignHandle designHandle = session.openDesign( this
-				.getClassFolder( )
+				.getFullQualifiedClassName( )
 				+ "/" + INPUT_FOLDER + "/"+ REPORT );
 		LibraryHandle libHandle = designHandle
 				.getLibrary( "regression_145465_lib" ); //$NON-NLS-1$

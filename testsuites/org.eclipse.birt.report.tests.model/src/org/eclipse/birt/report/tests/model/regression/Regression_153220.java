@@ -77,8 +77,9 @@ public class Regression_153220 extends BaseTestCase
 		String lib1Output = this.genOutputFile( lib1name );
 		String lib2Output = this.genOutputFile( lib2name );;
 		String fileOutput = this.genOutputFile( filename );;
-
-		makeOutputDir( );
+		
+		
+		//makeOutputDir( );
 		// open and modify the library files under the output folder.
 
 		copyFile( lib1Input, lib1Output );

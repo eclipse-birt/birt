@@ -1256,15 +1256,16 @@ public abstract class BaseTestCase extends TestCase
 		//String outputPath = getClassFolder( ) + "/" + OUTPUT_FOLDER;
 		String outputPath = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER;
 		
-// if absolute path or one folder does not exist
+
 		File parent = new File( outputPath ).getParentFile( );
 
 		if ( parent != null )
 		{
 			parent.mkdirs( );
 		}
-		outputPath = parent + outputPath;
-// add the above , if does not help, TODO delete the above
+
+		outputPath = parent + "/" + OUTPUT_FOLDER;
+
 		
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )

@@ -121,7 +121,7 @@ public class Regression_134231 extends BaseTestCase {
 
 		// we recover the library file, copied back from backup.
 
-		copyFile(this.getClassFolder() + "/" + OUTPUT_FOLDER + "/" + LIBRARY,
-				this.getClassFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY);
+		copyFile(this.getFullQualifiedClassName() + "/" + OUTPUT_FOLDER + "/" + LIBRARY,
+				this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + LIBRARY);
 	}
 }

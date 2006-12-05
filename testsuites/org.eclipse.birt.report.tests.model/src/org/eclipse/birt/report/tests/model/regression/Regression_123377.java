@@ -66,14 +66,14 @@ public class Regression_123377 extends BaseTestCase
 	public void test_regression_123377( ) throws DesignFileException, SemanticException,
 			IOException
 	{
-		String lib1Input = getClassFolder( ) + "/" + INPUT_FOLDER
+		String lib1Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
 				+ "/" + INPUT1; //$NON-NLS-1$
-		String lib2Input = getClassFolder( ) + "/" + INPUT_FOLDER
+		String lib2Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
 		+ "/" + INPUT2; //$NON-NLS-1$
 
-		String lib1Output = getClassFolder( ) + "/" + OUTPUT_FOLDER
+		String lib1Output = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
 				+ "/" + INPUT1;//$NON-NLS-1$
-		String lib2Output = getClassFolder( ) + "/" + OUTPUT_FOLDER
+		String lib2Output = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
 				+ "/" + INPUT2;//$NON-NLS-1$
 
 		//makeOutputDir( );

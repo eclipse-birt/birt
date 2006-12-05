@@ -71,8 +71,8 @@ public class Regression_132938 extends BaseTestCase
 		// test case, the backed-up one will be copied back when case finished.
 
 		//makeOutputDir( );
-		copyFile( this.getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A, this
-				.getClassFolder( )
+		copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A, this
+				.getFullQualifiedClassName( )
 				+ "/" + OUTPUT_FOLDER + "/" + LIBRARY_A );
 
 		
@@ -83,7 +83,7 @@ public class Regression_132938 extends BaseTestCase
 		LabelHandle baseLabel = (LabelHandle) libraryHandle
 				.findElement( "NewLabel" ); //$NON-NLS-1$
 		baseLabel.setText( "aaa" ); //$NON-NLS-1$
-		libraryHandle.saveAs( this.getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A );
+		libraryHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A );
 
 		System.out.println (( (LabelHandle) designHandle.findElement( "childlabel" ) ).getText( ) );
 		// refresh report
@@ -95,8 +95,8 @@ public class Regression_132938 extends BaseTestCase
 		
 		// we recover the libraryB file, copied back from backup.
 		
-		copyFile( this.getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + LIBRARY_A, this
-				.getClassFolder( )
+		copyFile( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/" + LIBRARY_A, this
+				.getFullQualifiedClassName( )
 				+ "/" + INPUT_FOLDER + "/" + LIBRARY_A );
 	}
 }

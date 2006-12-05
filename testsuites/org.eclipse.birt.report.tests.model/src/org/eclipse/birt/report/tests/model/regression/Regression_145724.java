@@ -56,7 +56,7 @@ public class Regression_145724 extends BaseTestCase
 			IOException
 	{
 		openDesign( REPORT );
-
+        
 		saveAs( "test_version.out" ); //$NON-NLS-1$
 
 		BufferedReader br = new BufferedReader( new FileReader( this.genOutputFile( "test_version.out" ) ) ); //$NON-NLS-1$

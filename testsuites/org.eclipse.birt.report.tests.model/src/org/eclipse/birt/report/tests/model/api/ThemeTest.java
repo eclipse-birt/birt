@@ -163,7 +163,7 @@ public class ThemeTest extends BaseTestCase
 		   designHandle.getStyles().drop(RCS2);
 		   assertEquals("100%",table.getStringProperty(Style.FONT_SIZE_PROP));
 		   assertEquals("aqua",label.getStringProperty(Style.BACKGROUND_COLOR_PROP));
-		   designHandle.saveAs(getClassFolder()+ INPUT_FOLDER+"ThemeTest2_1.xml");
+		   designHandle.saveAs(this.getFullQualifiedClassName()+ "/"+ INPUT_FOLDER + "/" + "ThemeTest2_1.xml");
 		       
 	       //drop custom styles in library
 	       libraryHandle.findTheme("theme1").getStyles().drop(LCS1);

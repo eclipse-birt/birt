@@ -77,12 +77,13 @@ public class Regression_117978 extends BaseTestCase
 		// save the report
 
 		//makeOutputDir( );
-		designHandle.saveAs( this.getClassFolder( ) + OUTPUT_FOLDER + OUTPUT );
+		//designHandle.saveAs( this.getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + OUTPUT );
+		designHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/" + OUTPUT );
 
 		// reopen it.
 
 		designHandle = session.openDesign( this.getClassFolder( )
-				+ OUTPUT_FOLDER + OUTPUT );
+				+ "/" + OUTPUT_FOLDER + "/" + OUTPUT );
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "label" ); //$NON-NLS-1$
 

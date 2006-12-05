@@ -68,7 +68,7 @@ public class Regression_118556 extends BaseTestCase
 
 		designHandle.getBody( ).add( label );
 
-		String lib = this.getClassFolder( ) + "/" + OUTPUT_FOLDER
+		String lib = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
 				+ "/" + "regression_118556_lib.out"; //$NON-NLS-1$
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "newLabel" ); //$NON-NLS-1$

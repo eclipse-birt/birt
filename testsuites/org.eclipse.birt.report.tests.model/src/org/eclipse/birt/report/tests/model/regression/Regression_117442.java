@@ -48,7 +48,6 @@ public class Regression_117442 extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		
-		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( INPUT , INPUT );
 	
 	}
@@ -62,7 +61,8 @@ public class Regression_117442 extends BaseTestCase
 			IOException
 	{
 		openDesign( INPUT );
-		String output = this.getClassFolder( ) + "/" +OUTPUT_FOLDER
+		//String output = this.getClassFolder( ) + "/" +OUTPUT_FOLDER
+		String output = this.getFullQualifiedClassName( ) + "/" +OUTPUT_FOLDER
 				+ "/" + "regression_117442.out"; //$NON-NLS-1$
 		
 		ElementExportUtil.exportDesign( designHandle, output, true, true ); 

@@ -68,7 +68,8 @@ public class Regression_75539 extends BaseTestCase
 
 		designHandle.getDataSources( ).add( dsourceHandle );
 		saveAs( "Reg_75539.out" ); //$NON-NLS-1$
-
+       // save();
+        
 		assertTrue( compareTextFile( GOLDEN, OUTPUT ) );
 	}
 

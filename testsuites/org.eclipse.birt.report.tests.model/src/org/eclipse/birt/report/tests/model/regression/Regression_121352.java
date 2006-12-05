@@ -54,7 +54,7 @@ public class Regression_121352 extends BaseTestCase
 		
 		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( filename , filename );
-		
+		copyResource_GOLDEN(goldenfile, goldenfile);
 	}
 	/**
 	 * @throws Exception

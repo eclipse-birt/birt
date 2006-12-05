@@ -43,7 +43,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 		{
 	
 			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-			ReportDesignHandle designHandle = sessionHandle.openDesign(getClassFolder() + "/" + INPUT_FOLDER+ "/" +filename);
+			ReportDesignHandle designHandle = sessionHandle.openDesign(this.getFullQualifiedClassName() + "/" + INPUT_FOLDER+ "/" +filename);
 			
 			SimpleValueHandle propHandle = (SimpleValueHandle)designHandle.getPropertyHandle( ReportDesign.IMAGES_PROP );
 			

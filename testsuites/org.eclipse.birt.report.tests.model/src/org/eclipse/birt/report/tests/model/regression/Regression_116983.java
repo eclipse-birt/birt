@@ -73,6 +73,6 @@ public class Regression_116983 extends BaseTestCase
 		
 		//cannot create BaseTestCases.makeOutputDir
 		//makeOutputDir( );
-		template.saveAs( getClassFolder( ) + OUTPUT_FOLDER + "regression_116983_template.out" ); //$NON-NLS-1$
+		template.saveAs( getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + "regression_116983_template.out" ); //$NON-NLS-1$
 	}
 }
