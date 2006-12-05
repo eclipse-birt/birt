@@ -218,7 +218,6 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				setPredefinedStyle( false );
 				cusName.setText( ( (StyleHandle) model ).getName( ) );
 			}
-			checkPageValid( );
 		}
 
 		super.initialize( );
@@ -274,7 +273,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				if ( showError )
 				{
 					ExceptionHandler.openErrorMessageBox( Messages.getString( "GeneralPreferencePage.errorMsg.duplicate.styleName" ), //$NON-NLS-1$
-							 Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate" , new String[]{name} )); //$NON-NLS-1$
+							Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate", new String[]{name} ) ); //$NON-NLS-1$
 
 				}
 				return false;
@@ -310,9 +309,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			setValid( false );
 			if ( !isValid( ) )
 			{
-				setErrorMessage( Messages.getString( "GeneralPreferencePage.label.nameEmpty" ) );
-				setMessage( Messages.getString( "GeneralPreferencePage.label.nameEmpty" ),
-						PreferencePage.ERROR );
+				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" );
+				setMessage( errorMessage, PreferencePage.ERROR );
+				setErrorMessage( errorMessage );
 			}
 		}
 		else
@@ -320,18 +319,30 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			setValid( checkName( name, false ) );
 			if ( !isValid( ) )
 			{
-				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate" , new String[]{name} );
-				setErrorMessage( errorMessage );
+				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate",
+						new String[]{
+							name
+						} );
 				setMessage( errorMessage, PreferencePage.ERROR );
+				setErrorMessage( errorMessage );
 			}
 		}
 
 		if ( isValid( ) )
-		{
-			setErrorMessage( null );
+		{			
 			setMessage( null, PreferencePage.NONE );
-		}
+			setErrorMessage( null );
+		}		
+
 		return isValid( );
 	}
 
+	protected void checkState( )
+	{
+		boolean result = isValid( );
+		if ( result )
+		{
+			super.checkState( );
+		}
+	}
 }
