@@ -606,21 +606,12 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		if ( reportDesignName == null )
 			return null;
 
-		String configFileName = null;
-
-		if ( ReportPlugin.getDefault( ).isReportDesignFile( reportDesignName ) )
-		{
-			String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
-			String extensionName = result[result.length - 1];
-			configFileName = reportDesignName.substring( 0,
-					reportDesignName.length( ) - extensionName.length( ) )
-					+ SUFFIX_DESIGN_CONFIG;
-		}
-		else if ( reportDesignName.endsWith( SUFFIX_TEMPLATE_FILE ) )
-		{
-			configFileName = reportDesignName.replaceFirst( SUFFIX_TEMPLATE_FILE,
-					SUFFIX_DESIGN_CONFIG );
-		}
+		String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
+		String extensionName = result[result.length - 1];
+		String configFileName = reportDesignName.substring( 0, reportDesignName
+				.length( )
+				- extensionName.length( ) )
+				+ SUFFIX_DESIGN_CONFIG;
 
 		return configFileName;
 	}

@@ -1747,21 +1747,12 @@ public class ParameterAccessor
 		if ( reportDesignName == null )
 			return null;
 
-		String configFileName = null;
-
-		if ( reportDesignName.endsWith( IBirtConstants.SUFFIX_DESIGN_FILE ) )
-		{
-			configFileName = reportDesignName.replaceFirst(
-					IBirtConstants.SUFFIX_DESIGN_FILE,
-					IBirtConstants.SUFFIX_DESIGN_CONFIG );
-		}
-		else if ( reportDesignName
-				.endsWith( IBirtConstants.SUFFIX_TEMPLATE_FILE ) )
-		{
-			configFileName = reportDesignName.replaceFirst(
-					IBirtConstants.SUFFIX_TEMPLATE_FILE,
-					IBirtConstants.SUFFIX_DESIGN_CONFIG );
-		}
+		String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
+		String extensionName = result[result.length - 1];
+		String configFileName = reportDesignName.substring( 0, reportDesignName
+				.length( )
+				- extensionName.length( ) )
+				+ IBirtConstants.SUFFIX_DESIGN_CONFIG;
 
 		return configFileName;
 	}
