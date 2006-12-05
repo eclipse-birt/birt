@@ -126,7 +126,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_LIST_LIMIT = Messages.getString( "ParameterDialog.Label.Listlimit" ); //$NON-NLS-1$
 
-	private static final String LABEL_NULL = Messages.getString( "ParameterDialog.Label.Null" ); //$NON-NLS-1$
+	// private static final String LABEL_NULL = Messages.getString(
+	// "ParameterDialog.Label.Null" ); //$NON-NLS-1$
 
 	private static final String LABEL_SELECT_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Label.SelectDisplayText" ); //$NON-NLS-1$
 
@@ -1831,10 +1832,10 @@ public class ParameterDialog extends BaseDialog
 
 	private String format( String string )
 	{
-		if ( canBeNull( ) && string == null )
-		{
-			return LABEL_NULL;
-		}
+		// if ( canBeNull( ) && string == null )
+		// {
+		// return LABEL_NULL;
+		// }
 		if ( StringUtil.isBlank( string ) || formatCategroy == null )
 		{
 			return string;
@@ -1887,19 +1888,24 @@ public class ParameterDialog extends BaseDialog
 	 */
 	private String isValidValue( String value )
 	{
-		if ( canBeNull( ) )
+		// if ( canBeNull( ) )
+		// {
+		// if ( value == null || value.length( ) == 0 )
+		// {
+		// return null;
+		// }
+		// }
+		// else
+		// {
+		// if ( value == null || value.length( ) == 0 )
+		// {
+		// return ERROR_MSG_CANNOT_BE_NULL;
+		// }
+		// }
+		// bug 153405
+		if ( value == null || value.length( ) == 0 )
 		{
-			if ( value == null || value.length( ) == 0 )
-			{
-				return null;
-			}
-		}
-		else
-		{
-			if ( value == null || value.length( ) == 0 )
-			{
-				return ERROR_MSG_CANNOT_BE_NULL;
-			}
+			return ERROR_MSG_CANNOT_BE_NULL;
 		}
 		if ( canBeBlank( ) )
 		{
@@ -2098,10 +2104,10 @@ public class ParameterDialog extends BaseDialog
 					{
 						value = choice.getValue( );
 					}
-					if ( value == null )
-					{
-						value = LABEL_NULL;
-					}
+					// if ( value == null )
+					// {
+					// value = LABEL_NULL;
+					// }
 					if ( value.equals( newValue ) )
 					{
 						return true;
