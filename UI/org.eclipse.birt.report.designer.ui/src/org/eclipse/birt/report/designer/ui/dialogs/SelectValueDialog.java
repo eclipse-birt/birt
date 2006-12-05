@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -41,7 +42,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.16 $ $Date: 2006/06/07 08:54:59 $
+ * @version $Revision: 1.17 $ $Date: 2006/06/22 03:41:18 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -212,7 +213,9 @@ public class SelectValueDialog extends BaseDialog
 			}
 			else
 			{
-				exprValue = "\"" + viewerValue + "\"";
+				exprValue = "\""
+						+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
+						+ "\"";
 			}
 		}
 		return exprValue;
