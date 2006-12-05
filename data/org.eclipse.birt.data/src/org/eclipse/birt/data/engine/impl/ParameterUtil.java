@@ -319,7 +319,7 @@ class ParameterUtil
 			paramValue = DataTypeUtil.convert( paramValue, paramType );
 			if( paramValue instanceof Date )
 			{
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S z");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 				return sdf.format( (Date)paramValue );
 			}
 			
