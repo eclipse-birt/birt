@@ -13,7 +13,7 @@ public class PageSectionId
 	public final static String BORDERS_STYLE="BORDERS_STYLE";
 	public final static String BORDERS_COLOR="BORDERS_COLOR";
 	public final static String BORDERS_WIDTH="BORDERS_WIDTH";
-	public final static String BORDERS_FONT_STYLE="BORDERS_FONT_STYLE";
+	public final static String BORDERS_BORDER_STYLE="BORDERS_BORDER_STYLE";
 	
 	public final static String CELLPADDING_TOP = "CELLPADDING_TOP";
 	public final static String CELLPADDING_BOTTOM = "CELLPADDING_BOTTOM";

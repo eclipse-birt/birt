@@ -127,5 +127,12 @@ public class DescriptorToolkit
 		ResourceKeyDescriptor descriptor = new ResourceKeyDescriptor( formStyle );
 		return descriptor;
 	}
+	
+	public static BorderPropertyDescriptor createBorderPropertyDescriptor(
+			boolean formStyle )
+	{
+		BorderPropertyDescriptor descriptor = new BorderPropertyDescriptor( formStyle );
+		return descriptor;
+	}
 
 }
