@@ -251,6 +251,7 @@
 	position:absolute;
 	border-style:inset;
 	border-width:1px;
+	overflow-x:visible;
 	overflow-y:visible;
 }
 
