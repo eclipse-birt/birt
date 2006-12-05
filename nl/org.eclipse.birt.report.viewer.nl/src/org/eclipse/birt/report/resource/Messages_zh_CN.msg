@@ -138,7 +138,9 @@ birt.viewer.exceptionDialog.stackTrace=堆栈跟踪:
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=必须指定查看器 ID。
+birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
+birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
 birt.viewer.taglib.NO_REPORT_SOURCE=应指定报表设计或文档文件。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=reportlet 需要报表文档文件。
 birt.viewer.taglib.NO_REQUESTER_NAME=必须指定请求者名称。

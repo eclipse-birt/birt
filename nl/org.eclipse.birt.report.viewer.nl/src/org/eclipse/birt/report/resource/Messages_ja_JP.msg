@@ -138,7 +138,9 @@ birt.viewer.exceptionDialog.stackTrace=スタックトレース :
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=ビューア ID を指定してください。
+birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
+birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
 birt.viewer.taglib.NO_REPORT_SOURCE=レポートデザインまたは文書ファイルを指定してください。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet ではレポート文書ファイルが必要です。
 birt.viewer.taglib.NO_REQUESTER_NAME=リクエスタの名前を指定してください。

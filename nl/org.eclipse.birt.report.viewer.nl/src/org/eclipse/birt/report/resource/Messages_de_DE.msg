@@ -138,7 +138,9 @@ birt.viewer.exceptionDialog.stackTrace=Ablaufverfolgungsstapel:
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Viewer-ID muss angegeben werden.
+birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
+birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
 birt.viewer.taglib.NO_REPORT_SOURCE=Berichtdesign oder Dokumentdatei muss angegeben werden.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet benötigt Berichtsdokument.
 birt.viewer.taglib.NO_REQUESTER_NAME=Requester-Name muss angegeben werden..
