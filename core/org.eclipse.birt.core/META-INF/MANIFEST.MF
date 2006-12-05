@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Core Package
 Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
 Bundle-Version: 2.1.2.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/servlet.jar
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
