@@ -2772,6 +2772,21 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		return module.getResourceFolder( );
 	}
+	
+	/**
+	 * Looks up line number of the element in xml source given an element ID.
+	 * Returns 1 if no line number of the element exists with the given ID.
+	 * 
+	 * @param id
+	 *            The id of the element to find.
+	 * @return The line number of the element given the element id, or 1 if the
+	 *         element can't be found or if IDs are not enabled.
+	 */
+
+	public int getLineNoByID( long id )
+	{
+		return module.getLineNoByID( id );
+	}
 
 	/**
 	 * Sorts visible elements. Check value in design handle and libraries and
