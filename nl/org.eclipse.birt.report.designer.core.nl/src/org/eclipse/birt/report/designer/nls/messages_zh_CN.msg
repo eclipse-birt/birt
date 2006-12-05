@@ -1497,10 +1497,10 @@ GeneralInsertMenuAction.text.Text=文本(&T)
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=重复的样式名称。
-GeneralPreferencePage.label.choose.different.name=已存在，请选择另一个名称
+GeneralPreferencePage.label.styleNameDuplicate=已存在，请选择另一个名称
 GeneralPreferencePage.label.customStyle=自定义样式(&C)
 GeneralPreferencePage.label.predefinedStyle=预定义样式(&P)
-GeneralPreferencePage.label.styleName=样式名称
+GeneralPreferencePage.label.nameEmpty=样式名称
 
 ###########################################################
 #GridEditPart properties

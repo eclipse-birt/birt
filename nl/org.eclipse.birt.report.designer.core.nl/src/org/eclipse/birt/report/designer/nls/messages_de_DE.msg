@@ -1497,10 +1497,10 @@ GeneralInsertMenuAction.text.Text=T&ext
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=Der Stilname ist bereits vorhanden.
-GeneralPreferencePage.label.choose.different.name=bereits vorhanden. Bitte wählen Sie einen anderen Namen.
+GeneralPreferencePage.label.styleNameDuplicate=bereits vorhanden. Bitte wählen Sie einen anderen Namen.
 GeneralPreferencePage.label.customStyle=&Benutzerdefinierter Stil
 GeneralPreferencePage.label.predefinedStyle=&Vordefinierter Stil
-GeneralPreferencePage.label.styleName=Stilname
+GeneralPreferencePage.label.nameEmpty=Stilname
 
 ###########################################################
 #GridEditPart properties

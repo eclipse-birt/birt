@@ -1497,10 +1497,10 @@ GeneralInsertMenuAction.text.Text=&Texte
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=Nom de style en double
-GeneralPreferencePage.label.choose.different.name=existe déjà. Veuillez choisir un autre nom.
+GeneralPreferencePage.label.styleNameDuplicate=existe déjà. Veuillez choisir un autre nom.
 GeneralPreferencePage.label.customStyle=&Style personnalisé
 GeneralPreferencePage.label.predefinedStyle=Style &prédéfini
-GeneralPreferencePage.label.styleName=Nom de style
+GeneralPreferencePage.label.nameEmpty=Nom de style
 
 ###########################################################
 #GridEditPart properties

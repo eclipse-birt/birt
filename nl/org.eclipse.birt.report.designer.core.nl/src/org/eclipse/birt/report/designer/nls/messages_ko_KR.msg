@@ -1497,10 +1497,10 @@ GeneralInsertMenuAction.text.Text=텍스트(&T)
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=중복된 스타일 이름입니다.
-GeneralPreferencePage.label.choose.different.name=이미 있습니다. 다른 이름을 선택하십시오.
+GeneralPreferencePage.label.styleNameDuplicate=이미 있습니다. 다른 이름을 선택하십시오.
 GeneralPreferencePage.label.customStyle=사용자 지정 스타일(&C)
 GeneralPreferencePage.label.predefinedStyle=미리 정의된 스타일(&P)
-GeneralPreferencePage.label.styleName=스타일 이름
+GeneralPreferencePage.label.nameEmpty=스타일 이름
 
 ###########################################################
 #GridEditPart properties

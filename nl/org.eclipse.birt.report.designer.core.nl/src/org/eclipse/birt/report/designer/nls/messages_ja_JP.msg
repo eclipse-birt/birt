@@ -1497,10 +1497,10 @@ GeneralInsertMenuAction.text.Text=テキスト(&T)
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=スタイル名が重複しています。
-GeneralPreferencePage.label.choose.different.name=はすでに使用されています。別の名前を付けてください。
+GeneralPreferencePage.label.styleNameDuplicate=はすでに使用されています。別の名前を付けてください。
 GeneralPreferencePage.label.customStyle=ユーザ設定のスタイル(&C)...
 GeneralPreferencePage.label.predefinedStyle=設定済みのスタイル(&P)...
-GeneralPreferencePage.label.styleName=スタイル名
+GeneralPreferencePage.label.nameEmpty=スタイル名
 
 ###########################################################
 #GridEditPart properties
