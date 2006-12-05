@@ -89,7 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=속성 편집을 �
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=로컬 요소에 이 작업을 사용할 수 없습니다.
 AttributeView.view.message.Emptypage= 이 {0}이(가) 라이브러리 {2}의 {1}에서 확장됩니다. 이 보고서 디자인에서 이 {3}의 속성을 수정하려면, 속성 편집기의 도구 모음에서 편집 사용 단추를 누르십시오.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=속성 복원
-AttributeView.defaultText.noAttributeView = The property editor is not available.
+AttributeView.defaultText.noAttributeView = 속성 편집기를 사용할 수 없습니다.
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -1766,8 +1766,8 @@ ImportLibraryAction.Message=보고서 디자인에 이 라이브러리를 사용하시겠습니까?
 ImportLibraryAction.Namespace=네임스페이스:
 ImportLibraryAction.Prefix=접두사:
 ImportLibraryAction.Title.ImportSuccessfully=성공적으로 가져오기
-ImportLibraryAction.Dialog.Titile=Use Library
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Titile=라이브러리 사용
+ImportLibraryAction.Dialog.Message=보고서에 포함할 라이브러리를 선택하십시오. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -1835,7 +1835,7 @@ InputParameterDialog.ErrorTitle.Error=오류
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=삽입
+InsertAction.text=요소 삽입
 
 ###########################################################
 #InsertColumnAction properties
@@ -2443,7 +2443,7 @@ ParameterDialog.Label.Sample=예제
 ParameterDialog.Label.Listlimit=목록 제한(&I):
 ParameterDialog.Radio.Dynamic=동적(&Y)
 ParameterDialog.Radio.Static=정적(&S)
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
+ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
 
 ###########################################################
 #ParameterDropListener properties
@@ -2627,12 +2627,12 @@ ExportToLibraryAction.wizard.page.foldererror=지정한 폴더가 없습니다.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=리소스 폴더에 게시...
+PublishLibraryToResourceFolderAction.Action.Text=리소스 폴더에 라이브러리 배치...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=템플릿 폴더에 게시...
+PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -2741,7 +2741,7 @@ ReportClasspathLaucnTab.WorkspaceJavaProjects=작업 영역 java 프로젝트
 ###########################################################
 #ReportCreationTool properties
 
-ReportCreationTool.ModelTrans.CreateElement=요소 만들기
+ReportCreationTool.ModelTrans.CreateElement=요소 삽입
 
 ###########################################################
 #ReportEditor properties
@@ -2818,7 +2818,7 @@ ReportPropertySheetPage.Root.Default.Title=정보
 #ReportTemplateTransferDropTargetListener properties
 
 ReportTemplateTransferDropTargetListener.ModelTrans.CreateElement=요소 만들기
-ReportTemplateTransferDropTargetListener.transLabel.createElement=요소 만들기
+ReportTemplateTransferDropTargetListener.transLabel.createElement=요소 삽입
 
 ###########################################################
 #ResourceEditDialog properties
@@ -2873,7 +2873,7 @@ RowHandleAdapter.table.header=머리글 행
 
 RowPageGenerator.List.Bookmark=책갈피
 RowPageGenerator.List.Borders=테두리
-RowPageGenerator.List.Section=Page Break
+RowPageGenerator.List.Section=페이지 나누기
 RowPageGenerator.List.CellPadding=셀 안쪽 여백
 RowPageGenerator.List.Font=글꼴
 RowPageGenerator.List.General=일반
@@ -3606,8 +3606,8 @@ DataItemBindingDialog.text.AggregateOn=집계 대상:
 DataItemBindingDialog.text.ForceBinding=동일한 식으로 새 바인딩을 생성합니다.
 DataItemBindingDialog.text.All=모두
 DataItemBindingDialog.text.None=해당 없음
-DataItemBindingDialog.title.CreateNewItem=새 데이터 항목
-DataItemBindingDialog.title.EditDataItem=데이터 항목 편집
+DataItemBindingDialog.title.CreateNewItem=새 데이터 항목 바인딩
+DataItemBindingDialog.title.EditDataItem=데이터 항목 바인딩 편집
 
 ###########################################################
 #DataColumBindingDialog properties
@@ -3631,12 +3631,12 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니�
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=조각
-FragmentResourceEntry.RootDisplayName=Built-in Libraries
+FragmentResourceEntry.RootDisplayName=기본 제공 라이브러리
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=리소스 폴더
-PathResourceEntry.RootDisplayName=Shared Libraries
+PathResourceEntry.RootDisplayName=공유 라이브러리
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3645,4 +3645,4 @@ BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
 
 ###########################################################
 #TabbedList properties
-TabbedPropertyList.properties.not.available=Properties are not available.
+TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.

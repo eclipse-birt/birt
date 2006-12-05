@@ -134,13 +134,13 @@ error.type.not.set=没有为 DateFormatSpecifier 的此实例设置 TYPE
 error.eclenv.cannot.find.dsp=（日蚀式环境）无法找到 {0} 的 dsp impl
 error.stdenv.cannot.find.dsp=（独立环境）无法找到 {0} 的 dsp impl
 info.eclenv.creating.series.renderer=（日蚀式环境）正在创建系列呈现器 {0}
-info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) 正在创建数据点定义 {0}
 error.eclenv.cannot.find.series.renderer=（日蚀式环境）无法找到 {0} 的系列呈现器 impl
 info.stdenv.creating.series.renderer=（独立环境）正在创建系列呈现器 {0}
 info.compute.elapsed.time.without.axes=计算图形的时间（无坐标轴） = {0} 毫秒
 info.compute.elapsed.time.with.axes=计算图形的时间（有坐标轴） = {0} 毫秒
 error.stdenv.cannot.find.series.renderer=（独立环境）无法找到 {0} 的系列呈现器 impl
-error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) 无法找到 {0} 的数据点定义 impl
 error.eclenv.cannot.find.device=（日蚀式环境）无法找到 {0} 的设备呈现器 impl
 error.stdenv.cannot.find.device=（独立环境）无法找到 {0} 的设备呈现器 impl
 error.eclenv.cannot.find.display=（日蚀式环境）无法找到 {0} 的显示服务器 impl
@@ -221,7 +221,7 @@ TriggerCondition.onkeypress.displayName=击键
 TriggerCondition.onkeyup.displayName=键释放
 TriggerCondition.onload.displayName=加载
 
-ActionType.URLRedirect.displayName=URL 重定向
+ActionType.URLRedirect.displayName=超级链接
 ActionType.ShowTooltip.displayName=显示工具提示
 ActionType.ToggleVisibility.displayName=切换可见性
 ActionType.InvokeScript.displayName=调用脚本
@@ -264,14 +264,14 @@ RiserType.Triangle.displayName=三角形
 RiserType.Tube.displayName=管形
 RiserType.Cone.displayName=圆锥
 
-Anchor.North.displayName=北
-Anchor.NorthEast.displayName=东北
-Anchor.East.displayName=东
-Anchor.SouthEast.displayName=东南
-Anchor.South.displayName=南
-Anchor.SouthWest.displayName=西南
-Anchor.West.displayName=西
-Anchor.NorthWest.displayName=西北
+Anchor.North.displayName=上
+Anchor.NorthEast.displayName=右上
+Anchor.East.displayName=右
+Anchor.SouthEast.displayName=右下
+Anchor.South.displayName=下
+Anchor.SouthWest.displayName=左下
+Anchor.West.displayName=左
+Anchor.NorthWest.displayName=左上
 
 Stretch.Horizontal.displayName=水平
 Stretch.Vertical.displayName=垂直

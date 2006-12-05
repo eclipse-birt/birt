@@ -139,7 +139,7 @@ birt.viewer.exceptionDialog.stackTrace=Apilar rastreo:
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Viewer id must be specified.
-birt.viewer.taglib.NO_REPORT_SOURCE=Report design or document file should be specified.
-birt.viewer.taglib.NO_REPORT_DOCUMENT=Report document file is required by reportlet.
-birt.viewer.taglib.NO_REQUESTER_NAME=Requester name must be specified.
+birt.viewer.taglib.NO_VIEWER_ID=Se debe especificar la ID de Viewer.
+birt.viewer.taglib.NO_REPORT_SOURCE=Se debe especificar el diseño de informe o archivo de documento.
+birt.viewer.taglib.NO_REPORT_DOCUMENT=El informe necesita el archivo de documento de informe.
+birt.viewer.taglib.NO_REQUESTER_NAME=Se debe especificar un nombre de solicitante

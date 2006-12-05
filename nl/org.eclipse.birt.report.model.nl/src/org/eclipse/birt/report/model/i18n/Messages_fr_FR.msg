@@ -2344,7 +2344,7 @@ Element.ReportItem.visibility=Visibilité
 Element.ReportItem.paramBindings=Liaisons de paramètres  
 Element.ReportItem.refTemplateParameter=Définition de paramètre de modèle référencé
 Element.ReportItem.boundDataColumns=Colonnes de données liées
-Element.ReportItem.zIndex=Z index
+Element.ReportItem.zIndex=Index Z
   
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Texte
@@ -2796,22 +2796,22 @@ Element.TemplateReportItem.visibility=Visibilité
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = type d'autotext
-Element.AutoText.onPrepare=On prepare
+Element.AutoText.onPrepare=A la préparation
 Element.AutoText.onPrepare.this=AutoText
-Element.AutoText.onPrepare.toolTip=TBD
-Element.AutoText.onPrepare.reportContext=Report context
-Element.AutoText.onCreate=On create
-Element.AutoText.onCreate.toolTip=TBD
-Element.AutoText.onCreate.this=AutoText instance
-Element.AutoText.onCreate.reportContext=Report contetxt
-Element.AutoText.onRender=On render
-Element.AutoText.onRender.toolTip=TBD
-Element.AutoText.onRender.this=AutoText instance
-Element.AutoText.onRender.reportContext=Report context
-Element.AutoText.onPageBreak=On page break
-Element.AutoText.onPageBreak.toolTip=TBD
-Element.AutoText.onPageBreak.this=AutoText instance
-Element.AutoText.onPageBreak.reportContext=Report context
+Element.AutoText.onPrepare.toolTip=A définir
+Element.AutoText.onPrepare.reportContext=Contexte d'état
+Element.AutoText.onCreate=A la création
+Element.AutoText.onCreate.toolTip=A définir
+Element.AutoText.onCreate.this=Instance AutoText
+Element.AutoText.onCreate.reportContext=Contexte d'état
+Element.AutoText.onRender=Au rendu
+Element.AutoText.onRender.toolTip=A définir
+Element.AutoText.onRender.this=Instance AutoText
+Element.AutoText.onRender.reportContext=Contexte d'état
+Element.AutoText.onPageBreak=Saut de page
+Element.AutoText.onPageBreak.toolTip=A définir
+Element.AutoText.onPageBreak.this=Instance AutoText
+Element.AutoText.onPageBreak.reportContext=Contexte d'état
 
 ###########################################################
 # Predefined style

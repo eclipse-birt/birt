@@ -134,13 +134,13 @@ error.type.not.set=使用する DateFormatSpecifier のインスタンスの型が設定されてい
 error.eclenv.cannot.find.dsp=(ECLIPSE 環境) {0} の DSP の実装が見つかりませんでした。
 error.stdenv.cannot.find.dsp=(スタンドアローン環境) {0} の DSP の実装が見つかりません。
 info.eclenv.creating.series.renderer=(ECLIPSE 環境) 系列レンダリング機能 {0} の作成中
-info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE 環境) データポイント定義 {0} を作成中です。
 error.eclenv.cannot.find.series.renderer=(ECLIPSE 環境) {0} の系列レンダリング機能の実装が見つかりません。
 info.stdenv.creating.series.renderer=(スタンドアローン環境) Series Renderer {0} の作成中
 info.compute.elapsed.time.without.axes=プロット計算の所要時間 (軸なし) = {0} ミリ秒
 info.compute.elapsed.time.with.axes=プロット計算の所要時間 (軸あり) = {0} ミリ秒
 error.stdenv.cannot.find.series.renderer=(スタンドアローン環境) {0} 系列レンダリング機能の実装が見つかりません。
-error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
+error.stdenv.cannot.find.datapoint.definition=(スタンドアローン環境) データポイント定義の {0} への実装が見つかりません。
 error.eclenv.cannot.find.device=(ECLIPSE 環境) {0} のデバイスレンダリング機能の実装が見つかりません。
 error.stdenv.cannot.find.device=(スタンドアローン環境) {0} のデバイスレンダリング機能の実装が見つかりません。
 error.eclenv.cannot.find.display=(ECLIPSE 環境) {0} の Display Server の実装が見つかりません。
@@ -221,7 +221,7 @@ TriggerCondition.onkeypress.displayName=キーを押す
 TriggerCondition.onkeyup.displayName=キーを放す
 TriggerCondition.onload.displayName=読み込み
 
-ActionType.URLRedirect.displayName=URL に転送する
+ActionType.URLRedirect.displayName=ハイパーリンク
 ActionType.ShowTooltip.displayName=ツールチップを表示する
 ActionType.ToggleVisibility.displayName=表示と非表示を切り替える
 ActionType.InvokeScript.displayName=スクリプトを起動する
@@ -264,14 +264,14 @@ RiserType.Triangle.displayName=三角形
 RiserType.Tube.displayName=円筒
 RiserType.Cone.displayName=円錐
 
-Anchor.North.displayName=北
-Anchor.NorthEast.displayName=北東
-Anchor.East.displayName=東
-Anchor.SouthEast.displayName=南東
-Anchor.South.displayName=南
-Anchor.SouthWest.displayName=南西
-Anchor.West.displayName=西
-Anchor.NorthWest.displayName=北西
+Anchor.North.displayName=上
+Anchor.NorthEast.displayName=右上
+Anchor.East.displayName=右
+Anchor.SouthEast.displayName=右下
+Anchor.South.displayName=下
+Anchor.SouthWest.displayName=左下
+Anchor.West.displayName=左
+Anchor.NorthWest.displayName=左上
 
 Stretch.Horizontal.displayName=横
 Stretch.Vertical.displayName=縦

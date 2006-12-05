@@ -11,7 +11,7 @@ Error.OutputFormatNotSupported=출력 형식 {0}이(가) 지원되지 않습니다.
 Error.InvalidParameter=일부 필수 매개 변수 값이 설정되어 있지 않거나 비호환 데이터 형식으로 설정되어 있습니다.
 Error.InvalidDesignFile=디자인 파일 {0}에 오류가 있으며 실행할 수 없습니다.
 Error.DesignFileNotFound=디자인 파일 {0}을(를) 찾을 수 없습니다.
-Error.CannotCreateExtensionInstance=보고서 엔진에서 이 요청을 처리할 확장명을 만드는 데 실패했습니다.
+Error.CannotCreateExtensionInstance=보고서 엔진이 {0} 이미터를 초기화하지 못했습니다. 설치된 이미터의 필수 라이브러리를 확인하십시오.
 Error.MissingComputedColumnExpression=계산된 열 {0}에 대한 식이 누락되었습니다.
 
 ###########################################################

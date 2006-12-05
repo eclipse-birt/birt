@@ -52,7 +52,7 @@ ChartElementCommandImpl.setProperty.script=차트 스크립트 편집
 Element.Chart=차트
 Element.Chart.xmlRepresentation=XML 모델
 Element.Chart.outputFormat=출력 형식
-Element.Chart.action=Action
+Element.Chart.action=작업
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D(깊이)

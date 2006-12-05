@@ -11,7 +11,7 @@ Error.OutputFormatNotSupported=出力形式 {0} はサポートされていません。
 Error.InvalidParameter=いくつかの必須パラメタの値が設定されていないか、互換性のないデータ型に設定されています。
 Error.InvalidDesignFile=デザインファイル {0} にエラーがあるため、実行できません。
 Error.DesignFileNotFound=デザインファイル {0} が見つかりません。
-Error.CannotCreateExtensionInstance=レポートエンジンでは、このリクエストを処理するための拡張を作成できません。
+Error.CannotCreateExtensionInstance=レポートエンジンで {0} エミッターを初期化できません。このエミッターに必要なライブラリがインストールされていることを確認してください。
 Error.MissingComputedColumnExpression=計算列 {0} の式が見つかりません。
 
 ###########################################################

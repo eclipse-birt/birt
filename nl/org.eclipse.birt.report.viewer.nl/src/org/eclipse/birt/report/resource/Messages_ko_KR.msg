@@ -138,7 +138,7 @@ birt.viewer.exceptionDialog.stackTrace=추적 누적:
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Viewer id must be specified.
-birt.viewer.taglib.NO_REPORT_SOURCE=Report design or document file should be specified.
-birt.viewer.taglib.NO_REPORT_DOCUMENT=Report document file is required by reportlet.
-birt.viewer.taglib.NO_REQUESTER_NAME=Requester name must be specified.
+birt.viewer.taglib.NO_VIEWER_ID=뷰어 ID를 지정해야 합니다.
+birt.viewer.taglib.NO_REPORT_SOURCE=보고서 디자인 또는 문서 파일을 지정해야 합니다.
+birt.viewer.taglib.NO_REPORT_DOCUMENT=리포틀릿은 보고서 문서 파일이 필요합니다.
+birt.viewer.taglib.NO_REQUESTER_NAME=요청자 이름을 지정해야 합니다.

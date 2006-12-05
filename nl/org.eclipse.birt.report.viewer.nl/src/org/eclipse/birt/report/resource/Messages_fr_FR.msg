@@ -139,7 +139,7 @@ birt.viewer.exceptionDialog.stackTrace=Trace de la pile :
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Viewer id must be specified.
-birt.viewer.taglib.NO_REPORT_SOURCE=Report design or document file should be specified.
-birt.viewer.taglib.NO_REPORT_DOCUMENT=Report document file is required by reportlet.
-birt.viewer.taglib.NO_REQUESTER_NAME=Requester name must be specified.
+birt.viewer.taglib.NO_VIEWER_ID=L'ID du visualiseur doit être spécifié.
+birt.viewer.taglib.NO_REPORT_SOURCE=Un modèle d'état ou un document doit être spécifié.
+birt.viewer.taglib.NO_REPORT_DOCUMENT=L'état est requis par le reportlet.
+birt.viewer.taglib.NO_REQUESTER_NAME=Le nom du requêteur doit être spécifié.

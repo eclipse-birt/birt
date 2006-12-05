@@ -11,7 +11,7 @@ Error.OutputFormatNotSupported=No se admite el formato de salida {0}.
 Error.InvalidParameter=Algunos parámetros de valores necesarios no están establecidos o se han establecido con un tipo de datos incompatible.
 Error.InvalidDesignFile=El archivo de diseño {0} contiene errores y no se puede ejecutar.
 Error.DesignFileNotFound=No se puede encontrar el archivo de diseño {0}.
-Error.CannotCreateExtensionInstance=El motor de informes no puede crear una extensión que controle esta solicitud.
+Error.CannotCreateExtensionInstance=El motor de informes no puede inicializar el emisor {0}; asegúrese de que estén instaladas las librerías necesarias para este emisor.
 Error.MissingComputedColumnExpression=Falta la expresión de la columna procesada {0}
 
 ###########################################################

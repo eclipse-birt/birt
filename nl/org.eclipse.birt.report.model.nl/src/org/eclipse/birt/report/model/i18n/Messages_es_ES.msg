@@ -2344,7 +2344,7 @@ Element.ReportItem.visibility=Visibilidad
 Element.ReportItem.paramBindings=Enlaces de parámetro  
 Element.ReportItem.refTemplateParameter=Definición de parámetro de plantilla a la que se hace referencia
 Element.ReportItem.boundDataColumns=Columnas de datos enlazados
-Element.ReportItem.zIndex=Z index
+Element.ReportItem.zIndex=Índice Z
   
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Texto
@@ -2796,22 +2796,22 @@ Element.TemplateReportItem.visibility=Visibilidad
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = tipo de autotext
-Element.AutoText.onPrepare=On prepare
+Element.AutoText.onPrepare=En preparación
 Element.AutoText.onPrepare.this=AutoText
 Element.AutoText.onPrepare.toolTip=TBD
-Element.AutoText.onPrepare.reportContext=Report context
-Element.AutoText.onCreate=On create
+Element.AutoText.onPrepare.reportContext=Contexto de informe
+Element.AutoText.onCreate=Al crear
 Element.AutoText.onCreate.toolTip=TBD
-Element.AutoText.onCreate.this=AutoText instance
-Element.AutoText.onCreate.reportContext=Report contetxt
-Element.AutoText.onRender=On render
+Element.AutoText.onCreate.this=Instancia de AutoText
+Element.AutoText.onCreate.reportContext=Contexto de informe
+Element.AutoText.onRender=Al procesar
 Element.AutoText.onRender.toolTip=TBD
-Element.AutoText.onRender.this=AutoText instance
-Element.AutoText.onRender.reportContext=Report context
-Element.AutoText.onPageBreak=On page break
+Element.AutoText.onRender.this=Instancia de AutoText
+Element.AutoText.onRender.reportContext=Contexto de informe
+Element.AutoText.onPageBreak=En el salto de página
 Element.AutoText.onPageBreak.toolTip=TBD
-Element.AutoText.onPageBreak.this=AutoText instance
-Element.AutoText.onPageBreak.reportContext=Report context
+Element.AutoText.onPageBreak.this=Instancia de AutoText
+Element.AutoText.onPageBreak.reportContext=Contexto de informe
 
 ###########################################################
 # Predefined style

@@ -2344,7 +2344,7 @@ Element.ReportItem.visibility=可視性
 Element.ReportItem.paramBindings=パラメタバインド  
 Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム
-Element.ReportItem.zIndex=Z index
+Element.ReportItem.zIndex=重ね順
   
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=テキスト
@@ -2796,22 +2796,22 @@ Element.TemplateReportItem.visibility=可視性
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = 定型句の種類
-Element.AutoText.onPrepare=On prepare
-Element.AutoText.onPrepare.this=AutoText
+Element.AutoText.onPrepare=準備時
+Element.AutoText.onPrepare.this=定型句
 Element.AutoText.onPrepare.toolTip=TBD
-Element.AutoText.onPrepare.reportContext=Report context
-Element.AutoText.onCreate=On create
+Element.AutoText.onPrepare.reportContext=レポートのコンテキスト
+Element.AutoText.onCreate=作成時
 Element.AutoText.onCreate.toolTip=TBD
-Element.AutoText.onCreate.this=AutoText instance
-Element.AutoText.onCreate.reportContext=Report contetxt
-Element.AutoText.onRender=On render
+Element.AutoText.onCreate.this=定型句のインスタンス
+Element.AutoText.onCreate.reportContext=レポートのコンテキスト
+Element.AutoText.onRender=レンダリング時
 Element.AutoText.onRender.toolTip=TBD
-Element.AutoText.onRender.this=AutoText instance
-Element.AutoText.onRender.reportContext=Report context
-Element.AutoText.onPageBreak=On page break
+Element.AutoText.onRender.this=定型句のインスタンス
+Element.AutoText.onRender.reportContext=レポートのコンテキスト
+Element.AutoText.onPageBreak=ページ区切り
 Element.AutoText.onPageBreak.toolTip=TBD
-Element.AutoText.onPageBreak.this=AutoText instance
-Element.AutoText.onPageBreak.reportContext=Report context
+Element.AutoText.onPageBreak.this=定型句のインスタンス
+Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 ###########################################################
 # Predefined style

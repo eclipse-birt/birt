@@ -11,7 +11,7 @@ Error.OutputFormatNotSupported=Das Ausgabeformat {0} wird nicht unterstützt.
 Error.InvalidParameter=Einige der erforderlichen Parameterwerte sind nicht angegeben bzw. die angegebenen Werte entsprechen einem inkompatiblen Datentyp.
 Error.InvalidDesignFile=Die Designdatei {0} ist fehlerhaft und kann nicht ausgeführt werden.
 Error.DesignFileNotFound=Die Designdatei {0} kann nicht gefunden werden.
-Error.CannotCreateExtensionInstance=Die Berichtengine kann keine Erweiterung zur Bearbeitung dieses Auftrags erstellen.
+Error.CannotCreateExtensionInstance=Berichts-Engine kann {0}-Emitter nicht initialisieren. Vergewissern Sie sich, dass die erforderlichen Bibliotheken für diesen Emitter installiert sind.
 Error.MissingComputedColumnExpression=Die Definition für die berechnete Spalte {0} fehlt.
 
 ###########################################################

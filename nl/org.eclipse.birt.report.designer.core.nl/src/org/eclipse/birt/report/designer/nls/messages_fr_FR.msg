@@ -89,7 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=Activer la mo
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Cette action n'est pas disponible pour les éléments locaux.
 AttributeView.view.message.Emptypage= {0} s''étend à partir de {1} dans la bibliothèque {2}. Pour activer la modification des propriétés de {3} dans ce modèle d''état, cliquez sur le bouton Activer la modification dans la barre d''outils de l''Editeur de propriétés.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurer les propriétés
-AttributeView.defaultText.noAttributeView = The property editor is not available.
+AttributeView.defaultText.noAttributeView = L'éditeur de propriétés n'est pas disponible.
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -1766,8 +1766,8 @@ ImportLibraryAction.Message=Voulez-vous utiliser cette bibliothèque dans le modè
 ImportLibraryAction.Namespace=Espace nom :
 ImportLibraryAction.Prefix=Préfixe :
 ImportLibraryAction.Title.ImportSuccessfully=Importation réussie
-ImportLibraryAction.Dialog.Titile=Use Library
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Titile=Utiliser la bibliothèque
+ImportLibraryAction.Dialog.Message=Sélectionnez une bibliothèque à inclure dans l'état. 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -1835,7 +1835,7 @@ InputParameterDialog.ErrorTitle.Error=Erreur
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=Insérer
+InsertAction.text=Insérer l'élément
 
 ###########################################################
 #InsertColumnAction properties
@@ -2443,7 +2443,7 @@ ParameterDialog.Label.Sample=Echantillon
 ParameterDialog.Label.Listlimit=L&imite de liste :
 ParameterDialog.Radio.Dynamic=D&ynamique
 ParameterDialog.Radio.Static=&Statique
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
+ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
 
 ###########################################################
 #ParameterDropListener properties
@@ -2627,12 +2627,12 @@ ExportToLibraryAction.wizard.page.foldererror=Le dossier spécifié n'existe pas.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Publier dans le dossier de ressources...
+PublishLibraryToResourceFolderAction.Action.Text=Placer la bibliothèque dans le dossier de ressources...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=Publier dans le dossier modèle...
+PublishTemplateViewAction.action.displaytext=Enregistrer le modèle avec l'assistant Nouvel état...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -2741,7 +2741,7 @@ ReportClasspathLaucnTab.WorkspaceJavaProjects=projets java d'espace de travail
 ###########################################################
 #ReportCreationTool properties
 
-ReportCreationTool.ModelTrans.CreateElement=Créer l'élément
+ReportCreationTool.ModelTrans.CreateElement=Insérer l'élément
 
 ###########################################################
 #ReportEditor properties
@@ -2818,7 +2818,7 @@ ReportPropertySheetPage.Root.Default.Title=Infos
 #ReportTemplateTransferDropTargetListener properties
 
 ReportTemplateTransferDropTargetListener.ModelTrans.CreateElement=Créer l'élément
-ReportTemplateTransferDropTargetListener.transLabel.createElement=Créer l'élément
+ReportTemplateTransferDropTargetListener.transLabel.createElement=Insérer l'élément
 
 ###########################################################
 #ResourceEditDialog properties
@@ -2873,7 +2873,7 @@ RowHandleAdapter.table.header=Ligne d'en-tête
 
 RowPageGenerator.List.Bookmark=Signet
 RowPageGenerator.List.Borders=Bordure
-RowPageGenerator.List.Section=Page Break
+RowPageGenerator.List.Section=Saut de page
 RowPageGenerator.List.CellPadding=Marge intérieure
 RowPageGenerator.List.Font=Police
 RowPageGenerator.List.General=Général
@@ -3606,8 +3606,8 @@ DataItemBindingDialog.text.AggregateOn=Regrouper par :
 DataItemBindingDialog.text.ForceBinding=Crée une nouvelle liaison avec la même expression
 DataItemBindingDialog.text.All=Tous
 DataItemBindingDialog.text.None=N/A
-DataItemBindingDialog.title.CreateNewItem=Nouvel élément de données
-DataItemBindingDialog.title.EditDataItem=Modifier l'élément de données
+DataItemBindingDialog.title.CreateNewItem=Nouvelle liaison d'élément de données
+DataItemBindingDialog.title.EditDataItem=Modifier la liaison d'élément de données
 
 ###########################################################
 #DataColumBindingDialog properties
@@ -3631,12 +3631,12 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est p
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragments
-FragmentResourceEntry.RootDisplayName=Built-in Libraries
+FragmentResourceEntry.RootDisplayName=Bibliothèques intégrées
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Dossier de ressources
-PathResourceEntry.RootDisplayName=Shared Libraries
+PathResourceEntry.RootDisplayName=Bibliothèques partagées
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3645,4 +3645,4 @@ BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 
 ###########################################################
 #TabbedList properties
-TabbedPropertyList.properties.not.available=Properties are not available.
+TabbedPropertyList.properties.not.available=Les propriétés ne sont pas disponibles.

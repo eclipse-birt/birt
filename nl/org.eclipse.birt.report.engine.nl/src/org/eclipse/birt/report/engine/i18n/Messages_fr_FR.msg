@@ -11,7 +11,7 @@ Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.
 Error.InvalidParameter=Certaines valeurs de paramètres requises ne sont pas définies ou sont définies sur un type de données incompatible.
 Error.InvalidDesignFile=Le fichier modèle {0} comporte une erreur et ne peut pas être exécuté.
 Error.DesignFileNotFound=Le fichier modèle {0} est introuvable.
-Error.CannotCreateExtensionInstance=Le moteur d'états ne peut pas créer d'extension permettant de traiter cette requête.
+Error.CannotCreateExtensionInstance=L''initialisation de l''émetteur {0} par le moteur d''états a échoué, assurez-vous que les bibliothèques nécessaires à cet émetteur sont installées.
 Error.MissingComputedColumnExpression=L''expression de la colonne de calcul {0} est manquante.
 
 ###########################################################

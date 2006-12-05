@@ -11,7 +11,7 @@ Error.OutputFormatNotSupported=不支持输出格式 {0}。
 Error.InvalidParameter=某些所需的参数值未设置或设为不兼容的数据类型。
 Error.InvalidDesignFile=设计文件 {0} 有错误且不能运行。
 Error.DesignFileNotFound=无法找到设计文件 {0}。
-Error.CannotCreateExtensionInstance=报表引擎无法创建处理此请求的扩展。
+Error.CannotCreateExtensionInstance=报表引擎无法初始化 {0} 发射器，请确保安装发射器必需的库。
 Error.MissingComputedColumnExpression=缺少计算列 {0} 的表达式。
 
 ###########################################################

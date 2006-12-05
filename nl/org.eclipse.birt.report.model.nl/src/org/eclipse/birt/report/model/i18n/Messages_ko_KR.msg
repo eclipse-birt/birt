@@ -2344,7 +2344,7 @@ Element.ReportItem.visibility=표시 유형
 Element.ReportItem.paramBindings=매개 변수 바인딩  
 Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
-Element.ReportItem.zIndex=Z index
+Element.ReportItem.zIndex=Z 인덱스
   
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=텍스트
@@ -2796,22 +2796,22 @@ Element.TemplateReportItem.visibility=표시 유형
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = AutoText 형식
-Element.AutoText.onPrepare=On prepare
+Element.AutoText.onPrepare=준비 중
 Element.AutoText.onPrepare.this=AutoText
 Element.AutoText.onPrepare.toolTip=TBD
-Element.AutoText.onPrepare.reportContext=Report context
-Element.AutoText.onCreate=On create
+Element.AutoText.onPrepare.reportContext=보고서 컨텍스트
+Element.AutoText.onCreate=생성 중
 Element.AutoText.onCreate.toolTip=TBD
-Element.AutoText.onCreate.this=AutoText instance
-Element.AutoText.onCreate.reportContext=Report contetxt
-Element.AutoText.onRender=On render
+Element.AutoText.onCreate.this=AutoText 인스턴스
+Element.AutoText.onCreate.reportContext=보고서 컨텍스트
+Element.AutoText.onRender=렌더링 중
 Element.AutoText.onRender.toolTip=TBD
-Element.AutoText.onRender.this=AutoText instance
-Element.AutoText.onRender.reportContext=Report context
-Element.AutoText.onPageBreak=On page break
+Element.AutoText.onRender.this=AutoText 인스턴스
+Element.AutoText.onRender.reportContext=보고서 컨텍스트
+Element.AutoText.onPageBreak=페이지 나누기
 Element.AutoText.onPageBreak.toolTip=TBD
-Element.AutoText.onPageBreak.this=AutoText instance
-Element.AutoText.onPageBreak.reportContext=Report context
+Element.AutoText.onPageBreak.this=AutoText 인스턴스
+Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 
 ###########################################################
 # Predefined style

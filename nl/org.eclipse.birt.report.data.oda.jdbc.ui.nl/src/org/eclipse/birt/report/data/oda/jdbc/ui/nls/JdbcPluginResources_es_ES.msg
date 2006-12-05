@@ -1,7 +1,7 @@
 dataset.editor.page.query=Consulta
 dataset.new.query=Definir un texto de consulta sql con los elementos disponibles
 dataset.new=Nuevo conjunto de datos
-dataset.editor.page.query.error.schemaNotExisted=The schema name does not exist
+dataset.editor.page.query.error.schemaNotExisted=El nombre de esquema no existe
 datasource.new=Nueva fuente de datos
 datasource.editor.page.datasource=Fuente de datos
 sqleditor.action.undo=Deshacer
@@ -103,7 +103,7 @@ driverManagerDialog.fileDelete.text=El archivo se eliminará la próxima vez que s
 datasource.propertyPage.tooltip=Fuente de datos JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa
-designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Prefetch all Schemas from database 
+designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Recuperación anticipada de todos los esquemas de la base de datos. 
 designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de e&squemas que mostrar:
 designer.preview.preference.resultset.maxNoOfTable.description=Número máximo de &tablas de cada esquema que mostrar:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un número entre 0 y {0} para el número máximo de esquemas.

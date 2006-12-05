@@ -134,13 +134,13 @@ error.type.not.set=이 DateFormatSpecifier 인스턴스에 대해 형식이 설정되지 않았습
 error.eclenv.cannot.find.dsp=(이클립스 환경) {0}에 대한 DataSetProcessor 구현을 찾을 수 없습니다.
 error.stdenv.cannot.find.dsp=(독립 실행형 환경) {0}에 대한 DataSetProcessor 구현을 찾을 수 없습니다.
 info.eclenv.creating.series.renderer=(이클립스 환경) 계열 렌더러 {0}을(를) 만드는 중입니다.
-info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) 데이터 요소 정의 {0}을(를) 만드는 중입니다.
 error.eclenv.cannot.find.series.renderer=(이클립스 환경) {0}에 대한 계열 렌더러 구현을 찾을 수 없습니다.
 info.stdenv.creating.series.renderer=(독립 실행형 환경) 계열 렌더러 {0}을(를) 만드는 중입니다.
 info.compute.elapsed.time.without.axes=축 없는 플롯을 계산하는 시간 = {0}ms
 info.compute.elapsed.time.with.axes=축 있는 플롯을 계산하는 시간 = {0}ms
 error.stdenv.cannot.find.series.renderer=(독립 실행형 환경) {0}에 대한 계열 렌더러 구현을 찾을 수 없습니다.
-error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
+error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) {0}에 대한 데이터 요소 정의 impl을 찾을 수 없습니다.
 error.eclenv.cannot.find.device=(이클립스 환경) {0}에 대한 장치 렌더러 구현을 찾을 수 없습니다.
 error.stdenv.cannot.find.device=(독립 실행형 환경) {0}에 대한 장치 렌더러 구현을 찾을 수 없습니다.
 error.eclenv.cannot.find.display=(이클립스 환경) {0}에 대한 디스플레이 서버 구현을 찾을 수 없습니다.
@@ -221,7 +221,7 @@ TriggerCondition.onkeypress.displayName=키 누름
 TriggerCondition.onkeyup.displayName=키 누르지 않은 상태
 TriggerCondition.onload.displayName=로드
 
-ActionType.URLRedirect.displayName=URL 리디렉션
+ActionType.URLRedirect.displayName=하이퍼링크
 ActionType.ShowTooltip.displayName=도구 설명 표시
 ActionType.ToggleVisibility.displayName=표시 유형 전환
 ActionType.InvokeScript.displayName=스크립트 호출
@@ -264,14 +264,14 @@ RiserType.Triangle.displayName=삼각형
 RiserType.Tube.displayName=튜브
 RiserType.Cone.displayName=원뿔
 
-Anchor.North.displayName=북부
-Anchor.NorthEast.displayName=북동부
-Anchor.East.displayName=동부
-Anchor.SouthEast.displayName=남동부
-Anchor.South.displayName=남부
-Anchor.SouthWest.displayName=남서부
-Anchor.West.displayName=서부
-Anchor.NorthWest.displayName=북서부
+Anchor.North.displayName=위쪽
+Anchor.NorthEast.displayName=오른쪽 위
+Anchor.East.displayName=오른쪽
+Anchor.SouthEast.displayName=오른쪽 아래
+Anchor.South.displayName=아래쪽
+Anchor.SouthWest.displayName=왼쪽 아래
+Anchor.West.displayName=왼쪽
+Anchor.NorthWest.displayName=왼쪽 위
 
 Stretch.Horizontal.displayName=가로
 Stretch.Vertical.displayName=세로

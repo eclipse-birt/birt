@@ -89,7 +89,7 @@ AttributeView.toolbar.tooltip.EditingToggleAction.EnableEditingMsg=ÆôÓÃÊôĞÔ±à¼­¡
 AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=´Ë²Ù×÷²»ÊÊÓÃÓÚ±¾µØÔªËØ¡£
 AttributeView.view.message.Emptypage= ´Ë {0} À©Õ¹×Ô¿â {2} ÖĞµÄ {1}¡£ÒªÔÚ´Ë±¨±íÉè¼ÆÖĞĞŞ¸Ä {3} µÄÊôĞÔ£¬Çëµ¥»÷"ÊôĞÔ±à¼­Æ÷"¹¤¾ßÀ¸ÖĞµÄ"ÆôÓÃ±à¼­"°´Å¥¡£
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=»¹Ô­ÊôĞÔ
-AttributeView.defaultText.noAttributeView = The property editor is not available.
+AttributeView.defaultText.noAttributeView = ÊôĞÔ±à¼­Æ÷²»¿ÉÓÃ¡£
 
 ###########################################################
 #BackGroundPreferencePage properties
@@ -1766,8 +1766,8 @@ ImportLibraryAction.Message=ÊÇ·ñÒªÔÚ±¨±íÉè¼ÆÖĞÊ¹ÓÃ´Ë¿â?
 ImportLibraryAction.Namespace=Ãû³Æ¿Õ¼ä:
 ImportLibraryAction.Prefix=Ç°×º:
 ImportLibraryAction.Title.ImportSuccessfully=µ¼Èë³É¹¦
-ImportLibraryAction.Dialog.Titile=Use Library
-ImportLibraryAction.Dialog.Message=Select a library to be included  in the report. 
+ImportLibraryAction.Dialog.Titile=Ê¹ÓÃ¿â
+ImportLibraryAction.Dialog.Message=Ñ¡ÔñÒª°üÀ¨ÔÚ±¨±íÖĞµÄ¿â¡£ 
 
 ###########################################################
 #ImportLibraryDialog properties
@@ -1835,7 +1835,7 @@ InputParameterDialog.ErrorTitle.Error=´íÎó
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=²åÈë
+InsertAction.text=²åÈëÔªËØ
 
 ###########################################################
 #InsertColumnAction properties
@@ -2443,7 +2443,7 @@ ParameterDialog.Label.Sample=Ê¾Àı
 ParameterDialog.Label.Listlimit=ÁĞ±íÏŞÖÆ(&I):
 ParameterDialog.Radio.Dynamic=¶¯Ì¬(&Y)
 ParameterDialog.Radio.Static=¾²Ì¬(&S)
-ParameterDialog.toolTipText.OpenExprButton=Open Expression Builder
+ParameterDialog.toolTipText.OpenExprButton=´ò¿ª±í´ïÊ½Éú³ÉÆ÷
 
 ###########################################################
 #ParameterDropListener properties
@@ -2627,12 +2627,12 @@ ExportToLibraryAction.wizard.page.foldererror=Ö¸¶¨µÄÎÄ¼ş¼Ğ²»´æÔÚ
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=·¢²¼µ½×ÊÔ´ÎÄ¼ş¼Ğ...
+PublishLibraryToResourceFolderAction.Action.Text=½«¿âÖÃÓÚ×ÊÔ´ÎÄ¼ş¼Ğ...
 
 ###########################################################
 #PublishTemplateViewAction
 DefaultNodeProvider.template.suffix=.rpttemplate
-PublishTemplateViewAction.action.displaytext=·¢²¼µ½Ä£°åÎÄ¼ş¼Ğ...
+PublishTemplateViewAction.action.displaytext=Ê¹ÓÃĞÂ½¨±¨±íÏòµ¼À´×¢²áÄ£°å...
 
 ###########################################################
 #RefreshModuleHandleAction
@@ -2741,7 +2741,7 @@ ReportClasspathLaucnTab.WorkspaceJavaProjects=¹¤×÷Çø java ÏîÄ¿
 ###########################################################
 #ReportCreationTool properties
 
-ReportCreationTool.ModelTrans.CreateElement=´´½¨ÔªËØ
+ReportCreationTool.ModelTrans.CreateElement=²åÈëÔªËØ
 
 ###########################################################
 #ReportEditor properties
@@ -2818,7 +2818,7 @@ ReportPropertySheetPage.Root.Default.Title=ĞÅÏ¢
 #ReportTemplateTransferDropTargetListener properties
 
 ReportTemplateTransferDropTargetListener.ModelTrans.CreateElement=´´½¨ÔªËØ
-ReportTemplateTransferDropTargetListener.transLabel.createElement=´´½¨ÔªËØ
+ReportTemplateTransferDropTargetListener.transLabel.createElement=²åÈëÔªËØ
 
 ###########################################################
 #ResourceEditDialog properties
@@ -2873,7 +2873,7 @@ RowHandleAdapter.table.header=Ò³Ã¼ĞĞ
 
 RowPageGenerator.List.Bookmark=ÊéÇ©
 RowPageGenerator.List.Borders=±ß¿ò
-RowPageGenerator.List.Section=Page Break
+RowPageGenerator.List.Section=·ÖÒ³·û
 RowPageGenerator.List.CellPadding=µ¥Ôª¸ñ±ß¾à
 RowPageGenerator.List.Font=×ÖÌå
 RowPageGenerator.List.General=³£¹æ
@@ -3606,8 +3606,8 @@ DataItemBindingDialog.text.AggregateOn=¾ÛºÏÌõ¼ş:
 DataItemBindingDialog.text.ForceBinding=´´½¨ÓëÍ¬Ò»±í´ïÊ½µÄĞÂ°ó¶¨
 DataItemBindingDialog.text.All=È«²¿
 DataItemBindingDialog.text.None=²»ÊÊÓÃ
-DataItemBindingDialog.title.CreateNewItem=ĞÂ½¨Êı¾İÏî
-DataItemBindingDialog.title.EditDataItem=±à¼­Êı¾İÏî
+DataItemBindingDialog.title.CreateNewItem=ĞÂ½¨Êı¾İÏî°ó¶¨
+DataItemBindingDialog.title.EditDataItem=±à¼­Êı¾İÏî°ó¶¨
 
 ###########################################################
 #DataColumBindingDialog properties
@@ -3631,12 +3631,12 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=ÄúÑ¡ÔñµÄÎÄ¼ş²»ÊÇÍ¼Ïñ¡£
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Æ¬¶Î
-FragmentResourceEntry.RootDisplayName=Built-in Libraries
+FragmentResourceEntry.RootDisplayName=ÄÚÖÃ¿â
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=×ÊÔ´ÎÄ¼ş¼Ğ
-PathResourceEntry.RootDisplayName=Shared Libraries
+PathResourceEntry.RootDisplayName=¹²Ïí¿â
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3645,4 +3645,4 @@ BIRTGotoMarker.Error.Message=±¨±íÔªËØ²»´æÔÚ¡£
 
 ###########################################################
 #TabbedList properties
-TabbedPropertyList.properties.not.available=Properties are not available.
+TabbedPropertyList.properties.not.available=ÊôĞÔ²»¿ÉÓÃ¡£

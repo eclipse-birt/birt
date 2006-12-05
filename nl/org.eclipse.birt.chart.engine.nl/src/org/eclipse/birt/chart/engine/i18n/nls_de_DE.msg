@@ -134,13 +134,13 @@ error.type.not.set=Es wurde kein TYP für diese Instanz von DateFormatSpecifier f
 error.eclenv.cannot.find.dsp=(ECLIPSE-UMG) DataSetProcessor-Implementierung für {0} nicht gefunden
 error.stdenv.cannot.find.dsp=(EINZELPLATZ-UMG) DataSetProcessor-Implementierung für {0} nicht gefunden
 info.eclenv.creating.series.renderer=(ECLIPSE-UMG) Datenreihen-Renderer {0} wird erstellt
-info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-UMG) Datenpunktdefinition {0} wird erstellt
 error.eclenv.cannot.find.series.renderer=(ECLIPSE-UMG) Datenreihen-Renderer-Implementierung für {0} nicht gefunden
 info.stdenv.creating.series.renderer=(EINZELPLATZ-UMG) Datenreihen-Renderer {0} wird erstellt
 info.compute.elapsed.time.without.axes=Zeit für Berechnung des Diagramms (ohne Achsen) = {0} ms
 info.compute.elapsed.time.with.axes=Zeit für Berechnung des Diagramms (mit Achsen) = {0} ms
 error.stdenv.cannot.find.series.renderer=(EINZELPLATZ-UMG) Datenreihen-Renderer-Implementierung für {0} nicht gefunden
-error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
+error.stdenv.cannot.find.datapoint.definition=(EINZELPLATZ-UMG) Datenpunktdefinition-Implementierung für {0} nicht gefunden
 error.eclenv.cannot.find.device=(ECLIPSE-UMG) Geräte-Renderer-Implementierung für {0} nicht gefunden
 error.stdenv.cannot.find.device=(EINZELPLATZ-UMG) Geräte-Renderer-Implementierung für {0} nicht gefunden
 error.eclenv.cannot.find.display=(ECLIPSE-UMG) Anzeigeserver-Implementierung für {0} nicht gefunden
@@ -221,7 +221,7 @@ TriggerCondition.onkeypress.displayName=Taste: Drücken
 TriggerCondition.onkeyup.displayName=Taste: Nach oben
 TriggerCondition.onload.displayName=Laden
 
-ActionType.URLRedirect.displayName=URL-Umleitung
+ActionType.URLRedirect.displayName=Hyperlink
 ActionType.ShowTooltip.displayName=QuickInfo anzeigen
 ActionType.ToggleVisibility.displayName=Sichtbarkeit ein/aus
 ActionType.InvokeScript.displayName=Skript aufrufen
@@ -264,14 +264,14 @@ RiserType.Triangle.displayName=Dreieck
 RiserType.Tube.displayName=Röhre
 RiserType.Cone.displayName=Kegel
 
-Anchor.North.displayName=Norden
-Anchor.NorthEast.displayName=Nordosten
-Anchor.East.displayName=Osten
-Anchor.SouthEast.displayName=Südosten
-Anchor.South.displayName=Süden
-Anchor.SouthWest.displayName=Südwesten
-Anchor.West.displayName=Westen
-Anchor.NorthWest.displayName=Nordwesten
+Anchor.North.displayName=Oben
+Anchor.NorthEast.displayName=Oben rechts
+Anchor.East.displayName=Rechts
+Anchor.SouthEast.displayName=Unten rechts
+Anchor.South.displayName=Unten
+Anchor.SouthWest.displayName=Unten links
+Anchor.West.displayName=Links
+Anchor.NorthWest.displayName=Oben links
 
 Stretch.Horizontal.displayName=Horizontal
 Stretch.Vertical.displayName=Vertikal

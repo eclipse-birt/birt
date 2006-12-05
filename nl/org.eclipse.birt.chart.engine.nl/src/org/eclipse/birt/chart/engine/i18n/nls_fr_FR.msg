@@ -134,13 +134,13 @@ error.type.not.set=Le TYPE n'a pas été défini pour cette instance de DateFormatS
 error.eclenv.cannot.find.dsp=(ENV-ECLIPSE) Impossible de détecter l''implémentation de DataSetProcessor pour {0}
 error.stdenv.cannot.find.dsp=(ENV-AUTONOME) Impossible de détecter l''implémentation de DataSetProcessor pour {0}
 info.eclenv.creating.series.renderer=(ENV-ECLIPSE) Création de moteur de rendu de série {0}
-info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Creating datapoint definition {0}
+info.eclenv.creating.datapoint.definition=(ECLIPSE-ENV) Création de la définition du point de données {0}
 error.eclenv.cannot.find.series.renderer=(ENV-ECLIPSE) Impossible de détecter l''implémentation du moteur de rendu de série pour {0}
 info.stdenv.creating.series.renderer=(ENV-AUTONOME) Création de moteur de rendu de série {0}
 info.compute.elapsed.time.without.axes=Durée du calcul du tracé (sans axe) = {0} ms
 info.compute.elapsed.time.with.axes=Durée du calcul du tracé avec axe) = {0} ms
 error.stdenv.cannot.find.series.renderer=(ENV-AUTONOME) Impossible de détecter l''implémentation du moteur de rendu de série pour {0}
-error.stdenv.cannot.find.datapoint.definition=(STANDALONE-ENV) Could not find datapoint definition impl for {0}
+error.stdenv.cannot.find.datapoint.definition=(ENV-AUTONOME) Impossible de détecter l''implémentation de la définition du point de données pour {0}
 error.eclenv.cannot.find.device=(ENV-ECLIPSE) Impossible de détecter l''implémentation du moteur de rendu de périphérique pour {0}
 error.stdenv.cannot.find.device=(ENV-AUTONOME) Impossible de détecter l''implémentation du moteur de rendu de périphérique pour {0}
 error.eclenv.cannot.find.display=(ENV-ECLIPSE) Impossible de détecter l''implémentation du serveur d''affichage pour {0}
@@ -221,7 +221,7 @@ TriggerCondition.onkeypress.displayName=Touche du clavier maintenue enfoncée
 TriggerCondition.onkeyup.displayName=Relâchement d'une touche du clavier
 TriggerCondition.onload.displayName=Charger
 
-ActionType.URLRedirect.displayName=Rediriger l'URL
+ActionType.URLRedirect.displayName=Lien hypertexte
 ActionType.ShowTooltip.displayName=Afficher l'infobulle
 ActionType.ToggleVisibility.displayName=Basculer la visibilité
 ActionType.InvokeScript.displayName=Invoquer le script
@@ -264,14 +264,14 @@ RiserType.Triangle.displayName=Triangle
 RiserType.Tube.displayName=Barre
 RiserType.Cone.displayName=Cône
 
-Anchor.North.displayName=Nord
-Anchor.NorthEast.displayName=Nord-est
-Anchor.East.displayName=Est
-Anchor.SouthEast.displayName=Sud-est
-Anchor.South.displayName=Sud
-Anchor.SouthWest.displayName=Sud-ouest
-Anchor.West.displayName=Ouest
-Anchor.NorthWest.displayName=Nord-ouest
+Anchor.North.displayName=Haut
+Anchor.NorthEast.displayName=En haut à droite
+Anchor.East.displayName=Droite
+Anchor.SouthEast.displayName=En bas à droite
+Anchor.South.displayName=Bas
+Anchor.SouthWest.displayName=En bas à gauche
+Anchor.West.displayName=Gauche
+Anchor.NorthWest.displayName=En haut à gauche
 
 Stretch.Horizontal.displayName=Horizontal
 Stretch.Vertical.displayName=Vertical

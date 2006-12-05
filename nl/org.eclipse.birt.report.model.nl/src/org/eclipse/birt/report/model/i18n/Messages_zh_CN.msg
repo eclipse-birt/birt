@@ -2344,7 +2344,7 @@ Element.ReportItem.visibility=可见性
 Element.ReportItem.paramBindings=参数绑定  
 Element.ReportItem.refTemplateParameter=参考模板参数定义
 Element.ReportItem.boundDataColumns=绑定的数据列
-Element.ReportItem.zIndex=Z index
+Element.ReportItem.zIndex=Z 索引
   
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=文本
@@ -2796,22 +2796,22 @@ Element.TemplateReportItem.visibility=可见性
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = 自动图文集的类型
-Element.AutoText.onPrepare=On prepare
-Element.AutoText.onPrepare.this=AutoText
+Element.AutoText.onPrepare=准备时
+Element.AutoText.onPrepare.this=自动图文集
 Element.AutoText.onPrepare.toolTip=TBD
-Element.AutoText.onPrepare.reportContext=Report context
-Element.AutoText.onCreate=On create
+Element.AutoText.onPrepare.reportContext=报表上下文
+Element.AutoText.onCreate=创建时
 Element.AutoText.onCreate.toolTip=TBD
-Element.AutoText.onCreate.this=AutoText instance
-Element.AutoText.onCreate.reportContext=Report contetxt
-Element.AutoText.onRender=On render
+Element.AutoText.onCreate.this=自动图文集实例
+Element.AutoText.onCreate.reportContext=报表上下文
+Element.AutoText.onRender=绘制时
 Element.AutoText.onRender.toolTip=TBD
-Element.AutoText.onRender.this=AutoText instance
-Element.AutoText.onRender.reportContext=Report context
-Element.AutoText.onPageBreak=On page break
+Element.AutoText.onRender.this=自动图文集实例
+Element.AutoText.onRender.reportContext=报表上下文
+Element.AutoText.onPageBreak=出现分页符时
 Element.AutoText.onPageBreak.toolTip=TBD
-Element.AutoText.onPageBreak.this=AutoText instance
-Element.AutoText.onPageBreak.reportContext=Report context
+Element.AutoText.onPageBreak.this=自动图文集实例
+Element.AutoText.onPageBreak.reportContext=报表上下文
 
 ###########################################################
 # Predefined style

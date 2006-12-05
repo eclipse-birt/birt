@@ -138,7 +138,7 @@ birt.viewer.exceptionDialog.stackTrace=スタックトレース :
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Viewer id must be specified.
-birt.viewer.taglib.NO_REPORT_SOURCE=Report design or document file should be specified.
-birt.viewer.taglib.NO_REPORT_DOCUMENT=Report document file is required by reportlet.
-birt.viewer.taglib.NO_REQUESTER_NAME=Requester name must be specified.
+birt.viewer.taglib.NO_VIEWER_ID=ビューア ID を指定してください。
+birt.viewer.taglib.NO_REPORT_SOURCE=レポートデザインまたは文書ファイルを指定してください。
+birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet ではレポート文書ファイルが必要です。
+birt.viewer.taglib.NO_REQUESTER_NAME=リクエスタの名前を指定してください。
