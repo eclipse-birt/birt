@@ -40,26 +40,29 @@
             class="org.eclipse.birt.report.designer.ui.editors.RCPMultiPageReportEditor"
             contributorClass="org.eclipse.birt.report.designer.ui.editors.ReportActionBarContributor"
             default="false"
-            extensions="rptdesign"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report.gif"
             id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
-            name="%ReportEditor"/>
+            name="%ReportEditor">
+         <contentTypeBinding contentTypeId="org.eclipse.birt.report.designer.ui.editors.reportdesign"/>
+      </editor>
       <editor
             class="org.eclipse.birt.report.designer.ui.editors.RCPMultiPageReportEditor"
             contributorClass="org.eclipse.birt.report.designer.ui.editors.TemplateActionBarContributor"
             default="false"
-            extensions="rpttemplate"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/template.gif"
             id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor"
-            name="%TemplateEditor"/>
+            name="%TemplateEditor">
+         <contentTypeBinding contentTypeId="org.eclipse.birt.report.designer.ui.editors.reporttemplate"/>
+      </editor>
       <editor
             class="org.eclipse.birt.report.designer.ui.editors.RCPMultiPageReportEditor"
             contributorClass="org.eclipse.birt.report.designer.ui.editors.LibraryActionBarContributor"
             default="false"
-            extensions="rptlibrary"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/library.gif"
             id="org.eclipse.birt.report.designer.ui.editors.LibraryEditor"
-            name="%LibraryEditor"/>  
+            name="%LibraryEditor">
+         <contentTypeBinding contentTypeId="org.eclipse.birt.report.designer.ui.editors.reportlibrary"/>
+      </editor>  
    </extension>
    
    <extension
@@ -153,5 +156,17 @@
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.rcp.wizards.NewLibraryWizard"/>
       </perspectiveExtension>
    </extension>
+ <extension
+       point="org.eclipse.core.runtime.contentTypes">
+    <file-association
+          content-type="org.eclipse.birt.report.designer.ui.editors.reportdesign"
+          file-extensions="rptdesign"/>
+    <file-association
+          content-type="org.eclipse.birt.report.designer.ui.editors.reporttemplate"
+          file-extensions="rpttemplate"/>
+    <file-association
+          content-type="org.eclipse.birt.report.designer.ui.editors.reportlibrary"
+          file-extensions="rptlibrary"/>
+ </extension>	 
    
 </plugin>

@@ -37,6 +37,8 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -170,9 +172,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" ); //$NON-NLS-1$
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.TemplateEditor" ); //$NON-NLS-1$
 		addIgnoreViewID( IPageLayout.ID_OUTLINE );
-//		addIgnoreViewID( AttributeView.ID );
+		// addIgnoreViewID( AttributeView.ID );
 		addIgnoreViewID( PaletteView.ID );
-//		addIgnoreViewID( DataView.ID );
+		// addIgnoreViewID( DataView.ID );
 
 		// set resource folder in DesignerConstants for use in Core plugin
 		CorePlugin.RESOURCE_FOLDER = getResourcePreference( );
@@ -1015,6 +1017,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		if ( reportExtensionNames == null )
 		{
 			reportExtensionNames = new ArrayList( );
+			
 			IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry( );
 			IConfigurationElement[] elements = extensionRegistry.getConfigurationElementsFor( "org.eclipse.ui.editors" ); //$NON-NLS-1$
 			for ( int i = 0; i < elements.length; i++ )
@@ -1023,17 +1026,29 @@ public class ReportPlugin extends AbstractUIPlugin
 				String id = elements[i].getAttribute( "id" ); //$NON-NLS-1$
 				if ( "org.eclipse.birt.report.designer.ui.editors.ReportEditor".equals( id ) ) //$NON-NLS-1$
 				{
-					String[] extensionNames = elements[i].getAttribute( "extensions" ) //$NON-NLS-1$
-							.split( "," ); //$NON-NLS-1$
-					for ( int j = 0; j < extensionNames.length; j++ )
+					if ( elements[i].getAttribute( "extensions" ) != null )
 					{
-						extensionNames[j] = extensionNames[j].trim( );
-						if ( !reportExtensionNames.contains( extensionNames[j] ) )
+						String[] extensionNames = elements[i].getAttribute( "extensions" )
+								//$NON-NLS-1$
+								.split( "," ); //$NON-NLS-1$
+						for ( int j = 0; j < extensionNames.length; j++ )
 						{
-							reportExtensionNames.add( extensionNames[j] );
+							extensionNames[j] = extensionNames[j].trim( );
+							if ( !reportExtensionNames.contains( extensionNames[j] ) )
+							{
+								reportExtensionNames.add( extensionNames[j] );
+							}
 						}
 					}
 				}
+			}
+			
+			IContentTypeManager contentTypeManager = Platform.getContentTypeManager( );
+			IContentType contentType = contentTypeManager.getContentType( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ); //$NON-NLS-1$
+			String[] fileSpecs = contentType.getFileSpecs( IContentType.FILE_EXTENSION_SPEC );
+			for ( int i = 0; i < fileSpecs.length; i++ )
+			{
+				reportExtensionNames.add( fileSpecs[i] );
 			}
 		}
 		return reportExtensionNames;

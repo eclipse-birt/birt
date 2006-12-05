@@ -5,4 +5,43 @@
    		id="multiPageEditorContributor" 
    		name="multiPageEditorContributor" 
    		schema="schema/multiPageEditorContributor.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            default-charset="UTF-8"
+            id="org.eclipse.birt.report.designer.ui.editors.reportdesign"
+            name="%contenttype.design"
+            priority="normal">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+            <parameter
+                  name="element"
+                  value="report"/>
+         </describer>
+      </content-type>
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            default-charset="UTF-8"
+            id="org.eclipse.birt.report.designer.ui.editors.reportlibrary"
+            name="%contenttype.library"
+            priority="normal">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+            <parameter
+                  name="element"
+                  value="library"/>
+         </describer>
+      </content-type>
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            default-charset="UTF-8"
+            id="org.eclipse.birt.report.designer.ui.editors.reporttemplate"
+            name="%contenttype.template"
+            priority="normal">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+            <parameter
+                  name="element"
+                  value="template"/>
+         </describer>
+      </content-type>
+   </extension>
 </plugin>
