@@ -11,17 +11,12 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
-import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
-import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
@@ -31,7 +26,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -85,29 +79,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		{
 			createPieAxisArea( cmpBasic );
 		}
-
-		createButtonGroup( cmpContent );
-	}
-
-	private void createButtonGroup( Composite parent )
-	{
-		Composite cmp = new Composite( parent, SWT.NONE );
-		{
-			cmp.setLayout( new GridLayout( ) );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 2;
-			gridData.grabExcessVerticalSpace = true;
-			gridData.verticalAlignment = SWT.END;
-			cmp.setLayoutData( gridData );
-		}
-
-		ITaskPopupSheet popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
-				getContext( ),
-				getSeriesDefinitionForProcessing( ) );
-		Button btnSeriesPal = createToggleButton( cmp,
-				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
-				popup );
-		btnSeriesPal.addSelectionListener( this );
 	}
 
 	private void createPieAxisArea( Composite parent )
@@ -178,22 +149,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		}
 	}
 
-	private SeriesDefinition getSeriesDefinitionForProcessing( )
-	{
-		SeriesDefinition sd = null;
-		if ( getChart( ) instanceof ChartWithAxes )
-		{
-			sd = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( getIndex( ) ) );
-		}
-		else if ( getChart( ) instanceof ChartWithoutAxes )
-		{
-			sd = ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( getIndex( ) ) );
-		}
-		return sd;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -226,17 +181,6 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
-		// Detach popup dialog if there's selected popup button.
-		if ( detachPopup( e.widget ) )
-		{
-			return;
-		}
-
-		if ( isRegistered( e.widget ) )
-		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
-		}
-
 		if ( getChart( ) instanceof ChartWithoutAxes )
 		{
 			if ( e.widget.equals( cmbMinSlice ) )

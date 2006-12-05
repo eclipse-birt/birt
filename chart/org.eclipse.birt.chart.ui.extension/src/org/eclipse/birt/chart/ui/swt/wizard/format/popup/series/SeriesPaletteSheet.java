@@ -37,7 +37,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 	public SeriesPaletteSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
-		super( title, context, false );
+		super( title, context, true );
 		this.seriesDefn = seriesDefn;
 	}
 
@@ -73,5 +73,10 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 				seriesDefn.getSeriesPalette( ) );
 
 		return cmpContent;
+	}
+
+	public void setSeriesDefinition( SeriesDefinition sd )
+	{
+		this.seriesDefn = sd;
 	}
 }

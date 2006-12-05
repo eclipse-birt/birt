@@ -42,7 +42,7 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 	public DecorationSheet( String title, ChartWizardContext context,
 			GanttSeries series )
 	{
-		super( title, context, false );
+		super( title, context, true );
 		this.series = series;
 	}
 
@@ -65,6 +65,7 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isFontAlignmentEnabled = false;
+		attributesContext.isVisibilityEnabled = false;
 		lacDeco = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),
@@ -91,10 +92,6 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 		{
 			switch ( event.type )
 			{
-				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					series.getDecorationLabel( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
 					series.setDecorationLabelPosition( (Position) event.data );
 					break;

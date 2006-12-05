@@ -39,7 +39,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialTickSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.LineSeriesMarkerSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
 import org.eclipse.swt.SWT;
@@ -69,6 +68,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 	private transient Button cbVisible;
 
+	private transient Button cbDecoVisible;
+
 	private transient Hashtable htSeriesAttributeUIProviders = null;
 
 	public void createControl( Composite parent )
@@ -94,14 +95,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		getSeriesAttributeUI( series, grpDetails );
 
 		Composite cmpBottom = new Composite( cmpContent, SWT.NONE );
-		GridLayout glBottom = new GridLayout( 2, false );
+		GridLayout glBottom = new GridLayout( 3, false );
 		cmpBottom.setLayout( glBottom );
 
 		cbVisible = new Button( cmpBottom, SWT.CHECK );
 		{
-			cbVisible.setSelection( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-					.getLabel( )
-					.isVisible( ) );
 			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
 			cbVisible.addSelectionListener( this );
 			cbVisible.setSelection( isMeterSeries( ) ? ( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
@@ -110,6 +108,17 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					: getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 							.getLabel( )
 							.isVisible( ) );
+		}
+
+		if ( isGanttSeries( ) )
+		{
+			cbDecoVisible = new Button( cmpBottom, SWT.CHECK );
+			{
+				cbDecoVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1$
+				cbDecoVisible.addSelectionListener( this );
+				cbDecoVisible.setSelection( ( (GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDecorationLabel( )
+						.isVisible( ) );
+			}
 		}
 
 		if ( isTrendlineAvailable( ) )
@@ -140,7 +149,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 		// For Meter series and other non-Stock series
 		ITaskPopupSheet popup;
-		
+
 		if ( isMeterSeries( ) )
 		{
 			// Label
@@ -263,15 +272,6 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
 		}
 
-		// SeriesPalette
-		popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
-				getContext( ),
-				getSeriesDefinitionForProcessing( ) );
-		Button btnPalette = createToggleButton( cmp,
-				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
-				popup );
-		btnPalette.addSelectionListener( this );
-
 		// Interactivity
 		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
@@ -374,9 +374,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 						.getLabel( )
 						.setVisible( cbVisible.getSelection( ) );
 			}
-			getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-					.getLabel( )
-					.setVisible( cbVisible.getSelection( ) );
+			refreshPopupSheet( );
+		}
+		else if ( e.widget.equals( cbDecoVisible ) )
+		{
+			( (GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDecorationLabel( )
+					.setVisible( cbDecoVisible.getSelection( ) );
 			refreshPopupSheet( );
 		}
 	}

@@ -11,19 +11,24 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
 import java.lang.reflect.Method;
 import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -34,6 +39,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -53,15 +59,26 @@ import org.eclipse.swt.widgets.TreeItem;
  * series items in the naviagor tree.
  * 
  */
-public class SeriesSheetImpl extends SubtaskSheetImpl
-		implements
-			SelectionListener
+public class SeriesSheetImpl extends SubtaskSheetImpl implements
+		SelectionListener
 
 {
 
 	private static Hashtable htSeriesNames = null;
 
 	private transient Combo cmbColorBy;
+
+	private transient ArrayList popups = new ArrayList( );
+
+	private transient ITaskPopupSheet popup = null;
+
+	private transient Composite cmp = null;
+
+	private transient Composite cmpCategory = null;
+
+	private transient Composite cmpValue = null;
+
+	private transient StackLayout sl = null;
 
 	public void createControl( Composite parent )
 	{
@@ -183,8 +200,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
-					getChart( ) instanceof ChartWithAxes
-							? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
+					getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
 					i,
 					treeIndex++ ).placeComponents( cmpList );
 		}
@@ -192,12 +208,131 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
-			String text = getChart( ) instanceof ChartWithAxes
-					? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
+			String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
 							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
 		}
+
+		cmp = new Composite( cmpContent, SWT.NONE );
+		{
+			GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
+					| GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = COLUMN_CONTENT;
+			cmp.setLayoutData( gd );
+			sl = new StackLayout( );
+			cmp.setLayout( sl );
+		}
+
+		cmpCategory = new Composite( cmp, SWT.NONE );
+		{
+			cmpCategory.setLayout( new GridLayout( 6, false ) );
+			cmpCategory.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
+
+		popup = new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+				getContext( ),
+				getCategorySeriesDefinition( ) );
+		Button btnSeriesPals = createToggleButton( cmpCategory,
+				Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
+				popup );
+		btnSeriesPals.addSelectionListener( this );
+
+		cmpValue = new Composite( cmp, SWT.NONE );
+		{
+			cmpValue.setLayout( new GridLayout( 6, false ) );
+			cmpValue.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
+
+		for ( int i = 0; i < getChart( ).getSeriesForLegend( ).length; i++ )
+		{
+			popups.add( new SeriesPaletteSheet( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+					getContext( ),
+					getValueSeriesDefinition( i ) ) );
+			Button btnSeriesPal = createToggleButton( cmpValue,
+					Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ) + ( i + 1 ), //$NON-NLS-1$
+					(ITaskPopupSheet) popups.get( i ) );
+			btnSeriesPal.addSelectionListener( this );
+		}
+
+		NameSet ns = LiteralHelper.legendItemTypeSet;
+		if ( cmbColorBy.getText( )
+				.equals( ns.getDisplayNameByName( LegendItemType.CATEGORIES_LITERAL.getName( ) ) ) )
+		{
+			sl.topControl = cmpCategory;
+		}
+		else
+		{
+			sl.topControl = cmpValue;
+		}
+	}
+
+	// private void createButtonGroup( )
+	// {
+	// NameSet ns = LiteralHelper.legendItemTypeSet;
+	// if ( cmbColorBy.getText( )
+	// .equals( ns.getDisplayNameByName(
+	// LegendItemType.CATEGORIES_LITERAL.getName( ) ) ) )
+	// {
+	// popup = new SeriesPaletteSheet( Messages.getString(
+	// "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+	// getContext( ),
+	// getCategorySeriesDefinition( ) );
+	// Button btnSeriesPals = createToggleButton( cmpCategory,
+	// Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ),
+	// //$NON-NLS-1$
+	// popup ) ;
+	// btnSeriesPals.addSelectionListener( this );
+	// sl.topControl = cmpCategory;
+	// }
+	// else
+	// {
+	// popups.clear( );
+	// for ( int i = 0; i < getChart( ).getSeriesForLegend( ).length; i++ )
+	// {
+	// popups.add( new SeriesPaletteSheet( Messages.getString(
+	// "SeriesXSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+	// getContext( ),
+	// getValueSeriesDefinition( i ) ) );
+	// Button btnSeriesPals = createToggleButton( cmpValue,
+	// Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette&" ) + ( i + 1
+	// ), //$NON-NLS-1$
+	// (ITaskPopupSheet)popups.get( i ) );
+	// btnSeriesPals.addSelectionListener( this );
+	// }
+	// sl.topControl = cmpValue;
+	// }
+	// }
+
+	private SeriesDefinition getCategorySeriesDefinition( )
+	{
+		SeriesDefinition sd = null;
+		if ( getChart( ) instanceof ChartWithAxes )
+		{
+			sd = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
+					.get( 0 ) ).getSeriesDefinitions( ).get( getIndex( ) ) );
+		}
+		else if ( getChart( ) instanceof ChartWithoutAxes )
+		{
+			sd = ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
+					.get( getIndex( ) ) );
+		}
+		return sd;
+	}
+
+	private SeriesDefinition getValueSeriesDefinition( int index )
+	{
+		SeriesDefinition sd = null;
+		if ( getChart( ) instanceof ChartWithAxes )
+		{
+			sd = ( (ChartWithAxes) getChart( ) ).getSeriesForLegend( )[index];
+		}
+		else if ( getChart( ) instanceof ChartWithoutAxes )
+		{
+			sd = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ).get( index );
+		}
+		return sd;
 	}
 
 	private class SeriesOptionChoser implements SelectionListener, Listener
@@ -476,12 +611,40 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 	public void widgetSelected( SelectionEvent e )
 	{
+		// Detach popup dialog if there's selected popup button.
+		if ( detachPopup( e.widget ) )
+		{
+			return;
+		}
+
+		if ( isRegistered( e.widget ) )
+		{
+			attachPopup( ( (Button) e.widget ).getText( ) );
+		}
+
 		if ( e.widget.equals( cmbColorBy ) )
 		{
 			getChart( ).getLegend( )
 					.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
-		}
 
+			if ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES_LITERAL.getValue( ) )
+			{
+				sl.topControl = cmpCategory;
+				cmp.layout( );
+				( (SeriesPaletteSheet) popup ).setSeriesDefinition( getCategorySeriesDefinition( ) );
+			}
+			else
+			{
+				popups.clear( );
+				sl.topControl = cmpValue;
+				cmp.layout( );
+				for ( int i = 0; i < popups.size( ); i++ )
+				{
+					( (SeriesPaletteSheet) ( (ITaskPopupSheet) popups.get( i ) ) ).setSeriesDefinition( getValueSeriesDefinition( i ) );
+				}
+			}
+			detachPopup( );
+		}
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
