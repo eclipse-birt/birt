@@ -191,6 +191,7 @@ BordersPage.Tooltip.Left=왼쪽 테두리
 BordersPage.Tooltip.None=없음
 BordersPage.Tooltip.Right=오른쪽 테두리
 BordersPage.Tooltip.Top=위쪽 테두리
+BordersPage.text.Preview=Preview:
 
 ###########################################################
 #BoxPreferencePage properties
@@ -1617,6 +1618,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=굵게
 HighlightRuleBuilderDialog.tooltip.Italic=기울임꼴
 HighlightRuleBuilderDialog.tooltip.Underline=밑줄
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=텍스트 가운데 선 긋기
+HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
+HighlightRuleBuilderDialog.displayText.None=None
 
 ###########################################################
 #HighlightsPage properties
@@ -2430,7 +2433,6 @@ ParameterDialog.Label.HelpText=도움말 텍스트(&H):
 ParameterDialog.Label.ListOfValue=값 목록:
 ParameterDialog.Label.Name=이름(&N):
 ParameterDialog.Label.None=<없음>
-ParameterDialog.Label.Null=널(null)
 ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):

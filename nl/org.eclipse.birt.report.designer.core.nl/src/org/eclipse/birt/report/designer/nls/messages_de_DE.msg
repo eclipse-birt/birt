@@ -191,6 +191,7 @@ BordersPage.Tooltip.Left=Linker Rahmen
 BordersPage.Tooltip.None=Keine
 BordersPage.Tooltip.Right=Rechter Rahmen
 BordersPage.Tooltip.Top=Oberer Rahmen
+BordersPage.text.Preview=Preview:
 
 ###########################################################
 #BoxPreferencePage properties
@@ -1617,6 +1618,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=Fett
 HighlightRuleBuilderDialog.tooltip.Italic=Kursiv
 HighlightRuleBuilderDialog.tooltip.Underline=Unterstrichen
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Durchgestrichener Text
+HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
+HighlightRuleBuilderDialog.displayText.None=None
 
 ###########################################################
 #HighlightsPage properties
@@ -2430,7 +2433,6 @@ ParameterDialog.Label.HelpText=&Hilfetext:
 ParameterDialog.Label.ListOfValue=Werteliste:
 ParameterDialog.Label.Name=&Name:
 ParameterDialog.Label.None=<Keine>
-ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=Vorschau mit Format
 ParameterDialog.Label.PromptText=&Aufforderungstext:
 ParameterDialog.Label.SelectDataSet=&Datensatz:

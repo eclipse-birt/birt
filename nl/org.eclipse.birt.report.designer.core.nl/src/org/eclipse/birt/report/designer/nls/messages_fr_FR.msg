@@ -191,6 +191,7 @@ BordersPage.Tooltip.Left=Bordure de gauche
 BordersPage.Tooltip.None=Aucun
 BordersPage.Tooltip.Right=Bordure de droite
 BordersPage.Tooltip.Top=Bordure supérieure
+BordersPage.text.Preview=Preview:
 
 ###########################################################
 #BoxPreferencePage properties
@@ -1617,6 +1618,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=Gras
 HighlightRuleBuilderDialog.tooltip.Italic=Italique
 HighlightRuleBuilderDialog.tooltip.Underline=Texte souligné
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Ligne de texte barré
+HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
+HighlightRuleBuilderDialog.displayText.None=None
 
 ###########################################################
 #HighlightsPage properties
@@ -2430,7 +2433,6 @@ ParameterDialog.Label.HelpText=&Texte d'aide :
 ParameterDialog.Label.ListOfValue=Liste de valeurs :
 ParameterDialog.Label.Name=&Nom :
 ParameterDialog.Label.None=<Aucun>
-ParameterDialog.Label.Null=Nul
 ParameterDialog.Label.Preview=Aperçu au format
 ParameterDialog.Label.PromptText=&Texte de l'invite :
 ParameterDialog.Label.SelectDataSet=&Jeu de données :

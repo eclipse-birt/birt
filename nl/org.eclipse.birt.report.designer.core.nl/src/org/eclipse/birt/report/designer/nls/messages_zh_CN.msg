@@ -191,6 +191,7 @@ BordersPage.Tooltip.Left=左框线
 BordersPage.Tooltip.None=无
 BordersPage.Tooltip.Right=右框线
 BordersPage.Tooltip.Top=上框线
+BordersPage.text.Preview=Preview:
 
 ###########################################################
 #BoxPreferencePage properties
@@ -1617,6 +1618,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=文本删除线
+HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
+HighlightRuleBuilderDialog.displayText.None=None
 
 ###########################################################
 #HighlightsPage properties
@@ -2430,7 +2433,6 @@ ParameterDialog.Label.HelpText=帮助文本(&H):
 ParameterDialog.Label.ListOfValue=值列表:
 ParameterDialog.Label.Name=名称(&N):
 ParameterDialog.Label.None=<无>
-ParameterDialog.Label.Null=NULL
 ParameterDialog.Label.Preview=带格式预览
 ParameterDialog.Label.PromptText=提示文本(&P):
 ParameterDialog.Label.SelectDataSet=数据集(&A):

@@ -191,6 +191,7 @@ BordersPage.Tooltip.Left=左罫線
 BordersPage.Tooltip.None=なし
 BordersPage.Tooltip.Right=右罫線
 BordersPage.Tooltip.Top=上罫線
+BordersPage.text.Preview=Preview:
 
 ###########################################################
 #BoxPreferencePage properties
@@ -1617,6 +1618,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=太字
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下線
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=テキストの取り消し線
+HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
+HighlightRuleBuilderDialog.displayText.None=None
 
 ###########################################################
 #HighlightsPage properties
@@ -2430,7 +2433,6 @@ ParameterDialog.Label.HelpText=ヘルプテキスト(&H) :
 ParameterDialog.Label.ListOfValue=値リスト :
 ParameterDialog.Label.Name=名前(&N) :
 ParameterDialog.Label.None=<なし>
-ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=書式付きプレビュー
 ParameterDialog.Label.PromptText=プロンプトテキスト(&P) :
 ParameterDialog.Label.SelectDataSet=データセット(&A) :
