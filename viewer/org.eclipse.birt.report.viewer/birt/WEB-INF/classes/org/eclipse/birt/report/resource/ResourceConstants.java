@@ -56,6 +56,8 @@ public interface ResourceConstants
 	
 	// viewer taglib excepton
 	public static final String TAGLIB_NO_VIEWER_ID = "birt.viewer.taglib.NO_VIEWER_ID"; //$NON-NLS-1$
+	public static final String TAGLIB_INVALID_VIEWER_ID = "birt.viewer.taglib.INVALID_VIEWER_ID"; //$NON-NLS-1$
+	public static final String TAGLIB_VIEWER_ID_DUPLICATE = "birt.viewer.taglib.VIEWER_ID_DUPLICATE"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REPORT_SOURCE = "birt.viewer.taglib.NO_REPORT_SOURCE"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REPORT_DOCUMENT = "birt.viewer.taglib.NO_REPORT_DOCUMENT"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REQUESTER_NAME = "birt.viewer.taglib.NO_REQUESTER_NAME"; //$NON-NLS-1$

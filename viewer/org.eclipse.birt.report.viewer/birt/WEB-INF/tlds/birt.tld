@@ -29,6 +29,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the current viewer id. It should be unique.
+				It can contain number,letter or underline.
 			</description>			
 		</attribute>	
 		        
@@ -336,6 +337,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the current viewer id. It should be unique.
+				It can contain number,letter or underline.
 			</description>			
 		</attribute>	
 		        

@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspTagException;
@@ -54,7 +56,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		super.__init( );
 		parameters = new HashMap( );
 	}
-		
+
 	/**
 	 * validate the tag
 	 * 
@@ -76,6 +78,19 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 					.getMessage( ResourceConstants.TAGLIB_NO_VIEWER_ID ) );
 		}
 
+		if ( !__validateViewerId( ) )
+		{
+			throw new JspTagException( BirtResources
+					.getMessage( ResourceConstants.TAGLIB_INVALID_VIEWER_ID ) );
+		}
+		
+		// validate the viewer id if unique
+		if ( pageContext.findAttribute( viewer.getId( ) ) != null )
+		{
+			throw new JspTagException( BirtResources
+					.getMessage( ResourceConstants.TAGLIB_VIEWER_ID_DUPLICATE ) );
+		}
+
 		// Report design or document should be specified
 		if ( viewer.getReportDesign( ) == null
 				&& viewer.getReportDocument( ) == null )
@@ -94,12 +109,28 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	}
 
 	/**
+	 * Validate the viewer id. Viewer id only can include number, letter and
+	 * underline
+	 * 
+	 * @return
+	 */
+	protected boolean __validateViewerId( )
+	{
+		Pattern p = Pattern.compile( "^\\w+$" ); //$NON-NLS-1$
+		Matcher m = p.matcher( viewer.getId( ) );
+		return m.find( );
+	}
+	
+	/**
 	 * Handle event before doEndTag
 	 */
 	protected void __beforeEndTag( )
 	{
 		super.__beforeEndTag( );
 		viewer.setParameters( parameters );
+		
+		// Save viewer id
+		pageContext.setAttribute( viewer.getId( ), viewer.getId( ) );
 	}
 
 	/**
@@ -163,7 +194,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 						.write( "param.name='" + ParameterAccessor.PARAM_ISLOCALE + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 				writer.write( "param.value='" + param.getName( ) + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$				
 			}
-			
+
 			// set parameter pattern format
 			if ( param.getPattern( ) != null )
 			{
