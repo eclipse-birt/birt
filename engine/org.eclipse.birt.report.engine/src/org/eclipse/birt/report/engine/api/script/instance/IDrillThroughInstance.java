@@ -64,7 +64,7 @@ public interface IDrillThroughInstance
 	 * Set the format of output report.
 	 * 
 	 */
-	void setFormat( String fromat );
+	void setFormat( String format );
 	
 	/**
 	 * @return the bookmark type. 
