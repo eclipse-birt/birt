@@ -584,12 +584,22 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<!-- copy necessary jars for tests.viewer -->
+		<!-- copy necessary jars for tests.viewer and set value for config.properties in tests.viewer -->
 		<copy todir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}/lib">
 			<fileset dir="${p4.home}/testsViewerLib">
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<replace dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}" value="127.0.0.1:5555" token="@SERVER_ADDRESS@">
+			<include name="config.properties" />
+		</replace>
+		<replace dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}" value="${buildId}" token="@RUNTIME_DIRECTORY@">
+			<include name="config.properties" />
+		</replace>
+		<replace dir="${test.dir}/eclipse/plugins/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}" value="${tomcat.install.dir}" token="@CATALINA_HOME_DIRECTORY@">
+			<include name="config.properties" />
+		</replace>
+		
 		<!-- prepare Tomcat server for tests.viewer-->
 		<mkdir dir="${tomcat.install.dir}/viewerprepare"/>
 		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
@@ -618,7 +628,7 @@
 		<!-- XSLT trasform-->
 		<exec executable="${test.dir}/unitTestReport/processXML.sh"/>
 		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
-		<copy todir="${output.test.dir}/unitTestReport/html" overwrite="true">
+		<copy todir="${postingDirectory}/unitTestReport/html" overwrite="true">
 			<fileset dir="${test.dir}/unitTestReport/html">
 				<include name="*.html"/>
 			</fileset>
