@@ -14,7 +14,7 @@ package testutil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.Date;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -36,6 +36,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * Base class for test cases that work with Data Engine public API
@@ -61,12 +63,11 @@ abstract public class APITestCase extends BaseTestCase
 	 */
 	protected BaseDataSourceDesign dataSource;
 	protected BaseDataSetDesign dataSet;
-	
-	
-	
+
 	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "golden";
 	protected static final String OUTPUT_FOLDER = "output";
+
 	/*
 	 * @see TestCase#setUp()
 	 */
@@ -714,40 +715,51 @@ abstract public class APITestCase extends BaseTestCase
 
 		return queryDefn;
 	}
-	
+
 	public String getOutputStrForFlatfileTest( int expectedLen,
 			IResultSet result, int ColumnCount, String[] columnStr )
 			throws Exception
-			{
+	{
 
-			StringBuffer sBuffer = new StringBuffer( );
-			String metaData = "";
-			for ( int i = 0; i < ColumnCount; i++ )
-			{
+		StringBuffer sBuffer = new StringBuffer( );
+		String metaData = "";
+		for ( int i = 0; i < ColumnCount; i++ )
+		{
 			metaData += formatStr( columnStr[i], expectedLen );
-			}
-			sBuffer.append( metaData );
-			sBuffer.append( "\n" );
-			while ( result.next( ) )
-			{
+		}
+		sBuffer.append( metaData );
+		sBuffer.append( "\n" );
+
+		while ( result.next( ) )
+		{
+
 			String rowData = "";
 			for ( int i = 1; i <= ColumnCount; i++ )
 			{
-			String value;
-			if ( result.getString( i ) != null )
-			value = result.getString( i );
-			else
-			value = "";
-			rowData += formatStr( value, expectedLen );
+				String value;
+
+				if ( result.getString( i ) != null )
+					// Convert date time according to the format as following
+					if ( result.getDate( i ) instanceof Date )
+					{
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"yyyy-MM-dd HH:mm:ss.S" );
+						value = sdf.format( result.getDate( i ) );
+
+					}
+					else
+						value = result.getString( i );
+				else
+					value = "";
+				rowData += formatStr( value, expectedLen );
 			}
 			sBuffer.append( rowData );
 			sBuffer.append( "\n" );
-			}
-			return new String( sBuffer );
-			}
+		}
+		return new String( sBuffer );
+	}
 
-	
-
+	// expectedlen is the distance between two columns
 	public String getOutputStrForGroupTest( int expectedLen,
 			QueryDefinition qd, int groupDefCount, String[] beArray,
 			String[] columStr ) throws Exception
@@ -766,10 +778,12 @@ abstract public class APITestCase extends BaseTestCase
 		sBuffer.append( "\n" );
 
 		int groupCount = groupDefCount;
+
 		while ( ri.next( ) )
 		{
 			String rowData = "";
-
+			// group level 1 base = ri.getStartingGroupLevel( )
+			// if there is one group, startlevel =2
 			int startLevel = ri.getStartingGroupLevel( );
 			if ( startLevel <= groupCount )
 			{
@@ -784,13 +798,22 @@ abstract public class APITestCase extends BaseTestCase
 				{
 					String value;
 					if ( ri.getValue( beArray[j] ) != null )
-						value = ri.getValue( beArray[j] ).toString( );
+						if ( ri.getValue( beArray[j] ) instanceof Date )
+						{
+							SimpleDateFormat sdf = new SimpleDateFormat(
+									"yyyy-MM-dd HH:mm:ss.S" );
+							value = sdf.format( ri.getValue( beArray[j] ) );
+						}
+						else
+							value = ri.getValue( beArray[j] ).toString( );
 					else
 						value = "null";
 
 					rowData += formatStr( value, expectedLen );
 				}
 			}
+			// if the content belongs to group1, codes following simply display
+			// the content if g2, display the contents of g2
 			else
 			{
 				for ( int j = 0; j < groupCount; j++ )
@@ -799,7 +822,15 @@ abstract public class APITestCase extends BaseTestCase
 				}
 				for ( int j = groupCount; j < beArray.length; j++ )
 				{
-					String value = ri.getValue( beArray[j] ).toString( );
+					String value;
+					if ( ri.getValue( beArray[j] ) instanceof Date )
+					{
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"yyyy-MM-dd HH:mm:ss.S" );
+						value = sdf.format( ri.getValue( beArray[j] ) );
+					}
+					else
+						value = ri.getValue( beArray[j] ).toString( );
 					rowData += formatStr( value, expectedLen );
 				}
 			}
@@ -829,10 +860,8 @@ abstract public class APITestCase extends BaseTestCase
 
 		return result;
 	}
-	
-	
-	
-	//methods from engine case
+
+	// methods from engine case
 	protected void copyResource( String src, String tgt, String folder )
 	{
 
@@ -873,10 +902,7 @@ abstract public class APITestCase extends BaseTestCase
 			fail( );
 		}
 	}
-	
-	
-	
-	
+
 	protected void copyResource_INPUT( String input_resource, String input )
 	{
 		this.copyResource( input_resource, input, INPUT_FOLDER );
@@ -910,7 +936,7 @@ abstract public class APITestCase extends BaseTestCase
 			}
 		}
 	}
-	
+
 	protected String getFullQualifiedClassName( )
 	{
 		String className = this.getClass( ).getName( );
@@ -919,46 +945,44 @@ abstract public class APITestCase extends BaseTestCase
 
 		return className;
 	}
-	
-	
+
 	public void removeResource( )
 	{
 		String className = getFullQualifiedClassName( );
 		removeFile( className );
 	}
-	
+
 	public void removeFile( String file )
 	{
 		removeFile( new File( file ) );
 	}
-	
+
 	protected String genOutputFile( String output )
 	{
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
-		
-		String tempDirgetFullQualifiedClassName = tempDir+getFullQualifiedClassName();
-		
-		File path = new File(tempDirgetFullQualifiedClassName);
-		
-		if(path.exists( ))
+
+		String tempDirgetFullQualifiedClassName = tempDir
+				+ getFullQualifiedClassName( );
+
+		File path = new File( tempDirgetFullQualifiedClassName );
+
+		if ( path.exists( ) )
 			path.deleteOnExit( );
-		if(!path.exists( ))
+		if ( !path.exists( ) )
 			path.mkdir( );
-		
+
 		String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
 				+ "/" + OUTPUT_FOLDER + "/" + output;
-		
-		File fullpath = new File(outputFile);
-		
-		if(fullpath.exists( ))
+
+		File fullpath = new File( outputFile );
+
+		if ( fullpath.exists( ) )
 			fullpath.delete( );
-		//if()
-		
+		// if()
+
 		return outputFile;
 	}
-	
-	
 
 }

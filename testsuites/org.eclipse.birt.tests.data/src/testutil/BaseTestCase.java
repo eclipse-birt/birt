@@ -31,6 +31,8 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.TimeZone;
+
 /**
  * Common base class for all Dte test cases
  */
@@ -50,7 +52,8 @@ abstract public class BaseTestCase extends TestCase
 	private static final String TEST_FOLDER = "src";
 
 	private String classFolder;
-
+    private TimeZone defaultZone ;
+	
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -86,7 +89,6 @@ abstract public class BaseTestCase extends TestCase
 	{
 		Context.exit( );
 		closeOutputFile( );
-
 		super.tearDown( );
 	}
 

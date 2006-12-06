@@ -1,5 +1,3 @@
-//
-
 package org.eclipse.birt.tests.data.engine;
 
 /*******************************************************************************
@@ -13,7 +11,6 @@ package org.eclipse.birt.tests.data.engine;
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-//package org.eclipse.birt.data.engine;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -244,7 +241,6 @@ public class AllTests
 		suite.addTestSuite( Regression_149654.class );
 		suite.addTestSuite( Regression_150822.class );
 		suite.addTestSuite( Regression_153036.class );
-		suite.addTestSuite( Regression_153658.class );
 		suite.addTestSuite( Regression_155262.class );
 		suite.addTestSuite( Regression_156338.class );
 		suite.addTestSuite( Regression_158947.class );
@@ -260,7 +256,7 @@ public class AllTests
 		suite.addTestSuite( Regression_93220.class );
 		suite.addTestSuite( Regression_96025.class );
 
-		// XML package
+//		// XML package
 		suite.addTestSuite( Regression_119999.class );
 		suite.addTestSuite( Regression_123157.class );
 		suite.addTestSuite( Regression_117447.class );
@@ -286,15 +282,15 @@ public class AllTests
 		suite.addTestSuite( MultiPass_SortTest.class );
 		suite.addTestSuite( MultiPassTest.class );
 		suite.addTestSuite( DateUtilTest.class );
-		// // TODO:suite.addTestSuite( ReportDoc_ComputedColumnTest.class );
-		// // TODO:suite.addTestSuite( ReportDoc_FilterTest.class );
-		// // TODO:suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
-		// // TODO:suite.addTestSuite( ReportDoc_GroupTest.class );
-		// // TODO:suite.addTestSuite( ReportDoc_ParameterTest.class );
+		 // TODO:suite.addTestSuite( ReportDoc_ComputedColumnTest.class );
+		 // TODO:suite.addTestSuite( ReportDoc_FilterTest.class );
+		 // TODO:suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
+		 // TODO:suite.addTestSuite( ReportDoc_GroupTest.class );
+		 // TODO:suite.addTestSuite( ReportDoc_ParameterTest.class );
 
-		// // Acceptance
+		 // Acceptance
 		suite.addTestSuite( ColumnAliasTest.class );
-		// // TODO:suite.addTestSuite( ComputedColumnTest.class );
+		 // TODO:suite.addTestSuite( ComputedColumnTest.class );
 		suite.addTestSuite( DataSourceTest.class );
 		suite.addTestSuite( FilterTest.class );
 		suite.addTestSuite( InputParameterTest.class );
@@ -302,10 +298,10 @@ public class AllTests
 		// TODO:suite.addTestSuite( testPassThruContext.class );
 
 		// Smoke
-		// // TODO:suite.addTestSuite( DsAggregationTest.class );
-		// // TODO:suite.addTestSuite( DsCombinationTest.class );
-		// // TODO:suite.addTestSuite( DsComputeColumnTest.class );
-		// // TODO:suite.addTestSuite( DsFilterTest.class );
+		 // TODO:suite.addTestSuite( DsAggregationTest.class );
+		 // TODO:suite.addTestSuite( DsCombinationTest.class );
+		 // TODO:suite.addTestSuite( DsComputeColumnTest.class );
+		 // TODO:suite.addTestSuite( DsFilterTest.class );
 		suite.addTestSuite( DsGroupTest.class );
 		suite.addTestSuite( DsParameterTest.class );
 		suite.addTestSuite( DsSortTest.class );
