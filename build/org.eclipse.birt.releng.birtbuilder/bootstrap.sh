@@ -183,12 +183,12 @@ echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
 #the base command used to run AntRunner headless
-antRunner="`which java` -Xmx500m -jar ../BaseBuilder/startup.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/startup.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
 echo "==========[antRunner]: $antRunner" >> adb.log
 
 #clean drop directories
-ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
+#ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
 ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
 ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
