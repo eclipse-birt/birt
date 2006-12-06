@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+    <styles>
+    	<style name="Heading 0">
+            <property name="fontSize">xx-large</property>
+        </style>
+        <style name="Heading 1">
+            <property name="fontSize">x-large</property>
+        </style>
+        <style name="Heading 2">
+            <property name="fontSize">large</property>
+        </style>
+        <style name="Heading 3">
+            <property name="fontSize">medium</property>
+        </style>
+        <style name="Heading 4">
+            <property name="fontSize">medium</property>
+        </style>
+        <style name="Heading 5">
+            <property name="fontSize">small</property>
+        </style>
+        <style name="Heading 6">
+            <property name="fontSize">x-small</property>
+        </style>
+        <style name="Heading 7">
+            <property name="fontSize">xx-small</property>
+        </style>
+        <style name="Heading 8">
+            <property name="fontSize">xx-small</property>
+        </style>
+        <style name="Heading 9">
+            <property name="fontSize">xx-small</property>
+        </style>
+    </styles>
+</report>
+

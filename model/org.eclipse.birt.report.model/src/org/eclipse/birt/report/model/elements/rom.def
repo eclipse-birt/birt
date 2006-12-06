@@ -1892,7 +1892,7 @@
   </Structure>
   <Structure displayNameID="Structure.TOC" name="TOCStructure" since="2.2">
 	<Member name="expressionValue" displayNameID="Structure.TOC.Expression" returnType="any" since="2.2" type="expression" />
-	<Member displayNameID="Structure.TOC.TOCStyle" name="TOCStyle" since="2.2" type="element" detailType="Style" />
+	<Member detailType="Style" displayNameID="Structure.TOC.TOCStyle" isIntrinsic="true" name="TOCStyle" since="2.2" type="element" />
  	<Member detailType="lineStyle" displayNameID="Structure.TOC.border.top.style" name="borderTopStyle" since="1.0" type="choice"/>
     <Member detailType="lineWidth" displayNameID="Structure.TOC.border.top.width" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Member displayNameID="Structure.TOC.border.top.color" name="borderTopColor" since="1.0" type="color"/>

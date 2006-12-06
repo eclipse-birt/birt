@@ -15,8 +15,14 @@ import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertyStructure;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * The TOC structure defines a TOC. TOC is table of content.
@@ -73,6 +79,12 @@ public class TOC extends PropertyStructure
 	public static final String TEXT_TRANSFORM_MEMBER = Style.TEXT_TRANSFORM_PROP;
 	public static final String TEXT_INDENT_MEMBER = Style.TEXT_INDENT_PROP;
 
+	/**
+	 * The reference to a style.
+	 */
+
+	private ElementRefValue style = null;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -112,6 +124,44 @@ public class TOC extends PropertyStructure
 	public String toString( )
 	{
 		return (String) getProperty( null, TOC_EXPRESSION );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#getIntrinsicProperty(java.lang.String)
+	 */
+
+	protected Object getIntrinsicProperty( String propName )
+	{
+		if ( TOC_STYLE.equals( propName ) )
+			return style;
+
+		return super.getIntrinsicProperty( propName );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( TOC_STYLE.equals( propName ) )
+		{
+			if ( value instanceof String )
+				style = new ElementRefValue( StringUtil
+						.extractNamespace( (String) value ), StringUtil
+						.extractName( (String) value ) );
+			else if ( value instanceof StyleElement )
+				style = new ElementRefValue( null, (Style) value );
+			else
+				style = (ElementRefValue) value;
+		}
+		else
+			super.setIntrinsicProperty( propName, value );
 	}
 
 	/**
