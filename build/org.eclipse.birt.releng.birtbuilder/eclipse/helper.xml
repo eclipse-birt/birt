@@ -226,7 +226,7 @@
 		<eclipse.convert input="${postingDirectory}/${buildLabel}/compilelogs" validation="true"/>
 		<!-- Sends email to recipient list in monitor.properties with compile logs attached if errors found-->
 		<!-- The shell scripts will gather compile error plugin list into monitor.properties -->
-		<exec executable="${postingDirectory}/verifyCompile.sh">
+		<exec executable="${postingDirectory}/../BIRTBuilder/verifyCompile.sh">
 			<arg value="${postingDirectory}/${buildLabel}/compilelogs"/>
 		</exec>
 		<antcall target="checkCompileError"/>
