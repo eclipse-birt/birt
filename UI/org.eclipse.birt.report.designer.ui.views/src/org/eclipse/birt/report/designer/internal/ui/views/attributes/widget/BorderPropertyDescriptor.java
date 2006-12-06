@@ -15,10 +15,13 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,6 +38,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 	private boolean isFormStyle;
 
+	private Button restoreButton;
 	public BorderPropertyDescriptor( boolean isFormStyle )
 	{
 		this.isFormStyle = isFormStyle;
@@ -148,6 +152,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 						previewCanvas.setBorderInfomation( information );
 						try
 						{
+							restoreButton = (Button) e.widget;
 							provider.save( information );
 						}
 						catch ( Exception e1 )
@@ -163,6 +168,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							allButton.setSelection( false );
 						try
 						{
+							if((Button) e.widget == restoreButton)restoreButton = null;
 							provider.reset( );
 						}
 						catch ( Exception e1 )
@@ -204,6 +210,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							ExceptionHandler.handle( e1 );
 						}
 					}
+					restoreButton = toggles[toggleProviders.length-1];
 				}
 				else
 				{
@@ -220,6 +227,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							ExceptionHandler.handle( e1 );
 						}
 					}
+					restoreButton = null;
 				}
 				previewCanvas.redraw( );
 			}
@@ -282,7 +290,12 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 	public void refreshColor( RGB rgb )
 	{
 		if ( rgb != null )
-			builder.setRGB( rgb );
+		{
+			builder.setColorValue( ColorUtil.format( ColorUtil.formRGB( rgb.red,
+					rgb.green,
+					rgb.blue ),
+					ColorUtil.CSS_ABSOLUTE_FORMAT ) );
+		}
 	}
 
 	public void load( )
@@ -295,7 +308,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 			if ( !info.getStyle( ).equals( "" ) )
 			{
 				toggles[i].setSelection( true );
-				if ( !init )
+				if ( (!init && restoreButton == null) || toggles[i] == restoreButton)
 				{
 					refreshStyle( info.getStyle( ) );
 					refreshWidth( info.getWidth( ) );
@@ -421,11 +434,20 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 		}
 		if ( allSelected )
 			allButton.setSelection( true );
-		else allButton.setSelection( false );
+		else
+			allButton.setSelection( false );
 	}
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		load( );
+		PropertyEvent event = (PropertyEvent) ev;
+		String propertyName = event.getPropertyName( );
+		if ( propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_LEFT_WIDTH_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) )
+		{
+			load( );
+		}
 	}
 }
