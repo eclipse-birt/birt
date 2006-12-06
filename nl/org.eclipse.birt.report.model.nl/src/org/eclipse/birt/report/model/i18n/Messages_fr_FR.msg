@@ -2008,6 +2008,40 @@ Structure.OdaDataSetParam.isOutput=Est une sortie
 #27. ScriptLib
 Structure.ScriptLib.name =Nom de la bibliothèque de scripts
 
+#28. TOC
+Structure.TOC=toc
+Structure.TOC.Expression=expression
+Structure.TOC.TOCStyle=style of TOC
+Structure.TOC.border.top.style=border Top style
+Structure.TOC.border.top.width=border Top width
+Structure.TOC.border.top.color=border Top color
+Structure.TOC.border.left.style=border Left style
+Structure.TOC.border.left.width=border Left width
+Structure.TOC.border.left.color=bordre Left color
+Structure.TOC.border.bottom.style=border bottom style
+Structure.TOC.border.bottom.width=border bottom width
+Structure.TOC.border.bottom.color=border bottom color
+Structure.TOC.border.right.style=border right style
+Structure.TOC.border.right.width=border right width
+Structure.TOC.border.right.color=border right color
+Structure.TOC.background.color=background color
+Structure.TOC.format.dateTime=format dateTime
+Structure.TOC.format.number=format number
+Structure.TOC.format.number.align=format number align
+Structure.TOC.format.string=format string
+Structure.TOC.font.family=font family
+Structure.TOC.font.size=font size
+Structure.TOC.font.style=font style
+Structure.TOC.font.weight=font weight
+Structure.TOC.font.variant=font variant
+Structure.TOC.font.color=font color
+Structure.TOC.font.textUnderline=font text underline
+Structure.TOC.font.textOverline=font text overline
+Structure.TOC.font.textLineThrough=font text linethrough
+Structure.TOC.text.align=text align
+Structure.TOC.text.indent=text indent
+Structure.TOC.text.transform=text transform
+
 ###########################################################
 # Element names
 
