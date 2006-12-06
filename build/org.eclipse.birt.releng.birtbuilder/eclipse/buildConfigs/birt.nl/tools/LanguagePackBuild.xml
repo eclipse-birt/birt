@@ -314,7 +314,13 @@
 			<property name="cvs.options" value="${oda.build.version}" />
 			<property name="cvsRoot" value="${oda.cvs.root}" />
 		</projectInfo>
-
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.datatools.connectivity.oda.template.ui.nl" />
+			<property name="repositoryPath" value="${ODA.repository.nl.path}" />
+			<property name="buildFileName" value="build.xml" />
+			<property name="cvs.options" value="${oda.build.version}" />
+			<property name="cvsRoot" value="${oda.cvs.root}" />
+		</projectInfo>
 	</projectList>
 	<!-- public part-->
 
