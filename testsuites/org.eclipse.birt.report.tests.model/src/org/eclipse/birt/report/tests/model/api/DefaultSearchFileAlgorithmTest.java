@@ -54,7 +54,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
-	final static String INPUT = "SimpleMasterPageHandleTest.xml";
+	final static String INPUT = "MasterPageHandleTest.xml";
 	//private final String fileName = "SimpleMasterPageHandleTest.xml"; //$NON-NLS-1$
 	private DefaultResourceLocator algorithm;
 
@@ -70,6 +70,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		
 		// retrieve input file(s) from tests-model.jar file
 		copyResource_INPUT( INPUT , INPUT );
+		
 		openDesign( INPUT );
 		algorithm = new DefaultResourceLocator( );
 	}
@@ -92,7 +93,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		assertNotNull( url );
 
 		designHandle.setStringProperty( ReportDesign.BASE_PROP,
-				PLUGIN_PATH+getClassFolder( ) + GOLDEN_FOLDER );
+				PLUGIN_PATH+ this.getFullQualifiedClassName( ) + GOLDEN_FOLDER );
 		url = algorithm.findResource( designHandle,
 				"1.xml", IResourceLocator.IMAGE ); //$NON-NLS-1$
 		assertNull( url );

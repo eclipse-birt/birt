@@ -47,7 +47,8 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( fileName, fileName);
 		copyResource_INPUT( inputLibraryName , inputLibraryName );
-		copyResource_OUTPUT( outFileName , outFileName );
+		copyResource_GOLDEN (goldenFileName, goldenFileName);
+		
 		
 	
 	}

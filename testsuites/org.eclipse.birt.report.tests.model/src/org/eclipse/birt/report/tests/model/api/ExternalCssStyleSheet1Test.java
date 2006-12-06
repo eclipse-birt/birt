@@ -26,7 +26,7 @@ import com.ibm.icu.util.ULocale;
 public class ExternalCssStyleSheet1Test extends BaseTestCase 
 {
 	//private String fileName = null;
-	private String fileName = "ExternalCssStyleSheet1Test.css";
+	private static String fileName = "ExternalCssStyleSheet1Test.css";
 	
 	private CssStyleSheetHandle cssStyleSheetHandle = null;
 	private SharedStyleHandle style1 = null;
@@ -62,8 +62,8 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase
 	
 	private CssStyleSheetHandle loadStyleSheet( String fileName ) throws Exception
     {
-		fileName = getFullQualifiedClassName( ) + INPUT_FOLDER + fileName;
-		InputStream is = ExternalCssStyleSheet1Test.class.getResourceAsStream( fileName );
+		fileName = INPUT_FOLDER + "/" + fileName;
+		InputStream is = ExternalCssStyleSheetTest1.class.getResourceAsStream( fileName );
 		return designHandle.openCssStyleSheet( is );
     }
 
