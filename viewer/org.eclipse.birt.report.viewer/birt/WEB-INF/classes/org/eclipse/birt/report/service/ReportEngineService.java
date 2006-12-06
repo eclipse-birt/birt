@@ -1371,10 +1371,11 @@ public class ReportEngineService
 	 * @param filters
 	 * @param locale
 	 * @param outputStream
+	 * @param encoding
 	 * @throws RemoteException
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
-			Collection columns, Locale locale, OutputStream outputStream )
+			Collection columns, Locale locale, OutputStream outputStream, String encoding )
 			throws RemoteException
 	{
 		assert document != null;
@@ -1417,9 +1418,15 @@ public class ReportEngineService
 					}
 
 					buf.append( '\n' );
-					outputStream.write( buf.toString( )
-							.getBytes( ParameterAccessor.UTF_8_ENCODE ) );
-
+					if ( encoding != null && encoding.trim( ).length( ) > 0 )
+					{
+						outputStream.write( buf.toString( ).getBytes(
+								encoding.trim( ) ) );
+					}
+					else
+					{
+						outputStream.write( buf.toString( ).getBytes( ) );
+					}
 					buf.delete( 0, buf.length( ) );
 
 					// Data
@@ -1463,8 +1470,15 @@ public class ReportEngineService
 						}
 
 						buf.append( '\n' );
-						outputStream.write( buf.toString( )
-								.getBytes( ParameterAccessor.UTF_8_ENCODE ) );
+						if ( encoding != null && encoding.trim( ).length( ) > 0 )
+						{
+							outputStream.write( buf.toString( ).getBytes(
+									encoding.trim( ) ) );
+						}
+						else
+						{
+							outputStream.write( buf.toString( ).getBytes( ) );
+						}
 						buf.delete( 0, buf.length( ) );
 					}
 				}

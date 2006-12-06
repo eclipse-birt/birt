@@ -58,6 +58,7 @@ import org.eclipse.birt.report.service.api.ToC;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 import com.ibm.icu.util.ULocale;
 
@@ -284,11 +285,14 @@ public class BirtViewerReportService implements IViewerReportService
 				.openReportDocument( getReportDesignName( options ), docName,
 						getModuleOptions( options ) );
 		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+		HttpServletRequest request = (HttpServletRequest) options
+				.getOption( InputOptions.OPT_REQUEST );
 		// TODO: Filters are not used...
 		try
 		{
 			ReportEngineService.getInstance( ).extractData( doc, resultSetId,
-					columns, locale, out );
+					columns, locale, out,
+					ParameterAccessor.getExportEncoding( request ) );
 			doc.close( );
 		}
 		catch ( RemoteException e )

@@ -18,7 +18,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 {
 	__neh_select_change_closure : null,
 	__neh_switchResultSet_closure : null,
-	
+		
 	availableResultSets : [],
 	selectedColumns : [],
 
@@ -76,46 +76,65 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__neh_click_exchange : function( event )
 	{
-		var oInputs = this.__instance.getElementsByTagName( 'input' );
-		var oSelects = this.__instance.getElementsByTagName( 'select' );
+		var oSC = Event.element( event );
 		
-		switch ( Event.element( event ).name )
+		if( oSC.type == 'radio' )
 		{
-			case 'Addall':
-			{
-				if ( oSelects[1].options.length  > 0 )
-				{
-					this.moveAllItems( oSelects[1], oSelects[2] );
-				}
-				break;
+			var oEnc = $( 'otherEncoding' );
+			var oEncInput = $( 'otherEncoding_input' );
+			if( oEnc && oEnc.checked )
+			{				
+				oEncInput.disabled = false;
+				oEncInput.focus( );
 			}
-			case 'Add':
+			else
 			{
-				if ( oSelects[1].options.length  > 0 )
-				{
-					this.moveSingleItem( oSelects[1], oSelects[2] );
-				}
-				break;
-			}
-			case 'Remove':
-			{
-				if ( oSelects[2].options.length  > 0 )
-				{
-					this.moveSingleItem( oSelects[2], oSelects[1] );
-				}
-				break;
-			}
-			case 'Removeall':
-			{
-				if ( oSelects[2].options.length  > 0 )
-				{
-					this.moveAllItems( oSelects[2], oSelects[1] );
-				}
-				break;
+				oEncInput.disabled = true;
 			}
 		}
-		
-		this.__updateButtons( );
+		else
+		{
+			var oInputs = this.__instance.getElementsByTagName( 'input' );
+			var oSelects = this.__instance.getElementsByTagName( 'select' );
+			
+			switch ( Event.element( event ).name )
+			{
+				case 'Addall':
+				{
+					if ( oSelects[1].options.length  > 0 )
+					{
+						this.moveAllItems( oSelects[1], oSelects[2] );
+					}
+					break;
+				}
+				case 'Add':
+				{
+					if ( oSelects[1].options.length  > 0 )
+					{
+						this.moveSingleItem( oSelects[1], oSelects[2] );
+					}
+					break;
+				}
+				case 'Remove':
+				{
+					if ( oSelects[2].options.length  > 0 )
+					{
+						this.moveSingleItem( oSelects[2], oSelects[1] );
+					}
+					break;
+				}
+				case 'Removeall':
+				{
+					if ( oSelects[2].options.length  > 0 )
+					{
+						this.moveAllItems( oSelects[2], oSelects[1] );
+					}
+					break;
+				}
+			}
+			
+			this.__updateButtons( );
+		}
 	},
 
 	/**
@@ -366,6 +385,21 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		}
 		
 		this.selectedColumns = [];
+		
+		// Pass the export data encoding		
+		var oUTF8 = $( 'UTF8Encoding' );
+		var hiddenEnc = document.createElement( 'input' );
+		hiddenEnc.type = 'hidden';
+		hiddenEnc.name = '__exportEncoding';
+		if( oUTF8 && oUTF8.checked )
+		{
+			hiddenEnc.value = oUTF8.value;
+		}
+		else
+		{
+			hiddenEnc.value = $('otherEncoding_input').value;
+		}
+		hiddenForm.appendChild( hiddenEnc );
 		
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';

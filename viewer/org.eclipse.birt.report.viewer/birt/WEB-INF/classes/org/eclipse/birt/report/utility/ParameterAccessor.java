@@ -204,6 +204,11 @@ public class ParameterAccessor
 	public static final String PARAM_ISREPORTLET = "__isreportlet";//$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate the export encoding.
+	 */
+	public static final String PARAM_EXPORT_ENCODING = "__exportEncoding";//$NON-NLS-1$
+	
+	/**
 	 * Indentify the display text of select parameter
 	 */
 	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__"; //$NON-NLS-1$
@@ -1962,6 +1967,24 @@ public class ParameterAccessor
 		return map;
 	}
 
+	/**
+	 * Returns the encoding for export data.
+	 * 
+	 * @param request
+	 * @return
+	 */
+
+	public static String getExportEncoding( HttpServletRequest request )
+	{
+		String encoding =  getParameter( request, PARAM_EXPORT_ENCODING );
+		
+		// use UTF-8 as the default encoding
+		if( encoding == null )
+			encoding = UTF_8_ENCODE;
+		
+		return encoding;
+	}
+	
 	/**
 	 * Check whether show the report title.
 	 * 

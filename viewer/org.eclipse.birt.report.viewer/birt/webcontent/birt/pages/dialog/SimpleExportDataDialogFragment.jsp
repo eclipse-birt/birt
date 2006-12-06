@@ -97,8 +97,17 @@
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
-		<TD COLSPAN="3" STYLE="font-size:7pt">
-			<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.format" )%>
+		<TD COLSPAN="3">			
+			<DIV>
+				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding" )%>
+				<INPUT TYPE="radio" NAME="exportEncoding" ID="UTF8Encoding" CHECKED value="UTF-8">UTF-8
+				<INPUT TYPE="radio" NAME="exportEncoding" ID="otherEncoding"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%>
+				<INPUT TYPE="text" NAME="otherEncoding" ID="otherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+			</DIV>
+			<BR/>
+			<DIV STYLE="font-size:7pt">
+				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.format" )%>
+			</DIV>
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>

@@ -76,7 +76,14 @@
 	height:16px;
 	cursor:pointer;
 }
-
+.birtviewer_exportdata_dialog_input
+{
+	width:80px;
+	font:Verdana;
+	font-size:8pt;
+	border-style:inset;
+	border-width:2px;	
+}
 /******************************************************************************
  * Dialog related.
  *****************************************************************************/
