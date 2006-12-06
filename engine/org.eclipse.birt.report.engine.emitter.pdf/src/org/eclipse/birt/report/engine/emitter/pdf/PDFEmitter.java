@@ -1415,12 +1415,12 @@ public class PDFEmitter implements IContentEmitter
 				{
 					tplOrigin = containerBaseAbsPos - containerSize;
 					tplSize = containerSize;
+					translation = containerSize - ImageSize;
 				}
 				else
 				{
 					//never draw
 				}
-				translation = 0;
 			}
 			else if(absPos >= containerSize)
 			{
