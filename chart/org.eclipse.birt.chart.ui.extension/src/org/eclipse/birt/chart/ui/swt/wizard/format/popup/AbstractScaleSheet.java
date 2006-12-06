@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -26,9 +27,12 @@ import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -51,8 +55,6 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
 
-	private transient Composite cmpContent;
-
 	protected transient Label lblMin = null;
 
 	protected transient TextEditorComposite txtScaleMin = null;
@@ -65,10 +67,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected transient TextEditorComposite txtScaleStep = null;
 
-	// Not support now
-	// private transient Label lblUnit = null;
-	//
-	// private transient Combo cmbScaleUnit = null;
+	protected transient Label lblUnit = null;
+	
+	protected transient Combo cmbScaleUnit = null;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -85,7 +86,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		glContent.horizontalSpacing = 2;
 		glContent.verticalSpacing = 5;
 
-		cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
 		Group grpScale = new Group( cmpContent, SWT.NONE );
@@ -152,18 +153,24 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			txtScaleStep.setDefaultValue( "" ); //$NON-NLS-1$
 		}
 
-		// lblUnit = new Label( grpScale, SWT.NONE );
-		// GridData gdLBLUnit = new GridData( );
-		// lblUnit.setLayoutData( gdLBLUnit );
-		// lblUnit.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Unit"
-		// ) ); //$NON-NLS-1$
-		// lblUnit.setEnabled( false );
-		//
-		// cmbScaleUnit = new Combo( grpScale, SWT.DROP_DOWN | SWT.READ_ONLY );
-		// GridData gdCMBScaleUnit = new GridData( GridData.FILL_HORIZONTAL );
-		// cmbScaleUnit.setLayoutData( gdCMBScaleUnit );
-		// cmbScaleUnit.addSelectionListener( this );
-		// cmbScaleUnit.setEnabled( false );
+		//Use the type of input box to indicate the axis type.
+		if ( getValueType( ) == TextEditorComposite.TYPE_DATETIME )
+		{
+			lblUnit = new Label( grpScale, SWT.NONE );
+			GridData gdLBLUnit = new GridData( );
+			lblUnit.setLayoutData( gdLBLUnit );
+			lblUnit.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Unit" ) ); //$NON-NLS-1$
+
+			cmbScaleUnit = new Combo( grpScale, SWT.DROP_DOWN | SWT.READ_ONLY );
+			GridData gdCMBScaleUnit = new GridData( GridData.FILL_HORIZONTAL );
+			cmbScaleUnit.setLayoutData( gdCMBScaleUnit );
+			cmbScaleUnit.addListener( SWT.Selection, this );
+			// Populate origin types combo
+			NameSet ns = LiteralHelper.scaleUnitTypeSet;
+			cmbScaleUnit.setItems( ns.getDisplayNames( ) );
+			cmbScaleUnit.select( ns.getSafeNameIndex( getScale( ).getUnit( )
+					.getName( ) ) );
+		}
 
 		return cmpContent;
 	}
@@ -232,23 +239,12 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 				txtScaleStep.setText( String.valueOf( getScale( ).getStep( ) ) );
 			}
 		}
+		else if ( event.widget.equals( cmbScaleUnit ) )
+		{
+			getScale( ).setUnit( ScaleUnitType.getByName( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	// public void widgetSelected( SelectionEvent e )
-	// {
-	// if ( e.getSource( ).equals( cmbScaleUnit ) )
-	// {
-	// getScale( )
-	// .setUnit( ScaleUnitType.getByName(
-	// LiteralHelper.scaleUnitTypeSet.getNameByDisplayName(
-	// cmbScaleUnit.getText( ) ) ) );
-	// }
-	// }
 	private String getValue( DataElement de )
 	{
 		if ( de instanceof DateTimeDataElement )

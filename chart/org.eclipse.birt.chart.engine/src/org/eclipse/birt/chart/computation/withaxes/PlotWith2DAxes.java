@@ -716,9 +716,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				iAxisType,
 				dStart,
 				dEnd,
-				sc.getMin( ),
-				sc.getMax( ),
-				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
+				sc,
 				axPrimaryBase.getFormatSpecifier( ),
 				rtc,
 				iDirection );
@@ -753,9 +751,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				iAxisType,
 				dStart,
 				dEnd,
-				sc.getMin( ),
-				sc.getMax( ),
-				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
+				sc,
 				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				AUTO );
@@ -1141,10 +1137,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					iAxisType,
 					dAxisStart,
 					dAxisEnd,
-					scModel.getMin( ),
-					scModel.getMax( ),
-					scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
-							: null,
+					scModel,
 					axaOrthogonal[j].getFormatSpecifier( ),
 					rtc,
 					AUTO );

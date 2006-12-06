@@ -22,10 +22,13 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * Utility class for Charts.
@@ -400,5 +403,34 @@ public class ChartUtil
 				ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 		}
 		return ta;
+	}
+	
+	/**
+	 * Convers Scale unit type to ICU Calendar constant.
+	 * 
+	 * @param unitType
+	 *            Scale unit type
+	 * @return Calendar constant or -1 if not found
+	 */
+	public static int convertUnitTypeToCalendarConstant( ScaleUnitType unitType )
+	{
+		switch ( unitType.getValue( ) )
+		{
+			case ScaleUnitType.DAYS :
+				return Calendar.DATE;
+			case ScaleUnitType.HOURS :
+				return Calendar.HOUR_OF_DAY;
+			case ScaleUnitType.MINUTES :
+				return Calendar.MINUTE;
+			case ScaleUnitType.MONTHS :
+				return Calendar.MONTH;
+			case ScaleUnitType.SECONDS :
+				return Calendar.SECOND;
+			case ScaleUnitType.WEEKS :
+				return Calendar.WEEK_OF_MONTH;
+			case ScaleUnitType.YEARS :
+				return Calendar.YEAR;
+		}
+		return -1;
 	}
 }

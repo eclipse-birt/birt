@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -78,6 +79,9 @@ public final class AutoScale extends Methods implements Cloneable
 	private transient boolean bCategoryScale = false;
 
 	private RunTimeContext rtc;;
+	
+	/** Indicates the max boundary of axis ticks. */
+	private static final int TICKS_MAX = 100;
 
 	/**
 	 * A default numeric pattern for integer number representation of axis
@@ -1933,8 +1937,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			DataElement oMinimum, DataElement oMaximum, Double oStep,
-			FormatSpecifier fs, RunTimeContext rtc, int direction )
+			Scale scModel, FormatSpecifier fs, RunTimeContext rtc, int direction )
 			throws ChartException
 	{
 		return computeScale( xs,
@@ -1943,9 +1946,7 @@ public final class AutoScale extends Methods implements Cloneable
 				iType,
 				dStart,
 				dEnd,
-				oMinimum,
-				oMaximum,
-				oStep,
+				scModel,
 				fs,
 				rtc,
 				direction,
@@ -1964,13 +1965,16 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			DataElement oMinimum, DataElement oMaximum, Double oStep,
-			FormatSpecifier fs, RunTimeContext rtc, int direction,
+			Scale scModel, FormatSpecifier fs, RunTimeContext rtc, int direction,
 			double zoomFactor ) throws ChartException
 	{
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
+		DataElement oMinimum = scModel.getMin( );
+		DataElement oMaximum = scModel.getMax( );
+		Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
+				: null;		
 
 		AutoScale sc = null;
 		AutoScale scCloned = null;
@@ -2350,7 +2354,15 @@ public final class AutoScale extends Methods implements Cloneable
 
 			CDateTime cdtMinValue = new CDateTime( caMin );
 			CDateTime cdtMaxValue = new CDateTime( caMax );
-			int iUnit = CDateTime.getDifference( cdtMinValue, cdtMaxValue );
+			int iUnit;
+			if ( oStep != null )
+			{
+				iUnit = ChartUtil.convertUnitTypeToCalendarConstant( scModel.getUnit( ) );
+			}
+			else
+			{
+				iUnit = CDateTime.getDifference( cdtMinValue, cdtMaxValue );
+			}
 
 			// Can't detect a difference, assume ms
 			if ( iUnit == 0 )
@@ -2372,18 +2384,6 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.dZoomFactor = zoomFactor;
-
-			sc.computeTicks( xs,
-					la,
-					iLabelLocation,
-					iOrientation,
-					dStart,
-					dEnd,
-					false,
-					null );
-
-			dStart = sc.dStart;
-			dEnd = sc.dEnd;
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -2427,15 +2427,23 @@ public final class AutoScale extends Methods implements Cloneable
 				sc.bMaximumFixed = true;
 			}
 
-			// TODO why is this commented out? Needs to be implemented
 			// OVERRIDE STEP IF SPECIFIED
-			/*
-			 * if (oStep != null) { sc.oStep = oStep; sc.bStepFixed = true; //
-			 * VALIDATE OVERRIDDEN STEP if (((Double) sc.oStep).doubleValue() <=
-			 * 0) { throw new GenerationException("Invalid 'step({0}) <= 0'
-			 * specified for axis scale" + oStep ); //
-			 * i18n_CONCATENATIONS_REMOVED } }
-			 */
+			if ( oStep != null )
+			{
+				sc.oStep = oStep;
+				sc.bStepFixed = true;
+				// VALIDATE OVERRIDDEN STEP
+				if ( ( (Double) sc.oStep ).doubleValue( ) <= 0 )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							"exception.invalid.step.value", //$NON-NLS-1$
+							new Object[]{
+								oStep
+							},
+							Messages.getResourceBundle( rtc.getULocale( ) ) );
+				}
+			}
 
 			// VALIDATE OVERRIDDEN MIN/MAX
 			if ( sc.bMaximumFixed && sc.bMinimumFixed )
@@ -2451,6 +2459,17 @@ public final class AutoScale extends Methods implements Cloneable
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 			}
+			
+			sc.computeTicks( xs,
+					la,
+					iLabelLocation,
+					iOrientation,
+					dStart,
+					dEnd,
+					false,
+					null );
+			dStart = sc.dStart;
+			dEnd = sc.dEnd;
 
 			boolean bFirstFit = sc.checkFit( xs, la, iLabelLocation );
 			boolean bFits = bFirstFit, bZoomSuccess = false;
@@ -2639,6 +2658,11 @@ public final class AutoScale extends Methods implements Cloneable
 					cdt1,
 					asInteger( oUnit ) ) );
 			nTicks = (int) ( dNumberOfSteps / asInteger( oStep ) ) + 1;
+			if ( nTicks == 1 )
+			{
+				// Keep at least two ticks
+				nTicks = 2;
+			}
 			dLength = Math.abs( dStart - dEnd );
 		}
 		else
@@ -2666,6 +2690,14 @@ public final class AutoScale extends Methods implements Cloneable
 			dTickGap = dLength / ( nTicks - 1 ) * iDirection;
 		}
 
+		// Do not render too many ticks. It will cause useless overhead.
+		if ( nTicks > TICKS_MAX )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					"exception.scale.tick.max", //$NON-NLS-1$
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
+		}
 		double d = dStart + dTickGap;
 		final double[] da = new double[nTicks];
 

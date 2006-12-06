@@ -34,11 +34,11 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		this.axis = axis;
 	}
 
-	private void setState( String sType )
+	private void setState( AxisType sType )
 	{
 		// Bugzilla#103961 Marker line and range only work for non-category
 		// style X-axis,
-		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || sType.equals( AxisType.TEXT_LITERAL.getName( ) ) );
+		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || sType == AxisType.TEXT_LITERAL );
 		lblMin.setEnabled( bEnabled );
 		txtScaleMin.setEnabled( bEnabled );
 		lblMax.setEnabled( bEnabled );
@@ -46,12 +46,12 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		lblStep.setEnabled( bEnabled );
 		txtScaleStep.setEnabled( bEnabled );
 
-		// lblUnit.setEnabled( sType.equals( "DateTime" ) ); //$NON-NLS-1$
-		// cmbScaleUnit.setEnabled( sType.equals( "DateTime" ) ); //$NON-NLS-1$
-		lblStep.setEnabled( bEnabled
-				&& !sType.equals( AxisType.DATE_TIME_LITERAL.getName( ) ) );
-		txtScaleStep.setEnabled( bEnabled
-				&& !sType.equals( AxisType.DATE_TIME_LITERAL.getName( ) ) );
+		// Unit is only valid in DateTime type
+		if ( sType == AxisType.DATE_TIME_LITERAL )
+		{
+			lblUnit.setEnabled( bEnabled );
+			cmbScaleUnit.setEnabled( bEnabled );
+		}
 	}
 
 	private Axis getAxisForProcessing( )
@@ -80,7 +80,7 @@ public class AxisScaleSheet extends AbstractScaleSheet
 	protected Composite getComponent( Composite parent )
 	{
 		Composite composite = super.getComponent( parent );
-		setState( getAxisForProcessing( ).getType( ).getName( ) );
+		setState( getAxisForProcessing( ).getType( ) );
 		return composite;
 	}
 
