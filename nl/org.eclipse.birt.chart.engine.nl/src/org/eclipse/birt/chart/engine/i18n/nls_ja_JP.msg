@@ -97,6 +97,7 @@ exception.base.orthogonal.null.datapoint=指定したデータポイントには、無効な null
 exception.base.orthogonal.null.datadefinition=指定したデータ定義の式は無効です。.
 exception.dataset.non.numerical.to.numerical=データセットに数値以外のデータ型 {0} が含まれているため、数値に変換できません。
 exception.dataset.non.datetime=X 軸にバインドされているデータ型は、DateTime の書式ではありません。
+exception.scale.tick.max=Unable to render too many ticks. Please adjust the scale step or unit.
 exception.unknown.axis.type.tick.computations=目盛を計算するために必要な軸の型を識別できません。
 exception.unsupported.compare.unknown.objects=DE1={0} と DE2={1} を比較するために指定したデータ要素はサポートされていません。
 exception.unsupported.compare.different.objects=DE1={0} と DE2={1} を比較するために指定したデータ要素が混在してます。

@@ -97,6 +97,7 @@ exception.base.orthogonal.null.datapoint=给定的数据点包含无效的空值。
 exception.base.orthogonal.null.datadefinition=给定的数据定义表达式无效。.
 exception.dataset.non.numerical.to.numerical=在数据集中发现了意外的非数值数据类型{0}; 无法转换成数值。
 exception.dataset.non.datetime=受 X 轴约束的数据类型不是 DateTime 格式
+exception.scale.tick.max=Unable to render too many ticks. Please adjust the scale step or unit.
 exception.unknown.axis.type.tick.computations=无法确定用于计算刻度线的轴类型
 exception.unsupported.compare.unknown.objects=为比较 DE1={0} 和 DE2={1}，提供了不支持的数据元素
 exception.unsupported.compare.different.objects=为比较 DE1={0} 和 DE2={1} 提供了混合的数据元素

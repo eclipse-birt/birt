@@ -97,6 +97,7 @@ exception.base.orthogonal.null.datapoint=지정한 데이터 요소에 잘못된 널(null) 값
 exception.base.orthogonal.null.datadefinition=지정한 데이터 정의 식이 잘못되었습니다..
 exception.dataset.non.numerical.to.numerical=데이터 집합에 숫자가 아닌 예상치 못한 데이터 형식 {0}이(가) 있습니다. 숫자 값으로 변환할 수 없습니다.
 exception.dataset.non.datetime=X 축에 바인딩된 데이터 형식이 날짜 시간 형식이 아닙니다.
+exception.scale.tick.max=Unable to render too many ticks. Please adjust the scale step or unit.
 exception.unknown.axis.type.tick.computations=틱을 계산하는 데 필요한 축 유형을 확인할 수 없습니다.
 exception.unsupported.compare.unknown.objects=비교 DE1={0} 및 DE2={1}에 지원되지 않은 데이터 요소가 제공되었습니다.
 exception.unsupported.compare.different.objects=비교 DE1={0} 및 DE2={1}에 혼합된 데이터 요소가 제공되었습니다.
