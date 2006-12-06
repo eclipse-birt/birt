@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -62,6 +63,8 @@ public class HighlightRuleHandleTest extends BaseTestCase
 				.getTextAlign( ) );
 		assertEquals( ColorPropertyType.RED, style2Highlight.getColor( )
 				.getStringValue( ) );
+		assertNull( style2Highlight
+				.getProperty( IStyleModel.HIGHLIGHT_RULES_PROP ) );
 
 		StyleHandle style1 = designHandle.findStyle( "My Style1" ); //$NON-NLS-1$
 		List refs = ( (ReferenceableElement) style1.getElement( ) )
@@ -149,10 +152,76 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		}
 		catch ( SemanticException e )
 		{
-			System.out.println( e.getLocalizedMessage( ) );
 			assertEquals(
 					SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE,
 					e.getErrorCode( ) );
 		}
+	}
+
+	/**
+	 * Tested cases:
+	 * 
+	 * <ul>
+	 * <li>The HighlightRule structure can refers to a style element.
+	 * getProperty() can work properly.
+	 * <li>if the HighlightRule structure refers to a style that is not on the
+	 * design tree, the style value cannot be gotten after the highlightRule is
+	 * added to a table.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testStyleOnHighlightRuleStruct( ) throws Exception
+	{
+		openDesign( inputFile );
+
+		StyleHandle style2 = designHandle.findStyle( "My Style2" ); //$NON-NLS-1$
+		TableHandle table = (TableHandle) designHandle.findElement( "myTable" ); //$NON-NLS-1$
+
+		HighlightRule rule = StructureFactory.createHighlightRule( );
+		rule.setStyle( style2 );
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLDER, rule
+				.getProperty( design, IStyleModel.FONT_WEIGHT_PROP ) );
+
+		PropertyHandle propHandle = table
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		propHandle.addItem( rule );
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLDER, rule
+				.getProperty( design, IStyleModel.FONT_WEIGHT_PROP ) );
+
+		// drop highlight rule from the table
+		designHandle.getCommandStack( ).undo( );
+
+		propHandle = style2
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+
+		try
+		{
+			propHandle.addItem( rule );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE,
+					e.getErrorCode( ) );
+		}
+
+		StyleHandle newStyle = designHandle.getElementFactory( ).newStyle(
+				"newStyle" ); //$NON-NLS-1$
+		newStyle.getColor( ).setValue( ColorPropertyType.RED );
+
+		HighlightRule rule1 = StructureFactory.createHighlightRule( );
+		rule1.setStyle( newStyle );
+		assertEquals( ColorPropertyType.RED, rule1.getProperty( design,
+				IStyleModel.COLOR_PROP ) );
+		assertNotNull( rule1.getStyle( ) );
+		
+		propHandle = table.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+		propHandle.addItem( rule1 );
+
+		assertNull( rule1.getProperty( design, IStyleModel.COLOR_PROP ) );
+		assertNull( rule1.getStyle( ) );
 	}
 }

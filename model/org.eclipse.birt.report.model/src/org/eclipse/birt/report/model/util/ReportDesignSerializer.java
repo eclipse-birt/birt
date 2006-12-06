@@ -418,7 +418,11 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			ElementPropertyDefn prop = (ElementPropertyDefn) defn
 					.getProperty( (String) iter.next( ) );
-			if ( !prop.isStyleProperty( ) )
+
+			// the property may be user-defined property. So, the value may be
+			// null.
+
+			if ( prop == null || !prop.isStyleProperty( ) )
 				continue;
 
 			String propName = prop.getName( );
@@ -1139,8 +1143,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			tmpEmeddedImage = (EmbeddedImage) refValue.getTargetStructure( );
 		}
 
-		targetEmeddedImage.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
-				null );
+		targetEmeddedImage.setProperty(
+				ReferencableStructure.LIB_REFERENCE_MEMBER, null );
 
 	}
 

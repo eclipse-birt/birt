@@ -67,6 +67,17 @@
         </graphic-master-page>
     </page-setup>
     <body>
-
+		<table name="myTable">
+			<detail>
+				<row>
+					<cell/>
+					<cell/>
+				</row>
+				<row>
+					<cell/>
+					<cell/>
+				</row>										
+			</detail>
+		</table>
     </body>
 </report>

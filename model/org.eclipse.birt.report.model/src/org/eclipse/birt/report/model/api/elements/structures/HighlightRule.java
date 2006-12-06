@@ -14,9 +14,11 @@ package org.eclipse.birt.report.model.api.elements.structures;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -175,6 +177,8 @@ public class HighlightRule extends StyleRule
 				style = new ElementRefValue( StringUtil
 						.extractNamespace( (String) value ), StringUtil
 						.extractName( (String) value ) );
+			else if ( value instanceof StyleElement )
+				style = new ElementRefValue( null, (Style) value );
 			else
 				style = (ElementRefValue) value;
 		}
@@ -203,7 +207,8 @@ public class HighlightRule extends StyleRule
 		{
 			ElementPropertyDefn newPropDefn = styleElement
 					.getPropertyDefn( propDefn.getName( ) );
-			value = styleElement.getLocalProperty( module, newPropDefn );
+			if ( newPropDefn.isStyleProperty( ) )
+				value = styleElement.getLocalProperty( module, newPropDefn );
 		}
 
 		if ( value != null )
@@ -212,4 +217,35 @@ public class HighlightRule extends StyleRule
 		return propDefn.getDefault( );
 	}
 
+	/**
+	 * Sets the style property. If it is a valid style and highlight rule has no
+	 * local values, values on the style are returned.
+	 * 
+	 * @param styleElement
+	 *            the style
+	 */
+
+	public void setStyle( StyleHandle styleElement )
+	{
+		if ( styleElement == null )
+			return;
+
+		setProperty( HighlightRule.STYLE_MEMBER, styleElement.getElement( ) );
+	}
+
+	/**
+	 * Returns the style that the highlight rule links with.
+	 * 
+	 * @return the style
+	 */
+
+	public StyleHandle getStyle( )
+	{
+		if ( style == null || !style.isResolved( ) )
+			return null;
+
+		Style styleElement = (Style) style.getElement( );
+		Module root = styleElement.getRoot( );
+		return (StyleHandle) styleElement.getHandle( root );
+	}
 }
