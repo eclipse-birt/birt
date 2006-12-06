@@ -246,6 +246,14 @@ public abstract class EngineCase extends TestCase
 		}
 	}
 
+	/**
+	 * Make a copy of a testing resource file to the target folder.
+	 * 
+	 * @param src
+	 *            the file that is testing resource file
+	 * @param tgt
+	 *            the file that is testing input file.
+	 */
 	protected void copyResource( String src, String tgt, String folder )
 	{
 
@@ -287,16 +295,40 @@ public abstract class EngineCase extends TestCase
 		}
 	}
 
+	/**
+	 * Make a copy of a testing resource file from resource input folder to the testing input folder.
+	 * 
+	 * @param src input_resource
+	 *            the file that is resource input file name.
+	 * @param input
+	 *            the file that is testing input file name.
+	 */
 	protected void copyResource_INPUT( String input_resource, String input )
 	{
 		this.copyResource( input_resource, input, INPUT_FOLDER );
 	}
 
+	/**
+	 * Make a copy of a testing resource file from resource golden folder to the testing golden folder.
+	 * 
+	 * @param src input_resource
+	 *            the file that is resource golden file name.
+	 * @param input
+	 *            the file that is testing golden file name.
+	 */
 	protected void copyResource_GOLDEN( String input_resource, String golden )
 	{
 		this.copyResource( input_resource, golden, GOLDEN_FOLDER );
 	}
 
+	/**
+	 * Make a copy of a testing resource file from resource script folder to the testing script folder.
+	 * 
+	 * @param src input_resource
+	 *            the file that is resource script file name.
+	 * @param input
+	 *            the file that is testing script file name.
+	 */
 	protected void copyResource_SCRIPT( String input_resource, String script )
 	{
 		this.copyResource( input_resource, script, "input/scripts" );
@@ -337,6 +369,9 @@ public abstract class EngineCase extends TestCase
 		removeFile( new File( file ) );
 	}
 
+	/**
+	 * Remove a testing input and golden folder
+	 */
 	public void removeResource( )
 	{
 		// String className = getFullQualifiedClassName( );
@@ -529,7 +564,14 @@ public abstract class EngineCase extends TestCase
 	{
 		runAndRender( input, output, null, FORMAT_PDF ); //$NON-NLS-1$
 	}
+	
 
+	/**
+	 * Locates the testing resource and output folder
+	 * 
+	 * @return className
+	 *                testing resource and output folder.
+	 */
 	protected String getFullQualifiedClassName( )
 	{
 		String className = this.getClass( ).getName( );
@@ -999,6 +1041,12 @@ public abstract class EngineCase extends TestCase
 		super.tearDown( );
 	}
 	
+	/**
+	 * Locates the testing output folder
+	 * 
+	 * @return outputFolder
+	 *                testing output folder.
+	 */
 	protected String genOutputFolder( )
 	{
 		String outputFolder = this.getOutputResourceFolder( ) + File.separator
@@ -1007,6 +1055,12 @@ public abstract class EngineCase extends TestCase
 		return outputFolder;
 	}
 	
+	/**
+	 * Locates the testing input folder
+	 * 
+	 * @return inputFolder
+	 *                testing input folder.
+	 */
 	protected String genInputFolder( )
 	{
 		String inputFolder = this.getInputResourceFolder( ) + File.separator
@@ -1015,6 +1069,12 @@ public abstract class EngineCase extends TestCase
 		return inputFolder;
 	}
 	
+	/**
+	 * Locates the testing golden folder
+	 * 
+	 * @return goldenFolder
+	 *                testing golden folder.
+	 */
 	protected String genGoldenFolder( )
 	{
 		String goldenFolder = this.getInputResourceFolder( ) + File.separator
@@ -1023,18 +1083,36 @@ public abstract class EngineCase extends TestCase
 		return goldenFolder;
 	}
 
+	/**
+	 * Locates the testing output file
+	 * 
+	 * @return outputFile
+	 *                testing output file.
+	 */
 	protected String genOutputFile( String output )
 	{
 		String outputFile = this.genOutputFolder( ) + File.separator + output;
 		return outputFile;
 	}
 
+	/**
+	 * Locates the testing input file
+	 * 
+	 * @return inputFile
+	 *                testing input file.
+	 */
 	protected String genInputFile( String input )
 	{
 		String inputFile = this.genInputFolder( ) + File.separator + input;
 		return inputFile;
 	}
 
+	/**
+	 * Locates the testing golden file
+	 * 
+	 * @return goldenFile
+	 *                testing golden file.
+	 */
 	protected String genGoldenFile( String golden )
 	{
 		String goldenFile = this.genGoldenFolder( )+ File.separator + golden;
@@ -1122,6 +1200,12 @@ public abstract class EngineCase extends TestCase
 				.getCodeSource( ).getLocation( ).getPath( ) ).getParent( ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Locates the temporary path that to save the resource folder and output folder
+	 * 
+	 * @return tempDir
+	 *                testing temporary path.
+	 */
 	public String tempFolder( )
 	{
 		String tempDir = System.getProperty( "java.io.tmpdir" );
@@ -1130,12 +1214,24 @@ public abstract class EngineCase extends TestCase
 		return tempDir;
 	}
 
+	/**
+	 * Locates the testing resource folder
+	 * 
+	 * @return resourceFolder
+	 *                testing resource file.
+	 */
 	public String getInputResourceFolder( )
 	{
 		String resourceFolder = this.tempFolder( ) + PLUGIN_NAME + ".RESOURCE";
 		return resourceFolder;
 	}
 
+	/**
+	 * Locates the testing output folder
+	 * 
+	 * @return outputFolder
+	 *                testing output folder.
+	 */
 	public String getOutputResourceFolder( )
 	{
 		String outputFolder = this.tempFolder( ) + PLUGIN_NAME + ".OUTPUT";
