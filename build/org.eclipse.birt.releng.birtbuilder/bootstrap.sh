@@ -49,16 +49,16 @@ buildId=""
 buildLabel=""
 
 # tag for build contribution project containing .map files
-mapVersionTag=B_20061102_new_property_editor
+mapVersionTag=HEAD
 
 # directory in which to export builder projects
-builderDir=/home/adb/farrah/BIRTBuilder/
+builderDir=/home/adb/releng/BIRTBuilder/
 
 # buildtype determines whether map file tags are used as entered or are replaced with HEAD
 buildType=I
 
 # directory where to copy build
-postingDirectory=/home/adb/farrah/BIRT_Build_Output
+postingDirectory=/home/adb/releng/BIRTOutput
 
 # flag to indicate if test build
 testBuild=""
@@ -69,6 +69,10 @@ javadoc=""
 # value used in buildLabel and for text replacement in index.php template file
 builddate=`date +%Y%m%d`
 buildtime=`date +%H%M`
+
+buildinfoDate=`date +%F%t%H:%M:%S`
+buildinfounivDate=`date +%c%z`
+
 timestamp=$builddate$buildtime
 
 echo "======[builddate]: $builddate " > adb.log
@@ -166,11 +170,11 @@ mkdir -p $postingDirectory/$buildLabel
 chmod -R 755 $builderDir
 
 #default value of the bootclasspath attribute used in ant javac calls.  
-bootclasspath="/usr/local/j2sdk1.4.2_04/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_04/jre/lib/jsse.jar"
-
+bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
 bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar"
+jvm15_home="/usr/local/jdk1.5.0_02"
 
-cd /home/adb/farrah/BIRTBuilder
+cd /home/adb/releng/BIRTBuilder
 
 echo buildId=$buildId >> monitor.properties 
 echo timestamp=$timestamp >> monitor.properties 
@@ -188,18 +192,13 @@ ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> ad
 ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
 ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
-echo recipients=$recipients >>adb.log
-echo postingDirectory=$postingDirectory >>adb.log
-echo builderTag=$buildProjectTags >>adb.log
-echo buildDirectory=$buildDirectory >>adb.log
-echo bootclasspath=$bootclasspath >>adb.log
-echo bootclasspath_15=$bootclasspath_15 >>adb.log
-
-#buildId=v20061110-1136
+#full command with args
+#buildId=v20061201-0710
+echo $tagMaps >> adb.log
+echo $compareMaps >> adb.log
 
 #full command with args
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -DgenerateFeatureVersionSuffix=false -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/farrah/src -DbaseLocation=/home/adb/farrah/baseLocation -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/farrah/BaseBuilder -DpostPackage=BIRT_Build_Output -DforceContextQualifier=$buildId -Doutput.test.dir=/home/adb/spmdb"
-
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -DgenerateFeatureVersionSuffix=true -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder -DpostPackage=BIRTOutput  -Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng/P4 -Djvm15_home=$jvm15_home -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate"
 
 #skipPreBuild
 

@@ -126,6 +126,7 @@
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
 		<!-- copy to test machine for QA -->
+		<!--
 		<copy todir="${output.test.dir}/download/${buildLabel}">
 			<fileset dir="${postingDirectory}/${buildLabel}">
 				<include name="*.zip"/>
@@ -133,6 +134,7 @@
 				<include name="*.txt"/>
 			</fileset>
 		</copy>
+		-->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
 

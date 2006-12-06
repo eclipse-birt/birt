@@ -356,7 +356,6 @@
         //${p4.client}/Development/JRP/Dev/build/cvsDiff/... 
         -->
         <p4sync view="//${p4.client}/Development/JRP/Dev/build/script/... 
-                      
                       //${p4.client}/Development/JRP/Dev/build/lib/... 
         	          //${p4.client}/Development/JRP/Dev/build/TestsViewerLib/...
                       //${p4.client}/Development/JRP/3rdParty/iText/...
@@ -663,6 +662,8 @@ Runtime from ${QA.test.dir}\${buildId}\birt-runtime-2_2_0.zip
 Framework from ${QA.test.dir}\${buildId}\birt-report-framework-2_2_0.zip
 
 Source drops from ${QA.test.dir}\${buildId}\birt-source-2_2_0.zip
+                	
+JUnit Test Suite Framework from ${QA.test.dir}\${buildId}\birt-tests-suite-2_2_0.zip
                 	
 NL pack from ${QA.test.dir}\${buildId}\
 
