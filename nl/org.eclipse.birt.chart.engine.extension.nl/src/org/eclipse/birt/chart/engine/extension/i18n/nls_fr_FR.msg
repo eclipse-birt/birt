@@ -51,6 +51,8 @@ exception.legend.graphic.unknown.riser=Impossible d''obtenir le rendu du graphiq
 exception.unspecified.visible.series.title=La position du titre de série n'a pas été indiquée pour un titre de série visible
 exception.unspecified.riser.type=Type de barre ascendante inconnu {0} indiqué.
 exception.invalid.data.point.position.scatter=La position d''étiquette de point de données {0} n''est pas prise en charge dans le cas de rendu sur une série nuage de points. Les valeurs autorisées sont ABOVE, BELOW, LEFT et RIGHT.
+exception.invalid.data.point.position.bubble=Data point label position {0} is not supported when rendering on a bubble series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
+exception.invalid.data.point.outbound.bubble=No bubble is in the range of plot area. Please check the axis scale.
 exception.illegal.pie.series.title.position=Valeur incorrecte indiquée pour la position de titre de série = {0}
 exception.illegal.datapoint.position.bar=La position de l''étiquette de point de données {0} n''est pas prise en charge dans le cas de rendu d''une série à barres. Les valeurs autorisées sont OUTSIDE et INSIDE.
 exception.illegal.datapoint.position.line=La position de l''étiquette de point de données {0} n''est pas prise en charge dans le cas de rendu d''une série à lignes. Les valeurs autorisées sont ABOVE, BELOW, LEFT et RIGHT.
