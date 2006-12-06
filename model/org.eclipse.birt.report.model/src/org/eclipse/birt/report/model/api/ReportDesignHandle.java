@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -601,8 +602,19 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public List getAllTocs( )
 	{
-		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
+		List tocs = ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
 				IReportItemModel.TOC_PROP );
+				
+		//TODO merge with IGroupElementModel.TOC_PROP.
+		
+		List resultList = new ArrayList();
+		Iterator iterator = tocs.iterator( );
+		while( iterator.hasNext( ) )
+		{
+			TOC toc = (TOC)iterator.next( );
+			resultList.add( toc.getProperty( module, TOC.TOC_EXPRESSION ) );
+		}
+		return resultList;
 	}
 
 	/**

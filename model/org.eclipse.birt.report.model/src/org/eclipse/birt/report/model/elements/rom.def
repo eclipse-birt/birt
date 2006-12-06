@@ -1611,7 +1611,7 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator" modules="design, library" name="MasterPageContextContainmentValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementExtendsValidator" modules="design, library" name="ElementExtendsValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.SimpleListValidator" modules="design, library" name="SimpleListValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>	  
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>	  	  
 	<!--<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ColumnBindingNameValidator" modules="design, library" name="ColumnBindingNameValidator"/>	  	  	  -->
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
@@ -1887,8 +1887,41 @@
     <Member displayNameID="Structure.OdaDesignerState.stateContentAsString" isIntrinsic="true" name="stateContentAsString" runtimeSettable="true" since="2.1" type="string" />
     <Member displayNameID="Structure.OdaDesignerState.stateContentAsBlob" isIntrinsic="true" name="stateContentAsBlob" returnType="any" runtimeSettable="true" since="2.1" type="string" />
   </Structure>  
-  <Structure displayNameID="Structure.ScriptLib" name="ScriptLib" since="3.2">
+  <Structure displayNameID="Structure.ScriptLib" name="ScriptLib" since="2.2">
     <Member displayNameID="Structure.ScriptLib.name" isIntrinsic="true" name="name" runtimeSettable="true" since="2.1.1" type="memberKey" />
+  </Structure>
+  <Structure displayNameID="Structure.TOC" name="TOCStructure" since="2.2">
+	<Member name="expressionValue" displayNameID="Structure.TOC.Expression" returnType="any" since="2.2" type="expression" />
+	<Member displayNameID="Structure.TOC.TOCStyle" name="TOCStyle" since="2.2" type="element" detailType="Style" />
+ 	<Member detailType="lineStyle" displayNameID="Structure.TOC.border.top.style" name="borderTopStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.TOC.border.top.width" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.TOC.border.top.color" name="borderTopColor" since="1.0" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.TOC.border.left.style" name="borderLeftStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.TOC.border.left.width" name="borderLeftWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.TOC.border.left.color" name="borderLeftColor" since="1.0" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.TOC.border.bottom.style" name="borderBottomStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.TOC.border.bottom.width" name="borderBottomWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.TOC.border.bottom.color" name="borderBottomColor" since="1.0" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.TOC.border.right.style" name="borderRightStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.TOC.border.right.width" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.TOC.border.right.color" name="borderRightColor" since="1.0" type="color"/>
+    <Member displayNameID="Structure.TOC.background.color" name="backgroundColor" since="1.0" type="color"/>
+    <Member detailType="DateTimeFormatValue" displayNameID="Structure.TOC.format.dateTime" name="dateTimeFormat" since="1.0" type="structure"/>
+    <Member detailType="NumberFormatValue" displayNameID="Structure.TOC.format.number" name="numberFormat" since="1.0" type="structure"/>
+    <Member detailType="textAlign" displayNameID="Structure.TOC.format.number.align" name="numberAlign" since="1.0" type="choice"/>
+    <Member detailType="StringFormatValue" displayNameID="Structure.TOC.format.string" name="stringFormat" since="1.0" type="structure"/>
+    <Member detailType="fontFamily" displayNameID="Structure.TOC.font.family" name="fontFamily" since="1.0" type="string"/>
+    <Member detailType="fontSize" displayNameID="Structure.TOC.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator"/>
+    <Member detailType="fontStyle" displayNameID="Structure.TOC.font.style" name="fontStyle" since="1.0" type="choice"/>
+    <Member detailType="fontWeight" displayNameID="Structure.TOC.font.weight" name="fontWeight" since="1.0" type="choice"/>
+    <Member detailType="fontVariant" displayNameID="Structure.TOC.font.variant" name="fontVariant" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.TOC.font.color" name="color" since="1.0" type="color"/>
+    <Member detailType="textUnderline" displayNameID="Structure.TOC.font.textUnderline" name="textUnderline" since="1.0" type="choice"/>
+    <Member detailType="textOverline" displayNameID="Structure.TOC.font.textOverline" name="textOverline" since="1.0" type="choice"/>
+    <Member detailType="textLineThrough" displayNameID="Structure.TOC.font.textLineThrough" name="textLineThrough" since="1.0" type="choice"/>
+    <Member detailType="textAlign" displayNameID="Structure.TOC.text.align" name="textAlign" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.TOC.text.indent" name="textIndent" since="1.0" type="dimension"/>
+    <Member detailType="transform" displayNameID="Structure.TOC.text.transform" name="textTransform" since="1.0" type="choice"/>
   </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
@@ -2570,7 +2603,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportItem" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="false" name="ReportItem" nameSpace="element" since="1.0">
     <Property displayNameID="Element.ReportItem.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>
-    <Property displayNameID="Element.ReportItem.toc" name="toc" returnType="string" since="2.0" type="expression"/>
+    <Property detailType="TOCStructure" name="toc" displayNameID="Element.ReportItem.toc"  since="2.2" type="structure" />
     <Property detailType="DataSet" displayNameID="Element.ReportItem.dataSet" name="dataSet" runtimeSettable="false" since="1.0" type="element">
       <Trigger validator="DataSetRequiredValidator"/>
 	</Property>
@@ -2917,7 +2950,7 @@
     <Property displayNameID="Element.ListingGroup.keyExpr" name="keyExpr" returnType="any" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
-    <Property displayNameID="Element.ListingGroup.toc" name="toc" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
+    <Property detailType="TOCStructure" displayNameID="Element.ListingGroup.toc" name="toc" since="2.2" type="structure"  />
     <Property displayNameID="Element.ListingGroup.hideDetail" name="hideDetail" runtimeSettable="false" since="2.1" type="boolean">
       <Default>false</Default>
     </Property>
@@ -3650,16 +3683,16 @@
   <Style displayNameID="Style.MatrixColumnFooter8" name="matrix-column-footer-8" reference="Maxtrix column footer 8" />
   <Style displayNameID="Style.MatrixColumnFooter9" name="matrix-column-footer-9" reference="Maxtrix column footer 9" />
   <Style displayNameID="Style.MatrixCell" name="matrix-cell" reference="Maxtrix cell" />
-  <Style displayNameID="Style.Toc" name="toc" reference="Table-of-contents item" />
-  <Style displayNameID="Style.Toc1" name="toc1" reference="Table-of-contents level 1" />
-  <Style displayNameID="Style.Toc2" name="toc2" reference="Table-of-contents level 2" />
-  <Style displayNameID="Style.Toc3" name="toc3" reference="Table-of-contents level 3" />
-  <Style displayNameID="Style.Toc4" name="toc4" reference="Table-of-contents level 4" />
-  <Style displayNameID="Style.Toc5" name="toc5" reference="Table-of-contents level 5" />
-  <Style displayNameID="Style.Toc6" name="toc6" reference="Table-of-contents level 6" />
-  <Style displayNameID="Style.Toc7" name="toc7" reference="Table-of-contents level 7" />
-  <Style displayNameID="Style.Toc8" name="toc8" reference="Table-of-contents level 8" />
-  <Style displayNameID="Style.Toc9" name="toc9" reference="Table-of-contents level 9" />
+  <Style displayNameID="Style.Toc" name="Heading 0" reference="Table-of-contents item" />
+  <Style displayNameID="Style.Toc1" name="Heading 1" reference="Table-of-contents level 1" />
+  <Style displayNameID="Style.Toc2" name="Heading 2" reference="Table-of-contents level 2" />
+  <Style displayNameID="Style.Toc3" name="Heading 3" reference="Table-of-contents level 3" />
+  <Style displayNameID="Style.Toc4" name="Heading 4" reference="Table-of-contents level 4" />
+  <Style displayNameID="Style.Toc5" name="Heading 5" reference="Table-of-contents level 5" />
+  <Style displayNameID="Style.Toc6" name="Heading 6" reference="Table-of-contents level 6" />
+  <Style displayNameID="Style.Toc7" name="Heading 7" reference="Table-of-contents level 7" />
+  <Style displayNameID="Style.Toc8" name="Heading 8" reference="Table-of-contents level 8" />
+  <Style displayNameID="Style.Toc9" name="Heading 9" reference="Table-of-contents level 9" />
   <Style displayNameID="Style.Number" name="number" reference="Number data item" />
   <Style displayNameID="Style.String" name="string" reference="String data item" />
   <Style displayNameID="Style.FreeForm" name="free-form" reference="Free-form item" />

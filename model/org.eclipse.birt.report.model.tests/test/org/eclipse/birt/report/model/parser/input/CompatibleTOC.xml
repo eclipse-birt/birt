@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+    <body>
+        <label name="bodyLabel">
+            <expression name="toc">2005 Statistics</expression>
+        </label>
+    </body>
+</report>

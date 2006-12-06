@@ -320,6 +320,29 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		
+		if( handler.versionNumber < VersionUtil.VERSION_3_2_10 )
+		{
+			if( element instanceof ReportItem )
+			{
+				if( IReportItemModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				{
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					state.setName( IReportItemModel.TOC_PROP );
+					return state;
+				}
+			}
+			if( element instanceof GroupElement )
+			{
+				if( IGroupElementModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				{
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					state.setName( IGroupElementModel.TOC_PROP );
+					return state;
+				}
+			}
+		}
+		
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2
 				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
 		{

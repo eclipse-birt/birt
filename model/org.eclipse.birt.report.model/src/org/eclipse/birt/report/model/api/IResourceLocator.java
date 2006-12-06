@@ -68,6 +68,12 @@ public interface IResourceLocator
 	 */
 	
 	public final static int MESSAGE_FILE = 5;
+	
+	/**
+	 * The other types.
+	 */
+	
+	public final static int OTHERS = 0;
 
 	/**
 	 * Searches the file by the given file name. The actual search algorithm

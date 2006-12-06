@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
-import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
@@ -35,9 +34,11 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
@@ -480,6 +481,31 @@ public class StructureFactory
 		column.setName( tmpName );
 
 		return column;
+	}
+
+	/**
+	 * Create TOC structure.
+	 * 
+	 * @return toc object
+	 */
+	public static TOC createTOC( )
+	{
+		TOC toc = new TOC( );
+		return toc;
+	}
+
+	/**
+	 * Create TOC structure with expression value.
+	 * 
+	 * @param expression
+	 *            expression value
+	 * @return toc object
+	 */
+	public static TOC createTOC( String expression )
+	{
+		TOC toc = new TOC( );
+		toc.setProperty( TOC.TOC_EXPRESSION, expression );
+		return toc;
 	}
 
 }

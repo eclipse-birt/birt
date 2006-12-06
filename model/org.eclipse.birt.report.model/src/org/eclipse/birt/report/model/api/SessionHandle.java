@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -839,6 +840,31 @@ public class SessionHandle
 	public String getResourceFolder( )
 	{
 		return session.getResourceFolder( );
+	}
+
+	/**
+	 * Gets default TOC Style.Heading 1 -> Heading 10.
+	 * 
+	 * @param name
+	 *            style name
+	 * @return style handle which is read only.
+	 */
+
+	public StyleHandle getDefaultTOCStyle( String name )
+	{
+		List result = session.getDefaultTOCStyleValue( );
+		if ( result == null )
+			return null;
+		Iterator iterator = result.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			StyleHandle styleHandle = (StyleHandle) iterator.next( );
+			if ( styleHandle.getName( ).equals( name ) )
+			{
+				return styleHandle;
+			}
+		}
+		return null;
 	}
 
 }

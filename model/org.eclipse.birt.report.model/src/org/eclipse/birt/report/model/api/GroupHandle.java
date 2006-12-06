@@ -17,10 +17,12 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
@@ -333,7 +335,8 @@ public abstract class GroupHandle extends ReportElementHandle
 	public void setIntervalRange( String intervalRange )
 			throws SemanticException
 	{
-		setStringProperty( IGroupElementModel.INTERVAL_RANGE_PROP, intervalRange );
+		setStringProperty( IGroupElementModel.INTERVAL_RANGE_PROP,
+				intervalRange );
 	}
 
 	/**
@@ -412,11 +415,27 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the TOC property is locked by the property mask.
 	 * 
 	 * @see #getTocExpression()
+	 * @deprecated
 	 */
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
-		setStringProperty( IGroupElementModel.TOC_PROP, expression );
+		if ( StringUtil.isEmpty( expression ) )
+		{
+			setProperty( IGroupElementModel.TOC_PROP, null );
+			return;
+		}
+		TOCHandle tocHandle = getTOC( );
+		if ( tocHandle == null )
+		{
+			TOC toc = StructureFactory.createTOC( expression );		
+			addTOC( toc );
+		}
+		else
+		{
+			tocHandle.setExpression( expression );
+		}
+
 	}
 
 	/**
@@ -426,11 +445,15 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * @return the expression evaluated as a table of contents entry for this
 	 *         item
 	 * @see #setTocExpression(String)
+	 * @deprecated
 	 */
 
 	public String getTocExpression( )
 	{
-		return getStringProperty( IGroupElementModel.TOC_PROP );
+		TOCHandle tocHandle = getTOC( );
+		if ( tocHandle == null )
+			return null;
+		return tocHandle.getExpression( );
 	}
 
 	/**
@@ -561,7 +584,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setPageBreakInside( String value ) throws SemanticException
 	{
-		setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , value );
+		setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP, value );
 	}
 
 	/**
@@ -698,5 +721,62 @@ public abstract class GroupHandle extends ReportElementHandle
 			boolean inForce ) throws SemanticException
 	{
 		return null;
+	}
+
+	/**
+	 * Gets TOC handle.
+	 * 
+	 * @return toc handle
+	 */
+
+	public TOCHandle getTOC( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( IGroupElementModel.TOC_PROP );
+		TOC toc = (TOC) propHandle.getValue( );
+
+		if ( toc == null )
+			return null;
+
+		return (TOCHandle) toc.getHandle( propHandle );
+	}
+
+	/**
+	 * Adds toc structure.
+	 * 
+	 * @param expression
+	 *            toc expression
+	 * @return toc handle
+	 * @throws SemanticException
+	 */
+
+	public TOCHandle addTOC( String expression ) throws SemanticException
+	{
+		if ( StringUtil.isEmpty( expression ) )
+			return null;
+
+		TOC toc = StructureFactory.createTOC( expression );
+		setProperty( IReportItemModel.TOC_PROP, toc );
+
+		return (TOCHandle) toc
+				.getHandle( getPropertyHandle( IReportItemModel.TOC_PROP ) );
+	}
+
+	/**
+	 * Adds toc structure.
+	 * 
+	 * @param toc
+	 *            toc structure
+	 * @return toc handle
+	 * @throws SemanticException
+	 */
+
+	public TOCHandle addTOC( TOC toc ) throws SemanticException
+	{
+		setProperty( IGroupElementModel.TOC_PROP, toc );
+
+		if ( toc == null )
+			return null;
+		return (TOCHandle) toc
+				.getHandle( getPropertyHandle( IGroupElementModel.TOC_PROP ) );
 	}
 }

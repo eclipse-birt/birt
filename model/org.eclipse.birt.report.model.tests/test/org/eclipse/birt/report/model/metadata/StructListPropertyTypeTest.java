@@ -130,7 +130,7 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testToString( )
 	{
-		assertEquals( null, type.toString( design, propDefn, value ));
+		assertEquals( "[One, Two, Three]", type.toString( design, propDefn, value )); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -138,7 +138,7 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testToDisplayString( )
 	{
-        assertEquals( null, type.toDisplayString( design, propDefn, value ));
+        assertEquals( "[One, Two, Three]", type.toDisplayString( design, propDefn, value )); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)

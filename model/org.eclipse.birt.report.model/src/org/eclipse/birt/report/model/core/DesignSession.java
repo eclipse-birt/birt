@@ -11,18 +11,23 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
@@ -39,6 +44,7 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ModelResourceHandle;
@@ -71,6 +77,24 @@ import com.ibm.icu.util.ULocale;
 
 public class DesignSession
 {
+
+	/**
+	 * templates file folder.
+	 */
+
+	private static final String TEMPLATES_FOLDER_PATH = "templates";//$NON-NLS-1$
+
+	/**
+	 * list each item is <code>Style</code>
+	 */
+
+	private static List defaultTOCStyleList = null;
+
+	/**
+	 * file with TOC default value.
+	 */
+
+	public static final String TOC_DEFAULT_VALUE = "TOCDefaultValue.xml";//$NON-NLS-1$
 
 	/**
 	 * Resource path.
@@ -589,7 +613,7 @@ public class DesignSession
 	public ReportDesign createDesign( String fileName )
 	{
 		ReportDesign design = new ReportDesign( this );
-		
+
 		design.setFileName( fileName );
 		if ( !StringUtil.isBlank( fileName ) )
 		{
@@ -598,7 +622,7 @@ public class DesignSession
 			if ( systemId != null )
 				design.setSystemId( systemId );
 		}
-		
+
 		design.setValid( true );
 		designs.add( design );
 		return design;
@@ -639,7 +663,7 @@ public class DesignSession
 		design.setFileName( null );
 		return design;
 	}
-	
+
 	/**
 	 * Creates a new design not based on a template.
 	 * 
@@ -1122,4 +1146,66 @@ public class DesignSession
 	{
 		DesignSession.resourcePath = resourcePath;
 	}
+
+	/**
+	 * Inits default toc style value.
+	 * 
+	 */
+
+	private void initDefaultTOCStyle( )
+	{
+		defaultTOCStyleList = new ArrayList( );
+		URL url = new DefaultResourceLocator( ).findResource( null,
+				TEMPLATES_FOLDER_PATH + File.separator + TOC_DEFAULT_VALUE,
+				IResourceLocator.OTHERS );
+		if ( url == null )
+			return;
+
+		ReportDesign tocDesign = null;
+		try
+		{
+			DesignSession session = new DesignSession( ULocale.ENGLISH );
+			tocDesign = session.openDesign( url, url.openStream( ) );
+			tocDesign.setReadOnly( );
+		}
+		catch ( DesignFileException e )
+		{
+			return;
+		}
+		catch ( IOException e )
+		{
+			return;
+		}
+
+		// get styles
+
+		ContainerSlot slot = tocDesign.getSlot( IReportDesignModel.STYLE_SLOT );
+		Iterator iterator = slot.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			DesignElement tmpStyle = (DesignElement) iterator.next( );
+			StyleHandle styleHandle = (StyleHandle) tmpStyle
+					.getHandle( tocDesign );
+			defaultTOCStyleList.add( styleHandle );
+		}
+	}
+
+	/**
+	 * Gets styles with default value for TOC.
+	 * 
+	 * @return list each item is <code>Style</code>
+	 */
+
+	public List getDefaultTOCStyleValue( )
+	{
+		if ( defaultTOCStyleList != null )
+			return Collections.unmodifiableList( defaultTOCStyleList );
+		synchronized ( DesignSession.class )
+		{
+			if ( defaultTOCStyleList == null )
+				initDefaultTOCStyle( );
+		}
+		return Collections.unmodifiableList( defaultTOCStyleList );
+	}
+
 }

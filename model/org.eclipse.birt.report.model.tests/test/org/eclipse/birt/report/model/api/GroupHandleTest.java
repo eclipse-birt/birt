@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -199,5 +200,31 @@ public class GroupHandleTest extends BaseTestCase
 		group.clearContents( GroupElement.FOOTER_SLOT );
 		assertEquals( false, group.hasHeader( ) );
 
+	}
+	
+	/**
+	 * Tests addTOC , getTOC , setTOCExpression, getTOCExpression
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testTOC( ) throws Exception
+	{
+		openDesign( "GroupHandleTest.xml" ); //$NON-NLS-1$
+		
+		ListHandle list = (ListHandle) designHandle.findElement( "My List" ); //$NON-NLS-1$
+		SlotHandle groupSlot = list.getGroups( );
+		GroupHandle group = (GroupHandle) groupSlot.get( 0 );
+		
+		TOC toc = StructureFactory.createTOC( "toc" ); //$NON-NLS-1$
+		TOCHandle tocHandle = group.addTOC( toc );
+		assertNotNull( tocHandle );
+		assertEquals( "toc" , tocHandle.getExpression( ) );//$NON-NLS-1$
+		
+		assertEquals( "toc" , group.getTocExpression( ) );//$NON-NLS-1$
+		
+		group.setTocExpression( "toc2" );//$NON-NLS-1$
+		assertEquals( "toc2" , group.getTocExpression( ));//$NON-NLS-1$
+		
 	}
 }

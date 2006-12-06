@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -41,7 +42,7 @@ import com.ibm.icu.util.ULocale;
 
 public class ParserCompatibilityTest extends BaseTestCase
 {
-
+   
 	private String resultSetClearFileName = "CompatibleResultSetClearTest.xml";//$NON-NLS-1$
 	private String resultSetHintClearFileName = "CompatibleResultSetHintClearTest.xml";//$NON-NLS-1$
 
@@ -572,5 +573,20 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertEquals(
 				"org.eclipse.datatools.enablement.oda.xml.dataSet", dataSet.getExtensionID( ) );//$NON-NLS-1$
 
+	}
+	
+	/**
+	 * Tests toc backward.This function apply after version 3.2.9.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testTOC( ) throws Exception
+	{
+		openDesign( "CompatibleTOC.xml" ); //$NON-NLS-1$
+		save(); 
+		assertTrue( compareFile(
+				"CompatibleTOC_golden.xml") ); //$NON-NLS-1$
+	
 	}
 }

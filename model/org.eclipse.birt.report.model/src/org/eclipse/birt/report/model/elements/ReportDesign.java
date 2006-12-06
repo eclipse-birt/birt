@@ -214,9 +214,9 @@ public class ReportDesign extends Module implements IReportDesignModel
 		while ( contents.hasNext( ) )
 		{
 			DesignElement ele = (DesignElement) contents.next( );
-			String str = ele.getStringProperty( this, propName );
-			if ( str != null )
-				rtnList.add( str );
+			Object obj = ele.getProperty( this, propName );
+			if ( obj != null )
+				rtnList.add( obj );
 		}
 
 		return rtnList;

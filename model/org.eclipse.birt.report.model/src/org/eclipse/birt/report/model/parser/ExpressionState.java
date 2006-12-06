@@ -16,11 +16,14 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -102,6 +105,27 @@ class ExpressionState extends PropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		if( handler.versionNumber < VersionUtil.VERSION_3_2_10 )
+		{
+			if( element instanceof ReportItem )
+			{
+				if( IReportItemModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				{
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					state.setName( IReportItemModel.TOC_PROP );
+					return state;
+				}
+			}
+			if( element instanceof GroupElement )
+			{
+				if( IGroupElementModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				{
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					state.setName( IGroupElementModel.TOC_PROP );
+					return state;
+				}
+			}
+		}
 		if ( "highlightTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 		{
 			if ( handler.isVersion( VersionUtil.VERSION_0 )

@@ -1409,7 +1409,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		OdaDummyProvider dummyProvider = (OdaDummyProvider) provider;
 
 		// write other un-organized strings
-		
+
 		ContentTree tree = dummyProvider.getContentTree( );
 		writeContentTree( tree );
 	}
@@ -2731,7 +2731,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 		property( obj, IReportItemModel.BOOKMARK_PROP );
-		property( obj, IReportItemModel.TOC_PROP );
+		writeStructure( obj , IReportItemModel.TOC_PROP );
 
 		property( obj, IReportItemModel.ON_PREPARE_METHOD );
 		property( obj, IReportItemModel.ON_CREATE_METHOD );
@@ -2837,7 +2837,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IGroupElementModel.SORT_DIRECTION_PROP );
 		property( obj, IGroupElementModel.SORT_TYPE_PROP );
 		property( obj, IGroupElementModel.KEY_EXPR_PROP );
-		property( obj, IGroupElementModel.TOC_PROP );
+		
+		writeStructure( obj , IGroupElementModel.TOC_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, IGroupElementModel.ON_PREPARE_METHOD );

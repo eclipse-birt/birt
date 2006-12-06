@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
     <data-sources>
         <oda-data-source name="dataSource1" id="6"/>
         <oda-data-source name="dataSource2" id="7"/>

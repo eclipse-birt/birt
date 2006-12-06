@@ -88,14 +88,14 @@ public class StructPropertyType extends PropertyType
 			logger.log( Level.WARNING, "The value of the structure is null" ); //$NON-NLS-1$
 			return null;
 		}
-		
+
 		// Now support empty list if structure property is list.
 
 		if ( defn.isList( ) )
 		{
-			if( value instanceof List )
+			if ( value instanceof List )
 			{
-				if( ((List)value).isEmpty( ) )
+				if ( ( (List) value ).isEmpty( ) )
 				{
 					return value;
 				}
@@ -104,10 +104,11 @@ public class StructPropertyType extends PropertyType
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					STRUCT_TYPE );
 		}
-		
+
 		if ( value instanceof Structure )
 		{
-			logger.log( Level.INFO, "Validate the structure value for each of its member " ); //$NON-NLS-1$
+			logger.log( Level.INFO,
+					"Validate the structure value for each of its member " ); //$NON-NLS-1$
 			Iterator iter = ( (Structure) value ).getDefn( )
 					.propertiesIterator( );
 			while ( iter.hasNext( ) )
@@ -125,7 +126,8 @@ public class StructPropertyType extends PropertyType
 		}
 
 		// exception
-		logger.log( Level.WARNING, "The value of this structure property is not a valid type" ); //$NON-NLS-1$
+		logger.log( Level.WARNING,
+				"The value of this structure property is not a valid type" ); //$NON-NLS-1$
 		return null;
 
 	}
@@ -154,9 +156,10 @@ public class StructPropertyType extends PropertyType
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
-		// Cannot convert to string
+		if ( value == null )
+			return null;
 
-		return null;
+		return value.toString( );
 	}
 
 }

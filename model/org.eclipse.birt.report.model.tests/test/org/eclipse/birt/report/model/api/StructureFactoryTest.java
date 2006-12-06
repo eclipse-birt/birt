@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -157,6 +158,12 @@ public class StructureFactoryTest extends BaseTestCase
 
 		MapRule mapRule = StructureFactory.createMapRule( );
 		assertNotNull( mapRule );
+		
+		TOC toc = StructureFactory.createTOC( );
+		assertNotNull( toc );
+		
+		toc = StructureFactory.createTOC( "toc" ); //$NON-NLS-1$
+		assertNotNull( toc );
 
 	}
 

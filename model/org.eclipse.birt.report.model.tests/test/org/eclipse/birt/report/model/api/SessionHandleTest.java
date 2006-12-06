@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
@@ -930,6 +931,33 @@ public class SessionHandleTest extends BaseTestCase
 		assertEquals( 1, designHandle.getModule( ).getAllErrors( ).size( ) );
 		assertEquals( 1, designHandle
 				.getLibrary( "lib" ).getModule( ).getAllErrors( ).size( ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Test getDefaultTOCStyle method.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetDefaultTOCStyle( ) throws Exception
+	{
+		StyleHandle styleHandle = session.getDefaultTOCStyle( "Heading 0" );//$NON-NLS-1$
+
+		assertNotNull( styleHandle );
+		
+		DimensionHandle dimension = styleHandle.getFontSize( );
+		assertNotNull( dimension );
+		assertEquals( "xx-large" , dimension.getValue( ) ); //$NON-NLS-1$
+		
+		try{
+			styleHandle.setCanShrink( false );
+			fail();
+			
+		}catch( IllegalOperationException e)
+		{
+			assertEquals( ReadOnlyActivityStack.MESSAGE , e.getMessage( ) );
+		}
 
 	}
 }

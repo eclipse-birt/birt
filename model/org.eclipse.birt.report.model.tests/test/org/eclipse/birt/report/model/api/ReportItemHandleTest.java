@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -165,6 +166,55 @@ public class ReportItemHandleTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests 'addTOC' , 'getTOC' , 'setExpression' , 'getExpression' method.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testTOC( ) throws Exception
+	{
+		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "bodyLabel" );//$NON-NLS-1$
+		
+		TOC toc = StructureFactory.createTOC( "toc" ); //$NON-NLS-1$
+		TOCHandle tocHandle = labelHandle.addTOC( toc );
+		assertNotNull( tocHandle );
+		assertEquals( "toc" , tocHandle.getExpression( ) );//$NON-NLS-1$
+		
+		//private style
+		
+		tocHandle.setProperty( DesignChoiceConstants.CHOICE_FONT_WEIGHT , DesignChoiceConstants.FONT_WEIGHT_BOLD );
+		
+		//shared style
+		
+		StyleHandle style = designHandle.getElementFactory( ).newStyle( "style" );//$NON-NLS-1$	
+		style.setCanShrink( true );
+		style.setFontWeight( DesignChoiceConstants.FONT_WEIGHT_NORMAL );
+		designHandle.getStyles( ).add( style );
+		
+		//check shared style
+		
+		assertEquals( "toc",labelHandle.getStringProperty( ReportItem.TOC_PROP ));//$NON-NLS-1$	
+		tocHandle.setStyleName( style.getName( ) );
+		
+		assertEquals( "style" , tocHandle.getStyleName( ));//$NON-NLS-1$	
+	
+	}
+	
+	/**
+	 * Tests 'setStringProperty' method.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testSetTOCProperty() throws Exception
+	{
+		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "bodyLabel" );//$NON-NLS-1$
+		labelHandle.setStringProperty( IReportItemModel.TOC_PROP , "toc" );//$NON-NLS-1$
+		
+		assertEquals( "toc" , labelHandle.getStringProperty( IReportItemModel.TOC_PROP ));//$NON-NLS-1$
+	}
+
+	/**
 	 * Tests addcolumnBinding method.
 	 * 
 	 * @throws SemanticException
@@ -209,7 +259,7 @@ public class ReportItemHandleTest extends BaseTestCase
 		tableHandle.addColumnBinding( col, true );
 
 		// add duplicate name on table row data
-		
+
 		ComputedColumn col2 = StructureFactory.createComputedColumn( );
 		col2.setName( "CUSTOMERNUMBER" ); //$NON-NLS-1$
 		col2.setExpression( "dataSetRow[\"CUSTOMERNUMBER\"]" ); //$NON-NLS-1$

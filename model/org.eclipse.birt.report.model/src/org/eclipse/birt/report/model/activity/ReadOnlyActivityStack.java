@@ -25,7 +25,11 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 public class ReadOnlyActivityStack extends ActivityStack
 {
 
-	private final static String MESSAGE = "The library is read-only and operation is forbidden."; //$NON-NLS-1$
+	/**
+	 * library read-only message
+	 */
+	
+	public final static String MESSAGE = "The module is read-only and operation is forbidden."; //$NON-NLS-1$
 
 	/**
 	 * Constructs a <code>ReadOnlyActivityStack</code>.

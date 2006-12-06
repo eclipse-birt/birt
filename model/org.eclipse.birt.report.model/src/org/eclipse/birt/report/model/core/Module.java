@@ -2658,5 +2658,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 			return null;
 		return effectOptions.getResourceFolder( );
 	}
+	
+	/**
+	 * Sets the module is read-only one. That means any operation on it will
+	 * throw runtime exception.
+	 */
+
+	public void setReadOnly( )
+	{
+		activityStack = new ReadOnlyActivityStack( );
+	}
 
 }

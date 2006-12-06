@@ -154,16 +154,6 @@ public class Library extends Module implements ILibraryModel
 		this.namespace = namespace;
 	}
 
-	/**
-	 * Sets the library is read-only one. That means any operation on it will
-	 * throw runtime exception.
-	 */
-
-	public void setReadOnly( )
-	{
-		activityStack = new ReadOnlyActivityStack( );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

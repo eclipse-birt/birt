@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -53,6 +55,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -132,6 +135,24 @@ public class PropertyCommand extends AbstractElementCommand
 	public void setProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
+		// Backward for TOC expression.
+
+		String propName = prop.getName( );
+		if ( ( IReportItemModel.TOC_PROP.equals( propName ) 
+				|| IGroupElementModel.TOC_PROP.equals( propName  ) )
+				&& ( value instanceof String ) )
+		{
+			Object oldValue = element.getLocalProperty( module, prop );
+			if ( oldValue != null )
+			{
+				MemberRef ref = new CachedMemberRef( prop, TOC.TOC_EXPRESSION );
+				setMember( ref, value );
+				return;
+			}
+
+			value = StructureFactory.createTOC( (String) value );
+		}
+
 		if ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
 		{
 			throw new PropertyValueException(
@@ -154,7 +175,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		if ( element.isVirtualElement( ) && element instanceof Cell )
 		{
-			String propName = prop.getName( );
+			propName = prop.getName( );
 			if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
 					|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
 					|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
@@ -176,7 +197,7 @@ public class PropertyCommand extends AbstractElementCommand
 			// type is
 			// a pre-defined type.
 
-			String propName = prop.getName( );
+			propName = prop.getName( );
 			if ( !( (MasterPage) element ).isCustomType( module )
 					&& ( IMasterPageModel.WIDTH_PROP.equals( propName ) || IMasterPageModel.HEIGHT_PROP
 							.equals( propName ) ) )

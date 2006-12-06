@@ -313,20 +313,12 @@ public class ElementDefnTest extends BaseTestCase
 		IElementDefn freeFormDefn = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.FREE_FORM_ITEM );
 
-		int i = 0;
-
 		List list = freeFormDefn.getExpressions( );
-		assertEquals( 2, list.size( ) );
-		// assertEquals( Style.MAP_TEST_EXPR_PROP,
-		// ( (PropertyDefn) list.get( i++ ) ).getName( ) );
-		// assertEquals( Style.HIGHLIGHT_TEST_EXPR_PROP, ( (PropertyDefn)
-		// list.get( i++ ) )
-		// .getName( ) );
+		assertEquals( 1, list.size( ) );
+	
 		assertEquals( ReportItem.BOOKMARK_PROP,
-				( (PropertyDefn) list.get( i++ ) ).getName( ) );
-		assertEquals( ReportItem.TOC_PROP, ( (PropertyDefn) list.get( i++ ) )
-				.getName( ) );
-
+				( (PropertyDefn) list.get( 0 ) ).getName( ) );
+	
 		assertEquals( 0, freeFormDefn.getLocalExpressions( ).size( ) );
 	}
 

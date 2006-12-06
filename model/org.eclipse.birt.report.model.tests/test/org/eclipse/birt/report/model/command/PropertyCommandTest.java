@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -356,6 +357,31 @@ public class PropertyCommandTest extends BaseTestCase
 		prop = page.getPropertyDefn( propName );
 		value = "hello blue";//$NON-NLS-1$
 		PropertyDefnOperate( prop, value );
+
+	}
+
+	/**
+	 * Test setProperty method. especially for compatible with set toc string
+	 * value.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void testBackwardTOCSetProperty( ) throws SemanticException
+	{
+		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
+				"lable1" );//$NON-NLS-1$
+		labelHandle.setStringProperty( IReportItemModel.TOC_PROP, "exp1" );//$NON-NLS-1$
+
+		assertEquals( "exp1", labelHandle.getTOC( ).getExpression( ) );//$NON-NLS-1$
+
+		labelHandle.setStringProperty( IReportItemModel.TOC_PROP, "exp2" );//$NON-NLS-1$
+
+		assertEquals( "exp2", labelHandle.getTOC( ).getExpression( ) );//$NON-NLS-1$
+		
+		designHandle.getModule( ).getActivityStack( ).undo( );
+		
+		assertEquals( "exp1", labelHandle.getTOC( ).getExpression( ) );//$NON-NLS-1$
 	}
 
 	/**
@@ -498,8 +524,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		style = design.findStyle( "Style2" ); //$NON-NLS-1$
 		AddItemRule( style, true );
-		saveOperate(
-				"PropertyCommandTest_golden_5.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_5.xml" );//$NON-NLS-1$
 
 		DeleteRule( style );
 
@@ -508,8 +533,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		style = design.findStyle( "Style3" ); //$NON-NLS-1$
 		AddItemRule( style, false );
-		saveOperate(
-				"PropertyCommandTest_golden_6.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_6.xml" );//$NON-NLS-1$
 
 	}
 
@@ -1152,8 +1176,7 @@ public class PropertyCommandTest extends BaseTestCase
 		rule.setProperty( propDefn, "RuleReplace" );//$NON-NLS-1$
 		propHandle.addItem( rule );
 
-		saveOperate(
-				"PropertyCommandTest_golden.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden.xml" );//$NON-NLS-1$
 
 		// replace item operation
 
@@ -1162,17 +1185,14 @@ public class PropertyCommandTest extends BaseTestCase
 				MapRule.DISPLAY_MEMBER );
 		ruleNew.setProperty( propDefn, "NewItem" ); //$NON-NLS-1$
 		propHandle.replaceItem( rule, ruleNew );
-		saveOperate(
-				"PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$
 
 		// undo , redo to test if the result is equal to excepted value
 
 		design.getActivityStack( ).undo( );
-		saveOperate(
-				"PropertyCommandTest_golden_2.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_2.xml" );//$NON-NLS-1$
 		design.getActivityStack( ).redo( );
-		saveOperate(
-				"PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_1.xml" );//$NON-NLS-1$
 
 	}
 
@@ -1346,8 +1366,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// save check result
 
-		saveOperate(
-				"PropertyCommandTest_golden_7.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_7.xml" );//$NON-NLS-1$
 
 		// remove the last rule.
 
@@ -1411,8 +1430,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
 
-		saveOperate(
-				"PropertyCommandTest_golden_11.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_11.xml" );//$NON-NLS-1$
 
 	}
 
@@ -1449,26 +1467,22 @@ public class PropertyCommandTest extends BaseTestCase
 		// move item from index zero to index one
 
 		propHandle.moveItem( 0, 2 );
-		saveOperate(
-				"PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
 
 		// undo and check result
 
 		design.getActivityStack( ).undo( );
-		saveOperate(
-				"PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
 
 		// redo and check result
 
 		design.getActivityStack( ).redo( );
-		saveOperate(
-				"PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
 
 		// move Item to the end of the list.
 
 		propHandle.moveItem( 0, rules.size( ) );
-		saveOperate(
-				"PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
+		saveOperate( "PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
 
 		// move item from null structure list
 

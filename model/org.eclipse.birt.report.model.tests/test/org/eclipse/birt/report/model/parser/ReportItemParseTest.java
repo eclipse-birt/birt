@@ -17,10 +17,13 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -174,7 +177,7 @@ public class ReportItemParseTest extends BaseTestCase
 
 		assertEquals( "birt.js.dataHandler", dataHandle //$NON-NLS-1$
 				.getEventHandlerClass( ) );
-
+		
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "hello, show data on prepare.", dataHandle.getOnPrepare( ) ); //$NON-NLS-1$	
@@ -239,7 +242,10 @@ public class ReportItemParseTest extends BaseTestCase
 		FreeFormHandle form = (FreeFormHandle) designHandle
 				.findElement( "free form" ); //$NON-NLS-1$	
 		assertEquals( "\"This Section\"", form.getTocExpression( ) ); //$NON-NLS-1$	
-
+		
+		TOCHandle tocHandle = dataHandle.getTOC( );
+		
+		assertEquals( "2005 Statistics" , tocHandle.getExpression( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -331,6 +337,18 @@ public class ReportItemParseTest extends BaseTestCase
 
 		save(); 
 		assertTrue( compareFile( "ReportItemParseTest_golden.xml") ); //$NON-NLS-1$
+		
+		dataHandle.addTOC( "toc1" );//$NON-NLS-1$
+		TOCHandle tocHandle = dataHandle.getTOC( );
+		assertNotNull( tocHandle );
+		
+		dataHandle.addTOC( (String)null );
+		
+		TOC toc = StructureFactory.createTOC("toc2");//$NON-NLS-1$
+		dataHandle.addTOC( toc );
+		
+		save();
+		assertTrue( compareFile( "ReportItemParseTest_2_golden.xml"));//$NON-NLS-1$
 	}
 
 }
