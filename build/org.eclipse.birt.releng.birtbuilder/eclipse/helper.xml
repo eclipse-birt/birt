@@ -447,6 +447,20 @@
 			<fileset dir="${plugin-dest}/features" >
 				<include name="org.eclipse.datatools.*/**" />
 			</fileset>
+			<fileset dir="${AllInOne-dest}/eclipse/plugins" >
+				<include name="*.datatools.*.jar" />
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
+			<fileset dir="${AllInOne-dest}/eclipse/features" >
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
+			<fileset dir="${AllInOne-Linux-dest}/eclipse/plugins" >
+				<include name="*.datatools.*.jar" />
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
+			<fileset dir="${AllInOne-Linux-dest}/eclipse/features" >
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
 		</delete>
 
 		<!--Define the ODA dependency plugins-->
@@ -503,7 +517,7 @@
 		</copy>
 
 		<copy todir="${AllInOne-Linux-dest}/eclipse/plugins" failonerror="false">
-			<fileset dir="${deposit}/downloads/${file-version}/eclipse/plugins">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 				<patternset refid="oda.runtime.plugins" />
 			</fileset>
 		</copy>
