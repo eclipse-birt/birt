@@ -129,12 +129,16 @@
 			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
         </ant>
     </target>
+	
     <target name="org.eclipse.birt.report.tests.viewer" depends="init">
     	<echo message="Starting unit test for org.eclipse.birt.report.tests.viewer"/>
         <ant dir="${working.dir}/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        	<property name="catalina_home" value="${tomcat.install.dir}"/>
+        	<property name="hostandport" value="127.0.0.1:5555"/>
+        	<property name="birtbuild" value="${buildId}"/>
         </ant>
     </target>
     <target name="org.eclipse.birt.report.tests.model" depends="init">

@@ -590,6 +590,17 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<!-- prepare Tomcat server for tests.viewer-->
+		<mkdir dir="${tomcat.install.dir}/viewerprepare"/>
+		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+			<arg line="-q birt-runtime-2_2_0.zip -d ${tomcat.install.dir}/viewerprepare" />
+		</exec>
+		<copy todir="${tomcat.install.dir}/webapps/${buildId}">
+			<fileset dir="${tomcat.install.dir}/viewerprepare/birt-runtime-2_2_0/WebViewerExample">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<delete dir="${tomcat.install.dir}/viewerprepare" failonerror="false"/>
 	</target>
 	
 
