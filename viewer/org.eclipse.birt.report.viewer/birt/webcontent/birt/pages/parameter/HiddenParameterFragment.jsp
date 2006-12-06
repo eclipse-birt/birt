@@ -36,7 +36,10 @@
 		<INPUT TYPE="HIDDEN" ID="control_type" VALUE="hidden">
 		<INPUT TYPE="HIDDEN"
 			NAME="<%= encodedParameterName %>"
-			VALUE="<%= value %>"/>		
+			VALUE="<%= value %>"/>
+		<INPUT TYPE="HIDDEN"
+			ID="<%= encodedParameterName + "_displayText" %>"
+			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDisplayText( ) == null )? "" : parameterBean.getDisplayText( ) ) %>" />				
 	</TD>
 </TR>
 

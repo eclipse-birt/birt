@@ -70,10 +70,14 @@
             >
 
 		<INPUT TYPE="HIDDEN"
-			NAME="<%= encodedParameterName %>"
 			ID="<%= encodedParameterName + "_value" %>"
 			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getValue( ) == null )? "" : parameterBean.getValue( ) ) %>"
 			>
+		
+		<INPUT TYPE="HIDDEN"
+			ID="<%= encodedParameterName + "_displayText" %>"
+			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDisplayText( ) == null )? "" : parameterBean.getDisplayText( ) ) %>"
+			>	
 <%
 	if ( !parameterBean.allowBlank( ) )
 	{

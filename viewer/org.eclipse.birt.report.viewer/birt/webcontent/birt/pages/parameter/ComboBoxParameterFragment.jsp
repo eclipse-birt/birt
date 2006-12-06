@@ -141,9 +141,15 @@
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			TITLE="<%= parameterBean.getToolTip( ) %>"
+			<%= !CHECKED ? "NAME=\"" + encodedParameterName + "_default\"": "" %> 
 			ID="<%= encodedParameterName + "_input"%>"
 			<%= !CHECKED && displayText != null ? "VALUE=\"" + ParameterAccessor.htmlEncode( displayText ) + "\"": "" %> 
 			<%= CHECKED ? "DISABLED='true'" : "" %>	>
+		
+		<INPUT TYPE="HIDDEN"
+			ID="<%= encodedParameterName + "_displayText" %>"
+			<%= !CHECKED && displayText != null ? "VALUE=\"" + ParameterAccessor.htmlEncode( displayText ) + "\"": "" %> 
+			>		
 	<%
 	  }
 	  

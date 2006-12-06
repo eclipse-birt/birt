@@ -183,7 +183,18 @@ public class ScalarParameterFragment extends BirtBaseFragment
 
 		// Set parameter current value
 		parameterBean.setValue( parameterValue );
-		parameterBean.setDisplayText( parameterValue );
+
+		// Set parameter display text
+		Map displayTexts = attrBean.getDisplayTexts( );
+		if ( displayTexts.containsKey( parameterBean.getName( ) ) )
+		{
+			parameterBean.setDisplayText( DataUtil.getString( displayTexts
+					.get( parameterBean.getName( ) ) ) );
+		}
+		else
+		{
+			parameterBean.setDisplayText( parameterValue );
+		}
 
 		// Set parameter default value
 		Map defaultValues = attrBean.getDefaultValues( );
@@ -208,9 +219,13 @@ public class ScalarParameterFragment extends BirtBaseFragment
 				parameterBean.setValue( value );
 
 				// display text
-				String displayText = ParameterValidationUtil.getDisplayValue(
-						null, parameter.getPattern( ), param, locale );
-				parameterBean.setDisplayText( displayText );
+				if ( !displayTexts.containsKey( parameterBean.getName( ) ) )
+				{
+					String displayText = ParameterValidationUtil
+							.getDisplayValue( null, parameter.getPattern( ),
+									param, locale );
+					parameterBean.setDisplayText( displayText );
+				}
 			}
 		}
 	}
