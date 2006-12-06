@@ -651,19 +651,13 @@ Today's build (BuildId: ${buildId}) is available.
 
 Please download :
                 	
-AllInOne from ${QA.test.dir}\${buildId}\birt-report-designer-all-in-one-2_2_0.zip
-                	
-AllInOne for linux from: ${QA.test.dir}\${buildId}\birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz
-                	
-RCP from ${QA.test.dir}\${buildId}\birt-rcp-report-designer-2_2_0.zip
-                	
-Runtime from ${QA.test.dir}\${buildId}\birt-runtime-2_2_0.zip
-                	
-Framework from ${QA.test.dir}\${buildId}\birt-report-framework-2_2_0.zip
-
-Source drops from ${QA.test.dir}\${buildId}\birt-source-2_2_0.zip
-                	
-JUnit Test Suite Framework from ${QA.test.dir}\${buildId}\birt-tests-suite-2_2_0.zip
+AllInOne from ${QA.test.dir}\${buildId}\birt-report-designer-all-in-one-2_2_0.zip${rtn}               	
+AllInOne for linux from: ${QA.test.dir}\${buildId}\birt-report-designer-all-in-one-2_2_0-linux-gtk.tar.gz${rtn}               	
+RCP from ${QA.test.dir}\${buildId}\birt-rcp-report-designer-2_2_0.zip${rtn}            	
+Runtime from ${QA.test.dir}\${buildId}\birt-runtime-2_2_0.zip${rtn}           	
+Framework from ${QA.test.dir}\${buildId}\birt-report-framework-2_2_0.zip${rtn}
+Source drops from ${QA.test.dir}\${buildId}\birt-source-2_2_0.zip${rtn}              	
+JUnit Test Suite Framework from ${QA.test.dir}\${buildId}\birt-tests-suite-2_2_0.zip${rtn}
                 	
 NL pack from ${QA.test.dir}\${buildId}\
 
