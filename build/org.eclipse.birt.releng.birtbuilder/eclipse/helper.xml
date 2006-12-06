@@ -709,6 +709,7 @@ Have a nice day!
 				<include name="org.eclipse.birt.report.tests.engine.AllTests.html"/>
 				<include name="org.eclipse.birt.report.tests.chart.AllTests.html"/>
 				<include name="org.eclipse.birt.tests.data.engine.AllTests.html"/>
+				<include name="org.eclipse.birt.report.tests.viewer.AllTests.html"/>
 			</fileset>
 		</mail>
 	</target>
