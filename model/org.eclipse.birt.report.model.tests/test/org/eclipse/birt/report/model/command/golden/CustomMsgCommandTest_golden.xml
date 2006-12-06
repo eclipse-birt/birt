@@ -5,7 +5,7 @@
     <translations>
         <resource key="ResourceKey.ReportDesign.Title">
             <translation>My Sample design(default)</translation>
-            <translation locale="zh_CN">zh_CN:�?单报�?.</translation>
+            <translation locale="zh_CN">zh_CN:简单报表.</translation>
             <translation locale="en">EN: My Sample design.</translation>
         </resource>
         <resource key="ResourceKey.ReportDesign.Description">

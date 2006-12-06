@@ -971,7 +971,19 @@ public abstract class ModuleWriter extends ElementVisitor
 			while ( memberIter.hasNext( ) )
 			{
 				PropertyDefn memberDefn = (PropertyDefn) memberIter.next( );
-				property( struct, memberDefn.getName( ) );
+
+				// the member of the structure list may be the
+				// structure/structure list again.
+				
+				if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+				{
+					if ( memberDefn.isList( ) )
+						writeStructureList( struct, memberDefn.getName( ) );
+					else
+						writeStructure( struct, memberDefn.getName( ) );
+				}
+				else
+					property( struct, memberDefn.getName( ) );
 			}
 			writer.endElement( );
 		}
@@ -2731,7 +2743,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
 		property( obj, IReportItemModel.BOOKMARK_PROP );
-		writeStructure( obj , IReportItemModel.TOC_PROP );
+		writeStructure( obj, IReportItemModel.TOC_PROP );
 
 		property( obj, IReportItemModel.ON_PREPARE_METHOD );
 		property( obj, IReportItemModel.ON_CREATE_METHOD );
@@ -2837,8 +2849,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IGroupElementModel.SORT_DIRECTION_PROP );
 		property( obj, IGroupElementModel.SORT_TYPE_PROP );
 		property( obj, IGroupElementModel.KEY_EXPR_PROP );
-		
-		writeStructure( obj , IGroupElementModel.TOC_PROP );
+
+		writeStructure( obj, IGroupElementModel.TOC_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, IGroupElementModel.ON_PREPARE_METHOD );

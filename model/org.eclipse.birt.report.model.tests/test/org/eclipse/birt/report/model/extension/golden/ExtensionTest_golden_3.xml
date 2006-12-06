@@ -189,9 +189,18 @@
                             <property name="borderRightWidth">thin</property>
                             <property name="borderRightColor">black</property>
                             <property name="backgroundColor">white</property>
-                            <property name="dateTimeFormat">yyyy/mm/dd</property>
-                            <property name="numberFormat">#.00</property>
-                            <property name="stringFormat">string-format</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">yyyy/mm/dd</property>
+                            </structure>
+                            <structure name="numberFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">#.00</property>
+                            </structure>
+                            <structure name="stringFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">string-format</property>
+                            </structure>
                             <property name="fontFamily">Arial</property>
                             <property name="fontSize">9pt</property>
                             <property name="fontStyle">normal</property>

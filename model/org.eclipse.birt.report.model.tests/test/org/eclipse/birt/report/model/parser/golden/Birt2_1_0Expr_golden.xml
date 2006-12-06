@@ -76,7 +76,7 @@
         </data>
         <image id="8">
             <property name="source">file</property>
-            <expression name="uri">"缇庡�?.jpg"</expression>
+            <expression name="uri">"缇庡コ.jpg"</expression>
         </image>
     </body>
 </report>
