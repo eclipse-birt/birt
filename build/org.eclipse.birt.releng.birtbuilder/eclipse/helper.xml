@@ -565,10 +565,10 @@
 			</fileset>
 		</delete>
 
-		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${postingDirectory}/${buildLabel}">
 			<arg line="-o -q birt-report-framework-2_2_0.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${postingDirectory}/${buildLabel}">
 			<arg line="-o -q birt-tests-suite-2_2_0.zip -d ${test.dir}" />
 		</exec>
 		<!-- copy iText jars for pdf testing -->
@@ -602,7 +602,7 @@
 		
 		<!-- prepare Tomcat server for tests.viewer-->
 		<mkdir dir="${tomcat.install.dir}/viewerprepare"/>
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${postingDirectory}/${buildLabel}">
 			<arg line="-q birt-runtime-2_2_0.zip -d ${tomcat.install.dir}/viewerprepare" />
 		</exec>
 		<copy todir="${tomcat.install.dir}/webapps/${buildId}">
