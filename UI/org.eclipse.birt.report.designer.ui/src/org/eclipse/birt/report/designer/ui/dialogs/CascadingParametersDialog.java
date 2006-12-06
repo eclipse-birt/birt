@@ -515,12 +515,14 @@ public class CascadingParametersDialog extends BaseDialog
 						if ( PARAM_CONTROL_COMBO.equals( newControlType ) )
 						{
 							newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
-							selectedParameter.setMustMatch( true );
+							// selectedParameter.setMustMatch( true );
+							selectedParameter.setMustMatch( false );
 						}
 						else if ( PARAM_CONTROL_LIST.equals( newControlType ) )
 						{
 							newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
-							selectedParameter.setMustMatch( false );
+							// selectedParameter.setMustMatch( false );
+							selectedParameter.setMustMatch( true );
 						}
 						else
 						{
@@ -1440,11 +1442,13 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			if ( selectedParameter.isMustMatch( ) )
 			{
-				displayName = DISPLAY_NAME_CONTROL_COMBO;
+				// displayName = DISPLAY_NAME_CONTROL_COMBO;
+				displayName = DISPLAY_NAME_CONTROL_LIST;
 			}
 			else
 			{
-				displayName = DISPLAY_NAME_CONTROL_LIST;
+				// displayName = DISPLAY_NAME_CONTROL_LIST;
+				displayName = DISPLAY_NAME_CONTROL_COMBO;
 			}
 		}
 		return displayName;
