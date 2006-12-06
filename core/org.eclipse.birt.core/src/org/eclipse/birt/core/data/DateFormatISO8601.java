@@ -117,17 +117,17 @@ public class DateFormatISO8601
 		int zoneIndex = s.indexOf( "GMT" );
 		if( zoneIndex > 0 )
 		{
-			return s.substring( 0, zoneIndex );
+			return s.substring( 0, zoneIndex ).trim( );
 		}
 		zoneIndex = s.indexOf( 'Z' );
 		if ( zoneIndex == s.length( ) - 1 )
 		{
-			return s.substring( 0, zoneIndex );
+			return s.substring( 0, zoneIndex ).trim( );
 		}
 		zoneIndex = s.indexOf( '+' );
 		if ( zoneIndex > 0 )
 		{
-			return s.substring( 0, zoneIndex );
+			return s.substring( 0, zoneIndex ).trim( );
 		}
 		
 		return s;
