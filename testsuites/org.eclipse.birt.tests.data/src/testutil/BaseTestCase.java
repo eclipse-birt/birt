@@ -340,6 +340,7 @@ abstract public class BaseTestCase extends TestCase
 		lineReaderA.close( );
 		lineReaderB.close( );
 
+		
 		return same;
 	}
 

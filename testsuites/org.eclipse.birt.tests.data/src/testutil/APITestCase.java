@@ -717,8 +717,8 @@ abstract public class APITestCase extends BaseTestCase
 	}
 
 	public String getOutputStrForFlatfileTest( int expectedLen,
-			IResultSet result, int ColumnCount, String[] columnStr )
-			throws Exception
+			IResultSet result, int ColumnCount, String[] columnStr,
+			int dateTypeColumnNum ) throws Exception
 	{
 
 		StringBuffer sBuffer = new StringBuffer( );
@@ -739,16 +739,18 @@ abstract public class APITestCase extends BaseTestCase
 				String value;
 
 				if ( result.getString( i ) != null )
+				
 					// Convert date time according to the format as following
-					if ( result.getDate( i ) instanceof Date )
-					{
-						SimpleDateFormat sdf = new SimpleDateFormat(
-								"yyyy-MM-dd HH:mm:ss.S" );
-						value = sdf.format( result.getDate( i ) );
-
-					}
-					else
-						value = result.getString( i );
+					if ( !result.getString( i ).equals( "DATE" )&& dateTypeColumnNum == i){
+						
+							SimpleDateFormat sdf = new SimpleDateFormat(
+									"yyyy-MM-dd HH:mm:ss.S" );
+							value = sdf.format( result.getDate( i ) );
+							}
+						
+						else
+							value = result.getString( i );
+				
 				else
 					value = "";
 				rowData += formatStr( value, expectedLen );
