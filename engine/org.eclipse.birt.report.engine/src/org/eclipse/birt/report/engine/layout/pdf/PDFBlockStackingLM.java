@@ -178,7 +178,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			return true;
 		}
 		
-		keepWith = keepWithNext || pageBreakAvoid;
+		keepWith = keepWith || keepWithNext || pageBreakAvoid;
 		
 		if(!keepWith && !keepWithPrevious)
 		{

@@ -27,8 +27,8 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 		implements
 			IBlockStackingLayoutManager
 {
-	protected int widows = 2;
-	protected int orphans = 2;
+	protected int widows = 0;
+	protected int orphans = 0;
 	
 	protected int current = 0;
 	protected int size = 0;
@@ -78,7 +78,7 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 		{
 			boolean keepWithNext = false;
 			IArea area = (IArea)iter.next( );
-			if( current<widows-1 || current>size-orphans-1)
+			if( current<orphans-1 || current>size-widows-1)
 			{
 				keepWithNext = true;
 			}
@@ -189,7 +189,7 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 				logger.log(Level.WARNING, "invalid widows: {0}", widows ); //$NON-NLS-1$
 			}
 		}
-		return 2;
+		return 0;
 	}
 	
 	protected int getOrphans()
@@ -207,6 +207,6 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 				logger.log(Level.WARNING, "invalid orphans: {0}", orphans ); //$NON-NLS-1$
 			}
 		}
-		return 2;
+		return 0;
 	}
 }
