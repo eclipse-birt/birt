@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
@@ -476,5 +477,8 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( ScriptLib.STRUCTURE_NAME.toLowerCase( ),
 				ScriptLib.class );
+		
+		structDict.put( TOC.TOC_STRUCT.toLowerCase( ),
+				TOC.class );
 	}
 }
