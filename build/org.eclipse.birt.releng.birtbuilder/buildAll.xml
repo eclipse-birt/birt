@@ -46,7 +46,7 @@
 		<antcall target="CreateDistribute"/>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 		<antcall target="runBirtTest"/>
-		<!--antcall target="runBirtPerformance"/-->
+		<antcall target="runBirtPerformance"/>
 	</target>
 
 	<target name="init">

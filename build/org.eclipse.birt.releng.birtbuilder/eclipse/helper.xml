@@ -539,7 +539,7 @@
 		</ant>
 	</target>
 	
-	<target name="runBirtPerformance" depends="init,prepareBirtTest">
+	<target name="runBirtPerformance" depends="init">
 		<ant dir="${runner.dir}" antfile="testRunner.xml" target="org.eclipse.birt.test.performance"/>
 	</target>
 	
