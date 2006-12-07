@@ -4,3 +4,4 @@ Bundle-Name: Testhelper Fragment
 Bundle-SymbolicName: org.eclipse.birt.report.engine.testhelper
 Bundle-Version: 2.2.0.qualifier
 Fragment-Host: org.eclipse.birt.report.engine;bundle-version="2.2.0"
+Bundle-ClassPath: tests.jar
