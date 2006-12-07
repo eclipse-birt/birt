@@ -105,7 +105,7 @@ public class ReportParameterConverterTest extends EngineCase
 				IScalarParameterDefn.TYPE_STRING ).toString( ) );
 		assertTrue( "parse datetime fail", converter.parse( date1,
 				IScalarParameterDefn.TYPE_DATE_TIME ) instanceof Date );
-		assertEquals( "Tue Jan 05 00:00:00 GMT+08:00 2173", converter.parse(
+		assertEquals( "Tue Jan 05 00:00:00 CST 2173", converter.parse(
 				date1, IScalarParameterDefn.TYPE_DATE_TIME ).toString( ) );
 		assertTrue( "parse boolean fail", converter.parse( bool1,
 				IScalarParameterDefn.TYPE_BOOLEAN ) instanceof Boolean );

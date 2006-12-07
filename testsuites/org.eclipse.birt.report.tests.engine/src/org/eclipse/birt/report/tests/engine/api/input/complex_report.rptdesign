@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051122-1218></property>
     <property name="units">in</property>
     <parameters>
         <scalar-parameter name="p1" id="87">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
-            <property name="format">Unformatted</property>
             <property name="controlType">text-box</property>
-            <expression name="defaultValue">"stringparameter"</expression>
+            <property name="defaultValue">"stringparameter"</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+                <property name="pattern">Unformatted</property>
+            </structure>
         </scalar-parameter>
         <scalar-parameter name="p2" id="88">
             <property name="valueType">static</property>
             <property name="dataType">float</property>
             <property name="allowBlank">false</property>
-            <property name="format">Unformatted</property>
             <property name="controlType">text-box</property>
-            <expression name="defaultValue">2</expression>
+            <property name="defaultValue">2</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+                <property name="pattern">Unformatted</property>
+            </structure>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -29,7 +34,112 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">OFFICECODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">TERRITORY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">OFFICECODE</property>
+                    <property name="nativeName">OFFICECODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">TERRITORY</property>
+                    <property name="nativeName">TERRITORY</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <property name="queryText">select *
 from CLASSICMODELS.OFFICES</property>
         </oda-data-set>
@@ -42,7 +152,13 @@ from CLASSICMODELS.OFFICES</property>
             <property name="pageBreakAfter">auto</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set</property>
-            <expression name="toc">"TableSection"</expression>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <column id="55"/>
             <column id="56"/>
             <column id="57"/>
@@ -55,7 +171,6 @@ from CLASSICMODELS.OFFICES</property>
                     <expression name="bookmark">"TableHeaderMark"</expression>
                     <cell id="8">
                         <label id="9">
-                            <expression name="toc">"HeaderSection"</expression>
                             <text-property name="text">OFFICECODE</text-property>
                         </label>
                     </cell>
@@ -101,10 +216,7 @@ from CLASSICMODELS.OFFICES</property>
                         <expression name="bookmark">"TableGroupMark"</expression>
                         <property name="backgroundColor">aqua</property>
                         <cell id="66">
-                            <data id="81">
-                                <expression name="toc">"GroupSection"</expression>
-                                <expression name="valueExpr">"Territory: "+row["TERRITORY"]</expression>
-                            </data>
+                            <data id="81"/>
                         </cell>
                         <cell id="67"/>
                         <cell id="68"/>
@@ -130,40 +242,25 @@ from CLASSICMODELS.OFFICES</property>
                 <row id="26">
                     <expression name="bookmark">"TableDetailMark"</expression>
                     <cell id="27">
-                        <data id="28">
-                            <expression name="toc">"DetailSection"</expression>
-                            <expression name="valueExpr">row["OFFICECODE"]</expression>
-                        </data>
+                        <data id="28"/>
                     </cell>
                     <cell id="29">
-                        <data id="30">
-                            <expression name="valueExpr">row["CITY"]</expression>
-                        </data>
+                        <data id="30"/>
                     </cell>
                     <cell id="31">
-                        <data id="32">
-                            <expression name="valueExpr">row["PHONE"]</expression>
-                        </data>
+                        <data id="32"/>
                     </cell>
                     <cell id="37">
-                        <data id="38">
-                            <expression name="valueExpr">row["STATE"]</expression>
-                        </data>
+                        <data id="38"/>
                     </cell>
                     <cell id="39">
-                        <data id="40">
-                            <expression name="valueExpr">row["COUNTRY"]</expression>
-                        </data>
+                        <data id="40"/>
                     </cell>
                     <cell id="41">
-                        <data id="42">
-                            <expression name="valueExpr">row["POSTALCODE"]</expression>
-                        </data>
+                        <data id="42"/>
                     </cell>
                     <cell id="43">
-                        <data id="44">
-                            <expression name="valueExpr">row["TERRITORY"]</expression>
-                        </data>
+                        <data id="44"/>
                     </cell>
                 </row>
             </detail>
@@ -172,7 +269,6 @@ from CLASSICMODELS.OFFICES</property>
                     <expression name="bookmark">"TableFooterMark"</expression>
                     <cell id="46">
                         <label id="82">
-                            <expression name="toc">"FooterSection"</expression>
                             <text-property name="text">Table Footer</text-property>
                         </label>
                     </cell>
@@ -213,17 +309,13 @@ from CLASSICMODELS.OFFICES</property>
                 <expression name="targetBookmark">"TableFooterMark"</expression>
             </structure>
         </label>
-        <data id="89">
-            <expression name="valueExpr">params["p1"]</expression>
-        </data>
+        <data id="89"/>
         <data id="90">
             <property name="pageBreakAfter">always</property>
-            <expression name="valueExpr">params["p2"]</expression>
         </data>
         <data id="91">
             <property name="pageBreakAfter">always</property>
             <expression name="bookmark">"ParameterMark"</expression>
-            <expression name="valueExpr">params["p2"]</expression>
         </data>
     </body>
 </report>

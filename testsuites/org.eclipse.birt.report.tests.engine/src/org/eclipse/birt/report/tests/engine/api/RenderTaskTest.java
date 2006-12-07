@@ -3,7 +3,6 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -779,14 +778,19 @@ public class RenderTaskTest extends EngineCase
 		IDocArchiveWriter archive = new FileArchiveWriter( reportdocument );
 		// open the report runnable to execute.
 		IReportRunnable report = engine.openReportDesign( reportdesign );
+	
 		// create an IRunTask
 		IRunTask runTask = engine.createRunTask( report );
 		// execute the report to create the report document.
 		runTask.setAppContext( new HashMap( ) );
 		runTask.run( archive );
 
+		int i = runTask.getErrors( ).size( );
+		if( i > 0 )
+			System.out.println("error is " + runTask.getErrors( ).get( 0 ).toString( ));
 		assertEquals( "Exception when generate document from " + reportdesign,
-				0, runTask.getErrors( ).size( ) );
+				0, i  );
+		
 		// close the task, release the resource.
 		runTask.close( );
 	}
