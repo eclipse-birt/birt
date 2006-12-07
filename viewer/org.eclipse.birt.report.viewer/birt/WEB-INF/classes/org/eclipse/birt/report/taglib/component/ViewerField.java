@@ -91,7 +91,7 @@ public class ViewerField implements Serializable, Cloneable
 	private String format;
 	private String svg;
 	private String rtl;
-	private String allowMasterPage="true"; //$NON-NLS-1$
+	private String allowMasterPage = "true"; //$NON-NLS-1$
 	private boolean allowPageBreak = true;
 
 	private String resourceFolder;
@@ -140,7 +140,7 @@ public class ViewerField implements Serializable, Cloneable
 		if ( format != null )
 		{
 			uri += "?" + ParameterAccessor.PARAM_FORMAT + "=" //$NON-NLS-1$//$NON-NLS-2$
-					+ format;
+					+ urlParamValueEncode( format );
 		}
 		else
 		{
@@ -150,65 +150,65 @@ public class ViewerField implements Serializable, Cloneable
 
 		// append report design
 		if ( reportDesign != null )
-			uri += "&" + ParameterAccessor.PARAM_REPORT + "=" + reportDesign; //$NON-NLS-1$ //$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_REPORT + "=" + urlParamValueEncode( reportDesign ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append report document
 		if ( reportDocument != null )
 			uri += "&" + ParameterAccessor.PARAM_REPORT_DOCUMENT + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ reportDocument;
+					+ urlParamValueEncode( reportDocument );
 
 		// append reportlet id
 		if ( reportletId != null )
-			uri += "&" + ParameterAccessor.PARAM_INSTANCEID + "=" + reportletId; //$NON-NLS-1$ //$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_INSTANCEID + "=" + urlParamValueEncode( reportletId ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if ( allowPageBreak && id != null )
-			uri += "&" + ParameterAccessor.PARAM_ID + "=" + id; //$NON-NLS-1$//$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_ID + "=" + urlParamValueEncode( id ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append report title
 		if ( allowPageBreak && title != null )
-			uri += "&" + ParameterAccessor.PARAM_TITLE + "=" + title; //$NON-NLS-1$//$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_TITLE + "=" + urlParamValueEncode( title ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append report title
 		if ( allowPageBreak && showTitle != null )
-			uri += "&" + ParameterAccessor.PARAM_SHOW_TITLE + "=" + showTitle; //$NON-NLS-1$//$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_SHOW_TITLE + "=" + urlParamValueEncode( showTitle ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append bookmark setting
 		if ( bookmark != null )
 			uri += "&" + ParameterAccessor.PARAM_BOOKMARK + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ bookmark;
+					+ urlParamValueEncode( bookmark );
 
 		// append target serlvet pattern setting
 		if ( !isCustom && pattern != null )
 			uri += "&" + ParameterAccessor.PARAM_SERVLET_PATTERN + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ pattern;
+					+ urlParamValueEncode( pattern );
 
 		// append window target setting
 		if ( !isCustom && target != null )
 			uri += "&" + ParameterAccessor.PARAM_TARGET + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ target;
+					+ urlParamValueEncode( target );
 
 		// append Locale setting
 		if ( locale != null )
 			uri += "&" + ParameterAccessor.PARAM_LOCALE + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ locale;
+					+ urlParamValueEncode( locale );
 
 		// append svg setting
 		if ( svg != null )
-			uri += "&" + ParameterAccessor.PARAM_SVG + "=" + svg; //$NON-NLS-1$//$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_SVG + "=" + urlParamValueEncode( svg ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append rtl setting
 		if ( rtl != null )
-			uri += "&" + ParameterAccessor.PARAM_RTL + "=" + rtl; //$NON-NLS-1$ //$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_RTL + "=" + urlParamValueEncode( rtl ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append masterpage setting
 		if ( allowMasterPage != null )
 			uri += "&" + ParameterAccessor.PARAM_MASTERPAGE + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ allowMasterPage;
-		
+					+ urlParamValueEncode( allowMasterPage );
+
 		// append resource folder setting
 		if ( resourceFolder != null )
 			uri += "&" + ParameterAccessor.PARAM_RESOURCE_FOLDER + "=" //$NON-NLS-1$//$NON-NLS-2$
-					+ resourceFolder;
+					+ urlParamValueEncode( resourceFolder );
 
 		// append maxrows setting
 		if ( maxRowsOfRecords >= 0 )
@@ -218,21 +218,33 @@ public class ViewerField implements Serializable, Cloneable
 		// append overwrite document setting
 		if ( forceOverwriteDocument != null )
 			uri += "&" + ParameterAccessor.PARAM_OVERWRITE + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ forceOverwriteDocument;
+					+ urlParamValueEncode( forceOverwriteDocument );
 
 		// append parameter prompting setting
 		if ( forceParameterPrompting != null )
-			uri += "&" + "__parameterprompting=" + forceParameterPrompting; //$NON-NLS-1$//$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PROMPTING + urlParamValueEncode( forceParameterPrompting ); //$NON-NLS-1$
 
 		// append show toolbar setting
 		if ( showToolBar != null )
-			uri += "&" + ParameterAccessor.PARAM_TOOLBAR + "=" + showToolBar; //$NON-NLS-1$ //$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_TOOLBAR + "=" + urlParamValueEncode( showToolBar ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append show NavigationBar setting
 		if ( showNavigationBar != null )
-			uri += "&" + ParameterAccessor.PARAM_NAVIGATIONBAR + "=" + showNavigationBar; //$NON-NLS-1$ //$NON-NLS-2$
+			uri += "&" + ParameterAccessor.PARAM_NAVIGATIONBAR + "=" + urlParamValueEncode( showNavigationBar ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return uri;
+	}
+
+	/**
+	 * Encode the url parameter value
+	 * 
+	 * @param plain
+	 * @return
+	 */
+	private String urlParamValueEncode( String plain )
+	{
+		return ParameterAccessor.urlEncode( plain,
+				ParameterAccessor.UTF_8_ENCODE );
 	}
 
 	/**

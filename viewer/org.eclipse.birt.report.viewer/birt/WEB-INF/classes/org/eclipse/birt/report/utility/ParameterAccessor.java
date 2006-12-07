@@ -151,8 +151,7 @@ public class ParameterAccessor
 	public static final String PARAM_ISNULL = "__isnull"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter name that indicate the report parameter as a locale
-	 * string.
+	 * URL parameter name that indicate the report parameter as a locale string.
 	 */
 	public static final String PARAM_ISLOCALE = "__islocale"; //$NON-NLS-1$
 
@@ -207,17 +206,17 @@ public class ParameterAccessor
 	 * URL parameter name to indicate the export encoding.
 	 */
 	public static final String PARAM_EXPORT_ENCODING = "__exportEncoding";//$NON-NLS-1$
-	
+
 	/**
 	 * Indentify the display text of select parameter
 	 */
 	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__"; //$NON-NLS-1$
-	
+
 	/**
 	 * Indentify the parameter value is a locale string
-	 */	
+	 */
 	public static final String PREFIX_ISLOCALE = "__islocale__"; //$NON-NLS-1$
-	
+
 	/**
 	 * URL parameter name to indicate the resource folder of all the report
 	 * resources.
@@ -1718,10 +1717,8 @@ public class ParameterAccessor
 	 * @return
 	 */
 
-	protected static String urlEncode( String s, String format )
+	public static String urlEncode( String s, String format )
 	{
-		assert ISO_8859_1_ENCODE.equalsIgnoreCase( format )
-				|| UTF_8_ENCODE.equalsIgnoreCase( format );
 		String encodedString = s;
 
 		if ( s != null )
@@ -1976,15 +1973,15 @@ public class ParameterAccessor
 
 	public static String getExportEncoding( HttpServletRequest request )
 	{
-		String encoding =  getParameter( request, PARAM_EXPORT_ENCODING );
-		
+		String encoding = getParameter( request, PARAM_EXPORT_ENCODING );
+
 		// use UTF-8 as the default encoding
-		if( encoding == null )
+		if ( encoding == null )
 			encoding = UTF_8_ENCODE;
-		
+
 		return encoding;
 	}
-	
+
 	/**
 	 * Check whether show the report title.
 	 * 
