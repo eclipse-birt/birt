@@ -164,9 +164,8 @@ public class ReportTag extends AbstractViewerTag
 				// use <div> to control report content display
 				writer.write( "<div id='" + viewer.getId( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
 						+ __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
-				writer
-						.write( "<div class='" + __handleBodyStyle( content ) + viewer.getId( ) //$NON-NLS-1$
-								+ "'>\n" ); //$NON-NLS-1$
+				writer.write( "<div class='" + __handleBodyStyle( content ) //$NON-NLS-1$
+						+ "'>\n" ); //$NON-NLS-1$
 				writer.write( __handleBody( content ) + "\n" ); //$NON-NLS-1$
 				writer.write( "</div>\n" ); //$NON-NLS-1$
 				writer.write( "</div>\n" ); //$NON-NLS-1$
@@ -207,12 +206,11 @@ public class ReportTag extends AbstractViewerTag
 			style = style + "left:" + viewer.getLeft( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// scroll
-		if ( viewer.getScrolling( ) != null
-				&& SCROLLING_YES.equalsIgnoreCase( viewer.getScrolling( ) ) )
+		if ( SCROLLING_YES.equalsIgnoreCase( viewer.getScrolling( ) ) )
 		{
 			style = style + "overflow:scroll"; //$NON-NLS-1$
 		}
-		else
+		else if ( SCROLLING_AUTO.equalsIgnoreCase( viewer.getScrolling( ) ) )
 		{
 			style = style + "overflow:auto"; //$NON-NLS-1$
 		}
