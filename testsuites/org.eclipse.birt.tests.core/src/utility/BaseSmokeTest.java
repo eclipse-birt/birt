@@ -102,12 +102,10 @@ public abstract class BaseSmokeTest extends EngineCase
 			copyResource( inputPath, inputPath, "TestCases" );
 		}
 
-		String inputFolder = this.getFullQualifiedClassName( )
+		String inputFolder = this.tempFolder( ) + this.getFullQualifiedClassName( )
 				+ "/TestCases/input/"; //$NON-NLS-1$
-		String tempDir = System.getProperty( "java.io.tmpdir" );
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
-		String outputFolder = tempDir + getFullQualifiedClassName( )
+
+		String outputFolder = this.tempFolder( ) + getFullQualifiedClassName( )
 				+ "/TestCases/output/";
 
 		File inputFile = new File( inputFolder );
@@ -134,8 +132,9 @@ public abstract class BaseSmokeTest extends EngineCase
 
 			try
 			{
-				List engineErrors = this.runAndRender_HTMLWithPagination( inputFolder
+				List engineErrors = runAndRender_WithPagination( inputFolder
 						+ report.getName( ), outputFolder + html );
+//				List engineErrors = runAndRender_WithPagination( report.getName( ) , html );
 				compareHTML( html, html );
 
 				if ( engineErrors != null && engineErrors.size( ) > 0 )
@@ -238,7 +237,7 @@ public abstract class BaseSmokeTest extends EngineCase
 				+ "/"; //$NON-NLS-1$
 	}
 
-	private List runAndRender( String inputFile, String outputFile )
+	private List runAndRender_WithPagination( String inputFile, String outputFile )
 			throws EngineException
 	{
 		IReportRunnable runnable = engine.openReportDesign( inputFile );
@@ -248,6 +247,7 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFileName( outputFile );
+		( (HTMLRenderOption) options ).setHtmlPagination( true );
 		HTMLRenderContext renderContext = new HTMLRenderContext( );
 		renderContext.setImageDirectory( "image" ); //$NON-NLS-1$
 		HashMap appContext = new HashMap( );
@@ -283,12 +283,10 @@ public abstract class BaseSmokeTest extends EngineCase
 
 		try
 		{
-			golden = this.getFullQualifiedClassName( )
+			golden = this.tempFolder( ) + this.getFullQualifiedClassName( )
 					+ "/TestCases/golden/" + golden; //$NON-NLS-1$
-			String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-			if ( !tempDir.endsWith( File.separator ) )
-				tempDir += File.separator;
-			String outputFile = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+
+			String outputFile = this.tempFolder( ) + getFullQualifiedClassName( ) //$NON-NLS-1$
 					+ "/TestCases/output/" + output;
 
 			readerA = new FileReader( golden );
@@ -374,9 +372,6 @@ public abstract class BaseSmokeTest extends EngineCase
 					message.append( " result file: " ); //$NON-NLS-1$
 					message.append( filterB );
 					
-					String tempDir = System.getProperty( "java.io.tmpdir" );
-					if ( !tempDir.endsWith( File.separator ) )
-						tempDir += File.separator;
 					String outputFile = fileName;
 					String diffOutputFile = fileName.replaceAll( "output", "diffOutput" );
 					File parent = new File( diffOutputFile ).getParentFile( );

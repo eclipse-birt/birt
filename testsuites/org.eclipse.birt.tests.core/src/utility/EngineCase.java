@@ -250,7 +250,7 @@ public abstract class EngineCase extends TestCase
 	{
 
 		String className = getFullQualifiedClassName( );
-		tgt = className + "/" + folder + "/" + tgt;
+		tgt = this.tempFolder( ) + className + "/" + folder + "/" + tgt;
 		className = className.replace( '.', '/' );
 
 		src = className + "/" + folder + "/" + src;
@@ -541,9 +541,9 @@ public abstract class EngineCase extends TestCase
 			Map paramValues, String format ) throws EngineException
 	{
 		String outputFile = genOutputFile( output );
-		input = getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + input;
+		String inputFile = this.tempFolder( ) + getFullQualifiedClassName( )+ INPUT_FOLDER + "/" + input;
 
-		IReportRunnable runnable = engine.openReportDesign( input );
+		IReportRunnable runnable = engine.openReportDesign( inputFile.replace( '\\', '/' ) );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
 
 		// set engine task
@@ -1071,5 +1071,13 @@ public abstract class EngineCase extends TestCase
 	public void copyFolder( String from, String to ) throws Exception
 	{
 		copyFolder( new File( from ), new File( to ) );
+	}
+	
+	public String tempFolder( )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" );
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		return tempDir;
 	}
 }
