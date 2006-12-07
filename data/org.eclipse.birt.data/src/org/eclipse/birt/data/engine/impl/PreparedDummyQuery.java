@@ -83,7 +83,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 * @param subQueryDefn
 	 * @param sharedScope
 	 */
-	private PreparedDummyQuery( DataEngineContext context,
+	PreparedDummyQuery( DataEngineContext context,
 			ISubqueryDefinition subQueryDefn, Scriptable sharedScope )
 	{
 		this.subQueryDefn = subQueryDefn;
@@ -147,7 +147,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 * @return
 	 * @throws BirtException
 	 */
-	private IQueryResults executeQuery( Scriptable queryScope, Scriptable parentScope )
+	IQueryResults executeQuery( Scriptable queryScope, Scriptable parentScope )
 			throws BirtException
 	{
 		processSubQuery( );		

@@ -14,23 +14,35 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
+import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
+import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
+import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
 
 /** 
@@ -41,7 +53,7 @@ import org.mozilla.javascript.Scriptable;
  * Beyond Release 1, this would include methods to save and restore
  * results in a persisted Report Document.
  */
-class QueryResults implements IQueryResults, IQueryService
+public class QueryResults implements IQueryResults, IQueryService
 {
 	// query service instance
 	private IServiceForQueryResults 	queryService;
@@ -55,7 +67,7 @@ class QueryResults implements IQueryResults, IQueryService
 	private String                      rootQueryResultID;
 	private String 						selfQueryResultID;
 
-	private ResultIterator				iterator;
+	private IResultIterator				iterator;
 		
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 	
@@ -133,13 +145,23 @@ class QueryResults implements IQueryResults, IQueryService
 			this.queryService.initAutoBinding( );
 			this.queryService.validateQueryColumBinding( );
 			
-			if ( queryService.getQueryDefn( ).usesDetails( ) == true )
-				iterator = new ResultIterator( new ResultService( context, this ),
-						queryService.executeQuery( ),
-						this.queryScope );
+			org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
+			if (isDummyQuery(odiIterator) )
+			{
+				iterator = new DummyResultIterator( new ResultService( context, this ),
+						odiIterator,
+						this.queryScope);
+			}
 			else
-				iterator = new ResultIterator2( new ResultService( context,
-						this ), queryService.executeQuery( ), this.queryScope );
+			{
+				if ( queryService.getQueryDefn( ).usesDetails( ) == true )
+					iterator = new ResultIterator( new ResultService( context, this ),
+							odiIterator,
+							this.queryScope );
+				else
+					iterator = new ResultIterator2( new ResultService( context,
+							this ), odiIterator, this.queryScope );
+			}
 		}
 		
 		logger.logp( Level.FINE,
@@ -147,6 +169,18 @@ class QueryResults implements IQueryResults, IQueryService
 				"getResultIterator",
 				"finished" );
 		return iterator;
+	}
+
+	/**
+	 * 
+	 * @param odiIterator
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean isDummyQuery(org.eclipse.birt.data.engine.odi.IResultIterator odiIterator) throws DataException {
+		return queryService.getQueryDefn() instanceof IQueryDefinition
+				&& ((IQueryDefinition) queryService.getQueryDefn())
+						.getDataSetName() == null && odiIterator.getResultClass().getFieldCount() == 0;
 	}
 	
 	/*
@@ -252,7 +286,173 @@ class QueryResults implements IQueryResults, IQueryService
 	{
 		return this.queryService.getDataSetRuntimes( count );
 	}
+	
+	/**
+	 * The ODI result iterator for DummyQuery. A DummyQuery is a query without data set. A DummyQuery result
+	 * iterator always have one row.
+	 * @author Administrator
+	 *
+	 */
+	private class DummyOdiResultIterator
+			extends CachedResultSet
+	{
+		private boolean isFirstRowFetched = false;
+		private org.eclipse.birt.data.engine.odi.IResultIterator prototype = null;
 
+		DummyOdiResultIterator(
+				org.eclipse.birt.data.engine.odi.IResultIterator result )
+		{
+			this.prototype = result;
+		}
+
+		public void close( )
+		{
+
+		}
+
+		public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
+				throws DataException
+		{
+			try
+			{
+				if ( streamsWrapper.getStreamForResultClass( ) != null )
+					IOUtil.writeInt( streamsWrapper.getStreamForResultClass( ), 0 );
+				if ( streamsWrapper.getStreamForDataSet( ) != null )
+					IOUtil.writeInt( streamsWrapper.getStreamForDataSet( ), 0 );
+				IOUtil.writeInt( streamsWrapper.getStreamForGroupInfo( ), 0 );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+						e,
+						"Result Class" );
+			}
+		}
+
+		public void first( int groupingLevel ) throws DataException
+		{
+			this.prototype.first( groupingLevel );
+		}
+
+		public int getCurrentGroupIndex( int groupLevel ) throws DataException
+		{
+			return 0;
+		}
+
+		public IResultObject getCurrentResult( ) throws DataException
+		{
+			return this.prototype.getCurrentResult();
+		}
+
+		public int getCurrentResultIndex( ) throws DataException
+		{
+			return this.prototype.getCurrentResultIndex();
+		}
+
+		public int getEndingGroupLevel( ) throws DataException
+		{
+			return 0;
+		}
+
+		public IExecutorHelper getExecutorHelper( )
+		{
+			return this.prototype.getExecutorHelper( );
+		}
+
+		public int[] getGroupStartAndEndIndex( int groupLevel )
+				throws DataException
+		{
+
+			return this.prototype.getGroupStartAndEndIndex( groupLevel );
+		}
+
+		public IResultClass getResultClass( ) throws DataException
+		{
+
+			return this.prototype.getResultClass( );
+		}
+
+		public ResultSetCache getResultSetCache( )
+		{
+
+			return this.prototype.getResultSetCache( );
+		}
+
+		public int getRowCount( ) throws DataException
+		{
+			return 1;
+		}
+
+		public int getStartingGroupLevel( ) throws DataException
+		{
+			return 0;
+		}
+
+		public void last( int groupingLevel ) throws DataException
+		{
+			this.prototype.last( groupingLevel );
+		}
+
+		public boolean next( ) throws DataException
+		{
+			if ( !this.isFirstRowFetched )
+			{
+				this.isFirstRowFetched = true;
+				return true;
+			}
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * @author Administrator
+	 *
+	 */
+	private class DummyResultIterator extends ResultIterator
+	{
+		DummyResultIterator( IServiceForResultSet rService,
+				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
+				Scriptable scope ) throws DataException
+		{
+			super( rService, new DummyOdiResultIterator( odiResult ), scope );
+		}
+		
+		public boolean next( ) throws DataException
+		{
+			return this.getOdiResult( ).next( );
+		}
+		
+		public IResultIterator getSecondaryIterator( String subQueryName,
+				Scriptable subScope ) throws DataException
+		{
+			Collection subQueries = this.getQueryResults().getPreparedQuery().getReportQueryDefn().getSubqueries( );
+			Iterator subIt = subQueries.iterator( );
+			HashMap subQueryMap = new HashMap();
+			while ( subIt.hasNext( ) )
+			{
+				ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
+
+				subQueryMap.put( subquery.getName( ), subquery);
+				
+			}
+			PreparedDummyQuery preparedQuery = new PreparedDummyQuery( context,
+					((ISubqueryDefinition)subQueryMap.get( subQueryName )),
+					subScope );
+						
+			IQueryResults queryResults;
+			try 
+			{
+				queryResults = (IQueryResults) preparedQuery.executeQuery( subScope,
+						subScope );
+				return queryResults.getResultIterator( );
+			} catch (BirtException e) 
+			{
+				 throw new DataException( e.getMessage() );
+			}
+		}
+	}
+		
 	/**
 	 * 
 	 */
