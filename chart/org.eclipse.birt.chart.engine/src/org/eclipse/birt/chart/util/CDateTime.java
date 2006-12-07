@@ -49,6 +49,7 @@ public class CDateTime extends GregorianCalendar
 			Calendar.MINUTE,
 			Calendar.HOUR_OF_DAY,
 			Calendar.DATE,
+			Calendar.WEEK_OF_YEAR,
 			Calendar.MONTH,
 			Calendar.YEAR
 	};

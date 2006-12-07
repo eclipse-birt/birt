@@ -427,7 +427,7 @@ public class ChartUtil
 			case ScaleUnitType.SECONDS :
 				return Calendar.SECOND;
 			case ScaleUnitType.WEEKS :
-				return Calendar.WEEK_OF_MONTH;
+				return Calendar.WEEK_OF_YEAR;
 			case ScaleUnitType.YEARS :
 				return Calendar.YEAR;
 		}
