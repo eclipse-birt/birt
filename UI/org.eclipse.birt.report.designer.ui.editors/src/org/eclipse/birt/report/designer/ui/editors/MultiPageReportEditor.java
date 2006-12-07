@@ -337,9 +337,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private void fireDesignFileChangeEvent( )
 	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( getModel( ).getFileName( ) ) );
+		if(getModel() != null)
+		{
+			SessionHandleAdapter.getInstance( )
+			.getSessionHandle( )
+			.fireResourceChange( new LibraryChangeEvent( getModel( ).getFileName( ) ) );			
+		}
+
 
 	}
 
@@ -755,7 +759,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		}
 
-		getModel( ).setResourceFolder( getProjectFolder( ) );
+		if(getModel() != null)
+		{
+			getModel( ).setResourceFolder( getProjectFolder( ) );
+		}
+		
 	}
 
 	private String getProjectFolder( )
@@ -794,7 +802,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
-		if ( part == this )
+	if ( part == this && getModel() != null)
 		{
 			SessionHandleAdapter.getInstance( ).clear( getModel( ) );
 		}
