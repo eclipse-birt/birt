@@ -134,7 +134,7 @@ public abstract class BaseSmokeTest extends EngineCase
 
 			try
 			{
-				List engineErrors = runAndRender( inputFolder
+				List engineErrors = this.runAndRender_HTMLWithPagination( inputFolder
 						+ report.getName( ), outputFolder + html );
 				compareHTML( html, html );
 
