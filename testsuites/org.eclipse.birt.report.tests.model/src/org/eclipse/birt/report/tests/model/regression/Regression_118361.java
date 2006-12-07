@@ -73,9 +73,9 @@ public class Regression_118361 extends BaseTestCase
 		{
 			pageHandle.setName( "newName" ); //$NON-NLS-1$
 
-			makeOutputDir( );
-			designHandle.saveAs( this.getClassFolder( ) + OUTPUT_FOLDER
-					+ "regression_118361.out" ); //$NON-NLS-1$
+			//makeOutputDir( );
+			designHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
+					+ "/" + "regression_118361.out" ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

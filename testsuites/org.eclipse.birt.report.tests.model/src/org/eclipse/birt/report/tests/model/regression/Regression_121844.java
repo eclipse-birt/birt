@@ -44,6 +44,7 @@ public class Regression_121844 extends BaseTestCase
 {
 
 	private final static String INPUT = "regression_121844.xml"; //$NON-NLS-1$
+	private final static String LIB = "regression_121844_lib.xml"; //$NON-NLS-1$
 	private final static String OUTPUT = "regression_121844.out"; //$NON-NLS-1$
 
 	protected void setUp( ) throws Exception
@@ -51,10 +52,9 @@ public class Regression_121844 extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		
-		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( INPUT , INPUT );
-		copyResource_INPUT( OUTPUT , OUTPUT );
 		
+		copyResource_INPUT( LIB , LIB );
 		
 	}
 	/**

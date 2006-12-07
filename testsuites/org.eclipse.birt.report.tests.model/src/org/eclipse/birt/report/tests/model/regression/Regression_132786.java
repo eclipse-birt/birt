@@ -72,7 +72,7 @@ public class Regression_132786 extends BaseTestCase
 	{
 		super.setUp();
 		removeResource();
-		copyResource_OUTPUT (OUTPUT, OUTPUT);
+		
 		
 	}
 	public void test_regression_132786( ) throws SemanticException, IOException,
@@ -105,13 +105,8 @@ public class Regression_132786 extends BaseTestCase
 
 		// save the report and read it back.
 
-		//designHandle.saveAs( this.getClassFolder( ) + OUTPUT_FOLDER + OUTPUT );
-		designHandle.saveAs( this.genOutputFile(OUTPUT) );
-		
-		//designHandle = session.openDesign( this.getClassFolder( )
-			//	+ OUTPUT_FOLDER + OUTPUT );
-		designHandle = session.openDesign( this.getClassFolder( ));
-			
+		designHandle.saveAs(OUTPUT);		
+		designHandle = session.openDesign(OUTPUT);
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "label" );//$NON-NLS-1$
 		HighlightRuleHandle highlightRuleHandle = (HighlightRuleHandle) labelHandle

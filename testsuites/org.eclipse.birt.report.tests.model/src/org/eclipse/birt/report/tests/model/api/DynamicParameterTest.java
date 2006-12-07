@@ -34,7 +34,6 @@ public class DynamicParameterTest extends BaseTestCase
 			super.setUp( );
 			removeResource( );
 			
-			// retrieve two input files from tests-model.jar file
 			copyResource_INPUT( INPUT_FILE_NAME , INPUT_FILE_NAME );
 			copyResource_GOLDEN (GOLDEN_FILE_NAME, GOLDEN_FILE_NAME);
 			
@@ -110,9 +109,6 @@ public class DynamicParameterTest extends BaseTestCase
 			super.saveAs(OUTPUT_FILE_NAME);
 			assertTrue( compareTextFile( GOLDEN_FILE_NAME, OUTPUT_FILE_NAME ));
 			
-			
-			//saveOutputFile(OUTPUT_FILE_NAME);
-			//assertTrue( compareFile( GOLDEN_FILE_NAME ));
 
 		}
 }

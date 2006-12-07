@@ -42,9 +42,10 @@ public class Regression_130271 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( LIBRARY, LIBRARY);
+		
 		copyResource_INPUT( INPUT , INPUT );
-		copyResource_OUTPUT( OUTPUT , OUTPUT );
+		copyResource_INPUT( LIBRARY, LIBRARY);
+		
 		copyResource_GOLDEN( GOLDEN , GOLDEN );
 	}
 	/**
@@ -54,6 +55,7 @@ public class Regression_130271 extends BaseTestCase
 	
 	public void test_regression_130271( ) throws Exception
 	{
+		
 		openLibrary( LIBRARY );
 		DataSourceHandle datasource = libraryHandle
 				.findDataSource( "Data Source" );//$NON-NLS-1$

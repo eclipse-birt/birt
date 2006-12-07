@@ -126,6 +126,7 @@ public class ActionHandleTest extends BaseTestCase
   // define two input files
 	final static String INPUT = "ActionHandleTest.xml";
 	final static String INPUT2 = "ActionHandleTest2.xml";
+	final static String goldenfile = "ActionHandleTest2_golden.xml";
 	
 	ActionHandle actionHandle = null;
     
@@ -146,6 +147,7 @@ public class ActionHandleTest extends BaseTestCase
 		// retrieve two input files from tests-model.jar file
 		copyResource_INPUT( INPUT , INPUT );
 		copyResource_INPUT( INPUT2 , INPUT2 );
+		copyResource_GOLDEN (goldenfile, goldenfile);
 		
 		openDesign( INPUT ); //$NON-NLS-1$
 		assertNotNull( designHandle );
@@ -252,9 +254,11 @@ public class ActionHandleTest extends BaseTestCase
 		actionHandle.getParamBindings( ).addItem( param2 ); // another way.
 		
         
-		super.saveAs( "ActionHandleTest2.out" ); //$NON-NLS-1$
+		super.saveAs( goldenfile ); //$NON-NLS-1$
+		
 		assertTrue( compareTextFile(
-				"ActionHandleTest2_golden.xml", "ActionHandleTest2.out" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				goldenfile, "ActionHandleTest2.out" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		
 	}
 
 	/**
