@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
 import org.eclipse.birt.report.data.oda.xml.impl.DataTypes;
-import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * This class is used to dealing with the strings which are parsed as arguments to 
@@ -29,7 +29,6 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class RelationInformation
 {
-	private static final String TEMPCOLUMNNAMEPREFIX = "TEMP";
 	//
 	public static final String CONST_TABLE_DELIMITER = "#-#";
 	public static final String CONST_TABLE_COLUMN_DELIMITER = "#:#";
@@ -57,20 +56,25 @@ public class RelationInformation
 	 */
 	private void initialize( String relationString ) throws OdaException
 	{
-		List filterColumnInfos = new ArrayList();
+		//TODO support filter in table mapping.
+		
 		if( relationString == null|| relationString.length() == 0)
 			throw new OdaException( Messages.getString("RelationInformation.InputStringCannotBeNull"));
 		
 		String[] tables = relationString.split( CONST_TABLE_DELIMITER );
 		for ( int i = 0; i < tables.length; i++ )
 		{
-
+			List filterColumnInfos = new ArrayList();
 			String[] temp = tables[i].trim( )
 					.split( CONST_TABLE_COLUMN_DELIMITER );
 			assert ( temp.length == 3 );
+			
 			// //////////////////////////////
-			TableInfo tableInfo = new TableInfo( temp[0].trim( ),
-					temp[1].substring( 1, temp[1].length( ) - 1 ).trim( ) );
+			String tableName = temp[0].trim();
+			String tableRawRoot = temp[1].substring( 1, temp[1].length( ) - 1 ).trim( );
+			TableInfo tableInfo = new TableInfo( tableName,
+					tableRawRoot.replaceAll("\\Q[@\\E.*\\Q=\\E.*\\Q]\\E", "") );
+			
 			// ////////////////////////////////
 			String[] columns = temp[2].trim( ).split( CONST_COLUMN_DELIMITER );
 			
@@ -97,35 +101,15 @@ public class RelationInformation
 				for ( int m = 0; m < columnInfos.length; m++ )
 					columnInfos[m] = columnInfos[m].trim( );
 				String originalColumnXpath = columnXpath;
+				
+				HashMap map = null;
 				//if it is a filter expression
 				if ( columnXpath.matches( ".*\\Q[@\\E.*\\Q=\\E.*" ) )
 				{
-					//get the filter value
-					String value = columnXpath.replaceAll( ".*\\Q[@\\E.*\\Q=\\E",
-							"" )
-							.trim( );
-					value = value.substring( 1, value.length( ) - 2 );
-				
+					map = populateFilterInfo(filterColumnInfos, tableInfo,
+							columns, columnXpath, originalColumnXpath );
 					
-					
-					String filterOriginalColumnXpath = originalColumnXpath.replaceAll( "\\Q=\\E.*","]" );
-					String filterColumnXpath = columnXpath.replaceAll( "\\Q=\\E.*","]" );
-					
-					//originalColumnXpath = originalColumnXpath.replaceAll( "\\Q[\\E.*\\Q]\\E", "" ); 
-					columnXpath = columnXpath.replaceAll( "\\Q[\\E.*\\Q]\\E", "" );
-
-					String tempColumnName = TEMPCOLUMNNAMEPREFIX
-							+ filterColumnInfos.size( ) + 1;
-					// add it to filter
-					tableInfo.addFilter( tempColumnName, value );
-
-					filterColumnInfos.add( new ColumnInfo( columns.length
-							+ filterColumnInfos.size( ) + 1,
-							tempColumnName,
-							"String",
-							tableInfo.getRootPath( ),
-							filterColumnXpath,
-							filterOriginalColumnXpath ) );
+					columnXpath = columnXpath.replaceAll( "\\Q[@\\E.*\\Q=\\E.*\\Q]\\E", "[*]" ).replaceAll("\\Q][*]\\E", "]");
 				}
 				else if( columnXpath.matches( ".*\\Q[@\\E.*\\Q]\\E.*" ))
 				{
@@ -135,14 +119,97 @@ public class RelationInformation
 				tableInfo.addColumn( new ColumnInfo( j + 1,
 						columnInfos[0],
 						columnInfos[1],
-						tableInfo.getRootPath( ), columnXpath, originalColumnXpath));
+						tableInfo.getRootPath( ), columnXpath, originalColumnXpath, map));
 			}
+			
 			for( int j = 0; j < filterColumnInfos.size( ); j++ )
 			{
 				tableInfo.addColumn( (ColumnInfo )filterColumnInfos.get( j ));
 			}
+			
+			//TODO support filter in table mapping.
+			/*if ( tableRawRoot.matches(".*\\Q[@\\E.*\\Q=\\E.*")) 
+			{
+				String tableRootWithFilter = SaxParserUtil.processParentAxis( tableRawRoot );
+				
+				String value = RelationInformation.getFilterValue( tableRootWithFilter );
+
+				String filterColumnXpath = tableRootWithFilter.replaceAll(
+						"\\Q=\\E.*", "]");
+				String filterOriginalColumnXpath = tableRawRoot.replaceAll("\\Q=\\E.*", "]");
+				String tempColumnName = SaxParserUtil.createTempColumnName(-1);
+
+				// TODO support multiple filters in one column.
+				tableInfo.addFilter(tempColumnName, value);
+
+				tableInfo.addColumn(new ColumnInfo( columns.length
+						+ filterColumnInfos.size() + 1, tempColumnName,
+						"String", tableRootWithFilter, filterColumnXpath,
+						filterOriginalColumnXpath, null));
+			}*/
+			
 			this.tableInfos.put( temp[0].trim( ), tableInfo );
 		}
+	}
+
+	/**
+	 * 
+	 * @param filterColumnInfos
+	 * @param tableInfo
+	 * @param columns
+	 * @param columnXpath
+	 * @param originalColumnXpath
+	 * @return
+	 * @throws OdaException
+	 */
+	private static HashMap populateFilterInfo(List filterColumnInfos,
+			TableInfo tableInfo, String[] columns, String columnXpath,
+			String originalColumnXpath )
+			throws OdaException 
+	{
+		HashMap map = null;
+		//get the filter value
+		String value = getFilterValue(columnXpath);
+		
+		String filterOriginalColumnXpath = originalColumnXpath.replaceAll( "\\Q=\\E.*","]" );
+		String filterColumnXpath = columnXpath.replaceAll( "\\Q=\\E.*","]" );
+
+		String tempColumnName = SaxParserUtil
+				.createTempColumnName(filterColumnInfos.size() + 1);
+
+		//TODO support multiple filters in one column.
+		//tableInfo.addFilter( tempColumnName, value );
+		map = new HashMap();
+		map.put(tempColumnName, value);
+				
+		//
+		filterColumnInfos.add( new ColumnInfo( columns.length
+				+ filterColumnInfos.size( ) + 1,
+				tempColumnName,
+				"String",
+				tableInfo.getRootPath( ),
+				filterColumnXpath,
+				filterOriginalColumnXpath,null) );
+		return map;
+	}
+
+	/**
+	 * 
+	 * @param columnXpath
+	 * @return
+	 */
+	static String getFilterValue(String columnXpath) 
+	{
+		String value = columnXpath.replaceAll( ".*\\Q[@\\E.*\\Q=\\E",
+				"" )
+				.trim( );
+		value = value.replaceAll( "\\Q]\\E.*", "" ).trim( );
+		
+		//by now, the value should be something like "ABC" or 'ABC'
+		if ( ( value.startsWith( "'" ) && value.endsWith( "'" ) )
+				|| ( value.startsWith( "\"" ) && value.endsWith( "\"" ) ) )
+			value = value.substring( 1, value.length( ) - 1 );
+		return value;
 	}
 
 	/**
@@ -335,6 +402,18 @@ public class RelationInformation
 	{
 		return this.tableInfos.keySet( ).iterator( );
 	}
+	
+	/**
+	 * 
+	 * @param tableName
+	 * @param columnName
+	 * @return
+	 */
+	public HashMap getTableColumnFilter( String tableName, String columnName )
+	{
+		return ((TableInfo) this.tableInfos.get(tableName))
+				.getColumnFilters(columnName);
+	}
 }
 
 /**
@@ -437,7 +516,7 @@ class TableInfo
 	}
 
 	/**
-	 * Return the hash map which defines the filters.
+	 * Return the hash map which defines the table filters.
 	 * 
 	 * @return
 	 */
@@ -446,6 +525,16 @@ class TableInfo
 		return this.filterInfos;
 	}
 
+	/**
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	public HashMap getColumnFilters( String columnName )
+	{
+		return ((ColumnInfo)(this.columnInfos.get( columnName ))).getFilters();
+	}
+	
 	/**
 	 * Add a column to a table.
 	 * 
@@ -479,7 +568,7 @@ class TableInfo
 		List l = new ArrayList();
 		for( int i = 0; i < temp.length; i ++ )
 		{
-			if( temp[i].matches( "\\QTEMP\\E.*" ))
+			if( temp[i].matches( "\\Q-$TEMP_XML_COLUMN$-\\E.*" ))
 				break;
 			else
 				l.add( temp[i] );
@@ -706,6 +795,7 @@ class ColumnInfo
 	//elements contains in the common part of current root path. In case of not nested column path,
 	//the common part of current root path is the root path itself.
 	private int forwardRefNumber;
+	private HashMap filters;
 	/**
 	 * 
 	 * @param index
@@ -716,7 +806,7 @@ class ColumnInfo
 	 * @throws OdaException
 	 */
 	public ColumnInfo( int index, String name, String type, String rootPath, String relativePath,
-			String originalPath ) throws OdaException
+			String originalPath, HashMap filters ) throws OdaException
 	{
 		this.index = index;
 		this.name = name;
@@ -726,6 +816,7 @@ class ColumnInfo
 		this.path = fixTrailingAttr( SaxParserUtil.processParentAxis( combineColumnPath( rootPath, relativePath ) ) );
 		this.originalPath = originalPath;
 		this.initBackAndForwardRefNumbers( );
+		this.filters = filters;
 	}
 
 	/**
@@ -920,5 +1011,14 @@ class ColumnInfo
 	public int getForwardRefNumber( )
 	{
 		return this.forwardRefNumber;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public HashMap getFilters( )
+	{
+		return this.filters;
 	}
 }

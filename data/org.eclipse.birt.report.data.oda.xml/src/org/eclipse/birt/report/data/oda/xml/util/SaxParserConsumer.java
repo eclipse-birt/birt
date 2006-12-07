@@ -12,11 +12,12 @@ package org.eclipse.birt.report.data.oda.xml.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.data.oda.xml.Constants;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.birt.report.data.oda.xml.Constants;
 
 /**
  * This class is an implementation of ISaxParserConsumer. The instance of this class deligate the communication
@@ -96,7 +97,7 @@ public class SaxParserConsumer implements ISaxParserConsumer
 		cachedOrderedTempRowRoots = new ArrayList();
 		
 		cachedResultSet = new String[Constants.CACHED_RESULT_SET_LENGTH][relationInfo.getTableRealColumnNames( tableName ).length];
-		this.rootPath = relationInfo.getTableRootPath( tableName );
+		this.rootPath = relationInfo.getTableRootPath( tableName ).replaceAll("\\Q[@\\E.*\\Q=\\E", "");
 		
 		this.namesOfCachedComplexNestedColumns = relationInfo.getTableComplexNestedXMLColumnNames( tableName );
 		this.namesOfCachedSimpleNestedColumns = relationInfo.getTableSimpleNestedXMLColumnNames( tableName );
@@ -188,7 +189,10 @@ public class SaxParserConsumer implements ISaxParserConsumer
 					continue;
 				}
 
-				if ( os[i] == null )
+				if (namesOfColumns[i].startsWith("-$TEMP_XML_COLUMN$-"))
+					os[i] = value;
+				else if (os[i] == null
+						&& isCurrentColumnValid(namesOfColumns[i]))
 					os[i] = value;
 			}
 		}
@@ -364,7 +368,51 @@ public class SaxParserConsumer implements ISaxParserConsumer
 	}
 
 	/**
-	 * @param i Column Index
+	 * @param columnName
+	 * @return
+	 */
+	private boolean isCurrentColumnValid( String columnName )
+	{
+		HashMap filters = relationInfo.getTableColumnFilter(tableName, columnName );
+		if( filters == null )
+			return true;
+		else
+		{
+			 Iterator it = filters.keySet().iterator();
+			 while( it.hasNext() )
+			 {
+				 Object filterColumnName = it.next();
+				 Object value = filters.get( filterColumnName );
+				 if (!isTwoValueMatch(value,
+						this.cachedResultSet[cachedResultSetRowNo][this
+								.getColumnIndex(filterColumnName.toString())])) {
+					return false;
+				}
+			 }
+			 return true;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param value1
+	 * @param value2
+	 * @return
+	 */
+	private boolean isTwoValueMatch(Object value1, Object value2) 
+	{
+		if (value1 == null && value2 == null)
+			return true;
+		if (value1 != null && value2 == null)
+			return false;
+		if (value1 == null && value2 != null)
+			return false;
+		return value1.equals(value2);
+	}
+	
+	/**
+	 * @param i
+	 *            Column Index
 	 * @return
 	 */
 	private boolean isCurrentColumnValueNotMatchFilterValue( int i )

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.xml.impl;
 
-import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
 
 /**
  * This class describe the information of certain ResultSet.
