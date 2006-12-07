@@ -187,6 +187,9 @@ antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/startu
 
 echo "==========[antRunner]: $antRunner" >> adb.log
 
+
+/home/adb/releng/BIRTBuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
+
 #clean drop directories
 #ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
 ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log

@@ -151,6 +151,9 @@
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtPerformance" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
 		</ant>
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformPerformance" >
+			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
+		</ant>
 	</target>
 	
 	<target name="buildBirtTestFeature">

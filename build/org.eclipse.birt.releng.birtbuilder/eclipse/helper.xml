@@ -541,6 +541,13 @@
 	
 	<target name="runBirtPerformance" depends="init">
 		<ant dir="${runner.dir}" antfile="testRunner.xml" target="org.eclipse.birt.test.performance"/>
+		<!-- copy performance result to public test result dir -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<copy todir="${test.dir}/unitTestReport/html">
+			<fileset dir="${test.dir}/eclipse/plugins/org.eclipse.birt.test.performance_${org.eclipse.birt.test.performance}">
+				<include name="reporting_*.xml"/>
+			</fileset>
+		</copy>
 	</target>
 	
 	<target name="runBirtTest" depends="init,prepareBirtTest">
@@ -687,13 +694,30 @@ Have a nice day!
                 </message>
         </mail>
 	</target>
+	
+	<target name="InformPerformance">
+		<property file="${eclipse.build.configs}/../../config.properties" />			
+        <mail mailport="${mail.port}" subject="Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
+			<from address="DAILYBUILD@QA-SHA"/>
+			<replyto address="${replyto.address}"/>
+			<message>
+Hi All,
 
-	<target name="InformAutomation">
-		<property file="${eclipse.build.configs}/../../config.properties" />
+Please see the attachments for performance test (BuildId: ${buildId}) results.
 				
+Have a nice day!
+			</message>
+			<fileset dir="${test.dir}/unitTestReport/html">
+				<include name="reporting_*.xml"/>
+			</fileset>
+		</mail>
+	</target>
+	
+	<target name="InformAutomation">
+		<property file="${eclipse.build.configs}/../../config.properties" />			
         <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
 			<from address="DAILYBUILD@QA-SHA"/>
-			<replyto address="xgu@actuate.com"/>
+			<replyto address="${replyto.address}"/>
 			<message>
 Hi All,
 
@@ -727,7 +751,7 @@ Have a nice day!
 
 		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
                     <from address="DAILYBUILD@QA-SHA"/>
-                    <replyto address="xgu@actuate.com"/>
+                    <replyto address="${replyto.address}"/>
                     <message>
 Hi All,
 
