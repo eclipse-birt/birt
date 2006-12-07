@@ -286,10 +286,11 @@ public class DefaultResourceLocator implements IResourceLocator
 	{
 		File f = null;
 
+		String tmpFilePath = toUniversalFileFormat( filePath );
 		if ( StringUtil.isBlank( fileDir ) )
-			f = new File( filePath );
+			f = new File( tmpFilePath );
 		else
-			f = new File( fileDir, filePath );
+			f = new File( fileDir, tmpFilePath );
 
 		try
 		{
@@ -302,5 +303,26 @@ public class DefaultResourceLocator implements IResourceLocator
 		}
 
 		return null;
+	}
+
+	/**
+	 * Formats the file path into the format of unix. Unix file path is
+	 * compatible on the windows platforms. If the <code>filePath</code>
+	 * contains '\' characters, these characters are replaced by '/'.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @return the file path only containing '/'
+	 */
+
+	private static String toUniversalFileFormat( String filePath )
+	{
+		if ( StringUtil.isBlank( filePath ) )
+			return filePath;
+
+		if ( filePath.indexOf( '\\' ) == -1 )
+			return filePath;
+
+		return filePath.replace( '\\', '/' );
 	}
 }
