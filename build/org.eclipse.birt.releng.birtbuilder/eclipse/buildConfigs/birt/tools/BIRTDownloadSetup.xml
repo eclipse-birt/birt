@@ -114,65 +114,6 @@
 		<echo message="DownloadPage Setup starts at ${timestamp.TODAY_MIN}" />
 		<echo message="Copy log files to deposit" />
 
-		<!--
-		<concat destfile="${OutputDir}\chart_build_log.txt">
-			<header filtering="no" trimleading="yes">
-         BIRT Chart: Build log for build   ${SetupBuild.time}
-         ===================================================         
-            </header>
-			<path path="${deposit}/logs/org.eclipse.birt.chart.device.extension_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.chart.engine.extension_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.chart.engine_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.chart.reportitem_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.chart.ui.extension_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.chart.ui_log.txt" />
-		</concat>
-
-		<concat destfile="${workingDir}\designer_build_log.txt" eol="crlf">
-			<header filtering="no" trimleading="yes">
-         BIRT Designer: Build log for build   ${SetupBuild.time}
-         ===================================================         
-            </header>
-			<path path="${deposit}/logs/org.eclipse.birt.report.designer.core_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.designer.tests_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.designer.ui_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.viewer_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.data.oda.jdbc.ui_log.txt" />
-		</concat>
-
-		<replace file="${OutputDir}\designer_build_log.txt" token="Buildfile: test_designer.xml" value="">
-		</replace>
-
-		<concat destfile="${OutputDir}\data_build_log.txt" eol="crlf">
-			<header filtering="no" trimleading="yes">
-         BIRT Data: Build log for build   ${SetupBuild.time}         
-         ===================================================         
-            </header>
-			<path path="${deposit}/logs/org.eclipse.birt.data_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.data.oda.jdbc_log.txt" />
-		</concat>
-		<replace file="${OutputDir}\data_build_log.txt" token="all:" value="============================================">
-		</replace>
-
-		<concat destfile="${OutputDir}\engine_build_log.txt">
-			<header filtering="no" trimleading="yes">
-         BIRT Engine: Build log for build   ${SetupBuild.time}
-         ===================================================         
-      </header>
-			<path path="${deposit}/logs/org.eclipse.birt.report.engine.emitter.pdf_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.engine.emitter.html_log.txt" />
-			<path path="${deposit}/logs/org.eclipse.birt.report.engine_log.txt" />
-		</concat>
-
-		<concat destfile="${OutputDir}\model_build_log.txt">
-			<header filtering="no" trimleading="yes">
-         BIRT Model: Build log for build   ${SetupBuild.time}
-         ===================================================         
-            </header>
-			<path path="${deposit}/logs/org.eclipse.birt.report.model_log.txt" />
-		</concat>
-		-->
-		
 		<echo file="${OutputDir}\chart_build_log.txt">
          BIRT Chart: Build log for build   ${univBuildDate}
          ===================================================         
@@ -304,24 +245,23 @@
         <antcall target="createWTPIntegration"/>
 		
 		<antcall target="createBirtSourceBuild"/>
+		
 		<!--antcall target="createIpotalLib" /-->
 		
-		<antcall target="createNLGroup1FeatureOverlayChart" />
-		<antcall target="createNLGroup1FeatureOverlayFramework" />
-		<antcall target="createNLGroup1FeatureOverlayRCP" />
-		<antcall target="createNLGroup1FeatureOverlaySDK" />
 
-		<!-- Replaced in bootstrap.sh -->
-		<!--
-		<replace file="${OutputDir}\${birt.info}" token="#build_time#" value="${univBuildTime}"/>
-		<replace file="${OutputDir}\${birt.info}" token="#univBDate#" value="${univBuildDate}"/>
-		-->
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="2.2.0"/>
 	
 	</target>
 
+	<target name="createBirtNLFeatureOverlay">
+		<antcall target="createNLGroup1FeatureOverlayChart" />
+		<antcall target="createNLGroup1FeatureOverlayFramework" />
+		<antcall target="createNLGroup1FeatureOverlayRCP" />
+		<antcall target="createNLGroup1FeatureOverlaySDK" />
+	</target>
+		
 	<target name="createBirtSDK">
 		<!--  Make BIRT SDK ZIP file-->
 		<zip destfile="${OutputDir}/${sdk.zip.name}">

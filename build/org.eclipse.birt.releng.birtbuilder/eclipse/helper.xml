@@ -652,6 +652,7 @@
 			<property name="build.id" value="${buildId}" />
 		</ant>
 	</target>
+	
 	<target name="PackageNLPack1" >
 		<echo message="Start Packaging NL1 for full, framework and RCP" />
 		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1" dir="${eclipse.build.configs}/birt/tools"  inheritAll="false">
@@ -668,7 +669,13 @@
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 			<property name="OutputDir" value="${postingDirectory}/${buildLabel}"/>
 		</ant>
+		<!-- Create NL FeatureOverlay packages -->
+		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createBirtNLFeatureOverlay">
+			<property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
+			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+		</ant>
 	</target>
+	
 	<target name="InformQA" unless="nomail">
         <property file="${eclipse.build.configs}/../../config.properties" />
         <mail mailport="${mail.port}" tolist="${QA.members}" from="DAILYBUILD@QA-SHA" replyto="${replyto.address}" subject="Build Is Ready (BuildId: ${buildId})" >

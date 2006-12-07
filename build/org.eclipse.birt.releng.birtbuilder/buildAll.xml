@@ -42,9 +42,16 @@
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="integrateBirtFeatures"/>
 		<antcall target="buildBirtWebViewer"/>
-		<antcall target="buildBirtNLFeature"/>
-		<antcall target="CreateDistribute"/>
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
+		<parallel failonany="true">
+			<sequential>
+				<antcall target="CreateDistribute"/>
+				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
+			</sequential>
+			<sequential>
+				<antcall target="buildBirtNLFeature"/>
+			</sequential>
+		</parallel>
+		<!-- start birt JUnit test -->
 		<antcall target="runBirtTest"/>
 		<antcall target="runBirtPerformance"/>
 	</target>
@@ -112,8 +119,6 @@
 		<!-- create Runtime -->
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
-		<!-- temp use -->
-		<mkdir dir="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime"/>
 		<!-- copy runtime to ${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
 			<property name="OutputDir" value="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
@@ -125,19 +130,11 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
-		<!-- copy to test machine for QA -->
-		<!--
-		<copy todir="${output.test.dir}/download/${buildLabel}">
-			<fileset dir="${postingDirectory}/${buildLabel}">
-				<include name="*.zip"/>
-				<include name="*.gz"/>
-				<include name="*.txt"/>
-			</fileset>
-		</copy>
-		-->
+		
+		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
-
+	
 	<target name="runBirtTest">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtTest" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
@@ -183,9 +180,10 @@
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
 		</ant>
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" >
-		</ant>
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
+		
 	</target>
+	
 	<target name="buildUpdateSite" if="updateSite">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
 	</target>
