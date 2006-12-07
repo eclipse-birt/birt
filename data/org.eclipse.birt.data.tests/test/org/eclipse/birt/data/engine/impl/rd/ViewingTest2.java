@@ -34,9 +34,9 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
-import com.ibm.icu.util.TimeZone;
-
 import testutil.ConfigText;
+
+import com.ibm.icu.util.TimeZone;
 
 /**
  * Test whehter the query running on report document can be saved into another
@@ -121,7 +121,7 @@ public class ViewingTest2 extends RDTestCase
 		super.setUp( );
 		
 		this.USE_ROW_IN_AGGREGATION = false;
-		
+
 		this.GEN_queryResultID = null;
 		this.UPDATE_queryResultID = null;
 		this.USE_DATE_IN_COLUMNBINDING = true;
@@ -1554,6 +1554,584 @@ public class ViewingTest2 extends RDTestCase
 	}
 
 	/**
+	 * With filter
+	 * @throws BirtException
+	 */
+	public void testDummyQuery( ) throws Exception
+	{
+		QueryDefinition qd = new QueryDefinition( );
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			
+			this.testPrintln( abc );
+		}
+		
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		 // here queryResultID needs to set as the data set
+			
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		qd.addResultSetExpression("def", new ScriptExpression("2"));
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			abc += ri.getValue( "def" ) + "  ";
+			this.testPrintln( abc );
+		}
+		
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		qd.addResultSetExpression("def", new ScriptExpression("2"));
+		qd.setQueryResultsID( this.GEN_queryResultID );
+		qd.setQueryResultsID( this.UPDATE_queryResultID );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		ri = qr.getResultIterator();
+		this.UPDATE_queryResultID = qr.getID( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			abc += ri.getValue( "def" ) + "  ";
+			this.testPrintln( abc );
+		}
+		
+		this.checkOutputFile( );
+	}
+
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	public void testDummyQueryWithSubQuery1( ) throws Exception
+	{
+		QueryDefinition qd = new QueryDefinition( );
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		qd.addSubquery( sub );
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				this.testPrintln( abc );
+			}
+			
+		}
+		
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		 // here queryResultID needs to set as the data set
+			
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		qd.addResultSetExpression("def", new ScriptExpression("2"));
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			abc += ri.getValue( "def" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		qd.addResultSetExpression("def", new ScriptExpression("2"));
+		qd.setQueryResultsID( this.GEN_queryResultID );
+		qd.setQueryResultsID( this.UPDATE_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		ri = qr.getResultIterator();
+		this.UPDATE_queryResultID = qr.getID( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			abc += ri.getValue( "def" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	public void testDummyQueryWithSubQuery2( ) throws Exception
+	{
+		QueryDefinition qd = new QueryDefinition( );
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		qd.addSubquery( sub );
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				this.testPrintln( abc );
+			}
+			
+		}
+		
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		 // here queryResultID needs to set as the data set
+			
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		qd.addResultSetExpression("def", new ScriptExpression("2"));
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			abc += ri.getValue( "def" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		qd.addResultSetExpression("def", new ScriptExpression("2"));
+		qd.setQueryResultsID( this.GEN_queryResultID );
+		qd.setQueryResultsID( this.UPDATE_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		
+		
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		ri = qr.getResultIterator();
+		this.UPDATE_queryResultID = qr.getID( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			abc += ri.getValue( "def" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	public void testDummyQueryWithSubQuery3( ) throws Exception
+	{
+		QueryDefinition qd = new QueryDefinition( );
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		qd.addSubquery( sub );
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				this.testPrintln( abc );
+			}
+			
+		}
+		
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		 // here queryResultID needs to set as the data set
+			
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		
+		qd.setQueryResultsID( this.GEN_queryResultID );
+		qd.setQueryResultsID( this.UPDATE_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		ri = qr.getResultIterator();
+		this.UPDATE_queryResultID = qr.getID( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	public void testDummyQueryWithSubQuery4( ) throws Exception
+	{
+		QueryDefinition qd = new QueryDefinition( );
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		qd.addSubquery( sub );
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				this.testPrintln( abc );
+			}
+			
+		}
+		
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		 // here queryResultID needs to set as the data set
+			
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		 // here queryResultID needs to set as the data set
+			
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		sub.addResultSetExpression("ghi1", new ScriptExpression("3.1"));
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				abc += subRi.getValue( "ghi1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext4 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext4 );
+
+		qd = new QueryDefinition();
+		qd.addResultSetExpression("abc", new ScriptExpression("1"));
+		
+		qd.setQueryResultsID( this.GEN_queryResultID );
+		qd.setQueryResultsID( this.UPDATE_queryResultID );
+
+		sub = new SubqueryDefinition( "sub" );
+		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
+		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
+		sub.addResultSetExpression("ghi1", new ScriptExpression("3.1"));
+		
+		qd.addSubquery( sub );
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		ri = qr.getResultIterator();
+		this.UPDATE_queryResultID = qr.getID( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			abc += ri.getValue( "abc" ) + "  ";
+			
+			this.testPrintln( abc );
+			IResultIterator subRi = ri.getSecondaryIterator("sub", scope);
+			abc = "                   ";
+			while( subRi.next() )
+			{
+				abc += subRi.getValue( "abc1" );
+				abc += subRi.getValue( "def1" );
+				abc += subRi.getValue( "ghi1" );
+				this.testPrintln( abc );
+			}
+		}
+		
+		this.checkOutputFile( );
+	}
+	/**
 	 * 
 	 * @return
 	 * @throws BirtException
@@ -1752,6 +2330,7 @@ public class ViewingTest2 extends RDTestCase
 	 */
 	private void genBasicIV( ) throws BirtException
 	{
+		
 		QueryDefinition qd = newGenIVReportQuery( );
 		if (!this.usesDetails)
 		{

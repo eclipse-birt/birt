@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -33,7 +32,6 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -45,6 +43,8 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
 
 /**
  * An iterator on a result set from a prepared and executed report query.
@@ -83,7 +83,7 @@ public class ResultIterator implements IResultIterator
 	private static final int CLOSED = -1;
 	
 	private boolean isFirstRowPepared = false;
-	private boolean isFromDummyQuery = false;
+	
 	// log instance
 	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
@@ -110,7 +110,7 @@ public class ResultIterator implements IResultIterator
 		this.scope = scope;
 
 		this.context = rService.getContext( );
-		this.isFromDummyQuery = this.isDummyQuery( rService.getQueryDefn(), odiResult);
+
 		this.start( );
 	}
 
@@ -171,12 +171,6 @@ public class ResultIterator implements IResultIterator
 	 */
 	public boolean next( ) throws BirtException
 	{
-		if ( this.isFromDummyQuery )
-		{
-			this.isFromDummyQuery = false;
-			return true;
-		}
-		
 		checkStarted( );
 
 		boolean hasNext = false;
@@ -541,39 +535,6 @@ public class ResultIterator implements IResultIterator
 			groupUtil = new GroupUtil( this.resultService.getQueryDefn( ), this );
 		return groupUtil.findGroup( groupKeyValues );
 	}
-	
-	/**
-	 * Detect whether the given query is a dummy query(query without data set binding).
-	 * If it is a dummy query then we always set its row count to 1.
-	 * 
-	 * @param query
-	 * @param odiResult
-	 * @return
-	 * @throws DataException
-	 */
-	private boolean isDummyQuery(IBaseQueryDefinition query,
-			org.eclipse.birt.data.engine.odi.IResultIterator odiResult)
-			throws DataException 
-	{
-		try 
-		{
-			if (odiResult.getResultClass().getFieldCount() == 0) 
-			{
-				if (query instanceof QueryDefinition) 
-				{
-					if (((QueryDefinition) query).getDataSetName() == null) 
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		} 
-		catch (BirtException e) 
-		{
-			throw new DataException(e.getLocalizedMessage());
-		}
-	}
 
 	/**
 	 * Util class to findGroup
@@ -837,14 +798,12 @@ public class ResultIterator implements IResultIterator
 			if( this.rdSave == null )
 				this.rdSave = RDUtil.newSave( this.context,
 					this.queryDefn,
-					isDummyQuery( this.queryDefn, this.odiResult)?1:
-						odiResult.getRowCount( ),
+					odiResult.getRowCount( ),
 					new QueryResultInfo( this.idInfo.getQueryResultID( ),
 							this.idInfo.getsubQueryName( ),
 							this.idInfo.getsubQueryIndex( ) ) );
 			return this.rdSave;
 		}
-		
 		
 		/**
 		 * @return
