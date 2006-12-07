@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.tests.data.engine;
 
 /*******************************************************************************
@@ -202,6 +203,7 @@ public class AllTests
 		suite.addTestSuite( Regression_132805.class );
 		suite.addTestSuite( Regression_133079.class );
 		suite.addTestSuite( Regression_134464.class );
+
 		suite.addTestSuite( Regression_134948.class );
 		suite.addTestSuite( Regression_135490.class );
 		suite.addTestSuite( Regression_136044.class );
@@ -222,7 +224,11 @@ public class AllTests
 		suite.addTestSuite( Regression_142939.class );
 		suite.addTestSuite( Regression_143105.class );
 		suite.addTestSuite( Regression_143816.class );
-		suite.addTestSuite( Regression_144179.class );
+		/*
+		 * Case 144179 is Obsolete, it's a UI bug, has been reviewed by MingXia
+		 * Wu
+		 */
+		// suite.addTestSuite( Regression_144179.class );
 		suite.addTestSuite( Regression_144847.class );
 		suite.addTestSuite( Regression_145463.class );
 		suite.addTestSuite( Regression_145508.class );
@@ -256,7 +262,7 @@ public class AllTests
 		suite.addTestSuite( Regression_93220.class );
 		suite.addTestSuite( Regression_96025.class );
 
-//		// XML package
+		// // XML package
 		suite.addTestSuite( Regression_119999.class );
 		suite.addTestSuite( Regression_123157.class );
 		suite.addTestSuite( Regression_117447.class );
@@ -282,15 +288,15 @@ public class AllTests
 		suite.addTestSuite( MultiPass_SortTest.class );
 		suite.addTestSuite( MultiPassTest.class );
 		suite.addTestSuite( DateUtilTest.class );
-		 // TODO:suite.addTestSuite( ReportDoc_ComputedColumnTest.class );
-		 // TODO:suite.addTestSuite( ReportDoc_FilterTest.class );
-		 // TODO:suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
-		 // TODO:suite.addTestSuite( ReportDoc_GroupTest.class );
-		 // TODO:suite.addTestSuite( ReportDoc_ParameterTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_ComputedColumnTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_FilterTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_Gen_PreModeTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_GroupTest.class );
+		// TODO:suite.addTestSuite( ReportDoc_ParameterTest.class );
 
-		 // Acceptance
+		// Acceptance
 		suite.addTestSuite( ColumnAliasTest.class );
-		 // TODO:suite.addTestSuite( ComputedColumnTest.class );
+		// TODO:suite.addTestSuite( ComputedColumnTest.class );
 		suite.addTestSuite( DataSourceTest.class );
 		suite.addTestSuite( FilterTest.class );
 		suite.addTestSuite( InputParameterTest.class );
@@ -298,10 +304,10 @@ public class AllTests
 		// TODO:suite.addTestSuite( testPassThruContext.class );
 
 		// Smoke
-		 // TODO:suite.addTestSuite( DsAggregationTest.class );
-		 // TODO:suite.addTestSuite( DsCombinationTest.class );
-		 // TODO:suite.addTestSuite( DsComputeColumnTest.class );
-		 // TODO:suite.addTestSuite( DsFilterTest.class );
+		// TODO:suite.addTestSuite( DsAggregationTest.class );
+		// TODO:suite.addTestSuite( DsCombinationTest.class );
+		// TODO:suite.addTestSuite( DsComputeColumnTest.class );
+		// TODO:suite.addTestSuite( DsFilterTest.class );
 		suite.addTestSuite( DsGroupTest.class );
 		suite.addTestSuite( DsParameterTest.class );
 		suite.addTestSuite( DsSortTest.class );
