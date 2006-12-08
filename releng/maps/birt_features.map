@@ -27,7 +27,7 @@ feature@org.eclipse.birt.report.runtime=v20061120-1200,:pserver:anonymous@dev.ec
 plugin@org.eclipse.birt.report.runtime=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
 feature@org.eclipse.birt.tests=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.feature
-plugin@org.eclipse.birt.tests=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
+plugin@org.eclipse.birt.tests=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
 feature@org.eclipse.birt.integration.wtp=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.rcp=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.rcp.feature
