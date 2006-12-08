@@ -618,6 +618,10 @@
 			</fileset>
 		</copy>
 		<delete dir="${tomcat.install.dir}/viewerprepare" failonerror="false"/>
+		<!-- chmod for report directory under WebViewerExample -->
+		<exec executable="chmod">
+			<arg line=" 777 ${tomcat.install.dir}/webapps/${buildId}/report" />
+		</exec>
 	</target>
 	
 
