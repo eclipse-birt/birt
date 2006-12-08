@@ -96,6 +96,9 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		// the old reference is dropped
 
 		style2Highlight.setStyle( style3 );
+
+		assertEquals( style3, style2Highlight.getStyle( ) );
+
 		refs = ( (ReferenceableElement) style1.getElement( ) ).getClientList( );
 		assertEquals( 0, refs.size( ) );
 
@@ -217,7 +220,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		assertEquals( ColorPropertyType.RED, rule1.getProperty( design,
 				IStyleModel.COLOR_PROP ) );
 		assertNotNull( rule1.getStyle( ) );
-		
+
 		propHandle = table.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
 		propHandle.addItem( rule1 );
 

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -1046,7 +1047,9 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	public StyleHandle getStyle( )
 	{
-		Object value = structRef.getValue( getModule( ), getElement( ) );
+
+		Object value = ( (Structure) getStructure( ) ).getLocalProperty(
+				getModule( ), HighlightRule.STYLE_MEMBER );
 
 		if ( value instanceof ElementRefValue )
 		{
