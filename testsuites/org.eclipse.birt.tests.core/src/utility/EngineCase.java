@@ -399,7 +399,7 @@ public abstract class EngineCase extends TestCase
 
 			String outputFile = genOutputFile( output );
 
-			String goldenFile = getFullQualifiedClassName( ) + "/"
+			String goldenFile = this.tempFolder( ) + getFullQualifiedClassName( ) + "/"
 					+ GOLDEN_FOLDER + "/" + golden;
 			readerA = new FileReader( goldenFile );
 			readerB = new FileReader( outputFile );
@@ -541,7 +541,7 @@ public abstract class EngineCase extends TestCase
 			Map paramValues, String format ) throws EngineException
 	{
 		String outputFile = genOutputFile( output );
-		String inputFile = this.tempFolder( ) + getFullQualifiedClassName( )+ INPUT_FOLDER + "/" + input;
+		String inputFile = this.tempFolder( ) + getFullQualifiedClassName( )+ "/" + INPUT_FOLDER + "/" + input;
 
 		IReportRunnable runnable = engine.openReportDesign( inputFile.replace( '\\', '/' ) );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
